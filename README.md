@@ -23,6 +23,8 @@ claim came from, withdraw incorrect knowledge, and verify evidence before acting
 > The repository rename is complete. Package-index publication remains pending
 > name/account readiness and the release gates above.
 
+**New here?** [docs/PIPELINE.md](docs/PIPELINE.md) walks one memory from the write that creates it to the erasure that destroys its content, and says plainly what is measured to work, what is measured not to, and what is still open.
+
 ---
 
 ## See it in sixty seconds
