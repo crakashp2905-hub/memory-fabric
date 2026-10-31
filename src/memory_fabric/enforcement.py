@@ -302,10 +302,16 @@ class Enforcer:
         policy_id: str = "",
         tenant_id: str | None = None,
     ) -> ExposureToken:
-        from .federation import imported_from
+        from .federation import ORIGIN_KEY
 
         now = self.fabric.now()
-        origin = imported_from(self.fabric, memory_id)
+        # ``issue`` is called only after ``check`` under the fabric lock, so
+        # the projection is already current.  Calling the public operator
+        # ``get`` path here used to perform another SQLite freshness query for
+        # every recalled row (N+1 refreshes for one recall).
+        memory = self.fabric.state.memories.get(memory_id)
+        raw_origin = memory.context.get(ORIGIN_KEY) if memory is not None else None
+        origin = dict(raw_origin) if isinstance(raw_origin, dict) else None
         return ExposureToken(
             memory_id=memory_id,
             version=decision.version,

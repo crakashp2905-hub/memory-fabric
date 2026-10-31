@@ -27,7 +27,7 @@ __stability__ = "beta"
 from dataclasses import dataclass, field
 from typing import Any
 
-METHODS = ("lexical", "hybrid", "vector")
+METHODS = ("lexical", "hybrid", "vector", "auto")
 
 
 @dataclass(frozen=True)
@@ -61,6 +61,9 @@ PROFILES: dict[str, RetrievalProfile] = {p.name: p for p in (
     RetrievalProfile("audit", None, {"k": 20, "include_contested": True},
                      "review and investigation; shows contested memories that an agent "
                      "lookup withholds"),
+    RetrievalProfile("adaptive", "auto", {"k": 10},
+                     "routes identifiers and temporal lookups to lexical; admits hybrid "
+                     "only when the vector arm uses a trained embedder"),
 )}
 
 

@@ -319,7 +319,14 @@ class AgentApi:
         for row in memories:
             if row["memory_id"] in self._fabric.state.memories:
                 row["trust"] = badge(self._fabric, row["memory_id"])
-        return {"memories": memories, "answerability": assess(query, shown).to_json()}
+        return {
+            "memories": memories,
+            "answerability": assess(query, shown).to_json(),
+            # Structured rather than warnings alone: an agent should not have
+            # to infer that two individually usable rows disagree, nor discard
+            # source authority when deciding whether to abstain or escalate.
+            "disagreements": _disagreements(self._fabric, shown),
+        }
 
     def _fetch(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
         memory_id = _string(body, "memory_id")
@@ -387,6 +394,31 @@ def _string(body: Mapping[str, Any], key: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise _ApiError(HTTPStatus.BAD_REQUEST, f"{key} must be a non-empty string")
     return value
+
+
+def _disagreements(fabric: Any, memories: list[Any]) -> list[dict[str, Any]]:
+    """Contradiction groups with source and support visible to the caller."""
+    from .conflicts import author, find_conflicts
+    from .reasons import badge
+
+    groups: list[dict[str, Any]] = []
+    for conflict in find_conflicts(memories):
+        alternatives = []
+        for memory in conflict:
+            trust = badge(fabric, memory.id)
+            alternatives.append({
+                "memory_id": memory.id,
+                "source": author(memory),
+                "independent_sources": trust["independent_sources"],
+                "state": memory.lifecycle_state.value,
+                "content": memory.content,
+            })
+        groups.append({
+            "status": "unresolved",
+            "instruction": "abstain or escalate unless policy identifies an authoritative alternative",
+            "alternatives": alternatives,
+        })
+    return groups
 
 
 # --- HTTP --------------------------------------------------------------------

@@ -57,8 +57,9 @@ class Verdicts(unittest.TestCase):
 
     def test_conflict_is_reported(self) -> None:
         self.f.remember("ag_b", "Compressor K-31: the relief pressure is 19 bar.", scope="team")
-        self.assertEqual(self.ask("What is the relief pressure of compressor K-31?").verdict,
-                         CONFLICTING)
+        result = self.ask("What is the relief pressure of compressor K-31?")
+        self.assertEqual(result.verdict, CONFLICTING)
+        self.assertTrue(result.should_abstain)
 
     def test_no_identifier_is_undetermined_without_a_judge(self) -> None:
         self.assertEqual(self.ask("What is the usual relief pressure?").verdict, UNDETERMINED)

@@ -161,15 +161,15 @@ class AgentClient:
             for m in group:
                 disputed.setdefault(m.id, set()).update(ids - {m.id})
         out: list[UsableMemory] = []
-        for memory in hits.exposed:
-            read = self._fabric.use(
-                memory.id,
-                self._agent_id,
-                risk=RiskLevel.LOW,
-                include_contested=include_contested,
-                audit=False,
-                tenant_id=self._tenant_id,
-            )
+        reads = self._fabric._use_many(
+            [memory.id for memory in hits.exposed],
+            self._agent_id,
+            risk=RiskLevel.LOW,
+            include_contested=include_contested,
+            audit=False,
+            tenant_id=self._tenant_id,
+        )
+        for memory, read in zip(hits.exposed, reads):
             if read.usable:
                 usable = self._wrap(read)
                 from dataclasses import replace
