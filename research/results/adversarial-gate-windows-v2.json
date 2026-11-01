@@ -1,0 +1,162 @@
+{
+  "schema": "memory-fabric-adversarial-gate/2",
+  "git_sha": "6b77d7d",
+  "network_context": "loopback permitted; no external network required",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "python": "3.13.5",
+    "temp_dir": "D:\\Memory Fabric\\master-checklist\\.tmp-adversarial-exact"
+  },
+  "families": {
+    "injection": {
+      "tests": 13,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.13,
+      "passed": true
+    },
+    "delayed_and_progressive_poisoning": {
+      "tests": 8,
+      "failures": [],
+      "errors": [],
+      "seconds": 6.4,
+      "passed": true
+    },
+    "laundering_through_summaries_tools_federation": {
+      "tests": 6,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.09,
+      "passed": true
+    },
+    "false_corroboration": {
+      "tests": 7,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.1,
+      "passed": true
+    },
+    "cross_tenant_access_and_metadata_leakage": {
+      "tests": 31,
+      "failures": [],
+      "errors": [],
+      "seconds": 12.25,
+      "passed": true
+    },
+    "stale_authorization_and_replay": {
+      "tests": 18,
+      "failures": [],
+      "errors": [],
+      "seconds": 3.31,
+      "passed": true
+    },
+    "authority_and_elevation": {
+      "tests": 6,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.04,
+      "passed": true
+    },
+    "offline_peers_and_recovery": {
+      "tests": 56,
+      "failures": [],
+      "errors": [],
+      "seconds": 43.81,
+      "passed": true
+    },
+    "key_rotation_and_retired_keys": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 7.97,
+      "passed": true
+    },
+    "plain_false_claims": {
+      "tests": 12,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.11,
+      "passed": true
+    },
+    "authorization_across_access_paths": {
+      "tests": 11,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.17,
+      "passed": true
+    },
+    "actions_under_crashes_and_timeouts": {
+      "tests": 1,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.84,
+      "passed": true
+    },
+    "log_and_chain_rewrite_detection": {
+      "tests": 2,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.1,
+      "passed": true
+    },
+    "production_cryptography": {
+      "tests": 4,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.01,
+      "passed": true
+    },
+    "log_tampering": {
+      "tests": 44,
+      "failures": [],
+      "errors": [],
+      "seconds": 6.79,
+      "passed": true
+    },
+    "privacy": {
+      "tests": 16,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.15,
+      "passed": true
+    },
+    "resource_exhaustion": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.03,
+      "passed": true
+    },
+    "privilege_separation": {
+      "tests": 5,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.02,
+      "passed": true
+    },
+    "governed_code_mode": {
+      "tests": 4,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.0,
+      "passed": true
+    },
+    "backup_tamper_and_restore": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.91,
+      "passed": true
+    },
+    "objective_filters_never_drop_safety_evidence": {
+      "tests": 7,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.07,
+      "passed": true
+    }
+  },
+  "failed": [],
+  "passed": true
+}

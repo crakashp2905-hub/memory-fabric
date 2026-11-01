@@ -1,15 +1,15 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 118,
+ "results": 119,
  "missing_field_counts": {
   "git_sha": 34,
-  "prereg": 39,
-  "dataset_digest": 115,
-  "model_id": 82,
-  "prompt_hash": 118,
-  "seed": 49,
-  "cost": 95,
-  "verdict": 73
+  "prereg": 40,
+  "dataset_digest": 116,
+  "model_id": 83,
+  "prompt_hash": 119,
+  "seed": 50,
+  "cost": 96,
+  "verdict": 74
  },
  "rows": [
   {
@@ -74,6 +74,23 @@
     "A1a": "ABANDONED (headroom <= 0.05)",
     "A1b": "ABANDONED (headroom <= 0.05)"
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "adversarial-gate-windows-v2",
+   "file": "research/results/adversarial-gate-windows-v2.json",
+   "file_sha256": "36565083456803ba00d541d7c8b2271afa71616576c62c465d3392b77e00f184",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "6b77d7d",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {
