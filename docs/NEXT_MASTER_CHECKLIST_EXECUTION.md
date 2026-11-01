@@ -35,7 +35,8 @@ repository. External items are never converted to DONE by internal tests.
 | IDs | State | Evidence / exact remaining work |
 |---|---|---|
 | B01–B05 | DONE | `grand-50-agent-baseline-reproduction-v2.*`; exact SHA, source hashes, machine, per-seed values, CIs and denominators |
-| B06–B07 | PARTIAL | Historical HTTP and LongMemEval artifacts exist; exact clean reruns remain |
+| B06 | DONE, threshold FAIL | Clean candidate: 1,000/1,000, all families, 29.1 ops/s, p99 3,292 ms; `master-checklist-http-50.*`. Historical machine-sensitive values not reproduced exactly |
+| B07 | PARTIAL | Historical LongMemEval artifact exists; exact clean data-qualified rerun remains |
 | B08 | DONE | `tools/adversarial_gate.py --temp-dir PATH`; unchanged 21-family gate passed on Windows outside the loopback-restricted sandbox |
 | B09 | DONE | Candidate CI run `41319107155`, all 33 jobs passed on exact SHA |
 | B10–B12 | PARTIAL | Results manifest and scorecards exist; claim-level ledger and ten minimized TeamWorld failures are being expanded |

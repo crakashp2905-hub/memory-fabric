@@ -189,7 +189,8 @@ def run_one(agents: int) -> dict[str, Any]:
     }
 
 
-def to_markdown(results: list[dict[str, Any]], commit: str, machine: str) -> str:
+def to_markdown(results: list[dict[str, Any]], commit: str, machine: str,
+                result_name: str = "p12b-api-load") -> str:
     def cell(d: dict[str, float]) -> str:
         return f"{d['p50']:.1f} / {d['p95']:.1f} / {d['p99']:.1f}"
 
@@ -200,7 +201,7 @@ def to_markdown(results: list[dict[str, Any]], commit: str, machine: str) -> str
     return f"""# P12b — many agents through one agent-api process
 
 Produced by `python -m experiments.p12b_api_load` at commit `{commit}`; raw numbers
-in [p12b-api-load.json](p12b-api-load.json). Machine: {machine}. One `agent-api`
+in [{result_name}.json]({result_name}.json). Machine: {machine}. One `agent-api`
 server process on a SQLite store seeded with {SEED_MEMORIES} memories, rate limiting
 off. N agents with their own credentials are client threads, {OPS_PER_AGENT} requests
 each (30% remember, 50% recall, 20% fetch then verify). An operational measurement,
@@ -242,7 +243,7 @@ def main(argv: list[str] | None = None) -> int:
         {"commit": commit, "machine": machine, "results": results}, indent=2) + "\n",
         encoding="utf-8")
     (out / f"{args.out}.md").write_text(
-        to_markdown(results, commit, machine), encoding="utf-8")
+        to_markdown(results, commit, machine, args.out), encoding="utf-8")
     return 0
 
 

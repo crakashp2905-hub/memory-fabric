@@ -1,0 +1,44 @@
+{
+  "commit": "f46aea6",
+  "schema": "memory-fabric-http-load/2",
+  "acceptance": {"min_ops_per_s": 100.0, "max_p99_ms": 1500.0, "require_zero_errors": true, "require_all_operation_families": true},
+  "verdict": {"correctness": "PASS", "operation_mix": "PASS", "throughput": "FAIL", "p99": "FAIL", "release_gate": "FAIL"},
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "results": [
+    {
+      "agents": 50,
+      "ops": 1000,
+      "ok": 1000,
+      "wall_s": 34.31967699993402,
+      "ops_per_s": 29.137803365746205,
+      "errors": {},
+      "operation_counts": {
+        "remember": 306,
+        "recall": 496,
+        "fetch+verify": 198
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 1485.9119000611827,
+          "p95": 2943.4350000228733,
+          "p99": 3292.162899975665
+        },
+        "remember": {
+          "p50": 1383.5941000143066,
+          "p95": 1880.8209999697283,
+          "p99": 2273.2578000286594
+        },
+        "recall": {
+          "p50": 1417.5932999933138,
+          "p95": 1901.8421999644488,
+          "p99": 2367.785800015554
+        },
+        "fetch+verify": {
+          "p50": 2695.938099990599,
+          "p95": 3292.162899975665,
+          "p99": 3422.1836999058723
+        }
+      }
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 119,
+ "results": 120,
  "missing_field_counts": {
   "git_sha": 34,
-  "prereg": 40,
-  "dataset_digest": 116,
-  "model_id": 83,
-  "prompt_hash": 119,
-  "seed": 50,
-  "cost": 96,
+  "prereg": 41,
+  "dataset_digest": 117,
+  "model_id": 84,
+  "prompt_hash": 120,
+  "seed": 51,
+  "cost": 97,
   "verdict": 74
  },
  "rows": [
@@ -1434,6 +1434,29 @@
     "mechanism": 0.6637,
     "share_of_headroom": 0.260066,
     "realised_mde": null
+   },
+   "parsable": true
+  },
+  {
+   "experiment_id": "master-checklist-http-50",
+   "file": "research/results/master-checklist-http-50.json",
+   "file_sha256": "555d865ae8ce32ea9d665b0810360c2234c99ee5f64da69c6fd4859084db1a36",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "f46aea6",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": {
+    "correctness": "PASS",
+    "operation_mix": "PASS",
+    "throughput": "FAIL",
+    "p99": "FAIL",
+    "release_gate": "FAIL"
    },
    "parsable": true
   },

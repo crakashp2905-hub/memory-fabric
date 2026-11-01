@@ -22,8 +22,10 @@ class SourceCheckoutEnvironment(unittest.TestCase):
                 for name in ("all", "remember", "recall", "fetch+verify")
             },
         }
-        encoded = to_markdown([row], "sha", "machine").encode("utf-8")
+        report = to_markdown([row], "sha", "machine", "custom-result")
+        encoded = report.encode("utf-8")
         self.assertIn("→".encode("utf-8"), encoded)
+        self.assertIn("custom-result.json", report)
 
 
 if __name__ == "__main__":
