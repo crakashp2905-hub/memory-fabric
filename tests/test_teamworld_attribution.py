@@ -37,6 +37,16 @@ class EvidenceMissAttribution(unittest.TestCase):
             improved["arms"]["fabric"]["task_success"]["mean"],
         )
 
+    def test_verified_sensor_observations_cannot_remain_candidates(self) -> None:
+        result = run(
+            arms=("fabric_verified",), seeds=(301,), agents=50, rounds=60)
+        reasons = result["arms"]["fabric_verified"]["evidence_miss_reasons"]
+        self.assertEqual(reasons.get("unvalidated_claim", 0), 0)
+        self.assertEqual(
+            result["arms"]["fabric_verified"]["stale_action_rate"]["mean"],
+            0.0,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

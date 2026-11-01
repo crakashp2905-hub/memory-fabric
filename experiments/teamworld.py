@@ -485,8 +485,15 @@ class AuthorityFabricMemory(FabricMemory):
         memory = self.fabric.state.memories[memory_id]
         from memory_fabric.model import LifecycleState
 
-        if memory.lifecycle_state is LifecycleState.CANDIDATE:
+        was_contested = memory.lifecycle_state is LifecycleState.CONTESTED
+        if memory.lifecycle_state in {
+                LifecycleState.CANDIDATE, LifecycleState.CONTESTED}:
             self.fabric.validate(memory_id, actor="world-verifier", reason=reason)
+        # A validated observation becomes usable, but copied provenance can
+        # retain a hard contested-ancestor reason even when the observation's
+        # own lifecycle was merely candidate. Do not bypass that invariant.
+        if was_contested or self.fabric.authority(memory_id).hard:
+            return
         self.fabric.elevate(
             memory_id, approver="world-verifier", reason=reason)
 
@@ -519,6 +526,20 @@ class AuthorityFabricMemory(FabricMemory):
         self.fabric.revise(
             canonical, content=fact.statement(), agent_id=agent, reason=reason)
         return canonical
+
+
+class VerifiedObservationFabricMemory(AuthorityFabricMemory):
+    """Authority arm whose direct sensor observations carry verification.
+
+    TeamWorld calls ``write`` only for facts produced by its measurement event.
+    Derived text and retrieval output never pass through this boundary, so they
+    cannot manufacture the verifier identity.
+    """
+
+    def write(self, agent: str, content: str, fact_key) -> str:
+        memory_id = super().write(agent, content, fact_key)
+        self.confirm(memory_id, "direct observation from trusted world sensor")
+        return memory_id
 
 
 @dataclass
@@ -556,7 +577,7 @@ class OracleMemory:
 
 
 BACKENDS = ("local", "shared", "shared_blanket", "fabric", "oracle")
-EXPERIMENTAL_BACKENDS = ("fabric_authority",)
+EXPERIMENTAL_BACKENDS = ("fabric_authority", "fabric_verified")
 
 
 def build_memory(arm: str, world: World) -> Memory:
@@ -570,6 +591,8 @@ def build_memory(arm: str, world: World) -> Memory:
         return FabricMemory()
     if arm == "fabric_authority":
         return AuthorityFabricMemory()
+    if arm == "fabric_verified":
+        return VerifiedObservationFabricMemory()
     if arm == "oracle":
         return OracleMemory(world=world)
     raise ValueError(arm)
