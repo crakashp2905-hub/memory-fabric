@@ -48,6 +48,16 @@ OPS_PER_AGENT = 20
 TOPICS = ("pump", "valve", "hoist", "compressor", "conveyor", "generator")
 
 
+def subprocess_env() -> dict[str, str]:
+    """Make the source checkout importable without requiring an editable install."""
+
+    env = os.environ.copy()
+    source = str(ROOT / "src")
+    existing = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = source if not existing else source + os.pathsep + existing
+    return env
+
+
 def free_port() -> int:
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
@@ -113,7 +123,9 @@ def run_one(agents: int) -> dict[str, Any]:
         port = free_port()
         server = subprocess.Popen(CLI + ["--db", db, "agent-api", "--agents-file", agents_file,
                                          "--port", str(port), "--rate-limit", "0"],
-                                  cwd=ROOT, stdout=subprocess.DEVNULL, stderr=open(os.environ.get("P12B_LOG", os.devnull), "w"))
+                                  cwd=ROOT, env=subprocess_env(),
+                                  stdout=subprocess.DEVNULL,
+                                  stderr=open(os.environ.get("P12B_LOG", os.devnull), "w"))
         try:
             deadline = time.time() + 30
             while time.time() < deadline:
@@ -124,10 +136,18 @@ def run_one(agents: int) -> dict[str, Any]:
                     time.sleep(0.2)
             bearers = []
             for n in range(agents):
-                bearers.append(subprocess.run(
+                issued = subprocess.run(
                     CLI + ["--db", db, "agent-api-issue", "--agents-file", agents_file,
                            "--agent", f"ag_{n}", "--ttl", "3600"],
-                    capture_output=True, text=True, cwd=ROOT).stdout.strip().splitlines()[-1])
+                    capture_output=True, text=True, cwd=ROOT, env=subprocess_env())
+                lines = issued.stdout.strip().splitlines()
+                if issued.returncode != 0 or not lines:
+                    detail = issued.stderr.strip() or "credential command produced no output"
+                    raise RuntimeError(
+                        f"credential issuance failed for ag_{n} "
+                        f"(exit {issued.returncode}): {detail}"
+                    )
+                bearers.append(lines[-1])
             barrier = threading.Barrier(agents + 1)
             records: list[tuple[str, float, int]] = []
             threads = [threading.Thread(target=agent_loop,
