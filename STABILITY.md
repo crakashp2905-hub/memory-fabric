@@ -75,7 +75,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (51)
+## Beta (52)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
@@ -121,6 +121,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.rerank`
 - `memory_fabric.response`
 - `memory_fabric.retrieval_profiles`
+- `memory_fabric.retrieval_routing`
 - `memory_fabric.retrievers`
 - `memory_fabric.review`
 - `memory_fabric.status`
