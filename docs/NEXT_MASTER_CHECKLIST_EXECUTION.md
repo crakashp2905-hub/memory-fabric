@@ -39,7 +39,8 @@ repository. External items are never converted to DONE by internal tests.
 | B07 | DONE, threshold FAIL | Clean exact reproduction: lexical 73.85%, hybrid 69.17%; dataset SHA and limitations in `longmemeval-s100-reproduction-v2.*` |
 | B08 | DONE | `tools/adversarial_gate.py --temp-dir PATH`; unchanged 21-family gate passed on Windows outside the loopback-restricted sandbox |
 | B09 | DONE | Candidate CI run `41319107155`, all 33 jobs passed on exact SHA |
-| B10–B12 | PARTIAL | Results manifest and scorecards exist; claim-level ledger and ten minimized TeamWorld failures are being expanded |
+| B10–B11 | DONE for current checklist claims | Machine-validated `research/claims.json` generates `research/results/CLAIMS_LEDGER.*`; every registered claim binds evidence hash, commit, scope and limitation. Public TeamWorld prose now separates the historical result from the current deterministic-agent baseline. |
+| B12 | DONE for current failed gates | TeamWorld emits ten deterministic failures per arm with seed/task replay coordinates and causal flags; HTTP retains per-operation latency failures; LongMemEval retains type-level results. |
 | E01–E03, E07–E10, E14–E15, E17 | DONE in current APIs | Typed lifecycle/reason codes, answerability, action requirements, recovery guidance, independence and correction regressions |
 | E04–E06, E11–E13, E16, E18 | PARTIAL | Aggregate attribution and calibration studies exist; requested multidimensional/worst-agent/ablation report remains |
 | A01–A03, A10–A13, A15 | PARTIAL | TeamWorld attribution, matched arms and deterministic routing exist; full trace/failure corpus and category reports remain |

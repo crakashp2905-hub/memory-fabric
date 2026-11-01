@@ -7,6 +7,19 @@ import unittest
 from experiments.p3b_teams import run
 
 
+def test_failed_tasks_have_replay_coordinates_and_cause() -> None:
+    result = run(arms=("fabric",), seeds=(101,), agents=50, rounds=60)
+    failures = result["failure_examples"]["fabric"]
+    assert len(failures) == 10
+    assert all(row["seed"] == 101 and isinstance(row["task_index"], int) for row in failures)
+    assert all(row["correct_value"] is not None for row in failures)
+    assert all(
+        row["evidence_miss_reason"] or row["rediscovered"]
+        or row["acted_on_withdrawn"] or row["answered"] != row["correct_value"]
+        for row in failures
+    )
+
+
 class EvidenceMissAttribution(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:

@@ -1,0 +1,53 @@
+{
+  "schema": "memory-fabric-claims/1",
+  "claims": [
+    {
+      "id": "teamworld-current-baseline",
+      "claim": "The current 50-agent deterministic TeamWorld baseline achieves 0.584 task success with zero stale actions.",
+      "class": "deterministic-agent-simulation",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+      "dataset": "TeamWorld generated tasks, seeds 101-105, 500 tasks",
+      "model": "deterministic-teamworld-agent",
+      "commit_field": "git_sha",
+      "verdict": "REPRODUCED_EXACTLY",
+      "limitation": "Measures evidence delivery in a simulator, not behavior of a language-model agent or a physical multi-host deployment."
+    },
+    {
+      "id": "http-50-client",
+      "claim": "The authenticated single-host 50-client run completes all 1,000 operations correctly but fails its throughput and p99 release thresholds.",
+      "class": "single-host-network",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/master-checklist-http-50.json",
+      "dataset": "Seeded 1,000-operation remember/recall/fetch+verify workload",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "One Windows host and one run; this is not a three-host capacity result."
+    },
+    {
+      "id": "longmemeval-s100",
+      "claim": "On the pinned LongMemEval-s 100-instance sample, lexical turn recall is 0.7385 and hybrid is 0.6917, so the registered hybrid-over-lexical gate fails.",
+      "class": "retrieval-benchmark",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/longmemeval-s100-reproduction-v2.json",
+      "dataset": "LongMemEval-s cleaned, SHA-256 d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "Retrieval-only, 100-instance deterministic sample; dataset license is not declared upstream."
+    },
+    {
+      "id": "windows-adversarial-gate",
+      "claim": "All 21 adversarial families pass on the qualified Windows run.",
+      "class": "single-host-security-test",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/adversarial-gate-windows-v2.json",
+      "dataset": "Repository adversarial test families",
+      "model": "none",
+      "commit_field": "git_sha",
+      "verdict": "PASS",
+      "limitation": "AI-led repository testing is not an independent external human security review."
+    }
+  ]
+}

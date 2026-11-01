@@ -1,17 +1,34 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 121,
+ "results": 122,
  "missing_field_counts": {
-  "git_sha": 34,
-  "prereg": 42,
-  "dataset_digest": 118,
-  "model_id": 85,
-  "prompt_hash": 121,
-  "seed": 52,
-  "cost": 98,
-  "verdict": 74
+  "git_sha": 35,
+  "prereg": 43,
+  "dataset_digest": 119,
+  "model_id": 86,
+  "prompt_hash": 122,
+  "seed": 53,
+  "cost": 99,
+  "verdict": 75
  },
  "rows": [
+  {
+   "experiment_id": "CLAIMS_LEDGER",
+   "file": "research/results/CLAIMS_LEDGER.json",
+   "file_sha256": "1e42fa0818e03a47ce7d51bf3fdbf67f8c6b8725c72f33e90cd0506adea0ca06",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
   {
    "experiment_id": "a1-abstention",
    "file": "research/results/a1-abstention.json",

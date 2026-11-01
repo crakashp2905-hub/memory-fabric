@@ -252,10 +252,10 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
 def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
         agents: int = 10, rounds: int = 60) -> dict[str, Any]:
     per_arm: dict[str, list[dict[str, Any]]] = {}
+    raw: dict[str, list[RunResult]] = {}
     for arm in arms:
-        per_arm[arm] = [
-            run_one(arm, seed, agents, rounds).summary() for seed in seeds
-        ]
+        raw[arm] = [run_one(arm, seed, agents, rounds) for seed in seeds]
+        per_arm[arm] = [result.summary() for result in raw[arm]]
 
     def agg(arm: str, metric: str) -> dict[str, float]:
         values = [row[metric] for row in per_arm[arm]]
@@ -279,6 +279,31 @@ def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
             for reason, count in row["evidence_miss_reasons"].items():
                 combined[reason] = combined.get(reason, 0) + int(count)
         reasons[arm] = dict(sorted(combined.items()))
+    failures: dict[str, list[dict[str, Any]]] = {}
+    for arm in arms:
+        examples: list[dict[str, Any]] = []
+        for seed, result in zip(seeds, raw[arm]):
+            for task_index, task in enumerate(result.tasks):
+                if task.correct:
+                    continue
+                examples.append({
+                    "seed": seed,
+                    "task_index": task_index,
+                    "agent": task.agent,
+                    "key": list(task.key),
+                    "answered": task.answered,
+                    "correct_value": task.correct_value,
+                    "abstained": task.abstained,
+                    "rediscovered": task.rediscovered,
+                    "acted_on_withdrawn": task.acted_on_withdrawn,
+                    "valid_evidence_withheld": task.valid_evidence_withheld,
+                    "evidence_miss_reason": task.evidence_miss_reason,
+                })
+                if len(examples) == 10:
+                    break
+            if len(examples) == 10:
+                break
+        failures[arm] = examples
     return {
         "experiment": "p3b-agent-teams",
         "agents": agents, "rounds": rounds, "seeds": list(seeds),
@@ -297,6 +322,7 @@ def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
             ]
             for arm in arms
         },
+        "failure_examples": failures,
         "arms": {
             arm: {
                 **{m: agg(arm, m) for m in metrics},
