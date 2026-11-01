@@ -23,6 +23,16 @@ class EvidenceMissAttribution(unittest.TestCase):
         self.assertEqual(
             self.result["arms"]["shared"]["evidence_miss_reasons"], {})
 
+    def test_result_preserves_per_seed_values_intervals_and_denominators(self) -> None:
+        fabric = self.result["arms"]["fabric"]
+        self.assertIn("ci95_low", fabric["task_success"])
+        self.assertIn("ci95_high", fabric["task_success"])
+        self.assertEqual(self.result["per_seed"]["fabric"][0]["seed"], 101)
+        self.assertEqual(
+            self.result["metric_denominators"]["wrong_invalidation_rate"],
+            "all task decisions",
+        )
+
     def test_authority_conditioned_corrections_reduce_unvalidated_misses(self) -> None:
         improved = run(
             arms=("fabric", "fabric_authority"),

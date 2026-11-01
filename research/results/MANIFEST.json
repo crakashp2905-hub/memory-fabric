@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 117,
+ "results": 118,
  "missing_field_counts": {
   "git_sha": 34,
   "prereg": 39,
-  "dataset_digest": 114,
+  "dataset_digest": 115,
   "model_id": 82,
-  "prompt_hash": 117,
+  "prompt_hash": 118,
   "seed": 49,
-  "cost": 94,
+  "cost": 95,
   "verdict": 73
  },
  "rows": [
@@ -849,6 +849,34 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "grand-50-agent-baseline-reproduction-v2",
+   "file": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+   "file_sha256": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/grand-50-agent-suite-v1.md",
+   "git_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": "deterministic-teamworld-agent",
+   "prompt_hash": null,
+   "seed": [
+    101,
+    102,
+    103,
+    104,
+    105
+   ],
+   "config": {
+    "agents": 50,
+    "rounds": 60,
+    "tasks_per_seed": 100,
+    "k": 5
+   },
+   "cost": null,
+   "verdict": "REPRODUCED_EXACTLY",
    "parsable": true
   },
   {
