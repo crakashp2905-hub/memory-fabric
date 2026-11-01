@@ -239,8 +239,10 @@ def main(argv: list[str] | None = None) -> int:
     machine = f"{platform.system()} {platform.machine()}, {os.cpu_count()} CPUs, Python {platform.python_version()}"
     out = ROOT / "research" / "results"
     (out / f"{args.out}.json").write_text(json.dumps(
-        {"commit": commit, "machine": machine, "results": results}, indent=2) + "\n")
-    (out / f"{args.out}.md").write_text(to_markdown(results, commit, machine))
+        {"commit": commit, "machine": machine, "results": results}, indent=2) + "\n",
+        encoding="utf-8")
+    (out / f"{args.out}.md").write_text(
+        to_markdown(results, commit, machine), encoding="utf-8")
     return 0
 
 
