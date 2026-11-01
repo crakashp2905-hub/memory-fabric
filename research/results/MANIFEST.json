@@ -1,12 +1,12 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 116,
+ "results": 117,
  "missing_field_counts": {
   "git_sha": 34,
   "prereg": 39,
-  "dataset_digest": 113,
+  "dataset_digest": 114,
   "model_id": 82,
-  "prompt_hash": 116,
+  "prompt_hash": 117,
   "seed": 49,
   "cost": 94,
   "verdict": 73
@@ -2647,6 +2647,46 @@
     "absolute_task_success_exceeds_shared": false,
     "absolute_withholding_at_most_0_05": false,
     "release_qualification": "FAIL"
+   },
+   "parsable": true
+  },
+  {
+   "experiment_id": "teamworld-verified-observations-v3",
+   "file": "research/results/teamworld-verified-observations-v3.json",
+   "file_sha256": "a858647230e6f81d86516975e8db8b9da6b066d0ff4dbe5b90adb028b7d9caf1",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/teamworld-verified-observations-v3.md",
+   "git_sha": "68b089a",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": "deterministic-teamworld-agent",
+   "prompt_hash": null,
+   "seed": [
+    401,
+    402,
+    403,
+    404,
+    405
+   ],
+   "config": {
+    "agents": 50,
+    "rounds": 60,
+    "tasks_per_seed": 100,
+    "k": 5
+   },
+   "cost": {
+    "model_calls": 0,
+    "usd": 0
+   },
+   "verdict": {
+    "relative_preregistered_rules": "PASS",
+    "stale_action_zero": true,
+    "task_success_exceeds_fabric_authority": true,
+    "withholding_below_fabric_authority": true,
+    "no_arm_exceeds_oracle": true,
+    "absolute_task_success_exceeds_shared": true,
+    "absolute_withholding_at_most_0_05": true,
+    "decision_quality_gate": "PASS"
    },
    "parsable": true
   },
