@@ -19,7 +19,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import platform
 import sys
+import tempfile
 import time
 import unittest
 from pathlib import Path
@@ -61,6 +64,23 @@ FAMILIES: dict[str, tuple[str, ...]] = {
 }
 
 
+def configure_temp(path: Path | None) -> str:
+    """Use an explicit writable temp root for Windows/app-container runs."""
+
+    if path is None:
+        return str(Path(tempfile.gettempdir()).resolve())
+    resolved = path.resolve()
+    resolved.mkdir(parents=True, exist_ok=True)
+    probe = resolved / ".memory-fabric-write-probe"
+    probe.write_bytes(b"ok")
+    probe.unlink()
+    value = str(resolved)
+    os.environ["TEMP"] = value
+    os.environ["TMP"] = value
+    tempfile.tempdir = value
+    return value
+
+
 def run_family(names: tuple[str, ...]) -> dict[str, object]:
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
@@ -85,19 +105,35 @@ def run_family(names: tuple[str, ...]) -> dict[str, object]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--report", type=Path, default=None)
+    parser.add_argument(
+        "--temp-dir", type=Path, default=None,
+        help="explicit writable temp root (recommended in Windows app containers)",
+    )
     args = parser.parse_args(argv)
+    temp_dir = configure_temp(args.temp_dir)
     sys.path.insert(0, str(ROOT / "src"))
     sys.path.insert(0, str(ROOT))
-    report = {family: run_family(names) for family, names in FAMILIES.items()}
-    failed = [f for f, r in report.items() if not r["passed"]]
-    for family, r in report.items():
+    families = {family: run_family(names) for family, names in FAMILIES.items()}
+    failed = [f for f, r in families.items() if not r["passed"]]
+    for family, r in families.items():
         mark = "PASS" if r["passed"] else "FAIL"
         print(f"{mark}  {family:48s} {r['tests']:4d} tests  {r['seconds']:6.2f}s")
         for line in [*r["failures"], *r["errors"]][:5]:  # type: ignore[misc]
             print(f"        {line}")
     if args.report:
-        args.report.write_text(json.dumps({"families": report, "failed": failed}, indent=2),
-                               encoding="utf-8")
+        report = {
+            "schema": "memory-fabric-adversarial-gate/2",
+            "environment": {
+                "platform": platform.platform(),
+                "machine": platform.machine(),
+                "python": platform.python_version(),
+                "temp_dir": temp_dir,
+            },
+            "families": families,
+            "failed": failed,
+            "passed": not failed,
+        }
+        args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"\n{'release gate FAILED: ' + ', '.join(failed) if failed else 'release gate passed'}")
     return 1 if failed else 0
 
