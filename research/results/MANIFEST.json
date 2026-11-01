@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 120,
+ "results": 121,
  "missing_field_counts": {
   "git_sha": 34,
-  "prereg": 41,
-  "dataset_digest": 117,
-  "model_id": 84,
-  "prompt_hash": 120,
-  "seed": 51,
-  "cost": 97,
+  "prereg": 42,
+  "dataset_digest": 118,
+  "model_id": 85,
+  "prompt_hash": 121,
+  "seed": 52,
+  "cost": 98,
   "verdict": 74
  },
  "rows": [
@@ -1244,6 +1244,34 @@
    },
    "cost": null,
    "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "longmemeval-s100-reproduction-v2",
+   "file": "research/results/longmemeval-s100-reproduction-v2.json",
+   "file_sha256": "e923e948ec9b1da2a4ddfc5a9a8dd3cb7da7e5ab4bd052f07d5d5a5a5b3f16f9",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "beadf2c2126326aecf91beae07fcdd6dfaf69a87",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": {
+    "instances": 100,
+    "selection": "deterministic stratified round-robin by question type",
+    "k": 10,
+    "temporal": "as_of",
+    "median_turns": 494,
+    "max_turns": 616
+   },
+   "cost": null,
+   "verdict": {
+    "historical_values_reproduced_exactly": true,
+    "hybrid_exceeds_lexical": false,
+    "registered_gate": "FAIL"
+   },
    "parsable": true
   },
   {
