@@ -1,12 +1,12 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 115,
+ "results": 116,
  "missing_field_counts": {
   "git_sha": 34,
   "prereg": 39,
-  "dataset_digest": 112,
+  "dataset_digest": 113,
   "model_id": 82,
-  "prompt_hash": 115,
+  "prompt_hash": 116,
   "seed": 49,
   "cost": 94,
   "verdict": 73
@@ -2608,6 +2608,46 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "teamworld-authority-v2",
+   "file": "research/results/teamworld-authority-v2.json",
+   "file_sha256": "71e9a0ceff49857d3530fa748e4dc6bbe6ff9fca0fc595e361db6a2f39c315dc",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/teamworld-authority-v2.md",
+   "git_sha": "3a50dbf74852b4b38e8777deda2a20d4f2074f7b",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": "deterministic-teamworld-agent",
+   "prompt_hash": null,
+   "seed": [
+    201,
+    202,
+    203,
+    204,
+    205
+   ],
+   "config": {
+    "agents": 50,
+    "rounds": 60,
+    "tasks_per_seed": 100,
+    "k": 5
+   },
+   "cost": {
+    "model_calls": 0,
+    "usd": 0
+   },
+   "verdict": {
+    "relative_preregistered_rules": "PASS",
+    "stale_action_zero": true,
+    "task_success_exceeds_fabric": true,
+    "withholding_below_fabric": true,
+    "no_arm_exceeds_oracle": true,
+    "absolute_task_success_exceeds_shared": false,
+    "absolute_withholding_at_most_0_05": false,
+    "release_qualification": "FAIL"
+   },
    "parsable": true
   },
   {
