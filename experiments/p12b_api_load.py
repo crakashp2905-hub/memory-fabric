@@ -28,6 +28,7 @@ import json
 import os
 import platform
 import random
+import shutil
 import socket
 import subprocess
 import sys
@@ -36,6 +37,7 @@ import threading
 import time
 import urllib.error
 import urllib.request
+import statistics
 from pathlib import Path
 from typing import Any
 
@@ -78,11 +80,11 @@ def post(port: int, op: str, body: dict, bearer: str) -> tuple[int, dict]:
 
 
 def agent_loop(port: int, bearer: str, seed: int, barrier: threading.Barrier,
-               out: list[tuple[str, float, int]]) -> None:
+               out: list[tuple[str, float, int]], ops_per_agent: int = OPS_PER_AGENT) -> None:
     rng = random.Random(seed)
     barrier.wait()
     seen: list[str] = []
-    for i in range(OPS_PER_AGENT):
+    for i in range(ops_per_agent):
         roll = rng.random()
         topic = rng.choice(TOPICS)
         started = time.perf_counter()
@@ -104,18 +106,28 @@ def agent_loop(port: int, bearer: str, seed: int, barrier: threading.Barrier,
         out.append((op, (time.perf_counter() - started) * 1000.0, status))
 
 
-def run_one(agents: int) -> dict[str, Any]:
+def create_seed_database(path: str) -> None:
     from memory_fabric import MemoryFabric
+
+    seed = MemoryFabric(path, auto_activate=True)
+    rng = random.Random(0)
+    for i in range(SEED_MEMORIES):
+        topic = rng.choice(TOPICS)
+        seed.remember("ag_seed", f"{topic} unit {i} at site {i % 17}: the {topic} seal "
+                                  f"was replaced on visit {i}", scope="team")
+    seed.close()
+
+
+def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
+            warmup_ops: int = 5, trial: int = 0,
+            seed_template: str | None = None) -> dict[str, Any]:
 
     with tempfile.TemporaryDirectory() as tmp:
         db = os.path.join(tmp, "load.db")
-        seed = MemoryFabric(db, auto_activate=True)
-        rng = random.Random(0)
-        for i in range(SEED_MEMORIES):
-            topic = rng.choice(TOPICS)
-            seed.remember("ag_seed", f"{topic} unit {i} at site {i % 17}: the {topic} seal "
-                                     f"was replaced on visit {i}", scope="team")
-        seed.close()
+        if seed_template:
+            shutil.copy2(seed_template, db)
+        else:
+            create_seed_database(db)
         agents_file = os.path.join(tmp, "agents")
         with open(agents_file, "w") as fh:
             for n in range(agents):
@@ -148,10 +160,16 @@ def run_one(agents: int) -> dict[str, Any]:
                         f"(exit {issued.returncode}): {detail}"
                     )
                 bearers.append(lines[-1])
+            # Prime imports, authentication, routing and SQLite page caches.
+            # These requests are deliberately excluded from measured records.
+            for i in range(warmup_ops):
+                post(port, "recall", {"query": f"{TOPICS[i % len(TOPICS)]} seal site", "k": 5},
+                     bearers[i % len(bearers)])
             barrier = threading.Barrier(agents + 1)
             records: list[tuple[str, float, int]] = []
             threads = [threading.Thread(target=agent_loop,
-                                        args=(port, bearers[n], n, barrier, records))
+                                        args=(port, bearers[n], n + trial * 100_000, barrier,
+                                              records, ops_per_agent))
                        for n in range(agents)]
             for t in threads:
                 t.start()
@@ -179,7 +197,8 @@ def run_one(agents: int) -> dict[str, Any]:
     if agents > 1 and any(count == 0 for count in operation_counts.values()):
         raise RuntimeError(f"load mix was not exercised: {operation_counts}")
     return {
-        "agents": agents, "ops": len(records), "ok": ok, "wall_s": wall,
+        "agents": agents, "trial": trial, "ops_per_agent": ops_per_agent,
+        "warmup_ops": warmup_ops, "ops": len(records), "ok": ok, "wall_s": wall,
         "ops_per_s": ok / wall if wall else 0.0, "errors": errors,
         "operation_counts": operation_counts,
         "latency_ms": {name: {"p50": _pct(lat(op), 0.5), "p95": _pct(lat(op), 0.95),
@@ -189,8 +208,36 @@ def run_one(agents: int) -> dict[str, Any]:
     }
 
 
+def summarise_trials(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Capacity points with normal-approximation 95% CIs across repeated trials."""
+    groups: dict[int, list[dict[str, Any]]] = {}
+    for row in results:
+        groups.setdefault(int(row["agents"]), []).append(row)
+    summary: list[dict[str, Any]] = []
+    for agents, rows in sorted(groups.items()):
+        throughputs = [float(row["ops_per_s"]) for row in rows]
+        p99s = [float(row["latency_ms"]["all"]["p99"]) for row in rows]
+
+        def estimate(values: list[float]) -> dict[str, float]:
+            mean = statistics.fmean(values)
+            half = (1.96 * statistics.stdev(values) / len(values) ** 0.5
+                    if len(values) > 1 else 0.0)
+            return {"mean": mean, "ci95_low": mean - half, "ci95_high": mean + half}
+
+        summary.append({
+            "agents": agents,
+            "trials": len(rows),
+            "successful_operations": sum(int(row["ok"]) for row in rows),
+            "attempted_operations": sum(int(row["ops"]) for row in rows),
+            "throughput_ops_s": estimate(throughputs),
+            "p99_ms": estimate(p99s),
+        })
+    return summary
+
+
 def to_markdown(results: list[dict[str, Any]], commit: str, machine: str,
-                result_name: str = "p12b-api-load") -> str:
+                result_name: str = "p12b-api-load",
+                capacity: list[dict[str, Any]] | None = None) -> str:
     def cell(d: dict[str, float]) -> str:
         return f"{d['p50']:.1f} / {d['p95']:.1f} / {d['p99']:.1f}"
 
@@ -198,6 +245,12 @@ def to_markdown(results: list[dict[str, Any]], commit: str, machine: str,
         f"| {r['agents']} | {r['ok']}/{r['ops']} | {r['ops_per_s']:.0f} | {cell(r['latency_ms']['all'])} "
         f"| {cell(r['latency_ms']['remember'])} | {cell(r['latency_ms']['recall'])} "
         f"| {cell(r['latency_ms']['fetch+verify'])} | {r['errors'] or 'none'} |" for r in results)
+    capacity = capacity or summarise_trials(results)
+    curves = "\n".join(
+        f"| {r['agents']} | {r['trials']} | {r['successful_operations']}/{r['attempted_operations']} "
+        f"| {r['throughput_ops_s']['mean']:.1f} [{r['throughput_ops_s']['ci95_low']:.1f}, {r['throughput_ops_s']['ci95_high']:.1f}] "
+        f"| {r['p99_ms']['mean']:.1f} [{r['p99_ms']['ci95_low']:.1f}, {r['p99_ms']['ci95_high']:.1f}] |"
+        for r in capacity)
     return f"""# P12b — many agents through one agent-api process
 
 Produced by `python -m experiments.p12b_api_load` at commit `{commit}`; raw numbers
@@ -214,6 +267,15 @@ operations per second of wall time (a fetch+verify counts once).
 |---|---|---|---|---|---|---|---|
 {rows}
 
+## Capacity curve across trials
+
+Intervals are 95% normal-approximation confidence intervals across independent
+trials; a one-trial point has a zero-width interval and is descriptive only.
+
+| agents | trials | successful / attempted | ops/s mean [CI] | p99 ms mean [CI] |
+|---|---:|---:|---:|---:|
+{curves}
+
 Compare [P12](p12-load.md), where each agent was its own process opening the
 store: 214 → 31 → 9 → 4 ops/s at 1, 10, 50 and 100 agents on SQLite.
 """
@@ -223,27 +285,43 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--quick", action="store_true")
     p.add_argument("--agents", type=int, nargs="+", help="agent counts to run instead")
+    p.add_argument("--ops-per-agent", type=int, default=OPS_PER_AGENT)
+    p.add_argument("--warmup-ops", type=int, default=5)
+    p.add_argument("--repeats", type=int, default=1)
     p.add_argument("--out", default="p12b-api-load")
     args = p.parse_args(argv)
     counts = (10,) if args.quick else tuple(args.agents or AGENT_COUNTS)
     results = []
-    for n in counts:
-        r = run_one(n)
-        results.append(r)
-        print(f"{n:>4} agents: {r['ok']}/{r['ops']} ok, {r['ops_per_s']:.0f} ops/s, "
-              f"p50 {r['latency_ms']['all']['p50']:.1f} ms, p99 {r['latency_ms']['all']['p99']:.1f} ms, "
-              f"errors {r['errors'] or 'none'}", flush=True)
+    if args.repeats < 1 or args.ops_per_agent < 1 or args.warmup_ops < 0:
+        p.error("repeats and ops-per-agent must be positive; warmup-ops must be non-negative")
+    with tempfile.TemporaryDirectory() as setup:
+        seed_template = os.path.join(setup, "seed-template.db")
+        create_seed_database(seed_template)
+        for n in counts:
+            for trial in range(args.repeats):
+                r = run_one(n, args.ops_per_agent, args.warmup_ops, trial, seed_template)
+                results.append(r)
+                print(f"{n:>4} agents trial {trial + 1}/{args.repeats}: "
+                      f"{r['ok']}/{r['ops']} ok, {r['ops_per_s']:.0f} ops/s, "
+                      f"p50 {r['latency_ms']['all']['p50']:.1f} ms, "
+                      f"p99 {r['latency_ms']['all']['p99']:.1f} ms, "
+                      f"errors {r['errors'] or 'none'}", flush=True)
     if args.quick:
         return 0
     commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True,
                             text=True, cwd=ROOT).stdout.strip()
     machine = f"{platform.system()} {platform.machine()}, {os.cpu_count()} CPUs, Python {platform.python_version()}"
     out = ROOT / "research" / "results"
+    capacity = summarise_trials(results)
     (out / f"{args.out}.json").write_text(json.dumps(
-        {"commit": commit, "machine": machine, "results": results}, indent=2) + "\n",
+        {"schema": "memory-fabric-http-capacity/1", "commit": commit,
+         "machine": machine, "configuration": {"agents": list(counts),
+         "ops_per_agent": args.ops_per_agent, "warmup_ops": args.warmup_ops,
+         "repeats": args.repeats}, "results": results, "capacity_curve": capacity},
+        indent=2) + "\n",
         encoding="utf-8")
     (out / f"{args.out}.md").write_text(
-        to_markdown(results, commit, machine, args.out), encoding="utf-8")
+        to_markdown(results, commit, machine, args.out, capacity), encoding="utf-8")
     return 0
 
 

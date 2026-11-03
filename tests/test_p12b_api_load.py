@@ -27,6 +27,19 @@ class TestP12bApiLoad(unittest.TestCase):
         self.assertIn("verify", calls)
         self.assertTrue(any(op == "fetch+verify" for op, _, _ in out))
 
+    def test_capacity_curve_aggregates_repeated_trials(self) -> None:
+        rows = [
+            {"agents": 5, "ok": 100, "ops": 100, "ops_per_s": 20.0,
+             "latency_ms": {"all": {"p99": 100.0}}},
+            {"agents": 5, "ok": 99, "ops": 100, "ops_per_s": 30.0,
+             "latency_ms": {"all": {"p99": 200.0}}},
+        ]
+        curve = p12b_api_load.summarise_trials(rows)
+        self.assertEqual(curve[0]["trials"], 2)
+        self.assertEqual(curve[0]["successful_operations"], 199)
+        self.assertEqual(curve[0]["throughput_ops_s"]["mean"], 25.0)
+        self.assertEqual(curve[0]["p99_ms"]["mean"], 150.0)
+
 
 if __name__ == "__main__":
     unittest.main()

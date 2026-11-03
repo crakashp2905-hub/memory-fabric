@@ -26,6 +26,7 @@ class SourceCheckoutEnvironment(unittest.TestCase):
         encoded = report.encode("utf-8")
         self.assertIn("→".encode("utf-8"), encoded)
         self.assertIn("custom-result.json", report)
+        self.assertIn("Capacity curve across trials", report)
 
 
 if __name__ == "__main__":
