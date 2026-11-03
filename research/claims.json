@@ -26,6 +26,18 @@
       "limitation": "One Windows host and one run; this is not a three-host capacity result."
     },
     {
+      "id": "http-capacity-curve",
+      "claim": "Across repeated 1/5/10/25/50-client trials, all 5,460 operations succeeded, but throughput saturated at 4.3-4.8 ops/s and mean 50-client p99 was 24.2 seconds.",
+      "class": "single-host-network",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/master-checklist-http-capacity-v1.json",
+      "dataset": "Seeded 200-memory corpus; three trials per concurrency point; 20 operations per client after 10 warm-up requests",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "Single Windows/SQLite host; confidence intervals cover three machine-local trials and do not generalize to PostgreSQL or multi-host deployments."
+    },
+    {
       "id": "longmemeval-s100",
       "claim": "On the pinned LongMemEval-s 100-instance sample, lexical turn recall is 0.7385 and hybrid is 0.6917, so the registered hybrid-over-lexical gate fails.",
       "class": "retrieval-benchmark",

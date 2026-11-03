@@ -23,7 +23,7 @@ repository. External items are never converted to DONE by internal tests.
 | G0 baseline validity | PARTIAL | B01–B05 and B09 reproduced; HTTP, LongMemEval and local Windows adversarial-runner qualification remain |
 | G1 false withholding | DONE in deterministic TeamWorld scope | Held-out verified-observation result: 89.8% success, 3.6% withholding, zero stale actions; scope limitation retained |
 | G2 real-agent value | OPEN | Hosted/local real-model matched study across model families is not replaced by deterministic TeamWorld |
-| G3 performance | OPEN | Historical 50-client run failed latency/throughput target; capacity and physical-host evidence remain |
+| G3 performance | **NO-GO on SQLite tier** | Repeated 1/5/10/25/50-client curve: 5,460/5,460 correct, throughput saturated at 4.3–4.8 ops/s and 50-client mean p99 was 24.2 s. PostgreSQL and physical-host evidence remain. |
 | G4 security | EXTERNAL | Independent second model family and human reviewer are required; internal tests are not independence |
 | G5 integration | PARTIAL | MCP/UTCP/Code Mode contracts and per-effect gating exist; matched external transport study remains |
 | G6 research | OPEN | Positive internal held-out result exists; independent replication and novelty/ablation requirements remain |
@@ -45,7 +45,8 @@ repository. External items are never converted to DONE by internal tests.
 | E04–E06, E11–E13, E16, E18 | PARTIAL | Aggregate attribution and calibration studies exist; requested multidimensional/worst-agent/ablation report remains |
 | A01–A03, A10–A13, A15 | PARTIAL | TeamWorld attribution, matched arms and deterministic routing exist; full trace/failure corpus and category reports remain |
 | A04–A09, A14, A16 | OPEN/GATED | Real-model families, long-horizon held-out split and perturbation study require registered model runs and budget |
-| P01–P07, P09–P11, P14 | PARTIAL | Corrected harness, profiling, catch-up fix, action idempotency and upgrade tests exist; unified per-stage capacity report remains |
+| P01–P02, P04, P15 | DONE for single-host SQLite | Warmed, three-trial 1/5/10/25/50-client capacity curve with per-operation p50/p95/p99, hardware, operation mix and CIs in `master-checklist-http-capacity-v1.*`; threshold fails. |
+| P03, P05–P07, P09–P11, P14 | PARTIAL | Catch-up, idempotency and upgrade tests exist; stage-level DB/serialization/policy profiling and PostgreSQL comparison remain. |
 | P08, P12–P13, P15–P16 | OPEN/EXTERNAL | 1M scale, three physical hosts, partitions and representative 24–72h soak need deployment resources |
 | S01–S03, S05–S17 | PARTIAL | Extensive internal adversarial, race, checkpoint and crypto evidence exists; isolated independent audit and consolidated remediation register remain |
 | S04, S18 | EXTERNAL | Human reviewer and independently scoped residual-risk report required |

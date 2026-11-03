@@ -1,21 +1,21 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 122,
+ "results": 123,
  "missing_field_counts": {
   "git_sha": 35,
-  "prereg": 43,
-  "dataset_digest": 119,
-  "model_id": 86,
-  "prompt_hash": 122,
-  "seed": 53,
-  "cost": 99,
-  "verdict": 75
+  "prereg": 44,
+  "dataset_digest": 120,
+  "model_id": 87,
+  "prompt_hash": 123,
+  "seed": 54,
+  "cost": 100,
+  "verdict": 76
  },
  "rows": [
   {
    "experiment_id": "CLAIMS_LEDGER",
    "file": "research/results/CLAIMS_LEDGER.json",
-   "file_sha256": "1e42fa0818e03a47ce7d51bf3fdbf67f8c6b8725c72f33e90cd0506adea0ca06",
+   "file_sha256": "2c36589479b7b97423ec11ef5b599b00315da3d7b93990917d64e829b8642816",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": null,
@@ -1503,6 +1503,23 @@
     "p99": "FAIL",
     "release_gate": "FAIL"
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "master-checklist-http-capacity-v1",
+   "file": "research/results/master-checklist-http-capacity-v1.json",
+   "file_sha256": "97926bde2a1f8fb74e18b82d199411af983ec70e5138b3ee2f6e396365d921cc",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "a626fdccd69842bac31d86811bd5783a6e31543c",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {

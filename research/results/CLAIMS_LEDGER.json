@@ -31,6 +31,20 @@
       "evidence_sha256": "ff4d947cb2519eaf42199c5d3b122a616e6c1ab86e44b17edb2511c68b9720d5"
     },
     {
+      "id": "http-capacity-curve",
+      "claim": "Across repeated 1/5/10/25/50-client trials, all 5,460 operations succeeded, but throughput saturated at 4.3-4.8 ops/s and mean 50-client p99 was 24.2 seconds.",
+      "class": "single-host-network",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/master-checklist-http-capacity-v1.json",
+      "dataset": "Seeded 200-memory corpus; three trials per concurrency point; 20 operations per client after 10 warm-up requests",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "Single Windows/SQLite host; confidence intervals cover three machine-local trials and do not generalize to PostgreSQL or multi-host deployments.",
+      "commit": "a626fdccd69842bac31d86811bd5783a6e31543c",
+      "evidence_sha256": "796fa74fcb7e6c3d76d9f3e90ebe4871eb2caf6bf2e407f50c460835ca892432"
+    },
+    {
       "id": "longmemeval-s100",
       "claim": "On the pinned LongMemEval-s 100-instance sample, lexical turn recall is 0.7385 and hybrid is 0.6917, so the registered hybrid-over-lexical gate fails.",
       "class": "retrieval-benchmark",
