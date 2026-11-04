@@ -894,13 +894,18 @@ def cmd_agent_api(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Serve agents over authenticated HTTP. See `agent_api.py`."""
     _server_limits(fabric)
     from .agent_api import AgentApi, ConfigurationError, RateLimit, build_agent_server
+    from .identity import IdentityError
 
     try:
         service = _agent_service(fabric, args.agents_file)
         limits = RateLimit(rate=args.rate_limit, burst=args.burst)
-        server = build_agent_server(AgentApi(service, limits), host=args.host,
+        oauth = None
+        if args.oidc_config:
+            from .oidc import OidcConfig, OidcJwtVerifier
+            oauth = OidcJwtVerifier(OidcConfig.load(args.oidc_config))
+        server = build_agent_server(AgentApi(service, limits, oauth=oauth), host=args.host,
                                     port=args.port, behind_tls=args.behind_tls)
-    except (ConfigurationError, OSError) as exc:
+    except (ConfigurationError, OSError, IdentityError) as exc:
         print(f"{C.RED}{exc}{C.RESET}", file=sys.stderr)
         return 5
     host, port = server.server_address[:2]
@@ -2959,6 +2964,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--rate-limit", type=float, default=20.0,
                    help="requests a second per agent, on average (0 turns it off)")
     p.add_argument("--burst", type=int, default=40, help="requests per agent at once")
+    p.add_argument("--oidc-config",
+                   help="optional OAuth/OIDC JWT resource-server configuration JSON")
 
     p.add_argument("--no-maintain", action="store_true",
                    help="do not run the background memory manager in this process")

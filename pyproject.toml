@@ -46,6 +46,8 @@ langchain = ["langchain-core>=0.3"]
 # AES-256-GCM from a maintained library; required by the production crypto
 # profile (MEMORY_FABRIC_CRYPTO_PROFILE=production).
 crypto = ["cryptography>=42"]
+# Standards-based OAuth 2.0 JWT access-token validation for agent-api.
+oauth = ["PyJWT[crypto]>=2.10,<3"]
 # Trained retrieval (memory_fabric.retrievers): ONNX models on CPU, no PyTorch.
 retrieval = ["fastembed>=0.5"]
 # The same with sentence-transformers, for teams already on PyTorch or a GPU.

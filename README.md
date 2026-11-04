@@ -173,6 +173,10 @@ curl -s -X POST http://127.0.0.1:8766/v1/recall \
   -H "Authorization: Bearer <credential>" -d '{"query": "pump fault E01"}'
 ```
 
+The agent API can alternatively validate OAuth 2.0 / OIDC JWT access tokens
+while keeping tenant and role authority server-side. See
+[OAuth/OIDC](docs/OAUTH.md).
+
 **Python agents:** `sdk.agent(fabric, "my-bot")` for recall and remember;
 `sdk.operator(fabric, actor="lead")` for review. LangChain, function-calling
 tools and the Claude API adapter: [INTEGRATIONS.md](docs/INTEGRATIONS.md). A

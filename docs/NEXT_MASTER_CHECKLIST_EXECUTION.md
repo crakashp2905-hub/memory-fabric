@@ -59,6 +59,7 @@ repository. External items are never converted to DONE by internal tests.
 | R09–R12, R17–R20 | OPEN | Procedure learning and counterfactual pruning require fresh registrations and implementations |
 | R24 | EXTERNAL | Separate physical machines and adversarial network schedules required |
 | X01–X10, X13 | PARTIAL | Demo, Control Center, runbooks, deployment modes, SLOs, install matrix and comparison scaffolding exist; product qualification remains |
+| OAuth/OIDC | IMPLEMENTED, qualification pending | Optional RFC 9068 `at+jwt` resource-server validation for `agent-api`; exact issuer/audience/algorithm/scope checks, HTTPS JWKS, server-side subject mapping, opaque failures and immediate whole-agent revocation. External IdP interoperability remains. |
 | X11–X12, X14–X15 | EXTERNAL/GATED | Customer pilot, product decisions, independent review and owner release approval required |
 | Q01–Q06, Q08 | PARTIAL | Manifests, seeded runners, held-out splits, statistics, negative results and containers exist; one immutable runner remains to unify |
 | Q07, Q09–Q10 | EXTERNAL/GATED | Blinded adjudicators, independent reproduction and publication decision require people/budget |
