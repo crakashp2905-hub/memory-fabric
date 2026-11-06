@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **13 / 260 (5.00%)**. Internal status: **BLOCKED**.
+Strict completion: **14 / 260 (5.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `2db999d6aee6617c4d27adf0a106debf14a68033c29731ac0ea1599b64d798c5`.
+Normalized ledger digest: `2760ef43c20efb6c1661ff9910195634f34680bc821bc3ab70913ff80d4ccc3b`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 13 |
+| DONE | 14 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 243 |
+| TODO | 242 |
 
 ## Graduation gates
 
@@ -39,7 +39,7 @@ Normalized ledger digest: `2db999d6aee6617c4d27adf0a106debf14a68033c29731ac0ea15
 | E1-09 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
 | E1-10 | P0 | DONE | CONTRACT | `tools/status_at_head.py`, `tests/test_status_at_head.py`, `docs/STATUS_AT_HEAD.md` |
 | E2-01 | P0 | DONE | CONTRACT | `docs/STATE_TRANSITIONS.json`, `docs/STATE_TRANSITIONS.md`, `tests/test_state_transition_contract.py` |
-| E2-02 | P0 | TODO | NOT_TESTED | — |
+| E2-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_replay_equivalence.py`, `tests/test_properties.py`, `tests/test_backup.py` |
 | E2-03 | P0 | TODO | NOT_TESTED | — |
 | E2-04 | P0 | TODO | NOT_TESTED | — |
 | E2-05 | P0 | TODO | NOT_TESTED | — |

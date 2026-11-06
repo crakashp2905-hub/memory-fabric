@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "56ccc63e5be7d8fc4213e174a2de8db476d64d83",
+    "commit": "ece7d5202bd6dc44d6ac93a6a94cf83b95739e6e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 13,
+      "DONE": 14,
       "PARTIAL": 4,
-      "TODO": 243
+      "TODO": 242
     },
-    "completed": 13,
+    "completed": 14,
     "total": 260,
-    "percent_complete": 5.0,
-    "p0_open": 107,
+    "percent_complete": 5.38,
+    "p0_open": 106,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -214,11 +214,17 @@
       "priority": "P0",
       "task": "Add replay-equivalence property tests from event log to materialized projections.",
       "acceptance": "Different randomized append/correction/merge histories replay to identical canonical state and digests",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_replay_equivalence.py",
+        "tests/test_properties.py",
+        "tests/test_backup.py"
+      ],
+      "limitations": [
+        "Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"
+      ]
     },
     {
       "task_id": "E2-03",

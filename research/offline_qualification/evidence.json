@@ -90,6 +90,14 @@
       "limitations": ["Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"]
     },
     {
+      "task_id": "E2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["tests/test_replay_equivalence.py", "tests/test_properties.py", "tests/test_backup.py"],
+      "limitations": ["Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
