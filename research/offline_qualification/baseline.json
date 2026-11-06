@@ -13,7 +13,7 @@
     "benchmarks/registry.json": "e5e0814759a30aa5ee8140cdb2be461672288cfda34930b589120ab5145dc6b8",
     "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "22c2dd85724c751c161372f33440302d2c0012fee43df1ef7663b77ec76b9ab7",
     "research/claims.json": "a97772e365acbcad776bc76da0b7cca2802adfd6db652eff51176c4050592015",
-    "research/offline_qualification/evidence.json": "e227f473d97569e5537fa7457c88da24efbc6ea7ccbe1a6e3c19a9dd5bc774a9"
+    "research/offline_qualification/evidence.json": "6019729e6f347569a1d971f78ae570938166c4e505fafaa205a41c538f3677fe"
   },
   "limitations": [
     "Installed packages describe this interpreter, not every supported Python version.",
@@ -1827,8 +1827,8 @@
   "schema": "memory-fabric-offline-baseline/1",
   "source": {
     "branch": "feat/next-master-checklist",
-    "commit": "b703cb8171383681c28f3accb5367b1c93b19642",
-    "dirty": true
+    "commit": "ec1a234a029a6670f987b1912ede6d1b83f06163",
+    "dirty": false
   },
   "validation": {
     "issues": [],

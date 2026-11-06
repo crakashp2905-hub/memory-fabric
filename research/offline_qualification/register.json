@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "b703cb8171383681c28f3accb5367b1c93b19642",
+    "commit": "ec1a234a029a6670f987b1912ede6d1b83f06163",
     "dirty": true
   },
   "summary": {
@@ -63,7 +63,8 @@
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "tools/offline_baseline.py",
-        "tests/test_offline_baseline.py"
+        "tests/test_offline_baseline.py",
+        "research/offline_qualification/baseline.json"
       ],
       "limitations": [
         "Read-only report describes the current local interpreter and host"
