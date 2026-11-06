@@ -106,6 +106,14 @@
       "limitations": ["Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"]
     },
     {
+      "task_id": "E2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["tests/test_duplicates.py", "tests/test_supersede.py", "src/memory_fabric/duplicates.py"],
+      "limitations": ["Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

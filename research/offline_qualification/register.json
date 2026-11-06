@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4643888bc8dbd961d6483a23a061dade6ba814d2",
+    "commit": "ece1ed0364cfae08093fd5c284f6cc1d5d52287b",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 15,
+      "DONE": 16,
       "PARTIAL": 4,
-      "TODO": 241
+      "TODO": 240
     },
-    "completed": 15,
+    "completed": 16,
     "total": 260,
-    "percent_complete": 5.77,
-    "p0_open": 105,
+    "percent_complete": 6.15,
+    "p0_open": 104,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -247,11 +247,17 @@
       "priority": "P0",
       "task": "Test correction-before-copy, copy-before-correction and copied re-ingestion with changing identifiers.",
       "acceptance": "No alternate identity bypasses withdrawal within supported exact/subset-copy semantics",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "tests/test_supersede.py",
+        "src/memory_fabric/duplicates.py"
+      ],
+      "limitations": [
+        "Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"
+      ]
     },
     {
       "task_id": "E2-05",
