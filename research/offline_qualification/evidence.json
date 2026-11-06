@@ -82,6 +82,14 @@
       "limitations": []
     },
     {
+      "task_id": "E2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["docs/STATE_TRANSITIONS.json", "docs/STATE_TRANSITIONS.md", "tests/test_state_transition_contract.py"],
+      "limitations": ["Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
