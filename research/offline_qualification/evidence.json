@@ -1,0 +1,133 @@
+{
+  "schema": "memory-fabric-offline-evidence/1",
+  "tasks": [
+    {
+      "task_id": "E1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["docs/NEXT_MASTER_CHECKLIST_EXECUTION.md", "research/results/grand-50-agent-baseline-reproduction-v2.json"],
+      "limitations": ["PR #30 remains provisional until merged"]
+    },
+    {
+      "task_id": "E1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_baseline.py", "tests/test_offline_baseline.py", "research/offline_qualification/baseline.json"],
+      "limitations": ["Read-only report describes the current local interpreter and host"]
+    },
+    {
+      "task_id": "E1-03",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_baseline.py", "research/offline_qualification/baseline.json"],
+      "limitations": ["New offline baseline is strict; not every historical benchmark manifest has been migrated"]
+    },
+    {
+      "task_id": "E1-04",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_baseline.py", "tools/results_manifest.py"],
+      "limitations": ["Older result files without exact SHA remain explicitly listed"]
+    },
+    {
+      "task_id": "E1-05",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_baseline.py", "tests/test_offline_baseline.py"],
+      "limitations": ["Qualification inputs are protected; all historical experiment inputs are not yet covered"]
+    },
+    {
+      "task_id": "E1-06",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_baseline.py", "research/offline_qualification/baseline.json"],
+      "limitations": ["Optional capability inventory is local-host evidence, not the full interpreter matrix"]
+    },
+    {
+      "task_id": "E1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_qualification.py", "research/offline_qualification/register.json"],
+      "limitations": []
+    },
+    {
+      "task_id": "E1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tests/test_offline_qualification.py"],
+      "limitations": []
+    },
+    {
+      "task_id": "E1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_qualification.py", "tests/test_offline_qualification.py"],
+      "limitations": ["Existing historical experiments must opt into the checker"]
+    },
+    {
+      "task_id": "E1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/status_at_head.py", "tests/test_status_at_head.py", "docs/STATUS_AT_HEAD.md"],
+      "limitations": []
+    },
+    {
+      "task_id": "E4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["research/results/master-checklist-http-capacity-v1.json", "research/results/master-checklist-http-capacity-v1.md"],
+      "limitations": ["Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"]
+    },
+    {
+      "task_id": "P5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["docs/LIMITATIONS.md", "docs/KNOWN_GAPS.md"],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["research/offline_qualification/register.json", "research/offline_qualification/README.md"],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["docs/LIMITATIONS.md", "docs/PRODUCT_READINESS.md"],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["docs/NEXT_MASTER_CHECKLIST_EXECUTION.md"],
+      "limitations": ["External validation is not complete"]
+    },
+    {
+      "task_id": "P5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["tools/offline_qualification.py", "tests/test_offline_qualification.py"],
+      "limitations": ["Owner approval and external validation remain mandatory"]
+    }
+  ]
+}
