@@ -98,6 +98,14 @@
       "limitations": ["Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"]
     },
     {
+      "task_id": "E2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["tests/test_withdrawn_parent_orderings.py", "tests/test_justification.py"],
+      "limitations": ["Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
