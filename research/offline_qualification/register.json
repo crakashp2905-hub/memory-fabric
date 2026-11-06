@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "ece1ed0364cfae08093fd5c284f6cc1d5d52287b",
+    "commit": "9204bec21fa8b190f0b12cefb6a8839958c1099d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 16,
+      "DONE": 17,
       "PARTIAL": 4,
-      "TODO": 240
+      "TODO": 239
     },
-    "completed": 16,
+    "completed": 17,
     "total": 260,
-    "percent_complete": 6.15,
-    "p0_open": 104,
+    "percent_complete": 6.54,
+    "p0_open": 103,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -264,11 +264,18 @@
       "priority": "P0",
       "task": "Specify bitemporal valid-time versus transaction-time semantics for historical reads.",
       "acceptance": "Fixtures prove late corrections never rewrite the historical belief record or grant current access",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/BITEMPORAL_HISTORY.md",
+        "src/memory_fabric/history_query.py",
+        "tests/test_history_query.py",
+        "tests/test_bitemporal.py"
+      ],
+      "limitations": [
+        "The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"
+      ]
     },
     {
       "task_id": "E2-06",

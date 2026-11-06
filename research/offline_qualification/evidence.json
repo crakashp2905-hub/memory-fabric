@@ -114,6 +114,14 @@
       "limitations": ["Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"]
     },
     {
+      "task_id": "E2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["docs/BITEMPORAL_HISTORY.md", "src/memory_fabric/history_query.py", "tests/test_history_query.py", "tests/test_bitemporal.py"],
+      "limitations": ["The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
