@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **87 / 260 (33.46%)**. Internal status: **BLOCKED**.
+Strict completion: **88 / 260 (33.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a1631704cb27864ea430077c2bf2d40122998f8d6bdcc3469142cef18640b013`.
+Normalized ledger digest: `a373a3a37c6c5fe07a603a6d457416796af71332f354cda6a18cd43bc88c7c32`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 87 |
+| DONE | 88 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 168 |
+| TODO | 167 |
 
 ## Graduation gates
 
@@ -206,7 +206,7 @@ Normalized ledger digest: `a1631704cb27864ea430077c2bf2d40122998f8d6bdcc3469142c
 | H2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-05-code-mode-parser-tests.xml`, `research/results/h2-05-code-mode-parser.json` |
 | H2-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_code_mode_fuzz.py`, `tests/test_tool_protocol.py`, `tools/code_mode_parser_qualification.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-05-code-mode-parser-tests.xml`, `research/results/h2-06-code-mode-bounds.json` |
 | H2-07 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_network_guard.py`, `tests/test_offline_network_guard.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-07-offline-egress-tests.xml`, `research/results/h2-07-offline-egress.json` |
-| H2-08 | P0 | TODO | NOT_TESTED | — |
+| H2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-08-utcp-transport.json`, `research/results/h2-08-utcp-transport-tests.xml` |
 | H2-09 | P0 | TODO | NOT_TESTED | — |
 | H2-10 | P0 | TODO | NOT_TESTED | — |
 | H3-01 | P0 | TODO | NOT_TESTED | — |

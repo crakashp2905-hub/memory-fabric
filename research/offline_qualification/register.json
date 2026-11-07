@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0c2c5faf790e055f55139b4214615335e32d863a409ab9e666bb060efef02d8a",
+    "sha256": "1fcbcf189cd0201d0f531857b0dfeae14e7a3fda6f6827d650f608a39af21b27",
     "tasks": 260
   },
   "source": {
-    "commit": "2fb4ebe143100289428c9b9bbab841d8a417072c",
+    "commit": "e16ea60a6321f80259c275562908de704a38a00f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 87,
+      "DONE": 88,
       "PARTIAL": 5,
-      "TODO": 168
+      "TODO": 167
     },
-    "completed": 87,
+    "completed": 88,
     "total": 260,
-    "percent_complete": 33.46,
-    "p0_open": 42,
+    "percent_complete": 33.85,
+    "p0_open": 41,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "55d266cb28e59e0a8ede8a6144f07834cfc590cbc6ac202e743064845da9bb1a",
-        "docs/VALIDATION.md": "49080c55689aa87dc08bed5c3492a2497603c04eb3743ee0728974d13213bfd8",
-        "docs/STATUS_AT_HEAD.md": "718e5d620c432c40867c85994029120b95c0c1d1bc71d3e1668656c6ad8bc103",
+        "README.md": "a6e99b7a5d21a899f5a66274de04209e9f90971d39b6f5978052f2c478b9a0ec",
+        "docs/VALIDATION.md": "fa152b22e8ee2d31f50cd44146f4009328990377d78725d5442a3e97678478b8",
+        "docs/STATUS_AT_HEAD.md": "00dd2d48ab9be5ab140afc38101e807d4338c691f9f71b333b0a2fc781aef7a0",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1299,9 +1299,9 @@
         "research/results/e5-05-tool-schema.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
-        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
         "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
       },
@@ -1327,10 +1327,10 @@
         "research/results/e5-06-utcp-malicious.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
-        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "tests/data/utcp_malicious_manuals.json": "7233877289f3bfeb2e781bd8524835b8c8990904efd95af45b89941d147ec034",
-        "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
         "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
         "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
       },
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "c39e501737c15dbfabf140b34cec864b52f4fbe84747023f504c313f0b4dbfe0",
+        "research/results/MANIFEST.json": "41cea16394e299f1acffb583602186195bb8afa6eec66700efea279d04775e3d",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3583,11 +3583,11 @@
         "research/results/h2-05-code-mode-parser.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
+        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
-        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-05-code-mode-parser.json": "f300f6e049606d4d6d0e534ad19906ede6960bf199bc741ee1516a20d63bd4b7"
       },
@@ -3614,11 +3614,11 @@
         "research/results/h2-06-code-mode-bounds.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
+        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
         "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
-        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
+        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
         "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
-        "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-06-code-mode-bounds.json": "5a7d4755577d486b57ec273b0ee41974ceba8970fd1053bd7f33592ba8fe576d"
       },
@@ -3645,7 +3645,7 @@
       "evidence_digests": {
         "tools/offline_network_guard.py": "d1bd692ea741f909599cfb9e9d31ff6b8e99b9f33c1f7cf1daada65f45db5b4b",
         "tests/test_offline_network_guard.py": "f3c1c4cb8ec6e84b11c27a77ba46e6ac9ddacbd2e8499152939b10c0a42e8887",
-        "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
         "research/results/h2-07-offline-egress-tests.xml": "a7d5e7ab884a494bae89a9401f2df6c1641e3b860e28b12dc77690b3077b3281",
         "research/results/h2-07-offline-egress.json": "02de47d62f95055bb712809e7ab466ae8da62175059f3b50779b9047d37354da"
       },
@@ -3658,14 +3658,30 @@
       "task_id": "H2-08",
       "priority": "P0",
       "task": "Reject SSRF, localhost redirect, file URL, command injection and unexpected URI schemes in UTCP transport.",
-      "acceptance": "Manual parsing is side-effect-free and transport validation is explicit",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Manual parsing is side-effect-free and transport validation is explicit. Evidence: `src/memory_fabric/tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-08-utcp-transport.json`, `research/results/h2-08-utcp-transport-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-08-utcp-transport.json",
+        "research/results/h2-08-utcp-transport-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
+        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "research/results/h2-08-utcp-transport.json": "00d3d84ace8b0f5f70409db651cf9680863ea267613c403df73366037c61487a",
+        "research/results/h2-08-utcp-transport-tests.xml": "c1d03e62f3274837fd960a8520925f55a9048ccedee03d5dceb1ef4393cb319b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "No UTCP transport executor is implemented. Callers must invoke same-origin redirect validation for every hop; connection-time DNS address checks are still required to prevent rebinding."
+      ]
     },
     {
       "task_id": "H2-09",
