@@ -937,6 +937,82 @@
       ]
     },
     {
+      "task_id": "R1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The impossible and out-of-scope requests are controlled synthetic cases; they do not establish real-user refusal calibration."
+      ]
+    },
+    {
+      "task_id": "R1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Paraphrase and indirect-support metadata are synthetic fixtures, not a human-validated natural language benchmark."
+      ]
+    },
+    {
+      "task_id": "R1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The report gives exact synthetic task denominators, Wilson intervals, and zero-event bounds. Deterministic local model/token cost is zero; wall-clock cost and real model/API cost are not measured."
+      ]
+    },
+    {
+      "task_id": "R1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The frozen 40-case registry and complete per-case control outcomes apply to the new synthetic suite. Other existing benchmark suites have not yet adopted this case registry."
+      ]
+    },
+    {
+      "task_id": "R1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "docs/OFFLINE_RESEARCH_BENCHMARK.md",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Deterministic replay is verified for this synthetic suite; wall-clock timing varies by host and is explicitly not represented as reproducible."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

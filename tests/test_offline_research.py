@@ -13,6 +13,11 @@ class OfflineResearch(unittest.TestCase):
         self.assertTrue(all(research.validate_world(world) == [] for world in worlds))
         self.assertEqual(research.leakage(worlds), [])
         self.assertTrue(all(world["sha256"] for world in worlds))
+        self.assertTrue(all(any(case["evidence_features"]["indirect_but_supported"]
+                                and case["evidence_features"]["lexical_overlap"] is False
+                                for case in world["cases"]) for world in worlds))
+        self.assertTrue(all(any(case["oracle"] == "ABSTAIN" for case in world["cases"])
+                            for world in worlds))
 
     def test_leakage_detector_rejects_duplicate_entity_template_topology_and_seed(self) -> None:
         train = research.generate_split("train")
@@ -27,7 +32,14 @@ class OfflineResearch(unittest.TestCase):
         report = research.control_report(worlds)
         self.assertEqual(report["population"], "synthetic_scripted")
         self.assertTrue(report["arms"]["negative_controls_detected"])
+        self.assertTrue(all(report["by_family"]["negative_controls_detected"].values()))
         self.assertEqual(report["arms"]["oracle"]["correct"], report["arms"]["oracle"]["attempted"])
+        oracle = report["arms"]["oracle"]
+        self.assertEqual(oracle["attempted"], 20)
+        self.assertEqual(oracle["unsafe_actions"], 0)
+        self.assertGreater(oracle["zero_unsafe_rate_upper_95"], 0)
+        self.assertEqual(oracle["unsafe_action_denominator"], 5)
+        self.assertEqual(set(report["by_family"]) - {"negative_controls_detected"}, set(research.FAMILIES))
 
 
 if __name__ == "__main__":

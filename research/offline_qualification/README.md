@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **54 / 260 (20.77%)**. Internal status: **BLOCKED**.
+Strict completion: **59 / 260 (22.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `e3de20574d078c38728a933ff95edd629ddea42ead2926fc2de1d15387c84220`.
+Normalized ledger digest: `49b1dd779a01a624533b8378ff1b80beb2a96d60aae38301296707fdfef3f718`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 54 |
+| DONE | 59 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 201 |
+| TODO | 196 |
 
 ## Graduation gates
 
@@ -84,11 +84,11 @@ Normalized ledger digest: `e3de20574d078c38728a933ff95edd629ddea42ead2926fc2de1d
 | R1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
-| R1-06 | P0 | TODO | NOT_TESTED | — |
-| R1-07 | P0 | TODO | NOT_TESTED | — |
-| R1-08 | P0 | TODO | NOT_TESTED | — |
-| R1-09 | P0 | TODO | NOT_TESTED | — |
-| R1-10 | P0 | TODO | NOT_TESTED | — |
+| R1-06 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-07 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `docs/OFFLINE_RESEARCH_BENCHMARK.md`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R2-01 | P0 | TODO | NOT_TESTED | — |
 | R2-02 | P0 | TODO | NOT_TESTED | — |
 | R2-03 | P0 | TODO | NOT_TESTED | — |

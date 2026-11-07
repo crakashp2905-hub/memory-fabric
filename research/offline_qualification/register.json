@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "efcc7e0b93c962eff1f8403ef75a3ccb3f7bdd47",
+    "commit": "668dc64a3f5569d196a82e3ce142097c3320a5e9",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 54,
+      "DONE": 59,
       "PARTIAL": 5,
-      "TODO": 201
+      "TODO": 196
     },
-    "completed": 54,
+    "completed": 59,
     "total": 260,
-    "percent_complete": 20.77,
-    "p0_open": 75,
+    "percent_complete": 22.69,
+    "p0_open": 70,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1504,10 +1504,10 @@
         "research/results/r1-offline-synthetic-tests.xml"
       ],
       "evidence_digests": {
-        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
-        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
-        "research/results/r1-offline-synthetic.json": "c611fe48d3dc88c634251332703b18e043f0948d551407b52ba1cbad14259f57",
-        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1528,9 +1528,9 @@
         "research/results/r1-offline-synthetic-tests.xml"
       ],
       "evidence_digests": {
-        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
-        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
-        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1552,10 +1552,10 @@
         "research/results/r1-offline-synthetic-tests.xml"
       ],
       "evidence_digests": {
-        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
-        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
-        "research/results/r1-offline-synthetic.json": "c611fe48d3dc88c634251332703b18e043f0948d551407b52ba1cbad14259f57",
-        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1567,65 +1567,127 @@
       "priority": "P0",
       "task": "Add intentionally impossible requests that should lead to abstention, not action.",
       "acceptance": "Evaluation penalizes unsupported actions and overconfident completion independently from non-completion",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The impossible and out-of-scope requests are controlled synthetic cases; they do not establish real-user refusal calibration."
+      ]
     },
     {
       "task_id": "R1-07",
       "priority": "P0",
       "task": "Include genuinely valid but non-lexically obvious evidence to expose overblocking.",
       "acceptance": "Every test split has paraphrases, derived knowledge and indirect-but-supported actions",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Paraphrase and indirect-support metadata are synthetic fixtures, not a human-validated natural language benchmark."
+      ]
     },
     {
       "task_id": "R1-08",
       "priority": "P0",
       "task": "Publish exact task-level success, false refusal, stale-action and cost denominators.",
       "acceptance": "Zero events always reported with sample size and confidence bound, never as universal guarantee",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The report gives exact synthetic task denominators, Wilson intervals, and zero-event bounds. Deterministic local model/token cost is zero; wall-clock cost and real model/API cost are not measured."
+      ]
     },
     {
       "task_id": "R1-09",
       "priority": "P0",
       "task": "Freeze benchmark registry and disallow post-hoc deletion of failing cases from summary.",
       "acceptance": "CI checks registered case count and archived negative results",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The frozen 40-case registry and complete per-case control outcomes apply to the new synthetic suite. Other existing benchmark suites have not yet adopted this case registry."
+      ]
     },
     {
       "task_id": "R1-10",
       "priority": "P0",
       "task": "Produce one-command offline replication instructions and machine-readable results comparison.",
       "acceptance": "A fresh local checkout regenerates deterministic suite and explains unavoidable timing variance",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "docs/OFFLINE_RESEARCH_BENCHMARK.md",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+        "docs/OFFLINE_RESEARCH_BENCHMARK.md": "af154725c8e51114f420701e406d1a3bf34413079aee3b8295c38da280ea9c21",
+        "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
+        "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Deterministic replay is verified for this synthetic suite; wall-clock timing varies by host and is explicitly not represented as reproducible."
+      ]
     },
     {
       "task_id": "R2-01",
