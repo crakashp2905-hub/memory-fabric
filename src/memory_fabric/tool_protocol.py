@@ -31,6 +31,112 @@ class ToolDescriptor:
     consequential: bool = True
     protocol: str = "native"
     transport: Mapping[str, Any] = field(default_factory=dict)
+    annotations: Mapping[str, Any] = field(default_factory=dict)
+
+
+_UTCP_TOOL_FIELDS = frozenset({
+    "name", "description", "inputs", "consequential",
+    "tool_call_template", "tool_transport",
+})
+_MCP_TOOL_FIELDS = frozenset({"name", "description", "inputSchema", "annotations"})
+_MCP_ANNOTATION_FIELDS = frozenset({
+    "title", "readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint",
+})
+
+
+def _reject_unknown_fields(raw: Mapping[str, Any], supported: frozenset[str],
+                           protocol: str) -> None:
+    if any(not isinstance(key, str) for key in raw):
+        raise ToolProtocolError(f"{protocol} descriptor keys must be strings")
+    unknown = sorted(set(raw) - supported)
+    if unknown:
+        raise ToolProtocolError(
+            f"unsupported {protocol} descriptor field(s): {', '.join(unknown)}")
+
+
+def _object_mapping(value: Any, label: str) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        raise ToolProtocolError(f"{label} must be an object")
+    return value
+
+
+def utcp_tool_to_descriptor(raw: Mapping[str, Any], *, version: str = "1.0.0") -> ToolDescriptor:
+    """Convert the supported UTCP tool subset without dropping unknown fields."""
+    _reject_unknown_fields(raw, _UTCP_TOOL_FIELDS, "UTCP")
+    if not isinstance(raw.get("name"), str) or not raw["name"]:
+        raise ToolProtocolError("UTCP tool name must be a non-empty string")
+    description = raw.get("description", "")
+    if not isinstance(description, str):
+        raise ToolProtocolError("UTCP description must be a string")
+    consequential = raw.get("consequential", True)
+    if not isinstance(consequential, bool):
+        raise ToolProtocolError("UTCP consequential must be a boolean")
+    if "tool_call_template" in raw and "tool_transport" in raw:
+        raise ToolProtocolError("UTCP tool cannot specify both transport spellings")
+    transport = raw.get("tool_call_template", raw.get("tool_transport", {}))
+    return ToolDescriptor(
+        name=raw["name"], description=description,
+        input_schema=_object_mapping(raw.get("inputs", {}), "UTCP inputs"),
+        consequential=consequential, protocol=f"utcp-{version}",
+        transport=_object_mapping(transport, "UTCP transport"),
+    )
+
+
+def descriptor_to_utcp_tool(descriptor: ToolDescriptor) -> dict[str, Any]:
+    """Serialize the supported canonical fields in the pinned UTCP spelling."""
+    if descriptor.annotations:
+        raise ToolProtocolError("UTCP cannot represent MCP tool annotations")
+    result: dict[str, Any] = {
+        "name": descriptor.name, "description": descriptor.description,
+        "inputs": dict(descriptor.input_schema),
+        "consequential": descriptor.consequential,
+    }
+    if descriptor.transport:
+        result["tool_call_template"] = dict(descriptor.transport)
+    return result
+
+
+def mcp_tool_to_descriptor(raw: Mapping[str, Any]) -> ToolDescriptor:
+    """Convert a supported MCP tool definition; reject extensions we cannot retain."""
+    _reject_unknown_fields(raw, _MCP_TOOL_FIELDS, "MCP")
+    if not isinstance(raw.get("name"), str) or not raw["name"]:
+        raise ToolProtocolError("MCP tool name must be a non-empty string")
+    description = raw.get("description", "")
+    if not isinstance(description, str):
+        raise ToolProtocolError("MCP description must be a string")
+    annotations = _object_mapping(raw.get("annotations", {}), "MCP annotations")
+    _reject_unknown_fields(annotations, _MCP_ANNOTATION_FIELDS, "MCP annotation")
+    for key, value in annotations.items():
+        if key != "title" and not isinstance(value, bool):
+            raise ToolProtocolError(f"MCP annotation {key} must be a boolean")
+        if key == "title" and not isinstance(value, str):
+            raise ToolProtocolError("MCP annotation title must be a string")
+    read_only = annotations.get("readOnlyHint", False)
+    destructive = annotations.get("destructiveHint", False)
+    if read_only and destructive:
+        raise ToolProtocolError("MCP tool cannot be both read-only and destructive")
+    schema = _object_mapping(raw.get("inputSchema"), "MCP inputSchema")
+    return ToolDescriptor(
+        name=raw["name"], description=description, input_schema=schema,
+        consequential=not read_only, protocol="mcp", annotations=dict(annotations),
+    )
+
+
+def descriptor_to_mcp_tool(descriptor: ToolDescriptor) -> dict[str, Any]:
+    """Serialize canonical fields that MCP can represent without semantic loss."""
+    if descriptor.transport:
+        raise ToolProtocolError("MCP cannot represent UTCP transport metadata")
+    annotations = dict(descriptor.annotations)
+    if not annotations:
+        annotations = {
+            "readOnlyHint": not descriptor.consequential,
+            "destructiveHint": descriptor.consequential,
+        }
+    return {
+        "name": descriptor.name, "description": descriptor.description,
+        "inputSchema": dict(descriptor.input_schema),
+        "annotations": annotations,
+    }
 
 
 def discover_utcp(document: Mapping[str, Any]) -> tuple[ToolDescriptor, ...]:
@@ -48,18 +154,12 @@ def discover_utcp(document: Mapping[str, Any]) -> tuple[ToolDescriptor, ...]:
     for raw in tools:
         if not isinstance(raw, Mapping) or not isinstance(raw.get("name"), str):
             raise ToolProtocolError("every UTCP tool needs a string name")
-        name = raw["name"]
+        descriptor = utcp_tool_to_descriptor(raw, version=version)
+        name = descriptor.name
         if name in names:
             raise ToolProtocolError(f"duplicate tool: {name}")
         names.add(name)
-        result.append(ToolDescriptor(
-            name=name,
-            description=str(raw.get("description", "")),
-            input_schema=raw.get("inputs", {}),
-            consequential=bool(raw.get("consequential", True)),
-            protocol=f"utcp-{version}",
-            transport=raw.get("tool_call_template", raw.get("tool_transport", {})),
-        ))
+        result.append(descriptor)
     return tuple(result)
 
 

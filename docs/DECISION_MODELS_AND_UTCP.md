@@ -23,6 +23,15 @@ The adapter targets UTCP `1.0.x` manuals and requires both `utcp_version` and
 `tool_call_template` form or the RFC's `tool_transport` spelling. Discovery is
 pure parsing: it performs no call and grants no tool.
 
+`ToolDescriptor` is the protocol-neutral representation. The MCP and UTCP
+converters accept an explicit supported field set and reject unknown
+descriptor or annotation fields, including security-related extensions. A
+same-protocol round trip preserves supported fields. Cross-protocol conversion
+fails when UTCP transport metadata or MCP annotations have no representation
+in the destination protocol; callers must handle that error rather than lose
+the field. MCP annotations remain descriptive hints and never authorize an
+action.
+
 The pinned primary sources are:
 
 - UTCP RFC 1.0.0: <https://www.utcp.io/about/RFC>

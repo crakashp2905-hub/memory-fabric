@@ -4,8 +4,13 @@ from memory_fabric.tool_protocol import (
     CodeModePlan,
     GovernedToolRuntime,
     ToolProtocolError,
+    descriptor_to_mcp_tool,
+    descriptor_to_utcp_tool,
     discover_utcp,
+    mcp_tool_to_descriptor,
+    utcp_tool_to_descriptor,
 )
+from memory_fabric.adapters.mcp import EXTENDED_TOOLS, TOOLS
 
 
 class RecordingGate:
@@ -18,6 +23,56 @@ class RecordingGate:
 
 
 class ToolProtocol(unittest.TestCase):
+    def test_supported_utcp_fields_round_trip_without_loss(self):
+        raw = {
+            "name": "lookup", "description": "read records",
+            "inputs": {"type": "object", "properties": {"q": {"type": "string"}}},
+            "consequential": False,
+            "tool_call_template": {"call_template_type": "http", "url": "https://example.test"},
+        }
+        self.assertEqual(descriptor_to_utcp_tool(utcp_tool_to_descriptor(raw)), raw)
+
+    def test_supported_mcp_fields_round_trip_without_loss(self):
+        raw = {
+            "name": "lookup", "description": "read records",
+            "inputSchema": {"type": "object", "properties": {"q": {"type": "string"}}},
+            "annotations": {"readOnlyHint": True, "destructiveHint": False,
+                            "idempotentHint": True, "openWorldHint": False},
+        }
+        self.assertEqual(descriptor_to_mcp_tool(mcp_tool_to_descriptor(raw)), raw)
+
+    def test_repository_mcp_descriptors_round_trip(self):
+        for raw in TOOLS + EXTENDED_TOOLS:
+            with self.subTest(tool=raw["name"]):
+                self.assertEqual(descriptor_to_mcp_tool(mcp_tool_to_descriptor(raw)), raw)
+
+    def test_cross_protocol_conversion_reports_unrepresentable_fields(self):
+        utcp = utcp_tool_to_descriptor({
+            "name": "send", "inputs": {"type": "object"},
+            "tool_transport": {"call_template_type": "http"},
+        })
+        with self.assertRaisesRegex(ToolProtocolError, "cannot represent UTCP transport"):
+            descriptor_to_mcp_tool(utcp)
+        mcp = mcp_tool_to_descriptor({
+            "name": "read", "inputSchema": {"type": "object"},
+            "annotations": {"readOnlyHint": True},
+        })
+        with self.assertRaisesRegex(ToolProtocolError, "cannot represent MCP tool annotations"):
+            descriptor_to_utcp_tool(mcp)
+
+    def test_unknown_security_fields_never_disappear(self):
+        cases = [
+            (utcp_tool_to_descriptor, {"name": "read", "inputs": {"type": "object"},
+                                       "authorization": {"scopes": ["admin"]}}),
+            (mcp_tool_to_descriptor, {"name": "read", "inputSchema": {"type": "object"},
+                                      "permissions": ["admin"]}),
+            (mcp_tool_to_descriptor, {"name": "read", "inputSchema": {"type": "object"},
+                                      "annotations": {"requiresGrant": True}}),
+        ]
+        for converter, raw in cases:
+            with self.subTest(raw=raw), self.assertRaisesRegex(ToolProtocolError, "unsupported"):
+                converter(raw)
+
     def test_utcp_discovery_is_pinned_and_deduplicated(self):
         tools = discover_utcp({"utcp_version": "1.0.1", "manual_version": "1.0.0", "tools": [
             {"name": "send", "description": "send a message", "consequential": True,
