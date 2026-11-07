@@ -8,7 +8,7 @@ the code disagree.
 
 | tier | promise | may change |
 |---|---|---|
-| **stable** | Public functions, classes and CLI commands keep their names and meaning within a minor series. Removals are deprecated for one minor version first and noted in the CHANGELOG. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). | Internals, private names (`_x`), wording of messages |
+| **stable** | Public functions, classes, CLI commands, signatures and meanings stay compatible within a minor series. Incompatible changes require deprecation plus a CHANGELOG migration note. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). The canonical symbols and signatures are in [API_INVENTORY.json](docs/API_INVENTORY.json). | Internals, private names (`_x`), wording of messages |
 | **beta** | Used in production paths and tested, but new. Names may change in a minor version, always with a CHANGELOG entry. Events they write are covered by the replay guarantee like any other. | Signatures, defaults, output shapes |
 | **experimental** | New mechanisms. **All opt-in**: nothing in the default path calls them unless you turn it on. | Anything, or removal |
 
@@ -75,7 +75,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (52)
+## Beta (55)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
@@ -94,6 +94,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.context_receipt`
 - `memory_fabric.correction`
 - `memory_fabric.dependence`
+- `memory_fabric.evidence_status`
 - `memory_fabric.extraction`
 - `memory_fabric.freshness`
 - `memory_fabric.governance.directive`
@@ -112,6 +113,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.observability.logs`
 - `memory_fabric.observability.metrics`
 - `memory_fabric.observability.server`
+- `memory_fabric.oidc`
 - `memory_fabric.pilot`
 - `memory_fabric.posture`
 - `memory_fabric.presets`
@@ -124,13 +126,14 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.retrieval_routing`
 - `memory_fabric.retrievers`
 - `memory_fabric.review`
+- `memory_fabric.stage_trace`
 - `memory_fabric.status`
 - `memory_fabric.tenancy`
 - `memory_fabric.tour`
 - `memory_fabric.typedclaims`
 - `memory_fabric.validation`
 
-## Experimental (24)
+## Experimental (25)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.claimcheck`
@@ -153,6 +156,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.objective_v2`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
+- `memory_fabric.tombstones`
 - `memory_fabric.tool_protocol`
 - `memory_fabric.trust`
 - `memory_fabric.typed_query`

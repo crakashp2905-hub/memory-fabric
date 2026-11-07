@@ -78,7 +78,7 @@ A client bound to an agent and tenant the caller *asserts*.
 
 What an adapter is given. Deliberately narrow.
 
-- **`AgentClient.recall(query: str, k: int = 5, context: Mapping[str, Any] | None = None, include_contested: bool = False, episode_id: str | None = None, within: Iterable[str] | None = None) -> list[UsableMemory]`**
+- **`AgentClient.recall(query: str, k: int = 5, context: Mapping[str, Any] | None = None, include_contested: bool = False, episode_id: str | None = None, within: Iterable[str] | None = None) -> RecallResult`**
   Retrieve, enforced, with a token per result.
 - **`AgentClient.fetch(memory_id: str, risk: RiskLevel = RiskLevel.LOW) -> UsableMemory`**
   One memory, by id, enforced. Raises rather than returning None.

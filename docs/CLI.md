@@ -33,6 +33,7 @@ WRITES: serve agents over authenticated HTTP (recall, fetch, verify, remember), 
 - `--behind-tls`: allow a non-loopback bind because TLS terminates in front
 - `--rate-limit`: requests a second per agent, on average (0 turns it off)
 - `--burst`: requests per agent at once
+- `--oidc-config`: optional OAuth/OIDC JWT resource-server configuration JSON
 - `--no-maintain`: do not run the background memory manager in this process
 - `--maintain-interval`: seconds between background maintenance cycles
 - `--peers`: JSON peer list for retraction delivery (or $MEMORY_FABRIC_PEERS)

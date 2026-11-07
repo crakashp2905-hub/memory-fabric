@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import inspect
+import json
 import re
 import sys
 from pathlib import Path
@@ -146,6 +147,43 @@ def api_md() -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def api_inventory() -> str:
+    """Canonical machine-readable inventory of documented public symbols.
+
+    Signatures are part of the generated diff, and each symbol inherits the
+    declared stability tier of its defining module. The stable-tier migration
+    requirement is documented in STABILITY.md and VERSIONING.md.
+    """
+    entries: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for _, target, members in API:
+        module_name, name = target.split(":")
+        module = importlib.import_module(module_name)
+        obj = getattr(module, name)
+        tier = stability(module_name)
+        if members:
+            for member in members:
+                public = name if member == "__init__" else f"{name}.{member}"
+                symbol = f"{module_name}.{public}"
+                if symbol in seen:
+                    continue
+                seen.add(symbol)
+                entries.append({"symbol": symbol, "module": module_name, "tier": tier,
+                                "signature": signature(getattr(obj, member))})
+        else:
+            symbol = f"{module_name}.{name}"
+            if symbol in seen:
+                continue
+            seen.add(symbol)
+            entries.append({"symbol": symbol, "module": module_name, "tier": tier,
+                            "signature": signature(obj)})
+    payload = {"schema": "memory-fabric-public-api/1",
+               "generated_by": "tools/gen_reference.py",
+               "compatibility_policy": "Stable signatures require deprecation and a CHANGELOG migration note before an incompatible minor-series change; beta and experimental rules are in STABILITY.md.",
+               "symbols": entries}
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
 def cli_md() -> str:
     from memory_fabric.cli import build_parser
 
@@ -174,7 +212,8 @@ def cli_md() -> str:
 
 
 def main(argv: list[str]) -> int:
-    outputs = {ROOT / "docs" / "API.md": api_md(), ROOT / "docs" / "CLI.md": cli_md()}
+    outputs = {ROOT / "docs" / "API.md": api_md(), ROOT / "docs" / "CLI.md": cli_md(),
+               ROOT / "docs" / "API_INVENTORY.json": api_inventory()}
     if "--check" in argv:
         import difflib
 
