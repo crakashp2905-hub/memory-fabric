@@ -122,6 +122,14 @@
       "limitations": ["The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"]
     },
     {
+      "task_id": "E2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["docs/HISTORICAL_SURFACE_SECURITY.md", "tests/test_history_query.py", "tests/test_data_access_paths.py", "tests/test_posture.py", "tests/test_branching.py", "tests/test_erasure_residue.py"],
+      "limitations": ["Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

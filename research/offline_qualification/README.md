@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **17 / 260 (6.54%)**. Internal status: **BLOCKED**.
+Strict completion: **18 / 260 (6.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3a6468edeafcf02ddaaa2bbe98b9a4a5a66ec3c8dcd8ec43740b6087095e6319`.
+Normalized ledger digest: `e620d4c2ea7666c189081fb77e26dc04399ab8f844cdd9139f32d71d9e178fb2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 17 |
+| DONE | 18 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 239 |
+| TODO | 238 |
 
 ## Graduation gates
 
@@ -43,7 +43,7 @@ Normalized ledger digest: `3a6468edeafcf02ddaaa2bbe98b9a4a5a66ec3c8dcd8ec43740b6
 | E2-03 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_withdrawn_parent_orderings.py`, `tests/test_justification.py` |
 | E2-04 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_duplicates.py`, `tests/test_supersede.py`, `src/memory_fabric/duplicates.py` |
 | E2-05 | P0 | DONE | INTERNAL_INTEGRATION | `docs/BITEMPORAL_HISTORY.md`, `src/memory_fabric/history_query.py`, `tests/test_history_query.py`, `tests/test_bitemporal.py` |
-| E2-06 | P0 | TODO | NOT_TESTED | — |
+| E2-06 | P0 | DONE | INTERNAL_INTEGRATION | `docs/HISTORICAL_SURFACE_SECURITY.md`, `tests/test_history_query.py`, `tests/test_data_access_paths.py`, `tests/test_posture.py`, `tests/test_branching.py`, `tests/test_erasure_residue.py` |
 | E2-07 | P0 | TODO | NOT_TESTED | — |
 | E2-08 | P0 | TODO | NOT_TESTED | — |
 | E2-09 | P0 | TODO | NOT_TESTED | — |

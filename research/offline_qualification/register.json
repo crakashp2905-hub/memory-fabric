@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "9204bec21fa8b190f0b12cefb6a8839958c1099d",
+    "commit": "c44fe80963db8afe44d8a23f5826f8365e3be91f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 17,
+      "DONE": 18,
       "PARTIAL": 4,
-      "TODO": 239
+      "TODO": 238
     },
-    "completed": 17,
+    "completed": 18,
     "total": 260,
-    "percent_complete": 6.54,
-    "p0_open": 103,
+    "percent_complete": 6.92,
+    "p0_open": 102,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -282,11 +282,20 @@
       "priority": "P0",
       "task": "Implement current-authorization intersection for all historical read surfaces.",
       "acceptance": "Revoked identities and erased content remain inaccessible through historical APIs and exports",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/HISTORICAL_SURFACE_SECURITY.md",
+        "tests/test_history_query.py",
+        "tests/test_data_access_paths.py",
+        "tests/test_posture.py",
+        "tests/test_branching.py",
+        "tests/test_erasure_residue.py"
+      ],
+      "limitations": [
+        "Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"
+      ]
     },
     {
       "task_id": "E2-07",
