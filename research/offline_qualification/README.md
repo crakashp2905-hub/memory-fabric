@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **43 / 260 (16.54%)**. Internal status: **BLOCKED**.
+Strict completion: **44 / 260 (16.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ce6df0bcd002ac210ee35dafb2cd0c3e151ebd1f3c23a96788a4cb1b7ab88ee0`.
+Normalized ledger digest: `ab204a8ef8dc4eb139be3f8d47acfd9b8fb887c370fbe10280f9611ee97aef11`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 43 |
+| DONE | 44 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 213 |
+| TODO | 212 |
 
 ## Graduation gates
 
@@ -70,7 +70,7 @@ Normalized ledger digest: `ce6df0bcd002ac210ee35dafb2cd0c3e151ebd1f3c23a96788a4c
 | E4-10 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_soak.py`, `docs/E4_SOAK.md`, `tests/test_multiprocess_crash.py`, `tests/test_backup.py`, `research/results/e4-10-deterministic-soak.json`, `research/results/e4-10-deterministic-soak.md`, `research/results/e4-10-crash-backup-regressions.xml`, `research/results/e4-10-evidence.json` |
 | E5-01 | P1 | DONE | INTERNAL_INTEGRATION | `tools/gen_reference.py`, `tools/gen_stability.py`, `docs/API_INVENTORY.json`, `docs/API.md`, `STABILITY.md`, `tests/test_reference_docs.py`, `tests/test_fabric_structure.py`, `tests/test_stability.py`, `research/results/e5-01-api-inventory.json`, `research/results/e5-01-api-inventory.xml` |
 | E5-02 | P1 | DONE | INTERNAL_INTEGRATION | `pyproject.toml`, `src/memory_fabric/py.typed`, `tools/check_typed_consumer.py`, `research/results/e5-02-typed-wheel.json` |
-| E5-03 | P1 | TODO | NOT_TESTED | — |
+| E5-03 | P1 | DONE | INTERNAL_INTEGRATION | `docs/ERROR_CONTRACT_MATRIX.md`, `src/memory_fabric/sdk.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/cli.py`, `tests/test_sdk.py`, `tests/test_mcp.py`, `tests/test_agent_api.py`, `tests/test_correction.py`, `research/results/e5-03-error-contracts.json`, `research/results/e5-03-error-contracts.xml` |
 | E5-04 | P1 | TODO | NOT_TESTED | — |
 | E5-05 | P1 | TODO | NOT_TESTED | — |
 | E5-06 | P1 | TODO | NOT_TESTED | — |

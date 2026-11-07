@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "ab752b5eed248e0ffa7bd7c0ccb596dd511ab694",
-    "dirty": false
+    "commit": "935ff9de8c31657eff55482a1ce6494a86a9e4ba",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 43,
+      "DONE": 44,
       "PARTIAL": 4,
-      "TODO": 213
+      "TODO": 212
     },
-    "completed": 43,
+    "completed": 44,
     "total": 260,
-    "percent_complete": 16.54,
+    "percent_complete": 16.92,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -826,11 +826,25 @@
       "priority": "P1",
       "task": "Test consistent error codes and reason payloads across SDK, MCP, HTTP, CLI.",
       "acceptance": "Contract matrix catches identity, invalid evidence, unavailable tool, and stale-preview mismatches",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/ERROR_CONTRACT_MATRIX.md",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_sdk.py",
+        "tests/test_mcp.py",
+        "tests/test_agent_api.py",
+        "tests/test_correction.py",
+        "research/results/e5-03-error-contracts.json",
+        "research/results/e5-03-error-contracts.xml"
+      ],
+      "limitations": [
+        "Protocols retain native error envelopes and surfaces that intentionally do not expose identity/apply operations are marked N/A in the contract matrix."
+      ]
     },
     {
       "task_id": "E5-04",
