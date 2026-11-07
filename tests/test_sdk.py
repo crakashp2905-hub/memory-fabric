@@ -15,7 +15,8 @@ from __future__ import annotations
 import unittest
 
 from memory_fabric import LifecycleState, MemoryFabric, WithdrawalBasis
-from memory_fabric.enforcement import RiskLevel, Verdict
+from memory_fabric.enforcement import (EvidenceOperation, RiskLevel, Verdict,
+                                       risk_for_operation)
 from memory_fabric.justification import JustificationKind, justification_context
 from memory_fabric.protocol import PropagationState
 from memory_fabric.sdk import (
@@ -48,6 +49,30 @@ class TestTheAgentClientCannotBypassEnforcement(SdkCase):
                 hasattr(self.agent, forbidden),
                 f"AgentClient exposes {forbidden}, which can bypass enforcement",
             )
+
+    def test_operation_risk_keeps_reads_available_and_recommendations_more_cautious(self) -> None:
+        other = self.agent.remember("E01 at coastal: replace the pilot cable.")
+        self.operator.validate(other)
+        self.fabric.challenge([self.memory_id, other], evidence="conflicting fixture", detector_id="test")
+
+        read = self.agent.recall("coastal pilot cable", include_contested=True,
+                                 operation=EvidenceOperation.READ)
+        summary = self.agent.recall("coastal pilot cable", include_contested=True,
+                                    operation=EvidenceOperation.SUMMARIZE)
+        recommendation = self.agent.recall("coastal pilot cable", include_contested=True,
+                                           operation=EvidenceOperation.RECOMMEND)
+        self.assertTrue(read)
+        self.assertTrue(summary)
+        self.assertFalse(recommendation)
+        self.assertEqual(risk_for_operation(EvidenceOperation.READ), RiskLevel.LOW)
+        self.assertEqual(risk_for_operation(EvidenceOperation.RECOMMEND), RiskLevel.MEDIUM)
+        self.assertEqual(risk_for_operation(EvidenceOperation.EXECUTE), RiskLevel.HIGH)
+
+    def test_recall_cannot_be_used_as_an_execution_path(self) -> None:
+        with self.assertRaisesRegex(ValueError, "ActionGate"):
+            self.agent.recall("coastal cable", operation=EvidenceOperation.EXECUTE)
+        with self.assertRaisesRegex(ValueError, "high-risk"):
+            self.agent.verify(self.agent.fetch(self.memory_id), risk=RiskLevel.LOW)
 
     def test_fetch_raises_rather_than_returning_withdrawn_content(self) -> None:
         self.operator.retract(

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **64 / 260 (24.62%)**. Internal status: **BLOCKED**.
+Strict completion: **65 / 260 (25.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7671c9875f27c12994a1b4708f4be0759923eae9a6231e912b3f5aea86094fde`.
+Normalized ledger digest: `1ec3a579a65562da56b624e6e48f3f19e1c775e995ce306e5115d6fab1bab856`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 64 |
+| DONE | 65 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 191 |
+| TODO | 190 |
 
 ## Graduation gates
 
@@ -96,7 +96,7 @@ Normalized ledger digest: `7671c9875f27c12994a1b4708f4be0759923eae9a6231e912b3f5
 | R2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/evidence_state.py`, `tests/test_evidence_state.py`, `research/results/r2-05-evidence-state.xml` |
 | R2-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/certificates.py`, `src/memory_fabric/justification.py`, `tests/test_certificates.py`, `research/results/r2-06-07-support-tests.xml` |
 | R2-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/justification.py`, `src/memory_fabric/certificates.py`, `tests/test_justification.py`, `tests/test_certificates.py`, `research/results/r2-06-07-support-tests.xml` |
-| R2-08 | P0 | TODO | NOT_TESTED | — |
+| R2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/enforcement.py`, `src/memory_fabric/sdk.py`, `src/memory_fabric/actions.py`, `tests/test_sdk.py`, `tests/test_action_fence.py`, `docs/EVIDENCE_OPERATION_RISK.md`, `research/results/r2-08-risk-sensitive-operations.xml`, `research/results/r2-08-action-fence.xml` |
 | R2-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/evidence_completeness.py`, `research/prereg/ecv1-threshold.json`, `tests/test_ecv1_benchmark.py`, `research/results/r2-09-threshold-guard.xml` |
 | R2-10 | P0 | TODO | NOT_TESTED | — |
 | R3-01 | P0 | TODO | NOT_TESTED | — |

@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "8bf4037c9c2a048505d1f182ad43a35d1c7d7a88",
+    "commit": "e77edaa08ee79d3e62637c6ddb232d19a5f2c36d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 64,
+      "DONE": 65,
       "PARTIAL": 5,
-      "TODO": 191
+      "TODO": 190
     },
-    "completed": 64,
+    "completed": 65,
     "total": 260,
-    "percent_complete": 24.62,
-    "p0_open": 65,
+    "percent_complete": 25.0,
+    "p0_open": 64,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "99627a3af22db185237542d722a56f38be7f7a48e5a9afe70337484aa96da429",
-        "docs/VALIDATION.md": "9db10a2514ddd9cb2e11bd70898b6c563476ebdcf0c34192938ad87e4deb5004",
-        "docs/STATUS_AT_HEAD.md": "bfeb84a3a4fcc86891d5a57937b85bfa3abbca8905d8f82c0455e4f444d384c4",
+        "README.md": "785ab5bbac0e2acdb3466cbc1b5f0d563338492d870c9981c716a2f5f3dc998c",
+        "docs/VALIDATION.md": "c4c36046a4cccc5d575e037343a0402c86c1ed09d93a6123f80cdce119cc27b3",
+        "docs/STATUS_AT_HEAD.md": "f812e80f2f5a05aeef4b837582d177c9898976827e5b12ea2e6cb88ed55f015b",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -763,7 +763,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/answerability.py": "e1721a35b756926852ab5e5a705d070599f66e889bc17066c6549135370251a6",
-        "src/memory_fabric/sdk.py": "6df682411fcf2a344400b2969f99a307346885900de9a0403faac84881f33e90",
+        "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
         "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
@@ -1238,11 +1238,11 @@
       ],
       "evidence_digests": {
         "docs/ERROR_CONTRACT_MATRIX.md": "56f4bda5f90fb7132d8ccca9acf96f978ea4101737d92aad95926b725c732270",
-        "src/memory_fabric/sdk.py": "6df682411fcf2a344400b2969f99a307346885900de9a0403faac84881f33e90",
+        "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
         "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
-        "tests/test_sdk.py": "75fd49bfb0258ad54c221ba352da26c650772bd9fbe3b6235e731b8a33d702dd",
+        "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
@@ -1839,13 +1839,33 @@
       "priority": "P0",
       "task": "Add risk-sensitive evidence policies for read, summarize, recommend and externally consequential execute.",
       "acceptance": "Low-risk tasks are not blocked by high-risk execution-only restrictions; protected actions remain gated",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_sdk.py",
+        "tests/test_action_fence.py",
+        "docs/EVIDENCE_OPERATION_RISK.md",
+        "research/results/r2-08-risk-sensitive-operations.xml",
+        "research/results/r2-08-action-fence.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
+        "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
+        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
+        "tests/test_action_fence.py": "1b5aaa8f36d28a0eb972d40fd4bb91d15bce73ddc128d98be34a40dfaf2d43e6",
+        "docs/EVIDENCE_OPERATION_RISK.md": "c5e1a22247597768893a0129f36b537107d9fafa490672559c71053ebfc85396",
+        "research/results/r2-08-risk-sensitive-operations.xml": "31a68af5ffb51d18ba5f9a225f7dc77a8147c7974b1ee8bcf7d8dbeb64b44d70",
+        "research/results/r2-08-action-fence.xml": "ce683f48b9a80aadb5c90e0c8dc9142d982ac082f8c2b2b8044259eaaa371141"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Summarize and recommend are typed evidence-use modes on recall/fetch; application-specific summarization and recommendation outputs still require their caller to preserve evidence references and warnings."
+      ]
     },
     {
       "task_id": "R2-09",

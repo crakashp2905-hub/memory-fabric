@@ -1091,6 +1091,25 @@
       ]
     },
     {
+      "task_id": "R2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_sdk.py",
+        "tests/test_action_fence.py",
+        "docs/EVIDENCE_OPERATION_RISK.md",
+        "research/results/r2-08-risk-sensitive-operations.xml",
+        "research/results/r2-08-action-fence.xml"
+      ],
+      "limitations": [
+        "Summarize and recommend are typed evidence-use modes on recall/fetch; application-specific summarization and recommendation outputs still require their caller to preserve evidence references and warnings."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,
