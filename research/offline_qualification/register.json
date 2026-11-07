@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "10f1ba68fa9af7a6a7d31ec4bfa170adb06be4a1",
+    "commit": "fd9e8e9175ca7ad79020ad5ca2421e701ca2378e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 27,
+      "DONE": 28,
       "PARTIAL": 4,
-      "TODO": 229
+      "TODO": 228
     },
-    "completed": 27,
+    "completed": 28,
     "total": 260,
-    "percent_complete": 10.38,
-    "p0_open": 93,
+    "percent_complete": 10.77,
+    "p0_open": 92,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -467,11 +467,19 @@
       "priority": "P0",
       "task": "Separate retrieval ranking scores from evidence validity and decision readiness.",
       "acceptance": "API returns three independent fields with non-interchangeable type and test contracts",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/evidence_status.py",
+        "src/memory_fabric/_fabric/common.py",
+        "tests/test_evidence_status.py",
+        "tests/test_answerability.py",
+        "docs/EVIDENCE_STATUS_API.md"
+      ],
+      "limitations": [
+        "Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"
+      ]
     },
     {
       "task_id": "E3-07",

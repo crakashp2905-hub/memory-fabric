@@ -68,6 +68,12 @@ class RetrievalResult:
 
         return assess(question, self.exposed, scores=self.scores, judge=judge)
 
+    def assessment(self, question: str, judge: Any = None) -> Any:
+        """Return separately typed ranking, validity, and readiness fields."""
+        from ..evidence_status import assess
+
+        return assess(self, question, judge=judge)
+
 
 @dataclass
 class HealthReport:

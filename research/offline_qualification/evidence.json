@@ -202,6 +202,14 @@
       "limitations": ["Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"]
     },
     {
+      "task_id": "E3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/evidence_status.py", "src/memory_fabric/_fabric/common.py", "tests/test_evidence_status.py", "tests/test_answerability.py", "docs/EVIDENCE_STATUS_API.md"],
+      "limitations": ["Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

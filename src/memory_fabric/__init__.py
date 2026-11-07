@@ -20,6 +20,12 @@ __stability__ = "stable"
 from .estimators import IPSEstimator, NaiveUsageEstimator, ValueEstimator
 from .eventlog import EventLog
 from .events import Event, EventType
+from .evidence_status import (
+    DecisionReadiness,
+    EvidenceValidity,
+    RetrievalAssessment,
+    RetrievalRanking,
+)
 from .explain import Explanation
 from .exposure import (
     AlwaysExposePolicy,
@@ -97,6 +103,10 @@ from .vectors import Embedder, HashingEmbedder, VectorIndex
 __version__ = "0.14.0"
 
 __all__ = [
+    "RetrievalRanking",
+    "RetrievalAssessment",
+    "EvidenceValidity",
+    "DecisionReadiness",
     "RevocationStore",
     "InMemoryRevocations",
     "SqliteRevocations",
