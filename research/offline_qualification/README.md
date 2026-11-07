@@ -4,7 +4,7 @@ Strict completion: **51 / 260 (19.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f3433587601f5a22bb91be7e6475199a26bfa0220f3f23e0e2244ff6c0b4ba47`.
+Normalized ledger digest: `5ddace26eeb0e326d5f933b256d53256ec5d3d023765537f3e182d361e9be1a9`.
 
 | status | count |
 |---|---:|
@@ -38,7 +38,7 @@ Normalized ledger digest: `f3433587601f5a22bb91be7e6475199a26bfa0220f3f23e0e2244
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
 | E1-08 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-08-negative-control.json`, `research/results/e1-08-negative-control.xml` |
 | E1-09 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `docs/SEED_MANIFESTS.md`, `research/results/e1-09-seed-manifest.json`, `research/results/e1-09-seed-manifest.xml` |
-| E1-10 | P0 | DONE | CONTRACT | `tools/status_at_head.py`, `tests/test_status_at_head.py`, `docs/STATUS_AT_HEAD.md` |
+| E1-10 | P0 | DONE | INTERNAL_INTEGRATION | `tools/count_tests.py`, `tools/status_at_head.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `.github/workflows/ci.yml`, `pyproject.toml`, `README.md`, `docs/VALIDATION.md`, `docs/STATUS_AT_HEAD.md`, `research/results/e1-10-full-suite.xml`, `research/results/e1-10-full-suite-report.json`, `research/results/e1-10-full-suite-evidence.json` |
 | E2-01 | P0 | DONE | CONTRACT | `docs/STATE_TRANSITIONS.json`, `docs/STATE_TRANSITIONS.md`, `tests/test_state_transition_contract.py` |
 | E2-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_replay_equivalence.py`, `tests/test_properties.py`, `tests/test_backup.py` |
 | E2-03 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_withdrawn_parent_orderings.py`, `tests/test_justification.py` |

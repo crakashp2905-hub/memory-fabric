@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "01f8757ecb250a15e5a6580ae8d2bcd69f02feec",
-    "dirty": false
+    "commit": "2fce7791130b246a5b0dd55eca3688039ce235cd",
+    "dirty": true
   },
   "summary": {
     "counts": {
@@ -283,19 +283,39 @@
       "acceptance": "Exact-head CI fails if README, registry or status contradict actual package/test inventory",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "tools/count_tests.py",
         "tools/status_at_head.py",
         "tests/test_status_at_head.py",
-        "docs/STATUS_AT_HEAD.md"
+        "tests/test_suite_hygiene.py",
+        ".github/workflows/ci.yml",
+        "pyproject.toml",
+        "README.md",
+        "docs/VALIDATION.md",
+        "docs/STATUS_AT_HEAD.md",
+        "research/results/e1-10-full-suite.xml",
+        "research/results/e1-10-full-suite-report.json",
+        "research/results/e1-10-full-suite-evidence.json"
       ],
       "evidence_digests": {
+        "tools/count_tests.py": "d35a88dd0f087584868fbf8e0dd7dc48bbfd52270f2838bcaf837bb0f8a7fe58",
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
         "tests/test_status_at_head.py": "b8fe69c961e106cdd59939f722095a2940d2b717404a7928c13ec5963002d13a",
-        "docs/STATUS_AT_HEAD.md": "01a150d822e2d9d37673ce0543c34b1691dd43bd65a569a15e3921ac49bd5c5d"
+        "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
+        ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
+        "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
+        "README.md": "50da8b909600a8a26155054f3407b53e93e6c8aa39561efad62d5adb993df0a1",
+        "docs/VALIDATION.md": "0662f9e1312537a8673d41bd2372eb45aaabcc9455ded7c6a59f6dd816f8cba0",
+        "docs/STATUS_AT_HEAD.md": "3ceb70a4453687a39d0727f534124674a46c6de6dcc3603d8cb8005e30abfd73",
+        "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
+        "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
+        "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
       },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Exact commit passed the full local suite; the GitHub Actions three-OS/three-Python branch matrix has not yet run."
+      ]
     },
     {
       "task_id": "E2-01",

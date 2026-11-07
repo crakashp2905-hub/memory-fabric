@@ -1,15 +1,15 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 160,
+ "results": 162,
  "missing_field_counts": {
-  "git_sha": 56,
+  "git_sha": 57,
   "prereg": 73,
-  "dataset_digest": 157,
-  "model_id": 124,
-  "prompt_hash": 160,
-  "seed": 91,
-  "cost": 137,
-  "verdict": 106
+  "dataset_digest": 159,
+  "model_id": 126,
+  "prompt_hash": 162,
+  "seed": 93,
+  "cost": 139,
+  "verdict": 107
  },
  "rows": [
   {
@@ -634,6 +634,40 @@
    "config": null,
    "cost": null,
    "verdict": "PASS",
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-10-full-suite-evidence",
+   "file": "research/results/e1-10-full-suite-evidence.json",
+   "file_sha256": "ad983a553ce95f45e0b212e722d748f0884018f7da239e1a0a032c53a607c0c9",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": "2fce7791130b246a5b0dd55eca3688039ce235cd",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "PASS",
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-10-full-suite-report",
+   "file": "research/results/e1-10-full-suite-report.json",
+   "file_sha256": "197c12d26748770ff1cbbf87788c3570e8832fa2fa501edb024a09ae3c9280c0",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {

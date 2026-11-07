@@ -145,13 +145,24 @@
       "task_id": "E1-10",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "tools/count_tests.py",
         "tools/status_at_head.py",
         "tests/test_status_at_head.py",
-        "docs/STATUS_AT_HEAD.md"
+        "tests/test_suite_hygiene.py",
+        ".github/workflows/ci.yml",
+        "pyproject.toml",
+        "README.md",
+        "docs/VALIDATION.md",
+        "docs/STATUS_AT_HEAD.md",
+        "research/results/e1-10-full-suite.xml",
+        "research/results/e1-10-full-suite-report.json",
+        "research/results/e1-10-full-suite-evidence.json"
       ],
-      "limitations": []
+      "limitations": [
+        "Exact commit passed the full local suite; the GitHub Actions three-OS/three-Python branch matrix has not yet run."
+      ]
     },
     {
       "task_id": "E2-01",
