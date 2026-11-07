@@ -219,7 +219,7 @@ writers being unsupported.
 
 1. Is a long transaction open? Backups and replays hold read locks; a stuck dispatcher can hold a write lock.
 2. Raise `busy_timeout_ms`, or lower it if you would rather fail fast and retry at your own layer. In a local 50-process stress run with 1/5/10-event transactions, 5 seconds produced explicit `database is locked` errors; 30 seconds completed all 1,600 writes in each of three trials. For that workload, open the store with `MemoryFabric(path, busy_timeout_ms=30_000)`. This is a bounded wait, not a throughput increase, and individual writes waited as long as 20 seconds.
-3. If sustained concurrent writers are a real requirement, this is the measured trigger for a different backend — not a tuning problem. See [ROADMAP.md](../ROADMAP.md). The local result is not a capacity guarantee for other machines or workloads; see [the E4-05 stress evidence](../research/results/e4-05-sqlite-qualification.md).
+3. If sustained concurrent writers are a real requirement, this is the measured trigger for a different backend — not a tuning problem. See [ROADMAP.md](../ROADMAP.md). The local result is not a capacity guarantee for other machines or workloads; see the E4-05 stress evidence in the validation ledger.
 
 ## 4. Upgrades
 

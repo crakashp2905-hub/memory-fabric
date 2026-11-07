@@ -134,3 +134,39 @@ use the product.
 - [Historical read security design](adr/0002-historical-belief-reads.md)
 - [Procedural asset schema draft](adr/0003-procedural-asset-draft.md)
 - [Product decision packet](product/decisions/2026-10-28-packaging-options.md)
+
+## Engineering and research evidence
+
+| document | for |
+|---|---|
+| [Action race serialization](ACTION_RACE_SERIALIZATION.md) | Concurrent action authorization ordering |
+| [Benchmark manifest environment](BENCHMARK_MANIFEST_ENVIRONMENT.md) | Runtime, host and input evidence for benchmark runs |
+| [Bitemporal history](BITEMPORAL_HISTORY.md) | Historical validity and belief-time reads |
+| [Crash boundary matrix](CRASH_BOUNDARY_MATRIX.md) | Persistence behavior across process crashes |
+| [E4 soak](E4_SOAK.md) | Local soak and recovery evidence |
+| [Error contract matrix](ERROR_CONTRACT_MATRIX.md) | Error semantics across public adapters |
+| [Event schema compatibility](EVENT_SCHEMA_COMPATIBILITY.md) | Event format upgrade rules |
+| [Evidence chain selection](EVIDENCE_CHAIN_SELECTION.md) | Evidence chain ranking and constraints |
+| [Evidence package budgets](EVIDENCE_PACKAGE_BUDGETS.md) | Bounded evidence packaging |
+| [Evidence status API](EVIDENCE_STATUS_API.md) | Evidence sufficiency response contract |
+| [Experimental defaults](EXPERIMENTAL_DEFAULTS.md) | Defaults and opt-in feature inventory |
+| [Freshness leases](FRESHNESS_LEASES.md) | Federation evidence freshness |
+| [Historical compatibility fixtures](HISTORICAL_COMPATIBILITY_FIXTURES.md) | Store compatibility test fixtures |
+| [Historical surface security](HISTORICAL_SURFACE_SECURITY.md) | Access controls for historical reads |
+| [Local check report](LOCAL_CHECK_REPORT.md) | Test outcomes and optional capability inventory |
+| [Offline qualification checklist](MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md) | 260-item offline qualification scope |
+| [Modifier evidence packages](MODIFIER_EVIDENCE_PACKAGES.md) | Evidence attached to memory modifications |
+| [Next master checklist execution](NEXT_MASTER_CHECKLIST_EXECUTION.md) | Prior checklist evidence and remaining gates |
+| [OAuth](OAUTH.md) | OAuth resource-server validation |
+| [Package parity](PACKAGE_PARITY.md) | Installed wheel and source distribution parity |
+| [Parameter equivalences](PARAMETER_EQUIVALENCES.md) | Equivalent parameterized query forms |
+| [Portable paths](PORTABLE_PATHS.md) | Path, text encoding and case-collision behavior |
+| [Query routing](QUERY_ROUTING.md) | Deterministic retrieval routing behavior |
+| [Read surface semantics](READ_SURFACE_SEMANTICS.md) | Shared read response reason codes |
+| [Result provenance](RESULT_PROVENANCE.md) | Exact commit and dirty-tree result binding |
+| [Retrieval baseline qualification](RETRIEVAL_BASELINE_QUALIFICATION.md) | Retrieval acceptance gates and caveats |
+| [Retrieval index invalidation](RETRIEVAL_INDEX_INVALIDATION.md) | Index update and invalidation rules |
+| [Seed manifests](SEED_MANIFESTS.md) | On-disk seed output verification |
+| [Stage tracing](STAGE_TRACING.md) | Retrieval stage measurements |
+| [State transitions](STATE_TRANSITIONS.md) | Lifecycle transition contract |
+| [Tombstone exchange](TOMBSTONE_EXCHANGE.md) | Retraction propagation protocol |
