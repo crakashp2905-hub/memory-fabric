@@ -1417,6 +1417,23 @@
       ]
     },
     {
+      "task_id": "H2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tests/test_action_execution_receipt.py",
+        "docs/ACTION_RECONCILIATION.md",
+        "research/results/h2-09-execution-receipt.json",
+        "research/results/h2-09-execution-receipt-tests.xml"
+      ],
+      "limitations": [
+        "When no descriptor digest is configured, the fallback hashes the canonical host policy rule and tool name, not the handler's executable code."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,

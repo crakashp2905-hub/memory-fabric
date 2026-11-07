@@ -67,7 +67,9 @@ __stability__ = "beta"
 
 import threading
 import time
-from dataclasses import dataclass, field, replace
+import hashlib
+import json
+from dataclasses import asdict, dataclass, field, replace
 from typing import Any, Callable, Mapping
 
 from . import events as ev
@@ -153,6 +155,8 @@ class ToolRule:
     claim from a new source, untrusted origin, or an author's own change to a
     fact a reviewer had validated (`revises_validated`). Off by default; turn
     it on for tools where a compromised account must not act unreviewed."""
+    tool_digest: str | None = None
+    """Optional host supplied SHA-256 digest of the registered tool descriptor."""
 
 
 @dataclass(frozen=True)
@@ -477,13 +481,11 @@ class ActionGate:
             certificate if isinstance(certificate, EvidenceCertificate) else None,
         )
         if isinstance(certificate, Mapping):
-            import hashlib
-            import json
-
             action_binding = hashlib.sha256(json.dumps({
                 "base": action_binding, "invalid_certificate": certificate,
             }, sort_keys=True, default=str, separators=(",", ":")).encode()).hexdigest()
         fabric = self.fabric
+        tool_digest = self._tool_digest(tool)
         # Recorded and committed before the fence, so it survives a crash
         # that rolls the fence's transaction back. Without it, a process that
         # died mid-tool left no trace and the next call ran the tool again as
@@ -501,7 +503,9 @@ class ActionGate:
                         "effect; pass retry=True to re-verify and run again"))
             fabric._emit(ev.action_attempted(ts=fabric.now(), agent_id=agent_id, key=key,
                                              tool=tool, tenant_id=tenant_id,
-                                             binding=action_binding))
+                                             binding=action_binding,
+                                             policy_version=self.policy.policy_id,
+                                             tool_digest=tool_digest))
         with fabric.lock, fabric._transaction():
             decision = self.authorize(tool, agent_id, certificate, tenant_id=tenant_id,
                                       approval=approval, session=session,
@@ -512,7 +516,8 @@ class ActionGate:
                     ts=fabric.now(), agent_id=decision.agent_id, key=key, tool=tool,
                     outcome=REFUSED, fenced=True, watermark=None,
                     lease_ms=int(lease_s * 1000), elapsed_ms=0, evidence=[],
-                    tenant_id=tenant_id, binding=action_binding))
+                    tenant_id=tenant_id, binding=action_binding,
+                    policy_version=self.policy.policy_id, tool_digest=tool_digest))
                 return ActionExecution(REFUSED, decision, key)
             box: dict[str, Any] = {}
 
@@ -541,9 +546,22 @@ class ActionGate:
                 outcome=outcome, fenced=fenced,
                 watermark=verification.verified_at_watermark if verification else None,
                 lease_ms=int(lease_s * 1000), elapsed_ms=elapsed_ms, evidence=evidence,
-                tenant_id=tenant_id, binding=action_binding))
+                tenant_id=tenant_id, binding=action_binding,
+                policy_version=self.policy.policy_id, tool_digest=tool_digest))
         return ActionExecution(outcome, decision, key, result=box.get("result"),
                                error=box.get("error"), fenced=fenced)
+
+    def _tool_digest(self, tool: str) -> str:
+        """Resolve an explicit descriptor digest or hash this gate's tool rule."""
+        rule = self.policy.tools.get(tool)
+        if rule is not None and rule.tool_digest is not None:
+            digest = rule.tool_digest
+            if len(digest) == 64 and all(char in "0123456789abcdef" for char in digest):
+                return digest
+            raise ValueError("ToolRule.tool_digest must be a lowercase SHA-256 hex digest")
+        body = {"tool": tool, "rule": asdict(rule) if rule is not None else None}
+        encoded = json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
+        return hashlib.sha256(encoded).hexdigest()
 
     def _last_execution(self, key: str) -> Mapping[str, Any] | None:
         """The last settled outcome for this key; `uncertain` if an attempt has none.
@@ -661,12 +679,16 @@ def reconciliation_ledger(fabric: Any) -> list[dict[str, Any]]:
             "key": key, "attempt_count": 0, "status": "unknown",
             "tool": payload.get("tool"), "tenant_id": payload.get("tenant_id"),
             "agent_id": event.agent_id, "binding": payload.get("binding"),
+            "policy_version": payload.get("policy_version"),
+            "tool_digest": payload.get("tool_digest"),
             "last_event_seq": event.seq,
         })
         row["tool"] = payload.get("tool", row.get("tool"))
         row["tenant_id"] = payload.get("tenant_id", row.get("tenant_id"))
         row["agent_id"] = event.agent_id or row.get("agent_id")
         row["binding"] = payload.get("binding", row.get("binding"))
+        row["policy_version"] = payload.get("policy_version", row.get("policy_version"))
+        row["tool_digest"] = payload.get("tool_digest", row.get("tool_digest"))
         row["last_event_seq"] = event.seq
         if event.type == ev.EventType.ACTION_ATTEMPTED:
             row["attempt_count"] += 1

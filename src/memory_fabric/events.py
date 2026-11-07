@@ -720,6 +720,8 @@ def action_executed(
     evidence: list[list[Any]],
     tenant_id: str | None = None,
     binding: str | None = None,
+    policy_version: str | None = None,
+    tool_digest: str | None = None,
 ) -> Event:
     """A protected tool call that ran under the action fence (schema 0.11.0).
 
@@ -743,6 +745,10 @@ def action_executed(
     }
     if binding is not None:
         payload["binding"] = binding
+    if policy_version is not None:
+        payload["policy_version"] = policy_version
+    if tool_digest is not None:
+        payload["tool_digest"] = tool_digest
     return Event(
         type=EventType.ACTION_EXECUTED,
         ts=ts,
@@ -826,7 +832,9 @@ def objective_changed(ts: int, actor: str, digest: str, status: str, proposer: s
 
 
 def action_attempted(ts: int, agent_id: str, key: str, tool: str,
-                     tenant_id: str | None = None, binding: str | None = None) -> Event:
+                     tenant_id: str | None = None, binding: str | None = None,
+                     policy_version: str | None = None,
+                     tool_digest: str | None = None) -> Event:
     """An action is about to run under the fence (0.12.0). Committed *before* it.
 
     The fence's own record commits with the outcome, so a crash mid-tool
@@ -837,6 +845,10 @@ def action_attempted(ts: int, agent_id: str, key: str, tool: str,
     payload = {"key": key, "tool": tool, "tenant_id": tenant_id}
     if binding is not None:
         payload["binding"] = binding
+    if policy_version is not None:
+        payload["policy_version"] = policy_version
+    if tool_digest is not None:
+        payload["tool_digest"] = tool_digest
     return Event(type=EventType.ACTION_ATTEMPTED, ts=ts, agent_id=agent_id,
                  payload=payload)
 
