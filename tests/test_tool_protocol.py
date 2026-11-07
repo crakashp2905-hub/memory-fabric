@@ -129,7 +129,7 @@ class ToolProtocol(unittest.TestCase):
         gate = RecordingGate()
         runtime = GovernedToolRuntime(gate, {"send": lambda **values: values})
         results = CodeModePlan.parse('send(to="a")\nsend(to="b")').execute(
-            runtime, agent_id="agent-1")
+            runtime, agent_id="agent-1", session=object())
         self.assertEqual(results, ({"to": "a"}, {"to": "b"}))
         self.assertEqual(len(gate.calls), 2)
         self.assertEqual(gate.calls[0][2].parameters, {"to": "a"})

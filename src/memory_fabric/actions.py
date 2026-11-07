@@ -476,6 +476,16 @@ class ActionGate:
                 certificate = EvidenceCertificate.from_json(certificate)
             except CertificateError:
                 pass  # authorize reports malformed certificates as a refusal
+        # Bind the durable attempt and idempotency key to authenticated identity
+        # before writing anything. Never let a caller-supplied agent label stand
+        # in for the principal presented by a session credential.
+        if session is not None:
+            try:
+                principal = session.principal()
+            except Exception:
+                pass  # authorize records the credential-invalid refusal
+            else:
+                agent_id, tenant_id = principal.agent_id, principal.tenant_id
         action_binding = binding_digest(
             tool, agent_id, tenant_id, request,
             certificate if isinstance(certificate, EvidenceCertificate) else None,

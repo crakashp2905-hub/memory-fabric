@@ -353,7 +353,9 @@ class GovernedToolRuntime:
     def execute(self, call: GovernedToolCall, *, agent_id: str,
                 certificate: Any = None, approval: Any = None,
                 tenant_id: str | None = None, grant: Any = None,
-                retry: bool = False) -> Any:
+                retry: bool = False, session: Any = None) -> Any:
+        if session is None:
+            raise ToolProtocolError("governed tool execution requires an authenticated session")
         handler = self.handlers.get(call.tool)
         if handler is None:
             raise ToolProtocolError(f"no registered handler for {call.tool}")
@@ -366,6 +368,7 @@ class GovernedToolRuntime:
             certificate=certificate,
             approval=approval,
             tenant_id=tenant_id,
+            session=session,
             request=request,
             grant=grant,
             retry=retry,

@@ -72,6 +72,11 @@ Each call is executed separately by `GovernedToolRuntime`. Its exact arguments
 are bound into `ActionRequest`, authorization is rechecked immediately before
 execution, and an idempotency key flows through `ActionGate.execute`. A loop or
 retry can therefore never inherit authorization from an earlier effect.
+Governed execution requires an authenticated service session; the agent and
+tenant used for the durable attempt are resolved from that session before
+binding the idempotency key. A copied privileged descriptor supplies only a
+tool name and schema. It cannot supply the caller's identity or grant, and the
+gate checks the effective session principal against its host-owned grants.
 
 The parser caps source at 64 KiB, a plan at 32 calls, total JSON-compatible
 argument bytes at 32 KiB, and nested argument depth at 16. There is no branch,
