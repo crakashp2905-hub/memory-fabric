@@ -157,13 +157,18 @@ class TestTheSurface(ApiCase):
         operator(self.fabric, "op").retract(self.mid, reason="wrong", basis="contradicted")
         status, body = self.post("verify", {"memory_id": self.mid}, token)
         self.assertEqual((status, body["usable"]), (200, False))
-        status, _ = self.post("fetch", {"memory_id": self.mid}, token)
+        from memory_fabric.sdk import NotUsable, agent
+        with self.assertRaises(NotUsable) as expected:
+            agent(self.fabric, "ag_a", "tn_acme").fetch(self.mid)
+        status, body = self.post("fetch", {"memory_id": self.mid}, token)
         self.assertEqual(status, 403)
+        self.assertIn(expected.exception.decision.reason_code, body["error"])
 
     def test_there_is_no_outcome_endpoint(self) -> None:
-        status, _ = self.post("record_outcome", {"episode_id": "x", "outcome": 1.0},
-                              self.token())
+        status, body = self.post("record_outcome", {"episode_id": "x", "outcome": 1.0},
+                                 self.token())
         self.assertEqual(status, 404)
+        self.assertEqual(body["error"], "unknown operation")
 
     def test_recall_always_has_structured_disagreements(self) -> None:
         status, body = self.post("recall", {"query": "pilot cable coastal"}, self.token())

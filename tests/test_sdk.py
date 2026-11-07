@@ -19,9 +19,7 @@ from memory_fabric.enforcement import RiskLevel, Verdict
 from memory_fabric.justification import JustificationKind, justification_context
 from memory_fabric.protocol import PropagationState
 from memory_fabric.sdk import (
-    AgentClient,
     NotUsable,
-    OperatorClient,
     SdkError,
     agent,
     operator,
@@ -58,6 +56,7 @@ class TestTheAgentClientCannotBypassEnforcement(SdkCase):
         with self.assertRaises(NotUsable) as ctx:
             self.agent.fetch(self.memory_id)
         self.assertEqual(ctx.exception.decision.verdict, Verdict.DENY)
+        self.assertTrue(ctx.exception.decision.reason_code)
 
     def test_the_refusal_does_not_quote_the_memory(self) -> None:
         """A refusal that carried the content would move it into every log that
@@ -217,7 +216,6 @@ class TestEndToEndDemonstration(unittest.TestCase):
     """
 
     def test_the_whole_sequence(self) -> None:
-        import sqlite3
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
