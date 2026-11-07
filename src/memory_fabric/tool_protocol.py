@@ -55,6 +55,11 @@ _JSON_SCHEMA_FIELDS = frozenset({
 })
 _JSON_SCHEMA_TYPES = frozenset({"object", "array", "string", "number", "integer", "boolean", "null"})
 _TOOL_NAME = re.compile(r"[A-Za-z][A-Za-z0-9_.-]{0,63}\Z")
+_CODE_MODE_FORBIDDEN_NAMES = frozenset({
+    "__import__", "compile", "delattr", "dir", "eval", "exec", "getattr",
+    "globals", "input", "locals", "object", "open", "setattr", "super",
+    "type", "vars",
+})
 
 
 def _validate_input_schema(schema: Mapping[str, Any]) -> None:
@@ -356,6 +361,10 @@ class CodeModePlan:
             node = statement.value
             if not isinstance(node.func, ast.Name) or node.args:
                 raise ToolProtocolError("tools require a simple name and keyword arguments")
+            if (not _TOOL_NAME.fullmatch(node.func.id)
+                    or node.func.id in _CODE_MODE_FORBIDDEN_NAMES
+                    or node.func.id.startswith("__")):
+                raise ToolProtocolError("code-mode tool name is invalid or reserved")
             arguments: dict[str, Any] = {}
             for keyword in node.keywords:
                 if keyword.arg is None:

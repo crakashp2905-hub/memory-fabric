@@ -56,7 +56,11 @@ manual vocabulary has changed before, so unsupported versions fail closed.
 `CodeModePlan` is intentionally smaller than the upstream TypeScript sandbox.
 It accepts a sequence of calls with literal keyword arguments. Imports,
 attribute access, positional or expanded arguments, loops, expressions, file
-access, network access, and arbitrary Python execution are rejected.
+access, network access, and arbitrary Python execution are rejected as plan
+syntax. Evaluator and reflection builtins such as `eval`, `exec`, `open`,
+`getattr`, and `__import__` are reserved and cannot be called as tool names.
+The parser does not sandbox a registered handler: a tool may still perform
+external effects, which remain subject to its own policy and action gate.
 
 Each call is executed separately by `GovernedToolRuntime`. Its exact arguments
 are bound into `ActionRequest`, authorization is rechecked immediately before
