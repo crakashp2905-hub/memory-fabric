@@ -33,6 +33,15 @@ class MatchedAgentArms(unittest.TestCase):
         self.assertEqual(oracle["counts"]["accuracy"], 1.0)
         self.assertGreater(isolated["counts"]["stale_actions"], 0)
 
+    def test_per_agent_fairness_and_tail_latency_are_recorded(self) -> None:
+        row = run(701, 5, "memory_fabric")
+        fairness = row["agent_fairness"]
+        self.assertEqual(len(fairness["agents"]), 5)
+        self.assertTrue(all(agent["attempted"] == 8 for agent in fairness["agents"]))
+        self.assertTrue(all(agent["high_risk_attempted"] == 4 for agent in fairness["agents"]))
+        self.assertGreaterEqual(fairness["p95_decision_latency_ms"], 0)
+        self.assertGreaterEqual(fairness["max_decision_latency_ms"], fairness["p95_decision_latency_ms"])
+
     def test_every_decision_failure_has_a_class_and_source_trace(self) -> None:
         self.assertIn("retrieval", classify_failure("pooled_shared", "supported", False, True, "miss"))
         self.assertIn("insufficient_evidence", classify_failure("isolated", "missing", True, False, "cached"))

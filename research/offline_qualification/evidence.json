@@ -1275,6 +1275,74 @@
       ]
     },
     {
+      "task_id": "R3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_r3_simulation_labels.py",
+        "research/results/r3-simulation-labels-tests.xml",
+        "research/results/r3-01-agent-scale.json",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r3-03-failure-taxonomy.json",
+        "research/results/r3-04-correction-timing.json",
+        "research/results/r3-05-minority-source.json",
+        "research/results/r3-06-safety-tradeoff.json"
+      ],
+      "limitations": [
+        "The local R3 report family is explicitly synthetic_scripted and each report names its model-free limitations; this does not provide real-model evidence."
+      ]
+    },
+    {
+      "task_id": "R3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/agent_adapter.py",
+        "docs/AGENT_ADAPTER.md",
+        "tests/test_agent_adapter.py",
+        "research/results/r3-agent-adapter-tests.xml"
+      ],
+      "limitations": [
+        "The transport-neutral protocol and offline scripted adapter are implemented. No external-model adapter or model evaluation is claimed."
+      ]
+    },
+    {
+      "task_id": "R3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-heldout-agent-qualification-tests.xml",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "The 80% target is evaluated on 24 unique local synthetic held-out task cases; results are clustered scripted-agent attempts, not model-agent evidence. The target is met, but the strongest matched baseline ties the result, so there is no promotion."
+      ]
+    },
+    {
+      "task_id": "R3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-heldout-agent-qualification-tests.xml",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "Per-agent success, corrected/contested high-risk success, p95 and worst-agent decision latency are measured on local scripted tasks. Latencies are host-dependent; the least-agent and high-risk fairness checks are synthetic."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

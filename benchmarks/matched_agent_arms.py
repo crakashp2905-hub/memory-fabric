@@ -7,6 +7,7 @@ import json
 import subprocess
 import time
 from collections import Counter, defaultdict
+from statistics import fmean
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,14 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 ARMS = ("isolated", "pooled_shared", "blanket_retraction", "memory_fabric", "oracle")
 TOOL = "publish"
 FAILURE_CLASSES = ("retrieval", "insufficient_evidence", "policy_refusal", "coordination", "tool_error")
+HIGH_RISK_FAMILIES = frozenset({"corrected", "contested"})
+
+
+def _percentile(values: list[float], p: float) -> float:
+    if not values:
+        return 0.0
+    ordered = sorted(values)
+    return ordered[min(len(ordered) - 1, max(0, int((len(ordered) - 1) * p + 0.999999)))]
 
 
 def classify_failure(arm: str, family: str, allowed: bool, expected: bool, reason: str) -> list[str]:
@@ -48,6 +57,7 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
                        "failure_classes": {name: 0 for name in FAILURE_CLASSES}}
              for family in FAMILIES}
     details = []
+    per_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
     blanket_source_withdrawn = False
     started = time.perf_counter()
     with MemoryFabric(":memory:", recognise_copies=False, encrypt_content=False,
@@ -97,6 +107,7 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
             mismatched_agents = 0
             for agent in agents:
                 reason = ""
+                decision_started = time.perf_counter()
                 try:
                     if arm == "isolated":
                         allowed = evidence_id is not None
@@ -130,6 +141,13 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
                 unsafe_actions += int(unsafe)
                 stale_actions += int(allowed and family == "corrected")
                 false_abstentions += int(expected and not allowed)
+                per_agent[agent].append({
+                    "task_id": task["task_id"], "family": family,
+                    "correct": allowed == expected,
+                    "unsafe_action": unsafe,
+                    "high_risk": family in HIGH_RISK_FAMILIES,
+                    "latency_ms": (time.perf_counter() - decision_started) * 1000,
+                })
                 family_result["attempted"] += 1
                 family_result["correct"] += int(allowed == expected)
                 family_result["unsafe_actions"] += int(unsafe)
@@ -160,12 +178,41 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
                                                "failure_classes": task_failure_classes,
                                                "affected_agent_count": mismatched_agents}
                                               if task_failure_classes else None)})
+    agent_summaries = []
+    for agent, outcomes in sorted(per_agent.items()):
+        high_risk = [item for item in outcomes if item["high_risk"]]
+        latencies = [item["latency_ms"] for item in outcomes]
+        agent_summaries.append({
+            "agent_id": agent, "attempted": len(outcomes),
+            "successes": sum(item["correct"] for item in outcomes),
+            "success_rate": sum(item["correct"] for item in outcomes) / len(outcomes),
+            "high_risk_attempted": len(high_risk),
+            "high_risk_success_rate": (sum(item["correct"] for item in high_risk) / len(high_risk)
+                                       if high_risk else None),
+            "unsafe_actions": sum(item["unsafe_action"] for item in outcomes),
+            "mean_decision_latency_ms": fmean(latencies),
+            "p95_decision_latency_ms": _percentile(latencies, 0.95),
+            "max_decision_latency_ms": max(latencies, default=0.0),
+        })
+    agent_latencies = [item["latency_ms"] for rows_for_agent in per_agent.values()
+                       for item in rows_for_agent]
+    agent_fairness = {
+        "agents": agent_summaries,
+        "least_successful_agent": min(agent_summaries, key=lambda item: item["success_rate"]),
+        "minimum_agent_success_rate": min((item["success_rate"] for item in agent_summaries), default=0.0),
+        "minimum_high_risk_agent_success_rate": min(
+            (item["high_risk_success_rate"] for item in agent_summaries
+             if item["high_risk_success_rate"] is not None), default=0.0),
+        "p95_decision_latency_ms": _percentile(agent_latencies, 0.95),
+        "max_decision_latency_ms": max(agent_latencies, default=0.0),
+    }
     totals = {key: sum(item[key] for item in result.values()) for key in
               ("attempted", "correct", "unsafe_actions", "stale_actions", "false_abstentions")}
     return {"seed": seed, "agent_count": agent_count, "arm": arm,
             "population": "synthetic_scripted",
             "counts": {**totals, "accuracy": totals["correct"] / totals["attempted"]},
             "by_family": result, "task_manifest": details,
+            "agent_fairness": agent_fairness,
             "context_budget_max": 1, "runtime_tool": TOOL, "runtime_permission_grants": agent_count,
             "elapsed_s": round(time.perf_counter() - started, 6),
             "model_calls": 0, "model_tokens": 0, "model_usd": 0}

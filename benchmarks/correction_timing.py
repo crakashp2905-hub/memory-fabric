@@ -122,7 +122,7 @@ def build_report() -> dict[str, Any]:
                              for path in ("benchmarks/correction_timing.py",
                                           "research/prereg/correction-timing-v1.md")},
             "invariant_failures": failures, "rows": rows,
-            "limitations": ["Three fixed seeds, synthetic tasks, scripted agents, one local store.",
+            "limitations": ["Three fixed seeds, synthetic tasks, scripted agents, one local store; no model or real-agent evidence.",
                             "Timing phases are event order labels; wall-clock intervals are not latency claims."]}
 
 
