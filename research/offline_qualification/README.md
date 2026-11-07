@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **31 / 260 (11.92%)**. Internal status: **BLOCKED**.
+Strict completion: **32 / 260 (12.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `93bfe5785d5cae954a09c8c1e623831727e8da62936d271b1e04b9870c6ce7ec`.
+Normalized ledger digest: `5a87b64d17bbf90c0848264435edd190954a3d46e3a00ac66cfe74bdafd7735b`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 31 |
+| DONE | 32 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 225 |
+| TODO | 224 |
 
 ## Graduation gates
 
@@ -57,7 +57,7 @@ Normalized ledger digest: `93bfe5785d5cae954a09c8c1e623831727e8da62936d271b1e04b
 | E3-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/answerability.py`, `src/memory_fabric/_fabric/common.py`, `tests/test_answerability.py`, `docs/PARAMETER_EQUIVALENCES.md` |
 | E3-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/answerability.py`, `src/memory_fabric/sdk.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/cli.py`, `tests/test_read_surface_semantics.py`, `docs/READ_SURFACE_SEMANTICS.md` |
 | E3-09 | P0 | DONE | CONTRACT | `src/memory_fabric/chains.py`, `tests/test_chains.py`, `docs/EVIDENCE_PACKAGE_BUDGETS.md` |
-| E3-10 | P0 | TODO | NOT_TESTED | — |
+| E3-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/retrieval.py`, `tests/test_retrieval_index_invalidation.py`, `tests/test_cross_process_freshness.py`, `tests/test_erasure_residue.py`, `tests/test_access_matrix.py`, `docs/RETRIEVAL_INDEX_INVALIDATION.md` |
 | E4-01 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/master-checklist-http-capacity-v1.json`, `research/results/master-checklist-http-capacity-v1.md` |
 | E4-02 | P0 | TODO | NOT_TESTED | — |
 | E4-03 | P0 | TODO | NOT_TESTED | — |

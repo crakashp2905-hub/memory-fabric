@@ -307,8 +307,6 @@ class WritesMixin(FabricCore):
                 )
             )
         self._emit(*emitted)
-        # From the state, not the local object: see `revise` for why.
-        self._index(memory.id, self._index_text(self.state.memories[memory.id]))
         return memory.id
 
     @_fresh
@@ -377,12 +375,7 @@ class WritesMixin(FabricCore):
                 else []
             ),
         )
-        # The state's version, not `revised`: if another process revised the
-        # same memory just after us, `_emit` has folded that later version in,
-        # and indexing our own would put superseded text back in the index
-        # under the current version. Found by tests/test_catch_up.py.
         current = self.state.memories[memory_id]
-        self._index(memory_id, self._index_text(current))
         self._contest(left_behind, f"restates the value {memory_id} v{current.version - 1} "
                                    f"had before it was corrected", agent_id)
         return current

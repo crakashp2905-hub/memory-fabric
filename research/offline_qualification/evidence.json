@@ -234,6 +234,14 @@
       "limitations": ["The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"]
     },
     {
+      "task_id": "E3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/_fabric/core.py", "src/memory_fabric/_fabric/writes.py", "src/memory_fabric/_fabric/retrieval.py", "tests/test_retrieval_index_invalidation.py", "tests/test_cross_process_freshness.py", "tests/test_erasure_residue.py", "tests/test_access_matrix.py", "docs/RETRIEVAL_INDEX_INVALIDATION.md"],
+      "limitations": ["The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

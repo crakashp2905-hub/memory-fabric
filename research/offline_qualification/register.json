@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "07266841205b6501f4f56da1f44a1d396d3eb8d7",
+    "commit": "633276bd917ad5ae26bb9951940d99d703814aa8",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 31,
+      "DONE": 32,
       "PARTIAL": 4,
-      "TODO": 225
+      "TODO": 224
     },
-    "completed": 31,
+    "completed": 32,
     "total": 260,
-    "percent_complete": 11.92,
-    "p0_open": 89,
+    "percent_complete": 12.31,
+    "p0_open": 88,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -542,11 +542,22 @@
       "priority": "P0",
       "task": "Prevent deleted, retracted, untrusted, out-of-scope memories from entering any retrieval cache.",
       "acceptance": "Eviction/invalidation fixtures cover corrections, erasure, tenant changes and cache restarts",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_retrieval_index_invalidation.py",
+        "tests/test_cross_process_freshness.py",
+        "tests/test_erasure_residue.py",
+        "tests/test_access_matrix.py",
+        "docs/RETRIEVAL_INDEX_INVALIDATION.md"
+      ],
+      "limitations": [
+        "The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"
+      ]
     },
     {
       "task_id": "E4-01",

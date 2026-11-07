@@ -468,18 +468,23 @@ class FabricCore:
                 self._unindex(memory_id)
                 self.copy_index.remove(memory_id)
                 continue
+            retrieval_indexable = (
+                state in (LifecycleState.ACTIVE, LifecycleState.CONTESTED)
+                and memory_id not in self.state.erased
+            )
             text = self._index_text(memory)
             present = memory_id in self.index
             changed = old is None or self._index_text(old) != text
-            if state is LifecycleState.DEPRECATED or memory_id in self.state.erased:
-                # Not served, so an absent entry may stay absent -- but a
-                # present one must stay current, or it is stale text waiting
-                # for the memory to become servable again. The first version
-                # of this rule left it alone, and tests/test_catch_up.py found
-                # a revision of a deprecated memory indexed under its old text
-                # once a later transition made it contested.
-                if old is None or (present and changed):
-                    self._index(memory_id, text)
+            if not retrieval_indexable:
+                # The copy detector is an ingest/governance index, not a
+                # retrieval cache. Keep it able to recognise quarantined
+                # copies, but remove untrusted or withdrawn content from every
+                # index used to answer a query.
+                self._unindex(memory_id)
+                if memory_id in self.state.erased:
+                    self.copy_index.remove(memory_id)
+                elif changed and self.recognise_copies:
+                    self.copy_index.add(memory_id, text)
                 continue
             if changed or not present:
                 self._index(memory_id, text)
@@ -537,8 +542,15 @@ class FabricCore:
             warm([self._index_text(m) for m in self.state.memories.values()
                   if m.lifecycle_state is not LifecycleState.DELETED])
         for memory in self.state.memories.values():
-            if memory.lifecycle_state is not LifecycleState.DELETED:
+            if (memory.lifecycle_state in (LifecycleState.ACTIVE, LifecycleState.CONTESTED)
+                    and memory.id not in self.state.erased):
                 self._index(memory.id, self._index_text(memory))
+            else:
+                self._unindex(memory.id)
+                if (self.recognise_copies
+                        and memory.lifecycle_state is not LifecycleState.DELETED
+                        and memory.id not in self.state.erased):
+                    self.copy_index.add(memory.id, self._index_text(memory))
         # Read before the rebuild: an event appended during it is picked up by
         # the next `refresh` rather than counted as seen and never folded.
         self._seen_seq = head
