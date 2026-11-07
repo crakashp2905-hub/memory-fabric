@@ -1076,6 +1076,21 @@
       ]
     },
     {
+      "task_id": "R2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/evidence_completeness.py",
+        "research/prereg/ecv1-threshold.json",
+        "tests/test_ecv1_benchmark.py",
+        "research/results/r2-09-threshold-guard.xml"
+      ],
+      "limitations": [
+        "This guard qualifies the ECV1 threshold tool. Its registered development result found no attainable headroom, so the held-out test remains diagnostic and cannot promote a candidate."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

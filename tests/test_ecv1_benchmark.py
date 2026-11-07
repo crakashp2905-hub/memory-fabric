@@ -1,12 +1,22 @@
 import unittest
 
 from benchmarks.completeness_data import SPLITS, digest, generate
-from benchmarks.evidence_completeness import evaluate, run_seed
+from benchmarks.evidence_completeness import evaluate, run_seed, validate_threshold_registration
 from memory_fabric import MemoryFabric
 from memory_fabric.evidence_completeness import exhaustive
 
 
 class EvaluationTests(unittest.TestCase):
+    def test_threshold_registration_must_come_from_dev_not_test(self):
+        registration = {"split": "dev", "attainable_headroom": False, "threshold": None}
+        validate_threshold_registration(registration)
+        with self.assertRaisesRegex(ValueError, "development split"):
+            validate_threshold_registration({**registration, "split": "test"})
+        with self.assertRaisesRegex(ValueError, "frozen numeric threshold"):
+            validate_threshold_registration({"split": "dev", "attainable_headroom": True, "threshold": None})
+        with self.assertRaisesRegex(ValueError, "cannot register"):
+            validate_threshold_registration({"split": "dev", "attainable_headroom": False, "threshold": 0.9})
+
     def test_frozen_seeds_are_disjoint_and_digests_repeat(self):
         self.assertFalse(set(SPLITS["dev"]) & set(SPLITS["test"]))
         self.assertEqual(digest("dev"), "043a07f82c0a3da3c473fbdb2bbbdd1d9caac379fc0aa36ae36c7550885d518a")

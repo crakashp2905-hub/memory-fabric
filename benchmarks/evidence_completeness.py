@@ -17,6 +17,16 @@ ARMS = ("lexical", "typed", "typed+fallback", "selective", "oracle")
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def validate_threshold_registration(registration: dict[str, Any]) -> None:
+    """Reject test-derived selection: promotion thresholds must be fixed on dev."""
+    if registration.get("split") != "dev":
+        raise ValueError("threshold selection must be registered on the development split")
+    if registration.get("attainable_headroom") is True and registration.get("threshold") is None:
+        raise ValueError("attainable development headroom requires a frozen numeric threshold")
+    if registration.get("attainable_headroom") is False and registration.get("threshold") is not None:
+        raise ValueError("unattainable development headroom cannot register a promotion threshold")
+
+
 def evaluate(memory: Any, where: Any) -> bool | None:
     """Generic key=value reader; never imports gold or corpus template definitions."""
     values: dict[str, set[str]] = {}
@@ -120,13 +130,17 @@ def main() -> int:
     registration = ROOT / "research/prereg/ecv1-threshold.json"
     if args.split == "test" and not registration.exists():
         raise ValueError("commit a threshold registration after measuring development headroom first")
+    reg = None
+    if args.split == "test":
+        reg = json.loads(registration.read_text(encoding="utf-8"))
+        validate_threshold_registration(reg)
     runs = {str(s): run_seed(s, args.split, arms) for s in SPLITS[args.split]}
     table = summary(runs)
     decision = "DESCRIPTIVE"
     threshold = None
     above = [a for a in arms if table[a]["exact"] > table["oracle"]["exact"]]
     if args.split == "test":
-        reg = json.loads(registration.read_text())
+        assert reg is not None
         best = max(("lexical", "typed", "typed+fallback"), key=lambda a: table[a]["exact"])
         b, o = table[best]["exact"], table["oracle"]["exact"]
         threshold = b + reg["headroom_share"] * (o - b) if reg["attainable_headroom"] else None

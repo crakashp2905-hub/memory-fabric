@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "150df4798b39b4ab57f135655e7a9bb9eefcac09",
+    "commit": "8bf4037c9c2a048505d1f182ad43a35d1c7d7a88",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 63,
+      "DONE": 64,
       "PARTIAL": 5,
-      "TODO": 192
+      "TODO": 191
     },
-    "completed": 63,
+    "completed": 64,
     "total": 260,
-    "percent_complete": 24.23,
-    "p0_open": 66,
+    "percent_complete": 24.62,
+    "p0_open": 65,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -162,7 +162,7 @@
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
-        "benchmarks/evidence_completeness.py": "786804741d8326d5e4623cb389778c1dcac1accbb9ee1424dd96bc4a70019f0a",
+        "benchmarks/evidence_completeness.py": "ead666b86fe5fe70058079d8822b6e183844b86315b2d705960336abf7f8d09d",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "ff26bcbf706b4f8141c2f971d77948eccc76a27f095121100ecba740190f7e59",
-        "docs/VALIDATION.md": "3262e7a6d061ffc197c88deb304a9b39820c7b68e6a34ffae628cfe23da36b63",
-        "docs/STATUS_AT_HEAD.md": "1cbc7cea0c2373e5f5785494b9b84987914c80b078df8661144a37fd7bda129d",
+        "README.md": "99627a3af22db185237542d722a56f38be7f7a48e5a9afe70337484aa96da429",
+        "docs/VALIDATION.md": "9db10a2514ddd9cb2e11bd70898b6c563476ebdcf0c34192938ad87e4deb5004",
+        "docs/STATUS_AT_HEAD.md": "bfeb84a3a4fcc86891d5a57937b85bfa3abbca8905d8f82c0455e4f444d384c4",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1852,13 +1852,25 @@
       "priority": "P0",
       "task": "Tune thresholds only on development seeds and freeze the best candidate before held-out test.",
       "acceptance": "Test-only threshold selection is rejected by evaluation tool",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/evidence_completeness.py",
+        "research/prereg/ecv1-threshold.json",
+        "tests/test_ecv1_benchmark.py",
+        "research/results/r2-09-threshold-guard.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/evidence_completeness.py": "ead666b86fe5fe70058079d8822b6e183844b86315b2d705960336abf7f8d09d",
+        "research/prereg/ecv1-threshold.json": "8a84f8a5b18d62241e2cc3a74f114214a8c3b24802e40f33ffa62d1cd8ca6f22",
+        "tests/test_ecv1_benchmark.py": "1480cc64985699e3e59253d5130b88e94c4ab80fad325c2233422988d11c2fcc",
+        "research/results/r2-09-threshold-guard.xml": "262e42c4aa2f18c6240b7a7de960a8c05533e7849a586b5b7a84d205d9a92f6b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This guard qualifies the ECV1 threshold tool. Its registered development result found no attainable headroom, so the held-out test remains diagnostic and cannot promote a candidate."
+      ]
     },
     {
       "task_id": "R2-10",
