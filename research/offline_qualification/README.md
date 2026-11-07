@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **40 / 260 (15.38%)**. Internal status: **BLOCKED**.
+Strict completion: **41 / 260 (15.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `51f5e1faa5138291eda9a206cf570ddade8f1b705d2a14ec2c6a6b86301c1f64`.
+Normalized ledger digest: `b8af4609501ddb01450d3f01a5868b6e851e00ad1931c7358cc0c240d088f6f1`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 40 |
+| DONE | 41 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 216 |
+| TODO | 215 |
 
 ## Graduation gates
 
@@ -67,7 +67,7 @@ Normalized ledger digest: `51f5e1faa5138291eda9a206cf570ddade8f1b705d2a14ec2c6a6
 | E4-07 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_three_hosts.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/e4-07-three-hosts.json`, `research/results/e4-07-three-hosts.md`, `research/results/e4-07-regression-tests.xml`, `research/results/e4-07-manifest.json` |
 | E4-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `docs/OPERATIONS.md`, `research/results/e4-08-federation-faults.json`, `research/results/e4-08-federation-faults.xml` |
 | E4-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `docs/FRESHNESS_LEASES.md`, `research/results/e4-09-freshness-clock-skew.json`, `research/results/e4-09-freshness-clock-skew.xml` |
-| E4-10 | P0 | TODO | NOT_TESTED | — |
+| E4-10 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_soak.py`, `docs/E4_SOAK.md`, `tests/test_multiprocess_crash.py`, `tests/test_backup.py`, `research/results/e4-10-deterministic-soak.json`, `research/results/e4-10-deterministic-soak.md`, `research/results/e4-10-crash-backup-regressions.xml`, `research/results/e4-10-evidence.json` |
 | E5-01 | P1 | TODO | NOT_TESTED | — |
 | E5-02 | P1 | TODO | NOT_TESTED | — |
 | E5-03 | P1 | TODO | NOT_TESTED | — |

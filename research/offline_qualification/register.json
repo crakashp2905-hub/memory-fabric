@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f0058dc602fae08cb84c3a8a10dcd98b6d8b7d06",
-    "dirty": false
+    "commit": "b955e82774752fd048e054df8fa5d862884fd45e",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 40,
+      "DONE": 41,
       "PARTIAL": 4,
-      "TODO": 216
+      "TODO": 215
     },
-    "completed": 40,
+    "completed": 41,
     "total": 260,
-    "percent_complete": 15.38,
-    "p0_open": 80,
+    "percent_complete": 15.77,
+    "p0_open": 79,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -762,11 +762,22 @@
       "priority": "P0",
       "task": "Create long-duration deterministic soak with crash/restart cycles and strict disk/resource ceilings.",
       "acceptance": "Detect leaks, growing queues and p99 drift; restore succeeds without reconciliation gaps",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_soak.py",
+        "docs/E4_SOAK.md",
+        "tests/test_multiprocess_crash.py",
+        "tests/test_backup.py",
+        "research/results/e4-10-deterministic-soak.json",
+        "research/results/e4-10-deterministic-soak.md",
+        "research/results/e4-10-crash-backup-regressions.xml",
+        "research/results/e4-10-evidence.json"
+      ],
+      "limitations": [
+        "Forty hard-crash cycles are deterministic local SQLite qualification, not a continuous production-duration soak, physical-host failure, PostgreSQL, or deployment-hardware resource ceiling."
+      ]
     },
     {
       "task_id": "E5-01",
