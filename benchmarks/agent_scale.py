@@ -54,17 +54,18 @@ def run(seed: int, agent_count: int) -> dict[str, Any]:
         ))
         for task in tasks:
             family = task["family"]
+            case_key = task["task_id"].replace("-", "").upper()
             evidence_id = None
             certificates = {}
             if family != "missing":
                 evidence_id = fabric.remember(
-                    f"source-{task['task_id']}", f"Job {task['task_id']} is approved for dispatch.",
+                    f"source-{case_key}", f"Record {case_key} status code is 1.",
                     scope="team", auto_activate=True,
                 )
                 fabric.elevate(evidence_id, approver="reviewer", reason="fixture source checked")
                 if family == "contested":
                     conflict = fabric.remember(
-                        f"conflict-{task['task_id']}", f"Job {task['task_id']} is not approved for dispatch.",
+                        f"conflict-{case_key}", f"Record {case_key} status code is 0.",
                         scope="team", auto_activate=True,
                     )
                     fabric.elevate(conflict, approver="reviewer", reason="fixture conflict checked")
@@ -84,8 +85,6 @@ def run(seed: int, agent_count: int) -> dict[str, Any]:
                 for code in decision.reason_codes:
                     family_result["reason_codes"][code] = family_result["reason_codes"].get(code, 0) + 1
                     task_reasons[code] = task_reasons.get(code, 0) + 1
-                if decision.verification is not None and "verification" not in task_reasons:
-                    task_reasons["verification"] = decision.verification.to_json()
                 unsafe = family != "supported" and allowed
                 family_result["attempted"] += 1
                 family_result["correct"] += int(allowed == expected_allow)
