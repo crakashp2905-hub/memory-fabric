@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 166,
+ "results": 167,
  "missing_field_counts": {
-  "git_sha": 61,
+  "git_sha": 62,
   "prereg": 74,
-  "dataset_digest": 163,
-  "model_id": 130,
-  "prompt_hash": 166,
+  "dataset_digest": 164,
+  "model_id": 131,
+  "prompt_hash": 167,
   "seed": 94,
-  "cost": 143,
+  "cost": 144,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 4,
+  "synthetic_scripted": 5,
   "unclassified": 162
  },
  "rows": [
@@ -3022,6 +3022,28 @@
     701,
     709,
     719
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-04-correction-timing",
+   "file": "research/results/r3-04-correction-timing.json",
+   "file_sha256": "c74820aecb3ca2be42461be8f2a8206dec467f8aacd76f569ce0703460dfd2e6",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    801,
+    809,
+    811
    ],
    "config": null,
    "cost": null,

@@ -1162,6 +1162,23 @@
       ]
     },
     {
+      "task_id": "R3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/correction_timing.py",
+        "research/prereg/correction-timing-v1.md",
+        "docs/CORRECTION_TIMING_BENCHMARK.md",
+        "tests/test_correction_timing.py",
+        "research/results/r3-04-correction-timing-tests.xml",
+        "research/results/r3-04-correction-timing.json"
+      ],
+      "limitations": [
+        "Three seeds and synthetic scripted agents on one local store. Event ordering is verified; elapsed times are not portable performance claims."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

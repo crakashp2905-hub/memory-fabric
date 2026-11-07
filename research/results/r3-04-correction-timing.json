@@ -1,0 +1,1054 @@
+{
+  "acceptance_status": "PASS",
+  "agents_per_case": 50,
+  "arms": [
+    "cached_local",
+    "pooled_recheck",
+    "memory_fabric",
+    "oracle"
+  ],
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "benchmarks/correction_timing.py": "8ead036817303bb741cba95865c3f66dedc396b963d511647555f83409ec5962",
+    "research/prereg/correction-timing-v1.md": "877b01e5a3336bf519a1a2b68fb106e7a796cf7897ac5251ed76d52b8dc0f5d9"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Three fixed seeds, synthetic tasks, scripted agents, one local store.",
+    "Timing phases are event order labels; wall-clock intervals are not latency claims."
+  ],
+  "phases": [
+    "before_discovery",
+    "before_planning",
+    "before_action"
+  ],
+  "population": "synthetic_scripted",
+  "repo_commit": "5221eaef275eb07ccba1c12641e95e55cbfeb6ff",
+  "rows": [
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s801-before_discovery-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.036374,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_discovery",
+        "discovery": "evidence_unavailable",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s801-before_discovery-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.047713,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s801-before_planning-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.020549,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_planning",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s801-before_planning-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.047134,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        }
+      },
+      "case_id": "s801-before_action-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.017045,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_action",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s801-before_action-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.037453,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 801,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s809-before_discovery-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.015088,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_discovery",
+        "discovery": "evidence_unavailable",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s809-before_discovery-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.044493,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s809-before_planning-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.023831,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_planning",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s809-before_planning-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.044055,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        }
+      },
+      "case_id": "s809-before_action-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.015568,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_action",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s809-before_action-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.037621,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 809,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s811-before_discovery-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.014252,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_discovery",
+        "discovery": "evidence_unavailable",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s811-before_discovery-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.047031,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_discovery",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s811-before_planning-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.020379,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_planning",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s811-before_planning-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.042948,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_planning",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "rechecked"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 0,
+          "false_abstentions": 0,
+          "stale_actions": 50,
+          "unsafe_actions": 50
+        }
+      },
+      "case_id": "s811-before_action-corrected",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.016413,
+      "expected": "abstain",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "corrected",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "before_action",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "cached_local": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "memory_fabric": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "oracle": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        },
+        "pooled_recheck": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "stale_actions": 0,
+          "unsafe_actions": 0
+        }
+      },
+      "case_id": "s811-before_action-supported",
+      "context_budget_items": 1,
+      "coordination_disagreements": {
+        "cached_local": false,
+        "memory_fabric": false,
+        "oracle": false,
+        "pooled_recheck": false
+      },
+      "elapsed_s": 0.03945,
+      "expected": "allow",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "phase": "before_action",
+      "runtime_permission_grants": 50,
+      "scenario": "supported",
+      "seed": 811,
+      "stage_trace": {
+        "action": "all_agent_decisions_recorded",
+        "correction": "not_applicable",
+        "discovery": "evidence_exposed",
+        "planning": "cached_before_action"
+      }
+    }
+  ],
+  "schema": "mf-correction-timing/1",
+  "seeds": [
+    801,
+    809,
+    811
+  ],
+  "stale_actions_memory_fabric": 0,
+  "tasks_per_seed": 6
+}

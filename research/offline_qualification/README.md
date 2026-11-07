@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **68 / 260 (26.15%)**. Internal status: **BLOCKED**.
+Strict completion: **69 / 260 (26.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `642c48d6d655109ed69862be5f0706e27185946997928dc2fe3358afa33596a8`.
+Normalized ledger digest: `edb04453899ec5b6a89c5aab6df816df6f0b701113361b9415fb2cda43b93bcd`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 68 |
+| DONE | 69 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 187 |
+| TODO | 186 |
 
 ## Graduation gates
 
@@ -102,7 +102,7 @@ Normalized ledger digest: `642c48d6d655109ed69862be5f0706e27185946997928dc2fe335
 | R3-01 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_scale.py`, `tests/test_agent_scale.py`, `research/prereg/agent-scale-v1.md`, `docs/AGENT_SCALE_BENCHMARK.md`, `research/results/r3-01-agent-scale-tests.xml`, `research/results/r3-01-agent-scale.json` |
 | R3-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/agent_scale.py`, `research/prereg/matched-agent-arms-v1.md`, `docs/MATCHED_AGENT_ARMS.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-02-matched-agent-arms-tests.xml`, `research/results/r3-02-matched-agent-arms.json` |
 | R3-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/failure-taxonomy-v1.md`, `docs/FAILURE_TAXONOMY.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-03-failure-taxonomy-tests.xml`, `research/results/r3-03-failure-taxonomy.json` |
-| R3-04 | P0 | TODO | NOT_TESTED | — |
+| R3-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/correction_timing.py`, `research/prereg/correction-timing-v1.md`, `docs/CORRECTION_TIMING_BENCHMARK.md`, `tests/test_correction_timing.py`, `research/results/r3-04-correction-timing-tests.xml`, `research/results/r3-04-correction-timing.json` |
 | R3-05 | P0 | TODO | NOT_TESTED | — |
 | R3-06 | P0 | TODO | NOT_TESTED | — |
 | R3-07 | P0 | TODO | NOT_TESTED | — |

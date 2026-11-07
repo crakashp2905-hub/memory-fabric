@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "7b6db268530b973a88f8a3a703cb4538d6a866f7",
-    "dirty": false
+    "commit": "5221eaef275eb07ccba1c12641e95e55cbfeb6ff",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 68,
+      "DONE": 69,
       "PARTIAL": 5,
-      "TODO": 187
+      "TODO": 186
     },
-    "completed": 68,
+    "completed": 69,
     "total": 260,
-    "percent_complete": 26.15,
-    "p0_open": 61,
+    "percent_complete": 26.54,
+    "p0_open": 60,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "e32215ec3b869bf902b0644cbeabd7b6988d1491e3614a7ef21fe6caa700da26",
-        "docs/VALIDATION.md": "94dfcc0dfcabb33f740fd8f33202e900c7bc262ba9344f0beb6ba86baf73ea50",
-        "docs/STATUS_AT_HEAD.md": "dd9ca16be50889c7d5a42ce99234eee9a2e1e8336b263cb26b73cf0a5e1e1fc6",
+        "README.md": "ae7598be75e6168dbedeffdfd1ffb64a7a6d89366a7b715993ce3e3ecdc15edc",
+        "docs/VALIDATION.md": "d1a16dabaacb331c7846643b1cefb34a3ef8dc2de39f66358601e1a3b955edca",
+        "docs/STATUS_AT_HEAD.md": "89cd9ebf5d0642c342d5d9edade0c5baa1b4cf3450bc11d24c9da0a807e3369a",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "442e6440f68c09120724800fad2c05fa304b53688cc6c19403b66bb484f7f8a8",
+        "research/results/MANIFEST.json": "8b5fe058d636b75f405c7bb01f7b7be6c378de06b5c0c0a9f546b1453ec9f3c4",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1999,13 +1999,29 @@
       "priority": "P0",
       "task": "Measure outcomes across correction timing: before discovery, before planning and immediately before action.",
       "acceptance": "Report time-sensitive failures and prevent timing-dependent benchmark shortcuts",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/correction_timing.py",
+        "research/prereg/correction-timing-v1.md",
+        "docs/CORRECTION_TIMING_BENCHMARK.md",
+        "tests/test_correction_timing.py",
+        "research/results/r3-04-correction-timing-tests.xml",
+        "research/results/r3-04-correction-timing.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/correction_timing.py": "8ead036817303bb741cba95865c3f66dedc396b963d511647555f83409ec5962",
+        "research/prereg/correction-timing-v1.md": "877b01e5a3336bf519a1a2b68fb106e7a796cf7897ac5251ed76d52b8dc0f5d9",
+        "docs/CORRECTION_TIMING_BENCHMARK.md": "c00f0ad36c86f2ad221b5ba2191f021f92c81350e619e9de9acfede026cd890a",
+        "tests/test_correction_timing.py": "067f75802aedd7a6f480838fb6cb8b01b25f451d239788486968c4f5fab905d3",
+        "research/results/r3-04-correction-timing-tests.xml": "aa4664e4a9fe33d67a9ca89c537aacd021fd2ca921032fd42c104a751d82ac82",
+        "research/results/r3-04-correction-timing.json": "195bd0958ac68e18b0a8e36831bda3ac51c86aae62a804766ef6c94bcfd7abcd"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Three seeds and synthetic scripted agents on one local store. Event ordering is verified; elapsed times are not portable performance claims."
+      ]
     },
     {
       "task_id": "R3-05",
