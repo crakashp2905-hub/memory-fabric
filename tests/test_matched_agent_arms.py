@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from benchmarks.matched_agent_arms import ARMS, run
+from benchmarks.matched_agent_arms import ARMS, FAILURE_CLASSES, classify_failure, run
 
 
 class MatchedAgentArms(unittest.TestCase):
@@ -32,6 +32,23 @@ class MatchedAgentArms(unittest.TestCase):
         self.assertEqual(governed["counts"]["stale_actions"], 0)
         self.assertEqual(oracle["counts"]["accuracy"], 1.0)
         self.assertGreater(isolated["counts"]["stale_actions"], 0)
+
+    def test_every_decision_failure_has_a_class_and_source_trace(self) -> None:
+        self.assertIn("retrieval", classify_failure("pooled_shared", "supported", False, True, "miss"))
+        self.assertIn("insufficient_evidence", classify_failure("isolated", "missing", True, False, "cached"))
+        for arm in ARMS:
+            row = run(701, 5, arm)
+            for task in row["task_manifest"]:
+                counts = task["decision_counts"]
+                failure_count = counts["false_abstentions"] + counts["unsafe_actions"]
+                trace = task["failure_trace"]
+                if failure_count:
+                    self.assertIsNotNone(trace)
+                    self.assertEqual(trace["task_id"], task["task_id"])
+                    self.assertGreater(trace["affected_agent_count"], 0)
+                    self.assertTrue(set(trace["failure_classes"]) <= set(FAILURE_CLASSES))
+                else:
+                    self.assertIsNone(trace)
 
 
 if __name__ == "__main__":

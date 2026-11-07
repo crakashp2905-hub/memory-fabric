@@ -17,6 +17,20 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 
 ARMS = ("isolated", "pooled_shared", "blanket_retraction", "memory_fabric", "oracle")
 TOOL = "publish"
+FAILURE_CLASSES = ("retrieval", "insufficient_evidence", "policy_refusal", "coordination", "tool_error")
+
+
+def classify_failure(arm: str, family: str, allowed: bool, expected: bool, reason: str) -> list[str]:
+    """Attribute a mismatched action to all observable contributing failure classes."""
+    if allowed == expected:
+        return []
+    if allowed:
+        return ["insufficient_evidence", "policy_refusal"]
+    if family == "supported" and arm == "pooled_shared":
+        return ["retrieval"]
+    if family == "supported" and reason in {"evidence_not_usable", "evidence_suspicious"}:
+        return ["retrieval", "policy_refusal"]
+    return ["policy_refusal"]
 
 
 def _hash(value: Any) -> str:
@@ -30,7 +44,9 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
     agents = [f"agent-{i:03d}" for i in range(agent_count)]
     tasks = task_manifest(seed)
     result = {family: {"attempted": 0, "correct": 0, "unsafe_actions": 0,
-                       "stale_actions": 0, "false_abstentions": 0} for family in FAMILIES}
+                       "stale_actions": 0, "false_abstentions": 0,
+                       "failure_classes": {name: 0 for name in FAILURE_CLASSES}}
+             for family in FAMILIES}
     details = []
     blanket_source_withdrawn = False
     started = time.perf_counter()
@@ -73,30 +89,58 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
             expected = family == "supported"
             family_result = result[family]
             reason_codes = Counter()
+            failure_class_counts = Counter()
+            allowed_count = 0
+            false_abstentions = 0
+            unsafe_actions = 0
+            stale_actions = 0
+            mismatched_agents = 0
             for agent in agents:
-                if arm == "isolated":
-                    allowed = evidence_id is not None
-                elif arm == "pooled_shared":
-                    current = (fabric.retrieve(agent, f"Record {case_key}", within=[evidence_id],
-                                               min_relevance=0.0).exposed if evidence_id else [])
-                    allowed = bool(current)
-                elif arm == "blanket_retraction":
-                    allowed = (evidence_id is not None and family == "supported"
-                               and not blanket_source_withdrawn)
-                elif arm == "memory_fabric":
-                    decision = gate.authorize(TOOL, agent, certificates.get(agent))
-                    reason_codes[decision.reason_code] += 1
-                    allowed = decision.allowed
-                else:
-                    allowed = expected
+                reason = ""
+                try:
+                    if arm == "isolated":
+                        allowed = evidence_id is not None
+                        reason = "cached_initial_evidence" if allowed else "no_initial_evidence"
+                    elif arm == "pooled_shared":
+                        current = (fabric.retrieve(agent, f"Record {case_key}", within=[evidence_id],
+                                                   min_relevance=0.0).exposed if evidence_id else [])
+                        allowed = bool(current)
+                        reason = "shared_retrieval_hit" if allowed else "shared_retrieval_miss"
+                    elif arm == "blanket_retraction":
+                        allowed = (evidence_id is not None and family == "supported"
+                                   and not blanket_source_withdrawn)
+                        reason = "blanket_source_withheld" if not allowed else "source_clear"
+                    elif arm == "memory_fabric":
+                        decision = gate.authorize(TOOL, agent, certificates.get(agent))
+                        reason_codes[decision.reason_code] += 1
+                        reason = decision.reason_code
+                        allowed = decision.allowed
+                    else:
+                        allowed = expected
+                        reason = "oracle_label"
+                except Exception as exc:
+                    allowed = False
+                    reason = f"tool_error:{type(exc).__name__}"
+                    failure_class_counts["tool_error"] += 1
+                failure_classes = classify_failure(arm, family, allowed, expected, reason)
+                failure_class_counts.update(failure_classes)
+                allowed_count += int(allowed)
+                mismatched_agents += int(allowed != expected)
                 unsafe = allowed and not expected
+                unsafe_actions += int(unsafe)
+                stale_actions += int(allowed and family == "corrected")
+                false_abstentions += int(expected and not allowed)
                 family_result["attempted"] += 1
                 family_result["correct"] += int(allowed == expected)
                 family_result["unsafe_actions"] += int(unsafe)
                 family_result["stale_actions"] += int(allowed and family == "corrected")
                 family_result["false_abstentions"] += int(expected and not allowed)
+            for category, number in failure_class_counts.items():
+                family_result["failure_classes"][category] += number
             context_hash = _hash({"task_id": task["task_id"], "family": family,
                                   "evidence_text": evidence_text, "gold_hidden_from_agents": True})
+            task_failure_classes = {name: failure_class_counts[name] for name in FAILURE_CLASSES
+                                    if failure_class_counts[name]}
             details.append({"task_id": task["task_id"], "family": family,
                             "expected": "allow" if expected else "abstain",
                             "context_budget_items": int(evidence_id is not None),
@@ -105,7 +149,17 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
                                                            for ids in initial_exposure_ids),
                             "permission_grant_count": len(agents),
                             "permission_grants_sha256": _hash({agent: [TOOL] for agent in agents}),
-                            "reason_codes": dict(reason_codes)})
+                            "decision_counts": {"allowed": allowed_count, "abstained": agent_count-allowed_count,
+                                                "false_abstentions": false_abstentions,
+                                                "unsafe_actions": unsafe_actions, "stale_actions": stale_actions},
+                            "reason_codes": dict(reason_codes),
+                            "failure_trace": ({"task_id": task["task_id"], "arm": arm,
+                                               "family": family,
+                                               "source_memory_id": evidence_id or "NO_EVIDENCE",
+                                               "reason_codes": dict(reason_codes),
+                                               "failure_classes": task_failure_classes,
+                                               "affected_agent_count": mismatched_agents}
+                                              if task_failure_classes else None)})
     totals = {key: sum(item[key] for item in result.values()) for key in
               ("attempted", "correct", "unsafe_actions", "stale_actions", "false_abstentions")}
     return {"seed": seed, "agent_count": agent_count, "arm": arm,
@@ -142,6 +196,16 @@ def build_report() -> dict[str, Any]:
             failures.append({"seed": seed, "agent_count": count, "reason": "arms_received_different_context"})
     unsafe_mf = sum(row["counts"]["unsafe_actions"] for row in rows if row["arm"] == "memory_fabric")
     unsafe_oracle = sum(row["counts"]["unsafe_actions"] for row in rows if row["arm"] == "oracle")
+    failure_class_counts = {category: sum(
+        task["failure_trace"]["failure_classes"].get(category, 0)
+        for row in rows for task in row["task_manifest"] if task["failure_trace"])
+        for category in FAILURE_CLASSES}
+    failure_traces = [task["failure_trace"] for row in rows for task in row["task_manifest"]
+                      if task["failure_trace"]]
+    for trace in failure_traces:
+        if (not trace["task_id"] or not trace["source_memory_id"] or not trace["failure_classes"]
+                or set(trace["failure_classes"]) - set(FAILURE_CLASSES)):
+            failures.append({"task_id": trace.get("task_id"), "reason": "unclassified_failure"})
     dirty = bool(subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                                 capture_output=True, text=True, check=True).stdout.strip())
     return {"schema": "mf-matched-agent-arms/1", "decision": "DESCRIPTIVE",
@@ -156,9 +220,13 @@ def build_report() -> dict[str, Any]:
             "input_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
                              for path in ("benchmarks/matched_agent_arms.py",
                                           "benchmarks/agent_scale.py",
-                                          "research/prereg/matched-agent-arms-v1.md")},
+                                          "research/prereg/matched-agent-arms-v1.md",
+                                          "research/prereg/failure-taxonomy-v1.md")},
             "invariant_failures": failures, "unsafe_actions_memory_fabric": unsafe_mf,
-            "unsafe_actions_oracle": unsafe_oracle, "rows": rows,
+            "unsafe_actions_oracle": unsafe_oracle,
+            "failure_taxonomy": {"categories": list(FAILURE_CLASSES),
+                                 "counts": failure_class_counts, "traces": failure_traces},
+            "rows": rows,
             "limitations": ["Local deterministic scripted agents and one in-process store.",
                             "Arms are policy baselines, not independently implemented memory products.",
                             "No real-model reasoning, network transport, latency guarantee, or cost claim."]}
