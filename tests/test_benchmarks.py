@@ -70,10 +70,21 @@ class Manifests(unittest.TestCase):
 
     def test_write_and_read(self) -> None:
         with tempfile.TemporaryDirectory() as d:
-            manifest.write(manifest.Manifest("r1", "X", "a", "NOT_RUN", reason="why"), Path(d))
-            self.assertEqual(manifest.read_all(Path(d))[0]["run_id"], "r1")
+            root = Path(d) / "repo"
+            root.mkdir()
+            import subprocess
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "tests@example.invalid"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "Tests"], cwd=root, check=True)
+            (root / "source.txt").write_text("clean\n", encoding="utf-8")
+            subprocess.run(["git", "add", "source.txt"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "fixture"], cwd=root, check=True)
+            manifest.write(manifest.Manifest("r1", "X", "a", "NOT_RUN", reason="why"), Path(d), root=root)
+            saved = manifest.read_all(Path(d))[0]
+            self.assertEqual(saved["run_id"], "r1")
+            self.assertEqual(len(saved["source"]["commit"]), 40)
             with self.assertRaises(ValueError):
-                manifest.write(manifest.Manifest("r2", "X", "a", "WON"), Path(d))
+                manifest.write(manifest.Manifest("r2", "X", "a", "WON"), Path(d), root=root)
 
     def test_recorded_runs_are_valid(self) -> None:
         for m in manifest.read_all():

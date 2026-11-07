@@ -124,8 +124,8 @@ def validate(m: Manifest | dict[str, Any]) -> list[str]:
     return problems
 
 
-def write(m: Manifest, directory: Path = RUNS) -> Path:
-    data = stamp_source(m.to_json())
+def write(m: Manifest, directory: Path = RUNS, *, root: Path = ROOT) -> Path:
+    data = stamp_source(m.to_json(), root=root)
     problems = validate(data)
     if problems:
         raise ValueError("; ".join(problems))
