@@ -17,7 +17,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from memory_fabric import MemoryFabric
-from memory_fabric.actions import EXECUTED, REFUSED, ActionGate, ActionPolicy, ToolRule
+from memory_fabric.actions import (EXECUTED, REFUSED, ActionGate, ActionPolicy,
+                                   ToolRule, reconciliation_ledger)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -50,6 +51,10 @@ class CrashMidAction(unittest.TestCase):
                               timeout=120)
         self.assertEqual(done.returncode, 1, done.stderr[-2000:])
         self.assertTrue(self.marker.exists(), "the side effect did happen")
+        with MemoryFabric(str(self.db)) as reopened:
+            ledger = reconciliation_ledger(reopened)
+            self.assertEqual([row["status"] for row in ledger if row["key"] == "k-crash"],
+                             ["unknown"])
 
     def gate(self, f: MemoryFabric) -> ActionGate:
         return ActionGate(f, ActionPolicy(tools={"open": ToolRule("open")},

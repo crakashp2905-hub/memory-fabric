@@ -1366,6 +1366,24 @@
       ]
     },
     {
+      "task_id": "H2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_reconciliation.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_RECONCILIATION.md",
+        "tools/action_reconciliation_qualification.py",
+        "research/results/h2-04-action-reconciliation-tests.xml",
+        "research/results/h2-04-action-reconciliation.json"
+      ],
+      "limitations": [
+        "The event ledger classifies local receipts and unresolved attempts; the host must reconcile an unknown outcome against the external system's own state. Exactly-once external effects are not promised."
+      ]
+    },
+    {
       "task_id": "H2-03",
       "status": "DONE",
       "acceptance_passed": true,

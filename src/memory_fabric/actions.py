@@ -640,3 +640,47 @@ def unfenced_changes(fabric: Any) -> list[dict[str, Any]]:
                             "memory_id": memory_id, "change_seq": event.seq,
                             "execution_seq": seq})
     return out
+
+
+def reconciliation_ledger(fabric: Any) -> list[dict[str, Any]]:
+    """Classify each action key from its durable attempt and outcome events.
+
+    This is a local evidence ledger, not a claim about an external system's
+    state. A missing outcome, callback error, or released fence remains
+    `unknown`; only a successful fenced receipt is `completed`, and only a
+    gate refusal is `definitely_unexecuted`.
+    """
+    latest: dict[str, dict[str, Any]] = {}
+    for event in fabric.log.read_types([ev.EventType.ACTION_ATTEMPTED,
+                                        ev.EventType.ACTION_EXECUTED]):
+        payload = event.payload
+        key = str(payload.get("key", ""))
+        if not key:
+            continue
+        row = latest.setdefault(key, {
+            "key": key, "attempt_count": 0, "status": "unknown",
+            "tool": payload.get("tool"), "tenant_id": payload.get("tenant_id"),
+            "agent_id": event.agent_id, "binding": payload.get("binding"),
+            "last_event_seq": event.seq,
+        })
+        row["tool"] = payload.get("tool", row.get("tool"))
+        row["tenant_id"] = payload.get("tenant_id", row.get("tenant_id"))
+        row["agent_id"] = event.agent_id or row.get("agent_id")
+        row["binding"] = payload.get("binding", row.get("binding"))
+        row["last_event_seq"] = event.seq
+        if event.type == ev.EventType.ACTION_ATTEMPTED:
+            row["attempt_count"] += 1
+            row["status"] = "unknown"
+            row["last_outcome"] = "attempted_without_receipt"
+        else:
+            outcome = payload.get("outcome")
+            row["last_outcome"] = outcome
+            if outcome == REFUSED:
+                row["status"] = "definitely_unexecuted"
+            elif outcome == EXECUTED and payload.get("fenced", True):
+                row["status"] = "completed"
+            else:
+                row["status"] = "unknown"
+    for row in latest.values():
+        row["reconciliation_required"] = row["status"] == "unknown"
+    return [latest[key] for key in sorted(latest)]
