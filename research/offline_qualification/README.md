@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **38 / 260 (14.62%)**. Internal status: **BLOCKED**.
+Strict completion: **39 / 260 (15.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `208edb419c48a3565d0e18b2b310f77d1bbe0afdb13262d277c7434d1d916bc9`.
+Normalized ledger digest: `f1f82cee140d13d5b875a40a85c746b4f0e6fbe36b691077216cce73500f67f9`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 38 |
+| DONE | 39 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 218 |
+| TODO | 217 |
 
 ## Graduation gates
 
@@ -65,7 +65,7 @@ Normalized ledger digest: `208edb419c48a3565d0e18b2b310f77d1bbe0afdb13262d277c74
 | E4-05 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_sqlite_stress.py`, `docs/OPERATIONS.md`, `tests/test_concurrency.py`, `tests/test_eventlog.py`, `research/results/e4-05-sqlite-qualification.json`, `research/results/e4-05-sqlite-qualification.md`, `research/results/e4-05-sqlite-5s.json`, `research/results/e4-05-sqlite-30s.json`, `research/results/e4-05-regression-tests.xml`, `research/results/e4-05-manifest.json` |
 | E4-06 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_scan_benchmark.py`, `tests/test_eventlog.py`, `research/results/e4-06-page-scan.json`, `research/results/e4-06-page-scan.md`, `research/results/e4-06-page-scan.svg`, `research/results/e4-06-regression-tests.xml`, `research/results/e4-06-manifest.json` |
 | E4-07 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_three_hosts.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/e4-07-three-hosts.json`, `research/results/e4-07-three-hosts.md`, `research/results/e4-07-regression-tests.xml`, `research/results/e4-07-manifest.json` |
-| E4-08 | P0 | TODO | NOT_TESTED | — |
+| E4-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `docs/OPERATIONS.md`, `research/results/e4-08-federation-faults.json`, `research/results/e4-08-federation-faults.xml` |
 | E4-09 | P0 | TODO | NOT_TESTED | — |
 | E4-10 | P0 | TODO | NOT_TESTED | — |
 | E5-01 | P1 | TODO | NOT_TESTED | — |

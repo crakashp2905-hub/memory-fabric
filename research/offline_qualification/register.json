@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "061315b9b7126d93e7985a8a22d9e73ff3997f2f",
+    "commit": "d3e07dfd3053baed3445def666df2d6e2f70f65f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 38,
+      "DONE": 39,
       "PARTIAL": 4,
-      "TODO": 218
+      "TODO": 217
     },
-    "completed": 38,
+    "completed": 39,
     "total": 260,
-    "percent_complete": 14.62,
-    "p0_open": 82,
+    "percent_complete": 15.0,
+    "p0_open": 81,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -723,11 +723,20 @@
       "priority": "P0",
       "task": "Test reordered, duplicated, delayed and permanently dropped federation messages.",
       "acceptance": "Replay and idempotency preserve state; dead-letter and repair outcomes are observable",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "docs/OPERATIONS.md",
+        "research/results/e4-08-federation-faults.json",
+        "research/results/e4-08-federation-faults.xml"
+      ],
+      "limitations": [
+        "Fault schedules use deterministic in-process transport. The test run includes HTTP integration regressions but does not emulate physical network packet impairment."
+      ]
     },
     {
       "task_id": "E4-09",
