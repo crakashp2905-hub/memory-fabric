@@ -84,15 +84,19 @@
     },
     {
       "task_id": "E1-06",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tools/offline_baseline.py",
-        "research/offline_qualification/baseline.json"
+        "tools/local_check_report.py",
+        "tests/test_local_check_report.py",
+        "docs/LOCAL_CHECK_REPORT.md",
+        "research/results/e1-06-local-check-report.json",
+        "research/results/e1-06-local-check-report.xml",
+        "research/results/e1-06-local-check-evidence.json"
       ],
       "limitations": [
-        "Optional capability inventory is local-host evidence, not the full interpreter matrix"
+        "Package and optional-capability inventory is for Windows/Python 3.13.5 only; it is not a cross-platform matrix result."
       ]
     },
     {

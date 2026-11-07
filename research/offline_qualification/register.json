@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "82488fc2433c79a7e8c46d57f4c0b420e79db3a3",
+    "commit": "8e5af2fe094dfcba918302930be8f549b6e69847",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 50,
-      "PARTIAL": 5,
+      "DONE": 51,
+      "PARTIAL": 4,
       "TODO": 205
     },
-    "completed": 50,
+    "completed": 51,
     "total": 260,
-    "percent_complete": 19.23,
-    "p0_open": 79,
+    "percent_complete": 19.62,
+    "p0_open": 78,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -138,15 +138,19 @@
       "priority": "P0",
       "task": "Capture package versions and optional-dependency skips separately from test passes.",
       "acceptance": "Summary reports passed, failed, skipped, unavailable, and why each unavailable arm matters",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tools/offline_baseline.py",
-        "research/offline_qualification/baseline.json"
+        "tools/local_check_report.py",
+        "tests/test_local_check_report.py",
+        "docs/LOCAL_CHECK_REPORT.md",
+        "research/results/e1-06-local-check-report.json",
+        "research/results/e1-06-local-check-report.xml",
+        "research/results/e1-06-local-check-evidence.json"
       ],
       "limitations": [
-        "Optional capability inventory is local-host evidence, not the full interpreter matrix"
+        "Package and optional-capability inventory is for Windows/Python 3.13.5 only; it is not a cross-platform matrix result."
       ]
     },
     {

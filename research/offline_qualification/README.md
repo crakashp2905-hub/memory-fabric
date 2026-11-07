@@ -1,17 +1,17 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **50 / 260 (19.23%)**. Internal status: **BLOCKED**.
+Strict completion: **51 / 260 (19.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b9356add4e694585993b201badb9a6390f7776cdebd3725f3412bca59135b50c`.
+Normalized ledger digest: `b28bb6e16601a224534d357a3b93a7e83acf43af4f4381f657e6849692c6841b`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 50 |
+| DONE | 51 |
 | NOT_TESTED | 0 |
-| PARTIAL | 5 |
+| PARTIAL | 4 |
 | TODO | 205 |
 
 ## Graduation gates
@@ -33,7 +33,7 @@ Normalized ledger digest: `b9356add4e694585993b201badb9a6390f7776cdebd3725f3412b
 | E1-03 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml` |
 | E1-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
 | E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
-| E1-06 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `research/offline_qualification/baseline.json` |
+| E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `research/offline_qualification/register.json` |
 | E1-08 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
 | E1-09 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |

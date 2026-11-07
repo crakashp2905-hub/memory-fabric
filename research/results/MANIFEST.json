@@ -1,15 +1,15 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 155,
+ "results": 157,
  "missing_field_counts": {
-  "git_sha": 55,
+  "git_sha": 56,
   "prereg": 73,
-  "dataset_digest": 152,
-  "model_id": 119,
-  "prompt_hash": 155,
-  "seed": 86,
-  "cost": 132,
-  "verdict": 105
+  "dataset_digest": 154,
+  "model_id": 121,
+  "prompt_hash": 157,
+  "seed": 88,
+  "cost": 134,
+  "verdict": 106
  },
  "rows": [
   {
@@ -549,6 +549,40 @@
    "config": null,
    "cost": null,
    "verdict": "PARTIAL",
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-06-local-check-evidence",
+   "file": "research/results/e1-06-local-check-evidence.json",
+   "file_sha256": "b44fc8b08b1fcaf923fd188abf1bbd84fac4baab76545834870ce3c53eed22ee",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": "8e5af2fe094dfcba918302930be8f549b6e69847",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "PASS",
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-06-local-check-report",
+   "file": "research/results/e1-06-local-check-report.json",
+   "file_sha256": "146891abdc45010f8b1fbd32bc21e65f865ab3c90339c45ee30962529d5b083f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {
