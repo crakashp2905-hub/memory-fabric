@@ -59,6 +59,16 @@ CREATE TABLE IF NOT EXISTS outbox (
 );
 CREATE INDEX IF NOT EXISTS outbox_due ON outbox (state, next_attempt_ms);
 
+CREATE TABLE IF NOT EXISTS outbox_repairs (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    outbox_id       INTEGER NOT NULL,
+    retraction_id   TEXT NOT NULL,
+    recipient       TEXT NOT NULL,
+    prior_error     TEXT NOT NULL,
+    reason          TEXT NOT NULL,
+    repaired_ms     INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS inbox (
     origin_store_id TEXT    NOT NULL,
     retraction_id   TEXT    NOT NULL,
@@ -326,6 +336,52 @@ class Outbox:
             ),
         )
         return PropagationState.RETRYING
+
+    def requeue_failed(
+        self, retraction_id: str, recipient: str, now_ms: int, reason: str,
+        target_key: str | None = None,
+    ) -> int:
+        """Operator-authorized repair of permanently failed deliveries.
+
+        Must run inside a transaction. The repair is explicit and append-only
+        in ``outbox_repairs``; it does not erase the dead-letter reason. Only
+        FAILED rows can be repaired, preventing accidental duplicate dispatch
+        of deliveries that are already in progress or settled.
+        """
+        if not reason.strip():
+            raise ValueError("repair reason is required")
+        clause, params = _target_clause(target_key)
+        rows = self._conn.execute(
+            "SELECT * FROM outbox WHERE retraction_id = ? AND recipient = ?"
+            f"{clause} AND state = ? ORDER BY id",
+            (retraction_id, recipient, *params, PropagationState.FAILED.value),
+        ).fetchall()
+        for row in rows:
+            self._conn.execute(
+                "INSERT INTO outbox_repairs (outbox_id, retraction_id, recipient, "
+                "prior_error, reason, repaired_ms) VALUES (?, ?, ?, ?, ?, ?)",
+                (row["id"], retraction_id, recipient, row["last_error"] or "",
+                 reason.strip(), now_ms),
+            )
+            self._conn.execute(
+                "UPDATE outbox SET state = ?, attempts = 0, next_attempt_ms = ?, "
+                "last_error = ?, updated_ms = ? WHERE id = ? AND state = ?",
+                (PropagationState.QUEUED.value, now_ms,
+                 f"operator repair: {reason.strip()}", now_ms, row["id"],
+                 PropagationState.FAILED.value),
+            )
+        return len(rows)
+
+    def repairs(self, retraction_id: str | None = None) -> list[dict[str, object]]:
+        """Return durable operator repair receipts, oldest first."""
+        if retraction_id is None:
+            rows = self._conn.execute("SELECT * FROM outbox_repairs ORDER BY id").fetchall()
+        else:
+            rows = self._conn.execute(
+                "SELECT * FROM outbox_repairs WHERE retraction_id = ? ORDER BY id",
+                (retraction_id,),
+            ).fetchall()
+        return [dict(row) for row in rows]
 
     def record_acknowledgement(self, ack: Acknowledgement) -> None:
         """Persist what a recipient claimed, at the origin.

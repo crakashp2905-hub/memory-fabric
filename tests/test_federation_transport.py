@@ -25,6 +25,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from memory_fabric import LifecycleState, MemoryFabric, WithdrawalBasis
+from memory_fabric.auditor import Auditor, PROPAGATION_FAILURE
 from memory_fabric.dispatcher import Dispatcher, reconcile
 from memory_fabric.federation import offer
 from memory_fabric.governance.firewall import (
@@ -223,6 +224,43 @@ class TestOfflineRecipient(FederationCase):
         rows = self.origin.outbox._conn.execute("SELECT state, last_error FROM outbox").fetchall()
         self.assertTrue(all(row["state"] == PropagationState.FAILED.value for row in rows))
         self.assertTrue(all(row["last_error"] for row in rows))
+
+    def test_failed_delivery_is_auditable_and_operator_repair_is_durable(self) -> None:
+        retraction = self.request()
+        dispatcher = Dispatcher(self.origin, self.transport(offline={self.alice.store_id}))
+        for _ in range(MAX_ATTEMPTS):
+            self.origin.outbox._conn.execute("UPDATE outbox SET next_attempt_ms = 0")
+            dispatcher.run_once()
+        self.assertEqual(
+            self.origin.outbox.state_of(retraction.retraction_id, self.alice.store_id),
+            PropagationState.FAILED,
+        )
+        auditor = Auditor(self.origin)
+        trigger = next(t for t in auditor.scan() if t.kind == PROPAGATION_FAILURE)
+        self.assertTrue(auditor.audit(trigger).finding)
+        failed_error = self.origin.outbox._conn.execute(
+            "SELECT last_error FROM outbox WHERE retraction_id = ? AND recipient = ?",
+            (retraction.retraction_id, self.alice.store_id),
+        ).fetchone()["last_error"]
+
+        with self.origin.log.transaction():
+            repaired = self.origin.outbox.requeue_failed(
+                retraction.retraction_id, self.alice.store_id, now_ms(),
+                "peer restored after operator verification",
+            )
+        self.assertEqual(repaired, 1)
+        self.assertEqual(len(self.origin.outbox.repairs(retraction.retraction_id)), 1)
+        repair = self.origin.outbox.repairs(retraction.retraction_id)[0]
+        self.assertEqual(repair["prior_error"], failed_error)
+        self.assertEqual(repair["reason"], "peer restored after operator verification")
+
+        report = Dispatcher(self.origin, self.transport()).run_once()
+        self.assertEqual(report.enforced, 1)
+        self.assertEqual(self.origin.outbox.pending(), [])
+        self.assertEqual(
+            self.origin.outbox.state_of(retraction.retraction_id, self.alice.store_id),
+            PropagationState.ENFORCED,
+        )
 
 
 class TestReconciliation(FederationCase):

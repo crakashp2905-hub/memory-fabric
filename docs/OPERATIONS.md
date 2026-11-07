@@ -104,6 +104,28 @@ Dispatcher(fabric, transport).drain()
 is withdrawn and the recipient is still exposing withdrawn knowledge with
 nothing raising anywhere.
 
+For an exhausted delivery, first restore or correct the peer route and inspect
+the recipient and retraction identifiers in the propagation report. An
+operator can explicitly requeue only a `failed` row; the change and an
+append-only repair receipt must be committed together:
+
+```python
+with fabric.log.transaction():
+    repaired = fabric.outbox.requeue_failed(
+        retraction_id, recipient_store_id, now_ms(),
+        "peer endpoint restored and verified",
+    )
+if repaired != 1:
+    raise RuntimeError("no failed delivery matched the repair request")
+Dispatcher(fabric, transport).drain()
+receipts = fabric.outbox.repairs(retraction_id)
+```
+
+The repair receipt preserves the previous transport error, operator reason,
+recipient, and timestamp even after a successful redelivery. This API does not
+repair a recipient's local state; delivery must receive a valid acknowledgement
+or reconciliation must apply the origin's replay.
+
 ## 3. Incidents
 
 ### "The event chain does not verify"
