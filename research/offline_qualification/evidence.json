@@ -788,6 +788,20 @@
       "limitations": [
         "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
       ]
+    },
+    {
+      "task_id": "E5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/package_parity.py",
+        "docs/PACKAGE_PARITY.md",
+        "research/results/e5-07-package-parity.json"
+      ],
+      "limitations": [
+        "Validated on Windows with Python 3.13.5 only; supported interpreter and operating-system CI matrix remains separate. Built artifacts are represented by their recorded SHA-256 hashes and were installed in temporary environments that were removed after the run."
+      ]
     }
   ]
 }
