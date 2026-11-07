@@ -680,6 +680,27 @@
       "limitations": [
         "Forty hard-crash cycles are deterministic local SQLite qualification, not a continuous production-duration soak, physical-host failure, PostgreSQL, or deployment-hardware resource ceiling."
       ]
+    },
+    {
+      "task_id": "E5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_reference.py",
+        "tools/gen_stability.py",
+        "docs/API_INVENTORY.json",
+        "docs/API.md",
+        "STABILITY.md",
+        "tests/test_reference_docs.py",
+        "tests/test_fabric_structure.py",
+        "tests/test_stability.py",
+        "research/results/e5-01-api-inventory.json",
+        "research/results/e5-01-api-inventory.xml"
+      ],
+      "limitations": [
+        "The inventory covers documented public API symbols; the migration-note requirement is documented and review-enforced rather than inferred from arbitrary Git history."
+      ]
     }
   ]
 }
