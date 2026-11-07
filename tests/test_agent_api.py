@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 import urllib.error
 import urllib.request
@@ -79,10 +80,11 @@ class TestTheSurface(ApiCase):
 
         was_tracing = tracemalloc.is_tracing()
         profile_token = "profile-token-for-test-only-1234567890"
+        api = AgentApi(self.service)
         with patch.dict(os.environ, {"MEMORY_FABRIC_PROFILE": "1",
                                     "MEMORY_FABRIC_PROFILE_ALLOCATIONS": "1",
                                     "MEMORY_FABRIC_PROFILE_TOKEN": profile_token}):
-            server = build_agent_server(AgentApi(self.service), port=0)
+            server = build_agent_server(api, port=0)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         try:
@@ -108,6 +110,29 @@ class TestTheSurface(ApiCase):
                 profile = json.loads(response.read())
             self.assertIn("server_python_allocation_peak_bytes", profile)
             self.assertIn("fabric_lock_wait", profile)
+
+            credential = self.token()
+            waiting = threading.Event()
+            errors: list[BaseException] = []
+
+            def blocked_recall() -> None:
+                waiting.set()
+                try:
+                    api.handle("recall", credential, {"query": "pilot cable"},
+                               remote="127.0.0.1")
+                except BaseException as exc:  # surfaced in the test thread
+                    errors.append(exc)
+
+            with self.fabric.lock:
+                worker = threading.Thread(target=blocked_recall)
+                worker.start()
+                self.assertTrue(waiting.wait(2))
+                time.sleep(0.05)
+            worker.join(timeout=5)
+            self.assertFalse(worker.is_alive())
+            self.assertEqual(errors, [])
+            measured = api.profile_recorder.snapshot()["fabric_lock_wait"]
+            self.assertGreaterEqual(measured["total"], 20_000_000)
         finally:
             server.shutdown()
             server.server_close()

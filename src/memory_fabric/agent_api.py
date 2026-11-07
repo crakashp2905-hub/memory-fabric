@@ -318,7 +318,12 @@ class AgentApi:
             if stages is not None:
                 stages.mark("auth")
             agent_id, credential = self.precheck(bearer, remote)
-            with self._fabric.lock:
+            lock_started = time.perf_counter_ns()
+            self._fabric.lock.acquire()
+            profile = getattr(self._fabric, "_profile_marker", None)
+            if profile is not None:
+                profile("fabric_lock_wait", time.perf_counter_ns() - lock_started)
+            try:
                 client = self.client_for(agent_id, credential, remote)
                 if stages is not None:
                     stages.mark("dispatch_other")
@@ -331,6 +336,8 @@ class AgentApi:
                 if operation == "remember":
                     return self._remember(client, body)
                 raise _ApiError(HTTPStatus.NOT_FOUND, "unknown operation")
+            finally:
+                self._fabric.lock.release()
         finally:
             if stages is not None:
                 stages.finish_elapsed(stages.recorder.clock_ns() - stages.started)

@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "3af56ad7225091f0b3f282767196a7278bb92699",
+    "commit": "d9509a9c646845e3d5f3b2841c17590bee555122",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 34,
-      "PARTIAL": 4,
+      "DONE": 33,
+      "PARTIAL": 5,
       "TODO": 222
     },
-    "completed": 34,
+    "completed": 33,
     "total": 260,
-    "percent_complete": 13.08,
-    "p0_open": 86,
+    "percent_complete": 12.69,
+    "p0_open": 87,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -600,8 +600,8 @@
       "priority": "P0",
       "task": "Run controlled profiler with 1, 10, 50 and 100 concurrent local clients.",
       "acceptance": "Show CPU, lock wait, I/O, allocation and p50/p95/p99 per scenario",
-      "status": "DONE",
-      "acceptance_passed": true,
+      "status": "PARTIAL",
+      "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "experiments/p12b_api_load.py",
@@ -618,6 +618,7 @@
         "research/results/e4-03-profile-tests.xml"
       ],
       "limitations": [
+        "The first run measured a re-entrant inner RLock acquisition rather than API request contention; corrected outer-lock instrumentation and a full rerun are required",
         "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
         "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
         "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"

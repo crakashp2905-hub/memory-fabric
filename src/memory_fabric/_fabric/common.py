@@ -6,8 +6,6 @@ __stability__ = "stable"
 
 
 import functools
-import time
-
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Callable, Concatenate, Mapping, ParamSpec, TypeVar
 
@@ -156,16 +154,9 @@ def _fresh(method: Callable[Concatenate[Any, _P], _R]) -> Callable[Concatenate[A
         # connection is one sqlite3 connection, and neither may be used from
         # two threads at once. Re-entrant, so a public method calling another
         # takes it once.
-        lock_started = time.perf_counter_ns()
-        self.lock.acquire()
-        marker = getattr(self, "_profile_marker", None)
-        if marker is not None:
-            marker("fabric_lock_wait", time.perf_counter_ns() - lock_started)
-        try:
+        with self.lock:
             self.refresh()
             return method(self, *args, **kwargs)
-        finally:
-            self.lock.release()
 
     return wrapper
 
