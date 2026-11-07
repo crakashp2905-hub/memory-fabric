@@ -9,6 +9,7 @@ venv/
 
 # Stores. The fabric writes SQLite files wherever it is pointed; the demo and
 # the tests create them freely. Results worth keeping live in research/results/
+.test-tmp/
 # as text, not as databases.
 *.db
 *.db-wal

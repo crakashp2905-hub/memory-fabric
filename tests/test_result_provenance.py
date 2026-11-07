@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import subprocess
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -37,8 +38,20 @@ def test_dirty_result_requires_explicit_exploratory_reason() -> None:
 
 
 def test_stamp_refuses_dirty_checkout_without_exploratory_label() -> None:
-    with pytest.raises(ValueError, match="dirty source"):
-        stamp({}, root=ROOT)
-    data = stamp({}, exploratory=True, reason="local iteration", root=ROOT)
-    assert data["source"]["dirty"] is True
-    assert validate(data, root=ROOT) == []
+    scratch = ROOT / ".test-tmp"
+    scratch.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=scratch) as directory:
+        repo = Path(directory)
+        subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.email", "tests@example.invalid"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.name", "Tests"], cwd=repo, check=True)
+        fixture = repo / "source.txt"
+        fixture.write_text("clean\n", encoding="utf-8")
+        subprocess.run(["git", "add", "source.txt"], cwd=repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "fixture"], cwd=repo, check=True)
+        fixture.write_text("dirty\n", encoding="utf-8")
+        with pytest.raises(ValueError, match="dirty source"):
+            stamp({}, root=repo)
+        data = stamp({}, exploratory=True, reason="local iteration", root=repo)
+        assert data["source"]["dirty"] is True
+        assert validate(data, root=repo) == []
