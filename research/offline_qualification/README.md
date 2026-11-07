@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **36 / 260 (13.85%)**. Internal status: **BLOCKED**.
+Strict completion: **37 / 260 (14.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ac131859be76efa852a9b938ba13cb5bff9ab49030ec069ab7fadf952b4ec519`.
+Normalized ledger digest: `4f434a3f1d20042bdc411b8e346c5a0518b9d321f5fd4ef25870eea095735333`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 36 |
+| DONE | 37 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 220 |
+| TODO | 219 |
 
 ## Graduation gates
 
@@ -63,7 +63,7 @@ Normalized ledger digest: `ac131859be76efa852a9b938ba13cb5bff9ab49030ec069ab7fad
 | E4-03 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/p12b_api_load.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/stage_trace.py`, `tests/test_agent_api.py`, `tests/test_p12b_api_load.py`, `tests/test_p12b_harness.py`, `research/results/e4-03-local-profile.json`, `research/results/e4-03-local-profile.md`, `research/results/e4-03-local-profile-manifest.json`, `research/results/e4-03-profile-tests.xml` |
 | E4-04 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/integrity.py`, `tests/test_integrity_chain.py`, `tests/test_eventlog.py`, `tests/test_multiprocess_crash.py`, `research/results/e4-04-contention-before-after.json`, `research/results/e4-04-contention-before-after.md`, `research/results/e4-04-regression-tests.xml`, `research/results/e4-04-batched-chain-pilot.json`, `research/results/e4-04-100-client.json`, `research/results/e4-04-manifest.json` |
 | E4-05 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_sqlite_stress.py`, `docs/OPERATIONS.md`, `tests/test_concurrency.py`, `tests/test_eventlog.py`, `research/results/e4-05-sqlite-qualification.json`, `research/results/e4-05-sqlite-qualification.md`, `research/results/e4-05-sqlite-5s.json`, `research/results/e4-05-sqlite-30s.json`, `research/results/e4-05-regression-tests.xml`, `research/results/e4-05-manifest.json` |
-| E4-06 | P0 | TODO | NOT_TESTED | — |
+| E4-06 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_scan_benchmark.py`, `tests/test_eventlog.py`, `research/results/e4-06-page-scan.json`, `research/results/e4-06-page-scan.md`, `research/results/e4-06-page-scan.svg`, `research/results/e4-06-regression-tests.xml`, `research/results/e4-06-manifest.json` |
 | E4-07 | P0 | TODO | NOT_TESTED | — |
 | E4-08 | P0 | TODO | NOT_TESTED | — |
 | E4-09 | P0 | TODO | NOT_TESTED | — |

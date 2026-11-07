@@ -534,6 +534,25 @@
       ]
     },
     {
+      "task_id": "E4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_scan_benchmark.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-06-page-scan.json",
+        "research/results/e4-06-page-scan.md",
+        "research/results/e4-06-page-scan.svg",
+        "research/results/e4-06-regression-tests.xml",
+        "research/results/e4-06-manifest.json"
+      ],
+      "limitations": [
+        "Synthetic one-MemoryCreated-event-per-memory fixture on one local Windows host with a warm SQLite cache; not an external production corpus or remote-storage benchmark.",
+        "This benchmark covers bounded EventLog keyset scans; the operator list path still materializes and sorts the complete in-memory projection before applying its output limit, and is flagged for separate work."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

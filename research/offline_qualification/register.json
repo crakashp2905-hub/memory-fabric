@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+    "commit": "69bf463de2f4e7a6c637e59c555e320a5e1bcb1d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 36,
+      "DONE": 37,
       "PARTIAL": 4,
-      "TODO": 220
+      "TODO": 219
     },
-    "completed": 36,
+    "completed": 37,
     "total": 260,
-    "percent_complete": 13.85,
-    "p0_open": 84,
+    "percent_complete": 14.23,
+    "p0_open": 83,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -679,11 +679,22 @@
       "priority": "P0",
       "task": "Build bounded paginated query/scan benchmarks at 1k, 10k and 100k memories.",
       "acceptance": "Complexity trend and memory budget are plotted; failing scale regimes recorded honestly",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_scan_benchmark.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-06-page-scan.json",
+        "research/results/e4-06-page-scan.md",
+        "research/results/e4-06-page-scan.svg",
+        "research/results/e4-06-regression-tests.xml",
+        "research/results/e4-06-manifest.json"
+      ],
+      "limitations": [
+        "Synthetic one-MemoryCreated-event-per-memory fixture on one local Windows host with a warm SQLite cache; not an external production corpus or remote-storage benchmark.",
+        "This benchmark covers bounded EventLog keyset scans; the operator list path still materializes and sorts the complete in-memory projection before applying its output limit, and is flagged for separate work."
+      ]
     },
     {
       "task_id": "E4-07",
