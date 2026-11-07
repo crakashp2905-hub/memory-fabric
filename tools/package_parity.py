@@ -108,6 +108,10 @@ def main() -> int:
         scratch_root.mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="mf-package-parity-", dir=scratch_root) as scratch:
             work = Path(scratch)
+            system_temp = work / "system-temp"
+            system_temp.mkdir()
+            os.environ.update({"TEMP": str(system_temp), "TMP": str(system_temp),
+                               "TMPDIR": str(system_temp)})
             dist = work / "dist"
             dist.mkdir()
             _run([sys.executable, "-m", "build", "--sdist", "--wheel",
