@@ -49,13 +49,18 @@
       "task_id": "E1-04",
       "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tools/offline_baseline.py",
-        "tools/results_manifest.py"
+        "benchmarks/provenance.py",
+        "benchmarks/manifest.py",
+        "tests/test_result_provenance.py",
+        "tests/test_benchmarks.py",
+        "docs/RESULT_PROVENANCE.md",
+        "research/results/e1-04-result-provenance.json",
+        "research/results/e1-04-result-provenance.xml"
       ],
       "limitations": [
-        "Older result files without exact SHA remain explicitly listed"
+        "New benchmark manifest writes bind exact 40-character source SHA and explicit dirty state; unknown SHA and dirty non-exploratory records are rejected. Fifty-five existing historical result rows lack an exact source SHA and cannot be reconstructed truthfully."
       ]
     },
     {
