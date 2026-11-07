@@ -58,6 +58,24 @@ def test_evidence_content_is_bound_by_sha256() -> None:
         assert digest == oq.sha256(ROOT / path)
 
 
+def test_negative_control_corrupts_expected_result_then_restores_pass() -> None:
+    scratch = ROOT / ".test-tmp"
+    scratch.mkdir(exist_ok=True)
+    artifact = scratch / "expected-result.json"
+    relative = ".test-tmp/expected-result.json"
+    original = b'{"decision":"PASS","solved":7}\n'
+    artifact.write_bytes(original)
+    expected = {"decision": "PASS", "solved": 7}
+    assert oq.verify_expected_json(relative, expected) == []
+    try:
+        artifact.write_bytes(b'{"decision":"PASS","solved":6}\n')
+        failures = oq.verify_expected_json(relative, expected)
+        assert failures == ["solved: expected 7, observed 6"]
+    finally:
+        artifact.write_bytes(original)
+    assert oq.verify_expected_json(relative, expected) == []
+
+
 @pytest.mark.parametrize(
     "declared,observed,expected",
     [([1, 2, 3], [1, 2], "missing"), ([1, 2], [1, 2, 3], "extra"),

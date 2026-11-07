@@ -76,6 +76,18 @@ def verify_artifact(path: str) -> tuple[str | None, str | None]:
     return sha256(candidate), None
 
 
+def verify_expected_json(path: str, expected: Mapping[str, Any]) -> list[str]:
+    """Check registered expected fields in a JSON result before accepting it."""
+    _, issue = verify_artifact(path)
+    if issue:
+        return [issue]
+    payload = json.loads((ROOT / path).read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        return ["expected a JSON object"]
+    return [f"{key}: expected {value!r}, observed {payload.get(key)!r}"
+            for key, value in expected.items() if payload.get(key) != value]
+
+
 def build() -> dict[str, Any]:
     tasks = parse_scope(SCOPE.read_text(encoding="utf-8"))
     overrides = load_overrides()
