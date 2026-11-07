@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 174,
+ "results": 175,
  "missing_field_counts": {
-  "git_sha": 69,
+  "git_sha": 70,
   "prereg": 75,
-  "dataset_digest": 171,
-  "model_id": 138,
-  "prompt_hash": 174,
-  "seed": 96,
-  "cost": 151,
-  "verdict": 110
+  "dataset_digest": 172,
+  "model_id": 139,
+  "prompt_hash": 175,
+  "seed": 97,
+  "cost": 152,
+  "verdict": 111
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 163
+  "unclassified": 164
  },
  "rows": [
   {
@@ -1675,7 +1675,25 @@
   {
    "experiment_id": "h2-03-action-idempotency",
    "file": "research/results/h2-03-action-idempotency.json",
-   "file_sha256": "2bcd747456106a1bcecbf4b1754ddef9f299ce7e5074f504b3d6e1b3c188455a",
+   "file_sha256": "5cd9e9b85ede1f830e645315f32b10b36164f02bbb12c1aa09f1f9786845511e",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-04-action-reconciliation",
+   "file": "research/results/h2-04-action-reconciliation.json",
+   "file_sha256": "c82fc14ec2af2c56bc8c7fedba8b39d99a837d6e1da94b6d709353a3ae196cef",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
    "git_sha": null,

@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "215eb05453e98f6f53e12b6ccf530e832fbd41ebbcf06751a48209d7a50eae17",
+    "sha256": "88a93dc8d9e53c2ddeb22e48f18d9f6b2a93549e6d3be375dcb015e01e13485d",
     "tasks": 260
   },
   "source": {
-    "commit": "9993188597c46bbb6e8e167b17202ef8df6fb54f",
+    "commit": "a01e948e0d4b8b8f939692ebeef5c7996d4af5a9",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 83,
+      "DONE": 84,
       "PARTIAL": 5,
-      "TODO": 172
+      "TODO": 171
     },
-    "completed": 83,
+    "completed": 84,
     "total": 260,
-    "percent_complete": 31.92,
-    "p0_open": 46,
+    "percent_complete": 32.31,
+    "p0_open": 45,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "49a781a3bba9f5f2e037830051caff5af9a92358bb98ca447c23426eebbe6059",
-        "docs/VALIDATION.md": "a5b3450088fa3ccf082208c9bd45ada2935ce9220becc8b26df8d46423f21f4b",
-        "docs/STATUS_AT_HEAD.md": "bfe6b8866cd37ce89e2a6493cf8d48c0dcca83db52094aae5618110a464ad32a",
+        "README.md": "1edb36f44958697574932b0837e8312cb668cfe3b8c07edd575ad50619f2b6a8",
+        "docs/VALIDATION.md": "c31a55bede63f3f17d8c24e6f53c05ed1701f765ca46d7f85308bf2426fa61bf",
+        "docs/STATUS_AT_HEAD.md": "d0118f6ec5959c50c1590268652144de1b4ac9e50b7cde0812625e7b6ded7f30",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -557,7 +557,7 @@
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
-        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f"
       },
       "evidence_issues": {},
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "751794a0b1948f23293136f6c51214476b59f4ef9069f7e02598d68e315d5cc2",
+        "research/results/MANIFEST.json": "3ef2b4123310581e69c042aef563cd0c6603bb3ab1ad1774be797442630efc06",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1917,7 +1917,7 @@
       "evidence_digests": {
         "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "docs/EVIDENCE_OPERATION_RISK.md": "c5e1a22247597768893a0129f36b537107d9fafa490672559c71053ebfc85396",
@@ -3463,7 +3463,7 @@
         "research/results/r2-h2-acceptance-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
         "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
@@ -3489,7 +3489,7 @@
         "research/results/h2-02-action-binding-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
         "tests/test_authority.py": "3c42a605fdb8c6769d01fa0ec79c96244e9452b047c13c58fc23ee29deaa5502",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
@@ -3519,14 +3519,14 @@
         "research/results/h2-03-action-compatibility-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
         "src/memory_fabric/events.py": "1c85ed539ffd79e11fde46e48605df291b33dc1fce1c7775fbd30e7df671f43c",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
-        "tests/test_action_crash.py": "1e0b0f00e74a4400abda6f87eee015b2b548ca0791d937c6e107737db0d73e5b",
+        "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
         "tools/action_idempotency_qualification.py": "fe60a2aebd721cbe79af50c39e06aa2346bb05ccda2b68a7de52c9870927f169",
-        "research/results/h2-03-idempotency-tests.xml": "f7795bc8560f00b323ba497205ae0204a7b1e65a513c2d5b9d78b5a4f90f12b3",
-        "research/results/h2-03-action-idempotency.json": "2fb1724d911056528f61bfc44d876f81d36590ab121ab05a2edd58047817b72d",
+        "research/results/h2-03-idempotency-tests.xml": "77bc5f8aaa755f7792e73a110da7c1908fc922370c1e19074be8ea861b492b45",
+        "research/results/h2-03-action-idempotency.json": "c91301b01c0969825042dd729b7c7a60cb0ca5c9b64277a74b93ee985d429ba1",
         "research/results/h2-03-action-compatibility-tests.xml": "d9a0d4fa20c3b8915828cb6243bb09629668b352b1c065512b316eca3cfab274"
       },
       "evidence_issues": {},
@@ -3538,14 +3538,32 @@
       "task_id": "H2-04",
       "priority": "P0",
       "task": "Document crash-after-side-effect ambiguity and add reconciliation ledger for simulated external effects.",
-      "acceptance": "Recovery distinguishes completed, unknown and definitely unexecuted states without promising atomic external systems",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Recovery distinguishes completed, unknown and definitely unexecuted states without promising atomic external systems. Evidence: `src/memory_fabric/actions.py`, `tests/test_action_reconciliation.py`, `tests/test_action_crash.py`, `docs/ACTION_RECONCILIATION.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_reconciliation.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_RECONCILIATION.md",
+        "tools/action_reconciliation_qualification.py",
+        "research/results/h2-04-action-reconciliation-tests.xml",
+        "research/results/h2-04-action-reconciliation.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
+        "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
+        "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
+        "docs/ACTION_RECONCILIATION.md": "8caf398788fa8fbfaa6f08b6c2afbdaecf02d5e18b16c34e9684bc945486bb06",
+        "tools/action_reconciliation_qualification.py": "3ab55b215dc8e98772cd1d261df163d195805d0fb21b92ff6e028d75dd74ec90",
+        "research/results/h2-04-action-reconciliation-tests.xml": "6f66226c97ae4f448e68acbcca0b5eee0154cef67241ec56494fcfa1bb5b48d0",
+        "research/results/h2-04-action-reconciliation.json": "627ab9d437f2d7c3f058288bfd50e00c8524189ff07b974ad101a633abb96f0d"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The event ledger classifies local receipts and unresolved attempts; the host must reconcile an unknown outcome against the external system's own state. Exactly-once external effects are not promised."
+      ]
     },
     {
       "task_id": "H2-05",
