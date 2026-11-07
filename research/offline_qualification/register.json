@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4d616cd8a611b5b956dd1f8b955aae7f3035652f",
+    "commit": "c600984f2a4cabc1222deed64872ed483bbd0414",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 29,
+      "DONE": 30,
       "PARTIAL": 4,
-      "TODO": 227
+      "TODO": 226
     },
-    "completed": 29,
+    "completed": 30,
     "total": 260,
-    "percent_complete": 11.15,
-    "p0_open": 91,
+    "percent_complete": 11.54,
+    "p0_open": 90,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -504,11 +504,21 @@
       "priority": "P0",
       "task": "Make explicit UNKNOWN, CONFLICTING and UNDETERMINED behavior testable for every read surface.",
       "acceptance": "CLI, SDK, MCP and HTTP return the same semantic reason codes",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/answerability.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_read_surface_semantics.py",
+        "docs/READ_SURFACE_SEMANTICS.md"
+      ],
+      "limitations": [
+        "Reason codes express evidence semantics, not permission to execute an external effect"
+      ]
     },
     {
       "task_id": "E3-09",

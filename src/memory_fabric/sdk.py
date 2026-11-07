@@ -40,6 +40,7 @@ __all__ = [
     "SdkError",
     "NotUsable",
     "UsableMemory",
+    "RecallResult",
 ]
 
 
@@ -82,6 +83,14 @@ class UsableMemory:
     @property
     def contested(self) -> bool:
         return bool(self.warnings)
+
+
+class RecallResult(list[UsableMemory]):
+    """List-compatible recall output carrying the shared semantic verdict."""
+
+    def __init__(self, memories: Iterable[UsableMemory], answerability: Any) -> None:
+        super().__init__(memories)
+        self.answerability = answerability
 
 
 class AgentClient:
@@ -128,7 +137,7 @@ class AgentClient:
         include_contested: bool = False,
         episode_id: str | None = None,
         within: Iterable[str] | None = None,
-    ) -> list[UsableMemory]:
+    ) -> RecallResult:
         """Retrieve, enforced, with a token per result.
 
         `within` limits the search to these ids (an opened topic, `navigation.py`).
@@ -187,7 +196,7 @@ class AgentClient:
                             f"{k} ({v})" for k, v in judged.signals.items()
                             if k in validation.SUSPICIOUS),))
                 out.append(usable)
-        return out
+        return RecallResult(out, hits.answerability(query))
 
     def fetch(
         self, memory_id: str, risk: RiskLevel = RiskLevel.LOW

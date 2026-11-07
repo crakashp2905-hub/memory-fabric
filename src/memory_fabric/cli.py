@@ -614,8 +614,14 @@ def cmd_episodes(fabric: MemoryFabric, args: argparse.Namespace) -> int:
 
 def cmd_search(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     hits = report.preview_search(fabric, args.query, k=args.limit, all_states=not args.retrievable)
+    from .answerability import assess
+
+    memories = [fabric.state.memories[hit.id] for hit in hits if hit.id in fabric.state.memories]
+    answerability = assess(args.query, memories)
     if args.json:
-        print(json.dumps(report.jsonable([h.to_json() for h in hits]), indent=2, allow_nan=False))
+        print(json.dumps({"memories": report.jsonable([h.to_json() for h in hits]),
+                          "answerability": answerability.to_json()},
+                         indent=2, allow_nan=False))
         return 0
     heading(f"Index search: {args.query!r}")
     print(f"{C.DIM}Reads the index directly and logs nothing, so this cannot affect "
@@ -636,6 +642,7 @@ def cmd_search(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     )
     if not hits:
         print(f"{C.DIM}Nothing above the relevance floor.{C.RESET}")
+    print(f"Semantic result: {answerability.reason_code}")
     return 0
 
 

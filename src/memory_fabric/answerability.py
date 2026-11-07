@@ -67,6 +67,13 @@ CONFLICTING = "conflicting"
 INSUFFICIENT = "insufficient"
 UNDETERMINED = "undetermined"
 
+SEMANTIC_REASON_CODES = {
+    ANSWERABLE: "ANSWERABLE",
+    INSUFFICIENT: "UNKNOWN",
+    CONFLICTING: "CONFLICTING",
+    UNDETERMINED: "UNDETERMINED",
+}
+
 Judge = Callable[[str, Sequence[str]], "tuple[bool, str]"]
 
 
@@ -120,8 +127,13 @@ class Answerability:
         # caller to select whichever contradictory row happened to rank first.
         return self.verdict in (INSUFFICIENT, CONFLICTING, UNDETERMINED)
 
+    @property
+    def reason_code(self) -> str:
+        return SEMANTIC_REASON_CODES[self.verdict]
+
     def to_json(self) -> dict[str, Any]:
-        return {"verdict": self.verdict, "covering": list(self.covering),
+        return {"verdict": self.verdict, "reason_code": self.reason_code,
+                "covering": list(self.covering),
                 "reasons": list(self.reasons), "values": self.values,
                 "retrieval_confidence": self.retrieval_confidence, "judged": self.judged}
 

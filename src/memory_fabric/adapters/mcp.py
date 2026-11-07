@@ -519,7 +519,8 @@ class McpServer:
         if not isinstance(include_contested, bool):
             raise _ToolError("include_contested must be a boolean")
         hits = self.client.recall(query, k=k, include_contested=include_contested)
-        return {"memories": [self._with_trust(self._present(m)) for m in hits]}
+        return {"memories": [self._with_trust(self._present(m)) for m in hits],
+                "answerability": hits.answerability.to_json()}
 
     def _path(self, args: Mapping[str, Any], required: bool) -> list[str]:
         path = args.get("path", [])

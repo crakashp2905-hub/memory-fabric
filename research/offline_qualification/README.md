@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **29 / 260 (11.15%)**. Internal status: **BLOCKED**.
+Strict completion: **30 / 260 (11.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `213dd1bd96a40831baa487146abff4b7ca9f7f3f0195c4ca9c627f0a69bb467e`.
+Normalized ledger digest: `7579ce657cc4495499740dd747525dded44ae8a191d1d41c3715a5355588d2f3`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 29 |
+| DONE | 30 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 227 |
+| TODO | 226 |
 
 ## Graduation gates
 
@@ -55,7 +55,7 @@ Normalized ledger digest: `213dd1bd96a40831baa487146abff4b7ca9f7f3f0195c4ca9c627
 | E3-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/relations.py`, `src/memory_fabric/_fabric/retrieval.py`, `tests/test_modifier_packages.py`, `tests/test_extraction.py`, `docs/MODIFIER_EVIDENCE_PACKAGES.md` |
 | E3-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/evidence_status.py`, `src/memory_fabric/_fabric/common.py`, `tests/test_evidence_status.py`, `tests/test_answerability.py`, `docs/EVIDENCE_STATUS_API.md` |
 | E3-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/answerability.py`, `src/memory_fabric/_fabric/common.py`, `tests/test_answerability.py`, `docs/PARAMETER_EQUIVALENCES.md` |
-| E3-08 | P0 | TODO | NOT_TESTED | — |
+| E3-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/answerability.py`, `src/memory_fabric/sdk.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/cli.py`, `tests/test_read_surface_semantics.py`, `docs/READ_SURFACE_SEMANTICS.md` |
 | E3-09 | P0 | TODO | NOT_TESTED | — |
 | E3-10 | P0 | TODO | NOT_TESTED | — |
 | E4-01 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/master-checklist-http-capacity-v1.json`, `research/results/master-checklist-http-capacity-v1.md` |
