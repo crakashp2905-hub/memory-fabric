@@ -645,6 +645,22 @@
       "limitations": [
         "Fault schedules use deterministic in-process transport. The test run includes HTTP integration regressions but does not emulate physical network packet impairment."
       ]
+    },
+    {
+      "task_id": "E4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "docs/FRESHNESS_LEASES.md",
+        "research/results/e4-09-freshness-clock-skew.json",
+        "research/results/e4-09-freshness-clock-skew.xml"
+      ],
+      "limitations": [
+        "Clock-skew bound assumes a receiver clock within the configured tolerance; time synchronization remains an operational dependency. Monotonic expiry is process-local and leases are reverified on restart."
+      ]
     }
   ]
 }
