@@ -17,6 +17,7 @@ import time
 import unittest
 import urllib.error
 import urllib.request
+from pathlib import Path
 from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
@@ -75,6 +76,29 @@ class ApiCase(unittest.TestCase):
 
 
 class TestTheSurface(ApiCase):
+    def test_http_behavior_characterization_snapshot(self) -> None:
+        expected = json.loads((Path(__file__).parent / "data/agent_api_behavior.json")
+                              .read_text(encoding="utf-8"))
+        token = self.token()
+        recall_status, recall = self.post("recall", {"query": "pilot cable coastal"}, token)
+        memory = next(row for row in recall["memories"] if row["memory_id"] == self.mid)
+        observed = {
+            "unauthenticated": {"status": self.post("recall", {"query": "pilot"})[0],
+                                "body": self.post("recall", {"query": "pilot"})[1]},
+            "invalid_recall_limit": {"status": self.post(
+                "recall", {"query": "pilot", "k": 0}, token)[0],
+                "body": self.post("recall", {"query": "pilot", "k": 0}, token)[1]},
+            "unknown_operation": {"status": self.post("record_outcome", {}, token)[0],
+                                  "body": self.post("record_outcome", {}, token)[1]},
+            "recall": {"status": recall_status,
+                       "top_level_keys": sorted(recall),
+                       "memory_keys": sorted(memory),
+                       "memory_content": memory["content"],
+                       "answerability_keys": sorted(recall["answerability"]),
+                       "disagreements_type": type(recall["disagreements"]).__name__},
+        }
+        self.assertEqual(observed, expected)
+
     def test_benchmark_profile_is_local_opt_in_and_resettable(self) -> None:
         import tracemalloc
 
