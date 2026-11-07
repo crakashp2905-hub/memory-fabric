@@ -219,6 +219,53 @@ class EvidenceChain:
         return f"{memory_id} ({need}, rank {step.rank}): {what}{link}"
 
 
+@dataclass(frozen=True)
+class EvidencePackage:
+    """A fixed-budget chain package that never silently drops dependencies."""
+
+    memory_ids: tuple[str, ...]
+    tokens_estimated: int
+    budget: int
+    complete: bool
+    missing_required: tuple[str, ...] = ()
+    failure_reason: str | None = None
+
+
+def pack_evidence(chain: EvidenceChain, content: Mapping[str, str],
+                  token_budget: int) -> EvidencePackage:
+    """Pack necessary steps first, or fail before returning partial evidence."""
+    if token_budget < 0:
+        raise ValueError("token_budget must be non-negative")
+    if not chain.complete:
+        return EvidencePackage((), 0, token_budget, False, chain.necessary_ids,
+                               chain.insufficient_reason)
+
+    def cost(memory_id: str) -> int:
+        if memory_id not in content:
+            raise KeyError(f"missing content for chain memory {memory_id}")
+        return max(1, (len(content[memory_id]) + 3) // 4)
+
+    required = chain.necessary_ids
+    required_cost = sum(cost(memory_id) for memory_id in required)
+    if required_cost > token_budget:
+        return EvidencePackage(
+            (), 0, token_budget, False, required,
+            "MANDATORY_EVIDENCE_EXCEEDS_BUDGET",
+        )
+
+    selected = list(required)
+    used = required_cost
+    for step in chain.steps:
+        if step.memory_id in selected:
+            continue
+        item_cost = cost(step.memory_id)
+        if used + item_cost <= token_budget:
+            selected.append(step.memory_id)
+            used += item_cost
+    ordered = tuple(step.memory_id for step in chain.steps if step.memory_id in selected)
+    return EvidencePackage(ordered, used, token_budget, True)
+
+
 @dataclass
 class _State:
     ids: tuple[str, ...]

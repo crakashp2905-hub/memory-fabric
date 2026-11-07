@@ -226,6 +226,14 @@
       "limitations": ["Reason codes express evidence semantics, not permission to execute an external effect"]
     },
     {
+      "task_id": "E3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["src/memory_fabric/chains.py", "tests/test_chains.py", "docs/EVIDENCE_PACKAGE_BUDGETS.md"],
+      "limitations": ["The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

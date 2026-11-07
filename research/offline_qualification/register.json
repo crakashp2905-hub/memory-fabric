@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "c600984f2a4cabc1222deed64872ed483bbd0414",
+    "commit": "07266841205b6501f4f56da1f44a1d396d3eb8d7",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 30,
+      "DONE": 31,
       "PARTIAL": 4,
-      "TODO": 226
+      "TODO": 225
     },
-    "completed": 30,
+    "completed": 31,
     "total": 260,
-    "percent_complete": 11.54,
-    "p0_open": 90,
+    "percent_complete": 11.92,
+    "p0_open": 89,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -525,11 +525,17 @@
       "priority": "P0",
       "task": "Measure and cap the evidence package's useful-token or byte budget without dropping mandatory dependencies.",
       "acceptance": "Fixed-budget tests retain every required citation or fail with a missing-evidence explanation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md"
+      ],
+      "limitations": [
+        "The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"
+      ]
     },
     {
       "task_id": "E3-10",
