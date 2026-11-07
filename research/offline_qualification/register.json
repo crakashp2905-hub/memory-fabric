@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "574d54ac81888dcbd118b30d90800c9dce358d76",
+    "commit": "e58953488a1395dfa53673b5dab0d18c8daa3203",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 47,
+      "DONE": 48,
       "PARTIAL": 4,
-      "TODO": 209
+      "TODO": 208
     },
-    "completed": 47,
+    "completed": 48,
     "total": 260,
-    "percent_complete": 18.08,
+    "percent_complete": 18.46,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -910,11 +910,17 @@
       "priority": "P1",
       "task": "Add build-from-sdist and build-from-wheel parity verification with generated reports.",
       "acceptance": "Both artifacts pass import, CLI, doctor and deterministic smoke without relying on checkout path",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/package_parity.py",
+        "docs/PACKAGE_PARITY.md",
+        "research/results/e5-07-package-parity.json"
+      ],
+      "limitations": [
+        "Validated on Windows with Python 3.13.5 only; supported interpreter and operating-system CI matrix remains separate. Built artifacts are represented by their recorded SHA-256 hashes and were installed in temporary environments that were removed after the run."
+      ]
     },
     {
       "task_id": "E5-08",

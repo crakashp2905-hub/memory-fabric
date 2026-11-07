@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **47 / 260 (18.08%)**. Internal status: **BLOCKED**.
+Strict completion: **48 / 260 (18.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6463243a31977fb48fc94bf4bc134b1f5c5e4655b7de4fe2caf232d12bec8282`.
+Normalized ledger digest: `a405334804b5dc752934be0a724af3a86f584e60530e2c60699eaf06dd604719`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 47 |
+| DONE | 48 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 209 |
+| TODO | 208 |
 
 ## Graduation gates
 
@@ -74,7 +74,7 @@ Normalized ledger digest: `6463243a31977fb48fc94bf4bc134b1f5c5e4655b7de4fe2caf23
 | E5-04 | P1 | DONE | INTERNAL_INTEGRATION | `docs/EXPERIMENTAL_DEFAULTS.md`, `tests/data/default_features.json`, `tests/test_presets.py`, `tests/test_stability.py`, `research/results/e5-04-default-flags.json`, `research/results/e5-04-default-flags.xml` |
 | E5-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/e5-05-tool-schema.json`, `research/results/e5-05-tool-schema.xml` |
 | E5-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/e5-06-utcp-malicious.json`, `research/results/e5-06-utcp-malicious.xml` |
-| E5-07 | P1 | TODO | NOT_TESTED | — |
+| E5-07 | P1 | DONE | INTERNAL_INTEGRATION | `tools/package_parity.py`, `docs/PACKAGE_PARITY.md`, `research/results/e5-07-package-parity.json` |
 | E5-08 | P1 | TODO | NOT_TESTED | — |
 | E5-09 | P1 | TODO | NOT_TESTED | — |
 | E5-10 | P1 | TODO | NOT_TESTED | — |
