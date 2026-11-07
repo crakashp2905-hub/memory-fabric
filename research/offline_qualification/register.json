@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f730036167e79021f896e0f13baf944b4e280a79",
+    "commit": "8db09c40532a7d79def577a5d33a525353a6d6f2",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 24,
+      "DONE": 25,
       "PARTIAL": 4,
-      "TODO": 232
+      "TODO": 231
     },
-    "completed": 24,
+    "completed": 25,
     "total": 260,
-    "percent_complete": 9.23,
-    "p0_open": 96,
+    "percent_complete": 9.62,
+    "p0_open": 95,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -412,11 +412,19 @@
       "priority": "P0",
       "task": "Implement query-family routing behind opt-in flag with deterministic fallback.",
       "acceptance": "Router cannot lower core governance and reverts to lexical on unrecognized query shapes",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/retrieval_routing.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/retrieval_profiles.py",
+        "tests/test_retrieval_routing.py",
+        "docs/QUERY_ROUTING.md"
+      ],
+      "limitations": [
+        "Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"
+      ]
     },
     {
       "task_id": "E3-04",

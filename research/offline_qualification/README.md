@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **24 / 260 (9.23%)**. Internal status: **BLOCKED**.
+Strict completion: **25 / 260 (9.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a88474a206c4498ebdcd7bddfc60ef53f5a43decc579a383e4b719aa81c69732`.
+Normalized ledger digest: `92572e513cc7dd4cdfe56bfe46005df6ae0e221f15474f7730513a2b90c12d00`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 24 |
+| DONE | 25 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 232 |
+| TODO | 231 |
 
 ## Graduation gates
 
@@ -50,7 +50,7 @@ Normalized ledger digest: `a88474a206c4498ebdcd7bddfc60ef53f5a43decc579a383e4b71
 | E2-10 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_action_race_barriers.py`, `tests/test_action_fence.py`, `tests/test_visibility_at_action.py`, `src/memory_fabric/actions.py`, `docs/ACTION_RACE_SERIALIZATION.md` |
 | E3-01 | P0 | DONE | CONTRACT | `research/bench/retrieval_errors_v1/cases.json`, `research/bench/retrieval_errors_v1/build.py`, `research/bench/retrieval_errors_v1/README.md`, `tests/test_retrieval_error_taxonomy.py` |
 | E3-02 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/longmemeval.md`, `experiments/longmemeval_bench.py`, `docs/RETRIEVAL_BASELINE_QUALIFICATION.md`, `tests/test_retrieval_baseline_contract.py` |
-| E3-03 | P0 | TODO | NOT_TESTED | — |
+| E3-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/retrieval_routing.py`, `src/memory_fabric/_fabric/retrieval.py`, `src/memory_fabric/retrieval_profiles.py`, `tests/test_retrieval_routing.py`, `docs/QUERY_ROUTING.md` |
 | E3-04 | P0 | TODO | NOT_TESTED | — |
 | E3-05 | P0 | TODO | NOT_TESTED | — |
 | E3-06 | P0 | TODO | NOT_TESTED | — |

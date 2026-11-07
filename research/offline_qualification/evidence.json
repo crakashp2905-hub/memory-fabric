@@ -178,6 +178,14 @@
       "limitations": ["Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"]
     },
     {
+      "task_id": "E3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/retrieval_routing.py", "src/memory_fabric/_fabric/retrieval.py", "src/memory_fabric/retrieval_profiles.py", "tests/test_retrieval_routing.py", "docs/QUERY_ROUTING.md"],
+      "limitations": ["Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
