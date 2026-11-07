@@ -6,14 +6,14 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e000316316615db74c59852ba32ac0a7fc443757",
+    "commit": "e42ee19fb372f8196742a3b0b9c462f2c3298e74",
     "dirty": true
   },
   "summary": {
     "counts": {
       "DONE": 50,
-      "PARTIAL": 4,
-      "TODO": 206
+      "PARTIAL": 5,
+      "TODO": 205
     },
     "completed": 50,
     "total": 260,
@@ -973,11 +973,18 @@
       "priority": "P1",
       "task": "Test Windows/macOS/Linux path and encoding assumptions using portable local fixtures.",
       "acceptance": "Text, unicode, separators, line endings and case-collision guards pass across available CI matrix",
-      "status": "TODO",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_portable_paths.py",
+        "docs/PORTABLE_PATHS.md",
+        "research/results/e5-10-portable-paths.xml"
+      ],
+      "limitations": [
+        "All 38 selected tests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+      ]
     },
     {
       "task_id": "R1-01",

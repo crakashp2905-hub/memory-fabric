@@ -842,6 +842,21 @@
       "limitations": [
         "Characterization and complexity/duplication evidence are scoped to the high-churn agent HTTP API module; the AST complexity measure is a documented local proxy, not a whole-project metric."
       ]
+    },
+    {
+      "task_id": "E5-10",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_portable_paths.py",
+        "docs/PORTABLE_PATHS.md",
+        "research/results/e5-10-portable-paths.xml"
+      ],
+      "limitations": [
+        "All 38 selected tests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+      ]
     }
   ]
 }

@@ -4,15 +4,15 @@ Strict completion: **50 / 260 (19.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `398000524a569c3b732a83a8f7b806d7a500d4ec99d1cc2d00ea4faa843e89a9`.
+Normalized ledger digest: `ebb3cfe58b27c20ad52a34af3338f50ac94b9390a587fc938bfa764e0e4e0d49`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
 | DONE | 50 |
 | NOT_TESTED | 0 |
-| PARTIAL | 4 |
-| TODO | 206 |
+| PARTIAL | 5 |
+| TODO | 205 |
 
 ## Graduation gates
 
@@ -77,7 +77,7 @@ Normalized ledger digest: `398000524a569c3b732a83a8f7b806d7a500d4ec99d1cc2d00ea4
 | E5-07 | P1 | DONE | INTERNAL_INTEGRATION | `tools/package_parity.py`, `docs/PACKAGE_PARITY.md`, `research/results/e5-07-package-parity.json` |
 | E5-08 | P1 | DONE | INTERNAL_INTEGRATION | `docs/HISTORICAL_COMPATIBILITY_FIXTURES.md`, `tests/data/historical/manifest.json`, `tests/data/historical/v0.11.0.db.gz`, `tests/test_historical_fixtures.py`, `tests/test_version_skew.py`, `tests/test_integrity_chain.py`, `research/results/e5-08-historical-fixtures.json`, `research/results/e5-08-historical-fixtures.xml` |
 | E5-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `tests/test_agent_api.py`, `tests/data/agent_api_behavior.json`, `tools/agent_api_metrics.py`, `research/results/e5-09-agent-api-before.json`, `research/results/e5-09-agent-api-before.xml`, `research/results/e5-09-agent-api-after.json`, `research/results/e5-09-agent-api-after.xml`, `research/results/e5-09-agent-api-after-core.xml`, `research/results/e5-09-agent-api-refactor.json` |
-| E5-10 | P1 | TODO | NOT_TESTED | — |
+| E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml` |
 | R1-01 | P0 | TODO | NOT_TESTED | — |
 | R1-02 | P0 | TODO | NOT_TESTED | — |
 | R1-03 | P0 | TODO | NOT_TESTED | — |
