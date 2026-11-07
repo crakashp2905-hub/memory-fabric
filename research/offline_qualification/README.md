@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **71 / 260 (27.31%)**. Internal status: **BLOCKED**.
+Strict completion: **74 / 260 (28.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `64c53a07404a5e3c3c9f1e49c251c98b12d59a596acb1c72c3e804fc4a5430e2`.
+Normalized ledger digest: `3a53715869890919ff5b6354cf97fc12fbfc021b6864c41af2b4b1e52b88b2cd`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 71 |
+| DONE | 74 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 5 |
-| TODO | 184 |
+| PARTIAL | 6 |
+| TODO | 180 |
 
 ## Graduation gates
 
@@ -89,10 +89,10 @@ Normalized ledger digest: `64c53a07404a5e3c3c9f1e49c251c98b12d59a596acb1c72c3e80
 | R1-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `docs/OFFLINE_RESEARCH_BENCHMARK.md`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
-| R2-01 | P0 | TODO | NOT_TESTED | — |
-| R2-02 | P0 | TODO | NOT_TESTED | — |
-| R2-03 | P0 | TODO | NOT_TESTED | — |
-| R2-04 | P0 | TODO | NOT_TESTED | — |
+| R2-01 | P0 | PARTIAL | INTERNAL_INTEGRATION | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/prereg/r2-false-withholding-v1.md`, `benchmarks/false_withholding.py`, `research/results/r2-false-withholding-ablation.json` |
+| R2-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `research/prereg/r2-false-withholding-v1.md`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
+| R2-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
+| R2-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `research/prereg/r2-false-withholding-v1.md`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
 | R2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/evidence_state.py`, `tests/test_evidence_state.py`, `research/results/r2-05-evidence-state.xml` |
 | R2-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/certificates.py`, `src/memory_fabric/justification.py`, `tests/test_certificates.py`, `research/results/r2-06-07-support-tests.xml` |
 | R2-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/justification.py`, `src/memory_fabric/certificates.py`, `tests/test_justification.py`, `tests/test_certificates.py`, `research/results/r2-06-07-support-tests.xml` |

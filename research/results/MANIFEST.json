@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 169,
+ "results": 170,
  "missing_field_counts": {
-  "git_sha": 64,
+  "git_sha": 65,
   "prereg": 74,
-  "dataset_digest": 166,
-  "model_id": 133,
-  "prompt_hash": 169,
+  "dataset_digest": 167,
+  "model_id": 134,
+  "prompt_hash": 170,
   "seed": 94,
-  "cost": 146,
+  "cost": 147,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 7,
+  "synthetic_scripted": 8,
   "unclassified": 162
  },
  "rows": [
@@ -2960,6 +2960,30 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "r2-false-withholding-ablation",
+   "file": "research/results/r2-false-withholding-ablation.json",
+   "file_sha256": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r2-false-withholding-v1.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    101,
+    102,
+    103,
+    104,
+    105
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
    "parsable": true
   },
   {

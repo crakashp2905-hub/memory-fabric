@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e67036fe34ac6d4f197ed8d383158b61d9db31c7",
-    "dirty": false
+    "commit": "feeb28ea9dfda0c673499c9494b50490d26bdd32",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 71,
-      "PARTIAL": 5,
-      "TODO": 184
+      "DONE": 74,
+      "PARTIAL": 6,
+      "TODO": 180
     },
-    "completed": 71,
+    "completed": 74,
     "total": 260,
-    "percent_complete": 27.31,
-    "p0_open": 58,
+    "percent_complete": 28.46,
+    "p0_open": 55,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "eed979a7d26684e04814f72bd17bbd6098f15dd687dcb3bb159875230267458a",
-        "docs/VALIDATION.md": "fab147e2133da3d92d82dbaadd8f295a855e3add301a8f48330a562d59dcd13f",
-        "docs/STATUS_AT_HEAD.md": "af3cdf8740f4feef1771e020b9c1e7cb5d5ae83baae3e610f5a9a282bcbb8c10",
+        "README.md": "9d26578a02b8a3312d61b5679bd9892dba461e76630b1ee63116d955c6c85db7",
+        "docs/VALIDATION.md": "4db6a166e1d99d2d139642bd9335d0814984b17c6c534ed5f3933f219e0aac9d",
+        "docs/STATUS_AT_HEAD.md": "202d9970c7260d38c732251116456dc67a6b0b44045860e2ea6923b95f32cde0",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "be9172890aec89957cd5b7cde4caefb1701b0ff871caac792496e774bd0395fb",
+        "research/results/MANIFEST.json": "1bc1dc75e86bf6271c753dc78b61c5d10cb376fe5e1a79562da2104333011512",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1712,52 +1712,104 @@
       "priority": "P0",
       "task": "Import or locally encode the PR #30 16.8% valid-withholding examples with exact provenance.",
       "acceptance": "Each reproducible case has action, evidence, blocker reason and oracle-supported outcome",
-      "status": "TODO",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/grand-50-agent-baseline-reproduction-v2.json",
+        "research/prereg/r2-false-withholding-v1.md",
+        "benchmarks/false_withholding.py",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "evidence_digests": {
+        "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+        "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
+        "benchmarks/false_withholding.py": "d395432d37da429f1f5e80a453c947e972df1fdce39f1665ca2311f000f72240",
+        "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The repository has the PR #30 aggregate and up to ten failure examples per arm, not the exact row-level 16.8% withheld set. The 86 locally generated withheld task traces reproduce the generator semantics at 17.2% on seeds 101\u2013105 and are not represented as exact upstream examples."
+      ]
     },
     {
       "task_id": "R2-02",
       "priority": "P0",
       "task": "Classify refusals by provenance, independence, freshness, authority, poisoning, retrieval and missing dependency.",
       "acceptance": "Attribution sums to the observed denominator; ambiguous cases are explicitly multi-causal",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/false_withholding.py": "d395432d37da429f1f5e80a453c947e972df1fdce39f1665ca2311f000f72240",
+        "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
+        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
+        "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Attribution is for 86 locally encoded valid-withholding cases and 125 stale-action controls, not the unavailable PR #30 row-level dataset. Categories are multi-label and population specific."
+      ]
     },
     {
       "task_id": "R2-03",
       "priority": "P0",
       "task": "Add a counterfactual dry-run explaining which individual guard blocked an action.",
       "acceptance": "Report preserves live policy and does not authorize or execute the trial action",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/false_withholding.py": "d395432d37da429f1f5e80a453c947e972df1fdce39f1665ca2311f000f72240",
+        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
+        "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Dry runs use the local ActionGate against frozen evidence, disable audit writes, verify the event-log watermark remains fixed, and never call an executor."
+      ]
     },
     {
       "task_id": "R2-04",
       "priority": "P0",
       "task": "Run guard-by-guard and leave-one-out ablations on frozen offline cases.",
       "acceptance": "Report recovered valid tasks together with additional unsafe action count and uncertainty",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/false_withholding.py": "d395432d37da429f1f5e80a453c947e972df1fdce39f1665ca2311f000f72240",
+        "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
+        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
+        "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "No individual rule relaxation recovered task completion because the observed refusals are upstream evidence lifecycle/retrieval failures. On this local held-out corpus, each ablation recovered 0/86 valid tasks and authorized 0/125 stale controls; Wilson 95% bounds are recorded. This is a negative result, not a promoted policy."
+      ]
     },
     {
       "task_id": "R2-05",
