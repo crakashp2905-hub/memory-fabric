@@ -170,6 +170,14 @@
       "limitations": ["This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"]
     },
     {
+      "task_id": "E3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["research/results/longmemeval.md", "experiments/longmemeval_bench.py", "docs/RETRIEVAL_BASELINE_QUALIFICATION.md", "tests/test_retrieval_baseline_contract.py"],
+      "limitations": ["Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

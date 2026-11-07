@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "3cdebc017ad2deddc5bce45bd0d1d3a032e1bce9",
+    "commit": "f730036167e79021f896e0f13baf944b4e280a79",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 23,
+      "DONE": 24,
       "PARTIAL": 4,
-      "TODO": 233
+      "TODO": 232
     },
-    "completed": 23,
+    "completed": 24,
     "total": 260,
-    "percent_complete": 8.85,
-    "p0_open": 97,
+    "percent_complete": 9.23,
+    "p0_open": 96,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -394,11 +394,18 @@
       "priority": "P0",
       "task": "Keep lexical as a measured baseline rather than assuming vector or hybrid superiority.",
       "acceptance": "Held-out per-family reports compare lexical, vector, hybrid, and chain at identical budget",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/longmemeval.md",
+        "experiments/longmemeval_bench.py",
+        "docs/RETRIEVAL_BASELINE_QUALIFICATION.md",
+        "tests/test_retrieval_baseline_contract.py"
+      ],
+      "limitations": [
+        "Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"
+      ]
     },
     {
       "task_id": "E3-03",
