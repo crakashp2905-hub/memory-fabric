@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 168,
+ "results": 169,
  "missing_field_counts": {
-  "git_sha": 63,
+  "git_sha": 64,
   "prereg": 74,
-  "dataset_digest": 165,
-  "model_id": 132,
-  "prompt_hash": 168,
+  "dataset_digest": 166,
+  "model_id": 133,
+  "prompt_hash": 169,
   "seed": 94,
-  "cost": 145,
+  "cost": 146,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 6,
+  "synthetic_scripted": 7,
   "unclassified": 162
  },
  "rows": [
@@ -3066,6 +3066,28 @@
     901,
     907,
     911
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-06-safety-tradeoff",
+   "file": "research/results/r3-06-safety-tradeoff.json",
+   "file_sha256": "e8442952dc4157160637ea7dd1d6a47c5c40e80835c1b7aea5ab31470a2bdfcf",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    1001,
+    1009,
+    1013
    ],
    "config": null,
    "cost": null,

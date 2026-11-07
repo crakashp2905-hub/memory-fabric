@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **70 / 260 (26.92%)**. Internal status: **BLOCKED**.
+Strict completion: **71 / 260 (27.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `fe761cbb04f6e317da99abec373c78a692efd3e2575c1bb9459deadc04e70645`.
+Normalized ledger digest: `64c53a07404a5e3c3c9f1e49c251c98b12d59a596acb1c72c3e804fc4a5430e2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 70 |
+| DONE | 71 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 185 |
+| TODO | 184 |
 
 ## Graduation gates
 
@@ -104,7 +104,7 @@ Normalized ledger digest: `fe761cbb04f6e317da99abec373c78a692efd3e2575c1bb9459de
 | R3-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/failure-taxonomy-v1.md`, `docs/FAILURE_TAXONOMY.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-03-failure-taxonomy-tests.xml`, `research/results/r3-03-failure-taxonomy.json` |
 | R3-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/correction_timing.py`, `research/prereg/correction-timing-v1.md`, `docs/CORRECTION_TIMING_BENCHMARK.md`, `tests/test_correction_timing.py`, `research/results/r3-04-correction-timing-tests.xml`, `research/results/r3-04-correction-timing.json` |
 | R3-05 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/minority_source.py`, `research/prereg/minority-source-v1.md`, `docs/MINORITY_SOURCE_BENCHMARK.md`, `tests/test_minority_source.py`, `research/results/r3-05-minority-source-tests.xml`, `research/results/r3-05-minority-source.json` |
-| R3-06 | P0 | TODO | NOT_TESTED | — |
+| R3-06 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/safety_tradeoff.py`, `research/prereg/safety-tradeoff-v1.md`, `docs/SAFETY_COMPLETION_TRADEOFF.md`, `tests/test_safety_tradeoff.py`, `research/results/r3-06-safety-tradeoff-tests.xml`, `research/results/r3-06-safety-tradeoff.json` |
 | R3-07 | P0 | TODO | NOT_TESTED | — |
 | R3-08 | P0 | TODO | NOT_TESTED | — |
 | R3-09 | P0 | TODO | NOT_TESTED | — |
