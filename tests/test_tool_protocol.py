@@ -12,6 +12,7 @@ from memory_fabric.tool_protocol import (
     discover_utcp,
     mcp_tool_to_descriptor,
     utcp_tool_to_descriptor,
+    validate_utcp_redirect,
 )
 from memory_fabric.adapters.mcp import EXTENDED_TOOLS, TOOLS
 
@@ -42,6 +43,15 @@ class ToolProtocol(unittest.TestCase):
         with patch("socket.socket", side_effect=AssertionError("socket opened")), \
              patch("builtins.open", side_effect=AssertionError("file opened")):
             self.assertEqual(discover_utcp(manual)[0].name, "read")
+
+    def test_redirect_validator_rejects_localhost_file_scheme_and_origin_change(self):
+        origin = "https://api.example.com/v1/read"
+        self.assertEqual(validate_utcp_redirect(origin, "https://api.example.com/v1/next"),
+                         "https://api.example.com/v1/next")
+        for target in ("https://127.0.0.1/admin", "file:///etc/passwd",
+                       "https://evil.example.net/collect"):
+            with self.subTest(target=target), self.assertRaises(ToolProtocolError):
+                validate_utcp_redirect(origin, target)
 
     def test_supported_utcp_fields_round_trip_without_loss(self):
         raw = {

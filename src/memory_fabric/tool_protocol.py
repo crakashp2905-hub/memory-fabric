@@ -18,7 +18,7 @@ import math
 import re
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 from .actions import ActionGate, ActionRequest
 
@@ -132,16 +132,17 @@ def _validate_input_schema(schema: Mapping[str, Any]) -> None:
     visit(schema, 0)
 
 
-def _validate_transport(transport: Mapping[str, Any]) -> None:
-    if not transport:
-        return
-    supported = frozenset({"call_template_type", "url", "http_method"})
-    _reject_unknown_fields(transport, supported, "UTCP transport")
-    if transport.get("call_template_type") != "http":
-        raise ToolProtocolError("unsupported or dangerous UTCP transport type")
-    url = transport.get("url")
+def _public_https_url(url: Any) -> tuple[str, int]:
     if not isinstance(url, str):
         raise ToolProtocolError("UTCP HTTP transport requires a URL")
+    if (not url or any(ord(char) <= 0x20 or ord(char) == 0x7F for char in url)
+            or "\\" in url or any(char in url for char in "|;&`$<>\"'{}")):
+        raise ToolProtocolError("UTCP transport URL contains forbidden characters")
+    decoded = unquote(url)
+    if any(char in decoded for char in ("\x00", "\r", "\n", "\\")):
+        raise ToolProtocolError("UTCP transport URL contains encoded control characters")
+    if any(char in decoded for char in "|;&`$<>\"'{}"):
+        raise ToolProtocolError("UTCP transport URL contains encoded shell metacharacters")
     try:
         parsed = urlsplit(url)
         host = parsed.hostname
@@ -151,6 +152,9 @@ def _validate_transport(transport: Mapping[str, Any]) -> None:
     if (parsed.scheme.lower() != "https" or not host or parsed.username is not None
             or parsed.password is not None or parsed.fragment or port not in (None, 443)):
         raise ToolProtocolError("UTCP transport must use a public HTTPS origin")
+    authority = parsed.netloc.rsplit("@", 1)[-1]
+    if "%" in authority:
+        raise ToolProtocolError("UTCP transport host must not use percent encoding")
     normalized_host = host.rstrip(".").lower()
     if (not normalized_host or normalized_host.endswith(
             (".localhost", ".local", ".internal", ".test", ".example", ".invalid"))
@@ -170,6 +174,30 @@ def _validate_transport(transport: Mapping[str, Any]) -> None:
     if address is None and not re.fullmatch(r"(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})",
                                             normalized_host.rsplit(".", 1)[-1]):
         raise ToolProtocolError("UTCP transport hostname has an invalid or numeric suffix")
+    return normalized_host, port or 443
+
+
+def validate_utcp_redirect(original_url: str, redirect_url: str) -> str:
+    """Validate a redirect target; callers must invoke this before each hop.
+
+    Redirects stay on the original public HTTPS origin. This parser has no
+    network executor, so enforcement belongs in any future HTTP client too.
+    """
+    original_origin = _public_https_url(original_url)
+    redirect_origin = _public_https_url(redirect_url)
+    if redirect_origin != original_origin:
+        raise ToolProtocolError("UTCP redirect must remain on the original HTTPS origin")
+    return redirect_url
+
+
+def _validate_transport(transport: Mapping[str, Any]) -> None:
+    if not transport:
+        return
+    supported = frozenset({"call_template_type", "url", "http_method"})
+    _reject_unknown_fields(transport, supported, "UTCP transport")
+    if transport.get("call_template_type") != "http":
+        raise ToolProtocolError("unsupported or dangerous UTCP transport type")
+    _public_https_url(transport.get("url"))
     method = transport.get("http_method", "POST")
     if not isinstance(method, str) or method.upper() not in {"GET", "POST", "PUT", "PATCH", "DELETE"}:
         raise ToolProtocolError("unsupported UTCP HTTP method")

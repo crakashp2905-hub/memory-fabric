@@ -36,11 +36,17 @@ Manual parsing pins `utcp_version` to `1.0.x` and `manual_version` to `1.0.0`.
 Tool names, argument schemas, HTTP template shape, scheme, hostname, port and
 method are validated before a descriptor is returned. The local policy accepts
 HTTPS on the default port to syntactically public ASCII DNS names or globally
-routable IP literals; it rejects local/reserved names, non-global IP literals, credentials and unsupported
-transport kinds. The parser performs no file or network I/O. Any future
-transport executor must also validate resolved addresses and every redirect at
-connection time; this parser alone cannot prevent DNS rebinding or a server
-redirecting to a private address.
+routable IP literals; it rejects local/reserved names, non-global IP literals,
+credentials, encoded authority hosts, control characters, shell metacharacters,
+and unsupported transport kinds. `validate_utcp_redirect` requires each
+redirect to remain on the original public HTTPS origin. The parser performs no
+file or network I/O. There is no UTCP transport executor in this package, so
+callers must invoke redirect validation for every hop. Any future executor
+must also validate resolved addresses at connection time and disable automatic
+redirect following until each hop is checked; this parser alone cannot prevent
+DNS rebinding or a server redirecting to a private address. Shell metacharacter
+rejection is defense in depth; transport implementations must never invoke a
+shell to make HTTP requests.
 
 The pinned primary sources are:
 
