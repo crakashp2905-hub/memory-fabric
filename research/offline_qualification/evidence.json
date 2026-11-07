@@ -1384,6 +1384,22 @@
       ]
     },
     {
+      "task_id": "H2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/offline_network_guard.py",
+        "tests/test_offline_network_guard.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-07-offline-egress-tests.xml",
+        "research/results/h2-07-offline-egress.json"
+      ],
+      "limitations": [
+        "The process-local guard is test defense in depth and is not an OS sandbox; native code or direct system calls can bypass it."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,

@@ -73,6 +73,16 @@ loop, or recursive execution construct in the grammar. `GovernedToolRuntime`
 dispatches only handlers present in its host-owned registry; an unknown name
 fails before reaching the action gate.
 
+Offline smoke tests can install `tools.offline_network_guard` in an isolated
+Python process. It denies non-loopback DNS and socket connection attempts with
+an explicit `PermissionError`, while allowing loopback destinations for mock
+providers. The regression test verifies a public-address request is denied
+before host-file access and confirms loopback resolution remains permitted.
+This process-local monkeypatch is test defense in depth; it is not a security
+boundary against native code, direct system calls, or a compromised process.
+Production execution of untrusted handlers still requires an OS-level sandbox
+and independent egress policy.
+
 ## Research status
 
 The API and security invariants are implemented and locally testable. Claims
