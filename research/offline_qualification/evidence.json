@@ -1031,6 +1031,20 @@
       ]
     },
     {
+      "task_id": "R2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/evidence_state.py",
+        "tests/test_evidence_state.py",
+        "research/results/r2-05-evidence-state.xml"
+      ],
+      "limitations": [
+        "The lattice orders evidence-state information; it does not authorize actions. Existing policy checks remain responsible for action eligibility."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

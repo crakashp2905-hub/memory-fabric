@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "faa6a849def71011e5b89364979dece2af86024c",
+    "commit": "367bb95c0f3e70b650b4c5472ad3f6d7f138f7e8",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 60,
+      "DONE": 61,
       "PARTIAL": 5,
-      "TODO": 195
+      "TODO": 194
     },
-    "completed": 60,
+    "completed": 61,
     "total": 260,
-    "percent_complete": 23.08,
-    "p0_open": 69,
+    "percent_complete": 23.46,
+    "p0_open": 68,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "51d6272de1be465e05d956fd66537156aee4ca1f30004d3f7ad2ec2aa13b62f9",
-        "docs/VALIDATION.md": "4265fef0ab2122b016b3b8c7692c5d766b153dc649507ddbb69d9ec3c9ee2388",
-        "docs/STATUS_AT_HEAD.md": "5aad9490c8d1f116f355818e3053e56fbabf47a439b2195ff80e15630571abce",
+        "README.md": "ff26bcbf706b4f8141c2f971d77948eccc76a27f095121100ecba740190f7e59",
+        "docs/VALIDATION.md": "3262e7a6d061ffc197c88deb304a9b39820c7b68e6a34ffae628cfe23da36b63",
+        "docs/STATUS_AT_HEAD.md": "1cbc7cea0c2373e5f5785494b9b84987914c80b078df8661144a37fd7bda129d",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1764,13 +1764,23 @@
       "priority": "P0",
       "task": "Define a partial-order lattice of evidence states instead of a single binary validity flag.",
       "acceptance": "Tests distinguish unknown, disputed, withdrawn, stale, supported and independently corroborated",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/evidence_state.py",
+        "tests/test_evidence_state.py",
+        "research/results/r2-05-evidence-state.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/evidence_state.py": "734699d0efcd3e988f2302985100f3a57c8e3130cbad6ca43984a85d8dcee616",
+        "tests/test_evidence_state.py": "01e1ea48b7f68cfeda51b63a6834e5a319ed410125acff6983147b05d8ce0bf8",
+        "research/results/r2-05-evidence-state.xml": "574d5c551144a9c4c1bd77b71b761d1c70f0ad222bdab2a79ea3939d6a961b10"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The lattice orders evidence-state information; it does not authorize actions. Existing policy checks remain responsible for action eligibility."
+      ]
     },
     {
       "task_id": "R2-06",

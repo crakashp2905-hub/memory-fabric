@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **60 / 260 (23.08%)**. Internal status: **BLOCKED**.
+Strict completion: **61 / 260 (23.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d637051717b3242c814f32d56e69607da12c6d565338ce140cd39e845545ef2a`.
+Normalized ledger digest: `de065cecfa1e1a936cb6230673e4d06f2fd66282c8c5b4a6c1a426b640d6d913`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 60 |
+| DONE | 61 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 195 |
+| TODO | 194 |
 
 ## Graduation gates
 
@@ -93,7 +93,7 @@ Normalized ledger digest: `d637051717b3242c814f32d56e69607da12c6d565338ce140cd39
 | R2-02 | P0 | TODO | NOT_TESTED | — |
 | R2-03 | P0 | TODO | NOT_TESTED | — |
 | R2-04 | P0 | TODO | NOT_TESTED | — |
-| R2-05 | P0 | TODO | NOT_TESTED | — |
+| R2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/evidence_state.py`, `tests/test_evidence_state.py`, `research/results/r2-05-evidence-state.xml` |
 | R2-06 | P0 | TODO | NOT_TESTED | — |
 | R2-07 | P0 | TODO | NOT_TESTED | — |
 | R2-08 | P0 | TODO | NOT_TESTED | — |
