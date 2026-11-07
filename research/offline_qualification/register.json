@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "d9509a9c646845e3d5f3b2841c17590bee555122",
+    "commit": "6bf613217a1deefa08b14c18868fb4a66460c01c",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 33,
-      "PARTIAL": 5,
+      "DONE": 34,
+      "PARTIAL": 4,
       "TODO": 222
     },
-    "completed": 33,
+    "completed": 34,
     "total": 260,
-    "percent_complete": 12.69,
-    "p0_open": 87,
+    "percent_complete": 13.08,
+    "p0_open": 86,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -600,13 +600,12 @@
       "priority": "P0",
       "task": "Run controlled profiler with 1, 10, 50 and 100 concurrent local clients.",
       "acceptance": "Show CPU, lock wait, I/O, allocation and p50/p95/p99 per scenario",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "experiments/p12b_api_load.py",
         "src/memory_fabric/agent_api.py",
-        "src/memory_fabric/_fabric/common.py",
         "src/memory_fabric/_fabric/core.py",
         "src/memory_fabric/stage_trace.py",
         "tests/test_agent_api.py",
@@ -618,7 +617,6 @@
         "research/results/e4-03-profile-tests.xml"
       ],
       "limitations": [
-        "The first run measured a re-entrant inner RLock acquisition rather than API request contention; corrected outer-lock instrumentation and a full rerun are required",
         "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
         "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
         "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"

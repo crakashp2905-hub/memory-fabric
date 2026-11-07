@@ -259,11 +259,11 @@
     },
     {
       "task_id": "E4-03",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["experiments/p12b_api_load.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/common.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/stage_trace.py", "tests/test_agent_api.py", "tests/test_p12b_api_load.py", "tests/test_p12b_harness.py", "research/results/e4-03-local-profile.json", "research/results/e4-03-local-profile.md", "research/results/e4-03-local-profile-manifest.json", "research/results/e4-03-profile-tests.xml"],
-      "limitations": ["The first run measured a re-entrant inner RLock acquisition rather than API request contention; corrected outer-lock instrumentation and a full rerun are required", "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee", "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput", "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"]
+      "evidence_paths": ["experiments/p12b_api_load.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/stage_trace.py", "tests/test_agent_api.py", "tests/test_p12b_api_load.py", "tests/test_p12b_harness.py", "research/results/e4-03-local-profile.json", "research/results/e4-03-local-profile.md", "research/results/e4-03-local-profile-manifest.json", "research/results/e4-03-profile-tests.xml"],
+      "limitations": ["Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee", "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput", "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"]
     },
     {
       "task_id": "P5-06",
