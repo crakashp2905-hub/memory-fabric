@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 177,
+ "results": 178,
  "missing_field_counts": {
-  "git_sha": 72,
+  "git_sha": 73,
   "prereg": 75,
-  "dataset_digest": 174,
-  "model_id": 141,
-  "prompt_hash": 177,
-  "seed": 99,
-  "cost": 154,
-  "verdict": 113
+  "dataset_digest": 175,
+  "model_id": 142,
+  "prompt_hash": 178,
+  "seed": 100,
+  "cost": 155,
+  "verdict": 114
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 166
+  "unclassified": 167
  },
  "rows": [
   {
@@ -1730,6 +1730,24 @@
    "experiment_id": "h2-06-code-mode-bounds",
    "file": "research/results/h2-06-code-mode-bounds.json",
    "file_sha256": "f72d53b94258ffc7db7df25110ef7cb966410911ac428c159666b192bd169977",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-07-offline-egress",
+   "file": "research/results/h2-07-offline-egress.json",
+   "file_sha256": "7c2664d6c2ddedc6b4853bb558355b5850f13be3acddfa33c68dc9931f5af727",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
    "git_sha": null,

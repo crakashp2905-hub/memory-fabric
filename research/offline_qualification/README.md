@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **86 / 260 (33.08%)**. Internal status: **BLOCKED**.
+Strict completion: **87 / 260 (33.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `bb1b7e2fe72bd2b9e6a926a51812b278b0096bdcc1ef4860676dced3d2ef5a80`.
+Normalized ledger digest: `a1631704cb27864ea430077c2bf2d40122998f8d6bdcc3469142cef18640b013`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 86 |
+| DONE | 87 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 169 |
+| TODO | 168 |
 
 ## Graduation gates
 
@@ -205,7 +205,7 @@ Normalized ledger digest: `bb1b7e2fe72bd2b9e6a926a51812b278b0096bdcc1ef4860676dc
 | H2-04 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_action_reconciliation.py`, `tests/test_action_crash.py`, `docs/ACTION_RECONCILIATION.md`, `tools/action_reconciliation_qualification.py`, `research/results/h2-04-action-reconciliation-tests.xml`, `research/results/h2-04-action-reconciliation.json` |
 | H2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-05-code-mode-parser-tests.xml`, `research/results/h2-05-code-mode-parser.json` |
 | H2-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_code_mode_fuzz.py`, `tests/test_tool_protocol.py`, `tools/code_mode_parser_qualification.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-05-code-mode-parser-tests.xml`, `research/results/h2-06-code-mode-bounds.json` |
-| H2-07 | P0 | TODO | NOT_TESTED | — |
+| H2-07 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_network_guard.py`, `tests/test_offline_network_guard.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-07-offline-egress-tests.xml`, `research/results/h2-07-offline-egress.json` |
 | H2-08 | P0 | TODO | NOT_TESTED | — |
 | H2-09 | P0 | TODO | NOT_TESTED | — |
 | H2-10 | P0 | TODO | NOT_TESTED | — |
