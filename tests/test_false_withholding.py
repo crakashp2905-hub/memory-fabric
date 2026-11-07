@@ -19,6 +19,8 @@ class FalseWithholdingAblation(unittest.TestCase):
 
     def test_report_separates_withholding_cases_and_guard_counterfactuals(self) -> None:
         report = build_report()
+        self.assertEqual(report["acceptance_status"], "PASS")
+        self.assertEqual(report["invariant_failures"], [])
         self.assertEqual(report["upstream_provenance"]["exact_upstream_rows_available"], False)
         self.assertEqual(report["attempted_valid_case_denominator"], 86)
         self.assertEqual(report["attempted_valid_case_denominator"] / 500, 0.172)

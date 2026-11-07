@@ -20,8 +20,8 @@ AGENTS = 50
 ROOT = Path(__file__).resolve().parents[1]
 PREREG = "research/prereg/r2-false-withholding-v1.md"
 TOOL = "publish"
-ABLATIONS = ("live", "no_independence_floor", "allow_suspicious",
-             "allow_provisional", "untrusted_authority")
+ABLATIONS = ("live", "single_source_floor_placebo", "allow_suspicious",
+             "provisional_guard_placebo", "no_authority_floor")
 
 
 def _cause(reason: str, miss: str) -> list[str]:
@@ -59,11 +59,11 @@ def _decisions(fabric, agent: str, cert, target: str, value: str) -> dict[str, d
     options = {
         "live": ToolRule(TOOL),
         "allow_suspicious": ToolRule(TOOL, refuse_suspicious=False),
-        "allow_provisional": ToolRule(TOOL, refuse_provisional=False),
-        "untrusted_authority": ToolRule(TOOL, min_authority="untrusted"),
-        "no_independence_floor": ToolRule(TOOL, min_independent_sources=0),
+        "provisional_guard_placebo": ToolRule(TOOL, refuse_provisional=False),
+        "no_authority_floor": ToolRule(TOOL, min_authority="untrusted"),
+        "single_source_floor_placebo": ToolRule(TOOL, min_independent_sources=0),
     }
-    grants = {agent: frozenset({TOOL})}
+    grants = {f"ag-{i:02d}": frozenset({TOOL}) for i in range(AGENTS)}
     result = {}
     watermark = fabric.log.head_seq
     for name, rule in options.items():
@@ -105,13 +105,15 @@ def run_seed(seed: int) -> dict[str, Any]:
                     memory.correct(event.agent, event.fact, "re-measured after the move")
                     world.current[event.fact.key] = event.fact
                     if arm == "fabric" and old_truth is not None and old_id is not None:
-                        cert = memory.fabric.certify(f"s{seed}-stale-{task_index}",
+                        stale_case_id = (f"s{seed}-stale-{event.fact.unit}-"
+                                         f"{event.fact.site}-{event.fact.attribute}")
+                        cert = memory.fabric.certify(stale_case_id,
                                                      [old_id], event.agent)
                         decisions = _decisions(memory.fabric, event.agent, cert,
                                                event.fact.question(), old_truth.value)
                         old_memory = memory.fabric.state.memories[old_id]
                         cases.append({
-                            "case_id": f"s{seed}-stale-{task_index}", "seed": seed,
+                            "case_id": stale_case_id, "seed": seed,
                             "task_index": task_index, "agent": event.agent,
                             "action": {"tool": TOOL, "target": event.fact.question(),
                                        "attempted_value": old_truth.value},
@@ -181,12 +183,12 @@ def run_seed(seed: int) -> dict[str, Any]:
                             "refuse_provisional": False, "min_independent_sources": 1},
                   "allow_suspicious": {"min_authority": "unverified", "refuse_suspicious": False,
                                        "refuse_provisional": False, "min_independent_sources": 1},
-                  "allow_provisional": {"min_authority": "unverified", "refuse_suspicious": True,
-                                        "refuse_provisional": False, "min_independent_sources": 1},
-                  "untrusted_authority": {"min_authority": "untrusted", "refuse_suspicious": True,
-                                          "refuse_provisional": False, "min_independent_sources": 1},
-                  "no_independence_floor": {"min_authority": "unverified", "refuse_suspicious": True,
-                                            "refuse_provisional": False, "min_independent_sources": 0}}
+                  "provisional_guard_placebo": {"min_authority": "unverified", "refuse_suspicious": True,
+                                                 "refuse_provisional": False, "min_independent_sources": 1},
+                  "no_authority_floor": {"min_authority": "untrusted", "refuse_suspicious": True,
+                                         "refuse_provisional": False, "min_independent_sources": 1},
+                  "single_source_floor_placebo": {"min_authority": "unverified", "refuse_suspicious": True,
+                                                   "refuse_provisional": False, "min_independent_sources": 0}}
     return {"seed": seed, "population": "synthetic_scripted",
             "task_denominator": len(arm_rows.get("fabric", [])),
             "blanket_withheld": sum(r["valid_evidence_withheld"] for r in arm_rows.get("shared_blanket", [])),
@@ -239,13 +241,32 @@ def build_report() -> dict[str, Any]:
                           "recovery_wilson95": [lo, hi],
                           "unsafe_wilson95": [unsafe_lo, unsafe_hi],
                           "live_policy_mutated": False, "executor_calls": 0}
+    task_total = sum(seed["task_denominator"] for seed in seeds)
+    valid_total = sum(case["valid_evidence_withheld"] for case in cases)
+    unsafe_total = sum(not case["oracle_supported"] for case in cases)
+    invariants = []
+    if task_total != len(SEEDS) * 100:
+        invariants.append("unexpected_task_denominator")
+    if labelled != n:
+        invariants.append("unattributed_cases")
+    if len({case["case_id"] for case in cases}) != n:
+        invariants.append("duplicate_case_id")
+    if not all(case.get("action") and case.get("evidence_ids") is not None
+               and case.get("actual_blocker_reason") for case in cases):
+        invariants.append("incomplete_case_record")
+    if any(row["live_policy_mutated"] or row["executor_calls"]
+           for row in ablations.values()):
+        invariants.append("counterfactual_side_effect")
+    if any(seed["policy_rules"] != seeds[0]["policy_rules"] for seed in seeds[1:]):
+        invariants.append("policy_drift_across_seeds")
     dirty = bool(subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                                 capture_output=True, text=True, check=True).stdout.strip())
     inputs = ("benchmarks/false_withholding.py", PREREG,
               "experiments/p3b_teams.py", "experiments/teamworld.py",
               "research/results/grand-50-agent-baseline-reproduction-v2.json")
+    historical = json.loads((ROOT / "research/results/grand-50-agent-baseline-reproduction-v2.json").read_text(encoding="utf-8"))
     return {"schema": "mf-false-withholding-ablation/1", "decision": "DESCRIPTIVE",
-            "acceptance_status": "PASS" if n > 0 else "FAIL",
+            "acceptance_status": "PASS" if not invariants and n > 0 else "FAIL",
             "population": "synthetic_scripted", "repo_commit": head(), "dirty": dirty,
             "environment": capture_environment(), "seeds": list(SEEDS), "agents_per_seed": AGENTS,
             "upstream_provenance": {"source": "PR #30 baseline reproduction v2",
@@ -257,7 +278,11 @@ def build_report() -> dict[str, Any]:
             "attribution_labelled_unique_cases": labelled,
             "ambiguous_multi_causal_cases": ambiguous,
             "attempted_valid_case_denominator": sum(c["valid_evidence_withheld"] for c in cases),
-            "attempted_unsafe_case_denominator": sum(not c["oracle_supported"] for c in cases),
+            "attempted_unsafe_case_denominator": unsafe_total,
+            "task_denominator": task_total,
+            "valid_withholding_rate": valid_total / task_total if task_total else 0,
+            "historical_pr30_reproduction_rate": historical["fabric"]["valid_evidence_withheld"]["mean"],
+            "difference_from_historical_rate": (valid_total / task_total - historical["fabric"]["valid_evidence_withheld"]["mean"]) if task_total else None,
             "causal_category_counts_multilabel": categories,
             "causal_category_rates_multilabel": category_rates,
             "shared_blanket_valid_withheld": sum(s["blanket_withheld"] for s in seeds),
@@ -265,7 +290,19 @@ def build_report() -> dict[str, Any]:
             "actual_gate_reason_counts": dict(sorted(gate_reasons.items())),
             "evidence_lifecycle_counts": dict(sorted(lifecycle_states.items())),
             "ablations": ablations, "cases": cases,
-            "live_policy_sha256": hashlib.sha256(json.dumps(seeds[0]["policy_rules"], sort_keys=True).encode()).hexdigest() if seeds else None,
+            "invariant_failures": invariants,
+            "ablation_semantics": {
+                "live": "current default rule",
+                "allow_suspicious": "active leave-one-out relaxation of suspicious-evidence refusal",
+                "no_authority_floor": "active leave-one-out relaxation to untrusted minimum authority",
+                "provisional_guard_placebo": "no-op: live rule already has refuse_provisional=false",
+                "single_source_floor_placebo": "no-op for these certificates: the certificate's minimum support remains one",
+            },
+            "live_policy_sha256": hashlib.sha256(json.dumps({
+                "policy_id": "action-policy-v1",
+                "rule": seeds[0]["policy_rules"]["live"] if seeds else {},
+                "grants": {f"ag-{i:02d}": [TOOL] for i in range(AGENTS)},
+            }, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
             "input_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in inputs},
             "limitations": ["Local cases are generated from the registered deterministic teamworld; they are not the unavailable individual PR #30 withheld rows.",
                             "Guard ablations vary one ActionGate rule against current evidence state; they do not explain caller-side retrieval choices.",
