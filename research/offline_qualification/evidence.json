@@ -106,7 +106,7 @@
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "research/offline_qualification/register.json"
+        "tests/test_offline_qualification.py"
       ],
       "limitations": []
     },
@@ -607,8 +607,7 @@
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
-        "research/offline_qualification/register.json",
-        "research/offline_qualification/README.md"
+        "tests/test_offline_qualification.py"
       ],
       "limitations": []
     },

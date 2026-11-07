@@ -26,13 +26,36 @@ def test_generated_ledger_is_current() -> None:
     assert oq.REPORT.read_text(encoding="utf-8") == oq.render(committed)
 
 
-def test_negative_control_missing_evidence_fails(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_negative_control_missing_evidence_is_marked_incomplete(monkeypatch: pytest.MonkeyPatch) -> None:
     original = oq.load_overrides()
     corrupted = copy.deepcopy(original)
     corrupted["E1-01"]["evidence_paths"].append("missing/corrupted-result.json")
     monkeypatch.setattr(oq, "load_overrides", lambda: corrupted)
-    with pytest.raises(ValueError, match="missing evidence"):
-        oq.build()
+    row = next(row for row in oq.build()["tasks"] if row["task_id"] == "E1-01")
+    assert row["status"] == "INCOMPLETE"
+    assert row["acceptance_passed"] is False
+    assert row["evidence_issues"]["missing/corrupted-result.json"] == "file is missing"
+
+
+def test_malformed_json_evidence_is_marked_incomplete(monkeypatch: pytest.MonkeyPatch) -> None:
+    scratch = ROOT / ".test-tmp"
+    scratch.mkdir(exist_ok=True)
+    bad = scratch / "malformed-evidence.json"
+    bad.write_text("{broken", encoding="utf-8")
+    original = oq.load_overrides()
+    corrupted = copy.deepcopy(original)
+    corrupted["E1-01"]["evidence_paths"].append(".test-tmp/malformed-evidence.json")
+    monkeypatch.setattr(oq, "load_overrides", lambda: corrupted)
+    row = next(row for row in oq.build()["tasks"] if row["task_id"] == "E1-01")
+    assert row["status"] == "INCOMPLETE"
+    assert "invalid .json evidence" in row["evidence_issues"][".test-tmp/malformed-evidence.json"]
+
+
+def test_evidence_content_is_bound_by_sha256() -> None:
+    row = next(row for row in oq.build()["tasks"] if row["task_id"] == "E1-07")
+    for path, digest in row["evidence_digests"].items():
+        assert len(digest) == 64
+        assert digest == oq.sha256(ROOT / path)
 
 
 @pytest.mark.parametrize(

@@ -2,14 +2,15 @@
 
 Strict completion: **51 / 260 (19.62%)**. Internal status: **BLOCKED**.
 
-A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
+A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b28bb6e16601a224534d357a3b93a7e83acf43af4f4381f657e6849692c6841b`.
+Normalized ledger digest: `7f6b4183def55657acfd9551970d20395cbc2c8cec3f0feb136540bde3adf88c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
 | DONE | 51 |
+| INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
 | TODO | 205 |
@@ -34,7 +35,7 @@ Normalized ledger digest: `b28bb6e16601a224534d357a3b93a7e83acf43af4f4381f657e68
 | E1-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
 | E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
-| E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `research/offline_qualification/register.json` |
+| E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
 | E1-08 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
 | E1-09 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
 | E1-10 | P0 | DONE | CONTRACT | `tools/status_at_head.py`, `tests/test_status_at_head.py`, `docs/STATUS_AT_HEAD.md` |
@@ -284,7 +285,7 @@ Normalized ledger digest: `b28bb6e16601a224534d357a3b93a7e83acf43af4f4381f657e68
 | P5-04 | P0 | TODO | NOT_TESTED | — |
 | P5-05 | P0 | TODO | NOT_TESTED | — |
 | P5-06 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/KNOWN_GAPS.md` |
-| P5-07 | P0 | DONE | CONTRACT | `research/offline_qualification/register.json`, `research/offline_qualification/README.md` |
+| P5-07 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
 | P5-08 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/PRODUCT_READINESS.md` |
 | P5-09 | P0 | DONE | CONTRACT | `docs/NEXT_MASTER_CHECKLIST_EXECUTION.md` |
 | P5-10 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |

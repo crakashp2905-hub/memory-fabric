@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "8e5af2fe094dfcba918302930be8f549b6e69847",
+    "commit": "b258e932dc46451c5b1d0c51df1ba5fd5596d7e3",
     "dirty": true
   },
   "summary": {
@@ -49,6 +49,11 @@
         "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
         "research/results/grand-50-agent-baseline-reproduction-v2.json"
       ],
+      "evidence_digests": {
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md": "fce16ab8221da7ea73de22a2e4887732bbb01f36ad1e78074957057a2ad263ac",
+        "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254"
+      },
+      "evidence_issues": {},
       "limitations": [
         "PR #30 remains provisional until merged"
       ]
@@ -67,6 +72,13 @@
         "research/offline_qualification/baseline.json",
         "research/results/e5-10-portable-paths.xml"
       ],
+      "evidence_digests": {
+        "tools/offline_baseline.py": "b6224ffaa13199a2142607128ab57ba7ea244429e824ea3ecc285218f14483dd",
+        "tests/test_offline_baseline.py": "485240f6d8d697572eaca669dd86ea044f6a2e8fdb6c56019c16ac61bbb66075",
+        "research/offline_qualification/baseline.json": "ba837ef8f89bdf9dbf1f95d6e91109b7a52f984a41e99186343f6c3d3a0d9f0f",
+        "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Read-only report describes the current local interpreter and host"
       ]
@@ -86,6 +98,14 @@
         "research/results/e1-03-manifest-environment.json",
         "research/results/e1-03-manifest-environment.xml"
       ],
+      "evidence_digests": {
+        "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
+        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
+        "research/results/e1-03-manifest-environment.json": "0f0f42a5d952ed49432496c8567d73e24c1041c2c30a015c56c7e435d0871d5b",
+        "research/results/e1-03-manifest-environment.xml": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75"
+      },
+      "evidence_issues": {},
       "limitations": [
         "New manifests capture required environment fields and reject omissions; timestamp-insensitive digest behavior is tested. Five historical bench_runs files lack truthful environment measurements and are rejected by the strict validator, so the every-manifest acceptance remains incomplete."
       ]
@@ -107,6 +127,16 @@
         "research/results/e1-04-result-provenance.json",
         "research/results/e1-04-result-provenance.xml"
       ],
+      "evidence_digests": {
+        "benchmarks/provenance.py": "7250095062183ad16033ed2dfdc2a9d5b7de6a80cad226cd003d269b94702288",
+        "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
+        "tests/test_result_provenance.py": "3827b4b9565730b4c218f79106b499c7d10c8f5b30d669247b0aa209e31a066a",
+        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "docs/RESULT_PROVENANCE.md": "d5a0947d1006384302a4a4c50024fe128f700563981ece34ee829f0f8c09015a",
+        "research/results/e1-04-result-provenance.json": "a835334785ca75db56197c24d1f285b7cb153e70a6d2018180acbf108271cb4f",
+        "research/results/e1-04-result-provenance.xml": "8226679191009b14042c3e06199c69ec58cb22c213d740db54283c4a0aa3d56f"
+      },
+      "evidence_issues": {},
       "limitations": [
         "New benchmark manifest writes bind exact 40-character source SHA and explicit dirty state; unknown SHA and dirty non-exploratory records are rejected. Fifty-five existing historical result rows lack an exact source SHA and cannot be reconstructed truthfully."
       ]
@@ -129,6 +159,17 @@
         "research/results/e1-05-input-digests.json",
         "research/results/e1-05-input-digests.xml"
       ],
+      "evidence_digests": {
+        "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
+        "benchmarks/scoreboard.py": "8dca8ef7933a963a1d2a02077aa9ca0740d7e17e605de8601fc4dc5b218eea08",
+        "benchmarks/evidence_completeness.py": "786804741d8326d5e4623cb389778c1dcac1accbb9ee1424dd96bc4a70019f0a",
+        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
+        "research/results/BENCHMARK_SCOREBOARD.md": "604ab4c9cbe393c0f5f54511589536e131ec3877e3b1214fcfc04e4cd6f23154",
+        "research/results/e1-05-input-digests.json": "899ef29340375d8309df40800eeb9db2364a62cc6775ea5e001a4056d5b6ec52",
+        "research/results/e1-05-input-digests.xml": "1f5685ff159cc0de5616273af57cc14e262225ca662c2811d7295e8b40910dea"
+      },
+      "evidence_issues": {},
       "limitations": [
         "New benchmark manifests hash their generator and declared input files; input mismatch aborts scoreboard aggregation. Five historical benchmark manifests and legacy result formats lack complete truthful input inventories and remain unqualified."
       ]
@@ -149,6 +190,15 @@
         "research/results/e1-06-local-check-report.xml",
         "research/results/e1-06-local-check-evidence.json"
       ],
+      "evidence_digests": {
+        "tools/local_check_report.py": "884e7db54f633e414a034242841fe36aa8700c16da57aadebbc4434d677b86a9",
+        "tests/test_local_check_report.py": "9ce0d97bf5b223e31fce776798628b6d0cfc85ccaf1096a81693338da79593af",
+        "docs/LOCAL_CHECK_REPORT.md": "4d141a660d80a953a1f1e80a2b4d2648ae3041a9b2923a8fb023f8f6fb561dbb",
+        "research/results/e1-06-local-check-report.json": "d9bbe756676abf9d9635e801d018e2c103108c074ac31dc24ca2e8692f9f6d85",
+        "research/results/e1-06-local-check-report.xml": "e3e3fa2ebc9c9ea539993c25a6c57a8041d2293556a7e28b13ad9d4a6cc14c61",
+        "research/results/e1-06-local-check-evidence.json": "c3796fc6c63ef1eef7418c61a574f29c9cbb8fe1a62800b47c5c73491dc7397b"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Package and optional-capability inventory is for Windows/Python 3.13.5 only; it is not a cross-platform matrix result."
       ]
@@ -163,8 +213,13 @@
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "research/offline_qualification/register.json"
+        "tests/test_offline_qualification.py"
       ],
+      "evidence_digests": {
+        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -178,6 +233,10 @@
       "evidence_paths": [
         "tests/test_offline_qualification.py"
       ],
+      "evidence_digests": {
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -192,6 +251,11 @@
         "tools/offline_qualification.py",
         "tests/test_offline_qualification.py"
       ],
+      "evidence_digests": {
+        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Existing historical experiments must opt into the checker"
       ]
@@ -209,6 +273,12 @@
         "tests/test_status_at_head.py",
         "docs/STATUS_AT_HEAD.md"
       ],
+      "evidence_digests": {
+        "tools/status_at_head.py": "ff3141c4e6ba8ec25d0e3764321b6526018881f60468825cb2a087eee35cf798",
+        "tests/test_status_at_head.py": "241210aeb163f6d8e79fd6620bbbd012a4d988e8c1b646067deabfad5d5e6e7b",
+        "docs/STATUS_AT_HEAD.md": "79da3d07b3f2837ef171a97277b535e45762083d50bb15f1275128021db8752a"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -224,6 +294,12 @@
         "docs/STATE_TRANSITIONS.md",
         "tests/test_state_transition_contract.py"
       ],
+      "evidence_digests": {
+        "docs/STATE_TRANSITIONS.json": "246a32a4bcd0a800130f0d2f1e9ae9199c0f8f0a6be87dc36a18abcd22117408",
+        "docs/STATE_TRANSITIONS.md": "abcc391dc335b4735a067281d5f5d6353a7e384d99c94533324f884590629811",
+        "tests/test_state_transition_contract.py": "ff79ab88a245af8b7442237f9428226175bd7ea2b1b0f6e0018cbd071894a6bd"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"
       ]
@@ -241,6 +317,12 @@
         "tests/test_properties.py",
         "tests/test_backup.py"
       ],
+      "evidence_digests": {
+        "tests/test_replay_equivalence.py": "ac0174b7b23825b34c349075efc2e73200564340de328486ff3a4ba7e0dec6a0",
+        "tests/test_properties.py": "6943b37f7132e0e0623cd38482bfa188c6cfe61aeec33f069ffd7e0f611ae24c",
+        "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"
       ]
@@ -257,6 +339,11 @@
         "tests/test_withdrawn_parent_orderings.py",
         "tests/test_justification.py"
       ],
+      "evidence_digests": {
+        "tests/test_withdrawn_parent_orderings.py": "d2783101e9ee25fbbbced1e9e7fddf1ec6ddb4ad2c6ea57605914a8b466b5db5",
+        "tests/test_justification.py": "201a51e019543c08441e2d175fdf137ca87843f2dad559d6aabf379b0696b62e"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"
       ]
@@ -274,6 +361,12 @@
         "tests/test_supersede.py",
         "src/memory_fabric/duplicates.py"
       ],
+      "evidence_digests": {
+        "tests/test_duplicates.py": "3feb5616fc812383735ba9a7594deb05a5e6fe662ac0dec04f9888a5ec6769a1",
+        "tests/test_supersede.py": "5f5727c96288987827b2391764a0d6c0d806a43fd941cbf97dc9b2b6b99d4a48",
+        "src/memory_fabric/duplicates.py": "813d28b5e8d4b40625ba5a8f38f219546743753dee33510107fc9c5257246162"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"
       ]
@@ -292,6 +385,13 @@
         "tests/test_history_query.py",
         "tests/test_bitemporal.py"
       ],
+      "evidence_digests": {
+        "docs/BITEMPORAL_HISTORY.md": "5a84bcc4041f4f2b9da2ad84c756016539cdf9a0c02537c2d6b7a6a53b7ebce0",
+        "src/memory_fabric/history_query.py": "8f0f52d77b9fe8facfedfae8084fcbfa95f0b147e07f2b9c37835de38706cc76",
+        "tests/test_history_query.py": "3ec6c8e1962ca84cd42a383c1cb902d1edb2c2f25e240e39fe044397a98b3c59",
+        "tests/test_bitemporal.py": "886a2e055d9936a7e6b1bc72f64bbc5f09cc97e8fd523f5340616e5150b2a45f"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"
       ]
@@ -312,6 +412,15 @@
         "tests/test_branching.py",
         "tests/test_erasure_residue.py"
       ],
+      "evidence_digests": {
+        "docs/HISTORICAL_SURFACE_SECURITY.md": "e47b7a81c9b6514329936d40bb6f5f242be74fb57420edace799affb34eb740d",
+        "tests/test_history_query.py": "3ec6c8e1962ca84cd42a383c1cb902d1edb2c2f25e240e39fe044397a98b3c59",
+        "tests/test_data_access_paths.py": "63058d86e0f1903d2f0ae8e033944fb077fd9936c88318e9e60ce540b3c4cf74",
+        "tests/test_posture.py": "045b4bc7a48d45188dee4e78844f6edb140198ce03ca8a3b716899e14ecd38da",
+        "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
+        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"
       ]
@@ -331,6 +440,14 @@
         "tests/test_tombstone_exchange.py",
         "docs/TOMBSTONE_EXCHANGE.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
+        "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
+        "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
+        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "docs/TOMBSTONE_EXCHANGE.md": "00d37392112464eae3641f143f1822135614cea0afdaeef8b7f2190493a32e42"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"
       ]
@@ -350,6 +467,14 @@
         "docs/EVENT_SCHEMA_COMPATIBILITY.md",
         "experiments/rollback_drill.py"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/eventlog.py": "1d0450681eb840c45b23d59395cedc676fd4ffbf397ea05dd72cb204729230e9",
+        "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
+        "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
+        "docs/EVENT_SCHEMA_COMPATIBILITY.md": "33e29fd6707699a4a3df113d56f4f4e7c5e7138818e8f8851eb3c216f3094d45",
+        "experiments/rollback_drill.py": "1fc1358f65b50ccdd0c9e77b1b1d5fe334aecc3dd7fe99b9bf3da00c50e7730f"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"
       ]
@@ -367,6 +492,12 @@
         "tests/test_multiprocess_crash.py",
         "docs/CRASH_BOUNDARY_MATRIX.md"
       ],
+      "evidence_digests": {
+        "tests/crashworker.py": "b79c9e1c13b0d55dbea46bebdbc1d6a1ede77de92575514747d2236b51be9c1f",
+        "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+        "docs/CRASH_BOUNDARY_MATRIX.md": "53f9a64c8e7c8a2237de245556196916da14ddefcb024dc168415fd001822267"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"
       ]
@@ -386,6 +517,14 @@
         "src/memory_fabric/actions.py",
         "docs/ACTION_RACE_SERIALIZATION.md"
       ],
+      "evidence_digests": {
+        "tests/test_action_race_barriers.py": "b8104db00894e8c33cf50ee16356e62d47a1a0ff5f45e07525caf5ac2a6dcdee",
+        "tests/test_action_fence.py": "1b5aaa8f36d28a0eb972d40fd4bb91d15bce73ddc128d98be34a40dfaf2d43e6",
+        "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
+        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "docs/ACTION_RACE_SERIALIZATION.md": "2204a48fafca3a439f1e2359f56d1923537dba9419041357cb39d9be636e2cb3"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"
       ]
@@ -404,6 +543,13 @@
         "research/bench/retrieval_errors_v1/README.md",
         "tests/test_retrieval_error_taxonomy.py"
       ],
+      "evidence_digests": {
+        "research/bench/retrieval_errors_v1/cases.json": "69c0f995fbcf3c673e7407a2937e68a2e3386c8e0c2e32b2b9aadf737ebdeee5",
+        "research/bench/retrieval_errors_v1/build.py": "7172467ca9f1abf92aae1a6375064d77d89cb32caffa5ea28c49a394b7d86322",
+        "research/bench/retrieval_errors_v1/README.md": "a68feef00103598132536b7ad9526032373e8e0e747ba5124f57fae16d8c576a",
+        "tests/test_retrieval_error_taxonomy.py": "2da8707ded0e52a0be0e62aabe34657b313ccfb3be64c61acdd44b3fd87d3fc1"
+      },
+      "evidence_issues": {},
       "limitations": [
         "This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"
       ]
@@ -422,6 +568,13 @@
         "docs/RETRIEVAL_BASELINE_QUALIFICATION.md",
         "tests/test_retrieval_baseline_contract.py"
       ],
+      "evidence_digests": {
+        "research/results/longmemeval.md": "e177e281cc501411dc5604a4c6f2e230d371ce5ced0f382b2fbdbf11c54d112d",
+        "experiments/longmemeval_bench.py": "ed3f31ad3698384ac7623a9d9630a68b6e9b19bd20f7ad933afdbfe227033033",
+        "docs/RETRIEVAL_BASELINE_QUALIFICATION.md": "1ab9fc03e457b5387167b22ecf644e7a383b82bdf166dac071c88cc8043f5d51",
+        "tests/test_retrieval_baseline_contract.py": "57c014b8ea3566f95d3a7d1d264ee772aece304fa383434de1f0e185df249478"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"
       ]
@@ -441,6 +594,14 @@
         "tests/test_retrieval_routing.py",
         "docs/QUERY_ROUTING.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/retrieval_routing.py": "09484ede93bd67851ee8425020229fc6b2c3bdb4bdaabbe66a044ee024ce659f",
+        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "src/memory_fabric/retrieval_profiles.py": "116f51f1b8f9956b98fdde9cd65d30254e147054fc095360aa0ffc2822c81c97",
+        "tests/test_retrieval_routing.py": "4dbb2b8c6b24c6eacfc654af6e82eb66a8c0386ab48fb840720cb1175d3a0b51",
+        "docs/QUERY_ROUTING.md": "3402b5ae22307c4c96619c3fe0425b0eea7310f25e20dfbc30e84c90866d81e7"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"
       ]
@@ -458,6 +619,12 @@
         "tests/test_chains.py",
         "docs/EVIDENCE_CHAIN_SELECTION.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/chains.py": "a6586c7029ada11a8b6981b2533da7a1c69e0db33e46e17d42f8117dca05e7c8",
+        "tests/test_chains.py": "d360b9ede46e65247a42d1950e14efebe9d50da4ce5ff1f025f5f1416dddeaae",
+        "docs/EVIDENCE_CHAIN_SELECTION.md": "40ffcfe2af940419fd7060e50eecd272f748cae90b26836175c39bc8e4866ca1"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"
       ]
@@ -477,6 +644,14 @@
         "tests/test_extraction.py",
         "docs/MODIFIER_EVIDENCE_PACKAGES.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/relations.py": "16fb875c4489f9ba760dda4dc5d5b19020c0564b161c9ed1699f216168a75361",
+        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "tests/test_modifier_packages.py": "c3fef1dcb1acdcb472c246ca7f2b764e0675527c6a285c1ffb24c088d647eb66",
+        "tests/test_extraction.py": "fa16566f2e7f6a86d859a3c7807029ee78194096588914fa4a9526267a635646",
+        "docs/MODIFIER_EVIDENCE_PACKAGES.md": "50fa8f466ceb5764927abed1d9803fee721a59a1f08dc71573cb9371bfbf297f"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"
       ]
@@ -496,6 +671,14 @@
         "tests/test_answerability.py",
         "docs/EVIDENCE_STATUS_API.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/evidence_status.py": "28679506f38ebe119103ffb8d781318599846f7e71d81b92cfa41860d250899f",
+        "src/memory_fabric/_fabric/common.py": "436225f2fdd8b5c88483681973892596c495e0dc47b831fe81ff1b7f02b2e6c0",
+        "tests/test_evidence_status.py": "7a416c54f8a3683ed9dc56ed53a77f7c947abfa4c604fd6c63db712998ef39e8",
+        "tests/test_answerability.py": "f7c87241342bd4c15f3b6888773a6c0c872fab7db283449406cc940331c8bb5d",
+        "docs/EVIDENCE_STATUS_API.md": "02f51a13ed4f111466b82053d145ed12185ffbbcfb27112ae856e878475824f4"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"
       ]
@@ -514,6 +697,13 @@
         "tests/test_answerability.py",
         "docs/PARAMETER_EQUIVALENCES.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/answerability.py": "e1721a35b756926852ab5e5a705d070599f66e889bc17066c6549135370251a6",
+        "src/memory_fabric/_fabric/common.py": "436225f2fdd8b5c88483681973892596c495e0dc47b831fe81ff1b7f02b2e6c0",
+        "tests/test_answerability.py": "f7c87241342bd4c15f3b6888773a6c0c872fab7db283449406cc940331c8bb5d",
+        "docs/PARAMETER_EQUIVALENCES.md": "8570ecd0c2d461bee5dff33bf1059ab1b2341ebf18b60ac25ade56d8211e2c65"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Equivalences are application-supplied reviewed local data; novel or unregistered paraphrases deliberately remain undetermined"
       ]
@@ -535,6 +725,16 @@
         "tests/test_read_surface_semantics.py",
         "docs/READ_SURFACE_SEMANTICS.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/answerability.py": "e1721a35b756926852ab5e5a705d070599f66e889bc17066c6549135370251a6",
+        "src/memory_fabric/sdk.py": "6df682411fcf2a344400b2969f99a307346885900de9a0403faac84881f33e90",
+        "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
+        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
+        "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Reason codes express evidence semantics, not permission to execute an external effect"
       ]
@@ -552,6 +752,12 @@
         "tests/test_chains.py",
         "docs/EVIDENCE_PACKAGE_BUDGETS.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/chains.py": "a6586c7029ada11a8b6981b2533da7a1c69e0db33e46e17d42f8117dca05e7c8",
+        "tests/test_chains.py": "d360b9ede46e65247a42d1950e14efebe9d50da4ce5ff1f025f5f1416dddeaae",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md": "312cde1fe69ac0b137afe0ab3e55702e7ea423946c62c7c551a3516046368493"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"
       ]
@@ -574,6 +780,17 @@
         "tests/test_access_matrix.py",
         "docs/RETRIEVAL_INDEX_INVALIDATION.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
+        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
+        "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
+        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
+        "tests/test_access_matrix.py": "4c3d3ca4cc078a9d467c2af2affc0e4cb97ab32e49d2e0483fba53e02fc11900",
+        "docs/RETRIEVAL_INDEX_INVALIDATION.md": "79b95d75a648e2926f5d8f4b8fd8c7087672fd30faab816c833d66227b5d312d"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"
       ]
@@ -590,6 +807,11 @@
         "research/results/master-checklist-http-capacity-v1.json",
         "research/results/master-checklist-http-capacity-v1.md"
       ],
+      "evidence_digests": {
+        "research/results/master-checklist-http-capacity-v1.json": "796fa74fcb7e6c3d76d9f3e90ebe4871eb2caf6bf2e407f50c460835ca892432",
+        "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"
       ]
@@ -610,6 +832,15 @@
         "tests/test_stage_trace.py",
         "docs/STAGE_TRACING.md"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
+        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
+        "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
+        "docs/STAGE_TRACING.md": "a886d1cf6414da320d50d8188c4b7dae31f775ef36d8b85833abf611111691ab"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"
       ]
@@ -635,6 +866,20 @@
         "research/results/e4-03-local-profile-manifest.json",
         "research/results/e4-03-profile-tests.xml"
       ],
+      "evidence_digests": {
+        "experiments/p12b_api_load.py": "e3a94c046ab7e1e253b34db9ebc5dd2349a943a28de4b203b1da2bacbfb102ec",
+        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
+        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/test_p12b_api_load.py": "cd0d8fc8b4a4986dc8654a23bfb5a4e8a5f39cd3bb932bf9263a89e1c4815f26",
+        "tests/test_p12b_harness.py": "54c44920312514d2af34e8be6967aac97c9404135e034615987b95c660c51aa9",
+        "research/results/e4-03-local-profile.json": "b1b4ab84a0e96b178462c8275f3eafe3aa8b8d60e6dd1f46122e1d950c974fdd",
+        "research/results/e4-03-local-profile.md": "aee3367c8ca1610ef27e26438a2619bb8e74c5540a0acb5947de5992c51d2166",
+        "research/results/e4-03-local-profile-manifest.json": "785a745c8aceb136a7057236946c498f6e9079cad956df0ebb09fdf7b49f1756",
+        "research/results/e4-03-profile-tests.xml": "0f71bb05c2da44da13e2f1ae5dca9fa344d3c531a5e0dbe8765929b3665eb709"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
         "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
@@ -661,6 +906,19 @@
         "research/results/e4-04-100-client.json",
         "research/results/e4-04-manifest.json"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/integrity.py": "16fe9774b04d9d967f5bd1e43063c989a2b2ad5d83a5c89e07d44171de6ed8ae",
+        "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
+        "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
+        "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+        "research/results/e4-04-contention-before-after.json": "5be748f8858a0fece591f7acacb19cb753e339192c997fba64dae909a480d8c3",
+        "research/results/e4-04-contention-before-after.md": "6e1ef87c0356113a1a0b28832ee7d35148948b28ff34e2437a383ca3a46f7ef0",
+        "research/results/e4-04-regression-tests.xml": "84d6cb6ded0393839e3dc94362030be8b2ca67b5b8ef28dba2893e9ea434c901",
+        "research/results/e4-04-batched-chain-pilot.json": "e0ba1560407923ceead1d511964f954aac3563188a3250eb44579e2a21b4433c",
+        "research/results/e4-04-100-client.json": "483b5f77f025c5b115c39184321a462712b8ddc6f4228400aacd634857cc003c",
+        "research/results/e4-04-manifest.json": "93927c02e231f062b991b391ed930bb78f31a1e8f7d310c414dbc2c5af60b5a7"
+      },
+      "evidence_issues": {},
       "limitations": [
         "One local Windows 8-CPU host; three trials per concurrency level and normal-approximation confidence intervals are operational evidence, not a general capacity guarantee.",
         "The optimization reduces latency modestly at measured concurrency; it does not remove the remaining process-local lock queue.",
@@ -687,6 +945,19 @@
         "research/results/e4-05-regression-tests.xml",
         "research/results/e4-05-manifest.json"
       ],
+      "evidence_digests": {
+        "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
+        "docs/OPERATIONS.md": "3dde167cbc29da22f9728ac717b64efc5a0817369747b722f92d524a4169d2c6",
+        "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
+        "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
+        "research/results/e4-05-sqlite-qualification.json": "5060cb447351caab6327c8fe2cac819e5b4c507a1ee71b01a3bd610a611bafc0",
+        "research/results/e4-05-sqlite-qualification.md": "a48412c378499ffcfcf781a997496d4359bb5a7e51e9faa7cc7bc69ad7e9e4e2",
+        "research/results/e4-05-sqlite-5s.json": "eb9259cc0ee389805ce4069f7190c9bc59382bbbc3d0847a521977702940390e",
+        "research/results/e4-05-sqlite-30s.json": "677e4a5d153c7302990342f58089ef3b1424a19785230aab767f1b3f74af03ee",
+        "research/results/e4-05-regression-tests.xml": "a4af3a91acf3577ae1bfd21c91c477564385a9c2b05eeb8a158c29af81757ff5",
+        "research/results/e4-05-manifest.json": "4b7ec2dfcff0817cee8c0793a1533a4834f5f67e6f53797d8709306fdbe43616"
+      },
+      "evidence_issues": {},
       "limitations": [
         "One local Windows 8-CPU host with SQLite 3.49.1; this is not a multi-host capacity guarantee.",
         "The default 5-second timeout produced explicit database-is-locked failures under the synchronized 50-process workload; the tested configuration required busy_timeout_ms=30000.",
@@ -710,6 +981,16 @@
         "research/results/e4-06-regression-tests.xml",
         "research/results/e4-06-manifest.json"
       ],
+      "evidence_digests": {
+        "experiments/e4_scan_benchmark.py": "9297dd953c8a221239ab2e1e226ff3f21fab52e6f0f4ce1e65f60851582e5a87",
+        "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
+        "research/results/e4-06-page-scan.json": "6201cbcb27f442e9b42ab9e311f456b910c12d4b588b3eb48f6f7d4bb35bc3ab",
+        "research/results/e4-06-page-scan.md": "0ace324650e898f30ff921a443383a78da5ec8721f3bd72f3dbc74f32ca2d32b",
+        "research/results/e4-06-page-scan.svg": "76ad2464f1d90a293d4f80f56ac199937ce1bae5e9c4d7a6ea2e6c089a23c82f",
+        "research/results/e4-06-regression-tests.xml": "4ba10bfb4ba5d5034d1bc9f44549c04c7396ea941cb0a89ae4682663d72c7579",
+        "research/results/e4-06-manifest.json": "eaaf93022b5a8d94f5952a76aa50b4e3742e1fa84a827829db9fb0c0199e9daa"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Synthetic one-MemoryCreated-event-per-memory fixture on one local Windows host with a warm SQLite cache; not an external production corpus or remote-storage benchmark.",
         "This benchmark covers bounded EventLog keyset scans; the operator list path still materializes and sorts the complete in-memory projection before applying its output limit, and is flagged for separate work."
@@ -732,6 +1013,16 @@
         "research/results/e4-07-regression-tests.xml",
         "research/results/e4-07-manifest.json"
       ],
+      "evidence_digests": {
+        "experiments/e4_three_hosts.py": "214602e29b82f82b9823c7f1379224889260008922f4f908043c7d74026df974",
+        "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
+        "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
+        "research/results/e4-07-three-hosts.json": "fb80ad81cf5c0c0c13d6b155676a25af699d34bf788cdf67430fecbbbb487b6f",
+        "research/results/e4-07-three-hosts.md": "6ad40ecd19cc3729001a485ee7a807195c6fff91ec78f26f0891fd77b2801557",
+        "research/results/e4-07-regression-tests.xml": "925fd81fd7510f8e8fce53374274a1c6719eafb5bcc8b9b9ef970717b43ddaa9",
+        "research/results/e4-07-manifest.json": "386debb13153b0cde7ce0a6e6645cdf85b59ff2fc352ade95cb0454c5b267c49"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Three logical hosts are separate localhost processes and SQLite files, but share one physical host.",
         "Partition is modeled by stopping a server process; no packet-loss, bandwidth, clock-skew, or physical multi-host properties are claimed."
@@ -753,6 +1044,15 @@
         "research/results/e4-08-federation-faults.json",
         "research/results/e4-08-federation-faults.xml"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
+        "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
+        "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
+        "docs/OPERATIONS.md": "3dde167cbc29da22f9728ac717b64efc5a0817369747b722f92d524a4169d2c6",
+        "research/results/e4-08-federation-faults.json": "3a6c256144eff225b556db47faee5f5d44f06156b37f18f0daaa3000bf83e95c",
+        "research/results/e4-08-federation-faults.xml": "8f1018300a3bffe91e1c89ad583c160edf4edfd316f4f72fb21eaade970196a1"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Fault schedules use deterministic in-process transport. The test run includes HTTP integration regressions but does not emulate physical network packet impairment."
       ]
@@ -772,6 +1072,14 @@
         "research/results/e4-09-freshness-clock-skew.json",
         "research/results/e4-09-freshness-clock-skew.xml"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
+        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "docs/FRESHNESS_LEASES.md": "44684881a32c178c0dbd2749e30bc673750a91c215aeeedba16fa77d38dfa8c9",
+        "research/results/e4-09-freshness-clock-skew.json": "e3b56040683e06849265c1a3e0b26a65b833c64a54e75e253ee6604c98172b5d",
+        "research/results/e4-09-freshness-clock-skew.xml": "88dd8a3e40640ca955b2884ccb399a358629a1d30dd22bddaf2a2ebee41ff3e3"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Clock-skew bound assumes a receiver clock within the configured tolerance; time synchronization remains an operational dependency. Monotonic expiry is process-local and leases are reverified on restart."
       ]
@@ -794,6 +1102,17 @@
         "research/results/e4-10-crash-backup-regressions.xml",
         "research/results/e4-10-evidence.json"
       ],
+      "evidence_digests": {
+        "experiments/e4_soak.py": "0f48956d19a6b24155f5f397c61b5ee8a89bf709e1b2b23913f3b63a24e36484",
+        "docs/E4_SOAK.md": "565f8272f0bb2f5fcebd1370fbfee53a00a95117b1335a548d315d845ebdc51e",
+        "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+        "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+        "research/results/e4-10-deterministic-soak.json": "faae654420a9f7ca277b1ccacb061b0faf80ba510bf7421eac5e33c2f64f5a84",
+        "research/results/e4-10-deterministic-soak.md": "f786c26d7c586f3a60d9621c363f624543a1bf280f1aa21f579a8b81ef6ba64a",
+        "research/results/e4-10-crash-backup-regressions.xml": "01f0582121aa95845e999eccde060563d6e1a7cc583ba086c0109badd365fe1d",
+        "research/results/e4-10-evidence.json": "836f8f4290875c9c5e2e3c25d4f7846df8886dfeab9e252c0cf55bc9f4733922"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Forty hard-crash cycles are deterministic local SQLite qualification, not a continuous production-duration soak, physical-host failure, PostgreSQL, or deployment-hardware resource ceiling."
       ]
@@ -818,6 +1137,19 @@
         "research/results/e5-01-api-inventory.json",
         "research/results/e5-01-api-inventory.xml"
       ],
+      "evidence_digests": {
+        "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
+        "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
+        "docs/API_INVENTORY.json": "bd2e3460c5641a8bc623933762a9f5a726130848dbb2863b49ef227f9b6d12d2",
+        "docs/API.md": "7c55de15c12e51441d35f1d4624b198c166b1265cff2f1b469f3e1ac2cde6c0a",
+        "STABILITY.md": "76abbb5444301de93d85f2c3e530aa7429e62f8efb4af2ac8f412e4a3c94bbbf",
+        "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
+        "tests/test_fabric_structure.py": "883a30b707ae5db4d25539fcbae28c4f4c4814e4c784d02c814e0450738d59aa",
+        "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
+        "research/results/e5-01-api-inventory.json": "226cd5f3e908260e550605ca54c642f187acb4283aba61376595772fc2d5c47d",
+        "research/results/e5-01-api-inventory.xml": "4d51cfe0fc3d8ce533b84141ff98bf1e4c08279863e031f7c710a3b0275522c4"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The inventory covers documented public API symbols; the migration-note requirement is documented and review-enforced rather than inferred from arbitrary Git history."
       ]
@@ -836,6 +1168,13 @@
         "tools/check_typed_consumer.py",
         "research/results/e5-02-typed-wheel.json"
       ],
+      "evidence_digests": {
+        "pyproject.toml": "45670c468c29735ce856047bc286dbb4646678cc00b944333bf832e561191ba4",
+        "src/memory_fabric/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tools/check_typed_consumer.py": "66776d0b1770eb44f3ac620672ebb008c46ae4bc6f9b359e6503466a86941873",
+        "research/results/e5-02-typed-wheel.json": "772133bbe46a271b45eacf920eef711a44afd32275f5f8349f69c9b82e305689"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Local wheel and isolated typing check on Python 3.13.5; full supported-interpreter/platform matrix remains separate."
       ]
@@ -861,6 +1200,20 @@
         "research/results/e5-03-error-contracts.json",
         "research/results/e5-03-error-contracts.xml"
       ],
+      "evidence_digests": {
+        "docs/ERROR_CONTRACT_MATRIX.md": "56f4bda5f90fb7132d8ccca9acf96f978ea4101737d92aad95926b725c732270",
+        "src/memory_fabric/sdk.py": "6df682411fcf2a344400b2969f99a307346885900de9a0403faac84881f33e90",
+        "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
+        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "tests/test_sdk.py": "75fd49bfb0258ad54c221ba352da26c650772bd9fbe3b6235e731b8a33d702dd",
+        "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
+        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
+        "research/results/e5-03-error-contracts.json": "f601db467d23ebe124202017be7f860410a4738d28a5dd24f900c0aa79df3a5d",
+        "research/results/e5-03-error-contracts.xml": "b28c00407688e95a7f80c8941bf8e22fa5707f0e8628df9ea52d5ee2b84025e8"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Protocols retain native error envelopes and surfaces that intentionally do not expose identity/apply operations are marked N/A in the contract matrix."
       ]
@@ -881,6 +1234,15 @@
         "research/results/e5-04-default-flags.json",
         "research/results/e5-04-default-flags.xml"
       ],
+      "evidence_digests": {
+        "docs/EXPERIMENTAL_DEFAULTS.md": "4c0ae759ff9963a322476e30ed3c743d45c12ac08f743067d243b44b822d99f8",
+        "tests/data/default_features.json": "83504b3ef4dab543b5f32af7b50c9ce83a9a238e1cc6ce4780059f38eb8fe041",
+        "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
+        "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
+        "research/results/e5-04-default-flags.json": "9eeab37df605d96b55e4a81ee6c99da40d93514bba4fc95b6287678fac9b9afb",
+        "research/results/e5-04-default-flags.xml": "a073a8d5e07d4ea0b57fefa14ff9d444140dca0fcc228b3f36730395669ee70c"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
       ]
@@ -900,6 +1262,14 @@
         "research/results/e5-05-tool-schema.json",
         "research/results/e5-05-tool-schema.xml"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "b15448653bbcf411485c782e2f0ac4936d39c39511c4c0edce442ea32e1ef20b",
+        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
+        "docs/DECISION_MODELS_AND_UTCP.md": "a16f566ab7ebfb94cd7d9925a331074f517aa13f39128666b145c45de2667051",
+        "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
+        "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
       ]
@@ -920,6 +1290,15 @@
         "research/results/e5-06-utcp-malicious.json",
         "research/results/e5-06-utcp-malicious.xml"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "b15448653bbcf411485c782e2f0ac4936d39c39511c4c0edce442ea32e1ef20b",
+        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
+        "tests/data/utcp_malicious_manuals.json": "7233877289f3bfeb2e781bd8524835b8c8990904efd95af45b89941d147ec034",
+        "docs/DECISION_MODELS_AND_UTCP.md": "a16f566ab7ebfb94cd7d9925a331074f517aa13f39128666b145c45de2667051",
+        "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
+        "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
       ]
@@ -937,6 +1316,12 @@
         "docs/PACKAGE_PARITY.md",
         "research/results/e5-07-package-parity.json"
       ],
+      "evidence_digests": {
+        "tools/package_parity.py": "234f787c9522184ff5c66f64a3203251eb295c11c2e6fd4ddb054661bfa3e80d",
+        "docs/PACKAGE_PARITY.md": "bae86aacb4ef94523fc66da3299d1d9d46f128266fef5d6c26276d74697debf9",
+        "research/results/e5-07-package-parity.json": "e5e1f5f1855946d584dc78b7aa7817fdbdcf6ec2e9aaab88d08d0da37b01aec2"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Validated on Windows with Python 3.13.5 only; supported interpreter and operating-system CI matrix remains separate. Built artifacts are represented by their recorded SHA-256 hashes and were installed in temporary environments that were removed after the run."
       ]
@@ -959,6 +1344,17 @@
         "research/results/e5-08-historical-fixtures.json",
         "research/results/e5-08-historical-fixtures.xml"
       ],
+      "evidence_digests": {
+        "docs/HISTORICAL_COMPATIBILITY_FIXTURES.md": "4e402388348c88ccc29b807cc56eb098e67c12ce0eea9f74e0ab48c17d0beb5f",
+        "tests/data/historical/manifest.json": "a16c5069e94336c83e6b65e61b6e813bcdef5d4cb4c4e4e73eff26bb0fcdadcf",
+        "tests/data/historical/v0.11.0.db.gz": "035b498977fa342b7cb64963d636fafe7e173f4f709f0b0c582cebd95cb8c9db",
+        "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc",
+        "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
+        "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
+        "research/results/e5-08-historical-fixtures.json": "76e8b83234f527689cfd694d82cf309ccdadae4783a7996102076f3bb496b864",
+        "research/results/e5-08-historical-fixtures.xml": "a79a408ab075e4bdbde59e650420448964cad988654ae28beb9f2d081185293c"
+      },
+      "evidence_issues": {},
       "limitations": [
         "The checked-in authentic artifact covers the only formal release tag/artifact available in this repository, v0.11.0. Older 0.2.0-0.8.0 cases are reconstructed transition tests, not release binaries; 0.12.0-0.14.0 have no formal release artifacts in the repository."
       ]
@@ -983,6 +1379,19 @@
         "research/results/e5-09-agent-api-after-core.xml",
         "research/results/e5-09-agent-api-refactor.json"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/data/agent_api_behavior.json": "e0ace124261631c09ef6b8eecb2f58bbf7c8d5f5653e3cfbf2bacd44847c02dd",
+        "tools/agent_api_metrics.py": "7a7983e617133ae6b46ad0281625b0e96085f93317c6fe07bbdc0632c27f785f",
+        "research/results/e5-09-agent-api-before.json": "c55a2d511c1aa135f23b5b6143493f586cf74ec7f7b7f097cf2b93365ffafbd1",
+        "research/results/e5-09-agent-api-before.xml": "f1c0731d21f9fb4d5cc518ee8152ad072cf627b16a767fee747e99b28fd135fb",
+        "research/results/e5-09-agent-api-after.json": "dd9fb0e126ef26793d48347391541f8517f30252ad438f64aba28f3dc9a57096",
+        "research/results/e5-09-agent-api-after.xml": "1fdc9a1eda0ba23954d7a95e5a4d5c75dee8b6d9715f4d6a081ab27ba271818a",
+        "research/results/e5-09-agent-api-after-core.xml": "78d188697236c150b2df94c62294405fedc1a09fa11f986f56a5f01a79164e31",
+        "research/results/e5-09-agent-api-refactor.json": "1fb52d923765c62035d53dca98d98e5ed78708c0c3a607d6fdd5798ffac72abe"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Characterization and complexity/duplication evidence are scoped to the high-churn agent HTTP API module; the AST complexity measure is a documented local proxy, not a whole-project metric."
       ]
@@ -1001,6 +1410,13 @@
         "docs/PORTABLE_PATHS.md",
         "research/results/e5-10-portable-paths.xml"
       ],
+      "evidence_digests": {
+        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
+        "tests/test_portable_paths.py": "afc644edf803b9f3791cf8858ab0f806dc1b28046f9b5bfbe97041106bab7be3",
+        "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
+        "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
+      },
+      "evidence_issues": {},
       "limitations": [
         "All 38 selected tests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS matrix has not run for this branch, so cross-platform acceptance is not yet verified."
       ]
@@ -1014,6 +1430,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1025,6 +1443,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1036,6 +1456,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1047,6 +1469,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1058,6 +1482,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1069,6 +1495,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1080,6 +1508,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1091,6 +1521,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1102,6 +1534,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1113,6 +1547,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1124,6 +1560,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1135,6 +1573,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1146,6 +1586,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1157,6 +1599,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1168,6 +1612,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1179,6 +1625,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1190,6 +1638,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1201,6 +1651,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1212,6 +1664,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1223,6 +1677,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1234,6 +1690,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1245,6 +1703,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1256,6 +1716,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1267,6 +1729,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1278,6 +1742,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1289,6 +1755,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1300,6 +1768,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1311,6 +1781,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1322,6 +1794,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1333,6 +1807,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1344,6 +1820,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1355,6 +1833,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1366,6 +1846,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1377,6 +1859,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1388,6 +1872,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1399,6 +1885,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1410,6 +1898,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1421,6 +1911,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1432,6 +1924,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1443,6 +1937,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1454,6 +1950,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1465,6 +1963,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1476,6 +1976,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1487,6 +1989,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1498,6 +2002,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1509,6 +2015,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1520,6 +2028,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1531,6 +2041,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1542,6 +2054,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1553,6 +2067,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1564,6 +2080,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1575,6 +2093,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1586,6 +2106,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1597,6 +2119,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1608,6 +2132,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1619,6 +2145,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1630,6 +2158,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1641,6 +2171,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1652,6 +2184,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1663,6 +2197,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1674,6 +2210,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1685,6 +2223,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1696,6 +2236,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1707,6 +2249,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1718,6 +2262,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1729,6 +2275,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1740,6 +2288,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1751,6 +2301,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1762,6 +2314,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1773,6 +2327,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1784,6 +2340,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1795,6 +2353,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1806,6 +2366,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1817,6 +2379,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1828,6 +2392,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1839,6 +2405,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1850,6 +2418,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1861,6 +2431,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1872,6 +2444,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1883,6 +2457,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1894,6 +2470,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1905,6 +2483,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1916,6 +2496,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1927,6 +2509,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1938,6 +2522,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1949,6 +2535,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1960,6 +2548,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1971,6 +2561,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1982,6 +2574,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -1993,6 +2587,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2004,6 +2600,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2015,6 +2613,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2026,6 +2626,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2037,6 +2639,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2048,6 +2652,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2059,6 +2665,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2070,6 +2678,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2081,6 +2691,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2092,6 +2704,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2103,6 +2717,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2114,6 +2730,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2125,6 +2743,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2136,6 +2756,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2147,6 +2769,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2158,6 +2782,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2169,6 +2795,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2180,6 +2808,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2191,6 +2821,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2202,6 +2834,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2213,6 +2847,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2224,6 +2860,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2235,6 +2873,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2246,6 +2886,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2257,6 +2899,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2268,6 +2912,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2279,6 +2925,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2290,6 +2938,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2301,6 +2951,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2312,6 +2964,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2323,6 +2977,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2334,6 +2990,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2345,6 +3003,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2356,6 +3016,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2367,6 +3029,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2378,6 +3042,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2389,6 +3055,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2400,6 +3068,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2411,6 +3081,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2422,6 +3094,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2433,6 +3107,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2444,6 +3120,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2455,6 +3133,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2466,6 +3146,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2477,6 +3159,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2488,6 +3172,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2499,6 +3185,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2510,6 +3198,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2521,6 +3211,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2532,6 +3224,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2543,6 +3237,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2554,6 +3250,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2565,6 +3263,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2576,6 +3276,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2587,6 +3289,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2598,6 +3302,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2609,6 +3315,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2620,6 +3328,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2631,6 +3341,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2642,6 +3354,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2653,6 +3367,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2664,6 +3380,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2675,6 +3393,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2686,6 +3406,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2697,6 +3419,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2708,6 +3432,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2719,6 +3445,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2730,6 +3458,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2741,6 +3471,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2752,6 +3484,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2763,6 +3497,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2774,6 +3510,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2785,6 +3523,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2796,6 +3536,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2807,6 +3549,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2818,6 +3562,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2829,6 +3575,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2840,6 +3588,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2851,6 +3601,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2862,6 +3614,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2873,6 +3627,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2884,6 +3640,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2895,6 +3653,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2906,6 +3666,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2917,6 +3679,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2928,6 +3692,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2939,6 +3705,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2950,6 +3718,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2961,6 +3731,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2972,6 +3744,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2983,6 +3757,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -2994,6 +3770,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3005,6 +3783,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3016,6 +3796,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3027,6 +3809,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3038,6 +3822,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3049,6 +3835,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3060,6 +3848,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3071,6 +3861,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3082,6 +3874,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3093,6 +3887,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3104,6 +3900,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3115,6 +3913,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3126,6 +3926,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3137,6 +3939,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3148,6 +3952,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3159,6 +3965,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3170,6 +3978,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3181,6 +3991,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3192,6 +4004,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3203,6 +4017,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3214,6 +4030,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3225,6 +4043,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3236,6 +4056,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3247,6 +4069,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3258,6 +4082,8 @@
       "acceptance_passed": false,
       "evidence_level": "NOT_TESTED",
       "evidence_paths": [],
+      "evidence_digests": {},
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3272,6 +4098,11 @@
         "docs/LIMITATIONS.md",
         "docs/KNOWN_GAPS.md"
       ],
+      "evidence_digests": {
+        "docs/LIMITATIONS.md": "fef90f9608f107263836161bdea1d9be94a1659dad691f68488e236843fd226f",
+        "docs/KNOWN_GAPS.md": "4a42a13d38d51c0ebeb49e60890e378b63ec3315f1d39eeb543510155b7e7b39"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3283,9 +4114,12 @@
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
-        "research/offline_qualification/register.json",
-        "research/offline_qualification/README.md"
+        "tests/test_offline_qualification.py"
       ],
+      "evidence_digests": {
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3300,6 +4134,11 @@
         "docs/LIMITATIONS.md",
         "docs/PRODUCT_READINESS.md"
       ],
+      "evidence_digests": {
+        "docs/LIMITATIONS.md": "fef90f9608f107263836161bdea1d9be94a1659dad691f68488e236843fd226f",
+        "docs/PRODUCT_READINESS.md": "2735c4115f80b629e798b53656924f67884d8464ce724c81ff243c350384c7f1"
+      },
+      "evidence_issues": {},
       "limitations": []
     },
     {
@@ -3313,6 +4152,10 @@
       "evidence_paths": [
         "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md"
       ],
+      "evidence_digests": {
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md": "fce16ab8221da7ea73de22a2e4887732bbb01f36ad1e78074957057a2ad263ac"
+      },
+      "evidence_issues": {},
       "limitations": [
         "External validation is not complete"
       ]
@@ -3329,6 +4172,11 @@
         "tools/offline_qualification.py",
         "tests/test_offline_qualification.py"
       ],
+      "evidence_digests": {
+        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+      },
+      "evidence_issues": {},
       "limitations": [
         "Owner approval and external validation remain mandatory"
       ]

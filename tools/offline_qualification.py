@@ -10,6 +10,7 @@ import hashlib
 import json
 import re
 import subprocess
+import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -25,7 +26,7 @@ TASK = re.compile(
     r"· \*\*(?P<priority>P\d)\*\* · (?P<task>.*?) "
     r"\*\*Acceptance:\*\* (?P<acceptance>.*)\.\.$"
 )
-STATUSES = {"DONE", "PARTIAL", "TODO", "BLOCKED", "NOT_TESTED"}
+STATUSES = {"DONE", "PARTIAL", "TODO", "BLOCKED", "NOT_TESTED", "INCOMPLETE"}
 LEVELS = {"NOT_TESTED", "SIMULATED", "CONTRACT", "INTERNAL_INTEGRATION",
           "EXTERNAL_INDEPENDENT"}
 
@@ -56,6 +57,25 @@ def load_overrides() -> dict[str, dict[str, Any]]:
     return {str(row["task_id"]): row for row in raw["tasks"]}
 
 
+def verify_artifact(path: str) -> tuple[str | None, str | None]:
+    """Return digest and parse error for one declared evidence artifact."""
+    candidate = (ROOT / path).resolve()
+    try:
+        candidate.relative_to(ROOT.resolve())
+    except ValueError:
+        return None, "path escapes repository"
+    if not candidate.is_file():
+        return None, "file is missing"
+    try:
+        if candidate.suffix.lower() == ".json":
+            json.loads(candidate.read_text(encoding="utf-8"))
+        elif candidate.suffix.lower() == ".xml":
+            ET.parse(candidate)
+    except (UnicodeError, ValueError, ET.ParseError) as exc:
+        return None, f"invalid {candidate.suffix.lower()} evidence: {exc}"
+    return sha256(candidate), None
+
+
 def build() -> dict[str, Any]:
     tasks = parse_scope(SCOPE.read_text(encoding="utf-8"))
     overrides = load_overrides()
@@ -70,10 +90,18 @@ def build() -> dict[str, Any]:
         paths = evidence.get("evidence_paths", [])
         if status not in STATUSES or level not in LEVELS:
             raise ValueError(f"{task['id']}: invalid status or evidence level")
-        missing = [path for path in paths if not (ROOT / path).is_file()]
-        if missing:
-            raise ValueError(f"{task['id']}: missing evidence {missing}")
+        artifact_digests: dict[str, str] = {}
+        artifact_issues: dict[str, str] = {}
+        for path in paths:
+            digest, issue = verify_artifact(path)
+            if issue:
+                artifact_issues[path] = issue
+            else:
+                artifact_digests[path] = str(digest)
         accepted = bool(evidence.get("acceptance_passed", False))
+        if artifact_issues:
+            status = "INCOMPLETE"
+            accepted = False
         if status == "DONE" and (not accepted or not paths or level == "NOT_TESTED"):
             raise ValueError(f"{task['id']}: DONE requires passed acceptance and evidence")
         if status != "DONE" and accepted:
@@ -83,6 +111,8 @@ def build() -> dict[str, Any]:
             "task": task["task"], "acceptance": task["acceptance"],
             "status": status, "acceptance_passed": accepted,
             "evidence_level": level, "evidence_paths": paths,
+            "evidence_digests": artifact_digests,
+            "evidence_issues": artifact_issues,
             "limitations": evidence.get("limitations", []),
         })
     commit, dirty = head()
@@ -139,6 +169,7 @@ def render(data: Mapping[str, Any]) -> str:
              f"({summary['percent_complete']:.2f}%)**. Internal status: "
              f"**{summary['internal_status']}**.", "",
              "A task is counted only when its exact acceptance condition has evidence. "
+             "Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. "
              "Existing code without acceptance evidence is PARTIAL or TODO, never DONE.", "",
              f"Normalized ledger digest: `{normalized_digest(data)}`.", "",
              "| status | count |", "|---|---:|"]
