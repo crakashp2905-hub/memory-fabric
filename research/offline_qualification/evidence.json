@@ -250,6 +250,14 @@
       "limitations": ["Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"]
     },
     {
+      "task_id": "E4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/stage_trace.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/_fabric/writes.py", "tests/test_stage_trace.py", "docs/STAGE_TRACING.md"],
+      "limitations": ["Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

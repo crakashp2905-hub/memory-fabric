@@ -350,7 +350,12 @@ class FabricCore:
         return self._clock()
 
     def _emit(self, *events: ev.Event) -> list[ev.Event]:
+        stage = getattr(self, "_stage_marker", None)
+        if stage is not None:
+            stage("event_append")
         stored = self.log.append_many(events)
+        if stage is not None:
+            stage("projection")
         if stored and stored[0].seq != self._seen_seq + 1:
             # Another process appended between our last catch-up and this
             # write, so folding only our own events would put the projection

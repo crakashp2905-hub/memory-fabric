@@ -63,6 +63,7 @@ from typing import Any, Callable, Mapping
 from .limits import LimitExceeded
 from .enforcement import ExposureToken, RiskLevel
 from .identity import Credential, IdentityError, ROLE_AGENT
+from .ids import new_ulid
 from .oidc import TokenVerifier
 from ._fabric.common import FabricError
 from .reasons import say
@@ -229,13 +230,15 @@ class AgentApi:
 
     def __init__(self, service: MemoryService, limits: RateLimit | None = None,
                  clock: Callable[[], float] = time.monotonic,
-                 oauth: TokenVerifier | None = None) -> None:
+                 oauth: TokenVerifier | None = None,
+                 trace_recorder: Any = None) -> None:
         self.service = service
         # The server owns the service; reaching its fabric here is the server
         # building the narrow per-agent client, not a caller bypassing it.
         self._fabric = service._fabric
         self._issued: dict[str, OrderedDict[str, ExposureToken]] = {}
         self._oauth = oauth
+        self.trace_recorder = trace_recorder
         limits = limits or RateLimit()
         self._per_agent = RateLimiter(limits.rate, limits.burst, clock)
         self._per_address = RateLimiter(limits.auth_failures,
@@ -300,18 +303,35 @@ class AgentApi:
         # of 200 times under ten agents (experiments/p12_http.py) -- an
         # interfered-with read is a revocation check that can say "not
         # revoked".
-        agent_id, credential = self.precheck(bearer, remote)
-        with self._fabric.lock:
-            client = self.client_for(agent_id, credential, remote)
-            if operation == "recall":
-                return self._recall(client, body)
-            if operation == "fetch":
-                return self._fetch(client, body)
-            if operation == "verify":
-                return self._verify(client, body)
-            if operation == "remember":
-                return self._remember(client, body)
-            raise _ApiError(HTTPStatus.NOT_FOUND, "unknown operation")
+        stages = None
+        if self.trace_recorder is not None and getattr(self, "_request_stages", None) is None:
+            from .stage_trace import RequestStages
+
+            stages = RequestStages(self.trace_recorder, new_ulid(), operation)
+            self._request_stages = stages
+            self._fabric._stage_marker = stages.mark
+        try:
+            if stages is not None:
+                stages.mark("auth")
+            agent_id, credential = self.precheck(bearer, remote)
+            with self._fabric.lock:
+                client = self.client_for(agent_id, credential, remote)
+                if stages is not None:
+                    stages.mark("dispatch_other")
+                if operation == "recall":
+                    return self._recall(client, body)
+                if operation == "fetch":
+                    return self._fetch(client, body)
+                if operation == "verify":
+                    return self._verify(client, body)
+                if operation == "remember":
+                    return self._remember(client, body)
+                raise _ApiError(HTTPStatus.NOT_FOUND, "unknown operation")
+        finally:
+            if stages is not None:
+                stages.finish_elapsed(stages.recorder.clock_ns() - stages.started)
+                self._request_stages = None
+                self._fabric._stage_marker = None
 
     def _recall(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
         query = _string(body, "query")
@@ -452,7 +472,12 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
 
         def _reply(self, status: HTTPStatus, payload: Any,
                    retry_after: float | None = None) -> None:
+            trace = getattr(self, "_request_trace", None)
+            if trace is not None:
+                trace.mark("serialization")
             body = json.dumps(payload).encode()
+            if trace is not None:
+                trace.mark("transport")
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(body)))
@@ -480,6 +505,16 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             self._reply(status, {"error": message})
 
         def do_POST(self) -> None:  # noqa: N802
+            trace = None
+            recorder = api.trace_recorder
+            if recorder is not None:
+                from .stage_trace import RequestStages
+
+                trace = RequestStages(recorder, new_ulid(), self.path)
+                self._request_trace = trace
+                api._request_stages = trace
+                api._fabric._stage_marker = trace.mark
+                trace.mark("body_decode")
             if self.headers.get("Origin"):
                 self._drain_and_refuse(HTTPStatus.FORBIDDEN, "browser requests are not accepted")
                 return
@@ -495,6 +530,8 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                                        f"body must be at most {MAX_BODY} bytes")
                 return
             try:
+                if trace is not None:
+                    trace.mark("body_decode")
                 body = json.loads(self.rfile.read(length) or b"{}")
             except (ValueError, UnicodeDecodeError):
                 self._reply(HTTPStatus.BAD_REQUEST, {"error": "body is not JSON"})
@@ -506,6 +543,8 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             scheme, _, value = header.partition(" ")
             bearer = value.strip() if scheme.lower() == "bearer" else None
             try:
+                if trace is not None:
+                    trace.mark("auth")
                 result = api.handle(self.path[len("/v1/"):], bearer, body,
                                     remote=self.client_address[0])
             except _ApiError as exc:
@@ -519,6 +558,12 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                 self._reply(HTTPStatus.UNPROCESSABLE_ENTITY, {"error": public_error(exc)})
             else:
                 self._reply(HTTPStatus.OK, result)
+            finally:
+                if trace is not None and recorder is not None:
+                    trace.finish()
+                    self._request_trace = None
+                    api._request_stages = None
+                    api._fabric._stage_marker = None
 
         def do_GET(self) -> None:  # noqa: N802
             if self.path == "/v1/health":

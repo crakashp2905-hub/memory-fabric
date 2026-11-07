@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "633276bd917ad5ae26bb9951940d99d703814aa8",
+    "commit": "71518a8ea8cf1aed89fd44940fc36ca2512d885e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 32,
+      "DONE": 33,
       "PARTIAL": 4,
-      "TODO": 224
+      "TODO": 223
     },
-    "completed": 32,
+    "completed": 33,
     "total": 260,
-    "percent_complete": 12.31,
-    "p0_open": 88,
+    "percent_complete": 12.69,
+    "p0_open": 87,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -580,11 +580,20 @@
       "priority": "P0",
       "task": "Create per-stage tracing for auth, event append, projection, copy lookup, serialization and transport.",
       "acceptance": "Each end-to-end request has balanced stage durations and total latency reconciliation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/stage_trace.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_stage_trace.py",
+        "docs/STAGE_TRACING.md"
+      ],
+      "limitations": [
+        "Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"
+      ]
     },
     {
       "task_id": "E4-03",

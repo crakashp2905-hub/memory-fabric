@@ -195,6 +195,9 @@ class WritesMixin(FabricCore):
             # is a separate origin, and linking them let a withdrawal in one
             # tenant reach the other (masterplan GOV-07).
             memories = self.state.memories
+            stage = getattr(self, "_stage_marker", None)
+            if stage is not None:
+                stage("copy_lookup")
             copy_of = self.copy_index.find(
                 content, accept=lambda mid: mid in memories and memories[mid].tenant_id == tenant_id)
 
