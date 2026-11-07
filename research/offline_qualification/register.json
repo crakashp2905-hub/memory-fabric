@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e77edaa08ee79d3e62637c6ddb232d19a5f2c36d",
+    "commit": "9ffdbd99e3433785d2ef3e090cb2261a4febc6cd",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 65,
+      "DONE": 66,
       "PARTIAL": 5,
-      "TODO": 190
+      "TODO": 189
     },
-    "completed": 65,
+    "completed": 66,
     "total": 260,
-    "percent_complete": 25.0,
-    "p0_open": 64,
+    "percent_complete": 25.38,
+    "p0_open": 63,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "785ab5bbac0e2acdb3466cbc1b5f0d563338492d870c9981c716a2f5f3dc998c",
-        "docs/VALIDATION.md": "c4c36046a4cccc5d575e037343a0402c86c1ed09d93a6123f80cdce119cc27b3",
-        "docs/STATUS_AT_HEAD.md": "f812e80f2f5a05aeef4b837582d177c9898976827e5b12ea2e6cb88ed55f015b",
+        "README.md": "c4e4836334d212857d895685e194d09a1766ddee05c0c0953ea7ac16bed2f520",
+        "docs/VALIDATION.md": "557a6be44854b34d5d0f3aa76eaaffd962bb38fc9b3bd66b3aa04008dfb39c71",
+        "docs/STATUS_AT_HEAD.md": "dee7100da9d27ec461eb16dd7c341898de2a13918bdd2c0a2fea17663bcd7aa5",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "94521a22ccec8b62363dde1d41ecac5e6a296be26ef18f8ce0ffc0a55f6efc4a",
+        "research/results/MANIFEST.json": "f35ba863616e6221ea98580b357d0a6a1e7b9948cb825b6a29b2732d4208d351",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1910,13 +1910,29 @@
       "priority": "P0",
       "task": "Build local 5, 10, 25, 50 and 100-agent scripted environments with identical tasks.",
       "acceptance": "All agent counts run from seed manifests and report task-family composition",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/agent_scale.py",
+        "tests/test_agent_scale.py",
+        "research/prereg/agent-scale-v1.md",
+        "docs/AGENT_SCALE_BENCHMARK.md",
+        "research/results/r3-01-agent-scale-tests.xml",
+        "research/results/r3-01-agent-scale.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+        "tests/test_agent_scale.py": "405990c36366ffe055fcd9d6cc92c932bd70763d2bf84e38f65a264f8b206a1b",
+        "research/prereg/agent-scale-v1.md": "97e4a5bddba6a39670a8267a6d94aa420db24d041e7a864d802d6e5c8b121936",
+        "docs/AGENT_SCALE_BENCHMARK.md": "a9944713de48f86f8d0e79da6bdbc1446b5eaa1639a2137403e33c78fb4524e5",
+        "research/results/r3-01-agent-scale-tests.xml": "1045d8f87c784b254db6950d875eaaab09aae3bc9cee63ba54b5263847002f63",
+        "research/results/r3-01-agent-scale.json": "eef2b833c9270913958aead9cf7991cb4c344c3c6a7dab21c9b469afdf35dd80"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This is a three-seed scripted-agent benchmark on one in-process store; it is not a real-model-agent or multi-host performance result."
+      ]
     },
     {
       "task_id": "R3-02",

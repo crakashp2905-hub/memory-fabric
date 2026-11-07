@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **65 / 260 (25.00%)**. Internal status: **BLOCKED**.
+Strict completion: **66 / 260 (25.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1ec3a579a65562da56b624e6e48f3f19e1c775e995ce306e5115d6fab1bab856`.
+Normalized ledger digest: `ea9d89cefbf727688b0ebbdebe024a710ecbd021107ee69e4e3b5619a28d3286`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 65 |
+| DONE | 66 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 190 |
+| TODO | 189 |
 
 ## Graduation gates
 
@@ -99,7 +99,7 @@ Normalized ledger digest: `1ec3a579a65562da56b624e6e48f3f19e1c775e995ce306e5115d
 | R2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/enforcement.py`, `src/memory_fabric/sdk.py`, `src/memory_fabric/actions.py`, `tests/test_sdk.py`, `tests/test_action_fence.py`, `docs/EVIDENCE_OPERATION_RISK.md`, `research/results/r2-08-risk-sensitive-operations.xml`, `research/results/r2-08-action-fence.xml` |
 | R2-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/evidence_completeness.py`, `research/prereg/ecv1-threshold.json`, `tests/test_ecv1_benchmark.py`, `research/results/r2-09-threshold-guard.xml` |
 | R2-10 | P0 | TODO | NOT_TESTED | — |
-| R3-01 | P0 | TODO | NOT_TESTED | — |
+| R3-01 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_scale.py`, `tests/test_agent_scale.py`, `research/prereg/agent-scale-v1.md`, `docs/AGENT_SCALE_BENCHMARK.md`, `research/results/r3-01-agent-scale-tests.xml`, `research/results/r3-01-agent-scale.json` |
 | R3-02 | P0 | TODO | NOT_TESTED | — |
 | R3-03 | P0 | TODO | NOT_TESTED | — |
 | R3-04 | P0 | TODO | NOT_TESTED | — |

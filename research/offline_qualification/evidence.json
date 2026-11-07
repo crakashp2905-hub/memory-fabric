@@ -1110,6 +1110,23 @@
       ]
     },
     {
+      "task_id": "R3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/agent_scale.py",
+        "tests/test_agent_scale.py",
+        "research/prereg/agent-scale-v1.md",
+        "docs/AGENT_SCALE_BENCHMARK.md",
+        "research/results/r3-01-agent-scale-tests.xml",
+        "research/results/r3-01-agent-scale.json"
+      ],
+      "limitations": [
+        "This is a three-seed scripted-agent benchmark on one in-process store; it is not a real-model-agent or multi-host performance result."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

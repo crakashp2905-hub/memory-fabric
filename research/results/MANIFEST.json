@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 163,
+ "results": 164,
  "missing_field_counts": {
-  "git_sha": 58,
+  "git_sha": 59,
   "prereg": 74,
-  "dataset_digest": 160,
-  "model_id": 127,
-  "prompt_hash": 163,
+  "dataset_digest": 161,
+  "model_id": 128,
+  "prompt_hash": 164,
   "seed": 94,
-  "cost": 140,
+  "cost": 141,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 1,
+  "synthetic_scripted": 2,
   "unclassified": 162
  },
  "rows": [
@@ -2960,6 +2960,28 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-01-agent-scale",
+   "file": "research/results/r3-01-agent-scale.json",
+   "file_sha256": "263eeaebdb5492e2dfea85b08f8e28af7a114efffd0fd1d094c2aedf171ecc1f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    701,
+    709,
+    719
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
    "parsable": true
   },
   {
