@@ -211,16 +211,20 @@ class IntegrityChain:
         nothing else.
         """
         _, previous = self.head()
+        rows = []
         for event in sorted(events, key=lambda e: e.seq or 0):
             if event.seq is None:  # pragma: no cover - append assigns it
                 raise ValueError("cannot chain an event with no sequence")
             digest = event_digest(event)
             previous = link(previous, digest)
-            self._conn.execute(
-                "INSERT INTO integrity_chain (seq, event_digest, chain_digest, "
-                "recorded_ms) VALUES (?, ?, ?, ?)",
-                (event.seq, digest, previous, now_ms),
-            )
+            rows.append((event.seq, digest, previous, now_ms))
+        # Keep every link in the surrounding append transaction, while
+        # avoiding a Python/SQLite call for each row in multi-event writes.
+        self._conn.executemany(
+            "INSERT INTO integrity_chain (seq, event_digest, chain_digest, "
+            "recorded_ms) VALUES (?, ?, ?, ?)",
+            rows,
+        )
         return previous
 
     # --- reading ---------------------------------------------------------
