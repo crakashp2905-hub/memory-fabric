@@ -375,7 +375,7 @@ class AgentApi:
         }
 
     def _fetch(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
-        memory_id = _string(body, "memory_id")
+        memory_id = _memory_id(body)
         try:
             return self._present(client, client.fetch(memory_id))
         except NotUsable as exc:
@@ -384,7 +384,7 @@ class AgentApi:
                             f"({say(exc.decision.reason_code)})") from None
 
     def _verify(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
-        memory_id = _string(body, "memory_id")
+        memory_id = _memory_id(body)
         issued = self._issued.get(client.agent_id, OrderedDict()).get(memory_id)
         if issued is None:
             # Not recalled or fetched by this agent: fetch it now, through the
@@ -440,6 +440,11 @@ def _string(body: Mapping[str, Any], key: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise _ApiError(HTTPStatus.BAD_REQUEST, f"{key} must be a non-empty string")
     return value
+
+
+def _memory_id(body: Mapping[str, Any]) -> str:
+    """One canonical validator for memory-id request fields."""
+    return _string(body, "memory_id")
 
 
 def _disagreements(fabric: Any, memories: list[Any]) -> list[dict[str, Any]]:
@@ -531,41 +536,60 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             self.close_connection = True
             self._reply(status, {"error": message})
 
-        def do_POST(self) -> None:  # noqa: N802
-            trace = None
+        def _begin_post_trace(self) -> Any:
             recorder = api.trace_recorder
-            if recorder is not None:
-                from .stage_trace import RequestStages
+            if recorder is None:
+                return None
+            from .stage_trace import RequestStages
 
-                trace = RequestStages(recorder, new_ulid(), self.path)
-                self._request_trace = trace
-                api._request_stages = trace
-                api._fabric._stage_marker = trace.mark
-                trace.mark("body_decode")
-            if self.headers.get("Origin"):
-                self._drain_and_refuse(HTTPStatus.FORBIDDEN, "browser requests are not accepted")
+            trace = RequestStages(recorder, new_ulid(), self.path)
+            self._request_trace = trace
+            api._request_stages = trace
+            api._fabric._stage_marker = trace.mark
+            trace.mark("body_decode")
+            return trace
+
+        def _finish_post_trace(self, trace: Any) -> None:
+            if trace is None:
                 return
+            trace.finish()
+            self._request_trace = None
+            api._request_stages = None
+            api._fabric._stage_marker = None
+
+        def _post_route_allowed(self) -> bool:
+            if self.headers.get("Origin"):
+                self._drain_and_refuse(HTTPStatus.FORBIDDEN,
+                                       "browser requests are not accepted")
+                return False
             if not self.path.startswith("/v1/"):
                 self._drain_and_refuse(HTTPStatus.NOT_FOUND, "not found")
-                return
+                return False
+            return True
+
+        def _read_post_body(self, trace: Any) -> dict[str, Any] | None:
             try:
                 length = int(self.headers.get("Content-Length") or 0)
             except ValueError:
                 length = -1
             if length < 0 or length > MAX_BODY:
-                self._drain_and_refuse(HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-                                       f"body must be at most {MAX_BODY} bytes")
-                return
+                self._drain_and_refuse(
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                    f"body must be at most {MAX_BODY} bytes")
+                return None
             try:
                 if trace is not None:
                     trace.mark("body_decode")
                 body = json.loads(self.rfile.read(length) or b"{}")
             except (ValueError, UnicodeDecodeError):
                 self._reply(HTTPStatus.BAD_REQUEST, {"error": "body is not JSON"})
-                return
+                return None
             if not isinstance(body, dict):
                 self._reply(HTTPStatus.BAD_REQUEST, {"error": "body must be an object"})
-                return
+                return None
+            return body
+
+        def _dispatch_post(self, body: dict[str, Any], trace: Any) -> None:
             header = self.headers.get("Authorization") or ""
             scheme, _, value = header.partition(" ")
             bearer = value.strip() if scheme.lower() == "bearer" else None
@@ -577,20 +601,26 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             except _ApiError as exc:
                 self._reply(exc.status, {"error": exc.message}, exc.retry_after)
             except LimitExceeded as exc:
-                self._reply(HTTPStatus.TOO_MANY_REQUESTS if exc.code != "payload_too_large"
-                            else HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-                            {"error": exc.code}, 1)
+                status = (HTTPStatus.TOO_MANY_REQUESTS if exc.code != "payload_too_large"
+                          else HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                self._reply(status, {"error": exc.code}, 1)
             except Exception as exc:  # a refused write is an answer, not a crash
                 logging.getLogger(__name__).warning("request refused", exc_info=exc)
                 self._reply(HTTPStatus.UNPROCESSABLE_ENTITY, {"error": public_error(exc)})
             else:
                 self._reply(HTTPStatus.OK, result)
+
+        def do_POST(self) -> None:  # noqa: N802
+            trace = self._begin_post_trace()
+            if not self._post_route_allowed():
+                return
+            body = self._read_post_body(trace)
+            if body is None:
+                return
+            try:
+                self._dispatch_post(body, trace)
             finally:
-                if trace is not None and recorder is not None:
-                    trace.finish()
-                    self._request_trace = None
-                    api._request_stages = None
-                    api._fabric._stage_marker = None
+                self._finish_post_trace(trace)
 
         def do_GET(self) -> None:  # noqa: N802
             if self.path in {"/__profile", "/__profile/reset"}:
