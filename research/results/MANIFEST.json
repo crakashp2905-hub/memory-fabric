@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 173,
+ "results": 174,
  "missing_field_counts": {
-  "git_sha": 68,
+  "git_sha": 69,
   "prereg": 75,
-  "dataset_digest": 170,
-  "model_id": 137,
-  "prompt_hash": 173,
-  "seed": 95,
-  "cost": 150,
-  "verdict": 109
+  "dataset_digest": 171,
+  "model_id": 138,
+  "prompt_hash": 174,
+  "seed": 96,
+  "cost": 151,
+  "verdict": 110
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 162
+  "unclassified": 163
  },
  "rows": [
   {
@@ -1662,6 +1662,24 @@
    "prereg": "research/prereg/grand-50-agent-suite-v1.md",
    "git_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
    "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-03-action-idempotency",
+   "file": "research/results/h2-03-action-idempotency.json",
+   "file_sha256": "2bcd747456106a1bcecbf4b1754ddef9f299ce7e5074f504b3d6e1b3c188455a",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

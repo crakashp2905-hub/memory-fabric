@@ -4,7 +4,7 @@ Strict completion: **83 / 260 (31.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6fc74c362fc9951506e573383380c36f07e35d1244399f4df767f4a1ca1ed2f1`.
+Normalized ledger digest: `a87b67ba0763a553eedd2232f12aa5a2da0ea32587587843660d4ae46ca2e748`.
 
 | status | count |
 |---|---:|
@@ -201,7 +201,7 @@ Normalized ledger digest: `6fc74c362fc9951506e573383380c36f07e35d1244399f4df767f
 | H1-10 | P0 | TODO | NOT_TESTED | — |
 | H2-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`, `research/results/h2-01-authorize-execute-race-tests.xml`, `research/results/r2-h2-acceptance-tests.xml` |
 | H2-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_authority.py`, `docs/ACTION_GRANT_BINDING.md`, `research/results/h2-02-action-binding-tests.xml` |
-| H2-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`, `research/results/h2-03-idempotency-tests.xml`, `research/results/h2-03-action-compatibility-tests.xml` |
+| H2-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`, `tools/action_idempotency_qualification.py`, `research/results/h2-03-idempotency-tests.xml`, `research/results/h2-03-action-idempotency.json`, `research/results/h2-03-action-compatibility-tests.xml` |
 | H2-04 | P0 | TODO | NOT_TESTED | — |
 | H2-05 | P0 | TODO | NOT_TESTED | — |
 | H2-06 | P0 | TODO | NOT_TESTED | — |

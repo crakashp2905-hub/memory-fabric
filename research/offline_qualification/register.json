@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "34053803bb69ab99da1f0fce817fcd332316fe47",
+    "commit": "9993188597c46bbb6e8e167b17202ef8df6fb54f",
     "dirty": true
   },
   "summary": {
@@ -307,7 +307,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "49a781a3bba9f5f2e037830051caff5af9a92358bb98ca447c23426eebbe6059",
         "docs/VALIDATION.md": "a5b3450088fa3ccf082208c9bd45ada2935ce9220becc8b26df8d46423f21f4b",
-        "docs/STATUS_AT_HEAD.md": "6fd4dff2c83338b19c93b7a9017378c451942a8e19cb0f306cc1b4e2a71cd6d5",
+        "docs/STATUS_AT_HEAD.md": "bfe6b8866cd37ce89e2a6493cf8d48c0dcca83db52094aae5618110a464ad32a",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "53d509a146a6777242336090d91e540037e5b2d0d915a4cfb42dd2742b675060",
+        "research/results/MANIFEST.json": "751794a0b1948f23293136f6c51214476b59f4ef9069f7e02598d68e315d5cc2",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3513,7 +3513,9 @@
         "tests/test_action_fence.py",
         "tests/test_action_crash.py",
         "docs/ACTION_IDEMPOTENCY.md",
+        "tools/action_idempotency_qualification.py",
         "research/results/h2-03-idempotency-tests.xml",
+        "research/results/h2-03-action-idempotency.json",
         "research/results/h2-03-action-compatibility-tests.xml"
       ],
       "evidence_digests": {
@@ -3522,8 +3524,10 @@
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "1e0b0f00e74a4400abda6f87eee015b2b548ca0791d937c6e107737db0d73e5b",
         "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
-        "research/results/h2-03-idempotency-tests.xml": "b4901b3c38d1a0e61f2f8bf0100af1b9397bc194c55cc54401f070c99452ff4b",
-        "research/results/h2-03-action-compatibility-tests.xml": "87c5361190a8b1259618b0f562e802efd2eead0e841b93c781598af036f879b8"
+        "tools/action_idempotency_qualification.py": "fe60a2aebd721cbe79af50c39e06aa2346bb05ccda2b68a7de52c9870927f169",
+        "research/results/h2-03-idempotency-tests.xml": "f7795bc8560f00b323ba497205ae0204a7b1e65a513c2d5b9d78b5a4f90f12b3",
+        "research/results/h2-03-action-idempotency.json": "2fb1724d911056528f61bfc44d876f81d36590ab121ab05a2edd58047817b72d",
+        "research/results/h2-03-action-compatibility-tests.xml": "d9a0d4fa20c3b8915828cb6243bb09629668b352b1c065512b316eca3cfab274"
       },
       "evidence_issues": {},
       "limitations": [
