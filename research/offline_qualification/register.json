@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "ee843b824ad5af52dc8fe1c95b253a344fbad179",
+    "commit": "3cdebc017ad2deddc5bce45bd0d1d3a032e1bce9",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 22,
+      "DONE": 23,
       "PARTIAL": 4,
-      "TODO": 234
+      "TODO": 233
     },
-    "completed": 22,
+    "completed": 23,
     "total": 260,
-    "percent_complete": 8.46,
-    "p0_open": 98,
+    "percent_complete": 8.85,
+    "p0_open": 97,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -376,11 +376,18 @@
       "priority": "P0",
       "task": "Build taxonomy of retrieval errors: absent, near-miss, wrong version, missing intermediate, wrong scope and overblocking.",
       "acceptance": "Each class has at least five seeded minimal counterexamples and a stable oracle label",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/bench/retrieval_errors_v1/cases.json",
+        "research/bench/retrieval_errors_v1/build.py",
+        "research/bench/retrieval_errors_v1/README.md",
+        "tests/test_retrieval_error_taxonomy.py"
+      ],
+      "limitations": [
+        "This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"
+      ]
     },
     {
       "task_id": "E3-02",

@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **22 / 260 (8.46%)**. Internal status: **BLOCKED**.
+Strict completion: **23 / 260 (8.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `239c75d5373018a7adb0357f1919611ecb68b6932e98504399e91551ccae30bf`.
+Normalized ledger digest: `eab63eb69204820545c0d446c4c0b2122cf27bb92ecfba9c696c3584ad1faa10`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 22 |
+| DONE | 23 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 234 |
+| TODO | 233 |
 
 ## Graduation gates
 
@@ -48,7 +48,7 @@ Normalized ledger digest: `239c75d5373018a7adb0357f1919611ecb68b6932e98504399e91
 | E2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/eventlog.py`, `tests/test_event_schema_hardening.py`, `tests/test_version_skew.py`, `docs/EVENT_SCHEMA_COMPATIBILITY.md`, `experiments/rollback_drill.py` |
 | E2-09 | P0 | DONE | INTERNAL_INTEGRATION | `tests/crashworker.py`, `tests/test_multiprocess_crash.py`, `docs/CRASH_BOUNDARY_MATRIX.md` |
 | E2-10 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_action_race_barriers.py`, `tests/test_action_fence.py`, `tests/test_visibility_at_action.py`, `src/memory_fabric/actions.py`, `docs/ACTION_RACE_SERIALIZATION.md` |
-| E3-01 | P0 | TODO | NOT_TESTED | — |
+| E3-01 | P0 | DONE | CONTRACT | `research/bench/retrieval_errors_v1/cases.json`, `research/bench/retrieval_errors_v1/build.py`, `research/bench/retrieval_errors_v1/README.md`, `tests/test_retrieval_error_taxonomy.py` |
 | E3-02 | P0 | TODO | NOT_TESTED | — |
 | E3-03 | P0 | TODO | NOT_TESTED | — |
 | E3-04 | P0 | TODO | NOT_TESTED | — |

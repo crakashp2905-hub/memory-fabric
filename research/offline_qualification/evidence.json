@@ -162,6 +162,14 @@
       "limitations": ["The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"]
     },
     {
+      "task_id": "E3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["research/bench/retrieval_errors_v1/cases.json", "research/bench/retrieval_errors_v1/build.py", "research/bench/retrieval_errors_v1/README.md", "tests/test_retrieval_error_taxonomy.py"],
+      "limitations": ["This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
