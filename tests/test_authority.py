@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from dataclasses import replace
 
 from memory_fabric import MemoryFabric, authority
 from memory_fabric.actions import (ALLOWED, AUTHORITY_INSUFFICIENT, GRANT_EXPIRED,
@@ -218,6 +219,30 @@ class ExactActionGrants(unittest.TestCase):
                         ActionRequest("centrifuge/C2", {"rpm": 9000})):
             self.assertEqual(self.g.authorize("spin", "ops", self.cert, request=changed,
                                               grant=grant).reason_code, GRANT_MISMATCH)
+
+    def test_grant_binding_covers_every_action_field_and_uses_issued_expiry(self) -> None:
+        grant = self.grant(ttl_s=5)
+        baseline = binding_digest("spin", "ops", None, self.req, self.cert)
+        variants = [
+            ("slow-spin", "ops", None, self.req),
+            ("spin", "other-agent", None, self.req),
+            ("spin", "ops", "tenant-2", self.req),
+            ("spin", "ops", None, ActionRequest("centrifuge/C3", {"rpm": 4000})),
+            ("spin", "ops", None, ActionRequest("centrifuge/C2", {"rpm": 4001})),
+        ]
+        for tool, agent, tenant, request in variants:
+            with self.subTest(tool=tool, agent=agent, tenant=tenant, request=request):
+                changed = binding_digest(tool, agent, tenant, request, self.cert)
+                self.assertNotEqual(changed, baseline)
+                self.assertEqual(self.g._check_grant(grant.grant_id, tool, agent, changed),
+                                 GRANT_MISMATCH)
+
+        # The signed/stored grant record is authoritative; changing a client
+        # copy's expiry cannot extend the issuer's grant.
+        forged = replace(grant, expires_ms=grant.expires_ms + 60_000)
+        self.clock.t += 5_000
+        self.assertEqual(self.g.authorize("spin", "ops", self.cert, request=self.req,
+                                          grant=forged).reason_code, GRANT_EXPIRED)
 
     def test_a_revoked_grant_is_refused(self) -> None:
         grant = self.grant()

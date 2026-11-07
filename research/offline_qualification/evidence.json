@@ -1366,6 +1366,21 @@
       ]
     },
     {
+      "task_id": "H2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_authority.py",
+        "docs/ACTION_GRANT_BINDING.md",
+        "research/results/h2-02-action-binding-tests.xml"
+      ],
+      "limitations": [
+        "Grant binding and stored expiry are verified locally; downstream effect idempotency and remote identity-provider revocation remain external-system responsibilities."
+      ]
+    },
+    {
       "task_id": "H2-01",
       "status": "DONE",
       "acceptance_passed": true,

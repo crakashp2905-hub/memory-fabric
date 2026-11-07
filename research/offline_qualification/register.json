@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "ecb5eeb27ec5a86f19d310a7b02f325b4f17082477e7875593cca088021311a2",
+    "sha256": "d81b3fe6f03f6d600dfe75ee0ee8ca63f735c6a422114cb438e7ccb8217aea07",
     "tasks": 260
   },
   "source": {
-    "commit": "8187f2f4019d0824dc1cdde4db05335a1a027a1d",
+    "commit": "8e24d93eb72c8e22abe3288a81e1d97d2a3d3a1d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 81,
+      "DONE": 82,
       "PARTIAL": 5,
-      "TODO": 174
+      "TODO": 173
     },
-    "completed": 81,
+    "completed": 82,
     "total": 260,
-    "percent_complete": 31.15,
-    "p0_open": 48,
+    "percent_complete": 31.54,
+    "p0_open": 47,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9bb3da8539aeb61a375400495d12ce5cd6bb614cf9461419fb48e8e477df98e7",
-        "docs/VALIDATION.md": "ea88ae0750a7829bc5b5ea92cf225b6d7be2057e6679a22926881775ddc4bfda",
-        "docs/STATUS_AT_HEAD.md": "4a9068d9d050342a1777db382531ad5e37f22fd630a0ec9c3e1daf41c9fdf9ca",
+        "README.md": "f51666aa64b46fe3e276f6ce0828868cb7146ffb4fa096a2b4625474188f7217",
+        "docs/VALIDATION.md": "870604a1964e8040d0786370a556a2695409ad587f5b61dbc586fba0a1997a42",
+        "docs/STATUS_AT_HEAD.md": "0ebc59afa39d50d2fc00e6f667334b5ec4dbb2183362927a62d56e92b2191b93",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -3478,14 +3478,26 @@
       "task_id": "H2-02",
       "priority": "P0",
       "task": "Bind each action to exact tool name, target, argument digest, tenant, agent and grant expiry.",
-      "acceptance": "Any mutation of one bound field invalidates execution request",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Any mutation of one bound field invalidates execution request. Evidence: `tests/test_authority.py`, `docs/ACTION_GRANT_BINDING.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_authority.py",
+        "docs/ACTION_GRANT_BINDING.md",
+        "research/results/h2-02-action-binding-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "tests/test_authority.py": "3c42a605fdb8c6769d01fa0ec79c96244e9452b047c13c58fc23ee29deaa5502",
+        "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
+        "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Grant binding and stored expiry are verified locally; downstream effect idempotency and remote identity-provider revocation remain external-system responsibilities."
+      ]
     },
     {
       "task_id": "H2-03",
