@@ -174,6 +174,61 @@ def validate_seed_outputs(declared: Sequence[int], observed: Sequence[int]) -> l
     return issues
 
 
+def verify_seed_manifest(path: str | Path, *, root: Path = ROOT) -> list[str]:
+    """Compare declared seed outputs with JSON result files present on disk."""
+    manifest_path = Path(path)
+    if not manifest_path.is_absolute():
+        manifest_path = root / manifest_path
+    root_resolved = root.resolve()
+    try:
+        manifest_path = manifest_path.resolve()
+        manifest_path.relative_to(root_resolved)
+    except ValueError:
+        return ["seed manifest path escapes repository"]
+    if not manifest_path.is_file():
+        return ["seed manifest is missing"]
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, ValueError) as exc:
+        return [f"seed manifest is unreadable: {exc}"]
+    if manifest.get("schema") != "memory-fabric-seed-manifest/1":
+        return ["unknown seed manifest schema"]
+    declared = manifest.get("declared_seeds", [])
+    if not isinstance(declared, list) or any(not isinstance(seed, int) for seed in declared):
+        return ["declared_seeds must be a list of integers"]
+    outputs = manifest.get("outputs", [])
+    if not isinstance(outputs, list):
+        return ["outputs must be a list"]
+    issues: list[str] = []
+    if len(declared) != len(set(declared)):
+        issues.append("repeated declared seed")
+    observed: list[int] = []
+    for output in outputs:
+        seed, raw_path = output.get("seed"), output.get("path")
+        if not isinstance(seed, int) or not isinstance(raw_path, str):
+            issues.append("each output needs an integer seed and path")
+            continue
+        observed.append(seed)
+        candidate = (root / raw_path).resolve()
+        try:
+            candidate.relative_to(root_resolved)
+        except ValueError:
+            issues.append(f"output path escapes repository: {raw_path}")
+            continue
+        if not candidate.is_file():
+            issues.append(f"missing seed output for {seed}: {raw_path}")
+            continue
+        try:
+            payload = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError) as exc:
+            issues.append(f"invalid seed output for {seed}: {raw_path}: {exc}")
+            continue
+        if not isinstance(payload, dict) or payload.get("seed") != seed:
+            issues.append(f"seed output identity mismatch for {seed}: {raw_path}")
+    issues.extend(validate_seed_outputs(declared, observed))
+    return issues
+
+
 def render(data: Mapping[str, Any]) -> str:
     summary = data["summary"]
     lines = ["# Offline 10/10 qualification ledger", "",

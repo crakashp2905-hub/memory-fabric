@@ -85,6 +85,35 @@ def test_seed_cherry_picking_is_rejected(declared, observed, expected) -> None:
     assert any(expected in issue for issue in oq.validate_seed_outputs(declared, observed))
 
 
+@pytest.mark.parametrize(
+    "output_seeds,expected_issue",
+    [([1], "missing seeds"), ([1, 1, 2], "repeated seed output"), ([1, 2, 3], "extra seeds")],
+)
+def test_seed_manifest_checks_result_files_on_disk(tmp_path: Path, output_seeds, expected_issue) -> None:
+    outputs = []
+    for index, seed in enumerate(output_seeds):
+        rel = f"result-{index}.json"
+        (tmp_path / rel).write_text(json.dumps({"seed": seed, "score": 1}), encoding="utf-8")
+        outputs.append({"seed": seed, "path": rel})
+    manifest = {"schema": "memory-fabric-seed-manifest/1", "declared_seeds": [1, 2], "outputs": outputs}
+    path = tmp_path / "seeds.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    issues = oq.verify_seed_manifest(path, root=tmp_path)
+    assert any(expected_issue in issue for issue in issues)
+
+
+def test_seed_manifest_accepts_exact_outputs_on_disk(tmp_path: Path) -> None:
+    outputs = []
+    for seed in (11, 12):
+        rel = f"seed-{seed}.json"
+        (tmp_path / rel).write_text(json.dumps({"seed": seed, "score": seed}), encoding="utf-8")
+        outputs.append({"seed": seed, "path": rel})
+    path = tmp_path / "seeds.json"
+    path.write_text(json.dumps({"schema": "memory-fabric-seed-manifest/1",
+                                "declared_seeds": [11, 12], "outputs": outputs}), encoding="utf-8")
+    assert oq.verify_seed_manifest(path, root=tmp_path) == []
+
+
 def test_full_attestation_is_refused_while_p0_is_open() -> None:
     data = oq.build()
     assert data["summary"]["p0_open"] > 0
