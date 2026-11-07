@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "18d775e8c6591cdd8e0c9e01367754921a058480",
+    "commit": "ee843b824ad5af52dc8fe1c95b253a344fbad179",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 21,
+      "DONE": 22,
       "PARTIAL": 4,
-      "TODO": 235
+      "TODO": 234
     },
-    "completed": 21,
+    "completed": 22,
     "total": 260,
-    "percent_complete": 8.08,
-    "p0_open": 99,
+    "percent_complete": 8.46,
+    "p0_open": 98,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -357,11 +357,19 @@
       "priority": "P0",
       "task": "Test transaction-boundary races between correction, retrieval, and action authorization.",
       "acceptance": "Deterministic barriers prove no knowingly stale locally visible evidence can authorize a fenced action",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "tests/test_action_fence.py",
+        "tests/test_visibility_at_action.py",
+        "src/memory_fabric/actions.py",
+        "docs/ACTION_RACE_SERIALIZATION.md"
+      ],
+      "limitations": [
+        "The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"
+      ]
     },
     {
       "task_id": "E3-01",

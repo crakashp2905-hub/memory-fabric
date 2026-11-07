@@ -154,6 +154,14 @@
       "limitations": ["Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"]
     },
     {
+      "task_id": "E2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["tests/test_action_race_barriers.py", "tests/test_action_fence.py", "tests/test_visibility_at_action.py", "src/memory_fabric/actions.py", "docs/ACTION_RACE_SERIALIZATION.md"],
+      "limitations": ["The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
