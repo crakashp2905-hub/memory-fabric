@@ -22,6 +22,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from benchmarks.provenance import stamp as stamp_source
+
 SCHEMA = "mf-run-manifest/1"
 DECISIONS = ("PASS", "FAIL", "INCONCLUSIVE", "INVALID", "NOT_RUN", "BLOCKED", "DESCRIPTIVE")
 ROOT = Path(__file__).resolve().parents[1]
@@ -123,12 +125,13 @@ def validate(m: Manifest | dict[str, Any]) -> list[str]:
 
 
 def write(m: Manifest, directory: Path = RUNS) -> Path:
-    problems = validate(m)
+    data = stamp_source(m.to_json())
+    problems = validate(data)
     if problems:
         raise ValueError("; ".join(problems))
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"{m.run_id}.json"
-    path.write_text(json.dumps(m.to_json(), indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(data, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return path
 
 
