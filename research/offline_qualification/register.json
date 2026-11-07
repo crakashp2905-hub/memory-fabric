@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "46dfd638244e0da0b753c31d639d9eee938e4c58",
+    "commit": "e000316316615db74c59852ba32ac0a7fc443757",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 49,
+      "DONE": 50,
       "PARTIAL": 4,
-      "TODO": 207
+      "TODO": 206
     },
-    "completed": 49,
+    "completed": 50,
     "total": 260,
-    "percent_complete": 18.85,
+    "percent_complete": 19.23,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -949,11 +949,24 @@
       "priority": "P1",
       "task": "Refactor only proven high-churn modules using characterization tests before code motion.",
       "acceptance": "Behavior snapshots unchanged; complexity and code duplication metrics demonstrably improve",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/agent_api.py",
+        "tests/test_agent_api.py",
+        "tests/data/agent_api_behavior.json",
+        "tools/agent_api_metrics.py",
+        "research/results/e5-09-agent-api-before.json",
+        "research/results/e5-09-agent-api-before.xml",
+        "research/results/e5-09-agent-api-after.json",
+        "research/results/e5-09-agent-api-after.xml",
+        "research/results/e5-09-agent-api-after-core.xml",
+        "research/results/e5-09-agent-api-refactor.json"
+      ],
+      "limitations": [
+        "Characterization and complexity/duplication evidence are scoped to the high-churn agent HTTP API module; the AST complexity measure is a documented local proxy, not a whole-project metric."
+      ]
     },
     {
       "task_id": "E5-10",
