@@ -1179,6 +1179,23 @@
       ]
     },
     {
+      "task_id": "R3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/minority_source.py",
+        "research/prereg/minority-source-v1.md",
+        "docs/MINORITY_SOURCE_BENCHMARK.md",
+        "tests/test_minority_source.py",
+        "research/results/r3-05-minority-source-tests.xml",
+        "research/results/r3-05-minority-source.json"
+      ],
+      "limitations": [
+        "Three synthetic seeds and scripted policies. The result documents a constructed false-refusal case; it is not a population estimate for real agents."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

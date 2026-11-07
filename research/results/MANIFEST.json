@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 167,
+ "results": 168,
  "missing_field_counts": {
-  "git_sha": 62,
+  "git_sha": 63,
   "prereg": 74,
-  "dataset_digest": 164,
-  "model_id": 131,
-  "prompt_hash": 167,
+  "dataset_digest": 165,
+  "model_id": 132,
+  "prompt_hash": 168,
   "seed": 94,
-  "cost": 144,
+  "cost": 145,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 5,
+  "synthetic_scripted": 6,
   "unclassified": 162
  },
  "rows": [
@@ -3044,6 +3044,28 @@
     801,
     809,
     811
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-05-minority-source",
+   "file": "research/results/r3-05-minority-source.json",
+   "file_sha256": "31c4750e77af09a89f9700daba4cbd0ad8206d72ab68e0fcfcb0c3a798546c7f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    901,
+    907,
+    911
    ],
    "config": null,
    "cost": null,

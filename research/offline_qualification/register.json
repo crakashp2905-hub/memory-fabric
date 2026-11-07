@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "b5ec4f751f8f7635095eef29ee6237f321b5db83",
-    "dirty": false
+    "commit": "330f53ad628cd9e5a846433d9544f84334a38047",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 69,
+      "DONE": 70,
       "PARTIAL": 5,
-      "TODO": 186
+      "TODO": 185
     },
-    "completed": 69,
+    "completed": 70,
     "total": 260,
-    "percent_complete": 26.54,
-    "p0_open": 60,
+    "percent_complete": 26.92,
+    "p0_open": 59,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "ae7598be75e6168dbedeffdfd1ffb64a7a6d89366a7b715993ce3e3ecdc15edc",
-        "docs/VALIDATION.md": "d1a16dabaacb331c7846643b1cefb34a3ef8dc2de39f66358601e1a3b955edca",
-        "docs/STATUS_AT_HEAD.md": "6fe1eeef563a3e6f9d10f629defae1b333e567176e2a382f7b871d45f465374f",
+        "README.md": "cd68a615fc9d1674a0fb3096338b442a846559683f72e84803c580b5f4c4b374",
+        "docs/VALIDATION.md": "5588011b8f9842bacb4cd9521e334a65c8d9dfbf536f7c282d644b9430f5392e",
+        "docs/STATUS_AT_HEAD.md": "84233763d596a7949397d4eb8be52f103002ab3b59c336041a46df24ac966e66",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "8b5fe058d636b75f405c7bb01f7b7be6c378de06b5c0c0a9f546b1453ec9f3c4",
+        "research/results/MANIFEST.json": "b622343458cc5fd6774c862dba93325f7fc15df32e59876a8ba75e92988a7c09",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2028,13 +2028,29 @@
       "priority": "P0",
       "task": "Add minority-agent and rare-source scenario families to catch majority consensus errors.",
       "acceptance": "Success and false refusal reported for minority agent separately from population mean",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/minority_source.py",
+        "research/prereg/minority-source-v1.md",
+        "docs/MINORITY_SOURCE_BENCHMARK.md",
+        "tests/test_minority_source.py",
+        "research/results/r3-05-minority-source-tests.xml",
+        "research/results/r3-05-minority-source.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/minority_source.py": "cb723e8e070e279c241fff9d927a7dec0a15e59cdef35ca9da11d0faa187a336",
+        "research/prereg/minority-source-v1.md": "d199c54b6cf7a6a531b08d8bfbcf0e799265b43cab382aa46d0bf3bf747740a4",
+        "docs/MINORITY_SOURCE_BENCHMARK.md": "5ceda00210ad35fa4cb22627db242baa23fce83dd0b4237ef97950bc03cebb05",
+        "tests/test_minority_source.py": "c5b7bca014538f85b89bd3f12c0b9f1bf237494b2a7107a360d1c2bc98b6046a",
+        "research/results/r3-05-minority-source-tests.xml": "a039035ffbe20f3c4686c674c4d573dde0190a0e3e237afee9fb0b1d88ee5d8c",
+        "research/results/r3-05-minority-source.json": "6441a28661c285fc355601d4508ef1bd7bf44fc7c7ebb98731eeeca49b18c1a6"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Three synthetic seeds and scripted policies. The result documents a constructed false-refusal case; it is not a population estimate for real agents."
+      ]
     },
     {
       "task_id": "R3-06",

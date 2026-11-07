@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **69 / 260 (26.54%)**. Internal status: **BLOCKED**.
+Strict completion: **70 / 260 (26.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `01747c045eb541a0932eab8c45144558a36a3b18929207b04ba0c0266f33c3c5`.
+Normalized ledger digest: `8304b0104eada9e68e56eb56d42f0bf12fffe4ca7a3d431d910b3fca526ebade`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 69 |
+| DONE | 70 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 186 |
+| TODO | 185 |
 
 ## Graduation gates
 
@@ -103,7 +103,7 @@ Normalized ledger digest: `01747c045eb541a0932eab8c45144558a36a3b18929207b04ba0c
 | R3-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/agent_scale.py`, `research/prereg/matched-agent-arms-v1.md`, `docs/MATCHED_AGENT_ARMS.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-02-matched-agent-arms-tests.xml`, `research/results/r3-02-matched-agent-arms.json` |
 | R3-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/failure-taxonomy-v1.md`, `docs/FAILURE_TAXONOMY.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-03-failure-taxonomy-tests.xml`, `research/results/r3-03-failure-taxonomy.json` |
 | R3-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/correction_timing.py`, `research/prereg/correction-timing-v1.md`, `docs/CORRECTION_TIMING_BENCHMARK.md`, `tests/test_correction_timing.py`, `research/results/r3-04-correction-timing-tests.xml`, `research/results/r3-04-correction-timing.json` |
-| R3-05 | P0 | TODO | NOT_TESTED | — |
+| R3-05 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/minority_source.py`, `research/prereg/minority-source-v1.md`, `docs/MINORITY_SOURCE_BENCHMARK.md`, `tests/test_minority_source.py`, `research/results/r3-05-minority-source-tests.xml`, `research/results/r3-05-minority-source.json` |
 | R3-06 | P0 | TODO | NOT_TESTED | — |
 | R3-07 | P0 | TODO | NOT_TESTED | — |
 | R3-08 | P0 | TODO | NOT_TESTED | — |
