@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "7c093e0dde9e4a5b90d6af7bde9b31a12a76c111",
+    "commit": "cda67e835f4878d9dfbe5377dbeba86033e42096",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 19,
+      "DONE": 20,
       "PARTIAL": 4,
-      "TODO": 237
+      "TODO": 236
     },
-    "completed": 19,
+    "completed": 20,
     "total": 260,
-    "percent_complete": 7.31,
-    "p0_open": 101,
+    "percent_complete": 7.69,
+    "p0_open": 100,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -321,11 +321,19 @@
       "priority": "P0",
       "task": "Harden event schema upgrades against unknown fields, duplicate events and missing versions.",
       "acceptance": "Version-skew table and rollback fixtures test backwards-safe refusal or explicit migration",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_version_skew.py",
+        "docs/EVENT_SCHEMA_COMPATIBILITY.md",
+        "experiments/rollback_drill.py"
+      ],
+      "limitations": [
+        "The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"
+      ]
     },
     {
       "task_id": "E2-09",

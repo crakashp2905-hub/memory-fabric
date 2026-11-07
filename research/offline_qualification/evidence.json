@@ -138,6 +138,14 @@
       "limitations": ["Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"]
     },
     {
+      "task_id": "E2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/eventlog.py", "tests/test_event_schema_hardening.py", "tests/test_version_skew.py", "docs/EVENT_SCHEMA_COMPATIBILITY.md", "experiments/rollback_drill.py"],
+      "limitations": ["The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

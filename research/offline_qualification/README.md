@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **19 / 260 (7.31%)**. Internal status: **BLOCKED**.
+Strict completion: **20 / 260 (7.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `afdc4a4c7f911d01cda81b9649967350b08f35bd9a8b691ed063bddd0080a8b0`.
+Normalized ledger digest: `a9dc429b5e61ad4615e84623c9aaedf3bb8b53285c68b62a2b854ae88f6bf740`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 19 |
+| DONE | 20 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 237 |
+| TODO | 236 |
 
 ## Graduation gates
 
@@ -45,7 +45,7 @@ Normalized ledger digest: `afdc4a4c7f911d01cda81b9649967350b08f35bd9a8b691ed063b
 | E2-05 | P0 | DONE | INTERNAL_INTEGRATION | `docs/BITEMPORAL_HISTORY.md`, `src/memory_fabric/history_query.py`, `tests/test_history_query.py`, `tests/test_bitemporal.py` |
 | E2-06 | P0 | DONE | INTERNAL_INTEGRATION | `docs/HISTORICAL_SURFACE_SECURITY.md`, `tests/test_history_query.py`, `tests/test_data_access_paths.py`, `tests/test_posture.py`, `tests/test_branching.py`, `tests/test_erasure_residue.py` |
 | E2-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tombstones.py`, `src/memory_fabric/outbox.py`, `src/memory_fabric/federation.py`, `tests/test_tombstone_exchange.py`, `docs/TOMBSTONE_EXCHANGE.md` |
-| E2-08 | P0 | TODO | NOT_TESTED | — |
+| E2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/eventlog.py`, `tests/test_event_schema_hardening.py`, `tests/test_version_skew.py`, `docs/EVENT_SCHEMA_COMPATIBILITY.md`, `experiments/rollback_drill.py` |
 | E2-09 | P0 | TODO | NOT_TESTED | — |
 | E2-10 | P0 | TODO | NOT_TESTED | — |
 | E3-01 | P0 | TODO | NOT_TESTED | — |
