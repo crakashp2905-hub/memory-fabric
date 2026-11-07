@@ -49,9 +49,12 @@ from __future__ import annotations
 __stability__ = "beta"
 
 import base64
+import hmac
+import ipaddress
 import json
 import logging
 import math
+import os
 import threading
 import time
 from collections import OrderedDict
@@ -239,6 +242,7 @@ class AgentApi:
         self._issued: dict[str, OrderedDict[str, ExposureToken]] = {}
         self._oauth = oauth
         self.trace_recorder = trace_recorder
+        self.profile_recorder = None
         limits = limits or RateLimit()
         self._per_agent = RateLimiter(limits.rate, limits.burst, clock)
         self._per_address = RateLimiter(limits.auth_failures,
@@ -462,6 +466,22 @@ def _disagreements(fabric: Any, memories: list[Any]) -> list[dict[str, Any]]:
 def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                        behind_tls: bool = False) -> ThreadingHTTPServer:
     check_bind(host, behind_tls)
+    profile_token = os.environ.get("MEMORY_FABRIC_PROFILE_TOKEN", "")
+    profiling_enabled = (os.environ.get("MEMORY_FABRIC_PROFILE") == "1"
+                         and len(profile_token) >= 32)
+    allocation_tracking = os.environ.get("MEMORY_FABRIC_PROFILE_ALLOCATIONS") == "1"
+    allocation_baseline = [0]
+    if profiling_enabled:
+        from .stage_trace import ProfileRecorder
+
+        api.profile_recorder = ProfileRecorder()
+        api._fabric._profile_marker = api.profile_recorder.add
+    if allocation_tracking:
+        import tracemalloc
+
+        if not tracemalloc.is_tracing():
+            tracemalloc.start()
+        allocation_baseline[0] = tracemalloc.get_traced_memory()[0]
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "MemoryFabricAgentAPI/1"
@@ -566,6 +586,34 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                     api._fabric._stage_marker = None
 
         def do_GET(self) -> None:  # noqa: N802
+            if self.path in {"/__profile", "/__profile/reset"}:
+                try:
+                    peer = ipaddress.ip_address(self.client_address[0])
+                except ValueError:
+                    peer = None
+                if (not profiling_enabled or peer is None or not peer.is_loopback
+                        or not hmac.compare_digest(
+                            self.headers.get("X-Memory-Fabric-Profile-Token", "").encode("utf-8"),
+                            profile_token.encode("utf-8"))
+                        or api.profile_recorder is None):
+                    self._reply(HTTPStatus.NOT_FOUND, {"error": "not found"})
+                    return
+                if self.path == "/__profile/reset":
+                    api.profile_recorder.reset()
+                    if allocation_tracking:
+                        tracemalloc.reset_peak()
+                        allocation_baseline[0] = tracemalloc.get_traced_memory()[0]
+                    self._reply(HTTPStatus.OK, {"ok": True})
+                    return
+                profile = api.profile_recorder.snapshot()
+                if allocation_tracking:
+                    current, peak = tracemalloc.get_traced_memory()
+                    profile["server_python_allocation_current_bytes"] = max(
+                        0, current - allocation_baseline[0])
+                    profile["server_python_allocation_peak_bytes"] = max(
+                        0, peak - allocation_baseline[0])
+                self._reply(HTTPStatus.OK, profile)
+                return
             if self.path == "/v1/health":
                 self._reply(HTTPStatus.OK, {"ok": True})
             else:

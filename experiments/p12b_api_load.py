@@ -15,6 +15,13 @@ Rate limiting is turned off (`--rate-limit 0`), because the question is what
 the store can do, not what the limiter allows. Latency is per request, as the
 client sees it.
 
+The profiler records server CPU, process I/O counters, sampled RSS, wait time
+for the fabric's in-process lock, and SQLite append duration. Python allocation
+peaks are captured in a separate traced pass for each scenario so `tracemalloc`
+does not distort the latency and throughput measurements. Lock wait is
+application mutex wait, not kernel scheduler wait; OS I/O counters can omit
+cached writes.
+
     python -m experiments.p12b_api_load            # writes the result
     python -m experiments.p12b_api_load --quick    # 10 agents, prints only
 
@@ -28,6 +35,7 @@ import json
 import os
 import platform
 import random
+import secrets
 import shutil
 import socket
 import subprocess
@@ -79,6 +87,17 @@ def post(port: int, op: str, body: dict, bearer: str) -> tuple[int, dict]:
         return 0, {"error": type(exc).__name__}
 
 
+def get_json(port: int, path: str, profile_token: str) -> tuple[int, dict]:
+    request = urllib.request.Request(
+        f"http://127.0.0.1:{port}{path}",
+        headers={"X-Memory-Fabric-Profile-Token": profile_token})
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            return response.status, json.loads(response.read())
+    except urllib.error.HTTPError as exc:
+        return exc.code, json.loads(exc.read() or b"{}")
+
+
 def agent_loop(port: int, bearer: str, seed: int, barrier: threading.Barrier,
                out: list[tuple[str, float, int]], ops_per_agent: int = OPS_PER_AGENT) -> None:
     rng = random.Random(seed)
@@ -120,8 +139,13 @@ def create_seed_database(path: str) -> None:
 
 def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
             warmup_ops: int = 5, trial: int = 0,
-            seed_template: str | None = None) -> dict[str, Any]:
+            seed_template: str | None = None,
+            trace_allocations: bool = False) -> dict[str, Any]:
 
+    try:
+        import psutil
+    except ImportError:  # report absence; the benchmark remains useful for latency
+        psutil = None
     with tempfile.TemporaryDirectory() as tmp:
         db = os.path.join(tmp, "load.db")
         if seed_template:
@@ -133,12 +157,21 @@ def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
             for n in range(agents):
                 fh.write(f"ag_{n}:tn_default:{os.urandom(32).hex()}\n")
         port = free_port()
+        run_env = subprocess_env()
+        run_env["MEMORY_FABRIC_PROFILE"] = "1"
+        profile_token = secrets.token_hex(32)
+        run_env["MEMORY_FABRIC_PROFILE_TOKEN"] = profile_token
+        if trace_allocations:
+            run_env["MEMORY_FABRIC_PROFILE_ALLOCATIONS"] = "1"
+        else:
+            run_env.pop("MEMORY_FABRIC_PROFILE_ALLOCATIONS", None)
         server = subprocess.Popen(CLI + ["--db", db, "agent-api", "--agents-file", agents_file,
                                          "--port", str(port), "--rate-limit", "0"],
-                                  cwd=ROOT, env=subprocess_env(),
+                                  cwd=ROOT, env=run_env,
                                   stdout=subprocess.DEVNULL,
                                   stderr=open(os.environ.get("P12B_LOG", os.devnull), "w"))
         try:
+            process = psutil.Process(server.pid) if psutil is not None else None
             deadline = time.time() + 30
             while time.time() < deadline:
                 try:
@@ -165,6 +198,25 @@ def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
             for i in range(warmup_ops):
                 post(port, "recall", {"query": f"{TOPICS[i % len(TOPICS)]} seal site", "k": 5},
                      bearers[i % len(bearers)])
+            reset_status, _ = get_json(port, "/__profile/reset", profile_token)
+            if reset_status != 200:
+                raise RuntimeError("could not reset server profile after warmup")
+            process_cpu_start = process.cpu_times() if process is not None else None
+            process_io_start = process.io_counters() if process is not None else None
+            process_memory_start = process.memory_info().rss if process is not None else None
+            monitor_stop = threading.Event()
+            rss_samples = [process_memory_start] if process_memory_start is not None else []
+
+            def sample_rss() -> None:
+                while not monitor_stop.wait(0.01):
+                    try:
+                        rss_samples.append(process.memory_info().rss)
+                    except (psutil.Error, AttributeError):
+                        return
+
+            monitor = threading.Thread(target=sample_rss, daemon=True)
+            if process is not None:
+                monitor.start()
             barrier = threading.Barrier(agents + 1)
             records: list[tuple[str, float, int]] = []
             threads = [threading.Thread(target=agent_loop,
@@ -178,6 +230,20 @@ def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
             for t in threads:
                 t.join()
             wall = time.perf_counter() - started
+            monitor_stop.set()
+            if process is not None:
+                monitor.join()
+            try:
+                rss_end = process.memory_info().rss if process is not None else None
+                if rss_end is not None:
+                    rss_samples.append(rss_end)
+            except (psutil.Error, AttributeError):
+                rss_end = None
+            process_cpu_end = process.cpu_times() if process is not None else None
+            process_io_end = process.io_counters() if process is not None else None
+            profile_status, internal_profile = get_json(port, "/__profile", profile_token)
+            if profile_status != 200:
+                internal_profile = {}
         finally:
             server.terminate()
             server.wait(timeout=30)
@@ -201,6 +267,24 @@ def run_one(agents: int, ops_per_agent: int = OPS_PER_AGENT,
         "warmup_ops": warmup_ops, "ops": len(records), "ok": ok, "wall_s": wall,
         "ops_per_s": ok / wall if wall else 0.0, "errors": errors,
         "operation_counts": operation_counts,
+        "profile": {
+            "process_cpu_seconds": ((process_cpu_end.user + process_cpu_end.system)
+                                     - (process_cpu_start.user + process_cpu_start.system))
+                                   if process is not None else None,
+            "process_cpu_percent_of_one_core": (
+                100 * ((process_cpu_end.user + process_cpu_end.system)
+                       - (process_cpu_start.user + process_cpu_start.system)) / wall
+                if process is not None and wall else None),
+            "server_read_bytes": (process_io_end.read_bytes - process_io_start.read_bytes)
+                                 if process is not None else None,
+            "server_write_bytes": (process_io_end.write_bytes - process_io_start.write_bytes)
+                                  if process is not None else None,
+            "server_rss_start_bytes": process_memory_start,
+            "server_rss_end_bytes": rss_end,
+            "server_rss_peak_bytes": max(rss_samples) if rss_samples else None,
+            "psutil_available": process is not None,
+            "fabric_profile": internal_profile,
+        },
         "latency_ms": {name: {"p50": _pct(lat(op), 0.5), "p95": _pct(lat(op), 0.95),
                               "p99": _pct(lat(op), 0.99)}
                        for name, op in (("all", None), ("remember", "remember"),
@@ -242,7 +326,8 @@ def to_markdown(results: list[dict[str, Any]], commit: str, machine: str,
         return f"{d['p50']:.1f} / {d['p95']:.1f} / {d['p99']:.1f}"
 
     rows = "\n".join(
-        f"| {r['agents']} | {r['ok']}/{r['ops']} | {r['ops_per_s']:.0f} | {cell(r['latency_ms']['all'])} "
+        f"| {r['agents']} | {r['ops_per_agent']} | {r['ok']}/{r['ops']} "
+        f"| {r['ops_per_s']:.0f} | {cell(r['latency_ms']['all'])} "
         f"| {cell(r['latency_ms']['remember'])} | {cell(r['latency_ms']['recall'])} "
         f"| {cell(r['latency_ms']['fetch+verify'])} | {r['errors'] or 'none'} |" for r in results)
     capacity = capacity or summarise_trials(results)
@@ -251,21 +336,52 @@ def to_markdown(results: list[dict[str, Any]], commit: str, machine: str,
         f"| {r['throughput_ops_s']['mean']:.1f} [{r['throughput_ops_s']['ci95_low']:.1f}, {r['throughput_ops_s']['ci95_high']:.1f}] "
         f"| {r['p99_ms']['mean']:.1f} [{r['p99_ms']['ci95_low']:.1f}, {r['p99_ms']['ci95_high']:.1f}] |"
         for r in capacity)
+    profile_rows = []
+    for r in results:
+        profile = r.get("profile", {})
+        fabric = profile.get("fabric_profile", {})
+        lock = fabric.get("fabric_lock_wait", {})
+        sqlite = fabric.get("sqlite_append_ns", {})
+        allocation = profile.get("python_allocation_pass", {})
+        lock_mean_us = lock.get("total", 0) / lock["count"] / 1000 if lock.get("count") else 0
+        sqlite_mean_ms = (sqlite.get("total", 0) / sqlite["count"] / 1_000_000
+                          if sqlite.get("count") else 0)
+        profile_rows.append(
+            f"| {r['agents']} | {profile.get('process_cpu_seconds')} "
+            f"| {profile.get('process_cpu_percent_of_one_core')} "
+            f"| {lock_mean_us:.2f} | {sqlite_mean_ms:.3f} "
+            f"| {profile.get('server_read_bytes')} / {profile.get('server_write_bytes')} "
+            f"| {profile.get('server_rss_peak_bytes')} "
+            f"| {allocation.get('server_python_allocation_peak_bytes')} |"
+        )
+    profile_table = "\n".join(profile_rows)
     return f"""# P12b — many agents through one agent-api process
 
 Produced by `python -m experiments.p12b_api_load` at commit `{commit}`; raw numbers
 in [{result_name}.json]({result_name}.json). Machine: {machine}. One `agent-api`
 server process on a SQLite store seeded with {SEED_MEMORIES} memories, rate limiting
-off. N agents with their own credentials are client threads, {OPS_PER_AGENT} requests
-each (30% remember, 50% recall, 20% fetch then verify). An operational measurement,
-not pre-registered.
+off. N agents with their own credentials are client threads; the operation count per
+agent is shown for each scenario (30% remember, 50% recall, 20% fetch then verify).
+An operational measurement, not pre-registered.
 
 Latencies in ms as the client sees them, p50 / p95 / p99. Throughput is successful
 operations per second of wall time (a fetch+verify counts once).
 
-| agents | ok / ops | ops/s | all ops | remember | recall | fetch+verify | errors |
-|---|---|---|---|---|---|---|---|
+| agents | ops / agent | ok / ops | ops/s | all ops | remember | recall | fetch+verify | errors |
+|---:|---:|---:|---:|---|---|---|---|---|
 {rows}
+
+## Resource profile
+
+| agents | server CPU seconds | CPU % of one core | mean fabric lock wait µs | mean SQLite append ms | OS read / write bytes | sampled RSS peak bytes | traced Python allocation peak bytes |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+{profile_table}
+
+Latency, CPU, I/O and RSS come from the untraced pass. Allocation peaks come
+from a separate `tracemalloc` pass with the same clients and workload size.
+Lock wait measures the process-local Memory Fabric lock. OS I/O counters can
+omit writes served from the OS cache; RSS is sampled every 10 ms and may miss
+shorter peaks.
 
 ## Capacity curve across trials
 
@@ -300,6 +416,17 @@ def main(argv: list[str] | None = None) -> int:
         for n in counts:
             for trial in range(args.repeats):
                 r = run_one(n, args.ops_per_agent, args.warmup_ops, trial, seed_template)
+                allocation = run_one(n, args.ops_per_agent, args.warmup_ops, trial,
+                                     seed_template, trace_allocations=True)
+                allocation_profile = allocation["profile"]["fabric_profile"]
+                r["profile"]["python_allocation_pass"] = {
+                    "ops": allocation["ops"],
+                    "server_python_allocation_current_bytes": allocation_profile.get(
+                        "server_python_allocation_current_bytes"),
+                    "server_python_allocation_peak_bytes": allocation_profile.get(
+                        "server_python_allocation_peak_bytes"),
+                    "note": "separate traced pass; excluded from reported latency and throughput",
+                }
                 results.append(r)
                 print(f"{n:>4} agents trial {trial + 1}/{args.repeats}: "
                       f"{r['ok']}/{r['ops']} ok, {r['ops_per_s']:.0f} ops/s, "

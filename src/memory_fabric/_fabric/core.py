@@ -350,10 +350,14 @@ class FabricCore:
         return self._clock()
 
     def _emit(self, *events: ev.Event) -> list[ev.Event]:
+        profile = getattr(self, "_profile_marker", None)
+        io_started = time.perf_counter_ns() if profile is not None else 0
         stage = getattr(self, "_stage_marker", None)
         if stage is not None:
             stage("event_append")
         stored = self.log.append_many(events)
+        if profile is not None:
+            profile("sqlite_append_ns", time.perf_counter_ns() - io_started)
         if stage is not None:
             stage("projection")
         if stored and stored[0].seq != self._seen_seq + 1:
@@ -367,6 +371,8 @@ class FabricCore:
         tracked.begin()  # type: ignore[attr-defined]
         for event in stored:
             self.projection.apply(event)
+        if profile is not None:
+            profile("projection_events", len(stored))
         self._reindex_changed(dict(tracked.before))  # type: ignore[attr-defined]
         if stored and stored[-1].seq is not None:
             self._seen_seq = stored[-1].seq

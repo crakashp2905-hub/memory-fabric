@@ -16,6 +16,7 @@ import threading
 import unittest
 import urllib.error
 import urllib.request
+from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
 from memory_fabric.agent_api import (
@@ -73,6 +74,47 @@ class ApiCase(unittest.TestCase):
 
 
 class TestTheSurface(ApiCase):
+    def test_benchmark_profile_is_local_opt_in_and_resettable(self) -> None:
+        import tracemalloc
+
+        was_tracing = tracemalloc.is_tracing()
+        profile_token = "profile-token-for-test-only-1234567890"
+        with patch.dict(os.environ, {"MEMORY_FABRIC_PROFILE": "1",
+                                    "MEMORY_FABRIC_PROFILE_ALLOCATIONS": "1",
+                                    "MEMORY_FABRIC_PROFILE_TOKEN": profile_token}):
+            server = build_agent_server(AgentApi(self.service), port=0)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{server.server_address[1]}"
+            denied = urllib.request.Request(base + "/__profile/reset")
+            with self.assertRaises(urllib.error.HTTPError) as caught:
+                urllib.request.urlopen(denied, timeout=2)
+            self.assertEqual(caught.exception.code, 404)
+            profile_headers = {"X-Memory-Fabric-Profile-Token": profile_token}
+            authorized = urllib.request.Request(base + "/__profile/reset",
+                                                headers=profile_headers)
+            with urllib.request.urlopen(authorized, timeout=2) as response:
+                self.assertEqual(response.status, 200)
+            credential = self.token()
+            request = urllib.request.Request(
+                base + "/v1/recall", data=json.dumps({"query": "pilot cable"}).encode(),
+                headers={"Authorization": f"Bearer {credential}",
+                         "Content-Type": "application/json"}, method="POST")
+            with urllib.request.urlopen(request, timeout=2) as response:
+                self.assertEqual(response.status, 200)
+            request = urllib.request.Request(base + "/__profile", headers=profile_headers)
+            with urllib.request.urlopen(request, timeout=2) as response:
+                profile = json.loads(response.read())
+            self.assertIn("server_python_allocation_peak_bytes", profile)
+            self.assertIn("fabric_lock_wait", profile)
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+            if not was_tracing:
+                tracemalloc.stop()
+
     def test_recall_verify_remember(self) -> None:
         token = self.token()
         status, body = self.post("recall", {"query": "pilot cable coastal"}, token)

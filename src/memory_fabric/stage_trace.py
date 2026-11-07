@@ -20,6 +20,30 @@ STAGES = (
 )
 
 
+class ProfileRecorder:
+    """Thread-safe aggregate counters for one benchmark interval."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._totals: dict[str, int] = {}
+        self._counts: dict[str, int] = {}
+
+    def add(self, name: str, value: int) -> None:
+        with self._lock:
+            self._totals[name] = self._totals.get(name, 0) + int(value)
+            self._counts[name] = self._counts.get(name, 0) + 1
+
+    def reset(self) -> None:
+        with self._lock:
+            self._totals.clear()
+            self._counts.clear()
+
+    def snapshot(self) -> dict[str, dict[str, int]]:
+        with self._lock:
+            return {name: {"total": total, "count": self._counts[name]}
+                    for name, total in self._totals.items()}
+
+
 @dataclass(frozen=True)
 class StageTrace:
     request_id: str
