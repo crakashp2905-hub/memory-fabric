@@ -11,6 +11,7 @@ sorts the full projection before applying its output limit.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -125,8 +126,11 @@ def svg_plot(results: list[dict[str, Any]]) -> str:
            '<text x="35" y="35" font-size="22" font-weight="bold">E4-06 bounded page scan scale</text>']
     sizes = sorted({int(row["memories"]) for row in results})
     for x0, y0, plot_w, plot_h, title, key in panels:
-        values = [float(r[key]) / (1024 * 1024) if key == "python_peak_bytes"
-                  else float(r[key]) for r in results]
+        value_key = ("python_peak_bytes_mean" if key == "python_peak_bytes"
+                     else "scan_seconds_mean")
+        values = [float(r[value_key]) / (1024 * 1024)
+                  if key == "python_peak_bytes" else float(r[value_key])
+                  for r in results]
         ymax = max(values) if values else 1.0
         ymax = max(ymax * 1.12, 1.0)
         out.append(f'<text x="{x0}" y="{y0-22}" font-size="17" font-weight="bold">{title}</text>')
@@ -145,8 +149,8 @@ def svg_plot(results: list[dict[str, Any]]) -> str:
                           key=lambda r: r["memories"])
             points = []
             for row in rows:
-                yval = (float(row[key]) / (1024 * 1024)
-                        if key == "python_peak_bytes" else float(row[key]))
+                yval = (float(row[value_key]) / (1024 * 1024)
+                        if key == "python_peak_bytes" else float(row[value_key]))
                 px = x_positions[int(row["memories"])]
                 py = y0 + plot_h - yval / ymax * plot_h
                 points.append(f"{px:.1f},{py:.1f}")
@@ -162,74 +166,86 @@ def svg_plot(results: list[dict[str, Any]]) -> str:
 
 def main() -> int:
     output = Path("research/results")
-    all_results = []
-    datasets = []
-    for count in SIZES:
-        with tempfile.TemporaryDirectory() as directory:
-            db = Path(directory) / f"scan-{count}.db"
-            seed_data = seed(db, count)
-            log = EventLog(db)
-            db_bytes = db.stat().st_size
-            try:
-                for page_size in PAGE_SIZES:
-                    runs = [scan(log, count, page_size) for _ in range(REPEATS)]
-                    latency = [r["scan_seconds"] for r in runs]
-                    peak = [r["python_peak_bytes"] for r in runs]
-                    row = {
-                        "memories": count, "database_bytes": db_bytes,
-                        "page_size": page_size, "repeats": REPEATS,
-                        "seed_seconds": seed_data["seed_seconds"],
-                        "seed_integrity_chain_ok": seed_data["integrity_chain_ok"],
-                        "verified_events": seed_data["verified_events"],
-                        "checkpoint": seed_data["checkpoint"],
-                        "sqlite_settings": seed_data["settings"],
-                        "scan_seconds_mean": statistics.fmean(latency),
-                        "scan_seconds_trials": latency,
-                        "python_peak_bytes_mean": statistics.fmean(peak),
-                        "python_peak_bytes_trials": peak,
-                        "pages": runs[-1]["pages"],
-                        "max_page_records": max(r["max_page_records"] for r in runs),
-                        "page_latency_ms_mean": statistics.fmean(
-                            r["page_latency_ms"]["mean"] for r in runs
-                        ),
-                        "page_latency_ms_p95_max": max(
-                            r["page_latency_ms"]["p95"] for r in runs
-                        ),
-                        "memory_id_sha256": runs[-1]["memory_id_sha256"],
-                        "scan_hashes_match": len({r["memory_id_sha256"] for r in runs}) == 1,
-                    }
-                    all_results.append(row)
-                    print(f"{count:>7,} memories, page {page_size:>4}: "
-                          f"{row['scan_seconds_mean']:.3f}s, "
-                          f"{row['python_peak_bytes_mean']/1024/1024:.2f} MiB, "
-                          f"{row['pages']} pages, hashes match={row['scan_hashes_match']}",
-                          flush=True)
-            finally:
-                log.close()
-            datasets.append({"memories": count, **seed_data,
-                             "database_bytes": db_bytes})
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--render-only", action="store_true",
+                        help="regenerate SVG and Markdown from an existing JSON result")
+    args = parser.parse_args()
+    result_path = output / "e4-06-page-scan.json"
+    if args.render_only:
+        data = json.loads(result_path.read_text(encoding="utf-8"))
+        all_results = data["results"]
+    else:
+        all_results = []
+        datasets = []
+        for count in SIZES:
+            with tempfile.TemporaryDirectory() as directory:
+                db = Path(directory) / f"scan-{count}.db"
+                seed_data = seed(db, count)
+                log = EventLog(db)
+                db_bytes = db.stat().st_size
+                try:
+                    for page_size in PAGE_SIZES:
+                        runs = [scan(log, count, page_size) for _ in range(REPEATS)]
+                        latency = [r["scan_seconds"] for r in runs]
+                        peak = [r["python_peak_bytes"] for r in runs]
+                        row = {
+                            "memories": count, "database_bytes": db_bytes,
+                            "page_size": page_size, "repeats": REPEATS,
+                            "seed_seconds": seed_data["seed_seconds"],
+                            "seed_integrity_chain_ok": seed_data["integrity_chain_ok"],
+                            "verified_events": seed_data["verified_events"],
+                            "checkpoint": seed_data["checkpoint"],
+                            "sqlite_settings": seed_data["settings"],
+                            "scan_seconds_mean": statistics.fmean(latency),
+                            "scan_seconds_trials": latency,
+                            "python_peak_bytes_mean": statistics.fmean(peak),
+                            "python_peak_bytes_trials": peak,
+                            "pages": runs[-1]["pages"],
+                            "max_page_records": max(r["max_page_records"] for r in runs),
+                            "page_latency_ms_mean": statistics.fmean(
+                                r["page_latency_ms"]["mean"] for r in runs
+                            ),
+                            "page_latency_ms_p95_max": max(
+                                r["page_latency_ms"]["p95"] for r in runs
+                            ),
+                            "memory_id_sha256": runs[-1]["memory_id_sha256"],
+                            "scan_hashes_match": len({r["memory_id_sha256"] for r in runs}) == 1,
+                        }
+                        all_results.append(row)
+                        print(f"{count:>7,} memories, page {page_size:>4}: "
+                              f"{row['scan_seconds_mean']:.3f}s, "
+                              f"{row['python_peak_bytes_mean']/1024/1024:.2f} MiB, "
+                              f"{row['pages']} pages, hashes match={row['scan_hashes_match']}",
+                              flush=True)
+                finally:
+                    log.close()
+                datasets.append({"memories": count, **seed_data,
+                                 "database_bytes": db_bytes})
 
-    commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True,
-                            text=True, check=True).stdout.strip()
-    machine = (f"{platform.system()} {platform.machine()}, {os.cpu_count()} CPUs, "
-               f"Python {platform.python_version()}")
-    passed = (all(r["scan_hashes_match"] and r["max_page_records"] <= r["page_size"]
-                  and r["seed_integrity_chain_ok"]
-                  and r["verified_events"] == r["memories"] for r in all_results)
-              and [r["memories"] for r in datasets] == list(SIZES))
-    data = {
-        "schema": "memory-fabric-e4-06-page-scan/1", "commit": commit,
-        "machine": machine,
-        "configuration": {"memory_counts": list(SIZES), "page_sizes": list(PAGE_SIZES),
-                          "repeats": REPEATS, "seed_transaction_events": BATCH_SIZE,
-                          "cursor": "seq > last_seen_seq ORDER BY seq LIMIT page_size"},
-        "datasets": datasets, "results": all_results, "passed": passed,
-        "limitations": ["Synthetic one-MemoryCreated-event-per-memory fixtures; not an external production corpus.",
-                        "Benchmarks EventLog keyset scans, not the in-memory operator list, which currently materializes and sorts before applying limit.",
-                        "Warm local SQLite page cache; not a cold-storage or remote-disk benchmark."]
-    }
-    (output / "e4-06-page-scan.json").write_text(json.dumps(data, indent=2) + "\n",
-                                                  encoding="utf-8")
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True,
+                                text=True, check=True).stdout.strip()
+        machine = (f"{platform.system()} {platform.machine()}, {os.cpu_count()} CPUs, "
+                   f"Python {platform.python_version()}")
+        passed = (all(r["scan_hashes_match"] and r["max_page_records"] <= r["page_size"]
+                      and r["seed_integrity_chain_ok"]
+                      and r["verified_events"] == r["memories"] for r in all_results)
+                  and [r["memories"] for r in datasets] == list(SIZES))
+        data = {
+            "schema": "memory-fabric-e4-06-page-scan/1", "commit": commit,
+            "machine": machine,
+            "configuration": {"memory_counts": list(SIZES), "page_sizes": list(PAGE_SIZES),
+                              "repeats": REPEATS, "seed_transaction_events": BATCH_SIZE,
+                              "cursor": "seq > last_seen_seq ORDER BY seq LIMIT page_size"},
+            "datasets": datasets, "results": all_results, "passed": passed,
+            "limitations": ["Synthetic one-MemoryCreated-event-per-memory fixtures; not an external production corpus.",
+                            "Benchmarks EventLog keyset scans, not the in-memory operator list, which currently materializes and sorts before applying limit.",
+                            "Warm local SQLite page cache; not a cold-storage or remote-disk benchmark."]
+        }
+        result_path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    all_results = data["results"]
+    commit = data["commit"]
+    machine = data["machine"]
+    passed = bool(data["passed"])
     (output / "e4-06-page-scan.svg").write_text(svg_plot(all_results), encoding="utf-8")
     table = "\n".join(
         f"| {r['memories']:,} | {r['page_size']:,} | {r['pages']} | "
