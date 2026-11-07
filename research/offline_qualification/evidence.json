@@ -1196,6 +1196,23 @@
       ]
     },
     {
+      "task_id": "R3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/safety_tradeoff.py",
+        "research/prereg/safety-tradeoff-v1.md",
+        "docs/SAFETY_COMPLETION_TRADEOFF.md",
+        "tests/test_safety_tradeoff.py",
+        "research/results/r3-06-safety-tradeoff-tests.xml",
+        "research/results/r3-06-safety-tradeoff.json"
+      ],
+      "limitations": [
+        "Three synthetic seeds and scripted policies. Authorization outcomes only; no external action is executed. Local latency is descriptive, not a performance claim."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,
