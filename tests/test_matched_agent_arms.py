@@ -13,10 +13,16 @@ class MatchedAgentArms(unittest.TestCase):
         contexts = [{task["task_id"]: (task["context_hash"], task["context_budget_items"])
                      for task in row["task_manifest"]} for row in rows]
         self.assertTrue(all(context == contexts[0] for context in contexts[1:]))
+        permissions = [{task["task_id"]: (task["permission_grant_count"],
+                                           task["permission_grants_sha256"])
+                        for task in row["task_manifest"]} for row in rows]
+        self.assertTrue(all(permission == permissions[0] for permission in permissions[1:]))
         for row in rows:
             self.assertEqual(row["context_budget_max"], 1)
             self.assertEqual(row["runtime_permission_grants"], 5)
             self.assertTrue(all(task["initial_exposure_equal"] for task in row["task_manifest"]))
+            self.assertTrue(all(task["permission_grant_count"] == 5 for task in row["task_manifest"]))
+            self.assertTrue(all(len(task["permission_grants_sha256"]) == 64 for task in row["task_manifest"]))
 
     def test_governed_arm_blocks_stale_actions_and_oracle_is_exact(self) -> None:
         governed = run(701, 5, "memory_fabric")

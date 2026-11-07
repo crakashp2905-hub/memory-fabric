@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 164,
+ "results": 165,
  "missing_field_counts": {
-  "git_sha": 59,
+  "git_sha": 60,
   "prereg": 74,
-  "dataset_digest": 161,
-  "model_id": 128,
-  "prompt_hash": 164,
+  "dataset_digest": 162,
+  "model_id": 129,
+  "prompt_hash": 165,
   "seed": 94,
-  "cost": 141,
+  "cost": 142,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 2,
+  "synthetic_scripted": 3,
   "unclassified": 162
  },
  "rows": [
@@ -2966,6 +2966,28 @@
    "experiment_id": "r3-01-agent-scale",
    "file": "research/results/r3-01-agent-scale.json",
    "file_sha256": "263eeaebdb5492e2dfea85b08f8e28af7a114efffd0fd1d094c2aedf171ecc1f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    701,
+    709,
+    719
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-02-matched-agent-arms",
+   "file": "research/results/r3-02-matched-agent-arms.json",
+   "file_sha256": "c015bc8579cadf87892b3246d98a80181af2f2a495f157c52495fd1b62f35452",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/r3-best-retriever.md",
    "git_sha": null,

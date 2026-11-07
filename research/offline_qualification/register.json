@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "6512198f1419b2a4d0079e1c01bfcbde76bdd4c1",
-    "dirty": false
+    "commit": "b821b26b2133ef511b559c771b27d1e6840c5be8",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 66,
+      "DONE": 67,
       "PARTIAL": 5,
-      "TODO": 189
+      "TODO": 188
     },
-    "completed": 66,
+    "completed": 67,
     "total": 260,
-    "percent_complete": 25.38,
-    "p0_open": 63,
+    "percent_complete": 25.77,
+    "p0_open": 62,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "c4e4836334d212857d895685e194d09a1766ddee05c0c0953ea7ac16bed2f520",
-        "docs/VALIDATION.md": "557a6be44854b34d5d0f3aa76eaaffd962bb38fc9b3bd66b3aa04008dfb39c71",
-        "docs/STATUS_AT_HEAD.md": "dee7100da9d27ec461eb16dd7c341898de2a13918bdd2c0a2fea17663bcd7aa5",
+        "README.md": "d2f00ec71ff1dafaf5a0905c30639923129ed8049b00a23684589bf9ea51702e",
+        "docs/VALIDATION.md": "e0649623d466bcf4fc9230a885b53ccb6b736b4e19ad20a6d9e088f6b5cc069b",
+        "docs/STATUS_AT_HEAD.md": "a41ce5e737bf535cc335770ab81b5646e729f18056369a73dbb6af38bbe4191d",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "f35ba863616e6221ea98580b357d0a6a1e7b9948cb825b6a29b2732d4208d351",
+        "research/results/MANIFEST.json": "5eaf3707ee9c71baebde09ec54fd9d66da7bc73550e32190d1702f85d3d1b14d",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1939,13 +1939,31 @@
       "priority": "P0",
       "task": "Define matched local-only, pooled memory, blanket-retraction, Memory Fabric and oracle arms.",
       "acceptance": "Equal information exposure, runtime permissions and context budgets are enforced",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "benchmarks/agent_scale.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "docs/MATCHED_AGENT_ARMS.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-02-matched-agent-arms-tests.xml",
+        "research/results/r3-02-matched-agent-arms.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/matched_agent_arms.py": "59fa83cb5b20f1a422a6b1c6c7b2dfeb56a83b08c5a0591f08713000f1e81e71",
+        "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+        "research/prereg/matched-agent-arms-v1.md": "118061ff5a763917939207b76e4c428b0e9e37d926c660d17d46ef0b1b05adcf",
+        "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
+        "tests/test_matched_agent_arms.py": "aef90343c156960f548590556ff1236ed4eab1b813b9851d3350ce654ad4e4ce",
+        "research/results/r3-02-matched-agent-arms-tests.xml": "3d92aef23223e0d575647fe194e4ba9c9fa1203ccfa967912aa884c1ad7cd282",
+        "research/results/r3-02-matched-agent-arms.json": "1c0c1f4aae3aabf0a2c2a7b9e104ef44f0c11e55b30201e34f405992d6ef2171"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The five arms are local synthetic policy implementations on one in-process store. They do not represent independently built third-party memory products or real-model reasoning."
+      ]
     },
     {
       "task_id": "R3-03",

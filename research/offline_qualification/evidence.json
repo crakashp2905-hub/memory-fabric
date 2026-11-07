@@ -1127,6 +1127,24 @@
       ]
     },
     {
+      "task_id": "R3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "benchmarks/agent_scale.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "docs/MATCHED_AGENT_ARMS.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-02-matched-agent-arms-tests.xml",
+        "research/results/r3-02-matched-agent-arms.json"
+      ],
+      "limitations": [
+        "The five arms are local synthetic policy implementations on one in-process store. They do not represent independently built third-party memory products or real-model reasoning."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

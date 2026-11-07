@@ -103,7 +103,8 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
                             "context_hash": context_hash,
                             "initial_exposure_equal": all(ids == initial_exposure_ids[0]
                                                            for ids in initial_exposure_ids),
-                            "permission_grants": {agent: [TOOL] for agent in agents},
+                            "permission_grant_count": len(agents),
+                            "permission_grants_sha256": _hash({agent: [TOOL] for agent in agents}),
                             "reason_codes": dict(reason_codes)})
     totals = {key: sum(item[key] for item in result.values()) for key in
               ("attempted", "correct", "unsafe_actions", "stale_actions", "false_abstentions")}
@@ -124,8 +125,9 @@ def build_report() -> dict[str, Any]:
     for row in rows:
         groups[(row["seed"], row["agent_count"])].append(row)
         for task in row["task_manifest"]:
-            if not task["initial_exposure_equal"] or task["permission_grants"] != {
-                    f"agent-{i:03d}": [TOOL] for i in range(row["agent_count"])}:
+            if (not task["initial_exposure_equal"]
+                    or task["permission_grant_count"] != row["agent_count"]
+                    or not task["permission_grants_sha256"]):
                 failures.append({"seed": row["seed"], "agent_count": row["agent_count"],
                                  "arm": row["arm"], "task_id": task["task_id"],
                                  "reason": "exposure_or_permission_mismatch"})
