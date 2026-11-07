@@ -133,14 +133,14 @@ def render(sha: str | None = None) -> str:
         f"- **Commit:** {f'`{sha}`' if sha else 'stamped by CI (`--sha`)'}",
         f"- **Package version:** `{v['package']}`; **schema:** `{v['schema']}`; "
         f"**SPEC.md header:** `{v['spec_header']}`",
-        f"- **Released tags:** " + (
+        "- **Released tags:** " + (
             ', '.join(f'`{x}`' for x in released) if released else
             'none visible in this checkout (not proof of publication status)' if sha else
             'not enumerated in the deterministic tree report; inspect stamped release evidence'),
         f"- **Latest release notes:** `{v['latest_release_notes']}` (they pin their own baseline commit; "
         "work merged since is not part of that release)",
         f"- **Tests CI collects:** {test_count()}",
-        f"- **Module tiers:** " + ", ".join(f"{k} {len(t[k])}" for k in ("stable", "beta", "experimental") if k in t),
+        "- **Module tiers:** " + ", ".join(f"{k} {len(t[k])}" for k in ("stable", "beta", "experimental") if k in t),
         "",
         "## Contradictions",
         "",
@@ -175,6 +175,8 @@ def main(argv: list[str]) -> int:
     page = render(sha)
     if "--check" in argv:
         found = contradictions(versions())
+        if not OUT.is_file() or OUT.read_text(encoding="utf-8") != render():
+            found.append("docs/STATUS_AT_HEAD.md is stale; run tools/status_at_head.py --write")
         for c in found:
             print(c)
         return 1 if found else 0

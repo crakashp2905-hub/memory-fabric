@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import results_manifest  # noqa: E402
 import status_at_head  # noqa: E402
+import count_tests  # noqa: E402
 
 
 class StatusAtHead(unittest.TestCase):
@@ -39,6 +40,12 @@ class StatusAtHead(unittest.TestCase):
     def test_manifest_is_current(self) -> None:
         self.assertEqual(results_manifest.OUT.read_text(encoding="utf-8"), results_manifest.render(),
                          "regenerate: python tools/results_manifest.py --write")
+
+    def test_generated_status_check_passes_at_current_tree(self) -> None:
+        self.assertEqual(status_at_head.main(["--check"]), 0)
+
+    def test_test_count_check_passes_at_current_tree(self) -> None:
+        self.assertEqual(count_tests.main(["--check"]), 0)
 
     def test_detects_a_drifted_spec(self) -> None:
         v = dict(status_at_head.versions(), spec_header="0.0.1")
