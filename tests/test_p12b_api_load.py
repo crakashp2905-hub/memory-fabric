@@ -40,6 +40,17 @@ class TestP12bApiLoad(unittest.TestCase):
         self.assertEqual(curve[0]["throughput_ops_s"]["mean"], 25.0)
         self.assertEqual(curve[0]["p99_ms"]["mean"], 150.0)
 
+    def test_positive_metric_confidence_bounds_do_not_go_negative(self) -> None:
+        rows = [
+            {"agents": 5, "ok": 1, "ops": 1, "ops_per_s": 1.0,
+             "latency_ms": {"all": {"p99": 2.0}}},
+            {"agents": 5, "ok": 100, "ops": 100, "ops_per_s": 100.0,
+             "latency_ms": {"all": {"p99": 300.0}}},
+        ]
+        curve = p12b_api_load.summarise_trials(rows)[0]
+        self.assertEqual(curve["throughput_ops_s"]["ci95_low"], 0.0)
+        self.assertEqual(curve["p99_ms"]["ci95_low"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()

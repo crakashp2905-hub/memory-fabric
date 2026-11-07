@@ -306,7 +306,8 @@ def summarise_trials(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
             mean = statistics.fmean(values)
             half = (1.96 * statistics.stdev(values) / len(values) ** 0.5
                     if len(values) > 1 else 0.0)
-            return {"mean": mean, "ci95_low": mean - half, "ci95_high": mean + half}
+            return {"mean": mean, "ci95_low": max(0.0, mean - half),
+                    "ci95_high": mean + half}
 
         summary.append({
             "agents": agents,
