@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 172,
+ "results": 173,
  "missing_field_counts": {
-  "git_sha": 67,
+  "git_sha": 68,
   "prereg": 75,
-  "dataset_digest": 169,
-  "model_id": 136,
-  "prompt_hash": 172,
-  "seed": 94,
-  "cost": 149,
+  "dataset_digest": 170,
+  "model_id": 137,
+  "prompt_hash": 173,
+  "seed": 95,
+  "cost": 150,
   "verdict": 109
  },
  "population_counts": {
-  "synthetic_scripted": 10,
+  "synthetic_scripted": 11,
   "unclassified": 162
  },
  "rows": [
@@ -2991,7 +2991,7 @@
    "file": "research/results/r2-false-withholding-ablation.json",
    "file_sha256": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
-   "prereg": "research/prereg/r2-false-withholding-v1.md",
+   "prereg": "research/prereg/r2-withholding-promotion-gate-v1.md",
    "git_sha": null,
    "git_sha_source": null,
    "dataset_digest": null,
@@ -3005,6 +3005,24 @@
     104,
     105
    ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r2-withholding-promotion-gate",
+   "file": "research/results/r2-withholding-promotion-gate.json",
+   "file_sha256": "a4a89cebf89c013735ffc3c4732383818a5d00b12a0b339dea2ab461d5cf577c",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r2-withholding-promotion-gate-v1.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": null,
    "config": null,
    "cost": null,
    "verdict": "DESCRIPTIVE",

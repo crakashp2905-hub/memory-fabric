@@ -22,7 +22,7 @@ OVERRIDES = BASE / "evidence.json"
 REGISTER = BASE / "register.json"
 REPORT = BASE / "README.md"
 TASK = re.compile(
-    r"^- \[ \] \*\*(?P<id>[A-Z][A-Z0-9]*-\d{2})\*\*.*?"
+    r"^- \[[ xX]\] \*\*(?P<id>[A-Z][A-Z0-9]*-\d{2})\*\*.*?"
     r"· \*\*(?P<priority>P\d)\*\* · (?P<task>.*?) "
     r"\*\*Acceptance:\*\* (?P<acceptance>.*)\.\.$"
 )

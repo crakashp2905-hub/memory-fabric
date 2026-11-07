@@ -15,6 +15,14 @@ import offline_qualification as oq  # noqa: E402
 def test_scope_has_exactly_260_unique_tasks() -> None:
     rows = oq.parse_scope(oq.SCOPE.read_text(encoding="utf-8"))
     assert len(rows) == len({row["id"] for row in rows}) == 260
+    assert "R2-10" in {row["id"] for row in rows}
+
+
+def test_scope_parser_accepts_checked_and_unchecked_task_boxes() -> None:
+    text = oq.SCOPE.read_text(encoding="utf-8")
+    assert len(oq.parse_scope(text)) == 260
+    unchecked = text.replace("- [x] **R2-10", "- [ ] **R2-10")
+    assert len(oq.parse_scope(unchecked)) == 260
 
 
 def test_generated_ledger_is_current() -> None:

@@ -210,7 +210,7 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 - [ ] **R2-07** · **P0** · Measure independent-support failures when several notes share the same upstream origin. **Acceptance:** Source-copy clusters count as one support root while independent notes remain independently usable..
 - [ ] **R2-08** · **P0** · Add risk-sensitive evidence policies for read, summarize, recommend and externally consequential execute. **Acceptance:** Low-risk tasks are not blocked by high-risk execution-only restrictions; protected actions remain gated..
 - [ ] **R2-09** · **P0** · Tune thresholds only on development seeds and freeze the best candidate before held-out test. **Acceptance:** Test-only threshold selection is rejected by evaluation tool..
-- [x] **R2-10** · **P0** · Set promotion gate to <=5% valid withholding with no observed stale-action regression on held-out worlds. **Acceptance:** If unattainable, publish Pareto frontier and retain the safer existing policy. Evidence: `docs/WITHHOLDING_PROMOTION_GATE.md`, `research/results/r2-withholding-promotion-gate.json` (17.2% observed; hold existing policy).
+- [x] **R2-10** · **P0** · Set promotion gate to <=5% valid withholding with no observed stale-action regression on held-out worlds. **Acceptance:** If unattainable, publish Pareto frontier and retain the safer existing policy. Evidence: `docs/WITHHOLDING_PROMOTION_GATE.md`, `research/results/r2-withholding-promotion-gate.json` (17.2% observed; hold existing policy)..
 
 
 #### R3 — Agent-team downstream effectiveness and outcome metrics [P0]

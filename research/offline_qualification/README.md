@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **79 / 260 (30.38%)**. Internal status: **BLOCKED**.
+Strict completion: **80 / 260 (30.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d1c16643124d4661daefd2af7c43d8f817e61d5347a0c8450cdf875c6fe1a4c4`.
+Normalized ledger digest: `62124c370c9b70e82966864a023ec1fe5bfefaf9f6de10830220fb2669754791`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 79 |
+| DONE | 80 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 176 |
+| TODO | 175 |
 
 ## Graduation gates
 
@@ -98,7 +98,7 @@ Normalized ledger digest: `d1c16643124d4661daefd2af7c43d8f817e61d5347a0c8450cdf8
 | R2-07 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/justification.py`, `src/memory_fabric/certificates.py`, `tests/test_justification.py`, `tests/test_certificates.py`, `research/results/r2-06-07-support-tests.xml` |
 | R2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/enforcement.py`, `src/memory_fabric/sdk.py`, `src/memory_fabric/actions.py`, `tests/test_sdk.py`, `tests/test_action_fence.py`, `docs/EVIDENCE_OPERATION_RISK.md`, `research/results/r2-08-risk-sensitive-operations.xml`, `research/results/r2-08-action-fence.xml` |
 | R2-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/evidence_completeness.py`, `research/prereg/ecv1-threshold.json`, `tests/test_ecv1_benchmark.py`, `research/results/r2-09-threshold-guard.xml` |
-| R2-10 | P0 | TODO | NOT_TESTED | — |
+| R2-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/withholding_promotion_gate.py`, `research/prereg/r2-withholding-promotion-gate-v1.md`, `docs/WITHHOLDING_PROMOTION_GATE.md`, `tests/test_withholding_promotion_gate.py`, `research/results/r2-10-promotion-gate-tests.xml`, `research/results/r2-10-ledger-gate-tests.xml`, `research/results/r2-withholding-promotion-gate.json` |
 | R3-01 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_scale.py`, `tests/test_agent_scale.py`, `research/prereg/agent-scale-v1.md`, `docs/AGENT_SCALE_BENCHMARK.md`, `research/results/r3-01-agent-scale-tests.xml`, `research/results/r3-01-agent-scale.json` |
 | R3-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/agent_scale.py`, `research/prereg/matched-agent-arms-v1.md`, `docs/MATCHED_AGENT_ARMS.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-02-matched-agent-arms-tests.xml`, `research/results/r3-02-matched-agent-arms.json` |
 | R3-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/failure-taxonomy-v1.md`, `docs/FAILURE_TAXONOMY.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-03-failure-taxonomy-tests.xml`, `research/results/r3-03-failure-taxonomy.json` |

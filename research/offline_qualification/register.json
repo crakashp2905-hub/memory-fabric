@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "22c2dd85724c751c161372f33440302d2c0012fee43df1ef7663b77ec76b9ab7",
+    "sha256": "f19d499696a9fbf8d4a19a8a6ca28e9f77a295777427fd88c8b0e2ecb0d03f0b",
     "tasks": 260
   },
   "source": {
-    "commit": "3c8242eb2050f9a04ca75b36906587766bad23d1",
+    "commit": "48158b62e6727ba70178fada92165178be70fb51",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 79,
+      "DONE": 80,
       "PARTIAL": 5,
-      "TODO": 176
+      "TODO": 175
     },
-    "completed": 79,
+    "completed": 80,
     "total": 260,
-    "percent_complete": 30.38,
-    "p0_open": 50,
+    "percent_complete": 30.77,
+    "p0_open": 49,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -218,8 +218,8 @@
         "research/results/e1-07-ledger-verification.xml"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "8065d4ecf77019e8888044b0d98f17a63048dc7a8f66e11471c73217bafc6da7",
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6",
+        "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
+        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
         "research/results/e1-07-ledger-verification.json": "26250b98e7c9270aa7da572ce61e94960e091fdf1e62870e83fbadeab779e316",
         "research/results/e1-07-ledger-verification.xml": "72bfeda66dfc336756acbb7c974d6d58aaeda766eabadc065665a0d1ec8f3002"
       },
@@ -241,8 +241,8 @@
         "research/results/e1-08-negative-control.xml"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "8065d4ecf77019e8888044b0d98f17a63048dc7a8f66e11471c73217bafc6da7",
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6",
+        "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
+        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
         "research/results/e1-08-negative-control.json": "1c30f67515201cd212066044156cbf0247d247ef3818777873c4c3c96aebb9a3",
         "research/results/e1-08-negative-control.xml": "8b2aa25ab5af069fe85fc86e9572ef71f062aa59f3368cffc63acd6c84bc0baa"
       },
@@ -265,8 +265,8 @@
         "research/results/e1-09-seed-manifest.xml"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "8065d4ecf77019e8888044b0d98f17a63048dc7a8f66e11471c73217bafc6da7",
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6",
+        "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
+        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
         "docs/SEED_MANIFESTS.md": "8db3318b93dcd38f7e5c313bb7c4f19b970ad197c9bb3fd862e528c76678c1eb",
         "research/results/e1-09-seed-manifest.json": "bf51bc46cc560f7c5fe602f5ae67cb0c414cda56c18811e8c26388918e21e8b7",
         "research/results/e1-09-seed-manifest.xml": "3f2b83043d1e4cf5d69c37846b0454774eef8f80b64b52116bf2cff3c7a0e81c"
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "7491551a0556b10f42e2351efb65564628779d88e7022584d5862525183e5ab5",
-        "docs/VALIDATION.md": "35048b1977acde5b1d58937d42a94b10d52a9656426ff5a068535c9ca4f82be1",
-        "docs/STATUS_AT_HEAD.md": "bb50dffdc82ce629aef263d4fd6eae17bf5aec8b5760fe052cde76f628110e0c",
+        "README.md": "9ae5492ef52a7c3cab9917aefcbd15edc3ad40a4735fd6c0b8f49528c579a7bb",
+        "docs/VALIDATION.md": "7e9dc8ac57d3ce71ddd0fca20d187a8922d10d1e86e0f1a189ad953cf40f816a",
+        "docs/STATUS_AT_HEAD.md": "e321baaf7be65b29ecc4cef45d9cc418dda88ecfa6cdaa33c8ebaa95c61ab78d",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "6034078a3a374268b044c02c49af749ac38f4977ece58ee1be61ef1d56020932",
+        "research/results/MANIFEST.json": "53d509a146a6777242336090d91e540037e5b2d0d915a4cfb42dd2742b675060",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1732,7 +1732,7 @@
         "benchmarks/false_withholding.py": "d395432d37da429f1f5e80a453c947e972df1fdce39f1665ca2311f000f72240",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
         "benchmarks/pr30_case_extractor.py": "14d53cef6c372e62ea4b711821223c5c668d002eb733d656914deda1b6c0a3a3",
-        "tests/test_pr30_withheld_cases.py": "9d8c0658bb30a034397e5553a2e62bcb84c5ba4d9d8eb9c27aedcfa5a84890e9",
+        "tests/test_pr30_withheld_cases.py": "c20a1608208f29028048cd956cb4b638652e14de720ba92415d92f468a9dffa1",
         "docs/PR30_WITHHELD_CASES.md": "a53fc711d1559797a32c962d7a0d758579fd3cfb24879dcd8d2cd154132e1bad",
         "research/results/pr30-withheld-cases.json": "3390de3acfaffd27c7ee7b3070ce243224c6f369355b6c5ff4be99adcd8134c3",
         "research/results/pr30-withheld-cases-tests.xml": "7e1caa00a828f02e3cd0409897b3cb29b10b510a4c93428d1619093fab482efe"
@@ -1958,7 +1958,7 @@
       "task_id": "R2-10",
       "priority": "P0",
       "task": "Set promotion gate to <=5% valid withholding with no observed stale-action regression on held-out worlds.",
-      "acceptance": "If unattainable, publish Pareto frontier and retain the safer existing policy",
+      "acceptance": "If unattainable, publish Pareto frontier and retain the safer existing policy. Evidence: `docs/WITHHOLDING_PROMOTION_GATE.md`, `research/results/r2-withholding-promotion-gate.json` (17.2% observed; hold existing policy)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -1968,12 +1968,21 @@
         "docs/WITHHOLDING_PROMOTION_GATE.md",
         "tests/test_withholding_promotion_gate.py",
         "research/results/r2-10-promotion-gate-tests.xml",
+        "research/results/r2-10-ledger-gate-tests.xml",
         "research/results/r2-withholding-promotion-gate.json"
       ],
-      "evidence_digests": {},
+      "evidence_digests": {
+        "benchmarks/withholding_promotion_gate.py": "b5d003c7f637457c6c1e42b0e5a78349ca2fafce064905384d566848d83c9169",
+        "research/prereg/r2-withholding-promotion-gate-v1.md": "e140069a954b968688b466494bbe20d29acbaf13ca809b748ccdac6247eecca1",
+        "docs/WITHHOLDING_PROMOTION_GATE.md": "e5479bf8547ba5ded468d21d6241b41a0fbab217def12a926ac83195909d2b15",
+        "tests/test_withholding_promotion_gate.py": "ed81600ad51c54afe4adee14201bded4be7944de6c0adc67163dd5ab1bd72201",
+        "research/results/r2-10-promotion-gate-tests.xml": "791aec952427639759dd99e40b456e793aed462c47ee180b658fff584e1fe631",
+        "research/results/r2-10-ledger-gate-tests.xml": "b8b337368fb33fa2c099230188c4bb8dfd8f339a03ac52402d00191cbfed9f5e",
+        "research/results/r2-withholding-promotion-gate.json": "e3187597ee8a33a67ef16220c8950a0afa34a8c606d78a742deeda7c210367db"
+      },
       "evidence_issues": {},
       "limitations": [
-        "The frozen local synthetic corpus measured 86/500 (17.2%) valid withholding, above the 5% threshold. No diagnostic arm recovered a task or produced an additional stale authorization in 125 stale controls, so the gate retained the existing policy. This is not real-agent evidence."
+        "On the frozen local synthetic corpus, valid withholding is 86/500 (17.2%), above the 5% gate. No diagnostic arm recovers a task, and no additional stale authorization is observed in 125 stale controls; the gate retains the existing policy. This is not real-agent evidence."
       ]
     },
     {
@@ -4574,7 +4583,7 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6"
+        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5"
       },
       "evidence_issues": {},
       "limitations": []
@@ -4630,8 +4639,8 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "8065d4ecf77019e8888044b0d98f17a63048dc7a8f66e11471c73217bafc6da7",
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6"
+        "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
+        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5"
       },
       "evidence_issues": {},
       "limitations": [
