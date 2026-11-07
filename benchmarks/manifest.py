@@ -31,6 +31,22 @@ RUNS = ROOT / "research" / "results" / "bench_runs"
 ENVIRONMENT_FIELDS = {"python", "os", "sqlite", "logical_cpus", "thread_count", "process_count"}
 
 
+def digest_inputs(paths: list[str], *, root: Path = ROOT) -> dict[str, str]:
+    """Hash declared run inputs, refusing missing paths and paths outside the checkout."""
+    root = root.resolve()
+    result: dict[str, str] = {}
+    for raw in sorted(set(paths)):
+        candidate = (root / raw).resolve()
+        try:
+            relative = candidate.relative_to(root).as_posix()
+        except ValueError as exc:
+            raise ValueError(f"input path escapes repository: {raw}") from exc
+        if not candidate.is_file():
+            raise ValueError(f"benchmark input is missing: {raw}")
+        result[relative] = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    return result
+
+
 def capture_environment() -> dict[str, Any]:
     """Capture runtime and host facts without timestamps or other run noise."""
     return {
@@ -84,6 +100,7 @@ class Manifest:
         "baseline_registered": False, "oracle_sanity_passed": False, "holdout_frozen": False,
         "independent_replicated": False})
     environment: dict[str, Any] = field(default_factory=capture_environment)
+    input_digests: dict[str, str] = field(default_factory=dict)
     prereg: str | None = None
     schema: str = SCHEMA
 
@@ -91,7 +108,7 @@ class Manifest:
         return asdict(self)
 
 
-def validate(m: Manifest | dict[str, Any]) -> list[str]:
+def validate(m: Manifest | dict[str, Any], *, root: Path = ROOT) -> list[str]:
     d = m.to_json() if isinstance(m, Manifest) else m
     problems = []
     if d.get("schema") != SCHEMA:
@@ -109,6 +126,18 @@ def validate(m: Manifest | dict[str, Any]) -> list[str]:
         problems.append(f"{d.get('decision')} needs a reason")
     if ran and not d.get("repo_commit"):
         problems.append("a run must name the commit it ran on")
+    input_digests = d.get("input_digests", {})
+    if ran and not input_digests:
+        problems.append("a run must digest its declared inputs")
+    if input_digests:
+        try:
+            actual = digest_inputs(list(input_digests), root=root)
+        except ValueError as exc:
+            problems.append(str(exc))
+        else:
+            for path, expected in input_digests.items():
+                if actual.get(path) != expected:
+                    problems.append(f"input digest mismatch: {path}")
     if d.get("decision") == "PASS":
         v = d.get("verification", {})
         if not v.get("baseline_registered") or not v.get("oracle_sanity_passed"):
@@ -126,6 +155,12 @@ def validate(m: Manifest | dict[str, Any]) -> list[str]:
 
 def write(m: Manifest, directory: Path = RUNS, *, root: Path = ROOT) -> Path:
     data = stamp_source(m.to_json(), root=root)
+    if data.get("decision") not in ("NOT_RUN", "BLOCKED"):
+        dataset = data.get("dataset", {})
+        paths = list(dataset.get("input_files", []))
+        if dataset.get("generator"):
+            paths.append(dataset["generator"])
+        data["input_digests"] = digest_inputs(paths, root=root)
     problems = validate(data)
     if problems:
         raise ValueError("; ".join(problems))

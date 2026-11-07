@@ -36,7 +36,33 @@ class Manifests(unittest.TestCase):
         self.assertTrue(manifest.validate(m))
         m.verification.update(baseline_registered=True, oracle_sanity_passed=True)
         m.prereg = "research/prereg/x.md"
+        m.input_digests = manifest.digest_inputs(["docs/RESULT_PROVENANCE.md"])
         self.assertEqual(manifest.validate(m), [])
+
+    def test_missing_input_digest_blocks_completed_run(self) -> None:
+        m = manifest.Manifest("r", "INT-01", "baseline", "FAIL", repo_commit="abc")
+        self.assertTrue(any("digest its declared inputs" in issue for issue in manifest.validate(m)))
+
+    def test_input_paths_cannot_escape_checkout(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "escapes repository"):
+                manifest.digest_inputs(["../outside.json"], root=Path(directory))
+
+    def test_input_tampering_fails_before_score_aggregation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "generated" / "queries.json"
+            source.parent.mkdir()
+            source.write_text('{"query":"original"}\n', encoding="utf-8")
+            m = manifest.Manifest("r", "INT-01", "baseline", "FAIL", repo_commit="abc")
+            m.input_digests = manifest.digest_inputs(["generated/queries.json"], root=root)
+            data = m.to_json()
+            runs, rejected = scoreboard.aggregate_runs([data], root=root)
+            self.assertIn("INT-01", runs)
+            self.assertEqual(rejected, 0)
+            source.write_text('{"query":"tampered"}\n', encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "input digest mismatch"):
+                scoreboard.aggregate_runs([data], root=root)
 
     def test_not_run_needs_a_reason_and_a_run_needs_a_commit(self) -> None:
         self.assertTrue(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "NOT_RUN")))

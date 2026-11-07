@@ -149,7 +149,8 @@ def main() -> int:
                        counts={"attempted": len(runs) * 2, "completed": len(runs) * 2,
                                "solved": round(table["selective"]["exact"] * len(runs) * 2),
                                "failed": 0, "skipped": 0},
-                       dataset={"sha256": digest(args.split), "split": args.split}, seeds=list(SPLITS[args.split]),
+                       dataset={"sha256": digest(args.split), "split": args.split,
+                                "generator": "benchmarks/evidence_completeness.py"}, seeds=list(SPLITS[args.split]),
                        results={"summary": table, "threshold": threshold}, cost=data["cost"],
                        verification={"baseline_registered": True, "oracle_sanity_passed": not above,
                                      "holdout_frozen": True, "independent_replicated": False}))

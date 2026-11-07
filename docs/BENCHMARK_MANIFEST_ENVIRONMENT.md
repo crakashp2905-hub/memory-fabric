@@ -12,3 +12,8 @@ The five checked-in `research/results/bench_runs` records predate this
 requirement and do not contain environment measurements. They remain readable
 for provenance, but the strict parser reports them as unqualified. Their
 historical host details are not reconstructed or guessed.
+
+Executed benchmark manifests also record SHA-256 digests for declared dataset
+inputs and their generator script. The scoreboard verifies those digests before
+including a run. Legacy manifests without input digests remain archived and are
+excluded; a digest mismatch aborts scoreboard generation.
