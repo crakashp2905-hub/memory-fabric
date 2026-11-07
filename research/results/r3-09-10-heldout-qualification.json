@@ -1,0 +1,309 @@
+{
+  "acceptance_status": "PASS",
+  "agent_count": 50,
+  "aggregate_gain_over_strongest_baseline": false,
+  "aspirational_target": 0.8,
+  "attempted_agent_tasks_per_arm": 1200,
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "high_risk_fairness_passed": true,
+  "high_risk_families": [
+    "contested",
+    "corrected"
+  ],
+  "input_sha256": {
+    "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+    "benchmarks/heldout_agent_qualification.py": "0175f5b8542c318a051c0b5a3f36ec617c87a229221c85ba762763c794c0c3a8",
+    "benchmarks/matched_agent_arms.py": "9d896ab01b7176ff810f8c813345e755367d13611b7c1cb737a504d6ade68625",
+    "research/prereg/heldout-agent-qualification-v1.md": "d7c7b8fb3f0c59a5cc3b94f751d96c4a04c670c1f3fd8793328f5b6673bfdb2a"
+  },
+  "invariant_failures": [],
+  "least_agent_fairness_passed": true,
+  "limitations": [
+    "Twenty-four unique held-out synthetic task cases across three seeds; agent-attempt denominators are clustered by task.",
+    "Scripted policies are not model-agent performance evidence.",
+    "Latency is local descriptive timing, not a portable performance claim."
+  ],
+  "material_regression_tolerance": 0.1,
+  "population": "synthetic_scripted",
+  "promotion_status": "NO_PROMOTION_NO_AGGREGATE_GAIN",
+  "repo_commit": "3c8242eb2050f9a04ca75b36906587766bad23d1",
+  "safety_unchanged": true,
+  "schema": "mf-heldout-agent-qualification/1",
+  "seeds": [
+    8101,
+    8111,
+    8123
+  ],
+  "strongest_matched_non_oracle_baseline": "pooled_shared",
+  "summary_by_arm": {
+    "blanket_retraction": {
+      "attempted_agent_tasks": 1200,
+      "least_successful_agent": {
+        "agent_id": "agent-000",
+        "attempted": 8,
+        "high_risk_attempted": 4,
+        "high_risk_success_rate": 1.0,
+        "max_decision_latency_ms": 0.025500019546598196,
+        "mean_decision_latency_ms": 0.007237489626277238,
+        "p95_decision_latency_ms": 0.025500019546598196,
+        "success_rate": 0.875,
+        "successes": 7,
+        "unsafe_actions": 0
+      },
+      "least_successful_agent_rate": 0.875,
+      "least_successful_high_risk_agent_rate": 1.0,
+      "p95_agent_decision_latency_ms": 0.009300012607127428,
+      "per_seed": {
+        "8101": {
+          "minimum_agent_success_rate": 0.875,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 0.875,
+          "unsafe_actions": 0
+        },
+        "8111": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8123": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        }
+      },
+      "stale_actions": 0,
+      "successes": 1150,
+      "task_success_rate": 0.9583333333333334,
+      "unique_task_cases": 24,
+      "unsafe_actions": 0,
+      "worst_agent_p95_decision_latency_ms": 0.03090000245720148
+    },
+    "isolated": {
+      "attempted_agent_tasks": 1200,
+      "least_successful_agent": {
+        "agent_id": "agent-000",
+        "attempted": 8,
+        "high_risk_attempted": 4,
+        "high_risk_success_rate": 0.0,
+        "max_decision_latency_ms": 0.032800016924738884,
+        "mean_decision_latency_ms": 0.00770000769989565,
+        "p95_decision_latency_ms": 0.032800016924738884,
+        "success_rate": 0.5,
+        "successes": 4,
+        "unsafe_actions": 4
+      },
+      "least_successful_agent_rate": 0.5,
+      "least_successful_high_risk_agent_rate": 0.0,
+      "p95_agent_decision_latency_ms": 0.002300017513334751,
+      "per_seed": {
+        "8101": {
+          "minimum_agent_success_rate": 0.5,
+          "minimum_high_risk_agent_success_rate": 0.0,
+          "task_success_rate": 0.5,
+          "unsafe_actions": 200
+        },
+        "8111": {
+          "minimum_agent_success_rate": 0.5,
+          "minimum_high_risk_agent_success_rate": 0.0,
+          "task_success_rate": 0.5,
+          "unsafe_actions": 200
+        },
+        "8123": {
+          "minimum_agent_success_rate": 0.5,
+          "minimum_high_risk_agent_success_rate": 0.0,
+          "task_success_rate": 0.5,
+          "unsafe_actions": 200
+        }
+      },
+      "stale_actions": 300,
+      "successes": 600,
+      "task_success_rate": 0.5,
+      "unique_task_cases": 24,
+      "unsafe_actions": 600,
+      "worst_agent_p95_decision_latency_ms": 0.032800016924738884
+    },
+    "memory_fabric": {
+      "attempted_agent_tasks": 1200,
+      "least_successful_agent": {
+        "agent_id": "agent-000",
+        "attempted": 8,
+        "high_risk_attempted": 4,
+        "high_risk_success_rate": 1.0,
+        "max_decision_latency_ms": 3.04759998107329,
+        "mean_decision_latency_ms": 0.6782749842386693,
+        "p95_decision_latency_ms": 3.04759998107329,
+        "success_rate": 1.0,
+        "successes": 8,
+        "unsafe_actions": 0
+      },
+      "least_successful_agent_rate": 1.0,
+      "least_successful_high_risk_agent_rate": 1.0,
+      "p95_agent_decision_latency_ms": 0.7806000066921115,
+      "per_seed": {
+        "8101": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8111": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8123": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        }
+      },
+      "stale_actions": 0,
+      "successes": 1200,
+      "task_success_rate": 1.0,
+      "unique_task_cases": 24,
+      "unsafe_actions": 0,
+      "worst_agent_p95_decision_latency_ms": 3.04759998107329
+    },
+    "oracle": {
+      "attempted_agent_tasks": 1200,
+      "least_successful_agent": {
+        "agent_id": "agent-000",
+        "attempted": 8,
+        "high_risk_attempted": 4,
+        "high_risk_success_rate": 1.0,
+        "max_decision_latency_ms": 0.007099995855242014,
+        "mean_decision_latency_ms": 0.004474983143154532,
+        "p95_decision_latency_ms": 0.007099995855242014,
+        "success_rate": 1.0,
+        "successes": 8,
+        "unsafe_actions": 0
+      },
+      "least_successful_agent_rate": 1.0,
+      "least_successful_high_risk_agent_rate": 1.0,
+      "p95_agent_decision_latency_ms": 0.001600012183189392,
+      "per_seed": {
+        "8101": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8111": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8123": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        }
+      },
+      "stale_actions": 0,
+      "successes": 1200,
+      "task_success_rate": 1.0,
+      "unique_task_cases": 24,
+      "unsafe_actions": 0,
+      "worst_agent_p95_decision_latency_ms": 0.01409999094903469
+    },
+    "pooled_shared": {
+      "attempted_agent_tasks": 1200,
+      "least_successful_agent": {
+        "agent_id": "agent-000",
+        "attempted": 8,
+        "high_risk_attempted": 4,
+        "high_risk_success_rate": 1.0,
+        "max_decision_latency_ms": 0.2334999735467136,
+        "mean_decision_latency_ms": 0.1263999947695993,
+        "p95_decision_latency_ms": 0.2334999735467136,
+        "success_rate": 1.0,
+        "successes": 8,
+        "unsafe_actions": 0
+      },
+      "least_successful_agent_rate": 1.0,
+      "least_successful_high_risk_agent_rate": 1.0,
+      "p95_agent_decision_latency_ms": 0.25400001322850585,
+      "per_seed": {
+        "8101": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8111": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        },
+        "8123": {
+          "minimum_agent_success_rate": 1.0,
+          "minimum_high_risk_agent_success_rate": 1.0,
+          "task_success_rate": 1.0,
+          "unsafe_actions": 0
+        }
+      },
+      "stale_actions": 0,
+      "successes": 1200,
+      "task_success_rate": 1.0,
+      "unique_task_cases": 24,
+      "unsafe_actions": 0,
+      "worst_agent_p95_decision_latency_ms": 0.4572999896481633
+    }
+  },
+  "target_met": true,
+  "task_family_composition": {
+    "contested": 2,
+    "corrected": 2,
+    "missing": 2,
+    "supported": 2
+  },
+  "task_manifest_by_seed": {
+    "8101": [
+      "s8101-supported-0",
+      "s8101-corrected-0",
+      "s8101-corrected-1",
+      "s8101-contested-0",
+      "s8101-supported-1",
+      "s8101-missing-1",
+      "s8101-missing-0",
+      "s8101-contested-1"
+    ],
+    "8111": [
+      "s8111-supported-0",
+      "s8111-contested-1",
+      "s8111-supported-1",
+      "s8111-corrected-0",
+      "s8111-corrected-1",
+      "s8111-missing-0",
+      "s8111-contested-0",
+      "s8111-missing-1"
+    ],
+    "8123": [
+      "s8123-missing-1",
+      "s8123-supported-0",
+      "s8123-missing-0",
+      "s8123-contested-1",
+      "s8123-supported-1",
+      "s8123-contested-0",
+      "s8123-corrected-1",
+      "s8123-corrected-0"
+    ]
+  },
+  "unique_task_cases": 24
+}

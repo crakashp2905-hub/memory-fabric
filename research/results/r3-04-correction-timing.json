@@ -18,12 +18,12 @@
     "thread_count": 1
   },
   "input_sha256": {
-    "benchmarks/correction_timing.py": "8ead036817303bb741cba95865c3f66dedc396b963d511647555f83409ec5962",
+    "benchmarks/correction_timing.py": "cdbc2013c118f37facfda7ffdff07c2fdfc44966812ee3bde1ad1e2cb83342f0",
     "research/prereg/correction-timing-v1.md": "877b01e5a3336bf519a1a2b68fb106e7a796cf7897ac5251ed76d52b8dc0f5d9"
   },
   "invariant_failures": [],
   "limitations": [
-    "Three fixed seeds, synthetic tasks, scripted agents, one local store.",
+    "Three fixed seeds, synthetic tasks, scripted agents, one local store; no model or real-agent evidence.",
     "Timing phases are event order labels; wall-clock intervals are not latency claims."
   ],
   "phases": [
@@ -32,7 +32,7 @@
     "before_action"
   ],
   "population": "synthetic_scripted",
-  "repo_commit": "5221eaef275eb07ccba1c12641e95e55cbfeb6ff",
+  "repo_commit": "3c8242eb2050f9a04ca75b36906587766bad23d1",
   "rows": [
     {
       "agent_count": 50,
@@ -74,7 +74,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.036374,
+      "elapsed_s": 0.035614,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -130,7 +130,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.047713,
+      "elapsed_s": 0.043775,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -186,7 +186,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.020549,
+      "elapsed_s": 0.020895,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -242,7 +242,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.047134,
+      "elapsed_s": 0.044451,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -298,7 +298,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.017045,
+      "elapsed_s": 0.015596,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -354,7 +354,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.037453,
+      "elapsed_s": 0.035849,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -410,7 +410,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.015088,
+      "elapsed_s": 0.014892,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -466,7 +466,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.044493,
+      "elapsed_s": 0.043735,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -522,7 +522,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.023831,
+      "elapsed_s": 0.021151,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -578,7 +578,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.044055,
+      "elapsed_s": 0.051648,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -634,7 +634,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.015568,
+      "elapsed_s": 0.015347,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -690,7 +690,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.037621,
+      "elapsed_s": 0.036403,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -746,7 +746,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.014252,
+      "elapsed_s": 0.014397,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -802,7 +802,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.047031,
+      "elapsed_s": 0.046656,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -858,7 +858,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.020379,
+      "elapsed_s": 0.019864,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -914,7 +914,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.042948,
+      "elapsed_s": 0.044155,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,
@@ -970,7 +970,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.016413,
+      "elapsed_s": 0.015773,
       "expected": "abstain",
       "model_calls": 0,
       "model_tokens": 0,
@@ -1026,7 +1026,7 @@
         "oracle": false,
         "pooled_recheck": false
       },
-      "elapsed_s": 0.03945,
+      "elapsed_s": 0.036437,
       "expected": "allow",
       "model_calls": 0,
       "model_tokens": 0,

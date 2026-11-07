@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 170,
+ "results": 172,
  "missing_field_counts": {
-  "git_sha": 65,
-  "prereg": 74,
-  "dataset_digest": 167,
-  "model_id": 134,
-  "prompt_hash": 170,
+  "git_sha": 67,
+  "prereg": 75,
+  "dataset_digest": 169,
+  "model_id": 136,
+  "prompt_hash": 172,
   "seed": 94,
-  "cost": 147,
-  "verdict": 108
+  "cost": 149,
+  "verdict": 109
  },
  "population_counts": {
-  "synthetic_scripted": 8,
+  "synthetic_scripted": 10,
   "unclassified": 162
  },
  "rows": [
@@ -2927,6 +2927,30 @@
    "parsable": true
   },
   {
+   "experiment_id": "pr30-withheld-cases",
+   "file": "research/results/pr30-withheld-cases.json",
+   "file_sha256": "46c82dc14a499e5c0b439bc6e63d617b5df18b9f166e4683199413c5f2edf8bd",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    101,
+    102,
+    103,
+    104,
+    105
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
    "experiment_id": "product-bench",
    "file": "research/results/product-bench.json",
    "file_sha256": "3fb4b9b7e5c53bc64df99f710742266f03bcde8e78e470664b9f19180f94abac",
@@ -3011,7 +3035,7 @@
   {
    "experiment_id": "r3-02-matched-agent-arms",
    "file": "research/results/r3-02-matched-agent-arms.json",
-   "file_sha256": "634e6ee0610ca1a09438ee7e26894934d289aeb9ec00b2c8fba243acafcee0e1",
+   "file_sha256": "564e6a40968107d30267e05ff1746eaa3b09a66cd9f453ca72b7a146cf0937f0",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/r3-best-retriever.md",
    "git_sha": null,
@@ -3033,7 +3057,7 @@
   {
    "experiment_id": "r3-03-failure-taxonomy",
    "file": "research/results/r3-03-failure-taxonomy.json",
-   "file_sha256": "12e3f53eaf6efe28335ee844b345848779b06ce34555a342172dfb83075fb66d",
+   "file_sha256": "564e6a40968107d30267e05ff1746eaa3b09a66cd9f453ca72b7a146cf0937f0",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/r3-best-retriever.md",
    "git_sha": null,
@@ -3055,7 +3079,7 @@
   {
    "experiment_id": "r3-04-correction-timing",
    "file": "research/results/r3-04-correction-timing.json",
-   "file_sha256": "c74820aecb3ca2be42461be8f2a8206dec467f8aacd76f569ce0703460dfd2e6",
+   "file_sha256": "46704b5940d2f86e50a38f5e7dbf1125b77e0441e7b5842603ba1f01ef8d78c2",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/r3-best-retriever.md",
    "git_sha": null,
@@ -3112,6 +3136,28 @@
     1001,
     1009,
     1013
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-09-10-heldout-qualification",
+   "file": "research/results/r3-09-10-heldout-qualification.json",
+   "file_sha256": "9a44848cebd5b1fbdaa575f32fc7bded00ca883af8209534c8ac96d96b667f4e",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    8101,
+    8111,
+    8123
    ],
    "config": null,
    "cost": null,

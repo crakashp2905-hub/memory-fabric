@@ -1,0 +1,1722 @@
+{
+  "agents": 50,
+  "all_cases_oracle_supported": true,
+  "attempted": 500,
+  "base_commit": "79a77f43c9e376968163c2164ee277052ed4117e",
+  "blocker_counts": {
+    "unresolved_conflict": 8,
+    "unvalidated_claim": 76
+  },
+  "cases": [
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-28",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-030",
+      "evidence": {
+        "claim": "tug-8 requires 4.2 m of clearance at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 101,
+      "task_index": 30
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-00",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-035",
+      "evidence": {
+        "claim": "tug-8 requires 3.0 m of clearance at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 101,
+      "task_index": 35
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-6 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-19",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-052",
+      "evidence": {
+        "claim": "hoist-6 has a 3.0 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 101,
+      "task_index": 52
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the inland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-24",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-053",
+      "evidence": {
+        "claim": "genset-4 requires 4.2 m of clearance at the inland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 101,
+      "task_index": 53
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-06",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-056",
+      "evidence": {
+        "claim": "tug-8 requires 3.6 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 101,
+      "task_index": 56
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for forklift-9 at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-45",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-075",
+      "evidence": {
+        "claim": "forklift-9 has a 1.8 m access gap at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 101,
+      "task_index": 75
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-42",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-080",
+      "evidence": {
+        "claim": "tug-8 requires 4.2 m of clearance at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 101,
+      "task_index": 80
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for winch-2 at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-09",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-083",
+      "evidence": {
+        "claim": "winch-2 has a 1.8 m access gap at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 101,
+      "task_index": 83
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-1 require at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-06",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-101-task-089",
+      "evidence": {
+        "claim": "tug-1 requires 3.0 m of clearance at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 101,
+      "task_index": 89
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-1 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-13",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-101-task-096",
+      "evidence": {
+        "claim": "tug-1 has a 3.0 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 101,
+      "task_index": 96
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the inland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-10",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-002",
+      "evidence": {
+        "claim": "tug-8 requires 1.2 m of clearance at the inland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 102,
+      "task_index": 2
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-3 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-30",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-006",
+      "evidence": {
+        "claim": "tug-3 requires 2.4 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 102,
+      "task_index": 6
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-00",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-035",
+      "evidence": {
+        "claim": "tug-8 requires 4.2 m of clearance at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 102,
+      "task_index": 35
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-8 at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-05",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-102-task-036",
+      "evidence": {
+        "claim": "tug-8 has a 1.2 m access gap at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 102,
+      "task_index": 36
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-2 at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-17",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-045",
+      "evidence": {
+        "claim": "crane-2 has a 3.0 m access gap at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 102,
+      "task_index": 45
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-42",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-047",
+      "evidence": {
+        "claim": "hoist-6 requires 1.8 m of clearance at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 102,
+      "task_index": 47
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-6 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-49",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-055",
+      "evidence": {
+        "claim": "hoist-6 has a 3.0 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 102,
+      "task_index": 55
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for genset-10 at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-31",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-061",
+      "evidence": {
+        "claim": "genset-10 has a 3.0 m access gap at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 102,
+      "task_index": 61
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-8 at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-33",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-067",
+      "evidence": {
+        "claim": "tug-8 has a 3.6 m access gap at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 102,
+      "task_index": 67
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-9 require at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-40",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-074",
+      "evidence": {
+        "claim": "crane-9 requires 3.0 m of clearance at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 102,
+      "task_index": 74
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-9 at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-47",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-081",
+      "evidence": {
+        "claim": "crane-9 has a 3.6 m access gap at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 102,
+      "task_index": 81
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-3 at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-01",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-088",
+      "evidence": {
+        "claim": "tug-3 has a 1.8 m access gap at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 102,
+      "task_index": 88
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does winch-2 require at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-06",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-089",
+      "evidence": {
+        "claim": "winch-2 requires 4.2 m of clearance at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 102,
+      "task_index": 89
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-2 require at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-16",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-091",
+      "evidence": {
+        "claim": "crane-2 requires 1.8 m of clearance at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 102,
+      "task_index": 91
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-08",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-102-task-095",
+      "evidence": {
+        "claim": "hoist-6 requires 4.2 m of clearance at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 102,
+      "task_index": 95
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-5 require at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-30",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-006",
+      "evidence": {
+        "claim": "crane-5 requires 3.6 m of clearance at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 103,
+      "task_index": 6
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-12 require at the upland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-02",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-042",
+      "evidence": {
+        "claim": "hoist-12 requires 1.2 m of clearance at the upland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 103,
+      "task_index": 42
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-5 require at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-42",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-047",
+      "evidence": {
+        "claim": "crane-5 requires 3.6 m of clearance at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 103,
+      "task_index": 47
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-24",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-053",
+      "evidence": {
+        "claim": "hoist-6 requires 2.4 m of clearance at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 103,
+      "task_index": 53
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-5 at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-49",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-103-task-055",
+      "evidence": {
+        "claim": "crane-5 has a 1.8 m access gap at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 103,
+      "task_index": 55
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-06",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-056",
+      "evidence": {
+        "claim": "genset-4 requires 1.2 m of clearance at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 103,
+      "task_index": 56
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-2 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-18",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-064",
+      "evidence": {
+        "claim": "crane-2 requires 3.0 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 103,
+      "task_index": 64
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-5 at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-33",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-067",
+      "evidence": {
+        "claim": "crane-5 has a 1.8 m access gap at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 103,
+      "task_index": 67
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-38",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-068",
+      "evidence": {
+        "claim": "genset-4 requires 3.6 m of clearance at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 103,
+      "task_index": 68
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-12 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-43",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-069",
+      "evidence": {
+        "claim": "hoist-12 has a 4.2 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 103,
+      "task_index": 69
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-30",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-072",
+      "evidence": {
+        "claim": "tug-8 requires 1.2 m of clearance at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 103,
+      "task_index": 72
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-2 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-35",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-073",
+      "evidence": {
+        "claim": "crane-2 has a 3.0 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 103,
+      "task_index": 73
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-5 require at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-42",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-103-task-080",
+      "evidence": {
+        "claim": "crane-5 requires 2.4 m of clearance at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 103,
+      "task_index": 80
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for forklift-14 at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-47",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-081",
+      "evidence": {
+        "claim": "forklift-14 has a 4.2 m access gap at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 103,
+      "task_index": 81
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does loader-3 require at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-04",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-082",
+      "evidence": {
+        "claim": "loader-3 requires 2.4 m of clearance at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 103,
+      "task_index": 82
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-2 require at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-44",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-086",
+      "evidence": {
+        "claim": "crane-2 requires 3.6 m of clearance at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 103,
+      "task_index": 86
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-2 at the quarry site?",
+        "tool": "answer"
+      },
+      "agent": "ag-01",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-088",
+      "evidence": {
+        "claim": "crane-2 has a 3.0 m access gap at the quarry site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 103,
+      "task_index": 88
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-06",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-089",
+      "evidence": {
+        "claim": "genset-4 requires 1.2 m of clearance at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 103,
+      "task_index": 89
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for forklift-14 at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-41",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-103-task-092",
+      "evidence": {
+        "claim": "forklift-14 has a 3.6 m access gap at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 103,
+      "task_index": 92
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does chiller-1 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-20",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-004",
+      "evidence": {
+        "claim": "chiller-1 requires 1.8 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 104,
+      "task_index": 4
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-26",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-023",
+      "evidence": {
+        "claim": "genset-4 requires 3.6 m of clearance at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 104,
+      "task_index": 23
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-2 require at the upland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-46",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-027",
+      "evidence": {
+        "claim": "crane-2 requires 2.4 m of clearance at the upland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 104,
+      "task_index": 27
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does winch-2 require at the inland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-38",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-104-task-032",
+      "evidence": {
+        "claim": "winch-2 requires 4.2 m of clearance at the inland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 104,
+      "task_index": 32
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-00",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-035",
+      "evidence": {
+        "claim": "genset-4 requires 1.2 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 104,
+      "task_index": 35
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for genset-4 at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-07",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-104-task-043",
+      "evidence": {
+        "claim": "genset-4 has a 3.6 m access gap at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 104,
+      "task_index": 43
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-12 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-12",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-044",
+      "evidence": {
+        "claim": "hoist-12 requires 2.4 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 104,
+      "task_index": 44
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does winch-5 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-04",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-049",
+      "evidence": {
+        "claim": "winch-5 requires 3.6 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 104,
+      "task_index": 49
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-1 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-16",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-058",
+      "evidence": {
+        "claim": "tug-1 requires 4.2 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 104,
+      "task_index": 58
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for winch-5 at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-31",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-061",
+      "evidence": {
+        "claim": "winch-5 has a 1.2 m access gap at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 104,
+      "task_index": 61
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-8 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-18",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-064",
+      "evidence": {
+        "claim": "tug-8 requires 2.4 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 104,
+      "task_index": 64
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-5 at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-43",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-069",
+      "evidence": {
+        "claim": "crane-5 has a 1.2 m access gap at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 104,
+      "task_index": 69
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-9 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-20",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-070",
+      "evidence": {
+        "claim": "crane-9 requires 3.6 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 104,
+      "task_index": 70
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-1 at the estuary site?",
+        "tool": "answer"
+      },
+      "agent": "ag-35",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-073",
+      "evidence": {
+        "claim": "tug-1 has a 4.2 m access gap at the estuary site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 104,
+      "task_index": 73
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-3 at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-45",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-075",
+      "evidence": {
+        "claim": "tug-3 has a 1.8 m access gap at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 104,
+      "task_index": 75
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-6 at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-37",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-079",
+      "evidence": {
+        "claim": "hoist-6 has a 1.2 m access gap at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 104,
+      "task_index": 79
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-2 at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-47",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-081",
+      "evidence": {
+        "claim": "crane-2 has a 1.8 m access gap at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 104,
+      "task_index": 81
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-12 require at the upland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-04",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-082",
+      "evidence": {
+        "claim": "hoist-12 requires 1.2 m of clearance at the upland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 104,
+      "task_index": 82
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-9 at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-09",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-083",
+      "evidence": {
+        "claim": "crane-9 has a 3.6 m access gap at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 104,
+      "task_index": 83
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-12 at the upland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-11",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-090",
+      "evidence": {
+        "claim": "hoist-12 has a 2.4 m access gap at the upland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 104,
+      "task_index": 90
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-3 require at the estuary site?",
+        "tool": "answer"
+      },
+      "agent": "ag-08",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-104-task-095",
+      "evidence": {
+        "claim": "tug-3 requires 2.4 m of clearance at the estuary site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 104,
+      "task_index": 95
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-4 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-30",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-006",
+      "evidence": {
+        "claim": "genset-4 requires 1.8 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 105,
+      "task_index": 6
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does genset-10 require at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-34",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-018",
+      "evidence": {
+        "claim": "genset-10 requires 1.8 m of clearance at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 105,
+      "task_index": 18
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-1 at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-21",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-105-task-022",
+      "evidence": {
+        "claim": "tug-1 has a 1.8 m access gap at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 105,
+      "task_index": 22
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the inland site?",
+        "tool": "answer"
+      },
+      "agent": "ag-26",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-023",
+      "evidence": {
+        "claim": "hoist-6 requires 2.4 m of clearance at the inland site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "2.4 m",
+      "seed": 105,
+      "task_index": 23
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-6 at the depot-7 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-45",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-041",
+      "evidence": {
+        "claim": "hoist-6 has a 4.2 m access gap at the depot-7 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 105,
+      "task_index": 41
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the depot-12 site?",
+        "tool": "answer"
+      },
+      "agent": "ag-14",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-051",
+      "evidence": {
+        "claim": "hoist-6 requires 3.6 m of clearance at the depot-12 site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 105,
+      "task_index": 51
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for hoist-6 at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-19",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-052",
+      "evidence": {
+        "claim": "hoist-6 has a 1.8 m access gap at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.8 m",
+      "seed": 105,
+      "task_index": 52
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-3 require at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-18",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-064",
+      "evidence": {
+        "claim": "tug-3 requires 1.2 m of clearance at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 105,
+      "task_index": 64
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-12 require at the airfield site?",
+        "tool": "answer"
+      },
+      "agent": "ag-28",
+      "blocker_reason": "unresolved_conflict",
+      "case_id": "pr30-105-task-066",
+      "evidence": {
+        "claim": "hoist-12 requires 1.2 m of clearance at the airfield site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 105,
+      "task_index": 66
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does hoist-6 require at the coastal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-20",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-070",
+      "evidence": {
+        "claim": "hoist-6 requires 1.2 m of clearance at the coastal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 105,
+      "task_index": 70
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does tug-3 require at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-40",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-074",
+      "evidence": {
+        "claim": "tug-3 requires 4.2 m of clearance at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 105,
+      "task_index": 74
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for loader-3 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-45",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-075",
+      "evidence": {
+        "claim": "loader-3 has a 1.2 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 105,
+      "task_index": 75
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-9 require at the harbour site?",
+        "tool": "answer"
+      },
+      "agent": "ag-02",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-076",
+      "evidence": {
+        "claim": "crane-9 requires 3.0 m of clearance at the harbour site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 105,
+      "task_index": 76
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How much clearance does crane-2 require at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-42",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-080",
+      "evidence": {
+        "claim": "crane-2 requires 4.2 m of clearance at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 105,
+      "task_index": 80
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for tug-3 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-47",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-081",
+      "evidence": {
+        "claim": "tug-3 has a 4.2 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "4.2 m",
+      "seed": 105,
+      "task_index": 81
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-2 at the riverside site?",
+        "tool": "answer"
+      },
+      "agent": "ag-49",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-087",
+      "evidence": {
+        "claim": "crane-2 has a 3.6 m access gap at the riverside site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.6 m",
+      "seed": 105,
+      "task_index": 87
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for loader-3 at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-01",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-088",
+      "evidence": {
+        "claim": "loader-3 has a 3.0 m access gap at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 105,
+      "task_index": 88
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-9 at the northern site?",
+        "tool": "answer"
+      },
+      "agent": "ag-41",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-092",
+      "evidence": {
+        "claim": "crane-9 has a 1.2 m access gap at the northern site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "1.2 m",
+      "seed": 105,
+      "task_index": 92
+    },
+    {
+      "action": {
+        "asked_for": "current_value",
+        "target": "How large is the access gap for crane-9 at the tidal site?",
+        "tool": "answer"
+      },
+      "agent": "ag-13",
+      "blocker_reason": "unvalidated_claim",
+      "case_id": "pr30-105-task-096",
+      "evidence": {
+        "claim": "crane-9 has a 3.0 m access gap at the tidal site.",
+        "memory_available_to_backend": true,
+        "returned_to_agent": false
+      },
+      "observed_answer": null,
+      "oracle_supported": true,
+      "oracle_value": "3.0 m",
+      "seed": 105,
+      "task_index": 96
+    }
+  ],
+  "cases_per_seed": {
+    "101": 10,
+    "102": 15,
+    "103": 19,
+    "104": 21,
+    "105": 19
+  },
+  "limitations": [
+    "Cases are regenerated from the exact PR #30 candidate source and deterministic seeds; the PR did not publish row-level serialized examples.",
+    "This is the local scripted TeamWorld experiment, not real-model evidence."
+  ],
+  "population": "synthetic_scripted",
+  "published_withholding_rate": 0.168,
+  "schema": "mf-pr30-withheld-cases/1",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "source_commit": "12c612ea37980f92d206fe2b343b217603d1b3cc",
+  "source_sha256": {
+    "experiments/p3b_teams.py": "db8f3bddf665e8aa2ccc7188c9824b3c65c2a5130dc769cd79eefce165bf2766",
+    "experiments/teamworld.py": "4f2a69d001368834404ff937f8ce50a75bacc53eda3bc5b37076e23b580c4ad4"
+  },
+  "tasks_per_seed": 100,
+  "valid_withheld": 84,
+  "withholding_rate": 0.168,
+  "worktree_clean": true
+}

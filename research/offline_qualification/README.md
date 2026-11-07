@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **74 / 260 (28.46%)**. Internal status: **BLOCKED**.
+Strict completion: **79 / 260 (30.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3a53715869890919ff5b6354cf97fc12fbfc021b6864c41af2b4b1e52b88b2cd`.
+Normalized ledger digest: `d1c16643124d4661daefd2af7c43d8f817e61d5347a0c8450cdf875c6fe1a4c4`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 74 |
+| DONE | 79 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 6 |
-| TODO | 180 |
+| PARTIAL | 5 |
+| TODO | 176 |
 
 ## Graduation gates
 
@@ -89,7 +89,7 @@ Normalized ledger digest: `3a53715869890919ff5b6354cf97fc12fbfc021b6864c41af2b4b
 | R1-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `docs/OFFLINE_RESEARCH_BENCHMARK.md`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
-| R2-01 | P0 | PARTIAL | INTERNAL_INTEGRATION | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/prereg/r2-false-withholding-v1.md`, `benchmarks/false_withholding.py`, `research/results/r2-false-withholding-ablation.json` |
+| R2-01 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/prereg/r2-false-withholding-v1.md`, `benchmarks/false_withholding.py`, `research/results/r2-false-withholding-ablation.json`, `benchmarks/pr30_case_extractor.py`, `tests/test_pr30_withheld_cases.py`, `docs/PR30_WITHHELD_CASES.md`, `research/results/pr30-withheld-cases.json`, `research/results/pr30-withheld-cases-tests.xml` |
 | R2-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `research/prereg/r2-false-withholding-v1.md`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
 | R2-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
 | R2-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/false_withholding.py`, `research/prereg/r2-false-withholding-v1.md`, `tests/test_false_withholding.py`, `research/results/r2-false-withholding-tests.xml`, `research/results/r2-false-withholding-ablation.json` |
@@ -105,10 +105,10 @@ Normalized ledger digest: `3a53715869890919ff5b6354cf97fc12fbfc021b6864c41af2b4b
 | R3-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/correction_timing.py`, `research/prereg/correction-timing-v1.md`, `docs/CORRECTION_TIMING_BENCHMARK.md`, `tests/test_correction_timing.py`, `research/results/r3-04-correction-timing-tests.xml`, `research/results/r3-04-correction-timing.json` |
 | R3-05 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/minority_source.py`, `research/prereg/minority-source-v1.md`, `docs/MINORITY_SOURCE_BENCHMARK.md`, `tests/test_minority_source.py`, `research/results/r3-05-minority-source-tests.xml`, `research/results/r3-05-minority-source.json` |
 | R3-06 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/safety_tradeoff.py`, `research/prereg/safety-tradeoff-v1.md`, `docs/SAFETY_COMPLETION_TRADEOFF.md`, `tests/test_safety_tradeoff.py`, `research/results/r3-06-safety-tradeoff-tests.xml`, `research/results/r3-06-safety-tradeoff.json` |
-| R3-07 | P0 | TODO | NOT_TESTED | — |
-| R3-08 | P0 | TODO | NOT_TESTED | — |
-| R3-09 | P0 | TODO | NOT_TESTED | — |
-| R3-10 | P0 | TODO | NOT_TESTED | — |
+| R3-07 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_r3_simulation_labels.py`, `research/results/r3-simulation-labels-tests.xml`, `research/results/r3-01-agent-scale.json`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r3-03-failure-taxonomy.json`, `research/results/r3-04-correction-timing.json`, `research/results/r3-05-minority-source.json`, `research/results/r3-06-safety-tradeoff.json` |
+| R3-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_adapter.py`, `docs/AGENT_ADAPTER.md`, `tests/test_agent_adapter.py`, `research/results/r3-agent-adapter-tests.xml` |
+| R3-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
+| R3-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
 | R4-01 | P1 | TODO | NOT_TESTED | — |
 | R4-02 | P1 | TODO | NOT_TESTED | — |
 | R4-03 | P1 | TODO | NOT_TESTED | — |
