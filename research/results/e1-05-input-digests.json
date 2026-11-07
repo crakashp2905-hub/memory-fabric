@@ -1,0 +1,23 @@
+{
+  "schema": "memory-fabric-e1-05/1",
+  "commit": "82488fc2433c79a7e8c46d57f4c0b420e79db3a3",
+  "dirty_at_test": false,
+  "environment": {
+    "python": "3.13.5",
+    "os": "Windows-11-10.0.26200-SP0",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "thread_count": 1,
+    "process_count": 1
+  },
+  "test_command": "python -m pytest tests/test_benchmarks.py -q --junitxml=.test-tmp/e1-05-input-digests.xml",
+  "tests_passed": 25,
+  "tests_failed": 0,
+  "junit_sha256": "1f5685ff159cc0de5616273af57cc14e262225ca662c2811d7295e8b40910dea",
+  "tamper_control": "Modified a declared generated query input after digest capture; scoreboard aggregation raised input digest mismatch before rendering.",
+  "legacy_benchmark_manifests_without_input_digests": 5,
+  "verdict": "PARTIAL",
+  "limitations": [
+    "New benchmark manifests digest their generator/input files and are verified before scoreboard aggregation. Five historical manifests and other legacy result formats lack complete input declarations and remain excluded from score aggregation."
+  ]
+}

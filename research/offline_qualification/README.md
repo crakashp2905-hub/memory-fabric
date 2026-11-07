@@ -4,7 +4,7 @@ Strict completion: **50 / 260 (19.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7644ed7da46fba6c90567c4fcfb58c71d4b846e1b0b9454b114b7ab5269b8a0f`.
+Normalized ledger digest: `b9356add4e694585993b201badb9a6390f7776cdebd3725f3412bca59135b50c`.
 
 | status | count |
 |---|---:|
@@ -32,7 +32,7 @@ Normalized ledger digest: `7644ed7da46fba6c90567c4fcfb58c71d4b846e1b0b9454b114b7
 | E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json`, `research/results/e5-10-portable-paths.xml` |
 | E1-03 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml` |
 | E1-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
-| E1-05 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py` |
+| E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `research/offline_qualification/baseline.json` |
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `research/offline_qualification/register.json` |
 | E1-08 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |

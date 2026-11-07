@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4d901cef7bba8867b7a6e6a5ccfdf92335172a59",
+    "commit": "82488fc2433c79a7e8c46d57f4c0b420e79db3a3",
     "dirty": true
   },
   "summary": {
@@ -118,13 +118,19 @@
       "acceptance": "Tampering any input causes manifest verification to fail before score aggregation",
       "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tools/offline_baseline.py",
-        "tests/test_offline_baseline.py"
+        "benchmarks/manifest.py",
+        "benchmarks/scoreboard.py",
+        "benchmarks/evidence_completeness.py",
+        "tests/test_benchmarks.py",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
+        "research/results/BENCHMARK_SCOREBOARD.md",
+        "research/results/e1-05-input-digests.json",
+        "research/results/e1-05-input-digests.xml"
       ],
       "limitations": [
-        "Qualification inputs are protected; all historical experiment inputs are not yet covered"
+        "New benchmark manifests hash their generator and declared input files; input mismatch aborts scoreboard aggregation. Five historical benchmark manifests and legacy result formats lack complete truthful input inventories and remain unqualified."
       ]
     },
     {
