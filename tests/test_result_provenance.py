@@ -12,10 +12,20 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_exact_head_is_stamped_and_validated() -> None:
-    data = stamp({"result": 1}, root=ROOT)
-    assert len(data["source"]["commit"]) == 40
-    assert data["source"]["dirty"] is False
-    assert validate(data, root=ROOT) == []
+    scratch = ROOT / ".test-tmp"
+    scratch.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=scratch) as directory:
+        repo = Path(directory)
+        subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.email", "tests@example.invalid"], cwd=repo, check=True)
+        subprocess.run(["git", "config", "user.name", "Tests"], cwd=repo, check=True)
+        (repo / "source.txt").write_text("clean\n", encoding="utf-8")
+        subprocess.run(["git", "add", "source.txt"], cwd=repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "fixture"], cwd=repo, check=True)
+        data = stamp({"result": 1}, root=repo)
+        assert len(data["source"]["commit"]) == 40
+        assert data["source"]["dirty"] is False
+        assert validate(data, root=repo) == []
 
 
 def test_unknown_or_abbreviated_sha_is_rejected() -> None:
