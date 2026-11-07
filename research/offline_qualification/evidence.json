@@ -186,6 +186,14 @@
       "limitations": ["Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"]
     },
     {
+      "task_id": "E3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/chains.py", "tests/test_chains.py", "docs/EVIDENCE_CHAIN_SELECTION.md"],
+      "limitations": ["Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

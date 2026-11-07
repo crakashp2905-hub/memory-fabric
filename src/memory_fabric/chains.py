@@ -184,6 +184,21 @@ class EvidenceChain:
     def necessary_ids(self) -> tuple[str, ...]:
         return tuple(s.memory_id for s in self.steps if s.necessary)
 
+    @property
+    def insufficient_reason(self) -> str | None:
+        """Stable reason a caller may surface when the chain is incomplete."""
+        if self.complete:
+            return None
+        if self.budget_exhausted:
+            return "SEARCH_BUDGET_EXHAUSTED"
+        if not self.steps:
+            return "NO_QUERY_ANCHOR"
+        if self.missing:
+            return "MISSING_QUERY_TERMS:" + ",".join(self.missing)
+        if not self.connected:
+            return "DISCONNECTED_EVIDENCE"
+        return "INSUFFICIENT_CHAIN"
+
     def why(self, memory_id: str) -> str:
         """A one-line account of this memory's role, for an operator.
 

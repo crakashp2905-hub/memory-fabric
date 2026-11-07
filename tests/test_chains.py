@@ -63,6 +63,39 @@ class TestTheConnectorIsFound(unittest.TestCase):
         self.assertIn("tug-3", why)
 
 
+class TestFourHopZeroOverlapBridges(unittest.TestCase):
+    def corpus(self, seed: int) -> dict[str, str]:
+        return {
+            "h1": f"bay {seed} coastal site assigned tug-{seed}",
+            "h2": f"tug-{seed} carries heavy-axle-{seed}",
+            "h3": f"heavy-axle-{seed} governed by winter-rule-{seed}",
+            "h4": f"winter-rule-{seed} pressure run limit is {seed + 3}.2 bar winter",
+            "d1": f"bay {seed + 20} coastal site assigned crane-{seed}",
+            "d2": f"light-axle-{seed} pressure run limit is 2.0 bar winter",
+        }
+
+    def test_seeded_four_hop_chains_recover_both_zero_query_bridges(self):
+        for seed in range(1, 6):
+            with self.subTest(seed=seed):
+                corpus = self.corpus(seed)
+                need = ["bay", str(seed), "coastal", "site", "pressure", "run", "winter"]
+                chain = chains.search(list(corpus), terms_of(corpus), need)
+                self.assertTrue(chain.complete, chain.insufficient_reason)
+                self.assertEqual(set(chain.memory_ids), {"h1", "h2", "h3", "h4"})
+                for bridge in ("h2", "h3"):
+                    step = next(s for s in chain.steps if s.memory_id == bridge)
+                    self.assertEqual(step.covers, ())
+                    self.assertIs(step.reason, ReasonCode.DEPENDENCY_REQUIRED)
+
+    def test_missing_bridge_returns_precise_disconnected_reason(self):
+        corpus = self.corpus(1)
+        del corpus["h2"]
+        need = ["bay", "1", "coastal", "site", "pressure", "run", "winter"]
+        chain = chains.search(list(corpus), terms_of(corpus), need)
+        self.assertFalse(chain.complete)
+        self.assertEqual(chain.insufficient_reason, "DISCONNECTED_EVIDENCE")
+
+
 class TestCoverageAloneIsNotEnough(unittest.TestCase):
     """The first defect: a covering pair that shares nothing.
 
@@ -183,6 +216,7 @@ class TestBounds(unittest.TestCase):
         self.assertTrue(chain.budget_exhausted)
         self.assertFalse(chain.complete)
         self.assertLessEqual(chain.nodes_explored, 1)
+        self.assertEqual(chain.insufficient_reason, "SEARCH_BUDGET_EXHAUSTED")
 
     def test_a_generous_deadline_changes_nothing(self):
         plain = chains.search(list(CHAIN), terms_of(CHAIN), NEED)
@@ -194,11 +228,13 @@ class TestBounds(unittest.TestCase):
                               NEED + ["unobtainable"])
         self.assertFalse(chain.complete)
         self.assertIn("unobtainable", chain.missing)
+        self.assertIn("unobtainable", chain.insufficient_reason or "")
 
     def test_no_candidates_yields_an_empty_chain(self):
         chain = chains.search([], {}, NEED)
         self.assertEqual(chain.steps, ())
         self.assertFalse(chain.complete)
+        self.assertEqual(chain.insufficient_reason, "NO_QUERY_ANCHOR")
 
     def test_no_need_yields_an_empty_chain(self):
         chain = chains.search(list(CHAIN), terms_of(CHAIN), [])

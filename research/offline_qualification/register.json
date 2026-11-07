@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "8db09c40532a7d79def577a5d33a525353a6d6f2",
+    "commit": "87b93ae39cd0eccd87311891954ec2bf2e63099d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 25,
+      "DONE": 26,
       "PARTIAL": 4,
-      "TODO": 231
+      "TODO": 230
     },
-    "completed": 25,
+    "completed": 26,
     "total": 260,
-    "percent_complete": 9.62,
-    "p0_open": 95,
+    "percent_complete": 10.0,
+    "p0_open": 94,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -431,11 +431,17 @@
       "priority": "P0",
       "task": "Repair evidence-chain selection when a necessary bridge shares no query terms.",
       "acceptance": "Four-hop examples recover bridging evidence or return a precise insufficient-chain reason",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_CHAIN_SELECTION.md"
+      ],
+      "limitations": [
+        "Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"
+      ]
     },
     {
       "task_id": "E3-05",
