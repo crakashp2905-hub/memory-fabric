@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "f9e364b29c3760154e0839b22829f5ccc860b9c210017d08705b7ba61ab49131",
+    "sha256": "688b2bffbca8262258eb5c25587d035eb6a9119698c6a63097a164f7071f05c7",
     "tasks": 260
   },
   "source": {
-    "commit": "9acdf33e469fbfd7f1a8bb4da6edc62a351b5e43",
+    "commit": "ddb23ab7bd70207687cc5fe8ea65681d3d8c3a09",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 85,
+      "DONE": 86,
       "PARTIAL": 5,
-      "TODO": 170
+      "TODO": 169
     },
-    "completed": 85,
+    "completed": 86,
     "total": 260,
-    "percent_complete": 32.69,
-    "p0_open": 44,
+    "percent_complete": 33.08,
+    "p0_open": 43,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "b8a740e6b5435778ecc3ae9c5a5cfc363bf4b8cb938a26d117367451dbb97cc6",
-        "docs/VALIDATION.md": "cdc2d63210064410cef735b7cda65a17cfdd6ca5553adf3202a589b7cd18d318",
-        "docs/STATUS_AT_HEAD.md": "f9cbbca8e7746405c8acec2abbee32eb75217fe9662b35298198fb5c1ecc47a9",
+        "README.md": "87100e2e47cb9f7c4d0c20adc6caa4d73427e3799632adce5ba30ee79421973b",
+        "docs/VALIDATION.md": "9651a24cd93c78483811a11b07832d24c2a7bc78e70d87b3fe803cf1561dab1d",
+        "docs/STATUS_AT_HEAD.md": "7a092a317468b59fa48e4c98013ead2ad60dcaac3fe60a9e5a0f0c5d023f8604",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1299,9 +1299,9 @@
         "research/results/e5-05-tool-schema.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
+        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
         "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
+        "docs/DECISION_MODELS_AND_UTCP.md": "0eba2fd7a3c0f92d5f153aa748f5722ca5367c78ca387f4d8f3a971263a2ce60",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
         "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
       },
@@ -1327,10 +1327,10 @@
         "research/results/e5-06-utcp-malicious.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
+        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
         "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
         "tests/data/utcp_malicious_manuals.json": "7233877289f3bfeb2e781bd8524835b8c8990904efd95af45b89941d147ec034",
-        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
+        "docs/DECISION_MODELS_AND_UTCP.md": "0eba2fd7a3c0f92d5f153aa748f5722ca5367c78ca387f4d8f3a971263a2ce60",
         "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
         "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
       },
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "633f001ac13757ac7f82798e62704d2ac347f7e70adfcf28a80d19995f7d8ae5",
+        "research/results/MANIFEST.json": "170cd120afccf1afa208356aecbe0319f52dad8de04d5a1cff7e83c9c3e31272",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3583,13 +3583,13 @@
         "research/results/h2-05-code-mode-parser.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
+        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
-        "tests/test_code_mode_fuzz.py": "8c46545816738b005198eeb910871ab26e20b66ca085ccb2fb62cd3896b5c33f",
+        "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
         "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
-        "research/results/h2-05-code-mode-parser-tests.xml": "cf3c0a1ce30343c9a50bbe19d9495a84759ad92a9fa150dd0f5be2b2eb8209d1",
-        "research/results/h2-05-code-mode-parser.json": "bc4ff7ed543ab3467fb3456973117ae3c4278220bcc7151b691503fbe2405040"
+        "docs/DECISION_MODELS_AND_UTCP.md": "0eba2fd7a3c0f92d5f153aa748f5722ca5367c78ca387f4d8f3a971263a2ce60",
+        "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
+        "research/results/h2-05-code-mode-parser.json": "f300f6e049606d4d6d0e534ad19906ede6960bf199bc741ee1516a20d63bd4b7"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3600,14 +3600,32 @@
       "task_id": "H2-06",
       "priority": "P0",
       "task": "Enforce per-tool allowlists, maximum calls, argument depth, byte size and recursion/branch limits.",
-      "acceptance": "Time/memory and call-count limits hold against generated pathological plans",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Time/memory and call-count limits hold against generated pathological plans. Evidence: `src/memory_fabric/tool_protocol.py`, `tests/test_code_mode_fuzz.py`, `docs/DECISION_MODELS_AND_UTCP.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_tool_protocol.py",
+        "tools/code_mode_parser_qualification.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-05-code-mode-parser-tests.xml",
+        "research/results/h2-06-code-mode-bounds.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
+        "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
+        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
+        "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
+        "docs/DECISION_MODELS_AND_UTCP.md": "0eba2fd7a3c0f92d5f153aa748f5722ca5367c78ca387f4d8f3a971263a2ce60",
+        "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
+        "research/results/h2-06-code-mode-bounds.json": "5a7d4755577d486b57ec273b0ee41974ceba8970fd1053bd7f33592ba8fe576d"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Local parser bounds and host-owned handler allowlisting are tested; this does not impose runtime limits inside registered tool handlers or sandbox their external effects."
+      ]
     },
     {
       "task_id": "H2-07",

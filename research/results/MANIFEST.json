@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 176,
+ "results": 177,
  "missing_field_counts": {
-  "git_sha": 71,
+  "git_sha": 72,
   "prereg": 75,
-  "dataset_digest": 173,
-  "model_id": 140,
-  "prompt_hash": 176,
-  "seed": 98,
-  "cost": 153,
-  "verdict": 112
+  "dataset_digest": 174,
+  "model_id": 141,
+  "prompt_hash": 177,
+  "seed": 99,
+  "cost": 154,
+  "verdict": 113
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 165
+  "unclassified": 166
  },
  "rows": [
   {
@@ -1711,7 +1711,25 @@
   {
    "experiment_id": "h2-05-code-mode-parser",
    "file": "research/results/h2-05-code-mode-parser.json",
-   "file_sha256": "c38214be26f133e6c7242fe449839752aacccbdb4fbf14f75e566d29dc5ec0e7",
+   "file_sha256": "64da38a3d2efe02d52549ad1f9862842953c424146b74cfb003e322dfba162ed",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-06-code-mode-bounds",
+   "file": "research/results/h2-06-code-mode-bounds.json",
+   "file_sha256": "f72d53b94258ffc7db7df25110ef7cb966410911ac428c159666b192bd169977",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
    "git_sha": null,
