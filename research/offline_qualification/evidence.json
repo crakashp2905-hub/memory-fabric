@@ -116,9 +116,12 @@
       "task_id": "E1-08",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tests/test_offline_qualification.py"
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py",
+        "research/results/e1-08-negative-control.json",
+        "research/results/e1-08-negative-control.xml"
       ],
       "limitations": []
     },

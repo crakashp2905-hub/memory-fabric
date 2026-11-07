@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f97947f7777d70aa6093226ffe7f9ea9c32fec1b",
+    "commit": "69e52f8c784e5987e37d3b3549ea8a6878357c0f",
     "dirty": true
   },
   "summary": {
@@ -218,8 +218,8 @@
         "research/results/e1-07-ledger-verification.xml"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a",
+        "tools/offline_qualification.py": "d79f61bda1ba16741c1aa903e822efa392b9d3c68f24c01165c767e446a21d42",
+        "tests/test_offline_qualification.py": "c83162ab6f9bb213b1f016e082b49826b442645d3bb47bee1e736d95dec773a8",
         "research/results/e1-07-ledger-verification.json": "26250b98e7c9270aa7da572ce61e94960e091fdf1e62870e83fbadeab779e316",
         "research/results/e1-07-ledger-verification.xml": "72bfeda66dfc336756acbb7c974d6d58aaeda766eabadc065665a0d1ec8f3002"
       },
@@ -233,12 +233,18 @@
       "acceptance": "Acceptance checker fails the manipulated run and restores normal passing state",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tests/test_offline_qualification.py"
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py",
+        "research/results/e1-08-negative-control.json",
+        "research/results/e1-08-negative-control.xml"
       ],
       "evidence_digests": {
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+        "tools/offline_qualification.py": "d79f61bda1ba16741c1aa903e822efa392b9d3c68f24c01165c767e446a21d42",
+        "tests/test_offline_qualification.py": "c83162ab6f9bb213b1f016e082b49826b442645d3bb47bee1e736d95dec773a8",
+        "research/results/e1-08-negative-control.json": "1c30f67515201cd212066044156cbf0247d247ef3818777873c4c3c96aebb9a3",
+        "research/results/e1-08-negative-control.xml": "8b2aa25ab5af069fe85fc86e9572ef71f062aa59f3368cffc63acd6c84bc0baa"
       },
       "evidence_issues": {},
       "limitations": []
@@ -256,8 +262,8 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+        "tools/offline_qualification.py": "d79f61bda1ba16741c1aa903e822efa392b9d3c68f24c01165c767e446a21d42",
+        "tests/test_offline_qualification.py": "c83162ab6f9bb213b1f016e082b49826b442645d3bb47bee1e736d95dec773a8"
       },
       "evidence_issues": {},
       "limitations": [
@@ -280,7 +286,7 @@
       "evidence_digests": {
         "tools/status_at_head.py": "ff3141c4e6ba8ec25d0e3764321b6526018881f60468825cb2a087eee35cf798",
         "tests/test_status_at_head.py": "241210aeb163f6d8e79fd6620bbbd012a4d988e8c1b646067deabfad5d5e6e7b",
-        "docs/STATUS_AT_HEAD.md": "879d95b517173ff31d2fb5bf386018fc1b52a7b2f822cb7a03dfe32d8d67d96e"
+        "docs/STATUS_AT_HEAD.md": "4b5b94ceb8fc012fce0c906d3428b730fec4022718036622524b7cb357ce81da"
       },
       "evidence_issues": {},
       "limitations": []
@@ -4121,7 +4127,7 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+        "tests/test_offline_qualification.py": "c83162ab6f9bb213b1f016e082b49826b442645d3bb47bee1e736d95dec773a8"
       },
       "evidence_issues": {},
       "limitations": []
@@ -4177,8 +4183,8 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+        "tools/offline_qualification.py": "d79f61bda1ba16741c1aa903e822efa392b9d3c68f24c01165c767e446a21d42",
+        "tests/test_offline_qualification.py": "c83162ab6f9bb213b1f016e082b49826b442645d3bb47bee1e736d95dec773a8"
       },
       "evidence_issues": {},
       "limitations": [

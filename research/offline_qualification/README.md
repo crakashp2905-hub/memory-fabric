@@ -4,7 +4,7 @@ Strict completion: **51 / 260 (19.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `20664ccae033e91acaba3a6e16c1ef79faed68368716f6131417ec00e2746132`.
+Normalized ledger digest: `90730870f3a7e6781d842a421bcd8008322e3e6ae57b136e49eb368351f9848d`.
 
 | status | count |
 |---|---:|
@@ -36,7 +36,7 @@ Normalized ledger digest: `20664ccae033e91acaba3a6e16c1ef79faed68368716f6131417e
 | E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
-| E1-08 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
+| E1-08 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-08-negative-control.json`, `research/results/e1-08-negative-control.xml` |
 | E1-09 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
 | E1-10 | P0 | DONE | CONTRACT | `tools/status_at_head.py`, `tests/test_status_at_head.py`, `docs/STATUS_AT_HEAD.md` |
 | E2-01 | P0 | DONE | CONTRACT | `docs/STATE_TRANSITIONS.json`, `docs/STATE_TRANSITIONS.md`, `tests/test_state_transition_contract.py` |
