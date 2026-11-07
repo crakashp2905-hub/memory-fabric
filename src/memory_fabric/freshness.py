@@ -44,9 +44,10 @@ import hashlib
 import hmac
 import json
 import threading
+import time
 from dataclasses import asdict, dataclass, replace
 from pathlib import Path
-from typing import TYPE_CHECKING, Mapping
+from typing import TYPE_CHECKING, Callable, Mapping
 
 if TYPE_CHECKING:  # pragma: no cover
     from .fabric import MemoryFabric
@@ -59,6 +60,7 @@ WITHDRAWN = "withdrawn_at_origin"
 VERSION_MISMATCH = "lease_version_mismatch"
 BAD_SIGNATURE = "lease_signature_invalid"
 UNKNOWN_KEY = "lease_key_unknown"
+CLOCK_SKEW = "lease_clock_skew"
 
 
 @dataclass(frozen=True)
@@ -116,32 +118,62 @@ def issue_lease(origin: "MemoryFabric", memory_id: str, ttl_s: float, key: bytes
 class LeaseBook:
     """The importer's newest lease per origin memory, and the keys to check them."""
 
-    def __init__(self, peer_keys: Mapping[str, Mapping[str, bytes]] | None = None) -> None:
+    def __init__(
+        self,
+        peer_keys: Mapping[str, Mapping[str, bytes]] | None = None,
+        *,
+        clock_ms: Callable[[], int] | None = None,
+        monotonic_ms: Callable[[], int] | None = None,
+        max_clock_skew_ms: int = 30_000,
+    ) -> None:
+        if max_clock_skew_ms < 0:
+            raise ValueError("max_clock_skew_ms must be non-negative")
         self.peer_keys: dict[str, dict[str, bytes]] = {
             store: dict(keys) for store, keys in (peer_keys or {}).items()}
         """origin store id -> {key id -> key}; several ids allow rotation."""
         self._leases: dict[tuple[str, str], FreshnessLease] = {}
+        self._deadlines_ms: dict[tuple[str, str], int] = {}
         self._lock = threading.Lock()
+        self._clock_ms = clock_ms or (lambda: time.time_ns() // 1_000_000)
+        self._monotonic_ms = monotonic_ms or (lambda: time.monotonic_ns() // 1_000_000)
+        self.max_clock_skew_ms = max_clock_skew_ms
 
-    def accept(self, lease: FreshnessLease) -> str | None:
+    def accept(self, lease: FreshnessLease, received_ms: int | None = None) -> str | None:
         """Store a lease if its signature verifies; None on success, else the reason.
 
         A newer lease replaces an older one. An older lease arriving late
         never replaces a newer one, so a replayed "still active" cannot
-        undo a fresher "withdrawn".
+        undo a fresher "withdrawn". The signed issue time must be within the
+        configured skew bound of receipt. A monotonic deadline prevents a
+        later local wall-clock rollback from extending the signed TTL.
         """
         reason = lease.verify(self.peer_keys.get(lease.origin_store_id, {}))
         if reason:
             return reason
+        received = self._clock_ms() if received_ms is None else int(received_ms)
+        if abs(received - lease.issued_ms) > self.max_clock_skew_ms:
+            return CLOCK_SKEW
+        ttl_ms = lease.expires_ms - lease.issued_ms
+        if ttl_ms <= 0 or received >= lease.expires_ms:
+            return EXPIRED
+        remaining_ms = min(ttl_ms, lease.expires_ms - received)
         key = (lease.origin_store_id, lease.memory_id)
         with self._lock:
             held = self._leases.get(key)
             if held is None or lease.issued_ms >= held.issued_ms:
                 self._leases[key] = lease
+                self._deadlines_ms[key] = self._monotonic_ms() + remaining_ms
         return None
 
     def get(self, origin_store_id: str, memory_id: str) -> FreshnessLease | None:
-        return self._leases.get((origin_store_id, memory_id))
+        with self._lock:
+            return self._leases.get((origin_store_id, memory_id))
+
+    def expired_monotonically(self, origin_store_id: str, memory_id: str) -> bool:
+        key = (origin_store_id, memory_id)
+        with self._lock:
+            deadline = self._deadlines_ms.get(key)
+        return deadline is None or self._monotonic_ms() >= deadline
 
     def save(self, path: str | Path) -> None:
         Path(path).write_text(json.dumps([lease.to_json() for lease in self._leases.values()]))
@@ -170,6 +202,8 @@ def freshness_of(fabric: "MemoryFabric", memory_id: str, book: LeaseBook,
     reason = lease.verify(book.peer_keys.get(store, {}))
     if reason:
         return reason
+    if book.expired_monotonically(store, source):
+        return EXPIRED
     now = fabric.now() if now_ms is None else now_ms
     if lease.withdrawn:
         return WITHDRAWN

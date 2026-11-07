@@ -11,7 +11,7 @@ from memory_fabric.actions import EVIDENCE_NOT_FRESH, ActionGate, ActionPolicy, 
 from memory_fabric.federation import offer
 from memory_fabric.governance.firewall import (Firewall, rule_capabilities_must_be_granted,
                                                rule_must_be_active, rule_restricted_stays_private)
-from memory_fabric.freshness import (BAD_SIGNATURE, EXPIRED, FRESH, LOCAL, NO_LEASE,
+from memory_fabric.freshness import (BAD_SIGNATURE, CLOCK_SKEW, EXPIRED, FRESH, LOCAL, NO_LEASE,
                                      UNKNOWN_KEY, VERSION_MISMATCH, WITHDRAWN, FreshnessLease,
                                      LeaseBook, freshness_of, issue_lease)
 
@@ -45,7 +45,8 @@ class Federation(unittest.TestCase):
         result = offer(self.origin, self.src, self.peer, "ag_ops", activate=True)
         self.assertTrue(result.accepted, result)
         self.imported = result.imported_memory_id
-        self.book = LeaseBook({self.origin.store_id: {"k1": KEY}})
+        self.book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                              clock_ms=self.peer.now)
         self.gate = ActionGate(self.peer, ActionPolicy(
             tools={"open_valve": ToolRule("open_valve", require_fresh=True, min_authority="untrusted"),
                    "lenient": ToolRule("lenient", min_authority="untrusted")},
@@ -70,6 +71,37 @@ class Federation(unittest.TestCase):
         self.assertEqual(freshness_of(self.peer, self.imported, self.book), FRESH)
         self.assertTrue(self.authorize().allowed)
 
+    def test_fast_and_slow_receiver_clocks_reject_the_lease_but_keep_safe_reads(self) -> None:
+        original_clock = self.peer._clock
+        for skew_ms in (120_000, -120_000):
+            with self.subTest(skew_ms=skew_ms):
+                self.book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                                      clock_ms=self.peer.now)
+                self.gate.leases = self.book
+                self.peer._clock = lambda skew_ms=skew_ms: original_clock() + skew_ms
+                lease = self.lease()
+                self.assertEqual(self.book.accept(lease), CLOCK_SKEW)
+                self.assertFalse(self.authorize().allowed)
+                self.assertTrue(self.authorize("lenient").allowed)
+                self.assertEqual(self.peer.get(self.imported).id, self.imported)
+        self.peer._clock = original_clock
+
+    def test_wall_clock_rollback_cannot_extend_lease_past_monotonic_ttl(self) -> None:
+        monotonic = [500_000]
+        self.book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                              clock_ms=self.peer.now,
+                              monotonic_ms=lambda: monotonic[0])
+        self.gate.leases = self.book
+        self.assertIsNone(self.book.accept(self.lease(ttl=10)))
+        self.assertTrue(self.authorize().allowed)
+        original_clock = self.peer._clock
+        self.peer._clock = lambda: original_clock() - 120_000
+        monotonic[0] += 10_001
+        self.assertEqual(freshness_of(self.peer, self.imported, self.book), EXPIRED)
+        self.assertFalse(self.authorize().allowed)
+        self.assertTrue(self.authorize("lenient").allowed)
+        self.peer._clock = original_clock
+
     def test_native_evidence_is_fresh_without_a_lease(self) -> None:
         native = self.peer.remember("ag_ops", "Valve V-9 pressure reads 2 bar.", scope="team")
         self.assertEqual(freshness_of(self.peer, native, self.book), LOCAL)
@@ -85,6 +117,8 @@ class Federation(unittest.TestCase):
         self.clock.t += 11_000
         self.assertEqual(freshness_of(self.peer, self.imported, self.book), EXPIRED)
         self.assertIn(EVIDENCE_NOT_FRESH, self.authorize().reason_codes)
+        self.assertTrue(self.authorize("lenient").allowed)
+        self.assertEqual(self.peer.get(self.imported).id, self.imported)
 
     def test_a_renewal_after_withdrawal_carries_the_withdrawal(self) -> None:
         """The retraction is delayed, but the next lease renewal already says withdrawn."""
@@ -107,6 +141,9 @@ class Federation(unittest.TestCase):
         forged = self.lease(key=ROGUE)
         self.assertEqual(self.book.accept(forged), BAD_SIGNATURE)
         self.assertEqual(freshness_of(self.peer, self.imported, self.book), NO_LEASE)
+        self.assertFalse(self.authorize().allowed)
+        self.assertTrue(self.authorize("lenient").allowed)
+        self.assertEqual(self.peer.get(self.imported).id, self.imported)
 
     def test_a_compromised_peer_cannot_vouch_for_another_store(self) -> None:
         rogue = MemoryFabric(auto_activate=True, clock=self.clock)
@@ -146,9 +183,11 @@ class Federation(unittest.TestCase):
         self.addCleanup(tmp.cleanup)
         path = os.path.join(tmp.name, "leases.json")
         self.book.save(path)
-        fresh = LeaseBook({self.origin.store_id: {"k1": KEY}})
+        fresh = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                          clock_ms=self.peer.now)
         self.assertEqual(fresh.load(path), 1)
-        wrong_keys = LeaseBook({self.origin.store_id: {"k1": ROGUE}})
+        wrong_keys = LeaseBook({self.origin.store_id: {"k1": ROGUE}},
+                               clock_ms=self.peer.now)
         self.assertEqual(wrong_keys.load(path), 0)
 
     def test_restart_without_leases_fails_safe(self) -> None:
