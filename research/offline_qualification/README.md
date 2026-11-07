@@ -4,7 +4,7 @@ Strict completion: **50 / 260 (19.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ebb3cfe58b27c20ad52a34af3338f50ac94b9390a587fc938bfa764e0e4e0d49`.
+Normalized ledger digest: `38e23c1836157ecf758c1d361c23eae9e3f72d48359065e7df29c8b3923a7f79`.
 
 | status | count |
 |---|---:|
@@ -29,7 +29,7 @@ Normalized ledger digest: `ebb3cfe58b27c20ad52a34af3338f50ac94b9390a587fc938bfa7
 | task | priority | status | evidence level | evidence |
 |---|---|---|---|---|
 | E1-01 | P0 | DONE | INTERNAL_INTEGRATION | `docs/NEXT_MASTER_CHECKLIST_EXECUTION.md`, `research/results/grand-50-agent-baseline-reproduction-v2.json` |
-| E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json` |
+| E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json`, `research/results/e5-10-portable-paths.xml` |
 | E1-03 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `research/offline_qualification/baseline.json` |
 | E1-04 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `tools/results_manifest.py` |
 | E1-05 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py` |

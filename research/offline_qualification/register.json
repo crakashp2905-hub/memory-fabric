@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e42ee19fb372f8196742a3b0b9c462f2c3298e74",
+    "commit": "5f2814c75cd5b48f1b51e8d5554360f90e887e49",
     "dirty": true
   },
   "summary": {
@@ -64,7 +64,8 @@
       "evidence_paths": [
         "tools/offline_baseline.py",
         "tests/test_offline_baseline.py",
-        "research/offline_qualification/baseline.json"
+        "research/offline_qualification/baseline.json",
+        "research/results/e5-10-portable-paths.xml"
       ],
       "limitations": [
         "Read-only report describes the current local interpreter and host"

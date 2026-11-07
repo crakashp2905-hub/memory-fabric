@@ -22,7 +22,8 @@
       "evidence_paths": [
         "tools/offline_baseline.py",
         "tests/test_offline_baseline.py",
-        "research/offline_qualification/baseline.json"
+        "research/offline_qualification/baseline.json",
+        "research/results/e5-10-portable-paths.xml"
       ],
       "limitations": [
         "Read-only report describes the current local interpreter and host"
