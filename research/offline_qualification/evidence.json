@@ -755,6 +755,22 @@
       "limitations": [
         "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
       ]
+    },
+    {
+      "task_id": "E5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-05-tool-schema.json",
+        "research/results/e5-05-tool-schema.xml"
+      ],
+      "limitations": [
+        "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
+      ]
     }
   ]
 }
