@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "ec58c674c7aa4a70a46d8798c157b55e0551cb6f",
+    "commit": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 35,
+      "DONE": 36,
       "PARTIAL": 4,
-      "TODO": 221
+      "TODO": 220
     },
-    "completed": 35,
+    "completed": 36,
     "total": 260,
-    "percent_complete": 13.46,
-    "p0_open": 85,
+    "percent_complete": 13.85,
+    "p0_open": 84,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -653,11 +653,26 @@
       "priority": "P0",
       "task": "Validate SQLite busy timeout, WAL mode, checkpoint strategy and transaction sizes.",
       "acceptance": "Stress run sustains no silent lost write or unbounded busy retry across 50 processes",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_sqlite_stress.py",
+        "docs/OPERATIONS.md",
+        "tests/test_concurrency.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-05-sqlite-qualification.json",
+        "research/results/e4-05-sqlite-qualification.md",
+        "research/results/e4-05-sqlite-5s.json",
+        "research/results/e4-05-sqlite-30s.json",
+        "research/results/e4-05-regression-tests.xml",
+        "research/results/e4-05-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host with SQLite 3.49.1; this is not a multi-host capacity guarantee.",
+        "The default 5-second timeout produced explicit database-is-locked failures under the synchronized 50-process workload; the tested configuration required busy_timeout_ms=30000.",
+        "At 30 seconds, the longest measured transaction took 20.2 seconds; callers must accept potentially long waits under contention."
+      ]
     },
     {
       "task_id": "E4-06",

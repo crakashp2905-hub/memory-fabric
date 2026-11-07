@@ -1,0 +1,162 @@
+{
+  "schema": "memory-fabric-e4-05-sqlite-qualification/1",
+  "source_commit": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5, SQLite 3.49.1",
+  "configuration": {
+    "processes": 50,
+    "cycles_per_process": 2,
+    "trials": 3,
+    "events_per_process_per_trial": 32,
+    "transaction_event_sizes": [
+      1,
+      5,
+      10
+    ],
+    "synchronous": "FULL default",
+    "connection_start_stagger_ms": 25,
+    "writes_released_together": true
+  },
+  "sqlite_contract": {
+    "journal_mode": "wal",
+    "busy_timeout_default_ms": 5000,
+    "wal_autocheckpoint_pages": 1000,
+    "checkpoint_calls": [
+      "PASSIVE",
+      "TRUNCATE"
+    ],
+    "checkpoint_busy_count": 0
+  },
+  "bounded_timeout_control": {
+    "configured_ms": 250,
+    "observed_ms": [
+      362.3982999706641,
+      372.0164999831468,
+      378.4776999964379
+    ],
+    "error": "OperationalError",
+    "write_after_release_succeeds": true
+  },
+  "five_second_trials": [
+    {
+      "events_planned": 1600,
+      "events_attempted": 856,
+      "events_committed": 832,
+      "successful_transactions": 180,
+      "workers_with_explicit_lock_error": 24,
+      "explicitly_failed_event_keys": 24,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "wall_s": 25.282756600005087,
+      "max_transaction_ms": 5482.500099984463
+    },
+    {
+      "events_planned": 1600,
+      "events_attempted": 205,
+      "events_committed": 160,
+      "successful_transactions": 75,
+      "workers_with_explicit_lock_error": 45,
+      "explicitly_failed_event_keys": 45,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "wall_s": 25.596855200012214,
+      "max_transaction_ms": 5536.865099973511
+    },
+    {
+      "events_planned": 1600,
+      "events_attempted": 236,
+      "events_committed": 192,
+      "successful_transactions": 80,
+      "workers_with_explicit_lock_error": 44,
+      "explicitly_failed_event_keys": 44,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "wall_s": 24.441886299988255,
+      "max_transaction_ms": 5460.770100005902
+    }
+  ],
+  "thirty_second_trials": [
+    {
+      "events_planned": 1600,
+      "events_attempted": 1600,
+      "events_committed": 1600,
+      "successful_transactions": 300,
+      "worker_errors": 0,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "passive_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "truncate_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wall_s": 33.0281607999932,
+      "max_transaction_ms": 20159.18930002954
+    },
+    {
+      "events_planned": 1600,
+      "events_attempted": 1600,
+      "events_committed": 1600,
+      "successful_transactions": 300,
+      "worker_errors": 0,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "passive_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "truncate_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wall_s": 21.423838999995496,
+      "max_transaction_ms": 10261.89180003712
+    },
+    {
+      "events_planned": 1600,
+      "events_attempted": 1600,
+      "events_committed": 1600,
+      "successful_transactions": 300,
+      "worker_errors": 0,
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "passive_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "truncate_checkpoint": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wall_s": 22.727560800034553,
+      "max_transaction_ms": 10997.117099992465
+    }
+  ],
+  "regression_tests": {
+    "artifact": "research/results/e4-05-regression-tests.xml",
+    "summary": "22 passed; tests/test_concurrency.py and tests/test_eventlog.py"
+  },
+  "interpretation": "The default 5-second timeout is insufficient for this synchronized 50-process workload and reports lock errors explicitly. A configured 30-second bounded timeout completed the full workload in all three trials without missing, duplicate or unexpected events; sequence and integrity-chain checks passed. Operators choosing this workload can configure busy_timeout_ms=30000.",
+  "limitations": [
+    "One local Windows 8-CPU host and SQLite 3.49.1; not a multi-host capacity guarantee.",
+    "At 30 seconds the longest measured transaction took 20.2 seconds; the setting trades explicit lock errors for potentially long write waits.",
+    "Only the 50-process workload and event-batch sizes 1, 5, and 10 were measured."
+  ],
+  "source_sha256": {
+    "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
+    "docs/OPERATIONS.md": "01c2f409c03da05739afca69a53861e6f69534672f2716c89e222fad8fc54b7c",
+    "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
+    "tests/test_eventlog.py": "9411f98f7238857755eb392ea0f03df93e8034a39b940f4b6cb98728cdaf8aa1"
+  },
+  "raw_artifacts": [
+    "research/results/e4-05-sqlite-5s.json",
+    "research/results/e4-05-sqlite-30s.json"
+  ]
+}

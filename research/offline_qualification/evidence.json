@@ -511,6 +511,29 @@
       ]
     },
     {
+      "task_id": "E4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_sqlite_stress.py",
+        "docs/OPERATIONS.md",
+        "tests/test_concurrency.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-05-sqlite-qualification.json",
+        "research/results/e4-05-sqlite-qualification.md",
+        "research/results/e4-05-sqlite-5s.json",
+        "research/results/e4-05-sqlite-30s.json",
+        "research/results/e4-05-regression-tests.xml",
+        "research/results/e4-05-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host with SQLite 3.49.1; this is not a multi-host capacity guarantee.",
+        "The default 5-second timeout produced explicit database-is-locked failures under the synchronized 50-process workload; the tested configuration required busy_timeout_ms=30000.",
+        "At 30 seconds, the longest measured transaction took 20.2 seconds; callers must accept potentially long waits under contention."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,
