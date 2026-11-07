@@ -1,0 +1,83 @@
+{
+  "mcp_default_flags": {
+    "extended": false,
+    "trusted_local": false
+  },
+  "mcp_flags": {
+    "personal": [
+      "--trusted-local"
+    ],
+    "regulated": [],
+    "team": []
+  },
+  "modes": {
+    "personal": {
+      "auto_activate": true,
+      "claim_checker": "TypedClaimChecker",
+      "hold_suspicious": true,
+      "withhold_hostile_sources": true
+    },
+    "regulated": {
+      "auto_activate": false,
+      "crypto_profile": "production",
+      "hold_suspicious": true,
+      "withhold_hostile_sources": true
+    },
+    "team": {
+      "auto_activate": false,
+      "claim_checker": "TypedClaimChecker",
+      "hold_suspicious": true,
+      "withhold_hostile_sources": true
+    }
+  },
+  "tool_rules": {
+    "personal": {
+      "min_authority": "unverified",
+      "min_independent_sources": 1,
+      "name": "snapshot-tool",
+      "protected": true,
+      "refuse_provisional": false,
+      "refuse_suspicious": true,
+      "require_fresh": false,
+      "required_checks": [
+        "authorized_for_caller",
+        "policy_current",
+        "evidence_current"
+      ],
+      "requires_grant": false,
+      "requires_human_approval": false
+    },
+    "regulated": {
+      "min_authority": "unverified",
+      "min_independent_sources": 2,
+      "name": "snapshot-tool",
+      "protected": true,
+      "refuse_provisional": true,
+      "refuse_suspicious": true,
+      "require_fresh": true,
+      "required_checks": [
+        "authorized_for_caller",
+        "policy_current",
+        "evidence_current"
+      ],
+      "requires_grant": false,
+      "requires_human_approval": false
+    },
+    "team": {
+      "min_authority": "unverified",
+      "min_independent_sources": 1,
+      "name": "snapshot-tool",
+      "protected": true,
+      "refuse_provisional": true,
+      "refuse_suspicious": true,
+      "require_fresh": false,
+      "required_checks": [
+        "authorized_for_caller",
+        "policy_current",
+        "evidence_current"
+      ],
+      "requires_grant": false,
+      "requires_human_approval": false
+    }
+  }
+}

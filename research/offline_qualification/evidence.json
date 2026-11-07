@@ -738,6 +738,23 @@
       "limitations": [
         "Protocols retain native error envelopes and surfaces that intentionally do not expose identity/apply operations are marked N/A in the contract matrix."
       ]
+    },
+    {
+      "task_id": "E5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/EXPERIMENTAL_DEFAULTS.md",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        "tests/test_stability.py",
+        "research/results/e5-04-default-flags.json",
+        "research/results/e5-04-default-flags.xml"
+      ],
+      "limitations": [
+        "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
+      ]
     }
   ]
 }
