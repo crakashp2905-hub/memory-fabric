@@ -881,6 +881,18 @@
       ]
     },
     {
+      "task_id": "R1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/offline-10-families-v1.md"
+      ],
+      "limitations": [
+        "This is a frozen preregistration contract. It does not claim the benchmark families have been executed or that model-agent performance has been measured."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

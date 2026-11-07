@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "2fce7791130b246a5b0dd55eca3688039ce235cd",
+    "commit": "d80545595a25fd92f04718b9ab3cb5e0b2ecb2fe",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 51,
+      "DONE": 52,
       "PARTIAL": 4,
-      "TODO": 205
+      "TODO": 204
     },
-    "completed": 51,
+    "completed": 52,
     "total": 260,
-    "percent_complete": 19.62,
-    "p0_open": 78,
+    "percent_complete": 20.0,
+    "p0_open": 77,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1462,13 +1462,19 @@
       "priority": "P0",
       "task": "Create preregistered test families for correction, multi-hop evidence, action safety and team coordination.",
       "acceptance": "Each family states hypothesis, outcome, baseline, split, seeds and failure condition before candidate tuning",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/offline-10-families-v1.md"
+      ],
+      "evidence_digests": {
+        "research/prereg/offline-10-families-v1.md": "6044be7f169c89f1e3eafe37672f05a66e69560867bf53e3f3ff7e837a794dd4"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This is a frozen preregistration contract. It does not claim the benchmark families have been executed or that model-agent performance has been measured."
+      ]
     },
     {
       "task_id": "R1-02",
