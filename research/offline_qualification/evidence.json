@@ -1091,6 +1091,68 @@
       ]
     },
     {
+      "task_id": "R2-01",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/grand-50-agent-baseline-reproduction-v2.json",
+        "research/prereg/r2-false-withholding-v1.md",
+        "benchmarks/false_withholding.py",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "The repository has the PR #30 aggregate and up to ten failure examples per arm, not the exact row-level 16.8% withheld set. The 86 locally generated withheld task traces reproduce the generator semantics at 17.2% on seeds 101–105 and are not represented as exact upstream examples."
+      ]
+    },
+    {
+      "task_id": "R2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "Attribution is for 86 locally encoded valid-withholding cases and 125 stale-action controls, not the unavailable PR #30 row-level dataset. Categories are multi-label and population specific."
+      ]
+    },
+    {
+      "task_id": "R2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "Dry runs use the local ActionGate against frozen evidence, disable audit writes, verify the event-log watermark remains fixed, and never call an executor."
+      ]
+    },
+    {
+      "task_id": "R2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "No individual rule relaxation recovered task completion because the observed refusals are upstream evidence lifecycle/retrieval failures. On this local held-out corpus, each ablation recovered 0/86 valid tasks and authorized 0/125 stale controls; Wilson 95% bounds are recorded. This is a negative result, not a promoted policy."
+      ]
+    },
+    {
       "task_id": "R2-08",
       "status": "DONE",
       "acceptance_passed": true,
