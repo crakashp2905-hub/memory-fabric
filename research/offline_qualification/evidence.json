@@ -716,6 +716,28 @@
       "limitations": [
         "Local wheel and isolated typing check on Python 3.13.5; full supported-interpreter/platform matrix remains separate."
       ]
+    },
+    {
+      "task_id": "E5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/ERROR_CONTRACT_MATRIX.md",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_sdk.py",
+        "tests/test_mcp.py",
+        "tests/test_agent_api.py",
+        "tests/test_correction.py",
+        "research/results/e5-03-error-contracts.json",
+        "research/results/e5-03-error-contracts.xml"
+      ],
+      "limitations": [
+        "Protocols retain native error envelopes and surfaces that intentionally do not expose identity/apply operations are marked N/A in the contract matrix."
+      ]
     }
   ]
 }
