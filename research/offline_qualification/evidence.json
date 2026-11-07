@@ -194,6 +194,14 @@
       "limitations": ["Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"]
     },
     {
+      "task_id": "E3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/relations.py", "src/memory_fabric/_fabric/retrieval.py", "tests/test_modifier_packages.py", "tests/test_extraction.py", "docs/MODIFIER_EVIDENCE_PACKAGES.md"],
+      "limitations": ["Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

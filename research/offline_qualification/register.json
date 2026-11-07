@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "87b93ae39cd0eccd87311891954ec2bf2e63099d",
+    "commit": "10f1ba68fa9af7a6a7d31ec4bfa170adb06be4a1",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 26,
+      "DONE": 27,
       "PARTIAL": 4,
-      "TODO": 230
+      "TODO": 229
     },
-    "completed": 26,
+    "completed": 27,
     "total": 260,
-    "percent_complete": 10.0,
-    "p0_open": 94,
+    "percent_complete": 10.38,
+    "p0_open": 93,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -448,11 +448,19 @@
       "priority": "P0",
       "task": "Preserve answer-modifying facts that do not restate the original question.",
       "acceptance": "Multi-hop modifier fixtures can change a result without disappearing from the retrieved package",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/relations.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_modifier_packages.py",
+        "tests/test_extraction.py",
+        "docs/MODIFIER_EVIDENCE_PACKAGES.md"
+      ],
+      "limitations": [
+        "Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"
+      ]
     },
     {
       "task_id": "E3-06",
