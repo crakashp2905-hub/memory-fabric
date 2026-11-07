@@ -771,6 +771,23 @@
       "limitations": [
         "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
       ]
+    },
+    {
+      "task_id": "E5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-06-utcp-malicious.json",
+        "research/results/e5-06-utcp-malicious.xml"
+      ],
+      "limitations": [
+        "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
+      ]
     }
   ]
 }
