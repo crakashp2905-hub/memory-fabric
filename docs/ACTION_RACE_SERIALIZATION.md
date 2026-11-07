@@ -14,6 +14,10 @@ threading events rather than scheduler sleeps:
    authorization, the old certificate is refused with
    `evidence_version_moved`; the tool has no effect and the `ActionExecuted`
    audit receipt records a refusal rather than a successful effect.
+3. Even when planning first obtains an allowed authorization, a correction
+   committed before `execute` makes the old certificate stale. `execute`
+   performs its own live authorization inside the transaction fence; it does
+   not accept or reuse the earlier `ActionDecision` snapshot.
 
 The guarantee is intentionally local and transactional. A correction that is
 not yet visible in this store cannot be known. Imported evidence therefore has

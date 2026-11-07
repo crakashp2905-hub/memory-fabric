@@ -1366,6 +1366,22 @@
       ]
     },
     {
+      "task_id": "H2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h2-01-authorize-execute-race-tests.xml",
+        "research/results/r2-h2-acceptance-tests.xml"
+      ],
+      "limitations": [
+        "The test proves revalidation against corrections committed in the local store before execution. Remote corrections still depend on freshness leases and durable retraction delivery."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

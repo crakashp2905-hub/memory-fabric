@@ -115,6 +115,23 @@ class DeterministicCorrectionRetrievalActionRaces(unittest.TestCase):
         receipts = self.fabric.log.read_types([EventType.ACTION_EXECUTED])
         self.assertEqual([event.payload["outcome"] for event in receipts], ["refused"])
 
+    def test_prior_allowed_authorization_is_not_reused_after_correction(self) -> None:
+        gate = gate_for(self.fabric)
+        certificate = self.fabric.certify("open-v7", [self.mid], "ops")
+        planned = gate.authorize("open", "ops", certificate)
+        self.assertTrue(planned.allowed, "the pre-correction plan should initially qualify")
+
+        self.fabric.revise(self.mid, "Valve V7 must remain closed.", agent_id="writer",
+                           reason="inspection before execution")
+        effects: list[str] = []
+        result = gate.execute("open", "ops", effects.append, certificate,
+                              key="authorize-then-execute-correction")
+
+        self.assertEqual(result.outcome, REFUSED)
+        self.assertEqual(effects, [], "execute must revalidate live evidence, not reuse plan approval")
+        self.assertIsNotNone(result.decision)
+        self.assertIn("evidence_version_moved", result.decision.reason_codes)
+
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

@@ -387,7 +387,7 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 
 **Existing reference points:** `src/memory_fabric/actions.py`, `action_receipt.py`, `tool_protocol.py`, `tests/test_action_fence.py`, `tests/test_tool_protocol.py`.
 
-- [ ] **H2-01** · **P0** · Test that authorize-then-execute uses live revalidation rather than a stale authorization snapshot. **Acceptance:** Correction between planning and execution blocks consequential effect..
+- [x] **H2-01** · **P0** · Test that authorize-then-execute uses live revalidation rather than a stale authorization snapshot. **Acceptance:** Correction between planning and execution blocks consequential effect. Evidence: `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`..
 - [ ] **H2-02** · **P0** · Bind each action to exact tool name, target, argument digest, tenant, agent and grant expiry. **Acceptance:** Any mutation of one bound field invalidates execution request..
 - [ ] **H2-03** · **P0** · Reject duplicate action keys with mismatched payloads and make same-payload retries idempotent. **Acceptance:** Local mock side effect executes once despite client retries and injected failures..
 - [ ] **H2-04** · **P0** · Document crash-after-side-effect ambiguity and add reconciliation ledger for simulated external effects. **Acceptance:** Recovery distinguishes completed, unknown and definitely unexecuted states without promising atomic external systems..

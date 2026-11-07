@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "f19d499696a9fbf8d4a19a8a6ca28e9f77a295777427fd88c8b0e2ecb0d03f0b",
+    "sha256": "ecb5eeb27ec5a86f19d310a7b02f325b4f17082477e7875593cca088021311a2",
     "tasks": 260
   },
   "source": {
-    "commit": "48158b62e6727ba70178fada92165178be70fb51",
+    "commit": "8187f2f4019d0824dc1cdde4db05335a1a027a1d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 80,
+      "DONE": 81,
       "PARTIAL": 5,
-      "TODO": 175
+      "TODO": 174
     },
-    "completed": 80,
+    "completed": 81,
     "total": 260,
-    "percent_complete": 30.77,
-    "p0_open": 49,
+    "percent_complete": 31.15,
+    "p0_open": 48,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9ae5492ef52a7c3cab9917aefcbd15edc3ad40a4735fd6c0b8f49528c579a7bb",
-        "docs/VALIDATION.md": "7e9dc8ac57d3ce71ddd0fca20d187a8922d10d1e86e0f1a189ad953cf40f816a",
-        "docs/STATUS_AT_HEAD.md": "e321baaf7be65b29ecc4cef45d9cc418dda88ecfa6cdaa33c8ebaa95c61ab78d",
+        "README.md": "9bb3da8539aeb61a375400495d12ce5cd6bb614cf9461419fb48e8e477df98e7",
+        "docs/VALIDATION.md": "ea88ae0750a7829bc5b5ea92cf225b6d7be2057e6679a22926881775ddc4bfda",
+        "docs/STATUS_AT_HEAD.md": "4a9068d9d050342a1777db382531ad5e37f22fd630a0ec9c3e1daf41c9fdf9ca",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -554,11 +554,11 @@
         "docs/ACTION_RACE_SERIALIZATION.md"
       ],
       "evidence_digests": {
-        "tests/test_action_race_barriers.py": "b8104db00894e8c33cf50ee16356e62d47a1a0ff5f45e07525caf5ac2a6dcdee",
+        "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "tests/test_action_fence.py": "1b5aaa8f36d28a0eb972d40fd4bb91d15bce73ddc128d98be34a40dfaf2d43e6",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
         "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
-        "docs/ACTION_RACE_SERIALIZATION.md": "2204a48fafca3a439f1e2359f56d1923537dba9419041357cb39d9be636e2cb3"
+        "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3451,14 +3451,28 @@
       "task_id": "H2-01",
       "priority": "P0",
       "task": "Test that authorize-then-execute uses live revalidation rather than a stale authorization snapshot.",
-      "acceptance": "Correction between planning and execution blocks consequential effect",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Correction between planning and execution blocks consequential effect. Evidence: `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h2-01-authorize-execute-race-tests.xml",
+        "research/results/r2-h2-acceptance-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
+        "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
+        "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
+        "research/results/r2-h2-acceptance-tests.xml": "d00633afb2ed82442d0a43887ee1f1b0dd3085ca237e33aa6451d37ee9b07333"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The test proves revalidation against corrections committed in the local store before execution. Remote corrections still depend on freshness leases and durable retraction delivery."
+      ]
     },
     {
       "task_id": "H2-02",
