@@ -4,7 +4,7 @@ Strict completion: **50 / 260 (19.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `38e23c1836157ecf758c1d361c23eae9e3f72d48359065e7df29c8b3923a7f79`.
+Normalized ledger digest: `379a3ead68178cf2fafe0fa4f0785c966a6ae96fadd27bbfc66385c478152271`.
 
 | status | count |
 |---|---:|
@@ -30,7 +30,7 @@ Normalized ledger digest: `38e23c1836157ecf758c1d361c23eae9e3f72d48359065e7df29c
 |---|---|---|---|---|
 | E1-01 | P0 | DONE | INTERNAL_INTEGRATION | `docs/NEXT_MASTER_CHECKLIST_EXECUTION.md`, `research/results/grand-50-agent-baseline-reproduction-v2.json` |
 | E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json`, `research/results/e5-10-portable-paths.xml` |
-| E1-03 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `research/offline_qualification/baseline.json` |
+| E1-03 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml` |
 | E1-04 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `tools/results_manifest.py` |
 | E1-05 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py` |
 | E1-06 | P0 | PARTIAL | CONTRACT | `tools/offline_baseline.py`, `research/offline_qualification/baseline.json` |

@@ -33,13 +33,16 @@
       "task_id": "E1-03",
       "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "tools/offline_baseline.py",
-        "research/offline_qualification/baseline.json"
+        "benchmarks/manifest.py",
+        "tests/test_benchmarks.py",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
+        "research/results/e1-03-manifest-environment.json",
+        "research/results/e1-03-manifest-environment.xml"
       ],
       "limitations": [
-        "New offline baseline is strict; not every historical benchmark manifest has been migrated"
+        "New manifests capture required environment fields and reject omissions; timestamp-insensitive digest behavior is tested. Five historical bench_runs files lack truthful environment measurements and are rejected by the strict validator, so the every-manifest acceptance remains incomplete."
       ]
     },
     {

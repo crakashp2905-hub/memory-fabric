@@ -1,0 +1,26 @@
+{
+  "schema": "memory-fabric-e1-03/1",
+  "commit": "ecc8b523e3eee1fd2f59c8b97bffe1fccde07f1d",
+  "dirty_at_test": false,
+  "environment": {
+    "python": "3.13.5",
+    "os": "Windows-11-10.0.26200-SP0",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "thread_count": 1,
+    "process_count": 1
+  },
+  "test_command": "python -m pytest tests/test_benchmarks.py tests/test_offline_baseline.py -q --junitxml=research/results/e1-03-manifest-environment.xml",
+  "tests_passed": 26,
+  "tests_failed": 0,
+  "junit_sha256": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75",
+  "legacy_manifests_without_historical_environment": [
+    "e1-exhaustive-enumeration.json",
+    "evidence-completeness-v1.json",
+    "int01-memoryworld2.json",
+    "int02-federation-world.json",
+    "int04-compaction-drilldown.json"
+  ],
+  "legacy_manifests_are_rejected_by_strict_validator": true,
+  "verdict": "PARTIAL"
+}
