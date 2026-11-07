@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e615cb41d3b44fe8ffa092c3762ed39d16ecff7f",
-    "dirty": false
+    "commit": "8839081ea7cef85d3be7a1f7d1e0f36f51cf63b6",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 41,
+      "DONE": 42,
       "PARTIAL": 4,
-      "TODO": 215
+      "TODO": 214
     },
-    "completed": 41,
+    "completed": 42,
     "total": 260,
-    "percent_complete": 15.77,
+    "percent_complete": 16.15,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -784,11 +784,24 @@
       "priority": "P1",
       "task": "Create canonical public API inventory and tag each symbol stable, beta or experimental.",
       "acceptance": "Generated SDK reference and tests reject accidental public signature change without migration note",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_reference.py",
+        "tools/gen_stability.py",
+        "docs/API_INVENTORY.json",
+        "docs/API.md",
+        "STABILITY.md",
+        "tests/test_reference_docs.py",
+        "tests/test_fabric_structure.py",
+        "tests/test_stability.py",
+        "research/results/e5-01-api-inventory.json",
+        "research/results/e5-01-api-inventory.xml"
+      ],
+      "limitations": [
+        "The inventory covers documented public API symbols; the migration-note requirement is documented and review-enforced rather than inferred from arbitrary Git history."
+      ]
     },
     {
       "task_id": "E5-02",
