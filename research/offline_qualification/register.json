@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "815b70e623b654e0d844de2c931f6de5bb164ef1",
-    "dirty": false
+    "commit": "8e3bd44a490ce8d3b0c35600c35d08ab50d66cf8",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 42,
+      "DONE": 43,
       "PARTIAL": 4,
-      "TODO": 214
+      "TODO": 213
     },
-    "completed": 42,
+    "completed": 43,
     "total": 260,
-    "percent_complete": 16.15,
+    "percent_complete": 16.54,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -808,11 +808,18 @@
       "priority": "P1",
       "task": "Ensure typed Python wheel includes py.typed and passes type-check smoke use outside checkout.",
       "acceptance": "Build wheel locally; isolated temporary install can import and type-check published public interfaces",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "pyproject.toml",
+        "src/memory_fabric/py.typed",
+        "tools/check_typed_consumer.py",
+        "research/results/e5-02-typed-wheel.json"
+      ],
+      "limitations": [
+        "Local wheel and isolated typing check on Python 3.13.5; full supported-interpreter/platform matrix remains separate."
+      ]
     },
     {
       "task_id": "E5-03",

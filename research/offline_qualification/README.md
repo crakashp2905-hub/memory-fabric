@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **42 / 260 (16.15%)**. Internal status: **BLOCKED**.
+Strict completion: **43 / 260 (16.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ec434a7845323c2173a5c7deeb65266f5831cdf9746fef27099e660878834164`.
+Normalized ledger digest: `ce6df0bcd002ac210ee35dafb2cd0c3e151ebd1f3c23a96788a4cb1b7ab88ee0`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 42 |
+| DONE | 43 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 214 |
+| TODO | 213 |
 
 ## Graduation gates
 
@@ -69,7 +69,7 @@ Normalized ledger digest: `ec434a7845323c2173a5c7deeb65266f5831cdf9746fef27099e6
 | E4-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `docs/FRESHNESS_LEASES.md`, `research/results/e4-09-freshness-clock-skew.json`, `research/results/e4-09-freshness-clock-skew.xml` |
 | E4-10 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/e4_soak.py`, `docs/E4_SOAK.md`, `tests/test_multiprocess_crash.py`, `tests/test_backup.py`, `research/results/e4-10-deterministic-soak.json`, `research/results/e4-10-deterministic-soak.md`, `research/results/e4-10-crash-backup-regressions.xml`, `research/results/e4-10-evidence.json` |
 | E5-01 | P1 | DONE | INTERNAL_INTEGRATION | `tools/gen_reference.py`, `tools/gen_stability.py`, `docs/API_INVENTORY.json`, `docs/API.md`, `STABILITY.md`, `tests/test_reference_docs.py`, `tests/test_fabric_structure.py`, `tests/test_stability.py`, `research/results/e5-01-api-inventory.json`, `research/results/e5-01-api-inventory.xml` |
-| E5-02 | P1 | TODO | NOT_TESTED | — |
+| E5-02 | P1 | DONE | INTERNAL_INTEGRATION | `pyproject.toml`, `src/memory_fabric/py.typed`, `tools/check_typed_consumer.py`, `research/results/e5-02-typed-wheel.json` |
 | E5-03 | P1 | TODO | NOT_TESTED | — |
 | E5-04 | P1 | TODO | NOT_TESTED | — |
 | E5-05 | P1 | TODO | NOT_TESTED | — |
