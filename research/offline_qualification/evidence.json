@@ -821,6 +821,27 @@
       "limitations": [
         "The checked-in authentic artifact covers the only formal release tag/artifact available in this repository, v0.11.0. Older 0.2.0-0.8.0 cases are reconstructed transition tests, not release binaries; 0.12.0-0.14.0 have no formal release artifacts in the repository."
       ]
+    },
+    {
+      "task_id": "E5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/agent_api.py",
+        "tests/test_agent_api.py",
+        "tests/data/agent_api_behavior.json",
+        "tools/agent_api_metrics.py",
+        "research/results/e5-09-agent-api-before.json",
+        "research/results/e5-09-agent-api-before.xml",
+        "research/results/e5-09-agent-api-after.json",
+        "research/results/e5-09-agent-api-after.xml",
+        "research/results/e5-09-agent-api-after-core.xml",
+        "research/results/e5-09-agent-api-refactor.json"
+      ],
+      "limitations": [
+        "Characterization and complexity/duplication evidence are scoped to the high-churn agent HTTP API module; the AST complexity measure is a documented local proxy, not a whole-project metric."
+      ]
     }
   ]
 }
