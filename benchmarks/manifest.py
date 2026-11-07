@@ -11,7 +11,13 @@ success.
 from __future__ import annotations
 
 import json
+import hashlib
+import multiprocessing
+import os
+import platform
+import sqlite3
 import subprocess
+import threading
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -20,6 +26,35 @@ SCHEMA = "mf-run-manifest/1"
 DECISIONS = ("PASS", "FAIL", "INCONCLUSIVE", "INVALID", "NOT_RUN", "BLOCKED", "DESCRIPTIVE")
 ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT / "research" / "results" / "bench_runs"
+ENVIRONMENT_FIELDS = {"python", "os", "sqlite", "logical_cpus", "thread_count", "process_count"}
+
+
+def capture_environment() -> dict[str, Any]:
+    """Capture runtime and host facts without timestamps or other run noise."""
+    return {
+        "python": platform.python_version(),
+        "os": platform.platform(),
+        "sqlite": sqlite3.sqlite_version,
+        "logical_cpus": os.cpu_count(),
+        "thread_count": threading.active_count(),
+        "process_count": len(multiprocessing.active_children()) + 1,
+    }
+
+
+def digest(m: "Manifest | dict[str, Any]") -> str:
+    """Hash manifest content while excluding explicitly nondeterministic timestamps."""
+    data = m.to_json() if isinstance(m, Manifest) else dict(m)
+
+    def stable(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {key: stable(item) for key, item in sorted(value.items())
+                    if key not in {"timestamp", "created_at", "updated_at", "built_at"}}
+        if isinstance(value, list):
+            return [stable(item) for item in value]
+        return value
+
+    encoded = json.dumps(stable(data), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def head() -> str:
@@ -46,6 +81,7 @@ class Manifest:
     verification: dict[str, bool] = field(default_factory=lambda: {
         "baseline_registered": False, "oracle_sanity_passed": False, "holdout_frozen": False,
         "independent_replicated": False})
+    environment: dict[str, Any] = field(default_factory=capture_environment)
     prereg: str | None = None
     schema: str = SCHEMA
 
@@ -60,6 +96,12 @@ def validate(m: Manifest | dict[str, Any]) -> list[str]:
         problems.append("unknown schema")
     if d.get("decision") not in DECISIONS:
         problems.append(f"decision must be one of {DECISIONS}")
+    environment = d.get("environment")
+    missing_environment = ENVIRONMENT_FIELDS - set(environment or {})
+    if missing_environment:
+        problems.append(f"environment missing fields: {sorted(missing_environment)}")
+    elif any(environment.get(key) in (None, "") for key in ENVIRONMENT_FIELDS):
+        problems.append("environment fields must be populated")
     ran = d.get("decision") not in ("NOT_RUN", "BLOCKED")
     if not ran and not d.get("reason"):
         problems.append(f"{d.get('decision')} needs a reason")

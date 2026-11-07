@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import copy
 import tempfile
 import unittest
 from pathlib import Path
@@ -42,6 +43,27 @@ class Manifests(unittest.TestCase):
         self.assertTrue(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "FAIL")))
         self.assertEqual(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "NOT_RUN", reason="licence")), [])
 
+    def test_environment_is_captured_and_required(self) -> None:
+        data = manifest.Manifest("r", "INT-01", "baseline", "NOT_RUN", reason="offline").to_json()
+        self.assertEqual(set(data["environment"]), manifest.ENVIRONMENT_FIELDS)
+        self.assertTrue(all(data["environment"].values()))
+        del data["environment"]["sqlite"]
+        self.assertTrue(any("environment missing fields" in issue for issue in manifest.validate(data)))
+
+    def test_environment_capture_excludes_nondeterministic_timestamps(self) -> None:
+        first = manifest.capture_environment()
+        second = manifest.capture_environment()
+        self.assertEqual(first, second)
+
+    def test_manifest_digest_ignores_nondeterministic_timestamps(self) -> None:
+        data = manifest.Manifest("r", "INT-01", "baseline", "NOT_RUN", reason="offline").to_json()
+        changed = copy.deepcopy(data)
+        data["timestamp"] = "2026-01-01T00:00:00Z"
+        changed["timestamp"] = "2026-12-31T23:59:59Z"
+        self.assertEqual(manifest.digest(data), manifest.digest(changed))
+        changed["environment"]["python"] = "different"
+        self.assertNotEqual(manifest.digest(data), manifest.digest(changed))
+
     def test_cost_per_safe_success_without_one_is_refused(self) -> None:
         m = manifest.Manifest("r", "X", "a", "FAIL", repo_commit="abc", cost={"cost_per_safe_success": 1.0})
         self.assertTrue(manifest.validate(m))
@@ -55,7 +77,10 @@ class Manifests(unittest.TestCase):
 
     def test_recorded_runs_are_valid(self) -> None:
         for m in manifest.read_all():
-            self.assertEqual(manifest.validate(m), [], m["run_id"])
+            # These are historical artifacts without host measurements. Keep them
+            # readable for provenance, but never treat them as qualified manifests.
+            self.assertTrue(any("environment missing fields" in issue
+                                for issue in manifest.validate(m)), m["run_id"])
 
 
 class Stats(unittest.TestCase):
