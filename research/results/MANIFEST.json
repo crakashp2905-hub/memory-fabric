@@ -1,15 +1,15 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 162,
+ "results": 163,
  "missing_field_counts": {
-  "git_sha": 57,
-  "prereg": 73,
-  "dataset_digest": 159,
-  "model_id": 126,
-  "prompt_hash": 162,
-  "seed": 93,
-  "cost": 139,
-  "verdict": 107
+  "git_sha": 58,
+  "prereg": 74,
+  "dataset_digest": 160,
+  "model_id": 127,
+  "prompt_hash": 163,
+  "seed": 94,
+  "cost": 140,
+  "verdict": 108
  },
  "rows": [
   {
@@ -2806,6 +2806,23 @@
    "model_id": null,
    "prompt_hash": null,
    "seed": 7,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "r1-offline-synthetic",
+   "file": "research/results/r1-offline-synthetic.json",
+   "file_sha256": "a415685199d75aa6c752ea0d50e74c09009badeeac1e92645400ddf5dbc5b019",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
    "config": null,
    "cost": null,
    "verdict": null,

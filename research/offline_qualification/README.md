@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **52 / 260 (20.00%)**. Internal status: **BLOCKED**.
+Strict completion: **54 / 260 (20.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `9d9dec02afe7087f5356f6c86791efe33404b252b6d79199a27cb2da88d467a2`.
+Normalized ledger digest: `e3de20574d078c38728a933ff95edd629ddea42ead2926fc2de1d15387c84220`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 52 |
+| DONE | 54 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 4 |
-| TODO | 204 |
+| PARTIAL | 5 |
+| TODO | 201 |
 
 ## Graduation gates
 
@@ -81,9 +81,9 @@ Normalized ledger digest: `9d9dec02afe7087f5356f6c86791efe33404b252b6d79199a27cb
 | E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml` |
 | R1-01 | P0 | DONE | CONTRACT | `research/prereg/offline-10-families-v1.md` |
 | R1-02 | P0 | TODO | NOT_TESTED | — |
-| R1-03 | P0 | TODO | NOT_TESTED | — |
-| R1-04 | P0 | TODO | NOT_TESTED | — |
-| R1-05 | P0 | TODO | NOT_TESTED | — |
+| R1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-06 | P0 | TODO | NOT_TESTED | — |
 | R1-07 | P0 | TODO | NOT_TESTED | — |
 | R1-08 | P0 | TODO | NOT_TESTED | — |

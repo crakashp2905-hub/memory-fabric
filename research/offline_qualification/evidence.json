@@ -893,6 +893,50 @@
       ]
     },
     {
+      "task_id": "R1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The 40 generated scenarios are synthetic scripted fixtures and establish generator reproducibility and split separation, not real-agent performance."
+      ]
+    },
+    {
+      "task_id": "R1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Leakage checks operate on explicit synthetic entity, template, topology, motif-signature and seed identities; they do not prove absence of semantic leakage in arbitrary external datasets."
+      ]
+    },
+    {
+      "task_id": "R1-05",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Broken retrieval, random evidence, and permissive authorization controls detect planted failures on the new 40-case synthetic suite. The control arms have not yet been wired into and verified against every registered benchmark suite."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

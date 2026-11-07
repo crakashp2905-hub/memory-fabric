@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "d80545595a25fd92f04718b9ab3cb5e0b2ecb2fe",
+    "commit": "efcc7e0b93c962eff1f8403ef75a3ccb3f7bdd47",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 52,
-      "PARTIAL": 4,
-      "TODO": 204
+      "DONE": 54,
+      "PARTIAL": 5,
+      "TODO": 201
     },
-    "completed": 52,
+    "completed": 54,
     "total": 260,
-    "percent_complete": 20.0,
-    "p0_open": 77,
+    "percent_complete": 20.77,
+    "p0_open": 75,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "50da8b909600a8a26155054f3407b53e93e6c8aa39561efad62d5adb993df0a1",
-        "docs/VALIDATION.md": "0662f9e1312537a8673d41bd2372eb45aaabcc9455ded7c6a59f6dd816f8cba0",
-        "docs/STATUS_AT_HEAD.md": "3ceb70a4453687a39d0727f534124674a46c6de6dcc3603d8cb8005e30abfd73",
+        "README.md": "070a0288418e8c6d8df03980bfa8269c88d94c73b7d1673aa8b0f703746a27bb",
+        "docs/VALIDATION.md": "b5ff4b8297f73007d556e643e4a3cca0f03e94a41b883b2c53b25b84d897771e",
+        "docs/STATUS_AT_HEAD.md": "c08aaaa19b1371345c17bc9d9d877daee4a8f26241eb8295ea1bd5f88b52a417",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1494,39 +1494,73 @@
       "priority": "P0",
       "task": "Build a fully local synthetic environment generator with scenario provenance and seeded randomness.",
       "acceptance": "Independent train/dev/test generators yield schema-valid disjoint worlds with recorded hashes",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
+        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
+        "research/results/r1-offline-synthetic.json": "c611fe48d3dc88c634251332703b18e043f0948d551407b52ba1cbad14259f57",
+        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The 40 generated scenarios are synthetic scripted fixtures and establish generator reproducibility and split separation, not real-agent performance."
+      ]
     },
     {
       "task_id": "R1-04",
       "priority": "P0",
       "task": "Prevent train/test leakage via entity, template, graph-topology and seed separation.",
       "acceptance": "Leakage detector fails deliberately duplicated motifs, not just identical question strings",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
+        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
+        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Leakage checks operate on explicit synthetic entity, template, topology, motif-signature and seed identities; they do not prove absence of semantic leakage in arbitrary external datasets."
+      ]
     },
     {
       "task_id": "R1-05",
       "priority": "P0",
       "task": "Include a broken retrieval arm, random evidence arm and permissive authorization arm.",
       "acceptance": "Every suite detects at least one known failure; broken controls cannot match a sensible oracle",
-      "status": "TODO",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/offline_research.py": "728fda32ac028d9351a871515b47b93fda370f6a8e25040914fa2757d5cc59d2",
+        "tests/test_offline_research.py": "47ef7f0f399a8f6a9a5a349e140e91937eaec0dd174d20051d0e4575b7502763",
+        "research/results/r1-offline-synthetic.json": "c611fe48d3dc88c634251332703b18e043f0948d551407b52ba1cbad14259f57",
+        "research/results/r1-offline-synthetic-tests.xml": "9d444a59f84a70849af4f1b97e8d5fc1d49f51eb65cd9a603dde8b46d92a6a7b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Broken retrieval, random evidence, and permissive authorization controls detect planted failures on the new 40-case synthetic suite. The control arms have not yet been wired into and verified against every registered benchmark suite."
+      ]
     },
     {
       "task_id": "R1-06",
