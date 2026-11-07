@@ -18,6 +18,7 @@ ones due at P4.
 __stability__ = "stable"
 
 from .estimators import IPSEstimator, NaiveUsageEstimator, ValueEstimator
+from .answerability import ParameterEquivalences
 from .eventlog import EventLog
 from .events import Event, EventType
 from .evidence_status import (
@@ -103,6 +104,7 @@ from .vectors import Embedder, HashingEmbedder, VectorIndex
 __version__ = "0.14.0"
 
 __all__ = [
+    "ParameterEquivalences",
     "RetrievalRanking",
     "RetrievalAssessment",
     "EvidenceValidity",

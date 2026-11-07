@@ -6,7 +6,7 @@ import unittest
 
 from memory_fabric import MemoryFabric
 from memory_fabric.answerability import (ANSWERABLE, CONFLICTING, INSUFFICIENT, UNDETERMINED,
-                                         assess, covers)
+                                         ParameterEquivalences, assess, covers)
 
 
 class Covers(unittest.TestCase):
@@ -79,6 +79,46 @@ class Verdicts(unittest.TestCase):
 class StandaloneAssess(unittest.TestCase):
     def test_empty_evidence(self) -> None:
         self.assertEqual(assess("What is the trip current of hoist H-14?", []).verdict, INSUFFICIENT)
+
+
+class BoundedParameterEquivalences(unittest.TestCase):
+    TABLE = ParameterEquivalences.from_mapping({
+        "trip current": ("overcurrent setting",),
+        "relief pressure": ("safety valve setpoint",),
+        "coolant flow": ("cooling liquid rate",),
+        "torque setting": ("tightening moment",),
+        "inspection interval": ("service cadence",),
+    })
+
+    def test_five_reviewed_paraphrases_cover_without_wrong_refusal(self) -> None:
+        fixtures = (
+            ("Hoist H-14 overcurrent setting is 30 A.", "What is the trip current of hoist H-14?"),
+            ("Pump P-2 safety valve setpoint is 14 bar.", "What is the relief pressure of pump P-2?"),
+            ("Chiller C-7 cooling liquid rate is 9 L/min.", "What is the coolant flow of chiller C-7?"),
+            ("Bolt B-4 tightening moment is 40 Nm.", "What is the torque setting of bolt B-4?"),
+            ("Crane K-8 service cadence is 90 days.", "What is the inspection interval of crane K-8?"),
+        )
+        fabric = MemoryFabric(auto_activate=True, hold_suspicious=False)
+        self.addCleanup(fabric.close)
+        for content, question in fixtures:
+            fabric.remember("writer", content, scope="team")
+            result = fabric.retrieve("reader", question, k=10, min_relevance=0.0)
+            self.assertEqual(result.answerability(question, equivalences=self.TABLE).verdict,
+                             ANSWERABLE)
+
+    def test_novel_parameter_remains_undetermined(self) -> None:
+        fabric = MemoryFabric(auto_activate=True, hold_suspicious=False)
+        self.addCleanup(fabric.close)
+        fabric.remember("writer", "Hoist H-14 trip current is 30 A.", scope="team")
+        question = "What is the magnetic tolerance of hoist H-14?"
+        result = fabric.retrieve("reader", question, k=5, min_relevance=0.0)
+        verdict = result.answerability(question, equivalences=self.TABLE)
+        self.assertEqual(verdict.verdict, UNDETERMINED)
+        self.assertTrue(verdict.should_abstain)
+
+    def test_tables_are_bounded(self) -> None:
+        with self.assertRaises(ValueError):
+            ParameterEquivalences.from_mapping({str(i): ("alias",) for i in range(65)})
 
 
 if __name__ == "__main__":

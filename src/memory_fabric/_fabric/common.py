@@ -58,7 +58,7 @@ class RetrievalResult:
     def contents(self) -> list[str]:
         return [m.content for m in self.exposed]
 
-    def answerability(self, question: str, judge: Any = None) -> Any:
+    def answerability(self, question: str, judge: Any = None, equivalences: Any = None) -> Any:
         """Whether what was exposed answers `question` (`answerability.assess`).
 
         A verdict separate from the retrieval scores, which are passed only
@@ -66,7 +66,8 @@ class RetrievalResult:
         """
         from ..answerability import assess
 
-        return assess(question, self.exposed, scores=self.scores, judge=judge)
+        return assess(question, self.exposed, scores=self.scores, judge=judge,
+                      equivalences=equivalences)
 
     def assessment(self, question: str, judge: Any = None) -> Any:
         """Return separately typed ranking, validity, and readiness fields."""

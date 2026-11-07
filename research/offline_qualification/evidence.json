@@ -210,6 +210,14 @@
       "limitations": ["Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"]
     },
     {
+      "task_id": "E3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/answerability.py", "src/memory_fabric/_fabric/common.py", "tests/test_answerability.py", "docs/PARAMETER_EQUIVALENCES.md"],
+      "limitations": ["Equivalences are application-supplied reviewed local data; novel or unregistered paraphrases deliberately remain undetermined"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
