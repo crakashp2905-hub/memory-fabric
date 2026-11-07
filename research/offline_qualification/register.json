@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f390bbdc46e8ac55f5e7b8500bdeaedd302121b0",
+    "commit": "d8c4094617664cdfc530f12d31f89136a3de8729",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 45,
+      "DONE": 46,
       "PARTIAL": 4,
-      "TODO": 211
+      "TODO": 210
     },
-    "completed": 45,
+    "completed": 46,
     "total": 260,
-    "percent_complete": 17.31,
+    "percent_complete": 17.69,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -871,11 +871,19 @@
       "priority": "P1",
       "task": "Introduce a protocol-neutral tool schema converter with strict unsupported-case reporting.",
       "acceptance": "UTCP/MCP descriptors round-trip supported fields; unknown security fields never silently drop",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-05-tool-schema.json",
+        "research/results/e5-05-tool-schema.xml"
+      ],
+      "limitations": [
+        "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
+      ]
     },
     {
       "task_id": "E5-06",

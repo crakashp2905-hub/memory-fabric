@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **45 / 260 (17.31%)**. Internal status: **BLOCKED**.
+Strict completion: **46 / 260 (17.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `de58680dab3be2ce9c375dc22a1671cf3ed7291d8f94f40d6f0e52d1a0056ccc`.
+Normalized ledger digest: `87a025f42e60b5ecf9290a4552072982eab0255ea5c5629057d7b32570ffbb87`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 45 |
+| DONE | 46 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 211 |
+| TODO | 210 |
 
 ## Graduation gates
 
@@ -72,7 +72,7 @@ Normalized ledger digest: `de58680dab3be2ce9c375dc22a1671cf3ed7291d8f94f40d6f0e5
 | E5-02 | P1 | DONE | INTERNAL_INTEGRATION | `pyproject.toml`, `src/memory_fabric/py.typed`, `tools/check_typed_consumer.py`, `research/results/e5-02-typed-wheel.json` |
 | E5-03 | P1 | DONE | INTERNAL_INTEGRATION | `docs/ERROR_CONTRACT_MATRIX.md`, `src/memory_fabric/sdk.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/cli.py`, `tests/test_sdk.py`, `tests/test_mcp.py`, `tests/test_agent_api.py`, `tests/test_correction.py`, `research/results/e5-03-error-contracts.json`, `research/results/e5-03-error-contracts.xml` |
 | E5-04 | P1 | DONE | INTERNAL_INTEGRATION | `docs/EXPERIMENTAL_DEFAULTS.md`, `tests/data/default_features.json`, `tests/test_presets.py`, `tests/test_stability.py`, `research/results/e5-04-default-flags.json`, `research/results/e5-04-default-flags.xml` |
-| E5-05 | P1 | TODO | NOT_TESTED | — |
+| E5-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/e5-05-tool-schema.json`, `research/results/e5-05-tool-schema.xml` |
 | E5-06 | P1 | TODO | NOT_TESTED | — |
 | E5-07 | P1 | TODO | NOT_TESTED | — |
 | E5-08 | P1 | TODO | NOT_TESTED | — |
