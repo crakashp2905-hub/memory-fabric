@@ -628,6 +628,23 @@
       "limitations": [
         "Owner approval and external validation remain mandatory"
       ]
+    },
+    {
+      "task_id": "E4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "docs/OPERATIONS.md",
+        "research/results/e4-08-federation-faults.json",
+        "research/results/e4-08-federation-faults.xml"
+      ],
+      "limitations": [
+        "Fault schedules use deterministic in-process transport. The test run includes HTTP integration regressions but does not emulate physical network packet impairment."
+      ]
     }
   ]
 }
