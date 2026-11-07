@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4aba9ea426486eea64662d6ede912c6660f0ee22",
-    "dirty": false
+    "commit": "afc7754b2100bdf60ec4d769c2cfddcf3277b89d",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 39,
+      "DONE": 40,
       "PARTIAL": 4,
-      "TODO": 217
+      "TODO": 216
     },
-    "completed": 39,
+    "completed": 40,
     "total": 260,
-    "percent_complete": 15.0,
-    "p0_open": 81,
+    "percent_complete": 15.38,
+    "p0_open": 80,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -743,11 +743,19 @@
       "priority": "P0",
       "task": "Inject clock skew and stale or forged signed freshness leases.",
       "acceptance": "Consequential actions fail closed on invalid or expired leases while safe reads remain possible",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "docs/FRESHNESS_LEASES.md",
+        "research/results/e4-09-freshness-clock-skew.json",
+        "research/results/e4-09-freshness-clock-skew.xml"
+      ],
+      "limitations": [
+        "Clock-skew bound assumes a receiver clock within the configured tolerance; time synchronization remains an operational dependency. Monotonic expiry is process-local and leases are reverified on restart."
+      ]
     },
     {
       "task_id": "E4-10",
