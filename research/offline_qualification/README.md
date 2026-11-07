@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **34 / 260 (13.08%)**. Internal status: **BLOCKED**.
+Strict completion: **35 / 260 (13.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `0eaa1c3974d44cdaba7b5958d808fbb17ad90aaef063722042b0d7c5d6ba6886`.
+Normalized ledger digest: `a4a787f5c8560a20efc86b29bfa78771cb1bbf993fa46439f6e1526f6b11a094`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 34 |
+| DONE | 35 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 222 |
+| TODO | 221 |
 
 ## Graduation gates
 
@@ -61,7 +61,7 @@ Normalized ledger digest: `0eaa1c3974d44cdaba7b5958d808fbb17ad90aaef063722042b0d
 | E4-01 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/master-checklist-http-capacity-v1.json`, `research/results/master-checklist-http-capacity-v1.md` |
 | E4-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/stage_trace.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_stage_trace.py`, `docs/STAGE_TRACING.md` |
 | E4-03 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/p12b_api_load.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/stage_trace.py`, `tests/test_agent_api.py`, `tests/test_p12b_api_load.py`, `tests/test_p12b_harness.py`, `research/results/e4-03-local-profile.json`, `research/results/e4-03-local-profile.md`, `research/results/e4-03-local-profile-manifest.json`, `research/results/e4-03-profile-tests.xml` |
-| E4-04 | P0 | TODO | NOT_TESTED | — |
+| E4-04 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/integrity.py`, `tests/test_integrity_chain.py`, `tests/test_eventlog.py`, `tests/test_multiprocess_crash.py`, `research/results/e4-04-contention-before-after.json`, `research/results/e4-04-contention-before-after.md`, `research/results/e4-04-regression-tests.xml`, `research/results/e4-04-batched-chain-pilot.json`, `research/results/e4-04-100-client.json`, `research/results/e4-04-manifest.json` |
 | E4-05 | P0 | TODO | NOT_TESTED | — |
 | E4-06 | P0 | TODO | NOT_TESTED | — |
 | E4-07 | P0 | TODO | NOT_TESTED | — |

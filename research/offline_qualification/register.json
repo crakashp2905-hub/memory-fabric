@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "6bf613217a1deefa08b14c18868fb4a66460c01c",
+    "commit": "ec58c674c7aa4a70a46d8798c157b55e0551cb6f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 34,
+      "DONE": 35,
       "PARTIAL": 4,
-      "TODO": 222
+      "TODO": 221
     },
-    "completed": 34,
+    "completed": 35,
     "total": 260,
-    "percent_complete": 13.08,
-    "p0_open": 86,
+    "percent_complete": 13.46,
+    "p0_open": 85,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -627,11 +627,26 @@
       "priority": "P0",
       "task": "Remove dominant contention by measurement with before/after regression proof.",
       "acceptance": "On identical hardware and seeds, optimization improves target latency without invariant regression",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/integrity.py",
+        "tests/test_integrity_chain.py",
+        "tests/test_eventlog.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/e4-04-contention-before-after.json",
+        "research/results/e4-04-contention-before-after.md",
+        "research/results/e4-04-regression-tests.xml",
+        "research/results/e4-04-batched-chain-pilot.json",
+        "research/results/e4-04-100-client.json",
+        "research/results/e4-04-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host; three trials per concurrency level and normal-approximation confidence intervals are operational evidence, not a general capacity guarantee.",
+        "The optimization reduces latency modestly at measured concurrency; it does not remove the remaining process-local lock queue.",
+        "The 100-client after run omits the separate tracemalloc pass; latency and throughput are untraced."
+      ]
     },
     {
       "task_id": "E4-05",

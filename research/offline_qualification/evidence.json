@@ -6,55 +6,89 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["docs/NEXT_MASTER_CHECKLIST_EXECUTION.md", "research/results/grand-50-agent-baseline-reproduction-v2.json"],
-      "limitations": ["PR #30 remains provisional until merged"]
+      "evidence_paths": [
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+        "research/results/grand-50-agent-baseline-reproduction-v2.json"
+      ],
+      "limitations": [
+        "PR #30 remains provisional until merged"
+      ]
     },
     {
       "task_id": "E1-02",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_baseline.py", "tests/test_offline_baseline.py", "research/offline_qualification/baseline.json"],
-      "limitations": ["Read-only report describes the current local interpreter and host"]
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "tests/test_offline_baseline.py",
+        "research/offline_qualification/baseline.json"
+      ],
+      "limitations": [
+        "Read-only report describes the current local interpreter and host"
+      ]
     },
     {
       "task_id": "E1-03",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_baseline.py", "research/offline_qualification/baseline.json"],
-      "limitations": ["New offline baseline is strict; not every historical benchmark manifest has been migrated"]
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "research/offline_qualification/baseline.json"
+      ],
+      "limitations": [
+        "New offline baseline is strict; not every historical benchmark manifest has been migrated"
+      ]
     },
     {
       "task_id": "E1-04",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_baseline.py", "tools/results_manifest.py"],
-      "limitations": ["Older result files without exact SHA remain explicitly listed"]
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "tools/results_manifest.py"
+      ],
+      "limitations": [
+        "Older result files without exact SHA remain explicitly listed"
+      ]
     },
     {
       "task_id": "E1-05",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_baseline.py", "tests/test_offline_baseline.py"],
-      "limitations": ["Qualification inputs are protected; all historical experiment inputs are not yet covered"]
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "tests/test_offline_baseline.py"
+      ],
+      "limitations": [
+        "Qualification inputs are protected; all historical experiment inputs are not yet covered"
+      ]
     },
     {
       "task_id": "E1-06",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_baseline.py", "research/offline_qualification/baseline.json"],
-      "limitations": ["Optional capability inventory is local-host evidence, not the full interpreter matrix"]
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "research/offline_qualification/baseline.json"
+      ],
+      "limitations": [
+        "Optional capability inventory is local-host evidence, not the full interpreter matrix"
+      ]
     },
     {
       "task_id": "E1-07",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_qualification.py", "research/offline_qualification/register.json"],
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "research/offline_qualification/register.json"
+      ],
       "limitations": []
     },
     {
@@ -62,7 +96,9 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tests/test_offline_qualification.py"],
+      "evidence_paths": [
+        "tests/test_offline_qualification.py"
+      ],
       "limitations": []
     },
     {
@@ -70,15 +106,24 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_qualification.py", "tests/test_offline_qualification.py"],
-      "limitations": ["Existing historical experiments must opt into the checker"]
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py"
+      ],
+      "limitations": [
+        "Existing historical experiments must opt into the checker"
+      ]
     },
     {
       "task_id": "E1-10",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/status_at_head.py", "tests/test_status_at_head.py", "docs/STATUS_AT_HEAD.md"],
+      "evidence_paths": [
+        "tools/status_at_head.py",
+        "tests/test_status_at_head.py",
+        "docs/STATUS_AT_HEAD.md"
+      ],
       "limitations": []
     },
     {
@@ -86,191 +131,394 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["docs/STATE_TRANSITIONS.json", "docs/STATE_TRANSITIONS.md", "tests/test_state_transition_contract.py"],
-      "limitations": ["Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"]
+      "evidence_paths": [
+        "docs/STATE_TRANSITIONS.json",
+        "docs/STATE_TRANSITIONS.md",
+        "tests/test_state_transition_contract.py"
+      ],
+      "limitations": [
+        "Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"
+      ]
     },
     {
       "task_id": "E2-02",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["tests/test_replay_equivalence.py", "tests/test_properties.py", "tests/test_backup.py"],
-      "limitations": ["Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"]
+      "evidence_paths": [
+        "tests/test_replay_equivalence.py",
+        "tests/test_properties.py",
+        "tests/test_backup.py"
+      ],
+      "limitations": [
+        "Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"
+      ]
     },
     {
       "task_id": "E2-03",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["tests/test_withdrawn_parent_orderings.py", "tests/test_justification.py"],
-      "limitations": ["Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"]
+      "evidence_paths": [
+        "tests/test_withdrawn_parent_orderings.py",
+        "tests/test_justification.py"
+      ],
+      "limitations": [
+        "Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"
+      ]
     },
     {
       "task_id": "E2-04",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["tests/test_duplicates.py", "tests/test_supersede.py", "src/memory_fabric/duplicates.py"],
-      "limitations": ["Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"]
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "tests/test_supersede.py",
+        "src/memory_fabric/duplicates.py"
+      ],
+      "limitations": [
+        "Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"
+      ]
     },
     {
       "task_id": "E2-05",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["docs/BITEMPORAL_HISTORY.md", "src/memory_fabric/history_query.py", "tests/test_history_query.py", "tests/test_bitemporal.py"],
-      "limitations": ["The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"]
+      "evidence_paths": [
+        "docs/BITEMPORAL_HISTORY.md",
+        "src/memory_fabric/history_query.py",
+        "tests/test_history_query.py",
+        "tests/test_bitemporal.py"
+      ],
+      "limitations": [
+        "The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"
+      ]
     },
     {
       "task_id": "E2-06",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["docs/HISTORICAL_SURFACE_SECURITY.md", "tests/test_history_query.py", "tests/test_data_access_paths.py", "tests/test_posture.py", "tests/test_branching.py", "tests/test_erasure_residue.py"],
-      "limitations": ["Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"]
+      "evidence_paths": [
+        "docs/HISTORICAL_SURFACE_SECURITY.md",
+        "tests/test_history_query.py",
+        "tests/test_data_access_paths.py",
+        "tests/test_posture.py",
+        "tests/test_branching.py",
+        "tests/test_erasure_residue.py"
+      ],
+      "limitations": [
+        "Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"
+      ]
     },
     {
       "task_id": "E2-07",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/tombstones.py", "src/memory_fabric/outbox.py", "src/memory_fabric/federation.py", "tests/test_tombstone_exchange.py", "docs/TOMBSTONE_EXCHANGE.md"],
-      "limitations": ["Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"]
+      "evidence_paths": [
+        "src/memory_fabric/tombstones.py",
+        "src/memory_fabric/outbox.py",
+        "src/memory_fabric/federation.py",
+        "tests/test_tombstone_exchange.py",
+        "docs/TOMBSTONE_EXCHANGE.md"
+      ],
+      "limitations": [
+        "Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"
+      ]
     },
     {
       "task_id": "E2-08",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/eventlog.py", "tests/test_event_schema_hardening.py", "tests/test_version_skew.py", "docs/EVENT_SCHEMA_COMPATIBILITY.md", "experiments/rollback_drill.py"],
-      "limitations": ["The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"]
+      "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_version_skew.py",
+        "docs/EVENT_SCHEMA_COMPATIBILITY.md",
+        "experiments/rollback_drill.py"
+      ],
+      "limitations": [
+        "The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"
+      ]
     },
     {
       "task_id": "E2-09",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["tests/crashworker.py", "tests/test_multiprocess_crash.py", "docs/CRASH_BOUNDARY_MATRIX.md"],
-      "limitations": ["Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"]
+      "evidence_paths": [
+        "tests/crashworker.py",
+        "tests/test_multiprocess_crash.py",
+        "docs/CRASH_BOUNDARY_MATRIX.md"
+      ],
+      "limitations": [
+        "Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"
+      ]
     },
     {
       "task_id": "E2-10",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["tests/test_action_race_barriers.py", "tests/test_action_fence.py", "tests/test_visibility_at_action.py", "src/memory_fabric/actions.py", "docs/ACTION_RACE_SERIALIZATION.md"],
-      "limitations": ["The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"]
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "tests/test_action_fence.py",
+        "tests/test_visibility_at_action.py",
+        "src/memory_fabric/actions.py",
+        "docs/ACTION_RACE_SERIALIZATION.md"
+      ],
+      "limitations": [
+        "The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"
+      ]
     },
     {
       "task_id": "E3-01",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/bench/retrieval_errors_v1/cases.json", "research/bench/retrieval_errors_v1/build.py", "research/bench/retrieval_errors_v1/README.md", "tests/test_retrieval_error_taxonomy.py"],
-      "limitations": ["This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"]
+      "evidence_paths": [
+        "research/bench/retrieval_errors_v1/cases.json",
+        "research/bench/retrieval_errors_v1/build.py",
+        "research/bench/retrieval_errors_v1/README.md",
+        "tests/test_retrieval_error_taxonomy.py"
+      ],
+      "limitations": [
+        "This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"
+      ]
     },
     {
       "task_id": "E3-02",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["research/results/longmemeval.md", "experiments/longmemeval_bench.py", "docs/RETRIEVAL_BASELINE_QUALIFICATION.md", "tests/test_retrieval_baseline_contract.py"],
-      "limitations": ["Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"]
+      "evidence_paths": [
+        "research/results/longmemeval.md",
+        "experiments/longmemeval_bench.py",
+        "docs/RETRIEVAL_BASELINE_QUALIFICATION.md",
+        "tests/test_retrieval_baseline_contract.py"
+      ],
+      "limitations": [
+        "Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"
+      ]
     },
     {
       "task_id": "E3-03",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/retrieval_routing.py", "src/memory_fabric/_fabric/retrieval.py", "src/memory_fabric/retrieval_profiles.py", "tests/test_retrieval_routing.py", "docs/QUERY_ROUTING.md"],
-      "limitations": ["Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"]
+      "evidence_paths": [
+        "src/memory_fabric/retrieval_routing.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/retrieval_profiles.py",
+        "tests/test_retrieval_routing.py",
+        "docs/QUERY_ROUTING.md"
+      ],
+      "limitations": [
+        "Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"
+      ]
     },
     {
       "task_id": "E3-04",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/chains.py", "tests/test_chains.py", "docs/EVIDENCE_CHAIN_SELECTION.md"],
-      "limitations": ["Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"]
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_CHAIN_SELECTION.md"
+      ],
+      "limitations": [
+        "Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"
+      ]
     },
     {
       "task_id": "E3-05",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/relations.py", "src/memory_fabric/_fabric/retrieval.py", "tests/test_modifier_packages.py", "tests/test_extraction.py", "docs/MODIFIER_EVIDENCE_PACKAGES.md"],
-      "limitations": ["Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"]
+      "evidence_paths": [
+        "src/memory_fabric/relations.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_modifier_packages.py",
+        "tests/test_extraction.py",
+        "docs/MODIFIER_EVIDENCE_PACKAGES.md"
+      ],
+      "limitations": [
+        "Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"
+      ]
     },
     {
       "task_id": "E3-06",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/evidence_status.py", "src/memory_fabric/_fabric/common.py", "tests/test_evidence_status.py", "tests/test_answerability.py", "docs/EVIDENCE_STATUS_API.md"],
-      "limitations": ["Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"]
+      "evidence_paths": [
+        "src/memory_fabric/evidence_status.py",
+        "src/memory_fabric/_fabric/common.py",
+        "tests/test_evidence_status.py",
+        "tests/test_answerability.py",
+        "docs/EVIDENCE_STATUS_API.md"
+      ],
+      "limitations": [
+        "Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"
+      ]
     },
     {
       "task_id": "E3-07",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/answerability.py", "src/memory_fabric/_fabric/common.py", "tests/test_answerability.py", "docs/PARAMETER_EQUIVALENCES.md"],
-      "limitations": ["Equivalences are application-supplied reviewed local data; novel or unregistered paraphrases deliberately remain undetermined"]
+      "evidence_paths": [
+        "src/memory_fabric/answerability.py",
+        "src/memory_fabric/_fabric/common.py",
+        "tests/test_answerability.py",
+        "docs/PARAMETER_EQUIVALENCES.md"
+      ],
+      "limitations": [
+        "Equivalences are application-supplied reviewed local data; novel or unregistered paraphrases deliberately remain undetermined"
+      ]
     },
     {
       "task_id": "E3-08",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/answerability.py", "src/memory_fabric/sdk.py", "src/memory_fabric/adapters/mcp.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/cli.py", "tests/test_read_surface_semantics.py", "docs/READ_SURFACE_SEMANTICS.md"],
-      "limitations": ["Reason codes express evidence semantics, not permission to execute an external effect"]
+      "evidence_paths": [
+        "src/memory_fabric/answerability.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_read_surface_semantics.py",
+        "docs/READ_SURFACE_SEMANTICS.md"
+      ],
+      "limitations": [
+        "Reason codes express evidence semantics, not permission to execute an external effect"
+      ]
     },
     {
       "task_id": "E3-09",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["src/memory_fabric/chains.py", "tests/test_chains.py", "docs/EVIDENCE_PACKAGE_BUDGETS.md"],
-      "limitations": ["The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"]
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md"
+      ],
+      "limitations": [
+        "The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"
+      ]
     },
     {
       "task_id": "E3-10",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/_fabric/core.py", "src/memory_fabric/_fabric/writes.py", "src/memory_fabric/_fabric/retrieval.py", "tests/test_retrieval_index_invalidation.py", "tests/test_cross_process_freshness.py", "tests/test_erasure_residue.py", "tests/test_access_matrix.py", "docs/RETRIEVAL_INDEX_INVALIDATION.md"],
-      "limitations": ["The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"]
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_retrieval_index_invalidation.py",
+        "tests/test_cross_process_freshness.py",
+        "tests/test_erasure_residue.py",
+        "tests/test_access_matrix.py",
+        "docs/RETRIEVAL_INDEX_INVALIDATION.md"
+      ],
+      "limitations": [
+        "The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"
+      ]
     },
     {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["research/results/master-checklist-http-capacity-v1.json", "research/results/master-checklist-http-capacity-v1.md"],
-      "limitations": ["Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"]
+      "evidence_paths": [
+        "research/results/master-checklist-http-capacity-v1.json",
+        "research/results/master-checklist-http-capacity-v1.md"
+      ],
+      "limitations": [
+        "Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"
+      ]
     },
     {
       "task_id": "E4-02",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["src/memory_fabric/stage_trace.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/_fabric/writes.py", "tests/test_stage_trace.py", "docs/STAGE_TRACING.md"],
-      "limitations": ["Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"]
+      "evidence_paths": [
+        "src/memory_fabric/stage_trace.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_stage_trace.py",
+        "docs/STAGE_TRACING.md"
+      ],
+      "limitations": [
+        "Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"
+      ]
     },
     {
       "task_id": "E4-03",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
-      "evidence_paths": ["experiments/p12b_api_load.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/stage_trace.py", "tests/test_agent_api.py", "tests/test_p12b_api_load.py", "tests/test_p12b_harness.py", "research/results/e4-03-local-profile.json", "research/results/e4-03-local-profile.md", "research/results/e4-03-local-profile-manifest.json", "research/results/e4-03-profile-tests.xml"],
-      "limitations": ["Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee", "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput", "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"]
+      "evidence_paths": [
+        "experiments/p12b_api_load.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/stage_trace.py",
+        "tests/test_agent_api.py",
+        "tests/test_p12b_api_load.py",
+        "tests/test_p12b_harness.py",
+        "research/results/e4-03-local-profile.json",
+        "research/results/e4-03-local-profile.md",
+        "research/results/e4-03-local-profile-manifest.json",
+        "research/results/e4-03-profile-tests.xml"
+      ],
+      "limitations": [
+        "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
+        "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
+        "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"
+      ]
+    },
+    {
+      "task_id": "E4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/integrity.py",
+        "tests/test_integrity_chain.py",
+        "tests/test_eventlog.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/e4-04-contention-before-after.json",
+        "research/results/e4-04-contention-before-after.md",
+        "research/results/e4-04-regression-tests.xml",
+        "research/results/e4-04-batched-chain-pilot.json",
+        "research/results/e4-04-100-client.json",
+        "research/results/e4-04-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host; three trials per concurrency level and normal-approximation confidence intervals are operational evidence, not a general capacity guarantee.",
+        "The optimization reduces latency modestly at measured concurrency; it does not remove the remaining process-local lock queue.",
+        "The 100-client after run omits the separate tracemalloc pass; latency and throughput are untraced."
+      ]
     },
     {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["docs/LIMITATIONS.md", "docs/KNOWN_GAPS.md"],
+      "evidence_paths": [
+        "docs/LIMITATIONS.md",
+        "docs/KNOWN_GAPS.md"
+      ],
       "limitations": []
     },
     {
@@ -278,7 +526,10 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/offline_qualification/register.json", "research/offline_qualification/README.md"],
+      "evidence_paths": [
+        "research/offline_qualification/register.json",
+        "research/offline_qualification/README.md"
+      ],
       "limitations": []
     },
     {
@@ -286,7 +537,10 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["docs/LIMITATIONS.md", "docs/PRODUCT_READINESS.md"],
+      "evidence_paths": [
+        "docs/LIMITATIONS.md",
+        "docs/PRODUCT_READINESS.md"
+      ],
       "limitations": []
     },
     {
@@ -294,16 +548,25 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["docs/NEXT_MASTER_CHECKLIST_EXECUTION.md"],
-      "limitations": ["External validation is not complete"]
+      "evidence_paths": [
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md"
+      ],
+      "limitations": [
+        "External validation is not complete"
+      ]
     },
     {
       "task_id": "P5-10",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["tools/offline_qualification.py", "tests/test_offline_qualification.py"],
-      "limitations": ["Owner approval and external validation remain mandatory"]
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py"
+      ],
+      "limitations": [
+        "Owner approval and external validation remain mandatory"
+      ]
     }
   ]
 }

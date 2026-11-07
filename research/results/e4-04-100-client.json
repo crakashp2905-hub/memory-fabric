@@ -1,0 +1,202 @@
+{
+  "schema": "memory-fabric-e4-04-target-profile/1",
+  "commit": "ec58c674c7aa4a70a46d8798c157b55e0551cb6f",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "configuration": {
+    "agents": [
+      100
+    ],
+    "ops_per_agent": 20,
+    "warmup_ops": 5,
+    "repeats": 3,
+    "allocation_pass": false
+  },
+  "results": [
+    {
+      "agents": 100,
+      "trial": 0,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 2000,
+      "ok": 2000,
+      "wall_s": 135.52650939999148,
+      "ops_per_s": 14.75726047143457,
+      "errors": {},
+      "operation_counts": {
+        "remember": 631,
+        "recall": 984,
+        "fetch+verify": 385
+      },
+      "profile": {
+        "process_cpu_seconds": 63.21875,
+        "process_cpu_percent_of_one_core": 46.64677802142521,
+        "server_read_bytes": 67846144,
+        "server_write_bytes": 106795752,
+        "server_rss_start_bytes": 52453376,
+        "server_rss_end_bytes": 69558272,
+        "server_rss_peak_bytes": 79523840,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 12709030227300,
+            "count": 2385
+          },
+          "sqlite_append_ns": {
+            "total": 46761709100,
+            "count": 1619
+          },
+          "projection_events": {
+            "total": 19208,
+            "count": 1619
+          }
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 5635.539500042796,
+          "p95": 11238.450400007423,
+          "p99": 12188.3317999891
+        },
+        "remember": {
+          "p50": 5465.753500000574,
+          "p95": 7004.026200040244,
+          "p99": 7908.032100007404
+        },
+        "recall": {
+          "p50": 5487.896800041199,
+          "p95": 7057.811699982267,
+          "p99": 7876.793500036001
+        },
+        "fetch+verify": {
+          "p50": 10781.169799971394,
+          "p95": 12219.073200016282,
+          "p99": 14339.30649998365
+        }
+      }
+    },
+    {
+      "agents": 100,
+      "trial": 1,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 2000,
+      "ok": 2000,
+      "wall_s": 139.73996520001674,
+      "ops_per_s": 14.31229782501592,
+      "errors": {},
+      "operation_counts": {
+        "remember": 616,
+        "recall": 1040,
+        "fetch+verify": 344
+      },
+      "profile": {
+        "process_cpu_seconds": 65.53125,
+        "process_cpu_percent_of_one_core": 46.89513834227873,
+        "server_read_bytes": 77123584,
+        "server_write_bytes": 109381432,
+        "server_rss_start_bytes": 52441088,
+        "server_rss_end_bytes": 71442432,
+        "server_rss_peak_bytes": 77729792,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 12940862139100,
+            "count": 2344
+          },
+          "sqlite_append_ns": {
+            "total": 48444050600,
+            "count": 1662
+          },
+          "projection_events": {
+            "total": 20181,
+            "count": 1662
+          }
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 5761.2617000122555,
+          "p95": 11767.982000019401,
+          "p99": 12591.181999945547
+        },
+        "remember": {
+          "p50": 5631.469700019807,
+          "p95": 7442.52250000136,
+          "p99": 8277.956699952483
+        },
+        "recall": {
+          "p50": 5616.724300023634,
+          "p95": 7439.8339000181295,
+          "p99": 8209.192199981771
+        },
+        "fetch+verify": {
+          "p50": 11047.966000041924,
+          "p95": 13063.940300024115,
+          "p99": 15028.715499967802
+        }
+      }
+    },
+    {
+      "agents": 100,
+      "trial": 2,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 2000,
+      "ok": 2000,
+      "wall_s": 134.43142740003532,
+      "ops_per_s": 14.877473509587048,
+      "errors": {},
+      "operation_counts": {
+        "remember": 642,
+        "recall": 979,
+        "fetch+verify": 379
+      },
+      "profile": {
+        "process_cpu_seconds": 61.828125,
+        "process_cpu_percent_of_one_core": 45.99231459174684,
+        "server_read_bytes": 34164736,
+        "server_write_bytes": 106149176,
+        "server_rss_start_bytes": 52379648,
+        "server_rss_end_bytes": 64643072,
+        "server_rss_peak_bytes": 77705216,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 12690557882600,
+            "count": 2379
+          },
+          "sqlite_append_ns": {
+            "total": 47247199800,
+            "count": 1625
+          },
+          "projection_events": {
+            "total": 19049,
+            "count": 1625
+          }
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 5624.082299997099,
+          "p95": 11317.965199996252,
+          "p99": 12262.173100025393
+        },
+        "remember": {
+          "p50": 5500.620400009211,
+          "p95": 7332.420399994589,
+          "p99": 8138.656700029969
+        },
+        "recall": {
+          "p50": 5547.845699999016,
+          "p95": 7880.302399978973,
+          "p99": 8175.199399993289
+        },
+        "fetch+verify": {
+          "p50": 10845.486500009429,
+          "p95": 12290.663999971002,
+          "p99": 14131.507000012789
+        }
+      }
+    }
+  ]
+}
