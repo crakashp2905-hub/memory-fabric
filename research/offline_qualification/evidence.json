@@ -1366,6 +1366,24 @@
       ]
     },
     {
+      "task_id": "H2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_tool_protocol.py",
+        "tools/code_mode_parser_qualification.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-05-code-mode-parser-tests.xml",
+        "research/results/h2-06-code-mode-bounds.json"
+      ],
+      "limitations": [
+        "Local parser bounds and host-owned handler allowlisting are tested; this does not impose runtime limits inside registered tool handlers or sandbox their external effects."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,

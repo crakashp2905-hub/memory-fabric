@@ -67,6 +67,12 @@ are bound into `ActionRequest`, authorization is rechecked immediately before
 execution, and an idempotency key flows through `ActionGate.execute`. A loop or
 retry can therefore never inherit authorization from an earlier effect.
 
+The parser caps source at 64 KiB, a plan at 32 calls, total JSON-compatible
+argument bytes at 32 KiB, and nested argument depth at 16. There is no branch,
+loop, or recursive execution construct in the grammar. `GovernedToolRuntime`
+dispatches only handlers present in its host-owned registry; an unknown name
+fails before reaching the action gate.
+
 ## Research status
 
 The API and security invariants are implemented and locally testable. Claims

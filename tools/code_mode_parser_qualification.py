@@ -12,6 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULT = ROOT / "research/results/h2-05-code-mode-parser.json"
+BOUNDS_RESULT = ROOT / "research/results/h2-06-code-mode-bounds.json"
 JUNIT = ROOT / "research/results/h2-05-code-mode-parser-tests.xml"
 SOURCES = (
     "src/memory_fabric/tool_protocol.py",
@@ -24,6 +25,8 @@ REQUIRED_TESTS = {
     "test_hostile_construct_corpus_is_rejected_during_parse",
     "test_reserved_evaluator_names_cannot_become_registered_tool_calls",
     "test_literal_tool_calls_remain_supported_after_negative_corpus",
+    "test_call_count_source_bytes_argument_bytes_and_nesting_are_bounded",
+    "test_runtime_rejects_unregistered_tool_before_authorization",
 }
 
 
@@ -61,6 +64,9 @@ def main() -> int:
                   "required_cases_present": not missing, "missing_cases": missing},
         "adversarial_corpus": {"cases": len(corpus), "families": families,
                                "all_rejected_during_parse": True},
+        "parser_limits": {"source_bytes": 65_536, "calls": 32,
+                          "argument_depth": 16, "argument_bytes": 32_768,
+                          "runtime_dispatch": "registered tools only"},
         "input_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
                          for path in SOURCES},
         "limitations": [
@@ -69,10 +75,30 @@ def main() -> int:
         ],
     }
     RESULT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    bounds = {
+        "schema": "mf-code-mode-bounds-qualification/1",
+        "source_commit": commit,
+        "source_clean_before_run": True,
+        "acceptance_status": report["acceptance_status"],
+        "limits": report["parser_limits"],
+        "test_summary": report["tests"],
+        "verified_before_effect": [
+            "unregistered tool rejected before ActionGate dispatch",
+            "plan exceeding call limit rejected during parsing",
+            "source exceeding byte limit rejected before AST parse",
+            "nested argument exceeding depth rejected before plan creation",
+            "aggregate serialized arguments exceeding byte limit rejected before execution",
+        ],
+        "input_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+                         for path in SOURCES},
+        "limitations": report["limitations"],
+    }
+    BOUNDS_RESULT.write_text(json.dumps(bounds, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(run.stdout, end="")
     if run.stderr:
         print(run.stderr, end="", file=sys.stderr)
     print(json.dumps({"result": str(RESULT.relative_to(ROOT)),
+                      "bounds_result": str(BOUNDS_RESULT.relative_to(ROOT)),
                       "acceptance_status": report["acceptance_status"],
                       "source_commit": commit, "tests": len(cases),
                       "corpus_cases": len(corpus)}))

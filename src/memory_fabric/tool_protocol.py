@@ -60,6 +60,10 @@ _CODE_MODE_FORBIDDEN_NAMES = frozenset({
     "globals", "input", "locals", "object", "open", "setattr", "super",
     "type", "vars",
 })
+MAX_CODE_MODE_SOURCE_BYTES = 65_536
+MAX_CODE_MODE_CALLS = 32
+MAX_CODE_MODE_ARGUMENT_DEPTH = 16
+MAX_CODE_MODE_ARGUMENT_BYTES = 32_768
 
 
 def _validate_input_schema(schema: Mapping[str, Any]) -> None:
@@ -340,6 +344,26 @@ class GovernedToolRuntime:
         )
 
 
+def _validate_code_mode_literal(value: Any, depth: int = 1) -> Any:
+    """Keep plan arguments within the JSON value model and finite bounds."""
+    if depth > MAX_CODE_MODE_ARGUMENT_DEPTH:
+        raise ValueError("literal nesting limit exceeded")
+    if value is None or type(value) in (str, bool, int):
+        return value
+    if type(value) is float:
+        if not math.isfinite(value):
+            raise ValueError("non-finite numbers are not supported")
+        return value
+    if type(value) is list:
+        return [_validate_code_mode_literal(item, depth + 1) for item in value]
+    if type(value) is dict:
+        if any(type(key) is not str for key in value):
+            raise ValueError("object keys must be strings")
+        return {key: _validate_code_mode_literal(item, depth + 1)
+                for key, item in value.items()}
+    raise TypeError("arguments must use JSON-compatible literal values")
+
+
 class CodeModePlan:
     """Validated sequence of literal tool calls; not an arbitrary code evaluator."""
 
@@ -351,10 +375,22 @@ class CodeModePlan:
         """Accept only ``tool_name(key=value, ...)`` expression statements."""
 
         try:
+            source_size = len(source.encode("utf-8"))
+        except UnicodeEncodeError as exc:
+            raise ToolProtocolError("code-mode source is not valid UTF-8 text") from exc
+        if source_size > MAX_CODE_MODE_SOURCE_BYTES:
+            raise ToolProtocolError("code-mode source exceeds byte limit")
+
+        try:
             tree = ast.parse(source, mode="exec")
         except SyntaxError as exc:
             raise ToolProtocolError(f"invalid code-mode plan: {exc.msg}") from exc
+        except (RecursionError, MemoryError) as exc:
+            raise ToolProtocolError("code-mode source exceeds parser resource limits") from exc
+        if len(tree.body) > MAX_CODE_MODE_CALLS:
+            raise ToolProtocolError("code-mode plan exceeds maximum tool calls")
         calls: list[GovernedToolCall] = []
+        argument_bytes = 0
         for index, statement in enumerate(tree.body):
             if not isinstance(statement, ast.Expr) or not isinstance(statement.value, ast.Call):
                 raise ToolProtocolError("code mode permits tool-call expressions only")
@@ -371,10 +407,23 @@ class CodeModePlan:
                     raise ToolProtocolError("expanded arguments are forbidden")
                 if keyword.arg in arguments:
                     raise ToolProtocolError(f"duplicate argument: {keyword.arg}")
+                stack = [(keyword.value, 1)]
+                while stack:
+                    current, depth = stack.pop()
+                    if depth > MAX_CODE_MODE_ARGUMENT_DEPTH:
+                        raise ToolProtocolError("code-mode argument exceeds nesting limit")
+                    stack.extend((child, depth + 1) for child in ast.iter_child_nodes(current))
                 try:
-                    arguments[keyword.arg] = ast.literal_eval(keyword.value)
-                except (ValueError, TypeError) as exc:
+                    value = ast.literal_eval(keyword.value)
+                    self_value = _validate_code_mode_literal(value)
+                    arguments[keyword.arg] = self_value
+                except (ValueError, TypeError, RecursionError, MemoryError) as exc:
                     raise ToolProtocolError("generated arguments must be literals") from exc
+            encoded_arguments = json.dumps(arguments, sort_keys=True, separators=(",", ":"),
+                                           ensure_ascii=False, allow_nan=False).encode("utf-8")
+            argument_bytes += len(encoded_arguments)
+            if argument_bytes > MAX_CODE_MODE_ARGUMENT_BYTES:
+                raise ToolProtocolError("code-mode arguments exceed byte limit")
             binding = json.dumps({"tool": node.func.id, "arguments": arguments},
                                  sort_keys=True, separators=(",", ":"), default=str)
             digest = hashlib.sha256(binding.encode()).hexdigest()[:20]
