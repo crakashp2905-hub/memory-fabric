@@ -130,6 +130,14 @@
       "limitations": ["Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"]
     },
     {
+      "task_id": "E2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["src/memory_fabric/tombstones.py", "src/memory_fabric/outbox.py", "src/memory_fabric/federation.py", "tests/test_tombstone_exchange.py", "docs/TOMBSTONE_EXCHANGE.md"],
+      "limitations": ["Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,

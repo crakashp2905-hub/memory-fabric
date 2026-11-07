@@ -417,6 +417,21 @@ class Outbox:
         ).fetchone()
         return int(row["n"]) if row is not None else 0
 
+    def blocks_import(self, origin_store_id: str, memory_id: str, version: int) -> bool:
+        """Whether a trusted retraction for this exact origin version is durable.
+
+        This includes ``unknown_memory`` outcomes: portable tombstones are
+        intentionally importable before a snapshot, and must fence a later
+        offer rather than disappear merely because no copy existed yet.
+        """
+        target_key = f"{origin_store_id}/{memory_id}@{int(version)}"
+        row = self._conn.execute(
+            "SELECT 1 FROM inbox WHERE origin_store_id = ? AND target_key = ? "
+            "AND outcome IN ('unknown_memory', 'applied', 'superseded') LIMIT 1",
+            (origin_store_id, target_key),
+        ).fetchone()
+        return row is not None
+
     def cursor_for(self, origin_store_id: str) -> int:
         row = self._conn.execute(
             "SELECT sequence_seen FROM origin_cursor WHERE origin_store_id = ?",
