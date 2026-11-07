@@ -193,6 +193,12 @@ class Scoreboard(unittest.TestCase):
                 ours = line.split("|")[4]
                 self.assertNotIn("%", ours)
 
+    def test_population_is_explicit_and_legacy_runs_stay_unclassified(self) -> None:
+        self.assertIn("| population |", scoreboard.render().splitlines()[4])
+        self.assertTrue(all(scoreboard.population(run) in {
+            "synthetic_scripted", "real_model_agent", "external_vendor", "human_adjudicated", "unclassified"
+        } for run in scoreboard.aggregate_runs(scoreboard.read_all())[0].values()))
+
 
 if __name__ == "__main__":
     unittest.main()

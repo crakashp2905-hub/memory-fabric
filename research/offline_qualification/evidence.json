@@ -1013,6 +1013,24 @@
       ]
     },
     {
+      "task_id": "R1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/results_manifest.py",
+        "benchmarks/scoreboard.py",
+        "tests/test_status_at_head.py",
+        "tests/test_benchmarks.py",
+        "research/results/MANIFEST.json",
+        "research/results/BENCHMARK_SCOREBOARD.md",
+        "research/results/r1-population-separation-tests.xml"
+      ],
+      "limitations": [
+        "Historical artifacts without an explicit supported population declaration are labelled unclassified and cannot be counted as model-agent results. This preserves separation while leaving those legacy populations unresolved."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

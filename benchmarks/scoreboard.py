@@ -32,6 +32,17 @@ def claim_level(m: dict[str, Any] | None) -> str:
     return "L1" if m.get("decision") == "DESCRIPTIVE" else "L0"
 
 
+def population(m: dict[str, Any] | None, suite: dict[str, Any] | None = None) -> str:
+    """Never infer scripted or model-agent provenance from a missing declaration."""
+    if m is not None:
+        value = m.get("population")
+        return value if value in {"synthetic_scripted", "real_model_agent", "external_vendor",
+                                 "human_adjudicated"} else "unclassified"
+    if suite and suite.get("vendor_reported"):
+        return "external_vendor_reported"
+    return "not_evaluated"
+
+
 def vendor(s: dict[str, Any]) -> str:
     vr = s.get("vendor_reported")
     if not vr:
@@ -68,8 +79,8 @@ def render() -> str:
              "`research/results/bench_runs/`. Vendor numbers are theirs, on their harness and model; they are "
              "never Memory Fabric results. NOT_RUN is not a result. Manifests without verified input digests "
              f"are excluded ({rejected} legacy records).", "",
-             "| suite | name | vendor-reported (theirs) | Memory Fabric | decision | claim level |",
-             "|---|---|---|---|---|---|"]
+             "| suite | name | vendor-reported (theirs) | Memory Fabric | decision | claim level | population |",
+             "|---|---|---|---|---|---|---|"]
     for s in reg["suites"]:
         m = runs.get(s["id"])
         if m:
@@ -81,7 +92,8 @@ def render() -> str:
         else:
             ours = f"not run: {s['reason']}"
             decision = s["run_status"]
-        lines.append(f"| {s['id']} | {s['name']} | {vendor(s)} | {ours} | {decision} | {claim_level(m)} |")
+        lines.append(f"| {s['id']} | {s['name']} | {vendor(s)} | {ours} | {decision} | "
+                     f"{claim_level(m)} | {population(m, s)} |")
     found = notes(reg)
     lines += ["", "## Arithmetic notes on vendor tables", "",
               *([f"- {n}" for n in found] or ["- none"]), ""]

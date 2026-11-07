@@ -56,6 +56,17 @@ class StatusAtHead(unittest.TestCase):
             if row["git_sha"] is None:
                 self.assertIsNone(row["git_sha_source"])
             self.assertEqual(len(row["file_sha256"]), 64)
+            self.assertIn(row["population"], results_manifest.POPULATIONS)
+
+    def test_population_requires_explicit_supported_label(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "population.json"
+            path.write_text('{"population":"synthetic_scripted"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "synthetic_scripted")
+            path.write_text('{"model_id":"unknown-model"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "unclassified")
+            path.write_text('{"population":"scripted-but-not-enumerated"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "unclassified")
 
 
 if __name__ == "__main__":

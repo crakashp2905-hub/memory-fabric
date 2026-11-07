@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "668dc64a3f5569d196a82e3ce142097c3320a5e9",
+    "commit": "faa6a849def71011e5b89364979dece2af86024c",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 59,
+      "DONE": 60,
       "PARTIAL": 5,
-      "TODO": 196
+      "TODO": 195
     },
-    "completed": 59,
+    "completed": 60,
     "total": 260,
-    "percent_complete": 22.69,
-    "p0_open": 70,
+    "percent_complete": 23.08,
+    "p0_open": 69,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -100,7 +100,7 @@
       ],
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
-        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
         "research/results/e1-03-manifest-environment.json": "0f0f42a5d952ed49432496c8567d73e24c1041c2c30a015c56c7e435d0871d5b",
         "research/results/e1-03-manifest-environment.xml": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75"
@@ -131,7 +131,7 @@
         "benchmarks/provenance.py": "7250095062183ad16033ed2dfdc2a9d5b7de6a80cad226cd003d269b94702288",
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "tests/test_result_provenance.py": "3827b4b9565730b4c218f79106b499c7d10c8f5b30d669247b0aa209e31a066a",
-        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
         "docs/RESULT_PROVENANCE.md": "d5a0947d1006384302a4a4c50024fe128f700563981ece34ee829f0f8c09015a",
         "research/results/e1-04-result-provenance.json": "a835334785ca75db56197c24d1f285b7cb153e70a6d2018180acbf108271cb4f",
         "research/results/e1-04-result-provenance.xml": "8226679191009b14042c3e06199c69ec58cb22c213d740db54283c4a0aa3d56f"
@@ -161,11 +161,11 @@
       ],
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
-        "benchmarks/scoreboard.py": "8dca8ef7933a963a1d2a02077aa9ca0740d7e17e605de8601fc4dc5b218eea08",
+        "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "benchmarks/evidence_completeness.py": "786804741d8326d5e4623cb389778c1dcac1accbb9ee1424dd96bc4a70019f0a",
-        "tests/test_benchmarks.py": "d4259d13b335cd3e2963dcd1d810395f27c452b37c80bc3e503be905bbcfbfc3",
+        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
-        "research/results/BENCHMARK_SCOREBOARD.md": "604ab4c9cbe393c0f5f54511589536e131ec3877e3b1214fcfc04e4cd6f23154",
+        "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/e1-05-input-digests.json": "899ef29340375d8309df40800eeb9db2364a62cc6775ea5e001a4056d5b6ec52",
         "research/results/e1-05-input-digests.xml": "1f5685ff159cc0de5616273af57cc14e262225ca662c2811d7295e8b40910dea"
       },
@@ -301,13 +301,13 @@
       "evidence_digests": {
         "tools/count_tests.py": "d35a88dd0f087584868fbf8e0dd7dc48bbfd52270f2838bcaf837bb0f8a7fe58",
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
-        "tests/test_status_at_head.py": "b8fe69c961e106cdd59939f722095a2940d2b717404a7928c13ec5963002d13a",
+        "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "070a0288418e8c6d8df03980bfa8269c88d94c73b7d1673aa8b0f703746a27bb",
-        "docs/VALIDATION.md": "b5ff4b8297f73007d556e643e4a3cca0f03e94a41b883b2c53b25b84d897771e",
-        "docs/STATUS_AT_HEAD.md": "c08aaaa19b1371345c17bc9d9d877daee4a8f26241eb8295ea1bd5f88b52a417",
+        "README.md": "51d6272de1be465e05d956fd66537156aee4ca1f30004d3f7ad2ec2aa13b62f9",
+        "docs/VALIDATION.md": "4265fef0ab2122b016b3b8c7692c5d766b153dc649507ddbb69d9ec3c9ee2388",
+        "docs/STATUS_AT_HEAD.md": "5aad9490c8d1f116f355818e3053e56fbabf47a439b2195ff80e15630571abce",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1481,13 +1481,31 @@
       "priority": "P0",
       "task": "Separate deterministic scripted-agent scores from real model-agent experiments in all generated reports.",
       "acceptance": "No chart mixes populations or treats scripted-agent success as model-agent evidence",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/results_manifest.py",
+        "benchmarks/scoreboard.py",
+        "tests/test_status_at_head.py",
+        "tests/test_benchmarks.py",
+        "research/results/MANIFEST.json",
+        "research/results/BENCHMARK_SCOREBOARD.md",
+        "research/results/r1-population-separation-tests.xml"
+      ],
+      "evidence_digests": {
+        "tools/results_manifest.py": "703fbebb388b6dfb8ebb39b90b6032e6ccc7653137bb39578931127395cb3a5e",
+        "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
+        "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
+        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
+        "research/results/MANIFEST.json": "94521a22ccec8b62363dde1d41ecac5e6a296be26ef18f8ce0ffc0a55f6efc4a",
+        "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
+        "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Historical artifacts without an explicit supported population declaration are labelled unclassified and cannot be counted as model-agent results. This preserves separation while leaving those legacy populations unresolved."
+      ]
     },
     {
       "task_id": "R1-03",
