@@ -1,0 +1,42 @@
+{
+  "acceptance_status": "PASS",
+  "checks": {
+    "reconciliation_replay": "completed receipt reconstructs policy and tool digest",
+    "redaction": "evidence content and request parameter canaries absent from ActionExecuted payload",
+    "same_key_replay": "returned already_executed; callback ran once"
+  },
+  "input_sha256": {
+    "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
+    "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+    "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
+    "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
+    "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
+    "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
+    "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
+    "tests/test_action_receipt.py": "b76779ac9e2019d641a0875d791ed029e4581b8ed1d05c675afdc8790f0ab5ba",
+    "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca"
+  },
+  "junit": "research/results/h2-09-execution-receipt-tests.xml",
+  "limitations": [
+    "Without ToolRule.tool_digest, fallback digest identifies the canonical policy rule and tool name, not executable code.",
+    "Receipts preserve identifiers and metadata needed for local audit; a separate signed public-verification receipt remains a distinct mechanism."
+  ],
+  "receipt_fields": [
+    "evidence memory IDs and versions",
+    "host policy version",
+    "host tool descriptor/rule digest",
+    "outcome",
+    "fence status",
+    "watermark",
+    "elapsed and lease timing"
+  ],
+  "schema": "mf-action-execution-receipt-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "8b8a603625d0bc556a08d60839ea6aeb85edf49a",
+  "test_summary": {
+    "command": "python -m pytest tests/test_action_execution_receipt.py tests/test_action_receipt.py tests/test_action_fence.py tests/test_action_crash.py tests/test_action_reconciliation.py tests/test_action_race_barriers.py -q",
+    "failed": 0,
+    "passed": 24,
+    "total": 24
+  }
+}

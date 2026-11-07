@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 179,
+ "results": 180,
  "missing_field_counts": {
-  "git_sha": 74,
+  "git_sha": 75,
   "prereg": 75,
-  "dataset_digest": 176,
-  "model_id": 143,
-  "prompt_hash": 179,
-  "seed": 101,
-  "cost": 156,
-  "verdict": 115
+  "dataset_digest": 177,
+  "model_id": 144,
+  "prompt_hash": 180,
+  "seed": 102,
+  "cost": 157,
+  "verdict": 116
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 168
+  "unclassified": 169
  },
  "rows": [
   {
@@ -1766,6 +1766,24 @@
    "experiment_id": "h2-08-utcp-transport",
    "file": "research/results/h2-08-utcp-transport.json",
    "file_sha256": "a2cec54f3cb5f7464e759af643192375d78106f0e211aafbc4910d68250a82aa",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-09-execution-receipt",
+   "file": "research/results/h2-09-execution-receipt.json",
+   "file_sha256": "9b27a127c9a76aab37dad25f9ac3ef633a77bdcb1be783c5ac75e72ec750a432",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
    "git_sha": null,
