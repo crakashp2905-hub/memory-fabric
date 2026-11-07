@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d81b3fe6f03f6d600dfe75ee0ee8ca63f735c6a422114cb438e7ccb8217aea07",
+    "sha256": "215eb05453e98f6f53e12b6ccf530e832fbd41ebbcf06751a48209d7a50eae17",
     "tasks": 260
   },
   "source": {
-    "commit": "8e24d93eb72c8e22abe3288a81e1d97d2a3d3a1d",
+    "commit": "34053803bb69ab99da1f0fce817fcd332316fe47",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 82,
+      "DONE": 83,
       "PARTIAL": 5,
-      "TODO": 173
+      "TODO": 172
     },
-    "completed": 82,
+    "completed": 83,
     "total": 260,
-    "percent_complete": 31.54,
-    "p0_open": 47,
+    "percent_complete": 31.92,
+    "p0_open": 46,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "f51666aa64b46fe3e276f6ce0828868cb7146ffb4fa096a2b4625474188f7217",
-        "docs/VALIDATION.md": "870604a1964e8040d0786370a556a2695409ad587f5b61dbc586fba0a1997a42",
-        "docs/STATUS_AT_HEAD.md": "0ebc59afa39d50d2fc00e6f667334b5ec4dbb2183362927a62d56e92b2191b93",
+        "README.md": "49a781a3bba9f5f2e037830051caff5af9a92358bb98ca447c23426eebbe6059",
+        "docs/VALIDATION.md": "a5b3450088fa3ccf082208c9bd45ada2935ce9220becc8b26df8d46423f21f4b",
+        "docs/STATUS_AT_HEAD.md": "6fd4dff2c83338b19c93b7a9017378c451942a8e19cb0f306cc1b4e2a71cd6d5",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -555,9 +555,9 @@
       ],
       "evidence_digests": {
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
-        "tests/test_action_fence.py": "1b5aaa8f36d28a0eb972d40fd4bb91d15bce73ddc128d98be34a40dfaf2d43e6",
+        "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
-        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f"
       },
       "evidence_issues": {},
@@ -1917,9 +1917,9 @@
       "evidence_digests": {
         "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
-        "tests/test_action_fence.py": "1b5aaa8f36d28a0eb972d40fd4bb91d15bce73ddc128d98be34a40dfaf2d43e6",
+        "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "docs/EVIDENCE_OPERATION_RISK.md": "c5e1a22247597768893a0129f36b537107d9fafa490672559c71053ebfc85396",
         "research/results/r2-08-risk-sensitive-operations.xml": "31a68af5ffb51d18ba5f9a225f7dc77a8147c7974b1ee8bcf7d8dbeb64b44d70",
         "research/results/r2-08-action-fence.xml": "ce683f48b9a80aadb5c90e0c8dc9142d982ac082f8c2b2b8044259eaaa371141"
@@ -3463,7 +3463,7 @@
         "research/results/r2-h2-acceptance-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
         "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
@@ -3489,7 +3489,7 @@
         "research/results/h2-02-action-binding-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "5b6714b9ad075a00694cf1f109ecd004b6563d12d0a3d45fdee7183b711bc226",
+        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
         "tests/test_authority.py": "3c42a605fdb8c6769d01fa0ec79c96244e9452b047c13c58fc23ee29deaa5502",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
@@ -3503,14 +3503,32 @@
       "task_id": "H2-03",
       "priority": "P0",
       "task": "Reject duplicate action keys with mismatched payloads and make same-payload retries idempotent.",
-      "acceptance": "Local mock side effect executes once despite client retries and injected failures",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Local mock side effect executes once despite client retries and injected failures. Evidence: `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tests/test_action_fence.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_IDEMPOTENCY.md",
+        "research/results/h2-03-idempotency-tests.xml",
+        "research/results/h2-03-action-compatibility-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/actions.py": "aec81241c0354526d21f73637f4e0bf732e94f16e921ac3b59108879f053c3d5",
+        "src/memory_fabric/events.py": "1c85ed539ffd79e11fde46e48605df291b33dc1fce1c7775fbd30e7df671f43c",
+        "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
+        "tests/test_action_crash.py": "1e0b0f00e74a4400abda6f87eee015b2b548ca0791d937c6e107737db0d73e5b",
+        "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
+        "research/results/h2-03-idempotency-tests.xml": "b4901b3c38d1a0e61f2f8bf0100af1b9397bc194c55cc54401f070c99452ff4b",
+        "research/results/h2-03-action-compatibility-tests.xml": "87c5361190a8b1259618b0f562e802efd2eead0e841b93c781598af036f879b8"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The local mock deduplicates by action key; external tools must provide equivalent idempotency. Historical action events without a payload digest fail closed and require external reconciliation."
+      ]
     },
     {
       "task_id": "H2-04",

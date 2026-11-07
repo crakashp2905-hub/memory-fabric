@@ -719,6 +719,7 @@ def action_executed(
     elapsed_ms: int,
     evidence: list[list[Any]],
     tenant_id: str | None = None,
+    binding: str | None = None,
 ) -> Event:
     """A protected tool call that ran under the action fence (schema 0.11.0).
 
@@ -729,21 +730,24 @@ def action_executed(
     reports any change to its evidence after this event. Ids only, never
     content.
     """
+    payload = {
+        "key": key,
+        "tool": tool,
+        "outcome": outcome,
+        "fenced": fenced,
+        "watermark": watermark,
+        "lease_ms": lease_ms,
+        "elapsed_ms": elapsed_ms,
+        "evidence": [list(e) for e in evidence],
+        "tenant_id": tenant_id,
+    }
+    if binding is not None:
+        payload["binding"] = binding
     return Event(
         type=EventType.ACTION_EXECUTED,
         ts=ts,
         agent_id=agent_id,
-        payload={
-            "key": key,
-            "tool": tool,
-            "outcome": outcome,
-            "fenced": fenced,
-            "watermark": watermark,
-            "lease_ms": lease_ms,
-            "elapsed_ms": elapsed_ms,
-            "evidence": [list(e) for e in evidence],
-            "tenant_id": tenant_id,
-        },
+        payload=payload,
     )
 
 
@@ -822,7 +826,7 @@ def objective_changed(ts: int, actor: str, digest: str, status: str, proposer: s
 
 
 def action_attempted(ts: int, agent_id: str, key: str, tool: str,
-                     tenant_id: str | None = None) -> Event:
+                     tenant_id: str | None = None, binding: str | None = None) -> Event:
     """An action is about to run under the fence (0.12.0). Committed *before* it.
 
     The fence's own record commits with the outcome, so a crash mid-tool
@@ -830,8 +834,11 @@ def action_attempted(ts: int, agent_id: str, key: str, tool: str,
     after it is an **uncertain** side effect, and the next call with the
     same key is refused until a caller passes `retry=True`.
     """
+    payload = {"key": key, "tool": tool, "tenant_id": tenant_id}
+    if binding is not None:
+        payload["binding"] = binding
     return Event(type=EventType.ACTION_ATTEMPTED, ts=ts, agent_id=agent_id,
-                 payload={"key": key, "tool": tool, "tenant_id": tenant_id})
+                 payload=payload)
 
 
 

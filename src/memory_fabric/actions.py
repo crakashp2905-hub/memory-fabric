@@ -105,6 +105,7 @@ GRANT_EXPIRED = "grant_expired"
 GRANT_REVOKED = "grant_revoked"
 GRANT_MISMATCH = "grant_binding_mismatch"
 GRANT_REPLAYED = "grant_replayed"
+IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
 MAX_GRANT_TTL_S = 300
 
 # Execution outcomes (`execute`).
@@ -466,27 +467,41 @@ class ActionGate:
         if not 0 < lease_s < MAX_LEASE_S:
             raise ValueError(f"lease_s must be in (0, {MAX_LEASE_S}); writers in other "
                              "processes give up after the store's busy timeout")
-        prior = self._last_execution(key)
-        if prior is not None:
-            if prior["outcome"] == EXECUTED:
-                return ActionExecution(ALREADY_EXECUTED, None, key)
-            if not retry:
-                return ActionExecution(REFUSED, None, key, error=(
-                    f"{RETRY_REQUIRED}: the last attempt {prior['outcome']} with an unknown "
-                    "effect; pass retry=True to re-verify and run again"))
+        if isinstance(certificate, Mapping):
+            try:
+                certificate = EvidenceCertificate.from_json(certificate)
+            except CertificateError:
+                pass  # authorize reports malformed certificates as a refusal
+        action_binding = binding_digest(
+            tool, agent_id, tenant_id, request,
+            certificate if isinstance(certificate, EvidenceCertificate) else None,
+        )
+        if isinstance(certificate, Mapping):
+            import hashlib
+            import json
+
+            action_binding = hashlib.sha256(json.dumps({
+                "base": action_binding, "invalid_certificate": certificate,
+            }, sort_keys=True, default=str, separators=(",", ":")).encode()).hexdigest()
         fabric = self.fabric
         # Recorded and committed before the fence, so it survives a crash
         # that rolls the fence's transaction back. Without it, a process that
         # died mid-tool left no trace and the next call ran the tool again as
         # though nothing had happened (tests/test_action_crash.py).
         with fabric.lock, fabric._transaction():
+            prior = self._last_execution(key)
+            if prior is not None:
+                if prior.get("binding") != action_binding:
+                    return ActionExecution(REFUSED, None, key, error=IDEMPOTENCY_CONFLICT)
+                if prior["outcome"] == EXECUTED:
+                    return ActionExecution(ALREADY_EXECUTED, None, key)
+                if prior["outcome"] != REFUSED and not retry:
+                    return ActionExecution(REFUSED, None, key, error=(
+                        f"{RETRY_REQUIRED}: the last attempt {prior['outcome']} with an unknown "
+                        "effect; pass retry=True to re-verify and run again"))
             fabric._emit(ev.action_attempted(ts=fabric.now(), agent_id=agent_id, key=key,
-                                             tool=tool, tenant_id=tenant_id))
-        if isinstance(certificate, Mapping):
-            try:
-                certificate = EvidenceCertificate.from_json(certificate)
-            except CertificateError:
-                pass  # authorize reports it
+                                             tool=tool, tenant_id=tenant_id,
+                                             binding=action_binding))
         with fabric.lock, fabric._transaction():
             decision = self.authorize(tool, agent_id, certificate, tenant_id=tenant_id,
                                       approval=approval, session=session,
@@ -497,7 +512,7 @@ class ActionGate:
                     ts=fabric.now(), agent_id=decision.agent_id, key=key, tool=tool,
                     outcome=REFUSED, fenced=True, watermark=None,
                     lease_ms=int(lease_s * 1000), elapsed_ms=0, evidence=[],
-                    tenant_id=tenant_id))
+                    tenant_id=tenant_id, binding=action_binding))
                 return ActionExecution(REFUSED, decision, key)
             box: dict[str, Any] = {}
 
@@ -526,7 +541,7 @@ class ActionGate:
                 outcome=outcome, fenced=fenced,
                 watermark=verification.verified_at_watermark if verification else None,
                 lease_ms=int(lease_s * 1000), elapsed_ms=elapsed_ms, evidence=evidence,
-                tenant_id=tenant_id))
+                tenant_id=tenant_id, binding=action_binding))
         return ActionExecution(outcome, decision, key, result=box.get("result"),
                                error=box.get("error"), fenced=fenced)
 
@@ -542,9 +557,7 @@ class ActionGate:
             if event.payload.get("key") != key:
                 continue
             if event.type == ev.EventType.ACTION_ATTEMPTED:
-                last = {"outcome": UNCERTAIN}
-            elif event.payload.get("outcome") == REFUSED:
-                last = None
+                last = {"outcome": UNCERTAIN, "binding": event.payload.get("binding")}
             else:
                 last = event.payload
         return last

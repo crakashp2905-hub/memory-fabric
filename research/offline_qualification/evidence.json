@@ -1366,6 +1366,26 @@
       ]
     },
     {
+      "task_id": "H2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tests/test_action_fence.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_IDEMPOTENCY.md",
+        "tools/action_idempotency_qualification.py",
+        "research/results/h2-03-idempotency-tests.xml",
+        "research/results/h2-03-action-idempotency.json",
+        "research/results/h2-03-action-compatibility-tests.xml"
+      ],
+      "limitations": [
+        "The local mock deduplicates by action key; external tools must provide equivalent idempotency. Historical action events without a payload digest fail closed and require external reconciliation."
+      ]
+    },
+    {
       "task_id": "H2-02",
       "status": "DONE",
       "acceptance_passed": true,

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **82 / 260 (31.54%)**. Internal status: **BLOCKED**.
+Strict completion: **83 / 260 (31.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `042d506ee0e944e39c0827e7a1711568ee23afbb49c685b6710ac76078fa0e17`.
+Normalized ledger digest: `6fc74c362fc9951506e573383380c36f07e35d1244399f4df767f4a1ca1ed2f1`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 82 |
+| DONE | 83 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 173 |
+| TODO | 172 |
 
 ## Graduation gates
 
@@ -201,7 +201,7 @@ Normalized ledger digest: `042d506ee0e944e39c0827e7a1711568ee23afbb49c685b6710ac
 | H1-10 | P0 | TODO | NOT_TESTED | — |
 | H2-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`, `research/results/h2-01-authorize-execute-race-tests.xml`, `research/results/r2-h2-acceptance-tests.xml` |
 | H2-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_authority.py`, `docs/ACTION_GRANT_BINDING.md`, `research/results/h2-02-action-binding-tests.xml` |
-| H2-03 | P0 | TODO | NOT_TESTED | — |
+| H2-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`, `research/results/h2-03-idempotency-tests.xml`, `research/results/h2-03-action-compatibility-tests.xml` |
 | H2-04 | P0 | TODO | NOT_TESTED | — |
 | H2-05 | P0 | TODO | NOT_TESTED | — |
 | H2-06 | P0 | TODO | NOT_TESTED | — |
