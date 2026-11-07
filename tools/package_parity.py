@@ -81,7 +81,7 @@ def _smoke(artifact: Path, kind: str, work: Path,
     _run([str(cli), "--db", str(store / "store.db"), "--keys",
           str(store / "keys"), "doctor"], cwd=root, record=commands)
     return {"version": import_info["version"], "module_path": str(module_path),
-            "checks": {"import_outside_checkout": True, "cli_help": True,
+            "checks": {"import_outside_source_tree": True, "cli_help": True,
                        "quickstart": True, "reference_agent": True,
                        "init": True, "doctor": True}}
 
