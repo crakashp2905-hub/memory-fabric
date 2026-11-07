@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **33 / 260 (12.69%)**. Internal status: **BLOCKED**.
+Strict completion: **34 / 260 (13.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5264d2b23fc2224331b4ebfe44994b7dc12a1f14aa0f73f57000d5652804db32`.
+Normalized ledger digest: `7c556cb72073a8bbe65288fd056bcd322c86efd35bfa374df4985fda4f3fccf7`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 33 |
+| DONE | 34 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 223 |
+| TODO | 222 |
 
 ## Graduation gates
 
@@ -60,7 +60,7 @@ Normalized ledger digest: `5264d2b23fc2224331b4ebfe44994b7dc12a1f14aa0f73f57000d
 | E3-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/retrieval.py`, `tests/test_retrieval_index_invalidation.py`, `tests/test_cross_process_freshness.py`, `tests/test_erasure_residue.py`, `tests/test_access_matrix.py`, `docs/RETRIEVAL_INDEX_INVALIDATION.md` |
 | E4-01 | P0 | DONE | INTERNAL_INTEGRATION | `research/results/master-checklist-http-capacity-v1.json`, `research/results/master-checklist-http-capacity-v1.md` |
 | E4-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/stage_trace.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_stage_trace.py`, `docs/STAGE_TRACING.md` |
-| E4-03 | P0 | TODO | NOT_TESTED | — |
+| E4-03 | P0 | DONE | INTERNAL_INTEGRATION | `experiments/p12b_api_load.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/common.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/stage_trace.py`, `tests/test_agent_api.py`, `tests/test_p12b_api_load.py`, `tests/test_p12b_harness.py`, `research/results/e4-03-local-profile.json`, `research/results/e4-03-local-profile.md`, `research/results/e4-03-local-profile-manifest.json`, `research/results/e4-03-profile-tests.xml` |
 | E4-04 | P0 | TODO | NOT_TESTED | — |
 | E4-05 | P0 | TODO | NOT_TESTED | — |
 | E4-06 | P0 | TODO | NOT_TESTED | — |

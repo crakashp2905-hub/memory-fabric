@@ -258,6 +258,14 @@
       "limitations": ["Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"]
     },
     {
+      "task_id": "E4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["experiments/p12b_api_load.py", "src/memory_fabric/agent_api.py", "src/memory_fabric/_fabric/common.py", "src/memory_fabric/_fabric/core.py", "src/memory_fabric/stage_trace.py", "tests/test_agent_api.py", "tests/test_p12b_api_load.py", "tests/test_p12b_harness.py", "research/results/e4-03-local-profile.json", "research/results/e4-03-local-profile.md", "research/results/e4-03-local-profile-manifest.json", "research/results/e4-03-profile-tests.xml"],
+      "limitations": ["Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee", "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput", "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

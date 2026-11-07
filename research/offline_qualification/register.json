@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "71518a8ea8cf1aed89fd44940fc36ca2512d885e",
+    "commit": "3af56ad7225091f0b3f282767196a7278bb92699",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 33,
+      "DONE": 34,
       "PARTIAL": 4,
-      "TODO": 223
+      "TODO": 222
     },
-    "completed": 33,
+    "completed": 34,
     "total": 260,
-    "percent_complete": 12.69,
-    "p0_open": 87,
+    "percent_complete": 13.08,
+    "p0_open": 86,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -600,11 +600,28 @@
       "priority": "P0",
       "task": "Run controlled profiler with 1, 10, 50 and 100 concurrent local clients.",
       "acceptance": "Show CPU, lock wait, I/O, allocation and p50/p95/p99 per scenario",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/p12b_api_load.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/common.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/stage_trace.py",
+        "tests/test_agent_api.py",
+        "tests/test_p12b_api_load.py",
+        "tests/test_p12b_harness.py",
+        "research/results/e4-03-local-profile.json",
+        "research/results/e4-03-local-profile.md",
+        "research/results/e4-03-local-profile-manifest.json",
+        "research/results/e4-03-profile-tests.xml"
+      ],
+      "limitations": [
+        "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
+        "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
+        "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"
+      ]
     },
     {
       "task_id": "E4-04",

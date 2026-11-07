@@ -1,0 +1,65 @@
+{
+  "schema": "memory-fabric-profiler-qualification/1",
+  "recorded_at_utc": "2026-11-07T15:38:27.568183+00:00",
+  "measurement_source_commit": "52994e455ab952f909a33e41863dd604bd741d12",
+  "measurement_commit_short": "52994e4",
+  "measurement_command": "python -m experiments.p12b_api_load --repeats 3 --out e4-03-local-profile",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "configuration": {
+    "agents": [
+      1,
+      10,
+      50,
+      100
+    ],
+    "ops_per_agent": 20,
+    "warmup_ops": 5,
+    "repeats": 3
+  },
+  "result_summary": {
+    "scenarios": 12,
+    "client_counts": [
+      1,
+      10,
+      50,
+      100
+    ],
+    "trials_per_count": 3,
+    "successful_operations": 9660,
+    "attempted_operations": 9660,
+    "failed_scenarios": 0
+  },
+  "profiled_fields": [
+    "server CPU seconds and one-core percentage",
+    "fabric mutex wait total/count",
+    "SQLite append duration total/count",
+    "server process OS read/write byte deltas",
+    "sampled server RSS start/end/peak",
+    "separate-pass Python allocation current/peak",
+    "client-observed p50/p95/p99 per operation and scenario"
+  ],
+  "allocation_measurement": "Separate tracemalloc run for each concurrency/trial; same operation count; excluded from latency and throughput results.",
+  "verification": {
+    "source_commit": "3af56ad7225091f0b3f282767196a7278bb92699",
+    "lint": "Ruff passed for profiler, API, and focused test files.",
+    "pytest_command": "python -m pytest tests/test_agent_api.py tests/test_stage_trace.py tests/test_p12b_api_load.py tests/test_p12b_harness.py --junitxml=research/results/e4-03-profile-tests.xml -q",
+    "pytest_summary": {
+      "junit_testcases": 29,
+      "pytest_reported_tests": 24,
+      "subtests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "artifacts_sha256": {
+    "research/results/e4-03-local-profile.json": "7b8b76634f7ef497add5b4c47d1e2bf7f11becebbc911f2e9fb6f8a0ecb3d61a",
+    "research/results/e4-03-local-profile.md": "fa847cf82dabbc7a09ce70527e2ffa611fdc1ea5fa5311122f78dd6c1f4dcee0",
+    "research/results/e4-03-profile-tests.xml": "ed5dd550e84ed52176600ac3aa0b5df0a6a892e255415fc9be38d46b1a3ce0b2"
+  },
+  "limitations": [
+    "Three runs per concurrency point on one Windows host are operational evidence, not a production capacity guarantee.",
+    "OS I/O counters can omit cached writes; RSS is sampled every 10 ms and may miss brief peaks.",
+    "SQLite uses a single local server process; this is not a multi-host benchmark."
+  ]
+}
