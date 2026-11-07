@@ -802,6 +802,25 @@
       "limitations": [
         "Validated on Windows with Python 3.13.5 only; supported interpreter and operating-system CI matrix remains separate. Built artifacts are represented by their recorded SHA-256 hashes and were installed in temporary environments that were removed after the run."
       ]
+    },
+    {
+      "task_id": "E5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/HISTORICAL_COMPATIBILITY_FIXTURES.md",
+        "tests/data/historical/manifest.json",
+        "tests/data/historical/v0.11.0.db.gz",
+        "tests/test_historical_fixtures.py",
+        "tests/test_version_skew.py",
+        "tests/test_integrity_chain.py",
+        "research/results/e5-08-historical-fixtures.json",
+        "research/results/e5-08-historical-fixtures.xml"
+      ],
+      "limitations": [
+        "The checked-in authentic artifact covers the only formal release tag/artifact available in this repository, v0.11.0. Older 0.2.0-0.8.0 cases are reconstructed transition tests, not release binaries; 0.12.0-0.14.0 have no formal release artifacts in the repository."
+      ]
     }
   ]
 }
