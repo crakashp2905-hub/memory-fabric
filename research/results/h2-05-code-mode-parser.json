@@ -1,0 +1,40 @@
+{
+  "acceptance_status": "PASS",
+  "adversarial_corpus": {
+    "all_rejected_during_parse": true,
+    "cases": 26,
+    "families": [
+      "attribute_access",
+      "comprehension",
+      "control_flow",
+      "dunder_tool_name",
+      "dynamic_arguments",
+      "eval",
+      "imports",
+      "reflection",
+      "unpacking"
+    ]
+  },
+  "input_sha256": {
+    "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
+    "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
+    "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+    "tests/test_code_mode_fuzz.py": "8c46545816738b005198eeb910871ab26e20b66ca085ccb2fb62cd3896b5c33f",
+    "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83"
+  },
+  "limitations": [
+    "The parser rejects arbitrary code syntax; registered tool handlers may still perform external effects under their own action policies.",
+    "This is a deterministic local corpus, not an exhaustive proof of Python or parser implementation safety."
+  ],
+  "population": "deterministic_adversarial_parser_cases",
+  "schema": "mf-code-mode-parser-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "9acdf33e469fbfd7f1a8bb4da6edc62a351b5e43",
+  "tests": {
+    "command": "python -m pytest tests/test_code_mode_fuzz.py tests/test_tool_protocol.py",
+    "failures": 0,
+    "missing_cases": [],
+    "required_cases_present": true,
+    "total": 14
+  }
+}

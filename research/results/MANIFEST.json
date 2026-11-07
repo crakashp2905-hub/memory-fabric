@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 175,
+ "results": 176,
  "missing_field_counts": {
-  "git_sha": 70,
+  "git_sha": 71,
   "prereg": 75,
-  "dataset_digest": 172,
-  "model_id": 139,
-  "prompt_hash": 175,
-  "seed": 97,
-  "cost": 152,
-  "verdict": 111
+  "dataset_digest": 173,
+  "model_id": 140,
+  "prompt_hash": 176,
+  "seed": 98,
+  "cost": 153,
+  "verdict": 112
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 164
+  "unclassified": 165
  },
  "rows": [
   {
@@ -1694,6 +1694,24 @@
    "experiment_id": "h2-04-action-reconciliation",
    "file": "research/results/h2-04-action-reconciliation.json",
    "file_sha256": "c82fc14ec2af2c56bc8c7fedba8b39d99a837d6e1da94b6d709353a3ae196cef",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h2-05-code-mode-parser",
+   "file": "research/results/h2-05-code-mode-parser.json",
+   "file_sha256": "c38214be26f133e6c7242fe449839752aacccbdb4fbf14f75e566d29dc5ec0e7",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
    "git_sha": null,

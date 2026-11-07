@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "88a93dc8d9e53c2ddeb22e48f18d9f6b2a93549e6d3be375dcb015e01e13485d",
+    "sha256": "f9e364b29c3760154e0839b22829f5ccc860b9c210017d08705b7ba61ab49131",
     "tasks": 260
   },
   "source": {
-    "commit": "a01e948e0d4b8b8f939692ebeef5c7996d4af5a9",
+    "commit": "9acdf33e469fbfd7f1a8bb4da6edc62a351b5e43",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 84,
+      "DONE": 85,
       "PARTIAL": 5,
-      "TODO": 171
+      "TODO": 170
     },
-    "completed": 84,
+    "completed": 85,
     "total": 260,
-    "percent_complete": 32.31,
-    "p0_open": 45,
+    "percent_complete": 32.69,
+    "p0_open": 44,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "1edb36f44958697574932b0837e8312cb668cfe3b8c07edd575ad50619f2b6a8",
-        "docs/VALIDATION.md": "c31a55bede63f3f17d8c24e6f53c05ed1701f765ca46d7f85308bf2426fa61bf",
-        "docs/STATUS_AT_HEAD.md": "d0118f6ec5959c50c1590268652144de1b4ac9e50b7cde0812625e7b6ded7f30",
+        "README.md": "b8a740e6b5435778ecc3ae9c5a5cfc363bf4b8cb938a26d117367451dbb97cc6",
+        "docs/VALIDATION.md": "cdc2d63210064410cef735b7cda65a17cfdd6ca5553adf3202a589b7cd18d318",
+        "docs/STATUS_AT_HEAD.md": "f9cbbca8e7746405c8acec2abbee32eb75217fe9662b35298198fb5c1ecc47a9",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1299,9 +1299,9 @@
         "research/results/e5-05-tool-schema.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "b15448653bbcf411485c782e2f0ac4936d39c39511c4c0edce442ea32e1ef20b",
+        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
         "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
-        "docs/DECISION_MODELS_AND_UTCP.md": "a16f566ab7ebfb94cd7d9925a331074f517aa13f39128666b145c45de2667051",
+        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
         "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
       },
@@ -1327,10 +1327,10 @@
         "research/results/e5-06-utcp-malicious.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "b15448653bbcf411485c782e2f0ac4936d39c39511c4c0edce442ea32e1ef20b",
+        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
         "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
         "tests/data/utcp_malicious_manuals.json": "7233877289f3bfeb2e781bd8524835b8c8990904efd95af45b89941d147ec034",
-        "docs/DECISION_MODELS_AND_UTCP.md": "a16f566ab7ebfb94cd7d9925a331074f517aa13f39128666b145c45de2667051",
+        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
         "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
         "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
       },
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "3ef2b4123310581e69c042aef563cd0c6603bb3ab1ad1774be797442630efc06",
+        "research/results/MANIFEST.json": "633f001ac13757ac7f82798e62704d2ac347f7e70adfcf28a80d19995f7d8ae5",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3569,14 +3569,32 @@
       "task_id": "H2-05",
       "priority": "P0",
       "task": "Build strict Code Mode parser fuzz suite: imports, eval, attribute access, comprehensions, reflection.",
-      "acceptance": "Unsupported constructs fail before execution; no generic interpreter access is introduced",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Unsupported constructs fail before execution; no generic interpreter access is introduced. Evidence: `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `docs/DECISION_MODELS_AND_UTCP.md`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/code_mode_malicious_plans.json",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-05-code-mode-parser-tests.xml",
+        "research/results/h2-05-code-mode-parser.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "6b1c90a5adafbe8246e7db7a7f7bae9f3a4086c910b8d1270b332b515ceca4fa",
+        "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+        "tests/test_code_mode_fuzz.py": "8c46545816738b005198eeb910871ab26e20b66ca085ccb2fb62cd3896b5c33f",
+        "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83",
+        "docs/DECISION_MODELS_AND_UTCP.md": "5ae740709c8ec67d14c6649cd71d75e9c685ee60d0d531f6b18b756802dbc51d",
+        "research/results/h2-05-code-mode-parser-tests.xml": "cf3c0a1ce30343c9a50bbe19d9495a84759ad92a9fa150dd0f5be2b2eb8209d1",
+        "research/results/h2-05-code-mode-parser.json": "bc4ff7ed543ab3467fb3456973117ae3c4278220bcc7151b691503fbe2405040"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The parser blocks unsupported plan syntax and reserved interpreter builtins; registered tool handlers can still perform effects and require independent tool policy and action-gate controls."
+      ]
     },
     {
       "task_id": "H2-06",

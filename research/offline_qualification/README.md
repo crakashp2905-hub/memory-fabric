@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **84 / 260 (32.31%)**. Internal status: **BLOCKED**.
+Strict completion: **85 / 260 (32.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `c1376a62b5b479e66842def77cd0a2ea9ef88581c6ee95e1aa2566418068e015`.
+Normalized ledger digest: `2ffaacd408f9e8c4f5de011e21ec8b6c6712dc5a8c3a19797fe191fb9ad95b09`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 84 |
+| DONE | 85 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 171 |
+| TODO | 170 |
 
 ## Graduation gates
 
@@ -203,7 +203,7 @@ Normalized ledger digest: `c1376a62b5b479e66842def77cd0a2ea9ef88581c6ee95e1aa256
 | H2-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_authority.py`, `docs/ACTION_GRANT_BINDING.md`, `research/results/h2-02-action-binding-tests.xml` |
 | H2-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`, `tools/action_idempotency_qualification.py`, `research/results/h2-03-idempotency-tests.xml`, `research/results/h2-03-action-idempotency.json`, `research/results/h2-03-action-compatibility-tests.xml` |
 | H2-04 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_action_reconciliation.py`, `tests/test_action_crash.py`, `docs/ACTION_RECONCILIATION.md`, `tools/action_reconciliation_qualification.py`, `research/results/h2-04-action-reconciliation-tests.xml`, `research/results/h2-04-action-reconciliation.json` |
-| H2-05 | P0 | TODO | NOT_TESTED | — |
+| H2-05 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-05-code-mode-parser-tests.xml`, `research/results/h2-05-code-mode-parser.json` |
 | H2-06 | P0 | TODO | NOT_TESTED | — |
 | H2-07 | P0 | TODO | NOT_TESTED | — |
 | H2-08 | P0 | TODO | NOT_TESTED | — |
