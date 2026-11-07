@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "cda67e835f4878d9dfbe5377dbeba86033e42096",
+    "commit": "18d775e8c6591cdd8e0c9e01367754921a058480",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 20,
+      "DONE": 21,
       "PARTIAL": 4,
-      "TODO": 236
+      "TODO": 235
     },
-    "completed": 20,
+    "completed": 21,
     "total": 260,
-    "percent_complete": 7.69,
-    "p0_open": 100,
+    "percent_complete": 8.08,
+    "p0_open": 99,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -340,11 +340,17 @@
       "priority": "P0",
       "task": "Create crash-at-every-write-boundary harness for core lifecycle events.",
       "acceptance": "Reopen yields either entirely committed operation or no effect, with intact integrity chain",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/crashworker.py",
+        "tests/test_multiprocess_crash.py",
+        "docs/CRASH_BOUNDARY_MATRIX.md"
+      ],
+      "limitations": [
+        "Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"
+      ]
     },
     {
       "task_id": "E2-10",

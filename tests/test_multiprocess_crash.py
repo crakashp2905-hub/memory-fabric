@@ -354,5 +354,86 @@ class TheIntegritySnapshotSurvives(MultiProcessCase):
         self.assertTrue(snapshot["checksum"].startswith("sha256:"))
 
 
+class EveryCoreLifecycleWriteBoundary(MultiProcessCase):
+    """Every core lifecycle transaction is killed before and after commit."""
+
+    OPERATIONS = ("remember", "revise", "quarantine", "erase", "branch", "merge")
+
+    def _seed_for(self, operation: str) -> tuple[str, int]:
+        fabric = MemoryFabric(self.origin_path, firewall=permissive(), auto_activate=True)
+        try:
+            mid = fabric.remember("ag", "valve 7 is upstream of the pump")
+            if operation == "merge":
+                from memory_fabric.branching import Branches
+
+                branches = Branches(fabric)
+                branches.create("crash-trial", owner="ag", reviewers=("lead",))
+                with branches.commit("crash-trial", "ag", "merge fixture") as commit:
+                    commit.add("branch-only crash observation")
+            return mid, fabric.log.head_seq
+        finally:
+            fabric.close()
+
+    def _assert_chain(self, fabric: MemoryFabric) -> None:
+        result = fabric.log.chain.verify(fabric.log.read())
+        self.assertTrue(result.ok, result.detail)
+
+    def test_crash_before_chain_or_commit_has_no_effect(self) -> None:
+        for operation in self.OPERATIONS:
+            for phase in ("before_chain", "inside"):
+                with self.subTest(operation=operation, phase=phase):
+                    # Each subtest gets an independent physical database.
+                    path = self.dir / f"{phase}-{operation}.db"
+                    self.origin_path = path
+                    mid, head = self._seed_for(operation)
+                    self.run_worker("lifecycle_boundary", str(path), operation, phase)
+                    fabric = self.open(path)
+                    self._assert_chain(fabric)
+                    self.assertEqual(fabric.log.head_seq, head)
+                    expected_memories = 2 if operation == "merge" else 1
+                    self.assertEqual(len(fabric.state.memories), expected_memories)
+                    memory = fabric.get(mid)
+                    self.assertEqual(memory.version, 1)
+                    self.assertIs(memory.lifecycle_state, LifecycleState.ACTIVE)
+                    self.assertEqual(memory.content, "valve 7 is upstream of the pump")
+                    if operation == "branch":
+                        from memory_fabric.branching import Branches
+
+                        with self.assertRaises(KeyError):
+                            Branches(fabric).get("crash-trial")
+                    if operation == "merge":
+                        candidate = next(
+                            m for m in fabric.state.memories.values() if m.id != mid
+                        )
+                        self.assertIs(candidate.lifecycle_state, LifecycleState.CANDIDATE)
+
+    def test_crash_after_each_lifecycle_commit_has_the_whole_effect(self) -> None:
+        for operation in self.OPERATIONS:
+            with self.subTest(operation=operation):
+                path = self.dir / f"after-{operation}.db"
+                self.origin_path = path
+                mid, head = self._seed_for(operation)
+                self.run_worker("lifecycle_boundary", str(path), operation, "after")
+                fabric = self.open(path)
+                self._assert_chain(fabric)
+                self.assertGreater(fabric.log.head_seq, head)
+                if operation == "remember":
+                    self.assertEqual(len(fabric.state.memories), 2)
+                elif operation == "revise":
+                    self.assertEqual(fabric.get(mid).version, 2)
+                    self.assertEqual(fabric.get(mid).content, "valve 7 is downstream")
+                elif operation == "quarantine":
+                    self.assertIs(fabric.get(mid).lifecycle_state, LifecycleState.QUARANTINED)
+                elif operation == "erase":
+                    self.assertIn(mid, fabric.state.erased)
+                elif operation == "branch":
+                    from memory_fabric.branching import Branches
+
+                    self.assertEqual(len(Branches(fabric).history("crash-trial")), 1)
+                else:
+                    candidate = next(m for m in fabric.state.memories.values() if m.id != mid)
+                    self.assertIs(candidate.lifecycle_state, LifecycleState.ACTIVE)
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

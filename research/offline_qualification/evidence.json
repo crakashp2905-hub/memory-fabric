@@ -146,6 +146,14 @@
       "limitations": ["The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"]
     },
     {
+      "task_id": "E2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": ["tests/crashworker.py", "tests/test_multiprocess_crash.py", "docs/CRASH_BOUNDARY_MATRIX.md"],
+      "limitations": ["Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"]
+    },
+    {
       "task_id": "E4-01",
       "status": "DONE",
       "acceptance_passed": true,
