@@ -661,6 +661,25 @@
       "limitations": [
         "Clock-skew bound assumes a receiver clock within the configured tolerance; time synchronization remains an operational dependency. Monotonic expiry is process-local and leases are reverified on restart."
       ]
+    },
+    {
+      "task_id": "E4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_soak.py",
+        "docs/E4_SOAK.md",
+        "tests/test_multiprocess_crash.py",
+        "tests/test_backup.py",
+        "research/results/e4-10-deterministic-soak.json",
+        "research/results/e4-10-deterministic-soak.md",
+        "research/results/e4-10-crash-backup-regressions.xml",
+        "research/results/e4-10-evidence.json"
+      ],
+      "limitations": [
+        "Forty hard-crash cycles are deterministic local SQLite qualification, not a continuous production-duration soak, physical-host failure, PostgreSQL, or deployment-hardware resource ceiling."
+      ]
     }
   ]
 }
