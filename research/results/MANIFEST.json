@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 165,
+ "results": 166,
  "missing_field_counts": {
-  "git_sha": 60,
+  "git_sha": 61,
   "prereg": 74,
-  "dataset_digest": 162,
-  "model_id": 129,
-  "prompt_hash": 165,
+  "dataset_digest": 163,
+  "model_id": 130,
+  "prompt_hash": 166,
   "seed": 94,
-  "cost": 142,
+  "cost": 143,
   "verdict": 108
  },
  "population_counts": {
-  "synthetic_scripted": 3,
+  "synthetic_scripted": 4,
   "unclassified": 162
  },
  "rows": [
@@ -2988,6 +2988,28 @@
    "experiment_id": "r3-02-matched-agent-arms",
    "file": "research/results/r3-02-matched-agent-arms.json",
    "file_sha256": "634e6ee0610ca1a09438ee7e26894934d289aeb9ec00b2c8fba243acafcee0e1",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/r3-best-retriever.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": [
+    701,
+    709,
+    719
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r3-03-failure-taxonomy",
+   "file": "research/results/r3-03-failure-taxonomy.json",
+   "file_sha256": "12e3f53eaf6efe28335ee844b345848779b06ce34555a342172dfb83075fb66d",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/r3-best-retriever.md",
    "git_sha": null,

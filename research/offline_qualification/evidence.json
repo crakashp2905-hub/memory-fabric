@@ -1145,6 +1145,23 @@
       ]
     },
     {
+      "task_id": "R3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/failure-taxonomy-v1.md",
+        "docs/FAILURE_TAXONOMY.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-03-failure-taxonomy-tests.xml",
+        "research/results/r3-03-failure-taxonomy.json"
+      ],
+      "limitations": [
+        "Failure attribution covers this deterministic authorization benchmark; tool execution and real agent coordination are not exercised, so their observed counts are zero rather than evidence of general absence."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,

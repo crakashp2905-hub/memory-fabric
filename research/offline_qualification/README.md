@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **67 / 260 (25.77%)**. Internal status: **BLOCKED**.
+Strict completion: **68 / 260 (26.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `abf9fb25876333438a9ee781235840973268835c0955d7645476591120522c51`.
+Normalized ledger digest: `1b4df92ba79c5c17080c1d5cea36b687f680302dcb617ab709229f7c815d8639`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 67 |
+| DONE | 68 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 188 |
+| TODO | 187 |
 
 ## Graduation gates
 
@@ -101,7 +101,7 @@ Normalized ledger digest: `abf9fb25876333438a9ee781235840973268835c0955d76454765
 | R2-10 | P0 | TODO | NOT_TESTED | — |
 | R3-01 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_scale.py`, `tests/test_agent_scale.py`, `research/prereg/agent-scale-v1.md`, `docs/AGENT_SCALE_BENCHMARK.md`, `research/results/r3-01-agent-scale-tests.xml`, `research/results/r3-01-agent-scale.json` |
 | R3-02 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/agent_scale.py`, `research/prereg/matched-agent-arms-v1.md`, `docs/MATCHED_AGENT_ARMS.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-02-matched-agent-arms-tests.xml`, `research/results/r3-02-matched-agent-arms.json` |
-| R3-03 | P0 | TODO | NOT_TESTED | — |
+| R3-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/failure-taxonomy-v1.md`, `docs/FAILURE_TAXONOMY.md`, `tests/test_matched_agent_arms.py`, `research/results/r3-03-failure-taxonomy-tests.xml`, `research/results/r3-03-failure-taxonomy.json` |
 | R3-04 | P0 | TODO | NOT_TESTED | — |
 | R3-05 | P0 | TODO | NOT_TESTED | — |
 | R3-06 | P0 | TODO | NOT_TESTED | — |

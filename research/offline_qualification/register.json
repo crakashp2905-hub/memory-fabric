@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "1b45aee2e9462f69fa24c6c444d8a345b0bd261e",
-    "dirty": false
+    "commit": "2b7a06952a49837b8f4a8ec5831fabb08c178e2e",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 67,
+      "DONE": 68,
       "PARTIAL": 5,
-      "TODO": 188
+      "TODO": 187
     },
-    "completed": 67,
+    "completed": 68,
     "total": 260,
-    "percent_complete": 25.77,
-    "p0_open": 62,
+    "percent_complete": 26.15,
+    "p0_open": 61,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "d2f00ec71ff1dafaf5a0905c30639923129ed8049b00a23684589bf9ea51702e",
-        "docs/VALIDATION.md": "e0649623d466bcf4fc9230a885b53ccb6b736b4e19ad20a6d9e088f6b5cc069b",
-        "docs/STATUS_AT_HEAD.md": "a41ce5e737bf535cc335770ab81b5646e729f18056369a73dbb6af38bbe4191d",
+        "README.md": "e32215ec3b869bf902b0644cbeabd7b6988d1491e3614a7ef21fe6caa700da26",
+        "docs/VALIDATION.md": "94dfcc0dfcabb33f740fd8f33202e900c7bc262ba9344f0beb6ba86baf73ea50",
+        "docs/STATUS_AT_HEAD.md": "f7e0e1e981bce44823630267cf9a77058b558307910f9c43dffa5945d221d60c",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "f16d880d1625a5d4622dd97e519dfb4e0c399b5df0d1331de63c0cfa34c68992",
+        "research/results/MANIFEST.json": "442e6440f68c09120724800fad2c05fa304b53688cc6c19403b66bb484f7f8a8",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1952,11 +1952,11 @@
         "research/results/r3-02-matched-agent-arms.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "b183840dc8ae81235b031e8f869a128f25933fa4b6bef4a89bed21d5da0776b6",
+        "benchmarks/matched_agent_arms.py": "aab0ba2f635c667aed689deb7f8bfe10351b402374acc6a4fc686cc8300eb284",
         "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
         "research/prereg/matched-agent-arms-v1.md": "118061ff5a763917939207b76e4c428b0e9e37d926c660d17d46ef0b1b05adcf",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
-        "tests/test_matched_agent_arms.py": "a2e5260072ddb02b9ac042498f3ceb85e59efcb413bc866597611232e35cda54",
+        "tests/test_matched_agent_arms.py": "9a2fe18c8b5e8939141a74c4e9fc243608e1fac352960b6e9a8a1ebf1530e6fe",
         "research/results/r3-02-matched-agent-arms-tests.xml": "3d92aef23223e0d575647fe194e4ba9c9fa1203ccfa967912aa884c1ad7cd282",
         "research/results/r3-02-matched-agent-arms.json": "97da4858be69998e00f9957c85176e7a3d5b4cd70f5580521db8d71a2799dca1"
       },
@@ -1970,13 +1970,29 @@
       "priority": "P0",
       "task": "Separate completion failures into retrieval, insufficient evidence, policy refusal, coordination and tool error.",
       "acceptance": "Every failure belongs to at least one audited class with source trace",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/failure-taxonomy-v1.md",
+        "docs/FAILURE_TAXONOMY.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-03-failure-taxonomy-tests.xml",
+        "research/results/r3-03-failure-taxonomy.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/matched_agent_arms.py": "aab0ba2f635c667aed689deb7f8bfe10351b402374acc6a4fc686cc8300eb284",
+        "research/prereg/failure-taxonomy-v1.md": "1a5ff50933a8179678dca7e5c50f111202b9bdb6b3fc061383905397bbfc2a96",
+        "docs/FAILURE_TAXONOMY.md": "1bb27ae902a6fd82f156aa9eefc9937a48bbe284785bba1f7a6a8e67344c40fd",
+        "tests/test_matched_agent_arms.py": "9a2fe18c8b5e8939141a74c4e9fc243608e1fac352960b6e9a8a1ebf1530e6fe",
+        "research/results/r3-03-failure-taxonomy-tests.xml": "4d0a01b0cb9f9083ea33176302b4ea5ca5a4cad52052d7fe867d5ca710bca0d6",
+        "research/results/r3-03-failure-taxonomy.json": "c1fb94c9aa7f9c689897eeac0e8b869a7d9ad2e902ab7ed217de9358064877e2"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Failure attribution covers this deterministic authorization benchmark; tool execution and real agent coordination are not exercised, so their observed counts are zero rather than evidence of general absence."
+      ]
     },
     {
       "task_id": "R3-04",
