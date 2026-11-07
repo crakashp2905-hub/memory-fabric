@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "42048b32c189b8575b9154dc6d7fa51e454d09cb",
-    "dirty": false
+    "commit": "f390bbdc46e8ac55f5e7b8500bdeaedd302121b0",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 44,
+      "DONE": 45,
       "PARTIAL": 4,
-      "TODO": 212
+      "TODO": 211
     },
-    "completed": 44,
+    "completed": 45,
     "total": 260,
-    "percent_complete": 16.92,
+    "percent_complete": 17.31,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -851,11 +851,20 @@
       "priority": "P1",
       "task": "Harden feature flags so experimental code cannot silently become default after upgrade.",
       "acceptance": "Snapshot tests assert default preset configuration and explicitly opt-in unsafe changes",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/EXPERIMENTAL_DEFAULTS.md",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        "tests/test_stability.py",
+        "research/results/e5-04-default-flags.json",
+        "research/results/e5-04-default-flags.xml"
+      ],
+      "limitations": [
+        "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
+      ]
     },
     {
       "task_id": "E5-05",
