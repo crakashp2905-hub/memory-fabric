@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "367bb95c0f3e70b650b4c5472ad3f6d7f138f7e8",
+    "commit": "150df4798b39b4ab57f135655e7a9bb9eefcac09",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 61,
+      "DONE": 63,
       "PARTIAL": 5,
-      "TODO": 194
+      "TODO": 192
     },
-    "completed": 61,
+    "completed": 63,
     "total": 260,
-    "percent_complete": 23.46,
-    "p0_open": 68,
+    "percent_complete": 24.23,
+    "p0_open": 66,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1787,26 +1787,52 @@
       "priority": "P0",
       "task": "Experiment with targeted quarantine of exact claims rather than blanket author withholding.",
       "acceptance": "Supported sibling evidence survives unless its exact dependency chain is compromised",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/certificates.py": "db152206455bcfc7d12c710de7b8235c076e603b9ded45c964cc8dd9318032dc",
+        "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
+        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The selective reassessment behavior is verified on local fixtures. It does not establish a real-world false-withholding rate."
+      ]
     },
     {
       "task_id": "R2-07",
       "priority": "P0",
       "task": "Measure independent-support failures when several notes share the same upstream origin.",
       "acceptance": "Source-copy clusters count as one support root while independent notes remain independently usable",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/justification.py",
+        "src/memory_fabric/certificates.py",
+        "tests/test_justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
+        "src/memory_fabric/certificates.py": "db152206455bcfc7d12c710de7b8235c076e603b9ded45c964cc8dd9318032dc",
+        "tests/test_justification.py": "201a51e019543c08441e2d175fdf137ca87843f2dad559d6aabf379b0696b62e",
+        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Copy and shared-ancestry examples establish the support-root rule in local scenarios; broader corpus-scale failure rates remain unmeasured."
+      ]
     },
     {
       "task_id": "R2-08",

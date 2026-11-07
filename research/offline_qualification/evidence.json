@@ -1045,6 +1045,37 @@
       ]
     },
     {
+      "task_id": "R2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "limitations": [
+        "The selective reassessment behavior is verified on local fixtures. It does not establish a real-world false-withholding rate."
+      ]
+    },
+    {
+      "task_id": "R2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/justification.py",
+        "src/memory_fabric/certificates.py",
+        "tests/test_justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "limitations": [
+        "Copy and shared-ancestry examples establish the support-root rule in local scenarios; broader corpus-scale failure rates remain unmeasured."
+      ]
+    },
+    {
       "task_id": "E5-10",
       "status": "PARTIAL",
       "acceptance_passed": false,
