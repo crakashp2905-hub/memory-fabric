@@ -553,6 +553,25 @@
       ]
     },
     {
+      "task_id": "E4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_three_hosts.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/e4-07-three-hosts.json",
+        "research/results/e4-07-three-hosts.md",
+        "research/results/e4-07-regression-tests.xml",
+        "research/results/e4-07-manifest.json"
+      ],
+      "limitations": [
+        "Three logical hosts are separate localhost processes and SQLite files, but share one physical host.",
+        "Partition is modeled by stopping a server process; no packet-loss, bandwidth, clock-skew, or physical multi-host properties are claimed."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

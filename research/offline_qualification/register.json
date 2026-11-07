@@ -6,19 +6,19 @@
     "tasks": 260
   },
   "source": {
-    "commit": "69bf463de2f4e7a6c637e59c555e320a5e1bcb1d",
+    "commit": "061315b9b7126d93e7985a8a22d9e73ff3997f2f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 37,
+      "DONE": 38,
       "PARTIAL": 4,
-      "TODO": 219
+      "TODO": 218
     },
-    "completed": 37,
+    "completed": 38,
     "total": 260,
-    "percent_complete": 14.23,
-    "p0_open": 83,
+    "percent_complete": 14.62,
+    "p0_open": 82,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -701,11 +701,22 @@
       "priority": "P0",
       "task": "Simulate three logical hosts using distinct localhost processes and stores.",
       "acceptance": "Corrections converge after partitions heal with all acknowledgements accounted for; not called physical-host proof",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_three_hosts.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/e4-07-three-hosts.json",
+        "research/results/e4-07-three-hosts.md",
+        "research/results/e4-07-regression-tests.xml",
+        "research/results/e4-07-manifest.json"
+      ],
+      "limitations": [
+        "Three logical hosts are separate localhost processes and SQLite files, but share one physical host.",
+        "Partition is modeled by stopping a server process; no packet-loss, bandwidth, clock-skew, or physical multi-host properties are claimed."
+      ]
     },
     {
       "task_id": "E4-08",
