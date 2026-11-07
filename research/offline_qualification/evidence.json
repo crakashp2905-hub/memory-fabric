@@ -106,7 +106,9 @@
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "tests/test_offline_qualification.py"
+        "tests/test_offline_qualification.py",
+        "research/results/e1-07-ledger-verification.json",
+        "research/results/e1-07-ledger-verification.xml"
       ],
       "limitations": []
     },

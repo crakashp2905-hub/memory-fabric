@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 157,
+ "results": 158,
  "missing_field_counts": {
   "git_sha": 56,
   "prereg": 73,
-  "dataset_digest": 154,
-  "model_id": 121,
-  "prompt_hash": 157,
-  "seed": 88,
-  "cost": 134,
+  "dataset_digest": 155,
+  "model_id": 122,
+  "prompt_hash": 158,
+  "seed": 89,
+  "cost": 135,
   "verdict": 106
  },
  "rows": [
@@ -583,6 +583,23 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-07-ledger-verification",
+   "file": "research/results/e1-07-ledger-verification.json",
+   "file_sha256": "0b8e1a8479d347dc3feaf463c41b94ba6771eb7763c99a605eeb7002ce8178ea",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": "f97947f7777d70aa6093226ffe7f9ea9c32fec1b",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

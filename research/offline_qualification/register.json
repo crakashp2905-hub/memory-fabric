@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "b258e932dc46451c5b1d0c51df1ba5fd5596d7e3",
+    "commit": "f97947f7777d70aa6093226ffe7f9ea9c32fec1b",
     "dirty": true
   },
   "summary": {
@@ -213,11 +213,15 @@
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "tests/test_offline_qualification.py"
+        "tests/test_offline_qualification.py",
+        "research/results/e1-07-ledger-verification.json",
+        "research/results/e1-07-ledger-verification.xml"
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "1df0ec2dca33f494a492ec81b36fb216acdb564ade6c156400c6339a9962ac3a",
-        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a"
+        "tests/test_offline_qualification.py": "fcdc4362d73a6a3843eb20e51deb26e46549e632ba86a34cbbbee8835611535a",
+        "research/results/e1-07-ledger-verification.json": "26250b98e7c9270aa7da572ce61e94960e091fdf1e62870e83fbadeab779e316",
+        "research/results/e1-07-ledger-verification.xml": "72bfeda66dfc336756acbb7c974d6d58aaeda766eabadc065665a0d1ec8f3002"
       },
       "evidence_issues": {},
       "limitations": []
@@ -276,7 +280,7 @@
       "evidence_digests": {
         "tools/status_at_head.py": "ff3141c4e6ba8ec25d0e3764321b6526018881f60468825cb2a087eee35cf798",
         "tests/test_status_at_head.py": "241210aeb163f6d8e79fd6620bbbd012a4d988e8c1b646067deabfad5d5e6e7b",
-        "docs/STATUS_AT_HEAD.md": "79da3d07b3f2837ef171a97277b535e45762083d50bb15f1275128021db8752a"
+        "docs/STATUS_AT_HEAD.md": "879d95b517173ff31d2fb5bf386018fc1b52a7b2f822cb7a03dfe32d8d67d96e"
       },
       "evidence_issues": {},
       "limitations": []

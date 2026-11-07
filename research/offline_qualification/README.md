@@ -4,7 +4,7 @@ Strict completion: **51 / 260 (19.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7f6b4183def55657acfd9551970d20395cbc2c8cec3f0feb136540bde3adf88c`.
+Normalized ledger digest: `20664ccae033e91acaba3a6e16c1ef79faed68368716f6131417ec00e2746132`.
 
 | status | count |
 |---|---:|
@@ -35,7 +35,7 @@ Normalized ledger digest: `7f6b4183def55657acfd9551970d20395cbc2c8cec3f0feb13654
 | E1-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
 | E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
-| E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
+| E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
 | E1-08 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
 | E1-09 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py` |
 | E1-10 | P0 | DONE | CONTRACT | `tools/status_at_head.py`, `tests/test_status_at_head.py`, `docs/STATUS_AT_HEAD.md` |
