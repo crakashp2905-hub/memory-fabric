@@ -701,6 +701,21 @@
       "limitations": [
         "The inventory covers documented public API symbols; the migration-note requirement is documented and review-enforced rather than inferred from arbitrary Git history."
       ]
+    },
+    {
+      "task_id": "E5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "pyproject.toml",
+        "src/memory_fabric/py.typed",
+        "tools/check_typed_consumer.py",
+        "research/results/e5-02-typed-wheel.json"
+      ],
+      "limitations": [
+        "Local wheel and isolated typing check on Python 3.13.5; full supported-interpreter/platform matrix remains separate."
+      ]
     }
   ]
 }
