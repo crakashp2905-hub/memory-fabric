@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **46 / 260 (17.69%)**. Internal status: **BLOCKED**.
+Strict completion: **47 / 260 (18.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `87a025f42e60b5ecf9290a4552072982eab0255ea5c5629057d7b32570ffbb87`.
+Normalized ledger digest: `6463243a31977fb48fc94bf4bc134b1f5c5e4655b7de4fe2caf232d12bec8282`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 46 |
+| DONE | 47 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 210 |
+| TODO | 209 |
 
 ## Graduation gates
 
@@ -73,7 +73,7 @@ Normalized ledger digest: `87a025f42e60b5ecf9290a4552072982eab0255ea5c5629057d7b
 | E5-03 | P1 | DONE | INTERNAL_INTEGRATION | `docs/ERROR_CONTRACT_MATRIX.md`, `src/memory_fabric/sdk.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/cli.py`, `tests/test_sdk.py`, `tests/test_mcp.py`, `tests/test_agent_api.py`, `tests/test_correction.py`, `research/results/e5-03-error-contracts.json`, `research/results/e5-03-error-contracts.xml` |
 | E5-04 | P1 | DONE | INTERNAL_INTEGRATION | `docs/EXPERIMENTAL_DEFAULTS.md`, `tests/data/default_features.json`, `tests/test_presets.py`, `tests/test_stability.py`, `research/results/e5-04-default-flags.json`, `research/results/e5-04-default-flags.xml` |
 | E5-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/e5-05-tool-schema.json`, `research/results/e5-05-tool-schema.xml` |
-| E5-06 | P1 | TODO | NOT_TESTED | — |
+| E5-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/test_tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/e5-06-utcp-malicious.json`, `research/results/e5-06-utcp-malicious.xml` |
 | E5-07 | P1 | TODO | NOT_TESTED | — |
 | E5-08 | P1 | TODO | NOT_TESTED | — |
 | E5-09 | P1 | TODO | NOT_TESTED | — |

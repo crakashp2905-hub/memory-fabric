@@ -6,18 +6,18 @@
     "tasks": 260
   },
   "source": {
-    "commit": "d8c4094617664cdfc530f12d31f89136a3de8729",
+    "commit": "574d54ac81888dcbd118b30d90800c9dce358d76",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 46,
+      "DONE": 47,
       "PARTIAL": 4,
-      "TODO": 210
+      "TODO": 209
     },
-    "completed": 46,
+    "completed": 47,
     "total": 260,
-    "percent_complete": 17.69,
+    "percent_complete": 18.08,
     "p0_open": 79,
     "internal_status": "BLOCKED"
   },
@@ -890,11 +890,20 @@
       "priority": "P1",
       "task": "Fail closed on unsupported UTCP manual versions, dangerous transports, or malformed tool descriptors.",
       "acceptance": "Local malicious-manual corpus exercises version, host, duplicate, schema and transport faults",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "limitations": []
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-06-utcp-malicious.json",
+        "research/results/e5-06-utcp-malicious.xml"
+      ],
+      "limitations": [
+        "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
+      ]
     },
     {
       "task_id": "E5-07",
