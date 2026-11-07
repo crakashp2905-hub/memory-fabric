@@ -3,8 +3,8 @@
     python tools/package_parity.py --report research/results/package-parity.json
 
 All builds, virtual environments and invocations run in a scratch directory
-under the checkout. The examples execute from that directory with checkout
-paths removed from Python's environment.
+under the checkout, outside the source tree. The examples execute there with
+checkout source paths removed from Python's environment.
 """
 
 from __future__ import annotations
@@ -63,8 +63,8 @@ def _smoke(artifact: Path, kind: str, work: Path,
                  cwd=root, record=commands)
     import_info = json.loads(probe.stdout)
     module_path = Path(import_info["module"]).resolve()
-    if ROOT == module_path or ROOT in module_path.parents:
-        raise RuntimeError(f"installed import came from checkout: {module_path}")
+    if (ROOT / "src") in module_path.parents:
+        raise RuntimeError(f"installed import came from checkout source: {module_path}")
     purelib = Path(_run([str(python), "-c",
                          "import sysconfig; print(sysconfig.get_path('purelib'))"],
                         cwd=root, record=commands).stdout.strip()).resolve()

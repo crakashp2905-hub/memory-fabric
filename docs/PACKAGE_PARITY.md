@@ -3,7 +3,8 @@
 Run `python tools/package_parity.py --report research/results/package-parity.json`
 from a clean checkout. The tool builds both sdist and wheel from that checkout,
 installs them independently, and runs identical import, CLI help, quickstart,
-reference-agent, initialization and `doctor` checks from outside the checkout.
+reference-agent, initialization and `doctor` checks from a scratch directory
+outside the source tree.
 
 The JSON report binds the run to the source commit, includes artifact SHA-256
 hashes and records every command's exit code and output tail. The script checks
