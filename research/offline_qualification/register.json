@@ -1959,13 +1959,22 @@
       "priority": "P0",
       "task": "Set promotion gate to <=5% valid withholding with no observed stale-action regression on held-out worlds.",
       "acceptance": "If unattainable, publish Pareto frontier and retain the safer existing policy",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/withholding_promotion_gate.py",
+        "research/prereg/r2-withholding-promotion-gate-v1.md",
+        "docs/WITHHOLDING_PROMOTION_GATE.md",
+        "tests/test_withholding_promotion_gate.py",
+        "research/results/r2-10-promotion-gate-tests.xml",
+        "research/results/r2-withholding-promotion-gate.json"
+      ],
       "evidence_digests": {},
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The frozen local synthetic corpus measured 86/500 (17.2%) valid withholding, above the 5% threshold. No diagnostic arm recovered a task or produced an additional stale authorization in 125 stale controls, so the gate retained the existing policy. This is not real-agent evidence."
+      ]
     },
     {
       "task_id": "R3-01",

@@ -1091,6 +1091,23 @@
       ]
     },
     {
+      "task_id": "R2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/withholding_promotion_gate.py",
+        "research/prereg/r2-withholding-promotion-gate-v1.md",
+        "docs/WITHHOLDING_PROMOTION_GATE.md",
+        "tests/test_withholding_promotion_gate.py",
+        "research/results/r2-10-promotion-gate-tests.xml",
+        "research/results/r2-withholding-promotion-gate.json"
+      ],
+      "limitations": [
+        "On the frozen local synthetic corpus, valid withholding is 86/500 (17.2%), above the 5% gate. No diagnostic arm recovers a task, and no additional stale authorization is observed in 125 stale controls; the gate retains the existing policy. This is not real-agent evidence."
+      ]
+    },
+    {
       "task_id": "R2-01",
       "status": "DONE",
       "acceptance_passed": true,
