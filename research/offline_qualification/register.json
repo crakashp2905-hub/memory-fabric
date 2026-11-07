@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "9dd0ab197cabe9338a8ca3964b488136c239587b",
+    "commit": "952693f9b60ef9aac286657cf0cf4254bc16f727",
     "dirty": true
   },
   "summary": {
@@ -256,18 +256,24 @@
       "acceptance": "Missing, repeated, or extra seed outputs block research acceptance",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "tests/test_offline_qualification.py"
+        "tests/test_offline_qualification.py",
+        "docs/SEED_MANIFESTS.md",
+        "research/results/e1-09-seed-manifest.json",
+        "research/results/e1-09-seed-manifest.xml"
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "8065d4ecf77019e8888044b0d98f17a63048dc7a8f66e11471c73217bafc6da7",
-        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6"
+        "tests/test_offline_qualification.py": "ac2323b202c9e5cfd50786193c79801e8d9d323c84a58c648aa89458d0972cd6",
+        "docs/SEED_MANIFESTS.md": "8db3318b93dcd38f7e5c313bb7c4f19b970ad197c9bb3fd862e528c76678c1eb",
+        "research/results/e1-09-seed-manifest.json": "bf51bc46cc560f7c5fe602f5ae67cb0c414cda56c18811e8c26388918e21e8b7",
+        "research/results/e1-09-seed-manifest.xml": "3f2b83043d1e4cf5d69c37846b0454774eef8f80b64b52116bf2cff3c7a0e81c"
       },
       "evidence_issues": {},
       "limitations": [
-        "Existing historical experiments must opt into the checker"
+        "The on-disk verifier is available and tested; existing historical experiment outputs must opt into the seed manifest contract."
       ]
     },
     {
@@ -286,7 +292,7 @@
       "evidence_digests": {
         "tools/status_at_head.py": "ff3141c4e6ba8ec25d0e3764321b6526018881f60468825cb2a087eee35cf798",
         "tests/test_status_at_head.py": "241210aeb163f6d8e79fd6620bbbd012a4d988e8c1b646067deabfad5d5e6e7b",
-        "docs/STATUS_AT_HEAD.md": "4b5b94ceb8fc012fce0c906d3428b730fec4022718036622524b7cb357ce81da"
+        "docs/STATUS_AT_HEAD.md": "6538b0701ae972940c46762ad8e8aa32c98f2ad88c02813ba0827cadd49f3bd6"
       },
       "evidence_issues": {},
       "limitations": []

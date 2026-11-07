@@ -129,13 +129,16 @@
       "task_id": "E1-09",
       "status": "DONE",
       "acceptance_passed": true,
-      "evidence_level": "CONTRACT",
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/offline_qualification.py",
-        "tests/test_offline_qualification.py"
+        "tests/test_offline_qualification.py",
+        "docs/SEED_MANIFESTS.md",
+        "research/results/e1-09-seed-manifest.json",
+        "research/results/e1-09-seed-manifest.xml"
       ],
       "limitations": [
-        "Existing historical experiments must opt into the checker"
+        "The on-disk verifier is available and tested; existing historical experiment outputs must opt into the seed manifest contract."
       ]
     },
     {
