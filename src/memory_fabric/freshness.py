@@ -176,12 +176,14 @@ class LeaseBook:
         return deadline is None or self._monotonic_ms() >= deadline
 
     def save(self, path: str | Path) -> None:
-        Path(path).write_text(json.dumps([lease.to_json() for lease in self._leases.values()]))
+        with Path(path).open("w", encoding="utf-8", newline="\n") as handle:
+            json.dump([lease.to_json() for lease in self._leases.values()], handle)
+            handle.write("\n")
 
     def load(self, path: str | Path) -> int:
         """Re-accept saved leases (each is re-verified). Returns how many were kept."""
         kept = 0
-        for raw in json.loads(Path(path).read_text()):
+        for raw in json.loads(Path(path).read_text(encoding="utf-8")):
             kept += self.accept(FreshnessLease.from_json(raw)) is None
         return kept
 
