@@ -1,4 +1,7 @@
 import unittest
+import json
+from pathlib import Path
+from unittest.mock import patch
 
 from memory_fabric.tool_protocol import (
     CodeModePlan,
@@ -23,12 +26,29 @@ class RecordingGate:
 
 
 class ToolProtocol(unittest.TestCase):
+    def test_malicious_manual_corpus_is_rejected_without_transport_io(self):
+        cases = json.loads((Path(__file__).parent / "data/utcp_malicious_manuals.json")
+                           .read_text(encoding="utf-8"))
+        for case in cases:
+            with self.subTest(case=case["id"]), self.assertRaises(ToolProtocolError):
+                discover_utcp(case["manual"])
+
+    def test_manual_discovery_performs_no_socket_or_file_io(self):
+        manual = {"utcp_version": "1.0.1", "manual_version": "1.0.0", "tools": [
+            {"name": "read", "inputs": {"type": "object"},
+             "tool_call_template": {"call_template_type": "http",
+                                    "url": "https://api.example.com/read"}},
+        ]}
+        with patch("socket.socket", side_effect=AssertionError("socket opened")), \
+             patch("builtins.open", side_effect=AssertionError("file opened")):
+            self.assertEqual(discover_utcp(manual)[0].name, "read")
+
     def test_supported_utcp_fields_round_trip_without_loss(self):
         raw = {
             "name": "lookup", "description": "read records",
             "inputs": {"type": "object", "properties": {"q": {"type": "string"}}},
             "consequential": False,
-            "tool_call_template": {"call_template_type": "http", "url": "https://example.test"},
+            "tool_call_template": {"call_template_type": "http", "url": "https://example.com"},
         }
         self.assertEqual(descriptor_to_utcp_tool(utcp_tool_to_descriptor(raw)), raw)
 
@@ -49,7 +69,7 @@ class ToolProtocol(unittest.TestCase):
     def test_cross_protocol_conversion_reports_unrepresentable_fields(self):
         utcp = utcp_tool_to_descriptor({
             "name": "send", "inputs": {"type": "object"},
-            "tool_transport": {"call_template_type": "http"},
+            "tool_transport": {"call_template_type": "http", "url": "https://example.com"},
         })
         with self.assertRaisesRegex(ToolProtocolError, "cannot represent UTCP transport"):
             descriptor_to_mcp_tool(utcp)
@@ -77,7 +97,7 @@ class ToolProtocol(unittest.TestCase):
         tools = discover_utcp({"utcp_version": "1.0.1", "manual_version": "1.0.0", "tools": [
             {"name": "send", "description": "send a message", "consequential": True,
              "inputs": {"type": "object"},
-             "tool_call_template": {"call_template_type": "http", "url": "https://example.test"}}
+             "tool_call_template": {"call_template_type": "http", "url": "https://example.com"}}
         ]})
         self.assertEqual(tools[0].protocol, "utcp-1.0.1")
         self.assertEqual(tools[0].transport["call_template_type"], "http")

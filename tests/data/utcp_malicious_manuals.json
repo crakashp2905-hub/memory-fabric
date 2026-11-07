@@ -1,0 +1,22 @@
+[
+  {"id":"future-utcp-version","manual":{"utcp_version":"2.0.0","manual_version":"1.0.0","tools":[]}},
+  {"id":"malformed-utcp-version","manual":{"utcp_version":"1.0.evil","manual_version":"1.0.0","tools":[]}},
+  {"id":"unsupported-manual-version","manual":{"utcp_version":"1.0.1","manual_version":"1.0.1","tools":[]}},
+  {"id":"unknown-manual-security-field","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","authorization":{"admin":true},"tools":[]}},
+  {"id":"malformed-tool-name","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"../send","inputs":{"type":"object"}}]}},
+  {"id":"case-folded-duplicate","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"Read","inputs":{"type":"object"}},{"name":"read","inputs":{"type":"object"}}]}},
+  {"id":"invalid-schema-type","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"magic"}}]}},
+  {"id":"malformed-required","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object","required":"secret"}}]}},
+  {"id":"invalid-regex-schema","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object","properties":{"q":{"type":"string","pattern":"["}}}}]}},
+  {"id":"unsupported-schema-security-extension","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object","x-required-scope":"admin"}}]}},
+  {"id":"insecure-http","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"http://example.com"}}]}},
+  {"id":"file-transport","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"file","url":"file:///etc/passwd"}}]}},
+  {"id":"localhost-host","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://localhost/admin"}}]}},
+  {"id":"loopback-ip-host","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://127.0.0.1/admin"}}]}},
+  {"id":"integer-loopback-host","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://2130706433/admin"}}]}},
+  {"id":"cloud-metadata-host","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://169.254.169.254/latest/meta-data"}}]}},
+  {"id":"credentialed-url","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://user:pass@example.com/data"}}]}},
+  {"id":"nonstandard-port","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://example.com:8443/data"}}]}},
+  {"id":"unknown-transport-security-field","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://example.com","authorization":{"token":"secret"}}}]}},
+  {"id":"invalid-http-method","manual":{"utcp_version":"1.0.1","manual_version":"1.0.0","tools":[{"name":"read","inputs":{"type":"object"},"tool_call_template":{"call_template_type":"http","url":"https://example.com","http_method":"TRACE"}}]}}
+]

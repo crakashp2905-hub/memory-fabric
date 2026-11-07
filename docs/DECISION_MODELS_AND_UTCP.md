@@ -32,6 +32,16 @@ in the destination protocol; callers must handle that error rather than lose
 the field. MCP annotations remain descriptive hints and never authorize an
 action.
 
+Manual parsing pins `utcp_version` to `1.0.x` and `manual_version` to `1.0.0`.
+Tool names, argument schemas, HTTP template shape, scheme, hostname, port and
+method are validated before a descriptor is returned. The local policy accepts
+HTTPS on the default port to syntactically public ASCII DNS names or globally
+routable IP literals; it rejects local/reserved names, non-global IP literals, credentials and unsupported
+transport kinds. The parser performs no file or network I/O. Any future
+transport executor must also validate resolved addresses and every redirect at
+connection time; this parser alone cannot prevent DNS rebinding or a server
+redirecting to a private address.
+
 The pinned primary sources are:
 
 - UTCP RFC 1.0.0: <https://www.utcp.io/about/RFC>
