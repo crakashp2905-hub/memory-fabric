@@ -1,0 +1,32 @@
+{
+  "dataset": "r4-05-adversarial-cases-v1",
+  "decision": "PASS",
+  "findings": [],
+  "input_sha256": {
+    "experiments/r4_05_adversarial_cases.py": "debeae4124a73671785ff12506937745f2a1722da428692c1e0cf2b95d0dd555",
+    "tools/r5_07_contamination_audit.py": "651c3862e1352c9338601b2c0fdf29b1e762db01c587ce54ff391c5f287b67e3"
+  },
+  "limitations": [
+    "Lexical scan only; it does not establish semantic non-leakage.",
+    "Audit covers the R4-05 synthetic fixture and its declared tool catalog."
+  ],
+  "scanned_counts": {
+    "case_ids": 256,
+    "memory_ids": 1024,
+    "memory_texts": 1024,
+    "tool_names": 3
+  },
+  "scenario_labels_checked": [
+    "supported",
+    "corrected",
+    "contested",
+    "missing",
+    "near-miss",
+    "distractor",
+    "current",
+    "superseded",
+    "answer",
+    "gold"
+  ],
+  "schema": "mf-r5-07-contamination-audit/1"
+}

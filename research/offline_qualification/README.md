@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **193 / 260 (74.23%)**. Internal status: **BLOCKED**.
+Strict completion: **194 / 260 (74.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b6f69752e0d699ca15df827b9b5f0009d196fa9ae0c52aff007b1d77ec0a59ce`.
+Normalized ledger digest: `f76ddc66333b2fbdd56bc86651d360a7e897ab0356bde2ecd2b676b59d2a3256`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 193 |
+| DONE | 194 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 64 |
+| TODO | 63 |
 
 ## Graduation gates
 
@@ -125,7 +125,7 @@ Normalized ledger digest: `b6f69752e0d699ca15df827b9b5f0009d196fa9ae0c52aff007b1
 | R5-04 | P1 | DONE | CONTRACT | `research/REPRODUCIBILITY_APPENDIX.md`, `tests/test_reproducibility_appendix.py`, `research/results/p4-04-correction-strategy-comparison.json`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-06-provenance-dispute-demo.json` |
 | R5-05 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
 | R5-06 | P1 | TODO | NOT_TESTED | — |
-| R5-07 | P1 | TODO | NOT_TESTED | — |
+| R5-07 | P1 | DONE | INTERNAL_INTEGRATION | `experiments/r4_05_adversarial_cases.py`, `tools/r5_07_contamination_audit.py`, `tests/test_r4_05_adversarial_cases.py`, `tests/test_r5_07_contamination_audit.py`, `research/results/r4-05-adversarial-cases.json`, `research/results/r5-07-contamination-audit.json` |
 | R5-08 | P1 | DONE | CONTRACT | `research/claims.json`, `tools/claims_ledger.py`, `tests/test_claims_ledger.py`, `tests/test_claim_checker_contract.py`, `research/results/CLAIMS_LEDGER.json`, `research/results/CLAIMS_LEDGER.md` |
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
 | R5-10 | P1 | DONE | CONTRACT | `research/OFFLINE_REPRODUCIBILITY.md`, `tests/test_offline_reproducibility.py`, `research/claims.json`, `research/results/CLAIMS_LEDGER.json` |

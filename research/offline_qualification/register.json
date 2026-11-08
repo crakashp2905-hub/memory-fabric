@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "cb6ed6d0e3a7a2c8dae593101c00b98b999c5e3939421ac904c585bd620b437a",
+    "sha256": "6a4fd82b3ab7afceaab4f15f54e84953c7159d924d9f87a87a8301e23550633f",
     "tasks": 260
   },
   "source": {
-    "commit": "0d687bbc9f7999d21ffb33d9541f4674109d1629",
+    "commit": "50ec00276d40c4c1e06dd808c6da99dcfd33590f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 193,
+      "DONE": 194,
       "PARTIAL": 3,
-      "TODO": 64
+      "TODO": 63
     },
-    "completed": 193,
+    "completed": 194,
     "total": 260,
-    "percent_complete": 74.23,
+    "percent_complete": 74.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2416,10 +2416,10 @@
         "research/results/r4-05-adversarial-cases.json"
       ],
       "evidence_digests": {
-        "experiments/r4_05_adversarial_cases.py": "ad177689bf2e766c108a4d52575bd69be87ac466db8522676d09a0b64671c082",
+        "experiments/r4_05_adversarial_cases.py": "debeae4124a73671785ff12506937745f2a1722da428692c1e0cf2b95d0dd555",
         "research/prereg/r4-05-adversarial-cases-v1.md": "6cc38a47ba4e82af4a5d4796a6a7659897c267251f2af63c3e0e55924986de88",
-        "tests/test_r4_05_adversarial_cases.py": "d7aa45349666be452f8ebfb3a7155ed92c5f4ca2598f8d9d839a6d0d43394448",
-        "research/results/r4-05-adversarial-cases.json": "2409a7b83317d93668d61f9762ba9765a0015865822978e0e09a2dd8f600eed8"
+        "tests/test_r4_05_adversarial_cases.py": "12f57f5be67c0501779fad57b8e0a9fc4ee0e39a73c8c1a623d382e68b93ea0d",
+        "research/results/r4-05-adversarial-cases.json": "7385f61181fede4e1cb184d60f2197c5956fa11c0e5d9627bc68e05c253834c9"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2448,9 +2448,9 @@
         "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686",
         "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
         "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
-        "tests/test_r4_05_adversarial_cases.py": "d7aa45349666be452f8ebfb3a7155ed92c5f4ca2598f8d9d839a6d0d43394448",
+        "tests/test_r4_05_adversarial_cases.py": "12f57f5be67c0501779fad57b8e0a9fc4ee0e39a73c8c1a623d382e68b93ea0d",
         "research/results/r4-06-randomization-qualification.json": "63d946aeec8c6f098350448b839635c1c2909b7d2a86e97bc6a432fe4fe8d4ea",
-        "research/results/r4-05-adversarial-cases.json": "2409a7b83317d93668d61f9762ba9765a0015865822978e0e09a2dd8f600eed8"
+        "research/results/r4-05-adversarial-cases.json": "7385f61181fede4e1cb184d60f2197c5956fa11c0e5d9627bc68e05c253834c9"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2669,14 +2669,30 @@
       "task_id": "R5-07",
       "priority": "P1",
       "task": "Add contamination tests ensuring scenario labels are not leaked through memory text, IDs or tool names.",
-      "acceptance": "A deliberately leaked label is detected and invalidates that experiment",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "A deliberately leaked label is detected and invalidates that experiment. Evidence: `experiments/r4_05_adversarial_cases.py`, `tools/r5_07_contamination_audit.py`, `tests/test_r4_05_adversarial_cases.py`, `tests/test_r5_07_contamination_audit.py`, `research/results/r4-05-adversarial-cases.json`, `research/results/r5-07-contamination-audit.json` (DONE: scans 256 case IDs, 1,024 memory IDs, 1,024 memory texts and three tool names with zero leaks; injected `corrected` label is detected and returns FAIL. Lexical audit only; semantic leakage is not ruled out.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/r4_05_adversarial_cases.py",
+        "tools/r5_07_contamination_audit.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "tests/test_r5_07_contamination_audit.py",
+        "research/results/r4-05-adversarial-cases.json",
+        "research/results/r5-07-contamination-audit.json"
+      ],
+      "evidence_digests": {
+        "experiments/r4_05_adversarial_cases.py": "debeae4124a73671785ff12506937745f2a1722da428692c1e0cf2b95d0dd555",
+        "tools/r5_07_contamination_audit.py": "651c3862e1352c9338601b2c0fdf29b1e762db01c587ce54ff391c5f287b67e3",
+        "tests/test_r4_05_adversarial_cases.py": "12f57f5be67c0501779fad57b8e0a9fc4ee0e39a73c8c1a623d382e68b93ea0d",
+        "tests/test_r5_07_contamination_audit.py": "d2acd8de351ba42d479efb0298b7361d149f6a4d8dc3fc7a35192561b95a0ebf",
+        "research/results/r4-05-adversarial-cases.json": "7385f61181fede4e1cb184d60f2197c5956fa11c0e5d9627bc68e05c253834c9",
+        "research/results/r5-07-contamination-audit.json": "85a8aae82ace8e6767e8b38554ec32a5f39ea8818537984bceb01806e8c2ec24"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Lexical contamination audit covers the R4-05 synthetic fixture only: 256 case IDs, 1,024 memory IDs, 1,024 texts, and three declared tool names. An injected scenario label is detected and invalidates the fixture. Semantic leakage and other datasets are not covered."
+      ]
     },
     {
       "task_id": "R5-08",
