@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **119 / 260 (45.77%)**. Internal status: **BLOCKED**.
+Strict completion: **122 / 260 (46.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `c1a5b18e7404060687d9b2233edfb320337f0294e88555fc64116e99429225f2`.
+Normalized ledger digest: `5fdb485f0634aa7c29a44f52b7819ebb1ecf0588b72001890cd0e4c3bcdbb5ac`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 119 |
+| DONE | 122 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 127 |
+| TODO | 124 |
 
 ## Graduation gates
 
@@ -196,9 +196,9 @@ Normalized ledger digest: `c1a5b18e7404060687d9b2233edfb320337f0294e88555fc64116
 | H1-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `research/results/h1-05-unfamiliar-claim-tests.xml` |
 | H1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_duplicates.py`, `docs/LIMITATIONS.md`, `research/results/h1-06-copy-laundering-tests.xml` |
 | H1-07 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_certificates.py`, `tests/test_code_mode_fuzz.py`, `tests/test_agent_api.py`, `research/results/h1-07-malformed-input-tests.xml` |
-| H1-08 | P0 | TODO | NOT_TESTED | — |
-| H1-09 | P0 | TODO | NOT_TESTED | — |
-| H1-10 | P0 | TODO | NOT_TESTED | — |
+| H1-08 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`, `research/results/h1-08-compromised-writer-race.xml` |
+| H1-09 | P0 | DONE | INTERNAL_INTEGRATION | `tools/mutation_check.py`, `tests/test_authority.py`, `research/results/h1-09-authority-mutation.json` |
+| H1-10 | P0 | DONE | CONTRACT | `tests/data/prompt_injection_corpus.json`, `tests/test_injection_patterns.py`, `tools/prompt_injection_corpus_report.py`, `research/results/h1-10-injection-outcomes.json` |
 | H2-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_action_race_barriers.py`, `docs/ACTION_RACE_SERIALIZATION.md`, `research/results/h2-01-authorize-execute-race-tests.xml`, `research/results/r2-h2-acceptance-tests.xml` |
 | H2-02 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `tests/test_authority.py`, `docs/ACTION_GRANT_BINDING.md`, `research/results/h2-02-action-binding-tests.xml` |
 | H2-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `docs/ACTION_IDEMPOTENCY.md`, `tools/action_idempotency_qualification.py`, `research/results/h2-03-idempotency-tests.xml`, `research/results/h2-03-action-idempotency.json`, `research/results/h2-03-action-compatibility-tests.xml` |

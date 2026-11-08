@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "2d32a89280f28118b22c2fc396b631fae5d7e20b42fff0d027ce1b1cd5779168",
+    "sha256": "b6dc3a3a71cd6d07e1c07f4bd37adf6aa364197c2046c389c73335660a2ca97c",
     "tasks": 260
   },
   "source": {
-    "commit": "4830fa6f023efaebe756c8adf0117b03ad5eb920",
+    "commit": "b72d50b6a64737b14ffbc60da2eff43ffc4de490",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 119,
+      "DONE": 122,
       "PARTIAL": 14,
-      "TODO": 127
+      "TODO": 124
     },
-    "completed": 119,
+    "completed": 122,
     "total": 260,
-    "percent_complete": 45.77,
-    "p0_open": 19,
+    "percent_complete": 46.92,
+    "p0_open": 16,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -554,7 +554,7 @@
         "docs/ACTION_RACE_SERIALIZATION.md"
       ],
       "evidence_digests": {
-        "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
+        "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
@@ -3508,40 +3508,72 @@
       "task_id": "H1-08",
       "priority": "P0",
       "task": "Simulate compromised established writer and revocation racing with action execution.",
-      "acceptance": "High-risk gate blocks post-revocation effects under stated local consistency contract",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "High-risk gate blocks post-revocation effects under stated local consistency contract. Evidence: `tests/test_action_race_barriers.py::DeterministicCorrectionRetrievalActionRaces.test_compromised_established_writer_cannot_execute_after_poisoning_revision`, `tests/test_action_race_barriers.py::test_correction_after_retrieval_invalidates_later_action`, `tests/test_action_race_barriers.py::test_fenced_action_commits_before_waiting_correction`, `docs/ACTION_RACE_SERIALIZATION.md`, `research/results/h1-08-compromised-writer-race.xml` (DONE: a legitimate established writer's injected revision is quarantined after retrieval; stale high-risk action is refused and has zero effects; concurrent action/retraction ordering is separately barrier-tested; 4 race tests pass. Guarantee is local and transactionally serialized; remote unseen revocations remain subject to freshness contracts)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h1-08-compromised-writer-race.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
+        "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
+        "research/results/h1-08-compromised-writer-race.xml": "f57842627119fb9e945957c145af52d75e36791e2d4d8e2e754ef9f7f3716706"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The guarantee is local to the store transaction and the deterministic tests; unseen remote revocations require federation freshness/lease controls."
+      ]
     },
     {
       "task_id": "H1-09",
       "priority": "P0",
       "task": "Run attack mutation test where one critical origin/authority check is disabled.",
-      "acceptance": "Security suite fails conclusively; a green run without effective security assertions is rejected",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Security suite fails conclusively; a green run without effective security assertions is rejected. Evidence: `tools/mutation_check.py`, `tests/test_authority.py`, `research/results/h1-09-authority-mutation.json` (DONE: current-source run killed all 21/21 critical guard mutants, including \u201cauthority is not inherited from sources\u201d; zero survivors; the harness requires each baseline test group to pass before it treats a mutant as killed)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_authority.py",
+        "research/results/h1-09-authority-mutation.json"
+      ],
+      "evidence_digests": {
+        "tools/mutation_check.py": "0aca4315176ef64cb5db6b51b3054c5cb8369fe6ea51f6881bceadcf6d5fa70d",
+        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "research/results/h1-09-authority-mutation.json": "a332e7654760697029c8bb5d1a3ca2373e9888bfeb068672b72c6a0485c5febe"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The 21 mutations are a curated set of critical local guards; mutation survival/killing does not establish absence of other vulnerabilities."
+      ]
     },
     {
       "task_id": "H1-10",
       "priority": "P0",
       "task": "Publish observed detection, false positives and bypass categories by attack family.",
-      "acceptance": "No blanket 'prompt-injection proof' claim, and defenses cannot hide high false-withholding costs",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "No blanket 'prompt-injection proof' claim, and defenses cannot hide high false-withholding costs. Evidence: `tests/data/prompt_injection_corpus.json`, `tests/test_injection_patterns.py`, `tools/prompt_injection_corpus_report.py`, `research/results/h1-10-injection-outcomes.json` (DONE: all 8 fixture expectations matched; 2/2 near-misses were quarantined (observed false-withholding examples); encoded and source-laundered cases remained non-authoritative candidates; family-level counts and bypass categories are published. This tiny deterministic contract sample is not a real-world precision/recall estimate and explicitly supports no prompt-injection-proof claim)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "tools/prompt_injection_corpus_report.py",
+        "research/results/h1-10-injection-outcomes.json"
+      ],
+      "evidence_digests": {
+        "tests/data/prompt_injection_corpus.json": "c870dae3f6b356075b251dc0c5ab92653887bd76d982c82a63796cc9a091a335",
+        "tests/test_injection_patterns.py": "468218be3f4e46a16d4ac2520fe1adde954209f19ed50268d8011ad40d8f8a01",
+        "tools/prompt_injection_corpus_report.py": "a31c15b74b1582d1ee4fc8497ac957a64c18342b6d53fd3acb42bcd29925b0a0",
+        "research/results/h1-10-injection-outcomes.json": "d0f2be3caee79e7bcd4078f965adee8764df4897b24b511450ed2750804ef038"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The 8-case templated fixture measures only local contract behavior. It records two false-withholding near-misses and two screening-gap candidates, and cannot estimate population precision/recall or downstream model compliance."
+      ]
     },
     {
       "task_id": "H2-01",
@@ -3560,7 +3592,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
+        "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
         "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
         "research/results/r2-h2-acceptance-tests.xml": "d00633afb2ed82442d0a43887ee1f1b0dd3085ca237e33aa6451d37ee9b07333"

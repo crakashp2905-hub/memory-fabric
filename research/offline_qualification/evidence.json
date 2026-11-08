@@ -1480,6 +1480,49 @@
       ]
     },
     {
+      "task_id": "H1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h1-08-compromised-writer-race.xml"
+      ],
+      "limitations": [
+        "The guarantee is local to the store transaction and the deterministic tests; unseen remote revocations require federation freshness/lease controls."
+      ]
+    },
+    {
+      "task_id": "H1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "tools/prompt_injection_corpus_report.py",
+        "research/results/h1-10-injection-outcomes.json"
+      ],
+      "limitations": [
+        "The 8-case templated fixture measures only local contract behavior. It records two false-withholding near-misses and two screening-gap candidates, and cannot estimate population precision/recall or downstream model compliance."
+      ]
+    },
+    {
+      "task_id": "H1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_authority.py",
+        "research/results/h1-09-authority-mutation.json"
+      ],
+      "limitations": [
+        "The 21 mutations are a curated set of critical local guards; mutation survival/killing does not establish absence of other vulnerabilities."
+      ]
+    },
+    {
       "task_id": "H1-07",
       "status": "DONE",
       "acceptance_passed": true,
