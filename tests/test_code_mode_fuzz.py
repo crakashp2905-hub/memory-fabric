@@ -62,7 +62,7 @@ class CodeModeParserFuzz(unittest.TestCase):
         runtime = GovernedToolRuntime(NeverGate(), {"lookup": lambda **_values: None})
         call = CodeModePlan.parse("not_registered(value='x')").calls[0]
         with self.assertRaisesRegex(ToolProtocolError, "no registered handler"):
-            runtime.execute(call, agent_id="agent")
+            runtime.execute(call, agent_id="agent", session=object())
 
 
 if __name__ == "__main__":  # pragma: no cover

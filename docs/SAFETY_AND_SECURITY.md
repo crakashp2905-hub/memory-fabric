@@ -55,6 +55,30 @@ here is a formal security proof, and nothing here has been externally audited.
 6. **Store → external checkpoint.** This is the only defence against a writer
    who rewrites the whole history.
 
+### 3.1 Untrusted entry-point map
+
+The following table tracks attacker-controlled input from its entry point to
+the protected assets and the control that applies. “Untrusted” means the
+content can be false or instruction-like; successful parsing or a valid peer
+signature does not establish semantic truth.
+
+| Entry point | What an attacker controls | Protected assets at risk | Expected defense and evidence | Remaining limit |
+|---|---|---|---|---|
+| Agent memory ingestion and revision | Text, context, structured metadata, labels and claimed source | Memory content, provenance, future decisions | Identity/tenant authorization, bounded parsing, write-time screens, candidate lifecycle; `test_security_regression.py::TestPoisoning`, `test_injection_patterns.py`, `test_data_access_paths.py` | A clean-looking false claim from an authorized writer still requires review or contrary evidence |
+| Imported memory and federation | Signed payload contents, replay order, claimed lineage and forwarding peer | Lifecycle, provenance, retraction state, tenant content | Peer-key authentication, firewall policy, candidate import, lineage/cycle checks and idempotent retractions; `test_retraction_protocol.py`, `test_echo_import.py`, `test_transport_auth.py`, `test_privacy_federation.py` | A peer signature proves origin, not truth; HTTP multi-hop coverage needs socket-enabled CI |
+| Tool output returned to an agent | Tool text, claimed authority, copied instructions and result metadata | Memory content and later action selection | Treat tool output as untrusted data at ingestion; it cannot change roles, grants or policy; `test_adapters.py`, `test_enforcement_tenant.py`, `test_certificates.py`, `test_action_fence.py` | Downstream model behavior is not controlled by the storage layer |
+| Derived memory or summary | Summary text, context/structured fields and selected premises | Confidentiality, provenance, correction propagation | Derivation preserves premise lineage and the strictest class; screens apply to all fields; invalidated premises make derived evidence unusable; `test_justification.py`, `test_security_regression.py::TestDerivedLeakage`, `test_privacy_federation.py::TestDerivedContent` | No separate autonomous summarizer/mental-model object is currently implemented |
+| Generated decision or Code Mode plan | Requested operation, tool name, target, arguments and dynamic call sequence | Tool authority and external effects | Strict `CodeModePlan` parser, per-effect `ActionRequest`, exact grant binding, action-time revalidation and idempotency; `test_code_mode_fuzz.py`, `test_authority.py`, `test_action_fence.py`, `test_confused_deputy.py` | General-purpose generated code execution is deliberately unsupported |
+| Credential, grant or policy configuration | Bearer credential, requested operation and caller-supplied identifiers | Identity, authorization and tenant isolation | Server-derived identity, signatures, revocation checks and grant binding; `test_auth.py`, `test_identity.py`, `test_authority.py`, `test_visibility_at_action.py` | Host code and a database writer remain privileged trust assumptions |
+
+Across these paths the assets include confidential memory, identity and grant
+state, provenance and correction links, the append-only event history, content
+keys, action decisions and audit evidence (see §1). The primary adversary is a
+compromised valid agent or peer: it can submit false/instruction-like content,
+replay or reorder messages and exercise its own permissions, but does not hold
+another principal's secret. Controls are expected to preserve authorization
+and provenance; they do not prove semantic truth or model compliance.
+
 ## 4. Threat register
 
 Status values:

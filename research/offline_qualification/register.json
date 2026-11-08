@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "877b0c3eb025c6878346a5376902276edc24820069eeaf7f979d3676133bd404",
+    "sha256": "36d9efcf00b0e5056d72c8b95069276d902db08f1cc51d732a712c2064f5fbd8",
     "tasks": 260
   },
   "source": {
-    "commit": "351c6fd25544a1fc72466603f855616dcdd88505",
+    "commit": "9c9d0e3db5e655009357d6f2a22a3a48e257ccef",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 112,
+      "DONE": 113,
       "PARTIAL": 14,
-      "TODO": 134
+      "TODO": 133
     },
-    "completed": 112,
+    "completed": 113,
     "total": 260,
-    "percent_complete": 43.08,
-    "p0_open": 26,
+    "percent_complete": 43.46,
+    "p0_open": 25,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -3337,14 +3337,34 @@
       "task_id": "H1-01",
       "priority": "P0",
       "task": "Map untrusted entry points: ingestion, imported memory, tool output, federation, summary and generated plan.",
-      "acceptance": "Threat model names trust boundaries, adversary controls, assets and expected defenses for each",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Threat model names trust boundaries, adversary controls, assets and expected defenses for each. Evidence: `docs/SAFETY_AND_SECURITY.md` \u00a73.1, `tests/test_security_regression.py`, `tests/test_retraction_protocol.py`, `tests/test_adapters.py`, `tests/test_privacy_federation.py`, `tests/test_code_mode_fuzz.py`, `tests/test_action_fence.py`, `research/results/h1-01-trust-boundaries.xml` (DONE: explicit map covers controlled inputs, assets, expected controls and verification tests across memory ingestion/revision, federation, tool output, derived summaries, generated plans and credential/grant configuration; 132 tests and 53 subtests pass; semantic truth and model compliance remain outside the guarantee)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/SAFETY_AND_SECURITY.md",
+        "tests/test_security_regression.py",
+        "tests/test_retraction_protocol.py",
+        "tests/test_adapters.py",
+        "tests/test_privacy_federation.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_action_fence.py",
+        "research/results/h1-01-trust-boundaries.xml"
+      ],
+      "evidence_digests": {
+        "docs/SAFETY_AND_SECURITY.md": "e8cce74fa9eeeed8d27f3ebc93e39b4444d24c6f495518a8ad8f74e538afbcec",
+        "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
+        "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
+        "tests/test_adapters.py": "95c35f8d43f937c56ddfca861426974be1d13d6653b2a09d2bd9e176672b3832",
+        "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
+        "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
+        "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
+        "research/results/h1-01-trust-boundaries.xml": "78487957957b1f78f1e3bcbf0e5925359d1b0d4ea9a29868e85f615a880e818f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The threat map records expected controls and existing test evidence; it does not prove semantic truth or model compliance."
+      ]
     },
     {
       "task_id": "H1-02",
@@ -3601,7 +3621,7 @@
       "evidence_digests": {
         "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
-        "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
+        "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
@@ -3631,7 +3651,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
-        "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
+        "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
         "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
@@ -3779,7 +3799,7 @@
         "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
         "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
         "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
-        "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
+        "docs/SAFETY_AND_SECURITY.md": "e8cce74fa9eeeed8d27f3ebc93e39b4444d24c6f495518a8ad8f74e538afbcec",
         "research/results/h3-01-cross-tenant-matrix.json": "45bc464b5c1c7b6f66b4fda8f050a27b513ca9f2bd1259db3456cc351d783136",
         "research/results/h3-01-cross-tenant-matrix-tests.xml": "150b0a7156a5514bd9b9b98eb050eb544da80c58e8aef0a50a55926ac20d29ee"
       },
@@ -3806,7 +3826,7 @@
       "evidence_digests": {
         "tests/test_metadata_sidechannels.py": "a533955779cd6e2d407de47a7804f2e64a52cab85104b201ab8e4638e87e024d",
         "tests/test_metadata_leakage.py": "155138676f04ea2609fec7541c018c5c29f95550fa34efe6c032cfbd8772eebb",
-        "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
+        "docs/SAFETY_AND_SECURITY.md": "e8cce74fa9eeeed8d27f3ebc93e39b4444d24c6f495518a8ad8f74e538afbcec",
         "research/results/h3-02-metadata-sidechannels.json": "fd00327b7861eb900d4ab89974cce9f2b1affd6c26010c625ef76bd4b850f560",
         "research/results/h3-02-metadata-sidechannels-tests.xml": "a72b14e41abe79ac905725e9dbb9efc68914780ce4d4885515b74a4ec72d51df"
       },

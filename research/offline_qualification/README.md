@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **112 / 260 (43.08%)**. Internal status: **BLOCKED**.
+Strict completion: **113 / 260 (43.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3fb502e6c3b60b500b58cf00c2f6ad6cd2b42a16e1735ab2248181784670088f`.
+Normalized ledger digest: `7979c60a0fe899c5e17ad3cf132eae1476e2a85d811877f6650019570b54efd0`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 112 |
+| DONE | 113 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 134 |
+| TODO | 133 |
 
 ## Graduation gates
 
@@ -189,7 +189,7 @@ Normalized ledger digest: `3fb502e6c3b60b500b58cf00c2f6ad6cd2b42a16e1735ab224818
 | N6-08 | P1 | TODO | NOT_TESTED | — |
 | N6-09 | P1 | TODO | NOT_TESTED | — |
 | N6-10 | P1 | TODO | NOT_TESTED | — |
-| H1-01 | P0 | TODO | NOT_TESTED | — |
+| H1-01 | P0 | DONE | CONTRACT | `docs/SAFETY_AND_SECURITY.md`, `tests/test_security_regression.py`, `tests/test_retraction_protocol.py`, `tests/test_adapters.py`, `tests/test_privacy_federation.py`, `tests/test_code_mode_fuzz.py`, `tests/test_action_fence.py`, `research/results/h1-01-trust-boundaries.xml` |
 | H1-02 | P0 | TODO | NOT_TESTED | — |
 | H1-03 | P0 | TODO | NOT_TESTED | — |
 | H1-04 | P0 | TODO | NOT_TESTED | — |

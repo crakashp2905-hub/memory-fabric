@@ -1480,6 +1480,25 @@
       ]
     },
     {
+      "task_id": "H1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/SAFETY_AND_SECURITY.md",
+        "tests/test_security_regression.py",
+        "tests/test_retraction_protocol.py",
+        "tests/test_adapters.py",
+        "tests/test_privacy_federation.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_action_fence.py",
+        "research/results/h1-01-trust-boundaries.xml"
+      ],
+      "limitations": [
+        "The threat map records expected controls and existing test evidence; it does not prove semantic truth or model compliance."
+      ]
+    },
+    {
       "task_id": "R4-07",
       "status": "DONE",
       "acceptance_passed": true,
