@@ -1,9 +1,12 @@
 # N2-09 held-out decision-quality comparison
 
-**Run:** `d3096b835f81fc0c949b096e73c272d387e25ec0`  
-**Protocol:** [`n2-09-answerability-vs-evidence-gate-v1.md`](../prereg/n2-09-answerability-vs-evidence-gate-v1.md)  
-**Machine-readable result:** [`n2-09-decision-quality.json`](n2-09-decision-quality.json)  
-**Population:** synthetic scripted; 5 held-out seeds × 9 cases = 45 paired cases.  
+**Run:** `d3096b835f81fc0c949b096e73c272d387e25ec0`
+
+**Protocol:** [`n2-09-answerability-vs-evidence-gate-v1.md`](../prereg/n2-09-answerability-vs-evidence-gate-v1.md)
+
+**Machine-readable result:** [`n2-09-decision-quality.json`](n2-09-decision-quality.json)
+
+**Population:** synthetic scripted; 5 held-out seeds × 9 cases = 45 paired cases.
 **Invariant status:** PASS; no seed, ID, manifest, or copy-root invariant failures.
 
 The baseline allows a case when structural answerability returns `ANSWERABLE`.
