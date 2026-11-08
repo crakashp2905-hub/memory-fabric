@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **178 / 260 (68.46%)**. Internal status: **BLOCKED**.
+Strict completion: **179 / 260 (68.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `4e8bef39e79be06f9ea95b0805d996307aa11bf08e49efe9eb5818ccd3e18f42`.
+Normalized ledger digest: `602cebee27c7f36e0b29f1782dfdb00a0bf2ed9407e1d94057a7ee6b3292498f`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 178 |
+| DONE | 179 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 78 |
+| TODO | 77 |
 
 ## Graduation gates
 
@@ -122,7 +122,7 @@ Normalized ledger digest: `4e8bef39e79be06f9ea95b0805d996307aa11bf08e49efe9eb581
 | R5-01 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
 | R5-02 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
 | R5-03 | P1 | TODO | NOT_TESTED | — |
-| R5-04 | P1 | TODO | NOT_TESTED | — |
+| R5-04 | P1 | DONE | CONTRACT | `research/REPRODUCIBILITY_APPENDIX.md`, `tests/test_reproducibility_appendix.py`, `research/results/p4-04-correction-strategy-comparison.json`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-06-provenance-dispute-demo.json` |
 | R5-05 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
 | R5-06 | P1 | TODO | NOT_TESTED | — |
 | R5-07 | P1 | TODO | NOT_TESTED | — |

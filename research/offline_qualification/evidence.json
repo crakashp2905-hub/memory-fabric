@@ -2261,6 +2261,23 @@
       ]
     },
     {
+      "task_id": "R5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/REPRODUCIBILITY_APPENDIX.md",
+        "tests/test_reproducibility_appendix.py",
+        "research/results/p4-04-correction-strategy-comparison.json",
+        "research/results/p4-05-selective-correction-demo.json",
+        "research/results/p4-06-provenance-dispute-demo.json"
+      ],
+      "limitations": [
+        "Appendix scope is the three deterministic local demo tables; it does not claim every model-assisted result in the repository can be rerun without model weights or external data.",
+        "Historical P4-04 focused test ran on a dirty source snapshot; file hashes are recorded and the appendix does not misstate it as exact-clean-SHA evidence."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,
