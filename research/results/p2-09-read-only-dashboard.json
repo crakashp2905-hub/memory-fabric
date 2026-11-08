@@ -1,0 +1,31 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-09",
+  "commit": "0a92cf548b122b1168460812b3e2f30253021850",
+  "command": "python unittest runner: tests.test_control_center + tests.test_observability; tempfile.tempdir=.task-tmp; loopback-enabled",
+  "exit_code": 0,
+  "tests_run": 72,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 87.502,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "GET_HEAD_read_only_routes": "PASS",
+    "POST_PUT_PATCH_DELETE": "405 with Allow GET, HEAD",
+    "refused_writes_event_log_unchanged": "PASS",
+    "server_survives_refused_write": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "This verifies the default unauthenticated/local dashboard behavior and route surface; authenticated privileged operations remain outside the dashboard API."
+  ],
+  "file_sha256": {
+    "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+    "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+    "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
+    "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "4e2785d33ae38f5e4f44cad00c9ae5b934b54466f459dad6c13904967b19a986"
+  }
+}

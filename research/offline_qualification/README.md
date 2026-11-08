@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **158 / 260 (60.77%)**. Internal status: **BLOCKED**.
+Strict completion: **160 / 260 (61.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7952861e15680d40e0c71f6b92b1e176a56c547588445de8dff00f39f19f5e66`.
+Normalized ledger digest: `a6ba3a7ed31963d13a31b9497813a2cd3568c3c3ca9240f80864b91c2027f92d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 158 |
+| DONE | 160 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 98 |
+| TODO | 96 |
 
 ## Graduation gates
 
@@ -257,8 +257,8 @@ Normalized ledger digest: `7952861e15680d40e0c71f6b92b1e176a56c547588445de8dff00
 | P2-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/actions.py`, `tests/test_control_center_ui.py`, `tests/test_action_reconciliation.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_fence.py`, `research/results/p2-06-action-timeline.json`, `research/results/p2-06-action-timeline.txt` |
 | P2-07 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `research/results/p2-07-accessibility.json`, `research/results/p2-07-accessibility.txt` |
 | P2-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/report.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center.py`, `tests/test_control_center_ui.py`, `tests/test_observability.py`, `research/results/p2-08-history-boundaries.json`, `research/results/p2-08-history-boundaries.txt` |
-| P2-09 | P1 | TODO | NOT_TESTED | — |
-| P2-10 | P1 | TODO | NOT_TESTED | — |
+| P2-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_observability.py`, `tests/test_control_center.py`, `research/results/p2-09-read-only-dashboard.json`, `research/results/p2-09-read-only-dashboard.txt` |
+| P2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/incident_export.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_incident.py`, `research/results/p2-10-incident-export.json`, `research/results/p2-10-incident-export.txt` |
 | P3-01 | P1 | TODO | NOT_TESTED | — |
 | P3-02 | P1 | TODO | NOT_TESTED | — |
 | P3-03 | P1 | TODO | NOT_TESTED | — |

@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1a0fcd7c9b05106250d6105ebd3f9ea0ddbeccd29c44fffc13eb2a94eadf1e91",
+    "sha256": "4e2785d33ae38f5e4f44cad00c9ae5b934b54466f459dad6c13904967b19a986",
     "tasks": 260
   },
   "source": {
-    "commit": "ff575ce56fa0bd998ddf4de14611081bad694f0c",
+    "commit": "0265ea261dc0cc803ceb89251c54b427a42802a6",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 158,
+      "DONE": 160,
       "PARTIAL": 4,
-      "TODO": 98
+      "TODO": 96
     },
-    "completed": 158,
+    "completed": 160,
     "total": 260,
-    "percent_complete": 60.77,
+    "percent_complete": 61.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,8 +307,8 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9dfe0fb0fb2764c3cff914f06e06b2089d884a2ad7dacccf971a0cf13ed966e4",
-        "docs/VALIDATION.md": "4986b9eda5e47625b0e0cdd6694618f50e4b28d14dc1ebeb4d201b1c32c5d4bb",
+        "README.md": "9930c74b3a2733ff19ec83ef6c83855730bf56881a0fec9534e9b0a142a4cdb8",
+        "docs/VALIDATION.md": "9e7779f2e55bf99cc0eabfae78ea0056d2c4fa882bca810e2dfe375d702bb43a",
         "docs/STATUS_AT_HEAD.md": "889de6a219d711164b45e0598619c87be2586107517f29440796583cf5cea80b",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
@@ -5157,8 +5157,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
         "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
@@ -5186,9 +5186,9 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
       },
@@ -5215,8 +5215,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
         "research/results/p2-03-block-reasons.txt": "9237c1ae18573eb9d6501a398ea426e46f7b633841e46040d8ba1ebceb07e133"
@@ -5243,9 +5243,9 @@
         "research/results/p2-04-correction-preview.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
         "research/results/p2-04-correction-preview.json": "99f0a714ff50d5d01ed9530502474ac86f298a79a38be67a383e5aa3294ece96",
         "research/results/p2-04-correction-preview.txt": "5caec3d9bfaad2d07cdc82fe53d68356d536a9a043097f544898f0b0a9668221"
@@ -5274,11 +5274,11 @@
         "research/results/p2-05-withholding-scorecard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "a3b3b55adab8a790718867d7cfbda7c26acc8c8974d67735d6bd5300a85d39aa",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
         "research/results/p2-05-withholding-scorecard.json": "083ab836d81f215552a4e456befbeb2e339fbe637c044dee467e34482b0ec602",
         "research/results/p2-05-withholding-scorecard.txt": "cbe371cbb50ed8f044516444bb8a4effc1a783646177d88022e3ef3b3680b6c6"
@@ -5310,10 +5310,10 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
@@ -5340,8 +5340,8 @@
         "research/results/p2-07-accessibility.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-07-accessibility.json": "195d6a387db22519bc0e291c7a16838dc009561bab730ad345246cbc1df34298",
         "research/results/p2-07-accessibility.txt": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
       },
@@ -5371,10 +5371,10 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/report.py": "864aaaceaf628ab23cdf63469337ae0930a4354e8022e99af3b5f4a18a30defc",
-        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
-        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
-        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
         "research/results/p2-08-history-boundaries.json": "e26744e70e074426e5dc658dd25b91caec34472cc208780e10ed987512788964",
         "research/results/p2-08-history-boundaries.txt": "db4ef84892f73d4a550757606cfa499d6085782b34b611e83017ce1dfc5d5300"
@@ -5389,27 +5389,62 @@
       "task_id": "P2-09",
       "priority": "P1",
       "task": "Ensure dashboard read-only by default and require explicit privileged path for mutations.",
-      "acceptance": "Default access cannot correct, erase or approve actions by hidden endpoint",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Default access cannot correct, erase or approve actions by hidden endpoint.. Evidence: `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_observability.py`, `tests/test_control_center.py`, `research/results/p2-09-read-only-dashboard.json`, `research/results/p2-09-read-only-dashboard.txt` (DONE: 72 exact-HEAD tests pass; GET/HEAD-only route behavior, 405 refusals, unchanged event log and server recovery are verified.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_observability.py",
+        "tests/test_control_center.py",
+        "research/results/p2-09-read-only-dashboard.json",
+        "research/results/p2-09-read-only-dashboard.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
+        "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
+        "research/results/p2-09-read-only-dashboard.json": "ec570b721898c1eca0fac1881a00656ab1fad22e2e5dcabc3d0119c98f074b94",
+        "research/results/p2-09-read-only-dashboard.txt": "4a4d65fe55475ab198c4dd4453ec81bc491036521517495f8d420a950a8d1dfe"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Authenticated privileged operations remain outside the dashboard API."
+      ]
     },
     {
       "task_id": "P2-10",
       "priority": "P1",
       "task": "Add offline export of redacted incident report for one selected decision.",
-      "acceptance": "Export includes integrity digests and omits synthetic secret canaries",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Export includes integrity digests and omits synthetic secret canaries.. Evidence: `src/memory_fabric/observability/incident_export.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_incident.py`, `research/results/p2-10-incident-export.json`, `research/results/p2-10-incident-export.txt` (DONE: 34 focused tests pass on exact commit; canonical SHA-256 verifies the report field, synthetic secret canary and source content are absent, and malformed/missing actions fail safely. Digest is not a signature.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/incident_export.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_incident.py",
+        "research/results/p2-10-incident-export.json",
+        "research/results/p2-10-incident-export.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/incident_export.py": "c64bc7739a88f402aff776ab17dbe53454384313642cb49107b519fe719d0c48",
+        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
+        "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
+        "research/results/p2-10-incident-export.json": "f571c21bd388daf884a6d934c5d7d428ac3e839b8cc2f15cb8860508ace0f510",
+        "research/results/p2-10-incident-export.txt": "4430c70789cc5b846bd94da01b0c9b5ee4aafa1d5f561f5f9fa3c7738caf3daf"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "SHA-256 detects accidental modification but is not a signature or source-store attestation.",
+        "The report retains agent and memory IDs for investigation."
+      ]
     },
     {
       "task_id": "P3-01",

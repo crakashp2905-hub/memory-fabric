@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 243,
+ "results": 245,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 240,
-  "model_id": 207,
-  "prompt_hash": 243,
-  "seed": 164,
-  "cost": 220,
-  "verdict": 172
+  "dataset_digest": 242,
+  "model_id": 209,
+  "prompt_hash": 245,
+  "seed": 166,
+  "cost": 222,
+  "verdict": 174
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 231
+  "unclassified": 233
  },
  "rows": [
   {
@@ -3661,6 +3661,42 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p2-context-sufficiency.md",
    "git_sha": "ff575ce56fa0bd998ddf4de14611081bad694f0c",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-09-read-only-dashboard",
+   "file": "research/results/p2-09-read-only-dashboard.json",
+   "file_sha256": "b5eccc2659ccc53255d4d885300077a0b18700eafa4f39f9e18ee2072d7e4277",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "0a92cf548b122b1168460812b3e2f30253021850",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-10-incident-export",
+   "file": "research/results/p2-10-incident-export.json",
+   "file_sha256": "d4d9a68a8d9fbfa59eead4a5f60557cadf8016a044a706e408cf6676c5fc11a0",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "0265ea261dc0cc803ceb89251c54b427a42802a6",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

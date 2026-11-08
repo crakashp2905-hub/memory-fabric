@@ -2010,6 +2010,42 @@
       ]
     },
     {
+      "task_id": "P2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_observability.py",
+        "tests/test_control_center.py",
+        "research/results/p2-09-read-only-dashboard.json",
+        "research/results/p2-09-read-only-dashboard.txt"
+      ],
+      "limitations": [
+        "Authenticated privileged operations remain outside the dashboard API."
+      ]
+    },
+    {
+      "task_id": "P2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/incident_export.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_incident.py",
+        "research/results/p2-10-incident-export.json",
+        "research/results/p2-10-incident-export.txt"
+      ],
+      "limitations": [
+        "SHA-256 detects accidental modification but is not a signature or source-store attestation.",
+        "The report retains agent and memory IDs for investigation."
+      ]
+    },
+    {
       "task_id": "P5-01",
       "status": "DONE",
       "acceptance_passed": true,
