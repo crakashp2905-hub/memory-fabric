@@ -464,6 +464,23 @@
       ]
     },
     {
+      "task_id": "N3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-03-estimator-cost-comparison-v1.md",
+        "benchmarks/n3_03_estimator_comparison.py",
+        "tests/test_n3_03_estimator_comparison.py",
+        "research/results/n3-03-estimator-comparison.json",
+        "research/results/n3-03-estimator-comparison.md",
+        "research/results/n3-03-estimator-comparison-tests.xml"
+      ],
+      "limitations": [
+        "The comparison evaluates synthetic deterministic worlds against exact Shapley truth; it reports a common query cap and realized method costs, but does not establish real-world validity or model inference costs. Recency remains a noncausal descriptive baseline."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
