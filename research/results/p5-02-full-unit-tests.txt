@@ -248,49 +248,49 @@ test_the_summary_keeps_the_source_apart_from_the_summariser (tests.test_authorit
 test_the_tool_copy_inherits_through_copy_recognition (tests.test_authority.TheBoundarySurvivesEveryTransformation.test_the_tool_copy_inherits_through_copy_recognition) ... ok
 test_a_short_copy_is_reported_and_fails (tests.test_backup.TestBackup.test_a_short_copy_is_reported_and_fails)
 The check that justifies the command existing. ... Source had 10 events; the copy has 9. Do not keep this backup.
-D:\Memory Fabric\master-checklist\.test-tmp\tmp0kj8ruiu\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp0kj8ruiu\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmps0a0r12n\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmps0a0r12n\copy.db
   9 events, 2 memories, replayed from the copy
 ok
-D:\Memory Fabric\master-checklist\.test-tmp\tmpml6354nt\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpml6354nt\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp01oaa4w7\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp01oaa4w7\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpml6354nt\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpml6354nt\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp01oaa4w7\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp01oaa4w7\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 test_force_overwrites (tests.test_backup.TestBackup.test_force_overwrites) ... ok
-D:\Memory Fabric\master-checklist\.test-tmp\tmpyniq3225\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpyniq3225\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp3pn535c1\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp3pn535c1\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 test_it_copies_every_event (tests.test_backup.TestBackup.test_it_copies_every_event) ... ok
-D:\Memory Fabric\master-checklist\.test-tmp\tmpjl1_7sqq\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpjl1_7sqq\backups\daily\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmplq69v5on\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmplq69v5on\backups\daily\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 test_it_creates_missing_directories (tests.test_backup.TestBackup.test_it_creates_missing_directories) ... ok
-test_it_refuses_to_overwrite_without_force (tests.test_backup.TestBackup.test_it_refuses_to_overwrite_without_force) ... D:\Memory Fabric\master-checklist\.test-tmp\tmp8tizexc2\copy.db exists. Pass --force to overwrite it.
+test_it_refuses_to_overwrite_without_force (tests.test_backup.TestBackup.test_it_refuses_to_overwrite_without_force) ... D:\Memory Fabric\master-checklist\.test-tmp\tmpxs3ibw8e\copy.db exists. Pass --force to overwrite it.
 ok
 test_it_runs_while_the_store_is_open (tests.test_backup.TestBackup.test_it_runs_while_the_store_is_open)
-D:\Memory Fabric\master-checklist\.test-tmp\tmp0tb0i46e\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp0tb0i46e\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpivi7uqgx\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpivi7uqgx\copy.db
   12 events, 3 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 The reason not to use `cp`: WAL mode means a mid-write copy is a ... ok
 test_the_copy_is_append_only_too (tests.test_backup.TestBackup.test_the_copy_is_append_only_too)
-D:\Memory Fabric\master-checklist\.test-tmp\tmpichdiza8\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpichdiza8\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpuq_biigs\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpuq_biigs\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 The guarantee has to survive the copy, or a restored store is a ... ok
 test_the_copy_replays_to_the_same_state (tests.test_backup.TestBackup.test_the_copy_replays_to_the_same_state)
-D:\Memory Fabric\master-checklist\.test-tmp\tmpbs16bhlk\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpbs16bhlk\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmptymxh776\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmptymxh776\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 Copying the bytes is not the point — the copy has to *fold* into the ... ok
-D:\Memory Fabric\master-checklist\.test-tmp\tmp9vmvgn1j\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp9vmvgn1j\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpopz288j8\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpopz288j8\copy.db
   2 events, 1 memories, replayed from the copy
   This store's content keys are outside the database, so this backup holds none of them. Back up the key directory too, separately -- without it the backup's content cannot be read.
   0.1 MB
@@ -983,7 +983,7 @@ test_unknown_integrity_is_not_treated_as_usable (tests.test_enforcement.TestUnkn
 Invariant 9: an unavailable check is a refusal, not an assumption. ... ok
 test_wrong_tenant_is_refused_even_when_concealment_is_disabled (tests.test_enforcement_tenant.TestTenantEnforcement.test_wrong_tenant_is_refused_even_when_concealment_is_disabled) ... ok
 test_a_backup_taken_after_erasure_cannot_recover_the_content (tests.test_erasure.TestAccountabilitySurvivesErasure.test_a_backup_taken_after_erasure_cannot_recover_the_content)
-D:\Memory Fabric\master-checklist\.test-tmp\tmpbck3wvqq\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpbck3wvqq\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpfgf0s_2v\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpfgf0s_2v\copy.db
   4 events, 1 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
@@ -995,7 +995,7 @@ test_the_audit_trail_records_who_erased_and_why (tests.test_erasure.TestAccounta
 test_the_erasure_event_does_not_contain_the_content (tests.test_erasure.TestAccountabilitySurvivesErasure.test_the_erasure_event_does_not_contain_the_content) ... ok
 test_the_erasure_status_is_queryable (tests.test_erasure.TestAccountabilitySurvivesErasure.test_the_erasure_status_is_queryable) ... ok
 test_an_older_backup_still_holds_the_content (tests.test_erasure.TestBackupTakenBeforeErasure.test_an_older_backup_still_holds_the_content)
-D:\Memory Fabric\master-checklist\.test-tmp\tmp1_i3zqcc\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp1_i3zqcc\before.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpcqzyuv8p\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpcqzyuv8p\before.db
   3 events, 1 memories, replayed from the copy
   0.1 MB
   manifest before.db.manifest.json (1 file(s))
@@ -1836,8 +1836,8 @@ memory_fabric.branching.BranchPermission: ag_mcp may not write to theirs
 ok
 test_provenance_and_correction_preview_list_only_readable_memories (tests.test_mcp_extended.Extended.test_provenance_and_correction_preview_list_only_readable_memories) ... ok
 test_revising_an_unreadable_memory_is_refused (tests.test_mcp_extended.Extended.test_revising_an_unreadable_memory_is_refused) ... ok
-test_negotiation_isolation_and_correction_through_official_client (tests.test_mcp_official.OfficialClient.test_negotiation_isolation_and_correction_through_official_client) ... WARNING asyncio: Executing <Task pending name='Task-2' coro=<OfficialClient.test_negotiation_isolation_and_correction_through_official_client() running at D:\Memory Fabric\master-checklist\tests\test_mcp_official.py:36> cb=[_run_until_complete_cb() at C:\Users\CR Ramesh\Lib\asyncio\base_events.py:181] created at C:\Users\CR Ramesh\Lib\asyncio\runners.py:100> took 1.648 seconds
-memory-fabric MCP server: agent client, tenant tn_client, store D:\Memory Fabric\master-checklist\.test-tmp\tmpg9v0q91x\store.db
+test_negotiation_isolation_and_correction_through_official_client (tests.test_mcp_official.OfficialClient.test_negotiation_isolation_and_correction_through_official_client) ... WARNING asyncio: Executing <Task pending name='Task-2' coro=<OfficialClient.test_negotiation_isolation_and_correction_through_official_client() running at D:\Memory Fabric\master-checklist\tests\test_mcp_official.py:36> cb=[_run_until_complete_cb() at C:\Users\CR Ramesh\Lib\asyncio\base_events.py:181] created at C:\Users\CR Ramesh\Lib\asyncio\runners.py:100> took 1.745 seconds
+memory-fabric MCP server: agent client, tenant tn_client, store D:\Memory Fabric\master-checklist\.test-tmp\tmpttv8k5s6\store.db
 ok
 test_abstention_complement_is_flagged (tests.test_memeval.TestMemeval.test_abstention_complement_is_flagged) ... ok
 test_an_unregistered_arm_above_the_ceiling_still_invalidates (tests.test_memeval.TestMemeval.test_an_unregistered_arm_above_the_ceiling_still_invalidates) ... ok
@@ -1897,7 +1897,7 @@ test_firewall_asks_the_model_only_when_the_text_screens_are_silent (tests.test_m
 test_reads_json_wrapped_in_prose (tests.test_model_screen.TestModelScreen.test_reads_json_wrapped_in_prose) ... ok
 test_using_builds_a_client_for_any_provider_spec (tests.test_model_screen.TestModelScreen.test_using_builds_a_client_for_any_provider_spec) ... ok
 test_configured_lists_every_provider (tests.test_models.TestLogging.test_configured_lists_every_provider) ... ok
-test_log_has_hash_and_tokens_never_prompt_or_key (tests.test_models.TestLogging.test_log_has_hash_and_tokens_never_prompt_or_key) ... D:\Memory Fabric\master-checklist\tests\test_models.py:114: ResourceWarning: unclosed file <_io.TextIOWrapper name='D:\\Memory Fabric\\master-checklist\\.test-tmp\\tmpwvzqun1d\\calls.jsonl' mode='r' encoding='cp1252'>
+test_log_has_hash_and_tokens_never_prompt_or_key (tests.test_models.TestLogging.test_log_has_hash_and_tokens_never_prompt_or_key) ... D:\Memory Fabric\master-checklist\tests\test_models.py:114: ResourceWarning: unclosed file <_io.TextIOWrapper name='D:\\Memory Fabric\\master-checklist\\.test-tmp\\tmp1kkwh2za\\calls.jsonl' mode='r' encoding='cp1252'>
   text = open(path).read()
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -2293,7 +2293,7 @@ test_each_role_holds_exactly_its_permissions (tests.test_permissions.RoleBundles
 test_an_agent_cannot_correct_delete_export_or_administer (tests.test_permissions.ThroughTheService.test_an_agent_cannot_correct_delete_export_or_administer) ... ok
 test_an_auditor_reads_and_exports_but_cannot_write_or_correct (tests.test_permissions.ThroughTheService.test_an_auditor_reads_and_exports_but_cannot_write_or_correct) ... ok
 test_an_operator_corrects_but_cannot_execute (tests.test_permissions.ThroughTheService.test_an_operator_corrects_but_cannot_execute) ... ok
-test_canary_is_absent_from_logs_exceptions_artifacts_traces_and_support_views (tests.test_personal_data_redaction.PersonalDataRedaction.test_canary_is_absent_from_logs_exceptions_artifacts_traces_and_support_views) ... WARNING personal-data-redaction-probe: redaction probe completed for 01M6WV8HCKW9SMFA96DW6E4FSG
+test_canary_is_absent_from_logs_exceptions_artifacts_traces_and_support_views (tests.test_personal_data_redaction.PersonalDataRedaction.test_canary_is_absent_from_logs_exceptions_artifacts_traces_and_support_views) ... WARNING personal-data-redaction-probe: redaction probe completed for 01M6WX6W602F2KME8YPG28SSJV
 ok
 test_counts_what_happened (tests.test_pilot.PilotReport.test_counts_what_happened) ... ok
 test_holds_no_content_and_hides_agent_names (tests.test_pilot.PilotReport.test_holds_no_content_and_hides_agent_names) ... ok
@@ -2322,7 +2322,7 @@ Every connection used to replace the trigger function, so processes ... skipped 
 test_every_kind_is_there_with_actors (tests.test_posture.AuditExport.test_every_kind_is_there_with_actors) ... ok
 test_it_ends_with_a_checkpoint_the_log_agrees_with (tests.test_posture.AuditExport.test_it_ends_with_a_checkpoint_the_log_agrees_with) ... ok
 test_kinds_and_since_narrow_it (tests.test_posture.AuditExport.test_kinds_and_since_narrow_it) ... ok
-test_no_content_and_no_secret_leaves (tests.test_posture.AuditExport.test_no_content_and_no_secret_leaves) ... D:\Memory Fabric\master-checklist\tests\test_posture.py:63: ResourceWarning: unclosed file <_io.TextIOWrapper name='D:\\Memory Fabric\\master-checklist\\.test-tmp\\tmpjcybupcw\\audit.jsonl' mode='r' encoding='utf-8'>
+test_no_content_and_no_secret_leaves (tests.test_posture.AuditExport.test_no_content_and_no_secret_leaves) ... D:\Memory Fabric\master-checklist\tests\test_posture.py:63: ResourceWarning: unclosed file <_io.TextIOWrapper name='D:\\Memory Fabric\\master-checklist\\.test-tmp\\tmphr1h1hu8\\audit.jsonl' mode='r' encoding='utf-8'>
   text = open(self.path, encoding="utf-8").read()
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -3005,12 +3005,12 @@ A ranker's threshold is a share of that headroom, never an absolute margin (AGEN
 | unauthorized | 2 | 1.000 | 1.000 | — | 2 | 0 |
 
 
-test_the_runner_exits_non_zero_on_a_gate_violation (tests.test_relevance_bench.ABrokenRankerFails.test_the_runner_exits_non_zero_on_a_gate_violation) ... ok
   ceiling check: no arm beat oracle (principle 8b)
 
   GATE VIOLATIONS (a failure regardless of every other metric):
     broken_bypasses_gates: 0.133
     oracle: 0.133
+test_the_runner_exits_non_zero_on_a_gate_violation (tests.test_relevance_bench.ABrokenRankerFails.test_the_runner_exits_non_zero_on_a_gate_violation) ... ok
 test_every_arm_runs_on_both_splits (tests.test_relevance_bench.ItIsReproducible.test_every_arm_runs_on_both_splits) ... ok
 test_the_broken_arms_are_not_in_the_default_set (tests.test_relevance_bench.ItIsReproducible.test_the_broken_arms_are_not_in_the_default_set)
 A normal run must not be able to include one by accident. ... ok
@@ -3139,7 +3139,7 @@ test_a_wrong_key_imports_nothing (tests.test_remote_offer.RemoteOffer.test_a_wro
 test_offer_lands_as_a_candidate_from_the_peer_with_provenance (tests.test_remote_offer.RemoteOffer.test_offer_lands_as_a_candidate_from_the_peer_with_provenance) ... ok
 test_the_import_is_untrusted_until_reviewed (tests.test_remote_offer.RemoteOffer.test_the_import_is_untrusted_until_reviewed) ... ok
 test_the_same_offer_twice_is_one_import (tests.test_remote_offer.RemoteOffer.test_the_same_offer_twice_is_one_import) ... ok
-test_a_screen_quarantine_is_a_candidate (tests.test_response.APoisoning.test_a_screen_quarantine_is_a_candidate) ... D:\Memory Fabric\master-checklist\src\memory_fabric\conflicts.py:86: ResourceWarning: unclosed <socket.socket [closed] fd=1260, family=2, type=1, proto=0>
+test_a_screen_quarantine_is_a_candidate (tests.test_response.APoisoning.test_a_screen_quarantine_is_a_candidate) ... D:\Memory Fabric\master-checklist\src\memory_fabric\conflicts.py:86: ResourceWarning: unclosed <socket.socket [closed] fd=1920, family=2, type=1, proto=0>
   codes = list(_CODE.finditer(text))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -3809,6 +3809,6 @@ A writer whose lessons help every reader. The naive measure reports ... ok
 test_pure_main_effects_give_zero (tests.test_x6_estimand.TestWriterQualityIsNotPortability.test_pure_main_effects_give_zero) ... ok
 
 ----------------------------------------------------------------------
-Ran 2458 tests in 1090.736s
+Ran 2458 tests in 1157.399s
 
 OK (skipped=17)

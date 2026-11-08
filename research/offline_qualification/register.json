@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "b0540000c0721f70ec35cbaacb46b6bcaf823261",
+    "commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
     "dirty": true
   },
   "summary": {
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "cca536120ce92c0228f8431d07c9f0c691860ea5f6188c96572eecb80f6988be",
+        "research/results/MANIFEST.json": "f5ec5bdefa9337b859308c305e934a1b9acc26f706b13b49c9e2e2e096b2036e",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5346,9 +5346,9 @@
       "evidence_digests": {
         "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
         "research/results/p5-02-local-checks.txt": "e7d0a3b647009be2a543008898ffa07605cf5b6320dc47ca55443fe8e2f83e45",
-        "research/results/p5-02-full-unit-tests.txt": "b0f93ed909b690557c72247fe1c2f9107d235d116e4f58c27e261cd8134532bb",
+        "research/results/p5-02-full-unit-tests.txt": "5e0711e3959b030db88aba4054e45da7ac34f858dcdebbe77733c3df7c1f375a",
         "research/results/p5-02-adversarial-gate.json": "238d61a4662ca385dbbcb3a1d66037fe13ff3814789cd5641a2fa37f6cb4b13f",
-        "research/results/p5-02-local-qualification.json": "b9064f8cd588d70e5f7b48c10f4966436884ad4dec4c2686404effbc9edef6ea",
+        "research/results/p5-02-local-qualification.json": "63e0a06b10811946e1038a3424931d1b67bfa15534103e53bd8b84eb5f3ce4e7",
         "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
       },
       "evidence_issues": {},

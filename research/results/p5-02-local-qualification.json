@@ -1,6 +1,6 @@
 {
   "schema": "mf-local-qualification-summary/1",
-  "source_commit": "b0540000c0721f70ec35cbaacb46b6bcaf823261",
+  "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
   "source_worktree_clean_at_check_start": false,
   "generated_documents_dirty_after_check": true,
   "checks": {
@@ -51,11 +51,12 @@
     },
     "full_unittest_discovery": {
       "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+      "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
       "tests_run": 2458,
       "failures": 0,
       "errors": 0,
       "skipped": 17,
-      "duration_seconds": 1090.736,
+      "duration_seconds": 1157.399,
       "evidence": "research/results/p5-02-full-unit-tests.txt",
       "skip_breakdown": {
         "anthropic_sdk_missing": 5,
@@ -79,6 +80,7 @@
     "quick_check_suite": {
       "status": "PASS",
       "exit_code": 0,
+      "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
       "command": "python tools/check.py (localhost sockets; workspace-local temp)",
       "evidence": "research/results/p5-02-local-checks.txt"
     }
