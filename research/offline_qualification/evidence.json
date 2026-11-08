@@ -3922,6 +3922,26 @@
         "Synthetic contract evidence only; does not validate propensity correctness or eliminate unmeasured confounding.",
         "The configurable 0.01 support floor may conservatively reject mathematically positive but weak overlap."
       ]
+    },
+    {
+      "task_id": "N3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-10-policy-graduation-v1.md",
+        "benchmarks/n3_10_policy_graduation.py",
+        "tests/test_n3_10_policy_graduation.py",
+        "research/results/n3-10-policy-graduation.json",
+        "research/results/n3-10-policy-graduation.md",
+        "research/results/n3-10-policy-graduation-tests.xml"
+      ],
+      "limitations": [
+        "Synthetic simulator and unsafe-action probabilities; not real-agent or tool-safety evidence.",
+        "Transfer evidence preserves the procedure-versus-legacy effect mapping from N3-08.",
+        "Row-count compute is a deterministic proxy; measured wall time is host-specific.",
+        "Graduation means supervised research continuation only, not product release or autonomous deployment."
+      ]
     }
   ]
 }
