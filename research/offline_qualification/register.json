@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "83f3247d5989391379b9e876de2ff3d67536efeafd857346066699ffb5cc66a8",
+    "sha256": "b7f9d640bf94af0a03e78d7278db566e2591f7089319847684547e4c20534a21",
     "tasks": 260
   },
   "source": {
-    "commit": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
+    "commit": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 164,
+      "DONE": 165,
       "PARTIAL": 4,
-      "TODO": 92
+      "TODO": 91
     },
-    "completed": 164,
+    "completed": 165,
     "total": 260,
-    "percent_complete": 63.08,
+    "percent_complete": 63.46,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "4bdad35fd430aff1dad7cfd98c2e7a4e4767d0b8b23ecd4a20be85a8067d51d1",
+        "research/results/MANIFEST.json": "1c3b6ce674dfea03a554c7885944b11bc8531103f40c7ab349af24d2a66298ba",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5635,14 +5635,38 @@
       "task_id": "P4-01",
       "priority": "P1",
       "task": "Define three product jobs-to-be-done: correction continuity, governed tool use, and multi-agent knowledge sharing.",
-      "acceptance": "Each has seeded workflow, buyer benefit, baseline and measurable outcome",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Each has seeded workflow, buyer benefit, baseline and measurable outcome.. Evidence: `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` (DONE: all three jobs specify workflow, benefit, ordinary baseline and outcome; documentation tests pass. They remain hypotheses, not validated demand.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/product/JOBS_TO_BE_DONE.md",
+        "docs/README.md",
+        "tests/test_product_jobs.py",
+        "tests/test_doc_links.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/multi_agent_team.py",
+        "research/results/p4-01-jobs-to-be-done.json",
+        "research/results/p4-01-jobs-to-be-done.txt"
+      ],
+      "evidence_digests": {
+        "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
+        "docs/README.md": "5e7f06449a21c6e8e781f35b15315d23fe5b696a433e9e656e5b1bb84d7bcecd",
+        "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
+        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
+        "examples/wrong_memory_demo.py": "ed6514153fa51b9fbf6d989486a2f8105f11a165c711acdd6c4fe07bec337a3e",
+        "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
+        "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
+        "research/results/p4-01-jobs-to-be-done.json": "1e4d5f5e2213e37975a15f538f03498ea5e81b29e2fff9efd36ae0eb6eb8bba0",
+        "research/results/p4-01-jobs-to-be-done.txt": "3efca8b90a82cb1d756791e7b3c6793e3c3c77265173382a0d8e47e7c30c31ba"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Product jobs are hypotheses, not validated buyer demand or willingness to pay."
+      ]
     },
     {
       "task_id": "P4-02",
@@ -5730,7 +5754,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "92b8b761ea04f6b49edd1b316bb5721a6360b256aa7a812da2c65fa5f78223fe",
+        "docs/README.md": "5e7f06449a21c6e8e781f35b15315d23fe5b696a433e9e656e5b1bb84d7bcecd",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",

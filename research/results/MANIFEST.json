@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 250,
+ "results": 251,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 93,
-  "dataset_digest": 247,
-  "model_id": 214,
-  "prompt_hash": 250,
-  "seed": 171,
-  "cost": 227,
-  "verdict": 179
+  "prereg": 94,
+  "dataset_digest": 248,
+  "model_id": 215,
+  "prompt_hash": 251,
+  "seed": 172,
+  "cost": 228,
+  "verdict": 180
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 238
+  "unclassified": 239
  },
  "rows": [
   {
@@ -3781,6 +3781,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p3-correction-propagation.md",
    "git_sha": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p4-01-jobs-to-be-done",
+   "file": "research/results/p4-01-jobs-to-be-done.json",
+   "file_sha256": "89be739ca7877056e314e4e133bbdbe6cef62b788457e64eb2214d29dea6d172",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

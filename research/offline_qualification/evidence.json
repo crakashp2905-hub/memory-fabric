@@ -2084,6 +2084,27 @@
       ]
     },
     {
+      "task_id": "P4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/product/JOBS_TO_BE_DONE.md",
+        "docs/README.md",
+        "tests/test_product_jobs.py",
+        "tests/test_doc_links.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/multi_agent_team.py",
+        "research/results/p4-01-jobs-to-be-done.json",
+        "research/results/p4-01-jobs-to-be-done.txt"
+      ],
+      "limitations": [
+        "Product jobs are hypotheses, not validated buyer demand or willingness to pay."
+      ]
+    },
+    {
       "task_id": "P4-07",
       "status": "DONE",
       "acceptance_passed": true,
