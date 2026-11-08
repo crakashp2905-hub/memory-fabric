@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (212)
+## Complete at this checkpoint (213)
 
 | Task | Evidence |
 |---|---|
@@ -175,6 +175,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-177 | Cross-tenant key collision is a miss; valid committed entry acceptance and current auth revalidation are tested |
 | CDM-186 | `docs/CDM_INVALIDATION_CLASSIFICATION.md` distinguishes required affected-entry invalidation from harmful blanket cache clearing. A regression creates affected and independent valid checkpoints: targeted invalidation evicts only the affected one; blanket clear also discards the unrelated checkpoint and forces unnecessary recomputation. Current authorization/version checks remain mandatory; broad invalidation stays justified when dependency completeness is unknown. Focused checkpoint suite passes. |
 | CDM-187 | `docs/CDM_REEVALUATION_CLASSIFICATION.md` distinguishes collateral cost from causal false positives. On a declared complete graph, exact frontier replays both retained dependents with zero collateral; unknown completeness falls back over four retained events, yielding two intentional conservative re-evaluations. Regression compares against the explicit dependency fixture; full gate includes it. |
+| CDM-188 | `benchmarks/cdm_dependency_shapes.py` generates eight-event chain, star, and fork DAGs with alternating competing evidence from three synthetic sources; report records graph edges, exact target frontier and independent event counts. Regression confirms topology and expected frontier sizes 7/1/3. Preregistration and report are checked in; Ruff/mypy and integrated gate pass. These declared synthetic graphs do not establish application-level dependency completeness. |
 | CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
 | CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
 | CDM-181 | Tenant-scoped correction report uses influence graph actual retrieval/citation/authorization labels |
@@ -237,12 +238,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (16)
+## Open (15)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-188 | Generate chains, stars and forks with competing evidence. |
 | CDM-193 | Handle missing remote evidence conservatively. |
 | CDM-194 | Preserve provenance across import and copy events. |
 | CDM-195 | Represent mixed-version federation replay. |
