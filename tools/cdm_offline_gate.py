@@ -49,10 +49,18 @@ def run_step(name: str, command: list[str], cwd: Path = ROOT) -> dict[str, Any]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--all", action="store_true")
+    parser.add_argument("--all", action="store_true", required=True,
+                        help="required: run the complete local hermetic qualification")
     parser.add_argument("--seed", type=int, default=20261108)
     parser.add_argument("--out", default="research/results/cdm/offline-qualification")
     args = parser.parse_args(argv)
+    try:
+        checkout = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=ROOT,
+                                  capture_output=True, text=True, check=True, timeout=5)
+    except (OSError, subprocess.SubprocessError) as exc:
+        parser.error(f"qualification requires an accessible local Git checkout: {exc}")
+    if Path(checkout.stdout.strip()).resolve() != ROOT.resolve():
+        parser.error("qualification script root must match the local Git checkout root")
     out = (ROOT / args.out).resolve()
     if ROOT not in out.parents:
         parser.error("output directory must be inside the repository")
@@ -89,6 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     tests.append("tests.test_cdm_correction_comparison")
     tests.append("tests.test_cdm_correction_utility")
     tests.append("tests.test_cdm_tempfiles")
+    tests.append("tests.test_cdm_in_process_compatibility")
     tests.append("tests.test_cdm_architecture_superiority")
     steps = [run_step("CDM focused unit suite", [sys.executable, "-m", "unittest", *tests]),
              run_step("battery demonstrator", [sys.executable, "-m", "benchmarks.cdm_battery_world",

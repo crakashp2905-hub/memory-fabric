@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (223)
+## Complete at this checkpoint (228)
 
 | Task | Evidence |
 |---|---|
@@ -204,6 +204,10 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-209 | `CacheKey` includes `policy_id` in its canonical digest and cache retrieval compares the checkpoint ID; regression proves two IDs with the same implementation digest cannot collide. |
 | CDM-211 | Decision-record RNG snapshots are bound into the append-only receipt digest; substitution of a different well-formed RNG state fails receipt verification and recorded replay. This protects post-record integrity; a writer's initial RNG-state claim is not independently attested. |
 | CDM-213 | Built-in policy parameters reject booleans, non-finite thresholds, malformed identifiers and extra constructor parameters; replay refuses policy subclasses that could inject behavior. Focused adversarial regressions are in the offline gate. |
+| CDM-236 | `docs/CDM_KNOWN_FINDINGS.md` indexes preregistered negative/null outcomes and operational limits without converting synthetic results into efficacy claims. |
+| CDM-237 | `tests.test_cdm_in_process_compatibility` runs normal Memory Fabric writes/reads before and after the read-only CDM capture facade in one interpreter and verifies capture does not append to the store log. |
+| CDM-238 | `tools.cdm_offline_gate` requires `--all` and verifies its script root matches the local Git checkout before qualifying; no remote query is part of qualification. |
+| CDM-240 | `docs/CDM_INTERNAL_GO_NO_GO.md` issues a scoped internal GO for offline synthetic research and NO-GO for deployment, efficacy claims, autonomous correction, physical-world causality, and action authority; latest required checkout qualification is PASS (21 stages), recorded in the authoritative manifest. |
 | CDM-207 | Capture artifact tests prove private content and credential signatures are absent |
 | CDM-208 | Replay certificates explicitly have no action entitlement; no action method is exposed |
 | CDM-210 | Duplicate observation IDs refuse in executor/verifier; reordered step sequence fails independent per-step verification |
@@ -249,25 +253,6 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (4)
+## Open (0)
 
-| Task | Required evidence |
-|---|---|
-
-| CDM-236 | Document all known negative findings. |
-| CDM-237 | Add full in-process compatibility tests. |
-| CDM-238 | Require full hermetic qualification from local checkout. |
-| CDM-240 | Issue internal offline GO/NO-GO decision ledger. |
-
-
-
-
-
-
-
-
-
-
-
-
-
+No open task IDs remain. The 12 partial tasks retain the acceptance gaps listed above.
