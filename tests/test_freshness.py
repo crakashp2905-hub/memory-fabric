@@ -11,7 +11,7 @@ from memory_fabric.actions import EVIDENCE_NOT_FRESH, ActionGate, ActionPolicy, 
 from memory_fabric.federation import offer
 from memory_fabric.governance.firewall import (Firewall, rule_capabilities_must_be_granted,
                                                rule_must_be_active, rule_restricted_stays_private)
-from memory_fabric.freshness import (BAD_SIGNATURE, CLOCK_SKEW, EXPIRED, FRESH, LOCAL, NO_LEASE,
+from memory_fabric.freshness import (BAD_SIGNATURE, CLOCK_INVALID, CLOCK_SKEW, EXPIRED, FRESH, LOCAL, NO_LEASE,
                                      UNKNOWN_KEY, VERSION_MISMATCH, WITHDRAWN, FreshnessLease,
                                      LeaseBook, freshness_of, issue_lease)
 
@@ -100,6 +100,77 @@ class Federation(unittest.TestCase):
         self.assertEqual(freshness_of(self.peer, self.imported, self.book), EXPIRED)
         self.assertFalse(self.authorize().allowed)
         self.assertTrue(self.authorize("lenient").allowed)
+        self.peer._clock = original_clock
+
+    def test_malformed_wall_clock_readings_are_refused_without_storing_a_lease(self) -> None:
+        lease = self.lease()
+        for value in (None, "not-a-clock", True, 1.5, -1):
+            with self.subTest(value=value):
+                book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                                 clock_ms=lambda value=value: value,
+                                 monotonic_ms=lambda: 500_000)
+                self.assertEqual(book.accept(lease), CLOCK_INVALID)
+                self.assertIsNone(book.get(lease.origin_store_id, lease.memory_id))
+
+        def raising_clock() -> int:
+            raise RuntimeError("clock unavailable")
+
+        book = LeaseBook({self.origin.store_id: {"k1": KEY}}, clock_ms=raising_clock)
+        self.assertEqual(book.accept(lease), CLOCK_INVALID)
+        self.assertIsNone(book.get(lease.origin_store_id, lease.memory_id))
+
+    def test_malformed_monotonic_clock_fails_closed_for_acceptance_and_expiry(self) -> None:
+        lease = self.lease()
+        for value in (None, "not-a-clock", True, 1.5, -1):
+            with self.subTest(value=value):
+                book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                                 clock_ms=self.peer.now,
+                                 monotonic_ms=lambda value=value: value)
+                self.assertEqual(book.accept(lease), CLOCK_INVALID)
+                self.assertIsNone(book.get(lease.origin_store_id, lease.memory_id))
+
+        book = LeaseBook({self.origin.store_id: {"k1": KEY}}, clock_ms=self.peer.now)
+        self.assertIsNone(book.accept(lease))
+        book._monotonic_ms = lambda: None
+        self.assertTrue(book.expired_monotonically(lease.origin_store_id, lease.memory_id))
+
+        def raising_clock() -> int:
+            raise RuntimeError("monotonic clock unavailable")
+
+        broken = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                           clock_ms=self.peer.now, monotonic_ms=raising_clock)
+        self.assertEqual(broken.accept(lease), CLOCK_INVALID)
+
+    def test_monotonic_clock_rollback_expires_the_held_lease(self) -> None:
+        lease = self.lease()
+        readings = iter((100_000, 99_999))
+        book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                         clock_ms=self.peer.now,
+                         monotonic_ms=lambda: next(readings))
+        self.assertIsNone(book.accept(lease))
+        self.assertTrue(book.expired_monotonically(lease.origin_store_id, lease.memory_id))
+
+    def test_recovered_monotonic_clock_does_not_revive_expired_lease(self) -> None:
+        lease = self.lease()
+        readings = iter((100_000, None, 100_001, 100_002, 100_003))
+        book = LeaseBook({self.origin.store_id: {"k1": KEY}},
+                         clock_ms=self.peer.now,
+                         monotonic_ms=lambda: next(readings))
+        self.assertIsNone(book.accept(lease))
+        self.assertTrue(book.expired_monotonically(lease.origin_store_id, lease.memory_id))
+        self.assertTrue(book.expired_monotonically(lease.origin_store_id, lease.memory_id))
+
+        renewed = self.lease()
+        self.assertIsNone(book.accept(renewed))
+        self.assertFalse(book.expired_monotonically(renewed.origin_store_id, renewed.memory_id))
+
+    def test_malformed_store_clock_makes_imported_evidence_not_fresh(self) -> None:
+        lease = self.lease()
+        self.assertIsNone(self.book.accept(lease))
+        original_clock = self.peer._clock
+        self.peer._clock = lambda: None
+        self.assertEqual(freshness_of(self.peer, self.imported, self.book), CLOCK_INVALID)
+        self.assertEqual(self.peer.get(self.imported).id, self.imported)
         self.peer._clock = original_clock
 
     def test_native_evidence_is_fresh_without_a_lease(self) -> None:

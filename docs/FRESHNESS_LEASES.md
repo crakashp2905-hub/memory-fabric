@@ -7,6 +7,15 @@ discipline; increasing it also increases the stale-lease exposure window.
 The receiver must obtain leases from the authenticated origin and configure
 the matching origin key. A lease rejected for skew is not retained.
 
+Wall-clock and monotonic callbacks must return non-negative integers (booleans,
+floats, strings, `None`, negative values, and raised exceptions are invalid).
+Malformed wall time returns `lease_clock_invalid` and is never used to accept a
+lease or establish imported evidence freshness. A malformed monotonic reading
+fails lease acceptance; if it becomes malformed after acceptance, all held
+leases are permanently expired until a newer lease is accepted. Monotonic
+readings must also be nondecreasing. Detecting a backward step expires held
+leases instead of extending their deadlines.
+
 After acceptance, the book also records a process-local monotonic deadline,
 using the remaining signed TTL at receipt. Moving the wall clock backwards
 cannot extend that accepted lease. A process restart must reload and reverify
@@ -21,6 +30,7 @@ other authorization rules. This is a bounded-clock assumption, not a source of
 trusted time: deployments must monitor time synchronization and set the skew
 bound to match their actual environment.
 
-The deterministic qualification in `tests/test_freshness.py` exercises a fast
-receiver clock, a slow receiver clock, wall-clock rollback after lease receipt,
-expiry after partition, forged signatures, and safe non-consequential reads.
+The deterministic qualification in `tests/test_freshness.py` exercises fast
+and slow receiver clocks, wall-clock rollback after lease receipt, monotonic
+rollback, malformed and raising wall/monotonic clocks, expiry after partition,
+forged signatures, and safe non-consequential reads.
