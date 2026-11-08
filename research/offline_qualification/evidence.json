@@ -3982,7 +3982,9 @@
         "research/results/n4-02-hierarchical-compaction.json",
         "research/results/n4-02-hierarchical-compaction.md",
         "research/results/n4-02-hierarchy-tests.xml",
-        "research/results/n4-02-revision-compat-tests.xml"
+        "research/results/n4-02-revision-compat-tests.xml",
+        "tests/test_compaction_temporal.py",
+        "research/results/n4-05-compaction-regression.xml"
       ],
       "limitations": [
         "The implementation is a deterministic two-level hierarchy; deeper recursive trees are not qualified.",
@@ -4027,6 +4029,26 @@
         "The 10:1 compaction cases exercise already exposable competing evidence by disabling write-time suspicion holding in the fixture; they do not assert either value is true.",
         "With default suspicion holding, the minority remains a candidate in the review queue and is deliberately excluded from the active summary until reviewed.",
         "Local in-memory contract evidence; no distributed or real-agent efficacy claim."
+      ]
+    },
+    {
+      "task_id": "N4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_temporal.py",
+        "experiments/n4_05_temporal_compaction.py",
+        "docs/API.md",
+        "research/results/n4-05-temporal-compaction.json",
+        "research/results/n4-05-temporal-compaction.md",
+        "research/results/n4-05-temporal-tests.xml",
+        "research/results/n4-05-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Summary content preserves distinct preference statements while source metadata records exact version identity, version author, authoritative log sequence, recorded timestamp, and valid-time interval. The summary does not choose which preference applies without an explicit world time.",
+        "Hierarchical metadata and certificates are validated locally in memory; no distributed-store or real-agent preference-resolution claim."
       ]
     }
   ]

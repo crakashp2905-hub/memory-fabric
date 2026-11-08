@@ -1,0 +1,39 @@
+{
+  "schema": "memory-fabric-n4-05-temporal-compaction/1",
+  "task_id": "N4-05",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "0e0c85a4c5170300bbbeffbf2d00382950b09013",
+    "dirty_before_result_write": true,
+    "script_sha256": "dfa824b5db7059101e7dfdd3f00258664de37e169a228dedcd3a5b0b8acfabcf"
+  },
+  "flat_temporal_preference": {
+    "content_keeps_revised_and_expired_alternatives": true,
+    "content_drops_superseded_preference_text": true,
+    "current_version_identity_preserved": true,
+    "transaction_order_uses_authoritative_log_sequence": true,
+    "corrected_valid_time_preserved": true,
+    "later_recorded_expired_claim_keeps_its_interval": true,
+    "world_time_not_record_order_selects_applicability": true,
+    "source_ids_and_versions_match_summary_parents": true
+  },
+  "hierarchical_metadata": {
+    "source_metadata_count": 5,
+    "source_ids_preserved": true,
+    "version_authors_preserved": true,
+    "valid_intervals_preserved": true,
+    "certificate_verifies_temporal_metadata": true
+  },
+  "tests": {
+    "junit": "research/results/n4-05-temporal-tests.xml",
+    "reported_test_cases": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "Recorded timestamps and valid-time intervals are retained as metadata; the summary does not decide which preference applies without a requested world time.",
+    "Local in-memory contract evidence, not a real-user preference-resolution benchmark."
+  ]
+}

@@ -137,6 +137,48 @@ def _measurement(
     }
 
 
+def _recorded_memory_sequences(fabric: "MemoryFabric") -> dict[tuple[str, int], int]:
+    """Index exact create/revision transaction positions for this log head."""
+    head = fabric.log.head_seq
+    cached = getattr(fabric, "_compaction_memory_sequences", None)
+    if cached is not None and cached[0] == head:
+        return cached[1]
+    sequences: dict[tuple[str, int], int] = {}
+    for event in fabric.log.read_types([EventType.MEMORY_CREATED, EventType.MEMORY_VERSIONED]):
+        raw = event.payload.get("memory")
+        if isinstance(raw, dict) and isinstance(raw.get("id"), str):
+            version = raw.get("version")
+            if isinstance(version, int) and not isinstance(version, bool) and event.seq is not None:
+                sequences[(raw["id"], version)] = event.seq
+    fabric.__dict__["_compaction_memory_sequences"] = (head, sequences)
+    return sequences
+
+
+def _source_metadata(
+    fabric: "MemoryFabric", memories: Sequence["Memory"]
+) -> list[dict[str, int | str | None]]:
+    """Preserve valid time, exact log order, version author, and source identity."""
+    sequences = _recorded_memory_sequences(fabric)
+    metadata = []
+    for memory in memories:
+        recorded_seq = sequences.get((memory.id, memory.version))
+        if recorded_seq is None:
+            raise CompactionRefused(
+                f"source {memory.id!r} version {memory.version} has no log sequence"
+            )
+        row: dict[str, int | str | None] = {
+            "source_id": memory.id,
+            "source_version": memory.version,
+            "version_author": author(memory),
+            "recorded_seq": recorded_seq,
+            "recorded_at": memory.created_at,
+            "valid_from": memory.valid_from,
+            "valid_to": memory.valid_to,
+        }
+        metadata.append(row)
+    return metadata
+
+
 def session_memories(fabric: "MemoryFabric", episode_id: str) -> list["Memory"]:
     """What the session wrote, and what it cited, in log order."""
     ids: list[str] = [m.id for m in fabric.state.memories.values()
@@ -160,11 +202,11 @@ def session_label(fabric: "MemoryFabric", episode_id: str) -> str:
 def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory"]]) -> str:
     """One line per distinct claim; disputed claims listed with every value and source.
 
-    A claim is its identifiers and values (`conflicts.claim`): restatements of
-    one claim keep only the shortest wording. A note with neither identifiers
-    nor values ("shift handover went smoothly") is chatter and is dropped. The
-    C1 pilot found the first version, which kept every distinct sentence, wrote
-    summaries too long for any context budget.
+    A claim is its identifiers, content words, and values (`conflicts.claim`):
+    exact normalized restatements keep only the shortest wording. A note with
+    neither identifiers nor values ("shift handover went smoothly") is chatter
+    and is dropped. The C1 pilot found the first version, which kept every
+    distinct sentence, wrote summaries too long for any context budget.
     """
     disputed = {m.id for group in disputes for m in group}
     best: dict[object, str] = {}
@@ -172,11 +214,14 @@ def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory
     for memory in memories:
         if memory.id in disputed:
             continue
-        ids, _, values = claim(memory.content)
+        ids, words, values = claim(memory.content)
         text = memory.content.strip()
         if not ids and not values:
             continue
-        key = (ids, values) if (ids or values) else text.lower()
+        # Include claim words even when a statement has no numeric value (for
+        # example a preference). Keying only by identifiers and values made
+        # "prefer warm" and "prefer cool" collapse to whichever was shortest.
+        key = (ids, words, values) if (ids or values) else text.lower()
         if key not in best:
             order.append(key)
             best[key] = text
@@ -196,10 +241,14 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                     token_counter: Callable[[str], int] | None = None,
                     tokenizer_provenance: str | None = None) -> CompactionReport:
     """Write one governed summary of an episode, returning used and omitted inputs.
+    `summary_source_metadata` records each parent ID/version, version author,
+    authoritative log sequence, recorded time, and valid-time interval.
 
     The report always includes exact UTF-8 byte counts. Optional token counts are
     produced only when both a tokenizer counter and its explicit provenance are
     supplied; byte counts are never treated as token or model-cost estimates.
+    The summary context also maps each source version to its ID, version author,
+    authoritative transaction sequence, recorded time, and valid-time interval.
     """
     report = CompactionReport(episode_id=episode_id, summary_id=None)
     usable = []
@@ -253,6 +302,7 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
             context={
                 "kind": "derived_claim",
                 "compaction_of": episode_id,
+                "summary_source_metadata": _source_metadata(fabric, usable),
                 **(
                     {"summary_dependencies": dependencies}
                     if dependencies is not None
@@ -280,11 +330,13 @@ def _hierarchy_certificate(
     parents: Sequence[tuple[str, int]],
     dependencies: dict[str, list[list[str | int]]],
     child_edges: Sequence[dict[str, object]],
+    source_metadata: Sequence[dict[str, int | str | None]],
 ) -> str:
     payload = json.dumps(
         {
             "edge_certificate": make_edge_certificate(content, parents, dependencies),
             "child_edges": list(child_edges),
+            "source_metadata": list(source_metadata),
         },
         sort_keys=True,
         separators=(",", ":"),
@@ -306,7 +358,9 @@ def compact_hierarchy(
 
     Root lineage includes both leaf summaries and original versions. This
     deliberately gives corrections a short invalidation path while preserving
-    independently usable sibling leaves.
+    independently usable sibling leaves. Leaf and root metadata retain each
+    source version's ID, version author, transaction sequence, recorded time,
+    and valid-time interval; these fields are covered by hierarchy certificates.
     """
     from .navigation import _visible
 
@@ -330,7 +384,9 @@ def compact_hierarchy(
         )
     groups = [usable[start:start + leaf_size] for start in range(0, len(usable), leaf_size)]
     label = session_label(fabric, episode_id)
-    leaf_plans: list[tuple[list["Memory"], str, dict[str, list[list[str | int]]], str]] = []
+    leaf_plans: list[
+        tuple[list["Memory"], str, dict[str, list[list[str | int]]], list[dict[str, int | str | None]], str]
+    ] = []
     for index, group in enumerate(groups):
         text = f"Session summary ({label} leaf {index + 1}): " + extractive(
             group, find_conflicts(group)
@@ -340,8 +396,11 @@ def compact_hierarchy(
         except DependencyMapRefused as exc:
             raise CompactionRefused(f"leaf summary dependency map failed: {exc}") from exc
         parent_versions = [(memory.id, memory.version) for memory in group]
-        certificate = make_edge_certificate(text, parent_versions, dependencies)
-        leaf_plans.append((group, text, dependencies, certificate))
+        source_metadata = _source_metadata(fabric, group)
+        certificate = _hierarchy_certificate(
+            text, parent_versions, dependencies, [], source_metadata
+        )
+        leaf_plans.append((group, text, dependencies, source_metadata, certificate))
 
     root_disputes = find_conflicts(usable)
     root_text = f"Session summary ({label}): " + extractive(usable, root_disputes)
@@ -352,6 +411,7 @@ def compact_hierarchy(
     measured = _measurement(
         [memory.content for memory in usable], root_text, token_counter, tokenizer_provenance
     )
+    root_source_metadata = _source_metadata(fabric, usable)
 
     narrowest = min((memory.scope for memory in usable), key=lambda scope: scope.rank)
     leaf_ids: list[str] = []
@@ -367,7 +427,7 @@ def compact_hierarchy(
                 raise CompactionRefused(
                     "hierarchy sources changed during summarization; retry with current evidence"
                 )
-        for index, (group, text, dependencies, certificate) in enumerate(leaf_plans):
+        for index, (group, text, dependencies, source_metadata, certificate) in enumerate(leaf_plans):
             leaf_scope = min((memory.scope for memory in group), key=lambda scope: scope.rank)
             summary_id = fabric.derive(
                 agent_id,
@@ -380,6 +440,7 @@ def compact_hierarchy(
                     "hierarchy_node": "leaf",
                     "hierarchy_index": index,
                     "summary_dependencies": dependencies,
+                    "summary_source_metadata": source_metadata,
                     "summary_edge_certificate": certificate,
                 },
                 scope=leaf_scope,
@@ -400,7 +461,11 @@ def compact_hierarchy(
             (summary_id, fabric.state.memories[summary_id].version) for summary_id in leaf_ids
         ] + [(memory.id, memory.version) for memory in usable]
         root_certificate = _hierarchy_certificate(
-            root_text, direct_parent_versions, root_dependencies, leaf_edges
+            root_text,
+            direct_parent_versions,
+            root_dependencies,
+            leaf_edges,
+            root_source_metadata,
         )
         root_id = fabric.derive(
             agent_id,
@@ -417,6 +482,7 @@ def compact_hierarchy(
                     [memory.id, memory.version] for memory in usable
                 ],
                 "summary_dependencies": root_dependencies,
+                "summary_source_metadata": root_source_metadata,
                 "summary_edge_certificates": leaf_edges,
                 "summary_hierarchy_certificate": root_certificate,
                 "summary_edge_certificate": None,
@@ -479,9 +545,16 @@ def verify_hierarchical_summary(
                     or source.lifecycle_state not in EXPOSABLE_STATES):
                 raise CompactionRefused("a hierarchy source version is no longer active")
             source_memories.append(source)
+        expected_metadata = _source_metadata(fabric, source_memories)
+        if (child.context or {}).get("summary_source_metadata") != expected_metadata:
+            raise CompactionRefused("hierarchy leaf source identity or valid-time metadata differs")
         verify_stored_dependency_map(child, source_memories)
-        child_certificate = make_edge_certificate(
-            child.content, refs, (child.context or {}).get("summary_dependencies", {})
+        child_certificate = _hierarchy_certificate(
+            child.content,
+            refs,
+            (child.context or {}).get("summary_dependencies", {}),
+            [],
+            expected_metadata,
         )
         if (child_certificate != edge.get("certificate")
                 or child_certificate != (child.context or {}).get("summary_edge_certificate")):
@@ -496,6 +569,9 @@ def verify_hierarchical_summary(
     if set(root.provenance.parents) != expected_parents:
         raise CompactionRefused("root provenance differs from its explicit edge certificate")
     root_sources = [fabric.state.memories[mid] for mid, _ in normalized_source_refs]
+    root_metadata = _source_metadata(fabric, root_sources)
+    if context.get("summary_source_metadata") != root_metadata:
+        raise CompactionRefused("hierarchy root source identity or valid-time metadata differs")
     verify_stored_dependency_map(root, root_sources)
     root_parent_versions = list(root.provenance.parents)
     root_certificate = _hierarchy_certificate(
@@ -503,6 +579,7 @@ def verify_hierarchical_summary(
         root_parent_versions,
         context.get("summary_dependencies", {}),
         child_edges,
+        root_metadata,
     )
     if root_certificate != context.get("summary_hierarchy_certificate"):
         raise CompactionRefused("hierarchy root certificate digest mismatch")

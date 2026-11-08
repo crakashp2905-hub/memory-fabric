@@ -461,7 +461,7 @@ Proposals and adoptions of objective changes, recorded in the store's log.
 compact_session(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default', token_counter: Callable[[str], int] | None = None, tokenizer_provenance: str | None = None) -> CompactionReport
 ```
 
-Write one governed summary of an episode, returning used and omitted inputs.
+Write one governed summary of an episode, returning used and omitted inputs. `summary_source_metadata` records each parent ID/version, version author, authoritative log sequence, recorded time, and valid-time interval.
 
 ### `compaction.summary_for` (experimental)
 

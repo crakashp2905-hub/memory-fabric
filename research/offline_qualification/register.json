@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "349a56f43d051c1436027a97533dfd030f4dcd36e459333086aa77d5540037ba",
+    "sha256": "2e13043baa52fbedf9f3c09c359d39595d5b4a23c8de8f9e3849160d54470fc8",
     "tasks": 260
   },
   "source": {
-    "commit": "a8f87e57c6175cdf0824d33ca39d6f67c6b5aacd",
-    "dirty": false
+    "commit": "0e0c85a4c5170300bbbeffbf2d00382950b09013",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 230,
+      "DONE": 231,
       "PARTIAL": 3,
-      "TODO": 27
+      "TODO": 26
     },
-    "completed": 230,
+    "completed": 231,
     "total": 260,
-    "percent_complete": 88.46,
+    "percent_complete": 88.85,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1173,7 +1173,7 @@
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "STABILITY.md": "69106f23aeea86f01d81fb6fb66d21dc9fb3e4de714f714fd568563179e3282c",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
@@ -2827,7 +2827,7 @@
         "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
         "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
@@ -3049,7 +3049,7 @@
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "tests/test_revision_conflicts.py": "42bdce5761f54e0964018ce7c9541e3937b3b21806d138e38a216abc48c20ec8",
         "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
@@ -3141,7 +3141,7 @@
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
@@ -3184,7 +3184,7 @@
         "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
         "src/memory_fabric/events.py": "2ec434aa33f0438a8684ab06aefc9171297b597f36b259a19ac0a2f7672a79b6",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
@@ -3238,7 +3238,7 @@
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
@@ -3290,7 +3290,7 @@
         "src/memory_fabric/events.py": "2ec434aa33f0438a8684ab06aefc9171297b597f36b259a19ac0a2f7672a79b6",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
@@ -3340,7 +3340,7 @@
         "src/memory_fabric/events.py": "2ec434aa33f0438a8684ab06aefc9171297b597f36b259a19ac0a2f7672a79b6",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
@@ -3442,7 +3442,7 @@
         "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
         "docs/READ_ONLY_ADVISORIES.md": "844048c0877487fb2437e3173b3e47ea22bc8ef7e70476424a5b5fa23cbb09e9",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
         "tests/test_advisory.py": "971538a1972b069c5c70d7e48e73e3482c2ecd4d44cab010b45424dfc0f381e3",
@@ -3526,7 +3526,7 @@
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
         "tools/gen_reference.py": "89bdb8c2d108dc7bc16773fadb7fa6e7833b9dc6e416cef6aeb240ef20ffd1d4",
         "docs/AUTHORIZATION_PROOF_RECEIPTS.md": "bdbfa667fb5e5d8e571d1fec9e16021900dd9acfb8471da3db7a78e489319013",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
         "tests/test_authorization_receipt.py": "1a3a4842e9d4592c77e422ad748917af018d024ad32868cabeee1032c0b4041e",
@@ -3854,7 +3854,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
-        "src/memory_fabric/compaction.py": "5184994252e3e16102570a60be595d8045d814cd5ab547ace7fab7d0e3d1dfc8",
+        "src/memory_fabric/compaction.py": "49cd1e778693734a19d3fad8d09d82a3d8066aac41b662a4ca20dbd31003fa6a",
         "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
         "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
         "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
@@ -3890,10 +3890,12 @@
         "research/results/n4-02-hierarchical-compaction.json",
         "research/results/n4-02-hierarchical-compaction.md",
         "research/results/n4-02-hierarchy-tests.xml",
-        "research/results/n4-02-revision-compat-tests.xml"
+        "research/results/n4-02-revision-compat-tests.xml",
+        "tests/test_compaction_temporal.py",
+        "research/results/n4-05-compaction-regression.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "5184994252e3e16102570a60be595d8045d814cd5ab547ace7fab7d0e3d1dfc8",
+        "src/memory_fabric/compaction.py": "49cd1e778693734a19d3fad8d09d82a3d8066aac41b662a4ca20dbd31003fa6a",
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
         "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
@@ -3903,7 +3905,9 @@
         "research/results/n4-02-hierarchical-compaction.json": "5e6aec5efb3c78344adcd7724d778d28c818715e02986a3851e678e0c520f7ec",
         "research/results/n4-02-hierarchical-compaction.md": "f537d936e342d3f69977cc8c22fc8adcb88faa969065934ebe75673fef12bf18",
         "research/results/n4-02-hierarchy-tests.xml": "93314e13814865aaf61b0c296c79acd5df65398988a9226e2b9269dec899205a",
-        "research/results/n4-02-revision-compat-tests.xml": "3e9e9d2d0cc99faf62fd5b1372c9ad1160e0f2e446f701c5ba6e7346224890ff"
+        "research/results/n4-02-revision-compat-tests.xml": "3e9e9d2d0cc99faf62fd5b1372c9ad1160e0f2e446f701c5ba6e7346224890ff",
+        "tests/test_compaction_temporal.py": "9a5ba9efd3a3677928ae56af77241fe73e1775675f61308e6d722d2cad471590",
+        "research/results/n4-05-compaction-regression.xml": "a32856b78c064e86393ab84189ee6f9ad60ce3f7a2cadfeb8f27785de6291fd0"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3931,14 +3935,14 @@
         "research/results/n4-03-compaction-tests.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "5184994252e3e16102570a60be595d8045d814cd5ab547ace7fab7d0e3d1dfc8",
+        "src/memory_fabric/compaction.py": "49cd1e778693734a19d3fad8d09d82a3d8066aac41b662a4ca20dbd31003fa6a",
         "experiments/n4_03_compaction_size.py": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e",
         "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
-        "research/results/n4-03-compaction-size.json": "d4ce8c1fbe33abe16d18724dbb28d7025d946f9d5945dea9f9ffbbbb47645710",
+        "research/results/n4-03-compaction-size.json": "607f28f4c831bde043476de5a355e56cd8274ca9e0d593bfb14f621a5967610c",
         "research/results/n4-03-compaction-size.md": "3aafdb64119240ba3d70b69ea320e579640318b5974fbce2bd90541aff06c7e4",
-        "research/results/n4-03-compaction-tests.xml": "4d6671386ea4a7cefba1a013417c2e45de4cbe6ee5541df638ba888ee83386f6",
-        "research/results/n4-03-compaction-tests.txt": "376a6ff32fa149a59abdf6fecabcb7b08c6b65e5df80859d1cc904fa15b722a6"
+        "research/results/n4-03-compaction-tests.xml": "cdf7aeecd5e90ef58180450dcd6725c25fc789fec221668b3f77ea84d4bb64e9",
+        "research/results/n4-03-compaction-tests.txt": "d0248c31e5f49f945a95ec6182549b6a7e730cd786db4f26a38b7619bd4f13d3"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3965,9 +3969,9 @@
       "evidence_digests": {
         "tests/test_compaction_contested_facts.py": "e660477e5b1db321057c245570a49db9376ef28bee27298605c6c3b26c7749c7",
         "experiments/n4_04_contested_compaction.py": "48db66ed906ffb7a818eab014fac47561eb13c1eff042a0b8242cdf2bb6a7530",
-        "research/results/n4-04-contested-compaction.json": "210effa104effba09cf0a99f8c30b611c7d89384e2d42100d7f056ca575d229b",
+        "research/results/n4-04-contested-compaction.json": "644baae05970a292cfb4ae6750e2a3c1afb1d4d91749ab8e798cca5fda5209e5",
         "research/results/n4-04-contested-compaction.md": "a033bf2b81027e2c18792b615ddc74444fbc75f9370d9413dd5a2092dccd8999",
-        "research/results/n4-04-contested-tests.xml": "862efdbf0829f4ccdf38d781963e52d25e07ef80d3fb3d3ccaf3d300ac4bb52c"
+        "research/results/n4-04-contested-tests.xml": "dc70de85d29b639f66b7a84c939fc16b04b7632367614e288a57de6daf71952a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3980,14 +3984,35 @@
       "task_id": "N4-05",
       "priority": "P1",
       "task": "Add preference changes, corrections and temporal qualifiers where newest text is not always current truth.",
-      "acceptance": "Summary keeps valid-time distinction and original source identity",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Summary keeps valid-time distinction and original source identity. Evidence: `src/memory_fabric/compaction.py`, `tests/test_compaction_temporal.py`, `experiments/n4_05_temporal_compaction.py`, `docs/API.md`, `research/results/n4-05-temporal-compaction.json`, `research/results/n4-05-temporal-compaction.md`, `research/results/n4-05-temporal-tests.xml`, `research/results/n4-05-compaction-regression.xml` (DONE: preference changes survive extractive deduplication; summary metadata binds each source ID/version and version author to authoritative transaction sequence, recorded timestamp and half-open valid-time interval. A newer transaction is shown not to be current at an earlier world time. Hierarchical certificates bind and reject tampered temporal metadata. Two dedicated tests plus 27 compaction/reference tests and 114 subtests pass. Summaries preserve alternatives and applicability metadata; they do not select a preferred fact without an explicit world time.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_temporal.py",
+        "experiments/n4_05_temporal_compaction.py",
+        "docs/API.md",
+        "research/results/n4-05-temporal-compaction.json",
+        "research/results/n4-05-temporal-compaction.md",
+        "research/results/n4-05-temporal-tests.xml",
+        "research/results/n4-05-compaction-regression.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/compaction.py": "49cd1e778693734a19d3fad8d09d82a3d8066aac41b662a4ca20dbd31003fa6a",
+        "tests/test_compaction_temporal.py": "9a5ba9efd3a3677928ae56af77241fe73e1775675f61308e6d722d2cad471590",
+        "experiments/n4_05_temporal_compaction.py": "dfa824b5db7059101e7dfdd3f00258664de37e169a228dedcd3a5b0b8acfabcf",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
+        "research/results/n4-05-temporal-compaction.json": "4511bc846b84a435cc6706a2ee18229e572b302e692083ca1f9072d2cd28028c",
+        "research/results/n4-05-temporal-compaction.md": "ded21b5c7c93f4973de4b9f4c9c41509f008d8b3feb72e6e74077f37be64b6c1",
+        "research/results/n4-05-temporal-tests.xml": "06f4dd2f5d98a81f212ebc8870c6200aed19840c5eaed01be6182830e71e620f",
+        "research/results/n4-05-compaction-regression.xml": "a32856b78c064e86393ab84189ee6f9ad60ce3f7a2cadfeb8f27785de6291fd0"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Summary content preserves distinct preference statements while source metadata records exact version identity, version author, authoritative log sequence, recorded timestamp, and valid-time interval. The summary does not choose which preference applies without an explicit world time.",
+        "Hierarchical metadata and certificates are validated locally in memory; no distributed-store or real-agent preference-resolution claim."
+      ]
     },
     {
       "task_id": "N4-06",
@@ -5993,7 +6018,7 @@
         "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
         "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770",
         "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
-        "docs/API.md": "456a822f2f776e0163f20229f18286ae4dd76d9352d8ade2d47732d8675e40d1",
+        "docs/API.md": "bf436f1bbdf61b04e6c49333b2c1f9b51a3e07e6ae9878bc9f7ebca417d750b7",
         "docs/API_INVENTORY.json": "d271dde8a0106da6b81e84ccae77c648de4b38e147fa34468a321d15215882a8",
         "research/results/p1-08-offline-mode.json": "12f81837862632491b0305009817030550b5b9a1474242b357ad40f8945b7b4c",
         "research/results/p1-08-offline-mode.txt": "e1e06a433688b30386cdcd67a5a64a27b17a720a0cf26994ccff4738461b97c6"

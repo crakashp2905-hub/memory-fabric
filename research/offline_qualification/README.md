@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **230 / 260 (88.46%)**. Internal status: **BLOCKED**.
+Strict completion: **231 / 260 (88.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5d6ae8c167bb3f82f7ea0c34b8becbf76485f2d84e3f421d9c54511a2c050702`.
+Normalized ledger digest: `c9f82b142a58b48aee15e0f107c6c178d4f33817a2042744456eb986f8f8f653`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 230 |
+| DONE | 231 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 27 |
+| TODO | 26 |
 
 ## Graduation gates
 
@@ -160,10 +160,10 @@ Normalized ledger digest: `5d6ae8c167bb3f82f7ea0c34b8becbf76485f2d84e3f421d9c545
 | N3-09 | P2 | DONE | CONTRACT | `research/prereg/n3-09-off-policy-support-v1.md`, `src/memory_fabric/model.py`, `src/memory_fabric/estimators.py`, `tests/test_estimators.py`, `research/results/n3-09-off-policy-support.json`, `research/results/n3-09-off-policy-support.md`, `research/results/n3-09-support-tests.xml`, `research/results/n3-09-compat-tests.xml` |
 | N3-10 | P2 | DONE | SIMULATED | `research/prereg/n3-10-policy-graduation-v1.md`, `benchmarks/n3_10_policy_graduation.py`, `tests/test_n3_10_policy_graduation.py`, `research/results/n3-10-policy-graduation.json`, `research/results/n3-10-policy-graduation.md`, `research/results/n3-10-policy-graduation-tests.xml` |
 | N4-01 | P1 | DONE | CONTRACT | `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-02-hierarchy-tests.xml` |
-| N4-02 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-02-hierarchical-compaction.json`, `research/results/n4-02-hierarchical-compaction.md`, `research/results/n4-02-hierarchy-tests.xml`, `research/results/n4-02-revision-compat-tests.xml` |
+| N4-02 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-02-hierarchical-compaction.json`, `research/results/n4-02-hierarchical-compaction.md`, `research/results/n4-02-hierarchy-tests.xml`, `research/results/n4-02-revision-compat-tests.xml`, `tests/test_compaction_temporal.py`, `research/results/n4-05-compaction-regression.xml` |
 | N4-03 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `experiments/n4_03_compaction_size.py`, `tests/test_compaction.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-03-compaction-size.json`, `research/results/n4-03-compaction-size.md`, `research/results/n4-03-compaction-tests.xml`, `research/results/n4-03-compaction-tests.txt` |
 | N4-04 | P1 | DONE | CONTRACT | `tests/test_compaction_contested_facts.py`, `experiments/n4_04_contested_compaction.py`, `research/results/n4-04-contested-compaction.json`, `research/results/n4-04-contested-compaction.md`, `research/results/n4-04-contested-tests.xml` |
-| N4-05 | P1 | TODO | NOT_TESTED | — |
+| N4-05 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `tests/test_compaction_temporal.py`, `experiments/n4_05_temporal_compaction.py`, `docs/API.md`, `research/results/n4-05-temporal-compaction.json`, `research/results/n4-05-temporal-compaction.md`, `research/results/n4-05-temporal-tests.xml`, `research/results/n4-05-compaction-regression.xml` |
 | N4-06 | P1 | TODO | NOT_TESTED | — |
 | N4-07 | P1 | TODO | NOT_TESTED | — |
 | N4-08 | P1 | TODO | NOT_TESTED | — |
