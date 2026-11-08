@@ -2625,6 +2625,25 @@
       "limitations": [
         "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. The dashboard is read-only and displays a command; the existing CLI rechecks preview digest atomically during apply. The external CI matrix has not run for this branch."
       ]
+    },
+    {
+      "task_id": "P2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/observability/static/withholding-benchmark.json",
+        "research/results/r2-false-withholding-ablation.json",
+        "tests/test_control_center_ui.py",
+        "tests/test_false_withholding.py",
+        "research/results/p2-05-withholding-scorecard.json",
+        "research/results/p2-05-withholding-scorecard.txt"
+      ],
+      "limitations": [
+        "The dashboard reports a frozen synthetic scripted scorecard, not a live or real-agent withholding rate. A live rate is not measured because event logs lack independent truth labels and an opportunity denominator. The external CI matrix has not run for this branch."
+      ]
     }
   ]
 }

@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 239,
+ "results": 240,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 236,
-  "model_id": 203,
-  "prompt_hash": 239,
-  "seed": 160,
-  "cost": 216,
-  "verdict": 168
+  "dataset_digest": 237,
+  "model_id": 204,
+  "prompt_hash": 240,
+  "seed": 161,
+  "cost": 217,
+  "verdict": 169
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 227
+  "unclassified": 228
  },
  "rows": [
   {
@@ -3589,6 +3589,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p2-context-sufficiency.md",
    "git_sha": "db7d101e67a4128ced3b6b34b46c33b37bd0919d",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-05-withholding-scorecard",
+   "file": "research/results/p2-05-withholding-scorecard.json",
+   "file_sha256": "083ab836d81f215552a4e456befbeb2e339fbe637c044dee467e34482b0ec602",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "76f4d1bd64ef27e84147b2ba0d5a6c5b17fdb166",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

@@ -1,0 +1,34 @@
+P2-05 · Valid evidence withholding scorecard
+Commit: 76f4d1bd64ef27e84147b2ba0d5a6c5b17fdb166
+Platform: Windows 11 10.0.26200 (Python 3.13.5)
+
+Exact-commit test run:
+  Python unittest loaded tests.test_control_center_ui, tests.test_control_center,
+  and tests.test_false_withholding with tempfile.tempdir set to
+  D:\Memory Fabric\master-checklist\.task-tmp
+  Result: 28 tests passed, 0 failures, 0 errors (9.777 seconds runner time)
+  Process exit code: 0 (10.590 seconds)
+
+Additional checks on the same commit:
+  mypy --follow-imports=silent src/memory_fabric/observability/server.py
+      tests/test_control_center_ui.py — passed
+  ruff check src/memory_fabric/observability/server.py
+      tests/test_control_center_ui.py — passed
+  git diff --check — passed
+
+Metric displayed:
+  86 valid-evidence withholding cases / 500 task opportunities = 17.2%
+  Risk class: HIGH
+  Population: synthetic_scripted; 50 scripted agents × five seeds
+  Source run commit: feeb28ea9dfda0c673499c9494b50490d26bdd32
+  Current live-store rate: not measured (no independent truth oracle or
+  valid-opportunity denominator in the event stream)
+
+The dashboard scorecard is generated from a frozen report whose SHA-256 is
+checked against research/results/r2-false-withholding-ablation.json.
+
+Limitations:
+  - This scorecard is a synthetic benchmark reference, not a live metric or a
+    real-agent estimate.
+  - Tests use local fixtures on Windows 11/Python 3.13.5.
+  - The configured cross-platform GitHub CI matrix has not run for this branch.
