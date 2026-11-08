@@ -147,6 +147,20 @@ class Elevation(unittest.TestCase):
         decision = gate(self.f).authorize("spin", "ops", self.f.certify("spin", [note], "ops"))
         self.assertEqual(decision.reason_code, INSTRUCTION_EVIDENCE)
 
+    def test_unfamiliar_claim_stays_unverified_under_strict_policy(self) -> None:
+        claim = self.f.remember("unfamiliar-author", "Bridge B is rated for 90 tonnes.",
+                                scope="team")
+        authority_before = self.f.authority(claim)
+        self.assertEqual(authority_before.trust, authority.UNVERIFIED)
+        strict_gate = gate(self.f, min_authority=authority.ELEVATED)
+        cert = self.f.certify("spin", [claim], "ops")
+        self.assertEqual(strict_gate.authorize("spin", "ops", cert).reason_code,
+                         AUTHORITY_INSUFFICIENT)
+        self.assertEqual(self.f.authority(claim), authority_before)
+        safe_id = self.f.remember("known-agent", "The service manual is stored in cabinet 4.")
+        self.assertEqual(self.f.get(safe_id).content,
+                         "The service manual is stored in cabinet 4.")
+
     def test_the_kind_is_bound_at_first_write(self) -> None:
         note = self.f.remember("lead", "Spin C2 at 4000 rpm.", context={"kind": "instruction"},
                                scope="team")

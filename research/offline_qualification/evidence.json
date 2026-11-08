@@ -1480,6 +1480,19 @@
       ]
     },
     {
+      "task_id": "H1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "research/results/h1-05-unfamiliar-claim-tests.xml"
+      ],
+      "limitations": [
+        "Unfamiliar authorship is not a truth oracle. The test demonstrates configured provenance thresholds and safe reads, not whether the factual claim is true."
+      ]
+    },
+    {
       "task_id": "H1-03",
       "status": "DONE",
       "acceptance_passed": true,

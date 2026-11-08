@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "5b5e222d24373e59f79b709671147a3d5d3f8c45fea2fb328bef25ed963d3a7d",
+    "sha256": "4f1e8546e650fdcb3ab7b6bfdead0bee53e55a660327e16ebbf08978c24292c0",
     "tasks": 260
   },
   "source": {
-    "commit": "3c4c8f600a996c3013a2cad929d2d9859ec9ed43",
+    "commit": "e0e0a98954203122302e766038c2e9813186ae89",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 116,
+      "DONE": 117,
       "PARTIAL": 14,
-      "TODO": 130
+      "TODO": 129
     },
-    "completed": 116,
+    "completed": 117,
     "total": 260,
-    "percent_complete": 44.62,
-    "p0_open": 22,
+    "percent_complete": 45.0,
+    "p0_open": 21,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -3403,7 +3403,7 @@
         "research/results/h1-03-04-authority-delayed-poisoning.xml"
       ],
       "evidence_digests": {
-        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
+        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
         "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
         "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
       },
@@ -3426,7 +3426,7 @@
         "research/results/h1-03-04-authority-delayed-poisoning.xml"
       ],
       "evidence_digests": {
-        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
+        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
         "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
         "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
       },
@@ -3439,14 +3439,22 @@
       "task_id": "H1-05",
       "priority": "P0",
       "task": "Reject fake evidence claims based on clean-looking unfamiliar authors without pretending semantic truth verification.",
-      "acceptance": "Unknown claims stay provisional under consequential policies; unrelated safe reads remain usable",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Unknown claims stay provisional under consequential policies; unrelated safe reads remain usable. Evidence: `tests/test_authority.py::Elevation.test_unfamiliar_claim_stays_unverified_under_strict_policy`, `tests/test_authority.py::Elevation.test_a_reviewer_elevates_a_soft_reason_and_the_gate_then_allows`, `research/results/h1-05-unfamiliar-claim-tests.xml` (DONE: unfamiliar claim remains UNVERIFIED and a consequential policy requiring ELEVATED authority refuses it; a separate safe memory remains readable, and explicit reviewer elevation is exercised; 6 focused tests pass. This establishes provenance/approval handling, not semantic truth)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "research/results/h1-05-unfamiliar-claim-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "research/results/h1-05-unfamiliar-claim-tests.xml": "674bf808c4ec9612f747567b1bbe145f1eed7d8d73c648106ebd0d67fcde5c6a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Unfamiliar authorship is not a truth oracle. The test demonstrates configured provenance thresholds and safe reads, not whether the factual claim is true."
+      ]
     },
     {
       "task_id": "H1-06",
@@ -3556,7 +3564,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
+        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
       },
