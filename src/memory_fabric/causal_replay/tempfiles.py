@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+__stability__ = "experimental"
+
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory

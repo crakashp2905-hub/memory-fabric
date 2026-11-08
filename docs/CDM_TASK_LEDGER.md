@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (237)
+## Complete at this checkpoint (239)
 
 | Task | Evidence |
 |---|---|
@@ -15,6 +15,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-006 | Experimental contract in `docs/CAUSAL_REPLAY_API.md` (proposal scope only) |
 | CDM-007 | Inert package import; socket-construction check in qualification manifest |
 | CDM-008 | Empty-fabric no-mutation regression in `tests/test_cdm_api.py`; `tests/test_cdm_in_process_compatibility.py` verifies ordinary store read/write behavior around read-only CDM capture; gate covers import and API return contracts. |
+| CDM-009 | Full local regression run recorded in `research/results/cdm/full-suite/manifest.json`: 2,446 tests completed, 2,399 passed, 47 skipped, zero failures/errors; output SHA-256 is recorded. |
 | CDM-010 | `docs/architecture/ADR-CDM-001.md` |
 | CDM-011 | `research/prereg/cdm-r1-replay-fidelity.md` |
 | CDM-012 | `research/prereg/cdm-r2-counterfactual-attribution.md` |
@@ -39,6 +40,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-032 | Canonical JSON and SHA-256 commitments in `types.py`; order/invalid-number tests |
 | CDM-033 | Registered v1 records use strict stdlib JSON parse/serialize with unknown-field rejection |
 | CDM-034 | Capture explicitly labels source admissibility as a snapshot; `replay_captured` re-captures and rechecks current authorization/erasure before use. `tests/test_cdm_interventions.py::test_withhold_is_time_bounded_and_requires_current_authorized_capture` verifies replay refusal after quarantine. |
+| CDM-035 | `docs/CDM_SIDECHANNEL_AUDIT.md` reviews capture refusal shape, lineage redaction, timing variability, and checkpoint cache paths; local timing distributions are recorded in `research/results/cdm/side-channel-audit.json`. Residual non-constant-time risk and caller-level controls are explicit. |
 | CDM-036 | Digest-only checkpoint contract and current authorization/erasure revalidation |
 | CDM-037 | `tests/test_cdm_capture.py::test_bitemporal_capture_separates_known_time_from_valid_time` uses real versioned history to distinguish knowledge sequence from valid time; the correction is absent before its event, available for its validity interval afterward, and only digests/versions enter the artifact |
 | CDM-038 | `tests/test_cdm_capture.py` cross-tenant, private-memory, and revoked-session fixtures assert generic refusals with no evidence ID, content, or record metadata |
@@ -245,14 +247,12 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (3)
+## Partial (1)
 
 | Task | Remaining acceptance evidence |
 |---|---|
-| CDM-009 | Focused tests and the 22-stage gate are recorded; `research/results/cdm/full-suite-attempt/manifest.json` records the interrupted 2,437-test whole-repository attempt, source snapshot, observed socket failures, and preserved output SHA-256. | A complete non-interrupted whole-repository regression run and final artifact hash remain outstanding. |
 | CDM-020 | `research/results/cdm/task-evidence-inventory.json` binds every evidence row to the exact source-tree SHA-256, local Git HEAD and dirty-state flag; explicitly referenced artifacts include file SHA-256 and last committed revision. Each row also maps to one of nine range-scoped implementation/test bundles, whose paths, hashes, and revisions are recorded and tested. | Direct task-specific implementation-file references are still absent from many ledger rows; range-scoped bundles narrow the evidence but do not establish a unique artifact mapping for each task. |
-| CDM-035 | Capture refusals for missing, private, withdrawn, and erased IDs now match in type, message, and serialized size (`tests/test_cdm_capture.py::test_missing_private_withdrawn_and_erased_ids_share_one_refusal`). Correction reports omit private descendant and grandchild IDs (`tests/test_cdm_api.py::test_correction_report_redacts_private_descendant_lineage`). | A broader timing and cache side-channel audit remains open; equal response shape does not establish constant-time behavior. |
 
 ## Open (0)
 
-No open task IDs remain. The three partial tasks retain the acceptance gaps listed above.
+No open task IDs remain. The one partial task retains the acceptance gap listed above.

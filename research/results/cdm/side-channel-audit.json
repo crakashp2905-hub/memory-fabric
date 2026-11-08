@@ -1,0 +1,13 @@
+{
+  "schema": "cdm-denial-timing-sample-v1",
+  "seed": 20261109,
+  "samples_per_case": 80,
+  "environment": "single local Python process; in-memory synthetic fixture; warm interpreter; no network",
+  "cases": {
+    "missing": {"median_us": 189.25, "p95_us": 336.0, "min_us": 167.6, "max_us": 373.3},
+    "private": {"median_us": 185.05, "p95_us": 381.4, "min_us": 169.5, "max_us": 426.5},
+    "withdrawn": {"median_us": 185.9, "p95_us": 364.1, "min_us": 168.6, "max_us": 374.7},
+    "erased": {"median_us": 186.35, "p95_us": 337.6, "min_us": 168.0, "max_us": 423.2}
+  },
+  "interpretation": "descriptive single-run sample only; overlapping distributions do not establish timing equivalence or noninterference"
+}

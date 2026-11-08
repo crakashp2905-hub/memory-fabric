@@ -131,7 +131,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (43)
+## Experimental (45)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.causal_replay.__init__`
@@ -141,6 +141,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.causal_replay.capture`
 - `memory_fabric.causal_replay.certificates`
 - `memory_fabric.causal_replay.checkpoints`
+- `memory_fabric.causal_replay.environment`
 - `memory_fabric.causal_replay.evaluator`
 - `memory_fabric.causal_replay.executor`
 - `memory_fabric.causal_replay.intervention`
@@ -148,6 +149,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.causal_replay.replay`
 - `memory_fabric.causal_replay.scheduler`
 - `memory_fabric.causal_replay.state`
+- `memory_fabric.causal_replay.tempfiles`
 - `memory_fabric.causal_replay.types`
 - `memory_fabric.causal_replay.verifier`
 - `memory_fabric.causal_replay.viewer`

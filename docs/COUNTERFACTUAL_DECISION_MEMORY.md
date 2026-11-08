@@ -23,7 +23,7 @@ real-world outcome.
 
 ## Baseline snapshot
 
-- Local repository: `D:\Memory Fabric\amberlog`
+- Local repository: this checkout; qualification is performed in-house.
 - HEAD at start: `12c612ea37980f92d206fe2b343b217603d1b3cc`
 - User changes present at start: model catalog, model selection/pull, agent
   manifest import, and Control Center product UX; these are preserved.
@@ -151,7 +151,7 @@ real federated transport or establish distributed causal completeness.
 ## Execution ledger
 
 The attached source checklist defines 240 task IDs, CDM-001 through CDM-240.
-At the current checkpoint **237/240 tasks are complete; three are partial; none
+At the current checkpoint **239/240 tasks are complete; one is partial; none
 are untouched**. The local task ledger and generated evidence inventory are the
 authoritative task status. The latest 22-stage offline qualification passes on
 the available Python 3.13.5 runtime; Python 3.11/3.12 are not installed here.
@@ -160,7 +160,7 @@ The task-level evidence and explicit partial list are in
 deterministic vertical slice, C privacy/fidelity, D attribution, E architecture
 comparisons, F multi-agent correction, G UI/API, and H offline qualification.
 The passing offline gate qualifies the included local stages and synthetic
-artifacts; it does not erase the four partial task requirements or imply
+artifacts; it does not erase the remaining partial task requirements or imply
 external, physical-world, or efficacy validation.
 
 ## Change and evidence log
@@ -198,6 +198,8 @@ external, physical-world, or efficacy validation.
 | 2026-11-09 | Bound capture artifacts to digest-only availability, exposure, citation, and verified decision receipt events (CDM-027); bound captured replay values to the exact authorized historical content through a registered canonical JSON observation adapter (CDM-068); completed all local gate stages for the available Python runtime (CDM-018). | Offline qualification PASS: 22 stages, 176 focused tests, Python 3.13.5, source tree digest in `research/results/cdm/offline-qualification/manifest.json`; Ruff and mypy pass. Current inventory: 236 complete, 4 partial, 0 open. |
 | 2026-11-09 | Added a digest-bound live checkpoint continuation that skips prefix policy transitions and matches cold replay at every seeded cut (CDM-063). | Checkpoint/replay suite passes all cut-point equivalence and mutation refusal tests; Ruff and mypy pass. Current inventory: 237 complete, 3 partial, 0 open. |
 | 2026-11-09 | Added nine hash- and revision-bound implementation/test bundles covering all 240 task ranges, with stable inventory validation (CDM-020). | Inventory tests, Ruff, mypy and 22-stage offline qualification pass. Bundles remain range-scoped, so unique per-task artifact mapping remains partial. |
+| 2026-11-09 | Completed the full local repository regression suite (CDM-009). | `research/results/cdm/full-suite/manifest.json` records 2,446 tests, 2,399 passed, 47 skipped, zero failures/errors, and the final output hash. The earlier interrupted attempt is retained separately for history. |
+| 2026-11-09 | Completed the capture lineage, timing, and checkpoint-cache audit (CDM-035). | Redaction and generic refusal tests pass; a seeded local timing sample is recorded with explicit non-constant-time limitations and caller-level operating controls. Current inventory: 239 complete, 1 partial, 0 open. |
 
 ## Rollback
 

@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import subprocess
 import sys
 import time
@@ -43,9 +44,19 @@ def run_step(name: str, command: list[str], cwd: Path = ROOT) -> dict[str, Any]:
     started = time.perf_counter()
     result = subprocess.run(command, cwd=cwd, capture_output=True, text=True,
                             env={**os.environ, "PYTHONPATH": str(ROOT / "src")})
-    return {"name": name, "command": command, "returncode": result.returncode,
+    portable_command = [_portable_text(part) for part in command]
+    return {"name": name, "command": portable_command, "returncode": result.returncode,
             "seconds": round(time.perf_counter() - started, 4),
-            "stdout": result.stdout, "stderr": result.stderr}
+            "stdout": _portable_text(result.stdout), "stderr": _portable_text(result.stderr)}
+
+
+def _portable_text(value: str) -> str:
+    """Keep local absolute checkout paths out of shareable result manifests."""
+    root = str(ROOT)
+    value = re.sub(re.escape(root), "<checkout>", value, flags=re.IGNORECASE)
+    value = re.sub(re.escape(root.replace("\\", "/")), "<checkout>", value,
+                   flags=re.IGNORECASE)
+    return value
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -63,6 +63,16 @@ Every document in the repository, by what you are trying to do.
 | [COUNTERFACTUAL_DECISION_MEMORY.md](COUNTERFACTUAL_DECISION_MEMORY.md) | CDM scope, architecture, execution log and qualification status |
 | [CDM_TASK_LEDGER.md](CDM_TASK_LEDGER.md) | Completion evidence against the 240-task CDM master plan |
 | [CDM_EXECUTION_SCHEDULE.md](CDM_EXECUTION_SCHEDULE.md) | Dependency-ordered work queue and checkpoint rule |
+| [CDM_CORRECTION_COMPARISON.md](CDM_CORRECTION_COMPARISON.md) | Correction review strategy comparison |
+| [CDM_FEDERATED_PROVENANCE.md](CDM_FEDERATED_PROVENANCE.md) | Provenance across federated stores |
+| [CDM_INTERNAL_GO_NO_GO.md](CDM_INTERNAL_GO_NO_GO.md) | Internal evidence-based GO/NO-GO criteria |
+| [CDM_INVALIDATION_CLASSIFICATION.md](CDM_INVALIDATION_CLASSIFICATION.md) | Replay cache invalidation classes |
+| [CDM_KNOWN_FINDINGS.md](CDM_KNOWN_FINDINGS.md) | Findings and limitations from the local work |
+| [CDM_MISSING_REMOTE_EVIDENCE.md](CDM_MISSING_REMOTE_EVIDENCE.md) | Evidence gaps requiring remote validation |
+| [CDM_MIXED_VERSION_FEDERATION.md](CDM_MIXED_VERSION_FEDERATION.md) | Mixed-version federation behavior |
+| [CDM_REEVALUATION_CLASSIFICATION.md](CDM_REEVALUATION_CLASSIFICATION.md) | Re-evaluation and replay result classes |
+| [CDM_TEMPFILE_POLICY.md](CDM_TEMPFILE_POLICY.md) | Temporary artifact storage policy |
+| [CDM_SIDECHANNEL_AUDIT.md](CDM_SIDECHANNEL_AUDIT.md) | Capture lineage, timing, and checkpoint-cache review |
 
 ## Trust and security
 
