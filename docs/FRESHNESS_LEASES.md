@@ -34,3 +34,9 @@ The deterministic qualification in `tests/test_freshness.py` exercises fast
 and slow receiver clocks, wall-clock rollback after lease receipt, monotonic
 rollback, malformed and raising wall/monotonic clocks, expiry after partition,
 forged signatures, and safe non-consequential reads.
+
+The scheduled partition boundary test holds a supersession retraction in the
+origin outbox while the recipient retains the old lease and memory. With a
+10,000 ms lease, the protected action is allowed at 9,999 ms and refused at
+10,000 ms; the recipient can still read its stale local copy. This measures
+the modeled stale-action window, not a physical network or clock SLO.
