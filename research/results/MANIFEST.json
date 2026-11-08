@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 251,
+ "results": 252,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 94,
-  "dataset_digest": 248,
-  "model_id": 215,
-  "prompt_hash": 251,
-  "seed": 172,
-  "cost": 228,
-  "verdict": 180
+  "prereg": 95,
+  "dataset_digest": 249,
+  "model_id": 216,
+  "prompt_hash": 252,
+  "seed": 173,
+  "cost": 229,
+  "verdict": 181
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 239
+  "unclassified": 240
  },
  "rows": [
   {
@@ -3799,6 +3799,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p4-05-selective-correction-demo",
+   "file": "research/results/p4-05-selective-correction-demo.json",
+   "file_sha256": "87fd81bd31d2d1908f1165b20910f0be50cb20f50bb1ef5678383b9ad7323df2",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "2fbfb4f94608631eec6ad9d20224d0cc3a3a859e",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

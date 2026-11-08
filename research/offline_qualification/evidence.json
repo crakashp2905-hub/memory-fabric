@@ -2105,6 +2105,23 @@
       ]
     },
     {
+      "task_id": "P4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/correction_spares_unrelated_action.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p4-05-selective-correction-demo.json",
+        "research/results/p4-05-selective-correction-demo.txt"
+      ],
+      "limitations": [
+        "Effects are local callback records only; no real external device/tool was called.",
+        "Deterministic examples do not establish real operator workload benefit."
+      ]
+    },
+    {
       "task_id": "P4-07",
       "status": "DONE",
       "acceptance_passed": true,
