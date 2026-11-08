@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "2c1d9c999dc01137a58fa33cbd78838ce95528da23c6c9cf59b9320559732461",
+    "sha256": "1b22de4aae0edf40655f9fe3cfaa812cb40431ecaa5e9fd643d920fb0923f06f",
     "tasks": 260
   },
   "source": {
-    "commit": "9260e482e05831db72afdada5820220448c15003",
+    "commit": "f8ca019ee4c063cd25150abd2b946c3cf990b461",
     "dirty": true
   },
   "summary": {
@@ -87,7 +87,7 @@
       "task_id": "E1-03",
       "priority": "P0",
       "task": "Capture Python, OS, SQLite, CPU, thread count and process count in every benchmark manifest.",
-      "acceptance": "Manifest parser rejects missing environment fields and excludes nondeterministic timestamps from digest. Evidence: `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/e1-03-qualification-tests.xml`, `research/results/bench_runs/legacy/index.json` (DONE: all five active manifests were rerun from clean commit `9260e482e05831db72afdada5820220448c15003`; each includes Python, OS, SQLite, logical CPU, thread and process counts, exact SHA, clean state and input digests; 42 benchmark and qualification tests pass; strict manifest tests pass. Pre-capture files remain byte-preserved in the explicitly excluded legacy archive; no historical host facts were guessed)",
+      "acceptance": "Manifest parser rejects missing environment fields and excludes nondeterministic timestamps from digest. Evidence: `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/bench_runs/legacy/index.json` (DONE: all five active manifests were rerun from clean commit `9260e482e05831db72afdada5820220448c15003`; each includes Python, OS, SQLite, logical CPU, thread and process counts, exact SHA, clean state and input digests; 27 benchmark manifest tests pass. Pre-capture files remain byte-preserved in the explicitly excluded legacy archive; no historical host facts were guessed)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -97,16 +97,14 @@
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
         "research/results/e1-03-manifest-environment.json",
         "research/results/e1-03-manifest-environment.xml",
-        "research/results/e1-03-qualification-tests.xml",
         "research/results/bench_runs/legacy/index.json"
       ],
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "db0c414cec6a256a1fdb98c63a49c8e369c0b5d0d15ea44555153ba7890b6795",
-        "research/results/e1-03-manifest-environment.json": "5ed99e83de2816ffcc794e3fc6ce36152aeb6656e48ed70951dd6b46dd30647b",
+        "research/results/e1-03-manifest-environment.json": "834e027d9e3501676150357750bddc24a99a0ad55a865e6e2929fbcbe32b6330",
         "research/results/e1-03-manifest-environment.xml": "fa5a1ca0039dfda2196642010f57fe9e440b98c668da371ef8f77976457aeaff",
-        "research/results/e1-03-qualification-tests.xml": "401ad2deb46cac421df48e262af9bc3fc7c66a36be005235114aa12e57cab760",
         "research/results/bench_runs/legacy/index.json": "db4c07910d84ad61d8526e6e49385227909b1c0c8c5f434cdfe3d594c2736142"
       },
       "evidence_issues": {},
@@ -1502,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "0757f270c1f09e96d5aa838102883173a5f9975e6a9ad54bb648bbe775a1464a",
+        "research/results/MANIFEST.json": "44d6c403a32f2914b0804c11d1eb4d47c8905c56cef0483defe4c3abcb90050a",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },

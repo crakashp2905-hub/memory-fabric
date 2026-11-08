@@ -106,10 +106,10 @@
   ],
   "legacy_archive": "research/results/bench_runs/legacy/index.json",
   "strict_validation_passed": true,
-  "test_command": "python -m pytest tests/test_benchmarks.py tests/test_offline_qualification.py -q --junitxml=research/results/e1-03-qualification-tests.xml",
-  "tests_passed": 42,
+  "test_command": "python -m pytest tests/test_benchmarks.py -q --junitxml=research/results/e1-03-manifest-environment.xml",
+  "tests_passed": 27,
   "tests_failed": 0,
   "tests_errors": 0,
-  "test_xml_sha256": "401ad2deb46cac421df48e262af9bc3fc7c66a36be005235114aa12e57cab760",
+  "test_xml_sha256": "fa5a1ca0039dfda2196642010f57fe9e440b98c668da371ef8f77976457aeaff",
   "verdict": "DONE"
 }
