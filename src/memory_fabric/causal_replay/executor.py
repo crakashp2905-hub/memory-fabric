@@ -4,8 +4,10 @@ from __future__ import annotations
 
 __stability__ = "experimental"
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import hashlib
+import inspect
+import json
 from typing import Any, Mapping
 
 from .bayes import BinaryNode, enumerate_posterior, marginal
@@ -15,6 +17,8 @@ from .scheduler import dependency_frontier
 from .state import BeliefState, Observation, update
 from .types import (BudgetExceeded, DecisionRecord, NonReplayable, ReplayStatus,
                     SimulatorForbidden, canonical_json, digest_json)
+
+OBSERVATION_ADAPTER_ID = "memory-fabric-boolean-observation-json-v1"
 
 
 @dataclass(frozen=True)
@@ -38,6 +42,8 @@ class ReplayExecution:
     real_actions_executed: bool = False
     source_observations: tuple[Observation, ...] = ()
     execution_kind: str = "policy_reexecution"
+    source_adapter_id: str = ""
+    source_adapter_digest: str = ""
 
 
 @dataclass(frozen=True)
@@ -434,19 +440,42 @@ def execute_recorded(fabric: Any, observations: tuple[Observation, ...], *,
         decision_record=decision_record)
 
 
+def _adapt_boolean_observation_json(memory_id: str, version: int,
+                                    content: str, sequence: int) -> Observation:
+    """Parse the closed v1 content format into one immutable boolean observation."""
+    try:
+        value = json.loads(content)
+    except (TypeError, ValueError) as exc:
+        raise NonReplayable("authorized content does not match a registered observation format") from exc
+    if (type(value) is not dict or canonical_json(value) != content
+            or set(value) != {"schema", "variable", "value"}
+            or value.get("schema") != "memory-fabric-observation-v1"
+            or not isinstance(value.get("variable"), str) or not value["variable"]
+            or type(value.get("value")) is not bool):
+        raise NonReplayable("authorized content does not match a registered observation format")
+    return Observation(memory_id, value["variable"], value["value"],
+                       f"{memory_id}@v{version}", sequence)
+
+
+def _observation_adapter_digest() -> str:
+    """Commit to the exact local adapter implementation and input contract."""
+    material = {"adapter_id": OBSERVATION_ADAPTER_ID,
+        "implementation_sha256": hashlib.sha256(
+            inspect.getsource(_adapt_boolean_observation_json).encode("utf-8")).hexdigest(),
+        "schema": "memory-fabric-observation-v1",
+        "fields": ["schema", "variable", "value"]}
+    return digest_json(material)
+
+
 def execute_captured(fabric: Any, session: Any, capture_result: Any,
-                     observations: tuple[Observation, ...], *,
+                     observations: tuple[Observation, ...] | None = None, *,
+                     adapter_id: str,
                      simulator: DeterministicSimulator, policy: ThresholdPolicy,
                      decision_record: DecisionRecord,
                      max_events: int = 1_000) -> ReplayExecution:
-    """Replay an explicit overlay bound to a fresh, authorized historical capture.
-
-    Overlay values remain caller-declared domain inputs; this boundary guarantees
-    they can only be attached to evidence IDs in the captured, currently
-    authorized history and that the recorded decision receipt still resolves.
-    """
-    from .capture import capture, verify_decision_record
-    from .types import CaptureResult, ReplayContext
+    """Replay observations deterministically materialized from authorized history."""
+    from .capture import _materialize_capture, verify_decision_record
+    from .types import CaptureResult
 
     if (type(capture_result) is not CaptureResult or not capture_result.complete
             or not capture_result.archival_only
@@ -458,22 +487,30 @@ def execute_captured(fabric: Any, session: Any, capture_result: Any,
     if (type(decision_record) is not DecisionRecord
             or not verify_decision_record(fabric, decision_record)):
         raise NonReplayable("recorded decision receipt cannot be verified")
-    refs = capture_result.evidence
-    current = capture(fabric, session, [ref.belief_id for ref in refs],
-        context=ReplayContext(capture_result.known_at, valid_at=capture_result.valid_at,
-                              max_events=100_000), decision=decision_record)
-    if (current.evidence != refs or current.principal_id != capture_result.principal_id
-            or current.tenant_id != capture_result.tenant_id):
-        raise NonReplayable("historical capture is no longer currently authorized")
-    if (type(observations) is not tuple or not observations
-            or any(type(item) is not Observation for item in observations)):
-        raise NonReplayable("a typed immutable overlay is required")
-    ids = tuple(item.observation_id for item in observations)
-    expected = tuple(ref.belief_id for ref in decision_record.evidence)
-    if len(set(ids)) != len(ids) or set(ids) != set(expected):
-        raise NonReplayable("overlay IDs must map one-to-one to recorded evidence")
-    return execute_recorded(fabric, observations, simulator=simulator, policy=policy,
-                            decision_record=decision_record, max_events=max_events)
+    if adapter_id != OBSERVATION_ADAPTER_ID:
+        raise NonReplayable("observation adapter is not registered")
+    if (type(decision_record) is not DecisionRecord
+            or not verify_decision_record(fabric, decision_record)):
+        raise NonReplayable("recorded decision receipt cannot be verified")
+    try:
+        materialized = _materialize_capture(fabric, session, capture_result)
+    except Exception as exc:
+        raise NonReplayable("historical capture is no longer currently authorized") from exc
+    expected_refs = decision_record.evidence
+    if (not expected_refs or any((ref.belief_id, ref.version) not in materialized
+                                for ref in expected_refs)):
+        raise NonReplayable("decision evidence is outside the authorized historical capture")
+    derived = tuple(_adapt_boolean_observation_json(ref.belief_id, ref.version,
+        *materialized[(ref.belief_id, ref.version)]) for ref in expected_refs)
+    if observations is not None:
+        if (type(observations) is not tuple
+                or any(type(item) is not Observation for item in observations)
+                or observations != derived):
+            raise NonReplayable("caller observations differ from registered historical materialization")
+    execution = execute_recorded(fabric, derived, simulator=simulator, policy=policy,
+        decision_record=decision_record, max_events=max_events)
+    return replace(execution, source_adapter_id=adapter_id,
+                   source_adapter_digest=_observation_adapter_digest())
 
 
 def first_divergence(factual: ReplayExecution, counterfactual: ReplayExecution) -> int | None:

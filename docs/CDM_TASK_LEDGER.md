@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (234)
+## Complete at this checkpoint (235)
 
 | Task | Evidence |
 |---|---|
@@ -69,6 +69,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-065 | Exact-checkpoint readiness requires current authorization/evidence, matching updater and policy digests, exact observation-trace digest, and explicit complete RNG or deterministic applicability |
 | CDM-066 | Replay event budget refuses whole traces instead of returning partial success |
 | CDM-067 | Stable event order is sequence then observation ID |
+| CDM-068 | `execute_captured` reads the exact currently authorized historical content and derives typed observations only through the registered canonical JSON boolean adapter; caller overlays must match exactly. Adapter ID/source digest, malformed/unknown adapter refusal, and value mismatch are covered by `tests/test_cdm_replay.py`. |
 | CDM-069 | Recorded replay pins policy ID/source digest; unregistered or changed policy and unhandled tool versions raise typed `NON_REPLAYABLE` |
 | CDM-070 | Per-step proposal and belief fingerprints are recorded |
 | CDM-071 | Replay results label local deterministic recomputation as `policy_reexecution`; recorded selection text cannot substitute for the computed proposal, and no hosted path is used |
@@ -242,7 +243,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (6)
+## Partial (5)
 
 | Task | Remaining acceptance evidence |
 |---|---|
@@ -251,7 +252,6 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
-| CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
 ## Open (0)
 

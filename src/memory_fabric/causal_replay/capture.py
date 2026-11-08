@@ -179,6 +179,44 @@ def capture(fabric: Any, principal: Any, evidence_ids: Iterable[str], *,
                          trace=trace_tuple)
 
 
+def _materialize_capture(fabric: Any, principal: Any, artifact: CaptureResult
+                         ) -> dict[tuple[str, int], tuple[str, int]]:
+    """Read exact authorized historical plaintext for a registered local adapter."""
+    if type(artifact) is not CaptureResult:
+        raise Unauthorized("historical capture is unavailable")
+    with fabric.lock:
+        fresh = capture(fabric, principal,
+            [ref.belief_id for ref in artifact.evidence],
+            context=ReplayContext(artifact.known_at, valid_at=artifact.valid_at,
+                                  max_events=100_000), decision=artifact.decision)
+        if (fresh.evidence != artifact.evidence or fresh.trace != artifact.trace
+                or fresh.principal_id != artifact.principal_id
+                or fresh.tenant_id != artifact.tenant_id):
+            raise Unauthorized("historical capture is no longer authorized")
+        projection = Projection()
+        recorded: dict[tuple[str, int], int] = {}
+        for event in fabric.log.read(limit=100_001):
+            if event.seq is not None and event.seq > artifact.known_at:
+                break
+            projection.apply(event)
+            if event.type in {ev.EventType.MEMORY_CREATED, ev.EventType.MEMORY_VERSIONED}:
+                memory = event.payload["memory"]
+                recorded[(memory["id"], memory["version"])] = event.seq or 0
+        materialized: dict[tuple[str, int], tuple[str, int]] = {}
+        for ref in artifact.evidence:
+            memory = projection.state.memories.get(ref.belief_id)
+            if (memory is None or memory.version != ref.version
+                    or memory.tenant_id != artifact.tenant_id
+                    or ref.belief_id not in fabric.state.memories
+                    or ref.belief_id in fabric.state.erased
+                    or (ref.belief_id, ref.version) not in recorded):
+                raise Erased("requested evidence is unavailable")
+            content = fabric._unseal_content(memory.content, ref.belief_id, ref.version)
+            materialized[(ref.belief_id, ref.version)] = (
+                content, recorded[(ref.belief_id, ref.version)])
+        return materialized
+
+
 def validate_replay_option(decision: DecisionRecord, option: str, *,
                            intervention: Intervention | None = None) -> str:
     """Reject post-decision option injection unless a policy swap is explicit."""

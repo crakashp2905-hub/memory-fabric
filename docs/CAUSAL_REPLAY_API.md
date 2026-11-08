@@ -84,9 +84,16 @@ inputs remains non-replayable.
 The pure executor accepts only a tuple of immutable `Observation` records; it
 rejects a live `MemoryFabric` or `CaptureResult` in place of that trace and
 never reads the present-day projection. The authorized historical capture
-layer separately binds evidence to `known_at` and current permissions. A
-remaining integration requirement is to bind materialized observations
-directly to that capture before calling a replay exact.
+layer binds evidence to `known_at` and current permissions. For evidence-bound
+replay, `execute_captured` currently supports the registered
+`memory-fabric-boolean-observation-json-v1` adapter. It parses only canonical
+JSON content with schema `memory-fabric-observation-v1` and exactly the fields
+`schema`, `variable`, and boolean `value`, using the exact authorized
+historical memory version. Observation identity, origin, and sequence come
+from that captured reference and event history. Caller-supplied observations,
+when provided, must equal the adapter output exactly. The result includes the
+adapter ID and source digest. Unknown adapters and unsupported content formats
+refuse; adapters are not caller callbacks.
 
 ## Versioned belief-state schema
 

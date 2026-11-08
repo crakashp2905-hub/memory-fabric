@@ -280,8 +280,10 @@ class TestReplay(unittest.TestCase):
         service = MemoryService(fabric)
         service.register_agent("decision-agent", b"decision-key", tenant_id="tenant-cdm")
         session = service.session(service.issue("decision-agent"))
-        memory_id = session.remember("alarm sensor report")
-        memory_id_2 = session.remember("independent alarm sensor report")
+        memory_id = session.remember(json.dumps({"schema": "memory-fabric-observation-v1",
+            "variable": "alarm", "value": True}, sort_keys=True, separators=(",", ":")))
+        memory_id_2 = session.remember(json.dumps({"schema": "memory-fabric-observation-v1",
+            "variable": "alarm", "value": False}, sort_keys=True, separators=(",", ":")))
         captured = capture(fabric, session, [memory_id, memory_id_2],
                            context=ReplayContext(fabric.log.head_seq))
         record = record_decision(fabric, session,
@@ -297,13 +299,26 @@ class TestReplay(unittest.TestCase):
         self.assertEqual(result.execution_kind, "policy_reexecution")
         self.assertEqual(result.steps[-1].proposal, "investigate")
         self.assertNotEqual(result.steps[-1].proposal, record.selected)
-        factual_trace = tuple(Observation(ref.belief_id, "alarm", True,
-            f"sensor-memory-{index}", index + 3)
-            for index, ref in enumerate(captured.evidence))
         capture_bound_result = execute_captured(fabric, session, captured,
-            factual_trace, simulator=self.simulator, policy=self.policy,
-            decision_record=record)
+            adapter_id="memory-fabric-boolean-observation-json-v1",
+            simulator=self.simulator, policy=self.policy, decision_record=record)
         self.assertEqual(capture_bound_result.status, ReplayStatus.EXACT)
+        self.assertEqual([item.value for item in capture_bound_result.source_observations],
+                         [True, False])
+        self.assertEqual(capture_bound_result.source_adapter_id,
+                         "memory-fabric-boolean-observation-json-v1")
+        self.assertEqual(len(capture_bound_result.source_adapter_digest), 64)
+        factual_trace = capture_bound_result.source_observations
+        with self.assertRaises(NonReplayable):
+            execute_captured(fabric, session, captured,
+                tuple(replace(factual_trace[0], value=False) if index == 0 else item
+                      for index, item in enumerate(factual_trace)),
+                adapter_id="memory-fabric-boolean-observation-json-v1",
+                simulator=self.simulator, policy=self.policy, decision_record=record)
+        with self.assertRaises(NonReplayable):
+            execute_captured(fabric, session, captured,
+                adapter_id="caller-defined-adapter",
+                simulator=self.simulator, policy=self.policy, decision_record=record)
         intervention = create_intervention(captured.evidence[0], "suppress")
         certificate = issue_verified_recorded_replay(fabric=fabric,
             decision_record=record, factual_observations=factual_trace,
