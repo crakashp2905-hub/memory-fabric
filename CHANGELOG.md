@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added: policy-controlled read-only advisories
+- Add a host policy and assessment API that can present insufficient evidence only as an explicitly disclosed read-only advisory; advisory results always report that they do not authorize action.
+- Keep protected execution on the independent action-gate path, with regression coverage proving an advisory opt-in cannot cause protected side effects.
+
 ### Added: bounded evidence requirement graph grammar
 - Add a typed parser for AND, OR, independent-source and temporal evidence requirements, with acyclic named rules, canonical serialization and bounded, path-aware validation. The grammar declares policy only and never authorizes an action.
 - Let host-owned protected-tool rules bind the grammar to required claim certificates. The action gate evaluates mandatory AND/OR/rule/source requirements, verifies each selected claim against current evidence and provenance, binds the complete certificate set to approvals, grants and idempotency, and fails closed for missing leaves or unsupported decision-time anchors.

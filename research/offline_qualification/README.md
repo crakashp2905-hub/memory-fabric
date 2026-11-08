@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **213 / 260 (81.92%)**. Internal status: **BLOCKED**.
+Strict completion: **214 / 260 (82.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `efe431d0a3fc4762fd915668bb5c78a75be3b23807273cf43fe0cff5931573d6`.
+Normalized ledger digest: `3b5c04d21be8876aaf9fea852ff7c70ec2dd72d4f57959066b4790203ee458f4`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 213 |
+| DONE | 214 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 44 |
+| TODO | 43 |
 
 ## Graduation gates
 
@@ -146,7 +146,7 @@ Normalized ledger digest: `efe431d0a3fc4762fd915668bb5c78a75be3b23807273cf43fe0c
 | N2-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-05-disputed-claims-tests.xml` |
 | N2-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/chains.py`, `tests/test_chains.py`, `docs/EVIDENCE_PACKAGE_BUDGETS.md`, `research/results/n2-06-graph-evidence-tests.xml` |
 | N2-07 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/certificates.py`, `src/memory_fabric/duplicates.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `tests/test_certificates.py`, `tests/test_duplicates.py`, `research/results/n2-07-source-dependence-tests.xml` |
-| N2-08 | P1 | TODO | NOT_TESTED | — |
+| N2-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/advisory.py`, `src/memory_fabric/evidence_status.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/__init__.py`, `docs/READ_ONLY_ADVISORIES.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_advisory.py`, `tests/test_action_requirements.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-08-safe-advisory-tests.xml` |
 | N2-09 | P1 | TODO | NOT_TESTED | — |
 | N2-10 | P1 | TODO | NOT_TESTED | — |
 | N3-01 | P2 | TODO | NOT_TESTED | — |

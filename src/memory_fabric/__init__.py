@@ -19,6 +19,11 @@ __stability__ = "stable"
 
 from .estimators import IPSEstimator, NaiveUsageEstimator, ValueEstimator
 from .answerability import ParameterEquivalences
+from .advisory import (
+    ReadOnlyAdvisoryDecision,
+    ReadOnlyAdvisoryPolicy,
+    assess_read_only_advisory,
+)
 from .eventlog import EventLog
 from .events import Event, EventType
 from .decision_records import (
@@ -134,6 +139,9 @@ from .vectors import Embedder, HashingEmbedder, VectorIndex
 __version__ = "0.18.0"
 
 __all__ = [
+    "ReadOnlyAdvisoryPolicy",
+    "ReadOnlyAdvisoryDecision",
+    "assess_read_only_advisory",
     "ParameterEquivalences",
     "DecisionRecord",
     "DecisionOption",

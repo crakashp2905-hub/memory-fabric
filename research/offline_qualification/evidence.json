@@ -356,6 +356,32 @@
       ]
     },
     {
+      "task_id": "N2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/advisory.py",
+        "src/memory_fabric/evidence_status.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/__init__.py",
+        "docs/READ_ONLY_ADVISORIES.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "CHANGELOG.md",
+        "tests/test_advisory.py",
+        "tests/test_action_requirements.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-08-safe-advisory-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_advisory.py tests/test_action_requirements.py tests/test_reference_docs.py tests/test_doc_links.py --junitxml=research/results/n2-08-safe-advisory-tests.xml -q",
+      "limitations": [
+        "The library returns an advisory presentation decision and mandatory disclosure but does not render the host UI; hosts must preserve the disclosure when displaying advisory content.",
+        "This mechanism does not establish the truth of evidence or authorize actions. Protected execution must continue through ActionGate and its independent policy checks."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
