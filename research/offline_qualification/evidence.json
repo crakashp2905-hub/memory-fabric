@@ -382,6 +382,28 @@
       ]
     },
     {
+      "task_id": "N2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md",
+        "benchmarks/n2_09_decision_quality.py",
+        "tests/test_n2_09_decision_quality.py",
+        "research/results/n2-09-decision-quality.json",
+        "research/results/n2-09-decision-quality.md",
+        "research/results/n2-09-evaluator-tests.xml"
+      ],
+      "test_command": "python -m benchmarks.n2_09_decision_quality",
+      "limitations": [
+        "Forty-five held-out synthetic scripted cases; not real-agent or language-model evidence.",
+        "Evaluator contract tests validate the manifest and aggregate arithmetic; the held-out result itself is the archived machine-readable experiment output.",
+        "The benchmark uses a one-record minimum-support proxy for answerability and counts all candidate certificate records; token cost is ceil(UTF-8 content bytes / 4), not provider tokenization or billing.",
+        "Latency is local in-process decision timing and excludes scenario construction; it is not a deployment or network latency claim.",
+        "Structured assertions and source-root metadata are fixture inputs, not proof of real-world truth or source authority."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

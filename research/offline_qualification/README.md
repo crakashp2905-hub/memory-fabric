@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **214 / 260 (82.31%)**. Internal status: **BLOCKED**.
+Strict completion: **215 / 260 (82.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3b5c04d21be8876aaf9fea852ff7c70ec2dd72d4f57959066b4790203ee458f4`.
+Normalized ledger digest: `2c169ce458ba927cbd2a897e8ebb3bddf1e728fcc9398aa248daf47b21349fe7`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 214 |
+| DONE | 215 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 43 |
+| TODO | 42 |
 
 ## Graduation gates
 
@@ -147,7 +147,7 @@ Normalized ledger digest: `3b5c04d21be8876aaf9fea852ff7c70ec2dd72d4f57959066b479
 | N2-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/chains.py`, `tests/test_chains.py`, `docs/EVIDENCE_PACKAGE_BUDGETS.md`, `research/results/n2-06-graph-evidence-tests.xml` |
 | N2-07 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/certificates.py`, `src/memory_fabric/duplicates.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `tests/test_certificates.py`, `tests/test_duplicates.py`, `research/results/n2-07-source-dependence-tests.xml` |
 | N2-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/advisory.py`, `src/memory_fabric/evidence_status.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/__init__.py`, `docs/READ_ONLY_ADVISORIES.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_advisory.py`, `tests/test_action_requirements.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-08-safe-advisory-tests.xml` |
-| N2-09 | P1 | TODO | NOT_TESTED | — |
+| N2-09 | P1 | DONE | SIMULATED | `research/prereg/n2-09-answerability-vs-evidence-gate-v1.md`, `benchmarks/n2_09_decision_quality.py`, `tests/test_n2_09_decision_quality.py`, `research/results/n2-09-decision-quality.json`, `research/results/n2-09-decision-quality.md`, `research/results/n2-09-evaluator-tests.xml` |
 | N2-10 | P1 | TODO | NOT_TESTED | — |
 | N3-01 | P2 | TODO | NOT_TESTED | — |
 | N3-02 | P2 | TODO | NOT_TESTED | — |
