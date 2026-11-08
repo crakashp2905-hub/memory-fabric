@@ -2176,6 +2176,19 @@
       ]
     },
     {
+      "task_id": "P4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/product/decisions/2026-10-28-packaging-options.md",
+        "tests/test_packaging_hypotheses.py"
+      ],
+      "limitations": [
+        "Tier contents are unvalidated product hypotheses; no prices, demand, revenue or service commitments are established."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

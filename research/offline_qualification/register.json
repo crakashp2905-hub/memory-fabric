@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "a679e7c298d70e8c107aaf0b16197ab93edf8617a032a7bc1fd6406e7ebb0962",
+    "sha256": "d7db199fde9357f5bca4923428cfbd79717bdb84a496c958fffda073838e3595",
     "tasks": 260
   },
   "source": {
-    "commit": "62bb0105873b1a7d4373756337abd079dd72eac7",
+    "commit": "83f498349df47ad6280bdb1a65b2ac2a602ee268",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 171,
+      "DONE": 172,
       "PARTIAL": 4,
-      "TODO": 85
+      "TODO": 84
     },
-    "completed": 171,
+    "completed": 172,
     "total": 260,
-    "percent_complete": 65.77,
+    "percent_complete": 66.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5892,14 +5892,22 @@
       "task_id": "P4-10",
       "priority": "P1",
       "task": "Write pricing/packaging hypotheses as options without inventing demand or revenue numbers.",
-      "acceptance": "Product plan lists potential free/local/team/enterprise tiers with unvalidated labels",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Product plan lists potential free/local/team/enterprise tiers with unvalidated labels.. Evidence: `docs/product/decisions/2026-10-28-packaging-options.md`, `tests/test_packaging_hypotheses.py` (DONE: free developer, local individual, team and enterprise options are explicit hypotheses with validation needs; no prices or demand/revenue estimates are invented.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/product/decisions/2026-10-28-packaging-options.md",
+        "tests/test_packaging_hypotheses.py"
+      ],
+      "evidence_digests": {
+        "docs/product/decisions/2026-10-28-packaging-options.md": "63d10dc63ba615a0265df62eb69843f8bf7af35cd3de5b45e359f1c3c3b377b0",
+        "tests/test_packaging_hypotheses.py": "882d91491ea0d0b29b114e54865eed7d91595f0c2b1816528a3f8a4750e7aec5"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Tier contents are unvalidated product hypotheses; no prices, demand, revenue or service commitments are established."
+      ]
     },
     {
       "task_id": "P5-01",
