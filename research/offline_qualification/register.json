@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "74f1d10eec0197b1b2a8c6617f6ed71252512a76794c2ae06205fa10f7a1aaa6",
+    "sha256": "411a0d45f6d4d570d3c603c179ca41526ee85f7e338ac8289376912765e6d065",
     "tasks": 260
   },
   "source": {
-    "commit": "05a77fe64527bed2f59f0167b04623c9cfa38bdb",
+    "commit": "4ccc8d8f14d01ddc04c77e44f93cbf96a3c45d01",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 127,
-      "PARTIAL": 14,
+      "DONE": 128,
+      "PARTIAL": 13,
       "TODO": 119
     },
-    "completed": 127,
+    "completed": 128,
     "total": 260,
-    "percent_complete": 48.85,
-    "p0_open": 11,
+    "percent_complete": 49.23,
+    "p0_open": 10,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1112,8 +1112,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
-        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
-        "docs/FRESHNESS_LEASES.md": "3fcca7b8a069ee1a7eee5825d055c4c13f409f2311c041475228bdd1bd014073",
+        "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
+        "docs/FRESHNESS_LEASES.md": "59218ac7de42fd7d91b98337b337d2761a04dcd5d4aac656428f2ef4407f94b7",
         "research/results/e4-09-freshness-clock-skew.json": "e3b56040683e06849265c1a3e0b26a65b833c64a54e75e253ee6604c98172b5d",
         "research/results/e4-09-freshness-clock-skew.xml": "88dd8a3e40640ca955b2884ccb399a358629a1d30dd22bddaf2a2ebee41ff3e3"
       },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "d7352fdea9beea1e8ead6580a08053e52dd78ecc714d47fc4ed8c70054b8042f",
+        "research/results/MANIFEST.json": "a4cbe5a5fc73a96550add9daf61421095fdc7488fe5ff5a08d1e6412d11af20e",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4224,23 +4224,29 @@
       "task_id": "H4-04",
       "priority": "P0",
       "task": "Simulate network partition with correction pending and old lease still valid.",
-      "acceptance": "Contract accurately bounds stale exposure; high-risk action expires lease rather than inventing awareness. Evidence: `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py` (PARTIAL: lease expiry and offline tombstone contracts exist; explicit partition-with-old-lease action timing experiment remains open)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "acceptance": "Contract accurately bounds stale exposure; high-risk action expires lease rather than inventing awareness. Evidence: `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py`, `research/results/h4-04-partition-lease-timing.json`, `research/results/h4-04-partition-lease-timing-tests.xml` (DONE: a v1\u2192v2 correction remains queued while the peer retains v1; with a 10,000 ms lease, high-risk action is allowed at 9,999 ms and refused at 10,000 ms, while safe local reads remain available; 26 tests and 12 subtests pass. This is a deterministic in-process partition model, not a physical network SLO)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
         "tests/test_freshness.py",
-        "tests/test_tombstone_exchange.py"
+        "tests/test_tombstone_exchange.py",
+        "research/results/h4-04-partition-lease-timing.json",
+        "research/results/h4-04-partition-lease-timing-tests.xml"
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
-        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
-        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434"
+        "docs/FRESHNESS_LEASES.md": "59218ac7de42fd7d91b98337b337d2761a04dcd5d4aac656428f2ef4407f94b7",
+        "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
+        "research/results/h4-04-partition-lease-timing.json": "5738356d4800c33ed567b1ffe2d78597970211ad71471d6d15d0b738d2c2a594",
+        "research/results/h4-04-partition-lease-timing-tests.xml": "26925d063a02ff0fab6afa8cbc67ce23166aaa76240ea2281b345afcbfed25cf"
       },
       "evidence_issues": {},
       "limitations": [
-        "Lease expiry and offline tombstone contracts exist; an explicit partition-with-old-lease action timing experiment remains open."
+        "The deterministic in-process partition model does not measure physical network impairment, multi-host clock accuracy, or production latency."
       ]
     },
     {
@@ -4313,7 +4319,7 @@
       "evidence_digests": {
         "tests/test_checkpoint_rewrite.py": "184c9c8efb8cf251f541be8f6cf5ec34370f61db888aec0cf864ab205778bcee",
         "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
-        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
+        "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
         "research/results/h4-07-checkpoint-trust.json": "90df22b453d678a0384e1e5228310dfdf419b48106730484e22495d47a85855c",
         "research/results/h4-07-checkpoint-trust-tests.xml": "fd46336a25040f0d6b057f94e6813ac4c44217cb778a2890353a4ce4d41b2100"
       },
@@ -4372,8 +4378,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
-        "docs/FRESHNESS_LEASES.md": "3fcca7b8a069ee1a7eee5825d055c4c13f409f2311c041475228bdd1bd014073",
-        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
+        "docs/FRESHNESS_LEASES.md": "59218ac7de42fd7d91b98337b337d2761a04dcd5d4aac656428f2ef4407f94b7",
+        "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
         "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
         "tests/test_identity.py": "7f38da96b8e101b7174314441ad37c2a3c4ab5ad4f9d2f23cb6814e812d4c4f9",
         "research/results/h4-09-clock-skew.json": "bbdec8f07e9e83d90d551e6346e69bf20e2733b2635308d6211e5c1ac751f3c9",

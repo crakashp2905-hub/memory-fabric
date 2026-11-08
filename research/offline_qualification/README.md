@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **127 / 260 (48.85%)**. Internal status: **BLOCKED**.
+Strict completion: **128 / 260 (49.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a842b78bfd403e41dc309a0abce816bd5447cea52b15fad9a66da58ba1213aa2`.
+Normalized ledger digest: `f095b19451de9dfe3624b249736a3b138ec7d4db0715fce3ec73ebe9354fa467`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 127 |
+| DONE | 128 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 14 |
+| PARTIAL | 13 |
 | TODO | 119 |
 
 ## Graduation gates
@@ -222,7 +222,7 @@ Normalized ledger digest: `a842b78bfd403e41dc309a0abce816bd5447cea52b15fad9a66da
 | H4-01 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_write_fault_injection.py`, `research/results/h4-01-stage-fault-injection.json`, `research/results/h4-01-stage-fault-injection-tests.xml` |
 | H4-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_multiprocess_crash.py`, `tests/crashworker.py`, `tests/test_cipher.py`, `tests/test_event_schema_hardening.py`, `research/results/h4-02-power-loss.json`, `research/results/h4-02-power-loss-tests.xml` |
 | H4-03 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tests/test_storage_failure_modes.py`, `research/results/h4-03-storage-failure.json`, `research/results/h4-03-storage-failure-tests.xml` |
-| H4-04 | P0 | PARTIAL | CONTRACT | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py` |
+| H4-04 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py`, `research/results/h4-04-partition-lease-timing.json`, `research/results/h4-04-partition-lease-timing-tests.xml` |
 | H4-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_tombstone_exchange.py`, `tests/test_multiprocess_crash.py`, `research/results/h4-05-reordered-corrections.json`, `research/results/h4-05-reordered-corrections-tests.xml` |
 | H4-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/h4-06-retry-deadletter.json`, `research/results/h4-06-retry-deadletter-tests.xml` |
 | H4-07 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_checkpoint_rewrite.py`, `tests/test_integrity_chain.py`, `tests/test_freshness.py`, `research/results/h4-07-checkpoint-trust.json`, `research/results/h4-07-checkpoint-trust-tests.xml` |

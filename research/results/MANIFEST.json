@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 220,
+ "results": 221,
  "missing_field_counts": {
-  "git_sha": 116,
+  "git_sha": 117,
   "prereg": 87,
-  "dataset_digest": 217,
-  "model_id": 184,
-  "prompt_hash": 220,
-  "seed": 141,
-  "cost": 197,
+  "dataset_digest": 218,
+  "model_id": 185,
+  "prompt_hash": 221,
+  "seed": 142,
+  "cost": 198,
   "verdict": 156
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 209
+  "unclassified": 210
  },
  "rows": [
   {
@@ -2084,6 +2084,24 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h4-04-partition-lease-timing",
+   "file": "research/results/h4-04-partition-lease-timing.json",
+   "file_sha256": "7415a18ef8295c7a06a6ded476defc061c5999a3f6ef44dfeec6ec54b6acaaec",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h4-topology-and-diversity.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

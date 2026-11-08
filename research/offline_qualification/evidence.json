@@ -1220,16 +1220,19 @@
     },
     {
       "task_id": "H4-04",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
         "tests/test_freshness.py",
-        "tests/test_tombstone_exchange.py"
+        "tests/test_tombstone_exchange.py",
+        "research/results/h4-04-partition-lease-timing.json",
+        "research/results/h4-04-partition-lease-timing-tests.xml"
       ],
       "limitations": [
-        "Lease expiry and offline tombstone contracts exist; an explicit partition-with-old-lease action timing experiment remains open."
+        "The deterministic in-process partition model does not measure physical network impairment, multi-host clock accuracy, or production latency."
       ]
     },
     {
