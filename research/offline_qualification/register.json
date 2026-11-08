@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "4f1e8546e650fdcb3ab7b6bfdead0bee53e55a660327e16ebbf08978c24292c0",
+    "sha256": "3293adc36080347824de41a15591310f3b235eff1ff040c39636ce1c5213b479",
     "tasks": 260
   },
   "source": {
-    "commit": "e0e0a98954203122302e766038c2e9813186ae89",
+    "commit": "7525215ed73229889221b94e719ea4986a4f3b2a",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 117,
+      "DONE": 118,
       "PARTIAL": 14,
-      "TODO": 129
+      "TODO": 128
     },
-    "completed": 117,
+    "completed": 118,
     "total": 260,
-    "percent_complete": 45.0,
-    "p0_open": 21,
+    "percent_complete": 45.38,
+    "p0_open": 20,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -3460,14 +3460,24 @@
       "task_id": "H1-06",
       "priority": "P0",
       "task": "Run replayed-copy and near-duplicate laundering attacks with changing identifiers.",
-      "acceptance": "Exact and supported subset copies preserve lineage; unsupported semantic paraphrase explicitly flagged as limitation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Exact and supported subset copies preserve lineage; unsupported semantic paraphrase explicitly flagged as limitation. Evidence: `tests/test_duplicates.py::TestTheRule`, `tests/test_duplicates.py::TestInAStore`, `tests/test_duplicates.py::EncodingNoise`, `docs/LIMITATIONS.md`, `research/results/h1-06-copy-laundering-tests.xml` (DONE: exact/annotated copies and Unicode encoding variants resolve to their original source root; re-ingestion after withdrawal arrives contested; corrected values are not merged; 19 tests and 12 subtests pass. Semantic paraphrase remains explicitly unsupported)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "docs/LIMITATIONS.md",
+        "research/results/h1-06-copy-laundering-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_duplicates.py": "3feb5616fc812383735ba9a7594deb05a5e6fe662ac0dec04f9888a5ec6769a1",
+        "docs/LIMITATIONS.md": "fef90f9608f107263836161bdea1d9be94a1659dad691f68488e236843fd226f",
+        "research/results/h1-06-copy-laundering-tests.xml": "5b8439897a5060264f231632f862fedb05171514de04607b45c0f9a8664bfbcb"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Recognition is bounded to exact and supported normalized/subset copies; semantic paraphrase detection is not claimed."
+      ]
     },
     {
       "task_id": "H1-07",

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **117 / 260 (45.00%)**. Internal status: **BLOCKED**.
+Strict completion: **118 / 260 (45.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `e383aaa5a8d4099982265534aad100f80552edd94cb4fd52fd2de75d1f31406d`.
+Normalized ledger digest: `6fb51f54c76176f245031ab6fbfd57a7df69eb7907650c0a1c6103cb52a6cb52`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 117 |
+| DONE | 118 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 129 |
+| TODO | 128 |
 
 ## Graduation gates
 
@@ -194,7 +194,7 @@ Normalized ledger digest: `e383aaa5a8d4099982265534aad100f80552edd94cb4fd52fd2de
 | H1-03 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `tests/test_confused_deputy.py`, `research/results/h1-03-04-authority-delayed-poisoning.xml` |
 | H1-04 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `tests/test_security_regression.py`, `research/results/h1-03-04-authority-delayed-poisoning.xml` |
 | H1-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `research/results/h1-05-unfamiliar-claim-tests.xml` |
-| H1-06 | P0 | TODO | NOT_TESTED | — |
+| H1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_duplicates.py`, `docs/LIMITATIONS.md`, `research/results/h1-06-copy-laundering-tests.xml` |
 | H1-07 | P0 | TODO | NOT_TESTED | — |
 | H1-08 | P0 | TODO | NOT_TESTED | — |
 | H1-09 | P0 | TODO | NOT_TESTED | — |

@@ -1480,6 +1480,20 @@
       ]
     },
     {
+      "task_id": "H1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "docs/LIMITATIONS.md",
+        "research/results/h1-06-copy-laundering-tests.xml"
+      ],
+      "limitations": [
+        "Recognition is bounded to exact and supported normalized/subset copies; semantic paraphrase detection is not claimed."
+      ]
+    },
+    {
       "task_id": "H1-05",
       "status": "DONE",
       "acceptance_passed": true,
