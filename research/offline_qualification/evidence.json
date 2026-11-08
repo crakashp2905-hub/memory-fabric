@@ -3942,6 +3942,26 @@
         "Row-count compute is a deterministic proxy; measured wall time is host-specific.",
         "Graduation means supervised research continuation only, not product release or autonomous deployment."
       ]
+    },
+    {
+      "task_id": "N4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-01-summary-dependencies.json",
+        "research/results/n4-01-summary-dependencies.md",
+        "research/results/n4-01-dependency-map-tests.xml"
+      ],
+      "limitations": [
+        "Fact identity follows the current normalized identifier/content-word/numeric-value extractor; unstructured qualitative claims without identifiers or values are not certified as consequential facts.",
+        "This is local contract evidence, not an independent security or model-quality review."
+      ]
     }
   ]
 }

@@ -43,6 +43,7 @@ from .conflicts import author, claim, find_conflicts
 from .events import EventType
 from .model import EXPOSABLE_STATES, ProvenanceMethod, Scope, visible_to
 from .identity import DEFAULT_TENANT
+from .summary_dependencies import DependencyMapRefused, reconstruct_dependency_map
 
 if TYPE_CHECKING:  # pragma: no cover
     from .fabric import MemoryFabric
@@ -149,6 +150,12 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
         for m in group:
             if not set(claim(m.content)[2]) <= set(stated):
                 raise CompactionRefused("the summary resolves a dispute instead of keeping it")
+    dependency_error = None
+    try:
+        dependencies = reconstruct_dependency_map(text, usable)
+    except DependencyMapRefused as exc:
+        dependencies = None
+        dependency_error = str(exc)
     narrowest = min((m.scope for m in usable), key=lambda s: s.rank)
     if scope is not None and Scope(scope).rank > narrowest.rank:
         raise CompactionRefused("a summary cannot widen its sources' visibility")
@@ -156,11 +163,24 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
         eligible = set(_visible(fabric, agent_id, tenant_id)) - fabric.state.erased
         if any(m.id not in eligible or fabric.state.memories[m.id].version != m.version for m in usable):
             raise CompactionRefused("compaction sources changed during summarization; retry with current evidence")
-        report.summary_id = fabric.derive(
+        summary_id = fabric.derive(
             agent_id, text, parents=[m.id for m in usable],
             method=ProvenanceMethod.CONSOLIDATED,
-            context={"kind": "derived_claim", "compaction_of": episode_id},
+            context={
+                "kind": "derived_claim",
+                "compaction_of": episode_id,
+                **(
+                    {"summary_dependencies": dependencies}
+                    if dependencies is not None
+                    else {"summary_dependency_error": "unverified_fact_mapping"}
+                ),
+            },
             scope=scope or narrowest)
+        report.summary_id = summary_id
+        if dependencies is None and fabric.state.memories[summary_id].lifecycle_state in EXPOSABLE_STATES:
+            raise CompactionRefused(
+                f"summary dependency map could not be proven: {dependency_error}"
+            )
     report.inputs = [m.id for m in usable]
     return report
 
