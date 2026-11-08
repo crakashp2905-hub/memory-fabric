@@ -15,7 +15,7 @@ Companions: [DEPLOYMENT.md](../DEPLOYMENT.md) for choosing a topology,
 memory-fabric --db store.db doctor
 ```
 
-Ten checks, three outcomes, and exit codes meant for a script: **0** sound,
+Store-integrity checks, three outcomes, and exit codes meant for a script: **0** sound,
 **1** sound with warnings, **5** not sound. `ok` means verified rather than
 "nothing raised", and a check that *cannot* run reports a warning with the
 reason — never `ok`.
@@ -32,6 +32,20 @@ reason — never `ok`.
 | content cipher | unauthenticated `enc:v1` ciphertext remains, or encryption is off |
 | withdrawn knowledge is not exposed | a blocked memory passes the enforcement check |
 | tenant isolation | a memory is readable from another tenant |
+
+For a deployment preflight, optionally check the planned bind address and a
+local free-space floor:
+
+```bash
+memory-fabric --db store.db doctor --host 127.0.0.1 --port 8765 --min-free-mb 1024
+```
+
+The port probe binds and closes a local socket; it does not reserve the port,
+so another process can claim it before the service starts. The disk check
+measures the filesystem containing the local store at that moment. For
+PostgreSQL or `:memory:`, it reports that server-side capacity must be checked
+separately. Both checks are optional and read-only. If the disk floor fails,
+free or expand the volume, or make and verify a backup before moving the store.
 
 ## 2. Routine operations
 

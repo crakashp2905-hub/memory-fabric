@@ -171,6 +171,9 @@ WRITES: seed a demonstration store
 
 Whether this installation's answers can be believed (exit 0/1/5)
 
+- `--host`: host to probe with --port (default 127.0.0.1)
+- `--port`: optionally check that the planned service port is available
+- `--min-free-mb`: optionally require this much free space beside the local store
 - `--webhook`: POST a JSON alert here when the store is not sound
 - `--webhook-on`: alert on failures only (default), or on warnings too
 

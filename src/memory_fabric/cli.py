@@ -2647,6 +2647,59 @@ def _check_manager(fabric: MemoryFabric) -> Finding:
     return Finding("ok", "background manager", f"last cycle {age_s:.0f} s ago by {run.get('holder')}")
 
 
+def _check_setup_port(host: str, port: int) -> Finding:
+    """Non-mutating bind probe for the address an operator plans to serve."""
+    import socket
+
+    if not 1 <= port <= 65535:
+        return Finding("fail", "setup port", f"port {port} is outside 1..65535",
+                       "Choose an unused unprivileged port with `serve --port <port>`.")
+    try:
+        family = socket.AF_INET6 if ":" in host else socket.AF_INET
+        with socket.socket(family, socket.SOCK_STREAM) as probe:
+            probe.bind((host, port))
+    except OSError as exc:
+        return Finding(
+            "fail", "setup port", f"cannot bind {host}:{port}: {exc}",
+            f"Stop the process holding {host}:{port}, or choose a free port with "
+            "`memory-fabric --db <store> serve --port <free-port>`. No store data was changed.",
+        )
+    return Finding("ok", "setup port", f"{host}:{port} is available at probe time")
+
+
+def _check_setup_disk(fabric: MemoryFabric, min_free_mb: int) -> Finding:
+    """Check explicitly requested free-space floor without writing to the store."""
+    from .pgcompat import is_postgres_url
+
+    if min_free_mb <= 0:
+        return Finding("fail", "disk capacity", "minimum free space must be positive",
+                       "Set `doctor --min-free-mb <positive-MiB>` to the required floor.")
+    database = str(fabric.log.path)
+    if database == ":memory:" or is_postgres_url(database):
+        return Finding(
+            "warn", "disk capacity", "the store is not on a local filesystem volume",
+            "Check free space on the database server volume before deployment.",
+        )
+    volume = pathlib.Path(database).expanduser().resolve().parent
+    try:
+        free = shutil.disk_usage(volume).free
+    except OSError as exc:
+        return Finding("warn", "disk capacity", f"cannot inspect {volume}: {exc}",
+                       "Check the volume with the operating system's disk utility.")
+    required = min_free_mb * 1024 * 1024
+    available_mb = free // (1024 * 1024)
+    if free < required:
+        return Finding(
+            "fail", "disk capacity",
+            f"{available_mb} MiB free on {volume}; {min_free_mb} MiB required",
+            "Free or expand this volume, or move the store using a verified backup: "
+            "`memory-fabric --db <store> backup <backup>`; then point `--db` at the new volume. "
+            "The doctor made no store changes.",
+        )
+    return Finding("ok", "disk capacity",
+                   f"{available_mb} MiB free on {volume}; {min_free_mb} MiB required")
+
+
 DOCTOR_CHECKS = (
     _check_manager,
     _check_append_only,
@@ -2720,6 +2773,14 @@ def cmd_doctor(fabric: MemoryFabric, args: argparse.Namespace) -> int:
                         "store's key directory (--keys) if content is sealed externally, and "
                         "report the error if it persists.")
             )
+
+    host = getattr(args, "host", "127.0.0.1")
+    port = getattr(args, "port", None)
+    min_free_mb = getattr(args, "min_free_mb", None)
+    if port is not None:
+        findings.append(_check_setup_port(host, port))
+    if min_free_mb is not None:
+        findings.append(_check_setup_disk(fabric, min_free_mb))
 
     failures = [f for f in findings if f.status == "fail"]
     warnings = [f for f in findings if f.status == "warn"]
@@ -2838,6 +2899,12 @@ def build_parser() -> argparse.ArgumentParser:
                    help="a checkpoint JSON file saved earlier, elsewhere")
     p = add("doctor", cmd_doctor,
             "Whether this installation's answers can be believed (exit 0/1/5)")
+    p.add_argument("--host", default="127.0.0.1",
+                   help="host to probe with --port (default 127.0.0.1)")
+    p.add_argument("--port", type=int,
+                   help="optionally check that the planned service port is available")
+    p.add_argument("--min-free-mb", type=int,
+                   help="optionally require this much free space beside the local store")
     p.add_argument("--webhook", metavar="URL",
                    help="POST a JSON alert here when the store is not sound")
     p.add_argument("--webhook-on", choices=["fail", "warn"], default="fail",
