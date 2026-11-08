@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **155 / 260 (59.62%)**. Internal status: **BLOCKED**.
+Strict completion: **156 / 260 (60.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `9b242b524d5adf65cf04e628991efa116682511096dea0f9dba4ad1661864746`.
+Normalized ledger digest: `6f2134fa4091a1c7dac0037e1ec465684f359fffe31087a7b23936c06a84ee92`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 155 |
+| DONE | 156 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 101 |
+| TODO | 100 |
 
 ## Graduation gates
 
@@ -254,7 +254,7 @@ Normalized ledger digest: `9b242b524d5adf65cf04e628991efa116682511096dea0f9dba4a
 | P2-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_control_center.py`, `research/results/p2-03-block-reasons.json`, `research/results/p2-03-block-reasons.txt` |
 | P2-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/correction.py`, `tests/test_control_center_ui.py`, `tests/test_correction.py`, `research/results/p2-04-correction-preview.json`, `research/results/p2-04-correction-preview.txt` |
 | P2-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/observability/static/withholding-benchmark.json`, `research/results/r2-false-withholding-ablation.json`, `tests/test_control_center_ui.py`, `tests/test_false_withholding.py`, `research/results/p2-05-withholding-scorecard.json`, `research/results/p2-05-withholding-scorecard.txt` |
-| P2-06 | P1 | TODO | NOT_TESTED | — |
+| P2-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/actions.py`, `tests/test_control_center_ui.py`, `tests/test_action_reconciliation.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_fence.py`, `research/results/p2-06-action-timeline.json`, `research/results/p2-06-action-timeline.txt` |
 | P2-07 | P1 | TODO | NOT_TESTED | — |
 | P2-08 | P1 | TODO | NOT_TESTED | — |
 | P2-09 | P1 | TODO | NOT_TESTED | — |

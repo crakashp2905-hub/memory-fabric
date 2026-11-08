@@ -1,0 +1,34 @@
+P2-06 · Per-tool authorization history and idempotency receipt state
+Commit: 718ad9ac8c9a14478903ed3e21ecc983b11eb5b8
+Platform: Windows 11 10.0.26200 (Python 3.13.5)
+
+Exact-commit test run:
+  Python unittest loaded tests.test_control_center_ui, tests.test_control_center,
+  tests.test_action_reconciliation, tests.test_action_execution_receipt, and
+  tests.test_action_fence with tempfile.tempdir set to
+  D:\Memory Fabric\master-checklist\.task-tmp
+  Result: 41 tests passed, 0 failures, 0 errors (8.846 seconds runner time)
+  Process exit code: 0 (9.723 seconds)
+
+Additional checks on the same commit:
+  mypy --follow-imports=silent src/memory_fabric/observability/control.py
+      src/memory_fabric/observability/server.py tests/test_control_center_ui.py — passed
+  ruff check src/memory_fabric/observability/control.py
+      src/memory_fabric/observability/server.py tests/test_control_center_ui.py — passed
+  git diff --check — passed
+
+Verified behaviors:
+  - Tool timeline includes authorization, attempt, and execution events with
+    stable event IDs and sequence numbers.
+  - Receipt states distinguish completed, definitely unexecuted, and unknown
+    outcomes requiring reconciliation.
+  - Unfenced execution is visibly distinguished because an external effect may
+    have occurred despite an unknown local outcome.
+  - Raw idempotency keys are absent from the dashboard API; a short SHA-256
+    reference is used for correlation.
+
+Limitations:
+  - Receipt state reports the local event log; it does not independently prove
+    the state of an external target system.
+  - Tests use deterministic local fixtures on Windows 11/Python 3.13.5.
+  - The configured cross-platform GitHub CI matrix has not run for this branch.

@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 240,
+ "results": 241,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 237,
-  "model_id": 204,
-  "prompt_hash": 240,
-  "seed": 161,
-  "cost": 217,
-  "verdict": 169
+  "dataset_digest": 238,
+  "model_id": 205,
+  "prompt_hash": 241,
+  "seed": 162,
+  "cost": 218,
+  "verdict": 170
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 228
+  "unclassified": 229
  },
  "rows": [
   {
@@ -3607,6 +3607,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p2-context-sufficiency.md",
    "git_sha": "76f4d1bd64ef27e84147b2ba0d5a6c5b17fdb166",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-06-action-timeline",
+   "file": "research/results/p2-06-action-timeline.json",
+   "file_sha256": "89b6c813e06c2c307a88d9adf05c4bd9c927bb0aac43ba1ed8728b90a2d94d4b",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "718ad9ac8c9a14478903ed3e21ecc983b11eb5b8",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

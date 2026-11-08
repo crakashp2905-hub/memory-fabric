@@ -2644,6 +2644,27 @@
       "limitations": [
         "The dashboard reports a frozen synthetic scripted scorecard, not a live or real-agent withholding rate. A live rate is not measured because event logs lack independent truth labels and an opportunity denominator. The external CI matrix has not run for this branch."
       ]
+    },
+    {
+      "task_id": "P2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/actions.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_action_reconciliation.py",
+        "tests/test_action_execution_receipt.py",
+        "tests/test_action_fence.py",
+        "research/results/p2-06-action-timeline.json",
+        "research/results/p2-06-action-timeline.txt"
+      ],
+      "limitations": [
+        "Receipt state reports the local event log and does not independently prove external system state. Idempotency keys are returned as short SHA-256 fingerprints. Tests use local fixtures on Windows 11/Python 3.13.5; the external CI matrix has not run for this branch."
+      ]
     }
   ]
 }
