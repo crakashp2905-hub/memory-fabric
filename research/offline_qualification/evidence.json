@@ -3073,17 +3073,19 @@
     },
     {
       "task_id": "R4-04",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "benchmarks/threshold_registry.py",
         "benchmarks/heldout_agent_qualification.py",
         "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_threshold_registry.py",
         "tests/test_heldout_agent_qualification.py",
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "limitations": [
-        "The heldout agent promotion gate now has target, tie, safety, stale-action and both fairness-margin boundary tests. A shared frozen threshold registry covering every registered hypothesis is still missing; the qualification script seeds also need reconciliation with the v1 preregistration."
+        "The v1 gate margins are frozen in a shared registry and tested at boundaries; the run uses registered seeds 701/709/719. Synthetic scripted-agent outcomes do not establish model-agent performance, and registry coverage is limited to the registered R4 outcomes rather than every research hypothesis."
       ]
     },
     {

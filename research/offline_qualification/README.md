@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **189 / 260 (72.69%)**. Internal status: **BLOCKED**.
+Strict completion: **190 / 260 (73.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `0e8bcaac4bfdf92018652ab272b38dd36d4e93f4745eb1538ca3195a59529906`.
+Normalized ledger digest: `8a3cc782f23bf2abc0ea5dafaa0a96cd32592b4813490222f34a8c2a6681cdb0`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 189 |
+| DONE | 190 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 4 |
+| PARTIAL | 3 |
 | TODO | 67 |
 
 ## Graduation gates
@@ -112,7 +112,7 @@ Normalized ledger digest: `0e8bcaac4bfdf92018652ab272b38dd36d4e93f4745eb1538ca31
 | R4-01 | P1 | DONE | CONTRACT | `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` |
 | R4-02 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/stats.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-03 | P1 | TODO | NOT_TESTED | — |
-| R4-04 | P1 | PARTIAL | CONTRACT | `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` |
+| R4-04 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/threshold_registry.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_threshold_registry.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` |
 | R4-05 | P1 | TODO | NOT_TESTED | — |
 | R4-06 | P1 | TODO | NOT_TESTED | — |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |

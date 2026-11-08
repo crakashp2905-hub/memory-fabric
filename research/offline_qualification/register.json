@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "85513c26830e5dc648aa0f88efc7575a4cbceded0680f6eb4796632b8c68c695",
+    "sha256": "264ad9ec0530f970f04822b6ac32f9677340aa89f86651ab9d7d1d8d47699e90",
     "tasks": 260
   },
   "source": {
-    "commit": "fe99db9be2d632c6ccd29346677c9e4d87164d80",
-    "dirty": false
+    "commit": "74a2837543255301dd1cf80c6758121a34db3f8f",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 189,
-      "PARTIAL": 4,
+      "DONE": 190,
+      "PARTIAL": 3,
       "TODO": 67
     },
-    "completed": 189,
+    "completed": 190,
     "total": 260,
-    "percent_complete": 72.69,
+    "percent_complete": 73.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2249,11 +2249,11 @@
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/heldout_agent_qualification.py": "b422a0f9e1e4b07f4f7a5aa4777fae1952339342ef6cd5787d8e69d8b396a485",
-        "research/prereg/heldout-agent-qualification-v1.md": "d7c7b8fb3f0c59a5cc3b94f751d96c4a04c670c1f3fd8793328f5b6673bfdb2a",
+        "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
+        "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
         "tests/test_heldout_agent_qualification.py": "7c8d6e7620b1badf02bb3b438fbb48171ae98df3316504bf69f70369828f0423",
         "research/results/r3-heldout-agent-qualification-tests.xml": "96ab55e17e3497295004cf557ebd7a1fa5cd1d4b696aa5a098ec91ebbce95957",
-        "research/results/r3-09-10-heldout-qualification.json": "36e5e406a1e02225b95c5a8a6483017f6b7bbf9fd7f612e9c00c3b396714bacf"
+        "research/results/r3-09-10-heldout-qualification.json": "a18d5c6292e62e0b28af954da1d330da9537924c6bff92300748d95d83c67051"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2279,12 +2279,12 @@
       ],
       "evidence_digests": {
         "benchmarks/matched_agent_arms.py": "fd745985ef48690afc9b5c46bf1ff4b85d0d1c71a9bc112495031ed6a0c1506e",
-        "benchmarks/heldout_agent_qualification.py": "b422a0f9e1e4b07f4f7a5aa4777fae1952339342ef6cd5787d8e69d8b396a485",
-        "research/prereg/heldout-agent-qualification-v1.md": "d7c7b8fb3f0c59a5cc3b94f751d96c4a04c670c1f3fd8793328f5b6673bfdb2a",
+        "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
+        "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
         "tests/test_matched_agent_arms.py": "86b4868037fc1f5e3cd48a2b8cc033c0bca8a47595bb90ec31fe86b7ece34a18",
         "tests/test_heldout_agent_qualification.py": "7c8d6e7620b1badf02bb3b438fbb48171ae98df3316504bf69f70369828f0423",
         "research/results/r3-heldout-agent-qualification-tests.xml": "96ab55e17e3497295004cf557ebd7a1fa5cd1d4b696aa5a098ec91ebbce95957",
-        "research/results/r3-09-10-heldout-qualification.json": "36e5e406a1e02225b95c5a8a6483017f6b7bbf9fd7f612e9c00c3b396714bacf"
+        "research/results/r3-09-10-heldout-qualification.json": "a18d5c6292e62e0b28af954da1d330da9537924c6bff92300748d95d83c67051"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2360,25 +2360,29 @@
       "task_id": "R4-04",
       "priority": "P1",
       "task": "Predefine minimal meaningful improvement and disallowed regression margins for every hypothesis.",
-      "acceptance": "Gate logic is stable before test data execution and fails under boundary test values. Evidence: `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` (PARTIAL: the heldout promotion gate now has boundary tests for the 80% target, no-gain tie, safety/stale-action counts, and 10-point least-agent/high-risk fairness margins. A shared threshold registry across all hypotheses is not yet present, and the tested seed split must be reconciled with the v1 preregistration)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "acceptance": "Gate logic is stable before test data execution and fails under boundary test values. Evidence: `benchmarks/threshold_registry.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_threshold_registry.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` (DONE: shared machine-readable primary, secondary and exploratory outcome tiers; the held-out v1 thresholds and boundary behavior are tested, using its registered 701/709/719 seeds. The registry covers the registered R4 comparisons, not every research hypothesis. The synthetic candidate met the 80% target but did not promote because it showed no aggregate gain over the strongest baseline)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "benchmarks/threshold_registry.py",
         "benchmarks/heldout_agent_qualification.py",
         "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_threshold_registry.py",
         "tests/test_heldout_agent_qualification.py",
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/heldout_agent_qualification.py": "b422a0f9e1e4b07f4f7a5aa4777fae1952339342ef6cd5787d8e69d8b396a485",
-        "research/prereg/heldout-agent-qualification-v1.md": "d7c7b8fb3f0c59a5cc3b94f751d96c4a04c670c1f3fd8793328f5b6673bfdb2a",
+        "benchmarks/threshold_registry.py": "0e6b0b7b617c17bfd93a9db1cb7d5c8642eb4af9684dde23d9e6842a3895991f",
+        "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
+        "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
+        "tests/test_threshold_registry.py": "71e7b7b083745c0d2d1cf31a374b8271ad768e790c404104def6b7d650af24ac",
         "tests/test_heldout_agent_qualification.py": "7c8d6e7620b1badf02bb3b438fbb48171ae98df3316504bf69f70369828f0423",
-        "research/results/r3-09-10-heldout-qualification.json": "36e5e406a1e02225b95c5a8a6483017f6b7bbf9fd7f612e9c00c3b396714bacf"
+        "research/results/r3-09-10-heldout-qualification.json": "a18d5c6292e62e0b28af954da1d330da9537924c6bff92300748d95d83c67051"
       },
       "evidence_issues": {},
       "limitations": [
-        "The heldout agent promotion gate now has target, tie, safety, stale-action and both fairness-margin boundary tests. A shared frozen threshold registry covering every registered hypothesis is still missing; the qualification script seeds also need reconciliation with the v1 preregistration."
+        "The v1 gate margins are frozen in a shared registry and tested at boundaries; the run uses registered seeds 701/709/719. Synthetic scripted-agent outcomes do not establish model-agent performance, and registry coverage is limited to the registered R4 outcomes rather than every research hypothesis."
       ]
     },
     {

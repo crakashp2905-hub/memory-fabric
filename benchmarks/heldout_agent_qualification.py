@@ -10,11 +10,13 @@ from typing import Any, Mapping
 
 from benchmarks.manifest import capture_environment, head
 from benchmarks.matched_agent_arms import ARMS, HIGH_RISK_FAMILIES, run
+from benchmarks.threshold_registry import REGISTRY, validate_registry
 
-SEEDS = (8101, 8111, 8123)
+SEEDS = (701, 709, 719)
 AGENTS = 50
-TARGET = 0.80
-MATERIAL_REGRESSION = 0.10
+THRESHOLDS = REGISTRY["heldout_agent_qualification_v1"]
+TARGET = THRESHOLDS["primary"]["task_success_target"]
+MATERIAL_REGRESSION = THRESHOLDS["fairness"]["least_agent_success_max_regression"]
 ROOT = Path(__file__).resolve().parents[1]
 PREREG = "research/prereg/heldout-agent-qualification-v1.md"
 
@@ -42,6 +44,7 @@ def promotion_decision(candidate: Mapping[str, Any], baseline: Mapping[str, Any]
 
 
 def build_report() -> dict[str, Any]:
+    validate_registry()
     rows = [run(seed, AGENTS, arm) for seed in SEEDS for arm in ARMS]
     task_manifests = {str(seed): next(row["task_manifest"] for row in rows
                                       if row["seed"] == seed and row["arm"] == "memory_fabric")
@@ -113,6 +116,7 @@ def build_report() -> dict[str, Any]:
         "unique_task_cases": len(SEEDS) * 8,
         "attempted_agent_tasks_per_arm": len(SEEDS) * 8 * AGENTS,
         "aspirational_target": TARGET, "material_regression_tolerance": MATERIAL_REGRESSION,
+        "threshold_registry": THRESHOLDS,
         "strongest_matched_non_oracle_baseline": strongest, "summary_by_arm": summary,
         **decision,
         "task_manifest_by_seed": expected_ids,
