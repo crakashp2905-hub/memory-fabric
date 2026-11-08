@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 224,
+ "results": 225,
  "missing_field_counts": {
-  "git_sha": 120,
-  "prereg": 90,
-  "dataset_digest": 221,
-  "model_id": 188,
-  "prompt_hash": 224,
-  "seed": 145,
-  "cost": 201,
-  "verdict": 153
+  "git_sha": 121,
+  "prereg": 91,
+  "dataset_digest": 222,
+  "model_id": 189,
+  "prompt_hash": 225,
+  "seed": 146,
+  "cost": 202,
+  "verdict": 154
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 212
+  "unclassified": 213
  },
  "rows": [
   {
@@ -3815,9 +3815,27 @@
    "parsable": true
   },
   {
+   "experiment_id": "r1-05-full-unit-tests",
+   "file": "research/results/r1-05-full-unit-tests.json",
+   "file_sha256": "6ad20e2fbeeb9f28107a94eb0d5b9f4a15e43b3cfec3ebbb18b9a9173ec51897",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
    "experiment_id": "r1-05-suite-control-coverage",
    "file": "research/results/r1-05-suite-control-coverage.json",
-   "file_sha256": "eb7b701cd47e3cbbfcedde8b9cc92065c62cccc8dd5ce99749f8a2d798cb0e31",
+   "file_sha256": "57ba0ab219dfc164bc8743012360a6c3ab5738fd6b6b7016eeabe1332171ad7c",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": null,

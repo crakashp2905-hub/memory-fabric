@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "f44b559b980c9b30bb17eb20f4ae1475889b47ecf7e40d6a2c8a5bc765b238b7",
+    "sha256": "5afaeadb2d6f12bb3920c581794f335b7798b5c6e387d64826645f05c10e7625",
     "tasks": 260
   },
   "source": {
-    "commit": "8d53ecee77ec73d88f65afba1ce7144d4cbb8038",
+    "commit": "d9f68bf2a1c15ae2a8a662818c586882b47acf9e",
     "dirty": true
   },
   "summary": {
@@ -307,9 +307,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9ff646f98755cc8034ac75eddd40943354ee35cff1afe4380030cb2ef9df66b8",
-        "docs/VALIDATION.md": "2ce2f1976e226171ab82e7857e71ef32634f658ec5e95fa25439510346f280f2",
-        "docs/STATUS_AT_HEAD.md": "0cdc13ecb4f998d75df93d793d6cc27d073f688f3dbf159315a70863ea70a23e",
+        "README.md": "413e95679625ba21d264abab37b4765bfce81683f3e94ae3417da03b8156d5d5",
+        "docs/VALIDATION.md": "7a49ef5f4f2ee3ee580f8bc25cb93a197904ad1daf4fb0a255d2ccd4781e7603",
+        "docs/STATUS_AT_HEAD.md": "f9e2d0c8c09e2a75993b2a3e38481b66c94513d7fc1b3455c53360a2afb5bd62",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "f7a9a066db1c0091f15c5e9efa6c7a6f24f191701ec2ceb4766dac2b61a8213c",
+        "research/results/MANIFEST.json": "6385d0be798a2f22303e62fb7bb9408e85dba1d6bdedfb38f61dd2f6c53ea7a6",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1575,6 +1575,8 @@
         "tests/test_r1_external_negative_controls.py",
         "tests/test_r1_known_failure_controls.py",
         "research/results/r1-05-suite-control-coverage.json",
+        "research/results/r1-05-full-unit-tests.json",
+        "research/results/r1-05-full-unit-tests.txt",
         "research/results/r1-offline-synthetic.json",
         "research/results/r1-offline-synthetic-tests.xml"
       ],
@@ -1582,12 +1584,14 @@
         "benchmarks/offline_research.py": "2597e98d82c096bccf2d3624ce1ff1125d4d43cb456fdd6557583b4945c3da64",
         "experiments/external_bench.py": "f5496791cc58a0ee1bd6f38387b6f383d178ca46bf1be383155a0556d644def1",
         "experiments/longmemeval_bench.py": "587b34f0c279a500e2d45bc08a7a74712b10a7076dc92067635823be5c0bb6df",
-        "tools/r1_control_coverage.py": "88d4cfa46b89309311b959254d3b5130b538a4fe5377393dea5effaf52177990",
+        "tools/r1_control_coverage.py": "fe623a5199f6b288058989eed91a12e40110badca25c6c5ff1e355fd2517e1e2",
         "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
         "tests/test_r1_control_coverage.py": "ba620d0544d2be8cfaae7e5b1969f80074e691ac18f33959e3237d156ee91c43",
         "tests/test_r1_external_negative_controls.py": "04789dc54a3a2120f491a1c9e029f6b330ac401f1ffceb3936ee58a4630fc332",
         "tests/test_r1_known_failure_controls.py": "bc491f695ad945737424f51b8e33ef8a0c925dbdf6911b8854fa34fa12488613",
-        "research/results/r1-05-suite-control-coverage.json": "e3e3510f069a679dd61cb7a8a615bc2f9fa3b525f69e3f3ab79d54265246b47c",
+        "research/results/r1-05-suite-control-coverage.json": "225e7a69ee014cd9296cb9fcc675ec49606310fbfeee399c1a8a36d9ae31e160",
+        "research/results/r1-05-full-unit-tests.json": "c4085ac0f6b506bc958d23d5f9ff6c21e440d57499636105ed638f689b5f76b0",
+        "research/results/r1-05-full-unit-tests.txt": "74fa0e2b1e2eb806644c3dd1731c4d7c57c49aabad8fe707658dd8599836149b",
         "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
         "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
       },
