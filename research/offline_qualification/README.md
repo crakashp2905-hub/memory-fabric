@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **224 / 260 (86.15%)**. Internal status: **BLOCKED**.
+Strict completion: **225 / 260 (86.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7491b5651f520b6bb1b64d01d04ea5605bf3dece746a01ed909e780c81dc9b1a`.
+Normalized ledger digest: `a3c79147aa4c5ec28f3febf60f8c381d3d5155031c7fe5ee227a5aa407299043`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 224 |
+| DONE | 225 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 33 |
+| TODO | 32 |
 
 ## Graduation gates
 
@@ -157,7 +157,7 @@ Normalized ledger digest: `7491b5651f520b6bb1b64d01d04ea5605bf3dece746a01ed909e7
 | N3-06 | P2 | DONE | SIMULATED | `research/prereg/n3-06-copy-invariance-v1.md`, `benchmarks/n3_06_copy_invariance.py`, `tests/test_n3_06_copy_invariance.py`, `research/results/n3-06-copy-invariance.json`, `research/results/n3-06-copy-invariance.md`, `research/results/n3-06-copy-invariance-tests.xml` |
 | N3-07 | P2 | DONE | INTERNAL_INTEGRATION | `research/prereg/n3-07-outcome-authority-separation-v1.md`, `tests/test_authority.py`, `research/results/n3-07-authority-feedback-tests.xml`, `research/results/n3-07-authority-feedback.md` |
 | N3-08 | P2 | DONE | SIMULATED | `research/prereg/n3-08-heldout-world-family-transfer-v1.md`, `benchmarks/n3_08_ood_retention.py`, `tests/test_n3_08_ood_retention.py`, `research/results/n3-08-ood-retention.json`, `research/results/n3-08-ood-retention.md`, `research/results/n3-08-ood-retention-tests.xml` |
-| N3-09 | P2 | TODO | NOT_TESTED | — |
+| N3-09 | P2 | DONE | CONTRACT | `research/prereg/n3-09-off-policy-support-v1.md`, `src/memory_fabric/model.py`, `src/memory_fabric/estimators.py`, `tests/test_estimators.py`, `research/results/n3-09-off-policy-support.json`, `research/results/n3-09-off-policy-support.md`, `research/results/n3-09-support-tests.xml`, `research/results/n3-09-compat-tests.xml` |
 | N3-10 | P2 | TODO | NOT_TESTED | — |
 | N4-01 | P1 | TODO | NOT_TESTED | — |
 | N4-02 | P1 | TODO | NOT_TESTED | — |
