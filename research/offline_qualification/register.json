@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0eb35573640265cf15eaf7be36c03f481b028dfd608e19d74e145136b37357c2",
+    "sha256": "285f8693d7e7a3cb13eedcc99ad7d21cb6776fa427239623527c3f4860c515cf",
     "tasks": 260
   },
   "source": {
-    "commit": "c9c98f765c5527b95a5bd627c3258830dede9514",
+    "commit": "7ff050e3442896ff87c85c950f52e75f049f68db",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 145,
+      "DONE": 146,
       "PARTIAL": 4,
-      "TODO": 111
+      "TODO": 110
     },
-    "completed": 145,
+    "completed": 146,
     "total": 260,
-    "percent_complete": 55.77,
+    "percent_complete": 56.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -309,7 +309,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "413e95679625ba21d264abab37b4765bfce81683f3e94ae3417da03b8156d5d5",
         "docs/VALIDATION.md": "7a49ef5f4f2ee3ee580f8bc25cb93a197904ad1daf4fb0a255d2ccd4781e7603",
-        "docs/STATUS_AT_HEAD.md": "dd8e2d0c98b42c0a5c9df7c1450d617fd1e2eb3fddc09a6ad02549cc132a269e",
+        "docs/STATUS_AT_HEAD.md": "4be38e739cc59b4c0f35052c153dc3552c3c305c43e72aa7e6565457e0f1a9d9",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1450,7 +1450,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
-        "tests/test_portable_paths.py": "afc644edf803b9f3791cf8858ab0f806dc1b28046f9b5bfbe97041106bab7be3",
+        "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
         "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
       },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "61489747d62f80fa473d5462631f9299def39b8a4690f1bfdcf2bf70b1c40359",
+        "research/results/MANIFEST.json": "828bfcfddac561856db0ddb9673c6d4c5107b327aeb39ca393ed04402af7da5f",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4974,7 +4974,7 @@
       "evidence_digests": {
         "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
-        "tests/test_first_run.py": "3926b0a1cabe587db31efb777a26fffbfb219b9c047c645e85664226c30d8ea9",
+        "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
         "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
         "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
         "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
@@ -4991,13 +4991,30 @@
       "priority": "P1",
       "task": "Ensure path, key and identity defaults are safe on Windows, macOS and Linux.",
       "acceptance": "Tests cover home directory, temp paths, spaces and unicode",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_connect.py",
+        "tests/test_portable_paths.py",
+        "tests/test_first_run.py",
+        ".github/workflows/ci.yml",
+        "research/results/p1-06-portable-paths.json",
+        "research/results/p1-06-portable-paths.txt"
+      ],
+      "evidence_digests": {
+        "tests/test_connect.py": "4a1c32df98eb27f4b34e47c18bdc16d297301a093ca5f14c6f9a6ce38efb0812",
+        "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
+        "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
+        "research/results/p1-06-portable-paths.json": "5aa0e90b3d161591687994df0456ca9f73d4e0bb2ead9ad52998e246f3b26475",
+        "research/results/p1-06-portable-paths.txt": "9f521b23235b0b2828cd0b0f5ec10112c0f297ab2bebc042843e14161c2815f3"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The exact-commit test run is on Windows 11 with Python 3.13.5. The configured macOS, Linux, and other Python matrix legs have not run for this branch because GitHub CI is unavailable through the connected credentials.",
+        "The default tenant is a logical authorization boundary, not a physical isolation boundary; one SQLite store remains one blast radius."
+      ]
     },
     {
       "task_id": "P1-07",

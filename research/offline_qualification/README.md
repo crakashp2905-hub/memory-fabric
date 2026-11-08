@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **145 / 260 (55.77%)**. Internal status: **BLOCKED**.
+Strict completion: **146 / 260 (56.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1251d71fd69b40463436b0ea55ad47beda98eac5eef80b69decbb0899feecf90`.
+Normalized ledger digest: `bc1d9f21e275fb169c40ddf80a3c6ab822aff6736764ac2d73ac0198206b5f54`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 145 |
+| DONE | 146 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 111 |
+| TODO | 110 |
 
 ## Graduation gates
 
@@ -244,7 +244,7 @@ Normalized ledger digest: `1251d71fd69b40463436b0ea55ad47beda98eac5eef80b69decbb
 | P1-03 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `examples/quickstart.py`, `examples/reference_agent.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/poisoning_and_rollback.py`, `examples/multi_agent_team.py`, `examples/agent_on_the_fabric.py`, `examples/live_memory_os.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/sdk.py`, `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/correction.py`, `examples/sdk_workflow.py`, `docs/SDK_WORKFLOW.md`, `tests/test_sdk.py`, `tests/test_examples_run.py`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `tests/test_doctor.py`, `tests/test_first_run.py`, `docs/OPERATIONS.md`, `docs/CLI.md`, `research/results/p1-05-setup-doctor.json`, `research/results/p1-05-setup-doctor.txt` |
-| P1-06 | P1 | TODO | NOT_TESTED | — |
+| P1-06 | P1 | DONE | INTERNAL_INTEGRATION | `tests/test_connect.py`, `tests/test_portable_paths.py`, `tests/test_first_run.py`, `.github/workflows/ci.yml`, `research/results/p1-06-portable-paths.json`, `research/results/p1-06-portable-paths.txt` |
 | P1-07 | P1 | TODO | NOT_TESTED | — |
 | P1-08 | P1 | TODO | NOT_TESTED | — |
 | P1-09 | P1 | TODO | NOT_TESTED | — |

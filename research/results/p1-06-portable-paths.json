@@ -1,0 +1,20 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P1-06",
+  "commit": "7ff050e3442896ff87c85c950f52e75f049f68db",
+  "command": "python -m unittest tests.test_connect tests.test_portable_paths tests.test_first_run -q",
+  "exit_code": 0,
+  "tests_run": 16,
+  "elapsed_seconds": 8.661,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "tests/test_connect.py": "4a1c32df98eb27f4b34e47c18bdc16d297301a093ca5f14c6f9a6ce38efb0812",
+    "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+    "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
+    ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
+    "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
+    "src/memory_fabric/connect.py": "8855a28ca12f2614ca631b003b778d418b28aab38d3166e3a75d9792f642b862"
+  },
+  "result_text_sha256": "9f521b23235b0b2828cd0b0f5ec10112c0f297ab2bebc042843e14161c2815f3"
+}

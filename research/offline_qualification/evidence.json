@@ -2467,6 +2467,24 @@
         "The local port bind check is a time-of-check probe and cannot reserve the port. Disk floor is checked on the local store filesystem; PostgreSQL and in-memory stores require a server-side capacity check. Keys and schema continue to use the existing doctor checks.",
         "GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
       ]
+    },
+    {
+      "task_id": "P1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_connect.py",
+        "tests/test_portable_paths.py",
+        "tests/test_first_run.py",
+        ".github/workflows/ci.yml",
+        "research/results/p1-06-portable-paths.json",
+        "research/results/p1-06-portable-paths.txt"
+      ],
+      "limitations": [
+        "The exact-commit test run is on Windows 11 with Python 3.13.5. The configured macOS, Linux, and other Python matrix legs have not run for this branch because GitHub CI is unavailable through the connected credentials.",
+        "The default tenant is a logical authorization boundary, not a physical isolation boundary; one SQLite store remains one blast radius."
+      ]
     }
   ]
 }

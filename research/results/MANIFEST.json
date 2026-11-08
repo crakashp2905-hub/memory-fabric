@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 230,
+ "results": 231,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 227,
-  "model_id": 194,
-  "prompt_hash": 230,
-  "seed": 151,
-  "cost": 207,
-  "verdict": 159
+  "dataset_digest": 228,
+  "model_id": 195,
+  "prompt_hash": 231,
+  "seed": 152,
+  "cost": 208,
+  "verdict": 160
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 218
+  "unclassified": 219
  },
  "rows": [
   {
@@ -3230,6 +3230,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": "c9c98f765c5527b95a5bd627c3258830dede9514",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-06-portable-paths",
+   "file": "research/results/p1-06-portable-paths.json",
+   "file_sha256": "c76e51d00fe306650fdde985b0b84e6538136a3448bb215a1152b17f1f258a6e",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": "7ff050e3442896ff87c85c950f52e75f049f68db",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
