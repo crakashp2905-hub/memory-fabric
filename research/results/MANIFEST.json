@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 248,
+ "results": 249,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 93,
-  "dataset_digest": 245,
-  "model_id": 212,
-  "prompt_hash": 248,
-  "seed": 169,
-  "cost": 225,
-  "verdict": 177
+  "dataset_digest": 246,
+  "model_id": 213,
+  "prompt_hash": 249,
+  "seed": 170,
+  "cost": 226,
+  "verdict": 178
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 236
+  "unclassified": 237
  },
  "rows": [
   {
@@ -3754,6 +3754,24 @@
     "verdict": "SUPPORTED",
     "closed_share": 0.4999999999999997
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "p3-03-refusal-explainer",
+   "file": "research/results/p3-03-refusal-explainer.json",
+   "file_sha256": "4cdfbc19ce1bc7c9eb040cb0b9ef8d27c242f4fa293ee4b6940447bab9814fb5",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p3-correction-propagation.md",
+   "git_sha": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {

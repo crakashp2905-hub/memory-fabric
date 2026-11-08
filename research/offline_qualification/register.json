@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b0db2eb1f2e79752825a8571872af6cc6cc15882fb20dcb1f36c7bc7e03e5af9",
+    "sha256": "87098f62633d202710842248a6e9e5e7b62ede32e7331a69036dc1a4caee4298",
     "tasks": 260
   },
   "source": {
-    "commit": "14e2d14b11f77ae79ee2debfdda4156218a005f9",
+    "commit": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 162,
+      "DONE": 163,
       "PARTIAL": 4,
-      "TODO": 94
+      "TODO": 93
     },
-    "completed": 162,
+    "completed": 163,
     "total": 260,
-    "percent_complete": 62.31,
+    "percent_complete": 62.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -762,7 +762,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
       },
@@ -1237,7 +1237,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "d474f4e4a45769dafa1f4ab9e3aeef81512c6a7a7b6212276263760199e93a4c",
+        "research/results/MANIFEST.json": "a094fe1e41d3781e1a1e5f5bb02bb162e197468a38688961e9e9083517e48102",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4163,7 +4163,7 @@
         "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
@@ -4171,7 +4171,7 @@
         "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
-        "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
+        "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
         "research/results/h3-08-backup-erasure-limits.json": "533fdcae700d612d7f6b7d9ede00b6364a76d0b4d473f417caf6c0ea22a32359",
         "research/results/h3-08-backup-erasure-limits-tests.xml": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee"
       },
@@ -4230,7 +4230,7 @@
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
-        "docs/TROUBLESHOOTING.md": "e4267c4a8ca3e324a311ac418d51214d0d7e50f5e2200c3f056cd5ee3a781ef5",
+        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
         "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
@@ -4507,7 +4507,7 @@
       "evidence_digests": {
         "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
         "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
-        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
         "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",
@@ -4981,11 +4981,11 @@
         "research/results/p1-05-setup-doctor.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
         "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
-        "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
+        "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
         "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
         "research/results/p1-05-setup-doctor.txt": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3"
       },
@@ -5047,7 +5047,7 @@
         "examples/README.md": "d7de505cd91d12dcdf55dbbc56ac2841bacf1afae316e5527e300a7c63ef4e25",
         "tests/test_examples_run.py": "076401c2dcaa5c58018faea6fe6d4968f28d3245ec755623626d0c2bd8e2be02",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
-        "docs/TROUBLESHOOTING.md": "e4267c4a8ca3e324a311ac418d51214d0d7e50f5e2200c3f056cd5ee3a781ef5",
+        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
         "research/results/p1-07-why-blocked.json": "fcb50baa15005ff94ea2db3d3e2d0d778b98fcbdd791b755f582e8eb2648d4aa",
         "research/results/p1-07-why-blocked.txt": "1114460986292a1a00becafa8ae2030a7ea2465af2074d86a814fb711f9b120b"
       },
@@ -5485,14 +5485,38 @@
       "task_id": "P3-03",
       "priority": "P1",
       "task": "Add operator explain command for every consequential refusal reason.",
-      "acceptance": "Command shows which policy/evidence was checked and safe remediation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Command shows which policy/evidence was checked and safe remediation.. Evidence: `src/memory_fabric/cli.py`, `src/memory_fabric/reasons.py`, `tests/test_cli_explain.py`, `tests/test_reasons.py`, `tests/test_troubleshooting.py`, `tests/test_reference_docs.py`, `docs/CLI.md`, `docs/TROUBLESHOOTING.md`, `research/results/p3-03-refusal-explainer.json`, `research/results/p3-03-refusal-explainer.txt` (DONE: 10 focused tests pass; all known reason codes have explanations, and a selected-action view lists policy groups/evidence versions without exposing content or authorizing action.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "src/memory_fabric/reasons.py",
+        "tests/test_cli_explain.py",
+        "tests/test_reasons.py",
+        "tests/test_troubleshooting.py",
+        "tests/test_reference_docs.py",
+        "docs/CLI.md",
+        "docs/TROUBLESHOOTING.md",
+        "research/results/p3-03-refusal-explainer.json",
+        "research/results/p3-03-refusal-explainer.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
+        "src/memory_fabric/reasons.py": "891f223cfbe692e7c6086aa77c28a1843778f0350d6eb13c643aac1f160c7944",
+        "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
+        "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
+        "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
+        "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
+        "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
+        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
+        "research/results/p3-03-refusal-explainer.json": "d0f0f043daed3051d0db3b24180da0ed4c13744ec17440f393ed695e3f3cf660",
+        "research/results/p3-03-refusal-explainer.txt": "9461ada349627121c5def79228df16595a62aa6d4ee8e2566adc7045558b4c4a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Action explanation is read-only and does not authorize or retry actions."
+      ]
     },
     {
       "task_id": "P3-04",

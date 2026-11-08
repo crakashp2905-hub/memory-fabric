@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **162 / 260 (62.31%)**. Internal status: **BLOCKED**.
+Strict completion: **163 / 260 (62.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d33c5f184c2a1b17edc71eae4633829ea14936499f44800dc4df59425db140d2`.
+Normalized ledger digest: `c3b6449332491a77d8609beba12462e838995d7bb048e4dc69e8511f5278f812`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 162 |
+| DONE | 163 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 94 |
+| TODO | 93 |
 
 ## Graduation gates
 
@@ -261,7 +261,7 @@ Normalized ledger digest: `d33c5f184c2a1b17edc71eae4633829ea14936499f44800dc4df5
 | P2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/incident_export.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_incident.py`, `research/results/p2-10-incident-export.json`, `research/results/p2-10-incident-export.txt` |
 | P3-01 | P1 | TODO | NOT_TESTED | — |
 | P3-02 | P1 | TODO | NOT_TESTED | — |
-| P3-03 | P1 | TODO | NOT_TESTED | — |
+| P3-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `src/memory_fabric/reasons.py`, `tests/test_cli_explain.py`, `tests/test_reasons.py`, `tests/test_troubleshooting.py`, `tests/test_reference_docs.py`, `docs/CLI.md`, `docs/TROUBLESHOOTING.md`, `research/results/p3-03-refusal-explainer.json`, `research/results/p3-03-refusal-explainer.txt` |
 | P3-04 | P1 | TODO | NOT_TESTED | — |
 | P3-05 | P1 | TODO | NOT_TESTED | — |
 | P3-06 | P1 | TODO | NOT_TESTED | — |

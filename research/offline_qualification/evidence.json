@@ -2043,6 +2043,27 @@
       ]
     },
     {
+      "task_id": "P3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "src/memory_fabric/reasons.py",
+        "tests/test_cli_explain.py",
+        "tests/test_reasons.py",
+        "tests/test_troubleshooting.py",
+        "tests/test_reference_docs.py",
+        "docs/CLI.md",
+        "docs/TROUBLESHOOTING.md",
+        "research/results/p3-03-refusal-explainer.json",
+        "research/results/p3-03-refusal-explainer.txt"
+      ],
+      "limitations": [
+        "Action explanation is read-only and does not authorize or retry actions."
+      ]
+    },
+    {
       "task_id": "P4-07",
       "status": "DONE",
       "acceptance_passed": true,
