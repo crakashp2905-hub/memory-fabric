@@ -2734,6 +2734,23 @@
       "limitations": [
         "The deterministic contract suite tests the benchmark evaluator predicate; it is not product-system security evidence."
       ]
+    },
+    {
+      "task_id": "R4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/results/grand-50-agent-baseline-reproduction-v2.json",
+        "research/results/grand-50-agent-baseline-reproduction-v2.md",
+        "tests/test_r4_seed_reporting.py",
+        "research/results/r4-09-worst-seed-reporting.json",
+        "research/results/r4-09-worst-seed-reporting.txt"
+      ],
+      "limitations": [
+        "Five deterministic synthetic seeds only; extrema are descriptive and not tail-risk guarantees.",
+        "This evidence augments the grand-baseline report, not every historical experiment."
+      ]
     }
   ]
 }

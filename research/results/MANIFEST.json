@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 246,
+ "results": 247,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 91,
-  "dataset_digest": 243,
-  "model_id": 210,
-  "prompt_hash": 246,
-  "seed": 167,
-  "cost": 223,
-  "verdict": 175
+  "prereg": 92,
+  "dataset_digest": 244,
+  "model_id": 211,
+  "prompt_hash": 247,
+  "seed": 168,
+  "cost": 224,
+  "verdict": 176
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 234
+  "unclassified": 235
  },
  "rows": [
   {
@@ -4716,6 +4716,24 @@
    "prereg": null,
    "git_sha": null,
    "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "r4-09-worst-seed-reporting",
+   "file": "research/results/r4-09-worst-seed-reporting.json",
+   "file_sha256": "0844b6eacdcfd1c634daa5d70ee00acf0b8e576b058404dc6c28e322f79747cf",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "47a233f2107e8d7c54bf03c33884834b2dbc583e",
+   "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

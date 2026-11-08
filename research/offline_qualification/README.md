@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **160 / 260 (61.54%)**. Internal status: **BLOCKED**.
+Strict completion: **161 / 260 (61.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `de0dad585fc4586d24403c6bf5d86cfb025a096dada211828518be5f30c9ddde`.
+Normalized ledger digest: `999c3385f2bd8e10fc09dab132d37a87a19e42b2be5a2cdf8381d01d5d74dcaf`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 160 |
+| DONE | 161 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 96 |
+| TODO | 95 |
 
 ## Graduation gates
 
@@ -117,7 +117,7 @@ Normalized ledger digest: `de0dad585fc4586d24403c6bf5d86cfb025a096dada211828518b
 | R4-06 | P1 | TODO | NOT_TESTED | — |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |
 | R4-08 | P1 | TODO | NOT_TESTED | — |
-| R4-09 | P1 | TODO | NOT_TESTED | — |
+| R4-09 | P1 | DONE | SIMULATED | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/results/grand-50-agent-baseline-reproduction-v2.md`, `tests/test_r4_seed_reporting.py`, `research/results/r4-09-worst-seed-reporting.json`, `research/results/r4-09-worst-seed-reporting.txt` |
 | R4-10 | P1 | TODO | NOT_TESTED | — |
 | R5-01 | P1 | TODO | NOT_TESTED | — |
 | R5-02 | P1 | TODO | NOT_TESTED | — |
