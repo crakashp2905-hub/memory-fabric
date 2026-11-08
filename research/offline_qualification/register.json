@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "8dd2d9fed48a807745963935cb858569ea429fd71884afb7388b019ac2aeaef8",
+    "sha256": "bc71bf67ed344cb88f6fde6b5c603fecdcbf2a422809bf343c575c11de6af000",
     "tasks": 260
   },
   "source": {
-    "commit": "5de4330435b2d3ddd291c8aca7ebbe628e983bc4",
+    "commit": "607aa975df24e8ffcba84d77659840790a78040a",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 221,
+      "DONE": 222,
       "PARTIAL": 3,
-      "TODO": 36
+      "TODO": 35
     },
-    "completed": 221,
+    "completed": 222,
     "total": 260,
-    "percent_complete": 85.0,
+    "percent_complete": 85.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3686,14 +3686,30 @@
       "task_id": "N3-06",
       "priority": "P2",
       "task": "Check stability of credit estimates under irrelevant memory duplication.",
-      "acceptance": "Attributions should not increase solely because a note is copied repeatedly",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Attributions should not increase solely because a note is copied repeatedly. Evidence: `research/prereg/n3-06-copy-invariance-v1.md`, `benchmarks/n3_06_copy_invariance.py`, `tests/test_n3_06_copy_invariance.py`, `research/results/n3-06-copy-invariance.json`, `research/results/n3-06-copy-invariance.md`, `research/results/n3-06-copy-invariance-tests.xml` (DONE: all subsets enumerated at 0/1/2/4/8 recognized copies; useful-memory IPS/Shapley credit remains 1.0 and irrelevant-root-plus-copies credit remains 0.0 through 1,024 subsets. Synthetic recognized-copy worlds only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-06-copy-invariance-v1.md",
+        "benchmarks/n3_06_copy_invariance.py",
+        "tests/test_n3_06_copy_invariance.py",
+        "research/results/n3-06-copy-invariance.json",
+        "research/results/n3-06-copy-invariance.md",
+        "research/results/n3-06-copy-invariance-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-06-copy-invariance-v1.md": "7d9ac35f0b3fe24326779d3331023180c71d5d655261f602b7a26c130117af99",
+        "benchmarks/n3_06_copy_invariance.py": "a8c8e883a49f91afe7ceadd94e7dec92fa19110f1b7dd5da8daa68fc5764a4a9",
+        "tests/test_n3_06_copy_invariance.py": "f7ae369e24c015350b97e6ba2669b091a79dbc04ce8eba4e561c95ccc676a499",
+        "research/results/n3-06-copy-invariance.json": "c1a39d042463111129bc8b3da171f6e21c5e992a8f35f37b94e9c34f606da03a",
+        "research/results/n3-06-copy-invariance.md": "11a8b60443ba73d9bbb433943e7b9dd2e10293b078d75484c29df25a833fcd59",
+        "research/results/n3-06-copy-invariance-tests.xml": "e8ea65c016a4327a6714ac0e60e8beb4f4811abb9226341740c14cbc7b34bf80"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "All subsets are enumerated in synthetic worlds with recognized irrelevant-copy lineage; unrecognized paraphrases and observational cases without overlap remain untested."
+      ]
     },
     {
       "task_id": "N3-07",
