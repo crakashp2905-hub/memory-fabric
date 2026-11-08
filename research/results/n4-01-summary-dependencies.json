@@ -10,7 +10,8 @@
     "added unsupported fact causes compaction refusal and no memory commit",
     "retracted original version is refused by stored dependency-map verification",
     "omitted source fact is refused",
-    "identical duplicate factual source text maps to every active original version, including a corrected version 2"
+    "identical duplicate factual source text maps to every active original version, including a corrected version 2",
+    "revision of a referenced parent version contests dependent summaries so active summaries cannot cite superseded versions"
   ],
   "tests": {
     "paths": [

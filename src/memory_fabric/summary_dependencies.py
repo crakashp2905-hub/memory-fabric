@@ -5,6 +5,7 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 import json
+import hashlib
 import re
 from collections import defaultdict
 from typing import TYPE_CHECKING, Sequence
@@ -18,6 +19,25 @@ if TYPE_CHECKING:
 
 class DependencyMapRefused(ValueError):
     """A summary contains an unsupported fact or loses a source fact."""
+
+
+def make_edge_certificate(
+    content: str,
+    parent_versions: Sequence[tuple[str, int]],
+    dependencies: dict[str, list[list[str | int]]],
+) -> str:
+    """Hash a summary body, its exact versioned parents, and its fact map."""
+    payload = json.dumps(
+        {
+            "content_sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
+            "parent_versions": [list(edge) for edge in sorted(parent_versions)],
+            "dependencies": dependencies,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _signature(text: str) -> str | None:

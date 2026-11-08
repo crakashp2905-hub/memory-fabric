@@ -408,6 +408,36 @@ class WritesMixin(FabricCore):
                 else []
             ),
         )
+        # Parent references are version-pinned. A revision changes the root
+        # version a derived memory relied on, so recompute downstream support
+        # nearest-first; independent alternative support can survive, while
+        # summaries that depended on the superseded version become contested.
+        for node in sorted(
+            self.lineage_graph.descendants(memory_id), key=lambda item: item.depth
+        ):
+            descendant = self.state.memories.get(node.memory_id)
+            if descendant is None or descendant.lifecycle_state is not LifecycleState.ACTIVE:
+                continue
+            verdict = self.justifications.recompute(node.memory_id)
+            events = [ev.support_recomputed(
+                ts=self.now(),
+                memory_id=verdict.memory_id,
+                trigger_memory_id=memory_id,
+                verdict=verdict.verdict,
+                surviving=list(verdict.surviving),
+                lost=list(verdict.lost),
+                independent_count=verdict.independent_count,
+                reason=verdict.reason,
+                actor=agent_id,
+            )]
+            if not verdict.still_justified:
+                events.append(self._transition(
+                    verdict.memory_id,
+                    LifecycleState.CONTESTED,
+                    f"parent version changed after {memory_id} was revised: {verdict.reason}",
+                    agent_id,
+                ))
+            self._emit(*events)
         current = self.state.memories[memory_id]
         self._contest(left_behind, f"restates the value {memory_id} v{current.version - 1} "
                                    f"had before it was corrected", agent_id)

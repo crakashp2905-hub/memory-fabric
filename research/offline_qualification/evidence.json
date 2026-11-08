@@ -3956,11 +3956,38 @@
         "tests/test_lossless_compaction.py",
         "research/results/n4-01-summary-dependencies.json",
         "research/results/n4-01-summary-dependencies.md",
-        "research/results/n4-01-dependency-map-tests.xml"
+        "research/results/n4-01-dependency-map-tests.xml",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "research/results/n4-02-hierarchy-tests.xml"
       ],
       "limitations": [
         "Fact identity follows the current normalized identifier/content-word/numeric-value extractor; unstructured qualitative claims without identifiers or values are not certified as consequential facts.",
         "This is local contract evidence, not an independent security or model-quality review."
+      ]
+    },
+    {
+      "task_id": "N4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-02-hierarchical-compaction.json",
+        "research/results/n4-02-hierarchical-compaction.md",
+        "research/results/n4-02-hierarchy-tests.xml",
+        "research/results/n4-02-revision-compat-tests.xml"
+      ],
+      "limitations": [
+        "The implementation is a deterministic two-level hierarchy; deeper recursive trees are not qualified.",
+        "SHA-256 certificates detect mismatched content/edges but are not signatures or proof against an authorized writer changing both data and digest.",
+        "Hierarchy was tested on synthetic local histories, not distributed stores or external model summaries."
       ]
     }
   ]
