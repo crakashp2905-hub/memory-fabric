@@ -6,6 +6,7 @@ every CI build.
 
 | example | what it shows | needs |
 |---|---|---|
+| [getting_started.py](getting_started.py) | Store, retrieve, and correct a fixture; see a protected action change from allowed to blocked | local package install; no network or credentials |
 | [quickstart.py](quickstart.py) | Store, retrieve, inspect the evidence, correct, verify the correction ([QUICKSTART.md](../docs/QUICKSTART.md)) | nothing |
 | [reference_agent.py](reference_agent.py) | A complete agent loop: retrieve, decide, cite, get a grant for the exact action, execute through the fence, have the outcome verified, remember what worked. A poisoned web note is refused at the gate | nothing |
 | [poisoning_and_rollback.py](poisoning_and_rollback.py) | The governance story: a false memory consolidated into a belief and a procedure, shared, then traced and retracted everywhere | nothing |

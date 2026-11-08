@@ -1,5 +1,26 @@
 # Quickstart: ten minutes, from install to a verified correction
 
+## One minute: see a correction change an action decision
+
+For the shortest offline path, install the local package and run the bundled
+fixture:
+
+```bash
+python -m pip install --no-index --no-deps --no-build-isolation .
+python examples/getting_started.py
+```
+
+It stores and recalls an approved maintenance fact, authorizes a protected
+action, applies a correction, and shows that the old action is now blocked
+while the revised fact is visible. The example uses deterministic fixture
+data and local storage only; the package install and example need no index,
+credentials, hosted model, or external endpoint. The local Python environment
+must already have the declared build backend (`setuptools>=77`).
+`tests/test_examples_run.py` verifies the offline install and full path within
+60 seconds.
+
+The longer walkthrough follows.
+
 Every step below is in [examples/quickstart.py](../examples/quickstart.py),
 which `tests/test_quickstart.py` runs on every CI build, on Linux, macOS and
 Windows with Python 3.11 to 3.13.

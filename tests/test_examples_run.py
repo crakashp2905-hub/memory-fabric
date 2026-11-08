@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
+import tempfile
+import time
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OFFLINE = ["quickstart", "wrong_memory_demo", "reference_agent", "poisoning_and_rollback", "action_gate",
-           "multi_agent_team", "agent_on_the_fabric"]
+OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
+           "poisoning_and_rollback", "action_gate", "multi_agent_team", "agent_on_the_fabric"]
 
 
 class Examples(unittest.TestCase):
@@ -22,6 +25,33 @@ class Examples(unittest.TestCase):
                 done = subprocess.run([sys.executable, str(ROOT / "examples" / f"{name}.py")],
                                       capture_output=True, text=True, timeout=300, cwd=ROOT)
                 self.assertEqual(done.returncode, 0, done.stderr[-2000:])
+
+    def test_getting_started_runs_from_a_clean_offline_install(self) -> None:
+        scratch = ROOT / ".test-tmp"
+        scratch.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as temp:
+            started = time.perf_counter()
+            target = Path(temp) / "site-packages"
+            install = subprocess.run(
+                [sys.executable, "-m", "pip", "install", "--no-index", "--no-deps",
+                 "--no-build-isolation", "--disable-pip-version-check", "--target",
+                 str(target), str(ROOT)],
+                capture_output=True, text=True, timeout=60, cwd=ROOT,
+            )
+            self.assertEqual(install.returncode, 0, install.stderr[-2000:])
+
+            env = os.environ.copy()
+            env["PYTHONPATH"] = str(target)
+            database = Path(temp) / "getting-started.db"
+            run = subprocess.run(
+                [sys.executable, str(ROOT / "examples" / "getting_started.py"), str(database)],
+                capture_output=True, text=True, timeout=60, cwd=temp, env=env,
+            )
+            self.assertEqual(run.returncode, 0, run.stderr[-2000:])
+            self.assertIn("before correction: ALLOWED", run.stdout)
+            self.assertIn("after correction:  BLOCKED", run.stdout)
+            self.assertIn("revised fact visible: True", run.stdout)
+            self.assertLess(time.perf_counter() - started, 60)
 
 
 if __name__ == "__main__":  # pragma: no cover
