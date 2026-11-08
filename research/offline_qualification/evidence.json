@@ -549,6 +549,23 @@
       ]
     },
     {
+      "task_id": "N3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-08-heldout-world-family-transfer-v1.md",
+        "benchmarks/n3_08_ood_retention.py",
+        "tests/test_n3_08_ood_retention.py",
+        "research/results/n3-08-ood-retention.json",
+        "research/results/n3-08-ood-retention.md",
+        "research/results/n3-08-ood-retention-tests.xml"
+      ],
+      "limitations": [
+        "The source-trained policy transferred to two synthetic task families that preserve the registered feature-to-effect mapping while changing contexts and base-success generators. This does not reverse H2's RuleWorld result or establish transfer to real agents, different feature semantics, or field data."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
