@@ -2121,6 +2121,24 @@
       ]
     },
     {
+      "task_id": "P4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/correction_strategy_comparison.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p4-04-correction-strategy-comparison.json",
+        "research/results/p4-04-correction-strategy-comparison.txt"
+      ],
+      "limitations": [
+        "The three-arm comparison is a deterministic single-case demonstration, not a population benchmark.",
+        "The naive deletion and blanket invalidation arms are scripted comparators; only selective authorization exercises Memory Fabric behavior.",
+        "No real tools or external effects were invoked."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

@@ -23,6 +23,7 @@ independent compliance validation.
 | [multi_agent_provenance_dispute.py](multi_agent_provenance_dispute.py) | Many copied reports count as one source; independent reports change support without claiming truth | nothing |
 | [sdk_workflow.py](sdk_workflow.py) | Typed add, recall, explain, decide, correction and action-fenced execution | nothing |
 | [correction_spares_unrelated_action.py](correction_spares_unrelated_action.py) | Correction refuses the dependent stale action while an unrelated action still passes | nothing |
+| [correction_strategy_comparison.py](correction_strategy_comparison.py) | Compare naive deletion, blanket invalidation and selective action gating, including false blocks | nothing |
 | [agent_on_the_fabric.py](agent_on_the_fabric.py) | The Claude adapter end to end, with a scripted model; drop the stub to use the live API | nothing (`pip install ".[claude]"` and a key for the live API) |
 | [live_memory_os.py](live_memory_os.py) | The whole layer driven by real local models: governed writes, semantic retrieval, federation, retraction | Ollama with `qwen2.5:3b` and `nomic-embed-text` |
 

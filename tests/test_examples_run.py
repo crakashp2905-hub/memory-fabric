@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
            "agent_on_the_fabric", "why_blocked", "memory_vs_json",
-           "correction_spares_unrelated_action", "multi_agent_provenance_dispute"]
+           "correction_spares_unrelated_action", "multi_agent_provenance_dispute", "correction_strategy_comparison"]
 
 
 class Examples(unittest.TestCase):
@@ -38,6 +38,12 @@ class Examples(unittest.TestCase):
                     self.assertIn("evidence_withdrawn", done.stdout)
                     self.assertIn("Evidence pointer: memory", done.stdout)
                     self.assertIn("Repair: re-certify with current evidence", done.stdout)
+                if name == "correction_strategy_comparison":
+                    self.assertIn("naive delete", done.stdout)
+                    self.assertIn("blanket", done.stdout)
+                    self.assertIn("selective gate", done.stdout)
+                    self.assertIn("false blocks", done.stdout)
+                    self.assertIn("unrelated 34-psi action", done.stdout)
                 if name == "multi_agent_provenance_dispute":
                     self.assertIn("share 1 source root", done.stdout)
                     self.assertIn("support is contested: True", done.stdout)
