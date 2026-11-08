@@ -10,6 +10,18 @@ registered unseen seeds reproduced the published aggregate exactly.
 | Valid evidence withheld | 16.8% | 16.8% | 13.0–19.8% | 500 answerable tasks |
 | Stale action | 0.0% | 0.0% | 0.0–0.0% | 500 task decisions |
 
+## Per-seed variability and worst cases
+
+| Seed | Task success | Valid evidence withheld | Stale actions | Worst-case note |
+|---:|---:|---:|---:|---|
+| 101 | 64% | 10% | 0% | — |
+| 102 | 60% | 15% | 0% | — |
+| 103 | 53% | 19% | 0% | Lowest task success |
+| 104 | 59% | 21% | 0% | Highest valid-evidence withholding |
+| 105 | 56% | 19% | 0% | — |
+
+Across the five registered seeds, the worst observed task-success rate is 53% (seed 103), and the worst valid-evidence-withholding rate is 21% (seed 104). These are descriptive extrema from five synthetic seeds, not tail-risk guarantees.
+
 `valid evidence withheld` means the world oracle has a current fact, the
 backend still holds a statement containing that exact current value and the
 retrieved context does not contain it. It is evaluated after retrieval and any
