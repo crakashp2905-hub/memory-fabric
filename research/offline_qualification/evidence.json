@@ -3072,6 +3072,23 @@
       ]
     },
     {
+      "task_id": "R4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/paired_agent_bootstrap.py",
+        "benchmarks/threshold_registry.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "tests/test_paired_agent_bootstrap.py",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r4-02-paired-agent-bootstrap.json"
+      ],
+      "limitations": [
+        "One overall task-success primary outcome is contrasted against three non-oracle baselines with Holm-adjusted directional exact sign tests. Four family outcomes and safety metrics are secondary; family-specific comparisons, latency and agent extrema are exploratory. The hierarchy amendment postdates inspection of the v1 result, so current p-values are explicitly exploratory and cannot be used as confirmatory evidence. Confirmatory use requires a future independently seeded run."
+      ]
+    },
+    {
       "task_id": "R4-04",
       "status": "DONE",
       "acceptance_passed": true,

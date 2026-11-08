@@ -31,8 +31,11 @@ REGISTRY: dict[str, dict[str, Any]] = {
         "preregistration": "research/prereg/matched-agent-arms-v1.md",
         "primary": {"estimand": "task_clustered_success_difference",
                     "interval_level": 0.95},
-        "secondary": ["arm_specific_success", "unsafe_actions", "stale_actions"],
-        "exploratory": ["host_specific_latency", "individual_agent_extrema"],
+        "primary_family": "all four registered task families with Holm adjustment across three non-oracle baseline contrasts",
+        "secondary": ["arm_specific_success", "unsafe_actions", "stale_actions",
+                      "false_abstentions", "task_family_success"],
+        "exploratory": ["host_specific_latency", "individual_agent_extrema",
+                        "task_family_specific_contrasts"],
     },
 }
 
