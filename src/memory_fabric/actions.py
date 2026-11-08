@@ -84,7 +84,7 @@ from .certificates import (
 from .requirement_graph import (
     AllOfRequirement, AnyOfRequirement, ClaimRequirement,
     IndependentSourcesRequirement, RequirementGraph, RuleReference,
-    TemporalRequirement,
+    RequirementGraphError, TemporalRequirement, minimal_missing_evidence_sets,
 )
 from .enforcement import RiskLevel
 
@@ -114,6 +114,7 @@ GRANT_MISMATCH = "grant_binding_mismatch"
 GRANT_REPLAYED = "grant_replayed"
 IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
 REQUIREMENT_EVIDENCE_MISSING = "requirement_evidence_missing"
+REQUIREMENT_EXPLANATION_LIMIT = "requirement_explanation_limit"
 MAX_GRANT_TTL_S = 300
 
 # Execution outcomes (`execute`).
@@ -248,6 +249,7 @@ class ActionDecision:
     reason_codes: tuple[str, ...]
     verification: CertificateVerification | None = None
     notes: tuple[str, ...] = field(default_factory=tuple)
+    missing_evidence_sets: tuple[tuple[str, ...], ...] = ()
 
     @property
     def reason_code(self) -> str:
@@ -351,12 +353,29 @@ class ActionGate:
                     return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule, tenant_id=tenant_id)
                 rule_certificates[legacy.claim_id] = legacy
             if not rule_certificates:
-                return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule, tenant_id=tenant_id)
-            satisfied, verification, used = self._evaluate_requirement_graph(
+                try:
+                    missing = minimal_missing_evidence_sets(rule.requirement_graph, ())
+                except RequirementGraphError:
+                    return self._decide(
+                        tool, agent_id,
+                        (REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT),
+                        None, rule, tenant_id=tenant_id)
+                return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule,
+                                    tenant_id=tenant_id, missing_evidence_sets=missing)
+            satisfied, verification, used, satisfied_atoms = self._evaluate_requirement_graph(
                 rule.requirement_graph, rule_certificates, rule, agent_id, tenant_id)
             if not satisfied:
+                try:
+                    missing = minimal_missing_evidence_sets(rule.requirement_graph, satisfied_atoms)
+                except RequirementGraphError:
+                    return self._decide(
+                        tool, agent_id,
+                        (REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT),
+                        verification, rule, tenant_id=tenant_id,
+                        claim_certificates=rule_certificates)
                 return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), verification,
-                                    rule, tenant_id=tenant_id, claim_certificates=rule_certificates)
+                                    rule, tenant_id=tenant_id, claim_certificates=rule_certificates,
+                                    missing_evidence_sets=missing)
             selected = {claim_id: rule_certificates[claim_id] for claim_id in used}
             primary = next(iter(selected.values())) if selected else None
             # Bind every submitted alternative consistently for approvals,
@@ -458,7 +477,7 @@ class ActionGate:
     def _evaluate_requirement_graph(
         self, graph: RequirementGraph, certificates: Mapping[str, EvidenceCertificate],
         rule: ToolRule, agent_id: str, tenant_id: str | None,
-    ) -> tuple[bool, CertificateVerification | None, set[str]]:
+    ) -> tuple[bool, CertificateVerification | None, set[str], set[str]]:
         cache: dict[tuple[str, int], tuple[bool, CertificateVerification | None]] = {}
 
         def verify_claim(claim_id: str, min_sources: int = 1):
@@ -482,47 +501,58 @@ class ActionGate:
                 cache[key] = (result.ok, result)
             return cache[key]
 
-        def visit(node, active: frozenset[str] = frozenset()):
+        def visit(node, active: frozenset[str] = frozenset(),
+                  temporal: tuple[tuple[str, int], ...] = ()):
+            def atom_key(base: str) -> str:
+                for anchor, age in temporal:
+                    base += f"@temporal:{anchor}:{age}"
+                return base
+
+            def within_temporal_window(claim_id: str) -> bool:
+                if any(anchor == "decision_time" for anchor, _ in temporal):
+                    return False
+                issued = certificates[claim_id].issued_at_ms
+                now = self.fabric.now()
+                return all(now >= issued and now - issued <= age
+                           for anchor, age in temporal if anchor == "action_time")
+
             if isinstance(node, ClaimRequirement):
                 ok, result = verify_claim(node.claim_id)
-                return ok, result, {node.claim_id} if ok else set()
+                ok = ok and within_temporal_window(node.claim_id)
+                return ok, result, {node.claim_id} if ok else set(), (
+                    {atom_key(f"claim:{node.claim_id}")} if ok else set())
             if isinstance(node, IndependentSourcesRequirement):
                 ok, result = verify_claim(node.claim_id, node.min_sources)
-                return ok, result, {node.claim_id} if ok else set()
+                ok = ok and within_temporal_window(node.claim_id)
+                return ok, result, {node.claim_id} if ok else set(), (
+                    {atom_key(f"independent_sources:{node.claim_id}:{node.min_sources}")} if ok else set())
             if isinstance(node, RuleReference):
                 if node.rule_id in active:
-                    return False, None, set()
-                return visit(graph.rules[node.rule_id], active | {node.rule_id})
+                    return False, None, set(), set()
+                return visit(graph.rules[node.rule_id], active | {node.rule_id}, temporal)
             if isinstance(node, TemporalRequirement):
-                # decision_time requires a separately authenticated timestamp,
-                # which this API does not yet accept. Fail closed. action_time
-                # is measured from the certificate's signed issuance time.
-                if node.anchor == "decision_time":
-                    return False, None, set()
-                ok, result, used = visit(node.requirement, active)
-                now = self.fabric.now()
-                if not ok or any(now < certificates[c].issued_at_ms
-                                 or now - certificates[c].issued_at_ms > node.max_age_ms
-                                 for c in used):
-                    return False, result, set()
-                return True, result, used
+                return visit(node.requirement, active, (*temporal, (node.anchor, node.max_age_ms)))
             if isinstance(node, AllOfRequirement):
-                results = [visit(child, active) for child in node.requirements]
+                results = [visit(child, active, temporal) for child in node.requirements]
                 ok = all(result[0] for result in results)
                 used = set().union(*(result[2] for result in results)) if ok else set()
                 verification = next((result[1] for result in results if result[1] is not None), None)
-                return ok, verification, used
+                atoms = set().union(*(result[3] for result in results))
+                return ok, verification, used, atoms
             if isinstance(node, AnyOfRequirement):
+                results = []
                 for child in node.requirements:
-                    result = visit(child, active)
+                    result = visit(child, active, temporal)
+                    results.append(result)
                     if result[0]:
                         return result
-                return False, next((result[1] for child in node.requirements
-                                    if (result := visit(child, active))[1] is not None), None), set()
-            return False, None, set()
+                verification = next((result[1] for result in results if result[1] is not None), None)
+                atoms = set().union(*(result[3] for result in results))
+                return False, verification, set(), atoms
+            return False, None, set(), set()
 
-        ok, verification, used = visit(graph.root)
-        return ok, verification, used
+        ok, verification, used, satisfied_atoms = visit(graph.root)
+        return ok, verification, used, satisfied_atoms
 
     # --- origin-bound authority and exact-action grants --------------------
 
@@ -802,10 +832,12 @@ class ActionGate:
         grant_id: str | None = None,
         binding: str | None = None,
         claim_certificates: Mapping[str, EvidenceCertificate] | None = None,
+        missing_evidence_sets: tuple[tuple[str, ...], ...] = (),
     ) -> ActionDecision:
         decision = ActionDecision(
             allowed=allowed, tool=tool, agent_id=agent_id,
             reason_codes=reasons, verification=verification,
+            missing_evidence_sets=missing_evidence_sets,
         )
         if self.audit and (rule is None or rule.protected):
             try:
@@ -826,6 +858,7 @@ class ActionGate:
                     claim_certificates={**(claim_certificates or {}),
                                        **({certificate.claim_id: certificate}
                                           if certificate else {})},
+                    missing_evidence_sets=[list(items) for items in missing_evidence_sets],
                     watermark=verification.verified_at_watermark if verification else None,
                     tenant_id=tenant_id,
                     required_checks=list(dict.fromkeys(

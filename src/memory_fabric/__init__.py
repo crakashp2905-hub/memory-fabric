@@ -123,7 +123,9 @@ from .requirement_graph import (
     RequirementGraphError,
     RuleReference,
     TemporalRequirement,
+    minimal_missing_evidence_sets,
     parse_requirement_graph,
+    requirement_atom_keys,
 )
 from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
@@ -189,6 +191,7 @@ __all__ = [
     "RevisionConflictError",
     "RequirementGraph",
     "RequirementGraphError",
+    "minimal_missing_evidence_sets",
     "ClaimRequirement",
     "AllOfRequirement",
     "AnyOfRequirement",
@@ -196,6 +199,7 @@ __all__ = [
     "TemporalRequirement",
     "RuleReference",
     "parse_requirement_graph",
+    "requirement_atom_keys",
     # model
     "Memory",
     "MemoryStats",

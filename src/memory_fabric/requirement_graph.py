@@ -10,7 +10,7 @@ __stability__ = "stable"
 from dataclasses import dataclass
 import json
 from types import MappingProxyType
-from typing import Any, Mapping, TypeAlias
+from typing import Any, Iterable, Mapping, TypeAlias
 
 GRAPH_SCHEMA = "memory-fabric-requirement-graph/1"
 MAX_GRAPH_NODES = 256
@@ -18,6 +18,8 @@ MAX_GRAPH_DEPTH = 32
 MAX_RULES = 64
 MAX_CHILDREN = 32
 MAX_ID_LENGTH = 128
+MAX_MISSING_EVIDENCE_SETS = 4096
+MAX_MISSING_SET_CANDIDATES = 100_000
 
 
 class RequirementGraphError(ValueError):
@@ -304,6 +306,118 @@ def parse_requirement_graph(payload: Mapping[str, Any] | str | bytes, *,
     for rule_id in sorted(rules):
         visit(rule_id)
     return RequirementGraph._from_parsed(graph_id, root, rules)
+
+
+def _requirement_atom_keys(graph: RequirementGraph) -> tuple[str, ...]:
+    """Return stable IDs for atomic evidence obligations in a parsed graph."""
+    atoms: set[str] = set()
+
+    def visit(node: RequirementNode, temporal: tuple[tuple[str, int], ...] = (),
+              active: frozenset[str] = frozenset()) -> None:
+        if isinstance(node, ClaimRequirement):
+            key = f"claim:{node.claim_id}"
+        elif isinstance(node, IndependentSourcesRequirement):
+            key = f"independent_sources:{node.claim_id}:{node.min_sources}"
+        elif isinstance(node, TemporalRequirement):
+            visit(node.requirement, (*temporal, (node.anchor, node.max_age_ms)), active)
+            return
+        elif isinstance(node, RuleReference):
+            if node.rule_id in active:
+                raise RequirementGraphError("cyclic rule reference during evaluation", code="cycle")
+            visit(graph.rules[node.rule_id], temporal, active | {node.rule_id})
+            return
+        elif isinstance(node, (AllOfRequirement, AnyOfRequirement)):
+            for child in node.requirements:
+                visit(child, temporal, active)
+            return
+        else:
+            raise TypeError(f"unsupported requirement node: {type(node).__name__}")
+        for anchor, age in temporal:
+            key += f"@temporal:{anchor}:{age}"
+        atoms.add(key)
+
+    visit(graph.root)
+    return tuple(sorted(atoms))
+
+
+def requirement_atom_keys(graph: RequirementGraph) -> tuple[str, ...]:
+    """List stable evidence-obligation IDs accepted by the explanation API.
+
+    A caller should mark an atom satisfied only after its evidence checks pass.
+    Temporal qualifiers are included in an atom ID, so fresh and unqualified
+    evidence obligations remain distinct.
+    """
+    return _requirement_atom_keys(graph)
+
+
+def minimal_missing_evidence_sets(
+    graph: RequirementGraph, satisfied_requirements: Iterable[str],
+    *, max_sets: int = 1024,
+) -> tuple[tuple[str, ...], ...]:
+    """Compute minimal alternative sets of unmet atomic evidence obligations.
+
+    The output is a deterministic antichain. For AND, child obligations are
+    combined; for OR, alternatives are retained and supersets are removed.
+    The empty set means the policy is already satisfied. A temporal wrapper
+    qualifies every child atom with its freshness anchor and age bound.
+    """
+    if isinstance(max_sets, bool) or not isinstance(max_sets, int) or not 1 <= max_sets <= MAX_MISSING_EVIDENCE_SETS:
+        raise ValueError(f"max_sets must be an integer from 1 to {MAX_MISSING_EVIDENCE_SETS}")
+    satisfied = frozenset(satisfied_requirements)
+    if any(not isinstance(item, str) for item in satisfied):
+        raise TypeError("satisfied requirement IDs must be strings")
+    known = set(_requirement_atom_keys(graph))
+    unknown = satisfied - known
+    if unknown:
+        raise ValueError(f"unknown satisfied requirement ID: {sorted(unknown)[0]}")
+
+    def antichain(sets: Iterable[frozenset[str]]) -> tuple[frozenset[str], ...]:
+        unique: set[frozenset[str]] = set()
+        for item in sets:
+            unique.add(item)
+            if len(unique) > MAX_MISSING_SET_CANDIDATES:
+                raise RequirementGraphError(
+                    f"missing-set evaluation exceeds {MAX_MISSING_SET_CANDIDATES} candidates",
+                    code="limit")
+        ordered = sorted(unique, key=lambda item: (len(item), tuple(sorted(item))))
+        minimal: list[frozenset[str]] = []
+        for candidate in ordered:
+            if not any(previous <= candidate for previous in minimal):
+                minimal.append(candidate)
+                if len(minimal) > max_sets:
+                    raise RequirementGraphError(
+                        f"minimal missing-set result exceeds max_sets={max_sets}", code="limit")
+        return tuple(minimal)
+
+    def visit(node: RequirementNode, temporal: tuple[tuple[str, int], ...] = (),
+              active: frozenset[str] = frozenset()) -> tuple[frozenset[str], ...]:
+        if isinstance(node, ClaimRequirement):
+            key = f"claim:{node.claim_id}"
+        elif isinstance(node, IndependentSourcesRequirement):
+            key = f"independent_sources:{node.claim_id}:{node.min_sources}"
+        elif isinstance(node, TemporalRequirement):
+            return visit(node.requirement, (*temporal, (node.anchor, node.max_age_ms)), active)
+        elif isinstance(node, RuleReference):
+            if node.rule_id in active:
+                raise RequirementGraphError("cyclic rule reference during evaluation", code="cycle")
+            return visit(graph.rules[node.rule_id], temporal, active | {node.rule_id})
+        elif isinstance(node, AllOfRequirement):
+            result: tuple[frozenset[str], ...] = (frozenset(),)
+            for child in node.requirements:
+                result = antichain(left | right for left in result for right in visit(child, temporal, active))
+            return result
+        elif isinstance(node, AnyOfRequirement):
+            return antichain(item for child in node.requirements
+                             for item in visit(child, temporal, active))
+        else:
+            raise TypeError(f"unsupported requirement node: {type(node).__name__}")
+        for anchor, age in temporal:
+            key += f"@temporal:{anchor}:{age}"
+        return (frozenset(),) if key in satisfied else (frozenset({key}),)
+
+    result = antichain(visit(graph.root))
+    return tuple(tuple(sorted(item)) for item in sorted(
+        result, key=lambda item: (len(item), tuple(sorted(item)))))
 
 
 class _DuplicateKeyError(ValueError):

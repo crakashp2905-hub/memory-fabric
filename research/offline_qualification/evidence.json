@@ -184,6 +184,36 @@
       ]
     },
     {
+      "task_id": "N2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_requirement_explanations.py",
+        "tests/test_requirement_graph.py",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-03-minimal-missing-evidence-tests.xml"
+      ],
+      "limitations": [
+        "The explanation API consumes caller-supplied satisfied atom IDs; it does not retrieve, judge, or validate evidence. ActionGate derives satisfied atoms only from its deterministic certificate checks.",
+        "The exhaustive oracle covers bounded small graphs, not every possible valid graph or production workload."
+      ]
+    },
+    {
       "task_id": "N2-02",
       "status": "DONE",
       "acceptance_passed": true,

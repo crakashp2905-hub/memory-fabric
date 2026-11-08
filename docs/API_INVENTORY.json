@@ -167,6 +167,18 @@
     },
     {
       "module": "memory_fabric.requirement_graph",
+      "signature": "(graph: RequirementGraph) -> tuple[str, ...]",
+      "symbol": "memory_fabric.requirement_graph.requirement_atom_keys",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "(graph: RequirementGraph, satisfied_requirements: Iterable[str], max_sets: int = 1024) -> tuple[tuple[str, ...], ...]",
+      "symbol": "memory_fabric.requirement_graph.minimal_missing_evidence_sets",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
       "signature": "() -> dict[str, Any]",
       "symbol": "memory_fabric.requirement_graph.RequirementGraph.to_dict",
       "tier": "stable"
@@ -427,6 +439,12 @@
       "module": "memory_fabric.actions",
       "signature": "(target: str, parameters: Mapping[str, Any] = <factory>)",
       "symbol": "memory_fabric.actions.ActionRequest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = ())",
+      "symbol": "memory_fabric.actions.ActionDecision",
       "tier": "beta"
     },
     {

@@ -81,6 +81,31 @@ except RequirementGraphError as exc:
 no permission and cannot be used in place of current evidence verification or
 per-effect authorization.
 
+## Minimal missing-evidence explanations
+
+`requirement_atom_keys(graph)` lists the stable IDs for atomic obligations.
+The caller supplies `satisfied_requirements` only after the relevant evidence
+checks pass. `minimal_missing_evidence_sets(graph, satisfied_requirements)`
+returns a deterministic antichain: each row is one minimal alternative set of
+obligations that would complete the policy. AND combines child sets; OR keeps
+the available alternatives and removes supersets. An already satisfied graph
+returns `((),)`. A typo or ID from another graph raises `ValueError` instead of
+being silently ignored. `max_sets` bounds the returned alternatives (default
+1024, hard maximum 4096); intermediate candidate expansion is also bounded.
+Exceeding either bound raises a path-independent `RequirementGraphError` with
+code `limit`; results are never silently truncated.
+
+IDs use `claim:<claim_id>` or
+`independent_sources:<claim_id>:<minimum>`. Temporal wrappers append
+`@temporal:<anchor>:<max_age_ms>` to each child atom, so a caller cannot mark a
+freshness-constrained requirement satisfied using an unqualified claim ID.
+The returned rows explain missing policy obligations; they do not fetch,
+validate, or authorize evidence.
+
+For example, with `pressure` already satisfied and an OR between `manual`
+and `sensor`, the result is two one-item alternatives. The caller may request
+either source to resolve the blocked requirement.
+
 ## Static local action policies
 
 Attach a parsed graph to a host-owned `ToolRule(requirement_graph=graph)`.
@@ -97,6 +122,8 @@ Human approvals use `certificate_set_digest(claim_certificates)` as their
 `Approval.certificate_digest`; `binding_digest(..., claim_certificates=...)`
 also binds the full claim-certificate set to target, parameters, agent, tenant
 and tool. Exact-action grants and `execute` use the same binding. Audit events
-record claim certificate digests and deduplicated evidence IDs and versions,
-without memory content. The tests in `tests/test_action_requirements.py` cover
-missing mandatory leaves at both authorization and execution boundaries.
+record claim certificate digests, deduplicated evidence IDs and versions, and
+the minimal missing-evidence alternatives, without memory content. A blocked
+`ActionDecision.missing_evidence_sets` exposes the same alternatives to the
+caller. The tests in `tests/test_action_requirements.py` cover missing
+mandatory leaves at both authorization and execution boundaries.

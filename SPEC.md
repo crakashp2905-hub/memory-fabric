@@ -195,6 +195,14 @@ The static evidence-requirement policy grammar is
 Parsing produces a typed, bounded graph and validates named-rule references
 without evaluating evidence or granting authority.
 
+`requirement_atom_keys` names each atomic policy obligation, and
+`minimal_missing_evidence_sets` returns all minimal alternatives remaining for
+the unsatisfied obligations. AND uses cartesian combination, OR uses union,
+and supersets are removed. The API bounds both intermediate candidates and
+result count, and returns an explicit limit error rather than truncating.
+These explanations are advisory and do not validate evidence or authorize
+actions.
+
 Protected tools may attach this graph to a static `ToolRule`. Authorization
 requires a claim-keyed certificate for each mandatory leaf and re-verifies
 those certificates under the rule's evidence checks and provenance threshold.

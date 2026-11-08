@@ -72,6 +72,22 @@ parse_requirement_graph(payload: Mapping[str, Any] | str | bytes, max_nodes: int
 
 Parse and validate a bounded acyclic requirement graph.
 
+### `requirement_graph.requirement_atom_keys` (stable)
+
+```python
+requirement_atom_keys(graph: RequirementGraph) -> tuple[str, ...]
+```
+
+List stable evidence-obligation IDs accepted by the explanation API.
+
+### `requirement_graph.minimal_missing_evidence_sets` (stable)
+
+```python
+minimal_missing_evidence_sets(graph: RequirementGraph, satisfied_requirements: Iterable[str], max_sets: int = 1024) -> tuple[tuple[str, ...], ...]
+```
+
+Compute minimal alternative sets of unmet atomic evidence obligations.
+
 ### `requirement_graph.RequirementGraph` (stable)
 
 Immutable validated graph returned by `parse_requirement_graph`.
@@ -209,6 +225,14 @@ ActionRequest(target: str, parameters: Mapping[str, Any] = <factory>)
 ```
 
 The exact action: what it acts on and with which parameters.
+
+### `actions.ActionDecision` (beta)
+
+```python
+ActionDecision(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = ())
+```
+
+ActionDecision(allowed: 'bool', tool: 'str', agent_id: 'str', reason_codes: 'tuple[str, ...]', verification: 'CertificateVerification | None' = None, notes: 'tuple[str, ...]' = <factory>, missing_evidence_sets: 'tuple[tuple[str, ...], ...]' = ())
 
 ### `actions.Approval` (beta)
 

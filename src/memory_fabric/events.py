@@ -662,6 +662,7 @@ def action_gated(
     grant_id: str | None = None,
     binding: str | None = None,
     claim_certificates: Mapping[str, Any] | None = None,
+    missing_evidence_sets: list[list[str]] | None = None,
 ) -> Event:
     """A decision about a protected tool call, with the evidence it rested on.
 
@@ -690,6 +691,7 @@ def action_gated(
                 claim_id: getattr(certificate, "digest")()
                 for claim_id, certificate in sorted((claim_certificates or {}).items())
             },
+            "missing_evidence_sets": [list(items) for items in (missing_evidence_sets or [])],
         },
     )
 

@@ -4,8 +4,10 @@ import unittest
 
 from memory_fabric import MemoryFabric, parse_requirement_graph
 from memory_fabric.actions import (
-    ALLOWED, REQUIREMENT_EVIDENCE_MISSING, ActionGate, ActionPolicy, ToolRule,
+    ALLOWED, REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT,
+    ActionGate, ActionPolicy, ToolRule,
 )
+from memory_fabric.events import EventType
 
 
 def graph(root: dict[str, object]):
@@ -39,6 +41,7 @@ class StaticActionRequirementTests(unittest.TestCase):
             "start_pump", "operator", claim_certificates={"pressure_safe": self.pressure_cert})
         self.assertFalse(decision.allowed)
         self.assertEqual(decision.reason_code, REQUIREMENT_EVIDENCE_MISSING)
+        self.assertEqual(decision.missing_evidence_sets, (("claim:lockout_cleared",),))
 
     def test_every_mandatory_leaf_must_have_a_matching_verified_certificate(self) -> None:
         decision = self.gate.authorize("start_pump", "operator", claim_certificates={
@@ -68,6 +71,42 @@ class StaticActionRequirementTests(unittest.TestCase):
         decision = alternative_gate.authorize(
             "start_pump", "operator", claim_certificates={"pressure_safe": self.pressure_cert})
         self.assertTrue(decision.allowed, decision.reason_codes)
+
+    def test_blocked_action_returns_minimal_or_alternatives(self) -> None:
+        alternative_gate = ActionGate(self.fabric, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump", requirement_graph=graph({
+                "op": "or", "requirements": [
+                    {"op": "claim", "claim_id": "manual_override"},
+                    {"op": "claim", "claim_id": "remote_interlock"},
+                ],
+            }))},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+        decision = alternative_gate.authorize("start_pump", "operator")
+        self.assertEqual(decision.missing_evidence_sets, (
+            ("claim:manual_override",), ("claim:remote_interlock",),
+        ))
+        event = self.fabric.log.read_types([EventType.ACTION_GATED])[-1]
+        self.assertEqual(event.payload["missing_evidence_sets"], [
+            ["claim:manual_override"], ["claim:remote_interlock"],
+        ])
+
+    def test_explanation_limit_does_not_turn_a_block_into_an_exception_or_allow(self) -> None:
+        root = {"op": "and", "requirements": [
+            {"op": "or", "requirements": [
+                {"op": "claim", "claim_id": f"choice_{index}_a"},
+                {"op": "claim", "claim_id": f"choice_{index}_b"},
+            ]}
+            for index in range(11)
+        ]}
+        limited_gate = ActionGate(self.fabric, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump", requirement_graph=graph(root))},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+        decision = limited_gate.authorize("start_pump", "operator")
+        self.assertFalse(decision.allowed)
+        self.assertEqual(decision.reason_codes,
+                         (REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT))
 
     def test_policy_graph_is_included_in_registered_tool_digest(self) -> None:
         self.assertEqual(len(self.gate._tool_digest("start_pump")), 64)

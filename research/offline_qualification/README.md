@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **208 / 260 (80.00%)**. Internal status: **BLOCKED**.
+Strict completion: **209 / 260 (80.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b068529a7f8d9a149dc8651f37980cc4e5bea8ec85e773ffffccf5b3613eeb70`.
+Normalized ledger digest: `6dcb97b9432bb84f26ae509ee70d4624aaad069adb5b4541d59b0456f748b043`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 208 |
+| DONE | 209 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 49 |
+| TODO | 48 |
 
 ## Graduation gates
 
@@ -141,7 +141,7 @@ Normalized ledger digest: `b068529a7f8d9a149dc8651f37980cc4e5bea8ec85e773ffffccf
 | N1-10 | P1 | DONE | CONTRACT | `research/prereg/n1-10-decision-repair-novelty.md`, `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py`, `research/results/n1-10-preregistration-tests.xml` |
 | N2-01 | P1 | DONE | CONTRACT | `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_requirement_graph.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-01-requirement-graph-tests.xml` |
 | N2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-02-action-requirements-tests.xml` |
-| N2-03 | P1 | TODO | NOT_TESTED | — |
+| N2-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_requirement_explanations.py`, `tests/test_requirement_graph.py`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-03-minimal-missing-evidence-tests.xml` |
 | N2-04 | P1 | TODO | NOT_TESTED | — |
 | N2-05 | P1 | TODO | NOT_TESTED | — |
 | N2-06 | P1 | TODO | NOT_TESTED | — |
