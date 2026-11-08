@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "b70573cc637519d85dc6bcb20fcf6b52f2e306be",
-    "dirty": true
+    "commit": "85aa551f01e40fba5d210bace296a17fdb7de3fb",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -309,7 +309,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "933a60a755b2c56d9403940505dd0f5c59cf515e7b5c2bcbc3f311a537133ef8",
         "docs/VALIDATION.md": "bcc007e0af843d95ea24375b018cc5d1dc002ff188baf63c69bd22e46ceeebf4",
-        "docs/STATUS_AT_HEAD.md": "8ace8b5e2158b549437e7cc2fd77afc78c3115ae8b0872a6641a51bd85e8c85f",
+        "docs/STATUS_AT_HEAD.md": "af42b3d545aa502cdee8cc3fa1e03ce937c718b7eed14dcd53f99bd4559a5b95",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "d3fb90648a4b309e39e20eee10577a5571b64263daea9d056a45888464577ac9",
+        "research/results/MANIFEST.json": "218461b40b002d84cd7c650f0c67de43871cb8852640d1eed3c098ce42631b11",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
