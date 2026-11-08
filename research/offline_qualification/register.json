@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c0a48ecede35c679dcf02af2c28a4cb48e38b36464b23852e318220b26a3a7aa",
+    "sha256": "eb59ff7b445e8a6d1522c47fa46033547bb2e4b668404ab23e48245aacfa1cb5",
     "tasks": 260
   },
   "source": {
-    "commit": "4ef18665af1b59b2689e63b0cad87214d6437a75",
+    "commit": "8ebdb9b8b774170389cda0207d3d834d96a118be",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 214,
+      "DONE": 215,
       "PARTIAL": 3,
-      "TODO": 43
+      "TODO": 42
     },
-    "completed": 214,
+    "completed": 215,
     "total": 260,
-    "percent_complete": 82.31,
+    "percent_complete": 82.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3461,14 +3461,34 @@
       "task_id": "N2-09",
       "priority": "P1",
       "task": "Measure false abstention, false authorization, task success and latency against current answerability baseline.",
-      "acceptance": "Evaluate held-out cases; any win must report its extra evidence cost",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Evaluate held-out cases; any win must report its extra evidence cost. Evidence: `research/prereg/n2-09-answerability-vs-evidence-gate-v1.md`, `benchmarks/n2_09_decision_quality.py`, `tests/test_n2_09_decision_quality.py`, `research/results/n2-09-decision-quality.json`, `research/results/n2-09-decision-quality.md`, `research/results/n2-09-evaluator-tests.xml` (DONE: frozen five-seed, 45-case synthetic held-out run: answerability baseline 25/45 exact decisions, 5/15 false abstentions, 15/30 false authorizations, p50/p95 0.334/0.516 ms; typed gate 45/45, 0/15, 0/30, p50/p95 1.164/2.334 ms. Candidate's gain costs an average additional 1.00 evidence record and 19.67 estimated content tokens on oracle-allow cases. Machine report has zero invariant failures and preserves each case; two evaluator contract tests pass. Synthetic scripted results, local timing, and token proxy only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md",
+        "benchmarks/n2_09_decision_quality.py",
+        "tests/test_n2_09_decision_quality.py",
+        "research/results/n2-09-decision-quality.json",
+        "research/results/n2-09-decision-quality.md",
+        "research/results/n2-09-evaluator-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md": "9724040f31ead6b780bdc12c228eb5244a85f557b5f1a0e20817aa7d0a316e71",
+        "benchmarks/n2_09_decision_quality.py": "d73aa333d88c8b2dd36a57681b395923ea35b7a1f6d524d0f8f559c2921498c0",
+        "tests/test_n2_09_decision_quality.py": "1e1b97411a7842b88828b685620b1897312155c83348565186420fe776c9ca2c",
+        "research/results/n2-09-decision-quality.json": "3b9d48acc7ea298542c0af25b8571ac30da984aa708400d1a14a3ec3b114613f",
+        "research/results/n2-09-decision-quality.md": "942fa69f64b4ce67899701f810e72152ebb6356fa6b218d0ebd96eea986dd913",
+        "research/results/n2-09-evaluator-tests.xml": "0987b4222800e1d2a53de8f18e3a9c4d51552b4c628b27cdde81f2bfeac2bfa9"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Forty-five held-out synthetic scripted cases; not real-agent or language-model evidence.",
+        "Evaluator contract tests validate the manifest and aggregate arithmetic; the held-out result itself is the archived machine-readable experiment output.",
+        "The benchmark uses a one-record minimum-support proxy for answerability and counts all candidate certificate records; token cost is ceil(UTF-8 content bytes / 4), not provider tokenization or billing.",
+        "Latency is local in-process decision timing and excludes scenario construction; it is not a deployment or network latency claim.",
+        "Structured assertions and source-root metadata are fixture inputs, not proof of real-world truth or source authority."
+      ]
     },
     {
       "task_id": "N2-10",
