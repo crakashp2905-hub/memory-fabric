@@ -282,6 +282,64 @@ certificate_set_digest(certificates: Mapping[str, EvidenceCertificate]) -> str
 
 Stable digest for a claim-to-certificate set used by human approvals.
 
+### `authorization_receipt.AuthorizationProofReceipt` (beta)
+
+```python
+AuthorizationProofReceipt(schema: str, tool: str, agent_id: str, tenant_id: str | None, policy_id: str, policy_digest: str, requirement_version: str | None, requirement_digest: str | None, action_binding_digest: str, authorization_digest: str, certificate_digest: str, certificates_json: str, evidence: tuple[tuple[str, int], ...], approval_digest: str | None, grant_digest: str | None, allowed: bool, reason_codes: tuple[str, ...], verified_at_watermark: int | None, receipt_digest: str)
+```
+
+Immutable, content-free receipt for one authorization decision.
+
+### `authorization_receipt.AuthorizationReceiptVerification` (beta)
+
+```python
+AuthorizationReceiptVerification(status: str, valid: bool, reason_codes: tuple[str, ...] = (), current_allowed: bool | None = None)
+```
+
+AuthorizationReceiptVerification(status: 'str', valid: 'bool', reason_codes: 'tuple[str, ...]' = (), current_allowed: 'bool | None' = None)
+
+### `authorization_receipt.issue_authorization_receipt` (beta)
+
+```python
+issue_authorization_receipt(gate: ActionGate, tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> tuple[AuthorizationProofReceipt, ActionDecision]
+```
+
+Authorize once and capture a content-free replay receipt.
+
+### `authorization_receipt.verify_authorization_receipt` (beta)
+
+```python
+verify_authorization_receipt(receipt: AuthorizationProofReceipt | Mapping[str, Any], gate: ActionGate, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None) -> AuthorizationReceiptVerification
+```
+
+Replay a receipt without writing audit events or running the tool.
+
+## Read-only advisory
+
+### `advisory.ReadOnlyAdvisoryPolicy` (beta)
+
+```python
+ReadOnlyAdvisoryPolicy(policy_id: str, allow_insufficient: bool = False, allow_review: bool = False)
+```
+
+Host policy for presenting a read-only advisory.
+
+### `advisory.ReadOnlyAdvisoryDecision` (beta)
+
+```python
+ReadOnlyAdvisoryDecision(policy_id: str, presentation_allowed: bool, evidence: RetrievalAssessment, disclosure: str | None)
+```
+
+Presentation decision and disclosure; never a tool authorization.
+
+### `advisory.assess_read_only_advisory` (beta)
+
+```python
+assess_read_only_advisory(result: RetrievalResult, question: str, policy: ReadOnlyAdvisoryPolicy, judge: Any = None) -> ReadOnlyAdvisoryDecision
+```
+
+Assess a read-only presentation under an explicit host policy.
+
 ## Correction and recovery
 
 ### `correction.preview` (beta)

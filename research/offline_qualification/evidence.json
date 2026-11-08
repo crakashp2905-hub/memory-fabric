@@ -404,6 +404,38 @@
       ]
     },
     {
+      "task_id": "N2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/authorization_receipt.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/AUTHORIZATION_PROOF_RECEIPTS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "CHANGELOG.md",
+        "tests/test_authorization_receipt.py",
+        "tests/test_action_execution_receipt.py",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-10-authorization-receipt-tests.xml",
+        "research/results/n2-10-authorization-receipt-first-run-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_authorization_receipt.py tests/test_action_execution_receipt.py tests/test_action_requirements.py tests/test_authority.py tests/test_reference_docs.py tests/test_doc_links.py --junitxml=research/results/n2-10-authorization-receipt-tests.xml -q",
+      "limitations": [
+        "The verifier compares the receipt with current state and re-verifies exact certificate versions; it does not reconstruct a historical store snapshot if current evidence has changed.",
+        "Receipt SHA-256 is an integrity digest, not a digital signature or proof of issuer identity. Sign or anchor receipts externally when origin authentication is required.",
+        "Request parameters are not stored; replay requires the caller to supply the original request, and likewise any approval or grant used at issuance."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

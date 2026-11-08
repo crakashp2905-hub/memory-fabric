@@ -484,6 +484,48 @@
       "tier": "beta"
     },
     {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(schema: str, tool: str, agent_id: str, tenant_id: str | None, policy_id: str, policy_digest: str, requirement_version: str | None, requirement_digest: str | None, action_binding_digest: str, authorization_digest: str, certificate_digest: str, certificates_json: str, evidence: tuple[tuple[str, int], ...], approval_digest: str | None, grant_digest: str | None, allowed: bool, reason_codes: tuple[str, ...], verified_at_watermark: int | None, receipt_digest: str)",
+      "symbol": "memory_fabric.authorization_receipt.AuthorizationProofReceipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(status: str, valid: bool, reason_codes: tuple[str, ...] = (), current_allowed: bool | None = None)",
+      "symbol": "memory_fabric.authorization_receipt.AuthorizationReceiptVerification",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(gate: ActionGate, tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> tuple[AuthorizationProofReceipt, ActionDecision]",
+      "symbol": "memory_fabric.authorization_receipt.issue_authorization_receipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(receipt: AuthorizationProofReceipt | Mapping[str, Any], gate: ActionGate, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None) -> AuthorizationReceiptVerification",
+      "symbol": "memory_fabric.authorization_receipt.verify_authorization_receipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(policy_id: str, allow_insufficient: bool = False, allow_review: bool = False)",
+      "symbol": "memory_fabric.advisory.ReadOnlyAdvisoryPolicy",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(policy_id: str, presentation_allowed: bool, evidence: RetrievalAssessment, disclosure: str | None)",
+      "symbol": "memory_fabric.advisory.ReadOnlyAdvisoryDecision",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(result: RetrievalResult, question: str, policy: ReadOnlyAdvisoryPolicy, judge: Any = None) -> ReadOnlyAdvisoryDecision",
+      "symbol": "memory_fabric.advisory.assess_read_only_advisory",
+      "tier": "beta"
+    },
+    {
       "module": "memory_fabric.correction",
       "signature": "(fabric: MemoryFabric, memory_id: str) -> CorrectionPreview",
       "symbol": "memory_fabric.correction.preview",

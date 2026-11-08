@@ -24,6 +24,12 @@ from .advisory import (
     ReadOnlyAdvisoryPolicy,
     assess_read_only_advisory,
 )
+from .authorization_receipt import (
+    AuthorizationProofReceipt,
+    AuthorizationReceiptVerification,
+    issue_authorization_receipt,
+    verify_authorization_receipt,
+)
 from .eventlog import EventLog
 from .events import Event, EventType
 from .decision_records import (
@@ -139,6 +145,10 @@ from .vectors import Embedder, HashingEmbedder, VectorIndex
 __version__ = "0.18.0"
 
 __all__ = [
+    "AuthorizationProofReceipt",
+    "AuthorizationReceiptVerification",
+    "issue_authorization_receipt",
+    "verify_authorization_receipt",
     "ReadOnlyAdvisoryPolicy",
     "ReadOnlyAdvisoryDecision",
     "assess_read_only_advisory",
