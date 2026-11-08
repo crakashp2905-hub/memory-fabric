@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
-           "agent_on_the_fabric", "why_blocked"]
+           "agent_on_the_fabric", "why_blocked", "memory_vs_json"]
 
 
 class Examples(unittest.TestCase):
@@ -37,6 +37,11 @@ class Examples(unittest.TestCase):
                     self.assertIn("evidence_withdrawn", done.stdout)
                     self.assertIn("Evidence pointer: memory", done.stdout)
                     self.assertIn("Repair: re-certify with current evidence", done.stdout)
+                if name == "memory_vs_json":
+                    self.assertIn("Identical source records per arm: 2; equal input: True", done.stdout)
+                    self.assertIn("JSON-style store: WOULD RUN", done.stdout)
+                    self.assertIn("Memory Fabric:   BLOCKED (evidence_withdrawn)", done.stdout)
+                    self.assertIn("Scope: a fixed scripted example", done.stdout)
 
     def test_getting_started_runs_from_a_clean_offline_install(self) -> None:
         scratch = ROOT / ".test-tmp"
