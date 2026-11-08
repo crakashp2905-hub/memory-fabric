@@ -160,6 +160,24 @@
       "tier": "stable"
     },
     {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "(payload: Mapping[str, Any] | str | bytes, max_nodes: int = 256) -> RequirementGraph",
+      "symbol": "memory_fabric.requirement_graph.parse_requirement_graph",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.requirement_graph.RequirementGraph.to_dict",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "() -> str",
+      "symbol": "memory_fabric.requirement_graph.RequirementGraph.to_json",
+      "tier": "stable"
+    },
+    {
       "module": "memory_fabric.sdk",
       "signature": "(fabric: Any, agent_id: str, tenant_id: str = 'tn_default') -> AgentClient",
       "symbol": "memory_fabric.sdk.agent",

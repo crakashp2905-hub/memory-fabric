@@ -183,6 +183,29 @@
       ]
     },
     {
+      "task_id": "N2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_requirement_graph.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-01-requirement-graph-tests.xml"
+      ],
+      "limitations": [
+        "This is a bounded static policy grammar and parser only. Evidence satisfaction, source independence checks, action-policy binding, and authorization are later tasks and are intentionally not performed here."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

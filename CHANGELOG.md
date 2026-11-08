@@ -5,6 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added: bounded evidence requirement graph grammar
+- Add a typed parser for AND, OR, independent-source and temporal evidence requirements, with acyclic named rules, canonical serialization and bounded, path-aware validation. The grammar declares policy only and never authorizes an action.
+
 ### Added (schema 0.18.0): deterministic decision re-evaluation receipts
 - Exact correction impacts expose canonical replay-stable receipts with the changed evidence premise, current decision status, proof and affected-effect edge IDs. Receipts require re-evaluation and never authorize an action.
 - Memory revisions can opt into an expected-version check; the check and append are serialized so a stale competing correction produces a typed conflict instead of overwriting a newer correction.

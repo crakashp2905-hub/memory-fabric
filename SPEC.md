@@ -190,6 +190,11 @@ canonical JSON representation with a content-derived receipt ID. Receipts are
 advisory: they require re-evaluation and never authorize an action. Generating a
 receipt does not append to the event log.
 
+The static evidence-requirement policy grammar is
+[`memory-fabric-requirement-graph/1`](docs/EVIDENCE_REQUIREMENT_GRAPHS.md).
+Parsing produces a typed, bounded graph and validates named-rule references
+without evaluating evidence or granting authority.
+
 Memory revision callers may supply an expected source version. The store reads
 the current projection after taking the durable write transaction; a stale
 expectation raises a typed `RevisionConflictError` and appends no revision.

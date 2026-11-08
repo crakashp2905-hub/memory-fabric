@@ -114,6 +114,17 @@ from .relevance import (
     RelevanceLabel,
     SelectionDecision,
 )
+from .requirement_graph import (
+    AllOfRequirement,
+    AnyOfRequirement,
+    ClaimRequirement,
+    IndependentSourcesRequirement,
+    RequirementGraph,
+    RequirementGraphError,
+    RuleReference,
+    TemporalRequirement,
+    parse_requirement_graph,
+)
 from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
 from .vectors import Embedder, HashingEmbedder, VectorIndex
@@ -176,6 +187,15 @@ __all__ = [
     "NotFound",
     "PolicyViolation",
     "RevisionConflictError",
+    "RequirementGraph",
+    "RequirementGraphError",
+    "ClaimRequirement",
+    "AllOfRequirement",
+    "AnyOfRequirement",
+    "IndependentSourcesRequirement",
+    "TemporalRequirement",
+    "RuleReference",
+    "parse_requirement_graph",
     # model
     "Memory",
     "MemoryStats",

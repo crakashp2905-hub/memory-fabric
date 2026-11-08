@@ -64,6 +64,21 @@ Single-process memory-fabric with a governed write and share path.
 - **`MemoryFabric.verify_certificate(certificate: Any, agent_id: str, tenant_id: str | None = None, risk: RiskLevel = RiskLevel.HIGH, mode: str = 'selective') -> CertificateVerification`**
   Re-check every piece of evidence in a certificate, now. Fails closed.
 
+### `requirement_graph.parse_requirement_graph` (stable)
+
+```python
+parse_requirement_graph(payload: Mapping[str, Any] | str | bytes, max_nodes: int = 256) -> RequirementGraph
+```
+
+Parse and validate a bounded acyclic requirement graph.
+
+### `requirement_graph.RequirementGraph` (stable)
+
+Immutable validated graph returned by `parse_requirement_graph`.
+
+- **`RequirementGraph.to_dict() -> dict[str, Any]`**
+- **`RequirementGraph.to_json() -> str`**
+
 ## Agent SDK
 
 ### `sdk.agent` (stable)

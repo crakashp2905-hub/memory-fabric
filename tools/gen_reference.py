@@ -29,6 +29,8 @@ API: list[tuple[str, str, list[str]]] = [
     ("Govern", "memory_fabric.fabric:MemoryFabric",
      ["validate", "quarantine", "release", "forget", "share", "challenge", "erase_content",
       "authority", "elevate", "sweep_retention", "certify", "verify_certificate"]),
+    ("Govern", "memory_fabric.requirement_graph:parse_requirement_graph", []),
+    ("Govern", "memory_fabric.requirement_graph:RequirementGraph", ["to_dict", "to_json"]),
     ("Agent SDK", "memory_fabric.sdk:agent", []),
     ("Agent SDK", "memory_fabric.sdk:AgentClient",
      ["recall", "fetch", "verify", "require", "remember", "episode", "record_outcome"]),
