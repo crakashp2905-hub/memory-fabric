@@ -78,6 +78,7 @@ class VectorCache:
         self._db: sqlite3.Connection | None = None
         if path:
             self._db = sqlite3.connect(path, check_same_thread=False)
+            self._db.execute("PRAGMA secure_delete=ON")
             self._db.execute("CREATE TABLE IF NOT EXISTS vectors "
                              "(key TEXT PRIMARY KEY, vector TEXT NOT NULL)")
             self._db.commit()
@@ -112,6 +113,15 @@ class VectorCache:
                 self._db.executemany(
                     "INSERT OR REPLACE INTO vectors (key, vector) VALUES (?, ?)",
                     [(key, json.dumps(vector)) for key, vector in rows])
+                self._db.commit()
+
+    def forget(self, text: str) -> None:
+        """Remove an erased document vector from memory and persistent cache."""
+        key = self._key(text)
+        with self._lock:
+            self._memory.pop(key, None)
+            if self._db is not None:
+                self._db.execute("DELETE FROM vectors WHERE key = ?", (key,))
                 self._db.commit()
 
     def __len__(self) -> int:
@@ -196,6 +206,10 @@ class _BatchEmbedder:
             self.warm([text])
             found = self.cache.get(text) or []
         return found
+
+    def forget(self, text: str) -> None:
+        """Forget a document embedding when its owning memory is erased."""
+        self.cache.forget(text)
 
     def embed_query(self, text: str) -> list[float]:
         """Queries may need a different encoding (an instruction prefix)."""

@@ -360,10 +360,14 @@ class VectorIndex:
         self._matrix = None
         return key
 
-    def remove(self, key: str) -> None:
+    def remove(self, key: str, *, text: str | None = None) -> None:
         if self._vectors.pop(key, None) is not None:
             self._matrix = None
         self._pending.pop(key, None)
+        if text is not None:
+            forget = getattr(self.embedder, "forget", None)
+            if callable(forget):
+                forget(text)
 
     def _dense_scores(self, query_vector: list[float]) -> list[tuple[str, float]] | None:
         try:

@@ -27,6 +27,7 @@ from memory_fabric import MemoryFabric
 from memory_fabric.branching import Branches
 from memory_fabric.governance.erasure import ERASED_MARKER
 from memory_fabric.navigation import _words
+from memory_fabric.retrievers import VectorCache
 
 TEXT = "Pump seven bypass valve torque procedure for the coastal depot requires two people"
 
@@ -93,6 +94,69 @@ class ErasureLeavesNoResidue(unittest.TestCase):
         fabric.erase_content(mid, reason="request", actor="dpo")
         self.assertFalse(any(key[0] == mid for key in fabric._topic_terms))
         self.assertNotIn("torque", fabric._topic_terms)
+
+    def test_erasure_forgets_a_persistent_embedder_document_vector(self) -> None:
+        vector_path = str(Path(self.tmp.name) / "vectors.db")
+
+        class CachedEmbedder:
+            def __init__(self) -> None:
+                self.cache = VectorCache("erasure-probe", vector_path)
+
+            def embed(self, text: str) -> list[float]:
+                cached = self.cache.get(text)
+                if cached is None:
+                    cached = [float(len(text)), 1.0]
+                    self.cache.put_many([(text, cached)])
+                return cached
+
+            def forget(self, text: str) -> None:
+                self.cache.forget(text)
+
+        embedder = CachedEmbedder()
+        self.addCleanup(embedder.cache.close)
+        fabric = MemoryFabric(self.path, auto_activate=True, retrieval="hybrid", embedder=embedder)
+        self.addCleanup(fabric.close)
+        mid = fabric.remember("a", TEXT)
+        indexed_text = fabric._index_text(fabric.get(mid))
+        self.assertIsNotNone(embedder.cache.get(indexed_text))
+        fabric.erase_content(mid, reason="request", actor="dpo")
+        self.assertIsNone(embedder.cache.get(indexed_text))
+
+    def test_cross_process_refresh_forgets_each_processes_vector_cache(self) -> None:
+        cache_left = VectorCache("left-process")
+        cache_right = VectorCache("right-process")
+        self.addCleanup(cache_left.close)
+        self.addCleanup(cache_right.close)
+
+        class CachedEmbedder:
+            def __init__(self, cache: VectorCache) -> None:
+                self.cache = cache
+
+            def embed(self, text: str) -> list[float]:
+                vector = self.cache.get(text)
+                if vector is None:
+                    vector = [float(len(text)), 1.0]
+                    self.cache.put_many([(text, vector)])
+                return vector
+
+            def forget(self, text: str) -> None:
+                self.cache.forget(text)
+
+        live = MemoryFabric(self.path, auto_activate=True, retrieval="hybrid",
+                            embedder=CachedEmbedder(cache_left))
+        other = MemoryFabric(self.path, auto_activate=True, retrieval="hybrid",
+                             embedder=CachedEmbedder(cache_right))
+        self.addCleanup(live.close)
+        self.addCleanup(other.close)
+        mid = live.remember("a", TEXT)
+        other.refresh()
+        indexed_text = live._index_text(live.get(mid))
+        self.assertIsNotNone(cache_left.get(indexed_text))
+        self.assertIsNotNone(cache_right.get(indexed_text))
+        live.erase_content(mid, reason="request", actor="dpo")
+        other.refresh()
+        self.assertIsNone(cache_left.get(indexed_text))
+        self.assertIsNone(cache_right.get(indexed_text))
 
     def test_branch_history_and_pending_retraction_retain_no_erased_content(self) -> None:
         fabric = self.open()

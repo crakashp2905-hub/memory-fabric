@@ -395,8 +395,8 @@ class RetrievalMixin(FabricCore):
         self.chain_plain[memory_id] = frozenset(
             t for t in self.chain_terms[memory_id] if not chains.is_numeric(t))
 
-    def _unindex(self, memory_id: str) -> None:
-        self.index.remove(memory_id)
+    def _unindex(self, memory_id: str, *, forget_text: str | None = None) -> None:
+        self.index.remove(memory_id, text=forget_text)
         self.lexical.remove(memory_id)
         self.chain_terms.pop(memory_id, None)
         self.chain_plain.pop(memory_id, None)

@@ -1124,7 +1124,7 @@
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "limitations": [
-        "Live and cross-process history, indexes, topic-term cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Embedding caches owned by separate retriever/provider instances are not registered with the erasure lifecycle. H3-08 covers local pre-erasure backup reconciliation; separately held keys and external/federated copies remain outside local scope."
+        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Third-party embedders without forget(text), and detached persistent cache cleanup after a process crash, remain unverified. H3-08 covers local pre-erasure backup reconciliation; external/federated copies remain outside local scope."
       ]
     },
     {

@@ -110,7 +110,11 @@ class SealingMixin(FabricCore):
         recorded too: "we were asked and there was no content" is a different
         audit answer from silence.
         """
-        self._require(memory_id)
+        memory = self._require(memory_id)
+        # Retain the exact document representation only for this call so the
+        # embedder's optional content-keyed cache can evict its derived vector
+        # after the key is destroyed.
+        vector_cache_text = self._index_text(memory)
         with self._transaction():
             had_content = self.vault.erase(memory_id, reason, _now_ms())
             self._emit(
@@ -126,7 +130,7 @@ class SealingMixin(FabricCore):
         # surface the content the caller just erased. The copy index as well:
         # `_unindex` leaves it alone, so that withdrawn documents stay
         # recognisable, but its term set is derived from the erased text.
-        self._unindex(memory_id)
+        self._unindex(memory_id, forget_text=vector_cache_text)
         self.copy_index.remove(memory_id)
         # A summary written from this memory holds some of its text: erased too
         # (decay.py). Recursion ends, since a summary is never a summary's source.

@@ -77,6 +77,18 @@ class TestCaching(unittest.TestCase):
         a.put_many([("x", [1.0])])
         self.assertIsNone(b.get("x"))
 
+    def test_forget_removes_vector_from_memory_and_disk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "vectors.db")
+            cache = VectorCache("m1", path)
+            cache.put_many([("sensitive document", [0.25, 0.75])])
+            self.assertIsNotNone(cache.get("sensitive document"))
+            cache.forget("sensitive document")
+            self.assertIsNone(cache.get("sensitive document"))
+            self.assertEqual(cache._db.execute("SELECT COUNT(*) FROM vectors").fetchone()[0], 0)
+            self.assertEqual(cache._db.execute("PRAGMA secure_delete").fetchone()[0], 1)
+            cache.close()
+
 
 class TestReranking(unittest.TestCase):
     def test_reorders_head_keeps_scores_and_tail(self):
