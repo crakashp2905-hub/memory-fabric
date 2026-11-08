@@ -3220,6 +3220,23 @@
         "Memory and retention budgets were exercised with in-memory fixtures; no production capacity claim is made.",
         "Retention caps each apply sweep and leaves later decisions for subsequent sweeps; it does not shorten retention policy periods."
       ]
+    },
+    {
+      "task_id": "P4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/p4_03_retrieval_governance.py",
+        "tests/test_p4_03_retrieval_governance.py",
+        "research/results/p4-03-retrieval-governance.json",
+        "research/results/p4-03-retrieval-governance.md"
+      ],
+      "limitations": [
+        "Twenty authored deterministic synthetic cases across five setting families; not a held-out or real-agent study.",
+        "Ordinary retrieval stale outcomes are counterfactual WOULD EXECUTE labels; no external side effect occurs.",
+        "No latency or cost measurements; the finding is limited to corrected-task completion and stale action gating in this fixture."
+      ]
     }
   ]
 }

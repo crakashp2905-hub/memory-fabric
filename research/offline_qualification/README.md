@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **188 / 260 (72.31%)**. Internal status: **BLOCKED**.
+Strict completion: **189 / 260 (72.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `030ea59da95e099dfd7dcd1fe9d8dd67cc43af81fb443d173b73e20554eaddb9`.
+Normalized ledger digest: `0e8bcaac4bfdf92018652ab272b38dd36d4e93f4745eb1538ca3195a59529906`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 188 |
+| DONE | 189 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 68 |
+| TODO | 67 |
 
 ## Graduation gates
 
@@ -271,7 +271,7 @@ Normalized ledger digest: `030ea59da95e099dfd7dcd1fe9d8dd67cc43af81fb443d173b73e
 | P3-10 | P1 | DONE | INTERNAL_INTEGRATION | `tools/runbook_drill.py`, `tests/test_runbook_drill.py`, `docs/RUNBOOK_DRILLS.md`, `research/results/p3-10-runbook-drills.json` |
 | P4-01 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` |
 | P4-02 | P1 | DONE | SIMULATED | `examples/memory_vs_json.py`, `tests/test_examples_run.py`, `research/results/p4-02-ordinary-memory-adapter.json`, `research/results/p4-02-ordinary-memory-adapter.txt` |
-| P4-03 | P1 | TODO | NOT_TESTED | — |
+| P4-03 | P1 | DONE | SIMULATED | `experiments/p4_03_retrieval_governance.py`, `tests/test_p4_03_retrieval_governance.py`, `research/results/p4-03-retrieval-governance.json`, `research/results/p4-03-retrieval-governance.md` |
 | P4-04 | P1 | DONE | INTERNAL_INTEGRATION | `examples/correction_strategy_comparison.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p4-04-correction-strategy-comparison.json`, `research/results/p4-04-correction-strategy-comparison.txt` |
 | P4-05 | P1 | DONE | SIMULATED | `examples/correction_spares_unrelated_action.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-05-selective-correction-demo.txt` |
 | P4-06 | P1 | DONE | SIMULATED | `examples/multi_agent_provenance_dispute.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_consensus.py`, `research/results/p4-06-provenance-dispute-demo.json`, `research/results/p4-06-provenance-dispute-demo.txt` |

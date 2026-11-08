@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "8a5213cba0452401efc3e75ab033dc5cec8fee733eeb6170d11016270ea632d3",
+    "sha256": "85513c26830e5dc648aa0f88efc7575a4cbceded0680f6eb4796632b8c68c695",
     "tasks": 260
   },
   "source": {
-    "commit": "5a0e0c28f5c0c8a4ef9a43271394fb2be929976a",
-    "dirty": false
+    "commit": "3c99845ac6584c8f862bbac696fe94e6114aba96",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 188,
+      "DONE": 189,
       "PARTIAL": 4,
-      "TODO": 68
+      "TODO": 67
     },
-    "completed": 188,
+    "completed": 189,
     "total": 260,
-    "percent_complete": 72.31,
+    "percent_complete": 72.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5931,14 +5931,28 @@
       "task_id": "P4-03",
       "priority": "P1",
       "task": "Benchmark basic retrieval against governed memory on task completion as well as stale actions.",
-      "acceptance": "Claims reflect joint safety/utility results, not only one favorable metric",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Claims reflect joint safety/utility results, not only one favorable metric. Evidence: `experiments/p4_03_retrieval_governance.py`, `tests/test_p4_03_retrieval_governance.py`, `research/results/p4-03-retrieval-governance.json`, `research/results/p4-03-retrieval-governance.md` (DONE: matched 20-case/5-family synthetic run; ordinary and governed arms each complete 20/20 corrected tasks; cached ordinary stale outcomes are 20/20 WOULD EXECUTE; governed stale actions 0/20. Same-history matrix repeats identically. SIMULATED only; no latency/cost or real-agent claim.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/p4_03_retrieval_governance.py",
+        "tests/test_p4_03_retrieval_governance.py",
+        "research/results/p4-03-retrieval-governance.json",
+        "research/results/p4-03-retrieval-governance.md"
+      ],
+      "evidence_digests": {
+        "experiments/p4_03_retrieval_governance.py": "ca2bf79a39bf62021999cb6b9648a004fb1141d908c757d768e196a9cc7e4b80",
+        "tests/test_p4_03_retrieval_governance.py": "d8dd65f508f5828d261d9021407b1c101bb90605cc9f948d32d8fed2c7b5047b",
+        "research/results/p4-03-retrieval-governance.json": "4a4c82bf21dd2a6324ac8cccfb08ffaf8c43b6007a4593959d7ad0a89538e944",
+        "research/results/p4-03-retrieval-governance.md": "33191b5ae8954bcabeba9b8c59c7023b117246237b2cfb017f58e5c379db5a5c"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Twenty authored deterministic synthetic cases across five setting families; not a held-out or real-agent study.",
+        "Ordinary retrieval stale outcomes are counterfactual WOULD EXECUTE labels; no external side effect occurs.",
+        "No latency or cost measurements; the finding is limited to corrected-task completion and stale action gating in this fixture."
+      ]
     },
     {
       "task_id": "P4-04",
