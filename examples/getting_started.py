@@ -18,6 +18,7 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 
 
 def main(path: str = ":memory:") -> int:
+    print("DEMO ONLY: simulated agents; deterministic fixture; no hosted model.")
     fabric = MemoryFabric(path, auto_activate=True)
     try:
         old = fabric.remember(

@@ -33,6 +33,7 @@ def show(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: simulated agent; deterministic fixture; no hosted model.")
     f = MemoryFabric(":memory:", auto_activate=True)
 
     show("1. A source states a policy; an agent derives a rule from it")

@@ -79,6 +79,7 @@ def rule(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: scripted model response; deterministic fixture; not a live-model evaluation.")
     fabric = MemoryFabric(seed=0)  # candidates stay candidates until reviewed
 
     rule("1. Seed the store from an existing transcript")

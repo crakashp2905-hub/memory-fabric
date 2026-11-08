@@ -4,6 +4,11 @@ Each runs from the repository root with nothing installed beyond the package,
 except where noted. `tests/test_examples_run.py` runs every offline one on
 every CI build.
 
+Each runnable script prints a visible `DEMO ONLY` label describing whether it
+uses deterministic fixtures, a scripted model, or a real local model. These
+examples demonstrate behavior; they are not live-model evaluations or
+independent compliance validation.
+
 | example | what it shows | needs |
 |---|---|---|
 | [getting_started.py](getting_started.py) | Store, retrieve, and correct a fixture; see a protected action change from allowed to blocked | local package install; no network or credentials |

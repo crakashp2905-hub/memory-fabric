@@ -20,11 +20,15 @@ class Examples(unittest.TestCase):
         listed = {p.stem for p in (ROOT / "examples").glob("*.py")}
         self.assertEqual(listed - set(OFFLINE), {"live_memory_os"},
                          "a new example must be added here, or to the live list")
+        for source in (ROOT / "examples").glob("*.py"):
+            self.assertIn("DEMO ONLY:", source.read_text(encoding="utf-8"),
+                          f"{source.name} must label simulation/model scope visibly")
         for name in OFFLINE:
             with self.subTest(example=name):
                 done = subprocess.run([sys.executable, str(ROOT / "examples" / f"{name}.py")],
                                       capture_output=True, text=True, timeout=300, cwd=ROOT)
                 self.assertEqual(done.returncode, 0, done.stderr[-2000:])
+                self.assertIn("DEMO ONLY:", done.stdout)
 
     def test_getting_started_runs_from_a_clean_offline_install(self) -> None:
         scratch = ROOT / ".test-tmp"

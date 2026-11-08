@@ -19,6 +19,7 @@ from memory_fabric import MemoryFabric, correction  # noqa: E402
 
 
 def main() -> int:
+    print("DEMO ONLY: simulated agents; deterministic fixtures; no hosted model.")
     fabric = MemoryFabric(seed=0, auto_activate=True)
     try:
         manual = fabric.remember(

@@ -20,6 +20,7 @@ from memory_fabric.response import verify_recovery  # noqa: E402
 
 
 def main(path: str) -> dict[str, object]:
+    print("DEMO ONLY: deterministic fixture; no hosted model or product validation.")
     fabric = MemoryFabric(path, auto_activate=True)
     try:
         # 1. Store. Each memory records who wrote it and how.
