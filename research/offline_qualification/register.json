@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "21088d6dbd087fa1374d41f938ab043f25b652602cca5f2a6d2b5de7d320c3fc",
+    "sha256": "aaebd8dc0f0f458a7df8c0c556529caef5389c40eae74c12e0715bd2ce01b37c",
     "tasks": 260
   },
   "source": {
-    "commit": "126cb2a71b9d0fb64d973933af5d185b0d6e74dc",
+    "commit": "cfd52a1b959e8b37b5571b54df6b265801ef7f08",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 167,
+      "DONE": 168,
       "PARTIAL": 4,
-      "TODO": 89
+      "TODO": 88
     },
-    "completed": 167,
+    "completed": 168,
     "total": 260,
-    "percent_complete": 64.23,
+    "percent_complete": 64.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "9d50ebd15c07dea0e77a3c0d3d2acf1185c9c1e2520213468230e84a73e27389",
+        "research/results/MANIFEST.json": "bde6e74259f2c4777985020ab19398c1489ebe8b0234564e7319a581330019e2",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4827,7 +4827,7 @@
       "evidence_digests": {
         "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
         "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p1-01-example-tests.json": "1080614d52e5dcdf4035a9eec9868af5aa450e1b3fc9fd093f485982e2bd99b4",
         "research/results/p1-01-example-tests.txt": "a8d09cf96fa067b944202e6161c893cc57a0d1d417bd17f982b41579e1230407",
         "research/results/p1-03-example-labels.json": "8dea5ee57ea3d97ec0f05e7df334d25b72be869ac31993beced23b74a1263491",
@@ -4865,8 +4865,8 @@
         "examples/reference_agent.py": "27a965984401db19767efa6859215d27756a335dec7878eb338cb211f0b7ab95",
         "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
         "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
-        "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p1-02-example-tests.json": "a32f5d477e6173f8f32a3eb5952f92f746f82a1d6d5a24dbd0d4e730bcad89be",
         "research/results/p1-02-example-tests.txt": "c2c7fe8c33afe2560701fabf17d38fa9115fd706e9e45dd85a99a2165a7bf026",
         "research/results/p1-03-example-labels.json": "8dea5ee57ea3d97ec0f05e7df334d25b72be869ac31993beced23b74a1263491",
@@ -4914,8 +4914,8 @@
         "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
         "examples/agent_on_the_fabric.py": "15df1e3c4a6356b7ac28f03d7caae31dfafebfa0b80976ff383dbf0843c64b29",
         "examples/live_memory_os.py": "486addaef6e686933e695a949d105c50a4df765d1dcc7adb82b6a2e4b490ca9c",
-        "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p1-03-example-labels.json": "8dea5ee57ea3d97ec0f05e7df334d25b72be869ac31993beced23b74a1263491",
         "research/results/p1-03-example-labels.txt": "4bf5aff223771fe2bc52d1f39e102a2a6efb10a457cb78331ad1263adc8c2fd5",
         "research/results/p1-04-sdk-workflow.json": "b14411c021a70911bb5143991420ea35774e9ee01ffd8442849dd183b24241dc",
@@ -4954,7 +4954,7 @@
         "examples/sdk_workflow.py": "e1852e5f96d18fbb9162008da21bd5b7fc5dedfcd341bd76fff4e97ba21d7627",
         "docs/SDK_WORKFLOW.md": "878acf586f0d21161bee3fc00d04e94192012efb7be5c5e22b62d646d3f2a182",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p1-04-sdk-workflow.json": "b14411c021a70911bb5143991420ea35774e9ee01ffd8442849dd183b24241dc",
         "research/results/p1-04-sdk-workflow.txt": "5f6e637c040c5026611b04f5215f39a83e3b4a6ba7c168f6b181e0e6a944c212"
       },
@@ -5044,8 +5044,8 @@
       ],
       "evidence_digests": {
         "examples/why_blocked.py": "165c3b3f812251f07760a91664a3af692d9f8434afe72fa9e30e55eb52dd482f",
-        "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
         "research/results/p1-07-why-blocked.json": "fcb50baa15005ff94ea2db3d3e2d0d778b98fcbdd791b755f582e8eb2648d4aa",
@@ -5107,8 +5107,8 @@
       ],
       "evidence_digests": {
         "examples/memory_vs_json.py": "578d5285c89a4cf9808365303f28b1ce98beb3f8e7cc8f3eac1fa70879452786",
-        "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p1-09-memory-vs-json.json": "87ef0e4137aa119f6399625f2603f7b581464c370e1901c27e6cc85bafae80c1",
         "research/results/p1-09-memory-vs-json.txt": "fe165af54b659d1f96a3f74dfd8dd06e8b39bdb690c554af6da8579e91e58847"
       },
@@ -5684,7 +5684,7 @@
       ],
       "evidence_digests": {
         "examples/memory_vs_json.py": "578d5285c89a4cf9808365303f28b1ce98beb3f8e7cc8f3eac1fa70879452786",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p4-02-ordinary-memory-adapter.json": "09bd119d517cb74bbee10e28ea45ea211c46b123af556362ca93c66f6f65eaea",
         "research/results/p4-02-ordinary-memory-adapter.txt": "fe0c28aaa5b4e612f57252fef50d7e063b1105600e7f3aefec59ac3007d2fe48"
       },
@@ -5737,8 +5737,8 @@
       ],
       "evidence_digests": {
         "examples/correction_spares_unrelated_action.py": "1d3ac714b9a34c9c53cad8eb79731793e8ce1d58ab778f387ee8f66d7b3f27ba",
-        "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "research/results/p4-05-selective-correction-demo.json": "3b48b02b31b247b6bc448bf02aa664300651ee4a118fab097ce7ff258286c9fa",
         "research/results/p4-05-selective-correction-demo.txt": "7f15caea731ecc769c7e4e7825cecdfb0133763eaa15c9c8a233b7f217988cf2"
       },
@@ -5752,14 +5752,30 @@
       "task_id": "P4-06",
       "priority": "P1",
       "task": "Create multi-agent dispute demo where many copies do not outweigh one independent verified source.",
-      "acceptance": "Explains provenance-aware aggregation without unverified truth claims",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Explains provenance-aware aggregation without unverified truth claims.. Evidence: `examples/multi_agent_provenance_dispute.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_consensus.py`, `research/results/p4-06-provenance-dispute-demo.json`, `research/results/p4-06-provenance-dispute-demo.txt` (DONE: five echoes count as one origin; one independent report leaves the claim contested; a second independent report changes support. The demo explicitly distinguishes source independence from truth verification.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/multi_agent_provenance_dispute.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "tests/test_consensus.py",
+        "research/results/p4-06-provenance-dispute-demo.json",
+        "research/results/p4-06-provenance-dispute-demo.txt"
+      ],
+      "evidence_digests": {
+        "examples/multi_agent_provenance_dispute.py": "bb83a77f770a22e8846329ce54f40e78eb581b124bf34af0e48e534c81b66859",
+        "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
+        "tests/test_consensus.py": "d582168c75f0008ca856a495139ed5e0d42c4b58c3ad2a815d2f0d8d42dfcf3d",
+        "research/results/p4-06-provenance-dispute-demo.json": "d4acfc984445b540a8b1bd891c98bb75742444df257f22c4e8d47cf08e126bb1",
+        "research/results/p4-06-provenance-dispute-demo.txt": "bd23f57ef7f313a9cd9444847586cf57cc44fbc4b0e0b4362a9a1c2ed2886e36"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Synthetic claims and deterministic agents only. Independent provenance is not truth verification or source authority."
+      ]
     },
     {
       "task_id": "P4-07",
@@ -5958,7 +5974,7 @@
       "evidence_digests": {
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "tools/gen_reference.py": "44082cd0dcc78db5a3775b54869d2545641a7fad60f4a50a1352ca48e4c7f614",
-        "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+        "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
         "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_user_docs_no_research.py": "40204106f31b9514194afc005f47d8fcb6e8e23b7220750d0bda17801c460220",

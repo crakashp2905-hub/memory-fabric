@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **167 / 260 (64.23%)**. Internal status: **BLOCKED**.
+Strict completion: **168 / 260 (64.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6c5fb36ca11c2f2450714808f4b5d69f768a4ca7c31dac2b71f9d9784fba0088`.
+Normalized ledger digest: `bdd1490594a9cec8d4f8d47bed026a2ccc1c26376a64e379e73c98f33f88af7a`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 167 |
+| DONE | 168 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 89 |
+| TODO | 88 |
 
 ## Graduation gates
 
@@ -274,7 +274,7 @@ Normalized ledger digest: `6c5fb36ca11c2f2450714808f4b5d69f768a4ca7c31dac2b71f9d
 | P4-03 | P1 | TODO | NOT_TESTED | — |
 | P4-04 | P1 | TODO | NOT_TESTED | — |
 | P4-05 | P1 | DONE | SIMULATED | `examples/correction_spares_unrelated_action.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-05-selective-correction-demo.txt` |
-| P4-06 | P1 | TODO | NOT_TESTED | — |
+| P4-06 | P1 | DONE | SIMULATED | `examples/multi_agent_provenance_dispute.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_consensus.py`, `research/results/p4-06-provenance-dispute-demo.json`, `research/results/p4-06-provenance-dispute-demo.txt` |
 | P4-07 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/WHEN_TO_USE_MEMORY_FABRIC.md`, `docs/README.md`, `research/results/l1-long-running.md`, `research/results/x4-governed-vs-pooled.md`, `research/results/master-checklist-http-capacity-v1.md`, `tests/test_product_fit_guidance.py`, `tests/test_doc_links.py`, `research/results/p4-07-product-fit.json`, `research/results/p4-07-product-fit.txt` |
 | P4-08 | P1 | TODO | NOT_TESTED | — |
 | P4-09 | P1 | TODO | NOT_TESTED | — |

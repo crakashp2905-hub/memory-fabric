@@ -1,0 +1,3 @@
+P4-06 multi-agent provenance dispute demo
+
+The offline example suite (2 tests) passed on exact commit cfd52a1b959e8b37b5571b54df6b265801ef7f08. Five agents repeat one 22-bar root; one independent 14-bar report leaves the comparison contested rather than letting copies outvote it. A second independent report moves support to 14 bar. The example explicitly says source independence is not truth verification.

@@ -2138,6 +2138,23 @@
       ]
     },
     {
+      "task_id": "P4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/multi_agent_provenance_dispute.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "tests/test_consensus.py",
+        "research/results/p4-06-provenance-dispute-demo.json",
+        "research/results/p4-06-provenance-dispute-demo.txt"
+      ],
+      "limitations": [
+        "Synthetic claims and deterministic agents only. Independent provenance is not truth verification or source authority."
+      ]
+    },
+    {
       "task_id": "P4-07",
       "status": "DONE",
       "acceptance_passed": true,

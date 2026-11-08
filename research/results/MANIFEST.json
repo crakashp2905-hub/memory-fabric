@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 253,
+ "results": 254,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 96,
-  "dataset_digest": 250,
-  "model_id": 217,
-  "prompt_hash": 253,
-  "seed": 174,
-  "cost": 230,
-  "verdict": 182
+  "prereg": 97,
+  "dataset_digest": 251,
+  "model_id": 218,
+  "prompt_hash": 254,
+  "seed": 175,
+  "cost": 231,
+  "verdict": 183
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 241
+  "unclassified": 242
  },
  "rows": [
   {
@@ -3835,6 +3835,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": "2fbfb4f94608631eec6ad9d20224d0cc3a3a859e",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p4-06-provenance-dispute-demo",
+   "file": "research/results/p4-06-provenance-dispute-demo.json",
+   "file_sha256": "07a29e9fe8a218f8230caf4b2eced2ec73083803471ae4b9eadfcbff2b444cf0",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "cfd52a1b959e8b37b5571b54df6b265801ef7f08",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
