@@ -18,7 +18,7 @@ No calendar dates or external service are required to keep the work moving.
 
 ## Current queue
 
-Checkpoint: 205 complete, 12 partial, 23 open. The previous full offline qualification passed 14 stages before CDM-163. R5 v3 development and confirmatory results are recorded; CDM-163's focused equivalence tests, Ruff and mypy pass. The integrated gate includes its new regression module; the current qualification manifest is authoritative for the latest tree digest. Evaluator abstention,
+Checkpoint: 206 complete, 12 partial, 22 open. The previous full offline qualification passed 14 stages before CDM-163. R5 v3 development and confirmatory results are recorded; CDM-163's focused equivalence tests, Ruff and mypy pass. CDM-165 measures local checkpoint schedule storage/construction tradeoffs and confirms the current verification path still replays stored prefixes; no speedup is claimed. The integrated gate includes its benchmark and regression; the current qualification manifest is authoritative for the latest tree digest. Evaluator abstention,
 basic attribution, bounded checkpoint cache, review-only correction queue,
 synthetic multi-agent worlds, local viewer, bounded dispatcher, and selector
 scaling are implemented. Certificate statuses and world semantics are bound;

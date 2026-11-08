@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (205)
+## Complete at this checkpoint (206)
 
 | Task | Evidence |
 |---|---|
@@ -156,6 +156,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-159 | CDM-R5 v3 superiority hypothesis frozen in `research/prereg/cdm-r5-evaluator-executor-ablations.md` before new runs. It fixes LOO vs exact Shapley primary contrast, 20% positive oracle-headroom margin, one-removal evaluator-only ceiling, all arms/seeds, a five-seed development preflight, disjoint 20-seed confirmatory set, null/ceiling-failure outcomes, zero-exceedance requirement and new-version/fresh-seed rule. Protocol SHA-256 `1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227`; CDM-160 reports the subsequent registered run and null result. |
 | CDM-160 | CDM-R5 v3 report is published under `research/results/cdm/architecture-superiority-r5v3/` with development and disjoint confirmatory reports, per-seed CSVs, manifests, source/config/protocol/output hashes, costs and scope. Confirmatory exact-Shapley minus LOO utility is +0.055 (95% interval −0.0528 to +0.1628); positive oracle headroom 0.26 gives frozen margin 0.052; 0 oracle exceedances. Decision: does not support superiority. Confirmatory report SHA-256 `b60a93b55e2c99ba7df67bfdc8cc0ed46d261c29a0212957bfa80ff621921f52`; CSV SHA-256 `2152a99c024598026403e2d3db7ae9eeb776bf4eadd4c0aa04b96eeb6a27efcb`; summary SHA-256 `a6a3983cc853f153afeebf85be0078f01a47d04ed3fdf6007ab62a4b24aeda92`. Conceptual first-party baselines only; no real-world transfer claim. |
 | CDM-163 | `dependency_frontier` validates complete topological dependency maps and returns transitive descendants in O(V+E); `execute_dependency_frontier` recomputes affected proposals, reuses unaffected proposals, rebuilds all trace fingerprints/final state, and falls back to exhaustive replay when completeness is unknown. Four regression tests compare all steps and final state with exhaustive replay on five seeded worlds, cover replacement/suppression and refusal; 31 replay/scheduler/frontier tests, Ruff and mypy pass. The integrated 14-stage offline gate includes the frontier suite. |
+| CDM-165 | Frozen `research/prereg/cdm-checkpoint-granularity.md` and `benchmarks/cdm_checkpoint_granularity.py` measure every-1/5/10/25/50/100 and terminal-only schedules on a deterministic 100-event trace. Report records checkpoint count, canonical payload bytes, construction time, interval lengths, digest rows, and actual current prefix-verification work. Every-event uses 1,963,880 bytes/5,050 prefix events; terminal-only uses 38,620 bytes/100 prefix events. No restore-speedup claim: current verifier replays stored prefixes. One focused regression passes; integrated gate includes benchmark/test. |
 | CDM-161 | `ReplayBudget` validates event, attempt, wall time, memory estimate, node and zero-tool-call limits |
 | CDM-162 | Earliest affected event is found by exhaustive dependency closure |
 | CDM-164 | Unknown dependency completeness falls back to replay from genesis |
@@ -230,12 +231,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (23)
+## Open (22)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-165 | Benchmark checkpoint granularity options. |
 | CDM-172 | Add early pivotal-event test. |
 | CDM-173 | Add low-centrality pivotal-event test. |
 | CDM-176 | Benchmark exact versus approximate quality under budgets. |
