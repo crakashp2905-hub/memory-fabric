@@ -4,7 +4,7 @@ Strict completion: **124 / 260 (47.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6dc69669c7a6278f42741b3daab8629ab6d55abe708be643c2919b7e26e82edc`.
+Normalized ledger digest: `9e422b348dc561a70b64a162fa9ff4ce85af1bb5160f4a497d9965e1fe94aa5f`.
 
 | status | count |
 |---|---:|
@@ -12,8 +12,8 @@ Normalized ledger digest: `6dc69669c7a6278f42741b3daab8629ab6d55abe708be643c2919
 | DONE | 124 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 16 |
-| TODO | 120 |
+| PARTIAL | 17 |
+| TODO | 119 |
 
 ## Graduation gates
 
@@ -282,7 +282,7 @@ Normalized ledger digest: `6dc69669c7a6278f42741b3daab8629ab6d55abe708be643c2919
 | P5-01 | P0 | DONE | INTERNAL_INTEGRATION | `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` |
 | P5-02 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` |
 | P5-03 | P0 | PARTIAL | CONTRACT | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` |
-| P5-04 | P0 | TODO | NOT_TESTED | — |
+| P5-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` |
 | P5-05 | P0 | DONE | INTERNAL_INTEGRATION | `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` |
 | P5-06 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/KNOWN_GAPS.md` |
 | P5-07 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |

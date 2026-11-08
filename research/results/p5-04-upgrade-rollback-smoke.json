@@ -1,0 +1,57 @@
+{
+  "schema": "mf-upgrade-rollback-smoke/1",
+  "driver_commit": "df738f06e0573d5d6453e103a05cb773e7a0d53a",
+  "driver_worktree_clean": true,
+  "baseline_wheel": "memory_fabric-0.11.0-py3-none-any.whl",
+  "baseline_wheel_sha256": "48c08155967c23f23e998af81eb9e7ec5a0c34c92a32f2ed3771029688ac6a4d",
+  "candidate_wheel": "memory_fabric-0.14.0-py3-none-any.whl",
+  "candidate_wheel_sha256": "d9b7aa4665df138ea2d9a89ba3e8c641c0d4fadae27cb2b6f1c00b9bf3f416b8",
+  "versions": {
+    "baseline": "0.11.0",
+    "upgraded": "0.14.0",
+    "rolled_back": "0.11.0"
+  },
+  "baseline_seed": {
+    "ids": [
+      "01M6WHNCYG66VTX02HVP6CRD77",
+      "01M6WHND1Z7QBQ5322N6QEW4RG"
+    ],
+    "event_count": 7,
+    "chain_ok": true,
+    "chain_head": [
+      7,
+      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+    ],
+    "corrected_version": 2,
+    "withdrawn_state": "quarantined"
+  },
+  "upgrade_readback": {
+    "event_count": 7,
+    "chain_ok": true,
+    "chain_head": [
+      7,
+      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+    ],
+    "corrected_version": 2,
+    "corrected_content": "Pump P1 purge is 30 seconds.",
+    "withdrawn_state": "quarantined"
+  },
+  "rollback_readback": {
+    "event_count": 7,
+    "chain_ok": true,
+    "chain_head": [
+      7,
+      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+    ],
+    "corrected_version": 2,
+    "corrected_content": "Pump P1 purge is 30 seconds.",
+    "withdrawn_state": "quarantined"
+  },
+  "upgrade_passed": true,
+  "rollback_passed": true,
+  "scope_limitations": [
+    "This drill performs no writes after upgrade; rollback with newer-schema writes is not tested.",
+    "The v0.11.0 baseline uses host-configured ActionPolicy grants, not durable grant events. Grant persistence across package upgrade cannot be demonstrated from this baseline.",
+    "Only correction, quarantine/tombstone, event-chain and content readback are asserted."
+  ]
+}

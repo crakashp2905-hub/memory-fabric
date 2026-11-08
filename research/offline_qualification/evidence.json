@@ -1527,6 +1527,20 @@
       ]
     },
     {
+      "task_id": "P5-04",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/upgrade_rollback_smoke.py",
+        "research/results/p5-04-upgrade-rollback-smoke.json"
+      ],
+      "limitations": [
+        "Rollback after writes using the newer schema is not tested.",
+        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated."
+      ]
+    },
+    {
       "task_id": "P5-05",
       "status": "DONE",
       "acceptance_passed": true,
