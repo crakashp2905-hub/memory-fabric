@@ -3,9 +3,9 @@
   "ledger": "docs/CDM_TASK_LEDGER.md",
   "schema": "cdm-task-evidence-inventory-v1",
   "status_counts": {
-    "complete": 235,
+    "complete": 236,
     "open": 0,
-    "partial": 5
+    "partial": 4
   },
   "task_count": 240,
   "tasks": [
@@ -20,7 +20,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "713cb507ed3dd8bbf217f2c4fb00afa92ab0781f11e5786479e7fffd8a77ea8f"
+          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
         }
       ],
       "status": "complete",
@@ -31,7 +31,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "713cb507ed3dd8bbf217f2c4fb00afa92ab0781f11e5786479e7fffd8a77ea8f"
+          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
         }
       ],
       "status": "complete",
@@ -46,7 +46,7 @@
         },
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "713cb507ed3dd8bbf217f2c4fb00afa92ab0781f11e5786479e7fffd8a77ea8f"
+          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
         }
       ],
       "status": "complete",
@@ -167,7 +167,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "713cb507ed3dd8bbf217f2c4fb00afa92ab0781f11e5786479e7fffd8a77ea8f"
+          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
         }
       ],
       "status": "complete",
@@ -180,9 +180,9 @@
       "task_id": "CDM-017"
     },
     {
-      "evidence_row_sha256": "d65fe9cd18f8b9265eaffa64f7e5e34d5d0888654e0d498eaf29b7d6d046b345",
+      "evidence_row_sha256": "20548ed45a67f1174aa3330adaa6f417f8d5ab67308e2cc42c007a07b1538f08",
       "referenced_artifacts": [],
-      "status": "partial",
+      "status": "complete",
       "task_id": "CDM-018"
     },
     {
@@ -196,7 +196,7 @@
       "referenced_artifacts": [
         {
           "path": "research/results/cdm/task-evidence-inventory.json",
-          "sha256": "c33432c33c93e077f47ec0d59c17f5e1ce89b35718ceb3b1be1867f43055f496"
+          "sha256": "2e961ec8a638a3f34a14e517ac063ad738fb683b57a33293317e4999b3ac1952"
         }
       ],
       "status": "partial",
@@ -515,7 +515,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "713cb507ed3dd8bbf217f2c4fb00afa92ab0781f11e5786479e7fffd8a77ea8f"
+          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
         }
       ],
       "status": "complete",

@@ -151,13 +151,17 @@ real federated transport or establish distributed causal completeness.
 ## Execution ledger
 
 The attached source checklist defines 240 task IDs, CDM-001 through CDM-240.
-At this checkpoint **163/240 are complete; 10 are partial; 67 are untouched**
-(77 are not complete).
+At the current checkpoint **236/240 tasks are complete; four are partial; none
+are untouched**. The local task ledger and generated evidence inventory are the
+authoritative task status. The latest 22-stage offline qualification passes on
+the available Python 3.13.5 runtime; Python 3.11/3.12 are not installed here.
 The task-level evidence and explicit partial list are in
 `docs/CDM_TASK_LEDGER.md`. The required phases are A baseline/contracts, B
 deterministic vertical slice, C privacy/fidelity, D attribution, E architecture
 comparisons, F multi-agent correction, G UI/API, and H offline qualification.
-The passing focused offline gate is not full-plan qualification.
+The passing offline gate qualifies the included local stages and synthetic
+artifacts; it does not erase the four partial task requirements or imply
+external, physical-world, or efficacy validation.
 
 ## Change and evidence log
 
@@ -191,6 +195,7 @@ The passing focused offline gate is not full-plan qualification.
 | 2026-11-08 | Added predictive-only contribution feedback scoring and documented typed deterministic outcome evaluator boundary. | Evaluator suite: 5 tests PASS; no fabric/session/action input or mutation path. |
 | 2026-11-08 | Froze R6 TAME-inspired comparator contract before implementation/holdout. | Equation, score cap, hidden-outcome visibility, budget, split seeds and safety rules are recorded in `research/prereg/cdm-r6-tame-inspired.md`. |
 | 2026-11-08 | Refreshed offline qualification and full repository checks. | Focused gate PASS (68 tests, source digest in report); Ruff, mypy (155 files), docs (8) PASS. Full `tools/check.py` stopped at stalled loopback-dependent adversarial stage; remaining HTTP families NOT_RUN. |
+| 2026-11-09 | Bound capture artifacts to digest-only availability, exposure, citation, and verified decision receipt events (CDM-027); bound captured replay values to the exact authorized historical content through a registered canonical JSON observation adapter (CDM-068); completed all local gate stages for the available Python runtime (CDM-018). | Offline qualification PASS: 22 stages, 176 focused tests, Python 3.13.5, source tree digest in `research/results/cdm/offline-qualification/manifest.json`; Ruff and mypy pass. Current inventory: 236 complete, 4 partial, 0 open. |
 
 ## Rollback
 

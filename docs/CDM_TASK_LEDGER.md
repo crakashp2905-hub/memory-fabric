@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (235)
+## Complete at this checkpoint (236)
 
 | Task | Evidence |
 |---|---|
@@ -23,6 +23,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-015 | `docs/CAUSAL_REPLAY_LIMITATIONS.md` |
 | CDM-016 | Provenance definitions in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
 | CDM-017 | Required `tools.cdm_offline_gate --all` qualification runs locally with network/model counts zero; replay tests prohibit socket/process/shell construction, and the inert-import gate fails if a socket is constructed. |
+| CDM-018 | All required local benchmark/gate stages pass in the standard-library-only 22-stage offline qualification on Python 3.13.5; the synthetic demo passes. The local Python launcher confirms Python 3.11/3.12 are not installed, so no compatibility result is claimed for those unavailable runtimes. |
 | CDM-019 | Experimental stability metadata and explicit schema major/minor parsing added: v1/v1.0 compatible, future minor/major refused; record parser normalization and refusal tests pass |
 | CDM-021 | Immutable event and belief references in `types.py` |
 | CDM-022 | Typed `DecisionRecord` in `types.py` |
@@ -243,12 +244,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (5)
+## Partial (4)
 
 | Task | Remaining acceptance evidence |
 |---|---|
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
-| CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
 | CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
