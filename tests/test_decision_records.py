@@ -222,6 +222,12 @@ class DecisionLedgerTests(unittest.TestCase):
             (self.ledger.graph("d1").authorized[0],),
         ))
         self.assertEqual(self.ledger.impacts_for(self.evidence)[0].decision_id, "d1")
+        self.assertEqual(self.ledger.impacts_for(self.evidence),
+                         self.ledger.reference_impacts_for(self.evidence))
+        scanned = self.ledger.index_stats["events_scanned"]
+        self.log.append(Event(EventType.EPISODE_STARTED, 10))
+        self.ledger.impacts_for(self.evidence)
+        self.assertEqual(self.ledger.index_stats["events_scanned"] - scanned, 1)
 
     def test_retraction_impact_uses_its_exact_source_version(self) -> None:
         self.ledger.record(self.decision)

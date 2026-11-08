@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 266,
+ "results": 267,
  "missing_field_counts": {
-  "git_sha": 137,
-  "prereg": 98,
+  "git_sha": 138,
+  "prereg": 99,
   "dataset_digest": 263,
-  "model_id": 230,
-  "prompt_hash": 266,
+  "model_id": 231,
+  "prompt_hash": 267,
   "seed": 184,
-  "cost": 243,
-  "verdict": 191
+  "cost": 244,
+  "verdict": 192
  },
  "population_counts": {
   "synthetic_scripted": 14,
-  "unclassified": 252
+  "unclassified": 253
  },
  "rows": [
   {
@@ -3119,6 +3119,24 @@
     4,
     5
    ],
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "n1-04-dependency-index",
+   "file": "research/results/n1-04-dependency-index.json",
+   "file_sha256": "daceb31b7d6fad65678ef1c215edea9245a5c85f9917c335686d10002f22edac",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": "cc813861d809241b144c6e2706cf216ee87711892b3f5bc1224b1c26676a7cf9",
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": 20261108,
    "config": null,
    "cost": null,
    "verdict": null,

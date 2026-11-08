@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "24a80887726da673f7d694aef5a6efffdcf595484c97c0bc571eb731916d841e",
+    "sha256": "8a97970203c580fc224eb6139d9dd901ae1dc2789d10f009b0e88ee87c612fdf",
     "tasks": 260
   },
   "source": {
-    "commit": "559f00a652aff3493e36c868cb02e1fd1777f872",
-    "dirty": false
+    "commit": "b126471aedf25115e80c86e94a906c4bff5f254e",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 199,
+      "DONE": 200,
       "PARTIAL": 4,
-      "TODO": 57
+      "TODO": 56
     },
-    "completed": 199,
+    "completed": 200,
     "total": 260,
-    "percent_complete": 76.54,
+    "percent_complete": 76.92,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "5f2e2c00c43fd1502c9f2a76bf42430d2a0c7d2c489e5669eb0b6076eae0b25b",
+        "research/results/MANIFEST.json": "c86d792f0200136784cf49447ad1513ebf911ed0e1cf0798053eb33d1a92634f",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2824,12 +2824,12 @@
         "SPEC.md": "407daf1dc94806fa009e248a8857cf75b496acd35a4a3f9e63f9d61f215aa49a",
         "pyproject.toml": "5d181c7e24d815810cd901f5fbb21d17fb61042338c7d671a0d4e7ae813518c6",
         "src/memory_fabric/model.py": "8dac4d6eb888bf44f4f8168219753f3021fac18a35f822350b47cf015feb61f9",
-        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "src/memory_fabric/decision_records.py": "0e7c8cdae8f981eac9f602051a0bd6d36eac7cc4049e1a802c1e06fb302fe701",
         "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
-        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
+        "docs/DECISION_RECORD_SCHEMA.md": "bebb2ffd015b13e2ac9936ce5a215077a86b0cf4fd4cfacdcc41bab2cc0a133d",
         "docs/API.md": "a8ea469db7ee0e26d6f45a300ecc179f2bd6ac692b15e87a71cb2a3a5fe96cc7",
         "docs/API_INVENTORY.json": "6b202f51bd1abe6412fe702860004cf0b634b6186a65f7749cb509f01407235d",
-        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
+        "tests/test_decision_records.py": "383284a44a5467dfe821ecf9fdb03be885a41d0e283b0ddf7dc99d1403b5f037",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -2855,13 +2855,13 @@
         "research/results/n1-02-decision-ledger-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "src/memory_fabric/decision_records.py": "0e7c8cdae8f981eac9f602051a0bd6d36eac7cc4049e1a802c1e06fb302fe701",
         "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
         "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
-        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
-        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
+        "docs/DECISION_RECORD_SCHEMA.md": "bebb2ffd015b13e2ac9936ce5a215077a86b0cf4fd4cfacdcc41bab2cc0a133d",
+        "tests/test_decision_records.py": "383284a44a5467dfe821ecf9fdb03be885a41d0e283b0ddf7dc99d1403b5f037",
         "tests/test_protocol_schemas.py": "e038a67aac7029cf470c8462bb7e30b498b8a1ff086bcc31d6ca905832283c0d",
-        "research/results/n1-02-decision-ledger-tests.xml": "8b562a1b525e1dd629033e08ceef962aa5f0465b9294196041ab626d3f8f3abf"
+        "research/results/n1-02-decision-ledger-tests.xml": "d6e559ab1b7078996bce64910702e778b5758263c7fb7f46e0d132519c6b96be"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2884,11 +2884,11 @@
         "research/results/n1-03-decision-impact-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "src/memory_fabric/decision_records.py": "0e7c8cdae8f981eac9f602051a0bd6d36eac7cc4049e1a802c1e06fb302fe701",
         "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
-        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
-        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
-        "research/results/n1-03-decision-impact-tests.xml": "deff3477c9bda3dd2cb7af39405c0b5b10bce3354932fef5b8ea177b081b7ebb"
+        "docs/DECISION_RECORD_SCHEMA.md": "bebb2ffd015b13e2ac9936ce5a215077a86b0cf4fd4cfacdcc41bab2cc0a133d",
+        "tests/test_decision_records.py": "383284a44a5467dfe821ecf9fdb03be885a41d0e283b0ddf7dc99d1403b5f037",
+        "research/results/n1-03-decision-impact-tests.xml": "f8a024e552989f437254a2a9654b50b3e4f30977d036da2691c42112e5e0b192"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2899,14 +2899,26 @@
       "task_id": "N1-04",
       "priority": "P1",
       "task": "Build incremental dependency indexes and compare against full-scan reference.",
-      "acceptance": "10k-decision fuzz cases return identical affected sets; update cost is bounded",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "10k-decision fuzz cases return identical affected sets; update cost is bounded. Evidence: `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `tools/n1_04_dependency_index.py`, `research/results/n1-04-dependency-index.json` (DONE: the seeded 10,000-decision qualification returned identical 49-decision affected sets from indexed and full-scan paths; a two-event append required scanning exactly two incremental events and both paths returned the same 50-decision set. The index is in-memory and rebuilt from the event log after restart.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "tests/test_decision_records.py",
+        "tools/n1_04_dependency_index.py",
+        "research/results/n1-04-dependency-index.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "0e7c8cdae8f981eac9f602051a0bd6d36eac7cc4049e1a802c1e06fb302fe701",
+        "tests/test_decision_records.py": "383284a44a5467dfe821ecf9fdb03be885a41d0e283b0ddf7dc99d1403b5f037",
+        "tools/n1_04_dependency_index.py": "5f5265a8cc2c8c579d2ea8d82cb2606e91242556fc1cc2f11165872533d54b77",
+        "research/results/n1-04-dependency-index.json": "a781519637d84dab7c15a748da76ade0d8a8763a2b2e871c4e9a78a002a8acd2"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The dependency index is in-memory and incrementally consumes new event-log sequences; process restart rebuilds it by replaying the complete log. Qualification uses a deterministic 10,000-decision generated dataset and records the seed and dataset digest."
+      ]
     },
     {
       "task_id": "N1-05",
@@ -2935,8 +2947,8 @@
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
-        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
+        "src/memory_fabric/decision_records.py": "0e7c8cdae8f981eac9f602051a0bd6d36eac7cc4049e1a802c1e06fb302fe701",
+        "tests/test_decision_records.py": "383284a44a5467dfe821ecf9fdb03be885a41d0e283b0ddf7dc99d1403b5f037",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},

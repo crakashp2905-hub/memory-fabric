@@ -57,6 +57,21 @@
       ]
     },
     {
+      "task_id": "N1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "tests/test_decision_records.py",
+        "tools/n1_04_dependency_index.py",
+        "research/results/n1-04-dependency-index.json"
+      ],
+      "limitations": [
+        "The dependency index is in-memory and incrementally consumes new event-log sequences; process restart rebuilds it by replaying the complete log. Qualification uses a deterministic 10,000-decision generated dataset and records the seed and dataset digest."
+      ]
+    },
+    {
       "task_id": "N1-06",
       "status": "PARTIAL",
       "acceptance_passed": false,

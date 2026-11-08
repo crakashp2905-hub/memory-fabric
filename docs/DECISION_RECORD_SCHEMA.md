@@ -54,3 +54,9 @@ form its proof path, and authorization/execution receipts attached to that
 decision. For federated retractions it checks the origin version and every
 locally cited version of the explicitly targeted local memory ID.
 `RetractionRequested` is not treated as a completed retraction.
+
+The ledger incrementally indexes appended decision and edge events by sequence.
+After restart it rebuilds the in-memory index from the append-only log. The
+`reference_impacts_for` path remains available for qualification and uses a
+full scan; the 10,000-decision qualification and its seeded manifest are
+recorded in `research/results/n1-04-dependency-index.json`.
