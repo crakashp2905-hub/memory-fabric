@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "40eefe5db8c1c7f6ae2f79a03acf04878ce5beb64f574bcf844812b664f0c57d",
+    "sha256": "cb2522f5944db3beb190408772c4dfe66902635437e3981f1b0a24f3316e1763",
     "tasks": 260
   },
   "source": {
-    "commit": "6a50e6092606cc426bce0d32e48ee8becc5f1f5e",
+    "commit": "2ef5273093b22298e8a8f31de1c03139f6ec0fa8",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 123,
+      "DONE": 124,
       "PARTIAL": 15,
-      "TODO": 122
+      "TODO": 121
     },
-    "completed": 123,
+    "completed": 124,
     "total": 260,
-    "percent_complete": 47.31,
-    "p0_open": 15,
+    "percent_complete": 47.69,
+    "p0_open": 14,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -5216,14 +5216,30 @@
       "task_id": "P5-01",
       "priority": "P0",
       "task": "Build exact-candidate artifact from frozen clean SHA with deterministic build inputs.",
-      "acceptance": "Wheel and sdist contents match allowlist and have signed/hashed internal evidence record",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Wheel and sdist contents match allowlist and have signed/hashed internal evidence record. Evidence: `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` (DONE: candidate built from clean frozen SHA `2ef5273093b22298e8a8f31de1c03139f6ec0fa8`; independent builds reproduce wheel and normalized sdist hashes; 149 wheel/155 sdist members pass allowlist audit with 0 findings; fresh isolated install/use/doctor/uninstall passes. Candidate artifacts are retained locally under `dist/candidate-2ef5273`; publication remains separately gated)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
+        "research/results/p5-01-exact-candidate.json",
+        "research/results/p5-01-package-assets.json",
+        "research/results/p5-01-reproducible-sdist-tests.xml",
+        "research/results/p5-01-fresh-machine.txt"
+      ],
+      "evidence_digests": {
+        "tools/normalize_sdist.py": "9a1e8ab40d1554b9101be24c1414824290da5872a7d463c7c87de2dad4e875a9",
+        "tests/test_normalize_sdist.py": "0a134459618d8fbd76c998eaa1e6bfa5ca64b0f87b88c9fed1731e5b43aa210c",
+        "research/results/p5-01-exact-candidate.json": "e96887420adff5ed43e657ed9450a1ab7057e5aead5d743459a2fb7af420aaf7",
+        "research/results/p5-01-package-assets.json": "be5468282028a50e1cff96182ea16394c28fc3a179239d405edf89653af0a9a0",
+        "research/results/p5-01-reproducible-sdist-tests.xml": "69ad222c1c6c1b9d68590eaede8e69db056eb7d3d0fe301bbe08b8fd65e1e3fd",
+        "research/results/p5-01-fresh-machine.txt": "01a150da2b270cef22355533fdb27a6f8e27eb72927b4560f9800afd67b24aa8"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The candidate is built for Python 3.13 and retains in the local ignored dist directory; independent publication approval and supported-version CI remain separate gates."
+      ]
     },
     {
       "task_id": "P5-02",

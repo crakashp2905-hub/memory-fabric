@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **123 / 260 (47.31%)**. Internal status: **BLOCKED**.
+Strict completion: **124 / 260 (47.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `602bac8bde6ace48bc48a3c16dc41b07f19caf8d3f176ee37b5afa8331dc5c1c`.
+Normalized ledger digest: `8b75e63e001169de274355fc8f178b046d5d6ca606d455f9e4aa7201d7de82e9`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 123 |
+| DONE | 124 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 15 |
-| TODO | 122 |
+| TODO | 121 |
 
 ## Graduation gates
 
@@ -279,7 +279,7 @@ Normalized ledger digest: `602bac8bde6ace48bc48a3c16dc41b07f19caf8d3f176ee37b5af
 | P4-08 | P1 | TODO | NOT_TESTED | — |
 | P4-09 | P1 | TODO | NOT_TESTED | — |
 | P4-10 | P1 | TODO | NOT_TESTED | — |
-| P5-01 | P0 | TODO | NOT_TESTED | — |
+| P5-01 | P0 | DONE | INTERNAL_INTEGRATION | `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` |
 | P5-02 | P0 | TODO | NOT_TESTED | — |
 | P5-03 | P0 | PARTIAL | CONTRACT | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` |
 | P5-04 | P0 | TODO | NOT_TESTED | — |

@@ -1480,6 +1480,23 @@
       ]
     },
     {
+      "task_id": "P5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
+        "research/results/p5-01-exact-candidate.json",
+        "research/results/p5-01-package-assets.json",
+        "research/results/p5-01-reproducible-sdist-tests.xml",
+        "research/results/p5-01-fresh-machine.txt"
+      ],
+      "limitations": [
+        "The candidate is built for Python 3.13 and retains in the local ignored dist directory; independent publication approval and supported-version CI remain separate gates."
+      ]
+    },
+    {
       "task_id": "P5-03",
       "status": "PARTIAL",
       "acceptance_passed": false,
