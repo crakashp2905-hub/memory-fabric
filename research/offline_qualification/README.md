@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **146 / 260 (56.15%)**. Internal status: **BLOCKED**.
+Strict completion: **147 / 260 (56.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `bc1d9f21e275fb169c40ddf80a3c6ab822aff6736764ac2d73ac0198206b5f54`.
+Normalized ledger digest: `c43dbf5def862daaf44e8c64ece257a4a558793a9604c369cda878d30473785f`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 146 |
+| DONE | 147 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 110 |
+| TODO | 109 |
 
 ## Graduation gates
 
@@ -245,7 +245,7 @@ Normalized ledger digest: `bc1d9f21e275fb169c40ddf80a3c6ab822aff6736764ac2d73ac0
 | P1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/sdk.py`, `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/correction.py`, `examples/sdk_workflow.py`, `docs/SDK_WORKFLOW.md`, `tests/test_sdk.py`, `tests/test_examples_run.py`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `tests/test_doctor.py`, `tests/test_first_run.py`, `docs/OPERATIONS.md`, `docs/CLI.md`, `research/results/p1-05-setup-doctor.json`, `research/results/p1-05-setup-doctor.txt` |
 | P1-06 | P1 | DONE | INTERNAL_INTEGRATION | `tests/test_connect.py`, `tests/test_portable_paths.py`, `tests/test_first_run.py`, `.github/workflows/ci.yml`, `research/results/p1-06-portable-paths.json`, `research/results/p1-06-portable-paths.txt` |
-| P1-07 | P1 | TODO | NOT_TESTED | — |
+| P1-07 | P1 | DONE | INTERNAL_INTEGRATION | `examples/why_blocked.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_reasons.py`, `docs/TROUBLESHOOTING.md`, `research/results/p1-07-why-blocked.json`, `research/results/p1-07-why-blocked.txt` |
 | P1-08 | P1 | TODO | NOT_TESTED | — |
 | P1-09 | P1 | TODO | NOT_TESTED | — |
 | P1-10 | P1 | TODO | NOT_TESTED | — |

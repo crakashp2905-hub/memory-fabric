@@ -2485,6 +2485,24 @@
         "The exact-commit test run is on Windows 11 with Python 3.13.5. The configured macOS, Linux, and other Python matrix legs have not run for this branch because GitHub CI is unavailable through the connected credentials.",
         "The default tenant is a logical authorization boundary, not a physical isolation boundary; one SQLite store remains one blast radius."
       ]
+    },
+    {
+      "task_id": "P1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/why_blocked.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "tests/test_reasons.py",
+        "docs/TROUBLESHOOTING.md",
+        "research/results/p1-07-why-blocked.json",
+        "research/results/p1-07-why-blocked.txt"
+      ],
+      "limitations": [
+        "The example uses deterministic local records and exercises authorization only; it never calls an external tool. GitHub CI has not run for this branch because PR creation is unavailable through connected credentials."
+      ]
     }
   ]
 }
