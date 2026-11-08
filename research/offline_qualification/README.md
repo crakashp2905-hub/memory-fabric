@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **191 / 260 (73.46%)**. Internal status: **BLOCKED**.
+Strict completion: **192 / 260 (73.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `0671962162e75ffca509d5277a450b9573bd503a78046ff2d27c44a0641bbc7e`.
+Normalized ledger digest: `4f8aba417cd0bb490b8f6c8d1f6de847301cdc7910b3297c0447a81e26e0e6bc`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 191 |
+| DONE | 192 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 66 |
+| TODO | 65 |
 
 ## Graduation gates
 
@@ -113,7 +113,7 @@ Normalized ledger digest: `0671962162e75ffca509d5277a450b9573bd503a78046ff2d27c4
 | R4-02 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/stats.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-03 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/threshold_registry.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-04 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/threshold_registry.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_threshold_registry.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` |
-| R4-05 | P1 | TODO | NOT_TESTED | — |
+| R4-05 | P1 | DONE | INTERNAL_INTEGRATION | `experiments/r4_05_adversarial_cases.py`, `research/prereg/r4-05-adversarial-cases-v1.md`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-05-adversarial-cases.json` |
 | R4-06 | P1 | TODO | NOT_TESTED | — |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |
 | R4-08 | P1 | TODO | NOT_TESTED | — |

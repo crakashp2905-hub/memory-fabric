@@ -3089,6 +3089,21 @@
       ]
     },
     {
+      "task_id": "R4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/r4_05_adversarial_cases.py",
+        "research/prereg/r4-05-adversarial-cases-v1.md",
+        "tests/test_r4_05_adversarial_cases.py",
+        "research/results/r4-05-adversarial-cases.json"
+      ],
+      "limitations": [
+        "The 256-case dataset is deterministic synthetic shortcut-control evidence. First-position and lexicographic-ID heuristics are under the fixture's 35% ceiling, but no language model or production retrieval policy is evaluated. Semantic generalization across independently authored paraphrases remains untested."
+      ]
+    },
+    {
       "task_id": "R4-04",
       "status": "DONE",
       "acceptance_passed": true,
