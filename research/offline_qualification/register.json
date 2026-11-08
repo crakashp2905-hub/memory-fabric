@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "516ed912bfb7bb840c738a38268e3f81bb5686f3222cd8f3566d6bf5adf2fc8e",
+    "sha256": "2fd091c1073b301bf14fbd312d702903d24aaa73c8b7060bbf53e9de2eeeb189",
     "tasks": 260
   },
   "source": {
-    "commit": "57747d3b0c299a1c937de2ffe349b9011c09d554",
+    "commit": "c17f0b70021b7114db8254569805d71f6c7aa3cd",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 202,
+      "DONE": 203,
       "PARTIAL": 3,
-      "TODO": 55
+      "TODO": 54
     },
-    "completed": 202,
+    "completed": 203,
     "total": 260,
-    "percent_complete": 77.69,
+    "percent_complete": 78.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1201,7 +1201,7 @@
         "research/results/e5-02-typed-wheel.json"
       ],
       "evidence_digests": {
-        "pyproject.toml": "b9510ee81db559bab118080a0796cc2897dae6fe985ce8c56c7162ccd06a44fd",
+        "pyproject.toml": "3fb62d7948e8921096dba16c1906fa7c14386c92792f872d56386bbd3391818d",
         "src/memory_fabric/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "tools/check_typed_consumer.py": "66776d0b1770eb44f3ac620672ebb008c46ae4bc6f9b359e6503466a86941873",
         "research/results/e5-02-typed-wheel.json": "772133bbe46a271b45eacf920eef711a44afd32275f5f8349f69c9b82e305689"
@@ -2821,15 +2821,15 @@
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "SPEC.md": "b75269494e9113fafc45a76304e3a2568971d0091aafd884439239ecdf963dda",
-        "pyproject.toml": "b9510ee81db559bab118080a0796cc2897dae6fe985ce8c56c7162ccd06a44fd",
-        "src/memory_fabric/model.py": "289f427772a07393cbda07fc63e8073d207fa5d4ca98359ed2fbe4c4614060b5",
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
-        "src/memory_fabric/__init__.py": "8497523ff569955c585a9c80a2c1460ea7b3174954e1d9d30890aaaafa635cc0",
-        "docs/DECISION_RECORD_SCHEMA.md": "b2497ad0fe2654f6c1bc02953aaa2538937842f5d4e3771f36c895e377faadf1",
+        "SPEC.md": "fee3f82c124ef9ecbb7c191c3367fb09702b05300c5e94f778733c28881f6721",
+        "pyproject.toml": "3fb62d7948e8921096dba16c1906fa7c14386c92792f872d56386bbd3391818d",
+        "src/memory_fabric/model.py": "33667694ddef8859b1bd0231a6a02505694ebe548b5549a39d6a3aa2fe568523",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
+        "src/memory_fabric/__init__.py": "7be793c95e6bcdc851166726bb616ac3680d215f446043f99df8670ec892b383",
+        "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
         "docs/API.md": "a8ea469db7ee0e26d6f45a300ecc179f2bd6ac692b15e87a71cb2a3a5fe96cc7",
         "docs/API_INVENTORY.json": "6b202f51bd1abe6412fe702860004cf0b634b6186a65f7749cb509f01407235d",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -2855,12 +2855,12 @@
         "research/results/n1-02-decision-ledger-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
         "src/memory_fabric/events.py": "9750fcc404d16ee5771edf21ad9386f9647ff1d6a5ff9b5f36b35ed0238dfdbc",
-        "src/memory_fabric/__init__.py": "8497523ff569955c585a9c80a2c1460ea7b3174954e1d9d30890aaaafa635cc0",
-        "docs/DECISION_RECORD_SCHEMA.md": "b2497ad0fe2654f6c1bc02953aaa2538937842f5d4e3771f36c895e377faadf1",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
-        "tests/test_protocol_schemas.py": "0f38fe25193236dd8ce71243ea22151dc0a56870879638296a4cf1dcd74f82da",
+        "src/memory_fabric/__init__.py": "7be793c95e6bcdc851166726bb616ac3680d215f446043f99df8670ec892b383",
+        "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
+        "tests/test_protocol_schemas.py": "0eb8fb60dec8cad4d3a2cc5f60179de5bc66fc986e5e8a7749bb48184b1beb68",
         "research/results/n1-02-decision-ledger-tests.xml": "f4f248e6620d46ee2d0614d9c0705d97be650ec5cc6caa910cdc62b40e3f1815"
       },
       "evidence_issues": {},
@@ -2884,10 +2884,10 @@
         "research/results/n1-03-decision-impact-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
-        "src/memory_fabric/__init__.py": "8497523ff569955c585a9c80a2c1460ea7b3174954e1d9d30890aaaafa635cc0",
-        "docs/DECISION_RECORD_SCHEMA.md": "b2497ad0fe2654f6c1bc02953aaa2538937842f5d4e3771f36c895e377faadf1",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
+        "src/memory_fabric/__init__.py": "7be793c95e6bcdc851166726bb616ac3680d215f446043f99df8670ec892b383",
+        "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "research/results/n1-03-decision-impact-tests.xml": "8b81fcc9b23791f8a0bb35e970305ec5b4a78a21b007aaf235e6e1851c26aabf"
       },
       "evidence_issues": {},
@@ -2910,8 +2910,8 @@
         "research/results/n1-04-dependency-index.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "tools/n1_04_dependency_index.py": "5f5265a8cc2c8c579d2ea8d82cb2606e91242556fc1cc2f11165872533d54b77",
         "research/results/n1-04-dependency-index.json": "3c950f7f81fe897cbce0094c10b4375d79db31c79d8dc4107fcda62c9cf23739"
       },
@@ -2938,12 +2938,12 @@
         "research/results/n1-05-alternative-reassessment.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
         "src/memory_fabric/events.py": "9750fcc404d16ee5771edf21ad9386f9647ff1d6a5ff9b5f36b35ed0238dfdbc",
-        "src/memory_fabric/__init__.py": "8497523ff569955c585a9c80a2c1460ea7b3174954e1d9d30890aaaafa635cc0",
-        "SPEC.md": "b75269494e9113fafc45a76304e3a2568971d0091aafd884439239ecdf963dda",
-        "docs/DECISION_RECORD_SCHEMA.md": "b2497ad0fe2654f6c1bc02953aaa2538937842f5d4e3771f36c895e377faadf1",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
+        "src/memory_fabric/__init__.py": "7be793c95e6bcdc851166726bb616ac3680d215f446043f99df8670ec892b383",
+        "SPEC.md": "fee3f82c124ef9ecbb7c191c3367fb09702b05300c5e94f778733c28881f6721",
+        "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "research/results/n1-05-alternative-reassessment.xml": "bc65ccdac2b162d7f90a3164f1c5f3a347a270e71395279bd7a163b0e7854d65"
       },
       "evidence_issues": {},
@@ -2969,12 +2969,12 @@
         "research/results/n1-06-status-transition-tests.xml"
       ],
       "evidence_digests": {
-        "SPEC.md": "b75269494e9113fafc45a76304e3a2568971d0091aafd884439239ecdf963dda",
+        "SPEC.md": "fee3f82c124ef9ecbb7c191c3367fb09702b05300c5e94f778733c28881f6721",
         "src/memory_fabric/events.py": "9750fcc404d16ee5771edf21ad9386f9647ff1d6a5ff9b5f36b35ed0238dfdbc",
-        "src/memory_fabric/decision_records.py": "224faa2985ca52c53c232ccd1b5ec67202bd04ee6e56a136f291c89c392004c3",
-        "src/memory_fabric/model.py": "289f427772a07393cbda07fc63e8073d207fa5d4ca98359ed2fbe4c4614060b5",
-        "tests/test_decision_records.py": "507a375ee3ae42eccf3941286e8e72c063536585af205097d4df076873d359df",
-        "tests/test_protocol_schemas.py": "0f38fe25193236dd8ce71243ea22151dc0a56870879638296a4cf1dcd74f82da",
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
+        "src/memory_fabric/model.py": "33667694ddef8859b1bd0231a6a02505694ebe548b5549a39d6a3aa2fe568523",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
+        "tests/test_protocol_schemas.py": "0eb8fb60dec8cad4d3a2cc5f60179de5bc66fc986e5e8a7749bb48184b1beb68",
         "research/results/n1-06-status-transition-tests.xml": "51b5db6d92e4d9060eb4141f39ced4e36c5d7b92940a823ff4925c1918fab806"
       },
       "evidence_issues": {},
@@ -2986,14 +2986,34 @@
       "task_id": "N1-07",
       "priority": "P1",
       "task": "Expose machine-readable re-evaluation receipt with exact changed premise and current decision status.",
-      "acceptance": "Receipt deterministically reproduces after event-log replay, without granting authority",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Receipt deterministically reproduces after event-log replay, without granting authority. Evidence: `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `tests/test_support_bundle.py`, `research/results/n1-07-reevaluation-receipt-tests.xml` (DONE: schema 0.18.0 receipts include the exact premise, current status, reliance proof and affected effects; canonical IDs and JSON reproduce after replay. Tests confirm receipt generation appends no event and authority remains false.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
+        "tests/test_support_bundle.py",
+        "research/results/n1-07-reevaluation-receipt-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
+        "src/memory_fabric/__init__.py": "7be793c95e6bcdc851166726bb616ac3680d215f446043f99df8670ec892b383",
+        "SPEC.md": "fee3f82c124ef9ecbb7c191c3367fb09702b05300c5e94f778733c28881f6721",
+        "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
+        "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
+        "tests/test_protocol_schemas.py": "0eb8fb60dec8cad4d3a2cc5f60179de5bc66fc986e5e8a7749bb48184b1beb68",
+        "tests/test_support_bundle.py": "b55c8ad8edefa10b90fa35d1a205f57a5cc4ea1e81a6304375339b86d4244ab2",
+        "research/results/n1-07-reevaluation-receipt-tests.xml": "a81449e429afc450ae4c13237e07e890a1eb74f5dfad77b16f8aec8ac7dda15b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Receipts are deterministic projections of the local durable event log. They are advisory and do not approve, authorize, or execute effects; a distributed receipt-delivery protocol is not implied."
+      ]
     },
     {
       "task_id": "N1-08",
@@ -4816,7 +4836,7 @@
         "research/results/h5-01-dependency-provenance.json"
       ],
       "evidence_digests": {
-        "pyproject.toml": "b9510ee81db559bab118080a0796cc2897dae6fe985ce8c56c7162ccd06a44fd",
+        "pyproject.toml": "3fb62d7948e8921096dba16c1906fa7c14386c92792f872d56386bbd3391818d",
         "tools/dependency_provenance.py": "ba3680568289ddbbf46c2e4907ae74e740320f5b12efb1f2f01775734b7ba719",
         "research/results/h5-01-dependency-provenance.json": "c544b1a8b6e3e58a9b6e1d00d837fc5eb62cd1fccba2ffe4c5fc57973922e66c"
       },
@@ -6024,7 +6044,7 @@
       "evidence_digests": {
         "src/memory_fabric/support_bundle.py": "d2f494e8a66e0eb86865bd083de55d036738c51b1e78b18ff7f9e9260392a65c",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
-        "tests/test_support_bundle.py": "98ab04d4d50dee76d5d5ad17515213491e49c1f418c11646f0daba92511ae5ef",
+        "tests/test_support_bundle.py": "b55c8ad8edefa10b90fa35d1a205f57a5cc4ea1e81a6304375339b86d4244ab2",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
