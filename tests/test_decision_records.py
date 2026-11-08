@@ -5,7 +5,7 @@ import unittest
 
 from memory_fabric import (
     DecisionEdge, DecisionEdgeError, DecisionLedger, DecisionOption, DecisionRecord,
-    DecisionTransitionError, Event, EventLog, EventType, EvidenceVersion,
+    DecisionImpact, DecisionTransitionError, Event, EventLog, EventType, EvidenceVersion,
 )
 
 
@@ -144,6 +144,8 @@ class DecisionLedgerTests(unittest.TestCase):
         ))
         self.ledger.observe("d1", exposure.event_id, actor_id="agent-1",
                             recorded_at="2026-11-08T10:01:00Z")
+        self.ledger.observe("d1", exposure.event_id, actor_id="agent-1",
+                            recorded_at="2026-11-08T10:01:00Z")
         for relation, target in (("relied_on", "claim-1"),
                                  ("authorized", "effect:1"), ("executed", "effect:1")):
             self.ledger.link(DecisionEdge(f"edge-{relation}", "d1", relation, target,
@@ -193,6 +195,69 @@ class DecisionLedgerTests(unittest.TestCase):
         with self.assertRaisesRegex(DecisionEdgeError, "cannot carry"):
             DecisionEdge("e2", "d1", "executed", "effect:1", "agent-1",
                          "2026-11-08T10:00:00Z", self.evidence)
+
+    def test_correction_impact_returns_exact_reliance_proof_and_its_effects(self) -> None:
+        relying = self.decision
+        sharing = DecisionRecord(
+            "d2", "tenant-1", "agent-2", "2026-11-08T10:00:00Z", "other decision",
+            (DecisionOption("a", "A", (self.evidence,)),), "a", (self.evidence,), {},
+        )
+        self.ledger.record(relying)
+        self.ledger.record(sharing)
+        proof = DecisionEdge("relied", "d1", "relied_on", "claim-1", "agent-1",
+                             "2026-11-08T10:02:00Z", self.evidence)
+        self.ledger.link(proof)
+        for decision_id in ("d1", "d2"):
+            self.ledger.link(DecisionEdge(f"auth-{decision_id}", decision_id, "authorized",
+                                          f"receipt-{decision_id}", "reviewer",
+                                          "2026-11-08T10:02:00Z"))
+        correction = self.log.append(Event(
+            EventType.MEMORY_VERSIONED, 5,
+            {"memory": {"id": "m1", "version": 3}, "reason": "corrected"},
+        ))
+        impacts = self.ledger.impacts_from_event(correction.event_id)
+        self.assertEqual(len(impacts), 1)
+        self.assertEqual(impacts[0], DecisionImpact(
+            correction.event_id, self.evidence, "d1", (proof,),
+            (self.ledger.graph("d1").authorized[0],),
+        ))
+        self.assertEqual(self.ledger.impacts_for(self.evidence)[0].decision_id, "d1")
+
+    def test_retraction_impact_uses_its_exact_source_version(self) -> None:
+        self.ledger.record(self.decision)
+        proof = DecisionEdge("relied", "d1", "relied_on", "claim-1", "agent-1",
+                             "2026-11-08T10:02:00Z", self.evidence)
+        self.ledger.link(proof)
+        retraction = self.log.append(Event(
+            EventType.RETRACTION_APPLIED, 6,
+            {"origin_memory_id": "origin-m1", "origin_memory_version": 7,
+             "local_memory_id": "m1"},
+        ))
+        self.assertEqual(self.ledger.impacts_from_event(retraction.event_id)[0].proof_edges,
+                         (proof,))
+
+    def test_impact_query_rejects_unrelated_trigger_types(self) -> None:
+        unrelated = self.log.append(Event(EventType.EPISODE_STARTED, 7))
+        with self.assertRaisesRegex(DecisionEdgeError, "must be MemoryVersioned"):
+            self.ledger.impacts_from_event(unrelated.event_id)
+
+    def test_graph_replay_rejects_forged_seen_edge(self) -> None:
+        self.ledger.record(self.decision)
+        self.log.append(Event(EventType.DECISION_SEEN, 8, {
+            "decision_id": "d1", "exposure_event_id": "missing", "memory_id": "m1",
+            "version": 2, "recorded_at": "2026-11-08T10:03:00Z",
+        }, agent_id="agent-1"))
+        with self.assertRaisesRegex(DecisionEdgeError, "does not match an exposed source"):
+            self.ledger.graph("d1")
+
+    def test_graph_replay_rejects_reliance_outside_decision_evidence(self) -> None:
+        self.ledger.record(self.decision)
+        forged = DecisionEdge("forged", "d1", "relied_on", "claim-1", "agent-1",
+                              "2026-11-08T10:02:00Z", EvidenceVersion("other", 9))
+        self.log.append(Event(EventType.DECISION_EDGE_RECORDED, 9,
+                              {"edge": forged.to_dict()}, agent_id="agent-1"))
+        with self.assertRaisesRegex(DecisionEdgeError, "absent from its decision"):
+            self.ledger.graph("d1")
 
 
 if __name__ == "__main__":

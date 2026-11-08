@@ -46,3 +46,11 @@ Effect edges carry no claim evidence. Their target is the integrator-supplied
 governed effect receipt ID, kept separate from claim evidence; automatic
 derivation from action-gate/execution receipts and correction-driven impact
 queries remain separate work.
+
+For an impact query, pass the event ID of a `MemoryVersioned` correction or
+`RetractionApplied` event to `DecisionLedger.impacts_from_event`. The result
+contains the exact changed evidence version, the direct reliance edges that
+form its proof path, and authorization/execution receipts attached to that
+decision. For federated retractions it checks the origin version and every
+locally cited version of the explicitly targeted local memory ID.
+`RetractionRequested` is not treated as a completed retraction.

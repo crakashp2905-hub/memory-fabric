@@ -16,21 +16,21 @@ class RedactedIncidentReplay(unittest.TestCase):
     def _artifact(self):
         fabric = MemoryFabric(":memory:", auto_activate=True, seed=0)
         self.addCleanup(fabric.close)
-        secret = "PRIVATE-CANARY-incident-payload"
-        memory_id = fabric.remember("agent", f"Evidence contains {secret}", scope="team")
+        canary = "PRIVATE-CANARY-incident-payload"
+        memory_id = fabric.remember("agent", f"Evidence contains {canary}", scope="team")
         gate = ActionGate(fabric, ActionPolicy(
             tools={"ship": ToolRule("ship")}, grants={"agent": frozenset({"ship"})}
         ))
         gate.authorize("ship", "agent", fabric.certify("shipment", [memory_id], "agent"))
         action = next(e for e in fabric.log.read_types([EventType.ACTION_GATED]))
-        return fabric, action.seq, secret
+        return fabric, action.seq, canary
 
     def test_same_history_replays_identically_from_redacted_artifact(self) -> None:
-        fabric, action_seq, secret = self._artifact()
+        fabric, action_seq, canary = self._artifact()
         first = export_incident(fabric, action_seq)
         second = export_incident(fabric, action_seq)
         self.assertEqual(first, second)
-        self.assertNotIn(secret, json.dumps(first))
+        self.assertNotIn(canary, json.dumps(first))
         # The replay consumes only the exported redacted object; no fabric/store
         # is passed and repeated output must be byte stable.
         replay_a = replay_redacted_incident(first)

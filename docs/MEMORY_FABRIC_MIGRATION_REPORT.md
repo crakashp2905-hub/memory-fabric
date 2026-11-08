@@ -3,7 +3,8 @@
 The implementation package, distribution and command are `memory-fabric`; the public
 store class is `Memory Fabric`. The owner explicitly chose a complete namespace
 rename with breaking imports/commands and preserved stored data. No aliases ship.
-The package remains version 0.14.0, schema 0.14.0, alpha and proprietary. This is
+The package candidate is version 0.15.0; its schema adds replayable
+decision evidence events. The package is alpha and proprietary. This is
 a new distribution identity, not a new stability or research claim.
 
 The implementation directory was renamed once, with relative imports retained.

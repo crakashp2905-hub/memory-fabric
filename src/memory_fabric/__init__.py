@@ -25,6 +25,7 @@ from .decision_records import (
     DecisionEdge,
     DecisionEdgeError,
     DecisionGraph,
+    DecisionImpact,
     DecisionLedger,
     DecisionOption,
     DecisionRecord,
@@ -113,13 +114,19 @@ from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
 from .vectors import Embedder, HashingEmbedder, VectorIndex
 
-__version__ = "0.14.0"
+__version__ = "0.15.0"
 
 __all__ = [
     "ParameterEquivalences",
     "DecisionRecord",
     "DecisionOption",
+    "DecisionEdge",
+    "DecisionEdgeError",
+    "DecisionGraph",
+    "DecisionImpact",
+    "DecisionLedger",
     "EvidenceVersion",
+    "SeenExposure",
     "DecisionStatusTransition",
     "DecisionTransitionError",
     "RetrievalRanking",

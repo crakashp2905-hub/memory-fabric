@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.15.0): replayable decision evidence graph
+- Decision records, typed exposure/reliance/effect links, and deterministic correction/retraction impact queries are stored as append-only, hash-chained events.
+- Existing event rows remain unchanged; projections and older readers continue to ignore unknown event types.
+
 ### Changed: Memory Fabric namespace
 - Product, package, Python import, CLI, MCP setup and environment prefix now use Memory Fabric. The public store class is `Memory Fabric`; retired import/command aliases are intentionally absent under the owner's complete-rename decision.
 - Existing events, schema version and cryptographic key-derivation/associated-data bytes remain unchanged. Historical text was terminology-normalized; original evidence commits remain in Git and numerical outcomes were not improved by renaming.

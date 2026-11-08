@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **198 / 260 (76.15%)**. Internal status: **BLOCKED**.
+Strict completion: **199 / 260 (76.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1a55bc61679bb28f625317347acd48fa283f7baf91573d4a07d54411983acc8a`.
+Normalized ledger digest: `452e1128efee0191ef188274e743992b1d24cf9bac791ba3162e4d8e29156150`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 198 |
+| DONE | 199 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 58 |
+| TODO | 57 |
 
 ## Graduation gates
 
@@ -129,9 +129,9 @@ Normalized ledger digest: `1a55bc61679bb28f625317347acd48fa283f7baf91573d4a07d54
 | R5-08 | P1 | DONE | CONTRACT | `research/claims.json`, `tools/claims_ledger.py`, `tests/test_claims_ledger.py`, `tests/test_claim_checker_contract.py`, `research/results/CLAIMS_LEDGER.json`, `research/results/CLAIMS_LEDGER.md` |
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
 | R5-10 | P1 | DONE | CONTRACT | `research/OFFLINE_REPRODUCIBILITY.md`, `tests/test_offline_reproducibility.py`, `research/claims.json`, `research/results/CLAIMS_LEDGER.json` |
-| N1-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
-| N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-02-decision-ledger-tests.xml` |
-| N1-03 | P1 | TODO | NOT_TESTED | — |
+| N1-01 | P1 | DONE | CONTRACT | `SPEC.md`, `pyproject.toml`, `src/memory_fabric/model.py`, `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
+| N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-02-decision-ledger-tests.xml` |
+| N1-03 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-03-decision-impact-tests.xml` |
 | N1-04 | P1 | TODO | NOT_TESTED | — |
 | N1-05 | P1 | TODO | NOT_TESTED | — |
 | N1-06 | P1 | PARTIAL | CONTRACT | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |

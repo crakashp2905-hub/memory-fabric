@@ -62,6 +62,14 @@ class SeenExposure:
     actor_id: str
     recorded_at: str
 
+    def __post_init__(self) -> None:
+        if not all(isinstance(value, str) and value.strip() for value in
+                   (self.decision_id, self.exposure_event_id, self.memory_id, self.actor_id)):
+            raise DecisionEdgeError("seen exposure identities must not be empty")
+        if not isinstance(self.version, int) or isinstance(self.version, bool) or self.version < 1:
+            raise DecisionEdgeError("seen exposure version must be positive")
+        _validate_timestamp(self.recorded_at, "recorded_at")
+
 
 @dataclass(frozen=True, slots=True)
 class DecisionGraph:
@@ -70,6 +78,17 @@ class DecisionGraph:
     relied_on: tuple[DecisionEdge, ...]
     authorized: tuple[DecisionEdge, ...]
     executed: tuple[DecisionEdge, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class DecisionImpact:
+    """A correction/retraction impact with direct evidence and effect paths."""
+
+    trigger_event_id: str
+    changed_evidence: EvidenceVersion
+    decision_id: str
+    proof_edges: tuple[DecisionEdge, ...]
+    affected_effects: tuple[DecisionEdge, ...]
 
 
 def _decode_edge(data: Mapping[str, Any]) -> DecisionEdge:
@@ -134,7 +153,8 @@ class DecisionLedger:
 
     def observe(self, decision_id: str, exposure_event_id: str, *, actor_id: str,
                 recorded_at: str) -> None:
-        if self.get(decision_id) is None:
+        decision = self.get(decision_id)
+        if decision is None:
             raise DecisionEdgeError("decision does not exist")
         source = next((event for event in self._log.read()
                        if event.event_id == exposure_event_id), None)
@@ -143,18 +163,25 @@ class DecisionLedger:
         if not source.payload.get("exposed"):
             raise DecisionEdgeError("withheld exposure cannot be marked seen")
         _validate_timestamp(recorded_at, "recorded_at")
-        decision = self.get(decision_id)
         if source.agent_id != decision.agent_id:
             raise DecisionEdgeError("exposure actor must match the decision agent")
+        if not isinstance(actor_id, str) or not actor_id.strip():
+            raise DecisionEdgeError("actor_id must not be empty")
+        event_id = "decision_seen_" + hashlib.sha256(
+            f"{decision_id}\0{exposure_event_id}".encode("utf-8")).hexdigest()
+        existing = next((event for event in self._log.read_types([EventType.DECISION_SEEN])
+                         if event.event_id == event_id), None)
+        if existing is not None:
+            if (existing.agent_id == actor_id
+                    and existing.payload.get("recorded_at") == recorded_at):
+                return
+            raise DecisionEdgeError("seen observation already exists with different details")
         self._log.append(Event(type=EventType.DECISION_SEEN, ts=self._clock(), agent_id=actor_id,
                                payload={"decision_id": decision_id,
                                         "exposure_event_id": exposure_event_id,
                                         "memory_id": source.payload["memory_id"],
                                         "version": source.payload["version"],
-                                        "recorded_at": recorded_at},
-                               event_id="decision_seen_" + hashlib.sha256(
-                                   f"{decision_id}\0{exposure_event_id}".encode("utf-8")
-                               ).hexdigest()))
+                                        "recorded_at": recorded_at}, event_id=event_id))
 
     def graph(self, decision_id: str) -> DecisionGraph:
         decision = self.get(decision_id)
@@ -162,15 +189,26 @@ class DecisionLedger:
             raise DecisionEdgeError("decision does not exist")
         seen: list[SeenExposure] = []
         edges: list[DecisionEdge] = []
+        exposures = {event.event_id: event for event in self._log.read_types(
+            [EventType.EXPOSURE_DECIDED])}
         for event in self._log.read_types([EventType.DECISION_EDGE_RECORDED,
                                            EventType.DECISION_SEEN]):
             if event.type == EventType.DECISION_EDGE_RECORDED:
                 edge = _decode_edge(event.payload["edge"])
                 if edge.decision_id == decision_id:
+                    if edge.relation == "relied_on" and edge.evidence not in decision.evidence_versions:
+                        raise DecisionEdgeError(
+                            "replayed reliance edge references evidence absent from its decision")
                     edges.append(edge)
             elif event.type == EventType.DECISION_SEEN:
                 row = event.payload
                 if row["decision_id"] == decision_id:
+                    source = exposures.get(row["exposure_event_id"])
+                    if (source is None or not source.payload.get("exposed")
+                            or source.agent_id != decision.agent_id
+                            or source.payload.get("memory_id") != row["memory_id"]
+                            or source.payload.get("version") != row["version"]):
+                        raise DecisionEdgeError("replayed seen event does not match an exposed source")
                     seen.append(SeenExposure(decision_id, row["exposure_event_id"],
                                              row["memory_id"], row["version"],
                                              event.agent_id or "", row["recorded_at"]))
@@ -178,6 +216,65 @@ class DecisionLedger:
                              tuple(e for e in edges if e.relation == "relied_on"),
                              tuple(e for e in edges if e.relation == "authorized"),
                              tuple(e for e in edges if e.relation == "executed"))
+
+    def impacts_for(self, changed: EvidenceVersion, *, trigger_event_id: str = "") -> tuple[DecisionImpact, ...]:
+        """Return only decisions that explicitly relied on this exact version."""
+        decisions = {record.decision_id: record for event in
+                     self._log.read_types([EventType.DECISION_RECORDED])
+                     if (record := DecisionRecord.from_dict(event.payload["decision"]))}
+        grouped: dict[str, list[DecisionEdge]] = {}
+        for event in self._log.read_types([EventType.DECISION_EDGE_RECORDED]):
+            edge = _decode_edge(event.payload["edge"])
+            if edge.relation == "relied_on" and edge.evidence == changed:
+                grouped.setdefault(edge.decision_id, []).append(edge)
+        results: list[DecisionImpact] = []
+        for decision_id in sorted(grouped):
+            if decision_id not in decisions:
+                continue
+            graph = self.graph(decision_id)
+            proof = tuple(sorted(grouped[decision_id], key=lambda edge: edge.edge_id))
+            results.append(DecisionImpact(
+                trigger_event_id, changed, decision_id, proof,
+                tuple(sorted(graph.authorized + graph.executed,
+                             key=lambda edge: (edge.relation, edge.edge_id))),
+            ))
+        return tuple(results)
+
+    def impacts_from_event(self, trigger_event_id: str) -> tuple[DecisionImpact, ...]:
+        """Resolve a correction/retraction event into exact impacted decisions.
+
+        A new memory version invalidates reliance on prior versions of that
+        memory. Retraction events target their stated origin memory version.
+        Other event kinds are rejected rather than guessed at.
+        """
+        trigger = next((event for event in self._log.read()
+                        if event.event_id == trigger_event_id), None)
+        if trigger is None:
+            raise DecisionEdgeError("trigger event does not exist")
+        changed: set[EvidenceVersion] = set()
+        if trigger.type == EventType.MEMORY_VERSIONED:
+            memory = trigger.payload["memory"]
+            memory_id, current_version = memory["id"], memory["version"]
+            known = {edge.evidence for event in self._log.read_types(
+                [EventType.DECISION_EDGE_RECORDED])
+                if (edge := _decode_edge(event.payload["edge"])).relation == "relied_on"
+                and edge.evidence is not None and edge.evidence.memory_id == memory_id
+                and edge.evidence.version < current_version}
+            changed.update(known)
+        elif trigger.type == EventType.RETRACTION_APPLIED:
+            payload = trigger.payload
+            changed.add(EvidenceVersion(payload["origin_memory_id"],
+                                        payload["origin_memory_version"]))
+            local_memory_id = payload.get("local_memory_id")
+            if local_memory_id:
+                changed.update(edge.evidence for event in self._log.read_types(
+                    [EventType.DECISION_EDGE_RECORDED])
+                    if (edge := _decode_edge(event.payload["edge"])).relation == "relied_on"
+                    and edge.evidence is not None and edge.evidence.memory_id == local_memory_id)
+        else:
+            raise DecisionEdgeError("trigger must be MemoryVersioned or RetractionApplied")
+        return tuple(impact for evidence in sorted(changed)
+                     for impact in self.impacts_for(evidence, trigger_event_id=trigger_event_id))
 
 DECISION_STATUSES = frozenset({"proposed", "approved", "executed", "superseded",
                                "requires_reconsideration"})

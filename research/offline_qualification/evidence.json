@@ -7,9 +7,14 @@
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
+        "SPEC.md",
+        "pyproject.toml",
+        "src/memory_fabric/model.py",
         "src/memory_fabric/decision_records.py",
         "src/memory_fabric/__init__.py",
         "docs/DECISION_RECORD_SCHEMA.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
         "tests/test_decision_records.py",
         "research/results/n1-01-decision-record-tests.xml"
       ],
@@ -28,10 +33,27 @@
         "src/memory_fabric/__init__.py",
         "docs/DECISION_RECORD_SCHEMA.md",
         "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
         "research/results/n1-02-decision-ledger-tests.xml"
       ],
       "limitations": [
         "The replayable graph keeps exposure observation separate from claim reliance and authorization/execution relationships. Tool effect target IDs are supplied by the integrator; automatic derivation from action-gate and execution receipt events is not implemented."
+      ]
+    },
+    {
+      "task_id": "N1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-03-decision-impact-tests.xml"
+      ],
+      "limitations": [
+        "Impact queries follow explicit relied_on edges to exact evidence versions and report only effects attached to affected decisions. Correction and RetractionApplied triggers are supported; requested but unapplied retractions do not trigger impact results."
       ]
     },
     {

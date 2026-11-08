@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b3181b51b3284feb2aa6c1fb1f7dd08c3b04a43505279cb3fb7a89a06ff8686e",
+    "sha256": "24a80887726da673f7d694aef5a6efffdcf595484c97c0bc571eb731916d841e",
     "tasks": 260
   },
   "source": {
-    "commit": "f0dfe2e9aa3ced33b30834dc35ab1ee9a335a000",
+    "commit": "0f4ee61bed7fe41352813805a12d67098515d533",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 198,
+      "DONE": 199,
       "PARTIAL": 4,
-      "TODO": 58
+      "TODO": 57
     },
-    "completed": 198,
+    "completed": 199,
     "total": 260,
-    "percent_complete": 76.15,
+    "percent_complete": 76.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1201,7 +1201,7 @@
         "research/results/e5-02-typed-wheel.json"
       ],
       "evidence_digests": {
-        "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
+        "pyproject.toml": "5d181c7e24d815810cd901f5fbb21d17fb61042338c7d671a0d4e7ae813518c6",
         "src/memory_fabric/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "tools/check_typed_consumer.py": "66776d0b1770eb44f3ac620672ebb008c46ae4bc6f9b359e6503466a86941873",
         "research/results/e5-02-typed-wheel.json": "772133bbe46a271b45eacf920eef711a44afd32275f5f8349f69c9b82e305689"
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "bde6e74259f2c4777985020ab19398c1489ebe8b0234564e7319a581330019e2",
+        "research/results/MANIFEST.json": "5f2e2c00c43fd1502c9f2a76bf42430d2a0c7d2c489e5669eb0b6076eae0b25b",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2046,7 +2046,7 @@
         "research/results/r3-02-matched-agent-arms.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
         "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
@@ -2076,7 +2076,7 @@
         "research/results/r3-03-failure-taxonomy.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "research/prereg/failure-taxonomy-v1.md": "1a5ff50933a8179678dca7e5c50f111202b9bdb6b3fc061383905397bbfc2a96",
         "docs/FAILURE_TAXONOMY.md": "1bb27ae902a6fd82f156aa9eefc9937a48bbe284785bba1f7a6a8e67344c40fd",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2278,7 +2278,7 @@
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
         "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2444,7 +2444,7 @@
         "research/results/r4-05-adversarial-cases.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686",
         "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2502,7 +2502,7 @@
         "research/results/r5-06-pareto-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
@@ -2682,7 +2682,7 @@
         "research/results/r5-06-pareto-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
         "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
         "tests/test_r5_06_pareto_qualification.py": "75491066829a9322a14ad53dd4b5ef090c2f1e6a960fd2b6f2bfc141d21c9210",
         "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
@@ -2809,17 +2809,27 @@
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
+        "SPEC.md",
+        "pyproject.toml",
+        "src/memory_fabric/model.py",
         "src/memory_fabric/decision_records.py",
         "src/memory_fabric/__init__.py",
         "docs/DECISION_RECORD_SCHEMA.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
         "tests/test_decision_records.py",
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
-        "src/memory_fabric/__init__.py": "145ae76f56dd3b00d5fcac0c4ecb0d3aac157134c157586cafb2ca50e1bde0cd",
-        "docs/DECISION_RECORD_SCHEMA.md": "d61d53f65fda42803718842197f3e0ffb56a73ff92f82799e39c1f0b28f6eec6",
-        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
+        "SPEC.md": "407daf1dc94806fa009e248a8857cf75b496acd35a4a3f9e63f9d61f215aa49a",
+        "pyproject.toml": "5d181c7e24d815810cd901f5fbb21d17fb61042338c7d671a0d4e7ae813518c6",
+        "src/memory_fabric/model.py": "8dac4d6eb888bf44f4f8168219753f3021fac18a35f822350b47cf015feb61f9",
+        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
+        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
+        "docs/API.md": "a8ea469db7ee0e26d6f45a300ecc179f2bd6ac692b15e87a71cb2a3a5fe96cc7",
+        "docs/API_INVENTORY.json": "6b202f51bd1abe6412fe702860004cf0b634b6186a65f7749cb509f01407235d",
+        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -2831,7 +2841,7 @@
       "task_id": "N1-02",
       "priority": "P1",
       "task": "Record decision-to-claim and decision-to-tool-effect edges separately from observed exposure.",
-      "acceptance": "Graph distinguishes 'seen', 'relied upon', 'authorized' and 'executed' with typed edge tests. Evidence: `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-02-decision-ledger-tests.xml` (DONE: append-only ledger events replay typed seen, relied_on, authorized and executed graph views; tests enforce exact evidence linkage and exposed-only observations. Decision-ledger, event-log, tamper-evident chain, stability and reference checks: 48 tests and 103 subtests passed. Effect target IDs are integrator-supplied receipt references; automatic linking to action gate/execution events is not claimed.)",
+      "acceptance": "Graph distinguishes 'seen', 'relied upon', 'authorized' and 'executed' with typed edge tests. Evidence: `SPEC.md`, `pyproject.toml`, `src/memory_fabric/model.py`, `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-02-decision-ledger-tests.xml` (DONE: schema 0.15.0 adds append-only replayable decision events; typed graph separates seen, relied_on, authorized and executed, enforcing exact evidence linkage and exposed-only observations. Decision-ledger, event-log, tamper-evident chain, schema, stability and reference checks: 72 tests and 123 subtests passed. Effect target IDs are integrator-supplied receipt references; automatic linking to action gate/execution events is not claimed.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
@@ -2841,15 +2851,17 @@
         "src/memory_fabric/__init__.py",
         "docs/DECISION_RECORD_SCHEMA.md",
         "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
         "research/results/n1-02-decision-ledger-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
+        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
         "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
-        "src/memory_fabric/__init__.py": "145ae76f56dd3b00d5fcac0c4ecb0d3aac157134c157586cafb2ca50e1bde0cd",
-        "docs/DECISION_RECORD_SCHEMA.md": "d61d53f65fda42803718842197f3e0ffb56a73ff92f82799e39c1f0b28f6eec6",
-        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
-        "research/results/n1-02-decision-ledger-tests.xml": "b0c1ab3424c127832f7f70a81a213fe837e1f3b871992b137d506154fc22f742"
+        "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
+        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
+        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
+        "tests/test_protocol_schemas.py": "e038a67aac7029cf470c8462bb7e30b498b8a1ff086bcc31d6ca905832283c0d",
+        "research/results/n1-02-decision-ledger-tests.xml": "8b562a1b525e1dd629033e08ceef962aa5f0465b9294196041ab626d3f8f3abf"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2860,14 +2872,28 @@
       "task_id": "N1-03",
       "priority": "P1",
       "task": "Implement deterministic decision-impact query triggered by correction or retraction.",
-      "acceptance": "Returns affected decisions with proof paths, not every action that merely shared a source",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Returns affected decisions with proof paths, not every action that merely shared a source. Evidence: `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-03-decision-impact-tests.xml` (DONE: event-ID-triggered correction and applied-retraction queries return sorted exact-version reliance proof edges and only effects attached to impacted decisions; replay rejects forged seen and reliance edges; tests exclude exposure-only and merely co-occurring actions and cover federated local IDs. Focused impact suite: 14 tests passed.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-03-decision-impact-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "src/memory_fabric/__init__.py": "0c530ed227188167cd270f17014f3830310e8a14d47884463d64a5f30a02d5d8",
+        "docs/DECISION_RECORD_SCHEMA.md": "3c93ee4ee39a7f37619a4794fb52a6d0a3487d563718190a1d73e4134e797360",
+        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
+        "research/results/n1-03-decision-impact-tests.xml": "deff3477c9bda3dd2cb7af39405c0b5b10bce3354932fef5b8ea177b081b7ebb"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Impact queries follow explicit relied_on edges to exact evidence versions and report only effects attached to affected decisions. Correction and RetractionApplied triggers are supported; requested but unapplied retractions do not trigger impact results."
+      ]
     },
     {
       "task_id": "N1-04",
@@ -2909,8 +2935,8 @@
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
-        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
+        "src/memory_fabric/decision_records.py": "2a6f562fee15e346217df33144b7a6f2f5ae810dde35b3112e1a827f405b0d17",
+        "tests/test_decision_records.py": "8787d91fbcfffd6690c5a29414af3e9c450a2f11f748f8af488e1b8ca3cc0c85",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -4450,7 +4476,7 @@
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
-        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
+        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
         "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
@@ -4752,7 +4778,7 @@
         "research/results/h5-01-dependency-provenance.json"
       ],
       "evidence_digests": {
-        "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
+        "pyproject.toml": "5d181c7e24d815810cd901f5fbb21d17fb61042338c7d671a0d4e7ae813518c6",
         "tools/dependency_provenance.py": "ba3680568289ddbbf46c2e4907ae74e740320f5b12efb1f2f01775734b7ba719",
         "research/results/h5-01-dependency-provenance.json": "c544b1a8b6e3e58a9b6e1d00d837fc5eb62cd1fccba2ffe4c5fc57973922e66c"
       },
@@ -4778,7 +4804,7 @@
         "research/results/h5-01-02-local-tool-inventory-tests.xml"
       ],
       "evidence_digests": {
-        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
+        "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
         "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
         "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
@@ -5015,7 +5041,7 @@
         "research/security/internal_findings.json": "36fcf7a8914a909bea8b327460a349f568a72385956cdb4f4e59770f5f0558e9",
         "tools/security_findings.py": "aa00e43612ecdb511ebf74205f331c2b7421eb66366245e3d21e0f8cca454220",
         "tests/test_security_findings.py": "d250b484c62fc621c05c2cb84efa798cd1c74349b41bc5db25de5a167f3d9f63",
-        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
+        "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "research/results/h5-10-internal-security-findings.json": "dc1b0da5bfd9b7261831bd673fe03626c6e6bdfe281302d2bcb874e59479f752",
         "research/results/h5-10-finding-verification.xml": "dfdb6515232f6754388f69b46a7d5d6d3bcd2fe920f1a091335f29c9cf545a52"
       },
@@ -5267,7 +5293,7 @@
         "examples/README.md": "19b0baddd5bc56eb3dc46b459e3bbbd871d025c62170ae22690fb185cbdf4a9c",
         "tests/test_examples_run.py": "61407d6dd43e004687c1e69f185d64c23ba3c145ee1ad0ce552ea81b75d8540c",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
-        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
+        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
         "research/results/p1-07-why-blocked.json": "fcb50baa15005ff94ea2db3d3e2d0d778b98fcbdd791b755f582e8eb2648d4aa",
         "research/results/p1-07-why-blocked.txt": "1114460986292a1a00becafa8ae2030a7ea2465af2074d86a814fb711f9b120b"
       },
@@ -5732,7 +5758,7 @@
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "7c6815fe426b365e3126cd9028cd20b8c833b0c5a637ec4f56a82a4624474945",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5763,13 +5789,13 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
-        "src/memory_fabric/reasons.py": "891f223cfbe692e7c6086aa77c28a1843778f0350d6eb13c643aac1f160c7944",
+        "src/memory_fabric/reasons.py": "0a866fd17c9991ab2ff4bc2e30d8a3afdfac392f2af56101d815cf8bd2ea04df",
         "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
-        "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
+        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
         "research/results/p3-03-refusal-explainer.json": "d0f0f043daed3051d0db3b24180da0ed4c13744ec17440f393ed695e3f3cf660",
         "research/results/p3-03-refusal-explainer.txt": "9461ada349627121c5def79228df16595a62aa6d4ee8e2566adc7045558b4c4a"
       },
@@ -5800,7 +5826,7 @@
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5865,10 +5891,10 @@
         "src/memory_fabric/observability/incident_export.py": "0826cd3003969bce7a68249587fab47364322e7d45f4be4857a35dc8f4c9343c",
         "tools/replay_redacted_incident.py": "44dfc662b7998957c76c8c5330b52c7e7e033c2ec282e0657217649d8c27bc09",
         "tools/incident_replay_smoke.py": "80acdd1bb617a8dc1f0a97008d706c4efb9c7bd07999e33e9da0e24a39eccc7f",
-        "tests/test_incident_replay.py": "6e3e7acd94cc1accd3c7f98a800fa6019e290840ff7ed9141263c8d46e5a1ba6",
+        "tests/test_incident_replay.py": "bab1345b0fdf9590ba93ef84c8bab6510dd773cfde6c9cde7011bf813c6fa7a3",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "docs/INCIDENT_REPLAY.md": "964cb74bb4cf96398a27163862cbba5fc6a55920300227b7e1c50d8588664e49",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
         "research/results/p3-06-incident-replay.json": "19e2043a40d82da5f171be9171c7cb52fe23f802fd622aa623cad6b15915c26d"
       },
       "evidence_issues": {},
@@ -5908,7 +5934,7 @@
         "tools/resource_budget_smoke.py": "9266a01470812752947a3331b598f7e8f873a5c36934b0e80cbb89128f4522ce",
         "research/results/p3-07-resource-budgets.json": "ac323f96f384d779b1907cde8c5dc02d2984d3e9bbab53aa7186544136a8a780",
         "docs/RESOURCE_BUDGETS.md": "ae68b51b7959e4cbc34efa226e137b7f49a85c00fe00ae4da3b407c2561042fe",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5960,10 +5986,10 @@
       "evidence_digests": {
         "src/memory_fabric/support_bundle.py": "d2f494e8a66e0eb86865bd083de55d036738c51b1e78b18ff7f9e9260392a65c",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
-        "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
+        "tests/test_support_bundle.py": "f18609cc561e52b62439b6c32b6e9dae26ed66b0f7162be2c49b52db1fe407b1",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
       },
       "evidence_issues": {},
       "limitations": [
@@ -6020,7 +6046,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -6195,7 +6221,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
+        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
@@ -6336,7 +6362,7 @@
         "research/results/h5-09-production-defaults.json"
       ],
       "evidence_digests": {
-        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
+        "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "research/results/p5-02-local-checks.txt": "e7d0a3b647009be2a543008898ffa07605cf5b6320dc47ca55443fe8e2f83e45",
         "research/results/p5-02-full-unit-tests.txt": "5e0711e3959b030db88aba4054e45da7ac34f858dcdebbe77733c3df7c1f375a",
         "research/results/p5-02-adversarial-gate.json": "238d61a4662ca385dbbcb3a1d66037fe13ff3814789cd5641a2fa37f6cb4b13f",

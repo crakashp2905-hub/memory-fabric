@@ -36,7 +36,7 @@ STEPS = [
                         "tests.test_reference_docs", "tests.test_troubleshooting",
                         "tests.test_examples_run", "tests.test_user_docs_no_research",
                         "tests.test_data_access_paths"]),
-    ("adversarial gate", [PY, "tools/adversarial_gate.py"]),
+    ("adversarial gate", [PY, "tools/adversarial_gate.py", "--temp-dir", ".test-tmp"]),
 ]
 
 

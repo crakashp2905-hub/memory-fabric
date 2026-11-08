@@ -1,5 +1,12 @@
 # Troubleshooting
 
+## Resource limits
+
+- `memory_budget_exhausted`: the store reached its configured maximum number
+  of memories. Review retention and `Limits.max_memories` in
+  [RESOURCE_BUDGETS.md](RESOURCE_BUDGETS.md), then remove or archive records
+  through the supported lifecycle before retrying the write.
+
 Start with `memory-fabric --db <store> doctor`. Every warning and failure it
 prints carries the fix. The exit codes are meant for scripts: **0** sound,
 **1** sound with warnings, **5** not sound. Below are the symptoms people

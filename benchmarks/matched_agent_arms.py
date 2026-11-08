@@ -217,9 +217,11 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                                                "failure_classes": task_failure_classes,
                                                "affected_agent_count": mismatched_agents}
                                               if task_failure_classes else None)})
-        memory_storage_bytes = (
-            int(fabric.log._conn.execute("PRAGMA page_count").fetchone()[0])
-            * int(fabric.log._conn.execute("PRAGMA page_size").fetchone()[0]))
+        page_count_row = fabric.log._conn.execute("PRAGMA page_count").fetchone()
+        page_size_row = fabric.log._conn.execute("PRAGMA page_size").fetchone()
+        if page_count_row is None or page_size_row is None:
+            raise RuntimeError("SQLite did not return storage page metadata")
+        memory_storage_bytes = int(page_count_row[0]) * int(page_size_row[0])
     agent_summaries = []
     for agent, outcomes in sorted(per_agent.items()):
         high_risk = [item for item in outcomes if item["high_risk"]]

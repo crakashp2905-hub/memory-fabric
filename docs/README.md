@@ -33,6 +33,7 @@ Every document in the repository, by what you are trying to do.
 | document | for |
 |---|---|
 | [API.md](API.md) | The Python API, generated from the code |
+| [DECISION_RECORD_SCHEMA.md](DECISION_RECORD_SCHEMA.md) | Typed decisions, evidence links, and correction impact queries |
 | [CLI.md](CLI.md) | Every command and option, generated from the parser |
 | [RETRIEVAL.md](RETRIEVAL.md) | Getting the best retrieval: trained embedders, rerankers, one line |
 | [INTEGRATIONS.md](INTEGRATIONS.md) | MCP, HTTP, SDK, LangChain, Claude, Ollama, PostgreSQL |

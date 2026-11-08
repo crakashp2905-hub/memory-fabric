@@ -125,6 +125,9 @@ REASONS: dict[str, tuple[str, str]] = {
                                  "Re-derive it from the new version."),
     # Limits
     "payload_too_large": ("Refused: the request is too large.", "Send less at once."),
+    "memory_budget_exhausted": (
+        "Refused: the store has reached its configured memory limit.",
+        "Review retention and the memory budget before retrying the write."),
     "write_quota_exhausted": ("Refused: this agent has used its write allowance for now.",
                               "Wait, or raise the quota."),
     "federation_budget_exhausted": ("Refused: the federation budget for this peer is used up.",

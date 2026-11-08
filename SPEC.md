@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.14.0`
+- **Schema version:** `0.15.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -180,6 +180,20 @@ Default rules:
 6. Sensitive-data detector positive → QUARANTINE.
 
 ---
+
+### 0.15.0 — replayable decision evidence and impact links
+
+Adds the append-only `DecisionRecorded`, `DecisionEdgeRecorded`, and
+`DecisionSeen` event types. A decision record carries its tenant and agent
+identity, decision time, options, selected option, exact evidence versions,
+constraints, and status history. `relied_on` edges require an exact evidence
+version declared by that decision; `authorized` and `executed` edges identify
+governed effect receipts. Exposure observations remain separate from reliance.
+Decision impact queries replay these edges and return only decisions whose
+exact relied-on evidence was corrected or retracted, with proof edges and
+effects attached to those decisions. The schema addition is backward
+compatible: older event types and logs replay unchanged; old readers ignore
+the new event types.
 
 ### 0.14.0 — copy links stay inside a tenant
 
