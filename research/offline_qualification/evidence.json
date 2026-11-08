@@ -3989,6 +3989,26 @@
         "SHA-256 certificates detect mismatched content/edges but are not signatures or proof against an authorized writer changing both data and digest.",
         "Hierarchy was tested on synthetic local histories, not distributed stores or external model summaries."
       ]
+    },
+    {
+      "task_id": "N4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "experiments/n4_03_compaction_size.py",
+        "tests/test_compaction.py",
+        "tests/test_hierarchical_compaction.py",
+        "research/results/n4-03-compaction-size.json",
+        "research/results/n4-03-compaction-size.md",
+        "research/results/n4-03-compaction-tests.xml"
+      ],
+      "limitations": [
+        "UTF-8 byte measurements are exact and are not token counts or model cost.",
+        "The local tiktoken package could not initialize cl100k_base because tokenizer data was not cached and network resolution was unavailable; the result labels token counts NOT_MEASURED. The API supports separately reported token counts only when a counter and explicit provenance are supplied.",
+        "Token counts, when supplied, cover source memory contents and summary text only; provider wrappers, prompts, and tool schemas are excluded."
+      ]
     }
   ]
 }

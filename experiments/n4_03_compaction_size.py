@@ -10,6 +10,7 @@ import hashlib
 import json
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from importlib.metadata import version
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,7 @@ from memory_fabric.compaction import compact_session  # noqa: E402
 
 JSON_PATH = ROOT / "research" / "results" / "n4-03-compaction-size.json"
 MD_PATH = ROOT / "research" / "results" / "n4-03-compaction-size.md"
+TEST_XML_PATH = ROOT / "research" / "results" / "n4-03-compaction-tests.xml"
 
 
 def _git(*args: str) -> str:
@@ -31,6 +33,18 @@ def _git(*args: str) -> str:
 
 
 def run() -> dict[str, Any]:
+    junit_root = ET.parse(TEST_XML_PATH).getroot()
+    test_cases = list(junit_root.iter("testcase"))
+    test_evidence = {
+        "junit": TEST_XML_PATH.relative_to(ROOT).as_posix(),
+        "reported_cases_including_subtests": len(test_cases),
+        "failures": len(list(junit_root.iter("failure"))),
+        "errors": len(list(junit_root.iter("error"))),
+        "skipped": len(list(junit_root.iter("skipped"))),
+    }
+    if not test_cases or test_evidence["failures"] or test_evidence["errors"]:
+        raise RuntimeError("N4-03 test evidence is missing or contains failures/errors")
+
     token_counter = None
     tokenizer_provenance = None
     tokenizer_unavailable_reason = None
@@ -100,6 +114,7 @@ def run() -> dict[str, Any]:
                 "bytes_are_not_model_cost": True,
                 "token_counts_are_not_end_to_end_request_usage": True,
             },
+            "tests": test_evidence,
         }
     finally:
         fabric.close()

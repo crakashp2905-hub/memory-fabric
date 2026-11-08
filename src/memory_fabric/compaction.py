@@ -39,7 +39,7 @@ __stability__ = "experimental"
 from dataclasses import dataclass, field
 import hashlib
 import json
-from typing import TYPE_CHECKING, Callable, Sequence
+from typing import TYPE_CHECKING, Callable, Sequence, TypedDict
 
 from .conflicts import author, claim, find_conflicts
 from .events import EventType
@@ -91,12 +91,21 @@ class HierarchicalCompactionReport:
     token_measurement_status: str = "NOT_MEASURED"
 
 
+class _CompactionMeasurement(TypedDict):
+    source_bytes_utf8: int
+    summary_bytes_utf8: int
+    source_token_estimate: int | None
+    summary_token_estimate: int | None
+    tokenizer_provenance: str | None
+    token_measurement_status: str
+
+
 def _measurement(
     source_texts: Sequence[str],
     summary_text: str,
     token_counter: Callable[[str], int] | None,
     tokenizer_provenance: str | None,
-) -> dict[str, object]:
+) -> _CompactionMeasurement:
     """Measure UTF-8 bytes exactly and tokens only with declared tokenizer provenance."""
     source_bytes = sum(len(text.encode("utf-8")) for text in source_texts)
     summary_bytes = len(summary_text.encode("utf-8"))
@@ -186,7 +195,12 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                     tenant_id: str = DEFAULT_TENANT,
                     token_counter: Callable[[str], int] | None = None,
                     tokenizer_provenance: str | None = None) -> CompactionReport:
-    """Write one governed summary of an episode. Returns what was used and left out."""
+    """Write one governed summary of an episode, returning used and omitted inputs.
+
+    The report always includes exact UTF-8 byte counts. Optional token counts are
+    produced only when both a tokenizer counter and its explicit provenance are
+    supplied; byte counts are never treated as token or model-cost estimates.
+    """
     report = CompactionReport(episode_id=episode_id, summary_id=None)
     usable = []
     from .navigation import _visible
@@ -252,8 +266,8 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                 f"summary dependency map could not be proven: {dependency_error}"
             )
     report.inputs = [m.id for m in usable]
-    report.source_bytes_utf8 = int(measured["source_bytes_utf8"])
-    report.summary_bytes_utf8 = int(measured["summary_bytes_utf8"])
+    report.source_bytes_utf8 = measured["source_bytes_utf8"]
+    report.summary_bytes_utf8 = measured["summary_bytes_utf8"]
     report.source_token_estimate = measured["source_token_estimate"]
     report.summary_token_estimate = measured["summary_token_estimate"]
     report.tokenizer_provenance = measured["tokenizer_provenance"]
@@ -418,8 +432,8 @@ def compact_hierarchy(
         leaf_summary_ids=leaf_ids,
         leaf_source_groups=[[memory.id for memory in group] for group in groups],
         certificates=certificates,
-        source_bytes_utf8=int(measured["source_bytes_utf8"]),
-        root_summary_bytes_utf8=int(measured["summary_bytes_utf8"]),
+        source_bytes_utf8=measured["source_bytes_utf8"],
+        root_summary_bytes_utf8=measured["summary_bytes_utf8"],
         source_token_estimate=measured["source_token_estimate"],
         root_summary_token_estimate=measured["summary_token_estimate"],
         tokenizer_provenance=measured["tokenizer_provenance"],
