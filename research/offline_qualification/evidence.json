@@ -1155,17 +1155,19 @@
     },
     {
       "task_id": "H3-09",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/observability/metrics.py",
         "tests/test_metrics.py",
+        "tests/test_control_center.py",
+        "docs/OPERATIONS.md",
         "research/results/h3-09-sparse-metrics.json",
         "research/results/h3-09-sparse-metrics-tests.xml"
       ],
       "limitations": [
-        "Current metrics are authenticated store-wide aggregates with no tenant labels, IDs, or content. No per-tenant aggregates exist; k-anonymity suppression for future tenant-level metrics is not implemented."
+        "Metrics are exact store-wide aggregates for authorized operators, not a tenant-scoped reporting API. The endpoint must remain operator-token protected; any future per-tenant metrics require new leakage review and suppression tests."
       ]
     },
     {

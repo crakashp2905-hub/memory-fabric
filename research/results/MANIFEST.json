@@ -9,7 +9,7 @@
   "prompt_hash": 221,
   "seed": 142,
   "cost": 198,
-  "verdict": 153
+  "verdict": 152
  },
  "population_counts": {
   "synthetic_scripted": 11,
@@ -1999,7 +1999,7 @@
   {
    "experiment_id": "h3-09-sparse-metrics",
    "file": "research/results/h3-09-sparse-metrics.json",
-   "file_sha256": "f3b5d2cb58b690f5e683887e847d6005b8112d18d98cc6b99d697baf195965bd",
+   "file_sha256": "294d68d258b1b5ec53f0c709d917fbd53812c0c4f3fc1d7e974387ca3d4defbc",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
@@ -2011,7 +2011,7 @@
    "seed": null,
    "config": null,
    "cost": null,
-   "verdict": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

@@ -338,6 +338,12 @@ scrape_configs:
 
 Counters are read incrementally from the log, so a scrape costs what changed
 since the last one. No label carries memory content, memory ids or agent ids.
+Metrics are store-wide and contain no tenant dimension: they are for the
+operator dashboard, not a tenant-scoped reporting API. Keep the endpoint behind
+the operator token and do not republish these counters as tenant metrics without
+new sparse-count leakage review. A k=3 identity-permutation probe verifies that
+moving one retrieval between tenants leaves the exported metrics unchanged;
+the aggregate store activity totals remain visible to authorized operators.
 Worth alerting on: a rising `mf_actions_total{allowed="false"}` (agents
 trying to act on evidence that no longer holds) and any
 `mf_refusals_total{reason="wrong_tenant"}`.

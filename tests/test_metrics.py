@@ -52,6 +52,33 @@ class TestMetrics(unittest.TestCase):
         self.assertIn("mf_writes_total 2", metrics)
         self.assertIn("mf_retrievals_total 1", metrics)
 
+    def test_three_tenant_permutation_does_not_disclose_who_had_sparse_activity(self):
+        """A k=3 identity permutation should leave every store metric unchanged."""
+        def scrape(active_tenant: str) -> str:
+            f = MemoryFabric(":memory:", auto_activate=True)
+            try:
+                ids = {}
+                for tenant, agent in (("tenant_a", "agent_a"),
+                                      ("tenant_b", "agent_b"),
+                                      ("tenant_c", "agent_c")):
+                    ids[tenant] = f.remember(
+                        agent, f"Private canary for {tenant}: account segment 8841",
+                        tenant_id=tenant, scope="team")
+                f.retrieve(f"agent_{active_tenant[-1]}", "private canary", k=2,
+                           tenant_id=active_tenant)
+                return StoreMetrics().render(f)
+            finally:
+                f.close()
+
+        activity_a = scrape("tenant_a")
+        activity_c = scrape("tenant_c")
+        self.assertEqual(activity_a, activity_c)
+        for tenant in ("tenant_a", "tenant_b", "tenant_c"):
+            self.assertNotIn(tenant, activity_a)
+        for agent in ("agent_a", "agent_b", "agent_c"):
+            self.assertNotIn(agent, activity_a)
+        self.assertIn("mf_retrievals_total 1", activity_a)
+
     def test_served_through_the_dashboard_api(self):
         f = MemoryFabric(":memory:", auto_activate=True)
         self.addCleanup(f.close)

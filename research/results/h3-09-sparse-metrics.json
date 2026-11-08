@@ -1,16 +1,36 @@
 {
   "schema": "mf-qualification/1",
-  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
   "task_id": "H3-09",
+  "source_commit": "0a06e9c36451082382fbca24c4b51a342b82b346",
+  "source_dirty_at_test_start": true,
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "process_count": 1,
+    "thread_count": 1
+  },
   "input_sha256": {
     "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
-    "tests/test_metrics.py": "a8caa68ceb2a2c90ba2fde944dba69707addb7451e28c7ac8fce205861dbece1"
+    "tests/test_metrics.py": "16901281bdbbf636015cf633c3b71abd5ed9579ab3d32d16db91deeead27cae9",
+    "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+    "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93"
   },
   "checks": {
-    "store_wide_metrics": "tenant/content labels absent",
-    "dashboard_overview": "rare tenant identity/content absent"
+    "tenant_labels": "PASS; exported metric label set contains no tenant, agent, memory id or content",
+    "sparse_canary": "PASS; content and identity absent from metrics and dashboard overview",
+    "k3_permutation": "PASS; assigning one sparse retrieval to tenant A vs tenant C yields byte-identical metrics across three tenants",
+    "metrics_endpoint": "PASS; control center metrics API returns the same store-wide schema"
   },
+  "test_command": "python -m pytest tests/test_metrics.py tests/test_control_center.py -q --junitxml=research/results/h3-09-sparse-metrics-tests.xml",
+  "tests_passed": 12,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "aff94fbefe988212d14ae4116b389fe434a7e448f7b4f08c7457494b33c9aba6",
+  "acceptance_passed": true,
   "limitations": [
-    "No k-anonymity suppression is implemented for hypothetical per-tenant metrics."
-  ]
+    "Metrics are aggregate store-wide counters visible to authorized operators; the endpoint is not tenant-scoped and must remain protected by the operator token. Any future per-tenant metric design requires new leakage review and suppression tests."
+  ],
+  "verdict": "PASS"
 }

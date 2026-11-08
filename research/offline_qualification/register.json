@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "6dd0ac060b0bfaab97ed71e966947470c01935d270bf6c3f0cb44fe72a8ca096",
+    "sha256": "064683fd17e3c7a274b8919324420dd66a74f61fd78884da37791894710501ca",
     "tasks": 260
   },
   "source": {
-    "commit": "b62a54ae1af442b10deca408655ec9b7004fcaf7",
+    "commit": "0a06e9c36451082382fbca24c4b51a342b82b346",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 132,
-      "PARTIAL": 9,
+      "DONE": 133,
+      "PARTIAL": 8,
       "TODO": 119
     },
-    "completed": 132,
+    "completed": 133,
     "total": 260,
-    "percent_complete": 50.77,
-    "p0_open": 6,
+    "percent_complete": 51.15,
+    "p0_open": 5,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -985,7 +985,7 @@
       ],
       "evidence_digests": {
         "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
-        "docs/OPERATIONS.md": "daec8a3a9886783f9df2225c1d942c4afd392bdf73619d3536eb80a2a1d0c26d",
+        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
         "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
         "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
         "research/results/e4-05-sqlite-qualification.json": "5060cb447351caab6327c8fe2cac819e5b4c507a1ee71b01a3bd610a611bafc0",
@@ -1086,7 +1086,7 @@
         "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
         "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
         "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
-        "docs/OPERATIONS.md": "daec8a3a9886783f9df2225c1d942c4afd392bdf73619d3536eb80a2a1d0c26d",
+        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
         "research/results/e4-08-federation-faults.json": "3a6c256144eff225b556db47faee5f5d44f06156b37f18f0daaa3000bf83e95c",
         "research/results/e4-08-federation-faults.xml": "8f1018300a3bffe91e1c89ad583c160edf4edfd316f4f72fb21eaade970196a1"
       },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "6fbfca7943f94d2f52d7e9e0ade32e458b2c4b818d89bf0f7b2e7004cc83acf9",
+        "research/results/MANIFEST.json": "ddcc98880b7b2a99ab6b96631cf5f0cd8c52ca142153a9935ac95f00859287d9",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4119,25 +4119,29 @@
       "task_id": "H3-09",
       "priority": "P0",
       "task": "Add small k-anonymity-style aggregation leak probes for metrics dashboards.",
-      "acceptance": "Tenant metrics cannot reveal one other tenant's content or activity by exact sparse counts. Evidence: `src/memory_fabric/observability/metrics.py`, `tests/test_metrics.py`, `research/results/h3-09-sparse-metrics.json`, `research/results/h3-09-sparse-metrics-tests.xml` (PARTIAL: current store-wide exports reveal no tenant-level counts; per-tenant metrics and k-anonymity suppression are not implemented)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Tenant metrics cannot reveal one other tenant's content or activity by exact sparse counts. Evidence: `src/memory_fabric/observability/metrics.py`, `tests/test_metrics.py`, `tests/test_control_center.py`, `docs/OPERATIONS.md`, `research/results/h3-09-sparse-metrics.json`, `research/results/h3-09-sparse-metrics-tests.xml` (DONE: metrics expose store-wide totals only; sparse canaries are absent and a k=3 tenant identity permutation produces byte-identical metrics. Endpoint remains operator-token-only)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/observability/metrics.py",
         "tests/test_metrics.py",
+        "tests/test_control_center.py",
+        "docs/OPERATIONS.md",
         "research/results/h3-09-sparse-metrics.json",
         "research/results/h3-09-sparse-metrics-tests.xml"
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
-        "tests/test_metrics.py": "a8caa68ceb2a2c90ba2fde944dba69707addb7451e28c7ac8fce205861dbece1",
-        "research/results/h3-09-sparse-metrics.json": "ac5d1940a8d8a9e731a6d447d1466439880b19febea78bf621a3a9839347b587",
-        "research/results/h3-09-sparse-metrics-tests.xml": "4c587be0473ba5139699828e6a16e1278ff6b36cba76ef1962c13fe0e41b63a6"
+        "tests/test_metrics.py": "16901281bdbbf636015cf633c3b71abd5ed9579ab3d32d16db91deeead27cae9",
+        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
+        "research/results/h3-09-sparse-metrics.json": "8dc279f61acd2aa3f8d75e9aa37130f642ba8a2ab057c7396a7cce15fdce03a5",
+        "research/results/h3-09-sparse-metrics-tests.xml": "aff94fbefe988212d14ae4116b389fe434a7e448f7b4f08c7457494b33c9aba6"
       },
       "evidence_issues": {},
       "limitations": [
-        "Current metrics are authenticated store-wide aggregates with no tenant labels, IDs, or content. No per-tenant aggregates exist; k-anonymity suppression for future tenant-level metrics is not implemented."
+        "Metrics are exact store-wide aggregates for authorized operators, not a tenant-scoped reporting API. The endpoint must remain operator-token protected; any future per-tenant metrics require new leakage review and suppression tests."
       ]
     },
     {
