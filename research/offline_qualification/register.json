@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "db7d04f33a931c5c897386eaa105a3d3bc47f055ee029266070620a898ed3b2f",
+    "sha256": "deb2ce8b7bbba82614cec553d711ff95072db3b0e01d8919161c22ebf4f16733",
     "tasks": 260
   },
   "source": {
-    "commit": "f1b419c829dcdb4c95dfcfd41ff79a8b5760f490",
+    "commit": "2b85941b1998bfefcd10f8a63165e23e92b6986a",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 216,
+      "DONE": 217,
       "PARTIAL": 3,
-      "TODO": 41
+      "TODO": 40
     },
-    "completed": 216,
+    "completed": 217,
     "total": 260,
-    "percent_complete": 83.08,
+    "percent_complete": 83.46,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3549,14 +3549,20 @@
       "task_id": "N3-01",
       "priority": "P2",
       "task": "Define intervention variables for include/exclude memory, routing option, and escalation level.",
-      "acceptance": "Counterfactual estimands and assumptions are written before algorithms",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Counterfactual estimands and assumptions are written before algorithms. Evidence: `research/prereg/n3-01-counterfactual-interventions-v1.md` (DONE: freezes memory inclusion, retrieval routing, and escalation treatments; defines safe-success, unsafe-action, and resource outcomes; specifies finite-population contrasts and interactions; states consistency, stability, interference, support, exchangeability, and outcome-validity assumptions before any N3 estimator implementation. Contract only: no estimator is claimed valid.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n3-01-counterfactual-interventions-v1.md"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-01-counterfactual-interventions-v1.md": "6a861c6d9e85fc875acad2fd1ead621edec437189dc1ce11ba96263bba5690b2"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This preregistration defines interventions, estimands, and identification assumptions before estimator implementation; it does not establish that any estimator is unbiased or valid on real deployments."
+      ]
     },
     {
       "task_id": "N3-02",
