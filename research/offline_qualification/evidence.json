@@ -2608,6 +2608,23 @@
       "limitations": [
         "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. Reason categories organize recorded gate checks but do not establish semantic truth. The external CI matrix has not run for this branch."
       ]
+    },
+    {
+      "task_id": "P2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/correction.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_correction.py",
+        "research/results/p2-04-correction-preview.json",
+        "research/results/p2-04-correction-preview.txt"
+      ],
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. The dashboard is read-only and displays a command; the existing CLI rechecks preview digest atomically during apply. The external CI matrix has not run for this branch."
+      ]
     }
   ]
 }

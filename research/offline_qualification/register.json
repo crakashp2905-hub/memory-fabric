@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "a614d3e7c52851539264d35b0977b7a9b5be83c9950def5da9071f282a4a0322",
+    "sha256": "cf4b9120f503c882f72d733ddcadb3f2f6c178827cd761b81c42a0f9d97c549a",
     "tasks": 260
   },
   "source": {
-    "commit": "ae321173f966e428fb141fde16f518b8a7857b9d",
-    "dirty": false
+    "commit": "db7d101e67a4128ced3b6b34b46c33b37bd0919d",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 153,
+      "DONE": 154,
       "PARTIAL": 4,
-      "TODO": 103
+      "TODO": 102
     },
-    "completed": 153,
+    "completed": 154,
     "total": 260,
-    "percent_complete": 58.85,
+    "percent_complete": 59.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,8 +307,8 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "933a60a755b2c56d9403940505dd0f5c59cf515e7b5c2bcbc3f311a537133ef8",
-        "docs/VALIDATION.md": "bcc007e0af843d95ea24375b018cc5d1dc002ff188baf63c69bd22e46ceeebf4",
+        "README.md": "471f496836b2a370ea5e4e03cf7c1ceb48446f5e4c0c115b91918dd5d8ffe63d",
+        "docs/VALIDATION.md": "fa9c7fcb0acc9b8316bd9fc78a95e7d6e367edb8eac3902d0404cdb90b655471",
         "docs/STATUS_AT_HEAD.md": "af42b3d545aa502cdee8cc3fa1e03ce937c718b7eed14dcd53f99bd4559a5b95",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
@@ -5157,8 +5157,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
-        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
-        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
+        "src/memory_fabric/observability/static/dashboard.html": "ccb4529e00b389a304dc0aebc9feaa2be11bdf91a42a0223ec71f58f2ab530e1",
+        "tests/test_control_center_ui.py": "8318df49008eed31edf4bfef8def73468d958e1c4c85a5055be92ab268302ece",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
         "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
@@ -5187,8 +5187,8 @@
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
         "src/memory_fabric/observability/server.py": "6184f80cd88ebff9f34664e9c8e2d2f60011fd5c43896e1c8d90ca3e04a9c998",
-        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
-        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
+        "src/memory_fabric/observability/static/dashboard.html": "ccb4529e00b389a304dc0aebc9feaa2be11bdf91a42a0223ec71f58f2ab530e1",
+        "tests/test_control_center_ui.py": "8318df49008eed31edf4bfef8def73468d958e1c4c85a5055be92ab268302ece",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
       },
@@ -5215,8 +5215,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
-        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
-        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
+        "src/memory_fabric/observability/static/dashboard.html": "ccb4529e00b389a304dc0aebc9feaa2be11bdf91a42a0223ec71f58f2ab530e1",
+        "tests/test_control_center_ui.py": "8318df49008eed31edf4bfef8def73468d958e1c4c85a5055be92ab268302ece",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
         "research/results/p2-03-block-reasons.txt": "9237c1ae18573eb9d6501a398ea426e46f7b633841e46040d8ba1ebceb07e133"
@@ -5231,13 +5231,29 @@
       "priority": "P1",
       "task": "Add before/after correction impact preview using current preview-digest validation.",
       "acceptance": "Applying stale preview fails and UI requests a fresh preview",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/correction.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_correction.py",
+        "research/results/p2-04-correction-preview.json",
+        "research/results/p2-04-correction-preview.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/static/dashboard.html": "ccb4529e00b389a304dc0aebc9feaa2be11bdf91a42a0223ec71f58f2ab530e1",
+        "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
+        "tests/test_control_center_ui.py": "8318df49008eed31edf4bfef8def73468d958e1c4c85a5055be92ab268302ece",
+        "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
+        "research/results/p2-04-correction-preview.json": "99f0a714ff50d5d01ed9530502474ac86f298a79a38be67a383e5aa3294ece96",
+        "research/results/p2-04-correction-preview.txt": "5caec3d9bfaad2d07cdc82fe53d68356d536a9a043097f544898f0b0a9668221"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. The dashboard is read-only and displays a command; the existing CLI rechecks preview digest atomically during apply. The external CI matrix has not run for this branch."
+      ]
     },
     {
       "task_id": "P2-05",

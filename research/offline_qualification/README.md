@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **153 / 260 (58.85%)**. Internal status: **BLOCKED**.
+Strict completion: **154 / 260 (59.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `953a5292ed9af0066e061cf9102ff97459803807e265ffdff5c3ebeef36f95b4`.
+Normalized ledger digest: `0abb4385257de7c8122f7a92d6d625954e7304917b8789f423568f59147ec57c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 153 |
+| DONE | 154 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 103 |
+| TODO | 102 |
 
 ## Graduation gates
 
@@ -252,7 +252,7 @@ Normalized ledger digest: `953a5292ed9af0066e061cf9102ff97459803807e265ffdff5c3e
 | P2-01 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_control_center.py`, `research/results/p2-01-decision-detail.json`, `research/results/p2-01-decision-detail.txt` |
 | P2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `research/results/p2-02-event-links.json`, `research/results/p2-02-event-links.txt` |
 | P2-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_control_center.py`, `research/results/p2-03-block-reasons.json`, `research/results/p2-03-block-reasons.txt` |
-| P2-04 | P1 | TODO | NOT_TESTED | — |
+| P2-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/correction.py`, `tests/test_control_center_ui.py`, `tests/test_correction.py`, `research/results/p2-04-correction-preview.json`, `research/results/p2-04-correction-preview.txt` |
 | P2-05 | P1 | TODO | NOT_TESTED | — |
 | P2-06 | P1 | TODO | NOT_TESTED | — |
 | P2-07 | P1 | TODO | NOT_TESTED | — |
