@@ -2,9 +2,9 @@
   "arms": {
     "exact_shapley": {
       "max_peak_memory_bytes": 38375,
-      "mean_cpu_nanoseconds": 20312500.0,
+      "mean_cpu_nanoseconds": 21093750.0,
       "mean_utility_difference": -0.2,
-      "mean_wall_nanoseconds": 22099700.0,
+      "mean_wall_nanoseconds": 20508115.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.41844156149751743,
@@ -12,10 +12,10 @@
       ]
     },
     "leave_one_out": {
-      "max_peak_memory_bytes": 11383,
-      "mean_cpu_nanoseconds": 6250000.0,
+      "max_peak_memory_bytes": 11455,
+      "mean_cpu_nanoseconds": 7031250.0,
       "mean_utility_difference": -0.255,
-      "mean_wall_nanoseconds": 4217130.0,
+      "mean_wall_nanoseconds": 3613850.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.48448922231315084,
@@ -24,9 +24,9 @@
     },
     "oracle_one_removal": {
       "max_peak_memory_bytes": 5775,
-      "mean_cpu_nanoseconds": 0.0,
+      "mean_cpu_nanoseconds": 1562500.0,
       "mean_utility_difference": 0.005,
-      "mean_wall_nanoseconds": 2456750.0,
+      "mean_wall_nanoseconds": 2073905.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.0048,
@@ -35,9 +35,9 @@
     },
     "random": {
       "max_peak_memory_bytes": 3531,
-      "mean_cpu_nanoseconds": 0.0,
+      "mean_cpu_nanoseconds": 781250.0,
       "mean_utility_difference": -0.075,
-      "mean_wall_nanoseconds": 854915.0,
+      "mean_wall_nanoseconds": 749655.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.22199999999999998,
@@ -48,7 +48,7 @@
       "max_peak_memory_bytes": 3531,
       "mean_cpu_nanoseconds": 781250.0,
       "mean_utility_difference": -0.1,
-      "mean_wall_nanoseconds": 766015.0,
+      "mean_wall_nanoseconds": 685085.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.2348964515158903,
@@ -57,9 +57,9 @@
     },
     "sampled_shapley": {
       "max_peak_memory_bytes": 273591,
-      "mean_cpu_nanoseconds": 947656250.0,
+      "mean_cpu_nanoseconds": 878906250.0,
       "mean_utility_difference": -0.2,
-      "mean_wall_nanoseconds": 954455675.0,
+      "mean_wall_nanoseconds": 888682005.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.41844156149751743,
@@ -68,7 +68,7 @@
     }
   },
   "configuration_sha256": "42c4acd98c2013e4f9fc1db6382129b3ff0eb8ff7a084cfd5f0f40c206febaf9",
-  "csv_sha256": "6f702fffe68bc144d8839e24832e294c62a8567710a1a0fcff3547aca8a5d11c",
+  "csv_sha256": "cb8847679ec5928233f7c380b63a2530f9a4523b039faf7e93547f34efe09208",
   "generator_sha256": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
   "limitations": [
     "No official reproduction of Shapley, CAR or another external system.",
@@ -91,7 +91,7 @@
   "protocol": "CDM-R5-v3",
   "protocol_path": "research/prereg/cdm-r5-evaluator-executor-ablations.md",
   "protocol_sha256": "1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227",
-  "report_sha256": "79286654410e476c5cec0440cb5966fe8bf26f4e56d5e36ad3faea4609ccbf48",
+  "report_sha256": "a366b41b5f917967552e5f0b2e312d27ea3e2647eb2703b3e154ccdd7b8a3ca2",
   "safety": {
     "authority_changes": 0,
     "hidden_truth_visible_to_selectors": false,
@@ -125,12 +125,12 @@
   ],
   "source_hashes": {
     "benchmarks/cdm_architecture_superiority.py": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
-    "src/memory_fabric/causal_replay/attribution.py": "46457b23ed32b7fe7583aeb6c710cde5f83d4eec99ff34f3dce3aca9cda16ba0",
+    "src/memory_fabric/causal_replay/attribution.py": "fe369db97333954acf33d8528b93107d8d58c244115983576fc8ff11edb38496",
     "src/memory_fabric/causal_replay/bayes.py": "20e4f34fced57795dc70552a4d7f2984485cba98363f7d408d5ffed40d5d5fa2",
     "src/memory_fabric/causal_replay/policy.py": "cdf0072ec7cb3e266321d4b2baf4df67ea65ac2769562a17ba33bf6e01865d1c",
     "src/memory_fabric/causal_replay/state.py": "5f4e1c1eea17f1173bdb80d0c3cb59513ab67857aa13162e166d8a552e07b4fc"
   },
   "split": "confirmatory",
   "status": "PASS",
-  "summary_sha256": "8002607eeca36d98a87e78ccfdef102bf40bd6b1e1d1643ef9696e1a8c84a908"
+  "summary_sha256": "7886ee92a6d058b2a58cba40b7fecfec66360a89007b9e7d4144b664c7680e3e"
 }

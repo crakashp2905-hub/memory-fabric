@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (214)
+## Complete at this checkpoint (215)
 
 | Task | Evidence |
 |---|---|
@@ -177,6 +177,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-187 | `docs/CDM_REEVALUATION_CLASSIFICATION.md` distinguishes collateral cost from causal false positives. On a declared complete graph, exact frontier replays both retained dependents with zero collateral; unknown completeness falls back over four retained events, yielding two intentional conservative re-evaluations. Regression compares against the explicit dependency fixture; full gate includes it. |
 | CDM-188 | `benchmarks/cdm_dependency_shapes.py` generates eight-event chain, star, and fork DAGs with alternating competing evidence from three synthetic sources; report records graph edges, exact target frontier and independent event counts. Regression confirms topology and expected frontier sizes 7/1/3. Preregistration and report are checked in; Ruff/mypy and integrated gate pass. These declared synthetic graphs do not establish application-level dependency completeness. |
 | CDM-193 | `docs/CDM_MISSING_REMOTE_EVIDENCE.md` specifies that unavailable remote provenance yields `AMBIGUOUS_LINEAGE` and null independent-root count; no unknown remote is treated as absent or independent, and CDM performs no network fetch. Regression omits the remote root mapping and verifies count refusal while preserving the known local diagnostic group. Focused attribution test and integrated gate pass. |
+| CDM-194 | Added authorized `assess_fabric_source_roots`: revalidates current read access, resolves recognized local copies/derivations via source-root lineage, and follows federation root metadata only for true imported provenance records. End-to-end regression proves imported evidence plus a local derivation remain one portable source root; forged federation context on a local record cannot mint a remote root. API contract is in `docs/CDM_FEDERATED_PROVENANCE.md`; Ruff/mypy and gate test pass. No network lookup or remote-currentness claim. |
 | CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
 | CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
 | CDM-181 | Tenant-scoped correction report uses influence graph actual retrieval/citation/authorization labels |
@@ -239,12 +240,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (14)
+## Open (13)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-194 | Preserve provenance across import and copy events. |
 | CDM-195 | Represent mixed-version federation replay. |
 | CDM-196 | Test partitions and misleading independent corroboration. |
 | CDM-197 | Test current-policy dominance after erasure. |

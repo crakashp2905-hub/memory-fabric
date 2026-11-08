@@ -54,7 +54,7 @@ from .evaluator import (CalibrationReport, ContributionAssessment, FidelityAsses
                         Outcome, OutcomeAssessment, assess_outcome, calibration_report,
                         heuristic_contribution, verify_fidelity)
 from .attribution import (DistributionalEstimate, Effect, PairedEstimate, PruningResult,
-                          SourceRootAssessment, assess_source_roots,
+                          SourceRootAssessment, assess_fabric_source_roots, assess_source_roots,
                           compare_effect, distributional_effect, exhaustive_shapley,
                           paired_bootstrap_interval, paired_common_random_estimate,
                           pairwise_interaction_screen, prune_candidates_by_lineage,
@@ -102,7 +102,7 @@ __all__ += ["Outcome", "OutcomeAssessment", "FidelityAssessment", "CalibrationRe
             "ContributionAssessment", "assess_outcome", "verify_fidelity",
             "calibration_report", "heuristic_contribution"]
 __all__ += ["Effect", "PairedEstimate", "DistributionalEstimate", "PruningResult",
-            "SourceRootAssessment", "assess_source_roots", "compare_effect",
+            "SourceRootAssessment", "assess_source_roots", "assess_fabric_source_roots", "compare_effect",
             "distributional_effect", "total_variation", "exhaustive_shapley",
             "sampled_shapley", "paired_bootstrap_interval", "wilson_interval",
             "pairwise_interaction_screen", "paired_common_random_estimate",

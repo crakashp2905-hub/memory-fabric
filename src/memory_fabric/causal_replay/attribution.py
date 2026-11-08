@@ -11,7 +11,7 @@ import time
 import tracemalloc
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Mapping, Iterable, TypeVar
+from typing import Any, Callable, Mapping, Iterable, TypeVar
 
 from .types import CDMError
 from .verifier import VerificationResult
@@ -340,6 +340,69 @@ def assess_source_roots(evidence_ids: Iterable[str], *,
         grouped.setdefault(str(root_by_evidence[item]), []).append(item)
     resolved_groups = tuple((root, tuple(values)) for root, values in sorted(grouped.items()))
     return SourceRootAssessment("ROOTS_RESOLVED", len(resolved_groups), resolved_groups)
+
+
+def assess_fabric_source_roots(fabric: Any, session: Any,
+                               evidence_ids: Iterable[str]) -> SourceRootAssessment:
+    """Resolve local, copied, derived, and imported evidence to portable source roots.
+
+    Every item is rechecked against the caller's current read permission. A
+    missing local item refuses generically; unavailable or malformed remote
+    root metadata yields ambiguous lineage and no independence count.
+    """
+    from collections.abc import Mapping as MappingABC
+    from ..identity import PERM_READ
+    from ..service import Session
+    from .types import Erased, Unauthorized
+
+    if type(session) is not Session or session.service._fabric is not fabric:
+        raise Unauthorized("source-root assessment requires a fabric-bound session")
+    try:
+        principal = session.principal()
+        principal.require_permission(PERM_READ)
+    except Exception as exc:
+        raise Unauthorized("source-root authorization is unavailable") from exc
+    ids = tuple(evidence_ids)
+    if (not ids or len(ids) > 100 or len(set(ids)) != len(ids)
+            or any(type(item) is not str or not item for item in ids)):
+        raise CDMError("source-root assessment requires 1 to 100 unique evidence IDs")
+    roots: dict[str, str | None] = {}
+    for memory_id in ids:
+        try:
+            current = fabric.use(memory_id, agent_id=principal.agent_id,
+                tenant_id=principal.tenant_id, audit=False)
+        except Exception as exc:
+            raise Erased("requested evidence is unavailable") from exc
+        if not current.usable:
+            raise Erased("requested evidence is unavailable")
+        try:
+            local_root = fabric.source_root(memory_id)
+            root_memory = fabric.state.memories.get(local_root)
+        except Exception:
+            roots[memory_id] = None
+            continue
+        if root_memory is None:
+            roots[memory_id] = None
+            continue
+        context = root_memory.context if isinstance(root_memory.context, MappingABC) else {}
+        origin = context.get("federation")
+        is_import = getattr(root_memory.provenance.method, "value",
+                            root_memory.provenance.method) == "imported"
+        if is_import:
+            remote_root = origin.get("root") if isinstance(origin, MappingABC) else None
+            if isinstance(remote_root, MappingABC):
+                store_id = remote_root.get("store")
+                source_id = remote_root.get("memory_id")
+                if (isinstance(store_id, str) and store_id
+                        and isinstance(source_id, str) and source_id):
+                    roots[memory_id] = f"{store_id}/{source_id}"
+                    continue
+            roots[memory_id] = None
+        else:
+            # User-authored context cannot mint a foreign source root. Only a
+            # memory recorded as a federation import may supply remote root metadata.
+            roots[memory_id] = f"{fabric.store_id}/{local_root}"
+    return assess_source_roots(ids, root_by_evidence=roots, lineage_complete=True)
 
 
 def paired_bootstrap_interval(differences: tuple[float, ...], *, seed: int = 0,
