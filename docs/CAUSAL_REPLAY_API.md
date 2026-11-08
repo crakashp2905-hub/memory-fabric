@@ -70,13 +70,16 @@ or `opaque`; exact replay currently refuses tool observations because no pure
 tool handler registry is implemented. `create_execution_checkpoint` can bind a
 complete exact local replay prefix to its observations, per-step trace, state
 fingerprint, simulator configuration, and policy implementation digest.
-`execute_from_checkpoint` checks those commitments, reproduces the prefix to
-verify it, then returns the full exact trace after adding the suffix. This
-integrity checkpoint does not carry authorization: captured memory references
-still require current access checks. Prefix verification currently recomputes
-the prefix, so this API establishes continuation equivalence but does not claim
-a replay-time speedup. Archival checkpoints record whether RNG continuation is
-fully captured, deterministically inapplicable, or missing.
+`execute_from_checkpoint` checks those commitments, reproduces the prefix by
+default, then returns the exact trace after adding the suffix. A live checkpoint
+minted in the current process can use `verify_prefix=False` to continue from its
+digest-bound final belief state without rerunning the prefix policy transitions.
+Copied, mutated, expired, or externally constructed checkpoints cannot use this
+fast path. The final state is still checked against the prefix commitment and
+the combined trace is checked against the canonical updater. This integrity
+checkpoint does not carry authorization: captured memory references still
+require current access checks. Archival checkpoints record whether RNG
+continuation is fully captured, deterministically inapplicable, or missing.
 `verify_checkpoint_exact_ready` rechecks current access and evidence, model and
 policy digests, observation completeness, and RNG state before an exact
 checkpoint restore is eligible; an archival checkpoint without complete

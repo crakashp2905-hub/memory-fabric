@@ -5,9 +5,11 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 from dataclasses import dataclass, replace
+from functools import partial
 import hashlib
 import inspect
 import json
+import weakref
 from typing import Any, Mapping
 
 from .bayes import BinaryNode, enumerate_posterior, marginal
@@ -52,6 +54,7 @@ class ExecutionCheckpoint:
     schema: str
     prefix: tuple[Observation, ...]
     steps: tuple[ReplayStep, ...]
+    final_state: BeliefState
     state_fingerprint: str
     simulator_digest: str
     policy_digest: str
@@ -62,6 +65,7 @@ class ExecutionCheckpoint:
             "schema": self.schema,
             "prefix": [item.__dict__ for item in self.prefix],
             "steps": [item.__dict__ for item in self.steps],
+            "final_state": self.final_state.to_dict(),
             "state_fingerprint": self.state_fingerprint,
             "simulator_digest": self.simulator_digest,
             "policy_digest": self.policy_digest,
@@ -78,6 +82,14 @@ class StepInterventionComparison:
     limitations: tuple[str, ...] = (
         "agent_internal_only", "deterministic_registered_policy_only",
         "physical_world_effect_not_established", "not_official_car_reproduction")
+
+
+_MINTED_CHECKPOINTS: dict[int, tuple[weakref.ReferenceType[ExecutionCheckpoint], str]] = {}
+
+
+def _discard_minted_checkpoint(_reference: weakref.ReferenceType[ExecutionCheckpoint], *,
+                               object_id: int) -> None:
+    _MINTED_CHECKPOINTS.pop(object_id, None)
 
 
 def execute_step_intervention(observations: tuple[Observation, ...], *,
@@ -123,10 +135,17 @@ def create_execution_checkpoint(execution: ReplayExecution, *,
     policy_digest = policy.implementation_digest
     payload = {"schema": "memory-fabric-cdm-v1", "prefix": [item.__dict__ for item in prefix],
         "steps": [item.__dict__ for item in execution.steps],
+        "final_state": execution.final_state.to_dict(),
         "state_fingerprint": execution.final_state.fingerprint,
         "simulator_digest": simulator_digest, "policy_digest": policy_digest}
-    return ExecutionCheckpoint("memory-fabric-cdm-v1", prefix, execution.steps,
-        execution.final_state.fingerprint, simulator_digest, policy_digest, digest_json(payload))
+    checkpoint = ExecutionCheckpoint("memory-fabric-cdm-v1", prefix, execution.steps,
+        execution.final_state, execution.final_state.fingerprint, simulator_digest,
+        policy_digest, digest_json(payload))
+    object_id = id(checkpoint)
+    _MINTED_CHECKPOINTS[object_id] = (weakref.ref(checkpoint,
+        partial(_discard_minted_checkpoint, object_id=object_id)),
+        checkpoint.checkpoint_digest)
+    return checkpoint
 
 
 def execute_from_checkpoint(checkpoint: ExecutionCheckpoint,
@@ -137,6 +156,16 @@ def execute_from_checkpoint(checkpoint: ExecutionCheckpoint,
     """Continue from a digest-checked prefix and fail closed on any mismatch."""
     if type(checkpoint) is not ExecutionCheckpoint or type(suffix) is not tuple:
         raise NonReplayable("unsupported checkpoint or suffix")
+    if type(verify_prefix) is not bool:
+        raise NonReplayable("checkpoint verification mode must be boolean")
+    if type(max_events) is not int or not 1 <= max_events <= 100_000:
+        raise ValueError("max_events must be between 1 and 100000")
+    if type(simulator) is not DeterministicSimulator or type(policy) is not ThresholdPolicy:
+        raise NonReplayable("checkpoint requires registered deterministic implementations")
+    minted = _MINTED_CHECKPOINTS.get(id(checkpoint))
+    if not verify_prefix and (minted is None or minted[0]() is not checkpoint
+            or minted[1] != checkpoint.checkpoint_digest):
+        raise NonReplayable("prefix skipping requires an unchanged locally minted checkpoint")
     if checkpoint.schema != "memory-fabric-cdm-v1":
         raise NonReplayable("checkpoint schema cannot be resolved")
     simulator_digest = digest_json({"nodes": [
@@ -154,11 +183,15 @@ def execute_from_checkpoint(checkpoint: ExecutionCheckpoint,
                                 max_events=max_events)
         if (not prefix_result.complete
                 or prefix_result.final_state.fingerprint != checkpoint.state_fingerprint
-                or prefix_result.steps != checkpoint.steps):
+                or prefix_result.steps != checkpoint.steps
+                or prefix_result.final_state != checkpoint.final_state):
             raise NonReplayable("checkpoint prefix does not reproduce exactly")
     all_observations = (*checkpoint.prefix, *suffix)
     if len(all_observations) > max_events:
         raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    if not verify_prefix:
+        return _continue_from_checkpoint(checkpoint, suffix,
+            simulator=simulator, policy=policy, max_events=max_events)
     suffix_ids = {item.observation_id for item in suffix if type(item) is Observation}
     result = execute(all_observations, simulator=simulator, policy=policy, max_events=max_events)
     if not result.complete:
@@ -168,6 +201,94 @@ def execute_from_checkpoint(checkpoint: ExecutionCheckpoint,
                            result.consumed,
                            result.complete, result.first_divergence, result.rng_applicability,
                            result.real_actions_executed, result.source_observations)
+
+
+def _continue_from_checkpoint(checkpoint: ExecutionCheckpoint,
+        suffix: tuple[Observation, ...], *, simulator: DeterministicSimulator,
+        policy: ThresholdPolicy, max_events: int) -> ReplayExecution:
+    """Continue from a live locally minted state without replaying prefix steps."""
+    state = checkpoint.final_state
+    if (any(type(item) is not Observation for item in suffix)
+            or state.updater_id != simulator.updater_id
+            or state.policy_id != policy.policy_id
+            or state.fingerprint != checkpoint.state_fingerprint):
+        raise NonReplayable("checkpoint continuation state is incompatible")
+    prefix = checkpoint.prefix
+    if tuple(sorted(prefix, key=lambda item: (item.sequence, item.observation_id))) != prefix:
+        raise NonReplayable("checkpoint prefix is not in canonical event order")
+    ordered_suffix = tuple(sorted(suffix, key=lambda item: (item.sequence, item.observation_id)))
+    if prefix and ordered_suffix and (ordered_suffix[0].sequence, ordered_suffix[0].observation_id) <= (
+            prefix[-1].sequence, prefix[-1].observation_id):
+        raise NonReplayable("suffix does not follow the checkpoint prefix")
+    observations = (*prefix, *ordered_suffix)
+    if len(observations) > max_events:
+        raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    if len({item.observation_id for item in observations}) != len(observations):
+        raise NonReplayable("checkpoint continuation has duplicate observation IDs")
+
+    unique: dict[tuple[str, str], Observation] = {}
+    evidence: dict[str, bool] = {}
+    conflicts: set[str] = set()
+    admitted: list[Observation] = []
+    for observation in prefix:
+        key = (observation.origin, observation.variable)
+        if key not in unique:
+            unique[key] = observation
+            admitted.append(observation)
+            if observation.variable in evidence and evidence[observation.variable] != observation.value:
+                conflicts.add(observation.variable)
+            else:
+                evidence.setdefault(observation.variable, observation.value)
+    for variable in conflicts:
+        evidence.pop(variable, None)
+    if tuple(admitted) != state.observations or tuple(sorted(conflicts)) != state.conflict_variables:
+        raise NonReplayable("checkpoint state does not summarize its committed prefix")
+    update_policy_digest = digest_json({"updater_id": simulator.updater_id,
+        "policy_id": policy.policy_id, "implementation": "exact-enumeration-v1"})
+    if state.update_policy_digest != update_policy_digest:
+        raise NonReplayable("checkpoint updater implementation cannot be resolved")
+    hash_state = _trace_hash_prefix(conflicts, admitted)
+    current_fingerprint = _finish_trace_fingerprint(hash_state, dict(state.posterior),
+        conflicts, simulator.updater_id, policy.policy_id, update_policy_digest)
+    if current_fingerprint != state.fingerprint:
+        raise NonReplayable("checkpoint prefix commitment is invalid")
+
+    steps = list(checkpoint.steps)
+    for observation in ordered_suffix:
+        key = (observation.origin, observation.variable)
+        if key not in unique:
+            unique[key] = observation
+            admitted.append(observation)
+            prior_conflicts = frozenset(conflicts)
+            if observation.variable in evidence and evidence[observation.variable] != observation.value:
+                conflicts.add(observation.variable)
+            else:
+                evidence.setdefault(observation.variable, observation.value)
+            if prior_conflicts != frozenset(conflicts):
+                hash_state = _trace_hash_prefix(conflicts, admitted)
+            else:
+                _append_trace_observation(hash_state, observation, len(admitted) - 1)
+        conditioned = {name: value for name, value in evidence.items()
+                       if name not in conflicts}
+        distribution = enumerate_posterior(simulator.nodes, conditioned)
+        posterior = {node.name: marginal(distribution, node.name) for node in simulator.nodes}
+        current_fingerprint = _finish_trace_fingerprint(hash_state, posterior, conflicts,
+            simulator.updater_id, policy.policy_id, update_policy_digest)
+        interim = BeliefState("memory-fabric-cdm-v1", simulator.updater_id,
+            policy.policy_id, (), posterior, tuple(sorted(conflicts)), current_fingerprint,
+            (), update_policy_digest)
+        proposal = policy.propose(interim)
+        if proposal.selected is None:
+            raise NonReplayable("deterministic policy abstained during checkpoint continuation")
+        steps.append(ReplayStep(observation.sequence, observation.observation_id,
+            interim.fingerprint, proposal.selected, digest_json({"selected": proposal.selected,
+            "probabilities": proposal.probabilities, "policy": policy.policy_id})))
+    final_state = update(simulator.nodes, observations, updater_id=simulator.updater_id,
+                         policy_id=policy.policy_id)
+    if current_fingerprint != final_state.fingerprint:
+        raise NonReplayable("checkpoint continuation disagrees with canonical final state")
+    return ReplayExecution(ReplayStatus.EXACT, tuple(steps), final_state, len(observations),
+        True, source_observations=observations, execution_kind="checkpoint_prefix_skipped")
 
 
 def execute_full_suffix(observations: tuple[Observation, ...], *, affected_index: int,

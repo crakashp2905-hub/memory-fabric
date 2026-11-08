@@ -18,60 +18,25 @@ No calendar dates or external service are required to keep the work moving.
 
 ## Current queue
 
-Checkpoint: 236 complete, 4 partial, 0 open. CDM-018 is complete against all 22 local stages on Python 3.13.5; Python 3.11/3.12 are not installed and are not claimed. CDM-027 binds digest-only availability, exposure, citation, and verified decision receipt events to authorized evidence. CDM-068 derives observations from authorized historical content through a registered canonical JSON adapter; supplied overlays must match exactly. CDM-017 records full local no-network qualification; CDM-034 records use-time admissibility revalidation and quarantine refusal. CDM-004/008 now cite the completed trust-boundary diagrams and in-process store compatibility checks; CDM-014 adds a malformed-input and revoked-session matrix across both facade operations. CDM-209 binds policy identity into checkpoint cache keys; CDM-211 verifies that recorded RNG snapshots cannot be substituted after receipt; CDM-213 rejects malformed or behavior-injected policy configurations. CDM-206 centralizes temporary workspaces beneath `research/results/cdm`, rejects resolved path escapes, and verifies context-managed cleanup; focused regressions are now in the integrated gate. The full in-process compatibility regression passes, and the required local-checkout hermetic qualification passes all 22 stages after CDM-240 (tree digest and file count are recorded in the authoritative manifest).. CDM-206 confines temporary workspaces; CDM-209 binds policy identity into cache keys; CDM-211 detects post-receipt RNG-state substitution; CDM-213 rejects malformed or behavior-injected policy configuration. CDM-236 consolidates known null results and limitations. CDM-240 records a restricted internal GO for offline synthetic research and NO-GO for deployment, efficacy claims, autonomous correction, physical-world causal claims, and action authority. R5 v3 confirmatory superiority remains unsupported; CDM-199's fixture favors dependence routing over CDM review rows. Ruff and mypy pass. R5 v3 development and confirmatory results are recorded; CDM-163's focused equivalence tests, Ruff and mypy pass. CDM-165 measures local checkpoint schedule storage/construction tradeoffs and confirms the current verification path still replays stored prefixes; no speedup is claimed. CDM-172/173 verify early and low-centrality pivotal-event misses using executed leave-one-out oracles. CDM-176 compares exact and likelihood-weighted inference under equal assignment budgets and reports accuracy and abstention transparently. CDM-178 verifies worker termination and temp cleanup after a wall-time interruption. CDM-186 classifies collateral cache loss from blanket invalidation while preserving auth/version revalidation; CDM-187 separates zero-collateral precise replay from intentional conservative fallback work. CDM-188 adds competing-evidence chain, star, and fork dependency fixtures. CDM-193 refuses independence claims with missing remote provenance and performs no remote fetch. CDM-194 resolves portable provenance across authorized federation imports and local lineage while refusing user-context root forgery. CDM-195 records mixed remote origin versions alongside exact authorized local snapshot bindings. CDM-196 tests that partition-stale paraphrases still group under one origin. CDM-197 proves local erasure invalidates cached replay access. CDM-198 compares blanket review, dependence, and CDM labels and fixes a tenant-scoped counterfactual verification bug. CDM-199 freezes correction-aware utility weights, confirmatory pair count, and GO thresholds; current fixture favors dependence over CDM review routing. The integrated gate includes these regressions/benchmarks; the current qualification manifest is authoritative for the latest tree digest. Evaluator abstention,
-basic attribution, bounded checkpoint cache, review-only correction queue,
-synthetic multi-agent worlds, local viewer, bounded dispatcher, and selector
-scaling are implemented. Certificate statuses and world semantics are bound;
-minimality claims require a matching verified proof over a complete bounded
-coalition table; the verifier attests only to the supplied table.
-The frozen first-party TAME-inspired comparator now runs separate training
-seeds and prequential held-out seeds with matched proposal/removal budgets,
-factual, random, recency, leave-one-out and oracle-ceiling arms. It reports raw
-cases, per-arm and paired utility intervals, annotation state, and explicit
-safety fields. On this 10-seed synthetic holdout the TAME-inspired arm mean is
-0.48 utility (normal-approximation 95% interval 0.124–0.836), equal to random;
-this is weak synthetic evidence, not official TAME replication or an efficacy
-claim. Local cost instrumentation records CPU/wall time, peak traced memory,
-transitions, simulated calls, certificate bytes, artifact footprint, and zero
-model/API/external charges. The R7 architecture comparison is complete on 20
-fresh seeds: all evidence-removal arms had negative mean utility differences;
-the exact subset/CAR-style arm was -0.355 (95% interval -0.639 to -0.071),
-while recency was -0.125 (-0.297 to 0.047). The result warns that a measured
-change is not automatically a beneficial correction. Continue remaining
-architecture comparison work (121–160), replay efficiency with proven
-equivalence (161–180), and correction replay integration (181–200). CDM-163
-stays open until optimized state is proven equivalent to exhaustive replay.
-CDM-005's threat paths are mapped to controls and negative tests, CDM-019
-defines schema major/minor compatibility, and CDM-028/029 write and verify
-immutable decision receipts with exact policy source resolution. The next
-resolved dependency CDM-030/031 records full RNG state when available and
-classifies tool/environment determinism; unhandled continuations refuse exact
-replay. CDM-037/039 are covered by real versioned-history and fail-closed
-replay fixtures. CDM-038/040 are complete with linked evidence. CDM-043 adds
-the versioned belief-state contract and generated schema fixture. CDM-063 now
-has digest-bound exact-prefix continuation and cold-replay equivalence tests,
-but remains partial until safe prefix skipping is verified. CDM-064 completes
-full RNG state restoration and CDM-065 gates exact readiness on complete current
-inputs, including a digest of the exact observation trace. CDM-068 now blocks
-live Fabric/projection objects from the pure executor, but remains partial
-until materialized observations are bound to an authorized historical capture.
-CDM-069 now pins local policy source/configuration and refuses unresolved tool
-versions with `NON_REPLAYABLE`. Continue with the remaining CDM-068 integration,
-then CDM-072/073 checkpoint integrity and current authorization/erasure checks.
-CDM-071 now labels replay as local policy recomputation and never substitutes
-the recorded selection text. CDM-075 validates seeded cold/checkpoint equality
-at all internal cuts. CDM-076 now gates exact certificates on independently
-verified deterministic replay and refuses unsupported RNG/tool continuations.
-CDM-077 verifies unreadable evidence refusal. Next, advance past CDM-078 stale-checkpoint
-invalidation to the next unresolved replay requirement. CDM-080 now documents
-the actual deterministic/RNG/opaque-history envelope. CDM-079 full per-event executor overhead is measured at 100/1k/10k/100k with exact posterior fidelity; 100k uses about 89s and 91.5MB peak traced memory.
-The local socket restriction means HTTP-based legacy adversarial families
-remain unavailable in this run.
+Checkpoint: 237 complete, 3 partial, 0 open. The 22-stage local offline
+qualification passes on the available Python 3.13.5 runtime. Python 3.11 and
+3.12 are not installed locally; compatibility on those versions is not claimed.
+The generated task inventory contains 240 unique IDs and current row/artifact
+hashes. CDM-027 binds authorized evidence to digest-only availability,
+exposure, citation, and verified decision-receipt events. CDM-068 materializes
+exact historical content through a registered canonical JSON observation
+adapter and refuses mismatched caller overlays. CDM-063 can skip prefix policy
+transitions only for an unchanged checkpoint minted in the current process;
+seeded cold-replay equivalence passes at every cut.
 
-Execution rule: continue the dependency queue from the current checkout and
-append evidence here after each package. The schedule is a persistent local
-work queue; it is not a detached background process.
+Remaining partial acceptance work:
 
+- CDM-009: complete in-house regression baseline and artifact hash.
+- CDM-020: direct implementation/source-commit linkage for every task evidence row.
+- CDM-035: full lineage-redaction and side-channel audit.
+
+The gate records synthetic local evidence only. It does not establish external,
+physical-world, or deployment efficacy.
 ## Checkpoint rule
 
 After each package: update task states from artifacts, run its focused

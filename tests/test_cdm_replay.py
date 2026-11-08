@@ -28,7 +28,7 @@ from memory_fabric.causal_replay.replay import deterministic_simulator
 from memory_fabric.causal_replay.state import (Observation,
     generated_belief_state_schema, update, validate_belief_state_record)
 from memory_fabric.causal_replay.types import (BudgetExceeded, Erased, NonReplayable,
-    SimulatorForbidden, Unauthorized, ReplayStatus)
+    SimulatorForbidden, Unauthorized, ReplayStatus, digest_json)
 from memory_fabric.causal_replay.verifier import verify_execution
 from dataclasses import replace
 from memory_fabric.causal_replay.types import (BeliefReference, DecisionRecord, ReplayContext,
@@ -144,6 +144,34 @@ class TestReplay(unittest.TestCase):
             execute_from_checkpoint(replace(checkpoint, state_fingerprint="0" * 64), suffix,
                                     simulator=self.simulator, policy=self.policy)
 
+    def test_minted_checkpoint_skips_prefix_policy_replay_and_matches_cold_trace(self):
+        prefix = (Observation("e1", "alarm", True, "sensor-a", 1),
+                  Observation("e2", "alarm", False, "sensor-b", 2))
+        suffix = (Observation("e3", "alarm", True, "sensor-c", 3),)
+        checkpoint = create_execution_checkpoint(
+            execute(prefix, simulator=self.simulator, policy=self.policy),
+            simulator=self.simulator, policy=self.policy)
+        cold = execute((*prefix, *suffix), simulator=self.simulator, policy=self.policy)
+        with patch("memory_fabric.causal_replay.executor.execute",
+                   side_effect=AssertionError("prefix replay must be skipped")):
+            resumed = execute_from_checkpoint(checkpoint, suffix,
+                simulator=self.simulator, policy=self.policy, verify_prefix=False)
+        self.assertEqual(resumed.execution_kind, "checkpoint_prefix_skipped")
+        self.assertEqual(resumed.steps, cold.steps)
+        self.assertEqual(resumed.final_state.fingerprint, cold.final_state.fingerprint)
+        self.assertEqual(resumed.consumed, cold.consumed)
+        with self.assertRaises(NonReplayable):
+            execute_from_checkpoint(replace(checkpoint), suffix, simulator=self.simulator,
+                policy=self.policy, verify_prefix=False)
+        tampered = create_execution_checkpoint(
+            execute(prefix, simulator=self.simulator, policy=self.policy),
+            simulator=self.simulator, policy=self.policy)
+        tampered.final_state.posterior["alarm"] = 0.123
+        object.__setattr__(tampered, "checkpoint_digest", digest_json(tampered.payload()))
+        with self.assertRaises(NonReplayable):
+            execute_from_checkpoint(tampered, suffix, simulator=self.simulator,
+                policy=self.policy, verify_prefix=False)
+
     def test_full_suffix_oracle_matches_cold_replay_at_every_cut(self):
         observations = tuple(Observation(f"suffix-{index}", "alarm", bool(index % 2),
             f"sensor-{index}", index + 1) for index in range(5))
@@ -182,7 +210,7 @@ class TestReplay(unittest.TestCase):
                 bool(rng.getrandbits(1)), f"sensor-{index}", index)
                 for index in range(1, 7))
             cold = execute(trace, simulator=self.simulator, policy=self.policy)
-            for cut in range(1, len(trace)):
+            for cut in range(len(trace) + 1):
                 with self.subTest(seed=seed, cut=cut):
                     prefix = execute(trace[:cut], simulator=self.simulator,
                                      policy=self.policy)
@@ -194,6 +222,11 @@ class TestReplay(unittest.TestCase):
                     self.assertEqual(resumed.final_state.fingerprint,
                                      cold.final_state.fingerprint)
                     self.assertEqual(resumed.steps, cold.steps)
+                    skipped = execute_from_checkpoint(checkpoint, trace[cut:],
+                        simulator=self.simulator, policy=self.policy, verify_prefix=False)
+                    self.assertEqual(skipped.execution_kind, "checkpoint_prefix_skipped")
+                    self.assertEqual(skipped.final_state.fingerprint, cold.final_state.fingerprint)
+                    self.assertEqual(skipped.steps, cold.steps)
 
     def test_replay_never_constructs_socket_or_process(self):
         events = (Observation("e1", "alarm", True, "sensor-a", 1),)

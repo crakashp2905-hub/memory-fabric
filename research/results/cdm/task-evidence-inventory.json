@@ -3,9 +3,9 @@
   "ledger": "docs/CDM_TASK_LEDGER.md",
   "schema": "cdm-task-evidence-inventory-v1",
   "status_counts": {
-    "complete": 236,
+    "complete": 237,
     "open": 0,
-    "partial": 4
+    "partial": 3
   },
   "task_count": 240,
   "tasks": [
@@ -20,7 +20,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
+          "sha256": "31fb259003a5edd2c5ea6c1e8defa299c366f8fc8a967e3e13facecacc605b7b"
         }
       ],
       "status": "complete",
@@ -31,7 +31,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
+          "sha256": "31fb259003a5edd2c5ea6c1e8defa299c366f8fc8a967e3e13facecacc605b7b"
         }
       ],
       "status": "complete",
@@ -46,7 +46,7 @@
         },
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
+          "sha256": "31fb259003a5edd2c5ea6c1e8defa299c366f8fc8a967e3e13facecacc605b7b"
         }
       ],
       "status": "complete",
@@ -63,7 +63,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/CAUSAL_REPLAY_API.md",
-          "sha256": "72236f768e0977f86b8c90bd2f21342181a30d01882a08ba27c85a86a150e62d"
+          "sha256": "f5b4817afb2eb887bc62abfa6ad3c131ead284884a1d7ecd97fa2c7a30000b9c"
         }
       ],
       "status": "complete",
@@ -167,7 +167,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
+          "sha256": "31fb259003a5edd2c5ea6c1e8defa299c366f8fc8a967e3e13facecacc605b7b"
         }
       ],
       "status": "complete",
@@ -196,7 +196,7 @@
       "referenced_artifacts": [
         {
           "path": "research/results/cdm/task-evidence-inventory.json",
-          "sha256": "2e961ec8a638a3f34a14e517ac063ad738fb683b57a33293317e4999b3ac1952"
+          "sha256": "4db415f854a2d6d1b55e034d6dde70cde749275528bd5a3bd216ada147e3eac7"
         }
       ],
       "status": "partial",
@@ -375,7 +375,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/CAUSAL_REPLAY_API.md",
-          "sha256": "72236f768e0977f86b8c90bd2f21342181a30d01882a08ba27c85a86a150e62d"
+          "sha256": "f5b4817afb2eb887bc62abfa6ad3c131ead284884a1d7ecd97fa2c7a30000b9c"
         }
       ],
       "status": "complete",
@@ -452,7 +452,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_replay.py",
-          "sha256": "3a4e348cf681b98a780041f4eb932e9cbee09d510126498ddeb717ac6e3754fb"
+          "sha256": "4f97317b60401ae560728ad4400a30fb4ad5000192894f12c3c0513ecf7d970a"
         }
       ],
       "status": "complete",
@@ -515,7 +515,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/COUNTERFACTUAL_DECISION_MEMORY.md",
-          "sha256": "4e2b1d02b1612825e49d914aec4efd5a0439de35485c67e54a61346656c983d2"
+          "sha256": "31fb259003a5edd2c5ea6c1e8defa299c366f8fc8a967e3e13facecacc605b7b"
         }
       ],
       "status": "complete",
@@ -534,9 +534,9 @@
       "task_id": "CDM-062"
     },
     {
-      "evidence_row_sha256": "84a531d9557efdd7b9460fa6b5ccdb7dca3b1fe3e3ad3b9373738b1c525f3f96",
+      "evidence_row_sha256": "eea9c62880a7b573b39a5bcfb6fcc66de74c43ad4b76c464a38abbccce0c3403",
       "referenced_artifacts": [],
-      "status": "partial",
+      "status": "complete",
       "task_id": "CDM-063"
     },
     {
@@ -568,7 +568,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_replay.py",
-          "sha256": "3a4e348cf681b98a780041f4eb932e9cbee09d510126498ddeb717ac6e3754fb"
+          "sha256": "4f97317b60401ae560728ad4400a30fb4ad5000192894f12c3c0513ecf7d970a"
         }
       ],
       "status": "complete",
@@ -802,7 +802,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_replay.py",
-          "sha256": "3a4e348cf681b98a780041f4eb932e9cbee09d510126498ddeb717ac6e3754fb"
+          "sha256": "4f97317b60401ae560728ad4400a30fb4ad5000192894f12c3c0513ecf7d970a"
         }
       ],
       "status": "complete",
@@ -813,7 +813,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_replay.py",
-          "sha256": "3a4e348cf681b98a780041f4eb932e9cbee09d510126498ddeb717ac6e3754fb"
+          "sha256": "4f97317b60401ae560728ad4400a30fb4ad5000192894f12c3c0513ecf7d970a"
         }
       ],
       "status": "complete",
@@ -830,7 +830,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_replay.py",
-          "sha256": "3a4e348cf681b98a780041f4eb932e9cbee09d510126498ddeb717ac6e3754fb"
+          "sha256": "4f97317b60401ae560728ad4400a30fb4ad5000192894f12c3c0513ecf7d970a"
         }
       ],
       "status": "complete",
@@ -1102,7 +1102,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/executor.py",
-          "sha256": "2ce5bfda145261717bb3a18fa94e3cf089cf2955d57dd64ce59c36a172fd7dd6"
+          "sha256": "b066fc299ac449cc4d45496448e50e0e64368ae75714a429a92c679334e4512b"
         }
       ],
       "status": "complete",

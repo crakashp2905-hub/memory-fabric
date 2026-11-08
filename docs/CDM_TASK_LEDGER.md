@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (236)
+## Complete at this checkpoint (237)
 
 | Task | Evidence |
 |---|---|
@@ -66,6 +66,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-060 | `docs/COUNTERFACTUAL_DECISION_MEMORY.md` records the finite binary DAG/CPT and evidence assumptions, conflict handling, and explicitly states that illustrative posterior confidence is not clinically or physically calibrated/validated |
 | CDM-061 | Immutable digest checkpoint binds source head, tenant, evidence, updater and policy commitments |
 | CDM-062 | Deterministic from-genesis event replay with exact final fingerprint checking |
+| CDM-063 | Live locally minted `ExecutionCheckpoint` binds its exact prefix, per-step trace, final belief state, simulator and policy. `verify_prefix=False` refuses copied/tampered checkpoints, skips prefix policy transitions, and matches cold replay at every seeded cut point, including empty prefix/suffix. |
 | CDM-064 | Archival checkpoint stores complete stdlib RNG state, algorithm and position; restore matches eight seeded continuation draws and rejects digest/algorithm mismatch |
 | CDM-065 | Exact-checkpoint readiness requires current authorization/evidence, matching updater and policy digests, exact observation-trace digest, and explicit complete RNG or deterministic applicability |
 | CDM-066 | Replay event budget refuses whole traces instead of returning partial success |
@@ -244,15 +245,14 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (4)
+## Partial (3)
 
 | Task | Remaining acceptance evidence |
 |---|---|
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
 | CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
-| CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 
 ## Open (0)
 
-No open task IDs remain. The 12 partial tasks retain the acceptance gaps listed above.
+No open task IDs remain. The three partial tasks retain the acceptance gaps listed above.
