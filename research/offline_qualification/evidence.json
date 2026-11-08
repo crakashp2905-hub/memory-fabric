@@ -2503,6 +2503,26 @@
       "limitations": [
         "The example uses deterministic local records and exercises authorization only; it never calls an external tool. GitHub CI has not run for this branch because PR creation is unavailable through connected credentials."
       ]
+    },
+    {
+      "task_id": "P1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/offline.py",
+        "examples/quickstart.py",
+        "tests/test_quickstart.py",
+        "docs/QUICKSTART.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "research/results/p1-08-offline-mode.json",
+        "research/results/p1-08-offline-mode.txt"
+      ],
+      "limitations": [
+        "The guard blocks Python DNS and socket operations in the current process; it does not contain subprocesses or untrusted native code. Deploy an OS-level sandbox where those are in scope.",
+        "Exact-commit execution is Windows 11/Python 3.13.5; the configured cross-platform CI matrix has not run for this branch."
+      ]
     }
   ]
 }

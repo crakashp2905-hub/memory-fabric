@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 232,
+ "results": 233,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 229,
-  "model_id": 196,
-  "prompt_hash": 232,
-  "seed": 153,
-  "cost": 209,
-  "verdict": 161
+  "dataset_digest": 230,
+  "model_id": 197,
+  "prompt_hash": 233,
+  "seed": 154,
+  "cost": 210,
+  "verdict": 162
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 220
+  "unclassified": 221
  },
  "rows": [
   {
@@ -3266,6 +3266,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": "7052d297862186d752b80018352f0479b637c223",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-08-offline-mode",
+   "file": "research/results/p1-08-offline-mode.json",
+   "file_sha256": "38e09bfff04575eb39bcc32c678766f53dde4037318d4a28ebd1e2cc26ce68b1",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": "3e2393fa052bc1fc6a46a074e84a5f73ff74ed24",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

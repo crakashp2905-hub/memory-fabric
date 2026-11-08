@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d5d686501595a4dd1cd3dd97db4bb26fd15799bb6acff5d1f65aebeea27e2c3a",
+    "sha256": "0ade4f496704dd5e4e3973d204a8c031ac7acd35aca1b31092d3f48deab0c472",
     "tasks": 260
   },
   "source": {
-    "commit": "7052d297862186d752b80018352f0479b637c223",
+    "commit": "3e2393fa052bc1fc6a46a074e84a5f73ff74ed24",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 147,
+      "DONE": 148,
       "PARTIAL": 4,
-      "TODO": 109
+      "TODO": 108
     },
-    "completed": 147,
+    "completed": 148,
     "total": 260,
-    "percent_complete": 56.54,
+    "percent_complete": 56.92,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -309,7 +309,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "413e95679625ba21d264abab37b4765bfce81683f3e94ae3417da03b8156d5d5",
         "docs/VALIDATION.md": "7a49ef5f4f2ee3ee580f8bc25cb93a197904ad1daf4fb0a255d2ccd4781e7603",
-        "docs/STATUS_AT_HEAD.md": "ccf97032ef09b53b7b5dd3a62097e51eab1b6a7d7a20020700b5d0f5d202cdd1",
+        "docs/STATUS_AT_HEAD.md": "47d9ff1ebb357bf4d2cd59f84556bf0db3ba348ac09aebe83ef5ad0333f82691",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1176,10 +1176,10 @@
         "research/results/e5-01-api-inventory.xml"
       ],
       "evidence_digests": {
-        "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
+        "tools/gen_reference.py": "44082cd0dcc78db5a3775b54869d2545641a7fad60f4a50a1352ca48e4c7f614",
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
-        "docs/API_INVENTORY.json": "e38bb22a3dba5738c6400047bae3dc65306b70babebd9a2efa3407ca6dd695d0",
-        "docs/API.md": "90e0559893eaed5ad93106b133258b5b9f9445c27a4678fd5213487fd69c9293",
+        "docs/API_INVENTORY.json": "20b9247ae20ff1ddaf916d752e0ca069e6dcdfc5f6a13a72ae2f64661d843f65",
+        "docs/API.md": "3dec14630cab2cb32b1b02a5b18ec8c1df0ef2efd1abc32b68bb2d84888e5839",
         "STABILITY.md": "b49237a4b47d3c96c87ad001ba0e5d833ebb42ad29f2cf73b994ac12d214b97c",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "f7ce12a4ae65d57596b5baacfc04c5f7fb887f73726e11118a9d74a358e7a808",
+        "research/results/MANIFEST.json": "fc4ee73a926987578eeb943278a6adf094c569784bad35b2fad678072ecd0964",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4817,7 +4817,7 @@
       ],
       "evidence_digests": {
         "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
-        "docs/QUICKSTART.md": "05544e779707571414dc741affd4d2e8866a4ec68d3f6b3ce79847cc1143ade3",
+        "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
         "tests/test_examples_run.py": "cd328be7841af3828abc4052b3de3f90b76128c6f0005735aa00fcc01b207437",
         "research/results/p1-01-example-tests.json": "1080614d52e5dcdf4035a9eec9868af5aa450e1b3fc9fd093f485982e2bd99b4",
         "research/results/p1-01-example-tests.txt": "a8d09cf96fa067b944202e6161c893cc57a0d1d417bd17f982b41579e1230407",
@@ -4897,7 +4897,7 @@
       ],
       "evidence_digests": {
         "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
-        "examples/quickstart.py": "89514176b49af882b714c930de0fdf973d1200921fe47fbb236982cd07e084d3",
+        "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
         "examples/reference_agent.py": "27a965984401db19767efa6859215d27756a335dec7878eb338cb211f0b7ab95",
         "examples/wrong_memory_demo.py": "ed6514153fa51b9fbf6d989486a2f8105f11a165c711acdd6c4fe07bec337a3e",
         "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
@@ -5052,13 +5052,34 @@
       "priority": "P1",
       "task": "Implement explicit offline mode preventing any accidental API or network dependency.",
       "acceptance": "Offline test fails if forbidden socket/network access occurs during quickstart",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/offline.py",
+        "examples/quickstart.py",
+        "tests/test_quickstart.py",
+        "docs/QUICKSTART.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "research/results/p1-08-offline-mode.json",
+        "research/results/p1-08-offline-mode.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/offline.py": "9d4de6fd6339ea2a50e494e3d3f33e142461f2f682d1167051f01ce08908337d",
+        "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
+        "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770",
+        "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
+        "docs/API.md": "3dec14630cab2cb32b1b02a5b18ec8c1df0ef2efd1abc32b68bb2d84888e5839",
+        "docs/API_INVENTORY.json": "20b9247ae20ff1ddaf916d752e0ca069e6dcdfc5f6a13a72ae2f64661d843f65",
+        "research/results/p1-08-offline-mode.json": "12f81837862632491b0305009817030550b5b9a1474242b357ad40f8945b7b4c",
+        "research/results/p1-08-offline-mode.txt": "e1e06a433688b30386cdcd67a5a64a27b17a720a0cf26994ccff4738461b97c6"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The guard blocks Python DNS and socket operations in the current process; it does not contain subprocesses or untrusted native code. Deploy an OS-level sandbox where those are in scope.",
+        "Exact-commit execution is Windows 11/Python 3.13.5; the configured cross-platform CI matrix has not run for this branch."
+      ]
     },
     {
       "task_id": "P1-09",
@@ -5598,7 +5619,7 @@
       ],
       "evidence_digests": {
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
-        "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
+        "tools/gen_reference.py": "44082cd0dcc78db5a3775b54869d2545641a7fad60f4a50a1352ca48e4c7f614",
         "tests/test_examples_run.py": "cd328be7841af3828abc4052b3de3f90b76128c6f0005735aa00fcc01b207437",
         "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
