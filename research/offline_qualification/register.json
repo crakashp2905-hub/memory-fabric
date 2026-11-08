@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "9124d9091f42c2e03a41ed55c7387d2d28dedc42fa060ed3558074938b7b634e",
+    "sha256": "d53357a96fb78f4dfa0266fa0bf8e3ac2a8d60a4a9156868968b0656aa0dd927",
     "tasks": 260
   },
   "source": {
-    "commit": "244eb9879ff7f9d7a4c3531bef1d35c8203bd16b",
+    "commit": "1f471c0a9f04a79b274e01a5929322c5fbe00a12",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 205,
+      "DONE": 206,
       "PARTIAL": 3,
-      "TODO": 52
+      "TODO": 51
     },
-    "completed": 205,
+    "completed": 206,
     "total": 260,
-    "percent_complete": 78.85,
+    "percent_complete": 79.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2575,8 +2575,8 @@
         "tests/test_contribution_map.py"
       ],
       "evidence_digests": {
-        "research/CONTRIBUTION_MAP.md": "34f8918a5b556220d55bb7fe47d6e04328473edf9a260ec585be3025af34cf2b",
-        "tests/test_contribution_map.py": "07378237d6eef899a2a45ea9fda70b4960e509c6def906f0f8e08243405f4a15"
+        "research/CONTRIBUTION_MAP.md": "7324550c2539e4bc52ba7113774e594dbc1f363ff65fdf3aebefb5a82107aea6",
+        "tests/test_contribution_map.py": "7b662115a9be62a2602edb54a25596b3ab9e3d55c09fadd960c6bfe634154964"
       },
       "evidence_issues": {},
       "limitations": [
@@ -2596,8 +2596,8 @@
         "tests/test_contribution_map.py"
       ],
       "evidence_digests": {
-        "research/CONTRIBUTION_MAP.md": "34f8918a5b556220d55bb7fe47d6e04328473edf9a260ec585be3025af34cf2b",
-        "tests/test_contribution_map.py": "07378237d6eef899a2a45ea9fda70b4960e509c6def906f0f8e08243405f4a15"
+        "research/CONTRIBUTION_MAP.md": "7324550c2539e4bc52ba7113774e594dbc1f363ff65fdf3aebefb5a82107aea6",
+        "tests/test_contribution_map.py": "7b662115a9be62a2602edb54a25596b3ab9e3d55c09fadd960c6bfe634154964"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3091,14 +3091,26 @@
       "task_id": "N1-10",
       "priority": "P1",
       "task": "Preregister novelty hypothesis: lineage-aware decision repair improves safe completion at equal budget.",
-      "acceptance": "Claim is NOT_PROVEN unless held-out, matched experiments isolate it from baseline governance",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Claim is NOT_PROVEN unless held-out, matched experiments isolate it from baseline governance. Evidence: `research/prereg/n1-10-decision-repair-novelty.md`, `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py`, `research/results/n1-10-preregistration-tests.xml` (DONE: protocol `n1-10-decision-repair-v1` preregisters matched governance-only, blanket-invalidation and decision-repair arms, equal budgets, a held-out family-split, metrics, analysis and falsifiers. The efficacy and global-novelty claims remain explicitly NOT_PROVEN; N1-09 is excluded as exploratory.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n1-10-decision-repair-novelty.md",
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py",
+        "research/results/n1-10-preregistration-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n1-10-decision-repair-novelty.md": "cd03587ebb089a49abbb68ab4d12344d80eb4c72a2991cbf95d88f8fb6e5685c",
+        "research/CONTRIBUTION_MAP.md": "7324550c2539e4bc52ba7113774e594dbc1f363ff65fdf3aebefb5a82107aea6",
+        "tests/test_contribution_map.py": "7b662115a9be62a2602edb54a25596b3ab9e3d55c09fadd960c6bfe634154964",
+        "research/results/n1-10-preregistration-tests.xml": "78d318ccb63021c49aae9c2ef5e7f8459667d6165772949aa3168159da2b5d39"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This completes preregistration only. The matched held-out agent evaluation and independent prior-art review have not run; efficacy and global novelty remain NOT_PROVEN."
+      ]
     },
     {
       "task_id": "N2-01",
