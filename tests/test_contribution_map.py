@@ -23,6 +23,23 @@ class ContributionMap(unittest.TestCase):
                      "src/memory_fabric/context_map.py", "tests/test_context_map.py"):
             self.assertTrue((ROOT / path).is_file(), path)
 
+    def test_decision_repair_claim_is_preregistered_and_remains_not_proven(self) -> None:
+        prereg = ROOT / "research/prereg/n1-10-decision-repair-novelty.md"
+        text = prereg.read_text(encoding="utf-8")
+        for phrase in (
+            "PRE-REGISTERED / NOT RUN",
+            "NOT_PROVEN",
+            "governance_only",
+            "blanket_invalidation",
+            "decision_repair",
+            "400 cases from 40 task families",
+            "Equal budgets",
+            "Unauthorized-effect count",
+            "95% confidence intervals",
+            "N1-09's five seeds",
+        ):
+            self.assertIn(phrase.lower(), text.lower())
+
 
 if __name__ == "__main__":
     unittest.main()

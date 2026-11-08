@@ -168,6 +168,21 @@
       ]
     },
     {
+      "task_id": "N1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n1-10-decision-repair-novelty.md",
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py",
+        "research/results/n1-10-preregistration-tests.xml"
+      ],
+      "limitations": [
+        "This completes preregistration only. The matched held-out agent evaluation and independent prior-art review have not run; efficacy and global novelty remain NOT_PROVEN."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

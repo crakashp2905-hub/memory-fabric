@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **205 / 260 (78.85%)**. Internal status: **BLOCKED**.
+Strict completion: **206 / 260 (79.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `99a142182020fe5e2616fdb8f1df38ca3bb2362fb179c0a2ec8141e0efc8ed96`.
+Normalized ledger digest: `03c047fad2883e8b9baa3bd46aed9d1faeae307809600fc61dde2bb7ba2db978`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 205 |
+| DONE | 206 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 52 |
+| TODO | 51 |
 
 ## Graduation gates
 
@@ -138,7 +138,7 @@ Normalized ledger digest: `99a142182020fe5e2616fdb8f1df38ca3bb2362fb179c0a2ec814
 | N1-07 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `tests/test_support_bundle.py`, `research/results/n1-07-reevaluation-receipt-tests.xml` |
 | N1-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/common.py`, `src/memory_fabric/fabric.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `CHANGELOG.md`, `tools/gen_reference.py`, `docs/API.md`, `docs/API_INVENTORY.json`, `tests/test_revision_conflicts.py`, `tests/test_concurrency.py`, `tests/test_fabric.py`, `tests/test_reference_docs.py`, `research/results/n1-08-revision-conflict-tests.xml` |
 | N1-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/n1_09_decision_continuity.py`, `tests/test_n1_09_decision_continuity.py`, `research/results/n1-09-decision-continuity-tests.xml`, `research/results/n1-09-decision-continuity.json`, `research/results/n1-09-decision-continuity.md` |
-| N1-10 | P1 | TODO | NOT_TESTED | — |
+| N1-10 | P1 | DONE | CONTRACT | `research/prereg/n1-10-decision-repair-novelty.md`, `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py`, `research/results/n1-10-preregistration-tests.xml` |
 | N2-01 | P1 | TODO | NOT_TESTED | — |
 | N2-02 | P1 | TODO | NOT_TESTED | — |
 | N2-03 | P1 | TODO | NOT_TESTED | — |
