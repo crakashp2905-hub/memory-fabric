@@ -132,6 +132,11 @@ ALLOWED_LINES = {
 # renaming the concept to dodge a detector would be worse naming for a cosmetic
 # reason.
 ALLOWED_SNIPPETS = {
+    # Historical nanosecond timing counters are long digit runs; allow only
+    # the exact profiling field in these two generated results. Other values
+    # and other files remain subject to the detector.
+    ("research/results/e4-03-local-profile.json", "credit_card", '"total": 3478897227000'),
+    ("research/results/e4-04-contention-before-after.json", "credit_card", '"total": 3478897227000'),
     # A placeholder for a stubbed HTTP transport: the SDK requires *some*
     # credential to build a client, and no request leaves the process.
     ("tests/test_claude_contract.py", "password_assignment", "api_key=STUB_KEY"),
@@ -171,7 +176,8 @@ def is_allowed(path: str, kind: str, raw: str, line_text: str = "") -> bool:
     if (path, kind) in ALLOWED_LINES:
         return True
     for allowed_path, allowed_kind, snippet in ALLOWED_SNIPPETS:
-        if path == allowed_path and kind == allowed_kind and snippet in line_text:
+        if (path == allowed_path and kind == allowed_kind and snippet in line_text
+                and raw in line_text):
             return True
     stripped = raw.strip()
     if stripped in ALLOWED_VALUES:

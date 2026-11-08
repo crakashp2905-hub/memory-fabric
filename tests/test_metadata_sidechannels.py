@@ -11,14 +11,14 @@ from memory_fabric.sdk import NotUsable, agent
 from memory_fabric.service import MemoryService
 
 
-SECRET = "SAPPHIRE-CANARY-7419 acquisition timetable"
+FOREIGN_MARKER = "SAPPHIRE-MARKER-7419 acquisition timetable"
 TENANT_B = "Tenant B unrelated maintenance notes"
 MISSING = "01NOTAREALMEMORYID00000000"
 
 
 def make_world(with_foreign_secret: bool):
     fabric = MemoryFabric(":memory:", auto_activate=True, seed=9)
-    foreign = (fabric.remember("agent_a", SECRET, tenant_id="tn_a", scope="team")
+    foreign = (fabric.remember("agent_a", FOREIGN_MARKER, tenant_id="tn_a", scope="team")
                if with_foreign_secret else MISSING)
     view = agent(fabric, "agent_b", "tn_b")
     view.remember(TENANT_B, context={"topic": "maintenance"})
@@ -31,7 +31,7 @@ class MetadataSideChannels(unittest.TestCase):
         for with_secret in (False, True):
             fabric, client, foreign = make_world(with_secret)
             self.addCleanup(fabric.close)
-            recalled = client.recall("SAPPHIRE-CANARY-7419 acquisition timetable")
+            recalled = client.recall("SAPPHIRE-MARKER-7419 acquisition timetable")
             suggestion = topics(fabric, "agent_b", tenant_id="tn_b")
             try:
                 client.fetch(foreign)

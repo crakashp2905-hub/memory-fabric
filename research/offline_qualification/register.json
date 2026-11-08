@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "db70a8ffb7833a6976d45c967a5d0db4796b0f19c696117b32e627e7d11c4fbc",
+    "sha256": "364cd098ab5aaa7fa5fc30d843baf6f775fea5ceea851b3be24b4b0a0f239769",
     "tasks": 260
   },
   "source": {
-    "commit": "2b15795be9951faa0e8f572b5544e59c0a32afb1",
+    "commit": "5be3746ee89878ea945fff4ac316af516495c901",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 94,
+      "DONE": 96,
       "PARTIAL": 5,
-      "TODO": 161
+      "TODO": 159
     },
-    "completed": 94,
+    "completed": 96,
     "total": 260,
-    "percent_complete": 36.15,
-    "p0_open": 35,
+    "percent_complete": 36.92,
+    "p0_open": 33,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "7ff07c143f028199a4dd8282b9e3ecdab12e7c8fb3f9ef647f35fc886fd62f3b",
-        "docs/VALIDATION.md": "233917391f9b419e29a1b34b9ee56e4a26b1a1cf03f841d06c0ef926fea2111f",
-        "docs/STATUS_AT_HEAD.md": "fb9b428365cc6925900ae281cfac5364f0090c7eee095d2667df4bfe5a5e61d7",
+        "README.md": "9a95d4d2c5894a2cfd100154e3b650afe2b90d39bd41b920ba71c1e722d587ec",
+        "docs/VALIDATION.md": "12e97e1dd16f1453d9542df099ba6fdfbde3f80969620a47890cfd6914ef97c7",
+        "docs/STATUS_AT_HEAD.md": "aa5fbe6196c23de92069465131376aa1a53acbea225551dae719abab08d25437",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "3d032018558eff51061b71d07dba6af2a01e20f086869c4cacf97912a2ecbb66",
+        "research/results/MANIFEST.json": "04f3661486d210f0891080c89f9e5eba16082325ac6f91fd557a78a202f79a6b",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3788,7 +3788,7 @@
         "research/results/h3-02-metadata-sidechannels-tests.xml"
       ],
       "evidence_digests": {
-        "tests/test_metadata_sidechannels.py": "8f42cd8bc5830a4c0a83b0b58341e70341ab3697b437c831e69bfdf4caac4716",
+        "tests/test_metadata_sidechannels.py": "a533955779cd6e2d407de47a7804f2e64a52cab85104b201ab8e4638e87e024d",
         "tests/test_metadata_leakage.py": "155138676f04ea2609fec7541c018c5c29f95550fa34efe6c032cfbd8772eebb",
         "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
         "research/results/h3-02-metadata-sidechannels.json": "fd00327b7861eb900d4ab89974cce9f2b1affd6c26010c625ef76bd4b850f560",
@@ -3857,27 +3857,53 @@
       "task_id": "H3-05",
       "priority": "P0",
       "task": "Test personal-data redaction in logs, exceptions, artifacts, traces and support exports.",
-      "acceptance": "Automated scanner finds zero injected synthetic secrets outside explicitly encrypted fixture",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Automated scanner finds zero injected synthetic secrets outside explicitly encrypted fixture. Evidence: `tests/test_personal_data_redaction.py`, `tools/scan_secrets.py`, `research/results/h3-05-personal-data-redaction.json`, `research/results/h3-05-personal-data-redaction-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_personal_data_redaction.py",
+        "tools/scan_secrets.py",
+        "research/results/h3-05-personal-data-redaction.json",
+        "research/results/h3-05-personal-data-redaction-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_personal_data_redaction.py": "c3e3bb7f6b5a1693d6825b34ab2a7c92879f792895f45a4b8b12f6b3fbc90560",
+        "tools/scan_secrets.py": "48627bdba0602cbe61a5d602b28a74765746b39bd6086d24f4886842633c7cab",
+        "research/results/h3-05-personal-data-redaction.json": "b741fbed8be332136fd9b7ea842937549bc4b614ee501638644123e59abb11ff",
+        "research/results/h3-05-personal-data-redaction-tests.xml": "55945996c93d0c540dd450fa2e5b6a93a87d3ddbc2083541820865b377967e49"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The synthetic email canary is absent from the encrypted database file and checked in temporary logs, exceptions, traces, audit export and support detail. Repository scanner result is zero unexpected findings; key management remains local and deployment dependent."
+      ]
     },
     {
       "task_id": "H3-06",
       "priority": "P0",
       "task": "Implement retention policy fuzzing with zero, boundary and very large TTL.",
-      "acceptance": "Purges occur at documented time; legal/audit preservation is explicitly separate and disclosed",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Purges occur at documented time; legal/audit preservation is explicitly separate and disclosed. Evidence: `src/memory_fabric/governance/retention.py`, `tests/test_retention_boundaries.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-06-retention-boundaries.json`, `research/results/h3-06-retention-boundaries-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/governance/retention.py",
+        "tests/test_retention_boundaries.py",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
+        "research/results/h3-06-retention-boundaries.json",
+        "research/results/h3-06-retention-boundaries-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/governance/retention.py": "352f68fc6c5f9e5b38150ebc4b96e3822b97fc59655fa67c2a844707f6a3b558",
+        "tests/test_retention_boundaries.py": "6f2afce65a25862881fc6b01475a76a8529aad76d2e9d456e78c594d5301b78f",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6",
+        "research/results/h3-06-retention-boundaries.json": "9c8b3229c74d0ed6717145cc943bf2e71af8610ed3a1aa9fff2b92baa4131e5d",
+        "research/results/h3-06-retention-boundaries-tests.xml": "55945996c93d0c540dd450fa2e5b6a93a87d3ddbc2083541820865b377967e49"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Coverage tests zero, exact boundary and very large grace values, not every integer. Event/audit preservation is separate from memory payload retention and is disclosed in the retention document."
+      ]
     },
     {
       "task_id": "H3-07",

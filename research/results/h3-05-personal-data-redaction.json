@@ -1,0 +1,39 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H3-05-05",
+  "source_commit": "5be3746ee89878ea945fff4ac316af516495c901",
+  "source_clean_before_run": false,
+  "machine": "Windows local checkout; synthetic/in-process tests",
+  "test_summary": {
+    "passed": 49,
+    "failed": 0,
+    "subtests_passed": 41,
+    "deselected": 1
+  },
+  "input_sha256": {
+    "tests/test_personal_data_redaction.py": "c3e3bb7f6b5a1693d6825b34ab2a7c92879f792895f45a4b8b12f6b3fbc90560",
+    "tests/test_governance.py": "1b4a6d96996d44b96160f70831e4fa0bed07b55d6df74cc006ec74b761cdf13d",
+    "tests/test_sensitive_redteam.py": "6fe8c0e1e0404c8d8fca5f22a742a6377bdff6e583d70dbeb2c7654e17f0d842",
+    "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
+    "tests/test_metadata_sidechannels.py": "a533955779cd6e2d407de47a7804f2e64a52cab85104b201ab8e4638e87e024d",
+    "tools/scan_secrets.py": "48627bdba0602cbe61a5d602b28a74765746b39bd6086d24f4886842633c7cab"
+  },
+  "checks": {
+    "redaction_surfaces": [
+      "logs",
+      "exceptions",
+      "audit artifact",
+      "traces",
+      "support detail",
+      "encrypted database bytes"
+    ],
+    "secret_scan": {
+      "high_severity_findings": 119,
+      "unexpected": 0
+    }
+  },
+  "limitations": [
+    "Timing class probe was previously run with 501 alternating samples; this focused run deselected its repeat to bound test time.",
+    "Automated repository scan sees 119 allowed/high-severity fixture patterns and zero unexpected findings."
+  ]
+}

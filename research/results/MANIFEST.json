@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 185,
+ "results": 187,
  "missing_field_counts": {
-  "git_sha": 80,
+  "git_sha": 82,
   "prereg": 75,
-  "dataset_digest": 182,
-  "model_id": 149,
-  "prompt_hash": 185,
-  "seed": 107,
-  "cost": 162,
-  "verdict": 121
+  "dataset_digest": 184,
+  "model_id": 151,
+  "prompt_hash": 187,
+  "seed": 109,
+  "cost": 164,
+  "verdict": 123
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 174
+  "unclassified": 176
  },
  "rows": [
   {
@@ -1874,6 +1874,42 @@
    "experiment_id": "h3-04-credential-rotation",
    "file": "research/results/h3-04-credential-rotation.json",
    "file_sha256": "a31b20740d76118c066837ac459c120c75749db9d83d97e4fee7fb0cb5da275e",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-05-personal-data-redaction",
+   "file": "research/results/h3-05-personal-data-redaction.json",
+   "file_sha256": "56f307ea684ac08ef56414b32e6b08d6785fc2e1292c0147aa6b3013659d5f8c",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-06-retention-boundaries",
+   "file": "research/results/h3-06-retention-boundaries.json",
+   "file_sha256": "23cc4e8fb88c2150d587f038dc1e88fdd9d6359748e18c4958517e78505d204b",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
