@@ -120,6 +120,21 @@ class SourceRootAssessment:
     groups: tuple[tuple[str, tuple[str, ...]], ...]
 
 
+@dataclass(frozen=True)
+class FederatedEvidenceVersion:
+    evidence_id: str
+    local_version: int
+    source_root: str
+    origin_version: int | None
+
+
+@dataclass(frozen=True)
+class FederatedVersionAssessment:
+    status: str
+    local_snapshot_replayable: bool
+    bindings: tuple[FederatedEvidenceVersion, ...]
+
+
 def total_variation(left: Mapping[str, float], right: Mapping[str, float]) -> float:
     if set(left) != set(right) or not left:
         raise CDMError("option distributions must have the same non-empty support")
@@ -403,6 +418,64 @@ def assess_fabric_source_roots(fabric: Any, session: Any,
             # memory recorded as a federation import may supply remote root metadata.
             roots[memory_id] = f"{fabric.store_id}/{local_root}"
     return assess_source_roots(ids, root_by_evidence=roots, lineage_complete=True)
+
+
+def assess_federated_versions(fabric: Any, session: Any,
+                              evidence_ids: Iterable[str]) -> FederatedVersionAssessment:
+    """Bind authorized local versions to any preserved federation origin versions."""
+    from collections.abc import Mapping as MappingABC
+    from ..identity import PERM_READ
+    from ..service import Session
+    from .types import Erased, Unauthorized
+
+    if type(session) is not Session or session.service._fabric is not fabric:
+        raise Unauthorized("version assessment requires a fabric-bound session")
+    try:
+        principal = session.principal()
+        principal.require_permission(PERM_READ)
+    except Exception as exc:
+        raise Unauthorized("version assessment authorization is unavailable") from exc
+    ids = tuple(evidence_ids)
+    if (not ids or len(ids) > 100 or len(set(ids)) != len(ids)
+            or any(type(item) is not str or not item for item in ids)):
+        raise CDMError("version assessment requires 1 to 100 unique evidence IDs")
+    roots = assess_fabric_source_roots(fabric, session, ids)
+    root_by_evidence = {evidence_id: root for root, members in roots.groups
+                        for evidence_id in members}
+    bindings: list[FederatedEvidenceVersion] = []
+    versions_by_root: dict[str, set[int]] = {}
+    unknown_origin = False
+    for memory_id in ids:
+        try:
+            current = fabric.use(memory_id, agent_id=principal.agent_id,
+                tenant_id=principal.tenant_id, audit=False)
+            local_root = fabric.source_root(memory_id)
+            root_memory = fabric.state.memories[local_root]
+        except Exception as exc:
+            raise Erased("requested evidence is unavailable") from exc
+        if not current.usable or memory_id not in root_by_evidence:
+            raise Erased("requested evidence is unavailable")
+        context = root_memory.context if isinstance(root_memory.context, MappingABC) else {}
+        origin = context.get("federation")
+        is_import = getattr(root_memory.provenance.method, "value",
+                            root_memory.provenance.method) == "imported"
+        origin_version: int | None = None
+        if is_import:
+            raw_version = origin.get("version") if isinstance(origin, MappingABC) else None
+            if type(raw_version) is int and raw_version >= 1:
+                origin_version = raw_version
+                versions_by_root.setdefault(root_by_evidence[memory_id], set()).add(raw_version)
+            else:
+                unknown_origin = True
+        bindings.append(FederatedEvidenceVersion(memory_id, current.memory.version,
+            root_by_evidence[memory_id], origin_version))
+    if unknown_origin:
+        status = "ORIGIN_VERSION_UNKNOWN"
+    elif any(len(versions) > 1 for versions in versions_by_root.values()):
+        status = "MIXED_ORIGIN_VERSIONS"
+    else:
+        status = "CONSISTENT_ORIGIN_VERSIONS"
+    return FederatedVersionAssessment(status, True, tuple(bindings))
 
 
 def paired_bootstrap_interval(differences: tuple[float, ...], *, seed: int = 0,

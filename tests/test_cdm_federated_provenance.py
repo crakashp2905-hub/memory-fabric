@@ -6,6 +6,7 @@ import unittest
 
 from memory_fabric import MemoryFabric
 from memory_fabric.causal_replay.attribution import assess_fabric_source_roots
+from memory_fabric.causal_replay.attribution import assess_federated_versions
 from memory_fabric.federation import offer
 from memory_fabric.governance.firewall import (Firewall,
     rule_capabilities_must_be_granted, rule_must_be_active,
@@ -63,6 +64,32 @@ class TestFederatedProvenance(unittest.TestCase):
         self.assertEqual(assessment.independent_root_count, 1)
         self.assertEqual(assessment.groups,
                          ((f"{target.store_id}/{imported_id}", (imported_id,)),))
+
+    def test_mixed_origin_versions_are_explicit_but_local_snapshots_remain_bound(self):
+        source, target = _store(), _store()
+        self.addCleanup(source.close)
+        self.addCleanup(target.close)
+        source_id = source.remember("origin-agent",
+            "The upstream relay pressure remains stable during calibration",
+            scope="team")
+        first = offer(source, source_id, target, recipient_agent="reader", activate=True)
+        source.revise(source_id,
+            "The upstream relay pressure remains stable after recalibration",
+            agent_id="origin-agent", reason="source version update")
+        second = offer(source, source_id, target, recipient_agent="reader", activate=True)
+        self.assertTrue(first.accepted and second.accepted)
+        service = MemoryService(target)
+        service.register_agent("reader", b"reader-version-key",
+            tenant_id=target.state.memories[first.imported_memory_id].tenant_id)
+        session = service.session(service.issue("reader"))
+
+        assessment = assess_federated_versions(target, session,
+            (first.imported_memory_id, second.imported_memory_id))
+        self.assertEqual(assessment.status, "MIXED_ORIGIN_VERSIONS")
+        self.assertTrue(assessment.local_snapshot_replayable)
+        self.assertEqual(sorted(binding.origin_version for binding in assessment.bindings),
+                         [1, 2])
+        self.assertEqual({binding.local_version for binding in assessment.bindings}, {1})
 
 
 if __name__ == "__main__":
