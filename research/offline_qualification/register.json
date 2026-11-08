@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "592c1acca1cee6d4dbbef7def3f7abb2f2f2c9e5c8d69e76e1ef21ec1aa4f6ef",
+    "sha256": "4e14d301c885dd8b3e51bb944e8bca407dd720cb6b5ac32ba88a15f5d0220006",
     "tasks": 260
   },
   "source": {
-    "commit": "590c0bc29d256cde19b9db8e8b614f63b6de612e",
+    "commit": "0ae79e1cf2415990d245f886369b041e0c1727bf",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 223,
+      "DONE": 224,
       "PARTIAL": 3,
-      "TODO": 34
+      "TODO": 33
     },
-    "completed": 223,
+    "completed": 224,
     "total": 260,
-    "percent_complete": 85.77,
+    "percent_complete": 86.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3740,14 +3740,30 @@
       "task_id": "N3-08",
       "priority": "P2",
       "task": "Evaluate policy learned from past simulated tasks on entirely new world families.",
-      "acceptance": "Guard against historical H2 failed retention hypothesis; require beating smoothed-success baseline",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Guard against historical H2 failed retention hypothesis; require beating smoothed-success baseline. Evidence: `research/prereg/n3-08-heldout-world-family-transfer-v1.md`, `benchmarks/n3_08_ood_retention.py`, `tests/test_n3_08_ood_retention.py`, `research/results/n3-08-ood-retention.json`, `research/results/n3-08-ood-retention.md`, `research/results/n3-08-ood-retention-tests.xml` (DONE: source-trained causal policy beats smoothed success by +8.96pp in supply-chain dispatch [95% CI +8.60,+9.25pp] and +8.68pp in incident response [95% CI +8.14,+9.20pp], over 10 paired seeds; both exceed H2's 5pp gate. Synthetic transfer with a fixed feature-effect mapping; H2 remains a valid negative RuleWorld result.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-08-heldout-world-family-transfer-v1.md",
+        "benchmarks/n3_08_ood_retention.py",
+        "tests/test_n3_08_ood_retention.py",
+        "research/results/n3-08-ood-retention.json",
+        "research/results/n3-08-ood-retention.md",
+        "research/results/n3-08-ood-retention-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-08-heldout-world-family-transfer-v1.md": "dc23acc1c9849da5ef6f4a1bf28a17e776fee10d33168e8738a45137089a582b",
+        "benchmarks/n3_08_ood_retention.py": "c5be4f6cd75a72a5b39d82431c0978aa631a6b9b25e6a99934c899288a395322",
+        "tests/test_n3_08_ood_retention.py": "1e3c23c0f0843d8cc7532c743b3da4c11642459a5eb6f40b552a9bd30a893049",
+        "research/results/n3-08-ood-retention.json": "a7dce9f21e41ff91f4733522daacc6d746962bad5f7ff0795559886833159651",
+        "research/results/n3-08-ood-retention.md": "41f40fe56762f9efaaca2e2bfaab9ef159fa89cd9b1fd471c63f99c981718e15",
+        "research/results/n3-08-ood-retention-tests.xml": "001d55134b78a449e3568d0ec1b1281b9a73335e2b4d9ac4f7753d47b3fe3834"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The source-trained policy transferred to two synthetic task families that preserve the registered feature-to-effect mapping while changing contexts and base-success generators. This does not reverse H2's RuleWorld result or establish transfer to real agents, different feature semantics, or field data."
+      ]
     },
     {
       "task_id": "N3-09",

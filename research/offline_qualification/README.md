@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **223 / 260 (85.77%)**. Internal status: **BLOCKED**.
+Strict completion: **224 / 260 (86.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1d68ef04e8a3076b60cb9349f0b06738919acd66b3c89a1851ef2de43fff20e4`.
+Normalized ledger digest: `7491b5651f520b6bb1b64d01d04ea5605bf3dece746a01ed909e780c81dc9b1a`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 223 |
+| DONE | 224 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 34 |
+| TODO | 33 |
 
 ## Graduation gates
 
@@ -156,7 +156,7 @@ Normalized ledger digest: `1d68ef04e8a3076b60cb9349f0b06738919acd66b3c89a1851ef2
 | N3-05 | P2 | DONE | SIMULATED | `research/prereg/n3-05-randomized-intervention-harness-v1.md`, `benchmarks/intervention_harness.py`, `benchmarks/n3_05_intervention_harness.py`, `tests/test_n3_05_intervention_harness.py`, `research/results/n3-05-intervention-harness.json`, `research/results/n3-05-intervention-harness.ndjson`, `research/results/n3-05-intervention-harness.md`, `research/results/n3-05-intervention-harness-tests.xml` |
 | N3-06 | P2 | DONE | SIMULATED | `research/prereg/n3-06-copy-invariance-v1.md`, `benchmarks/n3_06_copy_invariance.py`, `tests/test_n3_06_copy_invariance.py`, `research/results/n3-06-copy-invariance.json`, `research/results/n3-06-copy-invariance.md`, `research/results/n3-06-copy-invariance-tests.xml` |
 | N3-07 | P2 | DONE | INTERNAL_INTEGRATION | `research/prereg/n3-07-outcome-authority-separation-v1.md`, `tests/test_authority.py`, `research/results/n3-07-authority-feedback-tests.xml`, `research/results/n3-07-authority-feedback.md` |
-| N3-08 | P2 | TODO | NOT_TESTED | — |
+| N3-08 | P2 | DONE | SIMULATED | `research/prereg/n3-08-heldout-world-family-transfer-v1.md`, `benchmarks/n3_08_ood_retention.py`, `tests/test_n3_08_ood_retention.py`, `research/results/n3-08-ood-retention.json`, `research/results/n3-08-ood-retention.md`, `research/results/n3-08-ood-retention-tests.xml` |
 | N3-09 | P2 | TODO | NOT_TESTED | — |
 | N3-10 | P2 | TODO | NOT_TESTED | — |
 | N4-01 | P1 | TODO | NOT_TESTED | — |
