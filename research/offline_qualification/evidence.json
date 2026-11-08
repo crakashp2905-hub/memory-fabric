@@ -436,6 +436,18 @@
       ]
     },
     {
+      "task_id": "N3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n3-01-counterfactual-interventions-v1.md"
+      ],
+      "limitations": [
+        "This preregistration defines interventions, estimands, and identification assumptions before estimator implementation; it does not establish that any estimator is unbiased or valid on real deployments."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **216 / 260 (83.08%)**. Internal status: **BLOCKED**.
+Strict completion: **217 / 260 (83.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a73fe658654e6e2b163552bd1b7ecf08aca9141516c11a394aa1294e18f27dbd`.
+Normalized ledger digest: `d1f0f72f94b5d813414e8cf6adc8558462bc07d423ced8c18dd7872ce729adcf`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 216 |
+| DONE | 217 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 41 |
+| TODO | 40 |
 
 ## Graduation gates
 
@@ -149,7 +149,7 @@ Normalized ledger digest: `a73fe658654e6e2b163552bd1b7ecf08aca9141516c11a394aa12
 | N2-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/advisory.py`, `src/memory_fabric/evidence_status.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/__init__.py`, `docs/READ_ONLY_ADVISORIES.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_advisory.py`, `tests/test_action_requirements.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-08-safe-advisory-tests.xml` |
 | N2-09 | P1 | DONE | SIMULATED | `research/prereg/n2-09-answerability-vs-evidence-gate-v1.md`, `benchmarks/n2_09_decision_quality.py`, `tests/test_n2_09_decision_quality.py`, `research/results/n2-09-decision-quality.json`, `research/results/n2-09-decision-quality.md`, `research/results/n2-09-evaluator-tests.xml` |
 | N2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/authorization_receipt.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/certificates.py`, `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/AUTHORIZATION_PROOF_RECEIPTS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_authorization_receipt.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-10-authorization-receipt-tests.xml`, `research/results/n2-10-authorization-receipt-first-run-tests.xml` |
-| N3-01 | P2 | TODO | NOT_TESTED | — |
+| N3-01 | P2 | DONE | CONTRACT | `research/prereg/n3-01-counterfactual-interventions-v1.md` |
 | N3-02 | P2 | TODO | NOT_TESTED | — |
 | N3-03 | P2 | TODO | NOT_TESTED | — |
 | N3-04 | P2 | TODO | NOT_TESTED | — |
