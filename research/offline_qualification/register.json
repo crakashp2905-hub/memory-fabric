@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "644959bfc15b086f3973e28b8787c43018f1d22e",
-    "dirty": true
+    "commit": "a8f87e57c6175cdf0824d33ca39d6f67c6b5aacd",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -3965,9 +3965,9 @@
       "evidence_digests": {
         "tests/test_compaction_contested_facts.py": "e660477e5b1db321057c245570a49db9376ef28bee27298605c6c3b26c7749c7",
         "experiments/n4_04_contested_compaction.py": "48db66ed906ffb7a818eab014fac47561eb13c1eff042a0b8242cdf2bb6a7530",
-        "research/results/n4-04-contested-compaction.json": "ec931bc98cb88ed8170eaaa37cbd1f457b99d2d16b103316e65e590691921588",
+        "research/results/n4-04-contested-compaction.json": "210effa104effba09cf0a99f8c30b611c7d89384e2d42100d7f056ca575d229b",
         "research/results/n4-04-contested-compaction.md": "a033bf2b81027e2c18792b615ddc74444fbc75f9370d9413dd5a2092dccd8999",
-        "research/results/n4-04-contested-tests.xml": "8415acdc12ce675963d4761e4a24f0d6cd8a9df9bbe9b1b67d4257bcdbf3ecb7"
+        "research/results/n4-04-contested-tests.xml": "862efdbf0829f4ccdf38d781963e52d25e07ef80d3fb3d3ccaf3d300ac4bb52c"
       },
       "evidence_issues": {},
       "limitations": [
