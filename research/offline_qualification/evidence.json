@@ -1480,6 +1480,41 @@
       ]
     },
     {
+      "task_id": "R4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "benchmarks/decision_verdict.py",
+        "benchmarks/evaluator_mutations.py",
+        "tests/test_benchmarks.py",
+        "tools/benchmark_evaluator_mutations.py",
+        "research/results/r4-07-evaluator-mutations.json",
+        "research/results/r4-07-evaluator-mutation-tests.xml"
+      ],
+      "limitations": [
+        "The deterministic contract suite tests the benchmark evaluator predicate; it is not product-system security evidence."
+      ]
+    },
+    {
+      "task_id": "H5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/security/internal_findings.json",
+        "tools/security_findings.py",
+        "tests/test_security_findings.py",
+        "tools/check.py",
+        "research/results/h5-10-internal-security-findings.json",
+        "research/results/h5-10-finding-verification.xml"
+      ],
+      "limitations": [
+        "The local-ready gate intentionally remains false: F1 HTTP concurrency and F16 multihop HTTP require socket-enabled CI; F1 test output includes WinError 10013 thread warnings in this sandbox.",
+        "Independent external security review remains outstanding and cannot be completed internally."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

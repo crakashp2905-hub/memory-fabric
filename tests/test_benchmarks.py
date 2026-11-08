@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from benchmarks import checks, cost, manifest, registry, scoreboard, stats
+from benchmarks import checks, cost, evaluator_mutations, manifest, registry, scoreboard, stats
 
 
 class Registry(unittest.TestCase):
@@ -166,6 +166,12 @@ class Checks(unittest.TestCase):
         p = {"measured_in_this_run": True, "metric": "set_exact", "k": 50, "split": "test"}
         self.assertTrue(checks.baseline_measured(p, "set_exact", 50, "test"))
         self.assertFalse(checks.baseline_measured(p, "set_exact", 5, "test"))
+
+    def test_evaluator_mutations_are_all_killed(self) -> None:
+        result = evaluator_mutations.run()
+        self.assertTrue(result["all_killed"], result["survivors"])
+        self.assertEqual(result["killed"], result["total"])
+        self.assertGreaterEqual(result["total"], 3)
 
 
 class Cost(unittest.TestCase):

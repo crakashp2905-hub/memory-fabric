@@ -30,6 +30,7 @@ STEPS = [
     ("mypy", [PY, "-m", "mypy"]),
     ("secret scan", [PY, "tools/scan_secrets.py"]),
     ("security AST scan", [PY, "tools/security_ast_scan.py"]),
+    ("internal security findings gate", [PY, "tools/security_findings.py"]),
     ("document tests", [PY, "-m", "unittest", "tests.test_stability", "tests.test_suite_hygiene",
                         "tests.test_doc_links", "tests.test_doc_index", "tests.test_doc_examples",
                         "tests.test_reference_docs", "tests.test_troubleshooting",

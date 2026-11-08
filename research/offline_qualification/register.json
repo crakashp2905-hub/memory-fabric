@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "948aacc07198e9d17304bdc7e4e6dfbb8f247c58ce2d283b92888dc4f6e7fb38",
+    "sha256": "877b0c3eb025c6878346a5376902276edc24820069eeaf7f979d3676133bd404",
     "tasks": 260
   },
   "source": {
-    "commit": "55f189e40d4f74962b227537c0f71133668c6316",
+    "commit": "351c6fd25544a1fc72466603f855616dcdd88505",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 110,
+      "DONE": 112,
       "PARTIAL": 14,
-      "TODO": 136
+      "TODO": 134
     },
-    "completed": 110,
+    "completed": 112,
     "total": 260,
-    "percent_complete": 42.31,
+    "percent_complete": 43.08,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -100,7 +100,7 @@
       ],
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
-        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
+        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
         "research/results/e1-03-manifest-environment.json": "0f0f42a5d952ed49432496c8567d73e24c1041c2c30a015c56c7e435d0871d5b",
         "research/results/e1-03-manifest-environment.xml": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75"
@@ -131,7 +131,7 @@
         "benchmarks/provenance.py": "7250095062183ad16033ed2dfdc2a9d5b7de6a80cad226cd003d269b94702288",
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "tests/test_result_provenance.py": "3827b4b9565730b4c218f79106b499c7d10c8f5b30d669247b0aa209e31a066a",
-        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
+        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
         "docs/RESULT_PROVENANCE.md": "d5a0947d1006384302a4a4c50024fe128f700563981ece34ee829f0f8c09015a",
         "research/results/e1-04-result-provenance.json": "a835334785ca75db56197c24d1f285b7cb153e70a6d2018180acbf108271cb4f",
         "research/results/e1-04-result-provenance.xml": "8226679191009b14042c3e06199c69ec58cb22c213d740db54283c4a0aa3d56f"
@@ -163,7 +163,7 @@
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "benchmarks/evidence_completeness.py": "ead666b86fe5fe70058079d8822b6e183844b86315b2d705960336abf7f8d09d",
-        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
+        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/e1-05-input-digests.json": "899ef29340375d8309df40800eeb9db2364a62cc6775ea5e001a4056d5b6ec52",
@@ -1497,7 +1497,7 @@
         "tools/results_manifest.py": "703fbebb388b6dfb8ebb39b90b6032e6ccc7653137bb39578931127395cb3a5e",
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
-        "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
+        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
         "research/results/MANIFEST.json": "3f1e98118ed693c60f817f0f0a7941b1ef2889cf03cd142a2510780dce2844a6",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
@@ -2359,14 +2359,30 @@
       "task_id": "R4-07",
       "priority": "P1",
       "task": "Add deterministic mutation tests to benchmark evaluator itself, not merely product implementation.",
-      "acceptance": "Removing check for stale action, source scope or abstention changes benchmark verdict to FAIL",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Removing check for stale action, source scope or abstention changes benchmark verdict to FAIL. Evidence: `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` (DONE: three evaluator mutations, stale action/source scope/false abstention, all changed a failing benchmark verdict to PASS in the mutated implementation and were killed by deterministic tests; this contract suite validates the evaluator predicate, not product-system security)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "benchmarks/decision_verdict.py",
+        "benchmarks/evaluator_mutations.py",
+        "tests/test_benchmarks.py",
+        "tools/benchmark_evaluator_mutations.py",
+        "research/results/r4-07-evaluator-mutations.json",
+        "research/results/r4-07-evaluator-mutation-tests.xml"
+      ],
+      "evidence_digests": {
+        "benchmarks/decision_verdict.py": "0469658c919ed709e6a24b03a116af3ed9590dae36c878db903f66c6e5737212",
+        "benchmarks/evaluator_mutations.py": "4d13adc83ea08d1831ad191f61c7fa6c09849af1b41889b041220ca17e65209a",
+        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
+        "tools/benchmark_evaluator_mutations.py": "77b3f514fd6c70ea99c72929802abff2acfb7f48f9f4f6a9c5b6dbc975156004",
+        "research/results/r4-07-evaluator-mutations.json": "1e4c1406ad6da014fd50304cf68e3f9a45b9544cd9755369c11cab9eb93f5feb",
+        "research/results/r4-07-evaluator-mutation-tests.xml": "22e144755ff1a39af5228daa9f0ee59105d1ccaa68f9fdefffe624afcf312238"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The deterministic contract suite tests the benchmark evaluator predicate; it is not product-system security evidence."
+      ]
     },
     {
       "task_id": "R4-08",
@@ -4317,7 +4333,7 @@
         "research/results/h5-01-02-local-tool-inventory-tests.xml"
       ],
       "evidence_digests": {
-        "tools/check.py": "be6dad5288930d3464ca9b894dd22870d35ffc517dbc2090b618e4553de46dc6",
+        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
         "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
         "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
         "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
@@ -4538,14 +4554,31 @@
       "task_id": "H5-10",
       "priority": "P1",
       "task": "Generate machine-readable internal security findings with severity, exploit preconditions and verified fixes.",
-      "acceptance": "Unresolved critical/high findings block local-ready label; independent audit remains external",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Unresolved critical/high findings block local-ready label; independent audit remains external. Evidence: `research/security/internal_findings.json`, `tools/security_findings.py`, `tests/test_security_findings.py`, `tools/check.py`, `research/results/h5-10-internal-security-findings.json`, `research/results/h5-10-finding-verification.xml` (DONE: register covers 8 historical high and 7 accepted/external items; gate fails closed for limited/unresolved critical/high evidence and records the external audit separately; focused available checks 81 passed and 280 subtests passed; HTTP concurrency test was blocked by WinError 10013 and emitted thread warnings, so F1 remains a local-ready blocker; F16 multihop HTTP remains unverified in this socket-restricted environment)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/security/internal_findings.json",
+        "tools/security_findings.py",
+        "tests/test_security_findings.py",
+        "tools/check.py",
+        "research/results/h5-10-internal-security-findings.json",
+        "research/results/h5-10-finding-verification.xml"
+      ],
+      "evidence_digests": {
+        "research/security/internal_findings.json": "a5e55a0122ee2ef8bced8aed2399782b023c7f14339b5ab54a5f005666270880",
+        "tools/security_findings.py": "aa00e43612ecdb511ebf74205f331c2b7421eb66366245e3d21e0f8cca454220",
+        "tests/test_security_findings.py": "b2ce3afdcd0beacff4f3950c65437435325cc096736c7ccd22b503612d5998e7",
+        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
+        "research/results/h5-10-internal-security-findings.json": "c0aaa144f50f096bf85e5ff48591da6116bdd77f341e72eddb1c4b70b6f95690",
+        "research/results/h5-10-finding-verification.xml": "dfdb6515232f6754388f69b46a7d5d6d3bcd2fe920f1a091335f29c9cf545a52"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The local-ready gate intentionally remains false: F1 HTTP concurrency and F16 multihop HTTP require socket-enabled CI; F1 test output includes WinError 10013 thread warnings in this sandbox.",
+        "Independent external security review remains outstanding and cannot be completed internally."
+      ]
     },
     {
       "task_id": "P1-01",
