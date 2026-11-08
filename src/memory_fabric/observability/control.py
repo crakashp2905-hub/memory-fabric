@@ -90,8 +90,49 @@ def action_rows(f: "MemoryFabric", limit: int = 200) -> list[dict[str, Any]]:
         p = e.payload
         rows.append({"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id, "tool": p.get("tool"),
                      "allowed": p.get("allowed"), "reason_codes": p.get("reason_codes", []),
+                     "reason_groups": (_reason_groups(list(p.get("reason_codes", [])))
+                                       if not p.get("allowed") else []),
                      "claim_id": p.get("claim_id"), "evidence": len(p.get("evidence", []))})
     return list(reversed(rows))[:limit]
+
+
+def _reason_groups(codes: list[str]) -> list[dict[str, Any]]:
+    """Separate evidence sufficiency from authorization without inferring truth."""
+    from ..reasons import fix, say
+
+    evidence_codes = {"no_supporting_evidence", "insufficient_independent_support",
+                      "certificate_required", "certificate_too_large"}
+    policy_codes = {"unknown_tool", "tool_not_granted", "execute_permission_missing",
+                    "human_approval_required", "approval_invalid", "credential_invalid",
+                    "authority_insufficient", "wrong_agent", "wrong_store", "wrong_tenant"}
+    groups: dict[str, list[str]] = {"Evidence and support": [], "Authorization and policy": [],
+                                    "Other gate checks": []}
+    for code in codes:
+        if code in evidence_codes or code.startswith(("evidence_", "dependency_")):
+            group = "Evidence and support"
+        elif (code in policy_codes or code.startswith(("grant_", "approval_", "tool_"))):
+            group = "Authorization and policy"
+        else:
+            group = "Other gate checks"
+        groups[group].append(code)
+    return [{"category": category, "reason_codes": items,
+             "messages": [" ".join(filter(None, (say(code), fix(code)))) for code in items]}
+            for category, items in groups.items() if items]
+
+
+def _support_label(verdict: str | None) -> str:
+    return {"justified": "A justification survives; this does not authorize action",
+            "contested": "Support is disputed or incomplete",
+            "unsupported": "No justification survives; this claim may still be true"}.get(
+                verdict or "", "Not assessed" if not verdict else verdict)
+
+
+def _claim_check_label(level: str | None) -> str:
+    return {"suspicious": "Flagged for review; truth and intent are not established",
+            "provisional": "Provisional; not independently established",
+            "corroborated": "Corroborated by an independent source; not proof of truth",
+            "unremarkable": "No conflict signal; truth is not verified"}.get(
+                level or "", "Not assessed" if not level else level)
 
 
 def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
@@ -110,11 +151,12 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
             m = f.state.memories.get(mid)
             support = JustificationGraph(f).recompute(mid) if m else None
             authority = of(f, mid) if m else None
+            claim_check = assess(f, mid).level if m else None
             evidence.append({
                 "memory_id": mid, "version_then": version,
                 "version_now": m.version if m else None,
                 "state_now": m.lifecycle_state.value if m else "missing",
-                "claim_check_now": assess(f, mid).level if m else None,
+                "claim_check_now": claim_check,
                 "content_now": _safe(f, mid) if m else None,
                 "provenance": ({"created_by": m.provenance.created_by,
                                 "method": m.provenance.method.value,
@@ -124,6 +166,8 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
                                    "origins": list(authority.origins),
                                    "reasons": list(authority.reasons)} if authority else None),
                 "support_now": support.to_json() if support else None,
+                "support_label": _support_label(support.verdict if support else None),
+                "claim_check_label": _claim_check_label(claim_check),
                 "usable_now": bool(m and m.lifecycle_state.value == "active"
                                    and support and support.still_justified),
                 "changed_since": bool(m) and (m.version != version
@@ -141,12 +185,15 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
                        if who else f"changed (now v{x['version_now']}, {x['state_now']})") + ".")
         for code in p.get("reason_codes", []):
             explanation.append(" ".join(filter(None, [say(code), fix(code)])))
+        reason_codes = list(p.get("reason_codes", []))
         return {"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id,
                 "identity_scope": {"agent_id": e.agent_id,
                                    "tenant_id": p.get("tenant_id"),
                                    "claim_id": p.get("claim_id")},
                 "decision": p,
-                "explanation": explanation, "evidence": evidence,
+                "explanation": explanation,
+                "reason_groups": _reason_groups(reason_codes) if not p.get("allowed") else [],
+                "evidence": evidence,
                 "still_holds": all(not x["changed_since"] for x in evidence) if evidence else None}
     raise KeyError(seq)
 
@@ -363,7 +410,7 @@ def graph(f: "MemoryFabric", limit: int = 400) -> dict[str, Any]:
         else:
             memory = p.get("memory", {})
             mid = memory.get("id") if isinstance(memory, dict) else None
-            if mid in chosen:
+            if isinstance(mid, str) and mid in chosen:
                 creation_events[mid] = {"event_id": e.event_id, "seq": e.seq}
     nodes = [{"id": mid, "label": _short(_safe(f, mid), 60), "state": m.lifecycle_state.value,
               "type": m.type.value, "author": m.provenance.created_by,

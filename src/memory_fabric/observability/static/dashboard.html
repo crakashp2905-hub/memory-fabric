@@ -1264,6 +1264,21 @@ async function loadStart() {
   void o;
 }
 
+function supportLabel(value) {
+  return ({justified: "A justification survives; this does not authorize action",
+    contested: "Support is disputed or incomplete",
+    unsupported: "No justification survives; this claim may still be true"})[value]
+    || (value === "unknown" || !value ? "Not assessed" : value);
+}
+
+function claimCheckLabel(value) {
+  return ({suspicious: "Flagged for review; truth and intent are not established",
+    provisional: "Provisional; not independently established",
+    corroborated: "Corroborated by an independent source; not proof of truth",
+    unremarkable: "No conflict signal; truth is not verified"})[value]
+    || (value === "unknown" || !value ? "Not assessed" : value);
+}
+
 async function loadActions() {
   const rows = await api("/api/actions");
   $("c-actions").textContent = rows.length ? `(${rows.length})` : "";
@@ -1272,7 +1287,7 @@ async function loadActions() {
     <th>tool</th><th>decision</th><th>evidence</th></tr></thead><tbody>${rows.map((a) => `
     <tr class="link" data-seq="${a.seq}"><td>${a.seq}</td><td>${esc(a.agent_id)}</td>
     <td><b>${esc(a.tool)}</b></td><td>${a.allowed ? badge("allowed", "low") : badge("refused", "high")}
-    <span class="sub">${esc(a.reason_codes.join(", "))}</span></td><td>${a.evidence}</td></tr>`).join("")}
+    <span class="sub">${(a.reason_groups || []).map((g) => esc(g.category)).join(" · ")}</span></td><td>${a.evidence}</td></tr>`).join("")}
     </tbody></table>` : `<div class="sub">No gated actions yet. Protected tools run through
     <code>ActionGate</code> appear here.</div>`;
   for (const tr of $("actions-list").querySelectorAll("[data-seq]")) {
@@ -1289,7 +1304,9 @@ async function showAction(seq) {
     <p>${a.decision.allowed ? badge("allowed", "low") : badge("refused", "high")}
       ${esc((a.decision.reason_codes || []).join(", "))}
       ${a.still_holds === false ? badge("evidence changed since", "high") : ""}</p>
-    ${(a.explanation || []).length ? `<ul class="caveats">${a.explanation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    ${!a.decision.allowed && (a.reason_groups || []).length ? `<h4>Blocked because</h4><div class="reason-groups">${a.reason_groups.map((g) =>
+      `<section><b>${esc(g.category)}</b><ul class="caveats">${g.messages.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>` : ""}
+    ${(a.explanation || []).length ? `<h4>Changes since this decision</h4><ul class="caveats">${a.explanation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
     <table><thead><tr><th>evidence and provenance</th><th>version then</th><th>current state</th>
       <th>support now</th><th>claim check</th><th>origin authority</th></tr></thead>
     <tbody>${a.evidence.map((x) => `<tr><td><span class="link link-id" data-id="${esc(x.memory_id)}">
@@ -1298,8 +1315,8 @@ async function showAction(seq) {
       ${x.provenance?.parents?.length ? ` · derived from ${esc(x.provenance.parents.join(", "))}` : ""}</div></td>
       <td>v${x.version_then}</td><td>${x.version_now ? "v" + x.version_now : ""} ${badge(x.state_now)}
       <div class="sub">${x.usable_now ? "usable now" : "not currently usable"}</div></td>
-      <td>${esc(x.support_now?.verdict || "unknown")}<div class="sub">${esc(x.support_now?.reason || "")}</div></td>
-      <td>${esc(x.claim_check_now || "unknown")}</td>
+      <td>${esc(x.support_label || supportLabel(x.support_now?.verdict))}<div class="sub">${esc(x.support_now?.reason || "")}</div></td>
+      <td>${esc(x.claim_check_label || claimCheckLabel(x.claim_check_now))}</td>
       <td>${esc(x.authority_now?.trust || "unknown")}<div class="sub">${esc((x.authority_now?.origins || []).join(", "))}</div></td>
       </tr>`).join("")}</tbody></table>
     <p class="sub">Support recomputation and evidence state describe the current store; they do not grant permission to act.</p>`;

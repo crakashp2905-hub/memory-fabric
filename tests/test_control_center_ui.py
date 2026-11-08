@@ -136,6 +136,9 @@ class TestPage(unittest.TestCase):
             self.assertIn(field, detail)
         self.assertIn("Identity scope:", detail)
         self.assertIn("Support recomputation", detail)
+        self.assertIn("Blocked because", detail)
+        self.assertIn("truth and intent are not established", html)
+        self.assertIn("this claim may still be true", html)
 
     def test_story_links_open_logged_events_by_stable_id(self):
         html = HTML.read_text(encoding="utf-8")
@@ -143,6 +146,42 @@ class TestPage(unittest.TestCase):
         self.assertIn("async function openEvent(eventId)", html)
         self.assertIn("/api/events/${encodeURIComponent(eventId)}", html)
         self.assertIn("click a memory to read its story or a dashed lineage edge", html)
+
+
+class TestActionReasonGroups(unittest.TestCase):
+    def test_api_separates_evidence_gaps_from_policy_restrictions(self):
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        memory_id = fabric.remember("ag_ops", "Pump P-14 relief is set to 12 bar.", scope="team")
+        gate = ActionGate(
+            fabric,
+            ActionPolicy(tools={"set_relief": ToolRule("set_relief"),
+                                "restricted_tool": ToolRule("restricted_tool")},
+                         grants={"ag_ops": frozenset({"set_relief"})}),
+        )
+        certificate = fabric.certify("P-14 relief", [memory_id], "ag_ops")
+        self.assertTrue(gate.authorize("set_relief", "ag_ops", certificate).allowed)
+        denied = gate.authorize("restricted_tool", "ag_ops")
+        self.assertIn("tool_not_granted", denied.reason_codes)
+        api = Api(fabric)
+        row = next(item for item in api.handle("/api/actions", {})
+                   if "tool_not_granted" in item["reason_codes"])
+        detail = api.handle(f"/api/actions/{row['seq']}", {})
+        categories = [group["category"] for group in detail["reason_groups"]]
+        self.assertEqual(categories, ["Authorization and policy"])
+        self.assertIn("not allowed", detail["reason_groups"][0]["messages"][0])
+
+    def test_uncertainty_labels_never_turn_missing_support_into_false_or_malicious(self):
+        from memory_fabric.observability.control import _claim_check_label, _support_label
+
+        labels = [_support_label("unsupported"), _support_label(None),
+                  _claim_check_label("suspicious"), _claim_check_label(None)]
+        combined = " ".join(labels).lower()
+        self.assertIn("may still be true", labels[0])
+        self.assertIn("not assessed", labels[1].lower())
+        self.assertIn("truth and intent are not established", labels[2])
+        self.assertNotIn("false", combined)
+        self.assertNotIn("malicious", combined)
 
 
 class TestActionDetailApi(unittest.TestCase):
@@ -182,6 +221,13 @@ class TestActionDetailApi(unittest.TestCase):
         self.assertEqual(evidence["state_now"], "quarantined")
         self.assertFalse(evidence["usable_now"])
         self.assertEqual(evidence["support_now"]["verdict"], "justified")
+        self.assertIn("justification survives", evidence["support_label"])
+        self.assertNotIn("false", evidence["claim_check_label"].lower())
+        self.assertNotIn("malicious", evidence["claim_check_label"].lower())
+        self.assertEqual([group["category"] for group in detail["reason_groups"]],
+                         ["Evidence and support"])
+        self.assertTrue(any("withdrawn" in message.lower()
+                            for message in detail["reason_groups"][0]["messages"]))
         self.assertEqual(max(event.seq for event in fabric.log.read()), watermark)
 
     @unittest.skipUnless(shutil.which("node"), "node is not installed")
