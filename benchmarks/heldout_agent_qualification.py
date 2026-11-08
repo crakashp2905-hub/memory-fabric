@@ -26,15 +26,15 @@ def build_report() -> dict[str, Any]:
                       for seed in SEEDS}
     invariant_failures = []
     expected_ids: dict[str, list[str]] = {}
-    for seed, tasks in task_manifests.items():
+    for seed_text, tasks in task_manifests.items():
         ids = [task["task_id"] for task in tasks]
-        expected_ids[seed] = ids
+        expected_ids[seed_text] = ids
         if len(ids) != 8 or len(ids) != len(set(ids)):
-            invariant_failures.append({"seed": int(seed), "reason": "task_denominator_or_duplicate"})
+            invariant_failures.append({"seed": int(seed_text), "reason": "task_denominator_or_duplicate"})
         family_counts = {family: sum(task["family"] == family for task in tasks)
                          for family in ("supported", "corrected", "contested", "missing")}
         if family_counts != {family: 2 for family in family_counts}:
-            invariant_failures.append({"seed": int(seed), "reason": "family_composition",
+            invariant_failures.append({"seed": int(seed_text), "reason": "family_composition",
                                        "observed": family_counts})
     for seed in SEEDS:
         arms = [row for row in rows if row["seed"] == seed]

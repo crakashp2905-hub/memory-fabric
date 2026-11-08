@@ -142,6 +142,13 @@ ALLOWED_SNIPPETS = {
     ("tests/test_claude_contract.py", "password_assignment", "api_key=STUB_KEY"),
     ("src/memory_fabric/enforcement.py", "password_assignment", "ExposureToken"),
     ("src/memory_fabric/enforcement.py", "password_assignment", "token.expired"),
+    # Erasure replay uses a digest-like cache token, never an authentication
+    # credential. The API delegates that opaque value to the cache adapter.
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", 'token = event.payload.get("embedding_cache_token")'),
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", "isinstance(token, str) and token"),
+    ("src/memory_fabric/vectors.py", "password_assignment", 'token = getattr(self.embedder, "erasure_token", None)'),
+    # Deliberately unsafe fixture proves the package scanner rejects secrets.
+    ("tests/test_package_asset_audit.py", "password_assignment", "password = 'hunter2'"),
     ("src/memory_fabric/fabric.py", "password_assignment", "ExposureToken"),
     # The recorded public API of MemoryFabric: a signature, `token: 'ExposureToken'`.
     ("tests/data/memory_fabric_api.json", "password_assignment", "ExposureToken"),

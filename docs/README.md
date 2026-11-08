@@ -158,6 +158,22 @@ use the product.
 | [Modifier evidence packages](MODIFIER_EVIDENCE_PACKAGES.md) | Evidence attached to memory modifications |
 | [Next master checklist execution](NEXT_MASTER_CHECKLIST_EXECUTION.md) | Prior checklist evidence and remaining gates |
 | [OAuth](OAUTH.md) | OAuth resource-server validation |
+| [Action grant binding](ACTION_GRANT_BINDING.md) | Binding one-use grants to actions |
+| [Action idempotency](ACTION_IDEMPOTENCY.md) | Retry and replay semantics |
+| [Action reconciliation](ACTION_RECONCILIATION.md) | Recovering uncertain external effects |
+| [Agent adapter](AGENT_ADAPTER.md) | Agent integration adapter contracts |
+| [Agent scale benchmark](AGENT_SCALE_BENCHMARK.md) | Multi-agent scale benchmark method |
+| [Correction timing benchmark](CORRECTION_TIMING_BENCHMARK.md) | Measuring correction propagation |
+| [Evidence operation risk](EVIDENCE_OPERATION_RISK.md) | Operational risks in evidence handling |
+| [Failure taxonomy](FAILURE_TAXONOMY.md) | Benchmark failure categories |
+| [False withholding ablation](FALSE_WITHHOLDING_ABLATION.md) | Diagnosing valid evidence withheld by policy |
+| [Matched agent arms](MATCHED_AGENT_ARMS.md) | Matched benchmark arms and controls |
+| [Minority source benchmark](MINORITY_SOURCE_BENCHMARK.md) | Minority-source evidence benchmark |
+| [Offline research benchmark](OFFLINE_RESEARCH_BENCHMARK.md) | Replaying offline benchmark suites |
+| [Withheld cases](PR30_WITHHELD_CASES.md) | Reproduced withheld-evidence cases |
+| [Retention and audit preservation](RETENTION_AND_AUDIT_PRESERVATION.md) | Retention and audit guarantees |
+| [Safety completion tradeoff](SAFETY_COMPLETION_TRADEOFF.md) | Safety and task completion measures |
+| [Withholding promotion gate](WITHHOLDING_PROMOTION_GATE.md) | Promotion criteria for withholding changes |
 | [Package parity](PACKAGE_PARITY.md) | Installed wheel and source distribution parity |
 | [Parameter equivalences](PARAMETER_EQUIVALENCES.md) | Equivalent parameterized query forms |
 | [Portable paths](PORTABLE_PATHS.md) | Path, text encoding and case-collision behavior |

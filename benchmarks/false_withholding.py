@@ -86,7 +86,9 @@ def run_seed(seed: int) -> dict[str, Any]:
     cases: list[dict[str, Any]] = []
     arm_rows: dict[str, list[dict[str, Any]]] = {}
     for arm in ("shared_blanket", "fabric"):
-        memory = build_memory(arm, world)
+        # This diagnostic deliberately compares adapters with different
+        # capabilities; the fabric-specific branch is guarded by arm.
+        memory: Any = build_memory(arm, world)
         task_index = 0
         withheld_rows = []
         try:

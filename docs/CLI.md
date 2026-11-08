@@ -194,6 +194,12 @@ What an erasure of one memory reached, kept, and could not reach
 
 - `id`: the memory whose erasure you are scoping
 
+### `export-erasure-ledger`
+
+Export content-free erasure ids for safe reconciliation of older backups
+
+- `path`: where to write the protected ledger
+
 ### `federate`
 
 WRITES: receive signed retractions and notices from peers over HTTP, and deliver this store's to them (the background manager)
@@ -397,20 +403,11 @@ WRITES: return a quarantined memory to candidate
 
 ### `restore`
 
-WRITES: restore a verified backup and reconcile current content erasures
+WRITES: restore a backup made with `backup`, after checking its manifest
 
 - `backup`: the backup file (its .manifest.json must be beside it)
 - `dest`: directory to restore into; must not exist
-- `--erasure-ledger`: required current ledger exported from the source store; store ID must match
-
-Export a current ledger with `memory-fabric --db STORE export-erasure-ledger PATH`.
-The ledger is content-free; protect it independently of the backup.
-
-### `export-erasure-ledger`
-
-Write content-free erased memory IDs from this store for restore reconciliation
-
-- `path`: where to write the protected ledger
+- `--erasure-ledger`: current content-free ledger exported from the source store
 
 ### `retention`
 

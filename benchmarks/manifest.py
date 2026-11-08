@@ -116,6 +116,8 @@ def validate(m: Manifest | dict[str, Any], *, root: Path = ROOT) -> list[str]:
     if d.get("decision") not in DECISIONS:
         problems.append(f"decision must be one of {DECISIONS}")
     environment = d.get("environment")
+    if not isinstance(environment, dict):
+        environment = {}
     missing_environment = ENVIRONMENT_FIELDS - set(environment or {})
     if missing_environment:
         problems.append(f"environment missing fields: {sorted(missing_environment)}")

@@ -1,39 +1,71 @@
-............................................................................................................EEEEEEEEEEE..E........F.............................................EEEEEEEEEEEEEEEEEE..............................Source had 10 events; the copy has 9. Do not keep this backup.
-D:\Memory Fabric\master-checklist\.test-tmp\tmpbz6zfi2m\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpbz6zfi2m\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpbvv_uy0m\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpbvv_uy0m\copy.db
   9 events, 2 memories, replayed from the copy
-D:\Memory Fabric\master-checklist\.test-tmp\tmpo_8h63fx\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpo_8h63fx\copy.db
+..........................................................................................................................................................................................................................Source had 10 events; the copy has 9. Do not keep this backup.
+D:\Memory Fabric\master-checklist\.test-tmp\tmp02a1jgmi\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp02a1jgmi\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpo_8h63fx\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpo_8h63fx\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp02a1jgmi\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp02a1jgmi\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpecq_bl9i\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpecq_bl9i\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpvr52v55r\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpvr52v55r\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpl4mm4fms\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpl4mm4fms\backups\daily\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpbjjg0ykv\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpbjjg0ykv\backups\daily\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-....D:\Memory Fabric\master-checklist\.test-tmp\tmpzdnrgogv\copy.db exists. Pass --force to overwrite it.
-D:\Memory Fabric\master-checklist\.test-tmp\tmp5pgzuqgs\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp5pgzuqgs\copy.db
+....D:\Memory Fabric\master-checklist\.test-tmp\tmp_95pc2a2\copy.db exists. Pass --force to overwrite it.
+D:\Memory Fabric\master-checklist\.test-tmp\tmp47xaxlkk\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp47xaxlkk\copy.db
   12 events, 3 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpfs1eiyeg\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpfs1eiyeg\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmpkzjikjrb\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpkzjikjrb\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmpsgyd29dv\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpsgyd29dv\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp4xh7tico\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp4xh7tico\copy.db
   10 events, 2 memories, replayed from the copy
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
-D:\Memory Fabric\master-checklist\.test-tmp\tmp9idg19rh\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp9idg19rh\copy.db
+D:\Memory Fabric\master-checklist\.test-tmp\tmp9m02hg_3\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmp9m02hg_3\copy.db
   2 events, 1 memories, replayed from the copy
   This store's content keys are outside the database, so this backup holds none of them. Back up the key directory too, separately -- without it the backup's content cannot be read.
   0.1 MB
   manifest copy.db.manifest.json (1 file(s))
 ......This store is in memory, so there is nothing on disk to copy and --db :memory: opens an empty one. Point --db at a file.
 .This store is in memory, so there is nothing on disk to copy and --db :memory: opens an empty one. Point --db at a file.
+D:\Memory Fabric\master-checklist\.test-tmp\tmpyqlnm2nd\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpyqlnm2nd\copy.db
+  4 events, 1 memories, replayed from the copy
+  0.1 MB
+  manifest copy.db.manifest.json (1 file(s))
+D:\Memory Fabric\master-checklist\.test-tmp\tmpxhxyhouo\store.db -> D:\Memory Fabric\master-checklist\.test-tmp\tmpxhxyhouo\before.db
+  3 events, 1 memories, replayed from the copy
+  0.1 MB
+  manifest before.db.manifest.json (1 file(s))
+..............................................................................................................................................................................................................................................................sssss...................................................................................................................................................................................................................sss.........................................................................................................................................................................................................................................................................................................................................................................F...s.sssssssss........................................................................s.................................................................................................................................................................................................................................s............................................WARNING memory_fabric.manager: maintenance task failed
+Traceback (most recent call last):
+  File "D:\Memory Fabric\master-checklist\src\memory_fabric\manager.py", line 169, in _run_once_locked
+    report[task] = getattr(self, f"_task_{task}")(since)
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Memory Fabric\master-checklist\tests\test_manager.py", line 58, in broken
+    raise RuntimeError("disk on fire")
+RuntimeError: disk on fire
+......................................WARNING memory_fabric.adapters.mcp: tool call refused
+Traceback (most recent call last):
+  File "D:\Memory Fabric\master-checklist\src\memory_fabric\adapters\mcp.py", line 503, in _call
+    payload = self._handlers[name](arguments)
+  File "D:\Memory Fabric\master-checklist\src\memory_fabric\adapters\mcp.py", line 708, in _branch_propose
+    with b.commit(name, self.client.agent_id, str(args.get("message") or "proposed"),
+         ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  tenant_id=self.client.tenant_id) as c:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Memory Fabric\master-checklist\src\memory_fabric\branching.py", line 319, in commit
+    raise BranchPermission(f"{actor} may not write to {name}")
+memory_fabric.branching.BranchPermission: ag_mcp may not write to theirs
+
+QUALIFICATION NOTE: Full discovery was interrupted after prolonged no-output waits. The partial transcript includes failure/error/skip markers and does not contain a final unittest summary. Treat this run as INCOMPLETE, not PASS. A previous unprivileged attempt also emitted WinError 10013 for localhost HTTP tests.

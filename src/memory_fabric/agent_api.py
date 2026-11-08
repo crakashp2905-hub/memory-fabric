@@ -247,7 +247,8 @@ class AgentApi:
         self._issued: dict[str, OrderedDict[str, ExposureToken]] = {}
         self._oauth = oauth
         self.trace_recorder = trace_recorder
-        self.profile_recorder = None
+        self.profile_recorder: Any = None
+        self._request_stages: Any = None
         limits = limits or RateLimit()
         self._per_agent = RateLimiter(limits.rate, limits.burst, clock,
                                       max_keys=limits.max_buckets)
@@ -320,7 +321,7 @@ class AgentApi:
 
             stages = RequestStages(self.trace_recorder, new_ulid(), operation)
             self._request_stages = stages
-            self._fabric._stage_marker = stages.mark
+            setattr(self._fabric, "_stage_marker", stages.mark)
         try:
             if stages is not None:
                 stages.mark("auth")
@@ -349,7 +350,7 @@ class AgentApi:
             if stages is not None:
                 stages.finish_elapsed(stages.recorder.clock_ns() - stages.started)
                 self._request_stages = None
-                self._fabric._stage_marker = None
+                setattr(self._fabric, "_stage_marker", None)
 
     def _recall(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
         query = _string(body, "query")
@@ -494,7 +495,7 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
         from .stage_trace import ProfileRecorder
 
         api.profile_recorder = ProfileRecorder()
-        api._fabric._profile_marker = api.profile_recorder.add
+        setattr(api._fabric, "_profile_marker", api.profile_recorder.add)
     if allocation_tracking:
         import tracemalloc
 
@@ -552,7 +553,7 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             trace = RequestStages(recorder, new_ulid(), self.path)
             self._request_trace = trace
             api._request_stages = trace
-            api._fabric._stage_marker = trace.mark
+            setattr(api._fabric, "_stage_marker", trace.mark)
             trace.mark("body_decode")
             return trace
 
@@ -560,9 +561,9 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             if trace is None:
                 return
             trace.finish()
-            self._request_trace = None
-            api._request_stages = None
-            api._fabric._stage_marker = None
+            setattr(self, "_request_trace", None)
+            setattr(api, "_request_stages", None)
+            setattr(api._fabric, "_stage_marker", None)
 
         def _post_route_allowed(self) -> bool:
             if self.headers.get("Origin"):

@@ -152,8 +152,11 @@ def control_report(worlds: Iterable[dict[str, Any]]) -> dict[str, Any]:
 
     arms = {arm: metrics(cases, arm) for arm in
             ("broken_retrieval", "random_evidence", "permissive_authorization", "oracle")}
-    by_family = {family: {arm: metrics([case for case in cases if case["family"] == family], arm)
-                          for arm in arms} for family in FAMILIES}
+    by_family: dict[str, Any] = {
+        family: {arm: metrics([case for case in cases if case["family"] == family], arm)
+                 for arm in arms}
+        for family in FAMILIES
+    }
     arms["negative_controls_detected"] = (
         arms["broken_retrieval"]["correct"] < len(cases)
         and arms["random_evidence"]["correct"] < len(cases)
@@ -175,7 +178,7 @@ def main() -> int:
     worlds = [generate_split(split) for split in SPLITS]
     all_cases = [case for world in worlds for case in world["cases"]]
     repo_root = Path(__file__).resolve().parents[1]
-    report = {"schema": "mf-offline-research-run/1", "population": "synthetic_scripted",
+    report: dict[str, Any] = {"schema": "mf-offline-research-run/1", "population": "synthetic_scripted",
               "generator": "benchmarks/offline_research.py", "worlds":
               [{"split": world["split"], "cases": len(world["cases"]), "sha256": world["sha256"]}
                for world in worlds], "leakage_issues": leakage(worlds),

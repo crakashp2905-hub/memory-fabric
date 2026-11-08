@@ -8,9 +8,9 @@
       "severity": "high",
       "status": "fixed",
       "exploit_preconditions": "Concurrent authenticated requests reach the same service/store; correctness of the HTTP listener and shared SQLite connection is part of the claim.",
-      "verified_fix": "A store-owned lock serializes shared database use; the revoked-credential-under-load regression passes. Full local HTTP concurrency verification was blocked by Windows socket policy.",
+      "verified_fix": "A store-owned lock serializes shared database use; the revoked-credential-under-load and concurrent HTTP request regressions pass in a socket-enabled run.",
       "verification_tests": ["tests/test_concurrent_requests.py::ConcurrentAgentRequests.test_a_revoked_credential_stays_refused_under_load"],
-      "limitations": ["HTTP bind/load subtest failed with WinError 10013 in this sandbox; retest in socket-enabled CI"]
+      "verification_note": "python -m unittest tests.test_concurrent_requests tests.test_transport_auth — 6 tests passed with localhost socket access on 2026-11-08."
     },
     {
       "id": "F2",
@@ -65,7 +65,7 @@
       "exploit_preconditions": "A signed retraction is forwarded over multiple HTTP federation hops.",
       "verified_fix": "Forwarding peer identity is signed and verification uses that peer's configured key.",
       "verification_tests": ["tests/test_transport_auth.py"],
-      "limitations": ["Socket-based multihop HTTP regression is unavailable in this sandbox; helper-level signer and MAC verification passed"]
+      "verification_note": "python -m unittest tests.test_concurrent_requests tests.test_transport_auth — 6 tests passed with localhost socket access on 2026-11-08."
     },
     {
       "id": "F17",

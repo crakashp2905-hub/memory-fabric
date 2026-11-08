@@ -52,7 +52,7 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
         raise ValueError("unknown agent count or arm")
     agents = [f"agent-{i:03d}" for i in range(agent_count)]
     tasks = task_manifest(seed)
-    result = {family: {"attempted": 0, "correct": 0, "unsafe_actions": 0,
+    result: dict[str, dict[str, Any]] = {family: {"attempted": 0, "correct": 0, "unsafe_actions": 0,
                        "stale_actions": 0, "false_abstentions": 0,
                        "failure_classes": {name: 0 for name in FAILURE_CLASSES}}
              for family in FAMILIES}
@@ -98,8 +98,8 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
 
             expected = family == "supported"
             family_result = result[family]
-            reason_codes = Counter()
-            failure_class_counts = Counter()
+            reason_codes: Counter[str] = Counter()
+            failure_class_counts: Counter[str] = Counter()
             allowed_count = 0
             false_abstentions = 0
             unsafe_actions = 0
@@ -219,7 +219,7 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
 
 
 def build_report() -> dict[str, Any]:
-    rows = [run(seed, count, arm) for seed in SEEDS for count in AGENT_COUNTS for arm in ARMS]
+    rows: list[dict[str, Any]] = [run(seed, count, arm) for seed in SEEDS for count in AGENT_COUNTS for arm in ARMS]
     expected_ids = {str(seed): [task["task_id"] for task in task_manifest(seed)] for seed in SEEDS}
     failures = []
     groups: dict[tuple[int, int], list[dict[str, Any]]] = defaultdict(list)

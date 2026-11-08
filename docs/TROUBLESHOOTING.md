@@ -123,6 +123,7 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `grant_unknown`, `grant_revoked`, `grant_expired` | the grant does not exist, was revoked, or its time ran out (≤ 300 s) | issue a new grant |
 | `grant_binding_mismatch` | target, parameters, evidence or agent differ from what was granted | issue a grant for this action |
 | `grant_replayed` | the grant was already used | grants are single-use: issue another |
+| `idempotency_key_payload_mismatch` | the key was previously used for a different action payload | use a fresh key; never reuse a key for a different target, parameters or evidence |
 | `state_unavailable` | the store could not be read, or the audit write failed | fix the store; a protected action fails closed |
 | `retry_required` | the last attempt with this key timed out or failed with unknown effect | check the tool's side effect, then `execute(..., retry=True)` |
 

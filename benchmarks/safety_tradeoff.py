@@ -61,7 +61,7 @@ def run(seed: int) -> dict[str, Any]:
                     "mf_reason": decision.reason_code if decision else "no_evidence",
                 }
 
-    rows = []
+    rows: list[dict[str, Any]] = []
     for family in FAMILIES:
         expected = family in ("supported", "contested_valid")
         for arm in ARMS:

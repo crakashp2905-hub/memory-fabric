@@ -438,7 +438,7 @@ class CodeModePlan:
                     raise ToolProtocolError("expanded arguments are forbidden")
                 if keyword.arg in arguments:
                     raise ToolProtocolError(f"duplicate argument: {keyword.arg}")
-                stack = [(keyword.value, 1)]
+                stack: list[tuple[ast.AST, int]] = [(keyword.value, 1)]
                 while stack:
                     current, depth = stack.pop()
                     if depth > MAX_CODE_MODE_ARGUMENT_DEPTH:

@@ -239,9 +239,9 @@ def build_world(seed: int, agents: int = 10, rounds: int = 60) -> World:
 class Memory(Protocol):
     """What an agent can do with memory. Four implementations, one protocol."""
 
-    def write(self, agent: str, content: str, fact_key: tuple[str, str]) -> str: ...
+    def write(self, agent: str, content: str, fact_key: tuple[str, str, str]) -> str: ...
 
-    def withdraw(self, agent: str, fact_key: tuple[str, str], reason: str) -> None: ...
+    def withdraw(self, agent: str, fact_key: tuple[str, str, str], reason: str) -> None: ...
 
     def read(self, agent: str, query: str, k: int = 5) -> list[tuple[str, str]]:
         """(memory_id, content), best first, already filtered by the backend."""
@@ -411,7 +411,7 @@ class FabricMemory:
             ":memory:", auto_activate=True, encrypt_content=False,
             retrieval="lexical",
         )
-        self.by_key: dict[tuple[str, str], list[str]] = {}
+        self.by_key: dict[tuple[str, str, str], list[str]] = {}
 
     def write(self, agent: str, content: str, fact_key) -> str:
         mid = self.fabric.remember(agent_id=agent, content=content, scope="team")
