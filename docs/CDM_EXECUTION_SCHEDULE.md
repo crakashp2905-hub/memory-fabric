@@ -18,7 +18,7 @@ No calendar dates or external service are required to keep the work moving.
 
 ## Current queue
 
-Checkpoint: 239 complete, 1 partial, 0 open. The complete local regression
+Checkpoint: 240 complete, 0 partial, 0 open. The complete local regression
 suite passes (2,446 tests; 47 skips) and the 22-stage local offline
 qualification passes on the available Python 3.13.5 runtime. Python 3.11 and
 3.12 are not installed locally; compatibility on those versions is not claimed.
@@ -30,9 +30,8 @@ adapter and refuses mismatched caller overlays. CDM-063 can skip prefix policy
 transitions only for an unchanged checkpoint minted in the current process;
 seeded cold-replay equivalence passes at every cut.
 
-Remaining partial acceptance work:
-
-- CDM-020: unique task-specific implementation/source-commit linkage; current range-scoped bundles cover the task plan but do not identify one exact artifact per row.
+All 240 task rows now link directly to hashed evidence artifacts, with the
+latest source and commit snapshot recorded in the generated inventory.
 
 The gate records synthetic local evidence only. It does not establish external,
 physical-world, or deployment efficacy.

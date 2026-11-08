@@ -151,16 +151,15 @@ real federated transport or establish distributed causal completeness.
 ## Execution ledger
 
 The attached source checklist defines 240 task IDs, CDM-001 through CDM-240.
-At the current checkpoint **239/240 tasks are complete; one is partial; none
+At the current checkpoint **240/240 tasks are complete; none are partial or
 are untouched**. The local task ledger and generated evidence inventory are the
 authoritative task status. The latest 22-stage offline qualification passes on
 the available Python 3.13.5 runtime; Python 3.11/3.12 are not installed here.
-The task-level evidence and explicit partial list are in
-`docs/CDM_TASK_LEDGER.md`. The required phases are A baseline/contracts, B
+The task-level evidence is in `docs/CDM_TASK_LEDGER.md`. The required phases are A baseline/contracts, B
 deterministic vertical slice, C privacy/fidelity, D attribution, E architecture
 comparisons, F multi-agent correction, G UI/API, and H offline qualification.
 The passing offline gate qualifies the included local stages and synthetic
-artifacts; it does not erase the remaining partial task requirements or imply
+artifacts; it does not imply
 external, physical-world, or efficacy validation.
 
 ## Change and evidence log
@@ -200,6 +199,7 @@ external, physical-world, or efficacy validation.
 | 2026-11-09 | Added nine hash- and revision-bound implementation/test bundles covering all 240 task ranges, with stable inventory validation (CDM-020). | Inventory tests, Ruff, mypy and 22-stage offline qualification pass. Bundles remain range-scoped, so unique per-task artifact mapping remains partial. |
 | 2026-11-09 | Completed the full local repository regression suite (CDM-009). | `research/results/cdm/full-suite/manifest.json` records 2,446 tests, 2,399 passed, 47 skipped, zero failures/errors, and the final output hash. The earlier interrupted attempt is retained separately for history. |
 | 2026-11-09 | Completed the capture lineage, timing, and checkpoint-cache audit (CDM-035). | Redaction and generic refusal tests pass; a seeded local timing sample is recorded with explicit non-constant-time limitations and caller-level operating controls. Current inventory: 239 complete, 1 partial, 0 open. |
+| 2026-11-09 | Added direct artifact references to all 240 task rows and closed the final evidence-linkage gap (CDM-020). | Inventory resolves every row to existing files with SHA-256 and last-commit revision; focused inventory tests assert full coverage. Current ledger: 240 complete, 0 partial, 0 open. |
 
 ## Rollback
 

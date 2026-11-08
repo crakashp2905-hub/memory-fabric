@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import unittest
-import re
 
 from tools.cdm_task_inventory import OUTPUT, build_inventory
 
@@ -13,6 +12,8 @@ class TestTaskEvidenceInventory(unittest.TestCase):
         inventory = build_inventory()
         self.assertEqual(build_inventory(), inventory)
         self.assertEqual(inventory["task_count"], 240)
+        self.assertEqual(sum(bool(task["referenced_artifacts"])
+                             for task in inventory["tasks"]), 240)
         self.assertRegex(inventory["git_head"], r"^[0-9a-f]{40,64}$")
         self.assertRegex(inventory["source_tree_sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(inventory["source_bundle_count"], 9)
@@ -38,8 +39,7 @@ class TestTaskEvidenceInventory(unittest.TestCase):
                     self.assertRegex(artifact["sha256"], r"^[0-9a-f]{64}$")
                     self.assertTrue((OUTPUT.parents[3] / artifact["path"]).is_file())
                     revision = artifact["last_committed_revision"]
-                    self.assertTrue(revision is None or
-                                    re.fullmatch(r"[0-9a-f]{40,64}", revision))
+                    self.assertRegex(revision or "", r"^[0-9a-f]{40,64}$")
         self.assertEqual(coverage, set(range(1, 241)))
         for task in inventory["tasks"]:
             bundle = inventory["source_bundles"][task["source_bundle_id"]]
@@ -55,7 +55,7 @@ class TestTaskEvidenceInventory(unittest.TestCase):
             for artifact in task["referenced_artifacts"]:
                 self.assertRegex(artifact["sha256"], r"^[0-9a-f]{64}$")
                 revision = artifact["last_committed_revision"]
-                self.assertTrue(revision is None or re.fullmatch(r"[0-9a-f]{40,64}", revision))
+                self.assertRegex(revision or "", r"^[0-9a-f]{40,64}$")
                 self.assertNotEqual(artifact["path"], output)
 
 
