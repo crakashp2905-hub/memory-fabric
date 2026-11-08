@@ -1,0 +1,47 @@
+{
+  "schema": "mf-local-qualification-summary/1",
+  "source_commit": "c8a506c",
+  "source_worktree_clean_at_check_start": true,
+  "generated_documents_dirty_after_check": true,
+  "checks": {
+    "generated_docs_and_test_counts": "PASS",
+    "canonical_branding": "PASS",
+    "ruff": "PASS",
+    "mypy": {
+      "status": "FAIL",
+      "errors": 50,
+      "files": 11,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "pip_audit": "UNAVAILABLE",
+    "bandit": "UNAVAILABLE",
+    "full_unittest_discovery": {
+      "status": "INCOMPLETE",
+      "summary": "Interrupted after progress stopped; streamed output contained multiple errors and at least one failure, but no final unittest count or traceback summary was captured.",
+      "evidence": "research/results/p5-02-full-unit-tests.txt"
+    },
+    "adversarial_gate": {
+      "status": "FAIL",
+      "families_total": 21,
+      "families_passed": 19,
+      "families_failed": [
+        "offline_peers_and_recovery",
+        "key_rotation_and_retired_keys"
+      ],
+      "tests_run": 279,
+      "test_failures": 3,
+      "test_errors": 6,
+      "evidence": "research/results/p5-02-adversarial-gate.json"
+    },
+    "optional_production_defaults_audit": {
+      "status": "PASS",
+      "evidence": "research/results/h5-09-production-defaults.json"
+    }
+  },
+  "qualification": "PARTIAL_BLOCKED",
+  "limitations": [
+    "The local release gate cannot pass until mypy errors and failing adversarial families are resolved and the full unittest suite completes with a captured summary.",
+    "Two families include local HTTP/socket-dependent tests; failures must be retested in a socket-enabled CI environment before classifying root cause.",
+    "Static analysis tools pip-audit and bandit are not installed in this environment."
+  ]
+}

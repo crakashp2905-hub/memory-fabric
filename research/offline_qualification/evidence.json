@@ -1480,6 +1480,23 @@
       ]
     },
     {
+      "task_id": "P5-02",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/check.py",
+        "research/results/p5-02-local-checks.txt",
+        "research/results/p5-02-full-unit-tests.txt",
+        "research/results/p5-02-adversarial-gate.json",
+        "research/results/p5-02-local-qualification.json",
+        "research/results/h5-09-production-defaults.json"
+      ],
+      "limitations": [
+        "mypy has 50 errors in 11 files; pip-audit and bandit are unavailable; adversarial gate has two failed families; full unittest discovery did not finish with a final summary. Candidate remains blocked."
+      ]
+    },
+    {
       "task_id": "P5-01",
       "status": "DONE",
       "acceptance_passed": true,

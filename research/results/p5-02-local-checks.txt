@@ -1,0 +1,78 @@
+tool availability: ruff: AVAILABLE
+tool availability: mypy: AVAILABLE
+tool availability: pytest: AVAILABLE
+tool availability: build: AVAILABLE
+tool availability: pip-audit: UNAVAILABLE
+tool availability: bandit: UNAVAILABLE
+--> regenerate STABILITY.md
+{'stable': 57, 'beta': 56, 'experimental': 25}
+--> regenerate API and CLI references
+wrote docs\API.md
+wrote docs\CLI.md
+wrote docs\API_INVENTORY.json
+--> regenerate cited test counts
+2486
+updated docs/VALIDATION.md
+updated README.md
+--> regenerate status page and results manifest
+wrote docs\STATUS_AT_HEAD.md
+--> regenerate results manifest
+wrote research\results\MANIFEST.json
+--> version consistency
+--> canonical branding
+Memory Fabric branding: 0 files with retired spellings
+--> ruff
+All checks passed!
+--> mypy
+benchmarks\offline_research.py:163: error: Value expression in dictionary comprehension has incompatible type "bool"; expected type "dict[str, Any]"  [misc]
+benchmarks\offline_research.py:197: error: "object" has no attribute "__iter__"; maybe "__dir__" or "__str__"? (not iterable)  [attr-defined]
+benchmarks\offline_research.py:198: error: Argument 1 to "len" has incompatible type "object"; expected "Sized"  [arg-type]
+benchmarks\offline_research.py:199: error: Value of type "object" is not indexable  [index]
+benchmarks\offline_research.py:200: error: "object" has no attribute "values"  [attr-defined]
+benchmarks\offline_research.py:201: error: Value of type "object" is not indexable  [index]
+benchmarks\manifest.py:122: error: Item "None" of "Any | None" has no attribute "get"  [union-attr]
+src\memory_fabric\integrity.py:223: error: Item "PgConnection" of "Connection | PgConnection" has no attribute "executemany"  [union-attr]
+experiments\teamworld.py:508: error: Argument 1 to "get" of "dict" has incompatible type "tuple[str, str, str]"; expected "tuple[str, str]"  [arg-type]
+experiments\p3b_teams.py:158: error: Argument 3 to "write" of "Memory" has incompatible type "tuple[str, str, str]"; expected "tuple[str, str]"  [arg-type]
+experiments\p3b_teams.py:196: error: Argument 3 to "write" of "Memory" has incompatible type "tuple[str, str, str]"; expected "tuple[str, str]"  [arg-type]
+benchmarks\safety_tradeoff.py:86: error: Unsupported operand types for - ("object" and "int")  [operator]
+benchmarks\safety_tradeoff.py:86: error: Unsupported operand types for * ("int" and "object")  [operator]
+benchmarks\safety_tradeoff.py:87: error: Unsupported operand types for * ("float" and "object")  [operator]
+benchmarks\safety_tradeoff.py:91: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+benchmarks\false_withholding.py:95: error: Argument 3 to "write" of "Memory" has incompatible type "tuple[str, str, str]"; expected "tuple[str, str]"  [arg-type]
+benchmarks\false_withholding.py:102: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:103: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:110: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:112: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:114: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:141: error: Argument 3 to "write" of "Memory" has incompatible type "tuple[str, str, str]"; expected "tuple[str, str]"  [arg-type]
+benchmarks\false_withholding.py:162: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:163: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:164: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:165: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:166: error: "Memory" has no attribute "fabric"  [attr-defined]
+benchmarks\false_withholding.py:167: error: "Memory" has no attribute "fabric"  [attr-defined]
+src\memory_fabric\tool_protocol.py:446: error: Generator has incompatible item type "tuple[AST, int]"; expected "tuple[expr, int]"  [misc]
+benchmarks\matched_agent_arms.py:101: error: Need type annotation for "reason_codes"  [var-annotated]
+benchmarks\matched_agent_arms.py:102: error: Need type annotation for "failure_class_counts"  [var-annotated]
+benchmarks\matched_agent_arms.py:151: error: Unsupported operand types for + ("object" and "int")  [operator]
+benchmarks\matched_agent_arms.py:152: error: Unsupported operand types for + ("object" and "int")  [operator]
+benchmarks\matched_agent_arms.py:153: error: Unsupported operand types for + ("object" and "int")  [operator]
+benchmarks\matched_agent_arms.py:154: error: Unsupported operand types for + ("object" and "int")  [operator]
+benchmarks\matched_agent_arms.py:155: error: Unsupported operand types for + ("object" and "int")  [operator]
+benchmarks\matched_agent_arms.py:157: error: Value of type "object" is not indexable  [index]
+benchmarks\matched_agent_arms.py:157: error: Unsupported target for indexed assignment ("object")  [index]
+benchmarks\matched_agent_arms.py:209: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+benchmarks\heldout_agent_qualification.py:39: error: Incompatible types in assignment (expression has type "int", variable has type "str")  [assignment]
+src\memory_fabric\agent_api.py:323: error: "MemoryFabric" has no attribute "_stage_marker"  [attr-defined]
+src\memory_fabric\agent_api.py:351: error: Incompatible types in assignment (expression has type "None", variable has type "RequestStages")  [assignment]
+src\memory_fabric\agent_api.py:352: error: "MemoryFabric" has no attribute "_stage_marker"  [attr-defined]
+src\memory_fabric\agent_api.py:496: error: Incompatible types in assignment (expression has type "ProfileRecorder", variable has type "None")  [assignment]
+src\memory_fabric\agent_api.py:497: error: "MemoryFabric" has no attribute "_profile_marker"  [attr-defined]
+src\memory_fabric\agent_api.py:497: error: "None" has no attribute "add"  [attr-defined]
+src\memory_fabric\agent_api.py:555: error: "MemoryFabric" has no attribute "_stage_marker"  [attr-defined]
+src\memory_fabric\agent_api.py:563: error: Incompatible types in assignment (expression has type "None", variable has type "RequestStages")  [assignment]
+src\memory_fabric\agent_api.py:564: error: Incompatible types in assignment (expression has type "None", variable has type "RequestStages")  [assignment]
+src\memory_fabric\agent_api.py:565: error: "MemoryFabric" has no attribute "_stage_marker"  [attr-defined]
+Found 50 errors in 11 files (checked 175 source files)
+FAILED: mypy

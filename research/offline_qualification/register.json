@@ -2,18 +2,18 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "cb2522f5944db3beb190408772c4dfe66902635437e3981f1b0a24f3316e1763",
+    "sha256": "a49c931db80032b4490211c4a162032c55f50e2a8f4b14064617f10e1b948572",
     "tasks": 260
   },
   "source": {
-    "commit": "2ef5273093b22298e8a8f31de1c03139f6ec0fa8",
+    "commit": "c8a506c5d0e71c15bf16283eeb5bbcb0b3fe46d8",
     "dirty": true
   },
   "summary": {
     "counts": {
       "DONE": 124,
-      "PARTIAL": 15,
-      "TODO": 121
+      "PARTIAL": 16,
+      "TODO": 120
     },
     "completed": 124,
     "total": 260,
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "644d2e8abaf77cf63d6bb6b6daf8cb567565dac240cc4f28ccf1d063fc4ae15b",
-        "docs/VALIDATION.md": "fbde2d2ab39d5b49487371076fdf5201ba88b11cb9126ac50ee3908578e44b4f",
-        "docs/STATUS_AT_HEAD.md": "c07063b57b252fa660aa5955fe5126f6dbf0d276b08f37429a6d2131db0673fe",
+        "README.md": "31bb0b8a8e4f37770bb447c6971f579c326eb231cc703906fc9681bb3ba9a5f0",
+        "docs/VALIDATION.md": "ce14c09f0be8e27f3b34e4fddce69d8194d4b3162faea0e9176bfb74f04162d8",
+        "docs/STATUS_AT_HEAD.md": "bdb780577998b9bb054f4f3ef32cc512f75016d9e1b8d0bf9d6c682e519730c7",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
-        "research/results/MANIFEST.json": "3f1e98118ed693c60f817f0f0a7941b1ef2889cf03cd142a2510780dce2844a6",
+        "research/results/MANIFEST.json": "8a2c6c1427bc7a4037e018e9a5aaafbc46152728816c0edb3090a08d3a8c5e62",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5245,14 +5245,30 @@
       "task_id": "P5-02",
       "priority": "P0",
       "task": "Run full local check suite, lint, docs, adversarial tests and optional-capability audit.",
-      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate",
-      "status": "TODO",
+      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate. Evidence: `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` (PARTIAL/BLOCKED: generated docs, branding and Ruff pass; mypy fails with 50 errors across 11 files; pip-audit and bandit unavailable; adversarial gate passes 19/21 families (279 tests, 3 failures, 6 errors; offline HTTP/recovery and key rotation fail); full unittest discovery was interrupted without a final summary after errors appeared; production-default audit passes separately. No local-ready release label is allowed)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/check.py",
+        "research/results/p5-02-local-checks.txt",
+        "research/results/p5-02-full-unit-tests.txt",
+        "research/results/p5-02-adversarial-gate.json",
+        "research/results/p5-02-local-qualification.json",
+        "research/results/h5-09-production-defaults.json"
+      ],
+      "evidence_digests": {
+        "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
+        "research/results/p5-02-local-checks.txt": "83a9d850a4272b2e4a4c51df5f5c5e1f3026dc6bf86de015607e795b2832afd8",
+        "research/results/p5-02-full-unit-tests.txt": "f058d09dea7698509cfe64b550fa437e7fc8a899b0fb61202045422c683e22a4",
+        "research/results/p5-02-adversarial-gate.json": "51b27053bb70c2def6f8221b108487e0f822f8cb0f297a3a5be600327b62b47b",
+        "research/results/p5-02-local-qualification.json": "3ba6135a4d2f430433e1da2cbaa545b960187a16b41d8439f53b496779c7f8d8",
+        "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "mypy has 50 errors in 11 files; pip-audit and bandit are unavailable; adversarial gate has two failed families; full unittest discovery did not finish with a final summary. Candidate remains blocked."
+      ]
     },
     {
       "task_id": "P5-03",
