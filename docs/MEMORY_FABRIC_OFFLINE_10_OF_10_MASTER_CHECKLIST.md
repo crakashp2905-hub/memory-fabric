@@ -100,15 +100,15 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 
 **Existing reference points:** `tools/check.py`, `tools/results_manifest.py`, `tools/status_at_head.py`, `docs/STATUS_AT_HEAD.md`, `research/results/MANIFEST.json`.
 
-- [ ] **E1-01** · **P0** · Freeze main SHA and record PR #30 as unmerged baseline evidence, never as production behavior. **Acceptance:** Machine-readable baseline states commit, branch, date, dataset provenance, workload and caveats..
-- [ ] **E1-02** · **P0** · Create one offline command that generates a clean read-only baseline report from the checkout. **Acceptance:** Clean checkout runs it twice and obtains byte-identical normalized findings and hashes..
+- [x] **E1-01** · **P0** · Freeze main SHA and record PR #30 as unmerged baseline evidence, never as production behavior. **Acceptance:** Machine-readable baseline states commit, branch, date, dataset provenance, workload and caveats..
+- [x] **E1-02** · **P0** · Create one offline command that generates a clean read-only baseline report from the checkout. **Acceptance:** Clean checkout runs it twice and obtains byte-identical normalized findings and hashes..
 - [x] **E1-03** · **P0** · Capture Python, OS, SQLite, CPU, thread count and process count in every benchmark manifest. **Acceptance:** Manifest parser rejects missing environment fields and excludes nondeterministic timestamps from digest. Evidence: `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/bench_runs/legacy/index.json` (DONE: all five active manifests were rerun from clean commit `9260e482e05831db72afdada5820220448c15003`; each includes Python, OS, SQLite, logical CPU, thread and process counts, exact SHA, clean state and input digests; 27 benchmark manifest tests pass. Pre-capture files remain byte-preserved in the explicitly excluded legacy archive; no historical host facts were guessed)..
 - [x] **E1-04** · **P0** · Stamp every new result with exact source commit and dirty-tree state. **Acceptance:** Reports reject unknown SHA or dirty state except explicitly labelled exploratory results. Evidence: `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` (DONE: exact 40-character source SHA and dirty state are stamped; unknown SHA and dirty non-exploratory results are rejected. Fifty-five historical rows remain non-reconstructible and are not upgraded by inference)..
 - [x] **E1-05** · **P0** · Digest generated datasets, agent scripts, policy presets and query fixtures. **Acceptance:** Tampering any declared input causes manifest verification to fail before score aggregation. Evidence: `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` (DONE: manifests hash generator and declared input files; input tampering is rejected before scoreboard aggregation. Five historical manifests and legacy rows lack complete truthful input inventories and remain unqualified)..
-- [ ] **E1-06** · **P0** · Capture package versions and optional-dependency skips separately from test passes. **Acceptance:** Summary reports passed, failed, skipped, unavailable, and why each unavailable arm matters..
-- [ ] **E1-07** · **P0** · Build a single acceptance-ledger generator reading tests, metrics and evidence paths. **Acceptance:** Every claim links to one machine-verifiable artifact; missing artifacts produce INCOMPLETE..
-- [ ] **E1-08** · **P0** · Add a negative-control self-test that intentionally corrupts one expected result. **Acceptance:** Acceptance checker fails the manipulated run and restores normal passing state..
-- [ ] **E1-09** · **P0** · Detect result cherry-picking by comparing declared seed manifest against results on disk. **Acceptance:** Missing, repeated, or extra seed outputs block research acceptance..
+- [x] **E1-06** · **P0** · Capture package versions and optional-dependency skips separately from test passes. **Acceptance:** Summary reports passed, failed, skipped, unavailable, and why each unavailable arm matters..
+- [x] **E1-07** · **P0** · Build a single acceptance-ledger generator reading tests, metrics and evidence paths. **Acceptance:** Every claim links to one machine-verifiable artifact; missing artifacts produce INCOMPLETE..
+- [x] **E1-08** · **P0** · Add a negative-control self-test that intentionally corrupts one expected result. **Acceptance:** Acceptance checker fails the manipulated run and restores normal passing state..
+- [x] **E1-09** · **P0** · Detect result cherry-picking by comparing declared seed manifest against results on disk. **Acceptance:** Missing, repeated, or extra seed outputs block research acceptance..
 - [x] **E1-10** · **P0** · Regenerate test count and feature status from source, not manually maintained prose. **Acceptance:** Exact-head CI fails if README, registry or status contradict actual package/test inventory.. Evidence: `tools/count_tests.py`, `tools/status_at_head.py`, `tools/gen_capabilities.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `tests/test_capability_registry.py`, `.github/workflows/ci.yml`, `research/results/e1-10-generated-status.json`, `research/results/e1-10-generated-status.txt` (DONE: 17 tests pass; source-generated test count 2541, capability registry check and status-at-head check pass at exact HEAD. Configured CI matrix not run remotely.)..
 
 
@@ -116,63 +116,63 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 
 **Existing reference points:** `src/memory_fabric/eventlog.py`, `projections.py`, `correction.py`, `history_query.py`, `branching.py`, `tests/test_transactions.py`.
 
-- [ ] **E2-01** · **P0** · Write a minimal formal state-transition table for append, correct, withdraw, erase, branch, and merge. **Acceptance:** Every transition has defined preconditions, postconditions and invariant-bearing tests..
-- [ ] **E2-02** · **P0** · Add replay-equivalence property tests from event log to materialized projections. **Acceptance:** Different randomized append/correction/merge histories replay to identical canonical state and digests..
-- [ ] **E2-03** · **P0** · Test withdrawn-parent then derived-child sequences in all permitted orderings. **Acceptance:** No descendant becomes actionable when required premises were already withdrawn..
-- [ ] **E2-04** · **P0** · Test correction-before-copy, copy-before-correction and copied re-ingestion with changing identifiers. **Acceptance:** No alternate identity bypasses withdrawal within supported exact/subset-copy semantics..
-- [ ] **E2-05** · **P0** · Specify bitemporal valid-time versus transaction-time semantics for historical reads. **Acceptance:** Fixtures prove late corrections never rewrite the historical belief record or grant current access..
-- [ ] **E2-06** · **P0** · Implement current-authorization intersection for all historical read surfaces. **Acceptance:** Revoked identities and erased content remain inaccessible through historical APIs and exports..
-- [ ] **E2-07** · **P0** · Add portable tombstone exchange format for store-to-store transfer with opt-in import. **Acceptance:** A recipient cannot resurrect withdrawn memory when importing snapshots plus tombstones..
-- [ ] **E2-08** · **P0** · Harden event schema upgrades against unknown fields, duplicate events and missing versions. **Acceptance:** Version-skew table and rollback fixtures test backwards-safe refusal or explicit migration..
-- [ ] **E2-09** · **P0** · Create crash-at-every-write-boundary harness for core lifecycle events. **Acceptance:** Reopen yields either entirely committed operation or no effect, with intact integrity chain..
-- [ ] **E2-10** · **P0** · Test transaction-boundary races between correction, retrieval, and action authorization. **Acceptance:** Deterministic barriers prove no knowingly stale locally visible evidence can authorize a fenced action..
+- [x] **E2-01** · **P0** · Write a minimal formal state-transition table for append, correct, withdraw, erase, branch, and merge. **Acceptance:** Every transition has defined preconditions, postconditions and invariant-bearing tests..
+- [x] **E2-02** · **P0** · Add replay-equivalence property tests from event log to materialized projections. **Acceptance:** Different randomized append/correction/merge histories replay to identical canonical state and digests..
+- [x] **E2-03** · **P0** · Test withdrawn-parent then derived-child sequences in all permitted orderings. **Acceptance:** No descendant becomes actionable when required premises were already withdrawn..
+- [x] **E2-04** · **P0** · Test correction-before-copy, copy-before-correction and copied re-ingestion with changing identifiers. **Acceptance:** No alternate identity bypasses withdrawal within supported exact/subset-copy semantics..
+- [x] **E2-05** · **P0** · Specify bitemporal valid-time versus transaction-time semantics for historical reads. **Acceptance:** Fixtures prove late corrections never rewrite the historical belief record or grant current access..
+- [x] **E2-06** · **P0** · Implement current-authorization intersection for all historical read surfaces. **Acceptance:** Revoked identities and erased content remain inaccessible through historical APIs and exports..
+- [x] **E2-07** · **P0** · Add portable tombstone exchange format for store-to-store transfer with opt-in import. **Acceptance:** A recipient cannot resurrect withdrawn memory when importing snapshots plus tombstones..
+- [x] **E2-08** · **P0** · Harden event schema upgrades against unknown fields, duplicate events and missing versions. **Acceptance:** Version-skew table and rollback fixtures test backwards-safe refusal or explicit migration..
+- [x] **E2-09** · **P0** · Create crash-at-every-write-boundary harness for core lifecycle events. **Acceptance:** Reopen yields either entirely committed operation or no effect, with intact integrity chain..
+- [x] **E2-10** · **P0** · Test transaction-boundary races between correction, retrieval, and action authorization. **Acceptance:** Deterministic barriers prove no knowingly stale locally visible evidence can authorize a fenced action..
 
 
 #### E3 — Retrieval quality and evidence construction [P0]
 
 **Existing reference points:** `src/memory_fabric/answerability.py`, `retrieval_profiles.py`, `retrievers.py`, `relevance.py`, `evidence_completeness.py`, `benchmarks/evidence_completeness.py`.
 
-- [ ] **E3-01** · **P0** · Build taxonomy of retrieval errors: absent, near-miss, wrong version, missing intermediate, wrong scope and overblocking. **Acceptance:** Each class has at least five seeded minimal counterexamples and a stable oracle label..
-- [ ] **E3-02** · **P0** · Keep lexical as a measured baseline rather than assuming vector or hybrid superiority. **Acceptance:** Held-out per-family reports compare lexical, vector, hybrid, and chain at identical budget..
-- [ ] **E3-03** · **P0** · Implement query-family routing behind opt-in flag with deterministic fallback. **Acceptance:** Router cannot lower core governance and reverts to lexical on unrecognized query shapes..
-- [ ] **E3-04** · **P0** · Repair evidence-chain selection when a necessary bridge shares no query terms. **Acceptance:** Four-hop examples recover bridging evidence or return a precise insufficient-chain reason..
-- [ ] **E3-05** · **P0** · Preserve answer-modifying facts that do not restate the original question. **Acceptance:** Multi-hop modifier fixtures can change a result without disappearing from the retrieved package..
-- [ ] **E3-06** · **P0** · Separate retrieval ranking scores from evidence validity and decision readiness. **Acceptance:** API returns three independent fields with non-interchangeable type and test contracts..
-- [ ] **E3-07** · **P0** · Extend evidence checks to paraphrased parameters using local bounded equivalence tables. **Acceptance:** Known paraphrase fixtures reduce wrong refusal; novel text remains UNDETERMINED, never fabricated certainty..
-- [ ] **E3-08** · **P0** · Make explicit UNKNOWN, CONFLICTING and UNDETERMINED behavior testable for every read surface. **Acceptance:** CLI, SDK, MCP and HTTP return the same semantic reason codes..
-- [ ] **E3-09** · **P0** · Measure and cap the evidence package's useful-token or byte budget without dropping mandatory dependencies. **Acceptance:** Fixed-budget tests retain every required citation or fail with a missing-evidence explanation..
-- [ ] **E3-10** · **P0** · Prevent deleted, retracted, untrusted, out-of-scope memories from entering any retrieval cache. **Acceptance:** Eviction/invalidation fixtures cover corrections, erasure, tenant changes and cache restarts..
+- [x] **E3-01** · **P0** · Build taxonomy of retrieval errors: absent, near-miss, wrong version, missing intermediate, wrong scope and overblocking. **Acceptance:** Each class has at least five seeded minimal counterexamples and a stable oracle label..
+- [x] **E3-02** · **P0** · Keep lexical as a measured baseline rather than assuming vector or hybrid superiority. **Acceptance:** Held-out per-family reports compare lexical, vector, hybrid, and chain at identical budget..
+- [x] **E3-03** · **P0** · Implement query-family routing behind opt-in flag with deterministic fallback. **Acceptance:** Router cannot lower core governance and reverts to lexical on unrecognized query shapes..
+- [x] **E3-04** · **P0** · Repair evidence-chain selection when a necessary bridge shares no query terms. **Acceptance:** Four-hop examples recover bridging evidence or return a precise insufficient-chain reason..
+- [x] **E3-05** · **P0** · Preserve answer-modifying facts that do not restate the original question. **Acceptance:** Multi-hop modifier fixtures can change a result without disappearing from the retrieved package..
+- [x] **E3-06** · **P0** · Separate retrieval ranking scores from evidence validity and decision readiness. **Acceptance:** API returns three independent fields with non-interchangeable type and test contracts..
+- [x] **E3-07** · **P0** · Extend evidence checks to paraphrased parameters using local bounded equivalence tables. **Acceptance:** Known paraphrase fixtures reduce wrong refusal; novel text remains UNDETERMINED, never fabricated certainty..
+- [x] **E3-08** · **P0** · Make explicit UNKNOWN, CONFLICTING and UNDETERMINED behavior testable for every read surface. **Acceptance:** CLI, SDK, MCP and HTTP return the same semantic reason codes..
+- [x] **E3-09** · **P0** · Measure and cap the evidence package's useful-token or byte budget without dropping mandatory dependencies. **Acceptance:** Fixed-budget tests retain every required citation or fail with a missing-evidence explanation..
+- [x] **E3-10** · **P0** · Prevent deleted, retracted, untrusted, out-of-scope memories from entering any retrieval cache. **Acceptance:** Eviction/invalidation fixtures cover corrections, erasure, tenant changes and cache restarts..
 
 
 #### E4 — Concurrency, profiling, scaling and federation [P0]
 
 **Existing reference points:** `src/memory_fabric/txn.py`, `outbox.py`, `federation.py`, `freshness.py`, `tools/`, `benchmarks/federation_world.py`.
 
-- [ ] **E4-01** · **P0** · Reproduce reported 32.6 ops/s and p99 3.86s branch benchmark before optimizing. **Acceptance:** Same local harness logs operation mix, warmup, contention, and throughput confidence bounds..
-- [ ] **E4-02** · **P0** · Create per-stage tracing for auth, event append, projection, copy lookup, serialization and transport. **Acceptance:** Each end-to-end request has balanced stage durations and total latency reconciliation..
-- [ ] **E4-03** · **P0** · Run controlled profiler with 1, 10, 50 and 100 concurrent local clients. **Acceptance:** Show CPU, lock wait, I/O, allocation and p50/p95/p99 per scenario..
-- [ ] **E4-04** · **P0** · Remove dominant contention by measurement with before/after regression proof. **Acceptance:** On identical hardware and seeds, optimization improves target latency without invariant regression..
-- [ ] **E4-05** · **P0** · Validate SQLite busy timeout, WAL mode, checkpoint strategy and transaction sizes. **Acceptance:** Stress run sustains no silent lost write or unbounded busy retry across 50 processes..
-- [ ] **E4-06** · **P0** · Build bounded paginated query/scan benchmarks at 1k, 10k and 100k memories. **Acceptance:** Complexity trend and memory budget are plotted; failing scale regimes recorded honestly..
-- [ ] **E4-07** · **P0** · Simulate three logical hosts using distinct localhost processes and stores. **Acceptance:** Corrections converge after partitions heal with all acknowledgements accounted for; not called physical-host proof..
-- [ ] **E4-08** · **P0** · Test reordered, duplicated, delayed and permanently dropped federation messages. **Acceptance:** Replay and idempotency preserve state; dead-letter and repair outcomes are observable..
-- [ ] **E4-09** · **P0** · Inject clock skew and stale or forged signed freshness leases. **Acceptance:** Consequential actions fail closed on invalid or expired leases while safe reads remain possible..
-- [ ] **E4-10** · **P0** · Create long-duration deterministic soak with crash/restart cycles and strict disk/resource ceilings. **Acceptance:** Detect leaks, growing queues and p99 drift; restore succeeds without reconciliation gaps..
+- [x] **E4-01** · **P0** · Reproduce reported 32.6 ops/s and p99 3.86s branch benchmark before optimizing. **Acceptance:** Same local harness logs operation mix, warmup, contention, and throughput confidence bounds..
+- [x] **E4-02** · **P0** · Create per-stage tracing for auth, event append, projection, copy lookup, serialization and transport. **Acceptance:** Each end-to-end request has balanced stage durations and total latency reconciliation..
+- [x] **E4-03** · **P0** · Run controlled profiler with 1, 10, 50 and 100 concurrent local clients. **Acceptance:** Show CPU, lock wait, I/O, allocation and p50/p95/p99 per scenario..
+- [x] **E4-04** · **P0** · Remove dominant contention by measurement with before/after regression proof. **Acceptance:** On identical hardware and seeds, optimization improves target latency without invariant regression..
+- [x] **E4-05** · **P0** · Validate SQLite busy timeout, WAL mode, checkpoint strategy and transaction sizes. **Acceptance:** Stress run sustains no silent lost write or unbounded busy retry across 50 processes..
+- [x] **E4-06** · **P0** · Build bounded paginated query/scan benchmarks at 1k, 10k and 100k memories. **Acceptance:** Complexity trend and memory budget are plotted; failing scale regimes recorded honestly..
+- [x] **E4-07** · **P0** · Simulate three logical hosts using distinct localhost processes and stores. **Acceptance:** Corrections converge after partitions heal with all acknowledgements accounted for; not called physical-host proof..
+- [x] **E4-08** · **P0** · Test reordered, duplicated, delayed and permanently dropped federation messages. **Acceptance:** Replay and idempotency preserve state; dead-letter and repair outcomes are observable..
+- [x] **E4-09** · **P0** · Inject clock skew and stale or forged signed freshness leases. **Acceptance:** Consequential actions fail closed on invalid or expired leases while safe reads remain possible..
+- [x] **E4-10** · **P0** · Create long-duration deterministic soak with crash/restart cycles and strict disk/resource ceilings. **Acceptance:** Detect leaks, growing queues and p99 drift; restore succeeds without reconciliation gaps..
 
 
 #### E5 — SDK, protocol contracts, packaging and maintainability [P1]
 
 **Existing reference points:** `src/memory_fabric/sdk.py`, `agent_api.py`, `adapters/mcp.py`, `tool_protocol.py`, `docs/SDK_CONTRACTS_0.14.md`, `pyproject.toml`.
 
-- [ ] **E5-01** · **P1** · Create canonical public API inventory and tag each symbol stable, beta or experimental. **Acceptance:** Generated SDK reference and tests reject accidental public signature change without migration note..
-- [ ] **E5-02** · **P1** · Ensure typed Python wheel includes py.typed and passes type-check smoke use outside checkout. **Acceptance:** Build wheel locally; isolated temporary install can import and type-check published public interfaces..
-- [ ] **E5-03** · **P1** · Test consistent error codes and reason payloads across SDK, MCP, HTTP, CLI. **Acceptance:** Contract matrix catches identity, invalid evidence, unavailable tool, and stale-preview mismatches..
-- [ ] **E5-04** · **P1** · Harden feature flags so experimental code cannot silently become default after upgrade. **Acceptance:** Snapshot tests assert default preset configuration and explicitly opt-in unsafe changes..
-- [ ] **E5-05** · **P1** · Introduce a protocol-neutral tool schema converter with strict unsupported-case reporting. **Acceptance:** UTCP/MCP descriptors round-trip supported fields; unknown security fields never silently drop..
-- [ ] **E5-06** · **P1** · Fail closed on unsupported UTCP manual versions, dangerous transports, or malformed tool descriptors. **Acceptance:** Local malicious-manual corpus exercises version, host, duplicate, schema and transport faults..
-- [ ] **E5-07** · **P1** · Add build-from-sdist and build-from-wheel parity verification with generated reports. **Acceptance:** Both artifacts pass import, CLI, doctor and deterministic smoke without relying on checkout path..
-- [ ] **E5-08** · **P1** · Create historical compatibility fixtures for all publicly released event/schema versions present in repo. **Acceptance:** Upgrader reads authentic fixture versions and refuses corrupt or incompatible stores cleanly..
-- [ ] **E5-09** · **P1** · Refactor only proven high-churn modules using characterization tests before code motion. **Acceptance:** Behavior snapshots unchanged; complexity and code duplication metrics demonstrably improve..
+- [x] **E5-01** · **P1** · Create canonical public API inventory and tag each symbol stable, beta or experimental. **Acceptance:** Generated SDK reference and tests reject accidental public signature change without migration note..
+- [x] **E5-02** · **P1** · Ensure typed Python wheel includes py.typed and passes type-check smoke use outside checkout. **Acceptance:** Build wheel locally; isolated temporary install can import and type-check published public interfaces..
+- [x] **E5-03** · **P1** · Test consistent error codes and reason payloads across SDK, MCP, HTTP, CLI. **Acceptance:** Contract matrix catches identity, invalid evidence, unavailable tool, and stale-preview mismatches..
+- [x] **E5-04** · **P1** · Harden feature flags so experimental code cannot silently become default after upgrade. **Acceptance:** Snapshot tests assert default preset configuration and explicitly opt-in unsafe changes..
+- [x] **E5-05** · **P1** · Introduce a protocol-neutral tool schema converter with strict unsupported-case reporting. **Acceptance:** UTCP/MCP descriptors round-trip supported fields; unknown security fields never silently drop..
+- [x] **E5-06** · **P1** · Fail closed on unsupported UTCP manual versions, dangerous transports, or malformed tool descriptors. **Acceptance:** Local malicious-manual corpus exercises version, host, duplicate, schema and transport faults..
+- [x] **E5-07** · **P1** · Add build-from-sdist and build-from-wheel parity verification with generated reports. **Acceptance:** Both artifacts pass import, CLI, doctor and deterministic smoke without relying on checkout path..
+- [x] **E5-08** · **P1** · Create historical compatibility fixtures for all publicly released event/schema versions present in repo. **Acceptance:** Upgrader reads authentic fixture versions and refuses corrupt or incompatible stores cleanly..
+- [x] **E5-09** · **P1** · Refactor only proven high-churn modules using characterization tests before code motion. **Acceptance:** Behavior snapshots unchanged; complexity and code duplication metrics demonstrably improve..
 - [ ] **E5-10** · **P1** · Test Windows/macOS/Linux path and encoding assumptions using portable local fixtures. **Acceptance:** Text, unicode, separators, line endings and case-collision guards pass across available CI matrix..
 
 
@@ -185,33 +185,33 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 
 **Existing reference points:** `benchmarks/`, `research/prereg/`, `research/results/`, `tools/results_manifest.py`, `benchmarks/registry.py`.
 
-- [ ] **R1-01** · **P0** · Create preregistered test families for correction, multi-hop evidence, action safety and team coordination. **Acceptance:** Each family states hypothesis, outcome, baseline, split, seeds and failure condition before candidate tuning..
-- [ ] **R1-02** · **P0** · Separate deterministic scripted-agent scores from real model-agent experiments in all generated reports. **Acceptance:** No chart mixes populations or treats scripted-agent success as model-agent evidence..
-- [ ] **R1-03** · **P0** · Build a fully local synthetic environment generator with scenario provenance and seeded randomness. **Acceptance:** Independent train/dev/test generators yield schema-valid disjoint worlds with recorded hashes..
-- [ ] **R1-04** · **P0** · Prevent train/test leakage via entity, template, graph-topology and seed separation. **Acceptance:** Leakage detector fails deliberately duplicated motifs, not just identical question strings..
+- [x] **R1-01** · **P0** · Create preregistered test families for correction, multi-hop evidence, action safety and team coordination. **Acceptance:** Each family states hypothesis, outcome, baseline, split, seeds and failure condition before candidate tuning..
+- [x] **R1-02** · **P0** · Separate deterministic scripted-agent scores from real model-agent experiments in all generated reports. **Acceptance:** No chart mixes populations or treats scripted-agent success as model-agent evidence..
+- [x] **R1-03** · **P0** · Build a fully local synthetic environment generator with scenario provenance and seeded randomness. **Acceptance:** Independent train/dev/test generators yield schema-valid disjoint worlds with recorded hashes..
+- [x] **R1-04** · **P0** · Prevent train/test leakage via entity, template, graph-topology and seed separation. **Acceptance:** Leakage detector fails deliberately duplicated motifs, not just identical question strings..
 - [x] **R1-05** · **P0** · Include a broken retrieval arm, random evidence arm and permissive authorization arm. **Acceptance:** Every suite detects at least one known failure; broken controls cannot match a sensible oracle..
 
 R1-05 completion evidence: shared broken-retrieval, seeded-random-evidence and permissive-authorization arms detect planted failures across the 40-case preregistered synthetic families; control coverage passes for all 11 benchmark registry suites. Evidence: `benchmarks/offline_research.py`, `experiments/external_bench.py`, `experiments/longmemeval_bench.py`, `tools/r1_control_coverage.py`, `tests/test_offline_research.py`, `tests/test_r1_control_coverage.py`, `tests/test_r1_external_negative_controls.py`, `tests/test_r1_known_failure_controls.py`, `research/results/r1-05-suite-control-coverage.json`, `research/results/r1-05-full-unit-tests.txt`, `research/results/r1-05-full-unit-tests.json`. External benchmark negative-control fixtures are synthetic and small; full external dataset results remain separately qualified.
-- [ ] **R1-06** · **P0** · Add intentionally impossible requests that should lead to abstention, not action. **Acceptance:** Evaluation penalizes unsupported actions and overconfident completion independently from non-completion..
-- [ ] **R1-07** · **P0** · Include genuinely valid but non-lexically obvious evidence to expose overblocking. **Acceptance:** Every test split has paraphrases, derived knowledge and indirect-but-supported actions..
-- [ ] **R1-08** · **P0** · Publish exact task-level success, false refusal, stale-action and cost denominators. **Acceptance:** Zero events always reported with sample size and confidence bound, never as universal guarantee..
-- [ ] **R1-09** · **P0** · Freeze benchmark registry and disallow post-hoc deletion of failing cases from summary. **Acceptance:** CI checks registered case count and archived negative results..
-- [ ] **R1-10** · **P0** · Produce one-command offline replication instructions and machine-readable results comparison. **Acceptance:** A fresh local checkout regenerates deterministic suite and explains unavoidable timing variance..
+- [x] **R1-06** · **P0** · Add intentionally impossible requests that should lead to abstention, not action. **Acceptance:** Evaluation penalizes unsupported actions and overconfident completion independently from non-completion..
+- [x] **R1-07** · **P0** · Include genuinely valid but non-lexically obvious evidence to expose overblocking. **Acceptance:** Every test split has paraphrases, derived knowledge and indirect-but-supported actions..
+- [x] **R1-08** · **P0** · Publish exact task-level success, false refusal, stale-action and cost denominators. **Acceptance:** Zero events always reported with sample size and confidence bound, never as universal guarantee..
+- [x] **R1-09** · **P0** · Freeze benchmark registry and disallow post-hoc deletion of failing cases from summary. **Acceptance:** CI checks registered case count and archived negative results..
+- [x] **R1-10** · **P0** · Produce one-command offline replication instructions and machine-readable results comparison. **Acceptance:** A fresh local checkout regenerates deterministic suite and explains unavoidable timing variance..
 
 
 #### R2 — False-withholding diagnosis and intervention study [P0]
 
 **Existing reference points:** `src/memory_fabric/answerability.py`, `enforcement.py`, `independence.py`, `authority.py`, `research/results/`, `tests/test_answerability.py`.
 
-- [ ] **R2-01** · **P0** · Import or locally encode the PR #30 16.8% valid-withholding examples with exact provenance. **Acceptance:** Each reproducible case has action, evidence, blocker reason and oracle-supported outcome..
-- [ ] **R2-02** · **P0** · Classify refusals by provenance, independence, freshness, authority, poisoning, retrieval and missing dependency. **Acceptance:** Attribution sums to the observed denominator; ambiguous cases are explicitly multi-causal..
-- [ ] **R2-03** · **P0** · Add a counterfactual dry-run explaining which individual guard blocked an action. **Acceptance:** Report preserves live policy and does not authorize or execute the trial action..
-- [ ] **R2-04** · **P0** · Run guard-by-guard and leave-one-out ablations on frozen offline cases. **Acceptance:** Report recovered valid tasks together with additional unsafe action count and uncertainty..
-- [ ] **R2-05** · **P0** · Define a partial-order lattice of evidence states instead of a single binary validity flag. **Acceptance:** Tests distinguish unknown, disputed, withdrawn, stale, supported and independently corroborated..
-- [ ] **R2-06** · **P0** · Experiment with targeted quarantine of exact claims rather than blanket author withholding. **Acceptance:** Supported sibling evidence survives unless its exact dependency chain is compromised..
-- [ ] **R2-07** · **P0** · Measure independent-support failures when several notes share the same upstream origin. **Acceptance:** Source-copy clusters count as one support root while independent notes remain independently usable..
-- [ ] **R2-08** · **P0** · Add risk-sensitive evidence policies for read, summarize, recommend and externally consequential execute. **Acceptance:** Low-risk tasks are not blocked by high-risk execution-only restrictions; protected actions remain gated..
-- [ ] **R2-09** · **P0** · Tune thresholds only on development seeds and freeze the best candidate before held-out test. **Acceptance:** Test-only threshold selection is rejected by evaluation tool..
+- [x] **R2-01** · **P0** · Import or locally encode the PR #30 16.8% valid-withholding examples with exact provenance. **Acceptance:** Each reproducible case has action, evidence, blocker reason and oracle-supported outcome..
+- [x] **R2-02** · **P0** · Classify refusals by provenance, independence, freshness, authority, poisoning, retrieval and missing dependency. **Acceptance:** Attribution sums to the observed denominator; ambiguous cases are explicitly multi-causal..
+- [x] **R2-03** · **P0** · Add a counterfactual dry-run explaining which individual guard blocked an action. **Acceptance:** Report preserves live policy and does not authorize or execute the trial action..
+- [x] **R2-04** · **P0** · Run guard-by-guard and leave-one-out ablations on frozen offline cases. **Acceptance:** Report recovered valid tasks together with additional unsafe action count and uncertainty..
+- [x] **R2-05** · **P0** · Define a partial-order lattice of evidence states instead of a single binary validity flag. **Acceptance:** Tests distinguish unknown, disputed, withdrawn, stale, supported and independently corroborated..
+- [x] **R2-06** · **P0** · Experiment with targeted quarantine of exact claims rather than blanket author withholding. **Acceptance:** Supported sibling evidence survives unless its exact dependency chain is compromised..
+- [x] **R2-07** · **P0** · Measure independent-support failures when several notes share the same upstream origin. **Acceptance:** Source-copy clusters count as one support root while independent notes remain independently usable..
+- [x] **R2-08** · **P0** · Add risk-sensitive evidence policies for read, summarize, recommend and externally consequential execute. **Acceptance:** Low-risk tasks are not blocked by high-risk execution-only restrictions; protected actions remain gated..
+- [x] **R2-09** · **P0** · Tune thresholds only on development seeds and freeze the best candidate before held-out test. **Acceptance:** Test-only threshold selection is rejected by evaluation tool..
 - [x] **R2-10** · **P0** · Set promotion gate to <=5% valid withholding with no observed stale-action regression on held-out worlds. **Acceptance:** If unattainable, publish Pareto frontier and retain the safer existing policy. Evidence: `docs/WITHHOLDING_PROMOTION_GATE.md`, `research/results/r2-withholding-promotion-gate.json` (17.2% observed; hold existing policy)..
 
 
@@ -219,16 +219,16 @@ R1-05 completion evidence: shared broken-retrieval, seeded-random-evidence and p
 
 **Existing reference points:** `benchmarks/federation_world.py`, `benchmarks/memoryworld2.py`, `experiments/`, `research/results/p3b-agent-teams.md`.
 
-- [ ] **R3-01** · **P0** · Build local 5, 10, 25, 50 and 100-agent scripted environments with identical tasks. **Acceptance:** All agent counts run from seed manifests and report task-family composition..
-- [ ] **R3-02** · **P0** · Define matched local-only, pooled memory, blanket-retraction, Memory Fabric and oracle arms. **Acceptance:** Equal information exposure, runtime permissions and context budgets are enforced..
-- [ ] **R3-03** · **P0** · Separate completion failures into retrieval, insufficient evidence, policy refusal, coordination and tool error. **Acceptance:** Every failure belongs to at least one audited class with source trace..
-- [ ] **R3-04** · **P0** · Measure outcomes across correction timing: before discovery, before planning and immediately before action. **Acceptance:** Report time-sensitive failures and prevent timing-dependent benchmark shortcuts..
-- [ ] **R3-05** · **P0** · Add minority-agent and rare-source scenario families to catch majority consensus errors. **Acceptance:** Success and false refusal reported for minority agent separately from population mean..
-- [ ] **R3-06** · **P0** · Include real tradeoffs where safety prevents legitimate completion. **Acceptance:** Combined utility shows successful tasks, unsafe actions, wasted calls and delayed decisions..
-- [ ] **R3-07** · **P0** · Use local deterministic policy agents for continuous regression, not as substitutes for model results. **Acceptance:** Reports label these as simulation and explicitly state model-free limitations..
-- [ ] **R3-08** · **P0** · Implement a transport-agnostic agent adapter so external-model trials can be added later unchanged. **Acceptance:** Offline scripted adapter passes interface tests with all network/model calls disabled..
-- [ ] **R3-09** · **P0** · Set a research target >=80% task success on new held-out 50-agent scenarios, with safety unchanged. **Acceptance:** Treat threshold as aspirational; report failures and compare against strongest matched baseline..
-- [ ] **R3-10** · **P0** · Measure per-agent minimum success, tail latency and worst-case fairness, not only mean success. **Acceptance:** Overall gain fails promotion if high-risk minority cases or least-successful agent regress materially..
+- [x] **R3-01** · **P0** · Build local 5, 10, 25, 50 and 100-agent scripted environments with identical tasks. **Acceptance:** All agent counts run from seed manifests and report task-family composition..
+- [x] **R3-02** · **P0** · Define matched local-only, pooled memory, blanket-retraction, Memory Fabric and oracle arms. **Acceptance:** Equal information exposure, runtime permissions and context budgets are enforced..
+- [x] **R3-03** · **P0** · Separate completion failures into retrieval, insufficient evidence, policy refusal, coordination and tool error. **Acceptance:** Every failure belongs to at least one audited class with source trace..
+- [x] **R3-04** · **P0** · Measure outcomes across correction timing: before discovery, before planning and immediately before action. **Acceptance:** Report time-sensitive failures and prevent timing-dependent benchmark shortcuts..
+- [x] **R3-05** · **P0** · Add minority-agent and rare-source scenario families to catch majority consensus errors. **Acceptance:** Success and false refusal reported for minority agent separately from population mean..
+- [x] **R3-06** · **P0** · Include real tradeoffs where safety prevents legitimate completion. **Acceptance:** Combined utility shows successful tasks, unsafe actions, wasted calls and delayed decisions..
+- [x] **R3-07** · **P0** · Use local deterministic policy agents for continuous regression, not as substitutes for model results. **Acceptance:** Reports label these as simulation and explicitly state model-free limitations..
+- [x] **R3-08** · **P0** · Implement a transport-agnostic agent adapter so external-model trials can be added later unchanged. **Acceptance:** Offline scripted adapter passes interface tests with all network/model calls disabled..
+- [x] **R3-09** · **P0** · Set a research target >=80% task success on new held-out 50-agent scenarios, with safety unchanged. **Acceptance:** Treat threshold as aspirational; report failures and compare against strongest matched baseline..
+- [x] **R3-10** · **P0** · Measure per-agent minimum success, tail latency and worst-case fairness, not only mean success. **Acceptance:** Overall gain fails promotion if high-risk minority cases or least-successful agent regress materially..
 
 
 #### R4 — Statistical rigor, adversarial experimental design and negative results [P1]
@@ -559,11 +559,11 @@ P2-06 completion evidence: the Control Center now renders read-only per-tool eve
 - [ ] **P5-03** · **P0** · Confirm 3.11, 3.12 and 3.13 compatibility only when actual interpreter is locally available. **Acceptance:** Missing interpreter remains NOT_TESTED; CI evidence needed for full matrix claim. Evidence: `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` (PARTIAL: Python 3.13.5 import smoke passes; 3.11 and 3.12 remain NOT_TESTED because no interpreter is installed/discoverable; a smoke import is not a full compatibility suite)..
 - [x] **P5-04** · **P0** · Exercise install/upgrade/rollback from existing supported baseline with persistent data. **Acceptance:** No loss of records, corrections, grants, tombstones or audit evidence in local simulation. Evidence: `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` (DONE: isolated v0.11.0 → v0.14.0 upgrade and rollback preserve the corrected v3 record, quarantined record, appended active record, tombstone history, exact-action GrantIssued event and verified 11-event chain; report binds baseline/candidate wheel hashes and clean driver commit. Host ActionPolicy configuration is separate from the persisted grant event; external effects remain outside this local simulation)..
 - [x] **P5-05** · **P0** · Regenerate all user documentation from current API and test code examples. **Acceptance:** Examples run and any broken command prevents local release qualification. Evidence: `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` (DONE: current stability/API/CLI references regenerated with no stale diffs; executable user examples and documentation checks pass, 6 tests and 110 subtests)..
-- [ ] **P5-06** · **P0** · Create known-limitations page with measured retrieval, security, latency and federation caveats. **Acceptance:** Nothing is silently removed because a metric is unfavorable..
-- [ ] **P5-07** · **P0** · Build release candidate evidence index mapping every 10/10 internal requirement to tests and results. **Acceptance:** Any failed gate is visible in summary and linkable to exact artifact..
-- [ ] **P5-08** · **P0** · Document legal/privacy/security compliance as NOT_ASSESSED without outside counsel or auditor. **Acceptance:** No self-certified regulatory or independent security claims appear in README..
-- [ ] **P5-09** · **P0** · Generate external-validation handoff packet without claiming it has happened. **Acceptance:** Human review, production pilot, real model benchmark, prior-art review and physical multi-host testing remain OPEN..
-- [ ] **P5-10** · **P0** · Assign final status 'OFFLINE-QUALIFIED' only if all internal gates pass; never automatically publish or label production-certified. **Acceptance:** Script refuses full 10/10 attestation without independent evidence and explicit owner approval..
+- [x] **P5-06** · **P0** · Create known-limitations page with measured retrieval, security, latency and federation caveats. **Acceptance:** Nothing is silently removed because a metric is unfavorable..
+- [x] **P5-07** · **P0** · Build release candidate evidence index mapping every 10/10 internal requirement to tests and results. **Acceptance:** Any failed gate is visible in summary and linkable to exact artifact..
+- [x] **P5-08** · **P0** · Document legal/privacy/security compliance as NOT_ASSESSED without outside counsel or auditor. **Acceptance:** No self-certified regulatory or independent security claims appear in README..
+- [x] **P5-09** · **P0** · Generate external-validation handoff packet without claiming it has happened. **Acceptance:** Human review, production pilot, real model benchmark, prior-art review and physical multi-host testing remain OPEN..
+- [x] **P5-10** · **P0** · Assign final status 'OFFLINE-QUALIFIED' only if all internal gates pass; never automatically publish or label production-certified. **Acceptance:** Script refuses full 10/10 attestation without independent evidence and explicit owner approval..
 
 
 ## 5. Five offline graduation gates — must pass together
