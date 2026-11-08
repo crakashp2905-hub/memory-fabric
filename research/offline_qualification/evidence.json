@@ -1297,18 +1297,20 @@
     },
     {
       "task_id": "H4-09",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
         "tests/test_freshness.py",
         "tests/test_certificates.py",
         "tests/test_identity.py",
-        "research/results/h4-09-clock-skew.json"
+        "research/results/h4-09-clock-skew.json",
+        "research/results/h4-09-clock-skew-tests.xml"
       ],
       "limitations": [
-        "Lease skew, forward expiry, wall-clock rollback with monotonic deadline, and old lease replay are covered. Malformed clock return values are not tested."
+        "Clock discipline remains an operational dependency; deterministic callback tests do not measure synchronization quality on other hosts."
       ]
     },
     {

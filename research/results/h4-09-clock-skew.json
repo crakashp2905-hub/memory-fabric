@@ -1,18 +1,37 @@
 {
   "schema": "mf-qualification/1",
   "task_id": "H4-09",
-  "source_commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
+  "source_commit": "e25e3ef445721883d2656673cf2f60c892b024bb",
+  "source_dirty_at_test_start": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
   "input_sha256": {
-    "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
-    "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
-    "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
-    "tests/test_identity.py": "7c65a7d13860357aa728a280838f9554f929954c9632e0206a9a2883f896efd8"
+    "tests/test_identity.py": "7f38da96b8e101b7174314441ad37c2a3c4ab5ad4f9d2f23cb6814e812d4c4f9",
+    "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+    "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
+    "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
+    "docs/FRESHNESS_LEASES.md": "3fcca7b8a069ee1a7eee5825d055c4c13f409f2311c041475228bdd1bd014073"
   },
   "checks": {
-    "leases": "skew, rollback, expiry and replay covered",
-    "other_expiry": "certificate/credential expiration covered"
+    "wall_clock": "forward/slow receiver skew and wall-clock rollback",
+    "monotonic_clock": "forward expiry, rollback invalidation, and recovered-clock non-revival",
+    "malformed_clock": "None, strings, bools, floats, negative values, and raised exceptions fail closed",
+    "safe_read": "Malformed clocks block freshness but preserve safe memory reads"
   },
+  "test_command": "python -m pytest tests/test_freshness.py tests/test_certificates.py tests/test_identity.py -q --junitxml=research/results/h4-09-clock-skew-tests.xml",
+  "tests_passed": 89,
+  "subtests_passed": 619,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "53f58b892209f9fdb97cbaaa309e84231e9f595f282781295c4c4518fb1ec621",
+  "acceptance_passed": true,
   "limitations": [
-    "Malformed clock return values and some forward-jump cases are not tested."
+    "Clock discipline remains an operational dependency; deterministic callback tests do not measure synchronization quality on other hosts."
   ]
 }

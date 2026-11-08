@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1b22de4aae0edf40655f9fe3cfaa812cb40431ecaa5e9fd643d920fb0923f06f",
+    "sha256": "7f34e955ce20584fff7cf03f40e0ee43b5f8316ba3d17bf9a3cc09f348be27f4",
     "tasks": 260
   },
   "source": {
-    "commit": "f8ca019ee4c063cd25150abd2b946c3cf990b461",
+    "commit": "e25e3ef445721883d2656673cf2f60c892b024bb",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 125,
-      "PARTIAL": 16,
+      "DONE": 126,
+      "PARTIAL": 15,
       "TODO": 119
     },
-    "completed": 125,
+    "completed": 126,
     "total": 260,
-    "percent_complete": 48.08,
-    "p0_open": 13,
+    "percent_complete": 48.46,
+    "p0_open": 12,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1111,9 +1111,9 @@
         "research/results/e4-09-freshness-clock-skew.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
-        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
-        "docs/FRESHNESS_LEASES.md": "44684881a32c178c0dbd2749e30bc673750a91c215aeeedba16fa77d38dfa8c9",
+        "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
+        "docs/FRESHNESS_LEASES.md": "3fcca7b8a069ee1a7eee5825d055c4c13f409f2311c041475228bdd1bd014073",
         "research/results/e4-09-freshness-clock-skew.json": "e3b56040683e06849265c1a3e0b26a65b833c64a54e75e253ee6604c98172b5d",
         "research/results/e4-09-freshness-clock-skew.xml": "88dd8a3e40640ca955b2884ccb399a358629a1d30dd22bddaf2a2ebee41ff3e3"
       },
@@ -1449,7 +1449,7 @@
         "research/results/e5-10-portable-paths.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
+        "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
         "tests/test_portable_paths.py": "afc644edf803b9f3791cf8858ab0f806dc1b28046f9b5bfbe97041106bab7be3",
         "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
         "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "44d6c403a32f2914b0804c11d1eb4d47c8905c56cef0483defe4c3abcb90050a",
+        "research/results/MANIFEST.json": "f127833fd2214a0ff96bf161f71269c0262c0596d1038ccae46889053f1b7d8a",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4234,8 +4234,8 @@
         "tests/test_tombstone_exchange.py"
       ],
       "evidence_digests": {
-        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
-        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434"
       },
       "evidence_issues": {},
@@ -4313,7 +4313,7 @@
       "evidence_digests": {
         "tests/test_checkpoint_rewrite.py": "184c9c8efb8cf251f541be8f6cf5ec34370f61db888aec0cf864ab205778bcee",
         "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
-        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
         "research/results/h4-07-checkpoint-trust.json": "90df22b453d678a0384e1e5228310dfdf419b48106730484e22495d47a85855c",
         "research/results/h4-07-checkpoint-trust-tests.xml": "fd46336a25040f0d6b057f94e6813ac4c44217cb778a2890353a4ce4d41b2100"
       },
@@ -4353,27 +4353,31 @@
       "task_id": "H4-09",
       "priority": "P0",
       "task": "Simulate time moving backward/forward and malformed clocks in expiry checks.",
-      "acceptance": "Monotonic or explicit wall-clock assumptions are documented and tested. Evidence: `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json` (PARTIAL: skew, rollback and expiry covered; malformed clock outputs remain untested)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Monotonic or explicit wall-clock assumptions are documented and tested. Evidence: `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json`, `research/results/h4-09-clock-skew-tests.xml` (DONE: invalid and raising wall/monotonic callbacks fail closed, backwards monotonic movement permanently expires held leases until renewed, safe reads remain usable, and forward/backward expiry assumptions are documented; 89 tests and 619 subtests pass)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
         "tests/test_freshness.py",
         "tests/test_certificates.py",
         "tests/test_identity.py",
-        "research/results/h4-09-clock-skew.json"
+        "research/results/h4-09-clock-skew.json",
+        "research/results/h4-09-clock-skew-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
-        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+        "docs/FRESHNESS_LEASES.md": "3fcca7b8a069ee1a7eee5825d055c4c13f409f2311c041475228bdd1bd014073",
+        "tests/test_freshness.py": "ff4453b8a67393ba85daa5e085efa05315f5d9cf4c326ae0e7900fe442c10cb0",
         "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
         "tests/test_identity.py": "7f38da96b8e101b7174314441ad37c2a3c4ab5ad4f9d2f23cb6814e812d4c4f9",
-        "research/results/h4-09-clock-skew.json": "eb8854c298c8dfd7089f40e0c6b3e25f4a41001cf69a008084d272905fb88563"
+        "research/results/h4-09-clock-skew.json": "bbdec8f07e9e83d90d551e6346e69bf20e2733b2635308d6211e5c1ac751f3c9",
+        "research/results/h4-09-clock-skew-tests.xml": "53f58b892209f9fdb97cbaaa309e84231e9f595f282781295c4c4518fb1ec621"
       },
       "evidence_issues": {},
       "limitations": [
-        "Lease skew, forward expiry, wall-clock rollback with monotonic deadline, and old lease replay are covered. Malformed clock return values are not tested."
+        "Clock discipline remains an operational dependency; deterministic callback tests do not measure synchronization quality on other hosts."
       ]
     },
     {
