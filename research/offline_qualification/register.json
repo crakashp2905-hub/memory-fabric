@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b1c49ca67db0906f784337897f4f6aefbff8fe1fb33be8135f2228090b07551c",
+    "sha256": "7b2f7faebc5c7eea6b47514bb364b58216cff85edcdb5db0d07ef5409042a594",
     "tasks": 260
   },
   "source": {
-    "commit": "692a30f5b219011242efa84f4eed4de5286c8642",
-    "dirty": false
+    "commit": "ed9c3d6c59b36fa1bb2d573dfffb49039209b449",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 156,
+      "DONE": 157,
       "PARTIAL": 4,
-      "TODO": 100
+      "TODO": 99
     },
-    "completed": 156,
+    "completed": 157,
     "total": 260,
-    "percent_complete": 60.0,
+    "percent_complete": 60.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,9 +307,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "7a637bdd5f859ee46993cfef03916cbe0bdae309b9dbc35c2f0f6197585d12f8",
-        "docs/VALIDATION.md": "c6e0aef297f2a267259627d5012ab204d76ad28fbe52d9abc869e56f1ad44096",
-        "docs/STATUS_AT_HEAD.md": "01d27a9c8cfa22982bce6031f2fe1009f9dbb3c978a65cf263aac3be849e18f7",
+        "README.md": "2a7304089fc57708e976c644cff97b9a7abce84deb33e98ef8bc4a7de082f042",
+        "docs/VALIDATION.md": "3ecb0e043e9e8a2db6f5593796f243d3024279be29801310890e2ea953482579",
+        "docs/STATUS_AT_HEAD.md": "7dbdd562408451645e41a1769bcdcfea37d83698978119cdbdddabc92b6ce5ee",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "19f2ea82c1d4687d688145f8bed62a01401aa5f83db59970dca2bb23be30e3bb",
+        "research/results/MANIFEST.json": "5f366d8c6b512f86f374a7401d27576660ae3281be1895ead7e9770e4ce21877",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5157,8 +5157,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
         "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
@@ -5187,8 +5187,8 @@
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
         "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
       },
@@ -5215,8 +5215,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
         "research/results/p2-03-block-reasons.txt": "9237c1ae18573eb9d6501a398ea426e46f7b633841e46040d8ba1ebceb07e133"
@@ -5243,9 +5243,9 @@
         "research/results/p2-04-correction-preview.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
         "research/results/p2-04-correction-preview.json": "99f0a714ff50d5d01ed9530502474ac86f298a79a38be67a383e5aa3294ece96",
         "research/results/p2-04-correction-preview.txt": "5caec3d9bfaad2d07cdc82fe53d68356d536a9a043097f544898f0b0a9668221"
@@ -5275,10 +5275,10 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "a3b3b55adab8a790718867d7cfbda7c26acc8c8974d67735d6bd5300a85d39aa",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
         "research/results/p2-05-withholding-scorecard.json": "083ab836d81f215552a4e456befbeb2e339fbe637c044dee467e34482b0ec602",
         "research/results/p2-05-withholding-scorecard.txt": "cbe371cbb50ed8f044516444bb8a4effc1a783646177d88022e3ef3b3680b6c6"
@@ -5311,9 +5311,9 @@
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
         "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
@@ -5329,14 +5329,27 @@
       "task_id": "P2-07",
       "priority": "P1",
       "task": "Create accessible keyboard navigation, color-independent status labels and screen-reader names.",
-      "acceptance": "Automated local accessibility checks and keyboard smoke tests pass",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Automated local accessibility checks and keyboard smoke tests pass.. Evidence: `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `research/results/p2-07-accessibility.json`, `research/results/p2-07-accessibility.txt` (DONE: 29 focused UI/control-center tests pass, including JavaScript syntax and keyboard/accessibility contract assertions; Ruff and diff checks pass. Local automated evidence only; no manual assistive-technology audit or branch CI matrix.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "research/results/p2-07-accessibility.json",
+        "research/results/p2-07-accessibility.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "research/results/p2-07-accessibility.json": "195d6a387db22519bc0e291c7a16838dc009561bab730ad345246cbc1df34298",
+        "research/results/p2-07-accessibility.txt": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Automated local contract/keyboard checks; not a manual screen-reader or browser assistive-technology audit.",
+        "GitHub CI matrix has not run for this branch."
+      ]
     },
     {
       "task_id": "P2-08",

@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 241,
+ "results": 242,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 238,
-  "model_id": 205,
-  "prompt_hash": 241,
-  "seed": 162,
-  "cost": 218,
-  "verdict": 170
+  "dataset_digest": 239,
+  "model_id": 206,
+  "prompt_hash": 242,
+  "seed": 163,
+  "cost": 219,
+  "verdict": 171
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 229
+  "unclassified": 230
  },
  "rows": [
   {
@@ -3625,6 +3625,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p2-context-sufficiency.md",
    "git_sha": "718ad9ac8c9a14478903ed3e21ecc983b11eb5b8",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-07-accessibility",
+   "file": "research/results/p2-07-accessibility.json",
+   "file_sha256": "567264ebd66a14c1076eec905abe43c83e64df9e009d90a747b1a30a89afde0f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "ed9c3d6",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

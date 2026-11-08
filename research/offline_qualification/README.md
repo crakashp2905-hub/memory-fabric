@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **156 / 260 (60.00%)**. Internal status: **BLOCKED**.
+Strict completion: **157 / 260 (60.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `4f4272d01c3ccc88764e16d15f0c7a40773bfbd971c03ed65503f0e644db1494`.
+Normalized ledger digest: `9e17f3f96abb578a6ad93e80c350b00c29e8249e2ddd74a203fb5aadc3efddaa`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 156 |
+| DONE | 157 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 100 |
+| TODO | 99 |
 
 ## Graduation gates
 
@@ -255,7 +255,7 @@ Normalized ledger digest: `4f4272d01c3ccc88764e16d15f0c7a40773bfbd971c03ed65503f
 | P2-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/correction.py`, `tests/test_control_center_ui.py`, `tests/test_correction.py`, `research/results/p2-04-correction-preview.json`, `research/results/p2-04-correction-preview.txt` |
 | P2-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/observability/static/withholding-benchmark.json`, `research/results/r2-false-withholding-ablation.json`, `tests/test_control_center_ui.py`, `tests/test_false_withholding.py`, `research/results/p2-05-withholding-scorecard.json`, `research/results/p2-05-withholding-scorecard.txt` |
 | P2-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `src/memory_fabric/actions.py`, `tests/test_control_center_ui.py`, `tests/test_action_reconciliation.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_fence.py`, `research/results/p2-06-action-timeline.json`, `research/results/p2-06-action-timeline.txt` |
-| P2-07 | P1 | TODO | NOT_TESTED | — |
+| P2-07 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `research/results/p2-07-accessibility.json`, `research/results/p2-07-accessibility.txt` |
 | P2-08 | P1 | TODO | NOT_TESTED | — |
 | P2-09 | P1 | TODO | NOT_TESTED | — |
 | P2-10 | P1 | TODO | NOT_TESTED | — |
