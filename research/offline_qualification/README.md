@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **218 / 260 (83.85%)**. Internal status: **BLOCKED**.
+Strict completion: **219 / 260 (84.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `af34fae432bc15a37d30c66174ed7daf651aa3a300efd3653e7e864ffe2da062`.
+Normalized ledger digest: `e8d67bd875ac76f8f6b229d34ca37ff06dbbdcf6bc1a863e5ed366477afecb63`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 218 |
+| DONE | 219 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 39 |
+| TODO | 38 |
 
 ## Graduation gates
 
@@ -151,7 +151,7 @@ Normalized ledger digest: `af34fae432bc15a37d30c66174ed7daf651aa3a300efd3653e7e8
 | N2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/authorization_receipt.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/certificates.py`, `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/AUTHORIZATION_PROOF_RECEIPTS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_authorization_receipt.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-10-authorization-receipt-tests.xml`, `research/results/n2-10-authorization-receipt-first-run-tests.xml` |
 | N3-01 | P2 | DONE | CONTRACT | `research/prereg/n3-01-counterfactual-interventions-v1.md` |
 | N3-02 | P2 | DONE | SIMULATED | `research/prereg/n3-02-exact-oracle-worlds-v1.md`, `benchmarks/n3_02_exact_oracle.py`, `tests/test_n3_02_exact_oracle.py`, `research/results/n3-02-exact-oracle.json`, `research/results/n3-02-exact-oracle-tests.xml` |
-| N3-03 | P2 | TODO | NOT_TESTED | — |
+| N3-03 | P2 | DONE | SIMULATED | `research/prereg/n3-03-estimator-cost-comparison-v1.md`, `benchmarks/n3_03_estimator_comparison.py`, `tests/test_n3_03_estimator_comparison.py`, `research/results/n3-03-estimator-comparison.json`, `research/results/n3-03-estimator-comparison.md`, `research/results/n3-03-estimator-comparison-tests.xml` |
 | N3-04 | P2 | TODO | NOT_TESTED | — |
 | N3-05 | P2 | TODO | NOT_TESTED | — |
 | N3-06 | P2 | TODO | NOT_TESTED | — |

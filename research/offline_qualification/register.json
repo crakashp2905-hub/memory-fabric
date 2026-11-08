@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "8128211b26510a26e974cfbd95337ca7d47a0fc5ab5d7f254ffb7c4ad8b6f90a",
+    "sha256": "43fcbbac97b9f6fba1c660789c8096b6978ff81ec5fb7bde9c44f39f0e93eb04",
     "tasks": 260
   },
   "source": {
-    "commit": "d28575c8c1543931c3ad3b8c90c7ed1991d37dbb",
+    "commit": "5748e9fda88708ebc1000733f473eacb69385881",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 218,
+      "DONE": 219,
       "PARTIAL": 3,
-      "TODO": 39
+      "TODO": 38
     },
-    "completed": 218,
+    "completed": 219,
     "total": 260,
-    "percent_complete": 83.85,
+    "percent_complete": 84.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3595,14 +3595,30 @@
       "task_id": "N3-03",
       "priority": "P2",
       "task": "Compare leave-one-out, Shapley approximation, propensity weighting and naive recency under matched cost.",
-      "acceptance": "Accuracy, compute and variance reported; infeasible methods remain optional research",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Accuracy, compute and variance reported; infeasible methods remain optional research. Evidence: `research/prereg/n3-03-estimator-cost-comparison-v1.md`, `benchmarks/n3_03_estimator_comparison.py`, `tests/test_n3_03_estimator_comparison.py`, `research/results/n3-03-estimator-comparison.json`, `research/results/n3-03-estimator-comparison.md`, `research/results/n3-03-estimator-comparison-tests.xml` (DONE: 128 seeds \u00d7 four worlds; 2,048 estimates per method against exact Shapley values; RMSE, signed error, across-seed variance, and oracle-query cost reported. All methods stay within the common 64-query cap. Synthetic-only; recency is explicitly noncausal.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-03-estimator-cost-comparison-v1.md",
+        "benchmarks/n3_03_estimator_comparison.py",
+        "tests/test_n3_03_estimator_comparison.py",
+        "research/results/n3-03-estimator-comparison.json",
+        "research/results/n3-03-estimator-comparison.md",
+        "research/results/n3-03-estimator-comparison-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-03-estimator-cost-comparison-v1.md": "b7e6ce41cf05bbbd05cc92868ab462794dda918b30e11c1f83023027911b7f75",
+        "benchmarks/n3_03_estimator_comparison.py": "faae2acdc529d65b9d6d4c051d838afecc2d32d0caba420e82a742c319d641ba",
+        "tests/test_n3_03_estimator_comparison.py": "6794974b3b4af2c599445a58499f26d7991d25ca149d9e82b1396d9af452504e",
+        "research/results/n3-03-estimator-comparison.json": "12db827e41d7085dbf539950c9e7dcdfddbe8b0837a91419bbc6a16fabb36ed2",
+        "research/results/n3-03-estimator-comparison.md": "74c8612c7e7743b0f32f07bb0a14ed3d276b15ab912fdbb33484a207cfb1ff3c",
+        "research/results/n3-03-estimator-comparison-tests.xml": "69fcd4def576946f9d4fa0f84a90ef8a202651784e5cc27a0f969397e296da4a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The comparison evaluates synthetic deterministic worlds against exact Shapley truth; it reports a common query cap and realized method costs, but does not establish real-world validity or model inference costs. Recency remains a noncausal descriptive baseline."
+      ]
     },
     {
       "task_id": "N3-04",
