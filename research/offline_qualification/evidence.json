@@ -1480,6 +1480,20 @@
       ]
     },
     {
+      "task_id": "H1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "research/results/h1-02-injection-corpus-tests.xml"
+      ],
+      "limitations": [
+        "Eight deterministic local cases are not a broad semantic detector benchmark. The suite records bypasses and two false-withholding near misses; unknown and encoded content remains non-authoritative only because candidate state cannot authorize consequential effects."
+      ]
+    },
+    {
       "task_id": "H1-01",
       "status": "DONE",
       "acceptance_passed": true,

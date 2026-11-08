@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "36d9efcf00b0e5056d72c8b95069276d902db08f1cc51d732a712c2064f5fbd8",
+    "sha256": "cb1bf766c2573a610bdd3fe79aa6b2259ac652208a703a268d53812be1bb4263",
     "tasks": 260
   },
   "source": {
-    "commit": "9c9d0e3db5e655009357d6f2a22a3a48e257ccef",
+    "commit": "e63bfb0cd1dc36406f11216098e882d0866f9c45",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 113,
+      "DONE": 114,
       "PARTIAL": 14,
-      "TODO": 133
+      "TODO": 132
     },
-    "completed": 113,
+    "completed": 114,
     "total": 260,
-    "percent_complete": 43.46,
-    "p0_open": 25,
+    "percent_complete": 43.85,
+    "p0_open": 24,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -3370,14 +3370,24 @@
       "task_id": "H1-02",
       "priority": "P0",
       "task": "Add prompt-injection corpus with role spoofing, source laundering, encoded payload and nested quotation.",
-      "acceptance": "Each case records whether content is blocked, quarantined or safely treated as data",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Each case records whether content is blocked, quarantined or safely treated as data. Evidence: `tests/data/prompt_injection_corpus.json`, `tests/test_injection_patterns.py`, `research/results/h1-02-injection-corpus-tests.xml` (DONE: eight frozen cases cover all requested families plus near-misses; direct role spoof and nested injection quarantine; source-laundered and encoded payloads remain non-authoritative candidates; two ordinary near-misses are quarantined as false-withholding examples; 9 tests and 28 subtests pass. This is a local pattern/deterministic contract, not semantic truth verification)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "research/results/h1-02-injection-corpus-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/data/prompt_injection_corpus.json": "c870dae3f6b356075b251dc0c5ab92653887bd76d982c82a63796cc9a091a335",
+        "tests/test_injection_patterns.py": "468218be3f4e46a16d4ac2520fe1adde954209f19ed50268d8011ad40d8f8a01",
+        "research/results/h1-02-injection-corpus-tests.xml": "fbd0e802afbfb73a12e51789f6e6d7d6923bb4f27f41256008fe1f560194d2ad"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Eight deterministic local cases are not a broad semantic detector benchmark. The suite records bypasses and two false-withholding near misses; unknown and encoded content remains non-authoritative only because candidate state cannot authorize consequential effects."
+      ]
     },
     {
       "task_id": "H1-03",
