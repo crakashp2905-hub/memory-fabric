@@ -12,7 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
-           "poisoning_and_rollback", "action_gate", "multi_agent_team", "agent_on_the_fabric"]
+           "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
+           "agent_on_the_fabric"]
 
 
 class Examples(unittest.TestCase):

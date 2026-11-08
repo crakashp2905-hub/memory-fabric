@@ -177,6 +177,7 @@ use the product.
 | [Package parity](PACKAGE_PARITY.md) | Installed wheel and source distribution parity |
 | [Parameter equivalences](PARAMETER_EQUIVALENCES.md) | Equivalent parameterized query forms |
 | [Portable paths](PORTABLE_PATHS.md) | Path, text encoding and case-collision behavior |
+| [Typed SDK workflow](SDK_WORKFLOW.md) | Add, recall, correction, decision proposals and fenced execution |
 | [Query routing](QUERY_ROUTING.md) | Deterministic retrieval routing behavior |
 | [Read surface semantics](READ_SURFACE_SEMANTICS.md) | Shared read response reason codes |
 | [Result provenance](RESULT_PROVENANCE.md) | Exact commit and dirty-tree result binding |
