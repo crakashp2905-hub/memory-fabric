@@ -534,6 +534,21 @@
       ]
     },
     {
+      "task_id": "N3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/prereg/n3-07-outcome-authority-separation-v1.md",
+        "tests/test_authority.py",
+        "research/results/n3-07-authority-feedback-tests.xml",
+        "research/results/n3-07-authority-feedback.md"
+      ],
+      "limitations": [
+        "Authority remains unchanged after successful synthetic outcomes for a false tool source and an injected instruction; the environment outcome label itself is not independently validated by this fixture."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

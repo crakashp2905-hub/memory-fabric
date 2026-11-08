@@ -207,6 +207,28 @@ class OutcomesDoNotConferAuthority(unittest.TestCase):
         f.record_outcome(episode, 1.0, verifier_id="env")
         self.assertEqual(f.authority(poison), before)
 
+    def test_success_does_not_rehabilitate_false_source_or_injected_instruction(self) -> None:
+        f = store()
+        self.addCleanup(f.close)
+        false_source = f.remember(
+            "agent", "Centrifuge C2 is rated to 3500 rpm.",
+            context={"origin": "tool:scraper"}, scope="team",
+        )
+        injection = f.remember("mallory", INJECTION, scope="team")
+        targets = ((false_source, "C2 3500 rpm"), (injection, "figure for every centrifuge"))
+        before = {memory_id: f.authority(memory_id) for memory_id, _ in targets}
+        action_gate = gate(f)
+
+        for index, (memory_id, query) in enumerate(targets):
+            with self.subTest(memory_id=memory_id):
+                episode = f.start_episode("ops", f"authority-feedback-{index}").id
+                f.retrieve("ops", query, episode_id=episode)
+                f.record_outcome(episode, 1.0, verifier_id="synthetic-env")
+                self.assertEqual(f.authority(memory_id), before[memory_id])
+                self.assertEqual(before[memory_id].trust, authority.UNTRUSTED)
+                certificate = f.certify("spin", [memory_id], "ops")
+                self.assertFalse(action_gate.authorize("spin", "ops", certificate).allowed)
+
 
 class ExactActionGrants(unittest.TestCase):
     """Poison, an expired grant, a retracted premise, a changed target and a replay all fail."""
