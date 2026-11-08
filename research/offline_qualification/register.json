@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0c41714009a4c951db00931d4256d8b5871398a5ae61fee14a017042ecb1c154",
+    "sha256": "8dd2d9fed48a807745963935cb858569ea429fd71884afb7388b019ac2aeaef8",
     "tasks": 260
   },
   "source": {
-    "commit": "8c4005a78f3b3f2ec7e4b6992854b03ea53174c0",
+    "commit": "5de4330435b2d3ddd291c8aca7ebbe628e983bc4",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 220,
+      "DONE": 221,
       "PARTIAL": 3,
-      "TODO": 37
+      "TODO": 36
     },
-    "completed": 220,
+    "completed": 221,
     "total": 260,
-    "percent_complete": 84.62,
+    "percent_complete": 85.0,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3653,14 +3653,34 @@
       "task_id": "N3-05",
       "priority": "P2",
       "task": "Add stochastic randomized intervention harness with deterministic seed control.",
-      "acceptance": "Treatment assignment and observation probability are reproducible and inspectable",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Treatment assignment and observation probability are reproducible and inspectable. Evidence: `research/prereg/n3-05-randomized-intervention-harness-v1.md`, `benchmarks/intervention_harness.py`, `benchmarks/n3_05_intervention_harness.py`, `tests/test_n3_05_intervention_harness.py`, `research/results/n3-05-intervention-harness.json`, `research/results/n3-05-intervention-harness.ndjson`, `research/results/n3-05-intervention-harness.md`, `research/results/n3-05-intervention-harness-tests.xml` (DONE: 10,000 units; identical same-seed replay digest and distinct alternate-seed digest; logged treatment and observation propensities; all stratified empirical rates within 0.05. Reproducibility only; not an effect-recovery or cryptographic-randomness claim.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-05-randomized-intervention-harness-v1.md",
+        "benchmarks/intervention_harness.py",
+        "benchmarks/n3_05_intervention_harness.py",
+        "tests/test_n3_05_intervention_harness.py",
+        "research/results/n3-05-intervention-harness.json",
+        "research/results/n3-05-intervention-harness.ndjson",
+        "research/results/n3-05-intervention-harness.md",
+        "research/results/n3-05-intervention-harness-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-05-randomized-intervention-harness-v1.md": "5ed01bba3930b3a8a93a54ca24c5ec1a0f518a8d1adeb8a8b5d702bd0a04fdcf",
+        "benchmarks/intervention_harness.py": "9bace4cbdb41bbd878cc74b561cec05e9f8aa3398e6092287050fe9f1ab4857e",
+        "benchmarks/n3_05_intervention_harness.py": "d34a32ba122992d43985bba363584ae92e8315517d87f48a123b2d3b334565b8",
+        "tests/test_n3_05_intervention_harness.py": "34d90d70c398d58ec7f2bdd2eadc577505531fee37a4c117403a8a119ee9d0b0",
+        "research/results/n3-05-intervention-harness.json": "300943bdaf0d73398af97304264b56def61b0d63a92c6507bd126dbcf29cca50",
+        "research/results/n3-05-intervention-harness.ndjson": "f9fb0f0a8b491c26f14ad6845a0f408497ad9d9e38db495981bbe2ee1aac873c",
+        "research/results/n3-05-intervention-harness.md": "b1cb9b2eb916322cfbbafaba3f149c5906a5118eaa786346fdd1a8b3f50dacfb",
+        "research/results/n3-05-intervention-harness-tests.xml": "65b90d6a424e30ce90e7f5b4612becfa8300276af89cb91e201f907883b27db9"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Seeded SHA-256 draws qualify replayable pseudorandom assignment and observation logging, not cryptographic randomness, treatment-effect recovery, or missing-data identification."
+      ]
     },
     {
       "task_id": "N3-06",

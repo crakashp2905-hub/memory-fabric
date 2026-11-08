@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **220 / 260 (84.62%)**. Internal status: **BLOCKED**.
+Strict completion: **221 / 260 (85.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3a5d5ce61d190269a1a7c9eaa7066e701b89dc731760babf29a115da749b1ef9`.
+Normalized ledger digest: `26a0d7b7f73819a146beca79280ccc98573b7971e199c0820b904c441d9c8827`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 220 |
+| DONE | 221 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 37 |
+| TODO | 36 |
 
 ## Graduation gates
 
@@ -153,7 +153,7 @@ Normalized ledger digest: `3a5d5ce61d190269a1a7c9eaa7066e701b89dc731760babf29a11
 | N3-02 | P2 | DONE | SIMULATED | `research/prereg/n3-02-exact-oracle-worlds-v1.md`, `benchmarks/n3_02_exact_oracle.py`, `tests/test_n3_02_exact_oracle.py`, `research/results/n3-02-exact-oracle.json`, `research/results/n3-02-exact-oracle-tests.xml` |
 | N3-03 | P2 | DONE | SIMULATED | `research/prereg/n3-03-estimator-cost-comparison-v1.md`, `benchmarks/n3_03_estimator_comparison.py`, `tests/test_n3_03_estimator_comparison.py`, `research/results/n3-03-estimator-comparison.json`, `research/results/n3-03-estimator-comparison.md`, `research/results/n3-03-estimator-comparison-tests.xml` |
 | N3-04 | P2 | DONE | SIMULATED | `research/prereg/n3-04-confounded-memory-credit-v1.md`, `benchmarks/n3_04_confounded_memory.py`, `tests/test_n3_04_confounded_memory.py`, `research/results/n3-04-confounded-memory.json`, `research/results/n3-04-confounded-memory.md`, `research/results/n3-04-confounded-memory-tests.xml` |
-| N3-05 | P2 | TODO | NOT_TESTED | — |
+| N3-05 | P2 | DONE | SIMULATED | `research/prereg/n3-05-randomized-intervention-harness-v1.md`, `benchmarks/intervention_harness.py`, `benchmarks/n3_05_intervention_harness.py`, `tests/test_n3_05_intervention_harness.py`, `research/results/n3-05-intervention-harness.json`, `research/results/n3-05-intervention-harness.ndjson`, `research/results/n3-05-intervention-harness.md`, `research/results/n3-05-intervention-harness-tests.xml` |
 | N3-06 | P2 | TODO | NOT_TESTED | — |
 | N3-07 | P2 | TODO | NOT_TESTED | — |
 | N3-08 | P2 | TODO | NOT_TESTED | — |
