@@ -44,7 +44,7 @@ class SupportBundle(unittest.TestCase):
                 write_support_bundle(fabric, output)
                 bundle = json.loads(output.read_text(encoding="utf-8"))
                 self.assertEqual(bundle["schema"], "memory-fabric-support-bundle/1")
-                self.assertEqual(bundle["product"]["store_schema_version"], "0.17.0")
+                self.assertEqual(bundle["product"]["store_schema_version"], "0.18.0")
                 self.assertIn("sqlite_allocated_bytes", bundle["metrics"])
             finally:
                 fabric.close()

@@ -1,5 +1,16 @@
 # DecisionRecord schema v1
 
+## Re-evaluation receipts
+
+`DecisionLedger.reevaluation_receipts_from_event(event_id)` returns immutable
+`DecisionReevaluationReceipt` values for exact correction/retraction impacts.
+Each receipt includes the changed `EvidenceVersion`, current replayed decision
+status, reliance proof edge IDs, affected effect edge IDs, and a deterministic
+content-derived ID. `to_json()` emits canonical JSON for byte-identical replay.
+Receipts set `reevaluation_required=true` and `action_authorized=false`; callers
+must perform their ordinary authorization and execution checks independently.
+Receipt generation is a read-only projection and does not add an event.
+
 `memory_fabric.DecisionRecord` is an immutable, JSON-serializable contract for
 recording a goal, candidate options, the selected option, evidence versions,
 constraints, and lifecycle status. Each option can carry its own evidence

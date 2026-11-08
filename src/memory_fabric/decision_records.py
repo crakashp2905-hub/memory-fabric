@@ -94,6 +94,69 @@ class DecisionImpact:
 
 
 @dataclass(frozen=True, slots=True)
+class DecisionReevaluationReceipt:
+    """Deterministic, advisory record that a changed premise affects a decision."""
+
+    receipt_id: str
+    trigger_event_id: str
+    decision_id: str
+    changed_premise: EvidenceVersion
+    current_decision_status: str
+    proof_edge_ids: tuple[str, ...]
+    affected_effect_ids: tuple[str, ...]
+    reevaluation_required: bool = True
+    action_authorized: bool = False
+    schema_version: int = 1
+
+    def __post_init__(self) -> None:
+        for name in ("receipt_id", "trigger_event_id", "decision_id"):
+            value = getattr(self, name)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"{name} must not be empty")
+        if not isinstance(self.changed_premise, EvidenceVersion):
+            raise TypeError("changed_premise must be an exact EvidenceVersion")
+        if self.current_decision_status not in DECISION_STATUSES:
+            raise ValueError("current_decision_status must use the DecisionRecord status vocabulary")
+        proof_ids = tuple(self.proof_edge_ids)
+        effect_ids = tuple(self.affected_effect_ids)
+        if not proof_ids or any(not isinstance(item, str) or not item.strip()
+                                for item in proof_ids):
+            raise ValueError("proof_edge_ids must contain at least one non-empty edge ID")
+        if len(proof_ids) != len(set(proof_ids)):
+            raise ValueError("proof_edge_ids must be unique")
+        if any(not isinstance(item, str) or not item.strip() for item in effect_ids):
+            raise ValueError("affected_effect_ids must contain non-empty edge IDs")
+        if len(effect_ids) != len(set(effect_ids)):
+            raise ValueError("affected_effect_ids must be unique")
+        if self.reevaluation_required is not True or self.action_authorized is not False:
+            raise ValueError("reevaluation receipts are advisory and never grant action authority")
+        if self.schema_version != 1:
+            raise ValueError("unsupported DecisionReevaluationReceipt schema_version")
+        object.__setattr__(self, "proof_edge_ids", proof_ids)
+        object.__setattr__(self, "affected_effect_ids", effect_ids)
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return the stable machine-readable receipt representation."""
+        return {
+            "schema_version": self.schema_version,
+            "receipt_id": self.receipt_id,
+            "trigger_event_id": self.trigger_event_id,
+            "decision_id": self.decision_id,
+            "changed_premise": self.changed_premise.to_dict(),
+            "current_decision_status": self.current_decision_status,
+            "proof_edge_ids": list(self.proof_edge_ids),
+            "affected_effect_ids": list(self.affected_effect_ids),
+            "reevaluation_required": self.reevaluation_required,
+            "action_authorized": self.action_authorized,
+        }
+
+    def to_json(self) -> str:
+        """Serialize canonically so the same replay yields byte-identical output."""
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"),
+                          ensure_ascii=False)
+
+
+@dataclass(frozen=True, slots=True)
 class DecisionAlternativeAssessment:
     """Why a non-selected option lost and which evidence made it lose."""
 
@@ -449,6 +512,46 @@ class DecisionLedger:
             raise DecisionEdgeError("trigger must be MemoryVersioned or RetractionApplied")
         return tuple(impact for evidence in sorted(changed)
                      for impact in self.impacts_for(evidence, trigger_event_id=trigger_event_id))
+
+    def reevaluation_receipts_from_event(
+        self, trigger_event_id: str,
+    ) -> tuple[DecisionReevaluationReceipt, ...]:
+        """Build deterministic advisory receipts for each exact correction impact.
+
+        Receipts are projections over the durable log: replaying the same log
+        reproduces the same IDs and canonical JSON. They identify changed
+        premises and affected effects but never authorize those effects.
+        """
+        receipts: list[DecisionReevaluationReceipt] = []
+        for impact in self.impacts_from_event(trigger_event_id):
+            decision = self._decisions.get(impact.decision_id)
+            if decision is None:
+                raise DecisionEdgeError("impacted decision disappeared during receipt construction")
+            data: dict[str, Any] = {
+                "schema_version": 1,
+                "trigger_event_id": impact.trigger_event_id,
+                "decision_id": impact.decision_id,
+                "changed_premise": impact.changed_evidence.to_dict(),
+                "current_decision_status": decision.status,
+                "proof_edge_ids": [edge.edge_id for edge in impact.proof_edges],
+                "affected_effect_ids": [edge.edge_id for edge in impact.affected_effects],
+                "reevaluation_required": True,
+                "action_authorized": False,
+            }
+            canonical = json.dumps(data, sort_keys=True, separators=(",", ":"),
+                                   ensure_ascii=False)
+            receipt_id = "reevaluation_" + hashlib.sha256(
+                canonical.encode("utf-8")).hexdigest()
+            receipts.append(DecisionReevaluationReceipt(
+                receipt_id=receipt_id,
+                trigger_event_id=impact.trigger_event_id,
+                decision_id=impact.decision_id,
+                changed_premise=impact.changed_evidence,
+                current_decision_status=decision.status,
+                proof_edge_ids=tuple(edge.edge_id for edge in impact.proof_edges),
+                affected_effect_ids=tuple(edge.edge_id for edge in impact.affected_effects),
+            ))
+        return tuple(receipts)
 
     def assess_alternative(self, assessment: DecisionAlternativeAssessment) -> None:
         """Append why a non-selected option lost, tied to exact blocking evidence."""

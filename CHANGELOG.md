@@ -5,6 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.18.0): deterministic decision re-evaluation receipts
+- Exact correction impacts expose canonical replay-stable receipts with the changed evidence premise, current decision status, proof and affected-effect edge IDs. Receipts require re-evaluation and never authorize an action.
+
 ### Added (schema 0.17.0): durable decision status history
 - Legal status transitions are append-only, replayable events serialized under the event-log transaction; illegal/stale transitions are rejected without adding history.
 

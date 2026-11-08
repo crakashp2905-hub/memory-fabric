@@ -9,7 +9,7 @@ import unittest
 from memory_fabric import (
     DecisionEdge, DecisionEdgeError, DecisionLedger, DecisionOption, DecisionRecord,
     DecisionAlternativeAssessment, DecisionImpact, DecisionTransitionError,
-    Event, EventLog, EventType, EvidenceVersion,
+    DecisionReevaluationReceipt, Event, EventLog, EventType, EvidenceVersion,
 )
 
 
@@ -232,6 +232,44 @@ class DecisionLedgerTests(unittest.TestCase):
         self.log.append(Event(EventType.EPISODE_STARTED, 10))
         self.ledger.impacts_for(self.evidence)
         self.assertEqual(self.ledger.index_stats["events_scanned"] - scanned, 1)
+
+    def test_reevaluation_receipt_is_exact_deterministic_and_advisory_after_replay(self) -> None:
+        self.ledger.record(self.decision)
+        proof = DecisionEdge("relied", "d1", "relied_on", "claim-1", "agent-1",
+                             "2026-11-08T10:02:00Z", self.evidence)
+        self.ledger.link(proof)
+        effect = DecisionEdge("auth-1", "d1", "authorized", "receipt-1", "reviewer",
+                              "2026-11-08T10:03:00Z")
+        self.ledger.link(effect)
+        correction = self.log.append(Event(
+            EventType.MEMORY_VERSIONED, 5,
+            {"memory": {"id": "m1", "version": 3}, "reason": "corrected"},
+        ))
+        before = len(self.log)
+        receipt, = self.ledger.reevaluation_receipts_from_event(correction.event_id)
+        self.assertEqual(len(self.log), before)
+        self.assertEqual(receipt.changed_premise, self.evidence)
+        self.assertEqual(receipt.current_decision_status, "proposed")
+        self.assertEqual(receipt.proof_edge_ids, ("relied",))
+        self.assertEqual(receipt.affected_effect_ids, ("auth-1",))
+        self.assertTrue(receipt.reevaluation_required)
+        self.assertFalse(receipt.action_authorized)
+        self.assertEqual(json.loads(receipt.to_json()), receipt.to_dict())
+        replay = DecisionLedger(self.log, lambda: 1_800_000_000_000)
+        replayed, = replay.reevaluation_receipts_from_event(correction.event_id)
+        self.assertEqual(replayed, receipt)
+        self.assertEqual(replayed.to_json(), receipt.to_json())
+
+    def test_reevaluation_receipt_rejects_authority_or_missing_exact_proof(self) -> None:
+        with self.assertRaisesRegex(ValueError, "never grant action authority"):
+            DecisionReevaluationReceipt(
+                "r", "trigger", "d1", self.evidence, "proposed", ("proof",), (),
+                action_authorized=True,
+            )
+        with self.assertRaisesRegex(ValueError, "at least one"):
+            DecisionReevaluationReceipt(
+                "r", "trigger", "d1", self.evidence, "proposed", (), (),
+            )
 
     def test_retraction_impact_uses_its_exact_source_version(self) -> None:
         self.ledger.record(self.decision)

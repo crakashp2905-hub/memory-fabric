@@ -108,6 +108,25 @@
       ]
     },
     {
+      "task_id": "N1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
+        "tests/test_support_bundle.py",
+        "research/results/n1-07-reevaluation-receipt-tests.xml"
+      ],
+      "limitations": [
+        "Receipts are deterministic projections of the local durable event log. They are advisory and do not approve, authorize, or execute effects; a distributed receipt-delivery protocol is not implied."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

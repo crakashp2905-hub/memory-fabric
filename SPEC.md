@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.17.0`
+- **Schema version:** `0.18.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -180,6 +180,15 @@ Default rules:
 6. Sensitive-data detector positive → QUARANTINE.
 
 ---
+
+### 0.18.0 — deterministic decision re-evaluation receipts
+
+The ledger projects a machine-readable receipt for each decision affected by an
+exact correction or retraction. It binds the trigger, changed evidence version,
+current replayed status, reliance proof edges, and affected effect edges into a
+canonical JSON representation with a content-derived receipt ID. Receipts are
+advisory: they require re-evaluation and never authorize an action. Generating a
+receipt does not append to the event log.
 
 ### 0.17.0 — durable decision status transitions
 

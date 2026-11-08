@@ -26,6 +26,7 @@ from .decision_records import (
     DecisionEdgeError,
     DecisionGraph,
     DecisionImpact,
+    DecisionReevaluationReceipt,
     DecisionAlternativeAssessment,
     DecisionAlternativeView,
     DecisionLedger,
@@ -116,7 +117,7 @@ from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
 from .vectors import Embedder, HashingEmbedder, VectorIndex
 
-__version__ = "0.17.0"
+__version__ = "0.18.0"
 
 __all__ = [
     "ParameterEquivalences",
@@ -126,6 +127,7 @@ __all__ = [
     "DecisionEdgeError",
     "DecisionGraph",
     "DecisionImpact",
+    "DecisionReevaluationReceipt",
     "DecisionAlternativeAssessment",
     "DecisionAlternativeView",
     "DecisionLedger",
