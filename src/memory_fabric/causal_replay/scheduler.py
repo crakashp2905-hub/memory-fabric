@@ -97,6 +97,51 @@ def replay_frontier(event_ids: tuple[str, ...], target_id: str, *,
     return event_ids[start:]
 
 
+def dependency_frontier(event_ids: tuple[str, ...], target_id: str, *,
+                        dependencies: Mapping[str, tuple[str, ...]],
+                        dependencies_complete: bool) -> tuple[str, ...]:
+    """Return the target and its transitive dependents in deterministic trace order.
+
+    A complete graph must declare every event, every parent must precede its
+    child, and references must be local to the trace. Unknown completeness
+    conservatively retains the full trace. This is a selector only; callers
+    must still establish that the graph captures all semantic dependencies.
+    """
+    if type(event_ids) is not tuple or not event_ids or any(
+            not isinstance(event_id, str) or not event_id for event_id in event_ids):
+        raise CDMError("dependency frontier requires a non-empty ordered event tuple")
+    if len(set(event_ids)) != len(event_ids):
+        raise CDMError("dependency frontier event IDs must be unique")
+    if not isinstance(target_id, str) or not target_id or target_id not in event_ids:
+        raise CDMError("dependency frontier target is absent from the trace")
+    if type(dependencies_complete) is not bool:
+        raise CDMError("dependency completeness must be an explicit boolean")
+    if not dependencies_complete:
+        return event_ids
+    if not isinstance(dependencies, Mapping) or set(dependencies) != set(event_ids):
+        raise CDMError("a complete dependency graph must declare every trace event")
+    positions = {event_id: index for index, event_id in enumerate(event_ids)}
+    dependents: dict[str, list[str]] = {event_id: [] for event_id in event_ids}
+    for child, raw_parents in dependencies.items():
+        if (type(raw_parents) is not tuple
+                or any(not isinstance(parent, str) or not parent for parent in raw_parents)
+                or len(set(raw_parents)) != len(raw_parents)):
+            raise CDMError("dependency parents must be unique immutable tuples")
+        for parent in raw_parents:
+            if parent not in positions or positions[parent] >= positions[child]:
+                raise CDMError("dependency parent must exist before its child")
+            dependents[parent].append(child)
+    affected = {target_id}
+    frontier = [target_id]
+    while frontier:
+        current = frontier.pop()
+        for child in dependents[current]:
+            if child not in affected:
+                affected.add(child)
+                frontier.append(child)
+    return tuple(event_id for event_id in event_ids if event_id in affected)
+
+
 def select_random(candidates: Iterable[Candidate], *, seed: int, k: int) -> tuple[Candidate, ...]:
     items = tuple(sorted(candidates, key=lambda item: item.candidate_id))
     _validate_k(k, len(items))

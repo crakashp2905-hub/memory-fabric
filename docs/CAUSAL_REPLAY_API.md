@@ -239,7 +239,26 @@ world claims remain unsupported; the certificate verifier refuses the
 
 ## Dependency frontier and downstream replay
 
-Replay frontier calculation follows the caller-supplied dependency closure through derived belief updates and downstream decisions. If dependency completeness is unknown, it returns a genesis replay frontier. After an evidence overlay, the executor recomputes each policy proposal from the changed trace; a recorded factual selection is never reused as a hypothetical choice.
+`replay_frontier` returns the conservative sequential suffix beginning at the
+earliest affected event. `dependency_frontier` instead returns the target and
+its transitive dependents in trace order; a certified graph must declare every
+event and only reference earlier events. If completeness is unknown, both
+selectors retain the full trace.
+
+`execute_dependency_frontier` accepts an exact factual execution and a
+counterfactual trace where only the declared target changed or was suppressed.
+With a complete dependency graph, it recomputes policy proposals for the
+affected frontier and reuses only unaffected baseline proposals. It rebuilds
+every prefix fingerprint and the final belief state from the full
+counterfactual trace, so source provenance and trace identity are retained.
+`consumed` reports the number of policy proposals recomputed. Unknown
+completeness falls back to exhaustive replay. The caller must supply a
+semantically complete dependency graph: a graph that omits an actual causal
+link can reuse a stale proposal. The test suite compares frontier replay step
+for step and fingerprint for fingerprint with exhaustive replay on seeded
+fixtures, and verifies fallback and malformed-graph refusal. A certified
+dependency adapter remains part of the correctness boundary; the executor
+cannot infer domain causality from event IDs alone.
 
 ## Deterministic simulated environments
 

@@ -41,12 +41,14 @@ from .visualization import timeline as build_timeline
 from .viewer import render as render_local_viewer
 from .executor import (ExecutionCheckpoint, ReplayExecution, ReplayStep,
                        create_execution_checkpoint, execute_from_checkpoint,
+                       execute_dependency_frontier,
                        execute as execute_replay, execute_recorded, execute_captured,
                        first_divergence)
 from .verifier import (AttributionVerification, VerificationResult,
                        verify_execution, verify_small_n_shapley)
 from .scheduler import (Candidate, ReplayBudget, check_budget, earliest_affected_index,
-                        branch_recall_at_k, replay_frontier, select_centrality, select_priority,
+                        branch_recall_at_k, dependency_frontier, replay_frontier,
+                        select_centrality, select_priority,
                         select_random, select_recency)
 from .evaluator import (CalibrationReport, ContributionAssessment, FidelityAssessment,
                         Outcome, OutcomeAssessment, assess_outcome, calibration_report,
@@ -89,12 +91,12 @@ __all__ += ["verify_checkpoint_exact_ready"]
 __all__ += ["build_timeline", "render_local_viewer"]
 __all__ += ["ReplayExecution", "ReplayStep", "ExecutionCheckpoint",
             "create_execution_checkpoint", "execute_from_checkpoint", "execute_replay",
-            "execute_recorded", "first_divergence"]
+            "execute_dependency_frontier", "execute_recorded", "first_divergence"]
 __all__ += ["execute_captured"]
 __all__ += ["VerificationResult", "verify_execution", "AttributionVerification",
             "verify_small_n_shapley"]
 __all__ += ["Candidate", "ReplayBudget", "check_budget", "earliest_affected_index",
-            "branch_recall_at_k", "replay_frontier", "select_random", "select_recency", "select_centrality",
+            "branch_recall_at_k", "dependency_frontier", "replay_frontier", "select_random", "select_recency", "select_centrality",
             "select_priority"]
 __all__ += ["Outcome", "OutcomeAssessment", "FidelityAssessment", "CalibrationReport",
             "ContributionAssessment", "assess_outcome", "verify_fidelity",

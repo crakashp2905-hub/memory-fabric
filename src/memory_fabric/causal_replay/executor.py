@@ -6,11 +6,12 @@ __stability__ = "experimental"
 
 from dataclasses import dataclass
 import hashlib
-from typing import Any
+from typing import Any, Mapping
 
 from .bayes import BinaryNode, enumerate_posterior, marginal
 from .policy import ThresholdPolicy
 from .replay import DeterministicSimulator
+from .scheduler import dependency_frontier
 from .state import BeliefState, Observation, update
 from .types import (BudgetExceeded, DecisionRecord, NonReplayable, ReplayStatus,
                     SimulatorForbidden, canonical_json, digest_json)
@@ -190,6 +191,105 @@ def execute_full_suffix(observations: tuple[Observation, ...], *, affected_index
     return ReplayExecution(result.status, result.steps, result.final_state, result.consumed,
         result.complete, result.first_divergence, result.rng_applicability,
         result.real_actions_executed, result.source_observations, "full_suffix_oracle")
+
+
+def execute_dependency_frontier(observations: tuple[Observation, ...], *,
+                                baseline: ReplayExecution,
+                                target_observation_id: str,
+                                dependencies: Mapping[str, tuple[str, ...]],
+                                dependencies_complete: bool,
+                                simulator: DeterministicSimulator,
+                                policy: ThresholdPolicy,
+                                max_events: int = 1_000) -> ReplayExecution:
+    """Recompute only certified affected proposals; keep full-trace state exact.
+
+    The caller supplies the complete counterfactual observation trace and an
+    exact factual execution. Only the target may differ or be suppressed. A
+    complete dependency graph defines which proposals need recomputation;
+    fingerprints are rebuilt for every retained event because they bind the
+    entire trace prefix. Unknown graph completeness falls back to exhaustive
+    replay. A complete-but-semantically-inaccurate graph violates the caller's
+    precondition and can reuse a stale proposal; verify this routine against
+    ``execute`` when registering any dependency adapter.
+    """
+    if (type(observations) is not tuple or type(baseline) is not ReplayExecution
+            or not isinstance(target_observation_id, str) or not target_observation_id
+            or type(dependencies_complete) is not bool
+            or type(max_events) is not int or not 1 <= max_events <= 100_000
+            or not isinstance(simulator, DeterministicSimulator)
+            or not isinstance(policy, ThresholdPolicy)):
+        raise NonReplayable("dependency replay arguments are invalid")
+    if any(type(item) is not Observation for item in observations):
+        raise SimulatorForbidden("dependency replay requires immutable typed observations")
+    if len(observations) > max_events:
+        raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    factual = baseline.source_observations
+    if (not baseline.complete or baseline.status is not ReplayStatus.EXACT
+            or baseline.final_state.updater_id != simulator.updater_id
+            or baseline.final_state.policy_id != policy.policy_id
+            or len({item.observation_id for item in factual}) != len(factual)):
+        raise NonReplayable("dependency replay requires a compatible exact baseline")
+    if baseline.final_state.fingerprint != update(simulator.nodes, factual,
+            updater_id=simulator.updater_id, policy_id=policy.policy_id).fingerprint:
+        raise NonReplayable("baseline final state does not match its source observations")
+    original_ids = tuple(item.observation_id for item in factual)
+    if (not original_ids or tuple(sorted(factual, key=lambda item: (item.sequence,
+            item.observation_id))) != factual
+            or len(baseline.steps) != len(factual)
+            or tuple(step.observation_id for step in baseline.steps) != original_ids):
+        raise NonReplayable("baseline steps do not bind the full ordered source trace")
+    positions = [index for index, item in enumerate(factual)
+                 if item.observation_id == target_observation_id]
+    if len(positions) != 1:
+        raise NonReplayable("dependency replay target must occur exactly once in baseline")
+    changed_by_id = {item.observation_id: item for item in observations}
+    if len(changed_by_id) != len(observations) or not set(changed_by_id) <= set(original_ids):
+        raise NonReplayable("counterfactual trace has duplicate or unknown event IDs")
+    original_by_id = {item.observation_id: item for item in factual}
+    for event_id, original in original_by_id.items():
+        if event_id != target_observation_id and changed_by_id.get(event_id) != original:
+            raise NonReplayable("only the declared target may change in dependency replay")
+    target = original_by_id[target_observation_id]
+    changed_target = changed_by_id.get(target_observation_id)
+    if (changed_target is not None and changed_target.sequence != target.sequence):
+        raise NonReplayable("dependency frontier does not support sequence reordering")
+    ordered = tuple(sorted(observations, key=lambda item: (item.sequence, item.observation_id)))
+    if not dependencies_complete:
+        exhaustive = execute(ordered, simulator=simulator, policy=policy,
+                             max_events=max_events)
+        return ReplayExecution(exhaustive.status, exhaustive.steps, exhaustive.final_state,
+            exhaustive.consumed, exhaustive.complete, exhaustive.first_divergence,
+            exhaustive.rng_applicability, exhaustive.real_actions_executed,
+            exhaustive.source_observations, "dependency_frontier_incomplete_fallback")
+
+    frontier = set(dependency_frontier(original_ids, target_observation_id,
+        dependencies=dependencies, dependencies_complete=True))
+    affected_retained = frontier & set(changed_by_id)
+    baseline_steps = {step.observation_id: step for step in baseline.steps}
+    steps: list[ReplayStep] = []
+    prefix: list[Observation] = []
+    for item in ordered:
+        prefix.append(item)
+        state = update(simulator.nodes, tuple(prefix), updater_id=simulator.updater_id,
+                       policy_id=policy.policy_id)
+        old_step = baseline_steps[item.observation_id]
+        if item.observation_id in affected_retained:
+            proposal = policy.propose(state)
+            if proposal.selected is None:
+                raise NonReplayable("deterministic policy abstained during frontier replay")
+            selected = proposal.selected
+            proposal_digest = digest_json({"selected": selected,
+                "probabilities": proposal.probabilities, "policy": policy.policy_id})
+        else:
+            selected = old_step.proposal
+            proposal_digest = old_step.proposal_digest
+        steps.append(ReplayStep(item.sequence, item.observation_id, state.fingerprint,
+                                selected, proposal_digest))
+    final_state = update(simulator.nodes, ordered, updater_id=simulator.updater_id,
+                         policy_id=policy.policy_id)
+    return ReplayExecution(ReplayStatus.EXACT, tuple(steps), final_state,
+        len(affected_retained), True, source_observations=ordered,
+        execution_kind="dependency_frontier_replay")
 
 
 def execute(observations: tuple[Observation, ...], *, simulator: DeterministicSimulator,
