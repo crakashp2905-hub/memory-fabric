@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 236,
+ "results": 237,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 233,
-  "model_id": 200,
-  "prompt_hash": 236,
-  "seed": 157,
-  "cost": 213,
-  "verdict": 165
+  "dataset_digest": 234,
+  "model_id": 201,
+  "prompt_hash": 237,
+  "seed": 158,
+  "cost": 214,
+  "verdict": 166
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 224
+  "unclassified": 225
  },
  "rows": [
   {
@@ -3535,6 +3535,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p2-context-sufficiency.md",
    "git_sha": "dfa886eb35cbd6101c24710c0587a94b8de588db",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-02-event-links",
+   "file": "research/results/p2-02-event-links.json",
+   "file_sha256": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "6776203b67c551f695e8533b3e5a140da2c52bb2",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

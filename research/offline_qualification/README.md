@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **151 / 260 (58.08%)**. Internal status: **BLOCKED**.
+Strict completion: **152 / 260 (58.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `fec7fc392b0d1e787cd1d70be5ecec4a0259cf7c6089c1bad9ce9fb671471ffd`.
+Normalized ledger digest: `2049e4610da8142a088fce8c869e178ca5d047bacaa3d0e51744ce120d8cee1c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 151 |
+| DONE | 152 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 105 |
+| TODO | 104 |
 
 ## Graduation gates
 
@@ -250,7 +250,7 @@ Normalized ledger digest: `fec7fc392b0d1e787cd1d70be5ecec4a0259cf7c6089c1bad9ce9
 | P1-09 | P1 | DONE | INTERNAL_INTEGRATION | `examples/memory_vs_json.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-09-memory-vs-json.json`, `research/results/p1-09-memory-vs-json.txt` |
 | P1-10 | P1 | DONE | INTERNAL_INTEGRATION | `docs/guides/migrate-from-json-vector.md`, `docs/MIGRATION.md`, `examples/fixtures/basic-memory-export.jsonl`, `tests/test_migration_guide.py`, `src/memory_fabric/migrate.py`, `research/results/p1-10-migration-guide.json`, `research/results/p1-10-migration-guide.txt` |
 | P2-01 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_control_center.py`, `research/results/p2-01-decision-detail.json`, `research/results/p2-01-decision-detail.txt` |
-| P2-02 | P1 | TODO | NOT_TESTED | — |
+| P2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/control.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `research/results/p2-02-event-links.json`, `research/results/p2-02-event-links.txt` |
 | P2-03 | P1 | TODO | NOT_TESTED | — |
 | P2-04 | P1 | TODO | NOT_TESTED | — |
 | P2-05 | P1 | TODO | NOT_TESTED | — |
