@@ -1,0 +1,27 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H3-10",
+  "source_commit": "995d5da7c756d1909421ec82a053b154083c4327",
+  "input_sha256": {
+    "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+    "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
+    "tests/test_doctor.py": "fadcb4fe738b5ba4e997b82b70a4bdb9e96786590e10deb67bd5766535306d32",
+    "docs/TROUBLESHOOTING.md": "4c85a84f27072da8872ea1821f319a48d8c213630079433e8f48d5736055f059",
+    "docs/RUNBOOKS.md": "ae41c97dc704926f49f7db96f1ebe3d4fde73c345b6542dcf2f4b9ec130b0687"
+  },
+  "checks": {
+    "key_loss": "KeyUnavailable, no fallback",
+    "corruption": "authenticated corruption refused",
+    "operator_recovery": "doctor points to key directory remedy"
+  },
+  "limitations": [
+    "Recovery requires operator-held key backups; destroyed keys are not recoverable."
+  ],
+  "test_summary": {
+    "command": "H3-10",
+    "total": 62,
+    "passed": 62,
+    "failed": 0,
+    "subtests_passed": 42
+  }
+}

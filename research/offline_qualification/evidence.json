@@ -1155,6 +1155,83 @@
       ]
     },
     {
+      "task_id": "H3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_doctor.py",
+        "docs/TROUBLESHOOTING.md",
+        "docs/RUNBOOKS.md",
+        "research/results/h3-10-key-loss.json",
+        "research/results/h3-10-key-loss-tests.xml"
+      ],
+      "limitations": [
+        "Recovery requires operator-held key backups; destroyed keys cannot be recovered."
+      ]
+    },
+    {
+      "task_id": "H4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_write_fault_injection.py",
+        "research/results/h4-01-stage-fault-injection.json",
+        "research/results/h4-01-stage-fault-injection-tests.xml"
+      ],
+      "limitations": [
+        "SQLite triggers inject at event append boundaries. External action effects cannot be rolled back; idempotency and reconciliation are required."
+      ]
+    },
+    {
+      "task_id": "H4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_multiprocess_crash.py",
+        "tests/crashworker.py",
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "research/results/h4-02-power-loss.json",
+        "research/results/h4-02-power-loss-tests.xml"
+      ],
+      "limitations": [
+        "Hard process termination is tested; physical power loss and storage-controller cache loss are not simulated."
+      ]
+    },
+    {
+      "task_id": "H4-03",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_storage_failure_modes.py",
+        "research/results/h4-03-storage-failure.json",
+        "research/results/h4-03-storage-failure-tests.xml"
+      ],
+      "limitations": [
+        "Malformed path, SQLite full and read-only refusal pass. Filesystem permission-denied behavior was not tested in this Windows sandbox."
+      ]
+    },
+    {
+      "task_id": "H4-04",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "tests/test_tombstone_exchange.py"
+      ],
+      "limitations": [
+        "Lease expiry and offline tombstone contracts exist; an explicit partition-with-old-lease action timing experiment remains open."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

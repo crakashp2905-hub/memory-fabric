@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "f0a2ca6cc7e666611be56fa8b4ac91ab3c22395d9c1a7518369faa7ee5d2ed7f",
+    "sha256": "fb78d38ca79a5902c1b87e5a6e4ec3419ce5ea43219ee3e756410e55c13fa227",
     "tasks": 260
   },
   "source": {
-    "commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
+    "commit": "995d5da7c756d1909421ec82a053b154083c4327",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 96,
-      "PARTIAL": 8,
-      "TODO": 156
+      "DONE": 99,
+      "PARTIAL": 10,
+      "TODO": 151
     },
-    "completed": 96,
+    "completed": 99,
     "total": 260,
-    "percent_complete": 36.92,
-    "p0_open": 33,
+    "percent_complete": 38.08,
+    "p0_open": 30,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9a95d4d2c5894a2cfd100154e3b650afe2b90d39bd41b920ba71c1e722d587ec",
-        "docs/VALIDATION.md": "12e97e1dd16f1453d9542df099ba6fdfbde3f80969620a47890cfd6914ef97c7",
-        "docs/STATUS_AT_HEAD.md": "aa5fbe6196c23de92069465131376aa1a53acbea225551dae719abab08d25437",
+        "README.md": "cf426fb8b4b42f72485426af12188bc844e32fd89521a695d946c10fb45b2162",
+        "docs/VALIDATION.md": "a7bab477ff24eea6316ecde681ca3fab2c7c0bb6f00a843fe9c805643debe665",
+        "docs/STATUS_AT_HEAD.md": "2b8af08dcd66af04000310233f6688113294afb34e2af6170797e1131e18399f",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "04f3661486d210f0891080c89f9e5eba16082325ac6f91fd557a78a202f79a6b",
+        "research/results/MANIFEST.json": "6b2c3110ffd0c669f43d4820259bd4408468bc793539c6ed869a2243cc6ef82b",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3988,66 +3988,130 @@
       "task_id": "H3-10",
       "priority": "P0",
       "task": "Test cryptographic key-loss, wrong key and ciphertext corruption behavior.",
-      "acceptance": "Errors are controlled, no plaintext fallback, and recovery instructions are accurate",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Errors are controlled, no plaintext fallback, and recovery instructions are accurate. Evidence: `tests/test_cipher.py`, `tests/test_event_schema_hardening.py`, `tests/test_doctor.py`, `docs/TROUBLESHOOTING.md`, `docs/RUNBOOKS.md`, `research/results/h3-10-key-loss.json`, `research/results/h3-10-key-loss-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_doctor.py",
+        "docs/TROUBLESHOOTING.md",
+        "docs/RUNBOOKS.md",
+        "research/results/h3-10-key-loss.json",
+        "research/results/h3-10-key-loss-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+        "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
+        "tests/test_doctor.py": "fadcb4fe738b5ba4e997b82b70a4bdb9e96786590e10deb67bd5766535306d32",
+        "docs/TROUBLESHOOTING.md": "4c85a84f27072da8872ea1821f319a48d8c213630079433e8f48d5736055f059",
+        "docs/RUNBOOKS.md": "ae41c97dc704926f49f7db96f1ebe3d4fde73c345b6542dcf2f4b9ec130b0687",
+        "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
+        "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Recovery requires operator-held key backups; destroyed keys cannot be recovered."
+      ]
     },
     {
       "task_id": "H4-01",
       "priority": "P0",
       "task": "Run fault injection after every stage of append, correction, erase and action receipt.",
-      "acceptance": "Replay restores valid prefix with no partial logical operation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Replay restores valid prefix with no partial logical operation. Evidence: `tests/test_write_fault_injection.py`, `research/results/h4-01-stage-fault-injection.json`, `research/results/h4-01-stage-fault-injection-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_write_fault_injection.py",
+        "research/results/h4-01-stage-fault-injection.json",
+        "research/results/h4-01-stage-fault-injection-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_write_fault_injection.py": "c613229b26d8353c10dcdfdba416da73f5e04a3a124f63158ed8679ae83803d9",
+        "research/results/h4-01-stage-fault-injection.json": "7da3733984be00f834b15d658d7793421a861da13b011698424987bcf98375f7",
+        "research/results/h4-01-stage-fault-injection-tests.xml": "812d7c20d8c4ed5502a3b86bda87fdd7d1dc91411d4e458a67c3d538909c842c"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "SQLite triggers inject at event append boundaries. External action effects cannot be rolled back; idempotency and reconciliation are required."
+      ]
     },
     {
       "task_id": "H4-02",
       "priority": "P0",
       "task": "Test power-loss simulation using abruptly terminated writer processes.",
-      "acceptance": "Reopen integrity and consistency checks pass; corrupted stores fail clearly and read-only",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Reopen integrity and consistency checks pass; corrupted stores fail clearly and read-only. Evidence: `tests/test_multiprocess_crash.py`, `tests/crashworker.py`, `tests/test_cipher.py`, `tests/test_event_schema_hardening.py`, `research/results/h4-02-power-loss.json`, `research/results/h4-02-power-loss-tests.xml` (abrupt process termination tested; physical power-loss/storage-cache behavior is not simulated)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_multiprocess_crash.py",
+        "tests/crashworker.py",
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "research/results/h4-02-power-loss.json",
+        "research/results/h4-02-power-loss-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+        "tests/crashworker.py": "b79c9e1c13b0d55dbea46bebdbc1d6a1ede77de92575514747d2236b51be9c1f",
+        "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+        "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
+        "research/results/h4-02-power-loss.json": "4af4659b7f66da0cfafb41888001b4a400234c0df0c41ef88363622d271ebf94",
+        "research/results/h4-02-power-loss-tests.xml": "165b0defc6453e523d40b6359eab492c29d905d83df399838766d57c0b80486e"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Hard process termination is tested; physical power loss and storage-controller cache loss are not simulated."
+      ]
     },
     {
       "task_id": "H4-03",
       "priority": "P0",
       "task": "Exercise disk-full, permission-denied, readonly filesystem and malformed storage path.",
-      "acceptance": "User gets specific actionable error; no silent partial success",
-      "status": "TODO",
+      "acceptance": "User gets specific actionable error; no silent partial success. Evidence: `tests/test_storage_failure_modes.py`, `research/results/h4-03-storage-failure.json`, `research/results/h4-03-storage-failure-tests.xml` (PARTIAL: permission-denied not reproducible in this sandbox)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_storage_failure_modes.py",
+        "research/results/h4-03-storage-failure.json",
+        "research/results/h4-03-storage-failure-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_storage_failure_modes.py": "d7006d5253da9a1d019e79108b247401acd9587730710a1c6c4468f21993a933",
+        "research/results/h4-03-storage-failure.json": "840358f55d3d4ab0ab3e79162742b6bfdc445b0b0ceb488e2d5ae799f3c8bec5",
+        "research/results/h4-03-storage-failure-tests.xml": "6ba68c65e20b36ef9717d68fc04614d24377719f50abadc4cd00366097c153af"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Malformed path, SQLite full and read-only refusal pass. Filesystem permission-denied behavior was not tested in this Windows sandbox."
+      ]
     },
     {
       "task_id": "H4-04",
       "priority": "P0",
       "task": "Simulate network partition with correction pending and old lease still valid.",
-      "acceptance": "Contract accurately bounds stale exposure; high-risk action expires lease rather than inventing awareness",
-      "status": "TODO",
+      "acceptance": "Contract accurately bounds stale exposure; high-risk action expires lease rather than inventing awareness. Evidence: `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py` (PARTIAL: lease expiry and offline tombstone contracts exist; explicit partition-with-old-lease action timing experiment remains open)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "tests/test_tombstone_exchange.py"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
+        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Lease expiry and offline tombstone contracts exist; an explicit partition-with-old-lease action timing experiment remains open."
+      ]
     },
     {
       "task_id": "H4-05",

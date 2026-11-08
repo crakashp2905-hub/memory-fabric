@@ -1,0 +1,23 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-03",
+  "source_commit": "995d5da7c756d1909421ec82a053b154083c4327",
+  "input_sha256": {
+    "tests/test_storage_failure_modes.py": "d7006d5253da9a1d019e79108b247401acd9587730710a1c6c4468f21993a933",
+    "src/memory_fabric/eventlog.py": "1d0450681eb840c45b23d59395cedc676fd4ffbf397ea05dd72cb204729230e9"
+  },
+  "checks": {
+    "malformed_path": "refused",
+    "database_full": "append rollback verified after reopen",
+    "readonly": "write refused without partial event"
+  },
+  "limitations": [
+    "Filesystem permission-denied case not run in this Windows sandbox; tested SQLite full and read-only modes."
+  ],
+  "test_summary": {
+    "command": "H4-03",
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  }
+}
