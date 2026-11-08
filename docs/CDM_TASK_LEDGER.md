@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (218)
+## Complete at this checkpoint (219)
 
 | Task | Evidence |
 |---|---|
@@ -181,6 +181,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-195 | Added `assess_federated_versions` and typed bindings for local version, portable source root, and imported origin version. An end-to-end two-store test imports source v1, revises and imports v2, then reports `MIXED_ORIGIN_VERSIONS` while preserving local v1/v1 bindings and local-snapshot replayability. Contract and limitations are documented in `docs/CDM_MIXED_VERSION_FEDERATION.md`; no remote consistency claim. |
 | CDM-196 | Partition fixture imports an original and differently worded derivative, quarantines the origin without delivering retraction, and confirms both recipient snapshots remain locally active while `assess_fabric_source_roots` reports one shared source root. This prevents stale imported paraphrases from becoming misleading independent corroboration; it does not claim remote freshness during the partition. Regression is included in the federation provenance gate stage. |
 | CDM-197 | Regression captures a valid source-root assessment and cache hit, erases the evidence without calling cache invalidation, then confirms the next cache lookup misses and the provenance assessment raises generic `Erased`. Current local erasure/access policy therefore dominates prior cached state; checkpoint suite and full gate cover the regression. |
+| CDM-198 | `docs/CDM_CORRECTION_COMPARISON.md` and a deterministic three-decision/two-source-policy fixture compare blanket review (3 records), existing dependence (2 touched: 1 depended/1 would-stand), and CDM review output (2 ranked, explicitly labeled rows; unrelated work omitted). The comparison found and fixed tenant omission in dependence counterfactual certificate verification. CDM remains review-only and performs no action/correction. Focused test and integrated gate pass. |
 | CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
 | CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
 | CDM-181 | Tenant-scoped correction report uses influence graph actual retrieval/citation/authorization labels |
@@ -243,12 +244,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (10)
+## Open (9)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-198 | Compare blanket review vs existing dependence vs CDM. |
 | CDM-199 | Freeze correction-aware utility threshold. |
 | CDM-206 | Enforce allowed temp path and cleanup. |
 | CDM-209 | Prevent cross-policy hash confusion. |

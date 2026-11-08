@@ -77,7 +77,8 @@ def decisions_depending_on(fabric: "MemoryFabric", memory_id: str,
             cert = fabric.certify(f"counterfactual:{p.get('claim_id')}", remaining,
                                   agent or "counterfactual", tenant_id=p.get("tenant_id"),
                                   min_independent_sources=need)
-            check = fabric.verify_certificate(cert, agent or "counterfactual")
+            check = fabric.verify_certificate(cert, agent or "counterfactual",
+                                              tenant_id=p.get("tenant_id"))
             stands = bool(check.ok)
             record["counterfactual"] = list(check.reason_codes)
         if stands and replay is not None:
