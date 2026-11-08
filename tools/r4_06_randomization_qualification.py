@@ -48,13 +48,16 @@ def build_report() -> dict:
                                  "randomized": randomized["counts"],
                                  "control": control["counts"]})
     source_paths = ("benchmarks/matched_agent_arms.py", "benchmarks/agent_scale.py",
-                    "tools/r4_06_randomization_qualification.py")
+                    "tools/r4_06_randomization_qualification.py",
+                    "research/prereg/matched-agent-arms-v1.md",
+                    "research/prereg/r4-06-order-randomization-v1.md")
     source_hashes = {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
                      for path in source_paths}
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                             capture_output=True, text=True, check=True).stdout.strip()
-    dirty = bool(subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
-                                capture_output=True, text=True, check=True).stdout.strip())
+    relevant_status = subprocess.run(["git", "status", "--porcelain", "--", *source_paths],
+                                     cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    dirty = bool(relevant_status.strip())
     return {
         "schema": "mf-r4-06-randomization-qualification/1",
         "decision": "PASS" if not failures else "FAIL",
