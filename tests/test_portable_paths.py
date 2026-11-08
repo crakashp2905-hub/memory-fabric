@@ -10,6 +10,7 @@ from pathlib import Path
 
 from memory_fabric import MemoryFabric
 from memory_fabric.freshness import FreshnessLease, LeaseBook
+from memory_fabric.governance.erasure import DirectoryKeyProvider
 from memory_fabric.migrate import read_records
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +28,25 @@ class PortablePaths(unittest.TestCase):
                 self.assertEqual(reopened.get(memory_id).content,
                                  "Crème brûlée – café ☕; 東京.")
                 self.assertEqual(reopened.get(memory_id).provenance.created_by, "agent-東京")
+                self.assertEqual(reopened.get(memory_id).tenant_id, "tn_default")
+            finally:
+                reopened.close()
+
+    def test_external_key_directory_with_spaces_and_unicode_survives_reopen(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / "Memory Fabric – 東京"
+            database = root / "event store.db"
+            keys = root / "content keys – München"
+            provider = DirectoryKeyProvider(keys)
+            fabric = MemoryFabric(database, key_provider=provider, auto_activate=True)
+            memory_id = fabric.remember("agent-東京", "Keyed café memory ☕")
+            fabric.close()
+
+            reopened = MemoryFabric(database, key_provider=DirectoryKeyProvider(keys),
+                                    auto_activate=True)
+            try:
+                self.assertEqual(reopened.get(memory_id).content, "Keyed café memory ☕")
+                self.assertEqual(list(keys.glob("*.key")), [keys / f"{memory_id}.key"])
             finally:
                 reopened.close()
 
