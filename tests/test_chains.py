@@ -92,6 +92,27 @@ class TestFixedBudgetEvidencePackage(unittest.TestCase):
         self.assertNotIn("d3", package.memory_ids)
         self.assertEqual(set(package.memory_ids), set(self.chain.necessary_ids))
 
+    def test_missing_required_bridge_content_is_a_surfaced_failure(self):
+        bridge = next(s.memory_id for s in self.chain.steps
+                      if s.reason is ReasonCode.DEPENDENCY_REQUIRED)
+        content = {key: value for key, value in CHAIN.items() if key != bridge}
+        package = chains.pack_evidence(self.chain, content, self.required_cost)
+        self.assertFalse(package.complete)
+        self.assertEqual(package.memory_ids, ())
+        self.assertEqual(package.missing_required, (bridge,))
+        self.assertEqual(package.failure_reason,
+                         "REQUIRED_EVIDENCE_CONTENT_MISSING")
+
+    def test_missing_optional_content_does_not_break_required_chain(self):
+        from dataclasses import replace
+
+        optional = replace(self.chain.steps[-1], memory_id="d3", necessary=False)
+        expanded = replace(self.chain, steps=self.chain.steps + (optional,))
+        content = {key: value for key, value in CHAIN.items() if key != "d3"}
+        package = chains.pack_evidence(expanded, content, self.required_cost)
+        self.assertTrue(package.complete)
+        self.assertEqual(set(package.memory_ids), set(self.chain.necessary_ids))
+
 
 class TestFourHopZeroOverlapBridges(unittest.TestCase):
     def corpus(self, seed: int) -> dict[str, str]:

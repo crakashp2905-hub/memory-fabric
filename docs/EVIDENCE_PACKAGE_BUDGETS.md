@@ -11,6 +11,11 @@ steps. If the mandatory set does not fit, it returns no partial package,
 stable reason `MANDATORY_EVIDENCE_EXCEEDS_BUDGET`. An already incomplete chain
 instead preserves its precise chain-search failure reason.
 
+If any mandatory step has no text in the supplied content map, packing also
+returns no partial package, lists the unavailable required IDs, and reports
+`REQUIRED_EVIDENCE_CONTENT_MISSING`. Missing optional support is skipped; it
+does not alter the complete mandatory dependency chain.
+
 This fail-closed result lets callers request a larger context or abstain. It
 prevents a superficially valid answer package whose citation list silently
 lost the bridge that made the answer supported.

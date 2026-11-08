@@ -241,11 +241,16 @@ def pack_evidence(chain: EvidenceChain, content: Mapping[str, str],
                                chain.insufficient_reason)
 
     def cost(memory_id: str) -> int:
-        if memory_id not in content:
-            raise KeyError(f"missing content for chain memory {memory_id}")
         return max(1, (len(content[memory_id]) + 3) // 4)
 
     required = chain.necessary_ids
+    missing_content = tuple(memory_id for memory_id in required
+                            if memory_id not in content)
+    if missing_content:
+        return EvidencePackage(
+            (), 0, token_budget, False, missing_content,
+            "REQUIRED_EVIDENCE_CONTENT_MISSING",
+        )
     required_cost = sum(cost(memory_id) for memory_id in required)
     if required_cost > token_budget:
         return EvidencePackage(
@@ -257,6 +262,10 @@ def pack_evidence(chain: EvidenceChain, content: Mapping[str, str],
     used = required_cost
     for step in chain.steps:
         if step.memory_id in selected:
+            continue
+        # Supporting evidence is optional: if it is unavailable, omit it and
+        # keep the complete mandatory dependency chain intact.
+        if step.memory_id not in content:
             continue
         item_cost = cost(step.memory_id)
         if used + item_cost <= token_budget:

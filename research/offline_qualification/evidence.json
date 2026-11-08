@@ -320,6 +320,23 @@
       ]
     },
     {
+      "task_id": "N2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md",
+        "research/results/n2-06-graph-evidence-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_chains.py --junitxml=research/results/n2-06-graph-evidence-tests.xml -q",
+      "limitations": [
+        "Token budgets use a deterministic local estimate of one token per four characters with per-item rounding; provider-specific tokenization is not measured.",
+        "The packer preserves dependencies marked necessary by EvidenceChain and surfaces incomplete chain status; it does not independently establish that retrieval discovered every real-world dependency."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
