@@ -11,6 +11,7 @@ every CI build.
 | [poisoning_and_rollback.py](poisoning_and_rollback.py) | The governance story: a false memory consolidated into a belief and a procedure, shared, then traced and retracted everywhere | nothing |
 | [wrong_memory_demo.py](wrong_memory_demo.py) | A corrected policy end to end: context with a receipt, a preview applied only if still current, the stale rule left out, an alternative proposed on a branch and kept as a conflict | nothing |
 | [action_gate.py](action_gate.py) | A tool call gated on its evidence, with a memory retracted between recall and action | nothing |
+| [multi_agent_team.py](multi_agent_team.py) | Two deterministic agents share a reviewed fact; a correction withdraws the dependent procedure for the team | nothing |
 | [agent_on_the_fabric.py](agent_on_the_fabric.py) | The Claude adapter end to end, with a scripted model; drop the stub to use the live API | nothing (`pip install ".[claude]"` and a key for the live API) |
 | [live_memory_os.py](live_memory_os.py) | The whole layer driven by real local models: governed writes, semantic retrieval, federation, retraction | Ollama with `qwen2.5:3b` and `nomic-embed-text` |
 
