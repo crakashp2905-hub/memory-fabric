@@ -2370,7 +2370,9 @@
         "docs/QUICKSTART.md",
         "tests/test_examples_run.py",
         "research/results/p1-01-example-tests.json",
-        "research/results/p1-01-example-tests.txt"
+        "research/results/p1-01-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
       ],
       "limitations": [
         "The offline source install requires setuptools>=77 to be preinstalled as the local build backend; the Memory Fabric runtime has no dependencies."
@@ -2388,10 +2390,36 @@
         "examples/README.md",
         "tests/test_examples_run.py",
         "research/results/p1-02-example-tests.json",
-        "research/results/p1-02-example-tests.txt"
+        "research/results/p1-02-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
       ],
       "limitations": [
         "The examples and test are configured in the CI workflow, but GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
+    },
+    {
+      "task_id": "P1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "examples/quickstart.py",
+        "examples/reference_agent.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/multi_agent_team.py",
+        "examples/agent_on_the_fabric.py",
+        "examples/live_memory_os.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
+      ],
+      "limitations": [
+        "The local-model example is checked for its visible scope label but is not run by the offline suite because it requires a configured Ollama service and model."
       ]
     }
   ]

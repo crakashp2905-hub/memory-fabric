@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e133550ad70d028fa74df2abf68863275c154f80b8cb66cabb600dde5c08da01",
+    "sha256": "48105ab189ec7941343fd2ca0249d0818b22c65f686cc8db509d9da29fac256a",
     "tasks": 260
   },
   "source": {
-    "commit": "ae3b7b8d134414f99dd1393a4a321efa055b0156",
+    "commit": "c7b2dd0266d9c6ad8b17a81ad8f5ac05f30a72c3",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 142,
+      "DONE": 143,
       "PARTIAL": 4,
-      "TODO": 114
+      "TODO": 113
     },
-    "completed": 142,
+    "completed": 143,
     "total": 260,
-    "percent_complete": 54.62,
+    "percent_complete": 55.0,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -309,7 +309,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "413e95679625ba21d264abab37b4765bfce81683f3e94ae3417da03b8156d5d5",
         "docs/VALIDATION.md": "7a49ef5f4f2ee3ee580f8bc25cb93a197904ad1daf4fb0a255d2ccd4781e7603",
-        "docs/STATUS_AT_HEAD.md": "e25b913c298db8e9840511c2dcda2fa1b68e044dad56664ad4b4b1b35929993b",
+        "docs/STATUS_AT_HEAD.md": "81633fc552289dfbf4af2fdc4e22fd84521325fcd7427a6e0c9dfddf16d1127c",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "61543369dd0a8ddcd7e625948e88235ef081ffd546317f1d00609e21998d4076",
+        "research/results/MANIFEST.json": "acb4f5bdec0462d4af20fc7a6209f7f8a53d57fc51c5fa61ae2e81b2972f564a",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4809,14 +4809,18 @@
         "docs/QUICKSTART.md",
         "tests/test_examples_run.py",
         "research/results/p1-01-example-tests.json",
-        "research/results/p1-01-example-tests.txt"
+        "research/results/p1-01-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
       ],
       "evidence_digests": {
-        "examples/getting_started.py": "45a1ac6885701f17289ee442fce189852950e4710f5a722960da67ae91e81716",
+        "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
         "docs/QUICKSTART.md": "05544e779707571414dc741affd4d2e8866a4ec68d3f6b3ce79847cc1143ade3",
-        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
-        "research/results/p1-01-example-tests.json": "fb792160ec92843937eab275d2ac68839c96b95725825c0428be92436160d7f0",
-        "research/results/p1-01-example-tests.txt": "a8d09cf96fa067b944202e6161c893cc57a0d1d417bd17f982b41579e1230407"
+        "tests/test_examples_run.py": "22f09c7f966b7acaf7b5af814bb6cc108a9ccc59e32e6decabe978a5163abdf7",
+        "research/results/p1-01-example-tests.json": "cf0cedc899cc49c9d39442cde00f813464b3855e636d2ac4179d0c2abc4b8c79",
+        "research/results/p1-01-example-tests.txt": "a8d09cf96fa067b944202e6161c893cc57a0d1d417bd17f982b41579e1230407",
+        "research/results/p1-03-example-labels.json": "87eed2e82c07c0f8c63724de930dd7073b18dc687a7123e33ec182b691fc658f",
+        "research/results/p1-03-example-labels.txt": "4bf5aff223771fe2bc52d1f39e102a2a6efb10a457cb78331ad1263adc8c2fd5"
       },
       "evidence_issues": {},
       "limitations": [
@@ -4838,16 +4842,20 @@
         "examples/README.md",
         "tests/test_examples_run.py",
         "research/results/p1-02-example-tests.json",
-        "research/results/p1-02-example-tests.txt"
+        "research/results/p1-02-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
       ],
       "evidence_digests": {
-        "examples/reference_agent.py": "a5ad01ad0d7c27aaee4f8270679d8b2cc6501473350d5f4ce268a13468ae4668",
-        "examples/multi_agent_team.py": "2fc25f54439461f7d1d0d79bf652ae5d02f723c9f5e45662e7c1da1e88b85e53",
-        "examples/action_gate.py": "c1b38de60be73579a4463e8a40ee84c5fd8f8a967d4aae4cb0c76362248df782",
-        "examples/README.md": "59e6760bb940eb9ca2bb1b32ce96f6b9d748f9af0122b46cf81fa3dbeb00ea5e",
-        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
+        "examples/reference_agent.py": "27a965984401db19767efa6859215d27756a335dec7878eb338cb211f0b7ab95",
+        "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
+        "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
+        "examples/README.md": "6781eab5b1d22ceccec63e215eec0e3e41c0d91075c2848e084f57f44ff6b22a",
+        "tests/test_examples_run.py": "22f09c7f966b7acaf7b5af814bb6cc108a9ccc59e32e6decabe978a5163abdf7",
         "research/results/p1-02-example-tests.json": "a32f5d477e6173f8f32a3eb5952f92f746f82a1d6d5a24dbd0d4e730bcad89be",
-        "research/results/p1-02-example-tests.txt": "c2c7fe8c33afe2560701fabf17d38fa9115fd706e9e45dd85a99a2165a7bf026"
+        "research/results/p1-02-example-tests.txt": "c2c7fe8c33afe2560701fabf17d38fa9115fd706e9e45dd85a99a2165a7bf026",
+        "research/results/p1-03-example-labels.json": "87eed2e82c07c0f8c63724de930dd7073b18dc687a7123e33ec182b691fc658f",
+        "research/results/p1-03-example-labels.txt": "4bf5aff223771fe2bc52d1f39e102a2a6efb10a457cb78331ad1263adc8c2fd5"
       },
       "evidence_issues": {},
       "limitations": [
@@ -4859,13 +4867,43 @@
       "priority": "P1",
       "task": "Make every example label simulated agents and deterministic fixtures visibly.",
       "acceptance": "Examples cannot imply live-LLM success or independently verified compliance",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "examples/quickstart.py",
+        "examples/reference_agent.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/multi_agent_team.py",
+        "examples/agent_on_the_fabric.py",
+        "examples/live_memory_os.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt"
+      ],
+      "evidence_digests": {
+        "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
+        "examples/quickstart.py": "89514176b49af882b714c930de0fdf973d1200921fe47fbb236982cd07e084d3",
+        "examples/reference_agent.py": "27a965984401db19767efa6859215d27756a335dec7878eb338cb211f0b7ab95",
+        "examples/wrong_memory_demo.py": "ed6514153fa51b9fbf6d989486a2f8105f11a165c711acdd6c4fe07bec337a3e",
+        "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
+        "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
+        "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
+        "examples/agent_on_the_fabric.py": "15df1e3c4a6356b7ac28f03d7caae31dfafebfa0b80976ff383dbf0843c64b29",
+        "examples/live_memory_os.py": "486addaef6e686933e695a949d105c50a4df765d1dcc7adb82b6a2e4b490ca9c",
+        "examples/README.md": "6781eab5b1d22ceccec63e215eec0e3e41c0d91075c2848e084f57f44ff6b22a",
+        "tests/test_examples_run.py": "22f09c7f966b7acaf7b5af814bb6cc108a9ccc59e32e6decabe978a5163abdf7",
+        "research/results/p1-03-example-labels.json": "87eed2e82c07c0f8c63724de930dd7073b18dc687a7123e33ec182b691fc658f",
+        "research/results/p1-03-example-labels.txt": "4bf5aff223771fe2bc52d1f39e102a2a6efb10a457cb78331ad1263adc8c2fd5"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The local-model example is checked for its visible scope label but is not run by the offline suite because it requires a configured Ollama service and model."
+      ]
     },
     {
       "task_id": "P1-04",
@@ -5471,7 +5509,7 @@
       "evidence_digests": {
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
-        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
+        "tests/test_examples_run.py": "22f09c7f966b7acaf7b5af814bb6cc108a9ccc59e32e6decabe978a5163abdf7",
         "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_user_docs_no_research.py": "40204106f31b9514194afc005f47d8fcb6e8e23b7220750d0bda17801c460220",

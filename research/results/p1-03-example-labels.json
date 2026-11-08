@@ -1,0 +1,20 @@
+{
+  "schema": "memory-fabric-example-label-audit/1",
+  "source_commit": "c7b2dd0266d9c6ad8b17a81ad8f5ac05f30a72c3",
+  "command": "python -m unittest tests.test_examples_run -v",
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "example_scripts": 9,
+  "every_source_has_visible_marker": true,
+  "offline_scripts_executed": 8,
+  "offline_stdout_marker_assertions_passed": true,
+  "real_local_model_script_labelled": true,
+  "log_path": "research/results/p1-03-example-labels.txt",
+  "log_sha256": "4bf5aff223771fe2bc52d1f39e102a2a6efb10a457cb78331ad1263adc8c2fd5",
+  "duration_seconds": 27.84,
+  "limitations": [
+    "The Ollama-backed example is checked for a visible scope label but is not run in the offline test."
+  ]
+}

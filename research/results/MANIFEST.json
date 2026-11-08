@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 227,
+ "results": 228,
  "missing_field_counts": {
-  "git_sha": 123,
+  "git_sha": 124,
   "prereg": 91,
-  "dataset_digest": 224,
-  "model_id": 191,
-  "prompt_hash": 227,
-  "seed": 148,
-  "cost": 204,
-  "verdict": 156
+  "dataset_digest": 225,
+  "model_id": 192,
+  "prompt_hash": 228,
+  "seed": 149,
+  "cost": 205,
+  "verdict": 157
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 215
+  "unclassified": 216
  },
  "rows": [
   {
@@ -3154,7 +3154,7 @@
   {
    "experiment_id": "p1-01-example-tests",
    "file": "research/results/p1-01-example-tests.json",
-   "file_sha256": "7c0997a1f8edd493682f65a3ad75c60031e123f602f5edd4eec42e2aea0595a0",
+   "file_sha256": "bf1abcb87b84cab22bf24614ef69096a6c8beac28b16e8c023644e82d9f46459",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": null,
@@ -3173,6 +3173,24 @@
    "experiment_id": "p1-02-example-tests",
    "file": "research/results/p1-02-example-tests.json",
    "file_sha256": "b22c561058905a78a68afefcff6cee8829f28abf6a0e951c436f7320dd5bd693",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-03-example-labels",
+   "file": "research/results/p1-03-example-labels.json",
+   "file_sha256": "bec2dc178b5436402d67c3181a8421ebe66ff24a9aa490353d9990243c079a6c",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": null,
