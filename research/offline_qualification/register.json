@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "bbd24aa296e532acb041cb7aedca0e6d7d4d5b7ddc35aae9d770d3ecfccb6000",
+    "sha256": "c9fcb5131a7b27e5a20bc773ac75beb88e6cb3ef03f7e1543d7bc1694b4fb65b",
     "tasks": 260
   },
   "source": {
-    "commit": "f792a9d3aa21afdff9b0a7c354b28ee4908a7989",
+    "commit": "0a6f58baf77b1375b8c6d17ebc3dd7d315e5f24a",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 106,
+      "DONE": 107,
       "PARTIAL": 14,
-      "TODO": 140
+      "TODO": 139
     },
-    "completed": 106,
+    "completed": 107,
     "total": 260,
-    "percent_complete": 40.77,
+    "percent_complete": 41.15,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -4318,7 +4318,7 @@
       ],
       "evidence_digests": {
         "tools/check.py": "be6dad5288930d3464ca9b894dd22870d35ffc517dbc2090b618e4553de46dc6",
-        "tools/adversarial_gate.py": "1ab5369f9ac645e62791af12f200ded0c8113e158c9362db56f4b53229f718ac",
+        "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
         "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
         "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
         "research/results/h5-02-static-security-gates.json": "09e4783869c0b9f5b79542fae10923e627e3b46f739f81b4f937f2118c5f77dd",
@@ -4422,14 +4422,28 @@
       "task_id": "H5-06",
       "priority": "P1",
       "task": "Freeze adversarial test registry with attack-family completeness check.",
-      "acceptance": "A missing attack family cannot accidentally turn the gate green",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "A missing attack family cannot accidentally turn the gate green. Evidence: `tests/data/adversarial_family_registry.json`, `tools/adversarial_gate.py`, `tests/test_adversarial_registry.py`, `research/results/h5-06-adversarial-registry.json`, `research/results/h5-06-adversarial-registry-tests.xml` (DONE: 21 frozen families and their test selectors validate; removing a family, changing selectors, empty selectors, and duplicate families fail the registry check)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/adversarial_family_registry.json",
+        "tools/adversarial_gate.py",
+        "tests/test_adversarial_registry.py",
+        "research/results/h5-06-adversarial-registry.json",
+        "research/results/h5-06-adversarial-registry-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/data/adversarial_family_registry.json": "3a6104d02c5c12956d8390c57b71b1e15a1335b78bc9548e2544e456ad147316",
+        "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
+        "tests/test_adversarial_registry.py": "ae377784445787b240c316ef88bf848df1491282a38a1a2cf27aef0781d7638f",
+        "research/results/h5-06-adversarial-registry.json": "84ced2630d72828584ecaa14c23b7591467c5d25505b870679c29559c5531c3f",
+        "research/results/h5-06-adversarial-registry-tests.xml": "c8795b6b1528b31105c9aa09647437a148d39b55165ac013c742cc01b8f50b32"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The registry validates family completeness and test selectors; it does not make sandbox-blocked HTTP integration families pass."
+      ]
     },
     {
       "task_id": "H5-07",

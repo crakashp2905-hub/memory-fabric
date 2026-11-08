@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **106 / 260 (40.77%)**. Internal status: **BLOCKED**.
+Strict completion: **107 / 260 (41.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `39fe8c1f33b712797094ed26acb559a8f7c357a55ad8138e019e3ef4baa1cf78`.
+Normalized ledger digest: `e77ec6386dd3c13405c4fa95243a2311a71cdf3004bef9e44231085c5fb1cb01`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 106 |
+| DONE | 107 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 140 |
+| TODO | 139 |
 
 ## Graduation gates
 
@@ -234,7 +234,7 @@ Normalized ledger digest: `39fe8c1f33b712797094ed26acb559a8f7c357a55ad8138e019e3
 | H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
 | H5-04 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` |
 | H5-05 | P1 | DONE | INTERNAL_INTEGRATION | `tools/mutation_check.py`, `tests/test_enforcement_tenant.py`, `tests/test_erasure_key_destroy.py`, `tests/test_transport_auth.py`, `research/results/h5-05-mutation-qualification.json`, `research/results/h5-05-mutation-contract-tests.xml` |
-| H5-06 | P1 | TODO | NOT_TESTED | — |
+| H5-06 | P1 | DONE | INTERNAL_INTEGRATION | `tests/data/adversarial_family_registry.json`, `tools/adversarial_gate.py`, `tests/test_adversarial_registry.py`, `research/results/h5-06-adversarial-registry.json`, `research/results/h5-06-adversarial-registry-tests.xml` |
 | H5-07 | P1 | TODO | NOT_TESTED | — |
 | H5-08 | P1 | TODO | NOT_TESTED | — |
 | H5-09 | P1 | TODO | NOT_TESTED | — |

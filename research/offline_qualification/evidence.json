@@ -1412,6 +1412,22 @@
       ]
     },
     {
+      "task_id": "H5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/adversarial_family_registry.json",
+        "tools/adversarial_gate.py",
+        "tests/test_adversarial_registry.py",
+        "research/results/h5-06-adversarial-registry.json",
+        "research/results/h5-06-adversarial-registry-tests.xml"
+      ],
+      "limitations": [
+        "The registry validates family completeness and test selectors; it does not make sandbox-blocked HTTP integration families pass."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,
