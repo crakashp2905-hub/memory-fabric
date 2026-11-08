@@ -2828,6 +2828,75 @@ def cmd_doctor(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_explain(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
+    """Explain a known refusal code or one recorded gated action without content."""
+    if args.action_seq is not None:
+        if fabric is None:
+            print("explaining an action requires an existing store", file=sys.stderr)
+            return 2
+        from .observability.control import action_detail
+
+        try:
+            detail = action_detail(fabric, args.action_seq)
+        except KeyError:
+            print(f"no gated action at sequence {args.action_seq}", file=sys.stderr)
+            return 4
+        decision = detail["decision"]
+        output = {
+            "action_seq": detail["seq"], "tool": decision.get("tool"),
+            "allowed": decision.get("allowed"),
+            "identity_scope": detail["identity_scope"],
+            "reason_codes": decision.get("reason_codes", []),
+            "checks": detail.get("reason_groups", []),
+            "evidence": [{"memory_id": row["memory_id"],
+                          "version_then": row["version_then"],
+                          "version_now": row["version_now"],
+                          "state_now": row["state_now"],
+                          "usable_now": row["usable_now"],
+                          "support": row["support_label"],
+                          "claim_check": row["claim_check_label"]}
+                         for row in detail.get("evidence", [])],
+        }
+        if args.json:
+            print(json.dumps(output, indent=2))
+            return 0
+        print(f"Action {output['action_seq']} · {output['tool']} · "
+              f"{'allowed' if output['allowed'] else 'refused'}")
+        print(f"Identity: {output['identity_scope']}")
+        if output["reason_codes"]:
+            print("Reason codes: " + ", ".join(output["reason_codes"]))
+        for group in output["checks"]:
+            print(f"\n{group['category']}")
+            for message in group["messages"]:
+                print(f"  {message}")
+        print("\nEvidence checked:")
+        if output["evidence"]:
+            for row in output["evidence"]:
+                print(f"  {row['memory_id']} v{row['version_then']} → "
+                      f"v{row['version_now']} ({row['state_now']}); "
+                      f"{row['support']}; {row['claim_check']}; "
+                      f"{'usable' if row['usable_now'] else 'not usable'} now")
+        else:
+            print("  no evidence was recorded for this decision")
+        return 0
+
+    from .reasons import REASONS
+    code = args.reason_code
+    if not code or code not in REASONS:
+        print("give a known reason code or --action SEQUENCE", file=sys.stderr)
+        return 2
+    happened, remedy = REASONS[code]
+    output = {"reason_code": code, "what_happened": happened,
+              "safe_remediation": remedy}
+    if args.json:
+        print(json.dumps(output, indent=2))
+    else:
+        print(f"{code}: {happened}")
+        if remedy:
+            print(f"Next: {remedy}")
+    return 0
+
+
 # --- parser -----------------------------------------------------------------
 
 
@@ -2887,6 +2956,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     add("overview", cmd_overview, "Store health and what it can and cannot tell you")
     add("tenants", cmd_tenants, "Which tenants this store holds")
+    p = add("explain", cmd_explain,
+            "Explain a refusal reason or inspect the checks for a recorded action")
+    p.add_argument("reason_code", nargs="?", help="known refusal reason code")
+    p.add_argument("--action", dest="action_seq", type=int,
+                   help="inspect one recorded action sequence without printing memory content")
     p = add("anchor", cmd_anchor,
             "Anchor the integrity checkpoint off the store (dir:, git:, https://), or verify anchors")
     p.add_argument("--to", action="append", metavar="TARGET",
@@ -3512,6 +3586,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     from .observability.logs import configure as configure_logs
 
     configure_logs(args.log_format, args.log_level)
+    if args.command == "explain" and args.action_seq is None:
+        return cmd_explain(None, args)
     if args.command == "init":  # creates its own layout; opens no --db
         return cmd_init(args)
     if args.command == "restore":  # writes a new directory; opens no --db

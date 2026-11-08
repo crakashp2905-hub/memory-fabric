@@ -197,6 +197,13 @@ What an erasure of one memory reached, kept, and could not reach
 
 - `id`: the memory whose erasure you are scoping
 
+### `explain`
+
+Explain a refusal reason or inspect the checks for a recorded action
+
+- `reason_code`: known refusal reason code
+- `--action`: inspect one recorded action sequence without printing memory content
+
 ### `export-erasure-ledger`
 
 Export content-free erasure ids for safe reconciliation of older backups

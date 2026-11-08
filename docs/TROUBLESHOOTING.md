@@ -181,3 +181,20 @@ shows the screen and its signals. For a false alarm:
 `memory-fabric --db <store> overview` and `doctor --json` are what to attach
 to a report. Neither contains memory content. Security problems go to the maintainer by
 email, privately ([SECURITY.md](../SECURITY.md#reporting)).
+
+
+## Explain an action refusal
+
+Use a reason code without opening a store to see its meaning and safe next step:
+
+```console
+memory-fabric explain evidence_withdrawn
+```
+
+For a specific decision, inspect the recorded policy groups and evidence versions by action sequence:
+
+```console
+memory-fabric --db store.db explain --action 42
+```
+
+The action form prints identifiers, versions, current states and support labels; it omits memory content. It is read-only.
