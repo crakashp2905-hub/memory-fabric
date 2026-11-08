@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "db74de2f4615034b5dc0977d228f034336282a836e1a52c96f127a8c57b68699",
+    "sha256": "948aacc07198e9d17304bdc7e4e6dfbb8f247c58ce2d283b92888dc4f6e7fb38",
     "tasks": 260
   },
   "source": {
-    "commit": "22aa651991612ee76dff322a926a0800553a39b3",
+    "commit": "55f189e40d4f74962b227537c0f71133668c6316",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 109,
+      "DONE": 110,
       "PARTIAL": 14,
-      "TODO": 137
+      "TODO": 136
     },
-    "completed": 109,
+    "completed": 110,
     "total": 260,
-    "percent_complete": 41.92,
+    "percent_complete": 42.31,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -303,7 +303,7 @@
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
-        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "644d2e8abaf77cf63d6bb6b6daf8cb567565dac240cc4f28ccf1d063fc4ae15b",
         "docs/VALIDATION.md": "fbde2d2ab39d5b49487371076fdf5201ba88b11cb9126ac50ee3908578e44b4f",
@@ -1178,7 +1178,7 @@
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "docs/API_INVENTORY.json": "e38bb22a3dba5738c6400047bae3dc65306b70babebd9a2efa3407ca6dd695d0",
         "docs/API.md": "90e0559893eaed5ad93106b133258b5b9f9445c27a4678fd5213487fd69c9293",
-        "STABILITY.md": "76abbb5444301de93d85f2c3e530aa7429e62f8efb4af2ac8f412e4a3c94bbbf",
+        "STABILITY.md": "b49237a4b47d3c96c87ad001ba0e5d833ebb42ad29f2cf73b994ac12d214b97c",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "883a30b707ae5db4d25539fcbae28c4f4c4814e4c784d02c814e0450738d59aa",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -1835,7 +1835,7 @@
         "research/results/r2-05-evidence-state.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/evidence_state.py": "734699d0efcd3e988f2302985100f3a57c8e3130cbad6ca43984a85d8dcee616",
+        "src/memory_fabric/evidence_state.py": "942f953784d5dbdc23e3008e242c624894ae6e15a19de39bddc69c56b59d06a9",
         "tests/test_evidence_state.py": "01e1ea48b7f68cfeda51b63a6834e5a319ed410125acff6983147b05d8ce0bf8",
         "research/results/r2-05-evidence-state.xml": "574d5c551144a9c4c1bd77b71b761d1c70f0ad222bdab2a79ea3939d6a961b10"
       },
@@ -4378,7 +4378,7 @@
       "evidence_digests": {
         "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
         "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
-        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
         ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
         "research/results/h5-04-package-asset-audit.json": "4d4a130ba114eb686c178364a7f4077e5b021dedc888452ab66189667b147ee9",
@@ -4467,7 +4467,7 @@
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
         "tests/test_security_fuzz.py": "6b2defcb703974cbcea1ec88482e840e12910b09918693328594a31d2bde6017",
-        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "research/results/h5-07-security-fuzz.json": "a1c8a691dc06604501b984ddbe401cb80cf428390f2e3c5b4587dcaa8b057168",
         "research/results/h5-07-security-fuzz-tests.xml": "b90891d538af5d6f16624a36f79cc721c7350e1ca93c09b25a22a9e787bdac55"
       },
@@ -4498,7 +4498,7 @@
         "src/memory_fabric/limits.py": "854a798ecb6b025104510f660b1f06c393a3b723b25a3d35e3ea88eb818a889d",
         "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
         "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110",
-        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "research/results/h5-08-rate-limit-qualification.json": "f1522ee25233bd746c276743744c1f553c89487777205d88e3596ffba1fb5ce4",
         "research/results/h5-08-rate-limit-tests.xml": "e6cd7fe4bb858f12367d76c59ffadfdcefe3961157061bce8ecc3adb73f31595"
       },
@@ -4511,14 +4511,28 @@
       "task_id": "H5-09",
       "priority": "P1",
       "task": "Ensure production-safe defaults require explicit opt-in for experimental model checks or dynamic tools.",
-      "acceptance": "Fresh install passes configuration audit and exposes no default remote listeners",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Fresh install passes configuration audit and exposes no default remote listeners. Evidence: `tools/audit_production_defaults.py`, `tests/data/default_features.json`, `tests/test_presets.py`, `.github/workflows/ci.yml`, `research/results/h5-09-production-defaults.json` (DONE: isolated fresh wheel install passes 10/10 checks; model/rerank and dynamic MCP defaults are off; listener factories default to loopback; import starts no sockets or threads)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_production_defaults.py",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-09-production-defaults.json"
+      ],
+      "evidence_digests": {
+        "tools/audit_production_defaults.py": "48485e4850c517bc9fa4d585ff8121853d569183be084f1a19e7061f4c02cc88",
+        "tests/data/default_features.json": "83504b3ef4dab543b5f32af7b50c9ce83a9a238e1cc6ce4780059f38eb8fe041",
+        "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
+        ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
+        "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Fresh isolated wheel import and listener factory defaults are checked; deployment-level firewall rules and remote network topology are outside this local audit."
+      ]
     },
     {
       "task_id": "H5-10",

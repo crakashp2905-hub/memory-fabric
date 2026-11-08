@@ -1464,6 +1464,22 @@
       ]
     },
     {
+      "task_id": "H5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_production_defaults.py",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-09-production-defaults.json"
+      ],
+      "limitations": [
+        "Fresh isolated wheel import and listener factory defaults are checked; deployment-level firewall rules and remote network topology are outside this local audit."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

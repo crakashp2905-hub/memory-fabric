@@ -7,6 +7,8 @@ still apply their own risk and authorization policy before acting.
 """
 from __future__ import annotations
 
+__stability__ = "beta"
+
 from dataclasses import dataclass
 from enum import IntEnum
 

@@ -75,7 +75,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (55)
+## Beta (56)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
@@ -94,6 +94,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.context_receipt`
 - `memory_fabric.correction`
 - `memory_fabric.dependence`
+- `memory_fabric.evidence_state`
 - `memory_fabric.evidence_status`
 - `memory_fabric.extraction`
 - `memory_fabric.freshness`
