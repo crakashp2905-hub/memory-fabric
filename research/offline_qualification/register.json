@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e609525d88fb1d939f6879178b447038e4bd5948da20afa0822b3fc29e7dafd2",
+    "sha256": "22e12d7943e87bdae04f69b94689c2876de4cd9a233af19f953773c680660b4d",
     "tasks": 260
   },
   "source": {
-    "commit": "df738f06e0573d5d6453e103a05cb773e7a0d53a",
+    "commit": "0265b571515c39b7e946a8e03cf2775cf005f6bb",
     "dirty": true
   },
   "summary": {
@@ -5295,7 +5295,7 @@
       "task_id": "P5-04",
       "priority": "P0",
       "task": "Exercise install/upgrade/rollback from existing supported baseline with persistent data.",
-      "acceptance": "No loss of records, corrections, grants, tombstones or audit evidence in local simulation. Evidence: `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` (PARTIAL: isolated v0.11.0 \u2192 v0.14.0 upgrade and rollback passed with 7-event chain/head, corrected content/version and quarantined record preserved. Rollback after new-schema writes and durable grant persistence were not tested because the baseline stores ActionPolicy grants in host configuration, not events)",
+      "acceptance": "No loss of records, corrections, grants, tombstones or audit evidence in local simulation. Evidence: `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` (PARTIAL: isolated v0.11.0 \u2192 v0.14.0 upgrade, post-upgrade correction/append/validation writes and rollback passed; the 10-event chain/head, corrected v3 content, quarantined record and added active record all survived. Durable grant persistence remains untested because the baseline stores ActionPolicy grants in host configuration, not events; not every event type or external side effect is covered)",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -5304,13 +5304,13 @@
         "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "evidence_digests": {
-        "tools/upgrade_rollback_smoke.py": "8fee26d7529873688e0be1c144c48c87862d5ddb924ddf6f9f66445243e9e692",
-        "research/results/p5-04-upgrade-rollback-smoke.json": "35e30f0bb5089b1926f7b05e7a1b9289ce758ca1aeba083b7cda6a57c5992a49"
+        "tools/upgrade_rollback_smoke.py": "dfff5e75a62d2240e9c8643ba048cad9d51999201b09751fc64cc211d89ae78e",
+        "research/results/p5-04-upgrade-rollback-smoke.json": "85083dedc0d5cea0a7c8f5f889f5ed07f5b6160ad6553ed9be081effdbf8b7b2"
       },
       "evidence_issues": {},
       "limitations": [
-        "Rollback after writes using the newer schema is not tested.",
-        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated."
+        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated.",
+        "Post-upgrade writes cover correction, append, validation and readback, but not every event type or external side effect."
       ]
     },
     {

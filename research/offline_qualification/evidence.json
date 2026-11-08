@@ -1536,8 +1536,8 @@
         "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "limitations": [
-        "Rollback after writes using the newer schema is not tested.",
-        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated."
+        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated.",
+        "Post-upgrade writes cover correction, append, validation and readback, but not every event type or external side effect."
       ]
     },
     {

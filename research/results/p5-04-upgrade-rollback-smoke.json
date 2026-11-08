@@ -1,6 +1,6 @@
 {
   "schema": "mf-upgrade-rollback-smoke/1",
-  "driver_commit": "df738f06e0573d5d6453e103a05cb773e7a0d53a",
+  "driver_commit": "0265b571515c39b7e946a8e03cf2775cf005f6bb",
   "driver_worktree_clean": true,
   "baseline_wheel": "memory_fabric-0.11.0-py3-none-any.whl",
   "baseline_wheel_sha256": "48c08155967c23f23e998af81eb9e7ec5a0c34c92a32f2ed3771029688ac6a4d",
@@ -13,14 +13,14 @@
   },
   "baseline_seed": {
     "ids": [
-      "01M6WHNCYG66VTX02HVP6CRD77",
-      "01M6WHND1Z7QBQ5322N6QEW4RG"
+      "01M6WHZVJW1NEBZWZ21T9MZB6J",
+      "01M6WHZVR5AYCBJZKEMJPWWCC5"
     ],
     "event_count": 7,
     "chain_ok": true,
     "chain_head": [
       7,
-      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+      "a998fa266bdf941d6195785eb0ce079a2cbb0a64b7671a98b264a4ffa3e06001"
     ],
     "corrected_version": 2,
     "withdrawn_state": "quarantined"
@@ -30,28 +30,57 @@
     "chain_ok": true,
     "chain_head": [
       7,
-      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+      "a998fa266bdf941d6195785eb0ce079a2cbb0a64b7671a98b264a4ffa3e06001"
     ],
     "corrected_version": 2,
     "corrected_content": "Pump P1 purge is 30 seconds.",
     "withdrawn_state": "quarantined"
   },
-  "rollback_readback": {
-    "event_count": 7,
+  "post_upgrade_write": {
+    "ids": [
+      "01M6WHZVJW1NEBZWZ21T9MZB6J",
+      "01M6WHZVR5AYCBJZKEMJPWWCC5",
+      "01M6WJ0105BQQFMJK9FFTDEZG4"
+    ],
+    "event_count": 10,
     "chain_ok": true,
     "chain_head": [
-      7,
-      "f474b47b5db33ddf19a63526755fcac1c7a97b307f230c2818b74076894891e5"
+      10,
+      "7a40c879befaf21300df103a6973c1b0233a005cf18aefc7d6010e1c59c3a9a5"
     ],
-    "corrected_version": 2,
-    "corrected_content": "Pump P1 purge is 30 seconds.",
-    "withdrawn_state": "quarantined"
+    "corrected_version": 3,
+    "corrected_content": "Pump P1 purge is 45 seconds.",
+    "withdrawn_state": "quarantined",
+    "added_state": "active"
+  },
+  "post_upgrade_readback": {
+    "event_count": 10,
+    "chain_ok": true,
+    "chain_head": [
+      10,
+      "7a40c879befaf21300df103a6973c1b0233a005cf18aefc7d6010e1c59c3a9a5"
+    ],
+    "corrected_version": 3,
+    "corrected_content": "Pump P1 purge is 45 seconds.",
+    "withdrawn_state": "quarantined",
+    "added_state": "active"
+  },
+  "rollback_readback": {
+    "event_count": 10,
+    "chain_ok": true,
+    "chain_head": [
+      10,
+      "7a40c879befaf21300df103a6973c1b0233a005cf18aefc7d6010e1c59c3a9a5"
+    ],
+    "corrected_version": 3,
+    "corrected_content": "Pump P1 purge is 45 seconds.",
+    "withdrawn_state": "quarantined",
+    "added_state": "active"
   },
   "upgrade_passed": true,
   "rollback_passed": true,
   "scope_limitations": [
-    "This drill performs no writes after upgrade; rollback with newer-schema writes is not tested.",
     "The v0.11.0 baseline uses host-configured ActionPolicy grants, not durable grant events. Grant persistence across package upgrade cannot be demonstrated from this baseline.",
-    "Only correction, quarantine/tombstone, event-chain and content readback are asserted."
+    "Post-upgrade writes exercise correction, append, validation, quarantine/tombstone, event-chain and content readback; they do not exercise every event type or external side effect."
   ]
 }
