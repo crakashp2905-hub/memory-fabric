@@ -2304,6 +2304,24 @@
       ]
     },
     {
+      "task_id": "P3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/upgrade_preview.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_upgrade_preview.py",
+        "docs/UPGRADE_PREVIEW.md",
+        "docs/CLI.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Preview inspects SQLite only and does not run a migration on a copy.",
+        "A structurally compatible version label does not prove application-level semantic compatibility."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

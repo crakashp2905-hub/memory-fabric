@@ -511,6 +511,12 @@ The whole idea in sixty seconds: one fact, four agents, one correction
 
 - `--fast`: print it at once, without pauses
 
+### `upgrade-preview`
+
+Read-only SQLite schema compatibility diagnosis; performs no migration
+
+- `database`: SQLite database path (defaults to global --db)
+
 ### `validate`
 
 WRITES: promote a candidate to active

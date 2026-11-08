@@ -1233,6 +1233,19 @@ def cmd_support_bundle(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_upgrade_preview(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
+    """Inspect event schema compatibility without opening the store writable."""
+    from .upgrade_preview import preview_upgrade
+
+    try:
+        report = preview_upgrade(args.database)
+    except OSError as exc:
+        print(f"upgrade preview: {exc}", file=sys.stderr)
+        return 4
+    print(json.dumps(report, indent=2, allow_nan=False))
+    return 0 if report["compatible_for_current_reader"] and report["store_byte_identical"] else 5
+
+
 def cmd_import(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Import another store's export as reviewable candidates. See `migrate.py`."""
     from .migrate import import_records, read_records
@@ -3274,6 +3287,11 @@ def build_parser() -> argparse.ArgumentParser:
             "identifiers, tenant metadata, keys or event payloads")
     p.add_argument("--out", required=True, help="path to the JSON support bundle")
 
+    p = add("upgrade-preview", cmd_upgrade_preview,
+            "Read-only SQLite schema compatibility diagnosis; performs no migration")
+    p.add_argument("database", nargs="?", default=argparse.SUPPRESS,
+                   help="SQLite database path (defaults to global --db)")
+
     p = add("import", cmd_import,
             "WRITES: import another store's export (JSON list or JSONL: Mem0, LangChain "
             "documents, plain content) as private candidates waiting for review")
@@ -3609,6 +3627,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return cmd_init(args)
     if args.command == "restore":  # writes a new directory; opens no --db
         return cmd_restore(None, args)  # type: ignore[arg-type]
+    if args.command == "upgrade-preview":  # read-only; never opens EventLog writable
+        if not hasattr(args, "database"):
+            args.database = args.db
+        return cmd_upgrade_preview(None, args)
     if args.command == "connect":  # writes a tool's config, not the store
         return cmd_connect(None, args)  # type: ignore[arg-type]
     if args.command == "models":  # environment only; opens no --db

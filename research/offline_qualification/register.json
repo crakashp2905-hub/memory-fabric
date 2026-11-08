@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "a74a4a5cf4fa8995c30014e777c70a254d7fb71b324e01231b443825775dbca9",
+    "sha256": "66c2672be7605a2b98cc28987cbba41313b072924959bb648fb17eef82f4201a",
     "tasks": 260
   },
   "source": {
-    "commit": "2b8b587bf76cfd12e5538cb5dc958750d8581523",
+    "commit": "b23042309ace93e6d831735ea99aa4822d4f7e03",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 181,
+      "DONE": 182,
       "PARTIAL": 4,
-      "TODO": 75
+      "TODO": 74
     },
-    "completed": 181,
+    "completed": 182,
     "total": 260,
-    "percent_complete": 69.62,
+    "percent_complete": 70.0,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -762,7 +762,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
       },
@@ -1237,7 +1237,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -4249,7 +4249,7 @@
         "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
@@ -4257,7 +4257,7 @@
         "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
-        "docs/CLI.md": "fd6567a209adc0202f16d0914b3189470bae3c9749ebc2edd4377f7fc235d6ce",
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
         "research/results/h3-08-backup-erasure-limits.json": "533fdcae700d612d7f6b7d9ede00b6364a76d0b4d473f417caf6c0ea22a32359",
         "research/results/h3-08-backup-erasure-limits-tests.xml": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee"
       },
@@ -4593,7 +4593,7 @@
       "evidence_digests": {
         "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
         "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
         "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",
@@ -5067,11 +5067,11 @@
         "research/results/p1-05-setup-doctor.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
         "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
-        "docs/CLI.md": "fd6567a209adc0202f16d0914b3189470bae3c9749ebc2edd4377f7fc235d6ce",
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
         "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
         "research/results/p1-05-setup-doctor.txt": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3"
       },
@@ -5588,13 +5588,13 @@
         "research/results/p3-03-refusal-explainer.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "src/memory_fabric/reasons.py": "891f223cfbe692e7c6086aa77c28a1843778f0350d6eb13c643aac1f160c7944",
         "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "docs/CLI.md": "fd6567a209adc0202f16d0914b3189470bae3c9749ebc2edd4377f7fc235d6ce",
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
         "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
         "research/results/p3-03-refusal-explainer.json": "d0f0f043daed3051d0db3b24180da0ed4c13744ec17440f393ed695e3f3cf660",
         "research/results/p3-03-refusal-explainer.txt": "9461ada349627121c5def79228df16595a62aa6d4ee8e2566adc7045558b4c4a"
@@ -5608,14 +5608,31 @@
       "task_id": "P3-04",
       "priority": "P1",
       "task": "Implement safe dry-run upgrade and schema compatibility diagnosis.",
-      "acceptance": "State remains byte-identical after dry run; incompatibilities are enumerated",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "State remains byte-identical after dry run; incompatibilities are enumerated.. Evidence: `src/memory_fabric/upgrade_preview.py`, `src/memory_fabric/cli.py`, `tests/test_upgrade_preview.py`, `docs/UPGRADE_PREVIEW.md` (DONE: SQLite opens read-only, SHA-256 proves byte identity, and unsupported/newer/malformed event versions return structured incompatibility codes.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/upgrade_preview.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_upgrade_preview.py",
+        "docs/UPGRADE_PREVIEW.md",
+        "docs/CLI.md",
+        "docs/README.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/upgrade_preview.py": "8f0c8d5fbdfcbc2d37d7314f34cff0663f6981c47a36197020a7a45b66140064",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
+        "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Preview inspects SQLite only and does not run a migration on a copy.",
+        "A structurally compatible version label does not prove application-level semantic compatibility."
+      ]
     },
     {
       "task_id": "P3-05",
@@ -5639,8 +5656,8 @@
       "evidence_digests": {
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
-        "docs/CLI.md": "fd6567a209adc0202f16d0914b3189470bae3c9749ebc2edd4377f7fc235d6ce",
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
         "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
         "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
@@ -5709,11 +5726,11 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/support_bundle.py": "cbbafd505300f97beec01e4e797157e145ecd1aca63d8f772dc3e36ca94e3710",
-        "src/memory_fabric/cli.py": "7b4e87b601f7542eaed47272cee92f78d03a6c4c72162a736f383713976cc0d3",
+        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
-        "docs/CLI.md": "fd6567a209adc0202f16d0914b3189470bae3c9749ebc2edd4377f7fc235d6ce",
-        "docs/README.md": "60b6b61f5cb10d5fc952976680c9252c24964aa0f8ff7bcf8b283f5757ac2c59"
+        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5756,7 +5773,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "60b6b61f5cb10d5fc952976680c9252c24964aa0f8ff7bcf8b283f5757ac2c59",
+        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -5917,7 +5934,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "60b6b61f5cb10d5fc952976680c9252c24964aa0f8ff7bcf8b283f5757ac2c59",
+        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
