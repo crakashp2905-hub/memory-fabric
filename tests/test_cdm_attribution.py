@@ -182,6 +182,13 @@ class TestAttribution(unittest.TestCase):
         self.assertEqual(unknown.status, "AMBIGUOUS_LINEAGE")
         self.assertIsNone(unknown.independent_root_count)
 
+    def test_missing_remote_evidence_cannot_increase_independent_root_count(self):
+        assessment = assess_source_roots(("local-copy", "remote-evidence-unavailable"),
+            root_by_evidence={"local-copy": "root-local"}, lineage_complete=True)
+        self.assertEqual(assessment.status, "AMBIGUOUS_LINEAGE")
+        self.assertIsNone(assessment.independent_root_count)
+        self.assertEqual(assessment.groups, (("root-local", ("local-copy",)),))
+
     def test_invalid_distributions_and_shapley_size_refuse(self):
         with self.assertRaises(CDMError):
             total_variation({"a": 0.2}, {"a": 0.8})

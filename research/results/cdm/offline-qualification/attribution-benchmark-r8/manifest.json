@@ -3,9 +3,9 @@
     "car_full_suffix": {
       "decision_flips": 5,
       "max_peak_memory_bytes": 7137,
-      "mean_cpu_nanoseconds": 5468750.0,
+      "mean_cpu_nanoseconds": 4687500.0,
       "mean_paired_utility_difference": 0.125,
-      "mean_wall_nanoseconds": 5305895.0,
+      "mean_wall_nanoseconds": 5805485.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.07451454240625907,
@@ -15,9 +15,9 @@
     "exact_shapley": {
       "decision_flips": 5,
       "max_peak_memory_bytes": 44354,
-      "mean_cpu_nanoseconds": 20312500.0,
+      "mean_cpu_nanoseconds": 21093750.0,
       "mean_paired_utility_difference": -0.1,
-      "mean_wall_nanoseconds": 20529915.0,
+      "mean_wall_nanoseconds": 20286300.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.2348964515158903,
@@ -27,9 +27,9 @@
     "exact_subset_oracle": {
       "decision_flips": 5,
       "max_peak_memory_bytes": 7137,
-      "mean_cpu_nanoseconds": 4687500.0,
+      "mean_cpu_nanoseconds": 3125000.0,
       "mean_paired_utility_difference": 0.125,
-      "mean_wall_nanoseconds": 4622270.0,
+      "mean_wall_nanoseconds": 4967495.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.07451454240625907,
@@ -39,9 +39,9 @@
     "leave_one_out": {
       "decision_flips": 5,
       "max_peak_memory_bytes": 7137,
-      "mean_cpu_nanoseconds": 3125000.0,
+      "mean_cpu_nanoseconds": 7812500.0,
       "mean_paired_utility_difference": 0.125,
-      "mean_wall_nanoseconds": 4443535.0,
+      "mean_wall_nanoseconds": 4648920.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.07451454240625907,
@@ -53,7 +53,7 @@
       "max_peak_memory_bytes": 3651,
       "mean_cpu_nanoseconds": 781250.0,
       "mean_paired_utility_difference": -0.025,
-      "mean_wall_nanoseconds": 651695.0,
+      "mean_wall_nanoseconds": 693685.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.19135709846750246,
@@ -65,7 +65,7 @@
       "max_peak_memory_bytes": 3651,
       "mean_cpu_nanoseconds": 781250.0,
       "mean_paired_utility_difference": -0.05,
-      "mean_wall_nanoseconds": 642405.0,
+      "mean_wall_nanoseconds": 649180.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.17107327055178306,
@@ -75,9 +75,9 @@
     "sampled_shapley": {
       "decision_flips": 5,
       "max_peak_memory_bytes": 276741,
-      "mean_cpu_nanoseconds": 854687500.0,
+      "mean_cpu_nanoseconds": 964843750.0,
       "mean_paired_utility_difference": -0.1,
-      "mean_wall_nanoseconds": 866963000.0,
+      "mean_wall_nanoseconds": 982642135.0,
       "n": 20,
       "normal_approx_95_interval": [
         -0.2348964515158903,
@@ -100,9 +100,9 @@
   "cost_quality_points": [
     {
       "arm": "car_full_suffix",
-      "cost_cpu_nanoseconds": 5468750.0,
+      "cost_cpu_nanoseconds": 4687500.0,
       "max_peak_memory_bytes": 7137,
-      "mean_wall_nanoseconds": 5305895.0,
+      "mean_wall_nanoseconds": 5805485.0,
       "quality_interval": [
         -0.07451454240625907,
         0.3245145424062591
@@ -111,9 +111,9 @@
     },
     {
       "arm": "exact_shapley",
-      "cost_cpu_nanoseconds": 20312500.0,
+      "cost_cpu_nanoseconds": 21093750.0,
       "max_peak_memory_bytes": 44354,
-      "mean_wall_nanoseconds": 20529915.0,
+      "mean_wall_nanoseconds": 20286300.0,
       "quality_interval": [
         -0.2348964515158903,
         0.0348964515158903
@@ -122,9 +122,9 @@
     },
     {
       "arm": "exact_subset_oracle",
-      "cost_cpu_nanoseconds": 4687500.0,
+      "cost_cpu_nanoseconds": 3125000.0,
       "max_peak_memory_bytes": 7137,
-      "mean_wall_nanoseconds": 4622270.0,
+      "mean_wall_nanoseconds": 4967495.0,
       "quality_interval": [
         -0.07451454240625907,
         0.3245145424062591
@@ -133,9 +133,9 @@
     },
     {
       "arm": "leave_one_out",
-      "cost_cpu_nanoseconds": 3125000.0,
+      "cost_cpu_nanoseconds": 7812500.0,
       "max_peak_memory_bytes": 7137,
-      "mean_wall_nanoseconds": 4443535.0,
+      "mean_wall_nanoseconds": 4648920.0,
       "quality_interval": [
         -0.07451454240625907,
         0.3245145424062591
@@ -146,7 +146,7 @@
       "arm": "random",
       "cost_cpu_nanoseconds": 781250.0,
       "max_peak_memory_bytes": 3651,
-      "mean_wall_nanoseconds": 651695.0,
+      "mean_wall_nanoseconds": 693685.0,
       "quality_interval": [
         -0.19135709846750246,
         0.14135709846750247
@@ -157,7 +157,7 @@
       "arm": "recency",
       "cost_cpu_nanoseconds": 781250.0,
       "max_peak_memory_bytes": 3651,
-      "mean_wall_nanoseconds": 642405.0,
+      "mean_wall_nanoseconds": 649180.0,
       "quality_interval": [
         -0.17107327055178306,
         0.07107327055178307
@@ -166,9 +166,9 @@
     },
     {
       "arm": "sampled_shapley",
-      "cost_cpu_nanoseconds": 854687500.0,
+      "cost_cpu_nanoseconds": 964843750.0,
       "max_peak_memory_bytes": 276741,
-      "mean_wall_nanoseconds": 866963000.0,
+      "mean_wall_nanoseconds": 982642135.0,
       "quality_interval": [
         -0.2348964515158903,
         0.0348964515158903
@@ -177,7 +177,7 @@
     }
   ],
   "cost_quality_protocol": "research/prereg/cdm-r8-cost-quality-pareto.md",
-  "csv_sha256": "0d7a69829b4ca9c81524c61a95f0331eb7b472d8d875b2b8914606800d7de7c3",
+  "csv_sha256": "fa0ec8bd21a8e9ab89b4b20aaeed35b304213e4d74c8e7a6d5a5bb99f1944196",
   "generator_sha256": "0208986d88c29fe2581fbc26117c366ee6f8de9cc1a8d9d8aa919cf842017828",
   "known_limitations": [
     "synthetic worlds only",
@@ -190,7 +190,7 @@
       "arm": "random",
       "cost_cpu_nanoseconds": 781250.0,
       "max_peak_memory_bytes": 3651,
-      "mean_wall_nanoseconds": 651695.0,
+      "mean_wall_nanoseconds": 693685.0,
       "quality_interval": [
         -0.19135709846750246,
         0.14135709846750247
@@ -198,10 +198,10 @@
       "quality_mean_utility_difference": -0.025
     },
     {
-      "arm": "leave_one_out",
+      "arm": "exact_subset_oracle",
       "cost_cpu_nanoseconds": 3125000.0,
       "max_peak_memory_bytes": 7137,
-      "mean_wall_nanoseconds": 4443535.0,
+      "mean_wall_nanoseconds": 4967495.0,
       "quality_interval": [
         -0.07451454240625907,
         0.3245145424062591
@@ -211,7 +211,7 @@
   ],
   "preregistration": "research/prereg/cdm-r8-cost-quality-pareto.md",
   "preregistration_sha256": "59aa94df1b6dab97bd001ce26a9ccf5ac5b6a20a5e2554e496c67f17fed44f84",
-  "report_sha256": "458c958ddbd2c1735e3c2efc73830dc138b1ba13000794c0912ba2b3a0f8f642",
+  "report_sha256": "7df3409ff6a450f3dba6f37dcf927ed6aff6db4e92155c3484554bc8a971244a",
   "schema": "cdm-attribution-benchmark-v1",
   "scope": "matched synthetic binary sensor worlds; proposal-score attribution; outcome utility evaluator-only",
   "seeds": [
