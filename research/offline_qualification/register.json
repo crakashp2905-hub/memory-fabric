@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "76a4697cba885c4b68cf7c1d7daf73c909e26882",
-    "dirty": true
+    "commit": "eaa3a3b063bf8cecc25bcf19e5c2bd985f4633ae",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -3935,7 +3935,7 @@
         "experiments/n4_03_compaction_size.py": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e",
         "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
-        "research/results/n4-03-compaction-size.json": "371158b4f9e3479f5ec4202a1d52f28dfdabba25845ae59b27f43c4ab87a27c3",
+        "research/results/n4-03-compaction-size.json": "d4ce8c1fbe33abe16d18724dbb28d7025d946f9d5945dea9f9ffbbbb47645710",
         "research/results/n4-03-compaction-size.md": "3aafdb64119240ba3d70b69ea320e579640318b5974fbce2bd90541aff06c7e4",
         "research/results/n4-03-compaction-tests.xml": "4d6671386ea4a7cefba1a013417c2e45de4cbe6ee5541df638ba888ee83386f6",
         "research/results/n4-03-compaction-tests.txt": "376a6ff32fa149a59abdf6fecabcb7b08c6b65e5df80859d1cc904fa15b722a6"
