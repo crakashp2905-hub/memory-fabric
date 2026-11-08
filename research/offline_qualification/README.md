@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **144 / 260 (55.38%)**. Internal status: **BLOCKED**.
+Strict completion: **145 / 260 (55.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ab07dbef22aa854f7b85a0525a1da9f1b637bfab20b2f183371640b5a2762466`.
+Normalized ledger digest: `1251d71fd69b40463436b0ea55ad47beda98eac5eef80b69decbb0899feecf90`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 144 |
+| DONE | 145 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 112 |
+| TODO | 111 |
 
 ## Graduation gates
 
@@ -243,7 +243,7 @@ Normalized ledger digest: `ab07dbef22aa854f7b85a0525a1da9f1b637bfab20b2f18337164
 | P1-02 | P1 | DONE | INTERNAL_INTEGRATION | `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-03 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `examples/quickstart.py`, `examples/reference_agent.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/poisoning_and_rollback.py`, `examples/multi_agent_team.py`, `examples/agent_on_the_fabric.py`, `examples/live_memory_os.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/sdk.py`, `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/correction.py`, `examples/sdk_workflow.py`, `docs/SDK_WORKFLOW.md`, `tests/test_sdk.py`, `tests/test_examples_run.py`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
-| P1-05 | P1 | TODO | NOT_TESTED | — |
+| P1-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `tests/test_doctor.py`, `tests/test_first_run.py`, `docs/OPERATIONS.md`, `docs/CLI.md`, `research/results/p1-05-setup-doctor.json`, `research/results/p1-05-setup-doctor.txt` |
 | P1-06 | P1 | TODO | NOT_TESTED | — |
 | P1-07 | P1 | TODO | NOT_TESTED | — |
 | P1-08 | P1 | TODO | NOT_TESTED | — |

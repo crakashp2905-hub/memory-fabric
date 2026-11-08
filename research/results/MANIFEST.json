@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 229,
+ "results": 230,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 226,
-  "model_id": 193,
-  "prompt_hash": 229,
-  "seed": 150,
-  "cost": 206,
-  "verdict": 158
+  "dataset_digest": 227,
+  "model_id": 194,
+  "prompt_hash": 230,
+  "seed": 151,
+  "cost": 207,
+  "verdict": 159
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 217
+  "unclassified": 218
  },
  "rows": [
   {
@@ -3213,6 +3213,24 @@
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": null,
    "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-05-setup-doctor",
+   "file": "research/results/p1-05-setup-doctor.json",
+   "file_sha256": "a585c8ec4a750bb7abb72f35fd4971c9ae002db6ecdf4fcf6c864804fa023779",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": "c9c98f765c5527b95a5bd627c3258830dede9514",
+   "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

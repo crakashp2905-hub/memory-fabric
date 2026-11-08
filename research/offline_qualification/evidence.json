@@ -2448,6 +2448,25 @@
       "limitations": [
         "DecisionModel is experimental; its proposal never grants authority and must still pass ActionGate. The example's decision policy and effect recorder are deterministic fixtures."
       ]
+    },
+    {
+      "task_id": "P1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "tests/test_doctor.py",
+        "tests/test_first_run.py",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "research/results/p1-05-setup-doctor.json",
+        "research/results/p1-05-setup-doctor.txt"
+      ],
+      "limitations": [
+        "The local port bind check is a time-of-check probe and cannot reserve the port. Disk floor is checked on the local store filesystem; PostgreSQL and in-memory stores require a server-side capacity check. Keys and schema continue to use the existing doctor checks.",
+        "GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
     }
   ]
 }

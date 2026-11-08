@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "050c13938c2adbcf38961d9c8afd9d53c00fd6cfec40e497f59417812e4d4568",
+    "sha256": "0eb35573640265cf15eaf7be36c03f481b028dfd608e19d74e145136b37357c2",
     "tasks": 260
   },
   "source": {
-    "commit": "13d1fb3b51c2a852314897feca2723bc83be09cc",
+    "commit": "c9c98f765c5527b95a5bd627c3258830dede9514",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 144,
+      "DONE": 145,
       "PARTIAL": 4,
-      "TODO": 112
+      "TODO": 111
     },
-    "completed": 144,
+    "completed": 145,
     "total": 260,
-    "percent_complete": 55.38,
+    "percent_complete": 55.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -768,7 +768,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
+        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
       },
@@ -985,7 +985,7 @@
       ],
       "evidence_digests": {
         "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
-        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
+        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
         "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
         "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
         "research/results/e4-05-sqlite-qualification.json": "5060cb447351caab6327c8fe2cac819e5b4c507a1ee71b01a3bd610a611bafc0",
@@ -1086,7 +1086,7 @@
         "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
         "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
         "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
-        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
+        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
         "research/results/e4-08-federation-faults.json": "3a6c256144eff225b556db47faee5f5d44f06156b37f18f0daaa3000bf83e95c",
         "research/results/e4-08-federation-faults.xml": "8f1018300a3bffe91e1c89ad583c160edf4edfd316f4f72fb21eaade970196a1"
       },
@@ -1243,7 +1243,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
+        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "cc2bfec49e89a65b90bfdd8578ba67fd3fc106148c6617058d1e6b6d7c28aab3",
+        "research/results/MANIFEST.json": "61489747d62f80fa473d5462631f9299def39b8a4690f1bfdcf2bf70b1c40359",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4154,7 +4154,7 @@
         "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
+        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
@@ -4162,7 +4162,7 @@
         "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
-        "docs/CLI.md": "f86ab6a531f03f8b5eb658077dd594e438c073be8b8e1075db4099c3eb47a836",
+        "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
         "research/results/h3-08-backup-erasure-limits.json": "533fdcae700d612d7f6b7d9ede00b6364a76d0b4d473f417caf6c0ea22a32359",
         "research/results/h3-08-backup-erasure-limits-tests.xml": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee"
       },
@@ -4191,7 +4191,7 @@
         "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
         "tests/test_metrics.py": "16901281bdbbf636015cf633c3b71abd5ed9579ab3d32d16db91deeead27cae9",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
-        "docs/OPERATIONS.md": "f300aa0bdabc71b7671251eccaedb5947ed525618a80d2ae853dcfc0b7477f93",
+        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
         "research/results/h3-09-sparse-metrics.json": "8dc279f61acd2aa3f8d75e9aa37130f642ba8a2ab057c7396a7cce15fdce03a5",
         "research/results/h3-09-sparse-metrics-tests.xml": "aff94fbefe988212d14ae4116b389fe434a7e448f7b4f08c7457494b33c9aba6"
       },
@@ -4220,7 +4220,7 @@
       "evidence_digests": {
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
-        "tests/test_doctor.py": "fadcb4fe738b5ba4e997b82b70a4bdb9e96786590e10deb67bd5766535306d32",
+        "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "docs/TROUBLESHOOTING.md": "e4267c4a8ca3e324a311ac418d51214d0d7e50f5e2200c3f056cd5ee3a781ef5",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
@@ -4498,7 +4498,7 @@
       "evidence_digests": {
         "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
         "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
-        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
+        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
         "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",
@@ -4959,13 +4959,32 @@
       "priority": "P1",
       "task": "Introduce setup doctor with actionable checks for store, keys, schema, ports and disk limits.",
       "acceptance": "Each injected misconfiguration identifies a concrete repair command without data loss",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "tests/test_doctor.py",
+        "tests/test_first_run.py",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "research/results/p1-05-setup-doctor.json",
+        "research/results/p1-05-setup-doctor.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db",
+        "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
+        "tests/test_first_run.py": "3926b0a1cabe587db31efb777a26fffbfb219b9c047c645e85664226c30d8ea9",
+        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
+        "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
+        "research/results/p1-05-setup-doctor.txt": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The local port bind check is a time-of-check probe and cannot reserve the port. Disk floor is checked on the local store filesystem; PostgreSQL and in-memory stores require a server-side capacity check. Keys and schema continue to use the existing doctor checks.",
+        "GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
     },
     {
       "task_id": "P1-06",
