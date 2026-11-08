@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d8ddfdf894df89acf799da8a83bdc2890592fd36546e472d122cb604531784d7",
+    "sha256": "bbd24aa296e532acb041cb7aedca0e6d7d4d5b7ddc35aae9d770d3ecfccb6000",
     "tasks": 260
   },
   "source": {
-    "commit": "3bf6613914ce2aa89f48c5d842d38b46e70cc783",
+    "commit": "f792a9d3aa21afdff9b0a7c354b28ee4908a7989",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 105,
+      "DONE": 106,
       "PARTIAL": 14,
-      "TODO": 141
+      "TODO": 140
     },
-    "completed": 105,
+    "completed": 106,
     "total": 260,
-    "percent_complete": 40.38,
+    "percent_complete": 40.77,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -4393,14 +4393,30 @@
       "task_id": "H5-05",
       "priority": "P1",
       "task": "Add mutation testing on ActionGate, authority, erasure, identity and network filters.",
-      "acceptance": "Critical mutations are killed by tests; surviving mutation list becomes prioritized bug backlog",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Critical mutations are killed by tests; surviving mutation list becomes prioritized bug backlog. Evidence: `tools/mutation_check.py`, `tests/test_enforcement_tenant.py`, `tests/test_erasure_key_destroy.py`, `tests/test_transport_auth.py`, `research/results/h5-05-mutation-qualification.json`, `research/results/h5-05-mutation-contract-tests.xml` (DONE: all 21 curated critical guard mutations killed; prioritized survivor backlog empty; socket-dependent HTTP integration is still blocked by this sandbox)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_enforcement_tenant.py",
+        "tests/test_erasure_key_destroy.py",
+        "tests/test_transport_auth.py",
+        "research/results/h5-05-mutation-qualification.json",
+        "research/results/h5-05-mutation-contract-tests.xml"
+      ],
+      "evidence_digests": {
+        "tools/mutation_check.py": "0aca4315176ef64cb5db6b51b3054c5cb8369fe6ea51f6881bceadcf6d5fa70d",
+        "tests/test_enforcement_tenant.py": "1e57c7a0ac17168a4715fdf6a18a7a131e875ea8973b87b5e75d31639ff057b7",
+        "tests/test_erasure_key_destroy.py": "d67afce019b0655942247c8419e18f3760b7fb6b495b767e0da65031d9d5976f",
+        "tests/test_transport_auth.py": "b521e619c39fa952e2ccbce71fd79c921831fcf13838a93ed471d33f7d6c4379",
+        "research/results/h5-05-mutation-qualification.json": "d0982e86c338766782af7f2918d6631497973677073b5c74301368ec86350c77",
+        "research/results/h5-05-mutation-contract-tests.xml": "ff0f52727c80d772070b1eea38df6a0210d39e8a643f29062fed5fd143c872ad"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "All 21 locally runnable critical guard mutations were killed. HTTP socket integration modules remain blocked by WinError 10013; equivalent sender selection and signature verification functions have direct no-socket tests."
+      ]
     },
     {
       "task_id": "H5-06",

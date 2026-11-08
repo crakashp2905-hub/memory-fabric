@@ -1395,6 +1395,23 @@
       ]
     },
     {
+      "task_id": "H5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_enforcement_tenant.py",
+        "tests/test_erasure_key_destroy.py",
+        "tests/test_transport_auth.py",
+        "research/results/h5-05-mutation-qualification.json",
+        "research/results/h5-05-mutation-contract-tests.xml"
+      ],
+      "limitations": [
+        "All 21 locally runnable critical guard mutations were killed. HTTP socket integration modules remain blocked by WinError 10013; equivalent sender selection and signature verification functions have direct no-socket tests."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,
