@@ -1281,18 +1281,20 @@
     },
     {
       "task_id": "H4-08",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tests/test_backup.py",
         "tests/test_version_skew.py",
         "tests/test_historical_fixtures.py",
+        "tests/test_backup_restore_qualification.py",
         "research/results/h4-08-backup-upgrade.json",
-        "research/results/h4-08-backup-upgrade-tests.xml"
+        "research/results/h4-08-backup-upgrade-tests.xml",
+        "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "limitations": [
-        "Historical schema upgrade, action grant checks, state and backup replay pass. The requested event-hash, tombstone, and audited-version rollback comparison is not asserted across all states."
+        "Static ActionPolicy configuration is host-managed and supplied again when a gate is constructed after restore; durable exact-action grant events and replay state are preserved and tested."
       ]
     },
     {

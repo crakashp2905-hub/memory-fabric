@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "7f34e955ce20584fff7cf03f40e0ee43b5f8316ba3d17bf9a3cc09f348be27f4",
+    "sha256": "74f1d10eec0197b1b2a8c6617f6ed71252512a76794c2ae06205fa10f7a1aaa6",
     "tasks": 260
   },
   "source": {
-    "commit": "e25e3ef445721883d2656673cf2f60c892b024bb",
+    "commit": "05a77fe64527bed2f59f0167b04623c9cfa38bdb",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 126,
-      "PARTIAL": 15,
+      "DONE": 127,
+      "PARTIAL": 14,
       "TODO": 119
     },
-    "completed": 126,
+    "completed": 127,
     "total": 260,
-    "percent_complete": 48.46,
-    "p0_open": 12,
+    "percent_complete": 48.85,
+    "p0_open": 11,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "f127833fd2214a0ff96bf161f71269c0262c0596d1038ccae46889053f1b7d8a",
+        "research/results/MANIFEST.json": "d7352fdea9beea1e8ead6580a08053e52dd78ecc714d47fc4ed8c70054b8042f",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4326,27 +4326,31 @@
       "task_id": "H4-08",
       "priority": "P0",
       "task": "Perform backup, restore, schema upgrade and rollback drill in isolated temporary directories.",
-      "acceptance": "Verify data, grants, tombstones, audited versions and event hashes before accepting restored state. Evidence: `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml` (PARTIAL: historical upgrade and state replay pass; full hash/tombstone/audit-version rollback comparison remains open)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Verify data, grants, tombstones, audited versions and event hashes before accepting restored state. Evidence: `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `tests/test_backup_restore_qualification.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml`, `research/results/p5-04-upgrade-rollback-smoke.json` (DONE: authenticated v0.11.0 data upgrades and restores with the same event-chain head; quarantined state, pending retraction, v2 audited evidence and durable action grants survive; used and unused grant behavior is checked after restore; package rollback after a post-upgrade correction and append also passes; 35 tests and 20 subtests pass. Static ActionPolicy configuration must be supplied by the host during restore)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tests/test_backup.py",
         "tests/test_version_skew.py",
         "tests/test_historical_fixtures.py",
+        "tests/test_backup_restore_qualification.py",
         "research/results/h4-08-backup-upgrade.json",
-        "research/results/h4-08-backup-upgrade-tests.xml"
+        "research/results/h4-08-backup-upgrade-tests.xml",
+        "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "evidence_digests": {
         "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
         "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
         "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc",
-        "research/results/h4-08-backup-upgrade.json": "d45ab7e8e96b45d572ef5a31a330201fb29c626282f8a2979aae4a6ddd668909",
-        "research/results/h4-08-backup-upgrade-tests.xml": "669481c5eb5230f61eafa21d1a6377340532f87f52c81d864e568e3ac8e9ab12"
+        "tests/test_backup_restore_qualification.py": "9e251cf66da2313e1f65acc66988e46cb2185143e0a24d05d99c9a95f1dcd751",
+        "research/results/h4-08-backup-upgrade.json": "f2e5276084a4dd009199537e18ed354e21f71d5da5402cb3e5a15b01d2d61df5",
+        "research/results/h4-08-backup-upgrade-tests.xml": "9ac7604d1a3615e26f4f4ed758c6b89de708ec58fcf1e738aa2b3b31e467c9f0",
+        "research/results/p5-04-upgrade-rollback-smoke.json": "85083dedc0d5cea0a7c8f5f889f5ed07f5b6160ad6553ed9be081effdbf8b7b2"
       },
       "evidence_issues": {},
       "limitations": [
-        "Historical schema upgrade, action grant checks, state and backup replay pass. The requested event-hash, tombstone, and audited-version rollback comparison is not asserted across all states."
+        "Static ActionPolicy configuration is host-managed and supplied again when a gate is constructed after restore; durable exact-action grant events and replay state are preserved and tested."
       ]
     },
     {

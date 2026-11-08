@@ -1,23 +1,45 @@
 {
   "schema": "mf-qualification/1",
   "task_id": "H4-08",
-  "source_commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
+  "source_commit": "05a77fe64527bed2f59f0167b04623c9cfa38bdb",
+  "source_dirty_at_test_start": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
   "input_sha256": {
-    "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+    "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
+    "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
     "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
-    "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc"
+    "tests/data/historical/manifest.json": "a16c5069e94336c83e6b65e61b6e813bcdef5d4cb4c4e4e73eff26bb0fcdadcf",
+    "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc",
+    "tests/test_backup_restore_qualification.py": "9e251cf66da2313e1f65acc66988e46cb2185143e0a24d05d99c9a95f1dcd751",
+    "src/memory_fabric/integrity.py": "16fe9774b04d9d967f5bd1e43063c989a2b2ad5d83a5c89e07d44171de6ed8ae",
+    "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+    "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48"
   },
   "checks": {
-    "historical_schemas": "0.2 through 0.8 upgrade and replay",
-    "backup": "verified replay, state and append-only checks",
-    "rollback": "partial old fixture restoration"
+    "authentic_old_schema": "0.11.0 fixture digest verified; current code upgrades and retains mixed schema events",
+    "backup": "CLI backup manifest chain head matches source",
+    "restore": "CLI restore succeeds; full event chain and original chain head verify",
+    "tombstone": "withdrawal and pending retraction payload survive restore",
+    "audited_versions": "MemoryVersioned and ActionGated evidence record the exact v2 memory and match after restore",
+    "durable_grants": "used grant stays replay-blocked; unused grant survives restore, works once, then replay is blocked",
+    "package_rollback": "post-upgrade write package rollback verified in research/results/p5-04-upgrade-rollback-smoke.json"
   },
+  "test_command": "python -m pytest tests/test_backup.py tests/test_version_skew.py tests/test_historical_fixtures.py tests/test_backup_restore_qualification.py -q --junitxml=research/results/h4-08-backup-upgrade-tests.xml",
+  "tests_passed": 35,
+  "subtests_passed": 20,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "9ac7604d1a3615e26f4f4ed758c6b89de708ec58fcf1e738aa2b3b31e467c9f0",
+  "acceptance_passed": true,
   "limitations": [
-    "No full hash/tombstone/audit-version cross-check over every rollback state."
-  ],
-  "test_summary": {
-    "passed": 19,
-    "subtests_passed": 11,
-    "failed": 0
-  }
+    "Static ActionPolicy grants are host configuration and are supplied again when the restored gate is constructed; durable exact-action grant events and replay behavior are verified from the restored event log.",
+    "Package rollback after new-schema writes is separately evidenced by the linked P5-04 drill."
+  ]
 }
