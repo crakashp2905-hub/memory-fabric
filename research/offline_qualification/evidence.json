@@ -1545,16 +1545,16 @@
     },
     {
       "task_id": "P5-04",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/upgrade_rollback_smoke.py",
         "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "limitations": [
-        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated.",
-        "Post-upgrade writes cover correction, append, validation and readback, but not every event type or external side effect."
+        "The v0.11.0 baseline uses host-configured ActionPolicy authorization; the drill proves a durable exact-action GrantIssued event created after upgrade survives rollback, not persistence of the host policy configuration.",
+        "The local simulation covers record creation, correction, quarantine/retraction, an exact-action grant event and audit-chain verification; it does not exercise every event type or external side effect."
       ]
     },
     {

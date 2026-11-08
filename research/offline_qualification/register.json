@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "572483974f7113d148ebc5e3f3d5c67bab40eaaeca774937a1a6ec325fdb46ae",
+    "sha256": "a0b840906fbfd18f8c2b67a42e167b57b1704ef2ff65546f0c202de27a22daf5",
     "tasks": 260
   },
   "source": {
-    "commit": "05cbdedc440ee2c68a528e6c7cb2c2c54d086359",
+    "commit": "407b1a048d3d4dfa017d099c30724119aac53aff",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 129,
-      "PARTIAL": 12,
+      "DONE": 130,
+      "PARTIAL": 11,
       "TODO": 119
     },
-    "completed": 129,
+    "completed": 130,
     "total": 260,
-    "percent_complete": 49.62,
-    "p0_open": 9,
+    "percent_complete": 50.0,
+    "p0_open": 8,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "86fccaa28c66f765fc48d90e7fdd8c2aadba122be91cec500ddcc9125bb09ac3",
+        "research/results/MANIFEST.json": "846b365c79ee68414107ef9f804c729ee229baff6a9a1bf965a1de4c52ecd110",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4370,7 +4370,7 @@
         "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "research/results/h4-08-backup-upgrade.json": "f2e5276084a4dd009199537e18ed354e21f71d5da5402cb3e5a15b01d2d61df5",
         "research/results/h4-08-backup-upgrade-tests.xml": "9ac7604d1a3615e26f4f4ed758c6b89de708ec58fcf1e738aa2b3b31e467c9f0",
-        "research/results/p5-04-upgrade-rollback-smoke.json": "85083dedc0d5cea0a7c8f5f889f5ed07f5b6160ad6553ed9be081effdbf8b7b2"
+        "research/results/p5-04-upgrade-rollback-smoke.json": "516426b464801ab910510af27b1cb9992d045046cad5268aed72f3c87d5497dd"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5329,22 +5329,22 @@
       "task_id": "P5-04",
       "priority": "P0",
       "task": "Exercise install/upgrade/rollback from existing supported baseline with persistent data.",
-      "acceptance": "No loss of records, corrections, grants, tombstones or audit evidence in local simulation. Evidence: `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` (PARTIAL: isolated v0.11.0 \u2192 v0.14.0 upgrade, post-upgrade correction/append/validation writes and rollback passed; the 10-event chain/head, corrected v3 content, quarantined record and added active record all survived. Durable grant persistence remains untested because the baseline stores ActionPolicy grants in host configuration, not events; not every event type or external side effect is covered)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "No loss of records, corrections, grants, tombstones or audit evidence in local simulation. Evidence: `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` (DONE: isolated v0.11.0 \u2192 v0.14.0 upgrade and rollback preserve the corrected v3 record, quarantined record, appended active record, tombstone history, exact-action GrantIssued event and verified 11-event chain; report binds baseline/candidate wheel hashes and clean driver commit. Host ActionPolicy configuration is separate from the persisted grant event; external effects remain outside this local simulation)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/upgrade_rollback_smoke.py",
         "research/results/p5-04-upgrade-rollback-smoke.json"
       ],
       "evidence_digests": {
-        "tools/upgrade_rollback_smoke.py": "dfff5e75a62d2240e9c8643ba048cad9d51999201b09751fc64cc211d89ae78e",
-        "research/results/p5-04-upgrade-rollback-smoke.json": "85083dedc0d5cea0a7c8f5f889f5ed07f5b6160ad6553ed9be081effdbf8b7b2"
+        "tools/upgrade_rollback_smoke.py": "6477cd721f165171429b96f245018fb0b56e687d8ff32698342885cf097a75ff",
+        "research/results/p5-04-upgrade-rollback-smoke.json": "516426b464801ab910510af27b1cb9992d045046cad5268aed72f3c87d5497dd"
       },
       "evidence_issues": {},
       "limitations": [
-        "The v0.11.0 baseline has host-configured ActionPolicy grants rather than durable grant events, so grant persistence could not be demonstrated.",
-        "Post-upgrade writes cover correction, append, validation and readback, but not every event type or external side effect."
+        "The v0.11.0 baseline uses host-configured ActionPolicy authorization; the drill proves a durable exact-action GrantIssued event created after upgrade survives rollback, not persistence of the host policy configuration.",
+        "The local simulation covers record creation, correction, quarantine/retraction, an exact-action grant event and audit-chain verification; it does not exercise every event type or external side effect."
       ]
     },
     {
