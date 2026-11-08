@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **143 / 260 (55.00%)**. Internal status: **BLOCKED**.
+Strict completion: **144 / 260 (55.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `c1f673da3406397d014f2d27714ae5a6aed3c099d2726fe795057af891317a0a`.
+Normalized ledger digest: `ab07dbef22aa854f7b85a0525a1da9f1b637bfab20b2f183371640b5a2762466`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 143 |
+| DONE | 144 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 113 |
+| TODO | 112 |
 
 ## Graduation gates
 
@@ -239,10 +239,10 @@ Normalized ledger digest: `c1f673da3406397d014f2d27714ae5a6aed3c099d2726fe795057
 | H5-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `src/memory_fabric/limits.py`, `tests/test_agent_api_rate_limit.py`, `tools/rate_limit_qualification.py`, `.github/workflows/ci.yml`, `research/results/h5-08-rate-limit-qualification.json`, `research/results/h5-08-rate-limit-tests.xml` |
 | H5-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_production_defaults.py`, `tests/data/default_features.json`, `tests/test_presets.py`, `.github/workflows/ci.yml`, `research/results/h5-09-production-defaults.json` |
 | H5-10 | P1 | DONE | INTERNAL_INTEGRATION | `research/security/internal_findings.json`, `tools/security_findings.py`, `tests/test_security_findings.py`, `tools/check.py`, `research/results/h5-10-internal-security-findings.json`, `research/results/h5-10-finding-verification.xml` |
-| P1-01 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `docs/QUICKSTART.md`, `tests/test_examples_run.py`, `research/results/p1-01-example-tests.json`, `research/results/p1-01-example-tests.txt`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt` |
-| P1-02 | P1 | DONE | INTERNAL_INTEGRATION | `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt` |
-| P1-03 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `examples/quickstart.py`, `examples/reference_agent.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/poisoning_and_rollback.py`, `examples/multi_agent_team.py`, `examples/agent_on_the_fabric.py`, `examples/live_memory_os.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt` |
-| P1-04 | P1 | TODO | NOT_TESTED | — |
+| P1-01 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `docs/QUICKSTART.md`, `tests/test_examples_run.py`, `research/results/p1-01-example-tests.json`, `research/results/p1-01-example-tests.txt`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
+| P1-02 | P1 | DONE | INTERNAL_INTEGRATION | `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
+| P1-03 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `examples/quickstart.py`, `examples/reference_agent.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/poisoning_and_rollback.py`, `examples/multi_agent_team.py`, `examples/agent_on_the_fabric.py`, `examples/live_memory_os.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-03-example-labels.json`, `research/results/p1-03-example-labels.txt`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
+| P1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/sdk.py`, `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/correction.py`, `examples/sdk_workflow.py`, `docs/SDK_WORKFLOW.md`, `tests/test_sdk.py`, `tests/test_examples_run.py`, `research/results/p1-04-sdk-workflow.json`, `research/results/p1-04-sdk-workflow.txt` |
 | P1-05 | P1 | TODO | NOT_TESTED | — |
 | P1-06 | P1 | TODO | NOT_TESTED | — |
 | P1-07 | P1 | TODO | NOT_TESTED | — |

@@ -2372,7 +2372,9 @@
         "research/results/p1-01-example-tests.json",
         "research/results/p1-01-example-tests.txt",
         "research/results/p1-03-example-labels.json",
-        "research/results/p1-03-example-labels.txt"
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
       ],
       "limitations": [
         "The offline source install requires setuptools>=77 to be preinstalled as the local build backend; the Memory Fabric runtime has no dependencies."
@@ -2392,7 +2394,9 @@
         "research/results/p1-02-example-tests.json",
         "research/results/p1-02-example-tests.txt",
         "research/results/p1-03-example-labels.json",
-        "research/results/p1-03-example-labels.txt"
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
       ],
       "limitations": [
         "The examples and test are configured in the CI workflow, but GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
@@ -2416,10 +2420,33 @@
         "examples/README.md",
         "tests/test_examples_run.py",
         "research/results/p1-03-example-labels.json",
-        "research/results/p1-03-example-labels.txt"
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
       ],
       "limitations": [
         "The local-model example is checked for its visible scope label but is not run by the offline suite because it requires a configured Ollama service and model."
+      ]
+    },
+    {
+      "task_id": "P1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/decision_models.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/correction.py",
+        "examples/sdk_workflow.py",
+        "docs/SDK_WORKFLOW.md",
+        "tests/test_sdk.py",
+        "tests/test_examples_run.py",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
+      ],
+      "limitations": [
+        "DecisionModel is experimental; its proposal never grants authority and must still pass ActionGate. The example's decision policy and effect recorder are deterministic fixtures."
       ]
     }
   ]
