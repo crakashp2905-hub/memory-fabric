@@ -2219,6 +2219,14 @@
       "limitations": ["The map identifies prior repository mechanisms; it does not replace external literature review."]
     },
     {
+      "task_id": "R5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["research/FAILURE_TAXONOMY.md", "tests/test_failure_taxonomy.py"],
+      "limitations": ["Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

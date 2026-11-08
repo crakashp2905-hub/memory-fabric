@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "7127a199a77f540f35cff1bfa11c0d16d95fe03a90c89b6bc9a93ec1e3cf563b",
+    "sha256": "30177ccc512f926c66327aba5dc17228b0a53d9965ff0a6555625104e6bb4699",
     "tasks": 260
   },
   "source": {
-    "commit": "147d3495ed5a1b9d5c8da3d339fd0b8740825894",
+    "commit": "0be61ba8245d72cb1014c7f6b0278b76a3d45410",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 175,
+      "DONE": 176,
       "PARTIAL": 4,
-      "TODO": 81
+      "TODO": 80
     },
-    "completed": 175,
+    "completed": 176,
     "total": 260,
-    "percent_complete": 67.31,
+    "percent_complete": 67.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2562,14 +2562,22 @@
       "task_id": "R5-05",
       "priority": "P1",
       "task": "Write failure taxonomy from every negative outcome, including historical H2, PA and PB1 failures.",
-      "acceptance": "Paper draft states which apparent gains did not generalize and why",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Paper draft states which apparent gains did not generalize and why.. Evidence: `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py`, source preregistrations and result files (DONE: registered H2, PA, PA\u2032, PB1 and PB3 outcomes retain verdict, failure class, supported explanation and next test boundary; scope explicitly names this as a historical-track index, not a repo-wide audit.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "evidence_digests": {
+        "research/FAILURE_TAXONOMY.md": "3514782cd43fe07647162527ad4ed3ed1fb3ca3b4bc28de3bd4f80b466c2437b",
+        "tests/test_failure_taxonomy.py": "4c5206785b45a01d111d36deb03da89857218d17a9635180bd15bb4fbaef8c22"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."
+      ]
     },
     {
       "task_id": "R5-06",
