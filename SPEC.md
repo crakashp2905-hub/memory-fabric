@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.15.0`
+- **Schema version:** `0.16.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -180,6 +180,16 @@ Default rules:
 6. Sensitive-data detector positive → QUARANTINE.
 
 ---
+
+### 0.16.0 — append-only alternative assessments
+
+Adds `DecisionOptionAssessed`, recording why a non-selected option lost and
+the exact versions of evidence that supported that rejection. A reassessment
+query preserves every option and its explanation; a correction to a version in
+the rejection basis marks that option `reconsider`, which only means it might
+become viable and does not select or authorize it. Missing assessments remain
+explicitly `unassessed`. Older readers skip the additive event and existing
+decision and memory rows are unchanged.
 
 ### 0.15.0 — replayable decision evidence and impact links
 

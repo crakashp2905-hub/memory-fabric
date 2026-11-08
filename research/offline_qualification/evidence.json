@@ -72,6 +72,24 @@
       ]
     },
     {
+      "task_id": "N1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-05-alternative-reassessment.xml"
+      ],
+      "limitations": [
+        "Alternative assessments preserve a human or agent supplied rejection explanation and exact evidence basis. Reconsideration marks an alternative as potentially viable after correction; it does not compute truth, select an option, or grant action authority."
+      ]
+    },
+    {
       "task_id": "N1-06",
       "status": "PARTIAL",
       "acceptance_passed": false,

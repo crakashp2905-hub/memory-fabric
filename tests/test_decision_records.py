@@ -5,7 +5,8 @@ import unittest
 
 from memory_fabric import (
     DecisionEdge, DecisionEdgeError, DecisionLedger, DecisionOption, DecisionRecord,
-    DecisionImpact, DecisionTransitionError, Event, EventLog, EventType, EvidenceVersion,
+    DecisionAlternativeAssessment, DecisionImpact, DecisionTransitionError,
+    Event, EventLog, EventType, EvidenceVersion,
 )
 
 
@@ -264,6 +265,57 @@ class DecisionLedgerTests(unittest.TestCase):
                               {"edge": forged.to_dict()}, agent_id="agent-1"))
         with self.assertRaisesRegex(DecisionEdgeError, "absent from its decision"):
             self.ledger.graph("d1")
+
+    def test_alternatives_keep_loss_reasons_and_flag_only_affected_rejection_basis(self) -> None:
+        preferred = EvidenceVersion("preferred-evidence", 1)
+        risk = EvidenceVersion("risk-evidence", 4)
+        supplier = EvidenceVersion("supplier-evidence", 2)
+        decision = DecisionRecord(
+            "alternatives", "tenant-1", "agent-1", "2026-11-08T10:00:00Z", "select plan",
+            (DecisionOption("preferred", "Preferred plan", (preferred,)),
+             DecisionOption("risk", "Higher-risk plan", (risk,)),
+             DecisionOption("supplier", "Supplier-dependent plan", (supplier,)),
+             DecisionOption("unassessed", "Unassessed plan", (preferred,))),
+            "preferred", (preferred, risk, supplier), {},
+        )
+        self.ledger.record(decision)
+        self.ledger.assess_alternative(DecisionAlternativeAssessment(
+            "alternatives", "risk", "Risk exceeded the allowed downtime",
+            (risk,), "reviewer", "2026-11-08T10:01:00Z"))
+        self.ledger.assess_alternative(DecisionAlternativeAssessment(
+            "alternatives", "supplier", "Required supplier was unavailable",
+            (supplier,), "reviewer", "2026-11-08T10:01:00Z"))
+        views = {view.option_id: view for view in
+                 self.ledger.reassess_alternatives("alternatives", risk)}
+        self.assertEqual(views["preferred"].reconsideration, "selected")
+        self.assertEqual(views["risk"].reconsideration, "reconsider")
+        self.assertTrue(views["risk"].might_become_viable)
+        self.assertEqual(views["risk"].rejection_reason,
+                         "Risk exceeded the allowed downtime")
+        self.assertEqual(views["supplier"].reconsideration, "still_rejected")
+        self.assertFalse(views["supplier"].might_become_viable)
+        self.assertEqual(views["unassessed"].reconsideration, "unassessed")
+        self.assertEqual(DecisionRecord.from_dict(decision.to_dict()).status, "proposed")
+        replay = DecisionLedger(self.log, lambda: 1_800_000_000_000)
+        self.assertEqual(replay.reassess_alternatives("alternatives", risk), tuple(views.values()))
+        with self.assertRaisesRegex(DecisionEdgeError, "assessment already exists"):
+            replay.assess_alternative(DecisionAlternativeAssessment(
+                "alternatives", "risk", "duplicate", (risk,), "reviewer",
+                "2026-11-08T10:02:00Z"))
+
+    def test_alternative_assessment_requires_exact_declared_blocking_evidence(self) -> None:
+        decision = DecisionRecord(
+            "d1", "tenant-1", "agent-1", "2026-11-08T10:00:00Z", "choose",
+            (DecisionOption("a", "A", (self.evidence,)),
+             DecisionOption("b", "B", (self.evidence,))),
+            "a", (self.evidence,), {},
+        )
+        self.ledger.record(decision)
+        invalid = DecisionAlternativeAssessment(
+            "d1", "b", "Lost because of evidence",
+            (EvidenceVersion("not-listed", 1),), "reviewer", "2026-11-08T10:00:00Z")
+        with self.assertRaisesRegex(DecisionEdgeError, "listed by the alternative"):
+            self.ledger.assess_alternative(invalid)
 
 
 if __name__ == "__main__":

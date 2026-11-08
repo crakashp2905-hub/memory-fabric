@@ -60,3 +60,10 @@ After restart it rebuilds the in-memory index from the append-only log. The
 `reference_impacts_for` path remains available for qualification and uses a
 full scan; the 10,000-decision qualification and its seeded manifest are
 recorded in `research/results/n1-04-dependency-index.json`.
+
+`DecisionOptionAssessed` records why a non-selected option lost and the exact
+evidence versions that formed its rejection basis. `reassess_alternatives`
+shows each registered option, the recorded reason, and whether a corrected
+version makes the option worth reconsidering. `reconsider` means the
+alternative might become viable; it does not change the chosen option or grant
+authority. Options without an assessment remain visible as `unassessed`.

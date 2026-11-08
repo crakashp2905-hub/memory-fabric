@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **200 / 260 (76.92%)**. Internal status: **BLOCKED**.
+Strict completion: **201 / 260 (77.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5ce12d7c470d675ea4cac288b7069c8a460a3309f3be9a477f811e87653e7cd1`.
+Normalized ledger digest: `9a0f778550d235d2e38de9e2f3bfb9aac02638e3e0757ac4557c70a76c8bde22`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 200 |
+| DONE | 201 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 56 |
+| TODO | 55 |
 
 ## Graduation gates
 
@@ -133,7 +133,7 @@ Normalized ledger digest: `5ce12d7c470d675ea4cac288b7069c8a460a3309f3be9a477f811
 | N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-02-decision-ledger-tests.xml` |
 | N1-03 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-03-decision-impact-tests.xml` |
 | N1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `tools/n1_04_dependency_index.py`, `research/results/n1-04-dependency-index.json` |
-| N1-05 | P1 | TODO | NOT_TESTED | — |
+| N1-05 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-05-alternative-reassessment.xml` |
 | N1-06 | P1 | PARTIAL | CONTRACT | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
 | N1-07 | P1 | TODO | NOT_TESTED | — |
 | N1-08 | P1 | TODO | NOT_TESTED | — |

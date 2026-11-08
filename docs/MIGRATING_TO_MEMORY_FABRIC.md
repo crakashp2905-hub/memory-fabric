@@ -3,7 +3,7 @@
 This is a complete namespace rename, explicitly authorized to break former
 imports and launch commands. It is not a backward-import compatibility release.
 Update integrations together before deployment. Existing stored data remains
-on schema 0.15.0; do not edit its event rows or encryption metadata.
+on schema 0.16.0; do not edit its event rows or encryption metadata.
 
 ## Install and update callers
 

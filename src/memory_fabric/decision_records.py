@@ -91,6 +91,49 @@ class DecisionImpact:
     affected_effects: tuple[DecisionEdge, ...]
 
 
+@dataclass(frozen=True, slots=True)
+class DecisionAlternativeAssessment:
+    """Why a non-selected option lost and which evidence made it lose."""
+
+    decision_id: str
+    option_id: str
+    rejection_reason: str
+    rejection_evidence: tuple[EvidenceVersion, ...]
+    assessed_by: str
+    assessed_at: str
+
+    def __post_init__(self) -> None:
+        for name in ("decision_id", "option_id", "assessed_by"):
+            if not isinstance(getattr(self, name), str) or not getattr(self, name).strip():
+                raise DecisionEdgeError(f"{name} must not be empty")
+        if not isinstance(self.rejection_reason, str) or not self.rejection_reason.strip():
+            raise DecisionEdgeError("rejection_reason must not be empty")
+        _validate_timestamp(self.assessed_at, "assessed_at")
+        evidence = tuple(self.rejection_evidence)
+        if not evidence or any(not isinstance(item, EvidenceVersion) for item in evidence):
+            raise DecisionEdgeError("rejection_evidence must name exact evidence versions")
+        if len(evidence) != len(set(evidence)):
+            raise DecisionEdgeError("rejection_evidence versions must be unique")
+        object.__setattr__(self, "rejection_evidence", evidence)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"decision_id": self.decision_id, "option_id": self.option_id,
+                "rejection_reason": self.rejection_reason,
+                "rejection_evidence": [item.to_dict() for item in self.rejection_evidence],
+                "assessed_by": self.assessed_by, "assessed_at": self.assessed_at}
+
+
+@dataclass(frozen=True, slots=True)
+class DecisionAlternativeView:
+    option_id: str
+    description: str
+    selected: bool
+    rejection_reason: str | None
+    rejection_evidence: tuple[EvidenceVersion, ...]
+    reconsideration: str
+    might_become_viable: bool
+
+
 def _decode_edge(data: Mapping[str, Any]) -> DecisionEdge:
     evidence = data.get("evidence")
     return DecisionEdge(data["edge_id"], data["decision_id"], data["relation"],
@@ -115,6 +158,7 @@ class DecisionLedger:
         self._seen_by_decision: dict[str, list[SeenExposure]] = {}
         self._exposures: dict[str, Event] = {}
         self._edge_ids: set[str] = set()
+        self._assessments_by_decision: dict[str, dict[str, DecisionAlternativeAssessment]] = {}
 
     def _sync_index(self) -> None:
         """Apply only events after the index cursor; safe after external appends."""
@@ -162,6 +206,28 @@ class DecisionLedger:
                                     row["memory_id"], row["version"],
                                     event.agent_id or "", row["recorded_at"])
                 self._seen_by_decision.setdefault(seen.decision_id, []).append(seen)
+            elif event.type == EventType.DECISION_OPTION_ASSESSED:
+                row = event.payload["assessment"]
+                assessment = DecisionAlternativeAssessment(
+                    row["decision_id"], row["option_id"], row["rejection_reason"],
+                    tuple(EvidenceVersion(item["memory_id"], item["version"])
+                          for item in row["rejection_evidence"]),
+                    row["assessed_by"], row["assessed_at"],
+                )
+                assessed_decision = self._decisions.get(assessment.decision_id)
+                if assessed_decision is None:
+                    raise DecisionEdgeError("replayed assessment refers to an unknown decision")
+                option = next((item for item in assessed_decision.options
+                               if item.option_id == assessment.option_id), None)
+                if option is None or assessment.option_id == assessed_decision.chosen_option_id:
+                    raise DecisionEdgeError("replayed assessment must describe a non-selected option")
+                if not set(assessment.rejection_evidence).issubset(option.evidence):
+                    raise DecisionEdgeError("replayed rejection evidence is absent from its option")
+                assessments = self._assessments_by_decision.setdefault(
+                    assessment.decision_id, {})
+                if assessment.option_id in assessments:
+                    raise DecisionEdgeError("replayed alternative assessment already exists")
+                assessments[assessment.option_id] = assessment
 
     @property
     def index_stats(self) -> Mapping[str, int]:
@@ -324,6 +390,55 @@ class DecisionLedger:
             raise DecisionEdgeError("trigger must be MemoryVersioned or RetractionApplied")
         return tuple(impact for evidence in sorted(changed)
                      for impact in self.impacts_for(evidence, trigger_event_id=trigger_event_id))
+
+    def assess_alternative(self, assessment: DecisionAlternativeAssessment) -> None:
+        """Append why a non-selected option lost, tied to exact blocking evidence."""
+        self._sync_index()
+        decision = self._decisions.get(assessment.decision_id)
+        if decision is None:
+            raise DecisionEdgeError("decision does not exist")
+        option = next((item for item in decision.options
+                       if item.option_id == assessment.option_id), None)
+        if option is None or assessment.option_id == decision.chosen_option_id:
+            raise DecisionEdgeError("assessment must describe a registered non-selected option")
+        if not set(assessment.rejection_evidence).issubset(option.evidence):
+            raise DecisionEdgeError("rejection evidence must be listed by the alternative")
+        if assessment.option_id in self._assessments_by_decision.get(assessment.decision_id, {}):
+            raise DecisionEdgeError("alternative assessment already exists")
+        event_id = "decision_assessment_" + hashlib.sha256(
+            f"{assessment.decision_id}\0{assessment.option_id}".encode("utf-8")).hexdigest()
+        self._log.append(Event(type=EventType.DECISION_OPTION_ASSESSED,
+                               ts=self._clock(), agent_id=assessment.assessed_by,
+                               payload={"assessment": assessment.to_dict()},
+                               event_id=event_id))
+
+    def reassess_alternatives(self, decision_id: str,
+                              corrected: EvidenceVersion) -> tuple[DecisionAlternativeView, ...]:
+        """Explain every option and flag only those whose rejection basis changed."""
+        self._sync_index()
+        decision = self._decisions.get(decision_id)
+        if decision is None:
+            raise DecisionEdgeError("decision does not exist")
+        assessments = self._assessments_by_decision.get(decision_id, {})
+        result: list[DecisionAlternativeView] = []
+        for option in decision.options:
+            if option.option_id == decision.chosen_option_id:
+                result.append(DecisionAlternativeView(
+                    option.option_id, option.description, True, None, option.evidence,
+                    "selected", False))
+                continue
+            assessment = assessments.get(option.option_id)
+            if assessment is None:
+                result.append(DecisionAlternativeView(
+                    option.option_id, option.description, False, None, option.evidence,
+                    "unassessed", False))
+                continue
+            reconsider = corrected in assessment.rejection_evidence
+            result.append(DecisionAlternativeView(
+                option.option_id, option.description, False, assessment.rejection_reason,
+                assessment.rejection_evidence,
+                "reconsider" if reconsider else "still_rejected", reconsider))
+        return tuple(result)
 
 DECISION_STATUSES = frozenset({"proposed", "approved", "executed", "superseded",
                                "requires_reconsideration"})

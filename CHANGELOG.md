@@ -5,6 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.16.0): evidence-dependent decision alternatives
+- Alternative loss reasons and exact rejection evidence are append-only; correction-aware reassessment flags only alternatives whose rejection basis changed, without selecting or authorizing them.
+
 ### Added (schema 0.15.0): replayable decision evidence graph
 - Decision records, typed exposure/reliance/effect links, and deterministic correction/retraction impact queries are stored as append-only, hash-chained events.
 - Existing event rows remain unchanged; projections and older readers continue to ignore unknown event types.
