@@ -146,6 +146,12 @@ class TestPage(unittest.TestCase):
         self.assertIn("async function openEvent(eventId)", html)
         self.assertIn("/api/events/${encodeURIComponent(eventId)}", html)
         self.assertIn("click a memory to read its story or a dashed lineage edge", html)
+        self.assertIn("Refresh impact preview", html)
+        self.assertIn("/correction`)", html)
+        self.assertIn("The preview changed since it was shown", html)
+        self.assertIn("old digest will be rejected", html)
+        self.assertIn("Previously shown", html)
+        self.assertIn("Fresh impact", html)
 
 
 class TestActionReasonGroups(unittest.TestCase):
@@ -182,6 +188,27 @@ class TestActionReasonGroups(unittest.TestCase):
         self.assertIn("truth and intent are not established", labels[2])
         self.assertNotIn("false", combined)
         self.assertNotIn("malicious", combined)
+
+    def test_fresh_correction_preview_changes_digest_and_stale_apply_is_refused(self):
+        from memory_fabric.correction import StalePreview, apply
+
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        root = fabric.remember("ag_ops", "Pump P-14 relief is set to 12 bar.", scope="team")
+        first = fabric.derive("ag_ops", "P-14 remains safe at the recorded relief setting.",
+                              [root], scope="team")
+        api = Api(fabric)
+        old = api.handle(f"/api/memories/{root}/correction", {})
+        self.assertIn(first, old["would_contest"])
+        second = fabric.derive("ag_review", "P-14 needs another relief review.",
+                               [root], scope="team")
+        fresh = api.handle(f"/api/memories/{root}/correction", {})
+        self.assertNotEqual(old["digest"], fresh["digest"])
+        self.assertIn(second, fresh["would_contest"])
+        with self.assertRaises(StalePreview):
+            apply(fabric, root, reason="review", actor="reviewer",
+                  preview_digest=old["digest"])
+        self.assertEqual(fabric.get(root).lifecycle_state.value, "active")
 
 
 class TestActionDetailApi(unittest.TestCase):

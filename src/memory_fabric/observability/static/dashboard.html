@@ -986,19 +986,10 @@ async function openDetail(id) {
     </dl>
 
     <h3>If this were withdrawn</h3>
-    <dl class="kv">
-      <dt>Contested</dt><dd>${detail.correction.would_contest.length
-        ? detail.correction.would_contest.map((p) => `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ")
-        : '<span class="sub">nothing</span>'}</dd>
-      <dt>Still standing</dt><dd>${detail.correction.would_survive.length
-        ? detail.correction.would_survive.map((p) => `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ") +
-          ' <span class="sub">independent support</span>'
-        : '<span class="sub">nothing</span>'}</dd>
-      <dt>Stores owed a retraction</dt><dd>${detail.correction.stores.length
-        ? detail.correction.stores.map((s) => `<span class="id">${esc(s.store_id)}</span>`).join(", ")
-        : '<span class="sub">none</span>'}</dd>
-    </dl>
-    ${actionBlock(`memory-fabric --db <store> correct ${r.id} --apply --reason "<why>" --actor <you> --preview ${(detail.correction.digest || "").slice(0, 16)}`)}
+    <div class="sub">This preview is read-only. Applying its command rechecks the digest atomically;
+      a stale digest is refused without applying and requires a fresh preview.</div>
+    <button id="correction-refresh">Refresh impact preview</button>
+    <div id="correction-preview"></div>
 
     <h3>Would retrieval show this?</h3>
     <div class="sub">Re-traces retrieval's filters for one agent and question, without retrieving
@@ -1052,10 +1043,42 @@ async function openDetail(id) {
     }).join("\n") || "no events"}</pre>`;
 
   $("drawer-close").addEventListener("click", closeDetail);
+  let shownCorrection = detail.correction;
+  renderCorrectionPreview(r.id, shownCorrection);
+  $("correction-refresh").addEventListener("click", async () => {
+    try { shownCorrection = await refreshCorrectionPreview(r.id, shownCorrection); }
+    catch (err) { showError(err); }
+  });
   $("why-go").addEventListener("click", () => runWhy(r.id).catch(showError));
   loadDependence(r.id).catch((err) => { $("dep-out").textContent = err.message; });
   loadTimeline(r.id).catch((err) => { $("tl-out").textContent = err.message; });
   $("wrong-go").addEventListener("click", () => loadIfWrong(r.id).catch(showError));
+}
+
+function renderCorrectionPreview(memoryId, preview, previousPreview = null) {
+  const changed = previousPreview !== null && previousPreview.digest !== preview.digest;
+  const status = changed
+    ? "The preview changed since it was shown. The old digest will be rejected; use this refreshed preview."
+    : "Current preview digest. Applying rechecks it under the write lock; if stale, nothing is applied.";
+  const ids = (values) => values.length ? values.map((p) =>
+    `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ") : '<span class="sub">none</span>';
+  const impact = (row) => `<dl class="kv"><dt>Would be contested</dt><dd>${ids(row.would_contest)}</dd>
+      <dt>Would retain independent support</dt><dd>${ids(row.would_survive)}</dd>
+      <dt>Copies affected</dt><dd>${ids(row.copies)}</dd>
+      <dt>Stores owed a retraction</dt><dd>${row.stores.length
+        ? row.stores.map((s) => `<span class="id">${esc(s.store_id || "unknown store")}</span>`).join(", ")
+        : '<span class="sub">none</span>'}</dd></dl>`;
+  $("correction-preview").innerHTML = `<div id="correction-preview-status" class="note">${badge(changed ? "Preview changed" : "Current preview", changed ? "medium" : "low")} ${status}</div>
+    ${changed ? `<div class="map-layout"><section><h4>Previously shown · ${esc(previousPreview.digest.slice(0, 16))}</h4>${impact(previousPreview)}</section>
+      <section><h4>Fresh impact · ${esc(preview.digest.slice(0, 16))}</h4>${impact(preview)}</section></div>` : impact(preview)}
+    <div class="id">current preview digest ${esc(preview.digest)}</div>
+      ${actionBlock(`memory-fabric --db <store> correct ${memoryId} --apply --reason "<why>" --actor <you> --preview ${preview.digest.slice(0, 16)}`)}`;
+}
+
+async function refreshCorrectionPreview(memoryId, previousPreview) {
+  const next = await api(`/api/memories/${encodeURIComponent(memoryId)}/correction`);
+  renderCorrectionPreview(memoryId, next, previousPreview);
+  return next;
 }
 
 async function openEvent(eventId) {
