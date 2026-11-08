@@ -1469,6 +1469,22 @@
       ]
     },
     {
+      "task_id": "H3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_metadata_sidechannels.py",
+        "tests/test_metadata_leakage.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-02-metadata-sidechannels.json",
+        "research/results/h3-02-metadata-sidechannels-tests.xml"
+      ],
+      "limitations": [
+        "Timing comparison uses an intentionally coarse 10x median threshold and does not establish constant-time behavior or eliminate all statistical timing inference."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,
