@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **93 / 260 (35.77%)**. Internal status: **BLOCKED**.
+Strict completion: **94 / 260 (36.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `53b5a336ffab99ceff176b926cb000e90c3a81aee4e3fe39f12bceab197790fe`.
+Normalized ledger digest: `43693c03c8d2170b2a2f16ebee398e7889865982053f5fa91ea03a86bd3b1357`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 93 |
+| DONE | 94 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 162 |
+| TODO | 161 |
 
 ## Graduation gates
 
@@ -212,7 +212,7 @@ Normalized ledger digest: `53b5a336ffab99ceff176b926cb000e90c3a81aee4e3fe39f12bc
 | H3-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/observability/control.py`, `tests/test_cross_tenant_surface_matrix.py`, `tests/test_privacy_federation.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-01-cross-tenant-matrix.json`, `research/results/h3-01-cross-tenant-matrix-tests.xml` |
 | H3-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_metadata_sidechannels.py`, `tests/test_metadata_leakage.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-02-metadata-sidechannels.json`, `research/results/h3-02-metadata-sidechannels-tests.xml` |
 | H3-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tenancy.py`, `tests/test_tenancy.py`, `tests/test_backup_custody.py`, `research/results/h3-03-physical-tenancy.json`, `research/results/h3-03-physical-tenancy-tests.xml` |
-| H3-04 | P0 | TODO | NOT_TESTED | — |
+| H3-04 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_credential_rotation_actions.py`, `tests/test_service.py`, `tests/test_action_fence.py`, `research/results/h3-04-credential-rotation-tests.xml`, `research/results/h3-04-credential-rotation.json` |
 | H3-05 | P0 | TODO | NOT_TESTED | — |
 | H3-06 | P0 | TODO | NOT_TESTED | — |
 | H3-07 | P0 | TODO | NOT_TESTED | — |

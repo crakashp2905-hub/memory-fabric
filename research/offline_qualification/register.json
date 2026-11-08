@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "8253782f8d6add6751eaea5e1919586bee638151506a0f33a9d34acfc4fd1d8c",
+    "sha256": "db70a8ffb7833a6976d45c967a5d0db4796b0f19c696117b32e627e7d11c4fbc",
     "tasks": 260
   },
   "source": {
-    "commit": "18d6b6097f69bec1b44d966327b99df966209572",
+    "commit": "2b15795be9951faa0e8f572b5544e59c0a32afb1",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 93,
+      "DONE": 94,
       "PARTIAL": 5,
-      "TODO": 162
+      "TODO": 161
     },
-    "completed": 93,
+    "completed": 94,
     "total": 260,
-    "percent_complete": 35.77,
-    "p0_open": 36,
+    "percent_complete": 36.15,
+    "p0_open": 35,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "bd1862af81a577844f767191991ed90f4ec58d33edb8779ce9322ca24baf47fa",
-        "docs/VALIDATION.md": "9c2f66e1a2ee41fe13ce87adea337043220be5cf4c98524c576f1b4a6a6e8315",
-        "docs/STATUS_AT_HEAD.md": "cd0c518933bb7ce0a51f44e2d59349f1f1c6fffe62335d2d18ee9d8bd8fee778",
+        "README.md": "7ff07c143f028199a4dd8282b9e3ecdab12e7c8fb3f9ef647f35fc886fd62f3b",
+        "docs/VALIDATION.md": "233917391f9b419e29a1b34b9ee56e4a26b1a1cf03f841d06c0ef926fea2111f",
+        "docs/STATUS_AT_HEAD.md": "fb9b428365cc6925900ae281cfac5364f0090c7eee095d2667df4bfe5a5e61d7",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "cad10d418b2102765804e912ee99b66ef99578dbc2ad282aa1f63e229a130a71",
+        "research/results/MANIFEST.json": "3d032018558eff51061b71d07dba6af2a01e20f086869c4cacf97912a2ecbb66",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3830,14 +3830,28 @@
       "task_id": "H3-04",
       "priority": "P0",
       "task": "Rotate/revoke credentials during active session and retried action.",
-      "acceptance": "Permissions are re-evaluated and revoked identities cannot use already-cached authorization",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Permissions are re-evaluated and revoked identities cannot use already-cached authorization. Evidence: `tests/test_credential_rotation_actions.py`, `tests/test_service.py`, `tests/test_action_fence.py`, `research/results/h3-04-credential-rotation-tests.xml`, `research/results/h3-04-credential-rotation.json`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_credential_rotation_actions.py",
+        "tests/test_service.py",
+        "tests/test_action_fence.py",
+        "research/results/h3-04-credential-rotation-tests.xml",
+        "research/results/h3-04-credential-rotation.json"
+      ],
+      "evidence_digests": {
+        "tests/test_credential_rotation_actions.py": "615c685e96a6660b843aa23d085cd2fff4ab6bf6aed730521eb2b0af59fdd346",
+        "tests/test_service.py": "124eb66ca97fda5c3ba0b0ae313979540dd6bd29905f4f0e4d34f7d625df280f",
+        "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
+        "research/results/h3-04-credential-rotation-tests.xml": "116729408a49e1c707f6612077c946f3264d88cce6204c837c83337928b8f1ee",
+        "research/results/h3-04-credential-rotation.json": "5ad522a21f0c92756e70b0e82e7764d691e05d94417fa97d9b2d1b4a0208738b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Credential revocation is rechecked against the local service registry. Cross-process durability depends on the configured revocation store; production deployments must use its durable SQLite-backed implementation."
+      ]
     },
     {
       "task_id": "H3-05",

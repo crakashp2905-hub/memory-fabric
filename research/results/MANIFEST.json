@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 184,
+ "results": 185,
  "missing_field_counts": {
-  "git_sha": 79,
+  "git_sha": 80,
   "prereg": 75,
-  "dataset_digest": 181,
-  "model_id": 148,
-  "prompt_hash": 184,
-  "seed": 106,
-  "cost": 161,
-  "verdict": 120
+  "dataset_digest": 182,
+  "model_id": 149,
+  "prompt_hash": 185,
+  "seed": 107,
+  "cost": 162,
+  "verdict": 121
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 173
+  "unclassified": 174
  },
  "rows": [
   {
@@ -1856,6 +1856,24 @@
    "experiment_id": "h3-03-physical-tenancy",
    "file": "research/results/h3-03-physical-tenancy.json",
    "file_sha256": "7987a9d699b6bbd5ed595f74267c30b661fd4530f6e613bb91c38a71475dc234",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-04-credential-rotation",
+   "file": "research/results/h3-04-credential-rotation.json",
+   "file_sha256": "a31b20740d76118c066837ac459c120c75749db9d83d97e4fee7fb0cb5da275e",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
