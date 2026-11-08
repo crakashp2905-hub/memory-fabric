@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "de161703424d71dde9cefd1e9fb68b32ea465217c9eb5e58dc9cd64a2cf13f4e",
+    "sha256": "3993351d71d86d02d58fde07b0790c7769fcde6ec6ef473eb65193721768ddb1",
     "tasks": 260
   },
   "source": {
-    "commit": "fe1dead704a909f4b81fee8d1b39a12f105afa63",
+    "commit": "611a807a9ed043383c6b4fde0e0a763794a7df67",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 227,
+      "DONE": 228,
       "PARTIAL": 3,
-      "TODO": 30
+      "TODO": 29
     },
-    "completed": 227,
+    "completed": 228,
     "total": 260,
-    "percent_complete": 87.31,
+    "percent_complete": 87.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -814,7 +814,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/_fabric/writes.py": "f165a88e83d0ed84b5ff51e38b63ea57745f29169e30e7a255129d05339452f9",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
         "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
@@ -868,7 +868,7 @@
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "src/memory_fabric/agent_api.py": "e75e39dd7eba021bf52d769071de440f8534e3ce16214ffa91458436d52e98f3",
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/_fabric/writes.py": "f165a88e83d0ed84b5ff51e38b63ea57745f29169e30e7a255129d05339452f9",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
         "docs/STAGE_TRACING.md": "a886d1cf6414da320d50d8188c4b7dae31f775ef36d8b85833abf611111691ab"
       },
@@ -3042,7 +3042,7 @@
         "research/results/n1-08-revision-conflict-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/_fabric/writes.py": "f165a88e83d0ed84b5ff51e38b63ea57745f29169e30e7a255129d05339452f9",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "src/memory_fabric/_fabric/common.py": "84914cc775c7367dfc86310cd789f8af2007adcabefb57a0eb385e178e65aab7",
         "src/memory_fabric/fabric.py": "1f0596153c6b0fc9efc78592357e41999208de8c26657680f8774023895ee658",
         "src/memory_fabric/__init__.py": "fa708e01fe70fff1abada95be2eca218745eee6f134b328411ce2786c7d3cbdb",
@@ -3835,7 +3835,7 @@
       "task_id": "N4-01",
       "priority": "P1",
       "task": "Define compression invariant: every consequential fact in summary maps back to active original versions.",
-      "acceptance": "Reconstructed dependency map passes exact oracle tests on generated summaries. Evidence: `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml` (DONE: generated extractive and dictionary summaries reconstruct exact active source versions; unsupported, omitted, disputed, and retracted facts are covered by oracle and negative-control tests. 20 tests pass. Qualifies recognized identifiers/numeric values; unstructured qualitative facts remain outside this extractor.)",
+      "acceptance": "Reconstructed dependency map passes exact oracle tests on generated summaries. Evidence: `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_summary_dependencies.py`, `tests/test_hierarchical_compaction.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml`, `research/results/n4-02-hierarchy-tests.xml` (DONE: generated extractive and dictionary summaries reconstruct exact active source versions; unsupported, omitted, disputed, retracted, and superseded parent versions are covered by oracle and negative-control tests. 20 focused tests pass. Qualifies recognized identifiers/numeric values; unstructured qualitative facts remain outside this extractor.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
@@ -3847,17 +3847,23 @@
         "tests/test_lossless_compaction.py",
         "research/results/n4-01-summary-dependencies.json",
         "research/results/n4-01-summary-dependencies.md",
-        "research/results/n4-01-dependency-map-tests.xml"
+        "research/results/n4-01-dependency-map-tests.xml",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "research/results/n4-02-hierarchy-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/summary_dependencies.py": "fce1c1de1c08832157c2e6b39d197a4614ea053ec1cfe3b289fdd976eb6deb3e",
-        "src/memory_fabric/compaction.py": "0c2fac60c3558425fce9d09811f6626a5bc2a4b6e97f334b000be78c1ef99624",
+        "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
+        "src/memory_fabric/compaction.py": "2e6b30b9b2a887393f2553a6b2ffe3b12d29708b42e3ac04167364e20f098a62",
         "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
         "tests/test_compaction.py": "b44dc21ec452f6dca03a2b03b4f16cd2d4f3667442736be2bd7d31d2ffddebb7",
         "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
-        "research/results/n4-01-summary-dependencies.json": "c085f368847df31e41b700fe98e12706ce675f0043bfa2d8b9c019109851dcfc",
+        "research/results/n4-01-summary-dependencies.json": "427652d0ae57e729075ce3379969bc7e6e1097230377900a3a7bed4d405c15e2",
         "research/results/n4-01-summary-dependencies.md": "fbac46c07f63886407ca58f5176b9fd7f821fae023ad5de32efff0ef5a8a759f",
-        "research/results/n4-01-dependency-map-tests.xml": "ff2bd171c8eab3be3ff453ec97967229e3b2f64d4e69aabd4d89e8e698fd58ed"
+        "research/results/n4-01-dependency-map-tests.xml": "ff2bd171c8eab3be3ff453ec97967229e3b2f64d4e69aabd4d89e8e698fd58ed",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
+        "tests/test_hierarchical_compaction.py": "0a7437cbedf4398b6d77beb5898cb8019ddbc9581857474544ff339d0940b707",
+        "research/results/n4-02-hierarchy-tests.xml": "93314e13814865aaf61b0c296c79acd5df65398988a9226e2b9269dec899205a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3869,14 +3875,42 @@
       "task_id": "N4-02",
       "priority": "P1",
       "task": "Build deterministic hierarchical summaries of long histories with explicit summary-to-source edge certificates.",
-      "acceptance": "Correction invalidates only summaries affected by changed source roots",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Correction invalidates only summaries affected by changed source roots. Evidence: `src/memory_fabric/compaction.py`, `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-02-hierarchical-compaction.json`, `research/results/n4-02-hierarchical-compaction.md`, `research/results/n4-02-hierarchy-tests.xml`, `research/results/n4-02-revision-compat-tests.xml` (DONE: deterministic 4/4/2 leaves and certified root verified; revising a source contests only its leaf and root, preserving sibling leaves. 27 focused tests and 77 compatibility tests plus 53 subtests pass. Two-level synthetic local evidence; SHA-256 is not a signature.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-02-hierarchical-compaction.json",
+        "research/results/n4-02-hierarchical-compaction.md",
+        "research/results/n4-02-hierarchy-tests.xml",
+        "research/results/n4-02-revision-compat-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/compaction.py": "2e6b30b9b2a887393f2553a6b2ffe3b12d29708b42e3ac04167364e20f098a62",
+        "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
+        "tests/test_hierarchical_compaction.py": "0a7437cbedf4398b6d77beb5898cb8019ddbc9581857474544ff339d0940b707",
+        "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
+        "tests/test_compaction.py": "b44dc21ec452f6dca03a2b03b4f16cd2d4f3667442736be2bd7d31d2ffddebb7",
+        "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
+        "research/results/n4-02-hierarchical-compaction.json": "5e6aec5efb3c78344adcd7724d778d28c818715e02986a3851e678e0c520f7ec",
+        "research/results/n4-02-hierarchical-compaction.md": "f537d936e342d3f69977cc8c22fc8adcb88faa969065934ebe75673fef12bf18",
+        "research/results/n4-02-hierarchy-tests.xml": "93314e13814865aaf61b0c296c79acd5df65398988a9226e2b9269dec899205a",
+        "research/results/n4-02-revision-compat-tests.xml": "3e9e9d2d0cc99faf62fd5b1372c9ad1160e0f2e446f701c5ba6e7346224890ff"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The implementation is a deterministic two-level hierarchy; deeper recursive trees are not qualified.",
+        "SHA-256 certificates detect mismatched content/edges but are not signatures or proof against an authorized writer changing both data and digest.",
+        "Hierarchy was tested on synthetic local histories, not distributed stores or external model summaries."
+      ]
     },
     {
       "task_id": "N4-03",
@@ -6523,7 +6557,7 @@
       "evidence_digests": {
         "src/memory_fabric/limits.py": "e1fe979eec94a8ae10da3d593fdc670e914b9460c138e9b161fcad6c61c3fc5a",
         "src/memory_fabric/agent_api.py": "e75e39dd7eba021bf52d769071de440f8534e3ce16214ffa91458436d52e98f3",
-        "src/memory_fabric/_fabric/writes.py": "f165a88e83d0ed84b5ff51e38b63ea57745f29169e30e7a255129d05339452f9",
+        "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "src/memory_fabric/_fabric/lifecycle.py": "df81a87f643b660b29213b3cb37a3d9087dcbb9079964deebc90af016df1317b",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_operational_budgets.py": "7c684f51186ff98019b1e6cbaaa751e3912a6075bd78dbb204e4f25fac6b71f4",
