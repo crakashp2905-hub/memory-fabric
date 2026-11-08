@@ -14,7 +14,7 @@ from pathlib import Path
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.observability.control import agents, graph, knowledge_map
-from memory_fabric.observability.server import Api, STATIC_ROUTES, STATIC_DIR
+from memory_fabric.observability.server import Api, ApiError, STATIC_ROUTES, STATIC_DIR
 
 HTML = Path(__file__).resolve().parents[1] / "src" / "memory_fabric" / "observability" / "static" / "dashboard.html"
 
@@ -156,6 +156,13 @@ class TestPage(unittest.TestCase):
         self.assertIn("/api/action-reconciliation", html)
         self.assertIn("/api/actions/timeline?tool=", html)
         self.assertIn("external effect requires reconciliation", html)
+
+    def test_selected_action_offers_offline_redacted_incident_export(self):
+        html = HTML.read_text(encoding="utf-8")
+        self.assertIn("/api/incidents/${encodeURIComponent(seq)}/export", html)
+        self.assertIn("Download redacted incident report", html)
+        self.assertIn("URL.createObjectURL(blob)", html)
+        self.assertIn("memory-fabric-incident-${seq}.json", html)
 
     def test_large_history_has_bounded_pages_and_generic_error_boundary(self):
         html = HTML.read_text(encoding="utf-8")
@@ -315,7 +322,8 @@ class TestActionDetailApi(unittest.TestCase):
         fabric = MemoryFabric(":memory:", auto_activate=True)
         self.addCleanup(fabric.close)
         tenant_id = "tn_decision_detail"
-        memory_id = fabric.remember("ag_ops", "Pump P-14 relief valve is set to 12 bar.",
+        canary = "SYNTHETIC-SECRET-CANARY-DO-NOT-EXPORT"
+        memory_id = fabric.remember("ag_ops", f"{canary} Pump P-14 relief valve is set to 12 bar.",
                                     tenant_id=tenant_id, scope="team")
         gate = ActionGate(
             fabric,
@@ -348,6 +356,20 @@ class TestActionDetailApi(unittest.TestCase):
         self.assertFalse(evidence["usable_now"])
         self.assertEqual(evidence["support_now"]["verdict"], "justified")
         self.assertIn("justification survives", evidence["support_label"])
+        exported = api.handle(f"/api/incidents/{row['seq']}/export", {})
+        self.assertEqual(exported["schema"], "memory-fabric-redacted-incident/1")
+        self.assertEqual(exported["integrity"]["algorithm"], "sha256")
+        self.assertEqual(exported["integrity"]["report_sha256"],
+                         hashlib.sha256(json.dumps(exported["report"], sort_keys=True,
+                             separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")).hexdigest())
+        self.assertNotIn(canary, json.dumps(exported))
+        self.assertNotIn("Pump P-14 relief valve", json.dumps(exported))
+        with self.assertRaises(ApiError) as malformed:
+            api.handle("/api/incidents/not-a-sequence/export", {})
+        self.assertEqual(malformed.exception.status.value, 400)
+        with self.assertRaises(ApiError) as missing:
+            api.handle("/api/incidents/999999/export", {})
+        self.assertEqual(missing.exception.status.value, 404)
         self.assertNotIn("false", evidence["claim_check_label"].lower())
         self.assertNotIn("malicious", evidence["claim_check_label"].lower())
         self.assertEqual([group["category"] for group in detail["reason_groups"]],

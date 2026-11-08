@@ -1434,9 +1434,18 @@ async function loadActionTimeline(tool) {
     : '<div class="sub">No authorization or execution events for this tool.</div>'}`;
 }
 
+async function downloadIncident(seq) {
+  const report = await api(`/api/incidents/${encodeURIComponent(seq)}/export`);
+  const blob = new Blob([JSON.stringify(report, null, 2) + "\n"], {type: "application/json"});
+  const url = URL.createObjectURL(blob), link = document.createElement("a");
+  link.href = url; link.download = `memory-fabric-incident-${seq}.json`;
+  document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+}
+
 async function showAction(seq) {
   const a = await api(`/api/actions/${seq}`);
   $("action-detail").innerHTML = `<h3>Action #${a.seq}: ${esc(a.decision.tool)} by ${esc(a.agent_id)}</h3>
+    <button id="incident-export" aria-label="Download redacted incident report for action ${a.seq}">Download redacted incident report</button>
     <p class="sub">Identity scope: agent ${esc(a.identity_scope.agent_id || "unknown")};
       tenant ${esc(a.identity_scope.tenant_id || "unspecified")};
       claim ${esc(a.identity_scope.claim_id || "unspecified")}</p>
@@ -1459,6 +1468,7 @@ async function showAction(seq) {
       <td>${esc(x.authority_now?.trust || "unknown")}<div class="sub">${esc((x.authority_now?.origins || []).join(", "))}</div></td>
       </tr>`).join("")}</tbody></table>
     <p class="sub">Support recomputation and evidence state describe the current store; they do not grant permission to act.</p>`;
+  $("incident-export").addEventListener("click", () => downloadIncident(a.seq).catch(showError));
   loadActionTimeline(a.decision.tool).catch((err) => { $("action-timeline").textContent = err.message; });
 }
 

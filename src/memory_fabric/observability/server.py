@@ -286,6 +286,15 @@ class Api:
 
                 return action_reconciliation(f, limit=_int(params, "limit", 200) or 200)
 
+            case ["incidents", raw_seq, "export"]:
+                if not raw_seq.isdigit():
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "incident id is an action sequence number")
+                from .incident_export import export_incident
+                try:
+                    return export_incident(f, int(raw_seq))
+                except LookupError as exc:
+                    raise ApiError(HTTPStatus.NOT_FOUND, "no such gated action") from exc
+
             case ["actions", "timeline"]:
                 from .control import action_timeline
 
