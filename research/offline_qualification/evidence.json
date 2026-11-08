@@ -2302,6 +2302,20 @@
       "limitations": [
         "Per-agent success, corrected/contested high-risk success, p95 and worst-agent decision latency are measured on local scripted tasks. Latencies are host-dependent; the least-agent and high-risk fairness checks are synthetic."
       ]
+    },
+    {
+      "task_id": "R4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_statistical_intervals.py",
+        "tools/qualify_statistical_intervals.py",
+        "research/results/r4-01-binomial-intervals.json"
+      ],
+      "limitations": [
+        "Zero-denominator intervals intentionally represent complete uncertainty; this validates formulas, not workload-specific statistical power."
+      ]
     }
   ]
 }

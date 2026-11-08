@@ -233,7 +233,7 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 
 **Existing reference points:** `benchmarks/stats.py`, `benchmarks/manifest.py`, `research/prereg/`, `research/SCORECARD.md`.
 
-- [ ] **R4-01** · **P1** · Implement Wilson or exact binomial intervals for completion and false-block rates. **Acceptance:** CI validates formulas on known reference cases including zero-event observations..
+- [x] **R4-01** · **P1** · Implement Wilson or exact binomial intervals for completion and false-block rates. **Acceptance:** CI validates formulas on known reference cases including zero-event observations. Evidence: `benchmarks/stats.py`, `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` (DONE: 3 focused tests pass; seven machine-checked Wilson/exact-zero-event reference cases pass, including zero-event and zero-denominator cases. Zero denominator remains fully uncertain; workload power is not claimed)..
 - [ ] **R4-02** · **P1** · Use paired bootstrap intervals for per-task improvement against matched baselines. **Acceptance:** Report effect, 95% CI, sample size, correlation assumptions and split identity..
 - [ ] **R4-03** · **P1** · Correct multi-family hypothesis comparisons or declare a small number of primary outcomes. **Acceptance:** Results distinguish primary, secondary and exploratory measurements without p-value fishing..
 - [ ] **R4-04** · **P1** · Predefine minimal meaningful improvement and disallowed regression margins for every hypothesis. **Acceptance:** Gate logic is stable before test data execution and fails under boundary test values..

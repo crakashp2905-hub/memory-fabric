@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **133 / 260 (51.15%)**. Internal status: **BLOCKED**.
+Strict completion: **134 / 260 (51.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3f07c069e2933a514fba7f50b3cde8990675505a6c15e314cd2efcc30f5dad66`.
+Normalized ledger digest: `442575d201d93b84ce6387a7e3646427f662eaa11e3410fc661a1d00053c7a89`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 133 |
+| DONE | 134 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 8 |
-| TODO | 119 |
+| TODO | 118 |
 
 ## Graduation gates
 
@@ -109,7 +109,7 @@ Normalized ledger digest: `3f07c069e2933a514fba7f50b3cde8990675505a6c15e314cd2ef
 | R3-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/agent_adapter.py`, `docs/AGENT_ADAPTER.md`, `tests/test_agent_adapter.py`, `research/results/r3-agent-adapter-tests.xml` |
 | R3-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
 | R3-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
-| R4-01 | P1 | TODO | NOT_TESTED | — |
+| R4-01 | P1 | DONE | CONTRACT | `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` |
 | R4-02 | P1 | TODO | NOT_TESTED | — |
 | R4-03 | P1 | TODO | NOT_TESTED | — |
 | R4-04 | P1 | TODO | NOT_TESTED | — |

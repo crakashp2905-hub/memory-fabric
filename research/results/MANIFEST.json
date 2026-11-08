@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 221,
+ "results": 222,
  "missing_field_counts": {
-  "git_sha": 117,
-  "prereg": 87,
-  "dataset_digest": 218,
-  "model_id": 185,
-  "prompt_hash": 221,
-  "seed": 142,
-  "cost": 198,
+  "git_sha": 118,
+  "prereg": 88,
+  "dataset_digest": 219,
+  "model_id": 186,
+  "prompt_hash": 222,
+  "seed": 143,
+  "cost": 199,
   "verdict": 152
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 210
+  "unclassified": 211
  },
  "rows": [
   {
@@ -4256,6 +4256,24 @@
     },
     "ship": "bge-base_hybrid"
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "r4-01-binomial-intervals",
+   "file": "research/results/r4-01-binomial-intervals.json",
+   "file_sha256": "21e8c409abbc806ef57df45f78d765119f4e0169fada5c69b0a1df6c5acfb1ee",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

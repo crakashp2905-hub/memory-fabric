@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "48785ed8e15b9492126b661097fa4ab7666525d49bfa4155e35fbfe52ac32c8f",
+    "sha256": "bb92e9eb133c498d9e41ed86a4256617e4adad1ae806023f3d709ea76c7921a8",
     "tasks": 260
   },
   "source": {
-    "commit": "9f7a1f3c7053c87918f0507c76cebfd46445bc30",
+    "commit": "a207290eaa3deb3395ff9dc7336f2f883370081f",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 133,
+      "DONE": 134,
       "PARTIAL": 8,
-      "TODO": 119
+      "TODO": 118
     },
-    "completed": 133,
+    "completed": 134,
     "total": 260,
-    "percent_complete": 51.15,
+    "percent_complete": 51.54,
     "p0_open": 5,
     "internal_status": "BLOCKED"
   },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "90cc05a8eede6e64a02a1e43edfbf252383345358322b05aca706825d2fdea19",
+        "research/results/MANIFEST.json": "3bdeafb0f0fd238f8fa51380588cae102813a595a48ab0c3900fbe48b0586182",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2283,14 +2283,24 @@
       "task_id": "R4-01",
       "priority": "P1",
       "task": "Implement Wilson or exact binomial intervals for completion and false-block rates.",
-      "acceptance": "CI validates formulas on known reference cases including zero-event observations",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "CI validates formulas on known reference cases including zero-event observations. Evidence: `benchmarks/stats.py`, `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` (DONE: 3 focused tests pass; seven machine-checked Wilson/exact-zero-event reference cases pass, including zero-event and zero-denominator cases. Zero denominator remains fully uncertain; workload power is not claimed)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_statistical_intervals.py",
+        "tools/qualify_statistical_intervals.py",
+        "research/results/r4-01-binomial-intervals.json"
+      ],
+      "evidence_digests": {
+        "tests/test_statistical_intervals.py": "48825ada19ae2068dac9a00c307bb0d71bc263e8ff4dbd420d74b6489e7ecc39",
+        "tools/qualify_statistical_intervals.py": "03be110eb87933c5764d081ad9ad530393d7d0d27f898cfa976701d6923a8681",
+        "research/results/r4-01-binomial-intervals.json": "6c2b7d9f225cc895bdd3d16f679ac1dcc851132ed94fe45cdaf219b01194e251"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Zero-denominator intervals intentionally represent complete uncertainty; this validates formulas, not workload-specific statistical power."
+      ]
     },
     {
       "task_id": "R4-02",
@@ -5307,10 +5317,10 @@
       ],
       "evidence_digests": {
         "tools/check.py": "7d1f19bdb176e7f1d67b0c726f0387bff458334c205d2f7b239d9a724ddbad33",
-        "research/results/p5-02-local-checks.txt": "c84f0e46be67684d4280c37f5d33e65ebe5e38f65593dc2c0f960512cbe8346e",
+        "research/results/p5-02-local-checks.txt": "07a52426272961ddfc141d67d885ece3b280d483c367b69ba7c20202edc9d426",
         "research/results/p5-02-full-unit-tests.txt": "c57473cc9969284d72362449e6db96e8882a9cfe1a9b50312623c56a01d3b7ca",
-        "research/results/p5-02-adversarial-gate.json": "51b27053bb70c2def6f8221b108487e0f822f8cb0f297a3a5be600327b62b47b",
-        "research/results/p5-02-local-qualification.json": "0fd1c89fa07429883c17f0e5159f79f7b10749c21d829c9b6280171331d9e9bf",
+        "research/results/p5-02-adversarial-gate.json": "238d61a4662ca385dbbcb3a1d66037fe13ff3814789cd5641a2fa37f6cb4b13f",
+        "research/results/p5-02-local-qualification.json": "8bc238453adbee94a8caaf9bc44a0ba1816f040bb9e0aa21b1fb7c97e41a7db0",
         "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
       },
       "evidence_issues": {},
