@@ -3089,6 +3089,23 @@
       ]
     },
     {
+      "task_id": "R5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/r4_05_adversarial_cases.py",
+        "tools/r5_07_contamination_audit.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "tests/test_r5_07_contamination_audit.py",
+        "research/results/r4-05-adversarial-cases.json",
+        "research/results/r5-07-contamination-audit.json"
+      ],
+      "limitations": [
+        "Lexical contamination audit covers the R4-05 synthetic fixture only: 256 case IDs, 1,024 memory IDs, 1,024 texts, and three declared tool names. An injected scenario label is detected and invalidates the fixture. Semantic leakage and other datasets are not covered."
+      ]
+    },
+    {
       "task_id": "R4-05",
       "status": "DONE",
       "acceptance_passed": true,

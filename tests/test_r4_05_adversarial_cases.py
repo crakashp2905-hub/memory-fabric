@@ -20,9 +20,9 @@ class R405AdversarialCases(unittest.TestCase):
             matching_near_miss = [row for row in rows
                                   if row["entity"] == case["entity"]
                                   and row["attribute"] == case["attribute"]
-                                  and row["version"] == "superseded"]
+                                  and row["recorded_at"] == "2025-01-01"]
             self.assertEqual(len(matching_near_miss), 1)
-            current = [row for row in rows if row["version"] == "current"
+            current = [row for row in rows if row["recorded_at"] == "2026-01-01"
                        and row["entity"] == case["entity"]]
             self.assertEqual(len(current), 1)
             self.assertEqual(current[0]["value"], case["answer"])
@@ -35,6 +35,14 @@ class R405AdversarialCases(unittest.TestCase):
         self.assertLessEqual(result["lexicographic_identifier_shortcut"]["accuracy"], 0.35)
         self.assertEqual(sum(result["answer_position_counts"].values()), N_CASES)
         self.assertEqual(result["irrelevant_distractor_count"], 2 * N_CASES)
+
+    def test_scenario_labels_are_not_embedded_in_fixture_text_or_identifiers(self) -> None:
+        forbidden = ("current", "superseded", "near-miss", "distractor", "gold", "answer")
+        for case in build_cases():
+            self.assertFalse(any(label in case["case_id"].lower() for label in forbidden))
+            for row in case["options"]:
+                self.assertFalse(any(label in row["id"].lower() for label in forbidden))
+                self.assertFalse(any(label in row["text"].lower() for label in forbidden))
 
 
 if __name__ == "__main__":

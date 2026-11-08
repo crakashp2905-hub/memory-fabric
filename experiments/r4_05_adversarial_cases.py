@@ -44,22 +44,22 @@ def build_cases() -> list[dict[str, Any]]:
         # two semantic distractors mention sibling entities with same attribute.
         rows = [
             {"entity": entity, "attribute": attribute, "value": correct,
-             "version": "current", "source": "approved"},
+             "recorded_at": "2026-01-01", "source": "approved"},
             {"entity": entity, "attribute": attribute, "value": wrong,
-             "version": "superseded", "source": "approved"},
+             "recorded_at": "2025-01-01", "source": "approved"},
         ]
         for sibling, value in enumerate(sorted(distractors)):
             rows.append({"entity": f"asset-{(index + sibling + 1) % N_CASES:04d}",
                          "attribute": attribute, "value": value,
-                         "version": "current", "source": "approved"})
+                         "recorded_at": "2026-01-01", "source": "approved"})
         task_rng.shuffle(rows)
         # IDs use a separate random stream and bear no relation to answer/order.
         for row in rows:
             row["id"] = f"mem-{identifier_rng.getrandbits(64):016x}"
             row["text"] = (f"Record {row['entity']} {row['attribute']} value {row['value']} "
-                           f"version {row['version']} source {row['source']}.")
+                           f"reported {row['recorded_at']} by {row['source']}.")
         answer_position = next(i for i, row in enumerate(rows)
-                               if row["entity"] == entity and row["version"] == "current")
+                               if row["entity"] == entity and row["recorded_at"] == "2026-01-01")
         cases.append({"case_id": f"case-{index:04d}", "entity": entity,
                       "attribute": attribute, "answer": correct,
                       "answer_position": answer_position, "options": rows})
@@ -106,7 +106,7 @@ def build_report() -> dict[str, Any]:
                   "identifier": IDENTIFIER_SEED},
         "stream_independence": "three independently initialized RNG streams",
         "dataset": {"cases": len(cases), "options_per_case": N_OPTIONS,
-                    "task_families": ["correction_near_miss", "irrelevant_distractor"]},
+        "task_families": ["correction_near_miss", "irrelevant_distractor"]},
         "shortcut_evaluation": shortcut_results(cases),
         "inputs": {**hashes,
                    "source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
