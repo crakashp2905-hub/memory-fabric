@@ -531,7 +531,7 @@ P2-06 completion evidence: the Control Center now renders read-only per-tool eve
 - [ ] **P3-07** · **P1** · Add resource budget knobs for retention, request size, memory count and worker concurrency. **Acceptance:** Invalid settings reject at startup; defaults documented and safe..
 - [x] **P3-08** · **P1** · Test safe behavior for no disk space, disabled optional dependency and offline mode. **Acceptance:** Feature degrades with named reason instead of crashing or silently skipping control.. Evidence: `tests/test_fail_safe_environment.py`, `tests/test_cipher.py`, `tests/test_quickstart.py` (DONE: SQLITE_FULL rolls back without projected memory; missing optional crypto uses authenticated v2 or production profile refuses; offline mode refuses socket/DNS access.)..
 - [x] **P3-09** · **P1** · Provide secure support-bundle export that contains no raw sensitive text by default. **Acceptance:** Canary scan confirms export includes schema/metrics but no protected memory.. Evidence: `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md` (DONE: JSON export contains schema/aggregate metrics; canary confirms protected text, memory IDs and agent ID are absent.)..
-- [ ] **P3-10** · **P1** · Add runbook drill scripts for outage, key loss, corrupted DB, and mass retraction. **Acceptance:** Each drill has pass/fail proof and includes explicit irrecoverable-case guidance..
+- [x] **P3-10** · **P1** · Add runbook drill scripts for outage, key loss, corrupted DB, and mass retraction. **Acceptance:** Each drill has pass/fail proof and includes explicit irrecoverable-case guidance. Evidence: `tools/runbook_drill.py`, `tests/test_runbook_drill.py`, `docs/RUNBOOK_DRILLS.md`, `research/results/p3-10-runbook-drills.json` (DONE: four local drills pass; explicit stop-write, preserve-evidence, verified-backup, and lost-key guidance. Outage/corruption are simulated; mass retraction is in-memory, 100 descendants.)..
 
 
 #### P4 — Differentiation, comparison harness and buyer use cases [P1]
@@ -643,3 +643,4 @@ Recommended task ledger format:
 - PyPI account configuration, trusted publishing and external release approval.
 
 **Completion principle:** shipping *less* code with stronger evidence is better than shipping more unvalidated modules. If a workstream fails its preregistered test, keep that failure, fix the hypothesis or revert the feature. The highest-impact improvement is still: **increase valid task completion while maintaining robust withdrawal/correction safety and transparent evidence about every claim**.
+

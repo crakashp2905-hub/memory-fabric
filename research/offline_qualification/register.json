@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1011f3c24150c95d8a0e91b43d9e6203f632be897bb9e01f2b4dd5bd9c082196",
+    "sha256": "c84c4a85ca62f034bc42526adce06d2be3434c5f903f6c351954c4e70e632c96",
     "tasks": 260
   },
   "source": {
-    "commit": "8118acc2523826f7e21e53b7c473caa72f1e783e",
+    "commit": "c838f7b4bd42ef5992c2dc5fd9896579dafe851a",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 183,
+      "DONE": 184,
       "PARTIAL": 4,
-      "TODO": 73
+      "TODO": 72
     },
-    "completed": 183,
+    "completed": 184,
     "total": 260,
-    "percent_complete": 70.38,
+    "percent_complete": 70.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5626,7 +5626,7 @@
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7"
+        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5741,7 +5741,7 @@
         "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7"
+        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5753,14 +5753,28 @@
       "task_id": "P3-10",
       "priority": "P1",
       "task": "Add runbook drill scripts for outage, key loss, corrupted DB, and mass retraction.",
-      "acceptance": "Each drill has pass/fail proof and includes explicit irrecoverable-case guidance",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Each drill has pass/fail proof and includes explicit irrecoverable-case guidance. Evidence: `tools/runbook_drill.py`, `tests/test_runbook_drill.py`, `docs/RUNBOOK_DRILLS.md`, `research/results/p3-10-runbook-drills.json` (DONE: four local drills pass; explicit stop-write, preserve-evidence, verified-backup, and lost-key guidance. Outage/corruption are simulated; mass retraction is in-memory, 100 descendants.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/runbook_drill.py",
+        "tests/test_runbook_drill.py",
+        "docs/RUNBOOK_DRILLS.md",
+        "research/results/p3-10-runbook-drills.json"
+      ],
+      "evidence_digests": {
+        "tools/runbook_drill.py": "9c902afa1e68c6f01e022af8559451405d499c1eb584340ba481219bfce18e61",
+        "tests/test_runbook_drill.py": "d4c99ea4c2f4ee3002e5b4c6684502d8543b991bfe14b1059b60d70d30ac014a",
+        "docs/RUNBOOK_DRILLS.md": "d9e7cce94ce3b4526d4f2ec849f7db4128c050dd31c72a9957c56b64db43a1a4",
+        "research/results/p3-10-runbook-drills.json": "5008b5195c43de65c6f4c3b816b6cce17bf8a0a8517c3e5bfb97491c29e53438"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Outage and corruption drills are local simulated fixtures; no physical network partition or arbitrary disk damage.",
+        "Mass retraction verifies 100 descendants in-memory; remote stores and distributed delivery are not exercised.",
+        "Irrecoverable guidance describes verified-backup and key-loss boundaries, not a live recovery of customer data."
+      ]
     },
     {
       "task_id": "P4-01",
@@ -5784,7 +5798,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7",
+        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -5945,7 +5959,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "21b5f39233e4bea56259155e10369d64417e7f6491a3f738cf04574ebb7c1bb7",
+        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",

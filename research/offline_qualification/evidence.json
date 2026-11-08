@@ -2207,24 +2207,39 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/CONTRIBUTION_MAP.md", "tests/test_contribution_map.py"],
-      "limitations": ["Statements are preregistration hypotheses, not evidence of global novelty or efficacy."]
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "limitations": [
+        "Statements are preregistration hypotheses, not evidence of global novelty or efficacy."
+      ]
     },
     {
       "task_id": "R5-02",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/CONTRIBUTION_MAP.md", "tests/test_contribution_map.py"],
-      "limitations": ["The map identifies prior repository mechanisms; it does not replace external literature review."]
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "limitations": [
+        "The map identifies prior repository mechanisms; it does not replace external literature review."
+      ]
     },
     {
       "task_id": "R5-05",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/FAILURE_TAXONOMY.md", "tests/test_failure_taxonomy.py"],
-      "limitations": ["Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."]
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "limitations": [
+        "Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."
+      ]
     },
     {
       "task_id": "R5-08",
@@ -2282,8 +2297,13 @@
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "CONTRACT",
-      "evidence_paths": ["research/FAILURE_TAXONOMY.md", "tests/test_failure_taxonomy.py"],
-      "limitations": ["Historical track index is scoped to named primary tracks; it does not replace a complete review of every research result."]
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "limitations": [
+        "Historical track index is scoped to named primary tracks; it does not replace a complete review of every research result."
+      ]
     },
     {
       "task_id": "P3-09",
@@ -3098,6 +3118,23 @@
       "limitations": [
         "Five deterministic synthetic seeds only; extrema are descriptive and not tail-risk guarantees.",
         "This evidence augments the grand-baseline report, not every historical experiment."
+      ]
+    },
+    {
+      "task_id": "P3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/runbook_drill.py",
+        "tests/test_runbook_drill.py",
+        "docs/RUNBOOK_DRILLS.md",
+        "research/results/p3-10-runbook-drills.json"
+      ],
+      "limitations": [
+        "Outage and corruption drills are local simulated fixtures; no physical network partition or arbitrary disk damage.",
+        "Mass retraction verifies 100 descendants in-memory; remote stores and distributed delivery are not exercised.",
+        "Irrecoverable guidance describes verified-backup and key-loss boundaries, not a live recovery of customer data."
       ]
     }
   ]

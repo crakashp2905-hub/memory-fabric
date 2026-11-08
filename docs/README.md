@@ -160,6 +160,7 @@ use the product.
 | [Local footprint qualification](LOCAL_FOOTPRINT.md) | Installed size, CLI startup, SQLite growth and idle CPU on one host |
 | [Support bundle](SUPPORT_BUNDLE.md) | Metadata-only diagnostics export and privacy boundary |
 | [Upgrade preview](UPGRADE_PREVIEW.md) | Read-only schema compatibility diagnosis before opening a store writable |
+| [Runbook drills](RUNBOOK_DRILLS.md) | Local outage, key loss, corruption and mass-retraction drills |
 | [Offline qualification checklist](MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md) | 260-item offline qualification scope |
 | [Modifier evidence packages](MODIFIER_EVIDENCE_PACKAGES.md) | Evidence attached to memory modifications |
 | [Next master checklist execution](NEXT_MASTER_CHECKLIST_EXECUTION.md) | Prior checklist evidence and remaining gates |

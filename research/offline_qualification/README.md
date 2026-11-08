@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **183 / 260 (70.38%)**. Internal status: **BLOCKED**.
+Strict completion: **184 / 260 (70.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d180bacef13c5c225ed81949aa0a7bbe3fd8a78084c141ddb82ddd8e54c179b4`.
+Normalized ledger digest: `7d220645d1279dfa2b348b75bb5360f604a774231d24c517c9eca33ec0830f7d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 183 |
+| DONE | 184 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 73 |
+| TODO | 72 |
 
 ## Graduation gates
 
@@ -268,7 +268,7 @@ Normalized ledger digest: `d180bacef13c5c225ed81949aa0a7bbe3fd8a78084c141ddb82dd
 | P3-07 | P1 | TODO | NOT_TESTED | — |
 | P3-08 | P1 | DONE | INTERNAL_INTEGRATION | `tests/test_fail_safe_environment.py`, `tests/test_cipher.py`, `tests/test_quickstart.py` |
 | P3-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md`, `docs/CLI.md`, `docs/README.md` |
-| P3-10 | P1 | TODO | NOT_TESTED | — |
+| P3-10 | P1 | DONE | INTERNAL_INTEGRATION | `tools/runbook_drill.py`, `tests/test_runbook_drill.py`, `docs/RUNBOOK_DRILLS.md`, `research/results/p3-10-runbook-drills.json` |
 | P4-01 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` |
 | P4-02 | P1 | DONE | SIMULATED | `examples/memory_vs_json.py`, `tests/test_examples_run.py`, `research/results/p4-02-ordinary-memory-adapter.json`, `research/results/p4-02-ordinary-memory-adapter.txt` |
 | P4-03 | P1 | TODO | NOT_TESTED | — |
