@@ -661,6 +661,7 @@ def action_gated(
     min_independent_sources: int | None = None,
     grant_id: str | None = None,
     binding: str | None = None,
+    claim_certificates: Mapping[str, Any] | None = None,
 ) -> Event:
     """A decision about a protected tool call, with the evidence it rested on.
 
@@ -685,6 +686,10 @@ def action_gated(
             "min_independent_sources": min_independent_sources,
             "grant_id": grant_id,
             "binding": binding,
+            "claim_certificate_digests": {
+                claim_id: getattr(certificate, "digest")()
+                for claim_id, certificate in sorted((claim_certificates or {}).items())
+            },
         },
     )
 

@@ -395,19 +395,19 @@
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionDecision",
+      "signature": "(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionDecision",
       "symbol": "memory_fabric.actions.ActionGate.authorize",
       "tier": "beta"
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionExecution",
+      "signature": "(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionExecution",
       "symbol": "memory_fabric.actions.ActionGate.execute",
       "tier": "beta"
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant",
+      "signature": "(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant",
       "symbol": "memory_fabric.actions.ActionGate.issue_grant",
       "tier": "beta"
     },
@@ -419,7 +419,7 @@
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None)",
+      "signature": "(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None, requirement_graph: RequirementGraph | None = None)",
       "symbol": "memory_fabric.actions.ToolRule",
       "tier": "beta"
     },
@@ -427,6 +427,24 @@
       "module": "memory_fabric.actions",
       "signature": "(target: str, parameters: Mapping[str, Any] = <factory>)",
       "symbol": "memory_fabric.actions.ActionRequest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(approver_id: str, certificate_digest: str, binding: str | None = None)",
+      "symbol": "memory_fabric.actions.Approval",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(tool: str, agent_id: str, tenant_id: str | None, request: ActionRequest | None, certificate: EvidenceCertificate | None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None) -> str",
+      "symbol": "memory_fabric.actions.binding_digest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(certificates: Mapping[str, EvidenceCertificate]) -> str",
+      "symbol": "memory_fabric.actions.certificate_set_digest",
       "tier": "beta"
     },
     {

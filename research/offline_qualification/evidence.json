@@ -30,6 +30,7 @@
       "evidence_paths": [
         "src/memory_fabric/decision_records.py",
         "src/memory_fabric/events.py",
+        "tools/gen_reference.py",
         "src/memory_fabric/__init__.py",
         "docs/DECISION_RECORD_SCHEMA.md",
         "tests/test_decision_records.py",
@@ -180,6 +181,31 @@
       ],
       "limitations": [
         "This completes preregistration only. The matched held-out agent evaluation and independent prior-art review have not run; efficacy and global novelty remain NOT_PROVEN."
+      ]
+    },
+    {
+      "task_id": "N2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-02-action-requirements-tests.xml"
+      ],
+      "limitations": [
+        "decision_time temporal requirements fail closed because the current authorization API has no authenticated decision-time timestamp; action_time freshness is enforced from certificate issuance time.",
+        "The qualification is local SQLite contract and integration evidence, not a distributed deployment or independent security review."
       ]
     },
     {

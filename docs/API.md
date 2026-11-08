@@ -186,18 +186,18 @@ Who is acting, and on whose data.
 
 Decides, immediately before a tool runs, whether it may run.
 
-- **`ActionGate.authorize(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionDecision`**
+- **`ActionGate.authorize(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionDecision`**
   Return whether `agent_id` may call `tool` now.
-- **`ActionGate.execute(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionExecution`**
+- **`ActionGate.execute(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionExecution`**
   Authorize and run `run(key)` with no window between them (module docstring).
-- **`ActionGate.issue_grant(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant`**
+- **`ActionGate.issue_grant(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant`**
   A grant for one exact action, valid for `ttl_s` and consumed by its first use.
 - **`ActionGate.revoke_grant(grant_id: str, issuer: str)`**
 
 ### `actions.ToolRule` (beta)
 
 ```python
-ToolRule(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None)
+ToolRule(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None, requirement_graph: RequirementGraph | None = None)
 ```
 
 How one tool is governed. `protected` tools need a valid certificate.
@@ -209,6 +209,30 @@ ActionRequest(target: str, parameters: Mapping[str, Any] = <factory>)
 ```
 
 The exact action: what it acts on and with which parameters.
+
+### `actions.Approval` (beta)
+
+```python
+Approval(approver_id: str, certificate_digest: str, binding: str | None = None)
+```
+
+A human's approval, bound to one certificate or named certificate set.
+
+### `actions.binding_digest` (beta)
+
+```python
+binding_digest(tool: str, agent_id: str, tenant_id: str | None, request: ActionRequest | None, certificate: EvidenceCertificate | None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None) -> str
+```
+
+Digest of everything an approval or grant is for. Any change is a different action.
+
+### `actions.certificate_set_digest` (beta)
+
+```python
+certificate_set_digest(certificates: Mapping[str, EvidenceCertificate]) -> str
+```
+
+Stable digest for a claim-to-certificate set used by human approvals.
 
 ## Correction and recovery
 

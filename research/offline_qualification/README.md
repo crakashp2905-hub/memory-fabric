@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **207 / 260 (79.62%)**. Internal status: **BLOCKED**.
+Strict completion: **208 / 260 (80.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `cb97bd3726839f04a8bfe9529a35bbb526dfa006e7977592c4de545ffd9996c7`.
+Normalized ledger digest: `b068529a7f8d9a149dc8651f37980cc4e5bea8ec85e773ffffccf5b3613eeb70`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 207 |
+| DONE | 208 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 50 |
+| TODO | 49 |
 
 ## Graduation gates
 
@@ -130,7 +130,7 @@ Normalized ledger digest: `cb97bd3726839f04a8bfe9529a35bbb526dfa006e7977592c4de5
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
 | R5-10 | P1 | DONE | CONTRACT | `research/OFFLINE_REPRODUCIBILITY.md`, `tests/test_offline_reproducibility.py`, `research/claims.json`, `research/results/CLAIMS_LEDGER.json` |
 | N1-01 | P1 | DONE | CONTRACT | `SPEC.md`, `pyproject.toml`, `src/memory_fabric/model.py`, `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
-| N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-02-decision-ledger-tests.xml` |
+| N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `tools/gen_reference.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-02-decision-ledger-tests.xml` |
 | N1-03 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-03-decision-impact-tests.xml` |
 | N1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `tools/n1_04_dependency_index.py`, `research/results/n1-04-dependency-index.json` |
 | N1-05 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-05-alternative-reassessment.xml` |
@@ -140,7 +140,7 @@ Normalized ledger digest: `cb97bd3726839f04a8bfe9529a35bbb526dfa006e7977592c4de5
 | N1-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/n1_09_decision_continuity.py`, `tests/test_n1_09_decision_continuity.py`, `research/results/n1-09-decision-continuity-tests.xml`, `research/results/n1-09-decision-continuity.json`, `research/results/n1-09-decision-continuity.md` |
 | N1-10 | P1 | DONE | CONTRACT | `research/prereg/n1-10-decision-repair-novelty.md`, `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py`, `research/results/n1-10-preregistration-tests.xml` |
 | N2-01 | P1 | DONE | CONTRACT | `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_requirement_graph.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-01-requirement-graph-tests.xml` |
-| N2-02 | P1 | TODO | NOT_TESTED | — |
+| N2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-02-action-requirements-tests.xml` |
 | N2-03 | P1 | TODO | NOT_TESTED | — |
 | N2-04 | P1 | TODO | NOT_TESTED | — |
 | N2-05 | P1 | TODO | NOT_TESTED | — |

@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ### Added: bounded evidence requirement graph grammar
 - Add a typed parser for AND, OR, independent-source and temporal evidence requirements, with acyclic named rules, canonical serialization and bounded, path-aware validation. The grammar declares policy only and never authorizes an action.
+- Let host-owned protected-tool rules bind the grammar to required claim certificates. The action gate evaluates mandatory AND/OR/rule/source requirements, verifies each selected claim against current evidence and provenance, binds the complete certificate set to approvals, grants and idempotency, and fails closed for missing leaves or unsupported decision-time anchors.
 
 ### Added (schema 0.18.0): deterministic decision re-evaluation receipts
 - Exact correction impacts expose canonical replay-stable receipts with the changed evidence premise, current decision status, proof and affected-effect edge IDs. Receipts require re-evaluation and never authorize an action.

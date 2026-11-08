@@ -69,7 +69,7 @@ import threading
 import time
 import hashlib
 import json
-from dataclasses import asdict, dataclass, field, replace
+from dataclasses import dataclass, field, fields, replace
 from typing import Any, Callable, Mapping
 
 from . import events as ev
@@ -80,6 +80,11 @@ from .certificates import (
     CertificateVerifier,
     EvidenceCertificate,
     STATE_UNAVAILABLE,
+)
+from .requirement_graph import (
+    AllOfRequirement, AnyOfRequirement, ClaimRequirement,
+    IndependentSourcesRequirement, RequirementGraph, RuleReference,
+    TemporalRequirement,
 )
 from .enforcement import RiskLevel
 
@@ -108,6 +113,7 @@ GRANT_REVOKED = "grant_revoked"
 GRANT_MISMATCH = "grant_binding_mismatch"
 GRANT_REPLAYED = "grant_replayed"
 IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
+REQUIREMENT_EVIDENCE_MISSING = "requirement_evidence_missing"
 MAX_GRANT_TTL_S = 300
 
 # Execution outcomes (`execute`).
@@ -157,6 +163,9 @@ class ToolRule:
     it on for tools where a compromised account must not act unreviewed."""
     tool_digest: str | None = None
     """Optional host supplied SHA-256 digest of the registered tool descriptor."""
+    requirement_graph: RequirementGraph | None = None
+    """Optional host-owned static evidence policy. Every claim leaf must be
+    backed by a separately named certificate in `claim_certificates`."""
 
 
 @dataclass(frozen=True)
@@ -178,7 +187,8 @@ class Grant:
 
 def binding_digest(tool: str, agent_id: str, tenant_id: str | None,
                    request: ActionRequest | None,
-                   certificate: EvidenceCertificate | None) -> str:
+                   certificate: EvidenceCertificate | None,
+                   claim_certificates: Mapping[str, EvidenceCertificate] | None = None) -> str:
     """Digest of everything an approval or grant is for. Any change is a different action."""
     import hashlib
     import json
@@ -188,8 +198,19 @@ def binding_digest(tool: str, agent_id: str, tenant_id: str | None,
             "parameters": dict(request.parameters) if request else None,
             "evidence": sorted([e.memory_id, e.version] for e in certificate.evidence)
             if certificate else []}
+    if claim_certificates is not None:
+        body["claim_certificates"] = {
+            claim_id: cert.digest() for claim_id, cert in sorted(claim_certificates.items())
+        }
     return hashlib.sha256(json.dumps(body, sort_keys=True, default=str,
                                      separators=(",", ":")).encode()).hexdigest()
+
+
+def certificate_set_digest(certificates: Mapping[str, EvidenceCertificate]) -> str:
+    """Stable digest for a claim-to-certificate set used by human approvals."""
+    encoded = json.dumps({key: cert.digest() for key, cert in sorted(certificates.items())},
+                         sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -206,7 +227,11 @@ class ActionPolicy:
 
 @dataclass(frozen=True)
 class Approval:
-    """A human's approval, bound to one exact certificate."""
+    """A human's approval, bound to one certificate or named certificate set.
+
+    For graph policies, set `certificate_digest` with
+    `certificate_set_digest(claim_certificates)`.
+    """
 
     approver_id: str
     certificate_digest: str
@@ -273,6 +298,7 @@ class ActionGate:
         session: Any = None,
         request: ActionRequest | None = None,
         grant: Grant | str | None = None,
+        claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None,
     ) -> ActionDecision:
         """Return whether `agent_id` may call `tool` now.
 
@@ -304,6 +330,65 @@ class ActionGate:
             return self._decide(tool, agent_id, (TOOL_NOT_GRANTED,), None, rule, tenant_id=tenant_id)
         if not rule.protected:
             return self._decide(tool, agent_id, (UNPROTECTED,), None, rule, allowed=True, tenant_id=tenant_id)
+        rule_certificates: dict[str, EvidenceCertificate] | None = None
+        if claim_certificates is not None:
+            try:
+                rule_certificates = self._parse_claim_certificates(claim_certificates)
+            except CertificateError as exc:
+                return self._decide(tool, agent_id, (exc.reason_code,), None, rule, tenant_id=tenant_id)
+        if rule.requirement_graph is not None:
+            # The policy graph, not caller supplied evidence, determines which
+            # claims are mandatory. The legacy certificate argument is accepted
+            # only as an additional certificate keyed by its own claim id.
+            if certificate is not None:
+                try:
+                    legacy = certificate if isinstance(certificate, EvidenceCertificate) else EvidenceCertificate.from_json(certificate)
+                except CertificateError as exc:
+                    return self._decide(tool, agent_id, (exc.reason_code,), None, rule, tenant_id=tenant_id)
+                if rule_certificates is None:
+                    rule_certificates = {}
+                if legacy.claim_id in rule_certificates and rule_certificates[legacy.claim_id].digest() != legacy.digest():
+                    return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule, tenant_id=tenant_id)
+                rule_certificates[legacy.claim_id] = legacy
+            if not rule_certificates:
+                return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule, tenant_id=tenant_id)
+            satisfied, verification, used = self._evaluate_requirement_graph(
+                rule.requirement_graph, rule_certificates, rule, agent_id, tenant_id)
+            if not satisfied:
+                return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), verification,
+                                    rule, tenant_id=tenant_id, claim_certificates=rule_certificates)
+            selected = {claim_id: rule_certificates[claim_id] for claim_id in used}
+            primary = next(iter(selected.values())) if selected else None
+            # Bind every submitted alternative consistently for approvals,
+            # grants and idempotency. Only the satisfied branch is recorded
+            # as the policy decision's selected claim set.
+            binding = binding_digest(tool, agent_id, tenant_id, request, None, rule_certificates)
+            approval_digest = certificate_set_digest(rule_certificates)
+            if rule.requires_human_approval:
+                if approval is None:
+                    return self._decide(tool, agent_id, (HUMAN_APPROVAL_REQUIRED,), verification,
+                                        rule, certificate=primary, tenant_id=tenant_id,
+                                        claim_certificates=selected)
+                if (approval.approver_id not in self.policy.approvers or approval.approver_id == agent_id
+                        or approval.certificate_digest != approval_digest
+                        or (approval.binding is not None and approval.binding != binding)):
+                    return self._decide(tool, agent_id, (APPROVAL_INVALID,), verification, rule,
+                                        certificate=primary, tenant_id=tenant_id,
+                                        claim_certificates=selected)
+            grant_id = grant.grant_id if isinstance(grant, Grant) else grant
+            if rule.requires_grant or grant_id is not None:
+                if grant_id is None:
+                    return self._decide(tool, agent_id, (GRANT_REQUIRED,), verification, rule,
+                                        certificate=primary, tenant_id=tenant_id,
+                                        claim_certificates=selected, binding=binding)
+                problem = self._check_grant(grant_id, tool, agent_id, binding)
+                if problem:
+                    return self._decide(tool, agent_id, (problem,), verification, rule,
+                                        certificate=primary, tenant_id=tenant_id,
+                                        claim_certificates=selected, grant_id=grant_id, binding=binding)
+            return self._decide(tool, agent_id, (ALLOWED,), verification, rule, allowed=True,
+                                certificate=primary, tenant_id=tenant_id,
+                                claim_certificates=selected, grant_id=grant_id, binding=binding)
         if certificate is None:
             return self._decide(tool, agent_id, (CERTIFICATE_REQUIRED,), None, rule, tenant_id=tenant_id)
 
@@ -356,6 +441,89 @@ class ActionGate:
                             allowed=True, certificate=certificate, tenant_id=tenant_id,
                             grant_id=grant_id, binding=binding)
 
+    @staticmethod
+    def _parse_claim_certificates(
+        certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]],
+    ) -> dict[str, EvidenceCertificate]:
+        parsed: dict[str, EvidenceCertificate] = {}
+        for claim_id, value in certificates.items():
+            if not isinstance(claim_id, str) or not claim_id:
+                raise CertificateError("invalid_claim_id", "claim certificate keys must be non-empty strings")
+            cert = value if isinstance(value, EvidenceCertificate) else EvidenceCertificate.from_json(value)
+            if cert.claim_id != claim_id:
+                raise CertificateError("claim_id_mismatch", "certificate claim_id does not match its policy key")
+            parsed[claim_id] = cert
+        return parsed
+
+    def _evaluate_requirement_graph(
+        self, graph: RequirementGraph, certificates: Mapping[str, EvidenceCertificate],
+        rule: ToolRule, agent_id: str, tenant_id: str | None,
+    ) -> tuple[bool, CertificateVerification | None, set[str]]:
+        cache: dict[tuple[str, int], tuple[bool, CertificateVerification | None]] = {}
+
+        def verify_claim(claim_id: str, min_sources: int = 1):
+            cert = certificates.get(claim_id)
+            if cert is None:
+                return False, None
+            key = (claim_id, min_sources)
+            if key not in cache:
+                strengthened = replace(
+                    cert,
+                    required_checks=tuple(dict.fromkeys([*cert.required_checks, *rule.required_checks])),
+                    min_independent_sources=max(cert.min_independent_sources,
+                                                rule.min_independent_sources, min_sources),
+                )
+                result = self.verifier.verify(strengthened, agent_id=agent_id,
+                                              tenant_id=tenant_id, risk=RiskLevel.HIGH)
+                if result.ok:
+                    reason = self._authority(cert, rule)
+                    if reason:
+                        result = replace(result, ok=False, reason_codes=(reason,))
+                cache[key] = (result.ok, result)
+            return cache[key]
+
+        def visit(node, active: frozenset[str] = frozenset()):
+            if isinstance(node, ClaimRequirement):
+                ok, result = verify_claim(node.claim_id)
+                return ok, result, {node.claim_id} if ok else set()
+            if isinstance(node, IndependentSourcesRequirement):
+                ok, result = verify_claim(node.claim_id, node.min_sources)
+                return ok, result, {node.claim_id} if ok else set()
+            if isinstance(node, RuleReference):
+                if node.rule_id in active:
+                    return False, None, set()
+                return visit(graph.rules[node.rule_id], active | {node.rule_id})
+            if isinstance(node, TemporalRequirement):
+                # decision_time requires a separately authenticated timestamp,
+                # which this API does not yet accept. Fail closed. action_time
+                # is measured from the certificate's signed issuance time.
+                if node.anchor == "decision_time":
+                    return False, None, set()
+                ok, result, used = visit(node.requirement, active)
+                now = self.fabric.now()
+                if not ok or any(now < certificates[c].issued_at_ms
+                                 or now - certificates[c].issued_at_ms > node.max_age_ms
+                                 for c in used):
+                    return False, result, set()
+                return True, result, used
+            if isinstance(node, AllOfRequirement):
+                results = [visit(child, active) for child in node.requirements]
+                ok = all(result[0] for result in results)
+                used = set().union(*(result[2] for result in results)) if ok else set()
+                verification = next((result[1] for result in results if result[1] is not None), None)
+                return ok, verification, used
+            if isinstance(node, AnyOfRequirement):
+                for child in node.requirements:
+                    result = visit(child, active)
+                    if result[0]:
+                        return result
+                return False, next((result[1] for child in node.requirements
+                                    if (result := visit(child, active))[1] is not None), None), set()
+            return False, None, set()
+
+        ok, verification, used = visit(graph.root)
+        return ok, verification, used
+
     # --- origin-bound authority and exact-action grants --------------------
 
     def _authority(self, certificate: EvidenceCertificate, rule: ToolRule) -> str | None:
@@ -397,6 +565,7 @@ class ActionGate:
 
     def issue_grant(self, tool: str, agent_id: str, issuer: str, *,
                     certificate: EvidenceCertificate | None = None,
+                    claim_certificates: Mapping[str, EvidenceCertificate] | None = None,
                     request: ActionRequest | None = None,
                     tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant:
         """A grant for one exact action, valid for `ttl_s` and consumed by its first use.
@@ -411,7 +580,8 @@ class ActionGate:
             raise ValueError(f"ttl_s must be in (0, {MAX_GRANT_TTL_S}]")
         if tool not in self.policy.grants.get(agent_id, frozenset()):
             raise ValueError(f"{agent_id} is not granted {tool}")
-        binding = binding_digest(tool, agent_id, tenant_id, request, certificate)
+        binding = binding_digest(tool, agent_id, tenant_id, request, certificate,
+                                 claim_certificates)
         grant = Grant("gr_" + new_ulid(), tool, agent_id, binding,
                       self.fabric.now() + int(ttl_s * 1000))
         self.fabric._emit(ev.grant_issued(ts=self.fabric.now(), grant_id=grant.grant_id,
@@ -462,6 +632,7 @@ class ActionGate:
         retry: bool = False,
         request: ActionRequest | None = None,
         grant: Grant | str | None = None,
+        claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None,
     ) -> ActionExecution:
         """Authorize and run `run(key)` with no window between them (module docstring).
 
@@ -486,9 +657,24 @@ class ActionGate:
                 pass  # authorize records the credential-invalid refusal
             else:
                 agent_id, tenant_id = principal.agent_id, principal.tenant_id
+        parsed_claim_certificates = None
+        if claim_certificates is not None:
+            try:
+                parsed_claim_certificates = self._parse_claim_certificates(claim_certificates)
+            except CertificateError:
+                pass
+        action_certificates = dict(parsed_claim_certificates or {})
+        if (self.policy.tools.get(tool) is not None
+                and self.policy.tools[tool].requirement_graph is not None
+                and isinstance(certificate, EvidenceCertificate)):
+            action_certificates.setdefault(certificate.claim_id, certificate)
         action_binding = binding_digest(
             tool, agent_id, tenant_id, request,
-            certificate if isinstance(certificate, EvidenceCertificate) else None,
+            None if self.policy.tools.get(tool) is not None
+            and self.policy.tools[tool].requirement_graph is not None
+            else certificate if isinstance(certificate, EvidenceCertificate) else None,
+            action_certificates if self.policy.tools.get(tool) is not None
+            and self.policy.tools[tool].requirement_graph is not None else parsed_claim_certificates,
         )
         if isinstance(certificate, Mapping):
             action_binding = hashlib.sha256(json.dumps({
@@ -519,7 +705,8 @@ class ActionGate:
         with fabric.lock, fabric._transaction():
             decision = self.authorize(tool, agent_id, certificate, tenant_id=tenant_id,
                                       approval=approval, session=session,
-                                      request=request, grant=grant)
+                                      request=request, grant=grant,
+                                      claim_certificates=claim_certificates)
             if not decision.allowed:
                 # Settles the attempt recorded above: nothing ran.
                 fabric._emit(ev.action_executed(
@@ -549,8 +736,12 @@ class ActionGate:
             else:
                 outcome, fenced = EXECUTED, True
             verification = decision.verification
-            evidence = ([[e.memory_id, e.version] for e in certificate.evidence]
-                        if isinstance(certificate, EvidenceCertificate) else [])
+            all_certificates = dict(parsed_claim_certificates or {})
+            if isinstance(certificate, EvidenceCertificate):
+                all_certificates.setdefault(certificate.claim_id, certificate)
+            evidence = [list(item) for item in sorted({(e.memory_id, e.version)
+                                                       for cert in all_certificates.values()
+                                                       for e in cert.evidence})]
             fabric._emit(ev.action_executed(
                 ts=fabric.now(), agent_id=decision.agent_id, key=key, tool=tool,
                 outcome=outcome, fenced=fenced,
@@ -569,7 +760,13 @@ class ActionGate:
             if len(digest) == 64 and all(char in "0123456789abcdef" for char in digest):
                 return digest
             raise ValueError("ToolRule.tool_digest must be a lowercase SHA-256 hex digest")
-        body = {"tool": tool, "rule": asdict(rule) if rule is not None else None}
+        rule_body = None
+        if rule is not None:
+            rule_body = {item.name: getattr(rule, item.name) for item in fields(rule)
+                         if item.name != "requirement_graph"}
+            if rule.requirement_graph is not None:
+                rule_body["requirement_graph"] = rule.requirement_graph.to_dict()
+        body = {"tool": tool, "rule": rule_body}
         encoded = json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
         return hashlib.sha256(encoded).hexdigest()
 
@@ -604,6 +801,7 @@ class ActionGate:
         tenant_id: str | None = None,
         grant_id: str | None = None,
         binding: str | None = None,
+        claim_certificates: Mapping[str, EvidenceCertificate] | None = None,
     ) -> ActionDecision:
         decision = ActionDecision(
             allowed=allowed, tool=tool, agent_id=agent_id,
@@ -620,8 +818,14 @@ class ActionGate:
                     policy_id=self.policy.policy_id,
                     claim_id=certificate.claim_id if certificate else None,
                     certificate_digest=certificate.digest() if certificate else None,
-                    evidence=[[e.memory_id, e.version] for e in certificate.evidence]
-                    if certificate else [],
+                    evidence=[list(item) for item in sorted({(e.memory_id, e.version)
+                                                             for cert in ({**(claim_certificates or {}),
+                                                                           **({certificate.claim_id: certificate}
+                                                                              if certificate else {})}).values()
+                                                             for e in cert.evidence})],
+                    claim_certificates={**(claim_certificates or {}),
+                                       **({certificate.claim_id: certificate}
+                                          if certificate else {})},
                     watermark=verification.verified_at_watermark if verification else None,
                     tenant_id=tenant_id,
                     required_checks=list(dict.fromkeys(

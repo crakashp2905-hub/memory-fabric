@@ -50,8 +50,8 @@ Supported operators:
 | `claim` | `claim_id` | One named claim is required. |
 | `and` | `requirements` | Every child requirement is required. |
 | `or` | `requirements` | At least one child requirement must be satisfied. |
-| `independent_sources` | `claim_id`, `min_sources` | The named claim needs the requested minimum number of independent source roots; the parser only validates the constraint shape. |
-| `temporal` | `requirement`, `max_age_ms`, `anchor` | A child must meet a freshness window relative to `decision_time` or `action_time`; evaluation is a later component. |
+| `independent_sources` | `claim_id`, `min_sources` | The named claim's certificate is strengthened to require the requested minimum number of independent source roots. |
+| `temporal` | `requirement`, `max_age_ms`, `anchor` | `action_time` checks certificate issuance age at authorization. `decision_time` is parsed but currently fails closed because the API has no authenticated decision-time input. |
 | `rule` | `rule_id` | Reference a named rule in the graph's `rules` map. |
 
 Rule references must resolve and the rule-reference graph must be acyclic. All
@@ -80,3 +80,23 @@ except RequirementGraphError as exc:
 `to_json()` emits canonical JSON. A graph records policy intent only. It grants
 no permission and cannot be used in place of current evidence verification or
 per-effect authorization.
+
+## Static local action policies
+
+Attach a parsed graph to a host-owned `ToolRule(requirement_graph=graph)`.
+At authorization time, pass `claim_certificates={claim_id: certificate}`.
+Each certificate's own `claim_id` must equal its map key and every required
+leaf is independently re-verified against current store state. The static rule
+also strengthens each certificate with the tool's required checks, minimum
+independent-source count, provenance authority, freshness and validation
+requirements. A missing or invalid mandatory leaf returns
+`requirement_evidence_missing` and cannot grant the action. `and`, `or`, named
+rules, and independent-source nodes are evaluated deterministically.
+
+Human approvals use `certificate_set_digest(claim_certificates)` as their
+`Approval.certificate_digest`; `binding_digest(..., claim_certificates=...)`
+also binds the full claim-certificate set to target, parameters, agent, tenant
+and tool. Exact-action grants and `execute` use the same binding. Audit events
+record claim certificate digests and deduplicated evidence IDs and versions,
+without memory content. The tests in `tests/test_action_requirements.py` cover
+missing mandatory leaves at both authorization and execution boundaries.

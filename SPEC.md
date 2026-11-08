@@ -195,6 +195,14 @@ The static evidence-requirement policy grammar is
 Parsing produces a typed, bounded graph and validates named-rule references
 without evaluating evidence or granting authority.
 
+Protected tools may attach this graph to a static `ToolRule`. Authorization
+requires a claim-keyed certificate for each mandatory leaf and re-verifies
+those certificates under the rule's evidence checks and provenance threshold.
+Missing mandatory evidence fails closed. Exact approvals, grants and execution
+idempotency bind the complete claim-certificate set. `action_time` freshness
+uses certificate issuance time; `decision_time` requirements remain fail-closed
+until an authenticated decision timestamp is part of the API.
+
 Memory revision callers may supply an expected source version. The store reads
 the current projection after taking the durable write transaction; a stale
 expectation raises a typed `RevisionConflictError` and appends no revision.
