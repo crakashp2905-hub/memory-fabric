@@ -517,6 +517,23 @@
       ]
     },
     {
+      "task_id": "N3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-06-copy-invariance-v1.md",
+        "benchmarks/n3_06_copy_invariance.py",
+        "tests/test_n3_06_copy_invariance.py",
+        "research/results/n3-06-copy-invariance.json",
+        "research/results/n3-06-copy-invariance.md",
+        "research/results/n3-06-copy-invariance-tests.xml"
+      ],
+      "limitations": [
+        "All subsets are enumerated in synthetic worlds with recognized irrelevant-copy lineage; unrecognized paraphrases and observational cases without overlap remain untested."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
