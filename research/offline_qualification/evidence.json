@@ -2189,6 +2189,20 @@
       ]
     },
     {
+      "task_id": "R5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/RESEARCH_LIMITATIONS.md",
+        "tests/test_research_limitations.py"
+      ],
+      "limitations": [
+        "The contract test checks evidence labeling and reference presence; it cannot statically police every future manuscript sentence.",
+        "External/model/user validation remains open and is not asserted by this task."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

@@ -259,7 +259,7 @@ R1-05 completion evidence: shared broken-retrieval, seeded-random-evidence and p
 - [ ] **R5-06** · **P1** · Record tradeoffs as Pareto curves for safety, task success, latency and memory cost. **Acceptance:** Candidate is not declared superior when another arm dominates it on stated objectives..
 - [ ] **R5-07** · **P1** · Add contamination tests ensuring scenario labels are not leaked through memory text, IDs or tool names. **Acceptance:** A deliberately leaked label is detected and invalidates that experiment..
 - [ ] **R5-08** · **P1** · Implement manuscript claim checker mapping each quantitative sentence to an immutable result file. **Acceptance:** Missing data, wrong denominator or outdated SHA prevents 'supported' claim status..
-- [ ] **R5-09** · **P1** · Prepare a limitations table splitting mathematical proof, model-free tests and untested real-world use. **Acceptance:** No deterministic simulation is described as a live-model or independent experiment..
+- [x] **R5-09** · **P1** · Prepare a limitations table splitting mathematical proof, model-free tests and untested real-world use. **Acceptance:** No deterministic simulation is described as a live-model or independent experiment.. Evidence: `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` (DONE: evidence classes, representative artifacts and external gates are explicit; contract checks ensure cited artifacts exist and H2/PA/PB1 negatives remain visible.)..
 - [ ] **R5-10** · **P1** · Prepare an offline reproducibility package and internal reviewer checklist while retaining EXTERNAL gates. **Acceptance:** Local reruns can pass; third-party originality, security and user validation remain explicitly pending..
 
 

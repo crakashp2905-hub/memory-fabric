@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d7db199fde9357f5bca4923428cfbd79717bdb84a496c958fffda073838e3595",
+    "sha256": "79d123dc4d63ef0d3d183a8ddbc90564cfd0a2a5af16b70d1ed986526df4f1e3",
     "tasks": 260
   },
   "source": {
-    "commit": "83f498349df47ad6280bdb1a65b2ac2a602ee268",
+    "commit": "9a31a0ee0dec47afa5ef511accfe77aacac9a60d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 172,
+      "DONE": 173,
       "PARTIAL": 4,
-      "TODO": 84
+      "TODO": 83
     },
-    "completed": 172,
+    "completed": 173,
     "total": 260,
-    "percent_complete": 66.15,
+    "percent_complete": 66.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2598,14 +2598,23 @@
       "task_id": "R5-09",
       "priority": "P1",
       "task": "Prepare a limitations table splitting mathematical proof, model-free tests and untested real-world use.",
-      "acceptance": "No deterministic simulation is described as a live-model or independent experiment",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "No deterministic simulation is described as a live-model or independent experiment.. Evidence: `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` (DONE: evidence classes, representative artifacts and external gates are explicit; contract checks ensure cited artifacts exist and H2/PA/PB1 negatives remain visible.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/RESEARCH_LIMITATIONS.md",
+        "tests/test_research_limitations.py"
+      ],
+      "evidence_digests": {
+        "research/RESEARCH_LIMITATIONS.md": "37167ca583e22c802820eaffe737088e2f002e58902c724f069f6362e17eb5c3",
+        "tests/test_research_limitations.py": "8a884f3a164194e2b26141e31d4ef353125d590ac7aab3d84ed85fba78ff8a4a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The contract test checks evidence labeling and reference presence; it cannot statically police every future manuscript sentence.",
+        "External/model/user validation remains open and is not asserted by this task."
+      ]
     },
     {
       "task_id": "R5-10",
