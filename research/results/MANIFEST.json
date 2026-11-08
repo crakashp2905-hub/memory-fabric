@@ -9,7 +9,7 @@
   "prompt_hash": 221,
   "seed": 142,
   "cost": 198,
-  "verdict": 154
+  "verdict": 153
  },
  "population_counts": {
   "synthetic_scripted": 11,
@@ -2071,7 +2071,7 @@
   {
    "experiment_id": "h4-03-storage-failure",
    "file": "research/results/h4-03-storage-failure.json",
-   "file_sha256": "03e469dae94fa297ee2f7328dc2cebb161f142e752694e129c1b69f2f9b4f55a",
+   "file_sha256": "ce79cfd31fe16f8d1885117867638ed965d03852f0362d1079732078e02326b2",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h4-topology-and-diversity.md",
    "git_sha": null,
@@ -2083,7 +2083,7 @@
    "seed": null,
    "config": null,
    "cost": null,
-   "verdict": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

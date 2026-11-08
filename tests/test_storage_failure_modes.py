@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import sqlite3
+import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -62,6 +64,32 @@ class StorageFailureModes(unittest.TestCase):
                     reopened.close()
             finally:
                 fabric.close()
+
+    @unittest.skipUnless(os.name == "nt", "Windows ACL permission-denied probe")
+    def test_filesystem_permission_denied_has_actionable_error_and_no_store(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp) / "denied"
+            directory.mkdir()
+            principal = f"{os.environ['USERDOMAIN']}\\{os.environ['USERNAME']}"
+            applied = subprocess.run(
+                ["icacls", str(directory), "/deny", f"{principal}:(W)"],
+                capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(applied.returncode, 0, applied.stdout + applied.stderr)
+            try:
+                path = directory / "store.db"
+                with self.assertRaises(PermissionError) as caught:
+                    EventLog(path)
+                message = str(caught.exception).lower()
+                self.assertIn(path.name.lower(), message)
+                self.assertIn("permissions", message)
+                self.assertFalse(path.exists(), "denied initialization must not leave a partial store")
+            finally:
+                reset = subprocess.run(
+                    ["icacls", str(directory), "/reset", "/t", "/c"],
+                    capture_output=True, text=True, check=False,
+                )
+                self.assertEqual(reset.returncode, 0, reset.stdout + reset.stderr)
 
 
 if __name__ == "__main__":  # pragma: no cover

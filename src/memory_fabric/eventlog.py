@@ -88,9 +88,17 @@ class EventLog:
         # the default, a statement silently opens a transaction and any
         # `with conn:` exit commits it — which is how `request_retraction`
         # came to be non-atomic.
-        conn = sqlite3.connect(
-            self.path, check_same_thread=False, isolation_level=None
-        )
+        try:
+            conn = sqlite3.connect(
+                self.path, check_same_thread=False, isolation_level=None
+            )
+        except sqlite3.OperationalError as exc:
+            if "unable to open database file" in str(exc).lower():
+                raise PermissionError(
+                    f"cannot open event store at {self.path!r}; check directory write "
+                    "permissions and available storage"
+                ) from exc
+            raise
         conn.row_factory = sqlite3.Row
         self._conn = conn
         conn.execute("PRAGMA journal_mode=WAL")

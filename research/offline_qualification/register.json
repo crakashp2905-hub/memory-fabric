@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "a0b840906fbfd18f8c2b67a42e167b57b1704ef2ff65546f0c202de27a22daf5",
+    "sha256": "b20922cfb9d494738b4ddc96d61caefc113c6b4242561b9ea3c7d133dc1e0fdf",
     "tasks": 260
   },
   "source": {
-    "commit": "407b1a048d3d4dfa017d099c30724119aac53aff",
+    "commit": "55aa3357f50e8d31ba46fae9287fd393be423a14",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 130,
-      "PARTIAL": 11,
+      "DONE": 131,
+      "PARTIAL": 10,
       "TODO": 119
     },
-    "completed": 130,
+    "completed": 131,
     "total": 260,
-    "percent_complete": 50.0,
-    "p0_open": 8,
+    "percent_complete": 50.38,
+    "p0_open": 7,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -506,7 +506,7 @@
         "experiments/rollback_drill.py"
       ],
       "evidence_digests": {
-        "src/memory_fabric/eventlog.py": "1d0450681eb840c45b23d59395cedc676fd4ffbf397ea05dd72cb204729230e9",
+        "src/memory_fabric/eventlog.py": "6598af4e0f70d0d15286105cec68f75533f0da7fafee6539626fd0b72db672c6",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
         "docs/EVENT_SCHEMA_COMPATIBILITY.md": "33e29fd6707699a4a3df113d56f4f4e7c5e7138818e8f8851eb3c216f3094d45",
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "846b365c79ee68414107ef9f804c729ee229baff6a9a1bf965a1de4c52ecd110",
+        "research/results/MANIFEST.json": "49486cc946be707215e1f6abf899929187172cf2b05ede10a103db82ad923298",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4219,23 +4219,25 @@
       "task_id": "H4-03",
       "priority": "P0",
       "task": "Exercise disk-full, permission-denied, readonly filesystem and malformed storage path.",
-      "acceptance": "User gets specific actionable error; no silent partial success. Evidence: `tests/test_storage_failure_modes.py`, `research/results/h4-03-storage-failure.json`, `research/results/h4-03-storage-failure-tests.xml` (PARTIAL: permission-denied not reproducible in this sandbox)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "User gets specific actionable error; no silent partial success. Evidence: `src/memory_fabric/eventlog.py`, `tests/test_storage_failure_modes.py`, `research/results/h4-03-storage-failure.json`, `research/results/h4-03-storage-failure-tests.xml` (DONE: Windows ACL denial now produces a path-specific permission/storage diagnostic and leaves no partial store; malformed path, SQLite full rollback and read-only refusal are also tested)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
         "tests/test_storage_failure_modes.py",
         "research/results/h4-03-storage-failure.json",
         "research/results/h4-03-storage-failure-tests.xml"
       ],
       "evidence_digests": {
-        "tests/test_storage_failure_modes.py": "d7006d5253da9a1d019e79108b247401acd9587730710a1c6c4468f21993a933",
-        "research/results/h4-03-storage-failure.json": "840358f55d3d4ab0ab3e79162742b6bfdc445b0b0ceb488e2d5ae799f3c8bec5",
-        "research/results/h4-03-storage-failure-tests.xml": "6ba68c65e20b36ef9717d68fc04614d24377719f50abadc4cd00366097c153af"
+        "src/memory_fabric/eventlog.py": "6598af4e0f70d0d15286105cec68f75533f0da7fafee6539626fd0b72db672c6",
+        "tests/test_storage_failure_modes.py": "e2eec331543094ad920cfc3fb17c6048b13efbedc24e50425b8eaa4c1e3b19ed",
+        "research/results/h4-03-storage-failure.json": "aea39a57d61c6bdb7fa577785e4688537a52242d9c68c3f064daa4c4c2cf3cc0",
+        "research/results/h4-03-storage-failure-tests.xml": "5e77a84b09b94d7fa082dca7cc905c1255625dc0c3e1f455933eb658cf7752e5"
       },
       "evidence_issues": {},
       "limitations": [
-        "Malformed path, SQLite full and read-only refusal pass. Filesystem permission-denied behavior was not tested in this Windows sandbox."
+        "Malformed path, SQLite full, read-only database and real Windows ACL permission-denied cases pass. The ACL integration probe is Windows-specific; other operating systems need their own permission-denied run."
       ]
     },
     {

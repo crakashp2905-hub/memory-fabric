@@ -1215,16 +1215,17 @@
     },
     {
       "task_id": "H4-03",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
         "tests/test_storage_failure_modes.py",
         "research/results/h4-03-storage-failure.json",
         "research/results/h4-03-storage-failure-tests.xml"
       ],
       "limitations": [
-        "Malformed path, SQLite full and read-only refusal pass. Filesystem permission-denied behavior was not tested in this Windows sandbox."
+        "Malformed path, SQLite full, read-only database and real Windows ACL permission-denied cases pass. The ACL integration probe is Windows-specific; other operating systems need their own permission-denied run."
       ]
     },
     {
