@@ -276,6 +276,19 @@ class Api:
 
                 return action_rows(f, limit=_int(params, "limit", 200) or 200)
 
+            case ["action-reconciliation"]:
+                from .control import action_reconciliation
+
+                return action_reconciliation(f, limit=_int(params, "limit", 200) or 200)
+
+            case ["actions", "timeline"]:
+                from .control import action_timeline
+
+                tool = _one(params, "tool")
+                if not tool:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "tool is required")
+                return action_timeline(f, tool, limit=_int(params, "limit", 200) or 200)
+
             case ["actions", raw_seq]:
                 from .control import action_detail
 

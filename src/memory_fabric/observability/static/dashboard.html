@@ -528,8 +528,13 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <div class="note">Every request to run a protected tool, with what the gate decided and the
       memories it rested on. Open one to see each piece of evidence as it was then and as it is
       now: an action whose evidence has since been withdrawn or revised is marked.</div>
+    <h3>Execution receipt state</h3>
+    <div class="note">A completed state means this store logged a successful fenced outcome; it does not
+      independently confirm what an external system did. Unknown outcomes need reconciliation.</div>
+    <div id="action-reconciliation"></div>
     <div id="actions-list"></div>
     <div id="action-detail"></div>
+    <div id="action-timeline"></div>
   </section>
 
   <section id="tab-attention" hidden>
@@ -1319,9 +1324,19 @@ function claimCheckLabel(value) {
 }
 
 async function loadActions() {
-  const rows = await api("/api/actions");
+  const [rows, receipts] = await Promise.all([
+    api("/api/actions"), api("/api/action-reconciliation")
+  ]);
   $("c-actions").textContent = rows.length ? `(${rows.length})` : "";
   $("action-detail").innerHTML = "";
+  $("action-timeline").innerHTML = "";
+  $("action-reconciliation").innerHTML = receipts.length ? `<table><thead><tr><th>tool</th><th>agent</th>
+    <th>idempotency ref</th><th>attempts</th><th>last outcome</th><th>fenced</th><th>receipt state</th></tr></thead><tbody>${receipts.map((r) => `<tr>
+      <td>${esc(r.tool)}</td><td>${esc(r.agent_id)}</td><td class="mono">${esc(r.idempotency_ref)}</td>
+      <td>${r.attempt_count}</td><td>${esc(r.last_outcome || "pending")}</td>
+      <td>${r.fenced === false ? "no · may have run" : r.fenced === true ? "yes" : "—"}</td>
+      <td>${esc(receiptStatusLabel(r.status))}${r.reconciliation_required ? ' <span class="badge medium">reconcile</span>' : ""}</td></tr>`).join("")}</tbody></table>`
+    : '<div class="sub">No idempotency attempts have been recorded.</div>';
   $("actions-list").innerHTML = rows.length ? `<table><thead><tr><th>#</th><th>agent</th>
     <th>tool</th><th>decision</th><th>evidence</th></tr></thead><tbody>${rows.map((a) => `
     <tr class="link" data-seq="${a.seq}"><td>${a.seq}</td><td>${esc(a.agent_id)}</td>
@@ -1332,6 +1347,25 @@ async function loadActions() {
   for (const tr of $("actions-list").querySelectorAll("[data-seq]")) {
     onActivate(tr, () => showAction(tr.dataset.seq).catch(showError));
   }
+}
+
+function receiptStatusLabel(status) {
+  return ({completed: "Completed · fenced outcome recorded",
+    definitely_unexecuted: "Definitely not executed · refused",
+    unknown: "Unknown · external effect requires reconciliation"})[status] || "Unknown";
+}
+
+async function loadActionTimeline(tool) {
+  const rows = await api(`/api/actions/timeline?tool=${encodeURIComponent(tool)}`);
+  $("action-timeline").innerHTML = `<h3>${esc(tool)} authorization and execution timeline</h3>${rows.length
+    ? `<table><thead><tr><th>event</th><th>type</th><th>agent</th><th>authorization / outcome</th><th>idempotency ref</th><th>receipt state</th></tr></thead><tbody>${rows.map((r) => `<tr>
+      <td><button class="link link-id" data-event-id="${esc(r.event_id)}">#${r.seq} · ${esc(r.event_id)}</button></td>
+      <td>${esc(r.event_type)}</td><td>${esc(r.agent_id || "system")}</td>
+      <td>${r.allowed === true ? "allowed" : r.allowed === false ? `blocked: ${esc(r.reason_codes.join(", "))}` :
+        `${esc(r.outcome || "attempted")}${r.fenced === false ? " · unfenced" : ""}`}</td>
+      <td class="mono">${esc(r.idempotency_ref || "not recorded on gate event")}</td>
+      <td>${r.receipt_state ? esc(receiptStatusLabel(r.receipt_state)) : "—"}</td></tr>`).join("")}</tbody></table>`
+    : '<div class="sub">No authorization or execution events for this tool.</div>'}`;
 }
 
 async function showAction(seq) {
@@ -1359,6 +1393,7 @@ async function showAction(seq) {
       <td>${esc(x.authority_now?.trust || "unknown")}<div class="sub">${esc((x.authority_now?.origins || []).join(", "))}</div></td>
       </tr>`).join("")}</tbody></table>
     <p class="sub">Support recomputation and evidence state describe the current store; they do not grant permission to act.</p>`;
+  loadActionTimeline(a.decision.tool).catch((err) => { $("action-timeline").textContent = err.message; });
 }
 
 async function loadCapabilities() {

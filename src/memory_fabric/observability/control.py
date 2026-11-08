@@ -14,6 +14,7 @@ from __future__ import annotations
 __stability__ = "beta"
 
 import json
+import hashlib
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -196,6 +197,56 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
                 "evidence": evidence,
                 "still_holds": all(not x["changed_since"] for x in evidence) if evidence else None}
     raise KeyError(seq)
+
+
+def action_reconciliation(f: "MemoryFabric", limit: int = 200) -> list[dict[str, Any]]:
+    """Expose receipt state without revealing caller-supplied idempotency keys."""
+    from ..actions import reconciliation_ledger
+    from .. import events as ev
+
+    by_seq = {event.seq: event for event in f.log.read_types(
+        [ev.EventType.ACTION_ATTEMPTED, ev.EventType.ACTION_EXECUTED])}
+    rows = []
+    for item in reconciliation_ledger(f):
+        event = by_seq.get(item["last_event_seq"])
+        rows.append({"idempotency_ref": hashlib.sha256(item["key"].encode()).hexdigest()[:12],
+                     "tool": item["tool"], "agent_id": item["agent_id"],
+                     "attempt_count": item["attempt_count"], "status": item["status"],
+                     "last_outcome": item.get("last_outcome"),
+                     "fenced": event.payload.get("fenced") if event and event.type == ev.EventType.ACTION_EXECUTED else None,
+                     "reconciliation_required": item["reconciliation_required"],
+                     "last_event_id": event.event_id if event else None,
+                     "last_event_seq": item["last_event_seq"]})
+    return sorted(rows, key=lambda row: row["last_event_seq"], reverse=True)[:limit]
+
+
+def action_timeline(f: "MemoryFabric", tool: str, limit: int = 200) -> list[dict[str, Any]]:
+    """Chronological authorization and execution events for one protected tool."""
+    from .. import events as ev
+    from ..actions import reconciliation_ledger
+
+    receipt_by_key = {row["key"]: row for row in reconciliation_ledger(f)}
+    events = f.log.read_types([ev.EventType.ACTION_GATED,
+                               ev.EventType.ACTION_ATTEMPTED,
+                               ev.EventType.ACTION_EXECUTED])
+    rows = []
+    for event in events:
+        payload = event.payload
+        if payload.get("tool") != tool:
+            continue
+        key = payload.get("key")
+        receipt = receipt_by_key.get(str(key)) if key else None
+        gated = event.type == ev.EventType.ACTION_GATED
+        rows.append({"event_id": event.event_id, "seq": event.seq, "ts": event.ts,
+                     "event_type": event.type, "tool": tool, "agent_id": event.agent_id,
+                     "allowed": payload.get("allowed") if gated else None,
+                     "reason_codes": payload.get("reason_codes", []) if gated else [],
+                     "outcome": payload.get("outcome"),
+                     "fenced": payload.get("fenced"),
+                     "idempotency_ref": hashlib.sha256(str(key).encode()).hexdigest()[:12] if key else None,
+                     "receipt_state": receipt.get("status") if receipt else None,
+                     "reconciliation_required": receipt.get("reconciliation_required") if receipt else False})
+    return rows[-limit:]
 
 
 def dependence(f: "MemoryFabric", memory_id: str) -> dict[str, Any]:

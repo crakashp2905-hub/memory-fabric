@@ -149,6 +149,14 @@ class TestPage(unittest.TestCase):
         self.assertIn("/api/events/${encodeURIComponent(eventId)}", html)
         self.assertIn("click a memory to read its story or a dashed lineage edge", html)
 
+    def test_action_view_exposes_per_tool_timeline_and_receipt_reconciliation(self):
+        html = HTML.read_text(encoding="utf-8")
+        self.assertIn("id=\"action-reconciliation\"", html)
+        self.assertIn("id=\"action-timeline\"", html)
+        self.assertIn("/api/action-reconciliation", html)
+        self.assertIn("/api/actions/timeline?tool=", html)
+        self.assertIn("external effect requires reconciliation", html)
+
     def test_withholding_scorecard_has_denominator_risk_and_population_labels(self):
         static = STATIC_DIR / "withholding-benchmark.json"
         row = json.loads(static.read_text(encoding="utf-8"))
@@ -230,6 +238,46 @@ class TestActionReasonGroups(unittest.TestCase):
             apply(fabric, root, reason="review", actor="reviewer",
                   preview_digest=old["digest"])
         self.assertEqual(fabric.get(root).lifecycle_state.value, "active")
+
+
+class TestActionReceiptApi(unittest.TestCase):
+    def test_timeline_and_redacted_receipt_states_cover_execute_refuse_and_unknown(self):
+        from memory_fabric import events
+
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        memory_id = fabric.remember("ag_ops", "Pump P-14 relief is set to 12 bar.", scope="team")
+        certificate = fabric.certify("P-14 relief", [memory_id], "ag_ops")
+        gate = ActionGate(
+            fabric,
+            ActionPolicy(tools={"operate": ToolRule("operate")},
+                         grants={"ag_ops": frozenset({"operate"})}),
+        )
+        completed_key = "private-idempotency-key-canary"
+        completed = gate.execute("operate", "ag_ops", lambda _key: "ok", certificate,
+                                 key=completed_key)
+        self.assertEqual(completed.outcome, "executed")
+        fabric.quarantine(memory_id, reason="changed", actor="reviewer")
+        refused = gate.execute("operate", "ag_ops", lambda _key: self.fail("must not run"),
+                               certificate, key="refused-key")
+        self.assertEqual(refused.outcome, "refused")
+        fabric._emit(events.action_attempted(ts=fabric.now(), agent_id="ag_ops",
+                                             key="unknown-key", tool="operate", binding="digest"))
+
+        api = Api(fabric)
+        receipts = api.handle("/api/action-reconciliation", {})
+        states = {row["status"]: row for row in receipts}
+        self.assertEqual(set(states), {"completed", "definitely_unexecuted", "unknown"})
+        self.assertTrue(states["completed"]["fenced"])
+        self.assertTrue(states["unknown"]["reconciliation_required"])
+        self.assertNotIn(completed_key, repr(receipts))
+        self.assertTrue(all(len(row["idempotency_ref"]) == 12 for row in receipts))
+
+        timeline = api.handle("/api/actions/timeline", {"tool": ["operate"]})
+        self.assertTrue(any(row["event_type"] == "ActionGated" for row in timeline))
+        self.assertTrue(any(row["event_type"] == "ActionExecuted" for row in timeline))
+        self.assertTrue(all(row["event_id"] for row in timeline))
+        self.assertNotIn(completed_key, repr(timeline))
 
 
 class TestActionDetailApi(unittest.TestCase):
