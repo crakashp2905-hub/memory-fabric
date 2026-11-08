@@ -1451,6 +1451,24 @@
       ]
     },
     {
+      "task_id": "H3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/observability/control.py",
+        "tests/test_cross_tenant_surface_matrix.py",
+        "tests/test_privacy_federation.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-01-cross-tenant-matrix.json",
+        "research/results/h3-01-cross-tenant-matrix-tests.xml"
+      ],
+      "limitations": [
+        "HTTP and MCP protocol handlers are exercised in-process; loopback HTTP socket transport is unavailable in this sandbox. Low-level MemoryFabric and operator interfaces remain trusted-local APIs."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,

@@ -101,7 +101,7 @@ class FabricCore:
         busy_timeout_ms: int = 5_000,
         recognise_copies: bool = True,
         rerank: "bool | str | Any" = False,
-        conceal_cross_tenant: bool = False,
+        conceal_cross_tenant: bool = True,
         limits: "Any" = None,
         withhold_hostile_sources: bool = True,
         hold_suspicious: bool = True,
@@ -109,9 +109,8 @@ class FabricCore:
         contest_restatements: bool = True,
         claim_checker: Any = None,
     ) -> None:
-        # Off by default to keep the documented reason code. On, a request
-        # from another tenant is refused exactly as a missing id is, so the
-        # refusal does not confirm that the id exists anywhere (plan Task 11).
+        # On by default: cross-tenant refusal is indistinguishable from a
+        # missing id, so it cannot confirm that the id exists elsewhere.
         self.conceal_cross_tenant = conceal_cross_tenant
         from ..limits import Limits, Meter
 

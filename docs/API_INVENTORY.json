@@ -5,7 +5,7 @@
   "symbols": [
     {
       "module": "memory_fabric.fabric",
-      "signature": "(path: str | Path = ':memory:', estimator: str | ValueEstimator = 'naive_usage', exposure_policy: str | ExposurePolicy = 'top_k', firewall: Firewall | None = None, retention: RetentionPolicy | None = None, embedder: Embedder | None = None, seed: int | None = None, clock = None, auto_activate: bool = False, encrypt_content: bool = True, key_provider: KeyProvider | None = None, retrieval: str = 'lexical', busy_timeout_ms: int = 5000, recognise_copies: bool = True, rerank: bool | str | Any = False, conceal_cross_tenant: bool = False, limits: Any = None, withhold_hostile_sources: bool = True, hold_suspicious: bool = True, crypto_profile: str | None = None, contest_restatements: bool = True, claim_checker: Any = None)",
+      "signature": "(path: str | Path = ':memory:', estimator: str | ValueEstimator = 'naive_usage', exposure_policy: str | ExposurePolicy = 'top_k', firewall: Firewall | None = None, retention: RetentionPolicy | None = None, embedder: Embedder | None = None, seed: int | None = None, clock = None, auto_activate: bool = False, encrypt_content: bool = True, key_provider: KeyProvider | None = None, retrieval: str = 'lexical', busy_timeout_ms: int = 5000, recognise_copies: bool = True, rerank: bool | str | Any = False, conceal_cross_tenant: bool = True, limits: Any = None, withhold_hostile_sources: bool = True, hold_suspicious: bool = True, crypto_profile: str | None = None, contest_restatements: bool = True, claim_checker: Any = None)",
       "symbol": "memory_fabric.fabric.MemoryFabric",
       "tier": "stable"
     },
@@ -167,13 +167,13 @@
     },
     {
       "module": "memory_fabric.sdk",
-      "signature": "(query: str, k: int = 5, context: Mapping[str, Any] | None = None, include_contested: bool = False, episode_id: str | None = None, within: Iterable[str] | None = None) -> RecallResult",
+      "signature": "(query: str, k: int = 5, context: Mapping[str, Any] | None = None, include_contested: bool = False, episode_id: str | None = None, within: Iterable[str] | None = None, operation: EvidenceOperation = EvidenceOperation.READ) -> RecallResult",
       "symbol": "memory_fabric.sdk.AgentClient.recall",
       "tier": "stable"
     },
     {
       "module": "memory_fabric.sdk",
-      "signature": "(memory_id: str, risk: RiskLevel = RiskLevel.LOW) -> UsableMemory",
+      "signature": "(memory_id: str, risk: RiskLevel | None = None, operation: EvidenceOperation = EvidenceOperation.READ) -> UsableMemory",
       "symbol": "memory_fabric.sdk.AgentClient.fetch",
       "tier": "stable"
     },
@@ -401,7 +401,7 @@
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False)",
+      "signature": "(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None)",
       "symbol": "memory_fabric.actions.ToolRule",
       "tier": "beta"
     },

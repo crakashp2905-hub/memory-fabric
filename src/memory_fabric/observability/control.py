@@ -32,7 +32,8 @@ def eligibility(f: "MemoryFabric", memory_id: str, agent_id: str = "",
     from ..vectors import MIN_RELEVANCE
 
     memory = f.state.memories.get(memory_id)
-    if memory is None:
+    if (memory is None or (tenant_id is not None and f.conceal_cross_tenant
+                           and memory.tenant_id != tenant_id)):
         return {"memory_id": memory_id, "eligible": False,
                 "checks": [{"check": "exists", "passed": False, "detail": "no such memory"}]}
     checks: list[dict[str, Any]] = []
