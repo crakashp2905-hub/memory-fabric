@@ -251,7 +251,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 |---|---|
 | CDM-009 | Focused tests and the 22-stage gate are recorded; `research/results/cdm/full-suite-attempt/manifest.json` records the interrupted 2,437-test whole-repository attempt, source snapshot, observed socket failures, and preserved output SHA-256. | A complete non-interrupted whole-repository regression run and final artifact hash remain outstanding. |
 | CDM-020 | `research/results/cdm/task-evidence-inventory.json` binds every evidence row to the exact source-tree SHA-256, local Git HEAD and dirty-state flag; explicit artifacts include file SHA-256 and last committed revision. Inventory stability, source snapshot, and artifact checks are tested. | Direct task-specific implementation-file references are still absent from many ledger rows; global source snapshot links do not replace those per-task mappings. |
-| CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
+| CDM-035 | Capture refusals for missing, private, withdrawn, and erased IDs now match in type, message, and serialized size (`tests/test_cdm_capture.py::test_missing_private_withdrawn_and_erased_ids_share_one_refusal`). Correction reports omit private descendant and grandchild IDs (`tests/test_cdm_api.py::test_correction_report_redacts_private_descendant_lineage`). | A broader timing and cache side-channel audit remains open; equal response shape does not establish constant-time behavior. |
 
 ## Open (0)
 

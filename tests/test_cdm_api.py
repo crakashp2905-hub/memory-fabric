@@ -68,6 +68,25 @@ class TestFacade(unittest.TestCase):
         with self.assertRaises(Unauthorized):
             CausalReplayAPI(fabric, alice).correction_impact(own)
 
+    def test_correction_report_redacts_private_descendant_lineage(self):
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        service = MemoryService(fabric)
+        service.register_agent("alice", b"alice-key", tenant_id="tenant-a")
+        service.register_agent("bob", b"bob-key", tenant_id="tenant-a")
+        alice = service.session(service.issue("alice"))
+        bob = service.session(service.issue("bob"))
+        source = alice.remember("shared source memory", scope="team")
+        private_child = bob.derive("private derived conclusion", [source], scope="private")
+        private_grandchild = bob.derive("private downstream conclusion", [private_child],
+                                        scope="private")
+        report = CausalReplayAPI(fabric, alice).correction_impact(source)
+        rendered = repr(report)
+        self.assertNotIn(private_child, rendered)
+        self.assertNotIn(private_grandchild, rendered)
+        self.assertEqual(report["influence"]["potentially_contaminated"]["memories"], [])
+        self.assertEqual(report["dependence"]["reach"], [source])
+
     def test_bad_budget_refuses(self):
         fabric = MemoryFabric(":memory:")
         self.addCleanup(fabric.close)

@@ -49,6 +49,26 @@ class TestCapture(unittest.TestCase):
         self.assertNotIn("sensor calibration", repr(caught.exception))
         self.assertNotIn(self.mid, repr(caught.exception))
 
+    def test_missing_private_withdrawn_and_erased_ids_share_one_refusal(self):
+        self.service.register_agent("bob", b"test-bob", tenant_id=self.owner.tenant_id)
+        bob = self.service.session(self.service.issue("bob"))
+        withdrawn = self.owner.remember("withdrawn private reading")
+        erased = self.owner.remember("erased private reading")
+        self.fabric.quarantine(withdrawn, reason="privacy audit", actor="owner",
+                               propagate=False)
+        self.fabric.erase_content(erased, actor="owner", reason="privacy audit")
+        requests = ((self.owner, "missing-memory-id"), (bob, self.mid),
+                    (self.owner, withdrawn), (self.owner, erased))
+        refusals = []
+        for session, memory_id in requests:
+            with self.subTest(memory_id=memory_id), self.assertRaises(Erased) as caught:
+                capture(self.fabric, session, [memory_id],
+                        context=ReplayContext(self.fabric.log.head_seq))
+            refusals.append((type(caught.exception), str(caught.exception),
+                             len(repr(caught.exception))))
+            self.assertNotIn(memory_id, str(caught.exception))
+        self.assertEqual(len(set(refusals)), 1)
+
     def test_revoked_session_after_recorded_history_refuses_without_metadata(self):
         self.service.revoke(self.owner.credential)
         from memory_fabric.causal_replay.types import Unauthorized
