@@ -27,6 +27,7 @@ from memory_fabric.agent_api import (
 )
 from memory_fabric.service import MemoryService
 from memory_fabric.sdk import agent, operator
+from memory_fabric.identity import IdentityError
 
 KEY_A = "aa" * 32
 KEY_B = "bb" * 32
@@ -276,6 +277,11 @@ class TestTransportDefences(ApiCase):
     def test_credential_round_trip(self) -> None:
         credential = self.service.issue("ag_a", ttl_seconds=60)
         self.assertEqual(decode_credential(encode_credential(credential)), credential)
+
+    def test_credential_decode_errors_are_refused_cleanly(self) -> None:
+        for token in ("%%%", "e30", "eyJ4Ijoi" + "A" * 2048):
+            with self.subTest(token=token[:12]), self.assertRaises(IdentityError):
+                decode_credential(token)
 
 
 class TestAgentsFile(unittest.TestCase):

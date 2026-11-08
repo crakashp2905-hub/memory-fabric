@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **118 / 260 (45.38%)**. Internal status: **BLOCKED**.
+Strict completion: **119 / 260 (45.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6fb51f54c76176f245031ab6fbfd57a7df69eb7907650c0a1c6103cb52a6cb52`.
+Normalized ledger digest: `c1a5b18e7404060687d9b2233edfb320337f0294e88555fc64116e99429225f2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 118 |
+| DONE | 119 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 128 |
+| TODO | 127 |
 
 ## Graduation gates
 
@@ -195,7 +195,7 @@ Normalized ledger digest: `6fb51f54c76176f245031ab6fbfd57a7df69eb7907650c0a1c610
 | H1-04 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `tests/test_security_regression.py`, `research/results/h1-03-04-authority-delayed-poisoning.xml` |
 | H1-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `research/results/h1-05-unfamiliar-claim-tests.xml` |
 | H1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_duplicates.py`, `docs/LIMITATIONS.md`, `research/results/h1-06-copy-laundering-tests.xml` |
-| H1-07 | P0 | TODO | NOT_TESTED | — |
+| H1-07 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_certificates.py`, `tests/test_code_mode_fuzz.py`, `tests/test_agent_api.py`, `research/results/h1-07-malformed-input-tests.xml` |
 | H1-08 | P0 | TODO | NOT_TESTED | — |
 | H1-09 | P0 | TODO | NOT_TESTED | — |
 | H1-10 | P0 | TODO | NOT_TESTED | — |

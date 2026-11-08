@@ -1480,6 +1480,21 @@
       ]
     },
     {
+      "task_id": "H1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_certificates.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_agent_api.py",
+        "research/results/h1-07-malformed-input-tests.xml"
+      ],
+      "limitations": [
+        "Input-size/list limits and nested-structure rejection are tested; whole-process memory/RSS is not instrumented."
+      ]
+    },
+    {
       "task_id": "H1-06",
       "status": "DONE",
       "acceptance_passed": true,

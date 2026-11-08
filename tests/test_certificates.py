@@ -255,6 +255,13 @@ class TestMalformed(Fixture):
         for junk in (None, [], "certificate", 7):
             self.assertEqual(self.verify(junk).reason_codes, (C.MALFORMED,))
 
+    def test_cyclic_mapping_is_rejected_without_recursive_traversal(self) -> None:
+        data = self.certify(self.a).to_json()
+        data["evidence"] = [data]
+        result = self.verify(data)
+        self.assertFalse(result.ok)
+        self.assertEqual(result.reason_codes, (C.MALFORMED,))
+
     def test_a_passed_field_from_a_model_is_refused_not_trusted(self) -> None:
         data = {**self.certify(self.a).to_json(), "checks_passed": True, "ok": True}
         self.retract(self.a)

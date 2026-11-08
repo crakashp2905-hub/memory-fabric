@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "3293adc36080347824de41a15591310f3b235eff1ff040c39636ce1c5213b479",
+    "sha256": "2d32a89280f28118b22c2fc396b631fae5d7e20b42fff0d027ce1b1cd5779168",
     "tasks": 260
   },
   "source": {
-    "commit": "7525215ed73229889221b94e719ea4986a4f3b2a",
+    "commit": "4830fa6f023efaebe756c8adf0117b03ad5eb920",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 118,
+      "DONE": 119,
       "PARTIAL": 14,
-      "TODO": 128
+      "TODO": 127
     },
-    "completed": 118,
+    "completed": 119,
     "total": 260,
-    "percent_complete": 45.38,
-    "p0_open": 20,
+    "percent_complete": 45.77,
+    "p0_open": 19,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -907,7 +907,7 @@
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
-        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
         "tests/test_p12b_api_load.py": "cd0d8fc8b4a4986dc8654a23bfb5a4e8a5f39cd3bb932bf9263a89e1c4815f26",
         "tests/test_p12b_harness.py": "54c44920312514d2af34e8be6967aac97c9404135e034615987b95c660c51aa9",
         "research/results/e4-03-local-profile.json": "b1b4ab84a0e96b178462c8275f3eafe3aa8b8d60e6dd1f46122e1d950c974fdd",
@@ -1244,7 +1244,7 @@
         "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
-        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
         "research/results/e5-03-error-contracts.json": "f601db467d23ebe124202017be7f860410a4738d28a5dd24f900c0aa79df3a5d",
         "research/results/e5-03-error-contracts.xml": "b28c00407688e95a7f80c8941bf8e22fa5707f0e8628df9ea52d5ee2b84025e8"
@@ -1417,7 +1417,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
-        "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
+        "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
         "tests/data/agent_api_behavior.json": "e0ace124261631c09ef6b8eecb2f58bbf7c8d5f5653e3cfbf2bacd44847c02dd",
         "tools/agent_api_metrics.py": "7a7983e617133ae6b46ad0281625b0e96085f93317c6fe07bbdc0632c27f785f",
         "research/results/e5-09-agent-api-before.json": "c55a2d511c1aa135f23b5b6143493f586cf74ec7f7b7f097cf2b93365ffafbd1",
@@ -1861,7 +1861,7 @@
       "evidence_digests": {
         "src/memory_fabric/certificates.py": "db152206455bcfc7d12c710de7b8235c076e603b9ded45c964cc8dd9318032dc",
         "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
-        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
         "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
       },
       "evidence_issues": {},
@@ -1888,7 +1888,7 @@
         "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
         "src/memory_fabric/certificates.py": "db152206455bcfc7d12c710de7b8235c076e603b9ded45c964cc8dd9318032dc",
         "tests/test_justification.py": "201a51e019543c08441e2d175fdf137ca87843f2dad559d6aabf379b0696b62e",
-        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
         "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
       },
       "evidence_issues": {},
@@ -3483,14 +3483,26 @@
       "task_id": "H1-07",
       "priority": "P0",
       "task": "Add malicious malformed metadata fields, oversized arrays, cyclic references and decoding errors.",
-      "acceptance": "Parser rejects safely within bounded CPU and memory without stack overflow",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Parser rejects safely within bounded CPU and memory without stack overflow. Evidence: `tests/test_certificates.py::TestMalformed`, `tests/test_code_mode_fuzz.py`, `tests/test_agent_api.py::TestTransportDefences.test_credential_decode_errors_are_refused_cleanly`, `research/results/h1-07-malformed-input-tests.xml` (DONE: malformed fields, 65-entry evidence arrays, cyclic mapping, 600 seeded certificate mutations, bounded Code Mode source/argument/call sizes and malformed credential decoding are refused; 10 tests and 649 subtests pass. Protocol-level caps and recursion rejection are measured; process-wide RSS is not measured)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_certificates.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_agent_api.py",
+        "research/results/h1-07-malformed-input-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
+        "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
+        "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
+        "research/results/h1-07-malformed-input-tests.xml": "8e185d2fb375c3debfa5d3558a619f8533e5b5ddc9c7f27242069d41ff09ddc9"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Input-size/list limits and nested-structure rejection are tested; whole-process memory/RSS is not instrumented."
+      ]
     },
     {
       "task_id": "H1-08",
@@ -4321,7 +4333,7 @@
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
         "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
-        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "tests/test_certificates.py": "3cfd07c3090784752eb8f9ab6ee34966cfd925c7730458378e131d9303f7b85f",
         "tests/test_identity.py": "7f38da96b8e101b7174314441ad37c2a3c4ab5ad4f9d2f23cb6814e812d4c4f9",
         "research/results/h4-09-clock-skew.json": "eb8854c298c8dfd7089f40e0c6b3e25f4a41001cf69a008084d272905fb88563"
       },
