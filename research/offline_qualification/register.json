@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "bc71bf67ed344cb88f6fde6b5c603fecdcbf2a422809bf343c575c11de6af000",
+    "sha256": "592c1acca1cee6d4dbbef7def3f7abb2f2f2c9e5c8d69e76e1ef21ec1aa4f6ef",
     "tasks": 260
   },
   "source": {
-    "commit": "607aa975df24e8ffcba84d77659840790a78040a",
+    "commit": "590c0bc29d256cde19b9db8e8b614f63b6de612e",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 222,
+      "DONE": 223,
       "PARTIAL": 3,
-      "TODO": 35
+      "TODO": 34
     },
-    "completed": 222,
+    "completed": 223,
     "total": 260,
-    "percent_complete": 85.38,
+    "percent_complete": 85.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3189,7 +3189,7 @@
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "a9c20af797cad95bbeeead8f13833eba4718cd9ed542a5ee33577b3070474e6b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
@@ -3245,7 +3245,7 @@
         "tests/test_requirement_explanations.py": "feebfff9e022d5331a755b35cdfe1f39b0e513bb30fc1463a33c2e3908dbb587",
         "tests/test_requirement_graph.py": "f980d9a45ffb5448a912662315ee88d0c965f66b7f454f7ff643422e6b1d8491",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "a9c20af797cad95bbeeead8f13833eba4718cd9ed542a5ee33577b3070474e6b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
@@ -3298,7 +3298,7 @@
         "tests/test_answerability.py": "f7c87241342bd4c15f3b6888773a6c0c872fab7db283449406cc940331c8bb5d",
         "tests/test_requirement_explanations.py": "feebfff9e022d5331a755b35cdfe1f39b0e513bb30fc1463a33c2e3908dbb587",
         "tests/test_requirement_graph.py": "f980d9a45ffb5448a912662315ee88d0c965f66b7f454f7ff643422e6b1d8491",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "a9c20af797cad95bbeeead8f13833eba4718cd9ed542a5ee33577b3070474e6b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
@@ -3345,7 +3345,7 @@
         "SPEC.md": "6282e51e03d9ff8386adaa580b2e201ec4f07cfa06320cab00d624a3854136f2",
         "CHANGELOG.md": "bc8871f9451eef18f00ef81390b18d084049a9e8abddd57c6b16794694c8d4aa",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "a9c20af797cad95bbeeead8f13833eba4718cd9ed542a5ee33577b3070474e6b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
@@ -3532,7 +3532,7 @@
         "tests/test_authorization_receipt.py": "1a3a4842e9d4592c77e422ad748917af018d024ad32868cabeee1032c0b4041e",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "research/results/n2-10-authorization-receipt-tests.xml": "0dae7e1e223e88b7fe304415d2c47c7c46c5680c384bff59ba90a9d332b6e55b",
@@ -3715,14 +3715,26 @@
       "task_id": "N3-07",
       "priority": "P2",
       "task": "Separate outcome feedback from source authority; success cannot retroactively certify false facts.",
-      "acceptance": "Injection and false-source fixtures maintain existing authority invariant",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Injection and false-source fixtures maintain existing authority invariant. Evidence: `research/prereg/n3-07-outcome-authority-separation-v1.md`, `tests/test_authority.py`, `research/results/n3-07-authority-feedback-tests.xml`, `research/results/n3-07-authority-feedback.md` (DONE: a false tool claim and injected instruction retain their pre-outcome untrusted classifications after successful feedback, and both remain denied by the action gate; the full authority module passes 27 tests and 7 subtests.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/prereg/n3-07-outcome-authority-separation-v1.md",
+        "tests/test_authority.py",
+        "research/results/n3-07-authority-feedback-tests.xml",
+        "research/results/n3-07-authority-feedback.md"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-07-outcome-authority-separation-v1.md": "12514eeb9865aaec5778027a85303bae174c6a2daf24f6792d3f2bc09c783046",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
+        "research/results/n3-07-authority-feedback-tests.xml": "911988e9de639a4f3970ffa75ba0cc5d0d7d0e829e82e8aed0941f093dbdf151",
+        "research/results/n3-07-authority-feedback.md": "c7c581f359740d29f768202506090efd590d8b0de2cd1107e92494ec5b78bbd5"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Authority remains unchanged after successful synthetic outcomes for a false tool source and an injected instruction; the environment outcome label itself is not independently validated by this fixture."
+      ]
     },
     {
       "task_id": "N3-08",
@@ -4223,7 +4235,7 @@
         "research/results/h1-03-04-authority-delayed-poisoning.xml"
       ],
       "evidence_digests": {
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
         "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
       },
@@ -4246,7 +4258,7 @@
         "research/results/h1-03-04-authority-delayed-poisoning.xml"
       ],
       "evidence_digests": {
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
         "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
       },
@@ -4268,7 +4280,7 @@
         "research/results/h1-05-unfamiliar-claim-tests.xml"
       ],
       "evidence_digests": {
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "research/results/h1-05-unfamiliar-claim-tests.xml": "674bf808c4ec9612f747567b1bbe145f1eed7d8d73c648106ebd0d67fcde5c6a"
       },
       "evidence_issues": {},
@@ -4362,7 +4374,7 @@
       ],
       "evidence_digests": {
         "tools/mutation_check.py": "0aca4315176ef64cb5db6b51b3054c5cb8369fe6ea51f6881bceadcf6d5fa70d",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "research/results/h1-09-authority-mutation.json": "a332e7654760697029c8bb5d1a3ca2373e9888bfeb068672b72c6a0485c5febe"
       },
       "evidence_issues": {},
@@ -4438,7 +4450,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
-        "tests/test_authority.py": "bfe32af20cb3a2b011899c0e55bd569d855e4bde19a4245603889edd504c7a70",
+        "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
       },

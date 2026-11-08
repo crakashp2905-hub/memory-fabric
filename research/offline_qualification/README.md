@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **222 / 260 (85.38%)**. Internal status: **BLOCKED**.
+Strict completion: **223 / 260 (85.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ba3040817cd19fa11c9dbb5da523af6cd7122aca68af7f9b76242e08e329fa21`.
+Normalized ledger digest: `1d68ef04e8a3076b60cb9349f0b06738919acd66b3c89a1851ef2de43fff20e4`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 222 |
+| DONE | 223 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 35 |
+| TODO | 34 |
 
 ## Graduation gates
 
@@ -155,7 +155,7 @@ Normalized ledger digest: `ba3040817cd19fa11c9dbb5da523af6cd7122aca68af7f9b76242
 | N3-04 | P2 | DONE | SIMULATED | `research/prereg/n3-04-confounded-memory-credit-v1.md`, `benchmarks/n3_04_confounded_memory.py`, `tests/test_n3_04_confounded_memory.py`, `research/results/n3-04-confounded-memory.json`, `research/results/n3-04-confounded-memory.md`, `research/results/n3-04-confounded-memory-tests.xml` |
 | N3-05 | P2 | DONE | SIMULATED | `research/prereg/n3-05-randomized-intervention-harness-v1.md`, `benchmarks/intervention_harness.py`, `benchmarks/n3_05_intervention_harness.py`, `tests/test_n3_05_intervention_harness.py`, `research/results/n3-05-intervention-harness.json`, `research/results/n3-05-intervention-harness.ndjson`, `research/results/n3-05-intervention-harness.md`, `research/results/n3-05-intervention-harness-tests.xml` |
 | N3-06 | P2 | DONE | SIMULATED | `research/prereg/n3-06-copy-invariance-v1.md`, `benchmarks/n3_06_copy_invariance.py`, `tests/test_n3_06_copy_invariance.py`, `research/results/n3-06-copy-invariance.json`, `research/results/n3-06-copy-invariance.md`, `research/results/n3-06-copy-invariance-tests.xml` |
-| N3-07 | P2 | TODO | NOT_TESTED | — |
+| N3-07 | P2 | DONE | INTERNAL_INTEGRATION | `research/prereg/n3-07-outcome-authority-separation-v1.md`, `tests/test_authority.py`, `research/results/n3-07-authority-feedback-tests.xml`, `research/results/n3-07-authority-feedback.md` |
 | N3-08 | P2 | TODO | NOT_TESTED | — |
 | N3-09 | P2 | TODO | NOT_TESTED | — |
 | N3-10 | P2 | TODO | NOT_TESTED | — |
