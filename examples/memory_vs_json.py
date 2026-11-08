@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+import json
+import sqlite3
 from typing import TypedDict
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
@@ -37,11 +39,16 @@ RECORDS: tuple[Record, ...] = (
 
 def main() -> int:
     print("DEMO ONLY: one deterministic case; no external tool is called.")
-    # The baseline is deliberately small: a JSON object keyed by the same
-    # field. An agent has already prepared a 30-second action before update.
-    simple: dict[str, int] = {}
+    # Ordinary baseline: SQLite key/value records with JSON payloads. It gets
+    # the exact same evidence inputs, but has no provenance-aware action gate.
+    simple = sqlite3.connect(":memory:")
+    simple.execute("CREATE TABLE notes (key TEXT PRIMARY KEY, value_json TEXT NOT NULL)")
     for record in RECORDS:
-        simple[record["key"]] = int(record["value"])
+        simple.execute("INSERT OR REPLACE INTO notes VALUES (?, ?)",
+                       (record["key"], json.dumps(record, sort_keys=True)))
+    simple_current = json.loads(simple.execute(
+        "SELECT value_json FROM notes WHERE key = ?", (RECORDS[-1]["key"],)
+    ).fetchone()[0])
     cached_simple_action = RECORDS[0]["value"]
 
     with MemoryFabric(seed=0, encrypt_content=False) as fabric:
@@ -73,15 +80,16 @@ def main() -> int:
             f"set P1 purge to {corrected['value']} seconds", [corrected_id], "operator")
         fresh_decision = gate.authorize("set_purge", "operator", fresh_certificate)
 
-        simple_utility = simple.get(corrected["key"]) == corrected["value"]
+        simple_utility = simple_current["value"] == corrected["value"]
         fabric_utility = current_setting is not None
         simple_stale_would_run = cached_simple_action == initial["value"]  # no gate in this baseline
         fabric_stale_would_run = stale_decision.allowed
 
         print(f"Identical source records per arm: {len(RECORDS)}; equal input: True")
+        print("Ordinary baseline: SQLite key/value table with JSON record payloads.")
         print("Task utility (returns the corrected 45-second setting):")
         print(f"  JSON-style store: {'PASS' if simple_utility else 'FAIL'} "
-              f"({simple.get(corrected['key'])} seconds)")
+              f"({simple_current['value']} seconds)")
         print(f"  Memory Fabric:   {'PASS' if fabric_utility else 'FAIL'} "
               f"({corrected_id if current_setting else 'not found'})")
         print("Safety (a cached action still proposes the superseded 30-second setting):")
@@ -93,6 +101,7 @@ def main() -> int:
               f"({', '.join(fresh_decision.reason_codes)})")
         print("Scope: a fixed scripted example; counts do not estimate general performance.")
 
+        simple.close()
         return 0 if (simple_utility and fabric_utility and simple_stale_would_run
                      and not fabric_stale_would_run and fresh_decision.allowed) else 1
 

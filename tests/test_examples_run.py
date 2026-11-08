@@ -43,6 +43,8 @@ class Examples(unittest.TestCase):
                     self.assertIn("JSON-style store: WOULD RUN", done.stdout)
                     self.assertIn("Memory Fabric:   BLOCKED (evidence_withdrawn)", done.stdout)
                     self.assertIn("Scope: a fixed scripted example", done.stdout)
+                    self.assertIn("Ordinary baseline: SQLite key/value table with JSON record payloads.",
+                                  done.stdout)
 
     def test_getting_started_runs_from_a_clean_offline_install(self) -> None:
         scratch = ROOT / ".test-tmp"
