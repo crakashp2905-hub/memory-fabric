@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e92f53499205de78281d73f234e62bcc9e664dbe7854835e6aa51f07d402fca4",
+    "sha256": "de161703424d71dde9cefd1e9fb68b32ea465217c9eb5e58dc9cd64a2cf13f4e",
     "tasks": 260
   },
   "source": {
-    "commit": "a54e9d3efab2967d902f1a4b642853e18ab9ff4f",
+    "commit": "fe1dead704a909f4b81fee8d1b39a12f105afa63",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 226,
+      "DONE": 227,
       "PARTIAL": 3,
-      "TODO": 31
+      "TODO": 30
     },
-    "completed": 226,
+    "completed": 227,
     "total": 260,
-    "percent_complete": 86.92,
+    "percent_complete": 87.31,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3835,14 +3835,35 @@
       "task_id": "N4-01",
       "priority": "P1",
       "task": "Define compression invariant: every consequential fact in summary maps back to active original versions.",
-      "acceptance": "Reconstructed dependency map passes exact oracle tests on generated summaries",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Reconstructed dependency map passes exact oracle tests on generated summaries. Evidence: `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml` (DONE: generated extractive and dictionary summaries reconstruct exact active source versions; unsupported, omitted, disputed, and retracted facts are covered by oracle and negative-control tests. 20 tests pass. Qualifies recognized identifiers/numeric values; unstructured qualitative facts remain outside this extractor.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-01-summary-dependencies.json",
+        "research/results/n4-01-summary-dependencies.md",
+        "research/results/n4-01-dependency-map-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/summary_dependencies.py": "fce1c1de1c08832157c2e6b39d197a4614ea053ec1cfe3b289fdd976eb6deb3e",
+        "src/memory_fabric/compaction.py": "0c2fac60c3558425fce9d09811f6626a5bc2a4b6e97f334b000be78c1ef99624",
+        "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
+        "tests/test_compaction.py": "b44dc21ec452f6dca03a2b03b4f16cd2d4f3667442736be2bd7d31d2ffddebb7",
+        "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
+        "research/results/n4-01-summary-dependencies.json": "c085f368847df31e41b700fe98e12706ce675f0043bfa2d8b9c019109851dcfc",
+        "research/results/n4-01-summary-dependencies.md": "fbac46c07f63886407ca58f5176b9fd7f821fae023ad5de32efff0ef5a8a759f",
+        "research/results/n4-01-dependency-map-tests.xml": "ff2bd171c8eab3be3ff453ec97967229e3b2f64d4e69aabd4d89e8e698fd58ed"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Fact identity follows the current normalized identifier/content-word/numeric-value extractor; unstructured qualitative claims without identifiers or values are not certified as consequential facts.",
+        "This is local contract evidence, not an independent security or model-quality review."
+      ]
     },
     {
       "task_id": "N4-02",
@@ -4950,7 +4971,7 @@
         "src/memory_fabric/retrievers.py": "fbfe7e2edbb45fd14203fa116f5cfe5d448cb68b75125c4a3b00d444379372d6",
         "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",
         "tests/test_retrievers.py": "4afaeb5d572c26ca2acc07ce84dcbb9a5f89e548f422c09bc903de9665e1c199",
-        "tests/test_lossless_compaction.py": "637e38df1fa1440768f5d99d00aef0a48bd5333eceba4556a9b89b156eba4ba1",
+        "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
         "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",

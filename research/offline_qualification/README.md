@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **226 / 260 (86.92%)**. Internal status: **BLOCKED**.
+Strict completion: **227 / 260 (87.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `00ea73c92abb075c6e78b684d4cc815210a04f6808848ca301889c61fb030ea2`.
+Normalized ledger digest: `83fe8764b94ea14fd066184e0edefa3e6215791bb4fb55f4c5c6b9c623d8f020`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 226 |
+| DONE | 227 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 31 |
+| TODO | 30 |
 
 ## Graduation gates
 
@@ -159,7 +159,7 @@ Normalized ledger digest: `00ea73c92abb075c6e78b684d4cc815210a04f6808848ca301889
 | N3-08 | P2 | DONE | SIMULATED | `research/prereg/n3-08-heldout-world-family-transfer-v1.md`, `benchmarks/n3_08_ood_retention.py`, `tests/test_n3_08_ood_retention.py`, `research/results/n3-08-ood-retention.json`, `research/results/n3-08-ood-retention.md`, `research/results/n3-08-ood-retention-tests.xml` |
 | N3-09 | P2 | DONE | CONTRACT | `research/prereg/n3-09-off-policy-support-v1.md`, `src/memory_fabric/model.py`, `src/memory_fabric/estimators.py`, `tests/test_estimators.py`, `research/results/n3-09-off-policy-support.json`, `research/results/n3-09-off-policy-support.md`, `research/results/n3-09-support-tests.xml`, `research/results/n3-09-compat-tests.xml` |
 | N3-10 | P2 | DONE | SIMULATED | `research/prereg/n3-10-policy-graduation-v1.md`, `benchmarks/n3_10_policy_graduation.py`, `tests/test_n3_10_policy_graduation.py`, `research/results/n3-10-policy-graduation.json`, `research/results/n3-10-policy-graduation.md`, `research/results/n3-10-policy-graduation-tests.xml` |
-| N4-01 | P1 | TODO | NOT_TESTED | — |
+| N4-01 | P1 | DONE | CONTRACT | `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml` |
 | N4-02 | P1 | TODO | NOT_TESTED | — |
 | N4-03 | P1 | TODO | NOT_TESTED | — |
 | N4-04 | P1 | TODO | NOT_TESTED | — |
