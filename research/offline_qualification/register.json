@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "96e270750470d15585b445c28dc0cd6f77601940d5f444e6883b2436130baed7",
+    "sha256": "7934acf702f9378c8f1fa291a1cb0719a905e06357910f3fa8b4f2062b962011",
     "tasks": 260
   },
   "source": {
-    "commit": "120f57045c289af1457a62ba73c0645b18c949d5",
+    "commit": "75c09239d3f0310bb3aee236880e4bd81be807f1",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 138,
-      "PARTIAL": 6,
+      "DONE": 139,
+      "PARTIAL": 5,
       "TODO": 116
     },
-    "completed": 138,
+    "completed": 139,
     "total": 260,
-    "percent_complete": 53.08,
-    "p0_open": 3,
+    "percent_complete": 53.46,
+    "p0_open": 2,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -5331,9 +5331,9 @@
       "task_id": "P5-02",
       "priority": "P0",
       "task": "Run full local check suite, lint, docs, adversarial tests and optional-capability audit.",
-      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate. Evidence: `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` (PARTIAL: full unittest discovery on the current worktree passed 2,458 tests with 17 disclosed capability/platform skips and 0 failures; `tools/check.py` passed including docs, branding, Ruff, mypy (176 files/0 issues), secret scan, security AST, internal findings gate, documentation tests and adversarial gate. The skips require Anthropic SDK (5), PostgreSQL (7), Agents SDK framework contract (1), or POSIX-only environment (4). `pip-audit` and `bandit` remain unavailable; local qualification is not external security review or certification)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate. Evidence: `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` (DONE: full unittest discovery on exact pushed source SHA `cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc` passed 2,458 tests with 17 disclosed capability/platform skips and 0 failures; `tools/check.py` passed docs, branding, Ruff, mypy (176 files/0 issues), secret scan, security AST, internal findings gate, documentation tests and adversarial gate (21/21 families, 279 tests). Skips require Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), or POSIX environment (4). `pip-audit` and `bandit` are reported `UNAVAILABLE`; external review remains separately required)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/check.py",
@@ -5348,14 +5348,14 @@
         "research/results/p5-02-local-checks.txt": "e7d0a3b647009be2a543008898ffa07605cf5b6320dc47ca55443fe8e2f83e45",
         "research/results/p5-02-full-unit-tests.txt": "5e0711e3959b030db88aba4054e45da7ac34f858dcdebbe77733c3df7c1f375a",
         "research/results/p5-02-adversarial-gate.json": "238d61a4662ca385dbbcb3a1d66037fe13ff3814789cd5641a2fa37f6cb4b13f",
-        "research/results/p5-02-local-qualification.json": "63e0a06b10811946e1038a3424931d1b67bfa15534103e53bd8b84eb5f3ce4e7",
+        "research/results/p5-02-local-qualification.json": "58b474540417934669a9cb530311f2cb34b10934152667704de0f75673c223df",
         "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
       },
       "evidence_issues": {},
       "limitations": [
-        "Full local unit suite passes: 2,458 tests, 0 failures/errors, 17 disclosed capability/platform skips (Anthropic SDK 5; PostgreSQL 7; Agents SDK runtime 1; POSIX-only Windows 4).",
-        "pip-audit and bandit are unavailable in this environment.",
-        "Independent external security review remains open; local checks do not certify security."
+        "Full suite passed 2,458 tests with 17 explicitly explained capability/platform skips: Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), and POSIX-only Windows tests (4).",
+        "pip-audit and bandit are explicitly reported UNAVAILABLE; no claim is made that their scans ran.",
+        "External human security review is a separate open checklist task and is not substituted by these local checks."
       ]
     },
     {

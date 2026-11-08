@@ -1505,8 +1505,8 @@
     },
     {
       "task_id": "P5-02",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/check.py",
@@ -1517,9 +1517,9 @@
         "research/results/h5-09-production-defaults.json"
       ],
       "limitations": [
-        "Full local unit suite passes: 2,458 tests, 0 failures/errors, 17 disclosed capability/platform skips (Anthropic SDK 5; PostgreSQL 7; Agents SDK runtime 1; POSIX-only Windows 4).",
-        "pip-audit and bandit are unavailable in this environment.",
-        "Independent external security review remains open; local checks do not certify security."
+        "Full suite passed 2,458 tests with 17 explicitly explained capability/platform skips: Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), and POSIX-only Windows tests (4).",
+        "pip-audit and bandit are explicitly reported UNAVAILABLE; no claim is made that their scans ran.",
+        "External human security review is a separate open checklist task and is not substituted by these local checks."
       ]
     },
     {

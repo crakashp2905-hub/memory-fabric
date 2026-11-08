@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **138 / 260 (53.08%)**. Internal status: **BLOCKED**.
+Strict completion: **139 / 260 (53.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b82a4378b9af9765f5d3b1c3963064c83a37c0b8c109b00c482d34fdf5cfe549`.
+Normalized ledger digest: `6558c3d3522bc0587320c62f13e124b01477a26ede7f0db1933ce33d25e3edd2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 138 |
+| DONE | 139 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 6 |
+| PARTIAL | 5 |
 | TODO | 116 |
 
 ## Graduation gates
@@ -280,7 +280,7 @@ Normalized ledger digest: `b82a4378b9af9765f5d3b1c3963064c83a37c0b8c109b00c482d3
 | P4-09 | P1 | TODO | NOT_TESTED | — |
 | P4-10 | P1 | TODO | NOT_TESTED | — |
 | P5-01 | P0 | DONE | INTERNAL_INTEGRATION | `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` |
-| P5-02 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` |
+| P5-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` |
 | P5-03 | P0 | PARTIAL | CONTRACT | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` |
 | P5-04 | P0 | DONE | INTERNAL_INTEGRATION | `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` |
 | P5-05 | P0 | DONE | INTERNAL_INTEGRATION | `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` |

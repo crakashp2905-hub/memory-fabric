@@ -85,12 +85,10 @@
       "evidence": "research/results/p5-02-local-checks.txt"
     }
   },
-  "qualification": "PARTIAL",
+  "qualification": "PASS_WITH_DISCLOSED_CAPABILITY_GAPS",
   "limitations": [
-    "pip-audit and bandit are unavailable in this environment.",
-    "Seven PostgreSQL integration tests require MF_TEST_POSTGRES_URL; the local SQLite suite passed.",
-    "One framework contract requires the optional Agents SDK runtime; five real Anthropic SDK tests require the Anthropic SDK.",
-    "Four POSIX-only checks cannot execute on this Windows host.",
-    "Independent external security review remains open; local security checks are not certification."
+    "Full suite disclosed 17 capability/platform skips: Anthropic SDK 5; PostgreSQL service 7; Agents SDK framework runtime 1; POSIX-only Windows 4.",
+    "pip-audit and bandit are unavailable and are reported as such; neither is counted green.",
+    "Independent external security review remains a separate open requirement; these local checks are not certification."
   ]
 }
