@@ -776,7 +776,21 @@ async function loadSloDashboard() {
     <div class="tile" title="Cumulative denied action gate decisions"><div class="n">${s.actions.blocked_total}</div><div class="k">Blocked actions / ${s.actions.denominator}</div></div>
     <div class="tile" title="Unsettled retraction deliveries in durable outbox"><div class="n">${s.corrections.pending_deliveries}</div><div class="k">Pending corrections</div></div>
     <div class="tile" title="Age of oldest pending retraction using peer-issued timestamps"><div class="n">${lag === null ? "none" : `${Number(lag).toFixed(1)} s`}</div><div class="k">Oldest correction lag</div></div>
-    </div><div class="sub">Process-local cumulative HTTP counters; latency uses a bounded rolling sample. ${s.limitations.map(esc).join(" ")}</div>`;
+    </div><div class="sub">Process-local cumulative HTTP counters; latency uses a bounded rolling sample. ${s.limitations.map(esc).join(" ")}</div>
+    <div class="action"><button id="run-health-check">Run full store health check</button><span id="health-result" class="sub">Full event-chain verification runs only on request.</span></div>`;
+  $("run-health-check").addEventListener("click", runFullHealthCheck);
+}
+
+async function runFullHealthCheck() {
+  const target = $("health-result"), button = $("run-health-check");
+  button.disabled = true; target.textContent = "Checking store and verifying event chain…";
+  try {
+    const h = await api("/api/health");
+    target.textContent = `${h.level}: ${h.reason_codes.join(", ") || "all checks passed"}; ` +
+      `store ${h.checks.store_readable}, event integrity ${h.checks.event_integrity}, ` +
+      `pending deliveries ${h.checks.pending_correction_deliveries}.`;
+  } catch (err) { target.textContent = `Health check unavailable: ${err.message}`; }
+  finally { button.disabled = false; }
 }
 
 async function loadWithholdingMetric() {

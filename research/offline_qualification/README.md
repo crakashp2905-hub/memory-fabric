@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **185 / 260 (71.15%)**. Internal status: **BLOCKED**.
+Strict completion: **186 / 260 (71.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1f4fab2b30703147ce07f7e5da00a15ebfb5d6aa6325bb92fc21f868f2c33482`.
+Normalized ledger digest: `c94de6c76ea5b1bf9e4df702bb9d2048e1ff66f635dfc66e99f9be560c554ef5`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 185 |
+| DONE | 186 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 71 |
+| TODO | 70 |
 
 ## Graduation gates
 
@@ -260,7 +260,7 @@ Normalized ledger digest: `1f4fab2b30703147ce07f7e5da00a15ebfb5d6aa6325bb92fc21f
 | P2-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_observability.py`, `tests/test_control_center.py`, `research/results/p2-09-read-only-dashboard.json`, `research/results/p2-09-read-only-dashboard.txt` |
 | P2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/incident_export.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center_ui.py`, `tests/test_incident.py`, `research/results/p2-10-incident-export.json`, `research/results/p2-10-incident-export.txt` |
 | P3-01 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_slo_dashboard.py`, `tools/slo_dashboard_smoke.py`, `research/results/p3-01-slo-dashboard.json`, `docs/OPERATIONS.md` |
-| P3-02 | P1 | TODO | NOT_TESTED | — |
+| P3-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/health.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_service_health.py`, `tools/service_health_smoke.py`, `research/results/p3-02-health-fault-matrix.json`, `docs/HEALTH_LEVELS.md`, `docs/README.md` |
 | P3-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `src/memory_fabric/reasons.py`, `tests/test_cli_explain.py`, `tests/test_reasons.py`, `tests/test_troubleshooting.py`, `tests/test_reference_docs.py`, `docs/CLI.md`, `docs/TROUBLESHOOTING.md`, `research/results/p3-03-refusal-explainer.json`, `research/results/p3-03-refusal-explainer.txt` |
 | P3-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/upgrade_preview.py`, `src/memory_fabric/cli.py`, `tests/test_upgrade_preview.py`, `docs/UPGRADE_PREVIEW.md`, `docs/CLI.md`, `docs/README.md` |
 | P3-05 | P1 | DONE | INTERNAL_INTEGRATION | `docs/RUNBOOKS.md`, `docs/OPERATIONS.md`, `docs/CLI.md`, `src/memory_fabric/cli.py`, `tests/test_backup_runbook.py`, `tests/test_backup_custody.py`, `tests/test_backup.py`, `research/results/p3-05-backup-restore-runbook.json`, `research/results/p3-05-backup-restore-runbook.txt` |

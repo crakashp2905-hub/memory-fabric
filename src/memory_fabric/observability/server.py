@@ -33,6 +33,7 @@ from urllib.parse import parse_qs, urlparse
 
 from ..identity import DEFAULT_TENANT
 from . import report
+from .health import classify as classify_health
 from .auth import (
     AuthConfig,
     Authenticator,
@@ -191,6 +192,24 @@ class Api:
                                 "Correction lag uses peer-issued timestamps and depends on peer clock accuracy."],
             }
 
+    def health_snapshot(self) -> dict[str, Any]:
+        """Run explicit operator checks; unlike `/metrics`, this verifies the full chain."""
+        with self._lock:
+            try:
+                self.fabric.refresh()
+                self.fabric.health()
+                pending = len(self.fabric.outbox.pending())
+            except Exception:
+                return classify_health(store_readable=False, integrity_ok=None,
+                                       pending_corrections=None,
+                                       failure_code="store_unavailable")
+            try:
+                integrity_ok = bool(self.fabric.log.chain.verify(self.fabric.log.read()).ok)
+            except Exception:
+                integrity_ok = None
+            return classify_health(store_readable=True, integrity_ok=integrity_ok,
+                                   pending_corrections=pending)
+
     def metrics_text(self) -> str:
         """Prometheus exposition for this store (`metrics.py`), behind the same auth."""
         from .metrics import StoreMetrics
@@ -208,6 +227,10 @@ class Api:
         if not parts or parts[0] != "api":
             raise ApiError(HTTPStatus.NOT_FOUND, "not found")
         rest = parts[1:]
+        if rest == ["health"]:
+            # health_snapshot owns its error handling so a read failure becomes
+            # an explicit unavailable result instead of a generic 500/healthy.
+            return self.health_snapshot()
 
         with self._lock:
             # A dashboard runs for hours while operators act from the CLI. It
@@ -224,6 +247,8 @@ class Api:
         f = self.fabric
 
         match rest:
+            case ["health"]:
+                return self.health_snapshot()
             case ["slo"]:
                 return self.slo_snapshot()
             case ["overview"]:

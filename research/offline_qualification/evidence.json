@@ -3155,6 +3155,27 @@
         "HTTP observations are process-local, reset on restart, and latency percentiles use a bounded rolling sample.",
         "Blocked action counts are cumulative, and correction lag depends on peer-issued timestamps and clock accuracy."
       ]
+    },
+    {
+      "task_id": "P3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/health.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_service_health.py",
+        "tools/service_health_smoke.py",
+        "research/results/p3-02-health-fault-matrix.json",
+        "docs/HEALTH_LEVELS.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Fault injection uses local SQLite and in-process failures, not physical host or hardware faults.",
+        "Event-chain verification is a full scan run only when an operator explicitly requests the health check.",
+        "A healthy point-in-time result is not an action authorization or a substitute for an off-host checkpoint."
+      ]
     }
   ]
 }

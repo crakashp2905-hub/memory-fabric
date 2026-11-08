@@ -48,6 +48,7 @@ Every document in the repository, by what you are trying to do.
 |---|---|
 | [../DEPLOYMENT.md](../DEPLOYMENT.md) | Serving, capacity as measured, upgrades |
 | [OPERATIONS.md](OPERATIONS.md) | Day-two operations, incidents, background maintenance |
+| [HEALTH_LEVELS.md](HEALTH_LEVELS.md) | Operator health levels and fail-closed meanings |
 | [RUNBOOKS.md](RUNBOOKS.md) | Step by step: leaked credentials, key rotation, poisoning, restore |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Every error message and what to do |
 | [MIGRATION.md](MIGRATION.md) | Moving between versions, and moving in from elsewhere |

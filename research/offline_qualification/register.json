@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "8dd2d572cdfd289e73917936d1358e0078282c67bea425d5bb2734e5e964f4dc",
+    "sha256": "deac39fff1cf486f787b2ade0f7f5fc6791700b5217c033789df1e7ce341d691",
     "tasks": 260
   },
   "source": {
-    "commit": "0b91cf75ebbda0c8be2f8803c0ae8efcc6c319b5",
-    "dirty": false
+    "commit": "2aff1df1b31c9dfdf7bf66b5b1b8fb38e57d13fa",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 185,
+      "DONE": 186,
       "PARTIAL": 4,
-      "TODO": 71
+      "TODO": 70
     },
-    "completed": 185,
+    "completed": 186,
     "total": 260,
-    "percent_complete": 71.15,
+    "percent_complete": 71.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5252,7 +5252,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
@@ -5281,8 +5281,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
@@ -5310,7 +5310,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
@@ -5338,7 +5338,7 @@
         "research/results/p2-04-correction-preview.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
@@ -5369,8 +5369,8 @@
         "research/results/p2-05-withholding-scorecard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "a3b3b55adab8a790718867d7cfbda7c26acc8c8974d67735d6bd5300a85d39aa",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
@@ -5405,8 +5405,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
@@ -5435,7 +5435,7 @@
         "research/results/p2-07-accessibility.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-07-accessibility.json": "195d6a387db22519bc0e291c7a16838dc009561bab730ad345246cbc1df34298",
         "research/results/p2-07-accessibility.txt": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
@@ -5466,8 +5466,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/report.py": "864aaaceaf628ab23cdf63469337ae0930a4354e8022e99af3b5f4a18a30defc",
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
@@ -5497,8 +5497,8 @@
         "research/results/p2-09-read-only-dashboard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-09-read-only-dashboard.json": "ec570b721898c1eca0fac1881a00656ab1fad22e2e5dcabc3d0119c98f074b94",
@@ -5528,8 +5528,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/incident_export.py": "c64bc7739a88f402aff776ab17dbe53454384313642cb49107b519fe719d0c48",
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "research/results/p2-10-incident-export.json": "f571c21bd388daf884a6d934c5d7d428ac3e839b8cc2f15cb8860508ace0f510",
@@ -5558,8 +5558,8 @@
         "docs/OPERATIONS.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
-        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_slo_dashboard.py": "10093fb7b50145f8dd87b7452b776e2ecad130d33c52633062e7228fc6b10323",
         "tools/slo_dashboard_smoke.py": "b47b623feee314ebe3d7992af5dfcc9a029745c4a5061f03419339bbd9c2ffcb",
         "research/results/p3-01-slo-dashboard.json": "eebd2c652b6bc6a6ea947c684e77721cba0c2c5b6f6f5737263d3a7867e1986f",
@@ -5576,14 +5576,36 @@
       "task_id": "P3-02",
       "priority": "P1",
       "task": "Define service health levels healthy, degraded, unsafe-to-execute and unavailable.",
-      "acceptance": "Fault injections map to correct level and do not mask failure as healthy",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Fault injections map to correct level and do not mask failure as healthy. Evidence: `src/memory_fabric/observability/health.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_service_health.py`, `tools/service_health_smoke.py`, `research/results/p3-02-health-fault-matrix.json`, `docs/HEALTH_LEVELS.md`, `docs/README.md` (DONE: healthy, pending-correction, tampered-chain and store-read-failure fixtures map to the four levels; missing checks fail closed. Full chain verification is operator-triggered and local only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/health.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_service_health.py",
+        "tools/service_health_smoke.py",
+        "research/results/p3-02-health-fault-matrix.json",
+        "docs/HEALTH_LEVELS.md",
+        "docs/README.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/health.py": "94205c904e5388da9d120728ccb7997e444ebccb2c47e337fda74aa53b7755b6",
+        "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
+        "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
+        "tests/test_service_health.py": "cb4ad1d2e99c0622e991e1bb99aa812f4f2d469f7c7cd9b0110483298512454c",
+        "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
+        "research/results/p3-02-health-fault-matrix.json": "7c6815fe426b365e3126cd9028cd20b8c833b0c5a637ec4f56a82a4624474945",
+        "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
+        "docs/README.md": "e8af7d87e7baf922077b2211cebdfa857168f6acbd2c4a21c62234608e8d094a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Fault injection uses local SQLite and in-process failures, not physical host or hardware faults.",
+        "Event-chain verification is a full scan run only when an operator explicitly requests the health check.",
+        "A healthy point-in-time result is not an action authorization or a substitute for an off-host checkpoint."
+      ]
     },
     {
       "task_id": "P3-03",
@@ -5644,7 +5666,7 @@
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc"
+        "docs/README.md": "e8af7d87e7baf922077b2211cebdfa857168f6acbd2c4a21c62234608e8d094a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5759,7 +5781,7 @@
         "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc"
+        "docs/README.md": "e8af7d87e7baf922077b2211cebdfa857168f6acbd2c4a21c62234608e8d094a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5816,7 +5838,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc",
+        "docs/README.md": "e8af7d87e7baf922077b2211cebdfa857168f6acbd2c4a21c62234608e8d094a",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -5977,7 +5999,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "ba35247a2ba7dc28468317acb6a852edc3a71c05e8441310d877598ad12815bc",
+        "docs/README.md": "e8af7d87e7baf922077b2211cebdfa857168f6acbd2c4a21c62234608e8d094a",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
