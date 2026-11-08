@@ -66,8 +66,8 @@
     },
     {
       "task_id": "E1-05",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/manifest.py",
@@ -80,7 +80,7 @@
         "research/results/e1-05-input-digests.xml"
       ],
       "limitations": [
-        "New benchmark manifests hash their generator and declared input files; input mismatch aborts scoreboard aggregation. Five historical benchmark manifests and legacy result formats lack complete truthful input inventories and remain unqualified."
+        "Five historical benchmark manifests and legacy results lack complete truthful input inventories; new manifests verify declared generators and inputs before aggregation."
       ]
     },
     {

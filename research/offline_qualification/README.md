@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **137 / 260 (52.69%)**. Internal status: **BLOCKED**.
+Strict completion: **138 / 260 (53.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `e7c983ffdc311cad5f4210b500bfb4d55ef76661ececce8a5c845adadaec2fb2`.
+Normalized ledger digest: `b82a4378b9af9765f5d3b1c3963064c83a37c0b8c109b00c482d34fdf5cfe549`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 137 |
+| DONE | 138 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 7 |
+| PARTIAL | 6 |
 | TODO | 116 |
 
 ## Graduation gates
@@ -33,7 +33,7 @@ Normalized ledger digest: `e7c983ffdc311cad5f4210b500bfb4d55ef76661ececce8a5c845
 | E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json`, `research/results/e5-10-portable-paths.xml` |
 | E1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/bench_runs/legacy/index.json` |
 | E1-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
-| E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
+| E1-05 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
 | E1-08 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-08-negative-control.json`, `research/results/e1-08-negative-control.xml` |
