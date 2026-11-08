@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "4fe5047f871d32931d593edd6bc92a72254876bb9611c953d50b26c1dc07875f",
+    "sha256": "c6790591986d4f5eb7ef89672f500b95ef6e3567cc8ac4cd5b06e943020ede8f",
     "tasks": 260
   },
   "source": {
-    "commit": "8b8a603625d0bc556a08d60839ea6aeb85edf49a",
+    "commit": "0c90f8f4d746ccae00d7d78546d4ac27d4a7f03d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 89,
+      "DONE": 90,
       "PARTIAL": 5,
-      "TODO": 166
+      "TODO": 165
     },
-    "completed": 89,
+    "completed": 90,
     "total": 260,
-    "percent_complete": 34.23,
-    "p0_open": 40,
+    "percent_complete": 34.62,
+    "p0_open": 39,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "6575a0bd81c2bbb71bf74a685ac375b2ff352e8450c9578358181b4457fda6ed",
-        "docs/VALIDATION.md": "aa09c896c103e0be7effdfbec74b9aac4130367d1aa04cf4fe9b8845dc81ad25",
-        "docs/STATUS_AT_HEAD.md": "1cba2bdd59bcf3ca63a385974d8e293c7221d42399cea04c8608d8f9f2274cde",
+        "README.md": "c1002f4fee0716f92801dbaa3a94dfe824ea6ab8bb509401dd3ecaad6d08e9de",
+        "docs/VALIDATION.md": "c875b734b70f9171c8e5fbf3a2266357841d41e9af2a06fb7c003836fbd9a45b",
+        "docs/STATUS_AT_HEAD.md": "b6b602100bd2b425b45174211985a55f6b68d92ce0a152d1a41e001205a6208d",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -557,7 +557,7 @@
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f"
       },
       "evidence_issues": {},
@@ -1299,9 +1299,9 @@
         "research/results/e5-05-tool-schema.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
-        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
         "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
       },
@@ -1327,10 +1327,10 @@
         "research/results/e5-06-utcp-malicious.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
-        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
         "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
       },
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "ca0912c3d4b736ff36f18adf48c92d33d12282296c9e8d111eea79dfbd66b6e0",
+        "research/results/MANIFEST.json": "dbf896481108d9d823a45b49421f577095a5c825c55211a5ba480c13768e1813",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1917,7 +1917,7 @@
       "evidence_digests": {
         "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "docs/EVIDENCE_OPERATION_RISK.md": "c5e1a22247597768893a0129f36b537107d9fafa490672559c71053ebfc85396",
@@ -3463,7 +3463,7 @@
         "research/results/r2-h2-acceptance-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_action_race_barriers.py": "1ff3d8d2c44917875553e32e2c8911e0ddf82458c95404239755962aab4d18d0",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
         "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
@@ -3489,7 +3489,7 @@
         "research/results/h2-02-action-binding-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_authority.py": "3c42a605fdb8c6769d01fa0ec79c96244e9452b047c13c58fc23ee29deaa5502",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
@@ -3519,7 +3519,7 @@
         "research/results/h2-03-action-compatibility-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
@@ -3552,7 +3552,7 @@
         "research/results/h2-04-action-reconciliation.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
@@ -3583,11 +3583,11 @@
         "research/results/h2-05-code-mode-parser.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
-        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-05-code-mode-parser.json": "f300f6e049606d4d6d0e534ad19906ede6960bf199bc741ee1516a20d63bd4b7"
       },
@@ -3614,11 +3614,11 @@
         "research/results/h2-06-code-mode-bounds.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
         "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
-        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-06-code-mode-bounds.json": "5a7d4755577d486b57ec273b0ee41974ceba8970fd1053bd7f33592ba8fe576d"
       },
@@ -3645,7 +3645,7 @@
       "evidence_digests": {
         "tools/offline_network_guard.py": "d1bd692ea741f909599cfb9e9d31ff6b8e99b9f33c1f7cf1daada65f45db5b4b",
         "tests/test_offline_network_guard.py": "f3c1c4cb8ec6e84b11c27a77ba46e6ac9ddacbd2e8499152939b10c0a42e8887",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/h2-07-offline-egress-tests.xml": "a7d5e7ab884a494bae89a9401f2df6c1641e3b860e28b12dc77690b3077b3281",
         "research/results/h2-07-offline-egress.json": "02de47d62f95055bb712809e7ab466ae8da62175059f3b50779b9047d37354da"
       },
@@ -3671,10 +3671,10 @@
         "research/results/h2-08-utcp-transport-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
-        "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141",
-        "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
         "research/results/h2-08-utcp-transport.json": "00d3d84ace8b0f5f70409db651cf9680863ea267613c403df73366037c61487a",
         "research/results/h2-08-utcp-transport-tests.xml": "c1d03e62f3274837fd960a8520925f55a9048ccedee03d5dceb1ef4393cb319b"
       },
@@ -3700,7 +3700,7 @@
         "research/results/h2-09-execution-receipt-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "179dc1e05482c8637e8584faa20bb1cb6d221b2fb9306fac7b53a4dfff796829",
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
@@ -3716,14 +3716,30 @@
       "task_id": "H2-10",
       "priority": "P0",
       "task": "Test 'confused deputy' where low-trust agent asks privileged tool to execute via another agent's descriptor.",
-      "acceptance": "Tool resolves effective identity at execution and rejects privilege crossing",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Tool resolves effective identity at execution and rejects privilege crossing. Evidence: `src/memory_fabric/actions.py`, `src/memory_fabric/tool_protocol.py`, `tests/test_confused_deputy.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-10-confused-deputy.json`, `research/results/h2-10-confused-deputy-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_confused_deputy.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-10-confused-deputy.json",
+        "research/results/h2-10-confused-deputy-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
+        "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
+        "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
+        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "research/results/h2-10-confused-deputy.json": "b4c31feb30b47e0bf8c88c1778ce20b3528e34e7cfeaa500ad2efea220730184",
+        "research/results/h2-10-confused-deputy-tests.xml": "8c29893c942996676442c3c07abd316a727208af950bc78ef100a760c89fdcb8"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The governed runtime requires a Session object supplied by the trusted host integration; transport and credential verification remain deployment responsibilities."
+      ]
     },
     {
       "task_id": "H3-01",

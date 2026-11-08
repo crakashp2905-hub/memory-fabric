@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **89 / 260 (34.23%)**. Internal status: **BLOCKED**.
+Strict completion: **90 / 260 (34.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `4fd3f3a31a005a99fe17a5ab814ec6490d8ae4592c79478896a97944c9a04e9c`.
+Normalized ledger digest: `bb3611e0e456231044fb23dca218b18a3fa9e9dadcbc8a65ce7f566e7ff988f1`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 89 |
+| DONE | 90 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 166 |
+| TODO | 165 |
 
 ## Graduation gates
 
@@ -208,7 +208,7 @@ Normalized ledger digest: `4fd3f3a31a005a99fe17a5ab814ec6490d8ae4592c79478896a97
 | H2-07 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_network_guard.py`, `tests/test_offline_network_guard.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-07-offline-egress-tests.xml`, `research/results/h2-07-offline-egress.json` |
 | H2-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `tests/test_tool_protocol.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-08-utcp-transport.json`, `research/results/h2-08-utcp-transport-tests.xml` |
 | H2-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_execution_receipt.py`, `docs/ACTION_RECONCILIATION.md`, `research/results/h2-09-execution-receipt.json`, `research/results/h2-09-execution-receipt-tests.xml` |
-| H2-10 | P0 | TODO | NOT_TESTED | — |
+| H2-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/tool_protocol.py`, `tests/test_confused_deputy.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-10-confused-deputy.json`, `research/results/h2-10-confused-deputy-tests.xml` |
 | H3-01 | P0 | TODO | NOT_TESTED | — |
 | H3-02 | P0 | TODO | NOT_TESTED | — |
 | H3-03 | P0 | TODO | NOT_TESTED | — |
