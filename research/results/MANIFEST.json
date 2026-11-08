@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 252,
+ "results": 253,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 95,
-  "dataset_digest": 249,
-  "model_id": 216,
-  "prompt_hash": 252,
-  "seed": 173,
-  "cost": 229,
-  "verdict": 181
+  "prereg": 96,
+  "dataset_digest": 250,
+  "model_id": 217,
+  "prompt_hash": 253,
+  "seed": 174,
+  "cost": 230,
+  "verdict": 182
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 240
+  "unclassified": 241
  },
  "rows": [
   {
@@ -3799,6 +3799,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p4-02-ordinary-memory-adapter",
+   "file": "research/results/p4-02-ordinary-memory-adapter.json",
+   "file_sha256": "2b85f6d54f7fd5efc88506e93861a95b3482ac9c22df7fbaae177237ef173cf3",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "126cb2a71b9d0fb64d973933af5d185b0d6e74dc",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

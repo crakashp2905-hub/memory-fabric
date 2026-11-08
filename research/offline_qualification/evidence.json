@@ -2105,6 +2105,22 @@
       ]
     },
     {
+      "task_id": "P4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/memory_vs_json.py",
+        "tests/test_examples_run.py",
+        "research/results/p4-02-ordinary-memory-adapter.json",
+        "research/results/p4-02-ordinary-memory-adapter.txt"
+      ],
+      "limitations": [
+        "Fixed one-case demonstration, not a benchmark/population estimate.",
+        "Baseline has no action authorization API by design."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **166 / 260 (63.85%)**. Internal status: **BLOCKED**.
+Strict completion: **167 / 260 (64.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `97a989365b5178314ecacba291e19e3a2bd2a77b94105b4b8bca555d7bf0db1f`.
+Normalized ledger digest: `6c5fb36ca11c2f2450714808f4b5d69f768a4ca7c31dac2b71f9d9784fba0088`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 166 |
+| DONE | 167 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 90 |
+| TODO | 89 |
 
 ## Graduation gates
 
@@ -270,7 +270,7 @@ Normalized ledger digest: `97a989365b5178314ecacba291e19e3a2bd2a77b94105b4b8bca5
 | P3-09 | P1 | TODO | NOT_TESTED | — |
 | P3-10 | P1 | TODO | NOT_TESTED | — |
 | P4-01 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` |
-| P4-02 | P1 | TODO | NOT_TESTED | — |
+| P4-02 | P1 | DONE | SIMULATED | `examples/memory_vs_json.py`, `tests/test_examples_run.py`, `research/results/p4-02-ordinary-memory-adapter.json`, `research/results/p4-02-ordinary-memory-adapter.txt` |
 | P4-03 | P1 | TODO | NOT_TESTED | — |
 | P4-04 | P1 | TODO | NOT_TESTED | — |
 | P4-05 | P1 | DONE | SIMULATED | `examples/correction_spares_unrelated_action.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-05-selective-correction-demo.txt` |
