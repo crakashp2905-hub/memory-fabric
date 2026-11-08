@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "43fcbbac97b9f6fba1c660789c8096b6978ff81ec5fb7bde9c44f39f0e93eb04",
+    "sha256": "0c41714009a4c951db00931d4256d8b5871398a5ae61fee14a017042ecb1c154",
     "tasks": 260
   },
   "source": {
-    "commit": "5748e9fda88708ebc1000733f473eacb69385881",
+    "commit": "8c4005a78f3b3f2ec7e4b6992854b03ea53174c0",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 219,
+      "DONE": 220,
       "PARTIAL": 3,
-      "TODO": 38
+      "TODO": 37
     },
-    "completed": 219,
+    "completed": 220,
     "total": 260,
-    "percent_complete": 84.23,
+    "percent_complete": 84.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3624,14 +3624,30 @@
       "task_id": "N3-04",
       "priority": "P2",
       "task": "Test confounding by making important memories more likely to appear in successful runs.",
-      "acceptance": "Estimator detects or exposes bias rather than crediting correlated presence as causation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Estimator detects or exposes bias rather than crediting correlated presence as causation. Evidence: `research/prereg/n3-04-confounded-memory-credit-v1.md`, `benchmarks/n3_04_confounded_memory.py`, `tests/test_n3_04_confounded_memory.py`, `research/results/n3-04-confounded-memory.json`, `research/results/n3-04-confounded-memory.md`, `research/results/n3-04-confounded-memory-tests.xml` (DONE: oracle effect +0.15; exposure is 90.6% on easy tasks versus 9.8% on hard tasks; naive association overstates by 0.404, while IPS estimates +0.161 with 0.011 absolute error. Simulated with correctly logged propensities; hidden confounding remains untested.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-04-confounded-memory-credit-v1.md",
+        "benchmarks/n3_04_confounded_memory.py",
+        "tests/test_n3_04_confounded_memory.py",
+        "research/results/n3-04-confounded-memory.json",
+        "research/results/n3-04-confounded-memory.md",
+        "research/results/n3-04-confounded-memory-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-04-confounded-memory-credit-v1.md": "d4ea56a77520bbf9d807e195031293b94ec203509b61d297b89e1012b789c8dc",
+        "benchmarks/n3_04_confounded_memory.py": "950401b80b9512adfbd22fa5ce3dc5f11f05a9b9e26ade686de14c8bf0a40254",
+        "tests/test_n3_04_confounded_memory.py": "cec6c53b7781ea96a7b59214a7b6c83ea1ec7817ca957e9130864d955135fe29",
+        "research/results/n3-04-confounded-memory.json": "b238121043d13821cc1408d41eaf509d08222b6e66b6b8946bb70cc8bd69bb1a",
+        "research/results/n3-04-confounded-memory.md": "6a0a38c446761c03fc679b6afdd8d47d078eecaad80ad763318e5b584da40ffc",
+        "research/results/n3-04-confounded-memory-tests.xml": "4b09fe5767861ecaeb04f4e94656f1027b6050d44b5efaf187efae3bf15d19f4"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "A seeded synthetic experiment with a constant positive effect, randomized treatment within known task-difficulty strata, and correctly logged propensities; hidden confounding and adaptive real retrieval are not tested."
+      ]
     },
     {
       "task_id": "N3-05",

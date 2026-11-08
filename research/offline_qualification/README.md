@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **219 / 260 (84.23%)**. Internal status: **BLOCKED**.
+Strict completion: **220 / 260 (84.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `e8d67bd875ac76f8f6b229d34ca37ff06dbbdcf6bc1a863e5ed366477afecb63`.
+Normalized ledger digest: `3a5d5ce61d190269a1a7c9eaa7066e701b89dc731760babf29a115da749b1ef9`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 219 |
+| DONE | 220 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 38 |
+| TODO | 37 |
 
 ## Graduation gates
 
@@ -152,7 +152,7 @@ Normalized ledger digest: `e8d67bd875ac76f8f6b229d34ca37ff06dbbdcf6bc1a863e5ed36
 | N3-01 | P2 | DONE | CONTRACT | `research/prereg/n3-01-counterfactual-interventions-v1.md` |
 | N3-02 | P2 | DONE | SIMULATED | `research/prereg/n3-02-exact-oracle-worlds-v1.md`, `benchmarks/n3_02_exact_oracle.py`, `tests/test_n3_02_exact_oracle.py`, `research/results/n3-02-exact-oracle.json`, `research/results/n3-02-exact-oracle-tests.xml` |
 | N3-03 | P2 | DONE | SIMULATED | `research/prereg/n3-03-estimator-cost-comparison-v1.md`, `benchmarks/n3_03_estimator_comparison.py`, `tests/test_n3_03_estimator_comparison.py`, `research/results/n3-03-estimator-comparison.json`, `research/results/n3-03-estimator-comparison.md`, `research/results/n3-03-estimator-comparison-tests.xml` |
-| N3-04 | P2 | TODO | NOT_TESTED | — |
+| N3-04 | P2 | DONE | SIMULATED | `research/prereg/n3-04-confounded-memory-credit-v1.md`, `benchmarks/n3_04_confounded_memory.py`, `tests/test_n3_04_confounded_memory.py`, `research/results/n3-04-confounded-memory.json`, `research/results/n3-04-confounded-memory.md`, `research/results/n3-04-confounded-memory-tests.xml` |
 | N3-05 | P2 | TODO | NOT_TESTED | — |
 | N3-06 | P2 | TODO | NOT_TESTED | — |
 | N3-07 | P2 | TODO | NOT_TESTED | — |
