@@ -1110,12 +1110,16 @@
     },
     {
       "task_id": "H3-07",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/events.py",
         "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/retrievers.py",
         "tests/test_erasure_residue.py",
+        "tests/test_retrievers.py",
         "tests/test_lossless_compaction.py",
         "tests/test_branching.py",
         "tests/test_cipher.py",
@@ -1124,7 +1128,7 @@
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "limitations": [
-        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Third-party embedders without forget(text), and detached persistent cache cleanup after a process crash, remain unverified. H3-08 covers local pre-erasure backup reconciliation; external/federated copies remain outside local scope."
+        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation and crash recovery, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. User-supplied embedders with private caches must implement the erasure hooks; external/federated copies remain outside local scope. H3-08 separately covers local pre-erasure backup reconciliation."
       ]
     },
     {

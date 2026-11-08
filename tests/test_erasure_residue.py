@@ -158,6 +158,51 @@ class ErasureLeavesNoResidue(unittest.TestCase):
         self.assertIsNone(cache_left.get(indexed_text))
         self.assertIsNone(cache_right.get(indexed_text))
 
+    def test_replay_finishes_cache_purge_after_interrupted_erasure(self) -> None:
+        vector_path = str(Path(self.tmp.name) / "recovery-vectors.db")
+
+        class CachedEmbedder:
+            def __init__(self) -> None:
+                self.cache = VectorCache("recovery-probe", vector_path)
+
+            def embed(self, text: str) -> list[float]:
+                vector = self.cache.get(text)
+                if vector is None:
+                    vector = [float(len(text)), 1.0]
+                    self.cache.put_many([(text, vector)])
+                return vector
+
+            def forget(self, text: str) -> None:
+                self.cache.forget(text)
+
+            def erasure_token(self, text: str) -> str:
+                return self.cache.key_for(text)
+
+            def forget_erasure_token(self, token: str) -> None:
+                self.cache.forget_key(token)
+
+        embedder = CachedEmbedder()
+        self.addCleanup(embedder.cache.close)
+        fabric = MemoryFabric(self.path, auto_activate=True, retrieval="hybrid", embedder=embedder)
+        mid = fabric.remember("a", TEXT)
+        indexed_text = fabric._index_text(fabric.get(mid))
+        self.assertIsNotNone(embedder.cache.get(indexed_text))
+        # Fault the post-commit eviction to model a crash at that boundary.
+        embedder.forget = lambda _text: None
+        fabric.erase_content(mid, reason="request", actor="dpo")
+        self.assertIsNotNone(embedder.cache.get(indexed_text))
+        fabric.close()
+
+        reopened = MemoryFabric(self.path, auto_activate=True, retrieval="hybrid", embedder=embedder)
+        try:
+            self.assertIsNone(embedder.cache.get(indexed_text))
+            erasures = [event for event in reopened.log.read()
+                        if event.type == "ContentErased" and event.payload.get("memory_id") == mid]
+            self.assertEqual(len(erasures), 1)
+            self.assertIsInstance(erasures[0].payload.get("embedding_cache_token"), str)
+        finally:
+            reopened.close()
+
     def test_branch_history_and_pending_retraction_retain_no_erased_content(self) -> None:
         fabric = self.open()
         branch_text = "Branch residue canary: turbine omega at 19 bar"

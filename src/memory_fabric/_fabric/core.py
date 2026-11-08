@@ -539,6 +539,13 @@ class FabricCore:
     def _replay(self) -> None:
         """Rebuild all state from the log, including the vector index."""
         head = self.log.head_seq
+        # A crash may occur after the erasure event/key destruction commits but
+        # before a disk-backed embedder cache is purged. The event carries only
+        # opaque per-model cache tokens so replay can finish those deletions.
+        for event in self.log.read_types([ev.EventType.CONTENT_ERASED]):
+            token = event.payload.get("embedding_cache_token")
+            if isinstance(token, str) and token:
+                self.index.forget_erasure_token(token)
         self.projection = Projection.rebuild(
             self.log, unsealer=self._unseal_content
         )

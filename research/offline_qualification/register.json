@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "ae053aaaf1911584b0e6cf508b64bcd9fe778d2ad2733905c68c0c603296e349",
+    "sha256": "6dd0ac060b0bfaab97ed71e966947470c01935d270bf6c3f0cb44fe72a8ca096",
     "tasks": 260
   },
   "source": {
-    "commit": "2872b123c48dc2600e8924c4cd3a2ebb03c7c431",
+    "commit": "b62a54ae1af442b10deca408655ec9b7004fcaf7",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 131,
-      "PARTIAL": 10,
+      "DONE": 132,
+      "PARTIAL": 9,
       "TODO": 119
     },
-    "completed": 131,
+    "completed": 132,
     "total": 260,
-    "percent_complete": 50.38,
-    "p0_open": 7,
+    "percent_complete": 50.77,
+    "p0_open": 6,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -456,7 +456,7 @@
         "tests/test_data_access_paths.py": "63058d86e0f1903d2f0ae8e033944fb077fd9936c88318e9e60ce540b3c4cf74",
         "tests/test_posture.py": "045b4bc7a48d45188dee4e78844f6edb140198ce03ca8a3b716899e14ecd38da",
         "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
-        "tests/test_erasure_residue.py": "a32bf4a3b01317c5aeedf06ffd8763ca93a6f8882e45e658813268280926c2a2"
+        "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -819,12 +819,12 @@
         "docs/RETRIEVAL_INDEX_INVALIDATION.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/_fabric/core.py": "1b69f85b0e90d04f7c5b3583e9c01a9db6de137d6d85e108399cb9ac523146f8",
+        "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
         "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
         "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
-        "tests/test_erasure_residue.py": "a32bf4a3b01317c5aeedf06ffd8763ca93a6f8882e45e658813268280926c2a2",
+        "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",
         "tests/test_access_matrix.py": "4c3d3ca4cc078a9d467c2af2affc0e4cb97ab32e49d2e0483fba53e02fc11900",
         "docs/RETRIEVAL_INDEX_INVALIDATION.md": "79b95d75a648e2926f5d8f4b8fd8c7087672fd30faab816c833d66227b5d312d"
       },
@@ -873,7 +873,7 @@
       "evidence_digests": {
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
-        "src/memory_fabric/_fabric/core.py": "1b69f85b0e90d04f7c5b3583e9c01a9db6de137d6d85e108399cb9ac523146f8",
+        "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
         "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
         "docs/STAGE_TRACING.md": "a886d1cf6414da320d50d8188c4b7dae31f775ef36d8b85833abf611111691ab"
@@ -907,7 +907,7 @@
       "evidence_digests": {
         "experiments/p12b_api_load.py": "e3a94c046ab7e1e253b34db9ebc5dd2349a943a28de4b203b1da2bacbfb102ec",
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
-        "src/memory_fabric/_fabric/core.py": "1b69f85b0e90d04f7c5b3583e9c01a9db6de137d6d85e108399cb9ac523146f8",
+        "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
         "tests/test_p12b_api_load.py": "cd0d8fc8b4a4986dc8654a23bfb5a4e8a5f39cd3bb932bf9263a89e1c4815f26",
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "ec23c0f95f16ac65a8a88a2b9a22037af755317aeea222d81e1bdb6e65af70a4",
+        "research/results/MANIFEST.json": "6fbfca7943f94d2f52d7e9e0ade32e458b2c4b818d89bf0f7b2e7004cc83acf9",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3650,7 +3650,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
+        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
@@ -3831,7 +3831,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "src/memory_fabric/events.py": "af5f59e1c9804c52f1b182f0af1d9aa8bdca97fe3beb9f5b4c2a9e1414ab63c6",
+        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
         "research/results/h2-09-execution-receipt.json": "a7bc25f501ddeea3374c8a245e31de848e47852bb175f58db9a6dff12a6ba882",
@@ -3889,7 +3889,7 @@
         "research/results/h3-01-cross-tenant-matrix-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/_fabric/core.py": "1b69f85b0e90d04f7c5b3583e9c01a9db6de137d6d85e108399cb9ac523146f8",
+        "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
         "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
         "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
@@ -4039,13 +4039,17 @@
       "task_id": "H3-07",
       "priority": "P0",
       "task": "Run erasure residue scans over snapshots, indexes, caches, compaction, branch heads and pending federation queues.",
-      "acceptance": "Erased records never reappear through supported read surfaces after purge. Evidence: `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/retrievers.py`, `tests/test_erasure_residue.py`, `tests/test_retrievers.py`, `research/results/h3-07-erasure-residue.json` (PARTIAL: crash-recovery cleanup for detached persistent embedding caches and third-party caches without a forget hook remain unverified)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Erased records never reappear through supported read surfaces after purge. Evidence: `src/memory_fabric/events.py`, `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/retrievers.py`, `tests/test_erasure_residue.py`, `tests/test_retrievers.py`, `research/results/h3-07-erasure-residue.json` (DONE: indexes, built-in embedding caches including interrupted-erasure replay, topic cache, compaction summaries, branch history and pending federation queues are probed; custom embedder caches must implement the erasure hooks)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/events.py",
         "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/retrievers.py",
         "tests/test_erasure_residue.py",
+        "tests/test_retrievers.py",
         "tests/test_lossless_compaction.py",
         "tests/test_branching.py",
         "tests/test_cipher.py",
@@ -4054,18 +4058,22 @@
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "evidence_digests": {
+        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
         "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
-        "tests/test_erasure_residue.py": "a32bf4a3b01317c5aeedf06ffd8763ca93a6f8882e45e658813268280926c2a2",
+        "src/memory_fabric/_fabric/sealing.py": "f4f7a6e37c304ab620a54c1ff16d03bfb77c320b17dc9327fc527d029d0b5147",
+        "src/memory_fabric/retrievers.py": "fbfe7e2edbb45fd14203fa116f5cfe5d448cb68b75125c4a3b00d444379372d6",
+        "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",
+        "tests/test_retrievers.py": "4afaeb5d572c26ca2acc07ce84dcbb9a5f89e548f422c09bc903de9665e1c199",
         "tests/test_lossless_compaction.py": "637e38df1fa1440768f5d99d00aef0a48bd5333eceba4556a9b89b156eba4ba1",
         "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
-        "research/results/h3-07-erasure-residue.json": "bcf143ac9f349b64089564425b39d3644f997e3389ba0fa65491ce318c85a68c",
-        "research/results/h3-07-erasure-residue-tests.xml": "8cea8ec56442078d9aa47c21f2e2eaf4b23260b367a6a9c87b5caf6ec5c0848b"
+        "research/results/h3-07-erasure-residue.json": "03bffedc566a56463dc056cf449209d79b6711c968cd45fb9697049432e7f7af",
+        "research/results/h3-07-erasure-residue-tests.xml": "81c7d131c4732b428adedc2d5fafb55e15aa4f087b865535020ecf4deef05773"
       },
       "evidence_issues": {},
       "limitations": [
-        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Third-party embedders without forget(text), and detached persistent cache cleanup after a process crash, remain unverified. H3-08 covers local pre-erasure backup reconciliation; external/federated copies remain outside local scope."
+        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation and crash recovery, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. User-supplied embedders with private caches must implement the erasure hooks; external/federated copies remain outside local scope. H3-08 separately covers local pre-erasure backup reconciliation."
       ]
     },
     {

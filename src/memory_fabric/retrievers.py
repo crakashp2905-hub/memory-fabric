@@ -90,6 +90,10 @@ class VectorCache:
     def _key(self, text: str) -> str:
         return hashlib.sha256(f"{self.model}\0{text}".encode("utf-8")).hexdigest()
 
+    def key_for(self, text: str) -> str:
+        """Opaque content-keyed cache token suitable for a durable erasure event."""
+        return self._key(text)
+
     def get(self, text: str) -> list[float] | None:
         key = self._key(text)
         with self._lock:
@@ -117,7 +121,10 @@ class VectorCache:
 
     def forget(self, text: str) -> None:
         """Remove an erased document vector from memory and persistent cache."""
-        key = self._key(text)
+        self.forget_key(self._key(text))
+
+    def forget_key(self, key: str) -> None:
+        """Idempotently remove a vector by an opaque token recorded at erasure."""
         with self._lock:
             self._memory.pop(key, None)
             if self._db is not None:
@@ -210,6 +217,12 @@ class _BatchEmbedder:
     def forget(self, text: str) -> None:
         """Forget a document embedding when its owning memory is erased."""
         self.cache.forget(text)
+
+    def erasure_token(self, text: str) -> str:
+        return self.cache.key_for(text)
+
+    def forget_erasure_token(self, token: str) -> None:
+        self.cache.forget_key(token)
 
     def embed_query(self, text: str) -> list[float]:
         """Queries may need a different encoding (an instruction prefix)."""

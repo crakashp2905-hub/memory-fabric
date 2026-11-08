@@ -444,7 +444,8 @@ def support_recomputed(
 
 
 def content_erased(
-    ts: int, memory_id: str, reason: str, actor: str, had_content: bool
+    ts: int, memory_id: str, reason: str, actor: str, had_content: bool,
+    embedding_cache_token: str | None = None,
 ) -> Event:
     """A memory's content key was destroyed.
 
@@ -455,15 +456,18 @@ def content_erased(
     can read, which is the point. Erasure removes the content, not the
     accountability.
     """
+    payload = {
+        "memory_id": memory_id,
+        "reason": reason[:256],
+        "had_content": had_content,
+    }
+    if embedding_cache_token is not None:
+        payload["embedding_cache_token"] = embedding_cache_token
     return Event(
         type=EventType.CONTENT_ERASED,
         ts=ts,
         agent_id=actor,
-        payload={
-            "memory_id": memory_id,
-            "reason": reason[:256],
-            "had_content": had_content,
-        },
+        payload=payload,
     )
 
 

@@ -1,7 +1,7 @@
 {
   "schema": "mf-qualification/1",
   "task_id": "H3-07",
-  "source_commit": "2872b123c48dc2600e8924c4cd3a2ebb03c7c431",
+  "source_commit": "b62a54ae1af442b10deca408655ec9b7004fcaf7",
   "source_dirty_at_test_start": true,
   "environment": {
     "os": "Windows-11-10.0.26200-SP0",
@@ -12,37 +12,39 @@
     "thread_count": 1
   },
   "input_sha256": {
-    "src/memory_fabric/_fabric/core.py": "1b69f85b0e90d04f7c5b3583e9c01a9db6de137d6d85e108399cb9ac523146f8",
+    "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
+    "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
     "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
-    "src/memory_fabric/_fabric/sealing.py": "1ed9239c27a32718f5e653316fcec1f2946fd6fa96fc98b7cf2ac58f614d8685",
-    "src/memory_fabric/vectors.py": "896a5d92f0c4eed4ce75258591d7b75ecbfb4b83a74a0004df8bbdce4e5683a4",
-    "src/memory_fabric/retrievers.py": "82f26ea69974099d0596d55f4b7b6ae993fa0ee772ac273bfbca29805c5cfb65",
-    "tests/test_erasure_residue.py": "a32bf4a3b01317c5aeedf06ffd8763ca93a6f8882e45e658813268280926c2a2",
+    "src/memory_fabric/_fabric/sealing.py": "f4f7a6e37c304ab620a54c1ff16d03bfb77c320b17dc9327fc527d029d0b5147",
+    "src/memory_fabric/vectors.py": "9cb2e75203629b74376bde467313f88e9d0fd4e47ac1bf42c612a29130563f25",
+    "src/memory_fabric/retrievers.py": "fbfe7e2edbb45fd14203fa116f5cfe5d448cb68b75125c4a3b00d444379372d6",
+    "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",
     "tests/test_retrievers.py": "4afaeb5d572c26ca2acc07ce84dcbb9a5f89e548f422c09bc903de9665e1c199",
     "tests/test_lossless_compaction.py": "637e38df1fa1440768f5d99d00aef0a48bd5333eceba4556a9b89b156eba4ba1",
     "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434"
   },
   "checks": {
-    "history_and_cross_process_refresh": "PASS",
-    "lexical_copy_and_topic_caches": "PASS; cached terms cleared on correction/erasure",
-    "memory_vector_index": "PASS; ID-keyed vector removed",
-    "content_keyed_embedding_cache": "PASS; built-in vector cache forget removes memory and SQLite entries with secure_delete enabled",
-    "cross_process_embedding_cache": "PASS; refresh evicts using pre-erasure projection text",
-    "branch_history_diff_snapshot": "PASS; erased content is absent from stored/read surfaces",
-    "pending_federation_retraction": "PASS; queue contains no memory content",
+    "live_and_cross_process_history": "PASS",
+    "lexical_copy_and_topic_caches": "PASS; cleared on correction/erasure",
+    "memory_vector_index": "PASS; erased id removed",
+    "built_in_embedding_cache": "PASS; memory and SQLite vectors deleted, secure_delete enabled",
+    "cross_process_cache_refresh": "PASS; peer process uses pre-erasure projection to evict its cache",
+    "crash_recovery": "PASS; content-free cache token in ContentErased is replayed to purge stale persistent vectors before index rebuild",
+    "branch_history_diff_snapshot": "PASS; no erased content on branch read surfaces",
+    "pending_federation_retraction": "PASS; content absent from queued retraction",
     "compaction_summary": "PASS; source erasure recursively erases derived summary",
-    "federation_tombstone_ordering": "PASS; reordered snapshots are fenced"
+    "federation_tombstone_ordering": "PASS; reordered snapshots remain fenced",
+    "local_old_backup": "PASS; separately qualified by H3-08 ledger reconciliation"
   },
   "test_command": "python -m pytest tests/test_erasure_residue.py tests/test_retrievers.py tests/test_lossless_compaction.py tests/test_tombstone_exchange.py -q --junitxml=research/results/h3-07-erasure-residue-tests.xml",
-  "tests_passed": 42,
+  "tests_passed": 43,
   "tests_failed": 0,
   "tests_errors": 0,
-  "junit_sha256": "8cea8ec56442078d9aa47c21f2e2eaf4b23260b367a6a9c87b5caf6ec5c0848b",
-  "acceptance_passed": false,
+  "junit_sha256": "81c7d131c4732b428adedc2d5fafb55e15aa4f087b865535020ecf4deef05773",
+  "acceptance_passed": true,
   "limitations": [
-    "Third-party embedders with content-keyed caches that do not implement forget(text) are not purged by the index contract.",
-    "A process crash after crypto-erasure commits but before the process evicts its persistent embedding cache can leave a derived vector; cross-process live refresh is tested, crash-recovery cleanup for detached persistent caches is not.",
-    "Federated copies and external exports remain outside local erasure scope; local backups are handled separately by H3-08."
+    "User-supplied embedders that retain content-keyed vectors must implement forget, erasure_token and forget_erasure_token; custom private caches without these hooks remain caller-managed.",
+    "Federated copies and external exports remain outside local erasure scope."
   ],
-  "verdict": "PARTIAL"
+  "verdict": "PASS"
 }

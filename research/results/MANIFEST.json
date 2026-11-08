@@ -1963,7 +1963,7 @@
   {
    "experiment_id": "h3-07-erasure-residue",
    "file": "research/results/h3-07-erasure-residue.json",
-   "file_sha256": "83dd4c9ea6904071a0e59ede342945c223188ea23e8da29d1d8e683037b9e72b",
+   "file_sha256": "654bd9167b4bad290a43a02af8033ffd324c8e3d7a5a34a5e974903d40d39ce2",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
@@ -1975,7 +1975,7 @@
    "seed": null,
    "config": null,
    "cost": null,
-   "verdict": "PARTIAL",
+   "verdict": "PASS",
    "parsable": true
   },
   {

@@ -369,6 +369,15 @@ class VectorIndex:
             if callable(forget):
                 forget(text)
 
+    def erasure_token(self, text: str) -> str | None:
+        token = getattr(self.embedder, "erasure_token", None)
+        return str(token(text)) if callable(token) else None
+
+    def forget_erasure_token(self, token: str) -> None:
+        forget = getattr(self.embedder, "forget_erasure_token", None)
+        if callable(forget):
+            forget(token)
+
     def _dense_scores(self, query_vector: list[float]) -> list[tuple[str, float]] | None:
         try:
             import numpy as np

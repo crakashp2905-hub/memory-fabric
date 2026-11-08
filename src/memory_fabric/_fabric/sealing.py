@@ -115,6 +115,7 @@ class SealingMixin(FabricCore):
         # embedder's optional content-keyed cache can evict its derived vector
         # after the key is destroyed.
         vector_cache_text = self._index_text(memory)
+        vector_cache_token = self.index.erasure_token(vector_cache_text)
         with self._transaction():
             had_content = self.vault.erase(memory_id, reason, _now_ms())
             self._emit(
@@ -124,6 +125,7 @@ class SealingMixin(FabricCore):
                     reason=reason,
                     actor=actor,
                     had_content=had_content,
+                    embedding_cache_token=vector_cache_token,
                 )
             )
         # The index holds the plaintext too, so drop it or a search would still
