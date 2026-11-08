@@ -10,6 +10,7 @@ import unittest
 from pathlib import Path
 
 from memory_fabric import MemoryFabric
+from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.observability.control import agents, graph, knowledge_map
 from memory_fabric.observability.server import Api
 
@@ -94,6 +95,57 @@ class TestPage(unittest.TestCase):
             self.assertIn(f'id="tab-{t}"', html, t)
         listed = re.search(r"const TABS = \[(.*?)\];", html, re.S).group(1)
         self.assertEqual(tabs, set(re.findall(r'"([a-z]+)"', listed)))
+
+    def test_action_detail_view_renders_decision_scope_and_current_evidence(self):
+        html = HTML.read_text(encoding="utf-8")
+        start = html.index("async function showAction(seq)")
+        end = html.index("async function loadCapabilities()", start)
+        detail = html[start:end]
+        for field in ("identity_scope", "reason_codes", "provenance", "support_now",
+                      "authority_now", "usable_now", "state_now"):
+            self.assertIn(field, detail)
+        self.assertIn("Identity scope:", detail)
+        self.assertIn("Support recomputation", detail)
+
+
+class TestActionDetailApi(unittest.TestCase):
+    def test_detail_binds_reason_scope_and_evidence_provenance(self):
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        tenant_id = "tn_decision_detail"
+        memory_id = fabric.remember("ag_ops", "Pump P-14 relief valve is set to 12 bar.",
+                                    tenant_id=tenant_id, scope="team")
+        gate = ActionGate(
+            fabric,
+            ActionPolicy(tools={"set_relief": ToolRule("set_relief")},
+                         grants={"ag_ops": frozenset({"set_relief"})}),
+        )
+        certificate = fabric.certify("P-14 relief", [memory_id], "ag_ops",
+                                     tenant_id=tenant_id)
+        self.assertTrue(gate.authorize("set_relief", "ag_ops", certificate,
+                                       tenant_id=tenant_id).allowed)
+        fabric.quarantine(memory_id, reason="manual changed", actor="reviewer",
+                          basis="contradicted")
+        refused = gate.authorize("set_relief", "ag_ops", certificate,
+                                 tenant_id=tenant_id)
+        self.assertIn("evidence_withdrawn", refused.reason_codes)
+
+        watermark = max(event.seq for event in fabric.log.read())
+        api = Api(fabric)
+        row = next(item for item in api.handle("/api/actions", {})
+                   if "evidence_withdrawn" in item["reason_codes"])
+        detail = api.handle(f"/api/actions/{row['seq']}", {})
+        self.assertEqual(detail["identity_scope"], {
+            "agent_id": "ag_ops", "tenant_id": tenant_id, "claim_id": "P-14 relief"})
+        self.assertIn("evidence_withdrawn", detail["decision"]["reason_codes"])
+        evidence = detail["evidence"][0]
+        self.assertEqual(evidence["memory_id"], memory_id)
+        self.assertEqual(evidence["provenance"]["created_by"], "ag_ops")
+        self.assertEqual(evidence["authority_now"]["origins"], ["ag_ops"])
+        self.assertEqual(evidence["state_now"], "quarantined")
+        self.assertFalse(evidence["usable_now"])
+        self.assertEqual(evidence["support_now"]["verdict"], "justified")
+        self.assertEqual(max(event.seq for event in fabric.log.read()), watermark)
 
     @unittest.skipUnless(shutil.which("node"), "node is not installed")
     def test_script_parses(self):

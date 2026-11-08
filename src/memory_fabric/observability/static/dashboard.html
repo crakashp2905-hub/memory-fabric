@@ -1266,15 +1266,26 @@ async function loadActions() {
 async function showAction(seq) {
   const a = await api(`/api/actions/${seq}`);
   $("action-detail").innerHTML = `<h3>Action #${a.seq}: ${esc(a.decision.tool)} by ${esc(a.agent_id)}</h3>
+    <p class="sub">Identity scope: agent ${esc(a.identity_scope.agent_id || "unknown")};
+      tenant ${esc(a.identity_scope.tenant_id || "unspecified")};
+      claim ${esc(a.identity_scope.claim_id || "unspecified")}</p>
     <p>${a.decision.allowed ? badge("allowed", "low") : badge("refused", "high")}
       ${esc((a.decision.reason_codes || []).join(", "))}
       ${a.still_holds === false ? badge("evidence changed since", "high") : ""}</p>
     ${(a.explanation || []).length ? `<ul class="caveats">${a.explanation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-    <table><thead><tr><th>memory</th><th>then</th><th>now</th><th>claim check</th></tr></thead>
+    <table><thead><tr><th>evidence and provenance</th><th>version then</th><th>current state</th>
+      <th>support now</th><th>claim check</th><th>origin authority</th></tr></thead>
     <tbody>${a.evidence.map((x) => `<tr><td><span class="link link-id" data-id="${esc(x.memory_id)}">
-      ${esc(x.memory_id)}</span><div class="sub">${esc(x.content_now || "")}</div></td>
-      <td>v${x.version_then}</td><td>${x.version_now ? "v" + x.version_now : ""} ${badge(x.state_now)}</td>
-      <td>${esc(x.claim_check_now || "")}</td></tr>`).join("")}</tbody></table>`;
+      ${esc(x.memory_id)}</span><div>${esc(x.content_now || "")}</div>
+      <div class="sub">by ${esc(x.provenance?.created_by || "unknown")} · ${esc(x.provenance?.method || "unknown")}
+      ${x.provenance?.parents?.length ? ` · derived from ${esc(x.provenance.parents.join(", "))}` : ""}</div></td>
+      <td>v${x.version_then}</td><td>${x.version_now ? "v" + x.version_now : ""} ${badge(x.state_now)}
+      <div class="sub">${x.usable_now ? "usable now" : "not currently usable"}</div></td>
+      <td>${esc(x.support_now?.verdict || "unknown")}<div class="sub">${esc(x.support_now?.reason || "")}</div></td>
+      <td>${esc(x.claim_check_now || "unknown")}</td>
+      <td>${esc(x.authority_now?.trust || "unknown")}<div class="sub">${esc((x.authority_now?.origins || []).join(", "))}</div></td>
+      </tr>`).join("")}</tbody></table>
+    <p class="sub">Support recomputation and evidence state describe the current store; they do not grant permission to act.</p>`;
 }
 
 async function loadCapabilities() {

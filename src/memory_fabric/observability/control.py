@@ -97,6 +97,8 @@ def action_rows(f: "MemoryFabric", limit: int = 200) -> list[dict[str, Any]]:
 def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
     """One decision with each piece of evidence as it was then and as it is now."""
     from .. import events as ev
+    from ..authority import of
+    from ..justification import JustificationGraph
     from ..validation import assess
 
     for e in f.log.read_types([ev.EventType.ACTION_GATED]):
@@ -106,12 +108,24 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
         evidence = []
         for mid, version in p.get("evidence", []):
             m = f.state.memories.get(mid)
+            support = JustificationGraph(f).recompute(mid) if m else None
+            authority = of(f, mid) if m else None
             evidence.append({
                 "memory_id": mid, "version_then": version,
                 "version_now": m.version if m else None,
                 "state_now": m.lifecycle_state.value if m else "missing",
                 "claim_check_now": assess(f, mid).level if m else None,
                 "content_now": _safe(f, mid) if m else None,
+                "provenance": ({"created_by": m.provenance.created_by,
+                                "method": m.provenance.method.value,
+                                "parents": [parent for parent, _ in m.provenance.parents]}
+                               if m else None),
+                "authority_now": ({"trust": authority.trust,
+                                   "origins": list(authority.origins),
+                                   "reasons": list(authority.reasons)} if authority else None),
+                "support_now": support.to_json() if support else None,
+                "usable_now": bool(m and m.lifecycle_state.value == "active"
+                                   and support and support.still_justified),
                 "changed_since": bool(m) and (m.version != version
                                               or m.lifecycle_state.value != "active"),
             })
@@ -127,7 +141,11 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
                        if who else f"changed (now v{x['version_now']}, {x['state_now']})") + ".")
         for code in p.get("reason_codes", []):
             explanation.append(" ".join(filter(None, [say(code), fix(code)])))
-        return {"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id, "decision": p,
+        return {"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id,
+                "identity_scope": {"agent_id": e.agent_id,
+                                   "tenant_id": p.get("tenant_id"),
+                                   "claim_id": p.get("claim_id")},
+                "decision": p,
                 "explanation": explanation, "evidence": evidence,
                 "still_holds": all(not x["changed_since"] for x in evidence) if evidence else None}
     raise KeyError(seq)
