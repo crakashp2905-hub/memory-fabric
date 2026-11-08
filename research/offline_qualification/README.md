@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **161 / 260 (61.92%)**. Internal status: **BLOCKED**.
+Strict completion: **162 / 260 (62.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `999c3385f2bd8e10fc09dab132d37a87a19e42b2be5a2cdf8381d01d5d74dcaf`.
+Normalized ledger digest: `d33c5f184c2a1b17edc71eae4633829ea14936499f44800dc4df59425db140d2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 161 |
+| DONE | 162 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 95 |
+| TODO | 94 |
 
 ## Graduation gates
 
@@ -275,7 +275,7 @@ Normalized ledger digest: `999c3385f2bd8e10fc09dab132d37a87a19e42b2be5a2cdf8381d
 | P4-04 | P1 | TODO | NOT_TESTED | — |
 | P4-05 | P1 | TODO | NOT_TESTED | — |
 | P4-06 | P1 | TODO | NOT_TESTED | — |
-| P4-07 | P1 | TODO | NOT_TESTED | — |
+| P4-07 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/WHEN_TO_USE_MEMORY_FABRIC.md`, `docs/README.md`, `research/results/l1-long-running.md`, `research/results/x4-governed-vs-pooled.md`, `research/results/master-checklist-http-capacity-v1.md`, `tests/test_product_fit_guidance.py`, `tests/test_doc_links.py`, `research/results/p4-07-product-fit.json`, `research/results/p4-07-product-fit.txt` |
 | P4-08 | P1 | TODO | NOT_TESTED | — |
 | P4-09 | P1 | TODO | NOT_TESTED | — |
 | P4-10 | P1 | TODO | NOT_TESTED | — |

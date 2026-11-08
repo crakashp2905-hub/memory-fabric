@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 247,
+ "results": 248,
  "missing_field_counts": {
   "git_sha": 125,
-  "prereg": 92,
-  "dataset_digest": 244,
-  "model_id": 211,
-  "prompt_hash": 247,
-  "seed": 168,
-  "cost": 224,
-  "verdict": 176
+  "prereg": 93,
+  "dataset_digest": 245,
+  "model_id": 212,
+  "prompt_hash": 248,
+  "seed": 169,
+  "cost": 225,
+  "verdict": 177
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 235
+  "unclassified": 236
  },
  "rows": [
   {
@@ -3754,6 +3754,24 @@
     "verdict": "SUPPORTED",
     "closed_share": 0.4999999999999997
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "p4-07-product-fit",
+   "file": "research/results/p4-07-product-fit.json",
+   "file_sha256": "73bf4b43cf320904443eb858fe2e37e70d43df6b8e2db2e23faa2b2f40d9abd3",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "14e2d14b11f77ae79ee2debfdda4156218a005f9",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {

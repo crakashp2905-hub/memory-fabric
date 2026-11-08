@@ -2043,6 +2043,26 @@
       ]
     },
     {
+      "task_id": "P4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md",
+        "docs/README.md",
+        "research/results/l1-long-running.md",
+        "research/results/x4-governed-vs-pooled.md",
+        "research/results/master-checklist-http-capacity-v1.md",
+        "tests/test_product_fit_guidance.py",
+        "tests/test_doc_links.py",
+        "research/results/p4-07-product-fit.json",
+        "research/results/p4-07-product-fit.txt"
+      ],
+      "limitations": [
+        "Cited studies are workload-specific synthetic/local results; no universal comparative performance or demand claim."
+      ]
+    },
+    {
       "task_id": "P5-01",
       "status": "DONE",
       "acceptance_passed": true,
