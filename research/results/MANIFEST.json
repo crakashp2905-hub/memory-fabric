@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 234,
+ "results": 235,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 231,
-  "model_id": 198,
-  "prompt_hash": 234,
-  "seed": 155,
-  "cost": 211,
-  "verdict": 163
+  "dataset_digest": 232,
+  "model_id": 199,
+  "prompt_hash": 235,
+  "seed": 156,
+  "cost": 212,
+  "verdict": 164
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 222
+  "unclassified": 223
  },
  "rows": [
   {
@@ -3302,6 +3302,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": "8818b2e71a7158e7f723beaa3c3f1d2bce959562",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-10-migration-guide",
+   "file": "research/results/p1-10-migration-guide.json",
+   "file_sha256": "0c413db30dd198716408b1aa4b61580b3704fe182deda3f72ae0e7750cefa10f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": "7c4041b20010511205f314259b85a08d5467e688",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

@@ -1,0 +1,21 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P1-10",
+  "commit": "7c4041b20010511205f314259b85a08d5467e688",
+  "command": "python -m unittest tests.test_migration_guide tests.test_integrations -q",
+  "exit_code": 0,
+  "tests_run": 12,
+  "elapsed_seconds": 3.092,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "examples/fixtures/basic-memory-export.jsonl": "e51db8cca5f9d0b8a59f18ead3bd841d1f98cae2b88653cfdd9224e5f91f449c",
+    "src/memory_fabric/migrate.py": "68c6bf6ddf75f69011b6817aec7e3a3e13d28fa0e5e8fed1fcc0426ccf519d1c",
+    "tests/test_migration_guide.py": "357021fb716da57bfeea38bd503a5d461c0317a31f4714957e116c6b1797ed6b",
+    "docs/MIGRATION.md": "f4c4a483ccc1bb704fed4035a1c61898c2bc8db7ec71dbcd12fec742025b932e",
+    "docs/guides/migrate-from-json-vector.md": "f0792bff3ff1b53206d3eba0e7aeb6c836728184e59dd049e0a8b317d5aa3c62",
+    "docs/VALIDATION.md": "391a9d252a136b8d8f56659d308ddd38187e9e7381feff681a2313843150e21d",
+    "README.md": "1f2a588071aeeffece69e583262b0fe60055a6f9ec9797a0d7db74b65e71c7fc"
+  },
+  "result_text_sha256": "ee1976c798f9aa3fc618ed1b4f7816e61d280ed9b4953e723536b08576b12775"
+}

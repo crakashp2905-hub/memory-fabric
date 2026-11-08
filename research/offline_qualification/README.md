@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **149 / 260 (57.31%)**. Internal status: **BLOCKED**.
+Strict completion: **150 / 260 (57.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f9c3929f4611d85633a8ec0da9e5744b7d4d3a47689af9a4693d18073784c309`.
+Normalized ledger digest: `633641c5549c37ad484f55c98a3f7769dd89d78e67dbda57549b3954171c4a34`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 149 |
+| DONE | 150 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 107 |
+| TODO | 106 |
 
 ## Graduation gates
 
@@ -248,7 +248,7 @@ Normalized ledger digest: `f9c3929f4611d85633a8ec0da9e5744b7d4d3a47689af9a4693d1
 | P1-07 | P1 | DONE | INTERNAL_INTEGRATION | `examples/why_blocked.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_reasons.py`, `docs/TROUBLESHOOTING.md`, `research/results/p1-07-why-blocked.json`, `research/results/p1-07-why-blocked.txt` |
 | P1-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/offline.py`, `examples/quickstart.py`, `tests/test_quickstart.py`, `docs/QUICKSTART.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `research/results/p1-08-offline-mode.json`, `research/results/p1-08-offline-mode.txt` |
 | P1-09 | P1 | DONE | INTERNAL_INTEGRATION | `examples/memory_vs_json.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-09-memory-vs-json.json`, `research/results/p1-09-memory-vs-json.txt` |
-| P1-10 | P1 | TODO | NOT_TESTED | — |
+| P1-10 | P1 | DONE | INTERNAL_INTEGRATION | `docs/guides/migrate-from-json-vector.md`, `docs/MIGRATION.md`, `examples/fixtures/basic-memory-export.jsonl`, `tests/test_migration_guide.py`, `src/memory_fabric/migrate.py`, `research/results/p1-10-migration-guide.json`, `research/results/p1-10-migration-guide.txt` |
 | P2-01 | P1 | TODO | NOT_TESTED | — |
 | P2-02 | P1 | TODO | NOT_TESTED | — |
 | P2-03 | P1 | TODO | NOT_TESTED | — |

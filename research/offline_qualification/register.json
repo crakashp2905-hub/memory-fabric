@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "2bb9876b96744b51518463479610bf15e211ef05e7ef6db9c1ed0829a063b23e",
+    "sha256": "83a13ceb8c3938a6374825b397b8c1ac9a2dfda9aa4ece2fa1cbcb20f1ed5b51",
     "tasks": 260
   },
   "source": {
-    "commit": "8818b2e71a7158e7f723beaa3c3f1d2bce959562",
+    "commit": "7c4041b20010511205f314259b85a08d5467e688",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 149,
+      "DONE": 150,
       "PARTIAL": 4,
-      "TODO": 107
+      "TODO": 106
     },
-    "completed": 149,
+    "completed": 150,
     "total": 260,
-    "percent_complete": 57.31,
+    "percent_complete": 57.69,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,9 +307,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "413e95679625ba21d264abab37b4765bfce81683f3e94ae3417da03b8156d5d5",
-        "docs/VALIDATION.md": "7a49ef5f4f2ee3ee580f8bc25cb93a197904ad1daf4fb0a255d2ccd4781e7603",
-        "docs/STATUS_AT_HEAD.md": "12a34d8fb660cc518623ac751023bbaf820b2653ae046b8806ff38b55b482280",
+        "README.md": "1f2a588071aeeffece69e583262b0fe60055a6f9ec9797a0d7db74b65e71c7fc",
+        "docs/VALIDATION.md": "391a9d252a136b8d8f56659d308ddd38187e9e7381feff681a2313843150e21d",
+        "docs/STATUS_AT_HEAD.md": "998247902cf6aab9aea6d36807b9209a3f578f1c92eb857b5c0f31c9e201eb17",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "d30d0ec4af9ae582dd05d5a9247f8751fdbfb16e6ca28fcf116878b00374edbe",
+        "research/results/MANIFEST.json": "c6782a8a160ce5170a8639976a713a6ab7fba75083168842a49b5fc889371e72",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5113,13 +5113,31 @@
       "priority": "P1",
       "task": "Provide a 15-minute migration guide from basic JSON/vector recall to governed memory.",
       "acceptance": "Test fixture migrates sample records, validates ownership and preserves original data",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/guides/migrate-from-json-vector.md",
+        "docs/MIGRATION.md",
+        "examples/fixtures/basic-memory-export.jsonl",
+        "tests/test_migration_guide.py",
+        "src/memory_fabric/migrate.py",
+        "research/results/p1-10-migration-guide.json",
+        "research/results/p1-10-migration-guide.txt"
+      ],
+      "evidence_digests": {
+        "docs/guides/migrate-from-json-vector.md": "f0792bff3ff1b53206d3eba0e7aeb6c836728184e59dd049e0a8b317d5aa3c62",
+        "docs/MIGRATION.md": "f4c4a483ccc1bb704fed4035a1c61898c2bc8db7ec71dbcd12fec742025b932e",
+        "examples/fixtures/basic-memory-export.jsonl": "e51db8cca5f9d0b8a59f18ead3bd841d1f98cae2b88653cfdd9224e5f91f449c",
+        "tests/test_migration_guide.py": "357021fb716da57bfeea38bd503a5d461c0317a31f4714957e116c6b1797ed6b",
+        "src/memory_fabric/migrate.py": "68c6bf6ddf75f69011b6817aec7e3a3e13d28fa0e5e8fed1fcc0426ccf519d1c",
+        "research/results/p1-10-migration-guide.json": "2ac4dd9fb738041d471f305a40b81845b5931b728b68298ad5d9eabbaa099359",
+        "research/results/p1-10-migration-guide.txt": "ee1976c798f9aa3fc618ed1b4f7816e61d280ed9b4953e723536b08576b12775"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The guide migrates text/source identity fields; it does not import third-party vector embeddings, application-specific metadata, or provide live dual-write. The old store remains the rollback source until operators complete their own canary and cutover checks."
+      ]
     },
     {
       "task_id": "P2-01",

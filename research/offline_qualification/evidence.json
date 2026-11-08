@@ -2539,6 +2539,24 @@
       "limitations": [
         "This is a fixed two-record demonstration, not an efficacy benchmark or population estimate. The JSON-style baseline is explicitly unauthorised: it has no action-gating API. No external action is executed."
       ]
+    },
+    {
+      "task_id": "P1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/guides/migrate-from-json-vector.md",
+        "docs/MIGRATION.md",
+        "examples/fixtures/basic-memory-export.jsonl",
+        "tests/test_migration_guide.py",
+        "src/memory_fabric/migrate.py",
+        "research/results/p1-10-migration-guide.json",
+        "research/results/p1-10-migration-guide.txt"
+      ],
+      "limitations": [
+        "The guide migrates text/source identity fields; it does not import third-party vector embeddings, application-specific metadata, or provide live dual-write. The old store remains the rollback source until operators complete their own canary and cutover checks."
+      ]
     }
   ]
 }
