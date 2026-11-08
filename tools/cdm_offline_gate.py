@@ -83,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     tests.append("tests.test_cdm_dependency_frontier")
     tests.append("tests.test_cdm_checkpoint_granularity")
     tests.append("tests.test_cdm_budgeted_inference")
+    tests.append("tests.test_cdm_timeout_teardown")
     tests.append("tests.test_cdm_architecture_superiority")
     steps = [run_step("CDM focused unit suite", [sys.executable, "-m", "unittest", *tests]),
              run_step("battery demonstrator", [sys.executable, "-m", "benchmarks.cdm_battery_world",
@@ -126,7 +127,10 @@ def main(argv: list[str] | None = None) -> int:
                          "--out", str(out / "checkpoint-granularity" / "report.json")]),
              run_step("matched-budget exact versus approximate inference", [sys.executable,
                          "-m", "benchmarks.cdm_budgeted_inference",
-                         "--out", str(out / "budgeted-inference" / "report.json")])]
+                         "--out", str(out / "budgeted-inference" / "report.json")]),
+             run_step("wall-time interruption teardown", [sys.executable,
+                         "-m", "benchmarks.cdm_timeout_teardown",
+                         "--out", str(out / "timeout-teardown" / "report.json")])]
     # Import gate: normal MemoryFabric import remains usable and import is inert
     # with respect to network sockets and filesystem state.
     steps.append(run_step("inert package import", [sys.executable, "-c",

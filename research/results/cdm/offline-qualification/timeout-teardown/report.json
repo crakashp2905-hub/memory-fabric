@@ -1,0 +1,16 @@
+{
+  "limitations": [
+    "verifies parent-enforced wall timeout teardown",
+    "does not impose or verify an OS-level CPU quota"
+  ],
+  "model_calls": 0,
+  "network_calls": 0,
+  "schema": "cdm-timeout-teardown-v1",
+  "temporary_directory_removed": true,
+  "temporary_path_was_isolated": true,
+  "timed_out": true,
+  "timeout_seconds": 0.1,
+  "worker_marker_created": true,
+  "worker_returncode": 1,
+  "worker_terminated": true
+}
