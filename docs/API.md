@@ -358,10 +358,10 @@ Offer one memory to a store on another machine, over a transport.
 ### `limits.Limits` (beta)
 
 ```python
-Limits(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000)
+Limits(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000, max_memories: int | None = 1000000, max_retention_actions: int | None = 1000)
 ```
 
-Limits(max_content_bytes: 'int' = 1048576, writes_per_window: 'int | None' = None, imports_per_window: 'int | None' = None, window_ms: 'int' = 60000)
+Limits(max_content_bytes: 'int' = 1048576, writes_per_window: 'int | None' = None, imports_per_window: 'int | None' = None, window_ms: 'int' = 60000, max_memories: 'int | None' = 1000000, max_retention_actions: 'int | None' = 1000)
 
 ## Offline execution
 

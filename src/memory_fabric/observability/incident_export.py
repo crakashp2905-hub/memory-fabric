@@ -6,6 +6,8 @@ import json
 from collections.abc import Mapping
 from typing import Any
 
+__stability__ = "beta"
+
 
 def export_incident(fabric: Any, action_seq: int) -> dict[str, Any]:
     """Return a redacted incident trace and digest bound to its canonical JSON.

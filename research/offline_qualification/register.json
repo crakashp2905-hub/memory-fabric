@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1879d005c71726d57ac324695f10cf112d9f15c1f6cd25ef7d8ae3015e1fba8c",
+    "sha256": "d6aa7391aeb77e47ed6ac0e60d84dfd19f9f9e348c8e3ec34ae0406c4511d413",
     "tasks": 260
   },
   "source": {
-    "commit": "701d17587e79f5454220ebca8848071979b548a8",
-    "dirty": false
+    "commit": "2b43daf6481fce68cfe1f0c9f89539170aa6c2c6",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 196,
-      "PARTIAL": 3,
-      "TODO": 61
+      "DONE": 197,
+      "PARTIAL": 4,
+      "TODO": 59
     },
-    "completed": 196,
+    "completed": 197,
     "total": 260,
-    "percent_complete": 75.38,
+    "percent_complete": 75.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1172,9 +1172,9 @@
       "evidence_digests": {
         "tools/gen_reference.py": "44082cd0dcc78db5a3775b54869d2545641a7fad60f4a50a1352ca48e4c7f614",
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
-        "docs/API_INVENTORY.json": "20b9247ae20ff1ddaf916d752e0ca069e6dcdfc5f6a13a72ae2f64661d843f65",
-        "docs/API.md": "3dec14630cab2cb32b1b02a5b18ec8c1df0ef2efd1abc32b68bb2d84888e5839",
-        "STABILITY.md": "b49237a4b47d3c96c87ad001ba0e5d833ebb42ad29f2cf73b994ac12d214b97c",
+        "docs/API_INVENTORY.json": "6b202f51bd1abe6412fe702860004cf0b634b6186a65f7749cb509f01407235d",
+        "docs/API.md": "a8ea469db7ee0e26d6f45a300ecc179f2bd6ac692b15e87a71cb2a3a5fe96cc7",
+        "STABILITY.md": "69106f23aeea86f01d81fb6fb66d21dc9fb3e4de714f714fd568563179e3282c",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -2804,14 +2804,28 @@
       "task_id": "N1-01",
       "priority": "P1",
       "task": "Define first-class DecisionRecord schema with goal, candidate options, chosen option, evidence versions and constraints.",
-      "acceptance": "Schema validation and migration reject missing critical identity and decision-time fields",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Schema validation and migration reject missing critical identity and decision-time fields. Evidence: `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` (DONE: immutable v1 schema requires decision/tenant/agent identity and timezone-aware decision time; options, selected option, exact evidence versions, finite scalar constraints, strict JSON parsing, and identity/time migration guards are covered. Six focused schema tests plus stability/reference checks pass: 12 tests and 94 subtests. Persistence and action/dependency linkage are separate N1 tasks.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-01-decision-record-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "fcc3531fcb9282e5eecba1262bcbe28c0c295b3ab33294dd038660657d41d5ce",
+        "src/memory_fabric/__init__.py": "05b917461432001eddd6f45dd6c4be2673ea4779f3a4bc397c8acab46643a4f1",
+        "docs/DECISION_RECORD_SCHEMA.md": "97e1b8caaa2e727065350c7b13a1be12950a8a3bf7da800b7f44ac5b5ab5a774",
+        "tests/test_decision_records.py": "f2b8983789fee04c42839144ab591dec4ccbff5b7f02ed133208e9cf4c7a2fc5",
+        "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "DecisionRecord v1 is a validated immutable schema contract with strict identity/time fields and serialization. Persistence, links to claim/action events, and migration between stored schema versions remain unimplemented and are tracked by later N1 tasks."
+      ]
     },
     {
       "task_id": "N1-02",
@@ -2869,14 +2883,24 @@
       "task_id": "N1-06",
       "priority": "P1",
       "task": "Define statuses proposed, approved, executed, superseded and requires-reconsideration.",
-      "acceptance": "Illegal status transitions fail with typed reason and preserve append-only history",
-      "status": "TODO",
+      "acceptance": "Illegal status transitions fail with typed reason and preserve append-only history. Evidence: `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` (PARTIAL: typed statuses, legal transition rules, immutable transition snapshots, and typed rejection tests are defined. Durable append-only storage and replay verification are not implemented.)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "tests/test_decision_records.py",
+        "research/results/n1-01-decision-record-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "fcc3531fcb9282e5eecba1262bcbe28c0c295b3ab33294dd038660657d41d5ce",
+        "tests/test_decision_records.py": "f2b8983789fee04c42839144ab591dec4ccbff5b7f02ed133208e9cf4c7a2fc5",
+        "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Statuses and transition legality are typed and immutable snapshots preserve the sequence in memory. Durable append-only storage, tamper evidence, and replay enforcement are still required for acceptance."
+      ]
     },
     {
       "task_id": "N1-07",
@@ -4351,7 +4375,7 @@
         "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "research/results/h3-08-backup-erasure-limits.json": "533fdcae700d612d7f6b7d9ede00b6364a76d0b4d473f417caf6c0ea22a32359",
         "research/results/h3-08-backup-erasure-limits-tests.xml": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee"
       },
@@ -5165,7 +5189,7 @@
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
         "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
         "research/results/p1-05-setup-doctor.txt": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3"
       },
@@ -5259,8 +5283,8 @@
         "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
         "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770",
         "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
-        "docs/API.md": "3dec14630cab2cb32b1b02a5b18ec8c1df0ef2efd1abc32b68bb2d84888e5839",
-        "docs/API_INVENTORY.json": "20b9247ae20ff1ddaf916d752e0ca069e6dcdfc5f6a13a72ae2f64661d843f65",
+        "docs/API.md": "a8ea469db7ee0e26d6f45a300ecc179f2bd6ac692b15e87a71cb2a3a5fe96cc7",
+        "docs/API_INVENTORY.json": "6b202f51bd1abe6412fe702860004cf0b634b6186a65f7749cb509f01407235d",
         "research/results/p1-08-offline-mode.json": "12f81837862632491b0305009817030550b5b9a1474242b357ad40f8945b7b4c",
         "research/results/p1-08-offline-mode.txt": "e1e06a433688b30386cdcd67a5a64a27b17a720a0cf26994ccff4738461b97c6"
       },
@@ -5621,7 +5645,7 @@
         "research/results/p2-10-incident-export.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/incident_export.py": "77d375bcf31b639c7a9487b7406fd8d66a430b5f68eeb47221a7fb5ffab3263a",
+        "src/memory_fabric/observability/incident_export.py": "0826cd3003969bce7a68249587fab47364322e7d45f4be4857a35dc8f4c9343c",
         "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
         "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
@@ -5685,7 +5709,7 @@
         "docs/README.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/health.py": "94205c904e5388da9d120728ccb7997e444ebccb2c47e337fda74aa53b7755b6",
+        "src/memory_fabric/observability/health.py": "22b3f40f9128c32e0135da3b21f9543539a6ee2f03de55a1a1d16855311b665c",
         "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
         "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
         "tests/test_service_health.py": "cb4ad1d2e99c0622e991e1bb99aa812f4f2d469f7c7cd9b0110483298512454c",
@@ -5728,7 +5752,7 @@
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
         "research/results/p3-03-refusal-explainer.json": "d0f0f043daed3051d0db3b24180da0ed4c13744ec17440f393ed695e3f3cf660",
         "research/results/p3-03-refusal-explainer.txt": "9461ada349627121c5def79228df16595a62aa6d4ee8e2566adc7045558b4c4a"
@@ -5755,11 +5779,11 @@
         "docs/README.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/upgrade_preview.py": "8f0c8d5fbdfcbc2d37d7314f34cff0663f6981c47a36197020a7a45b66140064",
+        "src/memory_fabric/upgrade_preview.py": "b8b3d4263ebdf349a8b2656c7d496c55ae2798b85dff98789ceb99f89f933b65",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
       },
       "evidence_issues": {},
@@ -5790,7 +5814,7 @@
       "evidence_digests": {
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
         "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
@@ -5822,7 +5846,7 @@
         "research/results/p3-06-incident-replay.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/incident_export.py": "77d375bcf31b639c7a9487b7406fd8d66a430b5f68eeb47221a7fb5ffab3263a",
+        "src/memory_fabric/observability/incident_export.py": "0826cd3003969bce7a68249587fab47364322e7d45f4be4857a35dc8f4c9343c",
         "tools/replay_redacted_incident.py": "44dfc662b7998957c76c8c5330b52c7e7e033c2ec282e0657217649d8c27bc09",
         "tools/incident_replay_smoke.py": "80acdd1bb617a8dc1f0a97008d706c4efb9c7bd07999e33e9da0e24a39eccc7f",
         "tests/test_incident_replay.py": "6e3e7acd94cc1accd3c7f98a800fa6019e290840ff7ed9141263c8d46e5a1ba6",
@@ -5918,11 +5942,11 @@
         "docs/README.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/support_bundle.py": "cbbafd505300f97beec01e4e797157e145ecd1aca63d8f772dc3e36ca94e3710",
+        "src/memory_fabric/support_bundle.py": "d2f494e8a66e0eb86865bd083de55d036738c51b1e78b18ff7f9e9260392a65c",
         "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
-        "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
+        "docs/CLI.md": "0f6fba98c0db0f02f2d50012d0d500ce0150d6ee924cf51850c69d964242fc71",
         "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
       },
       "evidence_issues": {},

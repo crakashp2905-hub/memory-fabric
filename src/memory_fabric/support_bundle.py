@@ -8,6 +8,8 @@ from __future__ import annotations
 import json
 import platform
 from collections import Counter
+
+__stability__ = "beta"
 from pathlib import Path
 from typing import Any
 

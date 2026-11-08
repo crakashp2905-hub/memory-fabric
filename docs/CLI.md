@@ -33,6 +33,10 @@ WRITES: serve agents over authenticated HTTP (recall, fetch, verify, remember), 
 - `--behind-tls`: allow a non-loopback bind because TLS terminates in front
 - `--rate-limit`: requests a second per agent, on average (0 turns it off)
 - `--burst`: requests per agent at once
+- `--max-request-bytes`: maximum HTTP request body size
+- `--max-workers`: maximum concurrent agent API request workers
+- `--max-memories`: maximum memories in this store
+- `--max-retention-actions`: maximum lifecycle actions in one retention sweep
 - `--oidc-config`: optional OAuth/OIDC JWT resource-server configuration JSON
 - `--no-maintain`: do not run the background memory manager in this process
 - `--maintain-interval`: seconds between background maintenance cycles

@@ -21,6 +21,13 @@ from .estimators import IPSEstimator, NaiveUsageEstimator, ValueEstimator
 from .answerability import ParameterEquivalences
 from .eventlog import EventLog
 from .events import Event, EventType
+from .decision_records import (
+    DecisionOption,
+    DecisionRecord,
+    DecisionStatusTransition,
+    DecisionTransitionError,
+    EvidenceVersion,
+)
 from .evidence_status import (
     DecisionReadiness,
     EvidenceValidity,
@@ -105,6 +112,11 @@ __version__ = "0.14.0"
 
 __all__ = [
     "ParameterEquivalences",
+    "DecisionRecord",
+    "DecisionOption",
+    "EvidenceVersion",
+    "DecisionStatusTransition",
+    "DecisionTransitionError",
     "RetrievalRanking",
     "RetrievalAssessment",
     "EvidenceValidity",

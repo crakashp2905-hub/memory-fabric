@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **196 / 260 (75.38%)**. Internal status: **BLOCKED**.
+Strict completion: **197 / 260 (75.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d8c2bca320f8f9c9c67e424317cba64278b12b23fa03201c58565bc4c6d75df1`.
+Normalized ledger digest: `989f00d7adb71057ba0b8ee881e18bde20ce6dab0012dfc127b5b13d80ee56db`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 196 |
+| DONE | 197 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 3 |
-| TODO | 61 |
+| PARTIAL | 4 |
+| TODO | 59 |
 
 ## Graduation gates
 
@@ -129,12 +129,12 @@ Normalized ledger digest: `d8c2bca320f8f9c9c67e424317cba64278b12b23fa03201c58565
 | R5-08 | P1 | DONE | CONTRACT | `research/claims.json`, `tools/claims_ledger.py`, `tests/test_claims_ledger.py`, `tests/test_claim_checker_contract.py`, `research/results/CLAIMS_LEDGER.json`, `research/results/CLAIMS_LEDGER.md` |
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
 | R5-10 | P1 | DONE | CONTRACT | `research/OFFLINE_REPRODUCIBILITY.md`, `tests/test_offline_reproducibility.py`, `research/claims.json`, `research/results/CLAIMS_LEDGER.json` |
-| N1-01 | P1 | TODO | NOT_TESTED | — |
+| N1-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
 | N1-02 | P1 | TODO | NOT_TESTED | — |
 | N1-03 | P1 | TODO | NOT_TESTED | — |
 | N1-04 | P1 | TODO | NOT_TESTED | — |
 | N1-05 | P1 | TODO | NOT_TESTED | — |
-| N1-06 | P1 | TODO | NOT_TESTED | — |
+| N1-06 | P1 | PARTIAL | CONTRACT | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
 | N1-07 | P1 | TODO | NOT_TESTED | — |
 | N1-08 | P1 | TODO | NOT_TESTED | — |
 | N1-09 | P1 | TODO | NOT_TESTED | — |

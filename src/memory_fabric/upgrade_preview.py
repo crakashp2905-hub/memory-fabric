@@ -7,6 +7,8 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+__stability__ = "beta"
+
 from .model import SCHEMA_VERSION
 
 _VERSION = re.compile(r"^\d+\.\d+\.\d+$")

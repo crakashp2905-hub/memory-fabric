@@ -2,6 +2,36 @@
   "schema": "memory-fabric-offline-evidence/1",
   "tasks": [
     {
+      "task_id": "N1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-01-decision-record-tests.xml"
+      ],
+      "limitations": [
+        "DecisionRecord v1 is a validated immutable schema contract with strict identity/time fields and serialization. Persistence, links to claim/action events, and migration between stored schema versions remain unimplemented and are tracked by later N1 tasks."
+      ]
+    },
+    {
+      "task_id": "N1-06",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "tests/test_decision_records.py",
+        "research/results/n1-01-decision-record-tests.xml"
+      ],
+      "limitations": [
+        "Statuses and transition legality are typed and immutable snapshots preserve the sequence in memory. Durable append-only storage, tamper evidence, and replay enforcement are still required for acceptance."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

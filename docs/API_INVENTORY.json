@@ -557,7 +557,7 @@
     },
     {
       "module": "memory_fabric.limits",
-      "signature": "(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000)",
+      "signature": "(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000, max_memories: int | None = 1000000, max_retention_actions: int | None = 1000)",
       "symbol": "memory_fabric.limits.Limits",
       "tier": "beta"
     },

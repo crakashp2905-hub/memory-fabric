@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import Any
 
+__stability__ = "beta"
+
 
 LEVELS = ("healthy", "degraded", "unsafe-to-execute", "unavailable")
 
