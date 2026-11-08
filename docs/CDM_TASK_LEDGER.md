@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (206)
+## Complete at this checkpoint (208)
 
 | Task | Evidence |
 |---|---|
@@ -166,6 +166,8 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-169 | Top-K selectors expose Branch Recall@K against supplied executed-oracle pivotal IDs; benchmark-scale results remain open |
 | CDM-170 | Stable pre-replay feature record captures risk, relevance, uncertainty and graph neighbors |
 | CDM-171 | Deterministic priority selector enforces the requested candidate count |
+| CDM-172 | Early-pivotal fixture derives the oracle set by leave-one-out executed replay; at k=1, recency misses the sequence-1 pivotal event (Branch Recall@K 0), while pre-replay priority selects it (1). |
+| CDM-173 | Low-centrality fixture derives the pivotal ID through executed leave-one-out replay; at k=1, centrality selects higher-degree distractors and misses the degree-zero pivotal event (recall 0), while priority includes it (1). Ten scheduler tests pass. |
 | CDM-174 | No-signal candidate fixture verifies stable uninformative tie behavior |
 | CDM-175 | Local 10/100/1000 candidate scaling report includes selector/frontier timings, memory, recall and per-seed raw rows |
 | CDM-177 | Cross-tenant key collision is a miss; valid committed entry acceptance and current auth revalidation are tested |
@@ -236,8 +238,6 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | Task | Required evidence |
 |---|---|
 
-| CDM-172 | Add early pivotal-event test. |
-| CDM-173 | Add low-centrality pivotal-event test. |
 | CDM-176 | Benchmark exact versus approximate quality under budgets. |
 | CDM-178 | Verify teardown under CPU/time cap interruption. |
 | CDM-186 | Classify harmful blanket invalidation. |

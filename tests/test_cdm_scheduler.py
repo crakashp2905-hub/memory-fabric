@@ -9,6 +9,11 @@ from memory_fabric.causal_replay.scheduler import (Candidate, ReplayBudget, chec
     branch_recall_at_k, earliest_affected_index, replay_frontier, select_centrality, select_priority,
     select_random, select_recency)
 from memory_fabric.causal_replay.types import BudgetExceeded, CDMError
+from memory_fabric.causal_replay.bayes import BinaryNode
+from memory_fabric.causal_replay.executor import execute
+from memory_fabric.causal_replay.policy import ThresholdPolicy
+from memory_fabric.causal_replay.replay import deterministic_simulator
+from memory_fabric.causal_replay.state import Observation
 
 
 class TestScheduler(unittest.TestCase):
@@ -17,6 +22,22 @@ class TestScheduler(unittest.TestCase):
                                      ("b", "c", "d")),
                            Candidate("recent", 9, 0.3, 0.3, 0.2),
                            Candidate("risky", 2, 1.0, 0.7, 0.8))
+
+    @staticmethod
+    def _executed_loo_pivotal_ids(observations):
+        simulator = deterministic_simulator((
+            BinaryNode("fault", (), {(): 0.2}),
+            BinaryNode("alarm", ("fault",), {(False,): 0.1, (True,): 0.9})))
+        policy = ThresholdPolicy("fault")
+        factual = execute(observations, simulator=simulator, policy=policy)
+        pivotal = set()
+        for target in observations:
+            counterfactual = tuple(item for item in observations
+                                   if item.observation_id != target.observation_id)
+            replay = execute(counterfactual, simulator=simulator, policy=policy)
+            if factual.steps[-1].proposal != replay.steps[-1].proposal:
+                pivotal.add(target.observation_id)
+        return pivotal
 
     def test_selectors_are_deterministic_and_budgeted(self):
         self.assertEqual(select_random(self.candidates, seed=4, k=2),
@@ -93,6 +114,34 @@ class TestScheduler(unittest.TestCase):
         score = branch_recall_at_k(selected, {"risky", "recent"}, candidate_count=3)
         self.assertAlmostEqual(score, 0.5)
         self.assertIsNone(branch_recall_at_k((), (), candidate_count=3))
+
+    def test_early_pivotal_event_is_visible_to_budgeted_selector_recall(self):
+        observations = (Observation("early-pivotal", "alarm", True, "early", 1),
+                        Observation("later-context", "alarm", False, "early", 8),
+                        Observation("latest-noise", "alarm", True, "early", 12))
+        candidates = (Candidate("early-pivotal", 1, 1.0, 1.0, 1.0),
+                      Candidate("later-context", 8, 0.1, 0.2, 0.1),
+                      Candidate("latest-noise", 12, 0.0, 0.1, 0.0))
+        oracle_pivotal = self._executed_loo_pivotal_ids(observations)
+        self.assertEqual(oracle_pivotal, {"early-pivotal"})
+        self.assertEqual(branch_recall_at_k(select_recency(candidates, k=1),
+                         oracle_pivotal, candidate_count=len(candidates)), 0.0)
+        self.assertEqual(branch_recall_at_k(select_priority(candidates, k=1),
+                         oracle_pivotal, candidate_count=len(candidates)), 1.0)
+
+    def test_low_centrality_pivotal_event_can_be_missed_by_centrality(self):
+        observations = (Observation("low-degree-pivotal", "alarm", True, "shared", 1),
+                        Observation("hub-a", "alarm", False, "shared", 2),
+                        Observation("hub-b", "alarm", True, "shared", 3))
+        candidates = (Candidate("low-degree-pivotal", 1, 1.0, 1.0, 1.0),
+                      Candidate("hub-a", 2, 0.0, 0.0, 0.0, ("x", "y", "z")),
+                      Candidate("hub-b", 3, 0.0, 0.0, 0.0, ("u", "v")))
+        oracle_pivotal = self._executed_loo_pivotal_ids(observations)
+        self.assertEqual(oracle_pivotal, {"low-degree-pivotal"})
+        self.assertEqual(branch_recall_at_k(select_centrality(candidates, k=1),
+                         oracle_pivotal, candidate_count=len(candidates)), 0.0)
+        self.assertEqual(branch_recall_at_k(select_priority(candidates, k=1),
+                         oracle_pivotal, candidate_count=len(candidates)), 1.0)
 
 
 if __name__ == "__main__":
