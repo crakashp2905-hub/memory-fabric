@@ -1,0 +1,11 @@
+# Three product jobs to be done
+
+These are engineering hypotheses about workflows, not validated buyer demand. Each job names a seeded local workflow, its intended benefit, an ordinary baseline, and an outcome that can be measured on the same task set. Keep controls and budgets matched when comparing.
+
+| Job | Seeded workflow | Intended operator benefit | Ordinary baseline | Measurable outcome |
+|---|---|---|---|---|
+| Correction continuity | Seed a maintenance setting, derive a procedure and authorize an action; correct the setting before a second attempt while an unrelated action remains valid. Use `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, and correction/action-gate fixtures. | Avoid acting on superseded evidence while retaining decisions supported by unaffected facts. | Append-only JSON/vector notes with manual deletion, plus blanket invalidation as a conservative comparator. | Stale-action rate, safe completion, false-block rate, correction propagation completeness, p50/p95 latency. |
+| Governed tool use | Seed one agent grant, a scoped evidence certificate and a protected tool request; vary missing, withdrawn, wrong-scope and current evidence. Use `examples/action_gate.py` and action-fence tests. | Make authorization inspectable and ensure every consequential effect is checked at execution time. | Retrieval followed by direct tool invocation with no deterministic ActionGate. | Unsafe/unauthorized effects, valid action completion, refusal reason accuracy, reconciliation state, latency per effect. |
+| Multi-agent knowledge sharing | Seed multiple writers, copied claims, independent sources and one correction; share across agents and compare supported context. Use `examples/multi_agent_team.py` and provenance/conflict fixtures. | Share useful knowledge while preserving source identity, disagreements and correction reach. | Shared SQLite/JSON/vector memory with pooled notes and no provenance-aware correction protocol. | Valid-evidence delivery, false corroboration from copies, stale knowledge after correction, cross-tenant leakage, task completion. |
+
+The ordinary baselines are intentionally simple and may be sufficient. The comparison should include implementation and operating cost; no job is established merely because Memory Fabric implements a corresponding feature.
