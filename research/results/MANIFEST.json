@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 249,
+ "results": 250,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 93,
-  "dataset_digest": 246,
-  "model_id": 213,
-  "prompt_hash": 249,
-  "seed": 170,
-  "cost": 226,
-  "verdict": 178
+  "dataset_digest": 247,
+  "model_id": 214,
+  "prompt_hash": 250,
+  "seed": 171,
+  "cost": 227,
+  "verdict": 179
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 237
+  "unclassified": 238
  },
  "rows": [
   {
@@ -3763,6 +3763,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p3-correction-propagation.md",
    "git_sha": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p3-05-backup-restore-runbook",
+   "file": "research/results/p3-05-backup-restore-runbook.json",
+   "file_sha256": "3c8273104d0879a8002f31597d6922913806f112a292b4d24dbeeae85be8bfb7",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p3-correction-propagation.md",
+   "git_sha": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

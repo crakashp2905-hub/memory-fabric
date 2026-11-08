@@ -1,0 +1,5 @@
+P3-05 backup/restore checkpoints
+
+16 tests passed on exact commit 984894ce5c6b25f6d6352af82c59269cdbfd7438. The documented procedure orders backup, independent erasure-ledger export, manifest-checked restore, doctor verification, off-host checkpoint comparison and peer outbox replay. Existing custody tests exercise replay, corrupted/mismatched backup refusal, and external key caveats; the runbook ordering is regression-tested.
+
+Evidence uses local SQLite fixtures only; no external KMS or disaster-recovery site was tested.

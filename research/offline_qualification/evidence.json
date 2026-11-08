@@ -2064,6 +2064,26 @@
       ]
     },
     {
+      "task_id": "P3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/RUNBOOKS.md",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "src/memory_fabric/cli.py",
+        "tests/test_backup_runbook.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup.py",
+        "research/results/p3-05-backup-restore-runbook.json",
+        "research/results/p3-05-backup-restore-runbook.txt"
+      ],
+      "limitations": [
+        "Local SQLite/Windows fixture evidence only; no external KMS, network filesystem or disaster-recovery site."
+      ]
+    },
+    {
       "task_id": "P4-07",
       "status": "DONE",
       "acceptance_passed": true,

@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "87098f62633d202710842248a6e9e5e7b62ede32e7331a69036dc1a4caee4298",
+    "sha256": "83f3247d5989391379b9e876de2ff3d67536efeafd857346066699ffb5cc66a8",
     "tasks": 260
   },
   "source": {
-    "commit": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
+    "commit": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 163,
+      "DONE": 164,
       "PARTIAL": 4,
-      "TODO": 93
+      "TODO": 92
     },
-    "completed": 163,
+    "completed": 164,
     "total": 260,
-    "percent_complete": 62.69,
+    "percent_complete": 63.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1494,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "a094fe1e41d3781e1a1e5f5bb02bb162e197468a38688961e9e9083517e48102",
+        "research/results/MANIFEST.json": "4bdad35fd430aff1dad7cfd98c2e7a4e4767d0b8b23ecd4a20be85a8067d51d1",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -5535,14 +5535,36 @@
       "task_id": "P3-05",
       "priority": "P1",
       "task": "Create backup/restore wizard-like CLI procedure with verification checkpoints.",
-      "acceptance": "Offline fixture follows runbook successfully end-to-end with corruption case handled",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Offline fixture follows runbook successfully end-to-end with corruption case handled.. Evidence: `docs/RUNBOOKS.md`, `docs/OPERATIONS.md`, `docs/CLI.md`, `src/memory_fabric/cli.py`, `tests/test_backup_runbook.py`, `tests/test_backup_custody.py`, `tests/test_backup.py`, `research/results/p3-05-backup-restore-runbook.json`, `research/results/p3-05-backup-restore-runbook.txt` (DONE: 16 tests pass; checkpoints cover backup, erasure ledger, manifest-verified restore, doctor, external chain checkpoint and peer replay; corruption cases are refused. Local SQLite only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/RUNBOOKS.md",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "src/memory_fabric/cli.py",
+        "tests/test_backup_runbook.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup.py",
+        "research/results/p3-05-backup-restore-runbook.json",
+        "research/results/p3-05-backup-restore-runbook.txt"
+      ],
+      "evidence_digests": {
+        "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
+        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
+        "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
+        "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
+        "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
+        "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+        "research/results/p3-05-backup-restore-runbook.json": "70641c613936553f290a21a17af9d1336555b642f324e03379c0ddbd42e1a625",
+        "research/results/p3-05-backup-restore-runbook.txt": "d3269537b69b4158f2a14265f8f7484ba1994ebc20077a4adda7c88a02afe909"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Local SQLite/Windows fixture evidence only; no external KMS, network filesystem or disaster-recovery site."
+      ]
     },
     {
       "task_id": "P3-06",
