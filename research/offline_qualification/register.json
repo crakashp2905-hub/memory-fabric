@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "6a7d9bf857e426453fbf90fa2a80859f86819a19c83919a6ddda4896c84919d4",
+    "sha256": "349a56f43d051c1436027a97533dfd030f4dcd36e459333086aa77d5540037ba",
     "tasks": 260
   },
   "source": {
-    "commit": "eaa3a3b063bf8cecc25bcf19e5c2bd985f4633ae",
-    "dirty": false
+    "commit": "644959bfc15b086f3973e28b8787c43018f1d22e",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 229,
+      "DONE": 230,
       "PARTIAL": 3,
-      "TODO": 28
+      "TODO": 27
     },
-    "completed": 229,
+    "completed": 230,
     "total": 260,
-    "percent_complete": 88.08,
+    "percent_complete": 88.46,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3951,14 +3951,30 @@
       "task_id": "N4-04",
       "priority": "P1",
       "task": "Add contested-fact fixtures that retain minority alternatives rather than compressing to majority narrative.",
-      "acceptance": "Disputed hypotheses remain discoverable after compaction",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Disputed hypotheses remain discoverable after compaction. Evidence: `tests/test_compaction_contested_facts.py`, `experiments/n4_04_contested_compaction.py`, `research/results/n4-04-contested-compaction.json`, `research/results/n4-04-contested-compaction.md`, `research/results/n4-04-contested-tests.xml` (DONE: a 10:1 flat fixture maps both values to all exact source versions; a hierarchy separates the lone alternative into its own leaf and verifies a certified root still renders both as unresolved. Default suspicious intake leaves the minority candidate in the operator review queue and excludes it from the active summary. Three focused tests pass. Preservation case disables only write-time suspicion holding; no value is asserted true.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_compaction_contested_facts.py",
+        "experiments/n4_04_contested_compaction.py",
+        "research/results/n4-04-contested-compaction.json",
+        "research/results/n4-04-contested-compaction.md",
+        "research/results/n4-04-contested-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_compaction_contested_facts.py": "e660477e5b1db321057c245570a49db9376ef28bee27298605c6c3b26c7749c7",
+        "experiments/n4_04_contested_compaction.py": "48db66ed906ffb7a818eab014fac47561eb13c1eff042a0b8242cdf2bb6a7530",
+        "research/results/n4-04-contested-compaction.json": "ec931bc98cb88ed8170eaaa37cbd1f457b99d2d16b103316e65e590691921588",
+        "research/results/n4-04-contested-compaction.md": "a033bf2b81027e2c18792b615ddc74444fbc75f9370d9413dd5a2092dccd8999",
+        "research/results/n4-04-contested-tests.xml": "8415acdc12ce675963d4761e4a24f0d6cd8a9df9bbe9b1b67d4257bcdbf3ecb7"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The 10:1 compaction cases exercise already exposable competing evidence by disabling write-time suspicion holding in the fixture; they do not assert either value is true.",
+        "With default suspicion holding, the minority remains a candidate in the review queue and is deliberately excluded from the active summary until reviewed.",
+        "Local in-memory contract evidence; no distributed or real-agent efficacy claim."
+      ]
     },
     {
       "task_id": "N4-05",

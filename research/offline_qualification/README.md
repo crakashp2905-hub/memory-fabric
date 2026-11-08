@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **229 / 260 (88.08%)**. Internal status: **BLOCKED**.
+Strict completion: **230 / 260 (88.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `200b30d5adbc96d43d68ea75978584b4909934d593a731ef3b1c6ba9f84cab1c`.
+Normalized ledger digest: `38e6aec7fb35cc43ddb3d76061bbc2822595a0db9cbe168d14003af02e4cfe68`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 229 |
+| DONE | 230 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 28 |
+| TODO | 27 |
 
 ## Graduation gates
 
@@ -162,7 +162,7 @@ Normalized ledger digest: `200b30d5adbc96d43d68ea75978584b4909934d593a731ef3b1c6
 | N4-01 | P1 | DONE | CONTRACT | `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-02-hierarchy-tests.xml` |
 | N4-02 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-02-hierarchical-compaction.json`, `research/results/n4-02-hierarchical-compaction.md`, `research/results/n4-02-hierarchy-tests.xml`, `research/results/n4-02-revision-compat-tests.xml` |
 | N4-03 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `experiments/n4_03_compaction_size.py`, `tests/test_compaction.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-03-compaction-size.json`, `research/results/n4-03-compaction-size.md`, `research/results/n4-03-compaction-tests.xml`, `research/results/n4-03-compaction-tests.txt` |
-| N4-04 | P1 | TODO | NOT_TESTED | — |
+| N4-04 | P1 | DONE | CONTRACT | `tests/test_compaction_contested_facts.py`, `experiments/n4_04_contested_compaction.py`, `research/results/n4-04-contested-compaction.json`, `research/results/n4-04-contested-compaction.md`, `research/results/n4-04-contested-tests.xml` |
 | N4-05 | P1 | TODO | NOT_TESTED | — |
 | N4-06 | P1 | TODO | NOT_TESTED | — |
 | N4-07 | P1 | TODO | NOT_TESTED | — |

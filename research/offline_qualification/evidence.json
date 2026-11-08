@@ -4010,6 +4010,24 @@
         "The local tiktoken package could not initialize cl100k_base because tokenizer data was not cached and network resolution was unavailable; the result labels token counts NOT_MEASURED. The API supports separately reported token counts only when a counter and explicit provenance are supplied.",
         "Token counts, when supplied, cover source memory contents and summary text only; provider wrappers, prompts, and tool schemas are excluded."
       ]
+    },
+    {
+      "task_id": "N4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_compaction_contested_facts.py",
+        "experiments/n4_04_contested_compaction.py",
+        "research/results/n4-04-contested-compaction.json",
+        "research/results/n4-04-contested-compaction.md",
+        "research/results/n4-04-contested-tests.xml"
+      ],
+      "limitations": [
+        "The 10:1 compaction cases exercise already exposable competing evidence by disabling write-time suspicion holding in the fixture; they do not assert either value is true.",
+        "With default suspicion holding, the minority remains a candidate in the review queue and is deliberately excluded from the active summary until reviewed.",
+        "Local in-memory contract evidence; no distributed or real-agent efficacy claim."
+      ]
     }
   ]
 }
