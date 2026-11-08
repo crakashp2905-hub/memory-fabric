@@ -350,6 +350,17 @@ scrape_configs:
 | `mf_refusals_total{reason}` | memories refused to an agent, by reason code |
 | `mf_withdrawals_total{to}` | memories quarantined, retired, disputed or erased |
 
+The dashboard's **Local service health** card exposes a separate `/api/slo`
+snapshot: completed HTTP response count; 4xx/5xx responses divided by that
+count; p50/p95/p99 handler latency in milliseconds; denied action decisions over
+all gate decisions; pending correction deliveries; and the age of the oldest
+pending correction in seconds. HTTP counters reset when the server process
+restarts. Latency percentiles use a bounded rolling sample of up to 10,000
+responses; the API reports its sample denominator. Blocked-action counts are
+cumulative, not a time-window rate. Correction age uses the peer's issued time,
+so clock skew affects it. Empty denominators produce `null` percentiles/rates,
+not a fabricated zero. This is a local operator dashboard, not an SLO guarantee.
+
 Counters are read incrementally from the log, so a scrape costs what changed
 since the last one. No label carries memory content, memory ids or agent ids.
 Metrics are store-wide and contain no tenant dimension: they are for the

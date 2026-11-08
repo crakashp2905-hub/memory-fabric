@@ -1,0 +1,40 @@
+{
+  "checks": {
+    "blocked_action_denominator": true,
+    "correction_queue_denominator": true,
+    "error_rate_denominator": true,
+    "http_request_denominator": true,
+    "latency_unit_and_denominator": true
+  },
+  "limitations": [
+    "Synthetic response codes and latency values; no production traffic observed.",
+    "Correction queue is empty in this fixture; pending-age calculation relies on peer issued_at."
+  ],
+  "observed": {
+    "actions": {
+      "blocked_total": 1,
+      "denominator": 1
+    },
+    "corrections": {
+      "lag_denominator": 0,
+      "oldest_pending_lag_seconds": null,
+      "pending_deliveries": 0
+    },
+    "http": {
+      "error_denominator": 4,
+      "error_rate": 0.5,
+      "error_responses_total": 2,
+      "latency_denominator": 4,
+      "latency_ms": {
+        "p50": 2.0,
+        "p95": 3.0,
+        "p99": 3.0
+      },
+      "latency_unit": "milliseconds",
+      "requests_total": 4
+    }
+  },
+  "passed": true,
+  "schema": "memory-fabric-slo-fixture/1",
+  "scope": "synthetic in-process fixture"
+}

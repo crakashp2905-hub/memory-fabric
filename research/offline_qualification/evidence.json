@@ -3136,6 +3136,25 @@
         "Mass retraction verifies 100 descendants in-memory; remote stores and distributed delivery are not exercised.",
         "Irrecoverable guidance describes verified-backup and key-loss boundaries, not a live recovery of customer data."
       ]
+    },
+    {
+      "task_id": "P3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_slo_dashboard.py",
+        "tools/slo_dashboard_smoke.py",
+        "research/results/p3-01-slo-dashboard.json",
+        "docs/OPERATIONS.md"
+      ],
+      "limitations": [
+        "Smoke report uses a synthetic in-process fixture and is not a production traffic measurement.",
+        "HTTP observations are process-local, reset on restart, and latency percentiles use a bounded rolling sample.",
+        "Blocked action counts are cumulative, and correction lag depends on peer-issued timestamps and clock accuracy."
+      ]
     }
   ]
 }

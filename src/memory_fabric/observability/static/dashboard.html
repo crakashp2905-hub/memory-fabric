@@ -469,6 +469,8 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       changed. This page only reads. Every change is a command it shows you, so nothing happens
       by a stray click.</div>
     <div id="hero"></div>
+    <section class="card" id="slo-dashboard"><h3>Local service health</h3>
+      <div class="sub">Loading request latency, errors, blocked actions, and correction queue…</div></section>
     <section class="card" id="withholding-metric"><h3>Valid evidence withheld</h3>
       <div class="sub">Loading frozen benchmark reference…</div></section>
     <ol class="guide" id="guide"></ol>
@@ -755,9 +757,26 @@ async function loadOverview() {
     `Values marked <span class="val-none">*</span> come from a non-contrastive estimator: ` +
     `they are the average outcome of episodes where a memory was exposed, not the difference ` +
     `it made, and cannot show that it helped.`;
+  loadSloDashboard().catch((err) => {
+    $("slo-dashboard").innerHTML = `<h3>Local service health</h3><div class="note">Unavailable: ${esc(err.message)}</div>`;
+  });
   loadWithholdingMetric().catch((err) => {
     $("withholding-metric").innerHTML = `<h3>Valid evidence withheld</h3><div class="note">Benchmark reference unavailable: ${esc(err.message)}</div>`;
   });
+}
+
+async function loadSloDashboard() {
+  const s = await api("/api/slo"), h = s.http, lat = h.latency_ms;
+  const show = (value) => value === null ? "not measured" : Number(value).toFixed(1);
+  const lag = s.corrections.oldest_pending_lag_seconds;
+  $("slo-dashboard").innerHTML = `<h3>Local service health</h3><div class="tiles">
+    <div class="tile" title="Completed HTTP responses since process start"><div class="n">${h.requests_total}</div><div class="k">HTTP requests</div></div>
+    <div class="tile" title="4xx and 5xx divided by all completed HTTP responses"><div class="n">${h.error_rate === null ? "not measured" : `${(100*h.error_rate).toFixed(1)}%`}</div><div class="k">Error rate (${h.error_responses_total}/${h.error_denominator})</div></div>
+    <div class="tile" title="Milliseconds; bounded rolling sample denominator ${h.latency_denominator}"><div class="n">${show(lat.p50)} / ${show(lat.p95)} / ${show(lat.p99)}</div><div class="k">Latency p50 / p95 / p99 ms</div></div>
+    <div class="tile" title="Cumulative denied action gate decisions"><div class="n">${s.actions.blocked_total}</div><div class="k">Blocked actions / ${s.actions.denominator}</div></div>
+    <div class="tile" title="Unsettled retraction deliveries in durable outbox"><div class="n">${s.corrections.pending_deliveries}</div><div class="k">Pending corrections</div></div>
+    <div class="tile" title="Age of oldest pending retraction using peer-issued timestamps"><div class="n">${lag === null ? "none" : `${Number(lag).toFixed(1)} s`}</div><div class="k">Oldest correction lag</div></div>
+    </div><div class="sub">Process-local cumulative HTTP counters; latency uses a bounded rolling sample. ${s.limitations.map(esc).join(" ")}</div>`;
 }
 
 async function loadWithholdingMetric() {
@@ -1975,6 +1994,7 @@ function toast(row) {
 async function livePoll() {
   if (document.hidden) return;
   try {
+    loadSloDashboard().catch(() => {});
     const o = await api("/api/overview");
     if (LIVE_SEQ === null) { LIVE_SEQ = o.events; $("live").classList.remove("off"); return; }
     if (o.events > LIVE_SEQ) {

@@ -22,6 +22,7 @@ import json
 import re
 import threading
 import time
+from collections import deque
 from dataclasses import is_dataclass
 from functools import partial
 from http import HTTPStatus
@@ -127,6 +128,68 @@ class Api:
         # dashboard and the agent API on one store must serialise across both.
         self._lock = fabric.lock
         self._metrics: Any = None
+        self._slo_lock = threading.Lock()
+        self._request_started = time.time()
+        self._request_count = 0
+        self._request_errors = 0
+        self._request_latencies_ms: deque[float] = deque(maxlen=10000)
+
+    def record_http_response(self, status: int, elapsed_ms: float) -> None:
+        """Record bounded process-local HTTP observations; no paths or identities."""
+        with self._slo_lock:
+            self._request_count += 1
+            self._request_errors += int(status >= 400)
+            self._request_latencies_ms.append(max(0.0, elapsed_ms))
+
+    def slo_snapshot(self) -> dict[str, Any]:
+        """Return explicit cumulative denominators and store queue gauges."""
+        with self._lock:
+            self.fabric.refresh()
+            from .metrics import StoreMetrics
+            if self._metrics is None:
+                self._metrics = StoreMetrics()
+            self._metrics.render(self.fabric)
+            pending = self.fabric.outbox.pending()
+            now = time.time()
+            oldest_lag_seconds = None
+            if pending:
+                import datetime
+                issued = min(row.retraction.issued_at for row in pending)
+                try:
+                    timestamp = datetime.datetime.fromisoformat(issued.replace("Z", "+00:00"))
+                    oldest_lag_seconds = max(0.0, now - timestamp.timestamp())
+                except (ValueError, TypeError):
+                    oldest_lag_seconds = None
+            with self._slo_lock:
+                samples = sorted(self._request_latencies_ms)
+                count, errors = self._request_count, self._request_errors
+                started = self._request_started
+            def percentile(p: float) -> float | None:
+                if not samples:
+                    return None
+                return round(samples[min(len(samples) - 1, int((len(samples) - 1) * p))], 3)
+            blocked = sum(n for (tool, allowed), n in
+                          (self._metrics.actions.items() if self._metrics else ())
+                          if allowed == "false")
+            return {
+                "schema": "memory-fabric-slo-snapshot/1",
+                "window": {"kind": "process_lifetime_bounded_latency_sample", "started_at_unix_seconds": started,
+                           "latency_sample_capacity": 10000, "latency_sample_count": len(samples)},
+                "http": {"requests_total": count, "error_responses_total": errors,
+                         "error_rate": (errors / count if count else None),
+                         "error_denominator": count, "latency_unit": "milliseconds",
+                         "latency_ms": {"p50": percentile(.50), "p95": percentile(.95),
+                                        "p99": percentile(.99)},
+                         "latency_denominator": len(samples)},
+                "actions": {"blocked_total": blocked, "denominator": sum(self._metrics.actions.values())
+                            if self._metrics else 0},
+                "corrections": {"pending_deliveries": len(pending),
+                                "oldest_pending_lag_seconds": oldest_lag_seconds,
+                                "lag_denominator": len(pending)},
+                "limitations": ["HTTP observations reset on process restart and use a bounded rolling latency sample.",
+                                "Blocked actions are cumulative gate decisions, not a time-window rate.",
+                                "Correction lag uses peer-issued timestamps and depends on peer clock accuracy."],
+            }
 
     def metrics_text(self) -> str:
         """Prometheus exposition for this store (`metrics.py`), behind the same auth."""
@@ -161,6 +224,8 @@ class Api:
         f = self.fabric
 
         match rest:
+            case ["slo"]:
+                return self.slo_snapshot()
             case ["overview"]:
                 return report.overview(f).to_json()
 
@@ -495,6 +560,7 @@ class Handler(BaseHTTPRequestHandler):
         self.quiet = quiet
         self.access_log = access_log
         self.operator: str | None = None
+        self._request_started_perf = time.perf_counter()
         super().__init__(*args, **kwargs)
 
     # Only GET and HEAD exist. Anything else is refused explicitly.
@@ -513,6 +579,7 @@ class Handler(BaseHTTPRequestHandler):
         intermittent dropped connection rather than a clean refusal. Draining
         first, and closing after, keeps the refusal well-formed.
         """
+        self._request_started_perf = time.perf_counter()
         try:
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
@@ -530,6 +597,7 @@ class Handler(BaseHTTPRequestHandler):
     do_POST = do_PUT = do_PATCH = do_DELETE = do_OPTIONS = _refuse_write  # noqa: N815
 
     def _serve(self, body: bool) -> None:
+        self._request_started_perf = time.perf_counter()
         # Authenticate before routing, so an unauthenticated caller cannot learn
         # which paths exist from the difference between 404 and 401.
         outcome = self.authenticator.authenticate(self.path, self.headers)
@@ -631,6 +699,9 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         if body:
             self.wfile.write(payload)
+        self.api.record_http_response(
+            int(status), (time.perf_counter() - self._request_started_perf) * 1000.0
+        )
 
     def log_message(self, format: str, *args: Any) -> None:
         """Log with the bootstrap token removed.

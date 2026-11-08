@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c84c4a85ca62f034bc42526adce06d2be3434c5f903f6c351954c4e70e632c96",
+    "sha256": "8dd2d572cdfd289e73917936d1358e0078282c67bea425d5bb2734e5e964f4dc",
     "tasks": 260
   },
   "source": {
-    "commit": "c838f7b4bd42ef5992c2dc5fd9896579dafe851a",
+    "commit": "4dd9764b2c561d8031897d99c2b65fce9ce226e6",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 184,
+      "DONE": 185,
       "PARTIAL": 4,
-      "TODO": 72
+      "TODO": 71
     },
-    "completed": 184,
+    "completed": 185,
     "total": 260,
-    "percent_complete": 70.77,
+    "percent_complete": 71.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -979,7 +979,7 @@
       ],
       "evidence_digests": {
         "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
-        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
         "tests/test_eventlog.py": "f366f35071b8607b128a9ad1bee62f9ffc43200b255efff90286ad615d76c2b0",
         "research/results/e4-05-sqlite-qualification.json": "5060cb447351caab6327c8fe2cac819e5b4c507a1ee71b01a3bd610a611bafc0",
@@ -1080,7 +1080,7 @@
         "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
         "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
         "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
-        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "research/results/e4-08-federation-faults.json": "3a6c256144eff225b556db47faee5f5d44f06156b37f18f0daaa3000bf83e95c",
         "research/results/e4-08-federation-faults.xml": "8f1018300a3bffe91e1c89ad583c160edf4edfd316f4f72fb21eaade970196a1"
       },
@@ -4286,7 +4286,7 @@
         "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
         "tests/test_metrics.py": "16901281bdbbf636015cf633c3b71abd5ed9579ab3d32d16db91deeead27cae9",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
-        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "research/results/h3-09-sparse-metrics.json": "8dc279f61acd2aa3f8d75e9aa37130f642ba8a2ab057c7396a7cce15fdce03a5",
         "research/results/h3-09-sparse-metrics-tests.xml": "aff94fbefe988212d14ae4116b389fe434a7e448f7b4f08c7457494b33c9aba6"
       },
@@ -5070,7 +5070,7 @@
         "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
-        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
         "research/results/p1-05-setup-doctor.json": "641f79fc3670316396b85e410e0188c906f7361bd8d2d82d45ce578902724353",
         "research/results/p1-05-setup-doctor.txt": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3"
@@ -5252,7 +5252,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
@@ -5281,8 +5281,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
@@ -5310,7 +5310,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
@@ -5338,7 +5338,7 @@
         "research/results/p2-04-correction-preview.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
@@ -5369,8 +5369,8 @@
         "research/results/p2-05-withholding-scorecard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "a3b3b55adab8a790718867d7cfbda7c26acc8c8974d67735d6bd5300a85d39aa",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
@@ -5405,8 +5405,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
@@ -5435,7 +5435,7 @@
         "research/results/p2-07-accessibility.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "research/results/p2-07-accessibility.json": "195d6a387db22519bc0e291c7a16838dc009561bab730ad345246cbc1df34298",
         "research/results/p2-07-accessibility.txt": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
@@ -5466,8 +5466,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/report.py": "864aaaceaf628ab23cdf63469337ae0930a4354e8022e99af3b5f4a18a30defc",
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
@@ -5497,8 +5497,8 @@
         "research/results/p2-09-read-only-dashboard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
         "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-09-read-only-dashboard.json": "ec570b721898c1eca0fac1881a00656ab1fad22e2e5dcabc3d0119c98f074b94",
@@ -5528,8 +5528,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/incident_export.py": "c64bc7739a88f402aff776ab17dbe53454384313642cb49107b519fe719d0c48",
-        "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
-        "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "research/results/p2-10-incident-export.json": "f571c21bd388daf884a6d934c5d7d428ac3e839b8cc2f15cb8860508ace0f510",
@@ -5545,14 +5545,32 @@
       "task_id": "P3-01",
       "priority": "P1",
       "task": "Create SLO dashboard for local latency, error rate, blocked actions, queue depth and correction lag.",
-      "acceptance": "Metrics have explicit denominators, units and test fixtures",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Metrics have explicit denominators, units and test fixtures. Evidence: `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_slo_dashboard.py`, `tools/slo_dashboard_smoke.py`, `research/results/p3-01-slo-dashboard.json`, `docs/OPERATIONS.md` (DONE: dashboard reports HTTP error ratio, p50/p95/p99 in milliseconds, denied action count, pending deliveries and oldest delivery age with denominators and clock/process limitations. Synthetic fixture and 3 focused tests pass.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_slo_dashboard.py",
+        "tools/slo_dashboard_smoke.py",
+        "research/results/p3-01-slo-dashboard.json",
+        "docs/OPERATIONS.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/server.py": "45d5098ae401c40a2005d35a902058e7ac91e9abde175388bb4a605225fd502e",
+        "src/memory_fabric/observability/static/dashboard.html": "7c8a2c596d848d7f6cd8f977a10d75307a2aa284a98c5d829873b2fd8cfeffac",
+        "tests/test_slo_dashboard.py": "10093fb7b50145f8dd87b7452b776e2ecad130d33c52633062e7228fc6b10323",
+        "tools/slo_dashboard_smoke.py": "b47b623feee314ebe3d7992af5dfcc9a029745c4a5061f03419339bbd9c2ffcb",
+        "research/results/p3-01-slo-dashboard.json": "eebd2c652b6bc6a6ea947c684e77721cba0c2c5b6f6f5737263d3a7867e1986f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Smoke report uses a synthetic in-process fixture and is not a production traffic measurement.",
+        "HTTP observations are process-local, reset on restart, and latency percentiles use a bounded rolling sample.",
+        "Blocked action counts are cumulative, and correction lag depends on peer-issued timestamps and clock accuracy."
+      ]
     },
     {
       "task_id": "P3-02",
@@ -5655,7 +5673,7 @@
       ],
       "evidence_digests": {
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
-        "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+        "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
         "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
         "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
