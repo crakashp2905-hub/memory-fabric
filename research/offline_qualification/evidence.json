@@ -1485,6 +1485,22 @@
       ]
     },
     {
+      "task_id": "H3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tenancy.py",
+        "tests/test_tenancy.py",
+        "tests/test_backup_custody.py",
+        "research/results/h3-03-physical-tenancy.json",
+        "research/results/h3-03-physical-tenancy-tests.xml"
+      ],
+      "limitations": [
+        "Backup destinations are explicit local filesystem paths supplied by the operator; remote backup isolation and external key custody are deployment responsibilities."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,
