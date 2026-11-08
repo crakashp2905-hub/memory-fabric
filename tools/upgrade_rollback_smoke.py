@@ -1,8 +1,4 @@
-"""Exercise a read-only package upgrade and rollback against a persistent store.
-
-This drill intentionally does not write new events after upgrade, so rollback
-tests whether the installed baseline can still read the upgraded store state.
-"""
+"""Exercise package upgrade and rollback against a persistent store."""
 from __future__ import annotations
 
 import argparse
@@ -42,7 +38,7 @@ import json, sys
 from memory_fabric import MemoryFabric
 expected = json.loads(sys.argv[2])
 fabric = MemoryFabric(sys.argv[1])
-corrected, withdrawn = expected["ids"]
+corrected, withdrawn = expected["ids"][:2]
 events = list(fabric.log.read())
 chain = fabric.log.chain.verify(events)
 head_seq, head_digest = fabric.log.chain.head()
@@ -51,12 +47,39 @@ actual = {"event_count": len(events), "chain_ok": chain.ok,
           "corrected_version": fabric.get(corrected).version,
           "corrected_content": fabric.get(corrected).content,
           "withdrawn_state": fabric.get(withdrawn).lifecycle_state.value}
+if len(expected["ids"]) > 2:
+    actual["added_state"] = fabric.get(expected["ids"][2]).lifecycle_state.value
 assert actual["event_count"] == expected["event_count"], actual
 assert actual["chain_head"] == expected["chain_head"] and actual["chain_ok"], actual
-assert actual["corrected_version"] == 2, actual
-assert actual["corrected_content"] == "Pump P1 purge is 30 seconds.", actual
-assert actual["withdrawn_state"] == "quarantined", actual
+assert actual["corrected_version"] == expected.get("corrected_version", 2), actual
+assert actual["corrected_content"] == expected.get("corrected_content", "Pump P1 purge is 30 seconds."), actual
+assert actual["withdrawn_state"] == expected.get("withdrawn_state", "quarantined"), actual
+if "added_state" in expected:
+    assert actual["added_state"] == expected["added_state"], actual
 print(json.dumps(actual))
+fabric.close()
+'''
+
+POST_UPGRADE_WRITE = r'''
+import json, sys
+from memory_fabric import MemoryFabric
+fabric = MemoryFabric(sys.argv[1])
+expected = json.loads(sys.argv[2])
+corrected, withdrawn = expected["ids"]
+fabric.revise(corrected, "Pump P1 purge is 45 seconds.", agent_id="upgrade-agent",
+              reason="post-upgrade correction")
+added = fabric.remember("upgrade-agent", "Pump P3 purge is 20 seconds.")
+fabric.validate(added, actor="reviewer")
+events = list(fabric.log.read())
+chain = fabric.log.chain.verify(events)
+head_seq, head_digest = fabric.log.chain.head()
+updated = {"ids": [corrected, withdrawn, added], "event_count": len(events),
+           "chain_ok": chain.ok, "chain_head": [head_seq, head_digest],
+           "corrected_version": fabric.get(corrected).version,
+           "corrected_content": fabric.get(corrected).content,
+           "withdrawn_state": fabric.get(withdrawn).lifecycle_state.value,
+           "added_state": fabric.get(added).lifecycle_state.value}
+print(json.dumps(updated))
 fabric.close()
 '''
 
@@ -88,8 +111,10 @@ def main() -> int:
     env["TMPDIR"] = str(scratch)
     db = scratch / "persistent.db"
     seed_script, verify_script = scratch / "seed.py", scratch / "verify.py"
+    post_upgrade_script = scratch / "post_upgrade_write.py"
     seed_script.write_text(SEED, encoding="utf-8")
     verify_script.write_text(VERIFY, encoding="utf-8")
+    post_upgrade_script.write_text(POST_UPGRADE_WRITE, encoding="utf-8")
     baseline = args.baseline_wheel.resolve()
     candidate = args.candidate_wheel.resolve()
     run([str(python), "-m", "pip", "install", "--no-deps", str(baseline)], cwd=scratch, env=env)
@@ -102,11 +127,15 @@ def main() -> int:
                         cwd=scratch, env=env)
     upgrade_state = json.loads(run([str(python), str(verify_script), str(db), json.dumps(seed)],
                                    cwd=scratch, env=env))
+    post_upgrade = json.loads(run([str(python), str(post_upgrade_script), str(db), json.dumps(seed)],
+                                  cwd=scratch, env=env))
+    post_upgrade_state = json.loads(run([str(python), str(verify_script), str(db),
+                                         json.dumps(post_upgrade)], cwd=scratch, env=env))
     run([str(python), "-m", "pip", "install", "--no-deps", "--force-reinstall", str(baseline)],
         cwd=scratch, env=env)
     rollback_meta = run([str(python), "-c", "import memory_fabric; print(memory_fabric.__version__)"],
                         cwd=scratch, env=env)
-    rollback_state = json.loads(run([str(python), str(verify_script), str(db), json.dumps(seed)],
+    rollback_state = json.loads(run([str(python), str(verify_script), str(db), json.dumps(post_upgrade)],
                                     cwd=scratch, env=env))
     report: dict[str, Any] = {
         "schema": "mf-upgrade-rollback-smoke/1",
@@ -122,13 +151,14 @@ def main() -> int:
         "versions": {"baseline": baseline_meta, "upgraded": upgraded_meta, "rolled_back": rollback_meta},
         "baseline_seed": seed,
         "upgrade_readback": upgrade_state,
+        "post_upgrade_write": post_upgrade,
+        "post_upgrade_readback": post_upgrade_state,
         "rollback_readback": rollback_state,
         "upgrade_passed": upgraded_meta != baseline_meta and upgrade_state["chain_ok"],
-        "rollback_passed": rollback_meta == baseline_meta and rollback_state == upgrade_state,
+        "rollback_passed": rollback_meta == baseline_meta and rollback_state == post_upgrade_state,
         "scope_limitations": [
-            "This drill performs no writes after upgrade; rollback with newer-schema writes is not tested.",
             "The v0.11.0 baseline uses host-configured ActionPolicy grants, not durable grant events. Grant persistence across package upgrade cannot be demonstrated from this baseline.",
-            "Only correction, quarantine/tombstone, event-chain and content readback are asserted."
+            "Post-upgrade writes exercise correction, append, validation, quarantine/tombstone, event-chain and content readback; they do not exercise every event type or external side effect."
         ],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
