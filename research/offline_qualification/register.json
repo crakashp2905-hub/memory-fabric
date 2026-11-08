@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "7934acf702f9378c8f1fa291a1cb0719a905e06357910f3fa8b4f2062b962011",
+    "sha256": "f44b559b980c9b30bb17eb20f4ae1475889b47ecf7e40d6a2c8a5bc765b238b7",
     "tasks": 260
   },
   "source": {
-    "commit": "75c09239d3f0310bb3aee236880e4bd81be807f1",
+    "commit": "8d53ecee77ec73d88f65afba1ce7144d4cbb8038",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 139,
-      "PARTIAL": 5,
+      "DONE": 140,
+      "PARTIAL": 4,
       "TODO": 116
     },
-    "completed": 139,
+    "completed": 140,
     "total": 260,
-    "percent_complete": 53.46,
-    "p0_open": 2,
+    "percent_complete": 53.85,
+    "p0_open": 1,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -608,7 +608,7 @@
       ],
       "evidence_digests": {
         "research/results/longmemeval.md": "e177e281cc501411dc5604a4c6f2e230d371ce5ced0f382b2fbdbf11c54d112d",
-        "experiments/longmemeval_bench.py": "ed3f31ad3698384ac7623a9d9630a68b6e9b19bd20f7ad933afdbfe227033033",
+        "experiments/longmemeval_bench.py": "587b34f0c279a500e2d45bc08a7a74712b10a7076dc92067635823be5c0bb6df",
         "docs/RETRIEVAL_BASELINE_QUALIFICATION.md": "1ab9fc03e457b5387167b22ecf644e7a383b82bdf166dac071c88cc8043f5d51",
         "tests/test_retrieval_baseline_contract.py": "57c014b8ea3566f95d3a7d1d264ee772aece304fa383434de1f0e185df249478"
       },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "f5ec5bdefa9337b859308c305e934a1b9acc26f706b13b49c9e2e2e096b2036e",
+        "research/results/MANIFEST.json": "f7a9a066db1c0091f15c5e9efa6c7a6f24f191701ec2ceb4766dac2b61a8213c",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1562,24 +1562,38 @@
       "priority": "P0",
       "task": "Include a broken retrieval arm, random evidence arm and permissive authorization arm.",
       "acceptance": "Every suite detects at least one known failure; broken controls cannot match a sensible oracle",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/offline_research.py",
+        "experiments/external_bench.py",
+        "experiments/longmemeval_bench.py",
+        "tools/r1_control_coverage.py",
         "tests/test_offline_research.py",
+        "tests/test_r1_control_coverage.py",
+        "tests/test_r1_external_negative_controls.py",
+        "tests/test_r1_known_failure_controls.py",
+        "research/results/r1-05-suite-control-coverage.json",
         "research/results/r1-offline-synthetic.json",
         "research/results/r1-offline-synthetic-tests.xml"
       ],
       "evidence_digests": {
         "benchmarks/offline_research.py": "2597e98d82c096bccf2d3624ce1ff1125d4d43cb456fdd6557583b4945c3da64",
+        "experiments/external_bench.py": "f5496791cc58a0ee1bd6f38387b6f383d178ca46bf1be383155a0556d644def1",
+        "experiments/longmemeval_bench.py": "587b34f0c279a500e2d45bc08a7a74712b10a7076dc92067635823be5c0bb6df",
+        "tools/r1_control_coverage.py": "88d4cfa46b89309311b959254d3b5130b538a4fe5377393dea5effaf52177990",
         "tests/test_offline_research.py": "1acf5d267869139d4f6bba9ea01938aaed58ecbab62f74e2c98b405908d7f2f9",
+        "tests/test_r1_control_coverage.py": "ba620d0544d2be8cfaae7e5b1969f80074e691ac18f33959e3237d156ee91c43",
+        "tests/test_r1_external_negative_controls.py": "04789dc54a3a2120f491a1c9e029f6b330ac401f1ffceb3936ee58a4630fc332",
+        "tests/test_r1_known_failure_controls.py": "bc491f695ad945737424f51b8e33ef8a0c925dbdf6911b8854fa34fa12488613",
+        "research/results/r1-05-suite-control-coverage.json": "e3e3510f069a679dd61cb7a8a615bc2f9fa3b525f69e3f3ab79d54265246b47c",
         "research/results/r1-offline-synthetic.json": "1c4389aa34ea8445da54c7fc40899939cf993b83cfc2e060d8f4c91a491a9179",
         "research/results/r1-offline-synthetic-tests.xml": "912f634a883be0c3426366c1baea4a0637ac250809c95fcad148db6a8fdc261a"
       },
       "evidence_issues": {},
       "limitations": [
-        "Broken retrieval, random evidence, and permissive authorization controls detect planted failures on the new 40-case synthetic suite. The control arms have not yet been wired into and verified against every registered benchmark suite."
+        "The three shared negative controls are evaluated on the preregistered 40-case synthetic families. All 11 RUN suites have an individually passing known-failure regression, but the external PUB-11/PUB-14 negative-control checks use small synthetic fixtures and the shared controls are not applicable to every suite."
       ]
     },
     {

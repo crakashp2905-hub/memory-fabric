@@ -1881,17 +1881,26 @@
     },
     {
       "task_id": "R1-05",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/offline_research.py",
+        "experiments/external_bench.py",
+        "experiments/longmemeval_bench.py",
+        "tools/r1_control_coverage.py",
         "tests/test_offline_research.py",
+        "tests/test_r1_control_coverage.py",
+        "tests/test_r1_external_negative_controls.py",
+        "tests/test_r1_known_failure_controls.py",
+        "research/results/r1-05-suite-control-coverage.json",
+        "research/results/r1-05-full-unit-tests.json",
+        "research/results/r1-05-full-unit-tests.txt",
         "research/results/r1-offline-synthetic.json",
         "research/results/r1-offline-synthetic-tests.xml"
       ],
       "limitations": [
-        "Broken retrieval, random evidence, and permissive authorization controls detect planted failures on the new 40-case synthetic suite. The control arms have not yet been wired into and verified against every registered benchmark suite."
+        "The three shared negative controls are evaluated on the preregistered 40-case synthetic families. All 11 RUN suites have an individually passing known-failure regression, but the external PUB-11/PUB-14 negative-control checks use small synthetic fixtures and the shared controls are not applicable to every suite."
       ]
     },
     {

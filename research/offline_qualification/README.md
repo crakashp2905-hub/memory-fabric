@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **139 / 260 (53.46%)**. Internal status: **BLOCKED**.
+Strict completion: **140 / 260 (53.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6558c3d3522bc0587320c62f13e124b01477a26ede7f0db1933ce33d25e3edd2`.
+Normalized ledger digest: `7b79c54fb31cbc4a59e4cb17c73fab9d6d4f5f1f096fc42e0e98d7c682437134`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 139 |
+| DONE | 140 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 5 |
+| PARTIAL | 4 |
 | TODO | 116 |
 
 ## Graduation gates
@@ -83,7 +83,7 @@ Normalized ledger digest: `6558c3d3522bc0587320c62f13e124b01477a26ede7f0db1933ce
 | R1-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/results_manifest.py`, `benchmarks/scoreboard.py`, `tests/test_status_at_head.py`, `tests/test_benchmarks.py`, `research/results/MANIFEST.json`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/r1-population-separation-tests.xml` |
 | R1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic-tests.xml` |
-| R1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
+| R1-05 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `experiments/external_bench.py`, `experiments/longmemeval_bench.py`, `tools/r1_control_coverage.py`, `tests/test_offline_research.py`, `tests/test_r1_control_coverage.py`, `tests/test_r1_external_negative_controls.py`, `tests/test_r1_known_failure_controls.py`, `research/results/r1-05-suite-control-coverage.json`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-06 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-07 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
 | R1-08 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |

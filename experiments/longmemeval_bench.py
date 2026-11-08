@@ -47,6 +47,7 @@ import json
 import os
 import pathlib
 import platform
+import random
 import re
 import statistics
 import subprocess
@@ -245,7 +246,8 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
                      "hybrid_replace": "hybrid",
                      "lexical_tiebreak": "lexical",
                      "lexical_replace": "lexical",
-                     "oracle": "lexical"}[arm]
+                     "oracle": "lexical", "broken_retrieval": "lexical",
+                     "random_evidence": "lexical"}[arm]
         kwargs: dict[str, Any] = {}
         if arm.endswith("_tiebreak"):
             kwargs["rerank"] = "tiebreak"
@@ -299,6 +301,11 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
                     mid for mid, (sid, pos) in mapping.items()
                     if (sid, pos) in gold_turns
                 ][:k]
+            elif arm == "broken_retrieval":
+                returned = []
+            elif arm == "random_evidence":
+                rng = random.Random(f"longmemeval-random-v1:{instance['question_id']}")
+                returned = rng.sample(sorted(mapping), min(max(k, 0), len(mapping)))
             elif arm == "chain":
                 chain = fabric.reconstruct(
                     agent_id="lme", query=instance["question"], k=k, **bounds)
@@ -335,6 +342,7 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
 ARMS = ("lexical", "vector", "hybrid", "hybrid_tiebreak", "hybrid_replace",
         "lexical_tiebreak", "lexical_replace", "chain", "real_vector",
         "real_hybrid", "oracle")
+CONTROL_ARMS = ("broken_retrieval", "random_evidence")
 
 
 def real_embedder():

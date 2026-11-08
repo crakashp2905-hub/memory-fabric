@@ -32,10 +32,11 @@ import argparse
 import json
 import math
 import pathlib
+import random
 import sys
 import urllib.request
 from dataclasses import dataclass
-from typing import Any, Callable, Iterable, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
@@ -272,6 +273,24 @@ def arm_oracle(dataset: Dataset, k: int):
     return run
 
 
+def arm_broken_retrieval(dataset: Dataset, k: int):
+    """Negative control: a retriever that returns no evidence at all."""
+    del dataset, k
+    return lambda _query: []
+
+
+def arm_random_evidence(dataset: Dataset, k: int):
+    """Negative control: deterministic random corpus documents, independent of query."""
+    corpus_ids = sorted(dataset.corpus)
+
+    def run(query: str):
+        rng = random.Random(f"scifact-random-v1:{query}")
+        count = min(max(k, 0), len(corpus_ids))
+        return rng.sample(corpus_ids, count)
+
+    return run
+
+
 ARMS: dict[str, Callable[[Dataset, int], Any]] = {
     "lexical": arm_lexical,
     "hashing_vector": arm_hashing_vector,
@@ -280,6 +299,8 @@ ARMS: dict[str, Callable[[Dataset, int], Any]] = {
     "hashing_hybrid_replace": arm_hashing_hybrid_replace,
     "real_vector": arm_real_vector,
     "real_hybrid": arm_real_hybrid,
+    "broken_retrieval": arm_broken_retrieval,
+    "random_evidence": arm_random_evidence,
 }
 BY_QUERY_ID = {"oracle"}
 CEILING = "oracle"
