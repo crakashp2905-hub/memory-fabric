@@ -118,6 +118,7 @@ IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
 REQUIREMENT_EVIDENCE_MISSING = "requirement_evidence_missing"
 REQUIREMENT_EXPLANATION_LIMIT = "requirement_explanation_limit"
 CLAIM_EVIDENCE_NOT_SUPPORTING = "claim_evidence_not_supporting"
+CLAIM_EVIDENCE_DISPUTED = "claim_evidence_disputed"
 MAX_GRANT_TTL_S = 300
 
 # Execution outcomes (`execute`).
@@ -133,6 +134,50 @@ like `timed_out`: the side effect may or may not have happened."""
 MAX_LEASE_S = 4.0
 """Below the store's default 5 s busy timeout, so a writer in another process
 waiting on the fence gets in before it gives up."""
+
+
+@dataclass(frozen=True)
+class ClaimValueEvidence:
+    """One observed structured value and its independent evidence roots."""
+
+    value: str | int | float | bool
+    supports_policy: bool
+    evidence_ids: tuple[str, ...]
+    source_roots: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class ClaimDispute:
+    """All evidence alternatives that disagree about a required proposition."""
+
+    claim_id: str
+    subject: str
+    predicate: str
+    unit: str | None
+    alternatives: tuple[ClaimValueEvidence, ...]
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "claim_id": self.claim_id,
+            "subject": self.subject,
+            "predicate": self.predicate,
+            "unit": self.unit,
+            "alternatives": [asdict(item) for item in self.alternatives],
+        }
+
+    def to_audit_json(self) -> dict[str, Any]:
+        """Audit-safe detail: references and sides, not structured values."""
+        return {
+            "claim_id": self.claim_id,
+            "subject": self.subject,
+            "predicate": self.predicate,
+            "unit": self.unit,
+            "alternatives": [{
+                "supports_policy": item.supports_policy,
+                "evidence_ids": list(item.evidence_ids),
+                "source_roots": list(item.source_roots),
+            } for item in self.alternatives],
+        }
 
 
 @dataclass(frozen=True)
@@ -167,9 +212,9 @@ class ClaimPredicate:
         ):
             raise ValueError("ordered claim predicates require a numeric policy value")
 
-    def supports(self, fabric: Any, certificate: EvidenceCertificate,
-                 min_independent_sources: int) -> bool:
-        roots: set[str] = set()
+    def assess(self, fabric: Any, certificate: EvidenceCertificate, claim_id: str,
+               min_independent_sources: int) -> tuple[bool, ClaimDispute | None]:
+        observations: dict[str, dict[str, Any]] = {}
         for evidence in certificate.supporting:
             memory = fabric.state.memories.get(evidence.memory_id)
             if memory is None or memory.version != evidence.version or not memory.structured:
@@ -177,12 +222,51 @@ class ClaimPredicate:
             raw_claims = memory.structured.get("claims", ())
             if not isinstance(raw_claims, (list, tuple)):
                 continue
-            if any(self._matches(item) for item in raw_claims):
+            try:
+                source_root = fabric.source_root(memory.id)
+            except Exception:
+                return False, None
+            for item in raw_claims:
+                if not isinstance(item, Mapping) or (
+                    item.get("subject"), item.get("predicate"), item.get("unit")
+                ) != (self.subject, self.predicate, self.unit):
+                    continue
+                value = item.get("value")
+                if not isinstance(value, (str, int, float, bool)):
+                    continue
                 try:
-                    roots.add(fabric.source_root(memory.id))
-                except Exception:
-                    return False
-        return len(roots) >= min_independent_sources
+                    value_key = json.dumps(value, sort_keys=True, allow_nan=False)
+                except (TypeError, ValueError):
+                    continue
+                row = observations.setdefault(value_key, {
+                    "value": value, "supports": self._matches(item), "evidence_ids": set(),
+                    "source_roots": set(),
+                })
+                row["evidence_ids"].add(memory.id)
+                row["source_roots"].add(source_root)
+
+        supporting_roots = set().union(*(
+            row["source_roots"] for row in observations.values() if row["supports"]
+        )) if observations else set()
+        supporting_values = [row for row in observations.values() if row["supports"]]
+        opposing_values = [row for row in observations.values() if not row["supports"]]
+        independent_disagreement = any(
+            left_root != right_root
+            for left in supporting_values for right in opposing_values
+            for left_root in left["source_roots"] for right_root in right["source_roots"]
+        )
+        if independent_disagreement:
+            alternatives = tuple(
+                ClaimValueEvidence(
+                    value=row["value"], supports_policy=row["supports"],
+                    evidence_ids=tuple(sorted(row["evidence_ids"])),
+                    source_roots=tuple(sorted(row["source_roots"])),
+                )
+                for _, row in sorted(observations.items())
+            )
+            return False, ClaimDispute(claim_id, self.subject, self.predicate,
+                                        self.unit, alternatives)
+        return len(supporting_roots) >= min_independent_sources, None
 
     def _matches(self, item: Any) -> bool:
         if not isinstance(item, Mapping):
@@ -192,6 +276,8 @@ class ClaimPredicate:
         ):
             return False
         actual = item.get("value")
+        if not isinstance(actual, (str, int, float, bool)):
+            return False
         if isinstance(actual, float) and not math.isfinite(actual):
             return False
         if self.operator not in {"==", "!="}:
@@ -374,6 +460,7 @@ class ActionDecision:
     verification: CertificateVerification | None = None
     notes: tuple[str, ...] = field(default_factory=tuple)
     missing_evidence_sets: tuple[tuple[str, ...], ...] = ()
+    disputed_claims: tuple[ClaimDispute, ...] = ()
 
     @property
     def reason_code(self) -> str:
@@ -486,20 +573,24 @@ class ActionGate:
                         None, rule, tenant_id=tenant_id)
                 return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), None, rule,
                                     tenant_id=tenant_id, missing_evidence_sets=missing)
-            satisfied, verification, used, satisfied_atoms = self._evaluate_requirement_graph(
+            satisfied, verification, used, satisfied_atoms, disputes = self._evaluate_requirement_graph(
                 rule.requirement_graph, rule_certificates, rule, agent_id, tenant_id)
             if not satisfied:
+                reasons = ((CLAIM_EVIDENCE_DISPUTED, REQUIREMENT_EVIDENCE_MISSING)
+                           if disputes else (REQUIREMENT_EVIDENCE_MISSING,))
                 try:
                     missing = minimal_missing_evidence_sets(rule.requirement_graph, satisfied_atoms)
                 except RequirementGraphError:
                     return self._decide(
                         tool, agent_id,
-                        (REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT),
+                        (*reasons, REQUIREMENT_EXPLANATION_LIMIT),
                         verification, rule, tenant_id=tenant_id,
-                        claim_certificates=rule_certificates)
-                return self._decide(tool, agent_id, (REQUIREMENT_EVIDENCE_MISSING,), verification,
+                        claim_certificates=rule_certificates,
+                        disputed_claims=tuple(disputes.values()))
+                return self._decide(tool, agent_id, reasons, verification,
                                     rule, tenant_id=tenant_id, claim_certificates=rule_certificates,
-                                    missing_evidence_sets=missing)
+                                    missing_evidence_sets=missing,
+                                    disputed_claims=tuple(disputes.values()))
             selected = {claim_id: rule_certificates[claim_id] for claim_id in used}
             primary = next(iter(selected.values())) if selected else None
             # Bind every submitted alternative consistently for approvals,
@@ -601,15 +692,17 @@ class ActionGate:
     def _evaluate_requirement_graph(
         self, graph: RequirementGraph, certificates: Mapping[str, EvidenceCertificate],
         rule: ToolRule, agent_id: str, tenant_id: str | None,
-    ) -> tuple[bool, CertificateVerification | None, set[str], set[str]]:
-        cache: dict[tuple[str, int], tuple[bool, CertificateVerification | None]] = {}
+    ) -> tuple[bool, CertificateVerification | None, set[str], set[str], dict[str, ClaimDispute]]:
+        cache: dict[tuple[str, int], tuple[bool, CertificateVerification | None,
+                                            ClaimDispute | None]] = {}
 
         def verify_claim(claim_id: str, min_sources: int = 1):
             cert = certificates.get(claim_id)
             if cert is None:
-                return False, None
+                return False, None, None
             key = (claim_id, min_sources)
             if key not in cache:
+                dispute = None
                 strengthened = replace(
                     cert,
                     required_checks=tuple(dict.fromkeys([*cert.required_checks, *rule.required_checks])),
@@ -626,12 +719,16 @@ class ActionGate:
                         predicate = rule.claim_predicates.get(claim_id)
                         required_sources = max(cert.min_independent_sources,
                                                rule.min_independent_sources, min_sources)
-                        if predicate is None or not predicate.supports(
-                            self.fabric, cert, required_sources
-                        ):
+                        supported, dispute = predicate.assess(
+                            self.fabric, cert, claim_id, required_sources
+                        ) if predicate is not None else (False, None)
+                        if dispute is not None:
+                            result = replace(result, ok=False,
+                                             reason_codes=(CLAIM_EVIDENCE_DISPUTED,))
+                        elif not supported:
                             result = replace(result, ok=False,
                                              reason_codes=(CLAIM_EVIDENCE_NOT_SUPPORTING,))
-                cache[key] = (result.ok, result)
+                cache[key] = (result.ok, result, dispute)
             return cache[key]
 
         def visit(node, active: frozenset[str] = frozenset(),
@@ -650,18 +747,20 @@ class ActionGate:
                            for anchor, age in temporal if anchor == "action_time")
 
             if isinstance(node, ClaimRequirement):
-                ok, result = verify_claim(node.claim_id)
+                ok, result, dispute = verify_claim(node.claim_id)
                 ok = ok and within_temporal_window(node.claim_id)
                 return ok, result, {node.claim_id} if ok else set(), (
-                    {atom_key(f"claim:{node.claim_id}")} if ok else set())
+                    {atom_key(f"claim:{node.claim_id}")} if ok else set()), (
+                    {node.claim_id: dispute} if dispute is not None else {})
             if isinstance(node, IndependentSourcesRequirement):
-                ok, result = verify_claim(node.claim_id, node.min_sources)
+                ok, result, dispute = verify_claim(node.claim_id, node.min_sources)
                 ok = ok and within_temporal_window(node.claim_id)
                 return ok, result, {node.claim_id} if ok else set(), (
-                    {atom_key(f"independent_sources:{node.claim_id}:{node.min_sources}")} if ok else set())
+                    {atom_key(f"independent_sources:{node.claim_id}:{node.min_sources}")} if ok else set()), (
+                    {node.claim_id: dispute} if dispute is not None else {})
             if isinstance(node, RuleReference):
                 if node.rule_id in active:
-                    return False, None, set(), set()
+                    return False, None, set(), set(), {}
                 return visit(graph.rules[node.rule_id], active | {node.rule_id}, temporal)
             if isinstance(node, TemporalRequirement):
                 return visit(node.requirement, active, (*temporal, (node.anchor, node.max_age_ms)))
@@ -671,7 +770,8 @@ class ActionGate:
                 used = set().union(*(result[2] for result in results)) if ok else set()
                 verification = next((result[1] for result in results if result[1] is not None), None)
                 atoms = set().union(*(result[3] for result in results))
-                return ok, verification, used, atoms
+                disputes = {key: value for result in results for key, value in result[4].items()}
+                return ok, verification, used, atoms, disputes
             if isinstance(node, AnyOfRequirement):
                 results = []
                 for child in node.requirements:
@@ -681,11 +781,12 @@ class ActionGate:
                         return result
                 verification = next((result[1] for result in results if result[1] is not None), None)
                 atoms = set().union(*(result[3] for result in results))
-                return False, verification, set(), atoms
-            return False, None, set(), set()
+                disputes = {key: value for result in results for key, value in result[4].items()}
+                return False, verification, set(), atoms, disputes
+            return False, None, set(), set(), {}
 
-        ok, verification, used, satisfied_atoms = visit(graph.root)
-        return ok, verification, used, satisfied_atoms
+        ok, verification, used, satisfied_atoms, disputes = visit(graph.root)
+        return ok, verification, used, satisfied_atoms, disputes
 
     # --- origin-bound authority and exact-action grants --------------------
 
@@ -970,11 +1071,13 @@ class ActionGate:
         binding: str | None = None,
         claim_certificates: Mapping[str, EvidenceCertificate] | None = None,
         missing_evidence_sets: tuple[tuple[str, ...], ...] = (),
+        disputed_claims: tuple[ClaimDispute, ...] = (),
     ) -> ActionDecision:
         decision = ActionDecision(
             allowed=allowed, tool=tool, agent_id=agent_id,
             reason_codes=reasons, verification=verification,
             missing_evidence_sets=missing_evidence_sets,
+            disputed_claims=disputed_claims,
         )
         if self.audit and (rule is None or rule.protected):
             try:
@@ -996,6 +1099,7 @@ class ActionGate:
                                        **({certificate.claim_id: certificate}
                                           if certificate else {})},
                     missing_evidence_sets=[list(items) for items in missing_evidence_sets],
+                    disputed_claims=[item.to_audit_json() for item in disputed_claims],
                     watermark=verification.verified_at_watermark if verification else None,
                     tenant_id=tenant_id,
                     required_checks=list(dict.fromkeys(

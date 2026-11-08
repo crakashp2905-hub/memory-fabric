@@ -226,6 +226,22 @@ ClaimPredicate(subject: str, predicate: str, operator: str, value: str | int | f
 
 A host-declared typed proposition an evidence record must support.
 
+### `actions.ClaimValueEvidence` (beta)
+
+```python
+ClaimValueEvidence(value: str | int | float | bool, supports_policy: bool, evidence_ids: tuple[str, ...], source_roots: tuple[str, ...])
+```
+
+One observed structured value and its independent evidence roots.
+
+### `actions.ClaimDispute` (beta)
+
+```python
+ClaimDispute(claim_id: str, subject: str, predicate: str, unit: str | None, alternatives: tuple[ClaimValueEvidence, ...])
+```
+
+All evidence alternatives that disagree about a required proposition.
+
 ### `actions.ActionRequest` (beta)
 
 ```python
@@ -237,10 +253,10 @@ The exact action: what it acts on and with which parameters.
 ### `actions.ActionDecision` (beta)
 
 ```python
-ActionDecision(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = ())
+ActionDecision(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = (), disputed_claims: tuple[ClaimDispute, ...] = ())
 ```
 
-ActionDecision(allowed: 'bool', tool: 'str', agent_id: 'str', reason_codes: 'tuple[str, ...]', verification: 'CertificateVerification | None' = None, notes: 'tuple[str, ...]' = <factory>, missing_evidence_sets: 'tuple[tuple[str, ...], ...]' = ())
+ActionDecision(allowed: 'bool', tool: 'str', agent_id: 'str', reason_codes: 'tuple[str, ...]', verification: 'CertificateVerification | None' = None, notes: 'tuple[str, ...]' = <factory>, missing_evidence_sets: 'tuple[tuple[str, ...], ...]' = (), disputed_claims: 'tuple[ClaimDispute, ...]' = ())
 
 ### `actions.Approval` (beta)
 

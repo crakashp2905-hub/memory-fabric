@@ -138,12 +138,24 @@ Retrieval relevance never substitutes for this support check. Structured
 assertions and provenance do not independently prove that a source is truthful;
 hosts still set appropriate authority, review and corroboration thresholds.
 
+If separately rooted evidence yields values on opposite sides of the required
+predicate (for example, 30 psi and 70 psi against `pressure <= 40 psi`), the
+gate refuses with `claim_evidence_disputed` and
+`requirement_evidence_missing`. `ActionDecision.disputed_claims` returns every
+alternative with its value, evidence IDs, source roots and whether it supports
+the policy. No value is selected. The durable `ActionGated` event records the
+dispute reason and evidence references/support sides, not the values themselves.
+Dispute detection is limited to structured assertions included in the
+certificates for that action; it does not prove that omitted or inaccessible
+records do not disagree.
+
 Human approvals use `certificate_set_digest(claim_certificates)` as their
 `Approval.certificate_digest`; `binding_digest(..., claim_certificates=...)`
 also binds the full claim-certificate set to target, parameters, agent, tenant
 and tool. Exact-action grants and `execute` use the same binding. Audit events
 record claim certificate digests, deduplicated evidence IDs and versions, and
-the minimal missing-evidence alternatives, without memory content. A blocked
+the minimal missing-evidence alternatives and disputing evidence references,
+without values or memory content. A blocked
 `ActionDecision.missing_evidence_sets` exposes the same alternatives to the
 caller. The tests in `tests/test_action_requirements.py` cover missing
 mandatory leaves at both authorization and execution boundaries.

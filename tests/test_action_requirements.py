@@ -4,6 +4,7 @@ import unittest
 
 from memory_fabric import MemoryFabric, parse_requirement_graph
 from memory_fabric.actions import (
+    CLAIM_EVIDENCE_DISPUTED,
     ALLOWED, REQUIREMENT_EVIDENCE_MISSING, REQUIREMENT_EXPLANATION_LIMIT,
     ActionGate, ActionPolicy, ClaimPredicate, ToolRule,
 )
@@ -48,7 +49,7 @@ class StaticActionRequirementTests(unittest.TestCase):
     def test_missing_mandatory_leaf_refuses_the_action(self) -> None:
         decision = self.gate.authorize(
             "start_pump", "operator", claim_certificates={"pressure_safe": self.pressure_cert})
-        self.assertFalse(decision.allowed)
+        self.assertFalse(decision.allowed, decision)
         self.assertEqual(decision.reason_code, REQUIREMENT_EVIDENCE_MISSING)
         self.assertEqual(decision.missing_evidence_sets, (("claim:lockout_cleared",),))
 
@@ -109,6 +110,61 @@ class StaticActionRequirementTests(unittest.TestCase):
             ToolRule("start_pump", requirement_graph=graph({
                 "op": "claim", "claim_id": "pressure_safe",
             }))
+
+    def test_conflicting_independent_values_are_reported_without_selecting_a_winner(self) -> None:
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        low = fabric.remember(
+            "sensor-a", "Calibrated pressure transducer at pump P-7 recorded 30 psi after startup.",
+            scope="team", structured={"claims": [{"subject": "pump-7",
+                "predicate": "pressure_psi", "value": 30, "unit": "psi"}]})
+        high = fabric.remember(
+            "sensor-b", "Independent gauge measurement for pump P-7 reads 70 psi before restart.",
+            scope="team", structured={"claims": [{"subject": "pump-7",
+                "predicate": "pressure_psi", "value": 70, "unit": "psi"}]})
+        lockout = fabric.remember(
+            "operator", "Pump P-7 lockout is cleared.", scope="team",
+            structured={"claims": [{"subject": "pump-7", "predicate": "lockout",
+                                    "value": "cleared", "unit": None}]})
+        certs = {
+            "pressure_safe": fabric.certify("pressure_safe", [low, high], "operator"),
+            "lockout_cleared": fabric.certify("lockout_cleared", [lockout], "operator"),
+        }
+        self.assertNotEqual(fabric.source_root(low), fabric.source_root(high))
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump", requirement_graph=graph({
+                "op": "and", "requirements": [
+                    {"op": "claim", "claim_id": "pressure_safe"},
+                    {"op": "claim", "claim_id": "lockout_cleared"},
+                ],
+            }), claim_predicates={
+                "pressure_safe": ClaimPredicate("pump-7", "pressure_psi", "<=", 40, "psi"),
+                "lockout_cleared": ClaimPredicate("pump-7", "lockout", "==", "cleared"),
+            })},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+        decision = gate.authorize("start_pump", "operator", claim_certificates=certs)
+        self.assertFalse(decision.allowed, decision)
+        self.assertEqual(decision.reason_codes[:2],
+                         (CLAIM_EVIDENCE_DISPUTED, REQUIREMENT_EVIDENCE_MISSING))
+        self.assertEqual(len(decision.disputed_claims), 1)
+        dispute = decision.disputed_claims[0]
+        self.assertEqual(dispute.claim_id, "pressure_safe")
+        self.assertEqual({item.value for item in dispute.alternatives}, {30, 70})
+        self.assertEqual({item.supports_policy for item in dispute.alternatives}, {True, False})
+        self.assertEqual({root for item in dispute.alternatives for root in item.source_roots},
+                         {fabric.source_root(low), fabric.source_root(high)})
+        event = fabric.log.read_types([EventType.ACTION_GATED])[-1]
+        self.assertEqual(event.payload["reason_codes"][:2],
+                         [CLAIM_EVIDENCE_DISPUTED, REQUIREMENT_EVIDENCE_MISSING])
+        self.assertEqual(event.payload["disputed_claims"][0]["claim_id"], "pressure_safe")
+        self.assertNotIn("value", event.payload["disputed_claims"][0]["alternatives"][0])
+        ran: list[str] = []
+        execution = gate.execute("start_pump", "operator", ran.append, key="disputed-pressure",
+                                 claim_certificates=certs)
+        self.assertEqual(execution.outcome, "refused")
+        self.assertEqual(ran, [])
+        self.assertEqual(execution.decision.reason_code, CLAIM_EVIDENCE_DISPUTED)
 
     def test_certificate_cannot_be_submitted_under_another_claim_key(self) -> None:
         decision = self.gate.authorize("start_pump", "operator", claim_certificates={

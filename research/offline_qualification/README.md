@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **210 / 260 (80.77%)**. Internal status: **BLOCKED**.
+Strict completion: **211 / 260 (81.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6cc749675544ca94bec473a8b98e85d9fd878c00101270f121aa70259934113f`.
+Normalized ledger digest: `1c89e9ebc98b9136bebc7da3b653596add86838b5709dd91d3b83886db997eb4`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 210 |
+| DONE | 211 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 47 |
+| TODO | 46 |
 
 ## Graduation gates
 
@@ -140,10 +140,10 @@ Normalized ledger digest: `6cc749675544ca94bec473a8b98e85d9fd878c00101270f121aa7
 | N1-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/n1_09_decision_continuity.py`, `tests/test_n1_09_decision_continuity.py`, `research/results/n1-09-decision-continuity-tests.xml`, `research/results/n1-09-decision-continuity.json`, `research/results/n1-09-decision-continuity.md` |
 | N1-10 | P1 | DONE | CONTRACT | `research/prereg/n1-10-decision-repair-novelty.md`, `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py`, `research/results/n1-10-preregistration-tests.xml` |
 | N2-01 | P1 | DONE | CONTRACT | `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_requirement_graph.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-01-requirement-graph-tests.xml` |
-| N2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-02-action-requirements-tests.xml`, `research/results/n2-04-claim-support-tests.xml` |
+| N2-02 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-02-action-requirements-tests.xml`, `research/results/n2-04-claim-support-tests.xml`, `research/results/n2-05-disputed-claims-tests.xml` |
 | N2-03 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_requirement_explanations.py`, `tests/test_requirement_graph.py`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-03-minimal-missing-evidence-tests.xml` |
-| N2-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_answerability.py`, `tests/test_requirement_explanations.py`, `tests/test_requirement_graph.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-04-claim-support-tests.xml` |
-| N2-05 | P1 | TODO | NOT_TESTED | — |
+| N2-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_answerability.py`, `tests/test_requirement_explanations.py`, `tests/test_requirement_graph.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-04-claim-support-tests.xml`, `research/results/n2-05-disputed-claims-tests.xml` |
+| N2-05 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tools/gen_reference.py`, `docs/EVIDENCE_REQUIREMENT_GRAPHS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `SPEC.md`, `CHANGELOG.md`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_certificates.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-05-disputed-claims-tests.xml` |
 | N2-06 | P1 | TODO | NOT_TESTED | — |
 | N2-07 | P1 | TODO | NOT_TESTED | — |
 | N2-08 | P1 | TODO | NOT_TESTED | — |

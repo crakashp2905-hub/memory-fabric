@@ -232,7 +232,8 @@
         "tests/test_reference_docs.py",
         "tests/test_doc_links.py",
         "research/results/n2-02-action-requirements-tests.xml",
-        "research/results/n2-04-claim-support-tests.xml"
+        "research/results/n2-04-claim-support-tests.xml",
+        "research/results/n2-05-disputed-claims-tests.xml"
       ],
       "limitations": [
         "decision_time temporal requirements fail closed because the current authorization API has no authenticated decision-time timestamp; action_time freshness is enforced from certificate issuance time.",
@@ -261,11 +262,38 @@
         "tests/test_certificates.py",
         "tests/test_reference_docs.py",
         "tests/test_doc_links.py",
-        "research/results/n2-04-claim-support-tests.xml"
+        "research/results/n2-04-claim-support-tests.xml",
+        "research/results/n2-05-disputed-claims-tests.xml"
       ],
       "limitations": [
         "Structured assertions establish a typed proposition-to-policy match, not real-world truth. Source authority, review and independent corroboration remain necessary to trust the assertion.",
         "The local tests demonstrate deterministic gate behavior on constructed counterexamples; they do not establish general natural-language entailment or model performance."
+      ]
+    },
+    {
+      "task_id": "N2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-05-disputed-claims-tests.xml"
+      ],
+      "limitations": [
+        "Disagreement detection considers separately rooted structured claims included in the action certificates; it cannot detect omitted or inaccessible evidence.",
+        "Structured values are not truth proofs. Trusted authority, review and corroboration policies remain necessary."
       ]
     },
     {

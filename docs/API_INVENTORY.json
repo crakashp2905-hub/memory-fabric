@@ -443,13 +443,25 @@
     },
     {
       "module": "memory_fabric.actions",
+      "signature": "(value: str | int | float | bool, supports_policy: bool, evidence_ids: tuple[str, ...], source_roots: tuple[str, ...])",
+      "symbol": "memory_fabric.actions.ClaimValueEvidence",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(claim_id: str, subject: str, predicate: str, unit: str | None, alternatives: tuple[ClaimValueEvidence, ...])",
+      "symbol": "memory_fabric.actions.ClaimDispute",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
       "signature": "(target: str, parameters: Mapping[str, Any] = <factory>)",
       "symbol": "memory_fabric.actions.ActionRequest",
       "tier": "beta"
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = ())",
+      "signature": "(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = (), disputed_claims: tuple[ClaimDispute, ...] = ())",
       "symbol": "memory_fabric.actions.ActionDecision",
       "tier": "beta"
     },

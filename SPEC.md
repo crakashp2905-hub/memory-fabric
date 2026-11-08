@@ -211,6 +211,10 @@ memories must carry structured assertions matching the required subject,
 predicate, unit and value constraint. Retrieval similarity alone never
 satisfies an action claim. This structural check does not establish source
 truth, so source authority and corroboration remain policy decisions.
+When separately rooted assertions disagree about whether a required
+proposition holds, the gate reports a disputed claim and all alternative
+values to the caller, refuses the action, and stores evidence references in
+the audit receipt without selecting a winner.
 Missing mandatory evidence fails closed. Exact approvals, grants and execution
 idempotency bind the complete claim-certificate set. `action_time` freshness
 uses certificate issuance time; `decision_time` requirements remain fail-closed
