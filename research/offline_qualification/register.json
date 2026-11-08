@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0ba6781977e487ac7e0e2ab23f5b7b0048ed619c4d319ce8443d29103d4a4afb",
+    "sha256": "648f20342b7acb1f39944aa1537ce555a3842f5cec061ea1d77cbeb5984db7e9",
     "tasks": 260
   },
   "source": {
-    "commit": "40a1741098c37e887de44974d27dbe8400987daa",
+    "commit": "6a6a92f31b888295de601b0939b7183637330337",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 169,
+      "DONE": 170,
       "PARTIAL": 4,
-      "TODO": 87
+      "TODO": 86
     },
-    "completed": 169,
+    "completed": 170,
     "total": 260,
-    "percent_complete": 65.0,
+    "percent_complete": 65.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5653,7 +5653,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "5e7f06449a21c6e8e781f35b15315d23fe5b696a433e9e656e5b1bb84d7bcecd",
+        "docs/README.md": "b72c5a4231971bf397ae0c4cada076f12362b2efeb6285adeb22461bc7a279d1",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -5814,7 +5814,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "5e7f06449a21c6e8e781f35b15315d23fe5b696a433e9e656e5b1bb84d7bcecd",
+        "docs/README.md": "b72c5a4231971bf397ae0c4cada076f12362b2efeb6285adeb22461bc7a279d1",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
@@ -5832,14 +5832,31 @@
       "task_id": "P4-08",
       "priority": "P1",
       "task": "Measure full installation size, startup time, storage growth and baseline CPU usage.",
-      "acceptance": "Published local-environment table includes methodology and failure thresholds",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Published local-environment table includes methodology and failure thresholds.. Evidence: `tools/measure_local_footprint.py`, `tests/test_local_footprint.py`, `docs/LOCAL_FOOTPRINT.md`, `research/results/p4-08-local-footprint.json`, `research/results/p4-08-local-footprint.txt` (DONE: 15 cold CLI starts, 200 local SQLite records and 30-second idle CPU sample measured against declared local thresholds. Single Windows host only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/measure_local_footprint.py",
+        "tests/test_local_footprint.py",
+        "docs/LOCAL_FOOTPRINT.md",
+        "research/results/p4-08-local-footprint.json",
+        "research/results/p4-08-local-footprint.txt"
+      ],
+      "evidence_digests": {
+        "tools/measure_local_footprint.py": "36e2bcf8a042e6ee3718cb8a9c401fad00df7d5fc68a62d49da531af4da96100",
+        "tests/test_local_footprint.py": "ac5a5c052ca5bb7e3e3e40e3ee5342dbae43274cb5c52d84a97e71451ee99027",
+        "docs/LOCAL_FOOTPRINT.md": "b4e4824ffed401fc8d268be2c5b76095b0bd1d28cbd3ea0754194c3480b87f0a",
+        "research/results/p4-08-local-footprint.json": "ca92874d8365bc6086795f6c7dc815c5a441a63838787b1da74702acca39f3d7",
+        "research/results/p4-08-local-footprint.txt": "4be974b096f036db448f451910465276cda0b77cc3b49057b3d71cfc8220eb67"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Measured on one Windows 11 host with Python 3.13.5; results are host- and environment-specific.",
+        "Startup is cold process CLI --version wall time, not a loaded service startup SLO.",
+        "Storage growth is one 200-record SQLite fixture; it excludes backups, WAL peak, encryption keys and multi-tenant/federated workloads.",
+        "Idle CPU is a single 30-second sample; not a long-duration soak."
+      ]
     },
     {
       "task_id": "P4-09",

@@ -2139,6 +2139,25 @@
       ]
     },
     {
+      "task_id": "P4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/measure_local_footprint.py",
+        "tests/test_local_footprint.py",
+        "docs/LOCAL_FOOTPRINT.md",
+        "research/results/p4-08-local-footprint.json",
+        "research/results/p4-08-local-footprint.txt"
+      ],
+      "limitations": [
+        "Measured on one Windows 11 host with Python 3.13.5; results are host- and environment-specific.",
+        "Startup is cold process CLI --version wall time, not a loaded service startup SLO.",
+        "Storage growth is one 200-record SQLite fixture; it excludes backups, WAL peak, encryption keys and multi-tenant/federated workloads.",
+        "Idle CPU is a single 30-second sample; not a long-duration soak."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,
