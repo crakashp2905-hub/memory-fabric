@@ -2227,6 +2227,24 @@
       "limitations": ["Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."]
     },
     {
+      "task_id": "R5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/claims.json",
+        "tools/claims_ledger.py",
+        "tests/test_claims_ledger.py",
+        "tests/test_claim_checker_contract.py",
+        "research/results/CLAIMS_LEDGER.json",
+        "research/results/CLAIMS_LEDGER.md"
+      ],
+      "limitations": [
+        "Checker protects registered quantitative claims; it does not parse all unregistered prose or replace scientific review.",
+        "Claims can be supported by a result whose verdict is FAIL; supported here means the sentence matches the pinned evidence, not that the experiment met a success gate."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

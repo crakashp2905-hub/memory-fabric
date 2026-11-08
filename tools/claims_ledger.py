@@ -11,7 +11,52 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "research" / "claims.json"
 OUT_JSON = ROOT / "research" / "results" / "CLAIMS_LEDGER.json"
 OUT_MD = ROOT / "research" / "results" / "CLAIMS_LEDGER.md"
-REQUIRED = {"id", "claim", "class", "source", "evidence", "dataset", "model", "commit_field", "verdict", "limitation"}
+REQUIRED = {"id", "claim", "class", "source", "evidence", "dataset", "model",
+            "commit_field", "verdict", "limitation", "expected_commit",
+            "expected_evidence_sha256", "quantitative_assertions"}
+
+
+def _at(payload: Any, path: str) -> Any:
+    value = payload
+    for part in path.strip("/").split("/"):
+        part = part.replace("~1", "/").replace("~0", "~")
+        if isinstance(value, list):
+            value = value[int(part)]
+        elif isinstance(value, dict):
+            value = value[part]
+        else:
+            raise KeyError(path)
+    return value
+
+
+def validate_claim(raw: dict[str, Any], payload: dict[str, Any], evidence_sha256: str) -> list[str]:
+    """Refuse stale run bindings and mismatched quantitative assertions."""
+    issues: list[str] = []
+    claim_id = raw.get("id", "<unknown>")
+    observed_commit = payload.get(raw.get("commit_field", ""))
+    if observed_commit != raw.get("expected_commit"):
+        issues.append(f"{claim_id}: outdated or mismatched evidence commit")
+    if evidence_sha256 != raw.get("expected_evidence_sha256"):
+        issues.append(f"{claim_id}: evidence SHA-256 changed")
+    for assertion in raw.get("quantitative_assertions", []):
+        try:
+            if "sum_path" in assertion:
+                observed = sum(_at(payload, assertion["sum_path"]))
+            elif "sum_field" in assertion:
+                observed = sum(row[assertion["sum_field"]]
+                               for row in _at(payload, assertion["rows_path"]))
+            elif "sum_values_path" in assertion:
+                observed = sum(_at(payload, assertion["sum_values_path"]).values())
+            elif "count_path" in assertion:
+                observed = len(_at(payload, assertion["count_path"]))
+            else:
+                observed = _at(payload, assertion["path"])
+        except (KeyError, IndexError, TypeError, ValueError) as exc:
+            issues.append(f"{claim_id}: missing or invalid quantitative field {assertion}: {exc}")
+            continue
+        if observed != assertion["equals"]:
+            issues.append(f"{claim_id}: assertion {assertion} observed {observed!r}")
+    return issues
 
 
 def build() -> dict[str, Any]:
@@ -33,18 +78,23 @@ def build() -> dict[str, Any]:
         commit = payload.get(raw["commit_field"])
         if not commit:
             raise ValueError(f"{raw['id']}: evidence lacks {raw['commit_field']}")
+        actual_sha = hashlib.sha256(evidence.read_bytes()).hexdigest()
+        issues = validate_claim(raw, payload, actual_sha)
+        if issues:
+            raise ValueError("; ".join(issues))
         row = dict(raw)
         row["commit"] = commit
-        row["evidence_sha256"] = hashlib.sha256(evidence.read_bytes()).hexdigest()
+        row["evidence_sha256"] = actual_sha
+        row["claim_status"] = "SUPPORTED"
         rows.append(row)
     return {"schema": "memory-fabric-claims-ledger/1", "generated_by": "tools/claims_ledger.py", "claims": rows}
 
 
 def markdown(data: dict[str, Any]) -> str:
-    lines = ["# Claims-to-evidence ledger", "", "Generated from `research/claims.json`. Every row names its scope and limitation; a missing file, commit field, or required field fails generation.", "", "| ID | claim class | verdict | evidence / commit | limitation |", "|---|---|---|---|---|"]
+    lines = ["# Claims-to-evidence ledger", "", "Generated from `research/claims.json`. Every quantitative statement is bound to exact evidence bytes, the recorded run commit, and registered value/denominator assertions; a missing or changed field prevents SUPPORTED status.", "", "| ID | claim status | verdict | evidence / commit | limitation |", "|---|---|---|---|---|"]
     for row in data["claims"]:
         evidence = f"[{row['evidence']}]({'../../' + row['evidence']}) @ `{str(row['commit'])[:12]}`"
-        lines.append(f"| `{row['id']}` | {row['class']} | **{row['verdict']}** | {evidence} | {row['limitation']} |")
+        lines.append(f"| `{row['id']}` | **{row['claim_status']}** | **{row['verdict']}** | {evidence} | {row['limitation']} |")
     return "\n".join(lines) + "\n"
 
 

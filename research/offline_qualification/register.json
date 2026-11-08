@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "30177ccc512f926c66327aba5dc17228b0a53d9965ff0a6555625104e6bb4699",
+    "sha256": "c42058f4f5613c01a9e820feccf5ff19820d7a683a90ab1d28d350a6430e857a",
     "tasks": 260
   },
   "source": {
-    "commit": "0be61ba8245d72cb1014c7f6b0278b76a3d45410",
+    "commit": "1edb5fc75da7feffee2d32bf64b20cb2a056bcf9",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 176,
+      "DONE": 177,
       "PARTIAL": 4,
-      "TODO": 80
+      "TODO": 79
     },
-    "completed": 176,
+    "completed": 177,
     "total": 260,
-    "percent_complete": 67.69,
+    "percent_complete": 68.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2609,14 +2609,31 @@
       "task_id": "R5-08",
       "priority": "P1",
       "task": "Implement manuscript claim checker mapping each quantitative sentence to an immutable result file.",
-      "acceptance": "Missing data, wrong denominator or outdated SHA prevents 'supported' claim status",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Missing data, wrong denominator or outdated SHA prevents 'supported' claim status.. Evidence: `research/claims.json`, `tools/claims_ledger.py`, `tests/test_claims_ledger.py`, `tests/test_claim_checker_contract.py`, `research/results/CLAIMS_LEDGER.json`, `research/results/CLAIMS_LEDGER.md` (DONE: each quantitative claim pins exact result SHA and run commit with metric/denominator assertions; negative tests reject changed hashes, stale commits and denominator errors.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/claims.json",
+        "tools/claims_ledger.py",
+        "tests/test_claims_ledger.py",
+        "tests/test_claim_checker_contract.py",
+        "research/results/CLAIMS_LEDGER.json",
+        "research/results/CLAIMS_LEDGER.md"
+      ],
+      "evidence_digests": {
+        "research/claims.json": "c4bab6c48ced21641ae8d09f252883785be84619d336f0356ece26aa37982161",
+        "tools/claims_ledger.py": "07c66c3932df2985e64dbe8b914fc0bc766b6739a2036c09cda0cc1c49202757",
+        "tests/test_claims_ledger.py": "9741ae9c8bacab3860ead56ef1accfcb3b2325eb402b6b0f344b8c72156061e1",
+        "tests/test_claim_checker_contract.py": "f17f223573d945fd6df8aee30baf1ad0e6894770f97ca17e46a3bfdce2120ef3",
+        "research/results/CLAIMS_LEDGER.json": "bd5e3147bfa559d0bddf0abd1b8cd83040fcc66119d52d0339dbe3a8b70f1887",
+        "research/results/CLAIMS_LEDGER.md": "c939446e1c3d81e46284cfa13c20169ea260bdbd7bb29d75f1d67b96cbb4c006"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Checker protects registered quantitative claims; it does not parse all unregistered prose or replace scientific review.",
+        "Claims can be supported by a result whose verdict is FAIL; supported here means the sentence matches the pinned evidence, not that the experiment met a success gate."
+      ]
     },
     {
       "task_id": "R5-09",
