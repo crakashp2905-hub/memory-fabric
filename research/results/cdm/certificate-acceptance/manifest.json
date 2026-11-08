@@ -1,0 +1,13 @@
+{
+  "confusion_matrix": {
+    "attack_cases": 6,
+    "false_accept": 0,
+    "false_reject": 0,
+    "true_accept": 1,
+    "true_reject": 6
+  },
+  "network_calls": 0,
+  "output_sha256": "2241a37e512125eb96daf7bf724428bd266d521bc1d207b377b30c747fd37eb2",
+  "schema": "cdm-certificate-acceptance-manifest-v1",
+  "source_sha256": "9f5050c0edaa1993d4631df62d93634844fe632cd72521966121cfa4634b1f28"
+}

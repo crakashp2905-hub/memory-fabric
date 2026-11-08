@@ -1,0 +1,339 @@
+{
+  "arms": [
+    "annotations_off_feedback_off",
+    "annotations_on_feedback_off",
+    "annotations_off_feedback_on",
+    "annotations_on_feedback_on"
+  ],
+  "generator_sha256": "9e645c2e2220b1d10be18429ddb6db31eedf3c374208542891321d2795a91ac1",
+  "heldout_seeds": [
+    20261811,
+    20261812,
+    20261813,
+    20261814,
+    20261815,
+    20261816,
+    20261817,
+    20261818,
+    20261819,
+    20261820
+  ],
+  "limitations": [
+    "Finite synthetic seeds; not population evidence.",
+    "Correctness means sensor value agrees with evaluator-only latent truth.",
+    "The one-removal ceiling is an in-simulator mechanism check, not a deployment oracle."
+  ],
+  "metrics": {
+    "annotations_off_feedback_off:annotation_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_off:clean": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_off:feedback_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_off:robustness:annotation_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_off_feedback_off:robustness:feedback_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_off_feedback_on:annotation_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_on:clean": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_on:feedback_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.17333333333333334,
+        0.8266666666666667
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.22000000000000003,
+      "n": 10,
+      "proposal_accuracy": 0.5,
+      "utility_normal_approx_95_interval": [
+        -0.1399860738047144,
+        0.5799860738047145
+      ]
+    },
+    "annotations_off_feedback_on:robustness:annotation_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_off_feedback_on:robustness:feedback_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_on_feedback_off:annotation_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 8,
+      "correct_memory_withholding_rate": 0.8,
+      "mean_utility": 0.24,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.11569185165439666,
+        0.5956918516543966
+      ]
+    },
+    "annotations_on_feedback_off:clean": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 8,
+      "correct_memory_withholding_rate": 0.8,
+      "mean_utility": 0.24,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.11569185165439666,
+        0.5956918516543966
+      ]
+    },
+    "annotations_on_feedback_off:feedback_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 8,
+      "correct_memory_withholding_rate": 0.8,
+      "mean_utility": 0.24,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.11569185165439666,
+        0.5956918516543966
+      ]
+    },
+    "annotations_on_feedback_off:robustness:annotation_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_on_feedback_off:robustness:feedback_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    },
+    "annotations_on_feedback_on:annotation_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 9,
+      "correct_memory_withholding_rate": 0.9,
+      "mean_utility": 0.32999999999999996,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.05324557836109911,
+        0.713245578361099
+      ]
+    },
+    "annotations_on_feedback_on:clean": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 8,
+      "correct_memory_withholding_rate": 0.8,
+      "mean_utility": 0.24,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.11569185165439666,
+        0.5956918516543966
+      ]
+    },
+    "annotations_on_feedback_on:feedback_inversion": {
+      "accuracy_normal_approx_95_interval": [
+        0.4006050545962184,
+        0.9993949454037815
+      ],
+      "correct_memories_withheld": 7,
+      "correct_memory_withholding_rate": 0.7,
+      "mean_utility": 0.24,
+      "n": 10,
+      "proposal_accuracy": 0.7,
+      "utility_normal_approx_95_interval": [
+        -0.11569185165439666,
+        0.5956918516543966
+      ]
+    },
+    "annotations_on_feedback_on:robustness:annotation_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": -0.08999999999999997,
+      "n": 10
+    },
+    "annotations_on_feedback_on:robustness:feedback_inversion": {
+      "clean_minus_challenge_accuracy": 0.0,
+      "clean_minus_challenge_utility": 0.0,
+      "n": 10
+    }
+  },
+  "oracle_exceeded": false,
+  "protocol_sha256": "7abab3d2b60f30a3d5b477a688096cf14bb6f7c9681f398556b2483ae279502c",
+  "report_sha256": "b095690f53bd0eb5c032cddcafc4f92fd3aba0516f3e6635c41f7ecc10d9baff",
+  "rows_sha256": "3233d4268e11397cf449b0d9459398eaa88af83965c5b2ffb956e9d21e35788f",
+  "safety": {
+    "authority_changes": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "tool_calls": 0,
+    "truth_visible_to_proposer": false
+  },
+  "scenarios": [
+    "clean",
+    "annotation_inversion",
+    "feedback_inversion"
+  ],
+  "schema": "cdm-trust-feedback-ablation-v1",
+  "scope": "first-party synthetic factorial ablation; evaluator feedback is diagnostic only",
+  "status": "PASS",
+  "summary_sha256": "1f4c901faad9034ce92828fd2460d5444a05ff41aa44f263e8eb9987f8cc619e",
+  "train_final_annotations": {
+    "annotations_off_feedback_off": {
+      "sensor-0": {
+        "count": 0,
+        "score": 0.5
+      },
+      "sensor-1": {
+        "count": 0,
+        "score": 0.5
+      },
+      "sensor-2": {
+        "count": 0,
+        "score": 0.5
+      }
+    },
+    "annotations_off_feedback_on": {
+      "sensor-0": {
+        "count": 4,
+        "score": 0.55
+      },
+      "sensor-1": {
+        "count": 2,
+        "score": 0.5275
+      },
+      "sensor-2": {
+        "count": 4,
+        "score": 0.5135500000000001
+      }
+    },
+    "annotations_on_feedback_off": {
+      "sensor-0": {
+        "count": 0,
+        "score": 0.5
+      },
+      "sensor-1": {
+        "count": 0,
+        "score": 0.5
+      },
+      "sensor-2": {
+        "count": 0,
+        "score": 0.5
+      }
+    },
+    "annotations_on_feedback_on": {
+      "sensor-0": {
+        "count": 10,
+        "score": 0.6056288200000002
+      },
+      "sensor-1": {
+        "count": 0,
+        "score": 0.5
+      },
+      "sensor-2": {
+        "count": 0,
+        "score": 0.5
+      }
+    }
+  },
+  "train_seeds": [
+    20261801,
+    20261802,
+    20261803,
+    20261804,
+    20261805,
+    20261806,
+    20261807,
+    20261808,
+    20261809,
+    20261810
+  ],
+  "workload_sha256": "e28c4d9739de145d1d28f27fb88367897df0dd33f9999e8c26324ab5808fc20b"
+}

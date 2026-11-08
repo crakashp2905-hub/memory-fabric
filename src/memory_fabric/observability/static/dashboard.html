@@ -410,6 +410,30 @@ main button:not(.link):not(.copy), .drawer button:not(.link):not(.copy) {
 main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):hover {
   border-color: var(--accent); color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.value-hero { padding: 24px; border: 1px solid var(--border); border-radius: 18px; background:
+  linear-gradient(135deg, var(--accent-soft), var(--panel) 55%); box-shadow: var(--shadow); }
+.value-hero h2 { margin: 0 0 8px; font-size: clamp(24px, 4vw, 38px); max-width: 850px; }
+.value-grid, .quality-grid, .studio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:16px 0; }
+.metric, .quality-card, .studio-card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+.metric strong { display:block; font-size:28px; font-variant-numeric:tabular-nums; }
+.metric .label { font-weight:600; margin:3px 0; }
+.proof { border-left:3px solid var(--accent); padding-left:12px; }
+.progress { height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; margin:8px 0; }
+.progress span { display:block; height:100%; background:var(--accent); border-radius:inherit; }
+.checklist { list-style:none; padding:0; display:grid; gap:8px; }
+.checklist label { display:flex; gap:10px; align-items:flex-start; padding:11px; background:var(--panel); border:1px solid var(--border); border-radius:10px; }
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.compare > div { padding:16px; border-radius:14px; border:1px solid var(--border); background:var(--panel); }
+.compare .without { opacity:.82; } .compare h3 { margin-top:0; }
+.how-step { display:grid; grid-template-columns:34px 1fr; gap:10px; margin:14px 0; }
+.how-step .step-n { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--accent); color:white; font-weight:700; }
+.role-picker { display:flex; align-items:center; gap:8px; }
+.role-picker select { max-width:180px; }
+.drop-zone { border:2px dashed var(--border); border-radius:12px; padding:22px; text-align:center; cursor:pointer; }
+.drop-zone.drag { border-color:var(--accent); background:var(--accent-soft); }
+.quality-card .grade { font-size:24px; font-weight:700; }
+.callout-good { border-left:3px solid var(--st-active); }
+@media (max-width:700px) { .compare { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -423,7 +447,9 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <span>Search or jump to…</span><kbd>Ctrl K</kbd></button>
   <nav id="nav">
     <div class="group">Overview</div>
-    <button data-tab="start" aria-selected="true"><i>◎</i>Start here</button>
+    <button data-tab="value" aria-selected="true"><i>◆</i>Your impact</button>
+    <button data-tab="start" aria-selected="false"><i>◎</i>Get started</button>
+    <button data-tab="notifications" aria-selected="false"><i>●</i>Notifications<span class="count" id="c-notifications"></span></button>
     <button data-tab="attention" aria-selected="false"><i>!</i>Needs attention<span class="count" id="c-attention"></span></button>
     <button data-tab="review" aria-selected="false"><i>✓</i>Review<span class="count" id="c-review"></span></button>
     <div class="group">Knowledge</div>
@@ -432,15 +458,20 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <button data-tab="search" aria-selected="false"><i>⌕</i>Search</button>
     <div class="group">Activity</div>
     <button data-tab="agents" aria-selected="false"><i>☺</i>Agents<span class="count" id="c-agents"></span></button>
+    <button data-tab="studio" aria-selected="false"><i>＋</i>Agent Studio</button>
     <button data-tab="replay" aria-selected="false"><i>▶</i>Replay</button>
     <button data-tab="actions" aria-selected="false"><i>⚡</i>Actions<span class="count" id="c-actions"></span></button>
     <button data-tab="context" aria-selected="false"><i>◫</i>Agent context</button>
+    <button data-tab="compare" aria-selected="false"><i>⇄</i>With vs without</button>
     <button data-tab="episodes" aria-selected="false"><i>◷</i>Episodes<span class="count" id="c-episodes"></span></button>
     <div class="group">Governance</div>
     <button data-tab="lifecycle" aria-selected="false"><i>↻</i>Lifecycle</button>
     <button data-tab="posture" aria-selected="false"><i>⛨</i>Posture</button>
+    <button data-tab="quality" aria-selected="false"><i>◈</i>Quality scorecard</button>
     <button data-tab="changes" aria-selected="false"><i>⑂</i>Changes<span class="count" id="c-changes"></span></button>
     <button data-tab="capabilities" aria-selected="false"><i>ⓘ</i>Capabilities &amp; limits</button>
+    <button data-tab="proof" aria-selected="false"><i>✓</i>Proof &amp; benchmarks</button>
+    <button data-tab="howto" aria-selected="false"><i>?</i>How to use</button>
   </nav>
   <div class="side-foot"><kbd>?</kbd> shortcuts · read-only</div>
 </aside>
@@ -449,7 +480,12 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
   <div class="top-row">
     <div class="sub"><span class="mono" id="store-path">…</span> · <span id="store-meta"></span></div>
     <div class="top-actions">
+      <label class="role-picker">View as <select id="role-select" aria-label="Choose your role">
+        <option value="individual">Individual</option><option value="lead">Team lead</option>
+        <option value="reviewer">Reviewer</option><option value="security">Security</option>
+        <option value="developer">Developer</option></select></label>
       <span class="live" id="live" title="Live: new events appear as they happen"><span class="dot"></span>live</span>
+      <button class="icon-btn" id="notifications-open" aria-label="Open notifications">●<span id="notification-badge"></span></button>
       <button class="icon-btn" id="theme-toggle" aria-label="Switch light or dark theme">☾</button>
     </div>
   </div>
@@ -458,14 +494,57 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
 
 <main class="wrap" id="main" tabindex="-1">
 
-  <section id="tab-start">
+  <section id="tab-value">
+    <div class="value-hero"><div class="sub">MEMORY FABRIC · VERIFIED FROM THIS STORE</div>
+      <h2 id="value-headline">Loading the impact your agents can prove…</h2>
+      <p id="value-summary"></p></div>
+    <div class="value-grid" id="value-metrics"></div>
+    <div class="note proof"><b>Evidence, not marketing.</b> Every number above comes from this store's event log.
+      It does not claim improved accuracy unless episodes contain independently verified outcomes.</div>
+    <h2>What needs you next</h2><div id="value-next"></div>
+  </section>
+
+  <section id="tab-start" hidden>
     <h2>Memory Control Center</h2>
     <div class="note">What your agents remember, where it came from, what it was used for, and what
       changed. This page only reads. Every change is a command it shows you, so nothing happens
       by a stray click.</div>
     <div id="hero"></div>
     <ol class="guide" id="guide"></ol>
+    <h2>Your setup progress</h2><div id="onboarding"></div>
   </section>
+
+  <section id="tab-notifications" hidden><h2>Notifications</h2>
+    <div class="note">Only meaningful changes and required actions appear here. A quiet system stays quiet.</div>
+    <div id="notifications-list"></div></section>
+
+  <section id="tab-studio" hidden>
+    <h2>Agent Studio</h2><div class="note">Choose models and inspect portable agent definitions here. The Control Center
+      remains read-only: it generates commands for the audited CLI instead of silently granting an uploaded agent access.</div>
+    <div class="studio-grid"><div class="studio-card"><h3>Choose a model</h3>
+      <label>Model specification <input id="studio-model" placeholder="ollama:qwen2.5:7b"></label>
+      <p><button id="model-select-cmd">Generate select command</button> <button id="model-pull-cmd">Generate pull command</button></p>
+      <div id="model-command"></div></div>
+      <div class="studio-card"><h3>Upload an agent definition</h3>
+        <div class="drop-zone" id="agent-drop" tabindex="0">Drop a <code>memory-fabric-agent-v1</code> JSON file here<br><span class="sub">or click to choose</span></div>
+        <input id="agent-file" type="file" accept="application/json,.json" hidden><div id="agent-preview"></div></div></div>
+  </section>
+
+  <section id="tab-compare" hidden><h2>With Memory Fabric versus without it</h2>
+    <div class="note">An evidence-based comparison of governance properties. This is not a synthetic accuracy claim.</div>
+    <div id="comparison"></div></section>
+
+  <section id="tab-quality" hidden><h2>Memory quality scorecard</h2>
+    <div class="note">Separate, explainable measures—never one opaque quality score. Open the related view to inspect the evidence.</div>
+    <div class="quality-grid" id="quality-grid"></div></section>
+
+  <section id="tab-howto" hidden><h2>How to use Memory Fabric</h2>
+    <div class="note">A practical path from an empty store to governed, reproducible agent memory.</div>
+    <div id="howto-guide"></div></section>
+
+  <section id="tab-proof" hidden><h2>Proof and benchmarks</h2>
+    <div class="note">Claims are linked to implementation, tests and known limitations. Capability coverage is not the same as measured task improvement.</div>
+    <div class="value-grid" id="proof-metrics"></div><div id="proof-list"></div></section>
 
   <section id="tab-graph" hidden>
     <h2>Knowledge map</h2>
@@ -1244,7 +1323,185 @@ async function loadStart() {
   for (const b of $("guide").querySelectorAll("[data-goto]")) {
     b.addEventListener("click", () => showTab(b.dataset.goto));
   }
+  const agents = await api("/api/agents");
+  const memoryCount = Object.values(o.by_state || {}).reduce((a, b) => a + b, 0);
+  const done = [agents.length > 0, memoryCount > 0, (o.exposures || 0) > 0,
+    acts.length > 0, rev.length === 0 && memoryCount > 0];
+  const labels = ["Connect your first agent", "Record the first memory", "Recall governed context",
+    "Protect an action with evidence", "Review new memories"];
+  const progress = Math.round(done.filter(Boolean).length / done.length * 100);
+  $("onboarding").innerHTML = `<div class="progress" aria-label="${progress}% complete"><span style="width:${progress}%"></span></div>
+    <div class="sub">${done.filter(Boolean).length} of ${done.length} milestones complete</div><ul class="checklist">${labels.map((label, i) =>
+      `<li><label><input type="checkbox" ${done[i] ? "checked" : ""} disabled><span><b>${esc(label)}</b><br><span class="sub">${done[i] ? "Observed in this store" : onboardingHelp(i)}</span></span></label></li>`).join("")}</ul>`;
   void o;
+}
+
+function onboardingHelp(i) {
+  return ["Use Agent Studio or memory-fabric connect --list.", "Let the agent call remember; it starts waiting for review.",
+    "Ask the agent a related question; recall is recorded.", "Use ActionGate for a consequential tool.",
+    "Open Waiting for review and run the shown command."][i];
+}
+
+async function loadValue() {
+  const o = OVERVIEW || await api("/api/overview");
+  const [att, rev, acts, agents, receipts] = await Promise.all([api("/api/attention"), api("/api/review"),
+    api("/api/actions?limit=1000"), api("/api/agents"), api("/api/receipts?limit=1000")]);
+  const blocked = acts.filter((a) => !a.allowed).length;
+  const allowed = acts.length - blocked;
+  const changed = acts.filter((a) => (a.reason_codes || []).some((x) => /withdraw|version|evidence|stale/.test(x))).length;
+  const active = (o.by_state || {}).active || 0;
+  $("value-headline").textContent = agents.length
+    ? `${agents.length} agent${agents.length === 1 ? "" : "s"} sharing ${active} governed memor${active === 1 ? "y" : "ies"}.`
+    : "Your agents' trustworthy shared memory starts here.";
+  $("value-summary").textContent = acts.length
+    ? `${acts.length} protected action requests are reproducible: ${allowed} allowed and ${blocked} refused after evidence checks.`
+    : "Connect an agent and protect a tool to turn activity into inspectable evidence.";
+  const metrics = [
+    [blocked, "Unsafe or unsupported actions refused", "actions"],
+    [o.exposures || 0, "Governed memories shown to agents", "replay"],
+    [receipts.length, "Reproducible context receipts", "context"],
+    [rev.length, "Memories safely waiting for review", "review"],
+    [changed, "Actions flagged by changed evidence", "actions"],
+    [att.length, "Items requiring a person", "attention"],
+  ];
+  $("value-metrics").innerHTML = metrics.map(([n, label, tab]) => `<button class="metric" data-goto="${tab}">
+    <strong>${n}</strong><div class="label">${esc(label)}</div><div class="sub">Open evidence →</div></button>`).join("");
+  $("value-next").innerHTML = att.length || rev.length ? `<div class="quality-grid">
+    ${att.length ? `<button class="quality-card" data-goto="attention"><b>${att.length} need attention</b><div class="sub">Resolve the highest-risk findings first.</div></button>` : ""}
+    ${rev.length ? `<button class="quality-card" data-goto="review"><b>${rev.length} await review</b><div class="sub">Nothing unreviewed reaches another agent.</div></button>` : ""}</div>`
+    : `<div class="note callout-good"><b>Nothing urgent.</b> The review and attention queues are clear.</div>`;
+  for (const b of $("tab-value").querySelectorAll("[data-goto]")) b.addEventListener("click", () => showTab(b.dataset.goto));
+}
+
+async function loadCompare() {
+  const [acts, receipts] = await Promise.all([api("/api/actions?limit=1000"), api("/api/receipts?limit=1000")]);
+  const blocked = acts.filter((a) => !a.allowed).length;
+  $("comparison").innerHTML = `<div class="compare"><div class="without"><h3>Without a governance layer</h3><ul>
+    <li>Prompt context has no durable receipt</li><li>Corrections depend on every integration doing the right thing</li>
+    <li>Tool calls may use evidence that changed after retrieval</li><li>Conflicting claims can silently overwrite one another</li></ul></div>
+    <div><h3>With Memory Fabric in this store</h3><ul><li><b>${receipts.length}</b> exact context receipt(s) recorded</li>
+    <li><b>${blocked}</b> protected action request(s) refused</li><li>Every protected action can re-check evidence at action time</li>
+    <li>Contradictions remain visible as competing claims</li></ul></div></div>
+    <div class="note proof"><b>Interpretation:</b> these are observed governance properties. To claim better task accuracy,
+    record independently verified episode outcomes and compare a registered baseline.</div>`;
+}
+
+function qualityCard(name, value, detail, tab, good) {
+  return `<button class="quality-card" data-goto="${tab}"><div class="grade">${esc(value)}</div><b>${esc(name)}</b>
+    <div class="progress"><span style="width:${Math.max(0, Math.min(100, good))}%"></span></div><div class="sub">${esc(detail)}</div></button>`;
+}
+
+async function loadQuality() {
+  const o = OVERVIEW || await api("/api/overview");
+  const [rev, att, receipts, acts] = await Promise.all([api("/api/review"), api("/api/attention"),
+    api("/api/receipts?limit=1000"), api("/api/actions?limit=1000")]);
+  const total = Math.max(1, Object.values(o.by_state || {}).reduce((a, b) => a + b, 0));
+  const active = (o.by_state || {}).active || 0;
+  const reviewed = Math.round(active / total * 100);
+  const reproducible = acts.length ? Math.round(Math.min(1, receipts.length / acts.length) * 100) : 0;
+  const queueHealth = Math.round(Math.max(0, 1 - (rev.length + att.length) / total) * 100);
+  const cards = [qualityCard("Review coverage", `${reviewed}%`, `${active} of ${total} memories are available to agents.`, "review", reviewed),
+    qualityCard("Context reproducibility", `${reproducible}%`, `${receipts.length} receipt(s) for ${acts.length} protected action(s).`, "context", reproducible),
+    qualityCard("Queue health", `${queueHealth}%`, `${rev.length} waiting; ${att.length} need attention.`, "attention", queueHealth),
+    qualityCard("Correction visibility", "Traceable", "Withdrawals, descendants and recipients remain inspectable.", "lifecycle", 100),
+    qualityCard("Provenance", "Required", "Every persistent memory records how and by whom it was created.", "memories", 100),
+    qualityCard("Verified outcomes", o.episodes ? `${o.episodes}` : "Not yet", "Needed before claiming measured task improvement.", "episodes", o.episodes ? 100 : 0)];
+  $("quality-grid").innerHTML = cards.join("");
+  for (const b of $("quality-grid").querySelectorAll("[data-goto]")) b.addEventListener("click", () => showTab(b.dataset.goto));
+}
+
+async function loadStudio() {
+  const c = await api("/api/user-catalog");
+  if (c.selected_model && !$("studio-model").value) $("studio-model").value = c.selected_model;
+  const ready = (c.providers || []).filter((p) => p.ready).map((p) => p.provider);
+  const current = `<div class="note"><b>Current default:</b> ${esc(c.selected_model || "not selected")}
+    <br><span class="sub">Ready providers: ${esc(ready.join(", ") || "none detected")}. Provider keys are never returned to this page.</span></div>`;
+  const agents = (c.agents || []).length ? `<h3>Your uploaded agents</h3><div class="quality-grid">${c.agents.map((a) =>
+    `<div class="quality-card"><b>${esc(a.name)}</b><div class="sub mono">${esc(a.id)} · v${a.version}</div>
+      <p>${esc(a.description || "No description")}</p><div class="sub">Model: ${esc(a.model || c.selected_model || "not selected")}</div>
+      <div class="sub">Requested tools: ${esc((a.tools || []).join(", ") || "none")}</div>
+      <div class="sub">Prompt configured: ${a.system_prompt_chars ? "yes" : "no"}</div></div>`).join("")}</div>`
+    : `<div class="empty">No uploaded agents yet. Drop a manifest above to preview it, then run the generated import command.</div>`;
+  $("catalog-current")?.remove();
+  $("agent-preview").insertAdjacentHTML("afterend", `<div id="catalog-current">${current}${agents}</div>`);
+}
+
+async function notificationData() {
+  const [att, rev] = await Promise.all([api("/api/attention"), api("/api/review")]);
+  return [
+    ...att.map((x) => ({kind: x.severity || "high", title: x.title, detail: x.detail, tab: "attention"})),
+    ...(rev.length ? [{kind: "medium", title: `${rev.length} memor${rev.length === 1 ? "y" : "ies"} waiting for review`,
+      detail: "Unreviewed memories remain unavailable to other agents.", tab: "review"}] : []),
+  ];
+}
+
+async function loadNotifications() {
+  const items = await notificationData();
+  $("c-notifications").textContent = items.length ? `(${items.length})` : "";
+  $("notification-badge").textContent = items.length || "";
+  $("notifications-list").innerHTML = items.length ? items.map((x) => `<button class="card ${esc(x.kind)}" data-goto="${x.tab}">
+    <div class="card-head">${badge(x.kind, x.kind)} <span class="card-title">${esc(x.title)}</span></div>
+    <div class="card-detail">${esc(x.detail)}</div></button>`).join("")
+    : `<div class="note callout-good"><b>You're caught up.</b> No review, correction or security action is required.</div>`;
+  for (const b of $("notifications-list").querySelectorAll("[data-goto]")) b.addEventListener("click", () => showTab(b.dataset.goto));
+}
+
+async function loadProof() {
+  const [caps, limits] = await Promise.all([api("/api/capabilities"), api("/api/limitations")]);
+  const available = caps.capabilities.filter((c) => c.status === "available");
+  const experimental = caps.capabilities.filter((c) => c.status === "experimental");
+  const tests = new Set(caps.capabilities.flatMap((c) => c.tests || []));
+  $("proof-metrics").innerHTML = [[available.length, "Supported capabilities"], [experimental.length, "Explicitly experimental"],
+    [tests.size, "Named test files"], [limits.length, "Published limitations"]].map(([n, label]) =>
+      `<div class="metric"><strong>${n}</strong><div class="label">${esc(label)}</div></div>`).join("");
+  $("proof-list").innerHTML = `<h3>Reproducible evidence map</h3><table><thead><tr><th>Capability</th><th>Status</th><th>Evidence</th><th>Limits</th></tr></thead><tbody>
+    ${caps.capabilities.filter((c) => ["available", "experimental"].includes(c.status)).map((c) => `<tr><td><b>${esc(c.title)}</b><div class="sub">${esc(c.user_problem)}</div></td>
+      <td>${badge(c.status, c.status === "available" ? "low" : "medium")}</td><td>${(c.tests || []).map((t) => `<div class="mono">${esc(t)}</div>`).join("") || "—"}</td>
+      <td>${(c.limitations || []).map((l) => `<div class="sub">${esc(l)}</div>`).join("") || "None registered"}</td></tr>`).join("")}</tbody></table>
+    <div class="note proof"><b>How to interpret this:</b> implementation and tests establish that a control behaves as specified.
+    Only registered experiments with verified outcomes establish downstream performance improvement.</div>`;
+}
+
+function showModelCommand(pull) {
+  const spec = $("studio-model").value.trim();
+  if (!spec || !spec.includes(":")) { $("model-command").innerHTML = `<div class="note">Enter provider:model first.</div>`; return; }
+  if (pull && !spec.startsWith("ollama:")) { $("model-command").innerHTML = `<div class="note">Only local Ollama models are pulled. Hosted models are selected by name.</div>`; return; }
+  const cmd = `memory-fabric models --${pull ? "pull" : "select"} ${spec}`;
+  $("model-command").innerHTML = actionBlock(cmd);
+}
+
+function previewAgent(file) {
+  if (!file || file.size > 262144) { $("agent-preview").innerHTML = `<div class="note">Choose a JSON file under 256 KB.</div>`; return; }
+  file.text().then((text) => {
+    let a; try { a = JSON.parse(text); } catch (_) { throw new Error("This is not valid JSON."); }
+    const allowed = ["schema", "version", "id", "name", "description", "model", "system_prompt", "tools"];
+    const unknown = Object.keys(a).filter((x) => !allowed.includes(x));
+    if (a.schema !== "memory-fabric-agent-v1" || !a.id || !a.name || unknown.length) throw new Error(
+      unknown.length ? `Unknown fields: ${unknown.join(", ")}` : "The manifest needs schema, id and name.");
+    const cmd = `memory-fabric agents --import "${file.name.replaceAll('"', '')}"`;
+    $("agent-preview").innerHTML = `<div class="card"><h3>${esc(a.name)}</h3><div class="sub">${esc(a.description || "No description")}</div>
+      <dl class="kv"><dt>id</dt><dd>${esc(a.id)}</dd><dt>model</dt><dd>${esc(a.model || "user default")}</dd>
+      <dt>requested tools</dt><dd>${esc((a.tools || []).join(", ") || "none")}</dd></dl>
+      <div class="note"><b>Permission review required.</b> Requested tools are not automatically granted.</div>${actionBlock(cmd)}</div>`;
+  }).catch((err) => { $("agent-preview").innerHTML = `<div class="note">${esc(err.message)}</div>`; });
+}
+
+async function loadHowTo() {
+  const steps = [
+    ["Create a store", "memory-fabric init ./memory --agent my-assistant", "Creates the database, external keys and the first agent."],
+    ["Choose a model", "memory-fabric models --select ollama:qwen2.5:7b", "Use models --pull first for a local Ollama model."],
+    ["Connect an agent", "memory-fabric --db ./memory/store.db connect --list", "Choose Claude, Cursor, Codex, an HTTP client or a Python framework."],
+    ["Record knowledge", "Agent tool: remember", "New knowledge waits for review and keeps its provenance."],
+    ["Review and share", "memory-fabric --db ./memory/store.db review", "Approve, limit, correct or reject; sharing is a separate audited decision."],
+    ["Recall governed context", "Agent tool: recall", "Only currently admissible memories are returned; exposures are logged."],
+    ["Protect consequential actions", "ActionGate", "Evidence is rechecked when the action occurs, not only when it was retrieved."],
+    ["Correct knowledge", "memory-fabric --db ./memory/store.db correct MEMORY_ID", "Preview descendants and recipients before applying a withdrawal."],
+    ["Inspect and prove", "memory-fabric --db ./memory/store.db serve", "Use Your impact, Replay, Context receipts and Quality scorecard."],
+  ];
+  $("howto-guide").innerHTML = steps.map(([title, cmd, text], i) => `<div class="how-step"><div class="step-n">${i + 1}</div>
+    <div class="studio-card"><h3>${esc(title)}</h3><p>${esc(text)}</p>${actionBlock(cmd)}</div></div>`).join("") +
+    `<div class="note"><b>Safe operating rule:</b> agents can propose knowledge and request tools, but they cannot validate their own claims,
+    grant themselves permissions, or provide their own outcome scores.</div>`;
 }
 
 async function loadActions() {
@@ -1297,10 +1554,17 @@ async function loadCapabilities() {
 
 /* ---------- wiring ---------- */
 
-const TABS = ["start", "attention", "review", "memories", "episodes", "search", "lifecycle", "posture",
-  "changes", "context", "replay", "actions", "capabilities", "graph", "agents"];
+const TABS = ["value", "start", "notifications", "attention", "review", "memories", "episodes", "search", "lifecycle", "posture",
+  "changes", "context", "replay", "actions", "capabilities", "proof", "graph", "agents", "studio", "compare", "quality", "howto"];
 const LOADERS = {
+  value: loadValue,
   start: loadStart,
+  notifications: loadNotifications,
+  studio: loadStudio,
+  compare: loadCompare,
+  quality: loadQuality,
+  howto: loadHowTo,
+  proof: loadProof,
   actions: loadActions,
   attention: loadAttention,
   review: loadReview,
@@ -1386,6 +1650,18 @@ function wire() {
     $("rp-play").textContent = "❚❚ Pause";
     REPLAY_TIMER = setInterval(stepReplay, 700);
   });
+  $("model-select-cmd").addEventListener("click", () => showModelCommand(false));
+  $("model-pull-cmd").addEventListener("click", () => showModelCommand(true));
+  $("agent-drop").addEventListener("click", () => $("agent-file").click());
+  $("agent-drop").addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") $("agent-file").click(); });
+  $("agent-file").addEventListener("change", () => previewAgent($("agent-file").files[0]));
+  for (const event of ["dragenter", "dragover"]) $("agent-drop").addEventListener(event, (ev) => {
+    ev.preventDefault(); $("agent-drop").classList.add("drag"); });
+  for (const event of ["dragleave", "drop"]) $("agent-drop").addEventListener(event, (ev) => {
+    ev.preventDefault(); $("agent-drop").classList.remove("drag");
+    if (event === "drop") previewAgent(ev.dataTransfer.files[0]); });
+  $("role-select").addEventListener("change", () => applyRole($("role-select").value));
+  $("notifications-open").addEventListener("click", () => showTab("notifications"));
 }
 
 async function fillEnums() {
@@ -1692,10 +1968,24 @@ async function loadGraph() {
 /* ---------- command palette ---------- */
 
 let PAL = { items: [], sel: 0, timer: null };
-const TAB_LABELS = { start: "Start here", attention: "Needs attention", review: "Review", memories: "Memories",
+const TAB_LABELS = { value: "Your impact", start: "Get started", notifications: "Notifications", attention: "Needs attention", review: "Review", memories: "Memories",
   graph: "Knowledge map", search: "Search", agents: "Agents", replay: "Replay", actions: "Actions",
   context: "Agent context", episodes: "Episodes", lifecycle: "Lifecycle", posture: "Posture",
-  changes: "Changes", capabilities: "Capabilities & limits" };
+  changes: "Changes", capabilities: "Capabilities & limits", studio: "Agent Studio",
+  compare: "With vs without", quality: "Quality scorecard", howto: "How to use", proof: "Proof & benchmarks" };
+
+const ROLE_TABS = {
+  individual: ["value", "start", "notifications", "memories", "graph", "agents", "studio", "replay", "context", "compare", "quality", "proof", "howto"],
+  lead: ["value", "notifications", "attention", "review", "memories", "graph", "agents", "replay", "actions", "context", "episodes", "quality", "compare", "proof", "howto"],
+  reviewer: ["value", "notifications", "attention", "review", "memories", "search", "replay", "actions", "lifecycle", "changes", "quality", "proof", "howto"],
+  security: ["value", "notifications", "attention", "actions", "replay", "lifecycle", "posture", "capabilities", "compare", "quality", "proof", "howto"],
+  developer: TABS,
+};
+function applyRole(role) {
+  const visible = new Set(ROLE_TABS[role] || TABS);
+  for (const button of $("nav").querySelectorAll("button[data-tab]")) button.hidden = !visible.has(button.dataset.tab);
+  try { localStorage.setItem("memory_fabric.role", role); } catch (_) {}
+}
 
 function openPalette() {
   $("palette-bg").hidden = false; const i = $("palette-input"); i.value = ""; i.focus(); fillPalette("");
@@ -1785,12 +2075,17 @@ document.addEventListener("keydown", (ev) => {
 
 (async function init() {
   wire();
+  let role = "individual";
+  try { role = localStorage.getItem("memory_fabric.role") || role; } catch (_) {}
+  $("role-select").value = role; applyRole(role);
   $("palette-open").addEventListener("click", openPalette);
   $("palette-input").addEventListener("input", (ev) => fillPalette(ev.target.value));
   $("palette-bg").addEventListener("click", (ev) => { if (ev.target === $("palette-bg")) closePalette(); });
   $("help-bg").addEventListener("click", () => { $("help-bg").hidden = true; });
   $("theme-toggle").addEventListener("click", toggleTheme);
   api("/api/agents").then((r) => { AGENTS_CACHE = r; $("c-agents").textContent = r.length || ""; }).catch(() => {});
+  notificationData().then((r) => { $("c-notifications").textContent = r.length ? `(${r.length})` : "";
+    $("notification-badge").textContent = r.length || ""; }).catch(() => {});
   livePoll(); setInterval(livePoll, 5000);
   try {
     await loadOverview();
@@ -1798,9 +2093,10 @@ document.addEventListener("keydown", (ev) => {
   } catch (err) {
     showError(err);
   }
-  let tab = "start";
+  let tab = "value";
   try { tab = localStorage.getItem("memory_fabric.tab") || tab; } catch (_) {}
-  showTab(TABS.includes(tab) ? tab : "start");
+  const roleTabs = ROLE_TABS[$("role-select").value] || TABS;
+  showTab(TABS.includes(tab) && roleTabs.includes(tab) ? tab : roleTabs[0]);
   // Counts for the unvisited tabs, so the nav is informative on arrival.
   api("/api/memories?limit=1000").then((r) => { $("c-memories").textContent = `(${r.length})`; }).catch(() => {});
   api("/api/episodes?limit=1000").then((r) => { $("c-episodes").textContent = `(${r.length})`; }).catch(() => {});

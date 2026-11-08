@@ -1,0 +1,387 @@
+"""Bounded deterministic replay from a complete local observation trace."""
+
+from __future__ import annotations
+
+__stability__ = "experimental"
+
+from dataclasses import dataclass
+import hashlib
+from typing import Any
+
+from .bayes import BinaryNode, enumerate_posterior, marginal
+from .policy import ThresholdPolicy
+from .replay import DeterministicSimulator
+from .state import BeliefState, Observation, update
+from .types import (BudgetExceeded, DecisionRecord, NonReplayable, ReplayStatus,
+                    SimulatorForbidden, canonical_json, digest_json)
+
+
+@dataclass(frozen=True)
+class ReplayStep:
+    sequence: int
+    observation_id: str | None
+    belief_fingerprint: str
+    proposal: str
+    proposal_digest: str
+
+
+@dataclass(frozen=True)
+class ReplayExecution:
+    status: ReplayStatus
+    steps: tuple[ReplayStep, ...]
+    final_state: BeliefState
+    consumed: int
+    complete: bool
+    first_divergence: int | None = None
+    rng_applicability: str = "not_applicable_deterministic_engine"
+    real_actions_executed: bool = False
+    source_observations: tuple[Observation, ...] = ()
+    execution_kind: str = "policy_reexecution"
+
+
+@dataclass(frozen=True)
+class ExecutionCheckpoint:
+    """Verified local continuation point; contains no authorization to use evidence."""
+    schema: str
+    prefix: tuple[Observation, ...]
+    steps: tuple[ReplayStep, ...]
+    state_fingerprint: str
+    simulator_digest: str
+    policy_digest: str
+    checkpoint_digest: str
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "schema": self.schema,
+            "prefix": [item.__dict__ for item in self.prefix],
+            "steps": [item.__dict__ for item in self.steps],
+            "state_fingerprint": self.state_fingerprint,
+            "simulator_digest": self.simulator_digest,
+            "policy_digest": self.policy_digest,
+        }
+
+
+@dataclass(frozen=True)
+class StepInterventionComparison:
+    """Local CAR-inspired step contrast; not an official CAR reproduction."""
+    target_observation_id: str
+    factual: ReplayExecution
+    counterfactual: ReplayExecution
+    method: str = "local_step_suppression_full_suffix_replay"
+    limitations: tuple[str, ...] = (
+        "agent_internal_only", "deterministic_registered_policy_only",
+        "physical_world_effect_not_established", "not_official_car_reproduction")
+
+
+def execute_step_intervention(observations: tuple[Observation, ...], *,
+                              target_observation_id: str,
+                              simulator: DeterministicSimulator,
+                              policy: ThresholdPolicy,
+                              max_events: int = 1_000) -> StepInterventionComparison:
+    """Suppress one evidence step and replay the full dependent suffix locally."""
+    if (type(observations) is not tuple
+            or any(type(item) is not Observation for item in observations)
+            or not isinstance(target_observation_id, str) or not target_observation_id):
+        raise NonReplayable("step intervention requires a typed trace and target ID")
+    positions = [index for index, item in enumerate(observations)
+                 if item.observation_id == target_observation_id]
+    if len(positions) != 1:
+        raise NonReplayable("step intervention target must occur exactly once")
+    factual = execute(observations, simulator=simulator, policy=policy,
+                      max_events=max_events)
+    counterfactual_observations = tuple(item for item in observations
+                                        if item.observation_id != target_observation_id)
+    affected_index = min(positions[0], len(counterfactual_observations))
+    counterfactual = execute_full_suffix(counterfactual_observations,
+        affected_index=affected_index, simulator=simulator, policy=policy,
+        max_events=max_events)
+    if (not factual.complete or factual.status is not ReplayStatus.EXACT
+            or not counterfactual.complete or counterfactual.status is not ReplayStatus.EXACT):
+        raise NonReplayable("step intervention did not produce two exact complete traces")
+    return StepInterventionComparison(target_observation_id, factual, counterfactual)
+
+
+def create_execution_checkpoint(execution: ReplayExecution, *,
+                                simulator: DeterministicSimulator,
+                                policy: ThresholdPolicy) -> ExecutionCheckpoint:
+    """Create an integrity-bound continuation point from an exact replay prefix."""
+    if type(execution) is not ReplayExecution or not execution.complete or execution.status.value != "EXACT":
+        raise NonReplayable("only complete exact replay can be checkpointed")
+    prefix = execution.source_observations
+    simulator_digest = digest_json({"nodes": [
+        {"name": node.name, "parents": node.parents,
+         "probability_true": sorted((repr(key), value)
+                                    for key, value in node.probability_true.items())}
+        for node in simulator.nodes], "updater_id": simulator.updater_id})
+    policy_digest = policy.implementation_digest
+    payload = {"schema": "memory-fabric-cdm-v1", "prefix": [item.__dict__ for item in prefix],
+        "steps": [item.__dict__ for item in execution.steps],
+        "state_fingerprint": execution.final_state.fingerprint,
+        "simulator_digest": simulator_digest, "policy_digest": policy_digest}
+    return ExecutionCheckpoint("memory-fabric-cdm-v1", prefix, execution.steps,
+        execution.final_state.fingerprint, simulator_digest, policy_digest, digest_json(payload))
+
+
+def execute_from_checkpoint(checkpoint: ExecutionCheckpoint,
+                            suffix: tuple[Observation, ...], *,
+                            simulator: DeterministicSimulator,
+                            policy: ThresholdPolicy, max_events: int = 1_000,
+                            verify_prefix: bool = True) -> ReplayExecution:
+    """Continue from a digest-checked prefix and fail closed on any mismatch."""
+    if type(checkpoint) is not ExecutionCheckpoint or type(suffix) is not tuple:
+        raise NonReplayable("unsupported checkpoint or suffix")
+    if checkpoint.schema != "memory-fabric-cdm-v1":
+        raise NonReplayable("checkpoint schema cannot be resolved")
+    simulator_digest = digest_json({"nodes": [
+        {"name": node.name, "parents": node.parents,
+         "probability_true": sorted((repr(key), value)
+                                    for key, value in node.probability_true.items())}
+        for node in simulator.nodes], "updater_id": simulator.updater_id})
+    payload = checkpoint.payload()
+    if (checkpoint.checkpoint_digest != digest_json(payload)
+            or checkpoint.simulator_digest != simulator_digest
+            or checkpoint.policy_digest != policy.implementation_digest):
+        raise NonReplayable("checkpoint integrity or implementation binding failed")
+    if verify_prefix:
+        prefix_result = execute(checkpoint.prefix, simulator=simulator, policy=policy,
+                                max_events=max_events)
+        if (not prefix_result.complete
+                or prefix_result.final_state.fingerprint != checkpoint.state_fingerprint
+                or prefix_result.steps != checkpoint.steps):
+            raise NonReplayable("checkpoint prefix does not reproduce exactly")
+    all_observations = (*checkpoint.prefix, *suffix)
+    if len(all_observations) > max_events:
+        raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    suffix_ids = {item.observation_id for item in suffix if type(item) is Observation}
+    result = execute(all_observations, simulator=simulator, policy=policy, max_events=max_events)
+    if not result.complete:
+        return result
+    suffix_steps = tuple(step for step in result.steps if step.observation_id in suffix_ids)
+    return ReplayExecution(result.status, checkpoint.steps + suffix_steps, result.final_state,
+                           result.consumed,
+                           result.complete, result.first_divergence, result.rng_applicability,
+                           result.real_actions_executed, result.source_observations)
+
+
+def execute_full_suffix(observations: tuple[Observation, ...], *, affected_index: int,
+                        simulator: DeterministicSimulator, policy: ThresholdPolicy,
+                        max_events: int = 1_000) -> ReplayExecution:
+    """Correctness baseline that replays every event from the affected index onward.
+
+    The unchanged prefix is independently replayed into a checkpoint and then
+    revalidated by ``execute_from_checkpoint``. This deliberately favors
+    correctness and reproducibility over avoiding prefix work; selective replay
+    implementations can compare their result against this full-suffix oracle.
+    """
+    if (type(observations) is not tuple
+            or any(type(item) is not Observation for item in observations)
+            or type(affected_index) is not int
+            or not 0 <= affected_index <= len(observations)):
+        raise NonReplayable("full-suffix baseline requires a typed trace and valid affected index")
+    if len(observations) > max_events:
+        raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    prefix = execute(observations[:affected_index], simulator=simulator,
+                     policy=policy, max_events=max_events)
+    if not prefix.complete or prefix.status is not ReplayStatus.EXACT:
+        raise NonReplayable("unchanged prefix is not an exact replay")
+    checkpoint = create_execution_checkpoint(prefix, simulator=simulator, policy=policy)
+    result = execute_from_checkpoint(checkpoint, observations[affected_index:],
+        simulator=simulator, policy=policy, max_events=max_events, verify_prefix=True)
+    return ReplayExecution(result.status, result.steps, result.final_state, result.consumed,
+        result.complete, result.first_divergence, result.rng_applicability,
+        result.real_actions_executed, result.source_observations, "full_suffix_oracle")
+
+
+def execute(observations: tuple[Observation, ...], *, simulator: DeterministicSimulator,
+            policy: ThresholdPolicy, max_events: int = 1_000,
+            expected_fingerprint: str | None = None) -> ReplayExecution:
+    """Run generic deterministic replay without claiming recorded-decision provenance."""
+    return _execute(observations, simulator=simulator, policy=policy,
+        max_events=max_events, expected_fingerprint=expected_fingerprint,
+        decision_record=None)
+
+
+def _execute(observations: tuple[Observation, ...], *, simulator: DeterministicSimulator,
+             policy: ThresholdPolicy, max_events: int,
+             expected_fingerprint: str | None,
+             decision_record: DecisionRecord | None) -> ReplayExecution:
+    if type(max_events) is not int or not 1 <= max_events <= 100_000:
+        raise ValueError("max_events must be between 1 and 100000")
+    if (type(observations) is not tuple
+            or any(type(item) is not Observation for item in observations)):
+        raise SimulatorForbidden("replay requires an explicit immutable observation trace")
+    if len(observations) > max_events:
+        raise BudgetExceeded("trace exceeds event budget; partial replay refused")
+    if type(observations) is tuple and len({item.observation_id for item in observations
+                                            if type(item) is Observation}) != len(observations):
+        raise NonReplayable("duplicate observation IDs make trace order ambiguous")
+    if type(simulator) is not DeterministicSimulator:
+        raise NonReplayable("unsupported simulator configuration")
+    if type(policy) is not ThresholdPolicy:
+        raise SimulatorForbidden("only the built-in data-only decision policy is supported")
+    if decision_record is not None and (
+            type(decision_record) is not DecisionRecord
+            or policy.policy_id != decision_record.policy_id
+            or policy.implementation_digest != decision_record.policy_digest):
+        raise NonReplayable("recorded policy implementation cannot be resolved exactly")
+    if (type(simulator.nodes) is not tuple
+            or any(type(node) is not BinaryNode or type(node.probability_true) is not dict
+                   for node in simulator.nodes)):
+        raise SimulatorForbidden("simulator contains unsupported executable configuration")
+    ordered = tuple(sorted(observations, key=lambda item: (item.sequence, item.observation_id)))
+    steps: list[ReplayStep] = []
+    unique: dict[tuple[str, str], Observation] = {}
+    evidence: dict[str, bool] = {}
+    conflicts: set[str] = set()
+    admitted: list[Observation] = []
+    hash_state = _trace_hash_prefix(conflicts, admitted)
+    current_fingerprint = ""
+    update_policy_digest = digest_json({"updater_id": simulator.updater_id,
+        "policy_id": policy.policy_id, "implementation": "exact-enumeration-v1"})
+    for observation in ordered:
+        key = (observation.origin, observation.variable)
+        if key not in unique:
+            unique[key] = observation
+            admitted.append(observation)
+            previous_conflicts = frozenset(conflicts)
+            if observation.variable in evidence and evidence[observation.variable] != observation.value:
+                conflicts.add(observation.variable)
+            else:
+                evidence.setdefault(observation.variable, observation.value)
+            if previous_conflicts != frozenset(conflicts):
+                hash_state = _trace_hash_prefix(conflicts, admitted)
+            else:
+                _append_trace_observation(hash_state, observation, len(admitted) - 1)
+        conditioned = {name: value for name, value in evidence.items()
+                       if name not in conflicts}
+        distribution = enumerate_posterior(simulator.nodes, conditioned)
+        posterior = {node.name: marginal(distribution, node.name)
+                     for node in simulator.nodes}
+        current_fingerprint = _finish_trace_fingerprint(hash_state, posterior,
+            conflicts, simulator.updater_id, policy.policy_id, update_policy_digest)
+        # ThresholdPolicy depends only on the posterior; omitting the growing
+        # observation tuple here avoids quadratic context allocation.
+        state = BeliefState("memory-fabric-cdm-v1", simulator.updater_id,
+            policy.policy_id, (), posterior, tuple(sorted(conflicts)),
+            current_fingerprint, (), update_policy_digest)
+        proposal = policy.propose(state)
+        if decision_record is not None and proposal.selected not in decision_record.options:
+            raise NonReplayable("replay proposal is outside the original decision options")
+        if proposal.selected is None:
+            raise NonReplayable("deterministic policy abstained without a recorded proposal")
+        steps.append(ReplayStep(observation.sequence, observation.observation_id,
+                                state.fingerprint, proposal.selected,
+                                digest_json({"selected": proposal.selected,
+                                             "probabilities": proposal.probabilities,
+                                             "policy": policy.policy_id})))
+    final_state = update(simulator.nodes, ordered, updater_id=simulator.updater_id,
+                         policy_id=policy.policy_id)
+    if ordered and current_fingerprint != final_state.fingerprint:
+        raise NonReplayable("incremental trace commitment disagrees with canonical state")
+    if expected_fingerprint is not None and final_state.fingerprint != expected_fingerprint:
+        return ReplayExecution(ReplayStatus.NON_REPLAYABLE, tuple(steps), final_state,
+                               len(ordered), False, rng_applicability="not_applicable",
+                               source_observations=ordered)
+    return ReplayExecution(ReplayStatus.EXACT, tuple(steps), final_state, len(ordered), True,
+                           source_observations=ordered)
+
+
+def _trace_hash_prefix(conflicts: set[str], admitted: list[Observation]):
+    """Build a streaming SHA-256 prefix for the canonical state payload."""
+    prefix = canonical_json({"conflicts": sorted(conflicts)})[:-1]
+    hasher = hashlib.sha256((prefix + ',"observations":[').encode("utf-8"))
+    for index, observation in enumerate(admitted):
+        if index:
+            hasher.update(b",")
+        hasher.update(canonical_json(observation.__dict__).encode("utf-8"))
+    return hasher
+
+
+def _append_trace_observation(hasher: Any, observation: Observation, index: int) -> None:
+    """Append one newly admitted, already sequence-ordered observation."""
+    if index:
+        hasher.update(b",")
+    hasher.update(canonical_json(observation.__dict__).encode("utf-8"))
+
+
+def _finish_trace_fingerprint(hasher: Any, posterior: dict[str, float],
+        conflicts: set[str], updater_id: str, policy_id: str,
+        update_policy_digest: str) -> str:
+    suffix = canonical_json({"policy": policy_id, "posterior": posterior,
+        "schema": "memory-fabric-cdm-v1", "update_policy_digest": update_policy_digest,
+        "updater": updater_id})
+    final = hasher.copy()
+    final.update(b"],")
+    final.update(suffix[1:].encode("utf-8"))
+    return final.hexdigest()
+
+
+def execute_recorded(fabric: Any, observations: tuple[Observation, ...], *,
+                     simulator: DeterministicSimulator, policy: ThresholdPolicy,
+                     decision_record: DecisionRecord, max_events: int = 1_000,
+                     expected_fingerprint: str | None = None) -> ReplayExecution:
+    """Re-execute the local policy only when its original receipt resolves."""
+    from .capture import verify_decision_record
+
+    if not verify_decision_record(fabric, decision_record):
+        raise NonReplayable("decision record has no valid immutable event receipt")
+    if decision_record.rng_applicability == "missing_state_non_replayable":
+        raise NonReplayable("the original decision's RNG continuation state is unavailable")
+    if decision_record.tool_observations:
+        raise NonReplayable("tool/environment observations lack a registered pure replay handler")
+    return _execute(observations, simulator=simulator, policy=policy,
+        max_events=max_events, expected_fingerprint=expected_fingerprint,
+        decision_record=decision_record)
+
+
+def execute_captured(fabric: Any, session: Any, capture_result: Any,
+                     observations: tuple[Observation, ...], *,
+                     simulator: DeterministicSimulator, policy: ThresholdPolicy,
+                     decision_record: DecisionRecord,
+                     max_events: int = 1_000) -> ReplayExecution:
+    """Replay an explicit overlay bound to a fresh, authorized historical capture.
+
+    Overlay values remain caller-declared domain inputs; this boundary guarantees
+    they can only be attached to evidence IDs in the captured, currently
+    authorized history and that the recorded decision receipt still resolves.
+    """
+    from .capture import capture, verify_decision_record
+    from .types import CaptureResult, ReplayContext
+
+    if (type(capture_result) is not CaptureResult or not capture_result.complete
+            or not capture_result.archival_only
+            or not capture_result.historical_snapshot_only
+            or not capture_result.source_currently_admissible
+            or capture_result.decision != decision_record
+            or capture_result.source_head > fabric.log.head_seq):
+        raise NonReplayable("authorized historical capture is unavailable")
+    if (type(decision_record) is not DecisionRecord
+            or not verify_decision_record(fabric, decision_record)):
+        raise NonReplayable("recorded decision receipt cannot be verified")
+    refs = capture_result.evidence
+    current = capture(fabric, session, [ref.belief_id for ref in refs],
+        context=ReplayContext(capture_result.known_at, valid_at=capture_result.valid_at,
+                              max_events=100_000), decision=decision_record)
+    if (current.evidence != refs or current.principal_id != capture_result.principal_id
+            or current.tenant_id != capture_result.tenant_id):
+        raise NonReplayable("historical capture is no longer currently authorized")
+    if (type(observations) is not tuple or not observations
+            or any(type(item) is not Observation for item in observations)):
+        raise NonReplayable("a typed immutable overlay is required")
+    ids = tuple(item.observation_id for item in observations)
+    expected = tuple(ref.belief_id for ref in decision_record.evidence)
+    if len(set(ids)) != len(ids) or set(ids) != set(expected):
+        raise NonReplayable("overlay IDs must map one-to-one to recorded evidence")
+    return execute_recorded(fabric, observations, simulator=simulator, policy=policy,
+                            decision_record=decision_record, max_events=max_events)
+
+
+def first_divergence(factual: ReplayExecution, counterfactual: ReplayExecution) -> int | None:
+    """Return the first sequence whose state or proposal differs."""
+    for left, right in zip(factual.steps, counterfactual.steps):
+        if (left.belief_fingerprint, left.proposal) != (right.belief_fingerprint, right.proposal):
+            return min(left.sequence, right.sequence)
+    if len(factual.steps) != len(counterfactual.steps):
+        longer = factual.steps if len(factual.steps) > len(counterfactual.steps) else counterfactual.steps
+        return longer[min(len(factual.steps), len(counterfactual.steps))].sequence
+    return None

@@ -1,0 +1,121 @@
+{
+  "arms": {
+    "exact_shapley": {
+      "max_peak_memory_bytes": 38730,
+      "mean_cpu_nanoseconds": 37500000.0,
+      "mean_utility_difference": -0.12,
+      "mean_wall_nanoseconds": 41321680.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        -0.3100290504107201,
+        0.0700290504107201
+      ]
+    },
+    "leave_one_out": {
+      "max_peak_memory_bytes": 10773,
+      "mean_cpu_nanoseconds": 12500000.0,
+      "mean_utility_difference": -0.12,
+      "mean_wall_nanoseconds": 6989320.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        -0.3100290504107201,
+        0.0700290504107201
+      ]
+    },
+    "oracle_one_removal": {
+      "max_peak_memory_bytes": 5779,
+      "mean_cpu_nanoseconds": 3125000.0,
+      "mean_utility_difference": 0.0,
+      "mean_wall_nanoseconds": 4877920.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "random": {
+      "max_peak_memory_bytes": 3525,
+      "mean_cpu_nanoseconds": 3125000.0,
+      "mean_utility_difference": 0.0,
+      "mean_wall_nanoseconds": 1439120.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "recency": {
+      "max_peak_memory_bytes": 3531,
+      "mean_cpu_nanoseconds": 0.0,
+      "mean_utility_difference": -0.1,
+      "mean_wall_nanoseconds": 1535460.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        -0.29600000000000004,
+        0.096
+      ]
+    },
+    "sampled_shapley": {
+      "max_peak_memory_bytes": 273551,
+      "mean_cpu_nanoseconds": 1850000000.0,
+      "mean_utility_difference": -0.12,
+      "mean_wall_nanoseconds": 1889558160.0,
+      "n": 5,
+      "normal_approx_95_interval": [
+        -0.3100290504107201,
+        0.0700290504107201
+      ]
+    }
+  },
+  "configuration_sha256": "ba19aa8aa50f9db33a17cb488763cf978ad494f8cf111c1de4c5272d4c96021c",
+  "csv_sha256": "24c6e5ce63fbbe8ae0914ca1583372721f2ecdd2abb3e7f19825ee8aa1e18ac1",
+  "generator_sha256": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
+  "limitations": [
+    "No official reproduction of Shapley, CAR or another external system.",
+    "Normal-approximation intervals are imprecise at these sample sizes.",
+    "No real-world transfer or efficacy claim is supported."
+  ],
+  "primary": {
+    "contrast": "exact_shapley_utility_minus_leave_one_out_utility",
+    "decision": "DOES_NOT_SUPPORT_REGISTERED_SUPERIORITY_HYPOTHESIS",
+    "margin_share": 0.2,
+    "mean_paired_difference": 0.0,
+    "normal_approx_95_interval": [
+      0.0,
+      0.0
+    ],
+    "oracle_exceedances": 0,
+    "oracle_headroom_mean": 0.12,
+    "superiority_margin": 0.024
+  },
+  "protocol": "CDM-R5-v3",
+  "protocol_path": "research/prereg/cdm-r5-evaluator-executor-ablations.md",
+  "protocol_sha256": "1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227",
+  "report_sha256": "d3b9a8664ef8359f4a0a5745329763a81553faaffeda737346bc4dbc1e7de4f3",
+  "safety": {
+    "authority_changes": 0,
+    "hidden_truth_visible_to_selectors": false,
+    "model_calls": 0,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "schema": "cdm-r5-architecture-superiority-v3",
+  "scope": "local conceptual architecture comparison on synthetic binary-sensor worlds",
+  "seeds": [
+    20261901,
+    20261902,
+    20261903,
+    20261904,
+    20261905
+  ],
+  "source_hashes": {
+    "benchmarks/cdm_architecture_superiority.py": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
+    "src/memory_fabric/causal_replay/attribution.py": "46457b23ed32b7fe7583aeb6c710cde5f83d4eec99ff34f3dce3aca9cda16ba0",
+    "src/memory_fabric/causal_replay/bayes.py": "20e4f34fced57795dc70552a4d7f2984485cba98363f7d408d5ffed40d5d5fa2",
+    "src/memory_fabric/causal_replay/policy.py": "cdf0072ec7cb3e266321d4b2baf4df67ea65ac2769562a17ba33bf6e01865d1c",
+    "src/memory_fabric/causal_replay/state.py": "5f4e1c1eea17f1173bdb80d0c3cb59513ab67857aa13162e166d8a552e07b4fc"
+  },
+  "split": "development",
+  "status": "PASS",
+  "summary_sha256": "6f11af08ba6a38b089aa6c0d71e195ae235d73b007e060fa956836422ad4aef9"
+}

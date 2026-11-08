@@ -35,6 +35,18 @@ export MEMORY_FABRIC_MODEL=anthropic:claude-opus-5-5     # or any provider below
 memory-fabric models --test "$MEMORY_FABRIC_MODEL"
 ```
 
+Users can also persist a personal selection without changing shell startup
+files. `MEMORY_FABRIC_MODEL` still takes precedence for deployments:
+
+```bash
+memory-fabric models --select ollama:qwen2.5:7b
+memory-fabric models --pull ollama:qwen2.5:7b
+```
+
+`--pull` is intentionally local-Ollama-only. Hosted models are selected by
+name and remain at their provider; API keys continue to come only from the
+environment.
+
 | provider | example | needs |
 |---|---|---|
 | Anthropic | `anthropic:claude-opus-5-5` | `ANTHROPIC_API_KEY`, `pip install ".[claude]"` |
@@ -58,7 +70,37 @@ llm = ModelClient("ollama:qwen2.5:7b", prices={"qwen2.5:7b": (0, 0)})
 print(llm.complete("Summarise: ...").text, llm.log.totals())
 ```
 
-## 3. Choose your embedding model
+## Upload a portable agent definition
+
+Agent uploads are declarative JSON, not executable packages. This keeps an
+uploaded agent inspectable and prevents an upload from running code merely by
+being added to the catalog.
+
+```json
+{
+  "schema": "memory-fabric-agent-v1",
+  "id": "researcher",
+  "name": "Researcher",
+  "description": "Finds and synthesises evidence",
+  "model": "ollama:qwen2.5:7b",
+  "system_prompt": "Cite the evidence used for each conclusion.",
+  "tools": ["recall", "remember"]
+}
+```
+
+```bash
+memory-fabric agents --import researcher.json
+memory-fabric agents
+memory-fabric --json agents
+```
+
+Imports reject unknown fields, malformed model specs, oversized prompts and
+duplicate ids unless `--replace` is explicit. The catalog contains model names
+and agent instructions, but never provider credentials. A host application
+chooses how to instantiate the manifest and remains responsible for granting
+its tools; an uploaded agent cannot grant itself capabilities.
+
+## 4. Choose your embedding model
 
 ```bash
 export MEMORY_FABRIC_EMBEDDER=openai:text-embedding-3-small   # or ollama:nomic-embed-text,

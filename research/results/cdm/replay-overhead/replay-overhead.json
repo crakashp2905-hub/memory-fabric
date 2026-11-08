@@ -1,0 +1,70 @@
+{
+  "all_exact_state_fidelity": true,
+  "benchmark_sha256": "0c3cd74e8b6cbc388838bb68e0d155bab9330ebc7018b29fed484f0354d04b1c",
+  "dependencies": "Python standard library only",
+  "mode": "terminal_state_reconstruction_not_per_event_trace_execution",
+  "model_calls": 0,
+  "network_calls": 0,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.5",
+  "rows": [
+    {
+      "cpu_ns": 0,
+      "event_count": 100,
+      "exact_state_fidelity": true,
+      "live_allocation_blocks": 305,
+      "oracle_fault": 0.6923076923076924,
+      "peak_traced_bytes": 52676,
+      "posterior_abs_error": 0.0,
+      "posterior_fault": 0.6923076923076924,
+      "seed": 20261108,
+      "state_fingerprint": "8c47c44224b9dddab5265eb6fae14a2af1a51aa2044a04ac1c154ab34d7ea4fa",
+      "wall_ns": 14692100,
+      "workload_sha256": "865eb6c45fa40704a0b40c6a2de87cadc5c70d05de3790328e26f4ea33b74023"
+    },
+    {
+      "cpu_ns": 156250000,
+      "event_count": 1000,
+      "exact_state_fidelity": true,
+      "live_allocation_blocks": 1852,
+      "oracle_fault": 0.6923076923076924,
+      "peak_traced_bytes": 415889,
+      "posterior_abs_error": 0.0,
+      "posterior_fault": 0.6923076923076924,
+      "seed": 20261108,
+      "state_fingerprint": "868aab3a824277ddee22dcdf74d7b5af1a33af37663c2ae0ad85fc986ceb4d43",
+      "wall_ns": 152050200,
+      "workload_sha256": "575f0575ddfa437b2fed23258657c5029635035be4419fcffe92ff35937a75b7"
+    },
+    {
+      "cpu_ns": 1437500000,
+      "event_count": 10000,
+      "exact_state_fidelity": true,
+      "live_allocation_blocks": 2020,
+      "oracle_fault": 0.6923076923076924,
+      "peak_traced_bytes": 3655993,
+      "posterior_abs_error": 0.0,
+      "posterior_fault": 0.6923076923076924,
+      "seed": 20261108,
+      "state_fingerprint": "4f227a856b3a82a6fc1d80f3cd9995e9d659f2449fa426b7347dc77aa41e4cb4",
+      "wall_ns": 1461084000,
+      "workload_sha256": "b9aa9e4b65ebfa3fd6d928e5a704f8683bc4305d7972666a78bfefb04ffd9a50"
+    },
+    {
+      "cpu_ns": 15890625000,
+      "event_count": 100000,
+      "exact_state_fidelity": true,
+      "live_allocation_blocks": 2035,
+      "oracle_fault": 0.6923076923076924,
+      "peak_traced_bytes": 39492017,
+      "posterior_abs_error": 0.0,
+      "posterior_fault": 0.6923076923076924,
+      "seed": 20261108,
+      "state_fingerprint": "798358df8f936660f7a28180f7756aa3da4a2a476db1c0c5661897ee4cf1e433",
+      "wall_ns": 16290532800,
+      "workload_sha256": "af6a74c09df31e628d5604b903094fd48f04415e735f29377dd7537454bcc3c0"
+    }
+  ],
+  "schema": "cdm-replay-overhead-v1",
+  "seed": 20261108
+}

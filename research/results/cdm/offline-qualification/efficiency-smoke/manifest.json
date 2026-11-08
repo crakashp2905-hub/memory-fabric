@@ -1,0 +1,39 @@
+{
+  "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+  "limits": {
+    "k": 10,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "output_sha256": "744d4922298864f8792e8e17db10497435574068254a6b0ce6eb1677b1a9a1b7",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.5",
+  "remote_telemetry": false,
+  "schema": "cdm-efficiency-v1",
+  "seeds": [
+    20261108,
+    20261109
+  ],
+  "source_sha256": "c32ad56bb91d5334a9deb8f19d26d3de7cb5291877b1c33331de021e0fd5b8c6",
+  "summary": {
+    "10": {
+      "max_peak_bytes": 1144,
+      "p50_cpu_ns": 14843.5,
+      "p95_wall_ns": 14213,
+      "p99_wall_ns": 14213
+    },
+    "100": {
+      "max_peak_bytes": 6584,
+      "p50_cpu_ns": 133593.5,
+      "p95_wall_ns": 93248,
+      "p99_wall_ns": 93248
+    },
+    "1000": {
+      "max_peak_bytes": 98944,
+      "p50_cpu_ns": 2968750.0,
+      "p95_wall_ns": 1972083,
+      "p99_wall_ns": 1972083
+    }
+  },
+  "workload_sha256": "6b93ac7bba2e16f288b3113119d7d2c0bc0921682c4d02290ddf71755213f0d5"
+}

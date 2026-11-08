@@ -1,0 +1,106 @@
+{
+  "all_complete": true,
+  "arms": {
+    "dependence": {
+      "mean_paired_utility_delta": -0.15,
+      "mean_utility": 0.29,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.3611995370365296,
+        0.06119953703652961
+      ],
+      "refusals": 0
+    },
+    "factual": {
+      "mean_paired_utility_delta": 0.0,
+      "mean_utility": 0.44000000000000006,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "refusals": 0
+    },
+    "influence": {
+      "mean_paired_utility_delta": -0.15,
+      "mean_utility": 0.29,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.3611995370365296,
+        0.06119953703652961
+      ],
+      "refusals": 0
+    },
+    "leave_one_out": {
+      "mean_paired_utility_delta": -0.15,
+      "mean_utility": 0.29,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.3611995370365296,
+        0.06119953703652961
+      ],
+      "refusals": 0
+    },
+    "oracle": {
+      "mean_paired_utility_delta": 0.11000000000000001,
+      "mean_utility": 0.55,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.08479853980744084,
+        0.30479853980744087
+      ],
+      "refusals": 0
+    },
+    "random": {
+      "mean_paired_utility_delta": 0.0,
+      "mean_utility": 0.44000000000000006,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.029217954905997254,
+        0.029217954905997254
+      ],
+      "refusals": 0
+    },
+    "recency": {
+      "mean_paired_utility_delta": 0.0,
+      "mean_utility": 0.44000000000000006,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "refusals": 0
+    }
+  },
+  "arms_per_seed": [
+    "dependence",
+    "factual",
+    "influence",
+    "leave_one_out",
+    "oracle",
+    "random",
+    "recency"
+  ],
+  "cases": 70,
+  "configuration_sha256": "83207bd269e8b58ad356f9252857e7d6cb2b8c84aa211f95441373ed97b20d42",
+  "csv_sha256": "5456007cf97a44d587a067292f96ee4e6e6495d07462987056dcb137ad74981b",
+  "generator_sha256": "acfb40f921cbb986f46672643adebee3b4b51dc04ba996ae3164bfb6174ef083",
+  "json_sha256": "3ffee47925a84e1386c668e1444ee5e9191d9dfcf8bb088bc5ea25c6b0c2eb7f",
+  "max_oracle_error": 0.0,
+  "oracle_exceeded": false,
+  "oracle_sha256": "602215a47d2ac7864a759bda8ac883289188dd79b596505967b96f902ac45758",
+  "schema": "cdm-paired-benchmark-v2",
+  "scope": "synthetic binary sensor worlds; local code-path oracle only",
+  "seeds": [
+    20261108,
+    20261109,
+    20261110,
+    20261111,
+    20261112,
+    20261113,
+    20261114,
+    20261115,
+    20261116,
+    20261117
+  ]
+}

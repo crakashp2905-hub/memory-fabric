@@ -2011,7 +2011,27 @@ def cmd_models(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Bring your own model (`models.py`): what is ready, and a one-call test."""
     import os
 
-    from .models import ENV_MODEL, ModelClient, ModelError, configured
+    from .models import ENV_MODEL, ModelClient, ModelError, configured, pull_model
+    from .user_catalog import UserCatalog
+
+    catalog = UserCatalog()
+
+    if args.select:
+        try:
+            selected = catalog.select_model(args.select)
+        except (OSError, ValueError) as exc:
+            print(f"cannot select model: {exc}", file=sys.stderr)
+            return 2
+        print(f"selected {selected} in {catalog.path}")
+        return 0
+    if args.pull:
+        try:
+            result = pull_model(args.pull)
+        except (ModelError, ValueError) as exc:
+            print(f"{args.pull}: pull failed: {exc}", file=sys.stderr)
+            return 1
+        print(f"{args.pull}: {result.get('status', 'pulled')}")
+        return 0
 
     if args.test:
         try:
@@ -2025,16 +2045,45 @@ def cmd_models(fabric: MemoryFabric, args: argparse.Namespace) -> int:
               f"{done.output_tokens} out tokens, {cost}: {done.text.strip()[:40]!r}")
         return 0
     if args.json:
-        print(json.dumps({"default": os.environ.get(ENV_MODEL), "providers": configured()},
+        print(json.dumps({"default": os.environ.get(ENV_MODEL) or catalog.selected_model(),
+                          "source": "environment" if os.environ.get(ENV_MODEL) else "catalog",
+                          "providers": configured()},
                          indent=2))
         return 0
     heading("Models")
-    print(f"  default ({ENV_MODEL}): {os.environ.get(ENV_MODEL) or 'not set'}\n")
+    print(f"  default ({ENV_MODEL} overrides catalog): "
+          f"{os.environ.get(ENV_MODEL) or catalog.selected_model() or 'not set'}\n")
     table(["provider", "ready", "needs"],
           [[r["provider"], "yes" if r["ready"] else "-", r["needs"]] for r in configured()])
     print("\n  Pick one: export MEMORY_FABRIC_MODEL=anthropic:claude-opus-5-5  "
           "(or openai:..., ollama:..., compat:<model>@<url>)")
     print("  Check it: memory-fabric models --test anthropic:claude-opus-5-5")
+    return 0
+
+
+def cmd_agents_catalog(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Import and inspect declarative user agent manifests; never execute them."""
+    from .user_catalog import UserCatalog
+
+    catalog = UserCatalog()
+    try:
+        if args.import_file:
+            manifest = catalog.import_agent(args.import_file, replace=args.replace)
+            print(f"imported agent {manifest.id!r} ({manifest.name}) into {catalog.path}")
+            return 0
+        rows = catalog.agents()
+    except (OSError, ValueError) as exc:
+        print(f"agent catalog: {exc}", file=sys.stderr)
+        return 2
+    if args.json:
+        from dataclasses import asdict
+        print(json.dumps([asdict(row) for row in rows], indent=2))
+        return 0
+    heading("Uploaded agents")
+    table(["id", "name", "model", "tools"],
+          [[row.id, row.name, row.model or "default", str(len(row.tools))] for row in rows])
+    if not rows:
+        print("  No agents uploaded. Import a declarative JSON manifest with --import.")
     return 0
 
 
@@ -3224,6 +3273,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = add("models", cmd_models,
             "Which model providers are ready here, and test one: models [--test provider:model]")
     p.add_argument("--test", metavar="SPEC", help="send one short request, e.g. ollama:qwen2.5:7b")
+    p.add_argument("--select", metavar="SPEC", help="persist this model as the user's default")
+    p.add_argument("--pull", metavar="OLLAMA:MODEL", help="pull a model into the local Ollama server")
+    p = add("agents", cmd_agents_catalog,
+            "List or import declarative user agents: agents --import agent.json")
+    p.add_argument("--import", dest="import_file", metavar="FILE",
+                   help="upload a memory-fabric-agent-v1 JSON manifest")
+    p.add_argument("--replace", action="store_true", help="replace an agent with the same id")
     p = add("tour", cmd_tour,
             "The whole idea in sixty seconds: one fact, four agents, one correction")
     p.add_argument("--fast", action="store_true", help="print it at once, without pauses")

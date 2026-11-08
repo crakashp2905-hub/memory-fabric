@@ -1,0 +1,199 @@
+{
+  "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+  "limits": {
+    "k": 10,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.5",
+  "remote_telemetry": false,
+  "rows": [
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 10,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 28500,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 1144,
+      "replay_transitions": 10,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00000",
+        "e-00006",
+        "e-00003",
+        "e-00009",
+        "e-00007",
+        "e-00008",
+        "e-00005",
+        "e-00001",
+        "e-00002",
+        "e-00004"
+      ],
+      "selector_cpu_ns": 14062,
+      "selector_wall_ns": 14213
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 100,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 256400,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 6584,
+      "replay_transitions": 100,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00060",
+        "e-00069",
+        "e-00031",
+        "e-00025",
+        "e-00085",
+        "e-00009",
+        "e-00093",
+        "e-00061",
+        "e-00053",
+        "e-00081"
+      ],
+      "selector_cpu_ns": 93750,
+      "selector_wall_ns": 93248
+    },
+    {
+      "branch_recall_at_k": 0.5,
+      "candidate_count": 1000,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 18810100,
+      "k": 10,
+      "oracle_pivotal_ids": [
+        "e-00175",
+        "e-00953"
+      ],
+      "peak_tracemalloc_bytes": 98944,
+      "replay_transitions": 1000,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00855",
+        "e-00175",
+        "e-00101",
+        "e-00556",
+        "e-00177",
+        "e-00921",
+        "e-00297",
+        "e-00103",
+        "e-00412",
+        "e-00020"
+      ],
+      "selector_cpu_ns": 2031250,
+      "selector_wall_ns": 1972083
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 10,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 28800,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 760,
+      "replay_transitions": 10,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00009",
+        "e-00000",
+        "e-00006",
+        "e-00004",
+        "e-00001",
+        "e-00002",
+        "e-00007",
+        "e-00003",
+        "e-00005",
+        "e-00008"
+      ],
+      "selector_cpu_ns": 15625,
+      "selector_wall_ns": 16010
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 100,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 416700,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 3784,
+      "replay_transitions": 100,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00002",
+        "e-00099",
+        "e-00005",
+        "e-00059",
+        "e-00085",
+        "e-00083",
+        "e-00010",
+        "e-00052",
+        "e-00080",
+        "e-00046"
+      ],
+      "selector_cpu_ns": 173437,
+      "selector_wall_ns": 172084
+    },
+    {
+      "branch_recall_at_k": 0.3333333333333333,
+      "candidate_count": 1000,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 24553900,
+      "k": 10,
+      "oracle_pivotal_ids": [
+        "e-00508",
+        "e-00534",
+        "e-00592",
+        "e-00633",
+        "e-00899",
+        "e-00972"
+      ],
+      "peak_tracemalloc_bytes": 48608,
+      "replay_transitions": 1000,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00534",
+        "e-00293",
+        "e-00289",
+        "e-00592",
+        "e-00873",
+        "e-00221",
+        "e-00735",
+        "e-00510",
+        "e-00138",
+        "e-00624"
+      ],
+      "selector_cpu_ns": 3906250,
+      "selector_wall_ns": 3926297
+    }
+  ],
+  "schema": "cdm-efficiency-v1",
+  "seeds": [
+    20261108,
+    20261109
+  ],
+  "summary": {
+    "10": {
+      "max_peak_bytes": 1144,
+      "p50_cpu_ns": 14843.5,
+      "p95_wall_ns": 14213,
+      "p99_wall_ns": 14213
+    },
+    "100": {
+      "max_peak_bytes": 6584,
+      "p50_cpu_ns": 133593.5,
+      "p95_wall_ns": 93248,
+      "p99_wall_ns": 93248
+    },
+    "1000": {
+      "max_peak_bytes": 98944,
+      "p50_cpu_ns": 2968750.0,
+      "p95_wall_ns": 1972083,
+      "p99_wall_ns": 1972083
+    }
+  },
+  "workload_sha256": "6b93ac7bba2e16f288b3113119d7d2c0bc0921682c4d02290ddf71755213f0d5"
+}

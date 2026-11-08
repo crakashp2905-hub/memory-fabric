@@ -1,0 +1,273 @@
+# CDM task ledger
+
+This file tracks all 240 task IDs from the attached fully in-house master plan.
+The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
+
+## Complete at this checkpoint (204)
+
+| Task | Evidence |
+|---|---|
+| CDM-001 | Offline manifest records local tree digest/count, HEAD/ref, uncommitted paths, runtime and test status; remote remains unknown |
+| CDM-002 | `docs/COUNTERFACTUAL_DECISION_MEMORY.md` API inventory and test references |
+| CDM-003 | Scope and non-goals in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
+| CDM-005 | Security threat matrix maps poisoning, injection, exfiltration, forged authority and tool-execution paths to concrete controls and offline negative tests; targeted security/replay suites passed |
+| CDM-006 | Experimental contract in `docs/CAUSAL_REPLAY_API.md` (proposal scope only) |
+| CDM-007 | Inert package import; socket-construction check in qualification manifest |
+| CDM-010 | `docs/architecture/ADR-CDM-001.md` |
+| CDM-011 | `research/prereg/cdm-r1-replay-fidelity.md` |
+| CDM-012 | `research/prereg/cdm-r2-counterfactual-attribution.md` |
+| CDM-013 | Stable CDM error classes in `src/memory_fabric/causal_replay/types.py` |
+| CDM-015 | `docs/CAUSAL_REPLAY_LIMITATIONS.md` |
+| CDM-016 | Provenance definitions in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
+| CDM-019 | Experimental stability metadata and explicit schema major/minor parsing added: v1/v1.0 compatible, future minor/major refused; record parser normalization and refusal tests pass |
+| CDM-021 | Immutable event and belief references in `types.py` |
+| CDM-022 | Typed `DecisionRecord` in `types.py` |
+| CDM-023 | Typed `ReplayContext` in `types.py` |
+| CDM-024 | Typed `ToolObservation` commitments in `types.py` |
+| CDM-025 | `MemoryService.Session` capture rechecks credentials before and after snapshot; revoked-session refusal tested |
+| CDM-026 | Explicit-ID, 100-ID and bounded-event snapshot semantics in `capture.py` |
+| CDM-028 | Original decision options/constraints are captured in a session-authenticated, digest-only append-only event receipt; capture verifies the event sequence/ID, tenant, policy and complete record digest against the hash chain; post-hoc option/event tampering and unflagged option injection refuse |
+| CDM-029 | Decision receipts bind policy ID, source/configuration digest and schema; `execute_recorded` resolves only the exact local built-in policy and refuses mismatched or unavailable implementations; positive and tampered digest tests pass |
+| CDM-030 | Full stdlib MT19937 state and internal position are captured in `RNGSnapshot`, round-trip through canonical records and reproduce the next draws; missing state is explicitly marked non-replayable and exact recorded replay refuses |
+| CDM-031 | Typed tool observations carry the closed exogenous/simulated-endogenous/opaque determinism class inside the authenticated decision receipt; exact replay refuses unhandled tool continuations; class and refusal tests pass |
+| CDM-032 | Canonical JSON and SHA-256 commitments in `types.py`; order/invalid-number tests |
+| CDM-033 | Registered v1 records use strict stdlib JSON parse/serialize with unknown-field rejection |
+| CDM-036 | Digest-only checkpoint contract and current authorization/erasure revalidation |
+| CDM-037 | `tests/test_cdm_capture.py::test_bitemporal_capture_separates_known_time_from_valid_time` uses real versioned history to distinguish knowledge sequence from valid time; the correction is absent before its event, available for its validity interval afterward, and only digests/versions enter the artifact |
+| CDM-038 | `tests/test_cdm_capture.py` cross-tenant, private-memory, and revoked-session fixtures assert generic refusals with no evidence ID, content, or record metadata |
+| CDM-039 | `tests/test_cdm_capture.py` proves a decision with missing evidence cannot be recorded and missing policy implementation refuses `execute_recorded`; `tests/test_cdm_bayes.py::test_incomplete_replay_cannot_be_certified` refuses an incomplete trace as EXACT |
+| CDM-040 | `docs/CAUSAL_REPLAY_API.md` includes canonical JSON record, executable round-trip/unknown-field refusal, capture limits/statuses, migration behavior, and generated belief-state schema fixture checked by tests |
+| CDM-041 | Deterministic pure `update` transition with immutable typed inputs |
+| CDM-042 | `ThresholdPolicy` emits validated `DecisionProposal` and no action authority |
+| CDM-043 | `BeliefState` now includes normalized variables, posterior uncertainty, evidence references and an updater/policy digest; generated schema fixture plus strict validation/round-trip and malformed-record tests pass |
+| CDM-044 | Stdlib finite Bayesian enumeration with conditioning and numerical guards |
+| CDM-045 | Battery world separates cooling failure, overheating, sensor bias and sensor observations in its DAG |
+| CDM-046 | Same-origin duplicates are deduplicated; battery fixture gives independent sensors distinct reliability CPTs |
+| CDM-047 | Zero-probability evidence refuses explicitly |
+| CDM-048 | Deterministic state transition has no clock or mutable global dependency |
+| CDM-049 | Canonical state fingerprint binds observations, posterior and policy ID |
+| CDM-050 | Toy monitor/investigate/diagnose thresholds; proposal only |
+| CDM-051 | Threshold output wraps existing `DecisionProposal.validate` |
+| CDM-052 | `tests/test_cdm_replay.py::test_belief_state_probabilities_cannot_change_governance_or_access` shows belief values cannot change lifecycle or authorize quarantined evidence; API docs state the boundary explicitly |
+| CDM-053 | Contradictory sources stay in the trace; the conflicted variable is not conditioned, preserving prior uncertainty |
+| CDM-054 | Registered CPT sensitivity sweep recomputes exact posteriors across explicit parameter values |
+| CDM-055 | Separate exact rational known-answer oracle tests plus recursive benchmark oracle |
+| CDM-056 | `tests/test_cdm_bayes.py::test_noncommuting_same_origin_updates_follow_recorded_sequence` proves input permutation is neutral for fixed sequence, while a changed recorded order selects the predicted earliest same-origin evidence and changes the posterior accordingly |
+| CDM-057 | Same-origin duplicate test |
+| CDM-058 | Unrelated weather observation leaves fault posterior unchanged |
+| CDM-059 | `tests/test_cdm_bayes.py::test_policy_swap_is_separate_from_evidence_intervention` verifies policy swap preserves evidence and changes policy identity, while suppression preserves policy identity and changes evidence; intervention digests remain distinct |
+| CDM-060 | `docs/COUNTERFACTUAL_DECISION_MEMORY.md` records the finite binary DAG/CPT and evidence assumptions, conflict handling, and explicitly states that illustrative posterior confidence is not clinically or physically calibrated/validated |
+| CDM-061 | Immutable digest checkpoint binds source head, tenant, evidence, updater and policy commitments |
+| CDM-062 | Deterministic from-genesis event replay with exact final fingerprint checking |
+| CDM-064 | Archival checkpoint stores complete stdlib RNG state, algorithm and position; restore matches eight seeded continuation draws and rejects digest/algorithm mismatch |
+| CDM-065 | Exact-checkpoint readiness requires current authorization/evidence, matching updater and policy digests, exact observation-trace digest, and explicit complete RNG or deterministic applicability |
+| CDM-066 | Replay event budget refuses whole traces instead of returning partial success |
+| CDM-067 | Stable event order is sequence then observation ID |
+| CDM-069 | Recorded replay pins policy ID/source digest; unregistered or changed policy and unhandled tool versions raise typed `NON_REPLAYABLE` |
+| CDM-070 | Per-step proposal and belief fingerprints are recorded |
+| CDM-071 | Replay results label local deterministic recomputation as `policy_reexecution`; recorded selection text cannot substitute for the computed proposal, and no hosted path is used |
+| CDM-072 | Checkpoint digest tampering test refuses |
+| CDM-073 | Checkpoint verification rejects erased references and lost authorization |
+| CDM-074 | Bounded replay trace records sequence, belief hash and proposal hash |
+| CDM-075 | Three fixed seeded traces match cold replay at every internal checkpoint cut for final state, exact status and complete per-step choices |
+| CDM-076 | `issue_verified_recorded_replay` revalidates the current authorized capture and source receipt, binds observations one-to-one to evidence, derives only supported overlays, and independently verifies both traces; captured RNG continuations refuse until a verified stochastic handler exists |
+| CDM-077 | Required evidence that is erased, inaccessible, or revoked refuses generically; capture returns commitments only and never fabricates reconstructed text |
+| CDM-078 | Checkpoint verification rejects the old evidence version after a source memory is versioned, even though the archival checkpoint digest remains unchanged |
+| CDM-079 | Full per-event executor traces measured at 100/1k/10k/100k with CPU/wall time, live allocations, peak traced memory, complete step count, canonical final fingerprint guard, and independent posterior oracle fidelity (zero error); raw rows and hashes in `research/results/cdm/replay-overhead/executor-overhead.json` and `executor-manifest.json`. 100k: 88.77s wall, 87.13s CPU, 404,259 live blocks, 91,451,213 peak traced bytes. | Complete. Cost is high at 100k; evidence is synthetic and local. |
+| CDM-080 | `CAUSAL_REPLAY_LIMITATIONS.md` defines deterministic exact replay, full local RNG restoration limits, opaque/incomplete refusal statuses, and the no-hosted execution boundary |
+| CDM-081 | Tagged immutable intervention operations validate declared parameters |
+| CDM-082 | Suppression changes only disposable replay input |
+| CDM-083 | Immutable `ReplacementFixture` validates a typed observation, explicit fixture ID/provenance, and target ID; replay requires target sequence match and changes only a disposable tuple; source-safe fixture test passes |
+| CDM-084 | Delay changes hypothetical sequence and leaves source observation unchanged |
+| CDM-085 | Time-bounded `withhold` requires a fresh authorized capture, exact source/evidence mapping and a valid inclusive interval; in-window masking, out-of-window visibility, malformed interval and erased-source refusal are tested |
+| CDM-086 | `SensitivityFixture` changes one registered CPT entry and is labelled `model_assumption_change`; factual observations remain unchanged and suppression remains a distinct `evidence_change`; regression test proves the distinction |
+| CDM-087 | Policy swap is explicit and changes policy fingerprint separately |
+| CDM-088 | No-op replay matches factual state fingerprint |
+| CDM-089 | Replay operates on immutable copy-on-write tuples and does not mutate Fabric state |
+| CDM-090 | Replay overlays are function-local immutable tuples with no disk/temp/cache persistence; successful and refused replay lifecycle tests confirm source observations remain unchanged and overlay references naturally leave scope. |
+| CDM-091 | `compose_interventions` validates each operation digest, rejects repeated evidence targets and multiple policy swaps before replay, and supports non-overlapping evidence batches; conflict and independent suppress/delay tests pass |
+| CDM-092 | `earliest_affected_index` and `replay_frontier` traverse supplied dependency closure including source-to-derived-belief-to-downstream-decision links; incomplete graphs fall back to genesis; dedicated derived-link regression passes |
+| CDM-093 | `execute` recomputes every per-event proposal from modified evidence; a conflicting factual trace versus changed-evidence trace proves downstream proposal changes and no stale selection reuse |
+| CDM-094 | Versioned data-only `DeterministicEnvironment` regenerates typed endogenous observations and digest-bound tool outputs after changed actions; unknown transitions refuse; no callbacks or real tool execution |
+| CDM-095 | `continue_counterfactual` returns `UNDEFINED_CONTINUATION` for an altered action with dependent future evidence and no simulator; registered environment regenerates and version-binds the replacement observation |
+| CDM-096 | First-party `battery_sensor_environment` provides synthetic cooling-failure sensing and diagnostics via a versioned data-only transition table; no physical, CAN, filesystem, HTTP, shell or vehicle handler exists |
+| CDM-097 | Replay source-log/lifecycle immutability regression |
+| CDM-098 | Direct control matrix checks noop identity, irrelevant-event invariance, and replacement/suppression effects while source evidence remains unchanged |
+| CDM-099 | Certificate regression rejects `physical_counterfactual_unsupported`; simulated-world certificates remain explicit and verifiable |
+| CDM-100 | API intervention algebra documents each operator’s preconditions, overlay effect, refusal/control, batch behavior, and unsupported physical boundary |
+| CDM-101 | `verifier.py` recomputes every belief/proposal step with separate enumeration code |
+| CDM-102 | Verifier requires explicit deterministic RNG-not-applicable declaration and checks final state |
+| CDM-103 | issuer verifies intervention digest and requires the target reference in the authenticated DecisionRecord evidence; explicit target-outside-receipt refusal regression in tests/test_cdm_replay.py |
+| CDM-104 | issuer recomputes capture canonical digest, compares intervention digest, validates policy ID/source digest and independent factual/counterfactual trace verification; tamper refusal regressions in tests/test_cdm_replay.py |
+| CDM-105 | Verifier refuses traces claiming real actions; replay has no action handler |
+| CDM-106 | issuer recaptures evidence under current principal/tenant authorization; explicit revoked-session and post-capture erased-evidence refusal regressions in tests/test_cdm_replay.py |
+| CDM-107 | Verifier checks exact status, completeness, consumed count and full step count |
+| CDM-108 | Replay certificate v1 digest-bound schema includes authenticated capture/intervention, factual/counterfactual fingerprints, updater/policy, estimand, world semantics, non-authorizing boundary and explicit limitations; round-trip and tamper refusal tested. |
+| CDM-109 | Replay certificate canonical JSON and content digest with round-trip verification |
+| CDM-110 | Certificate always sets `action_entitlement=False`; tampering is refused |
+| CDM-111 | Certificate schema distinguishes exact, approximate, undefined continuation, erased, unauthorized and non-replayable status values |
+| CDM-112 | Certificate binds declared estimand and simulator/agent/unsupported-physical world semantics; unsupported physical claims do not verify |
+| CDM-113 | Independent minimality verifier checks complete <=10-player proposal tables for sufficient, inclusion-minimal and cardinality-minimum subsets; certificate issuance requires matching verified proof, and bound-table tampering/incomplete-table failures tested |
+| CDM-114 | Separate verifier recomputes exact small-N Shapley from complete coalition tables, checks efficiency and rejects tampering; AND interaction covered |
+| CDM-115 | Certificate changes to capture digest, intervention digest and policy ID fail content-digest verification |
+| CDM-116 | Tampered RNG applicability metadata is rejected by the independent verifier |
+| CDM-117 | Forged replay-certificate payload passed through real `ActionGate.execute` is refused even for a granted tool; side-effect callback remains uncalled |
+| CDM-118 | Masked certificate export omits source digests, updater/policy IDs and certificate hashes; retains no action entitlement |
+| CDM-119 | Standalone stdlib CLI verifies local full certificate JSON and prints only VERIFIED/REFUSED; valid and tampered cases tested |
+| CDM-120 | Local certificate acceptance matrix covers genuine, tampered, unsupported, authority-forgery and truncated cases; 1 TP, 6 TN, 0 FP/FN |
+| CDM-121 | Exact leave-one-out attribution primitive by paired factual/counterfactual comparison; brute-force fixtures |
+| CDM-122 | Decision-flip estimand compares policy proposals explicitly |
+| CDM-123 | Total variation validates support and distributions; identity and maximum-distance fixtures |
+| CDM-124 | Utility-difference estimand returns counterfactual minus factual utility and stays undefined when outcome values are missing |
+| CDM-125 | Exhaustive exact Shapley enumerator capped at 10 players; efficiency and symmetric interaction verified |
+| CDM-126 | Seeded permutation-sampled Shapley returns reproducible estimates |
+| CDM-127 | Pairwise exact interaction screen distinguishes tested AND, OR, redundant and suppressor value-table fixtures |
+| CDM-128 | Paired CF-F estimator requires a valid manifest-declared coupling ID and records replication/skipped counts |
+| CDM-129 | Unpaired stochastic effect reports separate replication/skipped counts, CF-F mean and sampling standard error |
+| CDM-130 | Seeded paired-bootstrap coverage sanity fixture over 60 experiments with known 0.3 coupled Bernoulli effect; 90% interval threshold fixed at 75% minimum observed coverage |
+| CDM-131 | Wilson binomial interval handles edge proportions 0 and 1 exactly and finitely |
+| CDM-132 | Missing dependency completeness or unverified replay yields `NON_IDENTIFIABLE` |
+| CDM-133 | Exposure labels remain explicit; only complete, verified cases receive identified effects |
+| CDM-134 | `measure_computation` records CPU/wall nanoseconds, tracemalloc peak, transitions, simulated calls, certificate bytes, artifact disk bytes, and fixed zero model/API/external costs; focused tests cover values and invalid counters |
+| CDM-135 | Lineage candidate pruning retains all candidates and disables exact claims when dependency completeness is unknown |
+| CDM-136 | Irrelevant evidence identity fixture verifies zero effect under equal distributions |
+| CDM-137 | Two-way AND interaction yields symmetric half-credit under declared value function |
+| CDM-138 | Attribution groups copied evidence under one source root and reports ambiguous lineage without an independence count |
+| CDM-139 | Paired bootstrap is seeded and deterministic; budget/input refusals are explicit |
+| CDM-140 | R7 preregistered 20-seed paired benchmark compares leave-one-out, exact subset, exact/sampled Shapley, random, recency and full-suffix replay; raw CSV/JSON, cost fields and hashed manifest retained. Negative utility differences reported with intervals; synthetic-only scope explicit |
+| CDM-141 | Typed outcome assessment accepts only observed outcome records; hidden truth is not an evaluator input |
+| CDM-142 | Deterministic outcome assessment returns separate reward and safety dimensions and abstains on missing results |
+| CDM-143 | Feedback-frequency contribution comparator is tagged predictive-only and returns undefined without feedback |
+| CDM-144 | First-party TAME-inspired evaluator–executor in `benchmarks/cdm_tame_inspired.py` uses local replay/policy execution, post-proposal outcome scoring, trust annotations and a capped EMA experience update; deterministic/disjoint-seed, visibility, safety, missing-feedback and cap tests pass in `tests/test_cdm_tame.py`. Not an official reproduction. |
+| CDM-145 | TAME-inspired comparator contract freezes score equation, cap, training/holdout seeds, visibility, budget and safety rules in R6 preregistration; runnable prequential comparator, paired uncertainty report, raw CSV/JSON and manifest verified by focused tests and offline gate |
+| CDM-146 | Missing/incomplete outcomes return typed `UNDECIDABLE`, never positive credit |
+| CDM-147 | Outcome assessment and digest-based fidelity check are distinct APIs and types |
+| CDM-148 | Brier score and ECE filter to complete, valid, held-out outcome records; empty eligible set is undefined |
+| CDM-149 | `execute_full_suffix` in `executor.py` replays the entire affected suffix from an integrity-bound unchanged prefix and is explicitly labeled a correctness oracle; a five-event fixture matches cold replay steps, final fingerprint and consumed count at every cut. |
+| CDM-150 | `execute_step_intervention` is a first-party CAR-inspired baseline: suppresses one declared step, preserves the prefix, replays the complete remaining suffix, returns paired exact traces and explicitly states agent-internal/physical-world/non-official limits; missing-target and source-immutability controls pass. |
+| CDM-151 | Seeded `select_random` and deterministic `select_recency` enforce the same candidate budget; selector repeatability/budget tests pass, and paired architecture benchmark includes random/recency arms with one identical removal budget per world. |
+| CDM-152 | `select_centrality` ranks only by visible neighbor count with stable ID tie-break; regression changes risk/relevance/uncertainty while preserving selection. |
+| CDM-153 | `select_priority` implements deterministic 0.5 risk + 0.3 relevance + 0.2 uncertainty over pre-replay Candidate fields, with bounded k and stable ties; tests verify feature ordering and input-order independence. |
+| CDM-154 | R8 freezes matched worlds, one-removal budget, paired simulator utility estimand, truth visibility, safety constraints and cost accounting. Twenty fresh seeds produce 140 paired arm rows, seven cost-quality points, a non-dominated frontier, zero side-effect counters, and verified protocol/report/CSV hashes; full offline gate passes. |
+| CDM-155 | R9 tests one genuine and eight fabricated/incomplete certificate fixtures against the self-certifying executor and a separate stdlib verifier. Baseline accepts 8/8 negatives; independent verifier has 0 false accepts/rejects. Per-case records, protocol hash and confusion matrices retained; full gate passes. |
+| CDM-156 | R10 compares fresh authorization-aware capture with stale snapshot reuse on valid, revoked, erased and cross-tenant fixtures. Governance-aware path has 0 false blocks, unauthorized accepts or metadata exposures; weak path has 2 stale accepts, 3 unauthorized accepts and 3 metadata exposures. Sanitized report, protocol/output hashes and full-gate evidence retained. |
+| CDM-157 | R11 v2 preregistered five deterministic synthetic seeds and compares factual, fixed-continuation LOO, and executed replay. All 5 replay arms change proposals and improve stipulated utility by 0.5 versus LOO; LOO changes none. Focused regression (2 tests) and standalone run pass; manifest binds protocol/report/generator/config hashes and zero safety counters. Report SHA-256 `6ec70a2f5ac963603c8b1991df83df0d5b9597f9c9536dd0a3a2310143aa24ba`. Finite synthetic mechanism evidence only. |
+| CDM-158 | Frozen R12 factorial ablation (`research/prereg/cdm-r12-trust-feedback-ablation.md`) compares annotation/feedback on/off across 10 training and 10 held-out seeds, clean, annotation inversion and feedback inversion. Clean mean utility: 0.22 no-annotation controls, 0.24 annotation arms; correct-memory withholding is separately 9/10 vs 8/10. Full arm utility is unchanged by feedback inversion and rises 0.09 under annotation inversion on this sample; no efficacy/robustness benefit claimed. Three focused tests, Ruff and mypy pass; one-removal oracle not exceeded. Manifest/report/CSV/summary hashes recorded in the R12 result manifest. |
+| CDM-159 | CDM-R5 v3 superiority hypothesis frozen in `research/prereg/cdm-r5-evaluator-executor-ablations.md` before new runs. It fixes LOO vs exact Shapley primary contrast, 20% positive oracle-headroom margin, one-removal evaluator-only ceiling, all arms/seeds, a five-seed development preflight, disjoint 20-seed confirmatory set, null/ceiling-failure outcomes, zero-exceedance requirement and new-version/fresh-seed rule. Protocol SHA-256 `1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227`; CDM-160 reports the subsequent registered run and null result. |
+| CDM-160 | CDM-R5 v3 report is published under `research/results/cdm/architecture-superiority-r5v3/` with development and disjoint confirmatory reports, per-seed CSVs, manifests, source/config/protocol/output hashes, costs and scope. Confirmatory exact-Shapley minus LOO utility is +0.055 (95% interval −0.0528 to +0.1628); positive oracle headroom 0.26 gives frozen margin 0.052; 0 oracle exceedances. Decision: does not support superiority. Confirmatory report SHA-256 `b60a93b55e2c99ba7df67bfdc8cc0ed46d261c29a0212957bfa80ff621921f52`; CSV SHA-256 `2152a99c024598026403e2d3db7ae9eeb776bf4eadd4c0aa04b96eeb6a27efcb`; summary SHA-256 `a6a3983cc853f153afeebf85be0078f01a47d04ed3fdf6007ab62a4b24aeda92`. Conceptual first-party baselines only; no real-world transfer claim. |
+| CDM-161 | `ReplayBudget` validates event, attempt, wall time, memory estimate, node and zero-tool-call limits |
+| CDM-162 | Earliest affected event is found by exhaustive dependency closure |
+| CDM-164 | Unknown dependency completeness falls back to replay from genesis |
+| CDM-166 | Bounded content-addressed checkpoint cache binds tenant/principal, versions, updater/policy, RNG and intervention commitments |
+| CDM-167 | Explicit invalidation drops checkpoints referencing corrected, withdrawn or erased memory IDs |
+| CDM-168 | Cache keys bind tenant/principal and lookups revalidate current authorization and versions |
+| CDM-169 | Top-K selectors expose Branch Recall@K against supplied executed-oracle pivotal IDs; benchmark-scale results remain open |
+| CDM-170 | Stable pre-replay feature record captures risk, relevance, uncertainty and graph neighbors |
+| CDM-171 | Deterministic priority selector enforces the requested candidate count |
+| CDM-174 | No-signal candidate fixture verifies stable uninformative tie behavior |
+| CDM-175 | Local 10/100/1000 candidate scaling report includes selector/frontier timings, memory, recall and per-seed raw rows |
+| CDM-177 | Cross-tenant key collision is a miss; valid committed entry acceptance and current auth revalidation are tested |
+| CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
+| CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
+| CDM-181 | Tenant-scoped correction report uses influence graph actual retrieval/citation/authorization labels |
+| CDM-182 | Verifier evidence sufficiency remains distinct from replayed choice dependence in report language |
+| CDM-183 | Deterministic risk-ranked review worklist surfaced without action authority |
+| CDM-184 | Correction report is explicitly review-only; tests verify authority unchanged |
+| CDM-185 | Generated copied-source fixtures preserve a single independent provenance root |
+| CDM-189 | Two-agent shared-source case maps copied observations to the same root |
+| CDM-190 | Seeded 2/3/10/50-agent trace worlds preserve roles and source provenance |
+| CDM-191 | Conflicting evidence after a decision is absent from that earlier decision's visible inputs |
+| CDM-192 | Delayed retraction fixture models offline peer visibility until explicit sync |
+| CDM-200 | Distributed scope and unavailable history limitations documented without omniscience claims |
+| CDM-201 | Capture intersects historical projection visibility with current access and erasure checks |
+| CDM-202 | Tenant-bound sessions and cross-tenant refusal covered |
+| CDM-203 | Current session + current version + erasure checks invalidate checkpoints |
+| CDM-204 | Replay accepts only built-in deterministic data configuration; no tool executor exists |
+| CDM-205 | Behavioral replay test forbids socket, process and shell construction |
+| CDM-207 | Capture artifact tests prove private content and credential signatures are absent |
+| CDM-208 | Replay certificates explicitly have no action entitlement; no action method is exposed |
+| CDM-210 | Duplicate observation IDs refuse in executor/verifier; reordered step sequence fails independent per-step verification |
+| CDM-212 | Canonical input validator rejects deep, non-finite and non-JSON replacement values |
+| CDM-214 | Evaluator API is typed diagnostic-only and has no store/action dependency; cannot mutate authority or mint certificates |
+| CDM-215 | Inaccessible and erased evidence collapse to a generic refusal without IDs/counts |
+| CDM-216 | Repeated capture/revoke/erase cycles are covered by `tests/test_cdm_privacy.py` |
+| CDM-217 | Compromised-agent fixture cannot convert replay certificate into current action authority; repeated replay leaves source log/version unchanged |
+| CDM-218 | CDM privacy/replay attack fixtures are required by the local offline qualification gate |
+| CDM-219 | Threat matrix and residual risks are in `docs/CAUSAL_REPLAY_SECURITY.md` |
+| CDM-220 | Internal-only scope and absence of independent security certification are explicit |
+| CDM-221 | Seeded battery demonstrator reports three times and a proposal-changing evidence intervention |
+| CDM-222 | Battery demonstrator checks posterior against its separate recursive factor enumerator with 1e-12 tolerance |
+| CDM-223 | Trace generator includes irrelevant, correlated-copy, duplicate, copied, delayed and policy-swap negative controls |
+| CDM-224 | Fixed-seed local benchmark runner records paired synthetic cases |
+| CDM-225 | Benchmark writes raw JSON and CSV for all seven arms and outcomes |
+| CDM-226 | Paired utility deltas, normal-approximation intervals, counts and refusals are reported |
+| CDM-227 | `research/prereg/cdm-r3-evidence-bounded-certificates.md` frozen before held-out run |
+| CDM-228 | `research/prereg/cdm-r4-decision-outcome-impact.md` frozen before held-out run |
+| CDM-229 | `research/prereg/cdm-r5-evaluator-executor-ablations.md` freezes local comparator budgets |
+| CDM-230 | Result manifest includes source, oracle, config and output digests |
+| CDM-231 | Seven arms executed on the disjoint preregistered 10-seed held-out set |
+| CDM-232 | Timeline view model shows evidence/version, belief, policy, proposal and intervention divergence |
+| CDM-233 | Self-contained local viewer has no remote assets, escaped data, user value/how-to guidance and no-action labels |
+| CDM-234 | Bounded in-process CDM request dispatcher supports read-only capture/review only; unknown fields/ops refused |
+| CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
+| CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
+
+## Partial (12)
+
+| Task | Remaining acceptance evidence |
+|---|---|
+| CDM-004 | Trust-boundary diagram in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` | Dedicated `docs/CAUSAL_REPLAY_SECURITY.md`; independently explicit evaluator/verifier boundary. |
+| CDM-008 | Empty-fabric no-mutation regression in `tests/test_cdm_api.py` | Existing CLI/import/return-value compatibility coverage. |
+| CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
+| CDM-014 | Several malformed input and authorization refusals tested | Full malformed-input matrix across every facade operation. |
+| CDM-017 | Focused suite runs in `tools/cdm_offline_gate.py`; `tools/check.py` has a focused entry | Demonstrate full local check gate with network operations prohibited. |
+| CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
+| CDM-020 | Change log plus qualification manifest and this ledger | Status transitions still need per-task source digests and broader artifact inventory. |
+| CDM-027 | Capture returns authorized evidence commitments only | Existing history metadata provides recorded/cited/exposed distinctions, but CDM does not yet bind all those event classes into a decision trace. |
+| CDM-034 | Separate `source_currently_admissible` and `historical_snapshot_only` fields | Current admissibility remains a snapshot at capture time and must be rechecked for later export/use. |
+| CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
+| CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
+| CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
+
+## Open (24)
+
+| Task | Required evidence |
+|---|---|
+
+| CDM-163 | Implement dependency-frontier pruning. |
+| CDM-165 | Benchmark checkpoint granularity options. |
+| CDM-172 | Add early pivotal-event test. |
+| CDM-173 | Add low-centrality pivotal-event test. |
+| CDM-176 | Benchmark exact versus approximate quality under budgets. |
+| CDM-178 | Verify teardown under CPU/time cap interruption. |
+| CDM-186 | Classify harmful blanket invalidation. |
+| CDM-187 | Classify false positive collateral re-evaluations. |
+| CDM-188 | Generate chains, stars and forks with competing evidence. |
+| CDM-193 | Handle missing remote evidence conservatively. |
+| CDM-194 | Preserve provenance across import and copy events. |
+| CDM-195 | Represent mixed-version federation replay. |
+| CDM-196 | Test partitions and misleading independent corroboration. |
+| CDM-197 | Test current-policy dominance after erasure. |
+| CDM-198 | Compare blanket review vs existing dependence vs CDM. |
+| CDM-199 | Freeze correction-aware utility threshold. |
+| CDM-206 | Enforce allowed temp path and cleanup. |
+| CDM-209 | Prevent cross-policy hash confusion. |
+| CDM-211 | Prevent RNG-state forgery. |
+| CDM-213 | Stop parameter injection into updater/policy APIs. |
+| CDM-236 | Document all known negative findings. |
+| CDM-237 | Add full in-process compatibility tests. |
+| CDM-238 | Require full hermetic qualification from local checkout. |
+| CDM-240 | Issue internal offline GO/NO-GO decision ledger. |
+
+
+
+
+
+
+
+
+
+
+
+
+

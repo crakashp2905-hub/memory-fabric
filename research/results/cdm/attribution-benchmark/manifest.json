@@ -1,0 +1,100 @@
+{
+  "arms": {
+    "car_full_suffix": {
+      "decision_flips": 11,
+      "mean_paired_utility_difference": -0.135,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.4670374455737754,
+        0.1970374455737754
+      ]
+    },
+    "exact_shapley": {
+      "decision_flips": 11,
+      "mean_paired_utility_difference": -0.28500000000000003,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.5719611783756418,
+        0.0019611783756416368
+      ]
+    },
+    "exact_subset_oracle": {
+      "decision_flips": 11,
+      "mean_paired_utility_difference": -0.135,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.4670374455737754,
+        0.1970374455737754
+      ]
+    },
+    "leave_one_out": {
+      "decision_flips": 11,
+      "mean_paired_utility_difference": -0.135,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.4670374455737754,
+        0.1970374455737754
+      ]
+    },
+    "random": {
+      "decision_flips": 10,
+      "mean_paired_utility_difference": -0.135,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.41770204139787587,
+        0.14770204139787585
+      ]
+    },
+    "recency": {
+      "decision_flips": 6,
+      "mean_paired_utility_difference": -0.08499999999999999,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.2131910662787552,
+        0.043191066278755214
+      ]
+    },
+    "sampled_shapley": {
+      "decision_flips": 11,
+      "mean_paired_utility_difference": -0.28500000000000003,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.5719611783756418,
+        0.0019611783756416368
+      ]
+    }
+  },
+  "csv_sha256": "94eca4906bd9e4e27b5b2a0a4a601bcb0ff281715db50bfed5176529f0c04a50",
+  "generator_sha256": "4f0b8a57be0748950e08663d2ac1bbf54cf069c855be3ea9f334935a1aafaea4",
+  "known_limitations": [
+    "synthetic worlds only",
+    "normal-approximation intervals",
+    "exact subset and CAR arms share the exhaustive candidate selector",
+    "not evidence of deployment efficacy"
+  ],
+  "report_sha256": "0ce18e465274635ab30b0770942eef3d9c3b3dbc8fde503b9593113e366228f9",
+  "schema": "cdm-attribution-benchmark-v1",
+  "scope": "matched synthetic binary sensor worlds; proposal-score attribution; outcome utility evaluator-only",
+  "seeds": [
+    20261301,
+    20261302,
+    20261303,
+    20261304,
+    20261305,
+    20261306,
+    20261307,
+    20261308,
+    20261309,
+    20261310,
+    20261311,
+    20261312,
+    20261313,
+    20261314,
+    20261315,
+    20261316,
+    20261317,
+    20261318,
+    20261319,
+    20261320
+  ]
+}

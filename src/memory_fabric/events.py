@@ -17,6 +17,7 @@ from .model import SCHEMA_VERSION, Memory
 
 
 class EventType:
+    CDM_DECISION_RECORDED = "CDMDecisionRecorded"
     EPISODE_STARTED = "EpisodeStarted"
     MEMORY_CREATED = "MemoryCreated"
     MEMORY_VERSIONED = "MemoryVersioned"

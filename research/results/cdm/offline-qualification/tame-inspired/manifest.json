@@ -1,0 +1,245 @@
+{
+  "csv_sha256": "61201f919e6679693bb9abfe4348b5e185a71ffd32954d20d7d0abebb6cc5dbe",
+  "final_annotations": {
+    "sensor-0": {
+      "count": 0,
+      "score": 0.5
+    },
+    "sensor-1": {
+      "count": 19,
+      "score": 0.7181927330015306
+    },
+    "sensor-2": {
+      "count": 1,
+      "score": 0.475
+    }
+  },
+  "heldout_seeds": [
+    20261211,
+    20261212,
+    20261213,
+    20261214,
+    20261215,
+    20261216,
+    20261217,
+    20261218,
+    20261219,
+    20261220
+  ],
+  "json_sha256": "95d7369f802ff80f3aae6eb9c61e6cd3e9f17ba1d14dd000003880352bfc0745",
+  "paired_summary": {
+    "heldout_prequential:factual-minus-factual": {
+      "mean_difference": 0.0,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "heldout_prequential:leave_one_out-minus-factual": {
+      "mean_difference": 0.0,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.14608977452998625,
+        0.14608977452998625
+      ]
+    },
+    "heldout_prequential:random-minus-factual": {
+      "mean_difference": 0.15,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.059168725089473045,
+        0.35916872508947306
+      ]
+    },
+    "heldout_prequential:recency-minus-factual": {
+      "mean_difference": 0.0,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.14608977452998625,
+        0.14608977452998625
+      ]
+    },
+    "heldout_prequential:tame_inspired-minus-factual": {
+      "mean_difference": 0.15,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.059168725089473045,
+        0.35916872508947306
+      ]
+    },
+    "train:factual-minus-factual": {
+      "mean_difference": 0.0,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "train:leave_one_out-minus-factual": {
+      "mean_difference": -0.11000000000000001,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.3047985398074408,
+        0.08479853980744079
+      ]
+    },
+    "train:random-minus-factual": {
+      "mean_difference": -0.01,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.029599999999999994,
+        0.009599999999999996
+      ]
+    },
+    "train:recency-minus-factual": {
+      "mean_difference": -0.01,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.029599999999999994,
+        0.009599999999999996
+      ]
+    },
+    "train:tame_inspired-minus-factual": {
+      "mean_difference": 0.0,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "safety": {
+    "authority_changes": 0,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "schema": "cdm-tame-inspired-v1",
+  "scope": "first-party conceptual baseline; synthetic prequential heldout; not official TAME reproduction",
+  "source_sha256": "3c543e6db3f3c1a4ab38c293fd6bafa519e037abc3729bdf9544d90f31eb2c7c",
+  "summary": {
+    "heldout_prequential:factual": {
+      "mean_utility": 0.32999999999999996,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.05324557836109911,
+        0.713245578361099
+      ]
+    },
+    "heldout_prequential:leave_one_out": {
+      "mean_utility": 0.32999999999999996,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.05324557836109911,
+        0.713245578361099
+      ]
+    },
+    "heldout_prequential:oracle": {
+      "mean_utility": 0.73,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.4605445491365966,
+        0.9994554508634034
+      ]
+    },
+    "heldout_prequential:random": {
+      "mean_utility": 0.48,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.12358885165210298,
+        0.836411148347897
+      ]
+    },
+    "heldout_prequential:recency": {
+      "mean_utility": 0.32999999999999996,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.05324557836109911,
+        0.713245578361099
+      ]
+    },
+    "heldout_prequential:tame_inspired": {
+      "mean_utility": 0.48,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.12358885165210298,
+        0.836411148347897
+      ]
+    },
+    "train:factual": {
+      "mean_utility": 0.31,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.006647690659508765,
+        0.6266476906595088
+      ]
+    },
+    "train:leave_one_out": {
+      "mean_utility": 0.2,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.08478139764465731,
+        0.48478139764465733
+      ]
+    },
+    "train:oracle": {
+      "mean_utility": 0.45999999999999996,
+      "n": 10,
+      "normal_approx_95_interval": [
+        0.17194000624869826,
+        0.7480599937513017
+      ]
+    },
+    "train:random": {
+      "mean_utility": 0.3,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.020066659723668556,
+        0.6200666597236686
+      ]
+    },
+    "train:recency": {
+      "mean_utility": 0.3,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.020066659723668556,
+        0.6200666597236686
+      ]
+    },
+    "train:tame_inspired": {
+      "mean_utility": 0.31,
+      "n": 10,
+      "normal_approx_95_interval": [
+        -0.006647690659508765,
+        0.6266476906595088
+      ]
+    }
+  },
+  "train_final_annotations": {
+    "sensor-0": {
+      "count": 0,
+      "score": 0.5
+    },
+    "sensor-1": {
+      "count": 9,
+      "score": 0.6233050000000001
+    },
+    "sensor-2": {
+      "count": 1,
+      "score": 0.475
+    }
+  },
+  "train_seeds": [
+    20261201,
+    20261202,
+    20261203,
+    20261204,
+    20261205,
+    20261206,
+    20261207,
+    20261208,
+    20261209,
+    20261210
+  ],
+  "workload_sha256": "3f98c4ddc11ca7cb13df039d23cc553109aa93ff81c42fdad20ec09740f45543"
+}

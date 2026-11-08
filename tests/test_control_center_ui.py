@@ -43,6 +43,9 @@ class TestViews(unittest.TestCase):
         self.assertIn("nodes", api.handle("/api/graph", {}))
         self.assertIn("topics", api.handle("/api/map", {"per_topic": ["2"]}))
         self.assertTrue(api.handle("/api/agents", {}))
+        catalog = api.handle("/api/user-catalog", {})
+        self.assertIn("providers", catalog)
+        self.assertNotIn("system_prompt", repr(catalog))
 
 
 class TestKnowledgeMap(unittest.TestCase):
@@ -104,6 +107,17 @@ class TestPage(unittest.TestCase):
         result = subprocess.run(["node", "--check", fh.name], capture_output=True, text=True)
         Path(fh.name).unlink()
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_value_onboarding_studio_quality_and_howto_are_real_views(self):
+        html = HTML.read_text(encoding="utf-8")
+        for tab in ("value", "studio", "compare", "quality", "howto"):
+            self.assertIn(f'data-tab="{tab}"', html)
+            self.assertIn(f'id="tab-{tab}"', html)
+            self.assertRegex(html, rf"{tab}: load[A-Z]")
+        self.assertIn('id="role-select"', html)
+        self.assertIn('id="agent-drop"', html)
+        self.assertIn("Permission review required", html)
+        self.assertIn("Evidence, not marketing", html)
 
 
 if __name__ == "__main__":
