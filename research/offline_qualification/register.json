@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "85b9881c2fe75d2645fbe9989c5094ab43fcaa515f41cbf06a1d76402d0797ef",
+    "sha256": "cb6ed6d0e3a7a2c8dae593101c00b98b999c5e3939421ac904c585bd620b437a",
     "tasks": 260
   },
   "source": {
-    "commit": "56b41d766e9d554c2761b88baca03eb427e4b6e0",
+    "commit": "0d687bbc9f7999d21ffb33d9541f4674109d1629",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 192,
+      "DONE": 193,
       "PARTIAL": 3,
-      "TODO": 65
+      "TODO": 64
     },
-    "completed": 192,
+    "completed": 193,
     "total": 260,
-    "percent_complete": 73.85,
+    "percent_complete": 74.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2046,11 +2046,11 @@
         "research/results/r3-02-matched-agent-arms.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "fd745985ef48690afc9b5c46bf1ff4b85d0d1c71a9bc112495031ed6a0c1506e",
+        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
         "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
         "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
-        "tests/test_matched_agent_arms.py": "86b4868037fc1f5e3cd48a2b8cc033c0bca8a47595bb90ec31fe86b7ece34a18",
+        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
         "research/results/r3-02-matched-agent-arms-tests.xml": "c9e22ba7985777b8e963e668d63ad406eb36a051bb2cddd8bd1d8cf49ba8e2cd",
         "research/results/r3-02-matched-agent-arms.json": "99d72984e1c82a031c45aa6e777cdd55da221688835639065a0ff21042c239cd"
       },
@@ -2076,10 +2076,10 @@
         "research/results/r3-03-failure-taxonomy.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "fd745985ef48690afc9b5c46bf1ff4b85d0d1c71a9bc112495031ed6a0c1506e",
+        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
         "research/prereg/failure-taxonomy-v1.md": "1a5ff50933a8179678dca7e5c50f111202b9bdb6b3fc061383905397bbfc2a96",
         "docs/FAILURE_TAXONOMY.md": "1bb27ae902a6fd82f156aa9eefc9937a48bbe284785bba1f7a6a8e67344c40fd",
-        "tests/test_matched_agent_arms.py": "86b4868037fc1f5e3cd48a2b8cc033c0bca8a47595bb90ec31fe86b7ece34a18",
+        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
         "research/results/r3-03-failure-taxonomy-tests.xml": "c9e22ba7985777b8e963e668d63ad406eb36a051bb2cddd8bd1d8cf49ba8e2cd",
         "research/results/r3-03-failure-taxonomy.json": "99d72984e1c82a031c45aa6e777cdd55da221688835639065a0ff21042c239cd"
       },
@@ -2278,10 +2278,10 @@
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "fd745985ef48690afc9b5c46bf1ff4b85d0d1c71a9bc112495031ed6a0c1506e",
+        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
         "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
         "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
-        "tests/test_matched_agent_arms.py": "86b4868037fc1f5e3cd48a2b8cc033c0bca8a47595bb90ec31fe86b7ece34a18",
+        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
         "tests/test_heldout_agent_qualification.py": "7c8d6e7620b1badf02bb3b438fbb48171ae98df3316504bf69f70369828f0423",
         "research/results/r3-heldout-agent-qualification-tests.xml": "96ab55e17e3497295004cf557ebd7a1fa5cd1d4b696aa5a098ec91ebbce95957",
         "research/results/r3-09-10-heldout-qualification.json": "a18d5c6292e62e0b28af954da1d330da9537924c6bff92300748d95d83c67051"
@@ -2430,14 +2430,32 @@
       "task_id": "R4-06",
       "priority": "P1",
       "task": "Randomize answer order, tool order and agent identifiers to detect trivial heuristics.",
-      "acceptance": "Permutation tests flag behavior changes beyond predeclared tolerance",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Permutation tests flag behavior changes beyond predeclared tolerance. Evidence: `benchmarks/matched_agent_arms.py`, `tools/r4_06_randomization_qualification.py`, `research/prereg/r4-06-order-randomization-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-06-randomization-qualification.json`, `research/results/r4-05-adversarial-cases.json` (DONE: 30 runs across five scripted arms and three seeds compare randomized opaque agent IDs/tool registry order against ordinal controls. Same task/context/grant invariants held; accuracy, unsafe and stale outcomes matched exactly at the predeclared zero-attempt tolerance. Answer-order shortcuts are separately controlled by R4-05. No model-robustness claim.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "tools/r4_06_randomization_qualification.py",
+        "research/prereg/r4-06-order-randomization-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "research/results/r4-06-randomization-qualification.json",
+        "research/results/r4-05-adversarial-cases.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
+        "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686",
+        "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
+        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
+        "tests/test_r4_05_adversarial_cases.py": "d7aa45349666be452f8ebfb3a7155ed92c5f4ca2598f8d9d839a6d0d43394448",
+        "research/results/r4-06-randomization-qualification.json": "63d946aeec8c6f098350448b839635c1c2909b7d2a86e97bc6a432fe4fe8d4ea",
+        "research/results/r4-05-adversarial-cases.json": "2409a7b83317d93668d61f9762ba9765a0015865822978e0e09a2dd8f600eed8"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Thirty runs of deterministic scripted agents compare randomized opaque identities/tool registry order with ordinal controls; outcomes matched exactly within the predeclared zero-attempt tolerance. Answer order is checked by R4-05 shortcut controls. No model or real-tool robustness claim is made."
+      ]
     },
     {
       "task_id": "R4-07",

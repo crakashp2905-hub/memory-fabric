@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **192 / 260 (73.85%)**. Internal status: **BLOCKED**.
+Strict completion: **193 / 260 (74.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `4f8aba417cd0bb490b8f6c8d1f6de847301cdc7910b3297c0447a81e26e0e6bc`.
+Normalized ledger digest: `b6f69752e0d699ca15df827b9b5f0009d196fa9ae0c52aff007b1d77ec0a59ce`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 192 |
+| DONE | 193 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 65 |
+| TODO | 64 |
 
 ## Graduation gates
 
@@ -114,7 +114,7 @@ Normalized ledger digest: `4f8aba417cd0bb490b8f6c8d1f6de847301cdc7910b3297c0447a
 | R4-03 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/threshold_registry.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-04 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/threshold_registry.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_threshold_registry.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` |
 | R4-05 | P1 | DONE | INTERNAL_INTEGRATION | `experiments/r4_05_adversarial_cases.py`, `research/prereg/r4-05-adversarial-cases-v1.md`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-05-adversarial-cases.json` |
-| R4-06 | P1 | TODO | NOT_TESTED | — |
+| R4-06 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `tools/r4_06_randomization_qualification.py`, `research/prereg/r4-06-order-randomization-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-06-randomization-qualification.json`, `research/results/r4-05-adversarial-cases.json` |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |
 | R4-08 | P1 | TODO | NOT_TESTED | — |
 | R4-09 | P1 | DONE | SIMULATED | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/results/grand-50-agent-baseline-reproduction-v2.md`, `tests/test_r4_seed_reporting.py`, `research/results/r4-09-worst-seed-reporting.json`, `research/results/r4-09-worst-seed-reporting.txt` |
