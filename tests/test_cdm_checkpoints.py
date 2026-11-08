@@ -58,7 +58,7 @@ class TestCheckpoints(unittest.TestCase):
 
     def test_current_erasure_overrides_prior_cache_and_provenance_assessment(self):
         key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-                       "b" * 64, "c" * 64, None, "erase-check")
+                       "b" * 64, "c" * 64, None, "erase-check", "pol-v1")
         cache = CheckpointCache()
         cache.put(key, self.checkpoint)
         before = assess_fabric_source_roots(self.fabric, self.session, (self.memory_id,))
@@ -80,20 +80,26 @@ class TestCheckpoints(unittest.TestCase):
 
     def test_cache_binds_versions_and_policy_and_revalidates_auth(self):
         key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-                       "b" * 64, "c" * 64, None, "d" * 64)
+                       "b" * 64, "c" * 64, None, "d" * 64, "pol-v1")
         cache = CheckpointCache()
         cache.put(key, self.checkpoint)
         self.assertEqual(cache.get(key, fabric=self.fabric, session=self.session),
                          self.checkpoint)
         wrong_policy = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-                                "b" * 64, "e" * 64, None, "d" * 64)
+                                "b" * 64, "e" * 64, None, "d" * 64, "pol-v1")
         self.assertIsNone(cache.get(wrong_policy, fabric=self.fabric, session=self.session))
+        same_digest_other_id = CacheKey("tenant-a", "agent-a",
+            ((self.memory_id, self.ref.version),), "b" * 64, "c" * 64, None, "d" * 64,
+            "different-policy-id")
+        self.assertNotEqual(key.digest, same_digest_other_id.digest)
+        self.assertIsNone(cache.get(same_digest_other_id, fabric=self.fabric,
+                                    session=self.session))
         self.service.revoke(self.session.credential)
         self.assertIsNone(cache.get(key, fabric=self.fabric, session=self.session))
 
     def test_cache_invalidation_drops_memory_and_principal(self):
         key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-                       "b" * 64, "c" * 64, None, "d" * 64)
+                       "b" * 64, "c" * 64, None, "d" * 64, "pol-v1")
         cache = CheckpointCache()
         cache.put(key, self.checkpoint)
         cache.invalidate_memory(self.memory_id)
@@ -111,9 +117,9 @@ class TestCheckpoints(unittest.TestCase):
             updater_id="up-v1", updater_digest="b" * 64, policy_id="pol-v1",
             policy_digest="c" * 64)
         affected_key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-            "b" * 64, "c" * 64, None, "d" * 64)
+            "b" * 64, "c" * 64, None, "d" * 64, "pol-v1")
         independent_key = CacheKey("tenant-a", "agent-a", ((other_id, other_ref.version),),
-            "b" * 64, "c" * 64, None, "f" * 64)
+            "b" * 64, "c" * 64, None, "f" * 64, "pol-v1")
 
         targeted = CheckpointCache()
         targeted.put(affected_key, self.checkpoint)
@@ -132,11 +138,11 @@ class TestCheckpoints(unittest.TestCase):
 
     def test_cache_tenant_collision_and_poisoning_are_misses(self):
         key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
-                       "b" * 64, "c" * 64, None, "d" * 64)
+                       "b" * 64, "c" * 64, None, "d" * 64, "pol-v1")
         cache = CheckpointCache()
         cache.put(key, self.checkpoint)
         other_tenant = CacheKey("tenant-b", "agent-a", ((self.memory_id, self.ref.version),),
-                                "b" * 64, "c" * 64, None, "d" * 64)
+                                "b" * 64, "c" * 64, None, "d" * 64, "pol-v1")
         self.assertIsNone(cache.get(other_tenant, fabric=self.fabric, session=self.session))
         cache.put(key, create(source_head=self.checkpoint.source_head, tenant_id="tenant-a",
             principal_id="agent-a", evidence=(self.ref,), updater_id="up-v1",

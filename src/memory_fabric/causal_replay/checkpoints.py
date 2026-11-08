@@ -50,6 +50,7 @@ class CacheKey:
     policy_digest: str
     rng_state_digest: str | None
     intervention_digest: str
+    policy_id: str
 
     @property
     def digest(self) -> str:
@@ -58,7 +59,8 @@ class CacheKey:
                             "updater_digest": self.updater_digest,
                             "policy_digest": self.policy_digest,
                             "rng_state_digest": self.rng_state_digest,
-                            "intervention_digest": self.intervention_digest})
+                            "intervention_digest": self.intervention_digest,
+                            "policy_id": self.policy_id})
 
 
 class CheckpointCache:
@@ -89,6 +91,7 @@ class CheckpointCache:
         if checkpoint is None or not verify(checkpoint, fabric=fabric, session=session):
             return None
         if (checkpoint.tenant_id != key.tenant_id or checkpoint.principal_id != key.principal_id
+                or checkpoint.policy_id != key.policy_id
                 or checkpoint.updater_digest != key.updater_digest
                 or checkpoint.policy_digest != key.policy_digest
                 or checkpoint.rng_state_digest != key.rng_state_digest

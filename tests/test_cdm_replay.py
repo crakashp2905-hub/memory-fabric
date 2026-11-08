@@ -15,7 +15,7 @@ from memory_fabric import MemoryFabric
 from memory_fabric.service import MemoryService
 from memory_fabric.causal_replay.bayes import BinaryNode
 from memory_fabric.causal_replay.capture import (capture, capture_rng_state,
-    record_decision)
+    record_decision, verify_decision_record)
 from memory_fabric.causal_replay.executor import (create_execution_checkpoint,
     execute, execute_from_checkpoint, execute_full_suffix, execute_step_intervention,
     execute_recorded, execute_captured,
@@ -27,8 +27,8 @@ from memory_fabric.causal_replay.policy import ThresholdPolicy
 from memory_fabric.causal_replay.replay import deterministic_simulator
 from memory_fabric.causal_replay.state import (Observation,
     generated_belief_state_schema, update, validate_belief_state_record)
-from memory_fabric.causal_replay.types import (BudgetExceeded, Erased, NonReplayable, Unauthorized,
-                                               ReplayStatus)
+from memory_fabric.causal_replay.types import (BudgetExceeded, Erased, NonReplayable,
+    SimulatorForbidden, Unauthorized, ReplayStatus)
 from memory_fabric.causal_replay.verifier import verify_execution
 from dataclasses import replace
 from memory_fabric.causal_replay.types import (BeliefReference, DecisionRecord, ReplayContext,
@@ -53,6 +53,20 @@ class TestReplay(unittest.TestCase):
         mismatch = execute(self.events, simulator=self.simulator, policy=self.policy,
                            expected_fingerprint="0" * 64)
         self.assertEqual(mismatch.status, ReplayStatus.NON_REPLAYABLE)
+
+    def test_policy_rejects_injected_parameters_and_subclass_behavior(self):
+        for kwargs in ({"investigate_above": True}, {"diagnose_above": float("nan")},
+                       {"unexpected": "injected"}):
+            with self.subTest(kwargs=kwargs), self.assertRaises((TypeError, ValueError)):
+                ThresholdPolicy("fault", **kwargs)
+
+        class InjectedPolicy(ThresholdPolicy):
+            def propose(self, state):
+                raise AssertionError("injected policy body must never run")
+
+        with self.assertRaises(SimulatorForbidden):
+            execute(self.events, simulator=self.simulator,
+                    policy=InjectedPolicy("fault"))
 
     def test_belief_state_schema_contains_normalized_uncertainty_and_policy_digest(self):
         reference = BeliefReference("memory-1", 1, "tenant-a", "a" * 64)
@@ -428,9 +442,11 @@ class TestReplay(unittest.TestCase):
             evidence=captured.evidence, policy_id=self.policy.policy_id,
             policy_digest=self.policy.implementation_digest, rng_state=correct,
             rng_applicability="captured_full_state")
+        self.assertTrue(verify_decision_record(fabric, record))
         captured = capture(fabric, session, [memory_id],
             context=ReplayContext(fabric.log.head_seq), decision=record)
         tampered_position = replace(record, rng_state=wrong_position)
+        self.assertFalse(verify_decision_record(fabric, tampered_position))
         with self.assertRaises(NonReplayable) as refused:
             execute_recorded(fabric, self.events, simulator=self.simulator,
                              policy=self.policy, decision_record=tampered_position)

@@ -5,6 +5,7 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 import hashlib
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -39,7 +40,13 @@ class ThresholdPolicy:
             "diagnose_above": self.diagnose_above})
 
     def __post_init__(self) -> None:
-        if not 0 <= self.investigate_above <= self.diagnose_above <= 1:
+        if (type(self.variable) is not str or not self.variable
+                or type(self.policy_id) is not str or not self.policy_id
+                or type(self.investigate_above) not in (int, float)
+                or type(self.diagnose_above) not in (int, float)
+                or not math.isfinite(self.investigate_above)
+                or not math.isfinite(self.diagnose_above)
+                or not 0 <= self.investigate_above <= self.diagnose_above <= 1):
             raise ValueError("thresholds must be ordered within [0,1]")
 
     def propose(self, state: BeliefState) -> DecisionProposal:

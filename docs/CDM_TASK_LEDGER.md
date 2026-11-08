@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (221)
+## Complete at this checkpoint (223)
 
 | Task | Evidence |
 |---|---|
@@ -201,6 +201,9 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-204 | Replay accepts only built-in deterministic data configuration; no tool executor exists |
 | CDM-205 | Behavioral replay test forbids socket, process and shell construction |
 | CDM-206 | `causal_replay.tempfiles` resolves and confines parent/workspace paths beneath `research/results/cdm`, rejects outside and symlink-escape parents, and scopes cleanup with a context manager; interruption benchmark uses it; focused tests are part of the offline gate. |
+| CDM-209 | `CacheKey` includes `policy_id` in its canonical digest and cache retrieval compares the checkpoint ID; regression proves two IDs with the same implementation digest cannot collide. |
+| CDM-211 | Decision-record RNG snapshots are bound into the append-only receipt digest; substitution of a different well-formed RNG state fails receipt verification and recorded replay. This protects post-record integrity; a writer's initial RNG-state claim is not independently attested. |
+| CDM-213 | Built-in policy parameters reject booleans, non-finite thresholds, malformed identifiers and extra constructor parameters; replay refuses policy subclasses that could inject behavior. Focused adversarial regressions are in the offline gate. |
 | CDM-207 | Capture artifact tests prove private content and credential signatures are absent |
 | CDM-208 | Replay certificates explicitly have no action entitlement; no action method is exposed |
 | CDM-210 | Duplicate observation IDs refuse in executor/verifier; reordered step sequence fails independent per-step verification |
@@ -246,14 +249,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (7)
+## Open (4)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-209 | Prevent cross-policy hash confusion. |
-| CDM-211 | Prevent RNG-state forgery. |
-| CDM-213 | Stop parameter injection into updater/policy APIs. |
 | CDM-236 | Document all known negative findings. |
 | CDM-237 | Add full in-process compatibility tests. |
 | CDM-238 | Require full hermetic qualification from local checkout. |
