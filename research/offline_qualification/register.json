@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c6790591986d4f5eb7ef89672f500b95ef6e3567cc8ac4cd5b06e943020ede8f",
+    "sha256": "11bbac73c079e3930b189c959c67fb23cce08eeff7901e11e042cb3c74496dd1",
     "tasks": 260
   },
   "source": {
-    "commit": "0c90f8f4d746ccae00d7d78546d4ac27d4a7f03d",
+    "commit": "4a73ca9748affb32a37b1cdbd1d96749bec1a29a",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 90,
+      "DONE": 91,
       "PARTIAL": 5,
-      "TODO": 165
+      "TODO": 164
     },
-    "completed": 90,
+    "completed": 91,
     "total": 260,
-    "percent_complete": 34.62,
-    "p0_open": 39,
+    "percent_complete": 35.0,
+    "p0_open": 38,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "c1002f4fee0716f92801dbaa3a94dfe824ea6ab8bb509401dd3ecaad6d08e9de",
-        "docs/VALIDATION.md": "c875b734b70f9171c8e5fbf3a2266357841d41e9af2a06fb7c003836fbd9a45b",
-        "docs/STATUS_AT_HEAD.md": "b6b602100bd2b425b45174211985a55f6b68d92ce0a152d1a41e001205a6208d",
+        "README.md": "18a72b6f4389cc5b45420567f5ac58716d7bf5f2f1d13f8733ab644954b702f8",
+        "docs/VALIDATION.md": "1b6c6f3980b811abdaf23083685141959d96e92c0f106cfbe3752b54dfea5815",
+        "docs/STATUS_AT_HEAD.md": "3ab150eece5fd993c5cffc7b31fde1cc8d88ed3197dff956533b0cb1a218b84a",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -817,7 +817,7 @@
         "docs/RETRIEVAL_INDEX_INVALIDATION.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
         "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
@@ -871,7 +871,7 @@
       "evidence_digests": {
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
-        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
         "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
         "docs/STAGE_TRACING.md": "a886d1cf6414da320d50d8188c4b7dae31f775ef36d8b85833abf611111691ab"
@@ -905,7 +905,7 @@
       "evidence_digests": {
         "experiments/p12b_api_load.py": "e3a94c046ab7e1e253b34db9ebc5dd2349a943a28de4b203b1da2bacbfb102ec",
         "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
-        "src/memory_fabric/_fabric/core.py": "ca9196f24f88dbbb76ae4bdeb1e13170f7a77f02d514ecae1d0e76c1c4dde7c0",
+        "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
         "tests/test_p12b_api_load.py": "cd0d8fc8b4a4986dc8654a23bfb5a4e8a5f39cd3bb932bf9263a89e1c4815f26",
@@ -1176,8 +1176,8 @@
       "evidence_digests": {
         "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
-        "docs/API_INVENTORY.json": "bd2e3460c5641a8bc623933762a9f5a726130848dbb2863b49ef227f9b6d12d2",
-        "docs/API.md": "7c55de15c12e51441d35f1d4624b198c166b1265cff2f1b469f3e1ac2cde6c0a",
+        "docs/API_INVENTORY.json": "e38bb22a3dba5738c6400047bae3dc65306b70babebd9a2efa3407ca6dd695d0",
+        "docs/API.md": "90e0559893eaed5ad93106b133258b5b9f9445c27a4678fd5213487fd69c9293",
         "STABILITY.md": "76abbb5444301de93d85f2c3e530aa7429e62f8efb4af2ac8f412e4a3c94bbbf",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "883a30b707ae5db4d25539fcbae28c4f4c4814e4c784d02c814e0450738d59aa",
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "dbf896481108d9d823a45b49421f577095a5c825c55211a5ba480c13768e1813",
+        "research/results/MANIFEST.json": "940311e58be38473e7c97bca114309fcb3bc988a855684141fa699df250aa516",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3745,14 +3745,32 @@
       "task_id": "H3-01",
       "priority": "P0",
       "task": "Create cross-tenant read/write/delete/infer matrix across SDK, HTTP, MCP, query and dashboard.",
-      "acceptance": "Every surface refuses unauthorized scope without revealing whether foreign data exists",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Every surface refuses unauthorized scope without revealing whether foreign data exists. Evidence: `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/observability/control.py`, `tests/test_cross_tenant_surface_matrix.py`, `tests/test_privacy_federation.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-01-cross-tenant-matrix.json`, `research/results/h3-01-cross-tenant-matrix-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/observability/control.py",
+        "tests/test_cross_tenant_surface_matrix.py",
+        "tests/test_privacy_federation.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-01-cross-tenant-matrix.json",
+        "research/results/h3-01-cross-tenant-matrix-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
+        "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
+        "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
+        "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
+        "docs/SAFETY_AND_SECURITY.md": "49872230fd074b0f07200dec7bfdbb6a01233a48f741359497f715461b6904d6",
+        "research/results/h3-01-cross-tenant-matrix.json": "45bc464b5c1c7b6f66b4fda8f050a27b513ca9f2bd1259db3456cc351d783136",
+        "research/results/h3-01-cross-tenant-matrix-tests.xml": "150b0a7156a5514bd9b9b98eb050eb544da80c58e8aef0a50a55926ac20d29ee"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "HTTP and MCP protocol handlers are exercised in-process; loopback HTTP socket transport is unavailable in this sandbox. Low-level MemoryFabric and operator interfaces remain trusted-local APIs."
+      ]
     },
     {
       "task_id": "H3-02",

@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 181,
+ "results": 182,
  "missing_field_counts": {
-  "git_sha": 76,
+  "git_sha": 77,
   "prereg": 75,
-  "dataset_digest": 178,
-  "model_id": 145,
-  "prompt_hash": 181,
-  "seed": 103,
-  "cost": 158,
-  "verdict": 117
+  "dataset_digest": 179,
+  "model_id": 146,
+  "prompt_hash": 182,
+  "seed": 104,
+  "cost": 159,
+  "verdict": 118
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 170
+  "unclassified": 171
  },
  "rows": [
   {
@@ -1804,6 +1804,24 @@
    "file_sha256": "178d37f83a756ab6aa4a7bbe8346908c52a84135bcdf82559c7c91c4c69c15f9",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h2-credit-driven-retention.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-01-cross-tenant-matrix",
+   "file": "research/results/h3-01-cross-tenant-matrix.json",
+   "file_sha256": "bb6e381da9807ef127b77d7ef4c93d448e48a8e39bea6e798c0da4aea13f0631",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
    "git_sha_source": null,
    "dataset_digest": null,

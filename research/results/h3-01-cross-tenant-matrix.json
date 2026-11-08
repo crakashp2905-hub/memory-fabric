@@ -1,0 +1,48 @@
+{
+  "acceptance_status": "PASS",
+  "defaults": {
+    "conceal_cross_tenant": true,
+    "lifecycle_and_detail": "omitted",
+    "reason_code": "not_found",
+    "version": 0
+  },
+  "input_sha256": {
+    "docs/API.md": "90e0559893eaed5ad93106b133258b5b9f9445c27a4678fd5213487fd69c9293",
+    "docs/API_INVENTORY.json": "e38bb22a3dba5738c6400047bae3dc65306b70babebd9a2efa3407ca6dd695d0",
+    "docs/SAFETY_AND_SECURITY.md": "49872230fd074b0f07200dec7bfdbb6a01233a48f741359497f715461b6904d6",
+    "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
+    "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
+    "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+    "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+    "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
+    "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
+    "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
+    "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
+    "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
+    "tests/test_typed_query_soundness.py": "df666e3b3f04d847f7df4c0196414ff8610c9c622ef0c4338ddc9d5a7facb548"
+  },
+  "junit": "research/results/h3-01-cross-tenant-matrix-tests.xml",
+  "limitations": [
+    "HTTP and MCP protocol handlers are exercised in-process because this sandbox blocks loopback TCP connections.",
+    "Low-level MemoryFabric and operator interfaces remain trusted-local and can inspect across tenants by design.",
+    "The explicit conceal_cross_tenant=False setting remains available for trusted operator diagnostics and must not be exposed to tenant callers."
+  ],
+  "schema": "mf-cross-tenant-surface-matrix/1",
+  "source_clean_before_run": true,
+  "source_commit": "4a73ca9748affb32a37b1cdbd1d96749bec1a29a",
+  "surfaces": {
+    "HTTP": "authenticated AgentApi foreign fetch response matches nonexistent id; recall redacts foreign canary; writes use credential tenant; delete/infer routes absent",
+    "MCP": "foreign and nonexistent fetch errors match; extra tenant/scope args do not move writes; destructive and inference tools absent",
+    "SDK": "foreign recall excluded; foreign and nonexistent fetch decisions match; tenant override and destructive methods unavailable",
+    "dashboard": "eligibility for foreign id matches nonexistent-id details after normalizing the caller-supplied ID",
+    "inference": "tenant-scoped derive refuses a foreign premise with opaque NotFound",
+    "typed_query": "foreign structured values do not match or contribute to caller tenant candidate population"
+  },
+  "test_summary": {
+    "command": "python -m pytest tests/test_cross_tenant_surface_matrix.py tests/test_privacy_federation.py::TestDisclosureOfExistence tests/test_security_regression.py::TestTenantIsolation tests/test_certificates.py tests/test_typed_query_soundness.py tests/test_control_center.py tests/test_mcp.py tests/test_sdk.py -q",
+    "failed": 0,
+    "passed": 114,
+    "subtests_passed": 607,
+    "total": 114
+  }
+}
