@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "11bbac73c079e3930b189c959c67fb23cce08eeff7901e11e042cb3c74496dd1",
+    "sha256": "cc2fa980d5f3387c0b0444eed9584b8a81fbe9019bf4cf17ef41f54d2081776c",
     "tasks": 260
   },
   "source": {
-    "commit": "4a73ca9748affb32a37b1cdbd1d96749bec1a29a",
+    "commit": "979f984425966770381a1ef264fa07c177d0d896",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 91,
+      "DONE": 92,
       "PARTIAL": 5,
-      "TODO": 164
+      "TODO": 163
     },
-    "completed": 91,
+    "completed": 92,
     "total": 260,
-    "percent_complete": 35.0,
-    "p0_open": 38,
+    "percent_complete": 35.38,
+    "p0_open": 37,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "18a72b6f4389cc5b45420567f5ac58716d7bf5f2f1d13f8733ab644954b702f8",
-        "docs/VALIDATION.md": "1b6c6f3980b811abdaf23083685141959d96e92c0f106cfbe3752b54dfea5815",
-        "docs/STATUS_AT_HEAD.md": "3ab150eece5fd993c5cffc7b31fde1cc8d88ed3197dff956533b0cb1a218b84a",
+        "README.md": "bd1862af81a577844f767191991ed90f4ec58d33edb8779ce9322ca24baf47fa",
+        "docs/VALIDATION.md": "9c2f66e1a2ee41fe13ce87adea337043220be5cf4c98524c576f1b4a6a6e8315",
+        "docs/STATUS_AT_HEAD.md": "92e0707a86411f3c4ded9218683ed483ee4b7ab9c6c16452be5dac8c30a17554",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "940311e58be38473e7c97bca114309fcb3bc988a855684141fa699df250aa516",
+        "research/results/MANIFEST.json": "fe9566a05e97d571c0f701d327d0a9fc05eb5170463c21bd464b204512249b9f",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3763,7 +3763,7 @@
         "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
         "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
         "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
-        "docs/SAFETY_AND_SECURITY.md": "49872230fd074b0f07200dec7bfdbb6a01233a48f741359497f715461b6904d6",
+        "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
         "research/results/h3-01-cross-tenant-matrix.json": "45bc464b5c1c7b6f66b4fda8f050a27b513ca9f2bd1259db3456cc351d783136",
         "research/results/h3-01-cross-tenant-matrix-tests.xml": "150b0a7156a5514bd9b9b98eb050eb544da80c58e8aef0a50a55926ac20d29ee"
       },
@@ -3776,14 +3776,28 @@
       "task_id": "H3-02",
       "priority": "P0",
       "task": "Add metadata side-channel probes using result count, timing class, errors and search suggestions.",
-      "acceptance": "Cross-tenant protected identifiers do not leak through response shape or detail",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Cross-tenant protected identifiers do not leak through response shape or detail. Evidence: `tests/test_metadata_sidechannels.py`, `tests/test_metadata_leakage.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-02-metadata-sidechannels.json`, `research/results/h3-02-metadata-sidechannels-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_metadata_sidechannels.py",
+        "tests/test_metadata_leakage.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-02-metadata-sidechannels.json",
+        "research/results/h3-02-metadata-sidechannels-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_metadata_sidechannels.py": "8f42cd8bc5830a4c0a83b0b58341e70341ab3697b437c831e69bfdf4caac4716",
+        "tests/test_metadata_leakage.py": "155138676f04ea2609fec7541c018c5c29f95550fa34efe6c032cfbd8772eebb",
+        "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
+        "research/results/h3-02-metadata-sidechannels.json": "fd00327b7861eb900d4ab89974cce9f2b1affd6c26010c625ef76bd4b850f560",
+        "research/results/h3-02-metadata-sidechannels-tests.xml": "a72b14e41abe79ac905725e9dbb9efc68914780ce4d4885515b74a4ec72d51df"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Timing comparison uses an intentionally coarse 10x median threshold and does not establish constant-time behavior or eliminate all statistical timing inference."
+      ]
     },
     {
       "task_id": "H3-03",

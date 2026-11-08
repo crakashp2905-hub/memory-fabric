@@ -1,0 +1,41 @@
+{
+  "acceptance_status": "PASS",
+  "input_sha256": {
+    "docs/SAFETY_AND_SECURITY.md": "9090bcb7ff6eb83d21f59993c8cb2a2e0077976b9314b8b77b01ef737adf9874",
+    "tests/test_metadata_leakage.py": "155138676f04ea2609fec7541c018c5c29f95550fa34efe6c032cfbd8772eebb",
+    "tests/test_metadata_sidechannels.py": "8f42cd8bc5830a4c0a83b0b58341e70341ab3697b437c831e69bfdf4caac4716"
+  },
+  "junit": "research/results/h3-02-metadata-sidechannels-tests.xml",
+  "limitations": [
+    "The coarse 10x timing-class check is not a constant-time proof and does not exclude every statistical timing inference."
+  ],
+  "probes": {
+    "answerability_and_response_shape": "same",
+    "retrieval_result_count": "same with and without a foreign tenant secret",
+    "sdk_and_http_fetch_errors": "same reason, version, detail and status after normalizing requested ID",
+    "search_suggestions": "foreign-only terms absent and output identical",
+    "timing_class": "501 alternating fetch probes per class; coarse median ratio threshold < 10"
+  },
+  "schema": "mf-metadata-sidechannel-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "979f984425966770381a1ef264fa07c177d0d896",
+  "test_summary": {
+    "command": "python -m pytest tests/test_metadata_sidechannels.py tests/test_metadata_leakage.py -q",
+    "failed": 0,
+    "passed": 5,
+    "subtests_passed": 12,
+    "total": 5
+  },
+  "timing_measurement": {
+    "median_ns": {
+      "foreign": 62500,
+      "missing": 62500
+    },
+    "median_ratio": 1.0,
+    "p95_ns": {
+      "foreign": 79100,
+      "missing": 77600
+    },
+    "samples_per_class": 501
+  }
+}

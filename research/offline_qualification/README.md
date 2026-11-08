@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **91 / 260 (35.00%)**. Internal status: **BLOCKED**.
+Strict completion: **92 / 260 (35.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `0f6d6db5b38314590d50782f2eb3a96b01ac39f99c5fd661f2ff3d859f628396`.
+Normalized ledger digest: `8d28cea10a981374e799a610dfbdb53dcaa53f4e9ed45e78f9d938e6a8faea6d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 91 |
+| DONE | 92 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 164 |
+| TODO | 163 |
 
 ## Graduation gates
 
@@ -210,7 +210,7 @@ Normalized ledger digest: `0f6d6db5b38314590d50782f2eb3a96b01ac39f99c5fd661f2ff3
 | H2-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/events.py`, `tests/test_action_execution_receipt.py`, `docs/ACTION_RECONCILIATION.md`, `research/results/h2-09-execution-receipt.json`, `research/results/h2-09-execution-receipt-tests.xml` |
 | H2-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/tool_protocol.py`, `tests/test_confused_deputy.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-10-confused-deputy.json`, `research/results/h2-10-confused-deputy-tests.xml` |
 | H3-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/observability/control.py`, `tests/test_cross_tenant_surface_matrix.py`, `tests/test_privacy_federation.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-01-cross-tenant-matrix.json`, `research/results/h3-01-cross-tenant-matrix-tests.xml` |
-| H3-02 | P0 | TODO | NOT_TESTED | — |
+| H3-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_metadata_sidechannels.py`, `tests/test_metadata_leakage.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-02-metadata-sidechannels.json`, `research/results/h3-02-metadata-sidechannels-tests.xml` |
 | H3-03 | P0 | TODO | NOT_TESTED | — |
 | H3-04 | P0 | TODO | NOT_TESTED | — |
 | H3-05 | P0 | TODO | NOT_TESTED | — |

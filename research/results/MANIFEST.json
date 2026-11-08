@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 182,
+ "results": 183,
  "missing_field_counts": {
-  "git_sha": 77,
+  "git_sha": 78,
   "prereg": 75,
-  "dataset_digest": 179,
-  "model_id": 146,
-  "prompt_hash": 182,
-  "seed": 104,
-  "cost": 159,
-  "verdict": 118
+  "dataset_digest": 180,
+  "model_id": 147,
+  "prompt_hash": 183,
+  "seed": 105,
+  "cost": 160,
+  "verdict": 119
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 171
+  "unclassified": 172
  },
  "rows": [
   {
@@ -1820,6 +1820,24 @@
    "experiment_id": "h3-01-cross-tenant-matrix",
    "file": "research/results/h3-01-cross-tenant-matrix.json",
    "file_sha256": "bb6e381da9807ef127b77d7ef4c93d448e48a8e39bea6e798c0da4aea13f0631",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-02-metadata-sidechannels",
+   "file": "research/results/h3-02-metadata-sidechannels.json",
+   "file_sha256": "9d44b79dd0a9457fe99383eee09823f0a8298303891632c937eaccb1919073df",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
