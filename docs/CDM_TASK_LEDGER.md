@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (231)
+## Complete at this checkpoint (233)
 
 | Task | Evidence |
 |---|---|
@@ -22,6 +22,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-014 | `tests/test_cdm_api.py::test_dispatch_malformed_and_authorization_refusal_matrix` covers unknown operations, wrong shapes/types, unknown fields, invalid capture limits, correction request schema and revoked-session refusal for both facade operations. |
 | CDM-015 | `docs/CAUSAL_REPLAY_LIMITATIONS.md` |
 | CDM-016 | Provenance definitions in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
+| CDM-017 | Required `tools.cdm_offline_gate --all` qualification runs locally with network/model counts zero; replay tests prohibit socket/process/shell construction, and the inert-import gate fails if a socket is constructed. |
 | CDM-019 | Experimental stability metadata and explicit schema major/minor parsing added: v1/v1.0 compatible, future minor/major refused; record parser normalization and refusal tests pass |
 | CDM-021 | Immutable event and belief references in `types.py` |
 | CDM-022 | Typed `DecisionRecord` in `types.py` |
@@ -35,6 +36,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-031 | Typed tool observations carry the closed exogenous/simulated-endogenous/opaque determinism class inside the authenticated decision receipt; exact replay refuses unhandled tool continuations; class and refusal tests pass |
 | CDM-032 | Canonical JSON and SHA-256 commitments in `types.py`; order/invalid-number tests |
 | CDM-033 | Registered v1 records use strict stdlib JSON parse/serialize with unknown-field rejection |
+| CDM-034 | Capture explicitly labels source admissibility as a snapshot; `replay_captured` re-captures and rechecks current authorization/erasure before use. `tests/test_cdm_interventions.py::test_withhold_is_time_bounded_and_requires_current_authorized_capture` verifies replay refusal after quarantine. |
 | CDM-036 | Digest-only checkpoint contract and current authorization/erasure revalidation |
 | CDM-037 | `tests/test_cdm_capture.py::test_bitemporal_capture_separates_known_time_from_valid_time` uses real versioned history to distinguish knowledge sequence from valid time; the correction is absent before its event, available for its validity interval afterward, and only digests/versions enter the artifact |
 | CDM-038 | `tests/test_cdm_capture.py` cross-tenant, private-memory, and revoked-session fixtures assert generic refusals with no evidence ID, content, or record metadata |
@@ -239,16 +241,14 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (9)
+## Partial (7)
 
 | Task | Remaining acceptance evidence |
 |---|---|
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
-| CDM-017 | Focused suite runs in `tools/cdm_offline_gate.py`; `tools/check.py` has a focused entry | Demonstrate full local check gate with network operations prohibited. |
 | CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
 | CDM-020 | Change log plus qualification manifest and this ledger | Status transitions still need per-task source digests and broader artifact inventory. |
 | CDM-027 | Capture returns authorized evidence commitments only | Existing history metadata provides recorded/cited/exposed distinctions, but CDM does not yet bind all those event classes into a decision trace. |
-| CDM-034 | Separate `source_currently_admissible` and `historical_snapshot_only` fields | Current admissibility remains a snapshot at capture time and must be rechecked for later export/use. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
