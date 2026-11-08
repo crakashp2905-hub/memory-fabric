@@ -2359,6 +2359,24 @@
       "limitations": [
         "The heldout agent promotion gate now has target, tie, safety, stale-action and both fairness-margin boundary tests. A shared frozen threshold registry covering every registered hypothesis is still missing; the qualification script seeds also need reconciliation with the v1 preregistration."
       ]
+    },
+    {
+      "task_id": "P1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/reference_agent.py",
+        "examples/multi_agent_team.py",
+        "examples/action_gate.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-02-example-tests.json",
+        "research/results/p1-02-example-tests.txt"
+      ],
+      "limitations": [
+        "The examples and test are configured in the CI workflow, but GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
     }
   ]
 }

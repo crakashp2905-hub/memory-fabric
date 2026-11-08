@@ -459,7 +459,9 @@ R1-05 completion evidence: shared broken-retrieval, seeded-random-evidence and p
 **Existing reference points:** `src/memory_fabric/cli.py`, `tour.py`, `demo.py`, `sdk.py`, `docs/QUICKSTART.md`, `docs/COOKBOOK.md`.
 
 - [ ] **P1-01** · **P1** · Create one verified 60-second zero-credential getting-started path using only bundled fixtures. **Acceptance:** Clean offline install can initialize, ingest, correct, recall and see changed action status..
-- [ ] **P1-02** · **P1** · Provide three executable examples: personal agent, multi-agent team and governed decision. **Acceptance:** Examples run in CI without any hosted model or external endpoint..
+- [x] **P1-02** · **P1** · Provide three executable examples: personal agent, multi-agent team and governed decision. **Acceptance:** Examples run in CI without any hosted model or external endpoint..
+
+P1-02 completion evidence: the offline example suite runs the personal-agent, multi-agent-team, and governed-action examples as clean subprocesses; the multi-agent example uses fixed fixtures and no hosted model or external endpoint. The CI workflow runs the same test suite. Evidence: `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt`. CI is configured to run these tests; this branch has not yet received a GitHub CI run.
 - [ ] **P1-03** · **P1** · Make every example label simulated agents and deterministic fixtures visibly. **Acceptance:** Examples cannot imply live-LLM success or independently verified compliance..
 - [ ] **P1-04** · **P1** · Expose minimal SDK API for add, recall, correct, explain, decide and safe execute. **Acceptance:** Public typed methods have documented errors and runnable sample tests..
 - [ ] **P1-05** · **P1** · Introduce setup doctor with actionable checks for store, keys, schema, ports and disk limits. **Acceptance:** Each injected misconfiguration identifies a concrete repair command without data loss..

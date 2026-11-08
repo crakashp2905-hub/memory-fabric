@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **140 / 260 (53.85%)**. Internal status: **BLOCKED**.
+Strict completion: **141 / 260 (54.23%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `936cb978630c0c0f65962cf78e6feda0a9c6e24560bcb387b6f017f7b5bc32cb`.
+Normalized ledger digest: `f5150630f7addcdbf27ddf5c5b185642985090902e1bcdf3b08962d7bf8c768d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 140 |
+| DONE | 141 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 116 |
+| TODO | 115 |
 
 ## Graduation gates
 
@@ -240,7 +240,7 @@ Normalized ledger digest: `936cb978630c0c0f65962cf78e6feda0a9c6e24560bcb387b6f01
 | H5-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_production_defaults.py`, `tests/data/default_features.json`, `tests/test_presets.py`, `.github/workflows/ci.yml`, `research/results/h5-09-production-defaults.json` |
 | H5-10 | P1 | DONE | INTERNAL_INTEGRATION | `research/security/internal_findings.json`, `tools/security_findings.py`, `tests/test_security_findings.py`, `tools/check.py`, `research/results/h5-10-internal-security-findings.json`, `research/results/h5-10-finding-verification.xml` |
 | P1-01 | P1 | TODO | NOT_TESTED | — |
-| P1-02 | P1 | TODO | NOT_TESTED | — |
+| P1-02 | P1 | DONE | INTERNAL_INTEGRATION | `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt` |
 | P1-03 | P1 | TODO | NOT_TESTED | — |
 | P1-04 | P1 | TODO | NOT_TESTED | — |
 | P1-05 | P1 | TODO | NOT_TESTED | — |
