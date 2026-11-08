@@ -101,8 +101,12 @@ class BackupRestoreQualification(unittest.TestCase):
                              {"seq": expected_head[0], "digest": expected_head[1]})
 
             restored_directory = directory / "restored"
+            erasure_ledger = directory / "current-erasures.json"
             with redirect_stdout(StringIO()):
-                self.assertEqual(main(["restore", str(backup), str(restored_directory)]), 0)
+                self.assertEqual(main(["--db", str(source), "export-erasure-ledger",
+                                       str(erasure_ledger)]), 0)
+                self.assertEqual(main(["restore", str(backup), str(restored_directory),
+                                       "--erasure-ledger", str(erasure_ledger)]), 0)
             restored = MemoryFabric(restored_directory / "store.db", auto_activate=True)
             try:
                 restored_events = list(restored.log.read())

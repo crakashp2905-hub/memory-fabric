@@ -1,17 +1,43 @@
 {
   "schema": "mf-qualification/1",
-  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
   "task_id": "H3-08",
+  "source_commit": "6c76ecdee2527a1fdb724c9d60f3dea1287de918",
+  "source_dirty_at_test_start": true,
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "process_count": 1,
+    "thread_count": 1
+  },
   "input_sha256": {
-    "src/memory_fabric/_fabric/sealing.py": "bdbbe9b30e58fbfb460b6a15e53febddedf419b365f81205db08791afcb9214c",
-    "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
-    "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+    "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
+    "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
+    "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
+    "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
+    "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
+    "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
+    "docs/CLI.md": "52fa4ea07821fac79b7e98ad438bc0190a2441aa4c9f714ea88e0c6886f7c237"
   },
   "checks": {
-    "local_restore_reconciliation": "NOT_IMPLEMENTED",
-    "federation_exchange": "OPT_IN_AND_TESTED"
+    "current_ledger_export": "PASS; content-free memory ids bound to source store id",
+    "missing_ledger": "FAIL_CLOSED",
+    "store_id_mismatch": "FAIL_CLOSED",
+    "restore_after_erasure": "PASS; restored content key destroyed before success",
+    "audit_chain": "PASS; appended ContentErased event and verified chain",
+    "key_bearing_backup": "PASS; separate DirectoryKeyProvider backup custody test",
+    "federation_tombstone_exchange": "existing opt-in trusted-origin behavior unchanged"
   },
+  "test_command": "python -m pytest tests/test_restore_erasure_reconciliation.py tests/test_backup_custody.py tests/test_backup_restore_qualification.py -q --junitxml=research/results/h3-08-backup-erasure-limits-tests.xml",
+  "tests_passed": 6,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee",
+  "acceptance_passed": true,
   "limitations": [
-    "Restored old keys can make pre-erasure backups readable."
-  ]
+    "The JSON erasure ledger is not signed; protect it independently and use deployment-managed signatures or authenticated storage where tamper resistance is required.",
+    "Local reconciliation does not erase federated copies, external exports, or separately stored keys omitted from restore."
+  ],
+  "verdict": "PASS"
 }

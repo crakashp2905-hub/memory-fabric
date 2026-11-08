@@ -397,10 +397,20 @@ WRITES: return a quarantined memory to candidate
 
 ### `restore`
 
-WRITES: restore a backup made with `backup`, after checking its manifest
+WRITES: restore a verified backup and reconcile current content erasures
 
 - `backup`: the backup file (its .manifest.json must be beside it)
 - `dest`: directory to restore into; must not exist
+- `--erasure-ledger`: required current ledger exported from the source store; store ID must match
+
+Export a current ledger with `memory-fabric --db STORE export-erasure-ledger PATH`.
+The ledger is content-free; protect it independently of the backup.
+
+### `export-erasure-ledger`
+
+Write content-free erased memory IDs from this store for restore reconciliation
+
+- `path`: where to write the protected ledger
 
 ### `retention`
 

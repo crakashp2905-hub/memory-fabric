@@ -1126,18 +1126,24 @@
     },
     {
       "task_id": "H3-08",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/cli.py",
         "src/memory_fabric/tombstones.py",
         "tests/test_tombstone_exchange.py",
+        "tests/test_restore_erasure_reconciliation.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup_restore_qualification.py",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
-        "research/results/h3-08-backup-erasure-limits.json"
+        "docs/RUNBOOKS.md",
+        "docs/CLI.md",
+        "research/results/h3-08-backup-erasure-limits.json",
+        "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "limitations": [
-        "Federation tombstone exchange is opt-in and trusted-origin scoped. Local backup restore does not reconcile an external erasure ledger; with restored keys, a pre-erasure backup may recover old content."
+        "The content-free erasure ledger is unsigned and must be protected independently; deploy authenticated storage or signatures when tamper resistance is required. Local reconciliation does not erase federated copies, external exports, or separately stored keys omitted from restore. Federation tombstone exchange remains opt-in and trusted-origin scoped."
       ]
     },
     {

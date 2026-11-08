@@ -180,12 +180,18 @@ chain head). Keep the key copy as protected as the original.
 To restore:
 
 ```bash
-memory-fabric restore /backups/store.bak ./restored
+memory-fabric --db store.db export-erasure-ledger /backups/store.erasures.json
+memory-fabric restore /backups/store.bak ./restored \
+  --erasure-ledger /backups/store.erasures.json
 ```
 
-It refuses a backup whose files do not match the manifest (exit 5), refuses
-to write into an existing directory (exit 4), and replays the restored log
-to check the event count and chain head. Then:
+Keep the content-free erasure ledger current and protected independently of
+the backup. Restore binds its store ID to the backup, checks the backup files
+against the manifest, and applies erasures before returning success. It refuses
+a missing ledger, a mismatched store, or a backup whose files do not match the
+manifest; it also refuses to write into an existing directory. The backup's
+original chain head is checked before reconciliation, and the resulting chain
+is verified afterward. Then:
 
 1. `memory-fabric --db ./restored/store.db --keys ./restored/keys doctor`
 2. Compare the chain head with your latest off-host checkpoint

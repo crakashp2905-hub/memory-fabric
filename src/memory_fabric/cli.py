@@ -1916,16 +1916,41 @@ def _backup_custody(fabric: MemoryFabric, args: argparse.Namespace, target: Path
 
 
 def cmd_restore(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
-    """Restore a backup into a new directory, refusing one that does not match its manifest."""
+    """Restore a verified backup and reconcile it with a current erasure ledger."""
     import shutil
 
     backup = Path(args.backup)
+    ledger_path = Path(args.erasure_ledger) if args.erasure_ledger else None
+    if ledger_path is None or not ledger_path.is_file():
+        print(f"{C.RED}restore requires --erasure-ledger from the current source store; "
+              f"an older backup cannot prove that no later erasures occurred.{C.RESET}",
+              file=sys.stderr)
+        return 2
+    try:
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"{C.RED}cannot read erasure ledger: {exc}{C.RESET}", file=sys.stderr)
+        return 2
+    if ledger.get("format") != "memory-fabric-erasure-ledger/1":
+        print(f"{C.RED}unsupported erasure ledger format{C.RESET}", file=sys.stderr)
+        return 2
     manifest_path = backup.with_name(backup.name + ".manifest.json")
     if not manifest_path.exists():
         print(f"{C.RED}no manifest at {manifest_path}; back up again with this "
               f"version to get one{C.RESET}", file=sys.stderr)
         return 2
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if ledger.get("store_id") != manifest.get("store_id"):
+        print(f"{C.RED}erasure ledger store id does not match the backup{C.RESET}",
+              file=sys.stderr)
+        return 2
+    erasures = ledger.get("erasures")
+    if not isinstance(erasures, list) or any(
+        not isinstance(item, dict) or not isinstance(item.get("memory_id"), str)
+        or not item["memory_id"] for item in erasures
+    ):
+        print(f"{C.RED}invalid erasure ledger entries{C.RESET}", file=sys.stderr)
+        return 2
     bad = [name for name, digest in manifest["files"].items()
            if not (backup.parent / name).is_file()
            or _sha256(backup.parent / name) != digest]
@@ -1949,24 +1974,54 @@ def cmd_restore(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
     restored = MemoryFabric(str(dest / "store.db"),
                             key_provider=DirectoryKeyProvider(str(keys)) if keys else None)
     try:
+        original_events = len(restored.log)
+        original_head = list(restored.log.chain.head())
+        if (original_events != manifest["events"] or
+                original_head != [manifest["chain_head"]["seq"],
+                                  manifest["chain_head"]["digest"]]):
+            print(f"{C.RED}restored snapshot does not match its manifest{C.RESET}",
+                  file=sys.stderr)
+            return 5
+        existing_erased = {
+            str(event.payload.get("memory_id")) for event in restored.log.read()
+            if event.type == "ContentErased"
+        }
+        reconciled = 0
+        for item in erasures:
+            memory_id = item["memory_id"]
+            if memory_id in existing_erased or memory_id not in restored.state.memories:
+                continue
+            restored.erase_content(memory_id, "restore reconciliation from current erasure ledger",
+                                   actor="restore-erasure-ledger")
+            reconciled += 1
         events = len(restored.log)
-        head = list(restored.log.chain.head())
         memories = len(restored.state.memories)
         verification = restored.log.chain.verify(restored.log.read())
+        head_matches = original_head == [manifest["chain_head"]["seq"],
+                                         manifest["chain_head"]["digest"]]
     finally:
         restored.close()
-    if events != manifest["events"] or head != [manifest["chain_head"]["seq"],
-                                                manifest["chain_head"]["digest"]]:
-        print(f"{C.RED}restored {events} events, head {head}; the manifest says "
-              f"{manifest['events']} and {manifest['chain_head']}{C.RESET}", file=sys.stderr)
-        return 5
     ok = getattr(verification, "ok", True)
-    print(f"restored {events} events, {memories} memories into {dest}; chain head matches"
-          f"{'' if ok else '; CHAIN DOES NOT VERIFY'}")
+    print(f"restored {events} events, {memories} memories into {dest}; "
+          f"backup head {'matches' if head_matches else 'does not match'}; "
+          f"chain {'verifies' if ok else 'DOES NOT VERIFY'}; "
+          f"reconciled {reconciled} erased record(s)")
     if keys is None:
         print(f"  {C.YELLOW}no keys in this backup: if the store's keys were external, "
               f"its content cannot be read until they are restored.{C.RESET}")
-    return 0 if ok else 5
+    return 0 if ok and head_matches else 5
+
+
+def cmd_export_erasure_ledger(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Export content-free erasure identifiers for reconciling an older backup."""
+    rows = sorted({str(event.payload.get("memory_id")) for event in fabric.log.read()
+                   if event.type == "ContentErased" and event.payload.get("memory_id")})
+    payload = {"format": "memory-fabric-erasure-ledger/1", "store_id": fabric.store_id,
+               "erasures": [{"memory_id": memory_id} for memory_id in rows]}
+    Path(args.path).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    print(f"wrote {len(rows)} content-free erasure record(s) to {args.path}; "
+          "protect and retain this ledger independently of the backup")
+    return 0
 
 
 def cmd_pilot_report(fabric: MemoryFabric, args: argparse.Namespace) -> int:
@@ -3213,6 +3268,12 @@ def build_parser() -> argparse.ArgumentParser:
             "WRITES: restore a backup made with `backup`, after checking its manifest")
     p.add_argument("backup", help="the backup file (its .manifest.json must be beside it)")
     p.add_argument("dest", help="directory to restore into; must not exist")
+    p.add_argument("--erasure-ledger", required=True,
+                   help="current content-free ledger exported from the source store")
+
+    p = add("export-erasure-ledger", cmd_export_erasure_ledger,
+            "Export content-free erasure ids for safe reconciliation of older backups")
+    p.add_argument("path", help="where to write the protected ledger")
 
     add("demo", cmd_demo, "WRITES: seed a demonstration store")
     p = add("sandbox", cmd_sandbox,

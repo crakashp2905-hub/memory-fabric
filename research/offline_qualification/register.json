@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "411a0d45f6d4d570d3c603c179ca41526ee85f7e338ac8289376912765e6d065",
+    "sha256": "d9cf2d6da649234e653d5bb683539b4e52f5692fdfb0022047952ba04919d16a",
     "tasks": 260
   },
   "source": {
-    "commit": "4ccc8d8f14d01ddc04c77e44f93cbf96a3c45d01",
+    "commit": "6c76ecdee2527a1fdb724c9d60f3dea1287de918",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 128,
-      "PARTIAL": 13,
+      "DONE": 129,
+      "PARTIAL": 12,
       "TODO": 119
     },
-    "completed": 128,
+    "completed": 129,
     "total": 260,
-    "percent_complete": 49.23,
-    "p0_open": 10,
+    "percent_complete": 49.62,
+    "p0_open": 9,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -768,7 +768,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
-        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
       },
@@ -1243,7 +1243,7 @@
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
         "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
-        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "a4cbe5a5fc73a96550add9daf61421095fdc7488fe5ff5a08d1e6412d11af20e",
+        "research/results/MANIFEST.json": "111e52ce3083a22849514d1dc673db5742ecf7dacd272ca6785cd065781d634e",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3947,7 +3947,7 @@
       "evidence_digests": {
         "src/memory_fabric/tenancy.py": "daf1048ec5f2f7c8126419579c37853e610e5c98bdfe4142d55e9a251fd06eec",
         "tests/test_tenancy.py": "dea604785b848d3b5e4fec0694a9a8eb7c9cd667a6756837292cb50ba90ba61c",
-        "tests/test_backup_custody.py": "48f4ef6a73355877baa40b187a3ba3c701ebef1da6aec6cc6b4f1b60b4e336c1",
+        "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
         "research/results/h3-03-physical-tenancy.json": "3c0d510d873ce74516b0811256bfd90962079deff114dd26c17ba069d5151a53",
         "research/results/h3-03-physical-tenancy-tests.xml": "44d8326bd818cd90adb5d3cfb43db900209387ec63feaf6b842c2a98b37b292c"
       },
@@ -4026,7 +4026,7 @@
       "evidence_digests": {
         "src/memory_fabric/governance/retention.py": "352f68fc6c5f9e5b38150ebc4b96e3822b97fc59655fa67c2a844707f6a3b558",
         "tests/test_retention_boundaries.py": "6f2afce65a25862881fc6b01475a76a8529aad76d2e9d456e78c594d5301b78f",
-        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
         "research/results/h3-06-retention-boundaries.json": "9c8b3229c74d0ed6717145cc943bf2e71af8610ed3a1aa9fff2b92baa4131e5d",
         "research/results/h3-06-retention-boundaries-tests.xml": "55945996c93d0c540dd450fa2e5b6a93a87d3ddbc2083541820865b377967e49"
       },
@@ -4066,27 +4066,39 @@
       "task_id": "H3-08",
       "priority": "P0",
       "task": "Document backup erasure limits and implement local restore-with-tombstone reconciliation.",
-      "acceptance": "Restoring an older backup never silently restores previously erased actionable data. Evidence: `src/memory_fabric/_fabric/sealing.py`, `src/memory_fabric/tombstones.py`, `tests/test_tombstone_exchange.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-08-backup-erasure-limits.json` (PARTIAL: local restore reconciliation not implemented)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "acceptance": "Restoring an older backup never silently restores previously erased actionable data. Evidence: `src/memory_fabric/cli.py`, `tests/test_restore_erasure_reconciliation.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-08-backup-erasure-limits.json`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
-        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/cli.py",
         "src/memory_fabric/tombstones.py",
         "tests/test_tombstone_exchange.py",
+        "tests/test_restore_erasure_reconciliation.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup_restore_qualification.py",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
-        "research/results/h3-08-backup-erasure-limits.json"
+        "docs/RUNBOOKS.md",
+        "docs/CLI.md",
+        "research/results/h3-08-backup-erasure-limits.json",
+        "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/_fabric/sealing.py": "bdbbe9b30e58fbfb460b6a15e53febddedf419b365f81205db08791afcb9214c",
+        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
-        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6",
-        "research/results/h3-08-backup-erasure-limits.json": "77c808b2b6d5645a6f7d0ea3a2578fe0ce2a04bfbc9f8dc4822af5c5f6a2d882"
+        "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
+        "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
+        "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "1ea7656067f18f6635ec65a53fac49601be976d5d1e17dc62e8d75b30af54f5d",
+        "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
+        "docs/CLI.md": "52fa4ea07821fac79b7e98ad438bc0190a2441aa4c9f714ea88e0c6886f7c237",
+        "research/results/h3-08-backup-erasure-limits.json": "533fdcae700d612d7f6b7d9ede00b6364a76d0b4d473f417caf6c0ea22a32359",
+        "research/results/h3-08-backup-erasure-limits-tests.xml": "e8cff9c8cd6766db6b68cbcaafd9f2f88ea7e63ff7f559e2440547e5564377ee"
       },
       "evidence_issues": {},
       "limitations": [
-        "Federation tombstone exchange is opt-in and trusted-origin scoped. Local backup restore does not reconcile an external erasure ledger; with restored keys, a pre-erasure backup may recover old content."
+        "The content-free erasure ledger is unsigned and must be protected independently; deploy authenticated storage or signatures when tamper resistance is required. Local reconciliation does not erase federated copies, external exports, or separately stored keys omitted from restore. Federation tombstone exchange remains opt-in and trusted-origin scoped."
       ]
     },
     {
@@ -4136,7 +4148,7 @@
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_doctor.py": "fadcb4fe738b5ba4e997b82b70a4bdb9e96786590e10deb67bd5766535306d32",
         "docs/TROUBLESHOOTING.md": "4c85a84f27072da8872ea1821f319a48d8c213630079433e8f48d5736055f059",
-        "docs/RUNBOOKS.md": "ae41c97dc704926f49f7db96f1ebe3d4fde73c345b6542dcf2f4b9ec130b0687",
+        "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
         "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
       },
@@ -4349,7 +4361,7 @@
         "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
         "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
         "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc",
-        "tests/test_backup_restore_qualification.py": "9e251cf66da2313e1f65acc66988e46cb2185143e0a24d05d99c9a95f1dcd751",
+        "tests/test_backup_restore_qualification.py": "c1b6f056153dce31b7e70a893edf65f32cc29b9914f71d2c400be28ba3da376c",
         "research/results/h4-08-backup-upgrade.json": "f2e5276084a4dd009199537e18ed354e21f71d5da5402cb3e5a15b01d2d61df5",
         "research/results/h4-08-backup-upgrade-tests.xml": "9ac7604d1a3615e26f4f4ed758c6b89de708ec58fcf1e738aa2b3b31e467c9f0",
         "research/results/p5-04-upgrade-rollback-smoke.json": "85083dedc0d5cea0a7c8f5f889f5ed07f5b6160ad6553ed9be081effdbf8b7b2"
@@ -4410,7 +4422,7 @@
       "evidence_digests": {
         "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
         "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
-        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "src/memory_fabric/cli.py": "d07badbf7bc3ffb1393d67bc44345b240119aa7d35d86d8dcd0fa98f6a582444",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
         "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",

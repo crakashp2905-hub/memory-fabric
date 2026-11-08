@@ -9,7 +9,7 @@
   "prompt_hash": 221,
   "seed": 142,
   "cost": 198,
-  "verdict": 156
+  "verdict": 155
  },
  "population_counts": {
   "synthetic_scripted": 11,
@@ -1981,7 +1981,7 @@
   {
    "experiment_id": "h3-08-backup-erasure-limits",
    "file": "research/results/h3-08-backup-erasure-limits.json",
-   "file_sha256": "847d7222d2903c9c0ffdda512b749d33e3889fb0850594bc447b97fc90cabbc7",
+   "file_sha256": "8e4474aaab37cb86d67d5f79d0e04d98dba734f449f44e49251cf4d02e12bb19",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
@@ -1993,7 +1993,7 @@
    "seed": null,
    "config": null,
    "cost": null,
-   "verdict": null,
+   "verdict": "PASS",
    "parsable": true
   },
   {

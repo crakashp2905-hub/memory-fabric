@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **128 / 260 (49.23%)**. Internal status: **BLOCKED**.
+Strict completion: **129 / 260 (49.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f095b19451de9dfe3624b249736a3b138ec7d4db0715fce3ec73ebe9354fa467`.
+Normalized ledger digest: `d922edeeaeb28272b2c6dbaf8964c7427c6cfbe97350093b44344796576c52a6`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 128 |
+| DONE | 129 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 13 |
+| PARTIAL | 12 |
 | TODO | 119 |
 
 ## Graduation gates
@@ -216,7 +216,7 @@ Normalized ledger digest: `f095b19451de9dfe3624b249736a3b138ec7d4db0715fce3ec73e
 | H3-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_personal_data_redaction.py`, `tools/scan_secrets.py`, `research/results/h3-05-personal-data-redaction.json`, `research/results/h3-05-personal-data-redaction-tests.xml` |
 | H3-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/governance/retention.py`, `tests/test_retention_boundaries.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-06-retention-boundaries.json`, `research/results/h3-06-retention-boundaries-tests.xml` |
 | H3-07 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tests/test_erasure_residue.py`, `tests/test_cipher.py`, `tests/test_tombstone_exchange.py`, `research/results/h3-07-erasure-residue.json`, `research/results/h3-07-erasure-residue-tests.xml` |
-| H3-08 | P0 | PARTIAL | CONTRACT | `src/memory_fabric/_fabric/sealing.py`, `src/memory_fabric/tombstones.py`, `tests/test_tombstone_exchange.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-08-backup-erasure-limits.json` |
+| H3-08 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/cli.py`, `src/memory_fabric/tombstones.py`, `tests/test_tombstone_exchange.py`, `tests/test_restore_erasure_reconciliation.py`, `tests/test_backup_custody.py`, `tests/test_backup_restore_qualification.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `docs/RUNBOOKS.md`, `docs/CLI.md`, `research/results/h3-08-backup-erasure-limits.json`, `research/results/h3-08-backup-erasure-limits-tests.xml` |
 | H3-09 | P0 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/observability/metrics.py`, `tests/test_metrics.py`, `research/results/h3-09-sparse-metrics.json`, `research/results/h3-09-sparse-metrics-tests.xml` |
 | H3-10 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_cipher.py`, `tests/test_event_schema_hardening.py`, `tests/test_doctor.py`, `docs/TROUBLESHOOTING.md`, `docs/RUNBOOKS.md`, `research/results/h3-10-key-loss.json`, `research/results/h3-10-key-loss-tests.xml` |
 | H4-01 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_write_fault_injection.py`, `research/results/h4-01-stage-fault-injection.json`, `research/results/h4-01-stage-fault-injection-tests.xml` |
