@@ -1501,6 +1501,22 @@
       ]
     },
     {
+      "task_id": "H3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_credential_rotation_actions.py",
+        "tests/test_service.py",
+        "tests/test_action_fence.py",
+        "research/results/h3-04-credential-rotation-tests.xml",
+        "research/results/h3-04-credential-rotation.json"
+      ],
+      "limitations": [
+        "Credential revocation is rechecked against the local service registry. Cross-process durability depends on the configured revocation store; production deployments must use its durable SQLite-backed implementation."
+      ]
+    },
+    {
       "task_id": "H2-05",
       "status": "DONE",
       "acceptance_passed": true,
