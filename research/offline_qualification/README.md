@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **204 / 260 (78.46%)**. Internal status: **BLOCKED**.
+Strict completion: **205 / 260 (78.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `2d4006461fdc42c67ff30a63953a346622ce1bdd2dda1056c5a2f63dc71a0798`.
+Normalized ledger digest: `99a142182020fe5e2616fdb8f1df38ca3bb2362fb179c0a2ec8141e0efc8ed96`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 204 |
+| DONE | 205 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 53 |
+| TODO | 52 |
 
 ## Graduation gates
 
@@ -137,7 +137,7 @@ Normalized ledger digest: `2d4006461fdc42c67ff30a63953a346622ce1bdd2dda1056c5a2f
 | N1-06 | P1 | DONE | CONTRACT | `SPEC.md`, `src/memory_fabric/events.py`, `src/memory_fabric/decision_records.py`, `src/memory_fabric/model.py`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-06-status-transition-tests.xml` |
 | N1-07 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `tests/test_support_bundle.py`, `research/results/n1-07-reevaluation-receipt-tests.xml` |
 | N1-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/common.py`, `src/memory_fabric/fabric.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `CHANGELOG.md`, `tools/gen_reference.py`, `docs/API.md`, `docs/API_INVENTORY.json`, `tests/test_revision_conflicts.py`, `tests/test_concurrency.py`, `tests/test_fabric.py`, `tests/test_reference_docs.py`, `research/results/n1-08-revision-conflict-tests.xml` |
-| N1-09 | P1 | TODO | NOT_TESTED | — |
+| N1-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/n1_09_decision_continuity.py`, `tests/test_n1_09_decision_continuity.py`, `research/results/n1-09-decision-continuity-tests.xml`, `research/results/n1-09-decision-continuity.json`, `research/results/n1-09-decision-continuity.md` |
 | N1-10 | P1 | TODO | NOT_TESTED | — |
 | N2-01 | P1 | TODO | NOT_TESTED | — |
 | N2-02 | P1 | TODO | NOT_TESTED | — |

@@ -152,6 +152,22 @@
       ]
     },
     {
+      "task_id": "N1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/n1_09_decision_continuity.py",
+        "tests/test_n1_09_decision_continuity.py",
+        "research/results/n1-09-decision-continuity-tests.xml",
+        "research/results/n1-09-decision-continuity.json",
+        "research/results/n1-09-decision-continuity.md"
+      ],
+      "limitations": [
+        "Five deterministic synthetic seeds and an oracle routing rule; no real-agent task outcomes, model inference, or external actions. Host-specific routing timings use computationally different baseline operations; index build is reported separately."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
