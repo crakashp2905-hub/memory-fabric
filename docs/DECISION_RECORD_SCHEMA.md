@@ -67,3 +67,9 @@ shows each registered option, the recorded reason, and whether a corrected
 version makes the option worth reconsidering. `reconsider` means the
 alternative might become viable; it does not change the chosen option or grant
 authority. Options without an assessment remain visible as `unassessed`.
+
+`DecisionLedger.transition_decision` appends each status transition as a
+`DecisionStatusChanged` event. It validates the current status while holding
+the event-log write transaction, rejects competing stale transitions with
+`DecisionTransitionError`, and rebuilds `status_history` from the log after
+replay. Repeating the exact same transition is idempotent.

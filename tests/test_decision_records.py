@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 import json
+from pathlib import Path
+import tempfile
 import unittest
 
 from memory_fabric import (
@@ -316,6 +319,71 @@ class DecisionLedgerTests(unittest.TestCase):
             (EvidenceVersion("not-listed", 1),), "reviewer", "2026-11-08T10:00:00Z")
         with self.assertRaisesRegex(DecisionEdgeError, "listed by the alternative"):
             self.ledger.assess_alternative(invalid)
+
+    def test_status_transitions_are_durable_typed_and_replayable(self) -> None:
+        self.ledger.record(self.decision)
+        approved = self.ledger.transition_decision(
+            "d1", "approved", changed_at="2026-11-08T10:01:00Z", actor_id="reviewer")
+        self.assertEqual(approved.status, "approved")
+        self.assertEqual(len(approved.status_history), 1)
+        event_count = len(self.log)
+        self.assertEqual(self.ledger.transition_decision(
+            "d1", "approved", changed_at="2026-11-08T10:01:00Z",
+            actor_id="reviewer"), approved)
+        self.assertEqual(len(self.log), event_count)
+        with self.assertRaises(DecisionTransitionError) as caught:
+            self.ledger.transition_decision(
+                "d1", "proposed", changed_at="2026-11-08T10:02:00Z",
+                actor_id="reviewer")
+        self.assertEqual(caught.exception.code, "illegal_status_transition")
+        self.assertEqual(len(self.log), event_count)
+        replay = DecisionLedger(self.log, lambda: 1_800_000_000_000)
+        self.assertEqual(replay.get("d1"), approved)
+
+    def test_competing_status_transitions_do_not_append_an_illegal_history(self) -> None:
+        self.ledger.record(self.decision)
+
+        def approve(actor_id: str) -> str:
+            try:
+                self.ledger.transition_decision(
+                    "d1", "approved", changed_at="2026-11-08T10:01:00Z",
+                    actor_id=actor_id)
+                return "approved"
+            except DecisionTransitionError as exc:
+                return f"rejected: {exc}"
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            outcomes = list(pool.map(approve, ("reviewer-1", "reviewer-2")))
+        self.assertEqual(sum(item == "approved" for item in outcomes), 1, outcomes)
+        self.assertEqual(sum(item.startswith("rejected:") for item in outcomes), 1, outcomes)
+        replay = DecisionLedger(self.log, lambda: 1_800_000_000_000).get("d1")
+        self.assertIsNotNone(replay)
+        self.assertEqual(replay.status, "approved")
+        self.assertEqual(len(replay.status_history), 1)
+        self.assertEqual(len(self.log.read_types([EventType.DECISION_STATUS_CHANGED])), 1)
+
+    def test_status_history_survives_store_close_reopen_and_chain_verification(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "decisions.db"
+            first = EventLog(path)
+            ledger = DecisionLedger(first, lambda: 1_800_000_000_000)
+            ledger.record(self.decision)
+            ledger.transition_decision(
+                "d1", "approved", changed_at="2026-11-08T10:01:00Z", actor_id="reviewer")
+            ledger.transition_decision(
+                "d1", "executed", changed_at="2026-11-08T10:02:00Z", actor_id="operator")
+            first.close()
+
+            reopened = EventLog(path)
+            try:
+                recovered = DecisionLedger(reopened, lambda: 1_800_000_000_000).get("d1")
+                self.assertIsNotNone(recovered)
+                self.assertEqual(recovered.status, "executed")
+                self.assertEqual([step.to_status for step in recovered.status_history],
+                                 ["approved", "executed"])
+                self.assertTrue(reopened.chain.verify(reopened.read()).ok)
+            finally:
+                reopened.close()
 
 
 if __name__ == "__main__":

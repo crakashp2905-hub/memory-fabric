@@ -91,16 +91,20 @@
     },
     {
       "task_id": "N1-06",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
+        "SPEC.md",
+        "src/memory_fabric/events.py",
         "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/model.py",
         "tests/test_decision_records.py",
-        "research/results/n1-01-decision-record-tests.xml"
+        "tests/test_protocol_schemas.py",
+        "research/results/n1-06-status-transition-tests.xml"
       ],
       "limitations": [
-        "Statuses and transition legality are typed and immutable snapshots preserve the sequence in memory. Durable append-only storage, tamper evidence, and replay enforcement are still required for acceptance."
+        "Status changes are durable, append-only event-log transitions. Competing writes were exercised with SQLite; the PostgreSQL adapter uses the same EventLog transaction boundary but was not live-tested because no PostgreSQL service is available. External business approval remains the responsibility of the caller's governance policy; this ledger records the transition and does not grant tool authority."
       ]
     },
     {

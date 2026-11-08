@@ -7,7 +7,9 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from datetime import datetime
 import hashlib
+import json
 import math
+import threading
 from types import MappingProxyType
 from typing import Any, Mapping
 
@@ -148,6 +150,7 @@ class DecisionLedger:
     def __init__(self, log: EventLog, clock: Any) -> None:
         self._log = log
         self._clock = clock
+        self._index_lock = threading.RLock()
         self._indexed_seq = 0
         self._indexed_event_count = 0
         self._events_by_id: dict[str, Event] = {}
@@ -161,6 +164,10 @@ class DecisionLedger:
         self._assessments_by_decision: dict[str, dict[str, DecisionAlternativeAssessment]] = {}
 
     def _sync_index(self) -> None:
+        with self._index_lock:
+            self._sync_index_unlocked()
+
+    def _sync_index_unlocked(self) -> None:
         """Apply only events after the index cursor; safe after external appends."""
         for event in self._log.read(since_seq=self._indexed_seq):
             self._indexed_event_count += 1
@@ -174,6 +181,21 @@ class DecisionLedger:
                 if decision.decision_id in self._decisions:
                     raise DecisionEdgeError("replayed decision_id already exists")
                 self._decisions[decision.decision_id] = decision
+            elif event.type == EventType.DECISION_STATUS_CHANGED:
+                row = event.payload["transition"]
+                decision_id = event.payload["decision_id"]
+                status_decision = self._decisions.get(decision_id)
+                if status_decision is None:
+                    raise DecisionEdgeError("replayed status transition refers to an unknown decision")
+                transition = DecisionStatusTransition(**row)
+                if event.agent_id != transition.actor_id:
+                    raise DecisionTransitionError("replayed status actor does not match event actor")
+                if transition.from_status != status_decision.status:
+                    raise DecisionTransitionError(
+                        f"replayed status expected {transition.from_status}, current status is {status_decision.status}")
+                self._decisions[decision_id] = status_decision.transition_status(
+                    transition.to_status, changed_at=transition.changed_at,
+                    actor_id=transition.actor_id)
             elif event.type == EventType.DECISION_EDGE_RECORDED:
                 edge = _decode_edge(event.payload["edge"])
                 edge_decision = self._decisions.get(edge.decision_id)
@@ -253,6 +275,43 @@ class DecisionLedger:
             if self.get(decision.decision_id) is not None:
                 raise DecisionEdgeError("decision_id already exists") from exc
             raise
+
+    def transition_decision(self, decision_id: str, status: str, *,
+                            changed_at: str, actor_id: str) -> DecisionRecord:
+        """Persist a legal status transition and replay it into the current record.
+
+        The event-log write transaction serializes competing transitions across
+        processes. A repeated identical call is idempotent; an illegal or stale
+        transition appends nothing.
+        """
+        with self._log.transaction():
+            self._sync_index()
+            current = self._decisions.get(decision_id)
+            if current is None:
+                raise DecisionEdgeError("decision does not exist")
+            if current.status_history:
+                previous = current.status_history[-1]
+                if (previous.to_status == status and previous.changed_at == changed_at
+                        and previous.actor_id == actor_id):
+                    return current
+            updated = current.transition_status(status, changed_at=changed_at,
+                                                actor_id=actor_id)
+            transition = updated.status_history[-1]
+            canonical = json.dumps(transition.to_dict(), sort_keys=True,
+                                   separators=(",", ":"))
+            event_id = "decision_status_" + hashlib.sha256(
+                f"{decision_id}\0{canonical}".encode("utf-8")).hexdigest()
+            self._log.append(Event(
+                type=EventType.DECISION_STATUS_CHANGED, ts=self._clock(),
+                agent_id=actor_id,
+                payload={"decision_id": decision_id, "transition": transition.to_dict()},
+                event_id=event_id,
+            ))
+        self._sync_index()
+        result = self._decisions.get(decision_id)
+        if result is None:
+            raise DecisionEdgeError("decision disappeared during status replay")
+        return result
 
     def get(self, decision_id: str) -> DecisionRecord | None:
         self._sync_index()

@@ -116,7 +116,7 @@ from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
 from .vectors import Embedder, HashingEmbedder, VectorIndex
 
-__version__ = "0.16.0"
+__version__ = "0.17.0"
 
 __all__ = [
     "ParameterEquivalences",

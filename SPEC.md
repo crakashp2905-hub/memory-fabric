@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.16.0`
+- **Schema version:** `0.17.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -180,6 +180,15 @@ Default rules:
 6. Sensitive-data detector positive → QUARANTINE.
 
 ---
+
+### 0.17.0 — durable decision status transitions
+
+Adds `DecisionStatusChanged`, which appends one typed legal transition to a
+decision's status history. The ledger validates the current status and
+transition under the event-log write transaction, so competing writers cannot
+append a stale transition. Illegal transitions append nothing; replay rebuilds
+the immutable `DecisionRecord` history. The new event is additive and older
+readers skip it.
 
 ### 0.16.0 — append-only alternative assessments
 

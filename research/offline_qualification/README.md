@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **201 / 260 (77.31%)**. Internal status: **BLOCKED**.
+Strict completion: **202 / 260 (77.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `9a0f778550d235d2e38de9e2f3bfb9aac02638e3e0757ac4557c70a76c8bde22`.
+Normalized ledger digest: `d3cc285ea622c7d50dbbed86849185ccbcfc9926fbbb1a8d19803a68f5da4199`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 201 |
+| DONE | 202 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 4 |
+| PARTIAL | 3 |
 | TODO | 55 |
 
 ## Graduation gates
@@ -134,7 +134,7 @@ Normalized ledger digest: `9a0f778550d235d2e38de9e2f3bfb9aac02638e3e0757ac4557c7
 | N1-03 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-03-decision-impact-tests.xml` |
 | N1-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `tools/n1_04_dependency_index.py`, `research/results/n1-04-dependency-index.json` |
 | N1-05 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `SPEC.md`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-05-alternative-reassessment.xml` |
-| N1-06 | P1 | PARTIAL | CONTRACT | `src/memory_fabric/decision_records.py`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
+| N1-06 | P1 | DONE | CONTRACT | `SPEC.md`, `src/memory_fabric/events.py`, `src/memory_fabric/decision_records.py`, `src/memory_fabric/model.py`, `tests/test_decision_records.py`, `tests/test_protocol_schemas.py`, `research/results/n1-06-status-transition-tests.xml` |
 | N1-07 | P1 | TODO | NOT_TESTED | — |
 | N1-08 | P1 | TODO | NOT_TESTED | — |
 | N1-09 | P1 | TODO | NOT_TESTED | — |

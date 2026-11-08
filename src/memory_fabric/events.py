@@ -61,6 +61,7 @@ class EventType:
     DECISION_EDGE_RECORDED = "DecisionEdgeRecorded"
     DECISION_SEEN = "DecisionSeen"
     DECISION_OPTION_ASSESSED = "DecisionOptionAssessed"
+    DECISION_STATUS_CHANGED = "DecisionStatusChanged"
 
 
 @dataclass(frozen=True)

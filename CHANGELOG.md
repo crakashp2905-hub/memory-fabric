@@ -5,6 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.17.0): durable decision status history
+- Legal status transitions are append-only, replayable events serialized under the event-log transaction; illegal/stale transitions are rejected without adding history.
+
 ### Added (schema 0.16.0): evidence-dependent decision alternatives
 - Alternative loss reasons and exact rejection evidence are append-only; correction-aware reassessment flags only alternatives whose rejection basis changed, without selecting or authorizing them.
 
