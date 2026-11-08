@@ -629,7 +629,7 @@
     },
     {
       "module": "memory_fabric.compaction",
-      "signature": "(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default') -> CompactionReport",
+      "signature": "(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default', token_counter: Callable[[str], int] | None = None, tokenizer_provenance: str | None = None) -> CompactionReport",
       "symbol": "memory_fabric.compaction.compact_session",
       "tier": "experimental"
     },

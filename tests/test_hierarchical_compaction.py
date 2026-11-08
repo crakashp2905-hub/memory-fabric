@@ -47,6 +47,26 @@ class HierarchicalCompaction(unittest.TestCase):
         self.assertEqual(verification["source_versions"], [(memory_id, 1) for memory_id in self.sources])
         self.assertTrue(verification["certificate"])
 
+    def test_hierarchy_report_distinguishes_bytes_from_optional_tokens(self) -> None:
+        report = compact_hierarchy(
+            self.fabric,
+            self.episode,
+            "compactor",
+            leaf_size=4,
+            token_counter=lambda text: len(text.split()),
+            tokenizer_provenance="test-whitespace/1",
+        )
+        summary = self.fabric.get(report.root_summary_id)
+        source_bytes = sum(len(self.fabric.get(memory_id).content.encode("utf-8"))
+                           for memory_id in self.sources)
+
+        self.assertEqual(report.source_bytes_utf8, source_bytes)
+        self.assertEqual(report.root_summary_bytes_utf8, len(summary.content.encode("utf-8")))
+        self.assertEqual(report.tokenizer_provenance, "test-whitespace/1")
+        self.assertEqual(report.token_measurement_status, "MEASURED")
+        self.assertGreater(report.source_token_estimate, 0)
+        self.assertGreater(report.root_summary_token_estimate, 0)
+
     def test_correction_invalidates_only_its_leaf_and_the_dependent_root(self) -> None:
         report = compact_hierarchy(
             self.fabric, self.episode, "compactor", leaf_size=4

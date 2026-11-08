@@ -68,6 +68,12 @@ class CompactionReport:
     inputs: list[str] = field(default_factory=list)
     left_out: dict[str, str] = field(default_factory=dict)
     disputes: list[list[str]] = field(default_factory=list)
+    source_bytes_utf8: int = 0
+    summary_bytes_utf8: int = 0
+    source_token_estimate: int | None = None
+    summary_token_estimate: int | None = None
+    tokenizer_provenance: str | None = None
+    token_measurement_status: str = "NOT_MEASURED"
 
 
 @dataclass
@@ -77,6 +83,49 @@ class HierarchicalCompactionReport:
     leaf_summary_ids: list[str]
     leaf_source_groups: list[list[str]]
     certificates: dict[str, str]
+    source_bytes_utf8: int = 0
+    root_summary_bytes_utf8: int = 0
+    source_token_estimate: int | None = None
+    root_summary_token_estimate: int | None = None
+    tokenizer_provenance: str | None = None
+    token_measurement_status: str = "NOT_MEASURED"
+
+
+def _measurement(
+    source_texts: Sequence[str],
+    summary_text: str,
+    token_counter: Callable[[str], int] | None,
+    tokenizer_provenance: str | None,
+) -> dict[str, object]:
+    """Measure UTF-8 bytes exactly and tokens only with declared tokenizer provenance."""
+    source_bytes = sum(len(text.encode("utf-8")) for text in source_texts)
+    summary_bytes = len(summary_text.encode("utf-8"))
+    if token_counter is None:
+        if tokenizer_provenance is not None:
+            raise ValueError("tokenizer provenance requires a token counter")
+        return {
+            "source_bytes_utf8": source_bytes,
+            "summary_bytes_utf8": summary_bytes,
+            "source_token_estimate": None,
+            "summary_token_estimate": None,
+            "tokenizer_provenance": None,
+            "token_measurement_status": "NOT_MEASURED_NO_TOKENIZER",
+        }
+    if not tokenizer_provenance or not tokenizer_provenance.strip():
+        raise ValueError("token counter requires explicit tokenizer provenance")
+    source_tokens = sum(token_counter(text) for text in source_texts)
+    summary_tokens = token_counter(summary_text)
+    if any(isinstance(value, bool) or not isinstance(value, int) or value < 0
+           for value in (source_tokens, summary_tokens)):
+        raise ValueError("token counter must return non-negative integer counts")
+    return {
+        "source_bytes_utf8": source_bytes,
+        "summary_bytes_utf8": summary_bytes,
+        "source_token_estimate": source_tokens,
+        "summary_token_estimate": summary_tokens,
+        "tokenizer_provenance": tokenizer_provenance.strip(),
+        "token_measurement_status": "MEASURED",
+    }
 
 
 def session_memories(fabric: "MemoryFabric", episode_id: str) -> list["Memory"]:
@@ -134,7 +183,9 @@ def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory
 def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                     summarise: Callable[[Sequence["Memory"], Sequence[Sequence["Memory"]]], str]
                     | None = None, scope: str | None = None,
-                    tenant_id: str = DEFAULT_TENANT) -> CompactionReport:
+                    tenant_id: str = DEFAULT_TENANT,
+                    token_counter: Callable[[str], int] | None = None,
+                    tokenizer_provenance: str | None = None) -> CompactionReport:
     """Write one governed summary of an episode. Returns what was used and left out."""
     report = CompactionReport(episode_id=episode_id, summary_id=None)
     usable = []
@@ -172,6 +223,9 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
     except DependencyMapRefused as exc:
         dependencies = None
         dependency_error = str(exc)
+    measured = _measurement(
+        [memory.content for memory in usable], text, token_counter, tokenizer_provenance
+    )
     narrowest = min((m.scope for m in usable), key=lambda s: s.rank)
     if scope is not None and Scope(scope).rank > narrowest.rank:
         raise CompactionRefused("a summary cannot widen its sources' visibility")
@@ -198,6 +252,12 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                 f"summary dependency map could not be proven: {dependency_error}"
             )
     report.inputs = [m.id for m in usable]
+    report.source_bytes_utf8 = int(measured["source_bytes_utf8"])
+    report.summary_bytes_utf8 = int(measured["summary_bytes_utf8"])
+    report.source_token_estimate = measured["source_token_estimate"]
+    report.summary_token_estimate = measured["summary_token_estimate"]
+    report.tokenizer_provenance = measured["tokenizer_provenance"]
+    report.token_measurement_status = str(measured["token_measurement_status"])
     return report
 
 
@@ -225,6 +285,8 @@ def compact_hierarchy(
     *,
     leaf_size: int = 8,
     tenant_id: str = DEFAULT_TENANT,
+    token_counter: Callable[[str], int] | None = None,
+    tokenizer_provenance: str | None = None,
 ) -> HierarchicalCompactionReport:
     """Build deterministic leaf summaries and a certified history root.
 
@@ -273,6 +335,9 @@ def compact_hierarchy(
         root_dependencies = reconstruct_dependency_map(root_text, usable)
     except DependencyMapRefused as exc:
         raise CompactionRefused(f"root summary dependency map failed: {exc}") from exc
+    measured = _measurement(
+        [memory.content for memory in usable], root_text, token_counter, tokenizer_provenance
+    )
 
     narrowest = min((memory.scope for memory in usable), key=lambda scope: scope.rank)
     leaf_ids: list[str] = []
@@ -353,6 +418,12 @@ def compact_hierarchy(
         leaf_summary_ids=leaf_ids,
         leaf_source_groups=[[memory.id for memory in group] for group in groups],
         certificates=certificates,
+        source_bytes_utf8=int(measured["source_bytes_utf8"]),
+        root_summary_bytes_utf8=int(measured["summary_bytes_utf8"]),
+        source_token_estimate=measured["source_token_estimate"],
+        root_summary_token_estimate=measured["summary_token_estimate"],
+        tokenizer_provenance=measured["tokenizer_provenance"],
+        token_measurement_status=str(measured["token_measurement_status"]),
     )
 
 
