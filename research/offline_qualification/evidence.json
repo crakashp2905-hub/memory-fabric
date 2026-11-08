@@ -1232,6 +1232,37 @@
       ]
     },
     {
+      "task_id": "H4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_tombstone_exchange.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/h4-05-reordered-corrections.json",
+        "research/results/h4-05-reordered-corrections-tests.xml"
+      ],
+      "limitations": [
+        "Three-store ordering is deterministic and local; production network scheduling and multi-host timing remain external validation."
+      ]
+    },
+    {
+      "task_id": "H4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/h4-06-retry-deadletter.json",
+        "research/results/h4-06-retry-deadletter-tests.xml"
+      ],
+      "limitations": [
+        "HTTP transport subtests were unavailable because loopback sockets are denied in this sandbox. Retry exhaustion, audit, repair and reconciliation tests ran in process. Terminal failed deliveries require an explicit operator repair."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

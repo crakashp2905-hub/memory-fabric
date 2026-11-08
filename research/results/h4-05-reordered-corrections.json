@@ -1,0 +1,22 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-05",
+  "source_commit": "094b4bc46708e6954c2b355e6aaa75eea112fe09",
+  "input_sha256": {
+    "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
+    "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd"
+  },
+  "checks": {
+    "three_store_reordered_delivery": "later independent correction first; earlier applied afterward",
+    "duplicate_delivery": "one semantic application; duplicate acknowledgement stable",
+    "restart_retry": "lost ack redelivery converges"
+  },
+  "limitations": [
+    "Deterministic local stores; real multi-host delivery timing remains unmeasured."
+  ],
+  "test_summary": {
+    "passed": 15,
+    "failed": 0,
+    "subtests_passed": 18
+  }
+}

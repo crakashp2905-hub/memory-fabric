@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **99 / 260 (38.08%)**. Internal status: **BLOCKED**.
+Strict completion: **101 / 260 (38.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `b59d2bd242c1c7b88a908ba7d4441cddbee6824ac475dbf946624390b2e77261`.
+Normalized ledger digest: `7a4f8367a81f70b947b835589d49fb5bf7a76476482e65a0094ca9531b0548f3`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 99 |
+| DONE | 101 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 10 |
-| TODO | 151 |
+| TODO | 149 |
 
 ## Graduation gates
 
@@ -223,8 +223,8 @@ Normalized ledger digest: `b59d2bd242c1c7b88a908ba7d4441cddbee6824ac475dbf946624
 | H4-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_multiprocess_crash.py`, `tests/crashworker.py`, `tests/test_cipher.py`, `tests/test_event_schema_hardening.py`, `research/results/h4-02-power-loss.json`, `research/results/h4-02-power-loss-tests.xml` |
 | H4-03 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tests/test_storage_failure_modes.py`, `research/results/h4-03-storage-failure.json`, `research/results/h4-03-storage-failure-tests.xml` |
 | H4-04 | P0 | PARTIAL | CONTRACT | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py` |
-| H4-05 | P0 | TODO | NOT_TESTED | — |
-| H4-06 | P0 | TODO | NOT_TESTED | — |
+| H4-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_tombstone_exchange.py`, `tests/test_multiprocess_crash.py`, `research/results/h4-05-reordered-corrections.json`, `research/results/h4-05-reordered-corrections-tests.xml` |
+| H4-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/h4-06-retry-deadletter.json`, `research/results/h4-06-retry-deadletter-tests.xml` |
 | H4-07 | P0 | TODO | NOT_TESTED | — |
 | H4-08 | P0 | TODO | NOT_TESTED | — |
 | H4-09 | P0 | TODO | NOT_TESTED | — |

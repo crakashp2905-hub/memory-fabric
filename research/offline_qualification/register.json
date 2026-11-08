@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "fb78d38ca79a5902c1b87e5a6e4ec3419ce5ea43219ee3e756410e55c13fa227",
+    "sha256": "b671138df7914c955e9e3f6b66055a351c2929a0aae64853f91f8a4c7a5e7e0c",
     "tasks": 260
   },
   "source": {
-    "commit": "995d5da7c756d1909421ec82a053b154083c4327",
+    "commit": "094b4bc46708e6954c2b355e6aaa75eea112fe09",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 99,
+      "DONE": 101,
       "PARTIAL": 10,
-      "TODO": 151
+      "TODO": 149
     },
-    "completed": 99,
+    "completed": 101,
     "total": 260,
-    "percent_complete": 38.08,
-    "p0_open": 30,
+    "percent_complete": 38.85,
+    "p0_open": 28,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -305,9 +305,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "cf426fb8b4b42f72485426af12188bc844e32fd89521a695d946c10fb45b2162",
-        "docs/VALIDATION.md": "a7bab477ff24eea6316ecde681ca3fab2c7c0bb6f00a843fe9c805643debe665",
-        "docs/STATUS_AT_HEAD.md": "2b8af08dcd66af04000310233f6688113294afb34e2af6170797e1131e18399f",
+        "README.md": "d20f94c43266794f0d246101bcc88e25166ec8018919f95e92caed3d1497f628",
+        "docs/VALIDATION.md": "57412db5d8099d54710582689c2f1b53863a7b47122f8f4387654ca08bbda9ab",
+        "docs/STATUS_AT_HEAD.md": "0252494ab85c22a9ba02ae490a99607a7c204d34e5e645cf4a7802743260d5b5",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -480,7 +480,7 @@
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
         "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
-        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "docs/TOMBSTONE_EXCHANGE.md": "00d37392112464eae3641f143f1822135614cea0afdaeef8b7f2190493a32e42"
       },
       "evidence_issues": {},
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "6b2c3110ffd0c669f43d4820259bd4408468bc793539c6ed869a2243cc6ef82b",
+        "research/results/MANIFEST.json": "526796a4f255c569642df0ea1d55f47480a1e117784b0f8fb23377275961493e",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3923,7 +3923,7 @@
       "evidence_digests": {
         "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
-        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "research/results/h3-07-erasure-residue.json": "ac6b12dea2f7d9e603ffec98004722da70d683bb24733e272f41c87caa1e6a50",
         "research/results/h3-07-erasure-residue-tests.xml": "84f83f5d2a6e7fdaaf6d6f3f6db13e0df1f184ef5a4dcf6e726496025b2729ff"
       },
@@ -3950,7 +3950,7 @@
       "evidence_digests": {
         "src/memory_fabric/_fabric/sealing.py": "bdbbe9b30e58fbfb460b6a15e53febddedf419b365f81205db08791afcb9214c",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
-        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6",
         "research/results/h3-08-backup-erasure-limits.json": "77c808b2b6d5645a6f7d0ea3a2578fe0ce2a04bfbc9f8dc4822af5c5f6a2d882"
       },
@@ -4106,7 +4106,7 @@
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
         "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
-        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434"
       },
       "evidence_issues": {},
       "limitations": [
@@ -4117,27 +4117,53 @@
       "task_id": "H4-05",
       "priority": "P0",
       "task": "Apply duplicate/reordered correction messages across a 3-process local federation.",
-      "acceptance": "Converges idempotently and records outstanding acknowledgements accurately",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Converges idempotently and records outstanding acknowledgements accurately. Evidence: `tests/test_tombstone_exchange.py`, `tests/test_multiprocess_crash.py`, `research/results/h4-05-reordered-corrections.json`, `research/results/h4-05-reordered-corrections-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_tombstone_exchange.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/h4-05-reordered-corrections.json",
+        "research/results/h4-05-reordered-corrections-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
+        "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+        "research/results/h4-05-reordered-corrections.json": "0fb621a48aa7c028f470239f5d4e99bd5e787004ea3801809d31346e369a33b3",
+        "research/results/h4-05-reordered-corrections-tests.xml": "d35aed3f01751e71708b11c8793de989c6497637f66ce446b26ad2d80be82550"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Three-store ordering is deterministic and local; production network scheduling and multi-host timing remain external validation."
+      ]
     },
     {
       "task_id": "H4-06",
       "priority": "P0",
       "task": "Test retry storms and dead-letter replay under worker crashes.",
-      "acceptance": "Queue length remains bounded; alerts and repair procedure expose irrecoverable items",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Queue length remains bounded; alerts and repair procedure expose irrecoverable items. Evidence: `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/h4-06-retry-deadletter.json`, `research/results/h4-06-retry-deadletter-tests.xml` (HTTP transport socket tests were unavailable in this sandbox; dead-letter retry is operator initiated)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/h4-06-retry-deadletter.json",
+        "research/results/h4-06-retry-deadletter-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
+        "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
+        "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b",
+        "research/results/h4-06-retry-deadletter.json": "c6d0925942bf46fc873d7706352b7c8895ca0e29c410b431efc62ae8ed300ca2",
+        "research/results/h4-06-retry-deadletter-tests.xml": "499196327e6444e919d48d4d87d6205fc907836b8bd883211f3ab219281bb795"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "HTTP transport subtests were unavailable because loopback sockets are denied in this sandbox. Retry exhaustion, audit, repair and reconciliation tests ran in process. Terminal failed deliveries require an explicit operator repair."
+      ]
     },
     {
       "task_id": "H4-07",

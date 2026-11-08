@@ -1,0 +1,24 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-06",
+  "source_commit": "094b4bc46708e6954c2b355e6aaa75eea112fe09",
+  "input_sha256": {
+    "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
+    "tests/test_federation_transport.py": "fd16a5248a0718b3fc52cfa21414440001e0f3350327ef82fdd50504baae738c",
+    "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b"
+  },
+  "checks": {
+    "attempt_limit": "bounded eight attempts",
+    "backoff": "increasing bounded delays",
+    "dead_letter": "failure visible and audited",
+    "repair": "durable operator requeue retains prior error"
+  },
+  "limitations": [
+    "HTTP socket class excluded because sandbox blocks loopback. Dead-letter redrive is explicitly operator initiated."
+  ],
+  "test_summary": {
+    "passed": 53,
+    "failed": 0,
+    "subtests_passed": 4
+  }
+}

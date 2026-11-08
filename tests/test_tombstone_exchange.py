@@ -89,6 +89,50 @@ class PortableTombstoneExchange(unittest.TestCase):
         self.assertNotIn("retired limit", text)
         self.assertNotIn("10 bar", text)
 
+    def test_three_store_reordered_duplicate_tombstones_converge(self) -> None:
+        firewall = self.origin.firewall
+        origin = MemoryFabric(":memory:", auto_activate=True, firewall=firewall)
+        first = MemoryFabric(":memory:", auto_activate=True, firewall=firewall)
+        second = MemoryFabric(":memory:", auto_activate=True, firewall=firewall)
+        self.addCleanup(origin.close)
+        self.addCleanup(first.close)
+        self.addCleanup(second.close)
+
+        earlier_id = origin.remember("origin", "First retired pressure limit is 8 bar.")
+        later_id = origin.remember("origin", "Second retired pressure limit is 4 bar.")
+        offers = {}
+        stale_offer = None
+        for memory_id in (earlier_id, later_id):
+            for destination in (first, second):
+                prepared = prepare_offer(origin, memory_id, destination.store_id)
+                result = accept_offer(destination, prepared, "reader", activate=True)
+                self.assertTrue(result.accepted, result.reasons)
+                offers[(destination.store_id, memory_id)] = result.imported_memory_id
+                if destination is second and memory_id == earlier_id:
+                    stale_offer = prepared
+        earlier = origin.request_retraction(
+            earlier_id, "withdraw first memory", [second.store_id])
+        later = origin.request_retraction(
+            later_id, "withdraw second memory", [second.store_id])
+
+        from memory_fabric.protocol import PropagationState
+
+        self.assertEqual(second.receive_retraction(later).state,
+                         PropagationState.ENFORCED)
+        self.assertEqual(second.receive_retraction(earlier).state,
+                         PropagationState.ENFORCED)
+        duplicate = second.receive_retraction(earlier)
+        self.assertEqual(duplicate.state, PropagationState.ENFORCED)
+        self.assertIn("duplicate", duplicate.detail)
+        self.assertEqual(second.get(offers[(second.store_id, earlier_id)]).lifecycle_state,
+                         LifecycleState.QUARANTINED)
+        self.assertEqual(second.get(offers[(second.store_id, later_id)]).lifecycle_state,
+                         LifecycleState.QUARANTINED)
+
+        replay = accept_offer(second, stale_offer, "reader", activate=True)
+        self.assertFalse(replay.accepted)
+        self.assertEqual(second.outbox.cursor_for(origin.store_id), later.origin_sequence)
+
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

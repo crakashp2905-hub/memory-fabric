@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 194,
+ "results": 196,
  "missing_field_counts": {
-  "git_sha": 89,
+  "git_sha": 91,
   "prereg": 75,
-  "dataset_digest": 191,
-  "model_id": 158,
-  "prompt_hash": 194,
-  "seed": 116,
-  "cost": 171,
-  "verdict": 130
+  "dataset_digest": 193,
+  "model_id": 160,
+  "prompt_hash": 196,
+  "seed": 118,
+  "cost": 173,
+  "verdict": 132
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 183
+  "unclassified": 185
  },
  "rows": [
   {
@@ -2036,6 +2036,42 @@
    "experiment_id": "h4-03-storage-failure",
    "file": "research/results/h4-03-storage-failure.json",
    "file_sha256": "03e469dae94fa297ee2f7328dc2cebb161f142e752694e129c1b69f2f9b4f55a",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h4-topology-and-diversity.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h4-05-reordered-corrections",
+   "file": "research/results/h4-05-reordered-corrections.json",
+   "file_sha256": "66a876032ca269f1eef29116842f23dce78a7ee827379a0deb54d0f31301f31a",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h4-topology-and-diversity.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h4-06-retry-deadletter",
+   "file": "research/results/h4-06-retry-deadletter.json",
+   "file_sha256": "fafb57e00a79da174a95c3b399cee68214e7553902a587ec8ef807d6414a594e",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h4-topology-and-diversity.md",
    "git_sha": null,
