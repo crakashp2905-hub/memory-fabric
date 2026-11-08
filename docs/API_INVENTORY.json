@@ -23,7 +23,7 @@
     },
     {
       "module": "memory_fabric.fabric",
-      "signature": "(memory_id: str, content: str, agent_id: str, reason: str, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED) -> Memory",
+      "signature": "(memory_id: str, content: str, agent_id: str, reason: str, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED, expected_version: int | None = None) -> Memory",
       "symbol": "memory_fabric.fabric.MemoryFabric.revise",
       "tier": "stable"
     },
@@ -416,6 +416,12 @@
       "signature": "(fabric: MemoryFabric, memory_id: str) -> CorrectionPreview",
       "symbol": "memory_fabric.correction.preview",
       "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, expected_version: int, actual_version: int)",
+      "symbol": "memory_fabric.fabric.RevisionConflictError",
+      "tier": "stable"
     },
     {
       "module": "memory_fabric.correction",

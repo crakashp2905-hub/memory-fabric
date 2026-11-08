@@ -15,8 +15,8 @@ Single-process memory-fabric with a governed write and share path.
   Store a new memory. Runs the ingest screen before anything is stored.
 - **`MemoryFabric.derive(agent_id: str, content: str, parents: Sequence[str], type: str | MemoryType = MemoryType.SEMANTIC, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED, context: Mapping[str, Any] | None = None, tenant_id: str | None = None, security_class: str | SecurityClass | None = None, scope: str | Scope = Scope.PRIVATE, auto_activate: bool | None = None) -> str`**
   Create a memory derived from existing ones, recording the edges.
-- **`MemoryFabric.revise(memory_id: str, content: str, agent_id: str, reason: str, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED) -> Memory`**
-  Create the next version of a memory. The old version stays in history.
+- **`MemoryFabric.revise(memory_id: str, content: str, agent_id: str, reason: str, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED, expected_version: int | None = None) -> Memory`**
+  Create the next version of a memory, retaining its history. With `expected_version`, stale concurrent corrections raise `RevisionConflictError` without appending a new revision.
 - **`MemoryFabric.retrieve(agent_id: str, query: str, context: Mapping[str, Any] | None = None, k: int = 5, episode_id: str | None = None, pool: int | None = None, include_contested: bool = False, step: int = 0, min_relevance: float = 1e-06, tenant_id: str | None = None, as_of: int | None = None, until: int | None = None, group_by_source_root: bool = True, expand_lineage: int = 1, follow_relations: bool = False, entities: Sequence[str] = (), use_extraction: bool = False, objective: Any = None, profile: str | None = None, method: str | None = None, within: Iterable[str] | None = None) -> RetrievalResult`**
   Retrieve, decide exposure, log both, return what was exposed.
 - **`MemoryFabric.get(memory_id: str) -> Memory`**
@@ -202,6 +202,14 @@ The exact action: what it acts on and with which parameters.
 ```python
 preview(fabric: MemoryFabric, memory_id: str) -> CorrectionPreview
 ```
+
+### `fabric.RevisionConflictError` (stable)
+
+```python
+RevisionConflictError(memory_id: str, expected_version: int, actual_version: int)
+```
+
+A revision's expected source version is no longer current.
 
 ### `correction.apply` (beta)
 

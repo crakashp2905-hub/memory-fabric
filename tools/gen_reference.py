@@ -48,6 +48,7 @@ API: list[tuple[str, str, list[str]]] = [
     ("Actions", "memory_fabric.actions:ToolRule", []),
     ("Actions", "memory_fabric.actions:ActionRequest", []),
     ("Correction and recovery", "memory_fabric.correction:preview", []),
+    ("Correction and recovery", "memory_fabric.fabric:RevisionConflictError", []),
     ("Correction and recovery", "memory_fabric.correction:apply", []),
     ("Correction and recovery", "memory_fabric.correction:status", []),
     ("Correction and recovery", "memory_fabric.response:verify_recovery", []),

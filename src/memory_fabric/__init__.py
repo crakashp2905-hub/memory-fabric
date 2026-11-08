@@ -58,6 +58,7 @@ from .fabric import (
     MemoryFabric,
     NotFound,
     PolicyViolation,
+    RevisionConflictError,
     RetrievalResult,
     TenantView,
 )
@@ -174,6 +175,7 @@ __all__ = [
     "FabricError",
     "NotFound",
     "PolicyViolation",
+    "RevisionConflictError",
     # model
     "Memory",
     "MemoryStats",

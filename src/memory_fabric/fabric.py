@@ -37,7 +37,7 @@ from ._fabric.sharing import SharingMixin
 from ._fabric.access import AccessMixin
 from ._fabric.writes import WritesMixin
 from ._fabric.core import FabricCore
-from ._fabric.common import FabricError, NotFound, PolicyViolation, RetrievalResult, HealthReport, iso_timestamp, _screened_text, _fresh  # noqa: F401 - re-exported
+from ._fabric.common import FabricError, NotFound, PolicyViolation, RevisionConflictError, RetrievalResult, HealthReport, iso_timestamp, _screened_text, _fresh  # noqa: F401 - re-exported
 
 
 class MemoryFabric(FederationMixin, SealingMixin, RetrievalMixin, LifecycleMixin, SharingMixin, AccessMixin, WritesMixin, FabricCore):

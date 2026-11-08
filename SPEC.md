@@ -190,6 +190,10 @@ canonical JSON representation with a content-derived receipt ID. Receipts are
 advisory: they require re-evaluation and never authorize an action. Generating a
 receipt does not append to the event log.
 
+Memory revision callers may supply an expected source version. The store reads
+the current projection after taking the durable write transaction; a stale
+expectation raises a typed `RevisionConflictError` and appends no revision.
+
 ### 0.17.0 — durable decision status transitions
 
 Adds `DecisionStatusChanged`, which appends one typed legal transition to a

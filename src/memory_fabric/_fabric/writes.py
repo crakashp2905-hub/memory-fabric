@@ -41,7 +41,7 @@ from ..projections import Episode, _digest
 
 
 from .core import FabricCore
-from .common import NotFound, PolicyViolation, _screened_text, _fresh
+from .common import NotFound, PolicyViolation, RevisionConflictError, _screened_text, _fresh
 
 
 class WritesMixin(FabricCore):
@@ -320,16 +320,46 @@ class WritesMixin(FabricCore):
         agent_id: str,
         reason: str,
         method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED,
+        expected_version: int | None = None,
     ) -> Memory:
-        """Create the next version of a memory. The old version stays in history.
+        """Create the next version of a memory, retaining its history. With
+        `expected_version`, stale concurrent corrections raise
+        `RevisionConflictError` without appending a new revision.
 
         Refused once the content has been erased. Erasure is terminal for a
         memory's content: writing a new version under the same id would make it
         readable again and would defeat the erasure record. A property-based
         walk found the sequence (erase, then revise) and it stored the new text
         in plaintext, because the destroyed key made the sealer fall back.
+
+        When `expected_version` is supplied, the check and append are one
+        transaction. A competing correction from another version raises
+        `RevisionConflictError` with the observed current version.
         """
-        current = self._require(memory_id)
+        if expected_version is not None and (
+            isinstance(expected_version, bool) or not isinstance(expected_version, int)
+            or expected_version < 1
+        ):
+            raise ValueError("expected_version must be a positive integer")
+        # Acquire SQLite's durable write lock before re-reading the version.
+        # Across separate processes, a competing writer either commits first
+        # and makes this expectation stale, or runs after this transaction.
+        with self.log.transaction():
+            self._catch_up()
+            current = self._require(memory_id)
+            if expected_version is not None and current.version != expected_version:
+                raise RevisionConflictError(memory_id, expected_version, current.version)
+            return self._revise_current(current, content, agent_id, reason, method)
+
+    def _revise_current(
+        self,
+        current: Memory,
+        content: str,
+        agent_id: str,
+        reason: str,
+        method: str | ProvenanceMethod,
+    ) -> Memory:
+        memory_id = current.id
         if memory_id in self.state.erased:
             raise PolicyViolation(
                 f"{memory_id} has been content-erased; record new information "

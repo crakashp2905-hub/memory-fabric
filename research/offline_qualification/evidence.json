@@ -127,6 +127,31 @@
       ]
     },
     {
+      "task_id": "N1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/common.py",
+        "src/memory_fabric/fabric.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tools/gen_reference.py",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "tests/test_revision_conflicts.py",
+        "tests/test_concurrency.py",
+        "tests/test_fabric.py",
+        "tests/test_reference_docs.py",
+        "research/results/n1-08-revision-conflict-tests.xml"
+      ],
+      "limitations": [
+        "The contention test uses two independent SQLite connections on one Windows host; a multi-host PostgreSQL race has not been exercised."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

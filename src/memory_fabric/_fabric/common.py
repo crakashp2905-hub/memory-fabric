@@ -33,6 +33,19 @@ class PolicyViolation(FabricError):
     """Raised when a caller asks for something governance forbids."""
 
 
+class RevisionConflictError(PolicyViolation):
+    """A revision's expected source version is no longer current."""
+
+    def __init__(self, memory_id: str, expected_version: int, actual_version: int) -> None:
+        self.memory_id = memory_id
+        self.expected_version = expected_version
+        self.actual_version = actual_version
+        super().__init__(
+            f"revision conflict for {memory_id}: expected version {expected_version}, "
+            f"current version is {actual_version}"
+        )
+
+
 @dataclass
 class RetrievalResult:
     """What the agent gets back, plus the record of what it did not get.
