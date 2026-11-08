@@ -337,6 +337,25 @@
       ]
     },
     {
+      "task_id": "N2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/duplicates.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "tests/test_certificates.py",
+        "tests/test_duplicates.py",
+        "research/results/n2-07-source-dependence-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_certificates.py --junitxml=research/results/n2-07-source-dependence-tests.xml -q",
+      "limitations": [
+        "Independence counts depend on recorded lineage and recognized copy relations. Semantic paraphrases or reused facts not recognized as copies may still appear independent.",
+        "Distinct source roots are provenance evidence, not proof that claims are true or that sources are authoritative."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,

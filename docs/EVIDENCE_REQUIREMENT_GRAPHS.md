@@ -137,6 +137,10 @@ reading cannot satisfy a static `pressure_psi <= 40 psi` action requirement.
 Retrieval relevance never substitutes for this support check. Structured
 assertions and provenance do not independently prove that a source is truthful;
 hosts still set appropriate authority, review and corroboration thresholds.
+Repeated ingestions recognized as copies resolve to one root, so adding note
+records cannot satisfy a multi-source threshold. Independence follows the
+recorded lineage and copy relations; unrecognized semantic paraphrases may
+still appear independent and require domain-specific review.
 
 If separately rooted evidence yields values on opposite sides of the required
 predicate (for example, 30 psi and 70 psi against `pressure <= 40 psi`), the

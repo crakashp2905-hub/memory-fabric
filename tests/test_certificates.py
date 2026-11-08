@@ -202,6 +202,24 @@ class TestSelectiveReassessment(Fixture):
         self.assertEqual(result.independent_sources, 1)
         self.assertIn(C.INSUFFICIENT_INDEPENDENT_SUPPORT, result.reason_codes)
 
+    def test_reingested_copies_share_one_root_and_cannot_meet_two_source_rule(self) -> None:
+        copies = [
+            self.observe("ag4", "Tug B overheated at 41C in August (forwarded copy)."),
+            self.observe("ag5", "Tug B overheated at 41C in August (archive duplicate)."),
+        ]
+        self.assertEqual({self.fabric.source_root(mid) for mid in [self.b, *copies]},
+                         {self.fabric.source_root(self.b)})
+
+        cert = self.fabric.certify(
+            "claim", [self.b, *copies], "ag3",
+            required_checks=[C.CHECK_INDEPENDENT_SUPPORT], min_independent_sources=2)
+        result = self.fabric.verify_certificate(cert, "ag3")
+        self.assertEqual(len(cert.evidence), 3,
+                         "three ingested notes must not be mistaken for three sources")
+        self.assertEqual(result.independent_sources, 1)
+        self.assertFalse(result.ok)
+        self.assertIn(C.INSUFFICIENT_INDEPENDENT_SUPPORT, result.reason_codes)
+
 
 class TestMalformed(Fixture):
     """Property tests: no mutation of a valid certificate verifies unless it
