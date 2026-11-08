@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **108 / 260 (41.54%)**. Internal status: **BLOCKED**.
+Strict completion: **109 / 260 (41.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a8d21289ffaede1e0d50da0d8b0f2b117583481ebd6d932cb885a8fa988c8690`.
+Normalized ledger digest: `9395d5a0c82bdca896914f8c0bb341dec4a3c519d1808508562d9d24217e7b2b`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 108 |
+| DONE | 109 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 138 |
+| TODO | 137 |
 
 ## Graduation gates
 
@@ -236,7 +236,7 @@ Normalized ledger digest: `a8d21289ffaede1e0d50da0d8b0f2b117583481ebd6d932cb885a
 | H5-05 | P1 | DONE | INTERNAL_INTEGRATION | `tools/mutation_check.py`, `tests/test_enforcement_tenant.py`, `tests/test_erasure_key_destroy.py`, `tests/test_transport_auth.py`, `research/results/h5-05-mutation-qualification.json`, `research/results/h5-05-mutation-contract-tests.xml` |
 | H5-06 | P1 | DONE | INTERNAL_INTEGRATION | `tests/data/adversarial_family_registry.json`, `tools/adversarial_gate.py`, `tests/test_adversarial_registry.py`, `research/results/h5-06-adversarial-registry.json`, `research/results/h5-06-adversarial-registry-tests.xml` |
 | H5-07 | P1 | DONE | INTERNAL_INTEGRATION | `tests/data/security_fuzz_seeds.json`, `tests/data/code_mode_malicious_plans.json`, `tools/fuzz_security_boundaries.py`, `tests/test_security_fuzz.py`, `.github/workflows/ci.yml`, `research/results/h5-07-security-fuzz.json`, `research/results/h5-07-security-fuzz-tests.xml` |
-| H5-08 | P1 | TODO | NOT_TESTED | — |
+| H5-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `src/memory_fabric/limits.py`, `tests/test_agent_api_rate_limit.py`, `tools/rate_limit_qualification.py`, `.github/workflows/ci.yml`, `research/results/h5-08-rate-limit-qualification.json`, `research/results/h5-08-rate-limit-tests.xml` |
 | H5-09 | P1 | TODO | NOT_TESTED | — |
 | H5-10 | P1 | TODO | NOT_TESTED | — |
 | P1-01 | P1 | TODO | NOT_TESTED | — |

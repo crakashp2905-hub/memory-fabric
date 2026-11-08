@@ -218,6 +218,7 @@ jobs:
       - run: pip install -e .
       - run: python tools/mutation_check.py
       - run: python tools/fuzz_security_boundaries.py
+      - run: python tools/rate_limit_qualification.py
 
   fresh-machine:
     # Install the wheel into a new venv outside the repo, run the quickstart

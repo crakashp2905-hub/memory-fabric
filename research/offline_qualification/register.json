@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e074dc8628a3023ad5b01ab2ea32f7e7d4a3933f95f257ba329a240da493b36e",
+    "sha256": "db74de2f4615034b5dc0977d228f034336282a836e1a52c96f127a8c57b68699",
     "tasks": 260
   },
   "source": {
-    "commit": "8fc0ab0450fd0eafb8d340494111f419037c52be",
+    "commit": "22aa651991612ee76dff322a926a0800553a39b3",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 108,
+      "DONE": 109,
       "PARTIAL": 14,
-      "TODO": 138
+      "TODO": 137
     },
-    "completed": 108,
+    "completed": 109,
     "total": 260,
-    "percent_complete": 41.54,
+    "percent_complete": 41.92,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -303,7 +303,7 @@
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
-        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
+        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "644d2e8abaf77cf63d6bb6b6daf8cb567565dac240cc4f28ccf1d063fc4ae15b",
         "docs/VALIDATION.md": "fbde2d2ab39d5b49487371076fdf5201ba88b11cb9126ac50ee3908578e44b4f",
@@ -765,7 +765,7 @@
         "src/memory_fabric/answerability.py": "e1721a35b756926852ab5e5a705d070599f66e889bc17066c6549135370251a6",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
-        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
@@ -870,7 +870,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
-        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
         "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
@@ -904,7 +904,7 @@
       ],
       "evidence_digests": {
         "experiments/p12b_api_load.py": "e3a94c046ab7e1e253b34db9ebc5dd2349a943a28de4b203b1da2bacbfb102ec",
-        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
@@ -1240,7 +1240,7 @@
         "docs/ERROR_CONTRACT_MATRIX.md": "56f4bda5f90fb7132d8ccca9acf96f978ea4101737d92aad95926b725c732270",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
-        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
@@ -1416,7 +1416,7 @@
         "research/results/e5-09-agent-api-refactor.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/agent_api.py": "af8a5fd6a1868270327161865906b2aea98774c02bd615fd6a0db62a367ddb4e",
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
         "tests/test_agent_api.py": "f7fbc1ef33d060990f9096686eadcebdb6aa658111893a88f34745c9949cea28",
         "tests/data/agent_api_behavior.json": "e0ace124261631c09ef6b8eecb2f58bbf7c8d5f5653e3cfbf2bacd44847c02dd",
         "tools/agent_api_metrics.py": "7a7983e617133ae6b46ad0281625b0e96085f93317c6fe07bbdc0632c27f785f",
@@ -4378,7 +4378,7 @@
       "evidence_digests": {
         "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
         "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
-        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
+        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
         ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
         ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
         "research/results/h5-04-package-asset-audit.json": "4d4a130ba114eb686c178364a7f4077e5b021dedc888452ab66189667b147ee9",
@@ -4467,7 +4467,7 @@
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
         "tests/test_security_fuzz.py": "6b2defcb703974cbcea1ec88482e840e12910b09918693328594a31d2bde6017",
-        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
+        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
         "research/results/h5-07-security-fuzz.json": "a1c8a691dc06604501b984ddbe401cb80cf428390f2e3c5b4587dcaa8b057168",
         "research/results/h5-07-security-fuzz-tests.xml": "b90891d538af5d6f16624a36f79cc721c7350e1ca93c09b25a22a9e787bdac55"
       },
@@ -4480,14 +4480,32 @@
       "task_id": "H5-08",
       "priority": "P1",
       "task": "Build deterministic endpoint rate-limit and quota tests under credential cycling.",
-      "acceptance": "Rejected excess traffic causes no partial write or uncontrolled memory growth",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Rejected excess traffic causes no partial write or uncontrolled memory growth. Evidence: `src/memory_fabric/agent_api.py`, `src/memory_fabric/limits.py`, `tests/test_agent_api_rate_limit.py`, `tools/rate_limit_qualification.py`, `.github/workflows/ci.yml`, `research/results/h5-08-rate-limit-qualification.json`, `research/results/h5-08-rate-limit-tests.xml` (DONE: 128 credential cycle yields 2 writes/126 rate refusals with one agent bucket; store quota rejects 30/32 writes without event changes; 500 address keys remain capped at configured 16; auth refusals do not write)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/limits.py",
+        "tests/test_agent_api_rate_limit.py",
+        "tools/rate_limit_qualification.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-08-rate-limit-qualification.json",
+        "research/results/h5-08-rate-limit-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
+        "src/memory_fabric/limits.py": "854a798ecb6b025104510f660b1f06c393a3b723b25a3d35e3ea88eb818a889d",
+        "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
+        "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110",
+        ".github/workflows/ci.yml": "5bc64fa4b68312364b9b86907a5c11692a1999ff18c11495e4ab2722663f3229",
+        "research/results/h5-08-rate-limit-qualification.json": "f1522ee25233bd746c276743744c1f553c89487777205d88e3596ffba1fb5ce4",
+        "research/results/h5-08-rate-limit-tests.xml": "e6cd7fe4bb858f12367d76c59ffadfdcefe3961157061bce8ecc3adb73f31595"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Rate limiting and quotas are in-process per-service counters and reset on process restart; tests prove configured in-process bounds and no partial event writes under deterministic credential/address cycling."
+      ]
     },
     {
       "task_id": "H5-09",

@@ -190,6 +190,11 @@ class RateLimit:
     rate: float = 20.0
     burst: int = 40
     auth_failures: float = 5.0
+    max_buckets: int = 100_000
+
+    def __post_init__(self) -> None:
+        if self.max_buckets < 1:
+            raise ValueError("max_buckets must be at least one")
 
 
 @dataclass
@@ -244,9 +249,11 @@ class AgentApi:
         self.trace_recorder = trace_recorder
         self.profile_recorder = None
         limits = limits or RateLimit()
-        self._per_agent = RateLimiter(limits.rate, limits.burst, clock)
+        self._per_agent = RateLimiter(limits.rate, limits.burst, clock,
+                                      max_keys=limits.max_buckets)
         self._per_address = RateLimiter(limits.auth_failures,
-                                        max(1, int(limits.auth_failures * 2)), clock)
+                                        max(1, int(limits.auth_failures * 2)), clock,
+                                        max_keys=limits.max_buckets)
 
     def _refused(self, remote: str) -> "_ApiError":
         # One answer for every failure: unknown agent, bad signature,
