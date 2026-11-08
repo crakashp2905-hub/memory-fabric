@@ -8,7 +8,7 @@ import json
 from memory_fabric import MemoryFabric
 from memory_fabric.causal_replay.api import CausalReplayAPI
 from memory_fabric.service import MemoryService
-from memory_fabric.causal_replay.types import Unauthorized
+from memory_fabric.causal_replay.types import CDMError, Unauthorized
 from memory_fabric.causal_replay.certificates import issue, verify
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.sdk import agent, operator
@@ -74,6 +74,43 @@ class TestFacade(unittest.TestCase):
         from memory_fabric.causal_replay.types import ReplayContext
         with self.assertRaises(ValueError):
             ReplayContext(0, max_events=0)
+
+    def test_dispatch_malformed_and_authorization_refusal_matrix(self):
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        service = MemoryService(fabric)
+        service.register_agent("alice", b"alice-key", tenant_id="tenant-a")
+        alice = service.session(service.issue("alice"))
+        memory_id = alice.remember("visible evidence")
+        api = CausalReplayAPI(fabric, alice)
+
+        malformed = (
+            ("unknown", {}),
+            ("capture", []),
+            ("capture", {"evidence_ids": "not-a-list", "known_at": 1}),
+            ("capture", {"evidence_ids": [1], "known_at": 1}),
+            ("capture", {"evidence_ids": ["x"], "known_at": True}),
+            ("capture", {"evidence_ids": ["x"], "known_at": 1,
+                          "valid_at": "now"}),
+            ("capture", {"evidence_ids": ["x"], "known_at": 1,
+                          "max_events": True}),
+            ("capture", {"evidence_ids": ["x"], "known_at": 1,
+                          "unexpected": 1}),
+            ("correction_impact", {}),
+            ("correction_impact", {"memory_id": memory_id, "extra": 1}),
+            ("correction_impact", {"memory_id": 7}),
+        )
+        for operation, request in malformed:
+            with self.subTest(operation=operation, request=request), \
+                    self.assertRaises(CDMError):
+                api.dispatch(operation, request)
+
+        service.revoke(alice.credential)
+        for operation, request in (
+                ("capture", {"evidence_ids": [memory_id], "known_at": fabric.log.head_seq}),
+                ("correction_impact", {"memory_id": memory_id})):
+            with self.subTest(revoked_operation=operation), self.assertRaises(Unauthorized):
+                api.dispatch(operation, request)
 
     def test_existing_sdk_mcp_audit_retraction_and_action_fence_stay_separate(self):
         fabric = MemoryFabric(":memory:", auto_activate=True)

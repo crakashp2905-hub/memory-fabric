@@ -3,20 +3,23 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (228)
+## Complete at this checkpoint (231)
 
 | Task | Evidence |
 |---|---|
 | CDM-001 | Offline manifest records local tree digest/count, HEAD/ref, uncommitted paths, runtime and test status; remote remains unknown |
 | CDM-002 | `docs/COUNTERFACTUAL_DECISION_MEMORY.md` API inventory and test references |
 | CDM-003 | Scope and non-goals in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
+| CDM-004 | Trust-boundary diagrams in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` and `docs/CAUSAL_REPLAY_SECURITY.md`; security doc separates evaluator, independent verifier and non-authorizing certificate. |
 | CDM-005 | Security threat matrix maps poisoning, injection, exfiltration, forged authority and tool-execution paths to concrete controls and offline negative tests; targeted security/replay suites passed |
 | CDM-006 | Experimental contract in `docs/CAUSAL_REPLAY_API.md` (proposal scope only) |
 | CDM-007 | Inert package import; socket-construction check in qualification manifest |
+| CDM-008 | Empty-fabric no-mutation regression in `tests/test_cdm_api.py`; `tests/test_cdm_in_process_compatibility.py` verifies ordinary store read/write behavior around read-only CDM capture; gate covers import and API return contracts. |
 | CDM-010 | `docs/architecture/ADR-CDM-001.md` |
 | CDM-011 | `research/prereg/cdm-r1-replay-fidelity.md` |
 | CDM-012 | `research/prereg/cdm-r2-counterfactual-attribution.md` |
 | CDM-013 | Stable CDM error classes in `src/memory_fabric/causal_replay/types.py` |
+| CDM-014 | `tests/test_cdm_api.py::test_dispatch_malformed_and_authorization_refusal_matrix` covers unknown operations, wrong shapes/types, unknown fields, invalid capture limits, correction request schema and revoked-session refusal for both facade operations. |
 | CDM-015 | `docs/CAUSAL_REPLAY_LIMITATIONS.md` |
 | CDM-016 | Provenance definitions in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` |
 | CDM-019 | Experimental stability metadata and explicit schema major/minor parsing added: v1/v1.0 compatible, future minor/major refused; record parser normalization and refusal tests pass |
@@ -236,14 +239,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (12)
+## Partial (9)
 
 | Task | Remaining acceptance evidence |
 |---|---|
-| CDM-004 | Trust-boundary diagram in `docs/COUNTERFACTUAL_DECISION_MEMORY.md` | Dedicated `docs/CAUSAL_REPLAY_SECURITY.md`; independently explicit evaluator/verifier boundary. |
-| CDM-008 | Empty-fabric no-mutation regression in `tests/test_cdm_api.py` | Existing CLI/import/return-value compatibility coverage. |
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
-| CDM-014 | Several malformed input and authorization refusals tested | Full malformed-input matrix across every facade operation. |
 | CDM-017 | Focused suite runs in `tools/cdm_offline_gate.py`; `tools/check.py` has a focused entry | Demonstrate full local check gate with network operations prohibited. |
 | CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
 | CDM-020 | Change log plus qualification manifest and this ledger | Status transitions still need per-task source digests and broader artifact inventory. |
