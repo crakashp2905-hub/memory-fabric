@@ -114,6 +114,7 @@ use the product.
 
 - [Product and research masterplan](MEMORY_FABRIC_2_PRODUCT_RESEARCH_MASTERPLAN.md)
 - [When ordinary vector retrieval is enough](product/WHEN_TO_USE_MEMORY_FABRIC.md)
+- [Capability maturity matrix and claim gate](product/CAPABILITY_MATURITY.md)
 - [Three product jobs to be done](product/JOBS_TO_BE_DONE.md)
 - [Implementation status and compiler ADR](MF2_IMPLEMENTATION_STATUS.md)
 

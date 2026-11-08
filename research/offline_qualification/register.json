@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "648f20342b7acb1f39944aa1537ce555a3842f5cec061ea1d77cbeb5984db7e9",
+    "sha256": "a679e7c298d70e8c107aaf0b16197ab93edf8617a032a7bc1fd6406e7ebb0962",
     "tasks": 260
   },
   "source": {
-    "commit": "6a6a92f31b888295de601b0939b7183637330337",
+    "commit": "62bb0105873b1a7d4373756337abd079dd72eac7",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 170,
+      "DONE": 171,
       "PARTIAL": 4,
-      "TODO": 86
+      "TODO": 85
     },
-    "completed": 170,
+    "completed": 171,
     "total": 260,
-    "percent_complete": 65.38,
+    "percent_complete": 65.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5653,7 +5653,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "b72c5a4231971bf397ae0c4cada076f12362b2efeb6285adeb22461bc7a279d1",
+        "docs/README.md": "8731a0d05c3ceac26aa2bec3afdc69a9958cf34d860ff4d5a403fccd616a690c",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -5814,7 +5814,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "b72c5a4231971bf397ae0c4cada076f12362b2efeb6285adeb22461bc7a279d1",
+        "docs/README.md": "8731a0d05c3ceac26aa2bec3afdc69a9958cf34d860ff4d5a403fccd616a690c",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
@@ -5862,14 +5862,31 @@
       "task_id": "P4-09",
       "priority": "P1",
       "task": "Create capability matrix marked implemented, experimental, simulated and externally unverified.",
-      "acceptance": "Unsupported sales claims cause automated docs check failure",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Unsupported sales claims cause automated docs check failure.. Evidence: `product/capabilities.json`, `product/capability_maturity.json`, `product/public_claims.json`, `tools/check_product_claims.py`, `tests/test_product_claims.py`, `docs/product/CAPABILITY_MATURITY.md` (DONE: generated four-state maturity matrix, public claims require evidence and fail if backed by simulated or externally unverified capabilities; negative control proves both reject.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "product/capabilities.json",
+        "product/capability_maturity.json",
+        "product/public_claims.json",
+        "tools/check_product_claims.py",
+        "tests/test_product_claims.py",
+        "docs/product/CAPABILITY_MATURITY.md"
+      ],
+      "evidence_digests": {
+        "product/capabilities.json": "7b56cfc9f7db297afed2a64447295c95ab60c2032eaa6add55a1f802c723d128",
+        "product/capability_maturity.json": "a5ef91fa85a86dfe49190a1d8e3e9ebcd2eae05d494c912e8e6c8863f86218c7",
+        "product/public_claims.json": "fce241195230ca37ed3eac59feab9faa1f8fed03efae8fdf7609591ac25b9680",
+        "tools/check_product_claims.py": "16d48ca1a9804662b85534cb5af505a31256151663bc11071b69ce5c2465dab8",
+        "tests/test_product_claims.py": "c71fe101cd2e535950dd83d653afac50b8ccca1e9dc2fddbaba6d84f3358afd8",
+        "docs/product/CAPABILITY_MATURITY.md": "acd30bbde0b914b64be6b07fbf6d9322ad26e472c39c9e598312aaae99dd7ffe"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Automated claim gate covers the maintained public claim inventory; it cannot infer and police every unregistered sentence in arbitrary external marketing material.",
+        "Implemented status establishes repository evidence only, not independent validation or production certification."
+      ]
     },
     {
       "task_id": "P4-10",

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **170 / 260 (65.38%)**. Internal status: **BLOCKED**.
+Strict completion: **171 / 260 (65.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `22090aefbfb7bd3cee7a22f4c842cd5358323a81c2c53bc0b63481c713a655b4`.
+Normalized ledger digest: `eb99d6611cf071d2bc2386da8bc5b608bbf671ed70f088be05ecb81707e926f0`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 170 |
+| DONE | 171 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 86 |
+| TODO | 85 |
 
 ## Graduation gates
 
@@ -277,7 +277,7 @@ Normalized ledger digest: `22090aefbfb7bd3cee7a22f4c842cd5358323a81c2c53bc0b6348
 | P4-06 | P1 | DONE | SIMULATED | `examples/multi_agent_provenance_dispute.py`, `examples/README.md`, `tests/test_examples_run.py`, `tests/test_consensus.py`, `research/results/p4-06-provenance-dispute-demo.json`, `research/results/p4-06-provenance-dispute-demo.txt` |
 | P4-07 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/WHEN_TO_USE_MEMORY_FABRIC.md`, `docs/README.md`, `research/results/l1-long-running.md`, `research/results/x4-governed-vs-pooled.md`, `research/results/master-checklist-http-capacity-v1.md`, `tests/test_product_fit_guidance.py`, `tests/test_doc_links.py`, `research/results/p4-07-product-fit.json`, `research/results/p4-07-product-fit.txt` |
 | P4-08 | P1 | DONE | INTERNAL_INTEGRATION | `tools/measure_local_footprint.py`, `tests/test_local_footprint.py`, `docs/LOCAL_FOOTPRINT.md`, `research/results/p4-08-local-footprint.json`, `research/results/p4-08-local-footprint.txt` |
-| P4-09 | P1 | TODO | NOT_TESTED | — |
+| P4-09 | P1 | DONE | CONTRACT | `product/capabilities.json`, `product/capability_maturity.json`, `product/public_claims.json`, `tools/check_product_claims.py`, `tests/test_product_claims.py`, `docs/product/CAPABILITY_MATURITY.md` |
 | P4-10 | P1 | TODO | NOT_TESTED | — |
 | P5-01 | P0 | DONE | INTERNAL_INTEGRATION | `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` |
 | P5-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` |

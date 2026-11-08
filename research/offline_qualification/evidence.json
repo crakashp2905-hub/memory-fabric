@@ -2158,6 +2158,24 @@
       ]
     },
     {
+      "task_id": "P4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "product/capabilities.json",
+        "product/capability_maturity.json",
+        "product/public_claims.json",
+        "tools/check_product_claims.py",
+        "tests/test_product_claims.py",
+        "docs/product/CAPABILITY_MATURITY.md"
+      ],
+      "limitations": [
+        "Automated claim gate covers the maintained public claim inventory; it cannot infer and police every unregistered sentence in arbitrary external marketing material.",
+        "Implemented status establishes repository evidence only, not independent validation or production certification."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,
