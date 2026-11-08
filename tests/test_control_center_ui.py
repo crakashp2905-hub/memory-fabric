@@ -29,7 +29,11 @@ class TestViews(unittest.TestCase):
 
     def test_graph_has_lineage_and_masks_secrets(self):
         g = graph(self.f)
-        self.assertIn({"from": self.a, "to": self.b, "kind": "derived"}, g["edges"])
+        edge = next(e for e in g["edges"] if e["from"] == self.a and e["to"] == self.b)
+        self.assertEqual(edge["kind"], "derived")
+        self.assertTrue(edge["event_id"])
+        event = Api(self.f).handle(f"/api/events/{edge['event_id']}", {})
+        self.assertEqual((event["event_id"], event["seq"]), (edge["event_id"], edge["seq"]))
         self.assertFalse(any("AKIAIOSFODNN7EXAMPLE" in n["label"] for n in g["nodes"]))
         self.assertEqual(g["total"], 3)
         self.assertLessEqual(graph(self.f, limit=1)["shown"], 1)
@@ -44,6 +48,32 @@ class TestViews(unittest.TestCase):
         self.assertIn("nodes", api.handle("/api/graph", {}))
         self.assertIn("topics", api.handle("/api/map", {"per_topic": ["2"]}))
         self.assertTrue(api.handle("/api/agents", {}))
+
+    def test_timeline_and_every_graph_edge_resolve_to_log_events(self):
+        api = Api(self.f)
+        for edge in graph(self.f)["edges"]:
+            event = api.handle(f"/api/events/{edge['event_id']}", {})
+            self.assertEqual(event["event_id"], edge["event_id"])
+            self.assertEqual(event["seq"], edge["seq"])
+        timeline = api.handle(f"/api/memories/{self.b}/timeline", {})
+        event_steps = [step for step in timeline["steps"] if step["event_id"]]
+        self.assertTrue(event_steps)
+        for step in event_steps:
+            event = api.handle(f"/api/events/{step['event_id']}", {})
+            self.assertEqual((event["seq"], event["event_type"]),
+                             (step["seq"], step["event_type"]))
+        self.assertTrue(any(step["event_id"] for step in timeline["steps"]))
+
+    def test_knowledge_map_lineage_links_have_resolvable_event_ids(self):
+        api = Api(self.f)
+        mapping = knowledge_map(self.f, max_topics=8, per_topic=8)
+        links = [link for link in mapping["memory_links"]
+                 if link["from"] == self.a and link["to"] == self.b]
+        self.assertTrue(links)
+        for link in links:
+            event = api.handle(f"/api/events/{link['event_id']}", {})
+            self.assertEqual((event["event_id"], event["seq"]),
+                             (link["event_id"], link["seq"]))
 
 
 class TestKnowledgeMap(unittest.TestCase):
@@ -106,6 +136,13 @@ class TestPage(unittest.TestCase):
             self.assertIn(field, detail)
         self.assertIn("Identity scope:", detail)
         self.assertIn("Support recomputation", detail)
+
+    def test_story_links_open_logged_events_by_stable_id(self):
+        html = HTML.read_text(encoding="utf-8")
+        self.assertIn("data-event-id", html)
+        self.assertIn("async function openEvent(eventId)", html)
+        self.assertIn("/api/events/${encodeURIComponent(eventId)}", html)
+        self.assertIn("click a memory to read its story or a dashed lineage edge", html)
 
 
 class TestActionDetailApi(unittest.TestCase):

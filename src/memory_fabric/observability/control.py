@@ -236,7 +236,21 @@ def _sentence(f: "MemoryFabric", e: Any, focus: str | None = None) -> dict[str, 
                 + " ".join(say(c).split(": ", 1)[-1] for c in codes[:2]))
     if kind is None:
         return None
-    return {"seq": e.seq, "ts": e.ts, "kind": kind, "memory_id": mid, "text": text}
+    return {"seq": e.seq, "event_id": e.event_id, "event_type": e.type,
+            "ts": e.ts, "kind": kind, "memory_id": mid, "text": text}
+
+
+def event_detail(f: "MemoryFabric", event_id: str) -> dict[str, Any]:
+    """Resolve an immutable event id to its safe story sentence and identity."""
+    for event in f.log.read():
+        if event.event_id != event_id:
+            continue
+        row = _sentence(f, event)
+        return {"event_id": event.event_id, "seq": event.seq, "event_type": event.type,
+                "ts": event.ts, "agent_id": event.agent_id,
+                "memory_id": row["memory_id"] if row else None,
+                "text": row["text"] if row else None}
+    raise KeyError(event_id)
 
 
 def timeline(f: "MemoryFabric", memory_id: str, limit: int = 200) -> dict[str, Any]:
@@ -264,7 +278,8 @@ def timeline(f: "MemoryFabric", memory_id: str, limit: int = 200) -> dict[str, A
                                              and p.get("original_memory_id") == memory_id):
             steps.append(row)
     if recalls:
-        steps.append({"seq": None, "ts": None, "kind": "recalled", "memory_id": memory_id,
+        steps.append({"seq": None, "event_id": None, "event_type": None,
+                      "ts": None, "kind": "recalled", "memory_id": memory_id,
                       "text": "recalled by " + ", ".join(f"{a} ×{n}" for a, n in
                                                          sorted(recalls.items()))})
     memory = f.state.memories[memory_id]
@@ -332,21 +347,32 @@ def graph(f: "MemoryFabric", limit: int = 400) -> dict[str, Any]:
     order = sorted(memories, key=lambda mid: (mid not in linked, -memories[mid].created_at))
     chosen = set(order[:limit])
     exposures: dict[str, int] = {}
-    copies: list[tuple[str, str]] = []
-    for e in f.log.read_types([ev.EventType.EXPOSURE_DECIDED, ev.EventType.COPY_RECOGNISED]):
+    copies: list[dict[str, Any]] = []
+    creation_events: dict[str, dict[str, Any]] = {}
+    for e in f.log.read_types([ev.EventType.EXPOSURE_DECIDED,
+                               ev.EventType.COPY_RECOGNISED,
+                               ev.EventType.MEMORY_CREATED]):
         p = e.payload
         if e.type == ev.EventType.EXPOSURE_DECIDED:
             if p.get("exposed") and p.get("memory_id") in chosen:
                 exposures[p["memory_id"]] = exposures.get(p["memory_id"], 0) + 1
-        elif p.get("memory_id") in chosen and p.get("original_memory_id") in chosen:
-            copies.append((p["original_memory_id"], p["memory_id"]))
+        elif e.type == ev.EventType.COPY_RECOGNISED:
+            if p.get("memory_id") in chosen and p.get("original_memory_id") in chosen:
+                copies.append({"from": p["original_memory_id"], "to": p["memory_id"],
+                               "event_id": e.event_id, "seq": e.seq})
+        else:
+            memory = p.get("memory", {})
+            mid = memory.get("id") if isinstance(memory, dict) else None
+            if mid in chosen:
+                creation_events[mid] = {"event_id": e.event_id, "seq": e.seq}
     nodes = [{"id": mid, "label": _short(_safe(f, mid), 60), "state": m.lifecycle_state.value,
               "type": m.type.value, "author": m.provenance.created_by,
               "exposures": exposures.get(mid, 0)}
              for mid in order[:limit] for m in [memories[mid]]]
-    edges = [{"from": parent, "to": mid, "kind": "derived"}
-             for mid in chosen for parent, _ in memories[mid].provenance.parents if parent in chosen]
-    edges += [{"from": a, "to": b, "kind": "copy"} for a, b in copies]
+    edges = [{"from": parent, "to": mid, "kind": "derived", **creation_events[mid]}
+             for mid in chosen for parent, _ in memories[mid].provenance.parents
+             if parent in chosen and mid in creation_events]
+    edges += [{**copy, "kind": "copy"} for copy in copies]
     return {"nodes": nodes, "edges": edges, "total": len(memories), "shown": len(nodes)}
 
 
@@ -405,6 +431,13 @@ def knowledge_map(f: "MemoryFabric", max_topics: int = 8, per_topic: int = 4,
         if e.payload.get("exposed") and mid in topic_of:
             exposures[mid] = exposures.get(mid, 0) + 1
 
+    creation_events: dict[str, dict[str, Any]] = {}
+    for event in f.log.read_types([ev.EventType.MEMORY_CREATED]):
+        memory = event.payload.get("memory", {})
+        mid = memory.get("id") if isinstance(memory, dict) else None
+        if mid in topic_of:
+            creation_events[mid] = {"event_id": event.event_id, "seq": event.seq}
+
     withdrawn = ("quarantined", "deprecated", "deleted")
     priority = {"quarantined": 0, "deprecated": 1, "contested": 2, "candidate": 3}
 
@@ -458,8 +491,8 @@ def knowledge_map(f: "MemoryFabric", max_topics: int = 8, per_topic: int = 4,
             if a != b:
                 pair = (min(a, b), max(a, b))
                 between[pair] = between.get(pair, 0) + 1
-            if parent in shown and mid in shown:
-                memory_links.append({"from": parent, "to": mid})
+            if parent in shown and mid in shown and mid in creation_events:
+                memory_links.append({"from": parent, "to": mid, **creation_events[mid]})
     total_withdrawn = sum(1 for mid in ids if memories[mid].lifecycle_state.value in withdrawn)
     disputed = sum(1 for mid in ids if memories[mid].lifecycle_state.value == "contested")
     named = [t for t in out_topics if t["id"] != "_other"]

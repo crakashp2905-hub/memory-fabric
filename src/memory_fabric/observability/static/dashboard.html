@@ -491,7 +491,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
             <li><span class="dot" style="--c:var(--st-withdrawn)"></span>Withdrawn: agents no longer see it</li>
             <li><span class="line"></span>Built from a memory in another topic</li>
           </ul>
-          <p class="map-hint">Point at anything for details; click a memory to read its story.</p>
+          <p class="map-hint">Point at anything for details; click a memory to read its story or a dashed lineage edge to open its logged event.</p>
         </div>
         <div class="map-card">
           <h3>Topics</h3>
@@ -1058,6 +1058,23 @@ async function openDetail(id) {
   $("wrong-go").addEventListener("click", () => loadIfWrong(r.id).catch(showError));
 }
 
+async function openEvent(eventId) {
+  const bg = $("drawer-bg"), d = $("drawer");
+  bg.hidden = false;
+  d.innerHTML = '<div class="empty">Loading event…</div>';
+  let event;
+  try { event = await api(`/api/events/${encodeURIComponent(eventId)}`); }
+  catch (err) { d.innerHTML = `<div class="note">${esc(err.message)}</div>`; return; }
+  d.innerHTML = `<div class="drawer-top"><div><div class="card-head">${badge(event.event_type, "low")}</div>
+      <div class="id" style="margin-top:6px">Event #${event.seq} · ${esc(event.event_id)}</div></div>
+      <button class="close" id="drawer-close">Close</button></div>
+    <h3>Recorded event</h3><dl class="kv"><dt>When</dt><dd>${esc(fmtTs(event.ts))}</dd>
+      <dt>Actor</dt><dd>${esc(event.agent_id || "system")}</dd><dt>Type</dt><dd>${esc(event.event_type)}</dd></dl>
+    <h3>What happened</h3><div class="content-quote">${esc(event.text || "No story sentence is available for this event type.")}</div>
+    ${event.memory_id ? `<h3>Related memory</h3><span class="link link-id" data-id="${esc(event.memory_id)}">${esc(event.memory_id)}</span>` : ""}`;
+  $("drawer-close").addEventListener("click", closeDetail);
+}
+
 function fmtTs(ts) {
   return ts ? new Date(ts).toISOString().replace("T", " ").slice(0, 16) + " UTC" : "";
 }
@@ -1065,7 +1082,7 @@ function fmtTs(ts) {
 function storyItems(steps, linkIds) {
   return steps.map((s) => `<li class="k-${esc(s.kind)}"><div>${esc(s.text)}${
     linkIds && s.memory_id ? ` <span class="link link-id" data-id="${esc(s.memory_id)}">follow</span>` : ""}</div>
-    <div class="when">${s.seq ? "#" + s.seq + " · " : ""}${esc(fmtTs(s.ts))}</div></li>`).join("");
+    <div class="when">${s.event_id ? `<button class="link link-id" data-event-id="${esc(s.event_id)}">Event #${s.seq} · ${esc(s.event_id)}</button>` : ""}${esc(fmtTs(s.ts))}</div></li>`).join("");
 }
 
 async function loadTimeline(id) {
@@ -1366,6 +1383,8 @@ function wire() {
       }).catch(() => {});
       return;
     }
+    const eventEl = ev.target.closest("[data-event-id]");
+    if (eventEl) { ev.stopPropagation(); openEvent(eventEl.dataset.eventId); return; }
     const idEl = ev.target.closest("[data-id]");
     if (idEl) { ev.stopPropagation(); openDetail(idEl.dataset.id); }
   });
@@ -1537,7 +1556,8 @@ async function loadGraph() {
   const byTopic = new Map(topics.map((t) => [t.id, t]));
   const byMemory = new Map(moons.map((m) => [m.id, m]));
   const tlinks = data.links.map((l) => ({ a: byTopic.get(l.from), b: byTopic.get(l.to), w: l.weight })).filter((l) => l.a && l.b);
-  const mlinks = data.memory_links.map((l) => ({ a: byMemory.get(l.from), b: byMemory.get(l.to) })).filter((l) => l.a && l.b);
+  const mlinks = data.memory_links.map((l) => ({ a: byMemory.get(l.from), b: byMemory.get(l.to), event_id: l.event_id, seq: l.seq }))
+    .filter((l) => l.a && l.b && l.event_id);
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const dpr = window.devicePixelRatio || 1;
@@ -1679,7 +1699,16 @@ async function loadGraph() {
 
   const hit = (ev) => { const b = canvas.getBoundingClientRect(), x = ev.clientX - b.left, y = ev.clientY - b.top;
     const near = bodies.filter((o) => o.screen && (o.screen.x - x) ** 2 + (o.screen.y - y) ** 2 <= (o.screen.r + 5) ** 2);
-    return near.sort((a, c) => (a.kind === "memory" ? -1 : 1) - (c.kind === "memory" ? -1 : 1))[0] || null; };
+    const body = near.sort((a, c) => (a.kind === "memory" ? -1 : 1) - (c.kind === "memory" ? -1 : 1))[0];
+    if (body) return body;
+    let closest = null, best = 36;
+    for (const l of mlinks) {
+      const a = l.a.screen, c = l.b.screen, dx = c.x - a.x, dy = c.y - a.y;
+      const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (y - a.y) * dy) / Math.max(1, dx * dx + dy * dy)));
+      const dist = (x - (a.x + t * dx)) ** 2 + (y - (a.y + t * dy)) ** 2;
+      if (dist < best) { best = dist; closest = { kind: "event", ...l }; }
+    }
+    return closest; };
   canvas.onmousemove = (ev) => {
     const o = hit(ev); G.hover = o; G.paused = !!o; canvas.classList.toggle("pointing", !!o);
     if (!o) { tip.hidden = true; return; }
@@ -1688,13 +1717,14 @@ async function loadGraph() {
     tip.style.top = `${Math.min(ev.clientY - b.top + 16, stage.clientHeight - 90)}px`;
     tip.innerHTML = o.kind === "topic"
       ? `<b>${esc(o.label)}</b><div class="sub">${esc(topicSub(o))} · recalled ${o.exposures}× · click to focus</div>`
+      : o.kind === "event" ? `<b>Lineage event #${o.seq}</b><div class="sub">${esc(o.event_id)} · click to open the logged event</div>`
       : `<b>${esc(o.label)}</b><div class="sub">${esc(o.why)} · by ${esc(o.author)} · click to read its story</div>`;
   };
   canvas.onmouseleave = () => { G.hover = null; G.paused = false; tip.hidden = true; };
   const setFocus = (t) => { G.focus = G.focus === t ? null : t;
     document.querySelectorAll("#map-topics button").forEach((btn) => btn.setAttribute("aria-pressed", String(G.focus && btn.dataset.topic === G.focus.id))); };
   canvas.onclick = (ev) => { const o = hit(ev); if (!o) { if (G.focus) setFocus(G.focus); return; }
-    if (o.kind === "memory") openDetail(o.id); else setFocus(o); };
+    if (o.kind === "memory") openDetail(o.id); else if (o.kind === "event") openEvent(o.event_id); else setFocus(o); };
   $("map-topics").innerHTML = topics.map((t) => `<button data-topic="${esc(t.id)}" aria-pressed="false">
     <span style="color:${t.hue}">●</span> ${esc(t.label)}<span class="n">${t.size}</span></button>`).join("");
   $("map-topics").onclick = (ev) => { const btn = ev.target.closest("button"); if (btn) setFocus(byTopic.get(btn.dataset.topic)); };

@@ -262,6 +262,14 @@ class Api:
                 return story(f, after=_int(params, "after", 0) or 0,
                              limit=_int(params, "limit", 300) or 300)
 
+            case ["events", event_id]:
+                from .control import event_detail
+
+                try:
+                    return event_detail(f, event_id)
+                except KeyError as exc:
+                    raise ApiError(HTTPStatus.NOT_FOUND, "no such event") from exc
+
             case ["actions"]:
                 from .control import action_rows
 
