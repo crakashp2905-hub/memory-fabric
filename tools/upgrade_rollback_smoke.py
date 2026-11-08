@@ -166,10 +166,16 @@ def main() -> int:
         "post_upgrade_write": post_upgrade,
         "post_upgrade_readback": post_upgrade_state,
         "rollback_readback": rollback_state,
+        "grant_event_persisted": (
+            len(post_upgrade["grant_events"]) == 1
+            and post_upgrade["grant_events"] == rollback_state["grant_events"]
+        ),
         "upgrade_passed": upgraded_meta != baseline_meta and upgrade_state["chain_ok"],
-        "rollback_passed": rollback_meta == baseline_meta and rollback_state == post_upgrade_state,
+        "rollback_passed": (rollback_meta == baseline_meta
+                            and rollback_state == post_upgrade_state
+                            and len(post_upgrade["grant_events"]) == 1),
         "scope_limitations": [
-            "The v0.11.0 baseline uses host-configured ActionPolicy grants, not durable grant events. Grant persistence across package upgrade cannot be demonstrated from this baseline.",
+            "The v0.11.0 baseline uses host-configured ActionPolicy authorization; this drill verifies a durable exact-action GrantIssued event created after upgrade survives rollback, not persistence of the host policy configuration.",
             "Post-upgrade writes exercise correction, append, validation, quarantine/tombstone, event-chain and content readback; they do not exercise every event type or external side effect."
         ],
     }
