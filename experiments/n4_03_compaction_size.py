@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -24,6 +25,7 @@ from memory_fabric.compaction import compact_session  # noqa: E402
 JSON_PATH = ROOT / "research" / "results" / "n4-03-compaction-size.json"
 MD_PATH = ROOT / "research" / "results" / "n4-03-compaction-size.md"
 TEST_XML_PATH = ROOT / "research" / "results" / "n4-03-compaction-tests.xml"
+TEST_LOG_PATH = ROOT / "research" / "results" / "n4-03-compaction-tests.txt"
 
 
 def _git(*args: str) -> str:
@@ -35,9 +37,15 @@ def _git(*args: str) -> str:
 def run() -> dict[str, Any]:
     junit_root = ET.parse(TEST_XML_PATH).getroot()
     test_cases = list(junit_root.iter("testcase"))
+    test_output = TEST_LOG_PATH.read_text(encoding="utf-8")
+    test_summary = re.search(r"(?P<cases>\d+) passed, (?P<subtests>\d+) subtests passed", test_output)
+    if test_summary is None:
+        raise RuntimeError("N4-03 pytest log lacks an explicit case/subtest summary")
     test_evidence = {
         "junit": TEST_XML_PATH.relative_to(ROOT).as_posix(),
-        "reported_cases_including_subtests": len(test_cases),
+        "console_log": TEST_LOG_PATH.relative_to(ROOT).as_posix(),
+        "reported_test_cases": len(test_cases),
+        "reported_subtests": int(test_summary.group("subtests")),
         "failures": len(list(junit_root.iter("failure"))),
         "errors": len(list(junit_root.iter("error"))),
         "skipped": len(list(junit_root.iter("skipped"))),

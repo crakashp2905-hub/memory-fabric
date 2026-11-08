@@ -4,7 +4,7 @@ Strict completion: **229 / 260 (88.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `8c13ffb3a324be5f77c6651a5a926751c5561dd332f5a6a5dfd52c2ca6683e1a`.
+Normalized ledger digest: `5d63180ac9929e09eb760d96cfbc66a4a8fc3d5fe63a6c2bc91ee8a8211f963e`.
 
 | status | count |
 |---|---:|
@@ -161,7 +161,7 @@ Normalized ledger digest: `8c13ffb3a324be5f77c6651a5a926751c5561dd332f5a6a5dfd52
 | N3-10 | P2 | DONE | SIMULATED | `research/prereg/n3-10-policy-graduation-v1.md`, `benchmarks/n3_10_policy_graduation.py`, `tests/test_n3_10_policy_graduation.py`, `research/results/n3-10-policy-graduation.json`, `research/results/n3-10-policy-graduation.md`, `research/results/n3-10-policy-graduation-tests.xml` |
 | N4-01 | P1 | DONE | CONTRACT | `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-01-summary-dependencies.json`, `research/results/n4-01-summary-dependencies.md`, `research/results/n4-01-dependency-map-tests.xml`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-02-hierarchy-tests.xml` |
 | N4-02 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `src/memory_fabric/summary_dependencies.py`, `src/memory_fabric/_fabric/writes.py`, `tests/test_hierarchical_compaction.py`, `tests/test_summary_dependencies.py`, `tests/test_compaction.py`, `tests/test_lossless_compaction.py`, `research/results/n4-02-hierarchical-compaction.json`, `research/results/n4-02-hierarchical-compaction.md`, `research/results/n4-02-hierarchy-tests.xml`, `research/results/n4-02-revision-compat-tests.xml` |
-| N4-03 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `experiments/n4_03_compaction_size.py`, `tests/test_compaction.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-03-compaction-size.json`, `research/results/n4-03-compaction-size.md`, `research/results/n4-03-compaction-tests.xml` |
+| N4-03 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `experiments/n4_03_compaction_size.py`, `tests/test_compaction.py`, `tests/test_hierarchical_compaction.py`, `research/results/n4-03-compaction-size.json`, `research/results/n4-03-compaction-size.md`, `research/results/n4-03-compaction-tests.xml`, `research/results/n4-03-compaction-tests.txt` |
 | N4-04 | P1 | TODO | NOT_TESTED | — |
 | N4-05 | P1 | TODO | NOT_TESTED | — |
 | N4-06 | P1 | TODO | NOT_TESTED | — |

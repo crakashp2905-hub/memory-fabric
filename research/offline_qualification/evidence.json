@@ -4002,7 +4002,8 @@
         "tests/test_hierarchical_compaction.py",
         "research/results/n4-03-compaction-size.json",
         "research/results/n4-03-compaction-size.md",
-        "research/results/n4-03-compaction-tests.xml"
+        "research/results/n4-03-compaction-tests.xml",
+        "research/results/n4-03-compaction-tests.txt"
       ],
       "limitations": [
         "UTF-8 byte measurements are exact and are not token counts or model cost.",

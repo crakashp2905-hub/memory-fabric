@@ -4,9 +4,9 @@
   "acceptance_passed": true,
   "evidence_level": "CONTRACT",
   "source": {
-    "commit": "220f5bb408e89e306a57ce66b57f297d15a26d62",
-    "dirty_before_result_write": false,
-    "script_sha256": "89e78cee8f990cb7cbc4875e04973e02730af7d18efea0c7f2729aa16a2aad7c"
+    "commit": "76a4697cba885c4b68cf7c1d7daf73c909e26882",
+    "dirty_before_result_write": true,
+    "script_sha256": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e"
   },
   "fixture": {
     "source_memory_count": 8,
@@ -28,5 +28,14 @@
     "bytes_are_not_token_counts": true,
     "bytes_are_not_model_cost": true,
     "token_counts_are_not_end_to_end_request_usage": true
+  },
+  "tests": {
+    "junit": "research/results/n4-03-compaction-tests.xml",
+    "console_log": "research/results/n4-03-compaction-tests.txt",
+    "reported_test_cases": 18,
+    "reported_subtests": 114,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
   }
 }
