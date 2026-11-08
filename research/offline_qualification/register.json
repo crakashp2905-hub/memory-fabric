@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c9fcb5131a7b27e5a20bc773ac75beb88e6cb3ef03f7e1543d7bc1694b4fb65b",
+    "sha256": "e074dc8628a3023ad5b01ab2ea32f7e7d4a3933f95f257ba329a240da493b36e",
     "tasks": 260
   },
   "source": {
-    "commit": "0a6f58baf77b1375b8c6d17ebc3dd7d315e5f24a",
+    "commit": "8fc0ab0450fd0eafb8d340494111f419037c52be",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 107,
+      "DONE": 108,
       "PARTIAL": 14,
-      "TODO": 139
+      "TODO": 138
     },
-    "completed": 107,
+    "completed": 108,
     "total": 260,
-    "percent_complete": 41.15,
+    "percent_complete": 41.54,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -303,7 +303,7 @@
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
-        ".github/workflows/ci.yml": "36bc22c4a4f0af9f34d96b024953dc7284e241ebcd288021723d00b12fc62940",
+        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "644d2e8abaf77cf63d6bb6b6daf8cb567565dac240cc4f28ccf1d063fc4ae15b",
         "docs/VALIDATION.md": "fbde2d2ab39d5b49487371076fdf5201ba88b11cb9126ac50ee3908578e44b4f",
@@ -4378,7 +4378,7 @@
       "evidence_digests": {
         "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
         "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
-        ".github/workflows/ci.yml": "36bc22c4a4f0af9f34d96b024953dc7284e241ebcd288021723d00b12fc62940",
+        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
         ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
         ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
         "research/results/h5-04-package-asset-audit.json": "4d4a130ba114eb686c178364a7f4077e5b021dedc888452ab66189667b147ee9",
@@ -4449,14 +4449,32 @@
       "task_id": "H5-07",
       "priority": "P1",
       "task": "Run fuzzing from checked-in seed corpus under strict memory/time budget.",
-      "acceptance": "Crashes, hangs, data leaks and unauthorized actions are regression fixtures",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Crashes, hangs, data leaks and unauthorized actions are regression fixtures. Evidence: `tests/data/security_fuzz_seeds.json`, `tests/data/code_mode_malicious_plans.json`, `tools/fuzz_security_boundaries.py`, `tests/test_security_fuzz.py`, `.github/workflows/ci.yml`, `research/results/h5-07-security-fuzz.json`, `research/results/h5-07-security-fuzz-tests.xml` (DONE: 600 deterministic cases; 0.28s; 214,341-byte peak traced heap under a 64 MiB cap; 48 action-gate denials; zero handler executions/findings; failures persist as replayed regression seeds; RSS is not measured by the Python heap cap)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/security_fuzz_seeds.json",
+        "tests/data/code_mode_malicious_plans.json",
+        "tools/fuzz_security_boundaries.py",
+        "tests/test_security_fuzz.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-07-security-fuzz.json",
+        "research/results/h5-07-security-fuzz-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/data/security_fuzz_seeds.json": "de874eee693b78e4eafaeb28810bc52681837c115494593cb7bfae69622d5a2c",
+        "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+        "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
+        "tests/test_security_fuzz.py": "6b2defcb703974cbcea1ec88482e840e12910b09918693328594a31d2bde6017",
+        ".github/workflows/ci.yml": "327d8cf64b6a02e699c5ad14d8a84822b12750c5c80a8d2b5df2af20879633ad",
+        "research/results/h5-07-security-fuzz.json": "a1c8a691dc06604501b984ddbe401cb80cf428390f2e3c5b4587dcaa8b057168",
+        "research/results/h5-07-security-fuzz-tests.xml": "b90891d538af5d6f16624a36f79cc721c7350e1ca93c09b25a22a9e787bdac55"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The fuzzer bounds Python-traced heap, not whole-process RSS. It mutates the local Code Mode parser and runs accepted calls only through a denying action gate; it is not a general-purpose native-code fuzzer."
+      ]
     },
     {
       "task_id": "H5-08",

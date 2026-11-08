@@ -1428,6 +1428,24 @@
       ]
     },
     {
+      "task_id": "H5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/security_fuzz_seeds.json",
+        "tests/data/code_mode_malicious_plans.json",
+        "tools/fuzz_security_boundaries.py",
+        "tests/test_security_fuzz.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-07-security-fuzz.json",
+        "research/results/h5-07-security-fuzz-tests.xml"
+      ],
+      "limitations": [
+        "The fuzzer bounds Python-traced heap, not whole-process RSS. It mutates the local Code Mode parser and runs accepted calls only through a denying action gate; it is not a general-purpose native-code fuzzer."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

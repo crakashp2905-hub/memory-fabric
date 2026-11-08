@@ -1,0 +1,19 @@
+{
+  "schema": "memory-fabric-security-fuzz-seeds/1",
+  "seed": 20261108,
+  "canary": "FUZZ_CANARY_DO_NOT_DISCLOSE",
+  "sources": [
+    "lookup(query='FUZZ_CANARY_DO_NOT_DISCLOSE', limit=1)",
+    "send(destination='operator', value='FUZZ_CANARY_DO_NOT_DISCLOSE')",
+    "lookup(query='safe', limit=2)",
+    "lookup(value={'nested': [1, 2, 3]})",
+    "lookup(value='unterminated)",
+    "__import__(name='os')",
+    "eval(expression='1 + 1')",
+    "send(**{'destination': 'outside'})",
+    "while True:\n    lookup(query='x')",
+    "lookup(value=(1).__class__)",
+    "lookup(query='x')\nlookup(query='y')",
+    "lookup(value='\\u0000')"
+  ]
+}
