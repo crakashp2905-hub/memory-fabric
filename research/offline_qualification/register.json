@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "7b2f7faebc5c7eea6b47514bb364b58216cff85edcdb5db0d07ef5409042a594",
+    "sha256": "1a0fcd7c9b05106250d6105ebd3f9ea0ddbeccd29c44fffc13eb2a94eadf1e91",
     "tasks": 260
   },
   "source": {
-    "commit": "ed9c3d6c59b36fa1bb2d573dfffb49039209b449",
+    "commit": "ff575ce56fa0bd998ddf4de14611081bad694f0c",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 157,
+      "DONE": 158,
       "PARTIAL": 4,
-      "TODO": 99
+      "TODO": 98
     },
-    "completed": 157,
+    "completed": 158,
     "total": 260,
-    "percent_complete": 60.38,
+    "percent_complete": 60.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,9 +307,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "2a7304089fc57708e976c644cff97b9a7abce84deb33e98ef8bc4a7de082f042",
-        "docs/VALIDATION.md": "3ecb0e043e9e8a2db6f5593796f243d3024279be29801310890e2ea953482579",
-        "docs/STATUS_AT_HEAD.md": "7dbdd562408451645e41a1769bcdcfea37d83698978119cdbdddabc92b6ce5ee",
+        "README.md": "9dfe0fb0fb2764c3cff914f06e06b2089d884a2ad7dacccf971a0cf13ed966e4",
+        "docs/VALIDATION.md": "4986b9eda5e47625b0e0cdd6694618f50e4b28d14dc1ebeb4d201b1c32c5d4bb",
+        "docs/STATUS_AT_HEAD.md": "889de6a219d711164b45e0598619c87be2586107517f29440796583cf5cea80b",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "5f366d8c6b512f86f374a7401d27576660ae3281be1895ead7e9770e4ce21877",
+        "research/results/MANIFEST.json": "951fa47b269efde90a85f90429466d84a14ca2bf3e5113d1e761efa2bb11e579",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4190,7 +4190,7 @@
       "evidence_digests": {
         "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
         "tests/test_metrics.py": "16901281bdbbf636015cf633c3b71abd5ed9579ab3d32d16db91deeead27cae9",
-        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
         "research/results/h3-09-sparse-metrics.json": "8dc279f61acd2aa3f8d75e9aa37130f642ba8a2ab057c7396a7cce15fdce03a5",
         "research/results/h3-09-sparse-metrics-tests.xml": "aff94fbefe988212d14ae4116b389fe434a7e448f7b4f08c7457494b33c9aba6"
@@ -5157,9 +5157,9 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
-        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
         "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
       },
@@ -5186,9 +5186,9 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
       },
@@ -5215,9 +5215,9 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
-        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
         "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
         "research/results/p2-03-block-reasons.txt": "9237c1ae18573eb9d6501a398ea426e46f7b633841e46040d8ba1ebceb07e133"
       },
@@ -5243,9 +5243,9 @@
         "research/results/p2-04-correction-preview.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
         "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
         "research/results/p2-04-correction-preview.json": "99f0a714ff50d5d01ed9530502474ac86f298a79a38be67a383e5aa3294ece96",
         "research/results/p2-04-correction-preview.txt": "5caec3d9bfaad2d07cdc82fe53d68356d536a9a043097f544898f0b0a9668221"
@@ -5274,11 +5274,11 @@
         "research/results/p2-05-withholding-scorecard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "a3b3b55adab8a790718867d7cfbda7c26acc8c8974d67735d6bd5300a85d39aa",
         "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
         "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
         "research/results/p2-05-withholding-scorecard.json": "083ab836d81f215552a4e456befbeb2e339fbe637c044dee467e34482b0ec602",
         "research/results/p2-05-withholding-scorecard.txt": "cbe371cbb50ed8f044516444bb8a4effc1a783646177d88022e3ef3b3680b6c6"
@@ -5310,10 +5310,10 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
@@ -5340,8 +5340,8 @@
         "research/results/p2-07-accessibility.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
-        "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
         "research/results/p2-07-accessibility.json": "195d6a387db22519bc0e291c7a16838dc009561bab730ad345246cbc1df34298",
         "research/results/p2-07-accessibility.txt": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
       },
@@ -5355,14 +5355,35 @@
       "task_id": "P2-08",
       "priority": "P1",
       "task": "Test large histories, empty state, conflicting evidence and corrupted evidence without UI hangs.",
-      "acceptance": "Pagination and error boundaries preserve data privacy and show recoverable messages",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Pagination and error boundaries preserve data privacy and show recoverable messages.. Evidence: `src/memory_fabric/observability/report.py`, `src/memory_fabric/observability/server.py`, `src/memory_fabric/observability/static/dashboard.html`, `tests/test_control_center.py`, `tests/test_control_center_ui.py`, `tests/test_observability.py`, `research/results/p2-08-history-boundaries.json`, `research/results/p2-08-history-boundaries.txt` (DONE: 94 focused tests pass on exact commit; pagination is bounded and non-overlapping in a 205-record addition, empty filters render clearly, conflicting state read models remain visible, and a simulated corrupt-read exception returns a generic HTTP 500 with no canary leakage. Offset pages are not snapshot-isolated; loopback test access was required.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/report.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_observability.py",
+        "research/results/p2-08-history-boundaries.json",
+        "research/results/p2-08-history-boundaries.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/report.py": "864aaaceaf628ab23cdf63469337ae0930a4354e8022e99af3b5f4a18a30defc",
+        "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+        "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+        "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
+        "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+        "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
+        "research/results/p2-08-history-boundaries.json": "e26744e70e074426e5dc658dd25b91caec34472cc208780e10ed987512788964",
+        "research/results/p2-08-history-boundaries.txt": "db4ef84892f73d4a550757606cfa499d6085782b34b611e83017ce1dfc5d5300"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Offset pagination is not snapshot-isolated; concurrent inserts can shift page boundaries between requests.",
+        "Loopback HTTP integration tests require local socket access."
+      ]
     },
     {
       "task_id": "P2-09",

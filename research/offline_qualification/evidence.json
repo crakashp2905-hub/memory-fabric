@@ -1990,6 +1990,26 @@
       ]
     },
     {
+      "task_id": "P2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/report.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_observability.py",
+        "research/results/p2-08-history-boundaries.json",
+        "research/results/p2-08-history-boundaries.txt"
+      ],
+      "limitations": [
+        "Offset pagination is not snapshot-isolated; concurrent inserts can shift page boundaries between requests.",
+        "Loopback HTTP integration tests require local socket access."
+      ]
+    },
+    {
       "task_id": "P5-01",
       "status": "DONE",
       "acceptance_passed": true,
