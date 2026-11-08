@@ -508,7 +508,7 @@
         "benchmarks/n3_05_intervention_harness.py",
         "tests/test_n3_05_intervention_harness.py",
         "research/results/n3-05-intervention-harness.json",
-          "research/results/n3-05-intervention-harness.ndjson",
+        "research/results/n3-05-intervention-harness.ndjson",
         "research/results/n3-05-intervention-harness.md",
         "research/results/n3-05-intervention-harness-tests.xml"
       ],
@@ -3901,6 +3901,26 @@
         "Twenty authored deterministic synthetic cases across five setting families; not a held-out or real-agent study.",
         "Ordinary retrieval stale outcomes are counterfactual WOULD EXECUTE labels; no external side effect occurs.",
         "No latency or cost measurements; the finding is limited to corrected-task completion and stale action gating in this fixture."
+      ]
+    },
+    {
+      "task_id": "N3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n3-09-off-policy-support-v1.md",
+        "src/memory_fabric/model.py",
+        "src/memory_fabric/estimators.py",
+        "tests/test_estimators.py",
+        "research/results/n3-09-off-policy-support.json",
+        "research/results/n3-09-off-policy-support.md",
+        "research/results/n3-09-support-tests.xml",
+        "research/results/n3-09-compat-tests.xml"
+      ],
+      "limitations": [
+        "Synthetic contract evidence only; does not validate propensity correctness or eliminate unmeasured confounding.",
+        "The configurable 0.01 support floor may conservatively reject mathematically positive but weak overlap."
       ]
     }
   ]

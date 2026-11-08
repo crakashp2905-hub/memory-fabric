@@ -12,7 +12,7 @@ __stability__ = "stable"
 import json
 from dataclasses import dataclass, field, replace
 from enum import Enum
-from typing import Any, Mapping
+from typing import Any, Literal, Mapping
 
 # `identity` imports only `ids`, so this direction carries no cycle.
 from .identity import DEFAULT_TENANT
@@ -369,6 +369,7 @@ class ValueEstimate:
     would let any frequently retrieved memory look valuable, so the distinction
     is carried in the type rather than left to the caller to remember.
     """
+    identification_status: Literal["IDENTIFIED", "NON_IDENTIFIABLE"] = "IDENTIFIED"
 
     @property
     def shows_benefit(self) -> bool:
@@ -379,6 +380,13 @@ class ValueEstimate:
         """
         return self.contrastive and self.ci_low > 0.0
 
+    @property
+    def confidence_interval(self) -> tuple[float, float] | None:
+        """Finite confidence bounds, or ``None`` when the effect is unidentified."""
+        if self.identification_status != "IDENTIFIED":
+            return None
+        return self.ci_low, self.ci_high
+
     def to_json(self) -> dict[str, Any]:
         return {
             "mean": self.mean,
@@ -388,10 +396,21 @@ class ValueEstimate:
             "estimator": self.estimator,
             "updated_at": self.updated_at,
             "contrastive": self.contrastive,
+            "identification_status": self.identification_status,
+            "confidence_interval": (
+                list(self.confidence_interval)
+                if self.confidence_interval is not None else None
+            ),
         }
 
     @staticmethod
     def from_json(data: Mapping[str, Any]) -> "ValueEstimate":
+        identification_status = data.get(
+            "identification_status",
+            "NON_IDENTIFIABLE" if data.get("estimator") == "none" else "IDENTIFIED",
+        )
+        if identification_status not in {"IDENTIFIED", "NON_IDENTIFIABLE"}:
+            raise ValueError(f"unknown identification status: {identification_status!r}")
         return ValueEstimate(
             mean=float(data["mean"]),
             ci_low=float(data["ci_low"]),
@@ -400,6 +419,7 @@ class ValueEstimate:
             estimator=data.get("estimator", ""),
             updated_at=int(data.get("updated_at", 0)),
             contrastive=bool(data.get("contrastive", False)),
+            identification_status=identification_status,
         )
 
 
@@ -410,6 +430,7 @@ UNKNOWN_VALUE = ValueEstimate(
     n_eff=0.0,
     estimator="none",
     contrastive=False,
+    identification_status="NON_IDENTIFIABLE",
 )
 
 
