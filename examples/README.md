@@ -20,6 +20,7 @@ independent compliance validation.
 | [why_blocked.py](why_blocked.py) | Explain an action refusal with its reason code, memory pointer, withdrawal reason and repair path | nothing |
 | [memory_vs_json.py](memory_vs_json.py) | Apply identical source records to a JSON-style store and governed memory; print task utility and stale-action safety outcomes | nothing |
 | [multi_agent_team.py](multi_agent_team.py) | Two deterministic agents share a reviewed fact; a correction withdraws the dependent procedure for the team | nothing |
+| [multi_agent_provenance_dispute.py](multi_agent_provenance_dispute.py) | Many copied reports count as one source; independent reports change support without claiming truth | nothing |
 | [sdk_workflow.py](sdk_workflow.py) | Typed add, recall, explain, decide, correction and action-fenced execution | nothing |
 | [correction_spares_unrelated_action.py](correction_spares_unrelated_action.py) | Correction refuses the dependent stale action while an unrelated action still passes | nothing |
 | [agent_on_the_fabric.py](agent_on_the_fabric.py) | The Claude adapter end to end, with a scripted model; drop the stub to use the live API | nothing (`pip install ".[claude]"` and a key for the live API) |

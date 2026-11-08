@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
            "agent_on_the_fabric", "why_blocked", "memory_vs_json",
-           "correction_spares_unrelated_action"]
+           "correction_spares_unrelated_action", "multi_agent_provenance_dispute"]
 
 
 class Examples(unittest.TestCase):
@@ -38,6 +38,11 @@ class Examples(unittest.TestCase):
                     self.assertIn("evidence_withdrawn", done.stdout)
                     self.assertIn("Evidence pointer: memory", done.stdout)
                     self.assertIn("Repair: re-certify with current evidence", done.stdout)
+                if name == "multi_agent_provenance_dispute":
+                    self.assertIn("share 1 source root", done.stdout)
+                    self.assertIn("support is contested: True", done.stdout)
+                    self.assertIn("14-bar support to 2 roots", done.stdout)
+                    self.assertIn("not truth verification", done.stdout)
                 if name == "memory_vs_json":
                     self.assertIn("Identical source records per arm: 2; equal input: True", done.stdout)
                     self.assertIn("JSON-style store: WOULD RUN", done.stdout)
