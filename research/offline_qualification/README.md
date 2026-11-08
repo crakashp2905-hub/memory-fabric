@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **101 / 260 (38.85%)**. Internal status: **BLOCKED**.
+Strict completion: **103 / 260 (39.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7a4f8367a81f70b947b835589d49fb5bf7a76476482e65a0094ca9531b0548f3`.
+Normalized ledger digest: `89d492cebc7168d8a8170b8b8dffa27fff316c2b91f08207028cff2b76dd0066`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 101 |
+| DONE | 103 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 10 |
-| TODO | 149 |
+| PARTIAL | 12 |
+| TODO | 145 |
 
 ## Graduation gates
 
@@ -225,10 +225,10 @@ Normalized ledger digest: `7a4f8367a81f70b947b835589d49fb5bf7a76476482e65a0094ca
 | H4-04 | P0 | PARTIAL | CONTRACT | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_tombstone_exchange.py` |
 | H4-05 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_tombstone_exchange.py`, `tests/test_multiprocess_crash.py`, `research/results/h4-05-reordered-corrections.json`, `research/results/h4-05-reordered-corrections-tests.xml` |
 | H4-06 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/outbox.py`, `tests/test_federation_transport.py`, `tests/test_retraction_protocol.py`, `research/results/h4-06-retry-deadletter.json`, `research/results/h4-06-retry-deadletter-tests.xml` |
-| H4-07 | P0 | TODO | NOT_TESTED | — |
-| H4-08 | P0 | TODO | NOT_TESTED | — |
-| H4-09 | P0 | TODO | NOT_TESTED | — |
-| H4-10 | P0 | TODO | NOT_TESTED | — |
+| H4-07 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_checkpoint_rewrite.py`, `tests/test_integrity_chain.py`, `tests/test_freshness.py`, `research/results/h4-07-checkpoint-trust.json`, `research/results/h4-07-checkpoint-trust-tests.xml` |
+| H4-08 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml` |
+| H4-09 | P0 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json` |
+| H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
 | H5-01 | P1 | TODO | NOT_TESTED | — |
 | H5-02 | P1 | TODO | NOT_TESTED | — |
 | H5-03 | P1 | TODO | NOT_TESTED | — |

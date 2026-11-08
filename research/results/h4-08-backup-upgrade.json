@@ -1,0 +1,23 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-08",
+  "source_commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
+  "input_sha256": {
+    "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+    "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
+    "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc"
+  },
+  "checks": {
+    "historical_schemas": "0.2 through 0.8 upgrade and replay",
+    "backup": "verified replay, state and append-only checks",
+    "rollback": "partial old fixture restoration"
+  },
+  "limitations": [
+    "No full hash/tombstone/audit-version cross-check over every rollback state."
+  ],
+  "test_summary": {
+    "passed": 19,
+    "subtests_passed": 11,
+    "failed": 0
+  }
+}

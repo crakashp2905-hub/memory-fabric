@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b671138df7914c955e9e3f6b66055a351c2929a0aae64853f91f8a4c7a5e7e0c",
+    "sha256": "720e7f9d5115639a337f79a0b21e37f3da19c6c8fb60a84369b86df4cc85dc78",
     "tasks": 260
   },
   "source": {
-    "commit": "094b4bc46708e6954c2b355e6aaa75eea112fe09",
+    "commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 101,
-      "PARTIAL": 10,
-      "TODO": 149
+      "DONE": 103,
+      "PARTIAL": 12,
+      "TODO": 145
     },
-    "completed": 101,
+    "completed": 103,
     "total": 260,
-    "percent_complete": 38.85,
-    "p0_open": 28,
+    "percent_complete": 39.62,
+    "p0_open": 26,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -307,7 +307,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "d20f94c43266794f0d246101bcc88e25166ec8018919f95e92caed3d1497f628",
         "docs/VALIDATION.md": "57412db5d8099d54710582689c2f1b53863a7b47122f8f4387654ca08bbda9ab",
-        "docs/STATUS_AT_HEAD.md": "0252494ab85c22a9ba02ae490a99607a7c204d34e5e645cf4a7802743260d5b5",
+        "docs/STATUS_AT_HEAD.md": "2c4e5d0132d19f7117aa64c551ba85d8a6421afe039a435b76a607eda7a682f8",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "526796a4f255c569642df0ea1d55f47480a1e117784b0f8fb23377275961493e",
+        "research/results/MANIFEST.json": "894c84adadffdee039ccebc7b2b10bce9a2d591cefd35e0e66aa1a176f313255",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4169,53 +4169,113 @@
       "task_id": "H4-07",
       "priority": "P0",
       "task": "Verify checkpoint tampering and replay of old signed checkpoints.",
-      "acceptance": "Current trust anchor detects unauthorized rewrite; local-only anchor limitations are disclosed",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Current trust anchor detects unauthorized rewrite; local-only anchor limitations are disclosed. Evidence: `tests/test_checkpoint_rewrite.py`, `tests/test_integrity_chain.py`, `tests/test_freshness.py`, `research/results/h4-07-checkpoint-trust.json`, `research/results/h4-07-checkpoint-trust-tests.xml` (anchor must be held beyond the store writer's reach)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_checkpoint_rewrite.py",
+        "tests/test_integrity_chain.py",
+        "tests/test_freshness.py",
+        "research/results/h4-07-checkpoint-trust.json",
+        "research/results/h4-07-checkpoint-trust-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_checkpoint_rewrite.py": "184c9c8efb8cf251f541be8f6cf5ec34370f61db888aec0cf864ab205778bcee",
+        "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
+        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "research/results/h4-07-checkpoint-trust.json": "90df22b453d678a0384e1e5228310dfdf419b48106730484e22495d47a85855c",
+        "research/results/h4-07-checkpoint-trust-tests.xml": "fd46336a25040f0d6b057f94e6813ac4c44217cb778a2890353a4ce4d41b2100"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Independent local directory anchors detect rewritten history. If the anchor is writable by the same attacker as the store, it provides no independent trust."
+      ]
     },
     {
       "task_id": "H4-08",
       "priority": "P0",
       "task": "Perform backup, restore, schema upgrade and rollback drill in isolated temporary directories.",
-      "acceptance": "Verify data, grants, tombstones, audited versions and event hashes before accepting restored state",
-      "status": "TODO",
+      "acceptance": "Verify data, grants, tombstones, audited versions and event hashes before accepting restored state. Evidence: `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml` (PARTIAL: historical upgrade and state replay pass; full hash/tombstone/audit-version rollback comparison remains open)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_backup.py",
+        "tests/test_version_skew.py",
+        "tests/test_historical_fixtures.py",
+        "research/results/h4-08-backup-upgrade.json",
+        "research/results/h4-08-backup-upgrade-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+        "tests/test_version_skew.py": "3a74af70c23822c907679f6cc5868a3cd26bb976b546a11c70216b3ffabcc70c",
+        "tests/test_historical_fixtures.py": "55e24c94c019d01bd59e69b31a9a8d75a0f79e123f00fa2a67d3d9039f71cdfc",
+        "research/results/h4-08-backup-upgrade.json": "d45ab7e8e96b45d572ef5a31a330201fb29c626282f8a2979aae4a6ddd668909",
+        "research/results/h4-08-backup-upgrade-tests.xml": "669481c5eb5230f61eafa21d1a6377340532f87f52c81d864e568e3ac8e9ab12"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Historical schema upgrade, action grant checks, state and backup replay pass. The requested event-hash, tombstone, and audited-version rollback comparison is not asserted across all states."
+      ]
     },
     {
       "task_id": "H4-09",
       "priority": "P0",
       "task": "Simulate time moving backward/forward and malformed clocks in expiry checks.",
-      "acceptance": "Monotonic or explicit wall-clock assumptions are documented and tested",
-      "status": "TODO",
+      "acceptance": "Monotonic or explicit wall-clock assumptions are documented and tested. Evidence: `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json` (PARTIAL: skew, rollback and expiry covered; malformed clock outputs remain untested)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "tests/test_certificates.py",
+        "tests/test_identity.py",
+        "research/results/h4-09-clock-skew.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/freshness.py": "8bf14edeac3d1104d8a9d148411652684d8d455cf1a07c33cb3094c0b16d5af6",
+        "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6",
+        "tests/test_certificates.py": "a4ea0e5402a9284b92e4f082b85fb0b4582a9d0c71f28b1d4cfebc6c1b4239b8",
+        "tests/test_identity.py": "7c65a7d13860357aa728a280838f9554f929954c9632e0206a9a2883f896efd8",
+        "research/results/h4-09-clock-skew.json": "eb8854c298c8dfd7089f40e0c6b3e25f4a41001cf69a008084d272905fb88563"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Lease skew, forward expiry, wall-clock rollback with monotonic deadline, and old lease replay are covered. Malformed clock return values are not tested."
+      ]
     },
     {
       "task_id": "H4-10",
       "priority": "P0",
       "task": "Create a local incident-replay command that reconstructs all events for one decision.",
-      "acceptance": "Produces timeline and cause without executing tools or exposing unredacted confidential data",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Produces timeline and cause without executing tools or exposing unredacted confidential data. Evidence: `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` (dependencies are not asserted as causation; content is excluded)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/incident.py",
+        "src/memory_fabric/response.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_incident.py",
+        "tests/test_response.py",
+        "research/results/h4-10-incident-replay.json",
+        "research/results/h4-10-incident-replay-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
+        "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
+        "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+        "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
+        "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
+        "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",
+        "research/results/h4-10-incident-replay-tests.xml": "265338ae081c4f5d6faafbf17663d08146df8d59241d227dced7e02bbaafc31f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Report reconstructs logged dependencies and timing; counterfactual dependency is not proof of causation. Output deliberately excludes memory content."
+      ]
     },
     {
       "task_id": "H5-01",
