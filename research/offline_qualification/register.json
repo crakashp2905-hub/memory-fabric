@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "860ce57ab8c4307c9b536840a78eb05490619d45f5ffd6d4b03a2539b282815e",
+    "sha256": "a614d3e7c52851539264d35b0977b7a9b5be83c9950def5da9071f282a4a0322",
     "tasks": 260
   },
   "source": {
-    "commit": "e6b62cb4e6a37dc1a1b2a87567bdbca3c5942e70",
-    "dirty": false
+    "commit": "b70573cc637519d85dc6bcb20fcf6b52f2e306be",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 152,
+      "DONE": 153,
       "PARTIAL": 4,
-      "TODO": 104
+      "TODO": 103
     },
-    "completed": 152,
+    "completed": 153,
     "total": 260,
-    "percent_complete": 58.46,
+    "percent_complete": 58.85,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,8 +307,8 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "d2041e6330adff7ad9e717b50f9418cd8689e4127ab34c3ffd09d58195095904",
-        "docs/VALIDATION.md": "0998ddae1e45d009756f5b539544a3486b75b4386d589376e8c1ed0852cc7547",
+        "README.md": "933a60a755b2c56d9403940505dd0f5c59cf515e7b5c2bcbc3f311a537133ef8",
+        "docs/VALIDATION.md": "bcc007e0af843d95ea24375b018cc5d1dc002ff188baf63c69bd22e46ceeebf4",
         "docs/STATUS_AT_HEAD.md": "8ace8b5e2158b549437e7cc2fd77afc78c3115ae8b0872a6641a51bd85e8c85f",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
@@ -3946,7 +3946,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/observability/control.py": "c1238465f4e0c15d47881c0d09ea9a1784a2152c8d0a18e9a0d2d6199918f00a",
+        "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
         "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
         "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
         "docs/SAFETY_AND_SECURITY.md": "e8cce74fa9eeeed8d27f3ebc93e39b4444d24c6f495518a8ad8f74e538afbcec",
@@ -5156,9 +5156,9 @@
         "research/results/p2-01-decision-detail.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/control.py": "c1238465f4e0c15d47881c0d09ea9a1784a2152c8d0a18e9a0d2d6199918f00a",
-        "src/memory_fabric/observability/static/dashboard.html": "36a7738dae8681e0bd6eece992c7cc4d50e20b0a19f81558982f9b4739740597",
-        "tests/test_control_center_ui.py": "c0d3db84a3cdf01005ba2b23cafb70b698888f6847fc00a372ed6ed0229f071a",
+        "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
+        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
+        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
         "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
         "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
         "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
@@ -5185,10 +5185,10 @@
         "research/results/p2-02-event-links.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/control.py": "c1238465f4e0c15d47881c0d09ea9a1784a2152c8d0a18e9a0d2d6199918f00a",
+        "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
         "src/memory_fabric/observability/server.py": "6184f80cd88ebff9f34664e9c8e2d2f60011fd5c43896e1c8d90ca3e04a9c998",
-        "src/memory_fabric/observability/static/dashboard.html": "36a7738dae8681e0bd6eece992c7cc4d50e20b0a19f81558982f9b4739740597",
-        "tests/test_control_center_ui.py": "c0d3db84a3cdf01005ba2b23cafb70b698888f6847fc00a372ed6ed0229f071a",
+        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
+        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
         "research/results/p2-02-event-links.txt": "170972a208a43c381d559f564db810aead99788fd8f9955fb9c2993bb037819c"
       },
@@ -5202,13 +5202,29 @@
       "priority": "P1",
       "task": "Show 'blocked because' reasons with a distinction between absent evidence and policy restriction.",
       "acceptance": "UI never describes unknown truth as false or unsupported as malicious",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-03-block-reasons.json",
+        "research/results/p2-03-block-reasons.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/control.py": "361d4b2afaf10865bbcf6dc9c5b692f81b4f652ba93b05984898c3cb4718f558",
+        "src/memory_fabric/observability/static/dashboard.html": "768a8a937875b1624245d1707b6161b7cdf4e7de1d02be7ab09a1efdadda9f0f",
+        "tests/test_control_center_ui.py": "e6b3f2578866952b62ead60aaa5ace0023c5c8eb334bc3941ed78444ad3e3ede",
+        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "research/results/p2-03-block-reasons.json": "64f1f02bf32d6e90c2a48896eafe6f13ef6ca02bace9f487ef8b8842d35044a6",
+        "research/results/p2-03-block-reasons.txt": "9237c1ae18573eb9d6501a398ea426e46f7b633841e46040d8ba1ebceb07e133"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. Reason categories organize recorded gate checks but do not establish semantic truth. The external CI matrix has not run for this branch."
+      ]
     },
     {
       "task_id": "P2-04",

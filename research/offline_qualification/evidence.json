@@ -2591,6 +2591,23 @@
       "limitations": [
         "Tests use local deterministic fixtures and were run on Windows 11/Python 3.13.5. Topic-similarity links are not provenance events; only actual lineage edges carry event IDs. The external CI matrix has not run for this branch."
       ]
+    },
+    {
+      "task_id": "P2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-03-block-reasons.json",
+        "research/results/p2-03-block-reasons.txt"
+      ],
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. Reason categories organize recorded gate checks but do not establish semantic truth. The external CI matrix has not run for this branch."
+      ]
     }
   ]
 }
