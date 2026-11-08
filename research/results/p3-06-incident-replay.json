@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "canary_absent": true,
+    "decision_explained": true,
+    "exports_identical": true,
+    "replay_explanations_identical": true
+  },
+  "explanation_sha256": "0c6908eea4a0a423a703099fd655dd932a289b8dd9887298358c578ef23a541f",
+  "limitations": [
+    "This replays a previously generated redacted explanation, not raw event history.",
+    "The digest detects accidental changes but is not a signature or proof of origin.",
+    "Pseudonymous identifiers remain in the redacted report; raw memory text is excluded."
+  ],
+  "passed": true,
+  "schema": "memory-fabric-incident-replay-fixture/1",
+  "scope": "synthetic local incident; artifact-only replay",
+  "source_report_sha256": "244b0b539b0c896d8c05e37ed5e42026ccd39c75386419bcc75ddc64a076a39c"
+}

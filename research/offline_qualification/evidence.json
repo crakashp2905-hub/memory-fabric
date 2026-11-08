@@ -3176,6 +3176,27 @@
         "Event-chain verification is a full scan run only when an operator explicitly requests the health check.",
         "A healthy point-in-time result is not an action authorization or a substitute for an off-host checkpoint."
       ]
+    },
+    {
+      "task_id": "P3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/incident_export.py",
+        "tools/replay_redacted_incident.py",
+        "tools/incident_replay_smoke.py",
+        "tests/test_incident_replay.py",
+        "tests/test_control_center_ui.py",
+        "docs/INCIDENT_REPLAY.md",
+        "docs/README.md",
+        "research/results/p3-06-incident-replay.json"
+      ],
+      "limitations": [
+        "Replay verifies and renders an already generated redacted report; it does not reconstruct the event history without the store.",
+        "SHA-256 detects accidental edits but is not a signature or proof of sender identity.",
+        "Pseudonymous identifiers remain in the artifact, while raw memory text is excluded."
+      ]
     }
   ]
 }
