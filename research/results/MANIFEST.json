@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 183,
+ "results": 184,
  "missing_field_counts": {
-  "git_sha": 78,
+  "git_sha": 79,
   "prereg": 75,
-  "dataset_digest": 180,
-  "model_id": 147,
-  "prompt_hash": 183,
-  "seed": 105,
-  "cost": 160,
-  "verdict": 119
+  "dataset_digest": 181,
+  "model_id": 148,
+  "prompt_hash": 184,
+  "seed": 106,
+  "cost": 161,
+  "verdict": 120
  },
  "population_counts": {
   "synthetic_scripted": 11,
-  "unclassified": 172
+  "unclassified": 173
  },
  "rows": [
   {
@@ -1838,6 +1838,24 @@
    "experiment_id": "h3-02-metadata-sidechannels",
    "file": "research/results/h3-02-metadata-sidechannels.json",
    "file_sha256": "9d44b79dd0a9457fe99383eee09823f0a8298303891632c937eaccb1919073df",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/h3-selective-federation.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "h3-03-physical-tenancy",
+   "file": "research/results/h3-03-physical-tenancy.json",
+   "file_sha256": "7987a9d699b6bbd5ed595f74267c30b661fd4530f6e613bb91c38a71475dc234",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,

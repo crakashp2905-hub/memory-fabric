@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **92 / 260 (35.38%)**. Internal status: **BLOCKED**.
+Strict completion: **93 / 260 (35.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `8d28cea10a981374e799a610dfbdb53dcaa53f4e9ed45e78f9d938e6a8faea6d`.
+Normalized ledger digest: `53b5a336ffab99ceff176b926cb000e90c3a81aee4e3fe39f12bceab197790fe`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 92 |
+| DONE | 93 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 5 |
-| TODO | 163 |
+| TODO | 162 |
 
 ## Graduation gates
 
@@ -211,7 +211,7 @@ Normalized ledger digest: `8d28cea10a981374e799a610dfbdb53dcaa53f4e9ed45e78f9d93
 | H2-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/actions.py`, `src/memory_fabric/tool_protocol.py`, `tests/test_confused_deputy.py`, `docs/DECISION_MODELS_AND_UTCP.md`, `research/results/h2-10-confused-deputy.json`, `research/results/h2-10-confused-deputy-tests.xml` |
 | H3-01 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/_fabric/core.py`, `src/memory_fabric/observability/control.py`, `tests/test_cross_tenant_surface_matrix.py`, `tests/test_privacy_federation.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-01-cross-tenant-matrix.json`, `research/results/h3-01-cross-tenant-matrix-tests.xml` |
 | H3-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_metadata_sidechannels.py`, `tests/test_metadata_leakage.py`, `docs/SAFETY_AND_SECURITY.md`, `research/results/h3-02-metadata-sidechannels.json`, `research/results/h3-02-metadata-sidechannels-tests.xml` |
-| H3-03 | P0 | TODO | NOT_TESTED | — |
+| H3-03 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tenancy.py`, `tests/test_tenancy.py`, `tests/test_backup_custody.py`, `research/results/h3-03-physical-tenancy.json`, `research/results/h3-03-physical-tenancy-tests.xml` |
 | H3-04 | P0 | TODO | NOT_TESTED | — |
 | H3-05 | P0 | TODO | NOT_TESTED | — |
 | H3-06 | P0 | TODO | NOT_TESTED | — |

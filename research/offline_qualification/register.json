@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "cc2fa980d5f3387c0b0444eed9584b8a81fbe9019bf4cf17ef41f54d2081776c",
+    "sha256": "8253782f8d6add6751eaea5e1919586bee638151506a0f33a9d34acfc4fd1d8c",
     "tasks": 260
   },
   "source": {
-    "commit": "979f984425966770381a1ef264fa07c177d0d896",
+    "commit": "18d6b6097f69bec1b44d966327b99df966209572",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 92,
+      "DONE": 93,
       "PARTIAL": 5,
-      "TODO": 163
+      "TODO": 162
     },
-    "completed": 92,
+    "completed": 93,
     "total": 260,
-    "percent_complete": 35.38,
-    "p0_open": 37,
+    "percent_complete": 35.77,
+    "p0_open": 36,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -307,7 +307,7 @@
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "bd1862af81a577844f767191991ed90f4ec58d33edb8779ce9322ca24baf47fa",
         "docs/VALIDATION.md": "9c2f66e1a2ee41fe13ce87adea337043220be5cf4c98524c576f1b4a6a6e8315",
-        "docs/STATUS_AT_HEAD.md": "92e0707a86411f3c4ded9218683ed483ee4b7ab9c6c16452be5dac8c30a17554",
+        "docs/STATUS_AT_HEAD.md": "cd0c518933bb7ce0a51f44e2d59349f1f1c6fffe62335d2d18ee9d8bd8fee778",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1498,7 +1498,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "df4addef9aa3ef45122c261f25535038a3c82f8a08613de91e8c768f1f6904ab",
-        "research/results/MANIFEST.json": "fe9566a05e97d571c0f701d327d0a9fc05eb5170463c21bd464b204512249b9f",
+        "research/results/MANIFEST.json": "cad10d418b2102765804e912ee99b66ef99578dbc2ad282aa1f63e229a130a71",
         "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3803,14 +3803,28 @@
       "task_id": "H3-03",
       "priority": "P0",
       "task": "Validate physically separated local tenant stores have distinct keys, paths and backup destinations.",
-      "acceptance": "Arbitrary tenant ID cannot escape store directory or alias another tenant's key",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Arbitrary tenant ID cannot escape store directory or alias another tenant's key. Evidence: `src/memory_fabric/tenancy.py`, `tests/test_tenancy.py`, `tests/test_backup_custody.py`, `research/results/h3-03-physical-tenancy.json`, `research/results/h3-03-physical-tenancy-tests.xml`",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tenancy.py",
+        "tests/test_tenancy.py",
+        "tests/test_backup_custody.py",
+        "research/results/h3-03-physical-tenancy.json",
+        "research/results/h3-03-physical-tenancy-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tenancy.py": "daf1048ec5f2f7c8126419579c37853e610e5c98bdfe4142d55e9a251fd06eec",
+        "tests/test_tenancy.py": "dea604785b848d3b5e4fec0694a9a8eb7c9cd667a6756837292cb50ba90ba61c",
+        "tests/test_backup_custody.py": "48f4ef6a73355877baa40b187a3ba3c701ebef1da6aec6cc6b4f1b60b4e336c1",
+        "research/results/h3-03-physical-tenancy.json": "3c0d510d873ce74516b0811256bfd90962079deff114dd26c17ba069d5151a53",
+        "research/results/h3-03-physical-tenancy-tests.xml": "44d8326bd818cd90adb5d3cfb43db900209387ec63feaf6b842c2a98b37b292c"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Backup destinations are explicit local filesystem paths supplied by the operator; remote backup isolation and external key custody are deployment responsibilities."
+      ]
     },
     {
       "task_id": "H3-04",
