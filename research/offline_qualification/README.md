@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **173 / 260 (66.54%)**. Internal status: **BLOCKED**.
+Strict completion: **175 / 260 (67.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `19ad5143a45a3bedbf2f66b32f64336cdd6b4d30ea3607764ca229f0397f0c37`.
+Normalized ledger digest: `e43d0e8edb746ab6f81805a41ea838ea36e4cb39dc670d215bd729a2909f5883`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 173 |
+| DONE | 175 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 83 |
+| TODO | 81 |
 
 ## Graduation gates
 
@@ -119,8 +119,8 @@ Normalized ledger digest: `19ad5143a45a3bedbf2f66b32f64336cdd6b4d30ea3607764ca22
 | R4-08 | P1 | TODO | NOT_TESTED | — |
 | R4-09 | P1 | DONE | SIMULATED | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/results/grand-50-agent-baseline-reproduction-v2.md`, `tests/test_r4_seed_reporting.py`, `research/results/r4-09-worst-seed-reporting.json`, `research/results/r4-09-worst-seed-reporting.txt` |
 | R4-10 | P1 | TODO | NOT_TESTED | — |
-| R5-01 | P1 | TODO | NOT_TESTED | — |
-| R5-02 | P1 | TODO | NOT_TESTED | — |
+| R5-01 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
+| R5-02 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
 | R5-03 | P1 | TODO | NOT_TESTED | — |
 | R5-04 | P1 | TODO | NOT_TESTED | — |
 | R5-05 | P1 | TODO | NOT_TESTED | — |

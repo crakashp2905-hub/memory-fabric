@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "79d123dc4d63ef0d3d183a8ddbc90564cfd0a2a5af16b70d1ed986526df4f1e3",
+    "sha256": "7127a199a77f540f35cff1bfa11c0d16d95fe03a90c89b6bc9a93ec1e3cf563b",
     "tasks": 260
   },
   "source": {
-    "commit": "9a31a0ee0dec47afa5ef511accfe77aacac9a60d",
+    "commit": "147d3495ed5a1b9d5c8da3d339fd0b8740825894",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 173,
+      "DONE": 175,
       "PARTIAL": 4,
-      "TODO": 83
+      "TODO": 81
     },
-    "completed": 173,
+    "completed": 175,
     "total": 260,
-    "percent_complete": 66.54,
+    "percent_complete": 67.31,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2494,27 +2494,43 @@
       "task_id": "R5-01",
       "priority": "P1",
       "task": "Write one falsifiable main contribution sentence for each selected research direction.",
-      "acceptance": "The sentence specifies the novelty hypothesis relative to existing repo mechanisms",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "The sentence specifies the novelty hypothesis relative to existing repo mechanisms.. Evidence: `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` (DONE: three selected directions have explicit hypotheses, baseline comparisons and falsifiers; global novelty and efficacy are not claimed.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "evidence_digests": {
+        "research/CONTRIBUTION_MAP.md": "34f8918a5b556220d55bb7fe47d6e04328473edf9a260ec585be3025af34cf2b",
+        "tests/test_contribution_map.py": "07378237d6eef899a2a45ea9fda70b4960e509c6def906f0f8e08243405f4a15"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Statements are preregistration hypotheses, not evidence of global novelty or efficacy."
+      ]
     },
     {
       "task_id": "R5-02",
       "priority": "P1",
       "task": "Create a contribution-by-component table identifying which mechanism predates the experiment.",
-      "acceptance": "Existing correction propagation, action gates and evidence completeness are credited as baselines",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Existing correction propagation, action gates and evidence completeness are credited as baselines.. Evidence: `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` (DONE: prior lineage/retraction, action-gate, answerability and Context Map mechanisms are cited as baselines with source/test references.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "evidence_digests": {
+        "research/CONTRIBUTION_MAP.md": "34f8918a5b556220d55bb7fe47d6e04328473edf9a260ec585be3025af34cf2b",
+        "tests/test_contribution_map.py": "07378237d6eef899a2a45ea9fda70b4960e509c6def906f0f8e08243405f4a15"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The map identifies prior repository mechanisms; it does not replace external literature review."
+      ]
     },
     {
       "task_id": "R5-03",

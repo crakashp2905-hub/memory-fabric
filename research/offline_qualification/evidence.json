@@ -2203,6 +2203,22 @@
       ]
     },
     {
+      "task_id": "R5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["research/CONTRIBUTION_MAP.md", "tests/test_contribution_map.py"],
+      "limitations": ["Statements are preregistration hypotheses, not evidence of global novelty or efficacy."]
+    },
+    {
+      "task_id": "R5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": ["research/CONTRIBUTION_MAP.md", "tests/test_contribution_map.py"],
+      "limitations": ["The map identifies prior repository mechanisms; it does not replace external literature review."]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,
