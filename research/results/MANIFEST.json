@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 233,
+ "results": 234,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 230,
-  "model_id": 197,
-  "prompt_hash": 233,
-  "seed": 154,
-  "cost": 210,
-  "verdict": 162
+  "dataset_digest": 231,
+  "model_id": 198,
+  "prompt_hash": 234,
+  "seed": 155,
+  "cost": 211,
+  "verdict": 163
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 221
+  "unclassified": 222
  },
  "rows": [
   {
@@ -3284,6 +3284,24 @@
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
    "git_sha": "3e2393fa052bc1fc6a46a074e84a5f73ff74ed24",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-09-memory-vs-json",
+   "file": "research/results/p1-09-memory-vs-json.json",
+   "file_sha256": "ddef35f4fa64e3c51f5ddc205082f7c07bb4503a6a1d21bb4282765cd8ca08ee",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": "8818b2e71a7158e7f723beaa3c3f1d2bce959562",
    "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,

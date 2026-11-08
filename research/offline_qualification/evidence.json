@@ -2523,6 +2523,22 @@
         "The guard blocks Python DNS and socket operations in the current process; it does not contain subprocesses or untrusted native code. Deploy an OS-level sandbox where those are in scope.",
         "Exact-commit execution is Windows 11/Python 3.13.5; the configured cross-platform CI matrix has not run for this branch."
       ]
+    },
+    {
+      "task_id": "P1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/memory_vs_json.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-09-memory-vs-json.json",
+        "research/results/p1-09-memory-vs-json.txt"
+      ],
+      "limitations": [
+        "This is a fixed two-record demonstration, not an efficacy benchmark or population estimate. The JSON-style baseline is explicitly unauthorised: it has no action-gating API. No external action is executed."
+      ]
     }
   ]
 }
