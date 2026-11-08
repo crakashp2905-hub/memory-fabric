@@ -488,6 +488,12 @@ Why the system remembers one memory
 
 - `id`: the memory id
 
+### `support-bundle`
+
+WRITES: export aggregate schema and health metrics without memory content, identifiers, tenant metadata, keys or event payloads
+
+- `--out`: path to the JSON support bundle
+
 ### `suspicious`
 
 Memories whose claim contradicts what the store knows: a corrected value restated, a value far out of range, or a contradiction of an established fact

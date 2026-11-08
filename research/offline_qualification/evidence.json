@@ -2286,6 +2286,24 @@
       "limitations": ["Historical track index is scoped to named primary tracks; it does not replace a complete review of every research result."]
     },
     {
+      "task_id": "P3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/support_bundle.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_support_bundle.py",
+        "docs/SUPPORT_BUNDLE.md",
+        "docs/CLI.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Aggregate counts and storage size can disclose approximate store volume; review before sharing.",
+        "The canary test verifies current export fields but is not a formal proof against all future schema changes."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

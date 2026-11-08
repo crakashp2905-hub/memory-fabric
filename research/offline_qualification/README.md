@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **180 / 260 (69.23%)**. Internal status: **BLOCKED**.
+Strict completion: **181 / 260 (69.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `be165f636c5fcf3296f460ded5a3d1db9e426091b478110a4ace064ca8ac5a7d`.
+Normalized ledger digest: `b73086f62f8791cce4497149216950e9c498ea76eaf3e915eca1649e83e6075b`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 180 |
+| DONE | 181 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 76 |
+| TODO | 75 |
 
 ## Graduation gates
 
@@ -267,7 +267,7 @@ Normalized ledger digest: `be165f636c5fcf3296f460ded5a3d1db9e426091b478110a4ace0
 | P3-06 | P1 | TODO | NOT_TESTED | — |
 | P3-07 | P1 | TODO | NOT_TESTED | — |
 | P3-08 | P1 | TODO | NOT_TESTED | — |
-| P3-09 | P1 | TODO | NOT_TESTED | — |
+| P3-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md`, `docs/CLI.md`, `docs/README.md` |
 | P3-10 | P1 | TODO | NOT_TESTED | — |
 | P4-01 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` |
 | P4-02 | P1 | DONE | SIMULATED | `examples/memory_vs_json.py`, `tests/test_examples_run.py`, `research/results/p4-02-ordinary-memory-adapter.json`, `research/results/p4-02-ordinary-memory-adapter.txt` |

@@ -158,6 +158,7 @@ use the product.
 | [Historical surface security](HISTORICAL_SURFACE_SECURITY.md) | Access controls for historical reads |
 | [Local check report](LOCAL_CHECK_REPORT.md) | Test outcomes and optional capability inventory |
 | [Local footprint qualification](LOCAL_FOOTPRINT.md) | Installed size, CLI startup, SQLite growth and idle CPU on one host |
+| [Support bundle](SUPPORT_BUNDLE.md) | Metadata-only diagnostics export and privacy boundary |
 | [Offline qualification checklist](MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md) | 260-item offline qualification scope |
 | [Modifier evidence packages](MODIFIER_EVIDENCE_PACKAGES.md) | Evidence attached to memory modifications |
 | [Next master checklist execution](NEXT_MASTER_CHECKLIST_EXECUTION.md) | Prior checklist evidence and remaining gates |

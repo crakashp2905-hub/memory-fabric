@@ -1221,6 +1221,18 @@ def cmd_audit_export(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_support_bundle(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Write aggregate diagnostics without memory content or identifiers."""
+    from .support_bundle import write_support_bundle
+
+    bundle = write_support_bundle(fabric, args.out)
+    metrics = bundle["metrics"]
+    print(f"wrote metadata-only support bundle to {args.out} "
+          f"({metrics['memory_count']} memories, {metrics['event_count']} events; "
+          "content, identifiers and tenant metadata excluded)")
+    return 0
+
+
 def cmd_import(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Import another store's export as reviewable candidates. See `migrate.py`."""
     from .migrate import import_records, read_records
@@ -3256,6 +3268,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out", required=True)
     p.add_argument("--kind", action="append", choices=["decisions", "changes", "access", "deletions"])
     p.add_argument("--since-seq", type=int, default=0)
+
+    p = add("support-bundle", cmd_support_bundle,
+            "WRITES: export aggregate schema and health metrics without memory content, "
+            "identifiers, tenant metadata, keys or event payloads")
+    p.add_argument("--out", required=True, help="path to the JSON support bundle")
 
     p = add("import", cmd_import,
             "WRITES: import another store's export (JSON list or JSONL: Mem0, LangChain "

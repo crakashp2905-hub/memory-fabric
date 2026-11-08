@@ -530,7 +530,7 @@ P2-06 completion evidence: the Control Center now renders read-only per-tool eve
 - [ ] **P3-06** · **P1** · Make incident replay deterministic for customer support on redacted artifacts. **Acceptance:** Same event history yields same explanation under two runs..
 - [ ] **P3-07** · **P1** · Add resource budget knobs for retention, request size, memory count and worker concurrency. **Acceptance:** Invalid settings reject at startup; defaults documented and safe..
 - [ ] **P3-08** · **P1** · Test safe behavior for no disk space, disabled optional dependency and offline mode. **Acceptance:** Feature degrades with named reason instead of crashing or silently skipping control..
-- [ ] **P3-09** · **P1** · Provide secure support-bundle export that contains no raw sensitive text by default. **Acceptance:** Canary scan confirms export includes schema/metrics but no protected memory..
+- [x] **P3-09** · **P1** · Provide secure support-bundle export that contains no raw sensitive text by default. **Acceptance:** Canary scan confirms export includes schema/metrics but no protected memory.. Evidence: `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md` (DONE: JSON export contains schema/aggregate metrics; canary confirms protected text, memory IDs and agent ID are absent.)..
 - [ ] **P3-10** · **P1** · Add runbook drill scripts for outage, key loss, corrupted DB, and mass retraction. **Acceptance:** Each drill has pass/fail proof and includes explicit irrecoverable-case guidance..
 
 
