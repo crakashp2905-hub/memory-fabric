@@ -197,6 +197,7 @@ external, physical-world, or efficacy validation.
 | 2026-11-08 | Refreshed offline qualification and full repository checks. | Focused gate PASS (68 tests, source digest in report); Ruff, mypy (155 files), docs (8) PASS. Full `tools/check.py` stopped at stalled loopback-dependent adversarial stage; remaining HTTP families NOT_RUN. |
 | 2026-11-09 | Bound capture artifacts to digest-only availability, exposure, citation, and verified decision receipt events (CDM-027); bound captured replay values to the exact authorized historical content through a registered canonical JSON observation adapter (CDM-068); completed all local gate stages for the available Python runtime (CDM-018). | Offline qualification PASS: 22 stages, 176 focused tests, Python 3.13.5, source tree digest in `research/results/cdm/offline-qualification/manifest.json`; Ruff and mypy pass. Current inventory: 236 complete, 4 partial, 0 open. |
 | 2026-11-09 | Added a digest-bound live checkpoint continuation that skips prefix policy transitions and matches cold replay at every seeded cut (CDM-063). | Checkpoint/replay suite passes all cut-point equivalence and mutation refusal tests; Ruff and mypy pass. Current inventory: 237 complete, 3 partial, 0 open. |
+| 2026-11-09 | Added nine hash- and revision-bound implementation/test bundles covering all 240 task ranges, with stable inventory validation (CDM-020). | Inventory tests, Ruff, mypy and 22-stage offline qualification pass. Bundles remain range-scoped, so unique per-task artifact mapping remains partial. |
 
 ## Rollback
 

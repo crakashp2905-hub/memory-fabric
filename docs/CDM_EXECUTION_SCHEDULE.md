@@ -21,8 +21,8 @@ No calendar dates or external service are required to keep the work moving.
 Checkpoint: 237 complete, 3 partial, 0 open. The 22-stage local offline
 qualification passes on the available Python 3.13.5 runtime. Python 3.11 and
 3.12 are not installed locally; compatibility on those versions is not claimed.
-The generated task inventory contains 240 unique IDs and current row/artifact
-hashes. CDM-027 binds authorized evidence to digest-only availability,
+The generated task inventory contains 240 unique IDs, source snapshots, row and
+artifact hashes, and nine range-scoped source bundles. CDM-027 binds authorized evidence to digest-only availability,
 exposure, citation, and verified decision-receipt events. CDM-068 materializes
 exact historical content through a registered canonical JSON observation
 adapter and refuses mismatched caller overlays. CDM-063 can skip prefix policy
@@ -32,7 +32,7 @@ seeded cold-replay equivalence passes at every cut.
 Remaining partial acceptance work:
 
 - CDM-009: complete in-house regression baseline and artifact hash.
-- CDM-020: direct implementation/source-commit linkage for every task evidence row.
+- CDM-020: unique task-specific implementation/source-commit linkage; current range-scoped bundles cover the task plan but do not identify one exact artifact per row.
 - CDM-035: full lineage-redaction and side-channel audit.
 
 The gate records synthetic local evidence only. It does not establish external,
