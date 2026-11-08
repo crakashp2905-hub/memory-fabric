@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import subprocess
+import tempfile
 import venv
 from pathlib import Path
 from typing import Any
@@ -73,9 +74,9 @@ def main() -> int:
     parser.add_argument("candidate_wheel", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    scratch = ROOT / ".test-tmp" / "upgrade-rollback"
-    scratch.mkdir(parents=True, exist_ok=True)
-    scratch = scratch.resolve()
+    temp_root = ROOT / ".test-tmp"
+    temp_root.mkdir(parents=True, exist_ok=True)
+    scratch = Path(tempfile.mkdtemp(prefix="upgrade-rollback-", dir=temp_root)).resolve()
     venv_path = scratch / "venv"
     venv.EnvBuilder(with_pip=True).create(venv_path)
     bindir = venv_path / ("Scripts" if os.name == "nt" else "bin")
