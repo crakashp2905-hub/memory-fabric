@@ -3106,6 +3106,38 @@
       ]
     },
     {
+      "task_id": "R4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "limitations": [
+        "All five scripted arms receive equal context/retrieval/decision/tool-call budgets and a shared wall-time ceiling, while actual elapsed time remains an outcome. SQLite page allocation is a local storage proxy. The 50-agent three-seed fixture is synthetic; runtime and storage do not transfer to production."
+      ]
+    },
+    {
+      "task_id": "R5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_r5_06_pareto_qualification.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "limitations": [
+        "Pareto points cover five deterministic scripted arms, three seeds and the fixed 50-agent workload. Latency is local host timing, and memory cost is in-memory SQLite page allocation; neither is deployment cost evidence. The oracle dominates Memory Fabric in this measured fixture, so no general superiority claim is made."
+      ]
+    },
+    {
       "task_id": "R4-05",
       "status": "DONE",
       "acceptance_passed": true,

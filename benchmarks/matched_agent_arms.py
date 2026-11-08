@@ -21,6 +21,7 @@ TOOL = "publish"
 TOOL_CATALOG = ("publish", "archive", "notify")
 FAILURE_CLASSES = ("retrieval", "insufficient_evidence", "policy_refusal", "coordination", "tool_error")
 HIGH_RISK_FAMILIES = frozenset({"corrected", "contested"})
+WALL_TIME_BUDGET_MS_PER_RUN = 10_000
 
 
 def _percentile(values: list[float], p: float) -> float:
@@ -81,6 +82,8 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                        "failure_classes": {name: 0 for name in FAILURE_CLASSES}}
              for family in FAMILIES}
     details = []
+    retrieval_calls = 0
+    context_items_exposed = 0
     per_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
     blanket_source_withdrawn = False
     started = time.perf_counter()
@@ -100,12 +103,15 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                 fabric.elevate(evidence_id, approver="reviewer", reason="fixture source checked")
             initial_exposure_ids = []
             for agent in agents:
-                exposed = (fabric.retrieve(agent, f"Record {case_key}", within=[evidence_id],
-                                           min_relevance=0.0).exposed if evidence_id else [])
+                exposed = fabric.retrieve(agent, f"Record {case_key}",
+                                          within=[evidence_id] if evidence_id else [],
+                                          min_relevance=0.0).exposed
+                retrieval_calls += 1
                 ids = [memory.id for memory in exposed]
                 initial_exposure_ids.append(ids)
                 if ids != ([evidence_id] if evidence_id else []):
                     raise RuntimeError("matched arm initial evidence exposure failed")
+                context_items_exposed += len(ids)
             if evidence_id:
                 certificates = {agent: fabric.certify(task["task_id"], [evidence_id], agent)
                                 for agent in agents}
@@ -119,6 +125,16 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                 fabric.quarantine(evidence_id, actor="reviewer", reason="source correction",
                                   basis="contradicted")
                 blanket_source_withdrawn = True
+
+            # Every arm receives the same second retrieval opportunity and
+            # operation budget after the task's lifecycle updates. Only
+            # pooled_shared consumes the result.
+            fresh_retrieval = {}
+            for agent in agents:
+                fresh_retrieval[agent] = fabric.retrieve(
+                    agent, f"Record {case_key}", within=[evidence_id] if evidence_id else [],
+                    min_relevance=0.0).exposed
+                retrieval_calls += 1
 
             expected = family == "supported"
             family_result = result[family]
@@ -137,8 +153,7 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                         allowed = evidence_id is not None
                         reason = "cached_initial_evidence" if allowed else "no_initial_evidence"
                     elif arm == "pooled_shared":
-                        current = (fabric.retrieve(agent, f"Record {case_key}", within=[evidence_id],
-                                                   min_relevance=0.0).exposed if evidence_id else [])
+                        current = fresh_retrieval[agent]
                         allowed = bool(current)
                         reason = "shared_retrieval_hit" if allowed else "shared_retrieval_miss"
                     elif arm == "blanket_retraction":
@@ -202,6 +217,9 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                                                "failure_classes": task_failure_classes,
                                                "affected_agent_count": mismatched_agents}
                                               if task_failure_classes else None)})
+        memory_storage_bytes = (
+            int(fabric.log._conn.execute("PRAGMA page_count").fetchone()[0])
+            * int(fabric.log._conn.execute("PRAGMA page_size").fetchone()[0]))
     agent_summaries = []
     for agent, outcomes in sorted(per_agent.items()):
         high_risk = [item for item in outcomes if item["high_risk"]]
@@ -241,6 +259,12 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
             "tool_registry_order": tool_order,
             "agent_identity_order_sha256": _hash(agents),
             "agent_identity_scheme": "seeded_opaque_ids_v1" if randomize_order else "ordinal_control",
+            "retrieval_calls": retrieval_calls,
+            "context_items_exposed": context_items_exposed,
+            "simulated_decision_attempts": agent_count * len(tasks),
+            "external_tool_calls": 0,
+            "wall_time_budget_ms": WALL_TIME_BUDGET_MS_PER_RUN,
+            "memory_storage_bytes": memory_storage_bytes,
             "elapsed_s": round(time.perf_counter() - started, 6),
             "model_calls": 0, "model_tokens": 0, "model_usd": 0}
 
