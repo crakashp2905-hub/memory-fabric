@@ -578,6 +578,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       </select>
     </div>
     <div id="memories-table"></div>
+    <div id="memory-pages" class="filters" aria-label="Memory history pages"></div>
   </section>
 
   <section id="tab-changes" hidden>
@@ -856,8 +857,12 @@ async function loadReview() {
 
 /* ---------- memories ---------- */
 
+const MEMORY_PAGE_SIZE = 100;
+let MEMORY_OFFSET = 0;
 async function loadMemories() {
   const p = new URLSearchParams();
+  p.set("limit", String(MEMORY_PAGE_SIZE));
+  p.set("offset", String(MEMORY_OFFSET));
   const q = $("f-q").value.trim();
   if (q) p.set("q", q);
   for (const [key, el] of [["state", "f-state"], ["scope", "f-scope"], ["type", "f-type"]]) {
@@ -866,9 +871,15 @@ async function loadMemories() {
   p.set("sort", $("f-sort").value);
 
   const rows = await api("/api/memories?" + p.toString());
-  $("c-memories").textContent = `(${rows.length})`;
+  $("c-memories").textContent = `(${MEMORY_OFFSET + rows.length}${rows.length === MEMORY_PAGE_SIZE ? "+" : ""})`;
+  const pages = $("memory-pages");
+  pages.innerHTML = `<span class="sub">Showing ${rows.length ? MEMORY_OFFSET + 1 : 0}–${MEMORY_OFFSET + rows.length}</span>
+    <button id="memory-prev" ${MEMORY_OFFSET === 0 ? "disabled" : ""}>Previous</button>
+    <button id="memory-next" ${rows.length < MEMORY_PAGE_SIZE ? "disabled" : ""}>Next</button>`;
+  $("memory-prev").onclick = () => { MEMORY_OFFSET = Math.max(0, MEMORY_OFFSET - MEMORY_PAGE_SIZE); loadMemories().catch(showError); };
+  $("memory-next").onclick = () => { MEMORY_OFFSET += MEMORY_PAGE_SIZE; loadMemories().catch(showError); };
   if (!rows.length) {
-    $("memories-table").innerHTML = `<div class="empty">No memories match.</div>`;
+    $("memories-table").innerHTML = `<div class="empty">No memories match this page or filter.</div>`;
     return;
   }
   $("memories-table").innerHTML = `
@@ -1552,11 +1563,11 @@ function wire() {
   });
 
   for (const id of ["f-state", "f-scope", "f-type", "f-sort"]) {
-    $(id).addEventListener("change", () => loadMemories().catch(showError));
+    $(id).addEventListener("change", () => { MEMORY_OFFSET = 0; loadMemories().catch(showError); });
   }
   $("f-q").addEventListener("input", () => {
     clearTimeout(filterTimer);
-    filterTimer = setTimeout(() => loadMemories().catch(showError), 180);
+    filterTimer = setTimeout(() => { MEMORY_OFFSET = 0; loadMemories().catch(showError); }, 180);
   });
   $("s-q").addEventListener("input", () => {
     clearTimeout(searchTimer);

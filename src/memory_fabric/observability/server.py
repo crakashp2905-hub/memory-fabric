@@ -201,13 +201,18 @@ class Api:
                 return report.retention_preview(f)
 
             case ["memories"]:
+                page_size = _int(params, "limit", 200) or 200
+                offset = _int(params, "offset", 0) or 0
+                if page_size < 1 or offset < 0:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "limit must be positive and offset non-negative")
                 rows = report.memory_rows(
                     f,
                     state=_one(params, "state"),
                     scope=_one(params, "scope"),
                     type=_one(params, "type"),
                     query=_one(params, "q"),
-                    limit=_int(params, "limit", 200),
+                    limit=min(page_size, 1000),
+                    offset=offset,
                     sort=_one(params, "sort") or "created",
                 )
                 return [r.to_json() for r in rows]
@@ -552,8 +557,8 @@ class Handler(BaseHTTPRequestHandler):
                 result = self.api.handle(path, parse_qs(parsed.query))
             except ApiError as exc:
                 self._send_json({"error": exc.message}, exc.status, body)
-            except Exception as exc:  # pragma: no cover - defensive
-                self._send_json({"error": f"internal error: {exc}"}, HTTPStatus.INTERNAL_SERVER_ERROR, body)
+            except Exception:  # pragma: no cover - defensive
+                self._send_json({"error": "internal error"}, HTTPStatus.INTERNAL_SERVER_ERROR, body)
             else:
                 self._send_json(result, HTTPStatus.OK, body)
             return

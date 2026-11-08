@@ -157,6 +157,17 @@ class TestPage(unittest.TestCase):
         self.assertIn("/api/actions/timeline?tool=", html)
         self.assertIn("external effect requires reconciliation", html)
 
+    def test_large_history_has_bounded_pages_and_generic_error_boundary(self):
+        html = HTML.read_text(encoding="utf-8")
+        self.assertIn('p.set("limit", String(MEMORY_PAGE_SIZE))', html)
+        self.assertIn('p.set("offset", String(MEMORY_OFFSET))', html)
+        self.assertIn('id="memory-prev"', html)
+        self.assertIn('id="memory-next"', html)
+        self.assertIn("No memories match this page or filter.", html)
+        server = (HTML.parents[4] / "src/memory_fabric/observability/server.py").read_text(encoding="utf-8")
+        self.assertIn('{"error": "internal error"}', server)
+        self.assertNotIn('{"error": f"internal error: {exc}"}', server)
+
     def test_accessibility_contract_has_names_keyboard_paths_and_textual_statuses(self):
         html = HTML.read_text(encoding="utf-8")
         for label in ("Filter memories by content or id", "Filter memories by state",

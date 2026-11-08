@@ -15,6 +15,7 @@ import dataclasses
 import json
 import threading
 import unittest
+from unittest.mock import patch
 import urllib.error
 import urllib.request
 from http import HTTPStatus
@@ -34,7 +35,7 @@ from memory_fabric.observability.auth import (
     InsecureConfiguration,
     build_config,
 )
-from memory_fabric.observability.server import build_server
+from memory_fabric.observability.server import Api, build_server
 
 
 def populated(path: str = ":memory:", **kwargs) -> MemoryFabric:
@@ -444,6 +445,13 @@ class TestServer(unittest.TestCase):
             status = exc.code
         parsed = json.loads(body) if "json" in ctype else body
         return status, parsed, ctype
+
+    def test_unexpected_corrupt_read_error_is_generic_and_does_not_leak(self) -> None:
+        with patch.object(Api, "handle", side_effect=RuntimeError("private evidence canary")):
+            status, body, _ = self.get("/api/memories")
+        self.assertEqual(status, 500)
+        self.assertEqual(body, {"error": "internal error"})
+        self.assertNotIn("private evidence canary", json.dumps(body))
 
     def test_serves_the_dashboard(self) -> None:
         status, body, ctype = self.get("/")
