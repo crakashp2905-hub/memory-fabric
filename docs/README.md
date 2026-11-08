@@ -113,6 +113,7 @@ use the product.
 ## Memory Fabric 2 roadmap
 
 - [Product and research masterplan](MEMORY_FABRIC_2_PRODUCT_RESEARCH_MASTERPLAN.md)
+- [When ordinary vector retrieval is enough](product/WHEN_TO_USE_MEMORY_FABRIC.md)
 - [Implementation status and compiler ADR](MF2_IMPLEMENTATION_STATUS.md)
 
 ## Current checklist work
