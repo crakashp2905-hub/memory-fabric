@@ -5,7 +5,7 @@
     "network_calls": 0,
     "tool_calls": 0
   },
-  "output_sha256": "b28b98d266c90a528de1386612cc7083796fbe5e32e951ab8db767012249466f",
+  "output_sha256": "497285b177c4eca94cb5a667f5b716d25b065f201b156d2036640eb91aaadbc3",
   "platform": "Windows-11-10.0.26200-SP0",
   "python": "3.13.5",
   "remote_telemetry": false,
@@ -18,21 +18,21 @@
   "summary": {
     "10": {
       "max_peak_bytes": 1144,
-      "p50_cpu_ns": 12499.5,
-      "p95_wall_ns": 10537,
-      "p99_wall_ns": 10537
+      "p50_cpu_ns": 11718.5,
+      "p95_wall_ns": 9938,
+      "p99_wall_ns": 9938
     },
     "100": {
       "max_peak_bytes": 6584,
-      "p50_cpu_ns": 91406.0,
-      "p95_wall_ns": 90786,
-      "p99_wall_ns": 90786
+      "p50_cpu_ns": 92968.5,
+      "p95_wall_ns": 92236,
+      "p99_wall_ns": 92236
     },
     "1000": {
       "max_peak_bytes": 99008,
       "p50_cpu_ns": 1406250.0,
-      "p95_wall_ns": 1263069,
-      "p99_wall_ns": 1263069
+      "p95_wall_ns": 1356009,
+      "p99_wall_ns": 1356009
     }
   },
   "workload_sha256": "373680dc150886c94aa70765b3b43b543feefa36365f44520181a84180b18ed9"

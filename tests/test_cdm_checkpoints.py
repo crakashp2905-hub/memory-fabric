@@ -84,6 +84,34 @@ class TestCheckpoints(unittest.TestCase):
         cache.invalidate_principal("tenant-a", "agent-a")
         self.assertIsNone(cache.get(key, fabric=self.fabric, session=self.session))
 
+    def test_blanket_invalidation_discards_unrelated_valid_checkpoint(self):
+        other_id = self.session.remember("independent checkpoint evidence")
+        other = self.fabric.state.memories[other_id]
+        other_ref = BeliefReference(other_id, other.version, "tenant-a", "e" * 64)
+        other_checkpoint = create(source_head=self.fabric.log.head_seq,
+            tenant_id="tenant-a", principal_id="agent-a", evidence=(other_ref,),
+            updater_id="up-v1", updater_digest="b" * 64, policy_id="pol-v1",
+            policy_digest="c" * 64)
+        affected_key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
+            "b" * 64, "c" * 64, None, "d" * 64)
+        independent_key = CacheKey("tenant-a", "agent-a", ((other_id, other_ref.version),),
+            "b" * 64, "c" * 64, None, "f" * 64)
+
+        targeted = CheckpointCache()
+        targeted.put(affected_key, self.checkpoint)
+        targeted.put(independent_key, other_checkpoint)
+        targeted.invalidate_memory(self.memory_id)
+        self.assertIsNone(targeted.get(affected_key, fabric=self.fabric, session=self.session))
+        self.assertEqual(targeted.get(independent_key, fabric=self.fabric,
+                                      session=self.session), other_checkpoint)
+
+        blanket = CheckpointCache()
+        blanket.put(affected_key, self.checkpoint)
+        blanket.put(independent_key, other_checkpoint)
+        blanket.clear()
+        self.assertIsNone(blanket.get(affected_key, fabric=self.fabric, session=self.session))
+        self.assertIsNone(blanket.get(independent_key, fabric=self.fabric, session=self.session))
+
     def test_cache_tenant_collision_and_poisoning_are_misses(self):
         key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
                        "b" * 64, "c" * 64, None, "d" * 64)
