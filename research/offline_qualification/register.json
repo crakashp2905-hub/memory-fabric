@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "cb1bf766c2573a610bdd3fe79aa6b2259ac652208a703a268d53812be1bb4263",
+    "sha256": "5b5e222d24373e59f79b709671147a3d5d3f8c45fea2fb328bef25ed963d3a7d",
     "tasks": 260
   },
   "source": {
-    "commit": "e63bfb0cd1dc36406f11216098e882d0866f9c45",
+    "commit": "3c4c8f600a996c3013a2cad929d2d9859ec9ed43",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 114,
+      "DONE": 116,
       "PARTIAL": 14,
-      "TODO": 132
+      "TODO": 130
     },
-    "completed": 114,
+    "completed": 116,
     "total": 260,
-    "percent_complete": 43.85,
-    "p0_open": 24,
+    "percent_complete": 44.62,
+    "p0_open": 22,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -3393,27 +3393,47 @@
       "task_id": "H1-03",
       "priority": "P0",
       "task": "Prove untrusted instruction text can never mint grant, change policy, or become system authority.",
-      "acceptance": "Differential tests verify identical grants and rights before and after malicious import",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Differential tests verify identical grants and rights before and after malicious import. Evidence: `tests/test_authority.py::TheBoundarySurvivesEveryTransformation`, `tests/test_authority.py::test_malicious_import_does_not_change_policy_or_grant_rights`, `tests/test_confused_deputy.py`, `research/results/h1-03-04-authority-delayed-poisoning.xml` (DONE: imported untrusted content preserves the preexisting grant set and remains unusable as action evidence; effective identity is separately bound to authenticated session; 9 focused tests pass. This verifies local policy behavior, not arbitrary host code modification)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_confused_deputy.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
+        "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The test proves local governed-policy behavior; it does not constrain arbitrary trusted host code or prove semantic truth."
+      ]
     },
     {
       "task_id": "H1-04",
       "priority": "P0",
       "task": "Test delayed poisoning where benign content becomes malicious after later edits or summarization.",
-      "acceptance": "Provenance retains origin and trust level across transformations and revisions",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Provenance retains origin and trust level across transformations and revisions. Evidence: `tests/test_authority.py::TheBoundarySurvivesEveryTransformation`, `tests/test_authority.py::DelayedActivation`, `tests/test_security_regression.py::TestInjection`, `research/results/h1-03-04-authority-delayed-poisoning.xml` (DONE: benign-to-instruction revision becomes untrusted and quarantined; derived summary, tool copy and federation import preserve hostile source lineage and cannot authorize the governed tool; 9 focused tests pass)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_security_regression.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
+        "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml": "90685610db6954c9adf9dc5bf6eb972f82113207a9379a7a5ab159384700e90c"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Deterministic local fixtures cover revisions, derivation, tool copies and federation; they do not establish detection of all semantic paraphrases."
+      ]
     },
     {
       "task_id": "H1-05",
@@ -3536,7 +3556,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "tests/test_authority.py": "3c42a605fdb8c6769d01fa0ec79c96244e9452b047c13c58fc23ee29deaa5502",
+        "tests/test_authority.py": "71efee570032b21c1f8950e3c9afb42ffe9efc32b2306ff51daaa5fc365c7a0f",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
       },

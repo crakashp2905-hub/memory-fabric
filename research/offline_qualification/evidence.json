@@ -1480,6 +1480,34 @@
       ]
     },
     {
+      "task_id": "H1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_confused_deputy.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "limitations": [
+        "The test proves local governed-policy behavior; it does not constrain arbitrary trusted host code or prove semantic truth."
+      ]
+    },
+    {
+      "task_id": "H1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_security_regression.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "limitations": [
+        "Deterministic local fixtures cover revisions, derivation, tool copies and federation; they do not establish detection of all semantic paraphrases."
+      ]
+    },
+    {
       "task_id": "H1-02",
       "status": "DONE",
       "acceptance_passed": true,

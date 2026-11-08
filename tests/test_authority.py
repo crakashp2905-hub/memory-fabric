@@ -87,6 +87,18 @@ class TheBoundarySurvivesEveryTransformation(unittest.TestCase):
         with self.assertRaises(PolicyViolation):
             self.peer.elevate(imported, approver="peer-lead", reason="looks fine")
 
+    def test_malicious_import_does_not_change_policy_or_grant_rights(self) -> None:
+        before_policy = gate(self.peer).policy
+        before_grants = before_policy.grants
+        imported = offer(self.origin, self.tool_copy, self.peer, recipient_agent="x",
+                         activate=True).imported_memory_id
+        self.assertIsNotNone(imported)
+        after_policy = gate(self.peer).policy
+        self.assertEqual(after_policy.grants, before_grants)
+        self.assertEqual(self.peer.authority(imported).trust, authority.UNTRUSTED)
+        cert = self.peer.certify("spin", [imported], "ops")
+        self.assertFalse(gate(self.peer).authorize("spin", "ops", cert).allowed)
+
     def test_the_gate_refuses_every_copy_as_evidence(self) -> None:
         g = gate(self.origin)
         for memory_id in (self.summary, self.tool_copy):
