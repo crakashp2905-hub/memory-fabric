@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agent",
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
-           "agent_on_the_fabric"]
+           "agent_on_the_fabric", "why_blocked"]
 
 
 class Examples(unittest.TestCase):
@@ -30,6 +30,13 @@ class Examples(unittest.TestCase):
                                       capture_output=True, text=True, timeout=300, cwd=ROOT)
                 self.assertEqual(done.returncode, 0, done.stderr[-2000:])
                 self.assertIn("DEMO ONLY:", done.stdout)
+                if name == "why_blocked":
+                    example_source = (ROOT / "examples" / "why_blocked.py").read_text(
+                        encoding="utf-8")
+                    self.assertNotIn("fabric.log", example_source)
+                    self.assertIn("evidence_withdrawn", done.stdout)
+                    self.assertIn("Evidence pointer: memory", done.stdout)
+                    self.assertIn("Repair: re-certify with current evidence", done.stdout)
 
     def test_getting_started_runs_from_a_clean_offline_install(self) -> None:
         scratch = ROOT / ".test-tmp"
