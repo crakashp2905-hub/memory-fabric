@@ -87,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     tests.append("tests.test_cdm_dependency_shapes")
     tests.append("tests.test_cdm_federated_provenance")
     tests.append("tests.test_cdm_correction_comparison")
+    tests.append("tests.test_cdm_correction_utility")
     tests.append("tests.test_cdm_architecture_superiority")
     steps = [run_step("CDM focused unit suite", [sys.executable, "-m", "unittest", *tests]),
              run_step("battery demonstrator", [sys.executable, "-m", "benchmarks.cdm_battery_world",
@@ -140,7 +141,9 @@ def main(argv: list[str] | None = None) -> int:
              run_step("federated CDM provenance preservation", [sys.executable,
                          "-m", "unittest", "tests.test_cdm_federated_provenance"]),
              run_step("correction review strategy comparison", [sys.executable,
-                         "-m", "unittest", "tests.test_cdm_correction_comparison"])]
+                         "-m", "unittest", "tests.test_cdm_correction_comparison"]),
+             run_step("frozen correction-aware utility contract", [sys.executable,
+                         "-m", "unittest", "tests.test_cdm_correction_utility"])]
     # Import gate: normal MemoryFabric import remains usable and import is inert
     # with respect to network sockets and filesystem state.
     steps.append(run_step("inert package import", [sys.executable, "-c",

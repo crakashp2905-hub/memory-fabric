@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (219)
+## Complete at this checkpoint (220)
 
 | Task | Evidence |
 |---|---|
@@ -182,6 +182,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-196 | Partition fixture imports an original and differently worded derivative, quarantines the origin without delivering retraction, and confirms both recipient snapshots remain locally active while `assess_fabric_source_roots` reports one shared source root. This prevents stale imported paraphrases from becoming misleading independent corroboration; it does not claim remote freshness during the partition. Regression is included in the federation provenance gate stage. |
 | CDM-197 | Regression captures a valid source-root assessment and cache hit, erases the evidence without calling cache invalidation, then confirms the next cache lookup misses and the provenance assessment raises generic `Erased`. Current local erasure/access policy therefore dominates prior cached state; checkpoint suite and full gate cover the regression. |
 | CDM-198 | `docs/CDM_CORRECTION_COMPARISON.md` and a deterministic three-decision/two-source-policy fixture compare blanket review (3 records), existing dependence (2 touched: 1 depended/1 would-stand), and CDM review output (2 ranked, explicitly labeled rows; unrelated work omitted). The comparison found and fixed tenant omission in dependence counterfactual certificate verification. CDM remains review-only and performs no action/correction. Focused test and integrated gate pass. |
+| CDM-199 | Frozen `research/prereg/cdm-correction-aware-utility.md` fixes the dependent/false-review/miss costs, per-review cost, seeds, and GO rule: ≥0.10 paired gain per action, 20 confirmatory pairs, paired 95% bootstrap lower bound >0, zero missed dependent actions, and zero safety/authority violations. Scorer and boundary tests are in `benchmarks/cdm_correction_utility.py`; CDM-198 fixture utilities are 2.567 blanket, 3.300 dependence, 2.933 CDM. This is a preregistered threshold, not an efficacy result. |
 | CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
 | CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
 | CDM-181 | Tenant-scoped correction report uses influence graph actual retrieval/citation/authorization labels |
@@ -244,12 +245,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (9)
+## Open (8)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-199 | Freeze correction-aware utility threshold. |
 | CDM-206 | Enforce allowed temp path and cleanup. |
 | CDM-209 | Prevent cross-policy hash confusion. |
 | CDM-211 | Prevent RNG-state forgery. |
