@@ -498,6 +498,25 @@
       ]
     },
     {
+      "task_id": "N3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-05-randomized-intervention-harness-v1.md",
+        "benchmarks/intervention_harness.py",
+        "benchmarks/n3_05_intervention_harness.py",
+        "tests/test_n3_05_intervention_harness.py",
+        "research/results/n3-05-intervention-harness.json",
+          "research/results/n3-05-intervention-harness.ndjson",
+        "research/results/n3-05-intervention-harness.md",
+        "research/results/n3-05-intervention-harness-tests.xml"
+      ],
+      "limitations": [
+        "Seeded SHA-256 draws qualify replayable pseudorandom assignment and observation logging, not cryptographic randomness, treatment-effect recovery, or missing-data identification."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
