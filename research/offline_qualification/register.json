@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c2f8fab9bf722773fd011baea62e0ff52902490d3a115957f0d5e14ab52c17e8",
+    "sha256": "2ed66a2cf8be4660c81a46006ffb2c260435f2ba575803e815f37b671fd0053f",
     "tasks": 260
   },
   "source": {
-    "commit": "a15d8958ceb31ed5c457b7f2429676633017e7b0",
+    "commit": "d4a73f1fc50b3564a82de1a32c933c31585f13fb",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 211,
+      "DONE": 212,
       "PARTIAL": 3,
-      "TODO": 46
+      "TODO": 45
     },
-    "completed": 211,
+    "completed": 212,
     "total": 260,
-    "percent_complete": 81.15,
+    "percent_complete": 81.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -652,8 +652,8 @@
         "docs/EVIDENCE_CHAIN_SELECTION.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/chains.py": "a6586c7029ada11a8b6981b2533da7a1c69e0db33e46e17d42f8117dca05e7c8",
-        "tests/test_chains.py": "d360b9ede46e65247a42d1950e14efebe9d50da4ce5ff1f025f5f1416dddeaae",
+        "src/memory_fabric/chains.py": "61745001808aaf0b55324844fffaea436020d8645425db3bcd4e17937ae132ba",
+        "tests/test_chains.py": "899d03b87951472f41b81be0ee1580032e659af192ec5f462a64fc10298674c1",
         "docs/EVIDENCE_CHAIN_SELECTION.md": "40ffcfe2af940419fd7060e50eecd272f748cae90b26836175c39bc8e4866ca1"
       },
       "evidence_issues": {},
@@ -785,9 +785,9 @@
         "docs/EVIDENCE_PACKAGE_BUDGETS.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/chains.py": "a6586c7029ada11a8b6981b2533da7a1c69e0db33e46e17d42f8117dca05e7c8",
-        "tests/test_chains.py": "d360b9ede46e65247a42d1950e14efebe9d50da4ce5ff1f025f5f1416dddeaae",
-        "docs/EVIDENCE_PACKAGE_BUDGETS.md": "312cde1fe69ac0b137afe0ab3e55702e7ea423946c62c7c551a3516046368493"
+        "src/memory_fabric/chains.py": "61745001808aaf0b55324844fffaea436020d8645425db3bcd4e17937ae132ba",
+        "tests/test_chains.py": "899d03b87951472f41b81be0ee1580032e659af192ec5f462a64fc10298674c1",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md": "36a90e1356882afd1a29430ca1b7d4f4b2d0501ea8d6f13f938899bb10e3cb40"
       },
       "evidence_issues": {},
       "limitations": [
@@ -3361,14 +3361,27 @@
       "task_id": "N2-06",
       "priority": "P1",
       "task": "Build bounded graph-evidence packer that retains necessary intermediate links.",
-      "acceptance": "At fixed context budget, covered dependencies never go missing without surfaced failure status",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "At fixed context budget, covered dependencies never go missing without surfaced failure status. Evidence: `src/memory_fabric/chains.py`, `tests/test_chains.py`, `docs/EVIDENCE_PACKAGE_BUDGETS.md`, `research/results/n2-06-graph-evidence-tests.xml` (DONE: packer retains every necessary step in the chain or returns an empty incomplete package with missing IDs and a stable reason when the required set exceeds budget, content is missing, or the chain itself is incomplete. Optional evidence can be omitted or skipped when unavailable while mandatory bridges remain. Focused suite: 32 tests and 5 subtests pass.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md",
+        "research/results/n2-06-graph-evidence-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/chains.py": "61745001808aaf0b55324844fffaea436020d8645425db3bcd4e17937ae132ba",
+        "tests/test_chains.py": "899d03b87951472f41b81be0ee1580032e659af192ec5f462a64fc10298674c1",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md": "36a90e1356882afd1a29430ca1b7d4f4b2d0501ea8d6f13f938899bb10e3cb40",
+        "research/results/n2-06-graph-evidence-tests.xml": "ca644435c3b2e8acd6ff4116448b2d5c5d8a336df33e3f4317641f133b20e94b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Token budgets use a deterministic local estimate of one token per four characters with per-item rounding; provider-specific tokenization is not measured.",
+        "The packer preserves dependencies marked necessary by EvidenceChain and surfaces incomplete chain status; it does not independently establish that retrieval discovered every real-world dependency."
+      ]
     },
     {
       "task_id": "N2-07",
