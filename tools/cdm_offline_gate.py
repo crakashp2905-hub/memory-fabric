@@ -153,7 +153,9 @@ def main(argv: list[str] | None = None) -> int:
              run_step("correction review strategy comparison", [sys.executable,
                          "-m", "unittest", "tests.test_cdm_correction_comparison"]),
              run_step("frozen correction-aware utility contract", [sys.executable,
-                         "-m", "unittest", "tests.test_cdm_correction_utility"])]
+                         "-m", "unittest", "tests.test_cdm_correction_utility"]),
+             run_step("240-task evidence inventory", [sys.executable,
+                         "-m", "tools.cdm_task_inventory"])]
     # Import gate: normal MemoryFabric import remains usable and import is inert
     # with respect to network sockets and filesystem state.
     steps.append(run_step("inert package import", [sys.executable, "-c",

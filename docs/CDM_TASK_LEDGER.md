@@ -212,7 +212,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-236 | `docs/CDM_KNOWN_FINDINGS.md` indexes preregistered negative/null outcomes and operational limits without converting synthetic results into efficacy claims. |
 | CDM-237 | `tests.test_cdm_in_process_compatibility` runs normal Memory Fabric writes/reads before and after the read-only CDM capture facade in one interpreter and verifies capture does not append to the store log. |
 | CDM-238 | `tools.cdm_offline_gate` requires `--all` and verifies its script root matches the local Git checkout before qualifying; no remote query is part of qualification. |
-| CDM-240 | `docs/CDM_INTERNAL_GO_NO_GO.md` issues a scoped internal GO for offline synthetic research and NO-GO for deployment, efficacy claims, autonomous correction, physical-world causality, and action authority; latest required checkout qualification is PASS (21 stages), recorded in the authoritative manifest. |
+| CDM-240 | `docs/CDM_INTERNAL_GO_NO_GO.md` issues a scoped internal GO for offline synthetic research and NO-GO for deployment, efficacy claims, autonomous correction, physical-world causality, and action authority; latest required checkout qualification is PASS, recorded in the authoritative manifest. |
 | CDM-207 | Capture artifact tests prove private content and credential signatures are absent |
 | CDM-208 | Replay certificates explicitly have no action entitlement; no action method is exposed |
 | CDM-210 | Duplicate observation IDs refuse in executor/verifier; reordered step sequence fails independent per-step verification |
@@ -247,7 +247,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 |---|---|
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
 | CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
-| CDM-020 | Change log plus qualification manifest and this ledger | Status transitions still need per-task source digests and broader artifact inventory. |
+| CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
 | CDM-027 | Capture returns authorized evidence commitments only | Existing history metadata provides recorded/cited/exposed distinctions, but CDM does not yet bind all those event classes into a decision trace. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
