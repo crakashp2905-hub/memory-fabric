@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (233)
+## Complete at this checkpoint (234)
 
 | Task | Evidence |
 |---|---|
@@ -30,6 +30,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-024 | Typed `ToolObservation` commitments in `types.py` |
 | CDM-025 | `MemoryService.Session` capture rechecks credentials before and after snapshot; revoked-session refusal tested |
 | CDM-026 | Explicit-ID, 100-ID and bounded-event snapshot semantics in `capture.py` |
+| CDM-027 | `CaptureResult.trace` binds authorized selected evidence to digest-only availability, exposure (including withheld), citation, and verified decision receipt events; query text and unrelated candidates are excluded. Focused trace privacy, serialization, and recorded-decision tests pass. |
 | CDM-028 | Original decision options/constraints are captured in a session-authenticated, digest-only append-only event receipt; capture verifies the event sequence/ID, tenant, policy and complete record digest against the hash chain; post-hoc option/event tampering and unflagged option injection refuse |
 | CDM-029 | Decision receipts bind policy ID, source/configuration digest and schema; `execute_recorded` resolves only the exact local built-in policy and refuses mismatched or unavailable implementations; positive and tampered digest tests pass |
 | CDM-030 | Full stdlib MT19937 state and internal position are captured in `RNGSnapshot`, round-trip through canonical records and reproduce the next draws; missing state is explicitly marked non-replayable and exact recorded replay refuses |
@@ -241,14 +242,13 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-235 | Fresh-checkout quickstart uses existing local Python commands and stdlib only |
 | CDM-239 | User-facing differentiator limited to traceable evidence, belief revision and reviewable alternatives |
 
-## Partial (7)
+## Partial (6)
 
 | Task | Remaining acceptance evidence |
 |---|---|
 | CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
 | CDM-018 | Standard-library-only focused gate and synthetic demo run locally | Exercise all required benchmarks/gates and validate on Python 3.11/3.12 as available. |
 | CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
-| CDM-027 | Capture returns authorized evidence commitments only | Existing history metadata provides recorded/cited/exposed distinctions, but CDM does not yet bind all those event classes into a decision trace. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |

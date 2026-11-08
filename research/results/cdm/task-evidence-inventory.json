@@ -3,9 +3,9 @@
   "ledger": "docs/CDM_TASK_LEDGER.md",
   "schema": "cdm-task-evidence-inventory-v1",
   "status_counts": {
-    "complete": 233,
+    "complete": 234,
     "open": 0,
-    "partial": 7
+    "partial": 6
   },
   "task_count": 240,
   "tasks": [
@@ -63,7 +63,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/CAUSAL_REPLAY_API.md",
-          "sha256": "f3e766226288bc03c195e7bb317f7ad7c98cdc06711528042db3ae59cb476063"
+          "sha256": "24adee47fbfe7e78fd16ce8e262c24224d054d6de5cbb04fd03dbb2f022a392e"
         }
       ],
       "status": "complete",
@@ -134,7 +134,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -196,7 +196,7 @@
       "referenced_artifacts": [
         {
           "path": "research/results/cdm/task-evidence-inventory.json",
-          "sha256": "990e162b2fc20c101e294d4011e82d17808c0734e8a92f88230de62781a159f1"
+          "sha256": "7961479bc96e836f641ac813693eda411ec27131ab7a72ed69ead19ac7a6eb04"
         }
       ],
       "status": "partial",
@@ -207,7 +207,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -218,7 +218,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -229,7 +229,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -240,7 +240,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -257,16 +257,16 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/capture.py",
-          "sha256": "5d244140a632009e7a7fd912701a4ba9474b243d2bfadfea6e7c5f2a68aec6cb"
+          "sha256": "bdcc9ffedac4e9a33ed46f9ce29d491e5cba75c173c6f7b49cbe848fee2e3781"
         }
       ],
       "status": "complete",
       "task_id": "CDM-026"
     },
     {
-      "evidence_row_sha256": "f5e2e4dd9d870fd0f9a0b8b7fef20f0d14df75cdd52042ab47695628af43e793",
+      "evidence_row_sha256": "52160cff0782b6860130e6dd9b2db430ed207d2d823479493efe7ca307c498a8",
       "referenced_artifacts": [],
-      "status": "partial",
+      "status": "complete",
       "task_id": "CDM-027"
     },
     {
@@ -298,7 +298,7 @@
       "referenced_artifacts": [
         {
           "path": "src/memory_fabric/causal_replay/types.py",
-          "sha256": "57d462e631ad06a79ac6ac284df78e06a27e75dbc1d646f8100ec7875e71de3b"
+          "sha256": "585aa902c5f06ef9f45655d743f982ed13da537f8acf74f62b456429d43b2fa1"
         }
       ],
       "status": "complete",
@@ -338,7 +338,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_capture.py",
-          "sha256": "a081bf4bbb3efd664e437403b316e5685a42d8dd0222778f18ae0fa2c5cc10f8"
+          "sha256": "49caa12f6af66bcecf93987362971ca8e34e849a8fda13331b729fd174ecd357"
         }
       ],
       "status": "complete",
@@ -349,7 +349,7 @@
       "referenced_artifacts": [
         {
           "path": "tests/test_cdm_capture.py",
-          "sha256": "a081bf4bbb3efd664e437403b316e5685a42d8dd0222778f18ae0fa2c5cc10f8"
+          "sha256": "49caa12f6af66bcecf93987362971ca8e34e849a8fda13331b729fd174ecd357"
         }
       ],
       "status": "complete",
@@ -364,7 +364,7 @@
         },
         {
           "path": "tests/test_cdm_capture.py",
-          "sha256": "a081bf4bbb3efd664e437403b316e5685a42d8dd0222778f18ae0fa2c5cc10f8"
+          "sha256": "49caa12f6af66bcecf93987362971ca8e34e849a8fda13331b729fd174ecd357"
         }
       ],
       "status": "complete",
@@ -375,7 +375,7 @@
       "referenced_artifacts": [
         {
           "path": "docs/CAUSAL_REPLAY_API.md",
-          "sha256": "f3e766226288bc03c195e7bb317f7ad7c98cdc06711528042db3ae59cb476063"
+          "sha256": "24adee47fbfe7e78fd16ce8e262c24224d054d6de5cbb04fd03dbb2f022a392e"
         }
       ],
       "status": "complete",

@@ -231,7 +231,8 @@ def replay_captured(fabric, session, capture_result: CaptureResult,
         "source_head": capture_result.source_head,
         "evidence": [{"id": ref.belief_id, "version": ref.version,
             "digest": ref.digest} for ref in capture_result.evidence],
-        "decision": asdict(capture_result.decision) if capture_result.decision else None}
+        "decision": asdict(capture_result.decision) if capture_result.decision else None,
+        "trace": [asdict(item) for item in capture_result.trace]}
     if digest_json(body) != capture_result.factual_digest:
         raise SimulatorForbidden("historical capture digest is invalid")
     current = capture(fabric, session, [ref.belief_id for ref in capture_result.evidence],
@@ -239,7 +240,8 @@ def replay_captured(fabric, session, capture_result: CaptureResult,
                               max_events=100_000), decision=capture_result.decision)
     if (current.evidence != capture_result.evidence
             or current.principal_id != capture_result.principal_id
-            or current.tenant_id != capture_result.tenant_id):
+            or current.tenant_id != capture_result.tenant_id
+            or current.trace != capture_result.trace):
         raise SimulatorForbidden("historical capture is no longer authorized")
     ids = {item.observation_id for item in observations}
     evidence_ids = {ref.belief_id for ref in current.evidence}

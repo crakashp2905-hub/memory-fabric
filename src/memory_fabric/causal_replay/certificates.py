@@ -168,7 +168,8 @@ def issue_verified_recorded_replay(*, fabric: Any, decision_record: Any,
         "source_head": capture_result.source_head,
         "evidence": [{"id": ref.belief_id, "version": ref.version,
             "digest": ref.digest} for ref in capture_result.evidence],
-        "decision": asdict(decision_record)}
+        "decision": asdict(decision_record),
+        "trace": [asdict(item) for item in capture_result.trace]}
     if digest_json(capture_body) != capture_digest:
         raise NonReplayable("historical capture digest is invalid")
     current_capture = capture(fabric, session,
@@ -177,7 +178,8 @@ def issue_verified_recorded_replay(*, fabric: Any, decision_record: Any,
                               max_events=100_000), decision=decision_record)
     if (current_capture.evidence != capture_result.evidence
             or current_capture.principal_id != capture_result.principal_id
-            or current_capture.tenant_id != capture_result.tenant_id):
+            or current_capture.tenant_id != capture_result.tenant_id
+            or current_capture.trace != capture_result.trace):
         raise NonReplayable("historical capture is no longer currently authorized")
     if (decision_record.rng_applicability != "not_applicable_deterministic"
             or decision_record.tool_observations):

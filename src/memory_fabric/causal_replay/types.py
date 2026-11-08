@@ -176,6 +176,36 @@ class BeliefReference:
 
 
 @dataclass(frozen=True)
+class DecisionTraceReference:
+    """Digest-only link from authorized evidence to one historical event class."""
+
+    event_id: str
+    sequence: int
+    tenant_id: str
+    digest: str
+    kind: str
+    evidence_id: str
+    version: int
+    exposed: bool | None = None
+
+    def __post_init__(self) -> None:
+        _identifier(self.event_id, "event_id")
+        _identifier(self.tenant_id, "tenant_id")
+        _identifier(self.evidence_id, "evidence_id")
+        if type(self.sequence) is not int or self.sequence < 0:
+            raise CDMError("sequence must be a non-negative integer")
+        if type(self.version) is not int or self.version < 1:
+            raise CDMError("version must be a positive integer")
+        if not re.fullmatch(r"[0-9a-f]{64}", self.digest):
+            raise CDMError("digest must be a lowercase SHA-256 hex string")
+        if self.kind not in {"available", "exposure", "citation", "recorded"}:
+            raise CDMError("unknown decision trace event class")
+        if ((self.kind == "exposure") != (type(self.exposed) is bool)
+                or (self.kind != "exposure" and self.exposed is not None)):
+            raise CDMError("exposed is required only for exposure events")
+
+
+@dataclass(frozen=True)
 class DecisionRecord:
     sequence: int
     tenant_id: str
@@ -273,6 +303,7 @@ class CaptureResult:
     source_currently_admissible: bool = True
     historical_snapshot_only: bool = True
     decision: DecisionRecord | None = None
+    trace: tuple[DecisionTraceReference, ...] = ()
 
     def __post_init__(self) -> None:
         if (self.schema != SCHEMA or not self.archival_only
@@ -288,6 +319,13 @@ class CaptureResult:
                     or self.decision.sequence > self.known_at
                     or not set(self.decision.evidence) <= set(self.evidence)):
                 raise CDMError("captured decision does not match capture identity, time or evidence")
+        if (type(self.trace) is not tuple
+                or any(type(item) is not DecisionTraceReference for item in self.trace)
+                or any(item.tenant_id != self.tenant_id or item.sequence > self.known_at
+                       or not any(item.evidence_id == ref.belief_id
+                                  and item.version == ref.version for ref in self.evidence)
+                       for item in self.trace)):
+            raise CDMError("capture trace must contain authorized evidence references only")
         if (type(self.known_at) is not int or type(self.source_head) is not int
                 or self.known_at < 0 or self.source_head < self.known_at):
             raise CDMError("capture sequence bounds are invalid")
@@ -298,7 +336,7 @@ class CaptureResult:
         return asdict(self)
 
 
-RECORD_TYPES = (EventReference, BeliefReference, DecisionRecord, ReplayContext,
+RECORD_TYPES = (EventReference, BeliefReference, DecisionTraceReference, DecisionRecord, ReplayContext,
                 ToolObservation, CaptureResult, RNGSnapshot)
 
 
@@ -338,6 +376,11 @@ def parse_record(record_type: type, value: str | dict[str, Any]) -> Any:
             if type(body[key]) is not list:
                 raise CDMError("evidence must be a JSON array")
             body[key] = tuple(parse_record(BeliefReference, item) for item in body[key])
+    if record_type is CaptureResult and "trace" in body:
+        if type(body["trace"]) is not list:
+            raise CDMError("trace must be a JSON array")
+        body["trace"] = tuple(parse_record(DecisionTraceReference, item)
+                              for item in body["trace"])
     if record_type is CaptureResult and body.get("decision") is not None:
         body["decision"] = parse_record(DecisionRecord, body["decision"])
     if record_type is DecisionRecord:

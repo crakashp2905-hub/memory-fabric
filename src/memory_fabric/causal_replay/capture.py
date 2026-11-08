@@ -10,11 +10,13 @@ from typing import Any, Iterable
 
 from .. import events as ev
 from ..identity import PERM_READ, PERM_WRITE
+from ..integrity import event_digest
 from ..ids import new_ulid
 from ..model import EXPOSABLE_STATES, visible_to
 from ..projections import Projection
 from ..service import Session
-from .types import (BeliefReference, CaptureResult, CDMError, DecisionRecord, Erased,
+from .types import (BeliefReference, CaptureResult, CDMError, DecisionRecord,
+                    DecisionTraceReference, Erased,
                     RNGSnapshot, ReplayContext, ToolObservation, Unauthorized,
                     digest_json)
 from .intervention import Intervention
@@ -52,6 +54,8 @@ def capture(fabric: Any, principal: Any, evidence_ids: Iterable[str], *,
         raise ValueError("known_at exceeds the current log head")
     projection = Projection()
     recorded: dict[tuple[str, int], tuple[int, int]] = {}
+    latest_versions: dict[str, int] = {}
+    history_events = []
     replayed = 0
     for event in fabric.log.read(limit=context.max_events + 1):
         if event.seq is not None and event.seq > context.known_at:
@@ -63,6 +67,35 @@ def capture(fabric: Any, principal: Any, evidence_ids: Iterable[str], *,
         if event.type in {ev.EventType.MEMORY_CREATED, ev.EventType.MEMORY_VERSIONED}:
             memory = event.payload["memory"]
             recorded[(memory["id"], memory["version"])] = (event.ts, event.seq or 0)
+            if memory["id"] in ids:
+                latest_versions[memory["id"]] = memory["version"]
+        if event.type in {ev.EventType.RETRIEVAL_PERFORMED, ev.EventType.EXPOSURE_DECIDED,
+                          ev.EventType.MEMORY_CITED, ev.EventType.CDM_DECISION_RECORDED}:
+            if event.agent_id == agent_id:
+                relevant: tuple[tuple[str, int], ...] = ()
+                payload = event.payload
+                if event.type == ev.EventType.RETRIEVAL_PERFORMED:
+                    pairs: list[tuple[str, int]] = []
+                    for row in payload.get("candidates", ()):
+                        memory_id, version = row.get("memory_id"), row.get("version")
+                        if isinstance(memory_id, str) and memory_id in ids and type(version) is int:
+                            pairs.append((memory_id, version))
+                    relevant = tuple(pairs)
+                elif event.type == ev.EventType.EXPOSURE_DECIDED:
+                    memory_id, version = payload.get("memory_id"), payload.get("version")
+                    if (isinstance(memory_id, str) and memory_id in ids
+                            and type(version) is int):
+                        relevant = ((memory_id, version),)
+                elif event.type == ev.EventType.MEMORY_CITED:
+                    memory_id = payload.get("memory_id")
+                    version = latest_versions.get(memory_id) if isinstance(memory_id, str) else None
+                    if isinstance(memory_id, str) and memory_id in ids and version is not None:
+                        relevant = ((memory_id, version),)
+                elif (decision is not None
+                        and event.event_id == decision.source_event_id):
+                    relevant = tuple((ref.belief_id, ref.version) for ref in decision.evidence)
+                if relevant:
+                    history_events.append((event, relevant))
     snapshot = projection.state
     allowed_now = set(fabric.state.memories) - set(fabric.state.erased)
     found: dict[str, Any] = {}
@@ -98,11 +131,40 @@ def capture(fabric: Any, principal: Any, evidence_ids: Iterable[str], *,
             raise CDMError("decision record is not bounded by this authorized capture")
         if not verify_decision_record(fabric, decision):
             raise CDMError("decision record has no matching immutable source event")
+    selected = {(ref.belief_id, ref.version) for ref in refs}
+    trace: list[DecisionTraceReference] = []
+    for event, relevant in history_events:
+        if event.agent_id != agent_id or event.seq is None or event.seq > context.known_at:
+            continue
+        payload = event.payload
+        if event.type == ev.EventType.RETRIEVAL_PERFORMED:
+            for pair in relevant:
+                if pair in selected:
+                    trace.append(DecisionTraceReference(event.event_id, event.seq, tenant_id,
+                        event_digest(event), "available", pair[0], pair[1]))
+        elif event.type == ev.EventType.EXPOSURE_DECIDED:
+            pair = relevant[0]
+            if pair in selected and type(payload.get("exposed")) is bool:
+                trace.append(DecisionTraceReference(event.event_id, event.seq, tenant_id,
+                    event_digest(event), "exposure", pair[0], pair[1], payload["exposed"]))
+        elif event.type == ev.EventType.MEMORY_CITED:
+            memory_id, version = relevant[0]
+            if (memory_id, version) in selected:
+                trace.append(DecisionTraceReference(event.event_id, event.seq, tenant_id,
+                    event_digest(event), "citation", memory_id, version))
+        elif (decision is not None and event.event_id == decision.source_event_id
+                and event.type == ev.EventType.CDM_DECISION_RECORDED):
+            for evidence_id, version in relevant:
+                if (evidence_id, version) in selected:
+                    trace.append(DecisionTraceReference(event.event_id, event.seq, tenant_id,
+                        event_digest(event), "recorded", evidence_id, version))
+    trace_tuple = tuple(trace)
     body = {"schema": "memory-fabric-cdm-v1", "principal": agent_id, "tenant": tenant_id,
             "known_at": context.known_at, "valid_at": context.valid_at,
             "source_head": start_head,
             "evidence": [{"id": r.belief_id, "version": r.version, "digest": r.digest} for r in refs],
-            "decision": asdict(decision) if decision is not None else None}
+            "decision": asdict(decision) if decision is not None else None,
+            "trace": [asdict(item) for item in trace_tuple]}
     try:
         still_verified = principal.principal()
         still_verified.require_permission(PERM_READ)
@@ -113,7 +175,8 @@ def capture(fabric: Any, principal: Any, evidence_ids: Iterable[str], *,
     return CaptureResult("memory-fabric-cdm-v1", agent_id, tenant_id, context.known_at,
                          context.valid_at, start_head, refs, True,
                          digest_json(body), source_currently_admissible=True,
-                         historical_snapshot_only=True, decision=decision)
+                         historical_snapshot_only=True, decision=decision,
+                         trace=trace_tuple)
 
 
 def validate_replay_option(decision: DecisionRecord, option: str, *,

@@ -149,6 +149,39 @@ class TestCapture(unittest.TestCase):
         capture(self.fabric, self.owner, [self.mid], context=ReplayContext(self.head))
         self.assertEqual(self.fabric.log.head_seq, before)
 
+    def test_capture_binds_digest_only_authorized_history_classes(self):
+        self.fabric._emit(ev.retrieval_performed(self.fabric.now(), "alice", None,
+            "private query text must not enter CDM", [(self.mid, 1, 0.9),
+            ("unrelated-private-memory", 1, 0.1)], None))
+        self.fabric._emit(ev.exposure_decided(self.fabric.now(), "alice", None,
+            self.mid, 1, False, 0.25, "test-policy"))
+        self.fabric._emit(ev.memory_cited(self.fabric.now(), "alice", None, self.mid))
+        self.fabric._emit(ev.exposure_decided(self.fabric.now(), "alice", None,
+            self.mid, 1, True, 0.75, "test-policy"))
+        artifact = capture(self.fabric, self.owner, [self.mid],
+                           context=ReplayContext(self.fabric.log.head_seq))
+        self.assertEqual([item.kind for item in artifact.trace],
+                         ["available", "exposure", "citation", "exposure"])
+        self.assertEqual([item.exposed for item in artifact.trace],
+                         [None, False, None, True])
+        self.assertTrue(all(item.evidence_id == self.mid and item.version == 1
+                            and len(item.digest) == 64 for item in artifact.trace))
+        self.assertNotIn("private query text", repr(artifact))
+        self.assertNotIn("unrelated-private-memory", repr(artifact))
+        restored = parse_record(type(artifact), serialize_record(artifact))
+        self.assertEqual(restored.trace, artifact.trace)
+
+    def test_capture_binds_verified_decision_receipt_to_evidence_trace(self):
+        evidence = capture(self.fabric, self.owner, [self.mid],
+                           context=ReplayContext(self.head)).evidence
+        decision = record_decision(self.fabric, self.owner,
+            options=("monitor", "investigate"), selected="monitor", evidence=evidence,
+            policy_id="policy-v1", policy_digest="a" * 64)
+        artifact = capture(self.fabric, self.owner, [self.mid],
+                           context=ReplayContext(decision.sequence), decision=decision)
+        self.assertEqual([(row.kind, row.evidence_id, row.version) for row in artifact.trace],
+                         [("recorded", self.mid, 1)])
+
     def test_original_options_and_constraints_bind_to_authorized_capture(self):
         evidence = capture(self.fabric, self.owner, [self.mid],
                            context=ReplayContext(self.head)).evidence

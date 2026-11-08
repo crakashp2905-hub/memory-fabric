@@ -36,6 +36,16 @@ commitments. `known_at` is an inclusive event-log sequence;
 Capture accepts explicit IDs and respects the existing 100-ID / bounded-event
 historical-read limits. Any request beyond budget refuses as a whole.
 
+Each capture also binds a typed, digest-only decision trace to its selected
+authorized evidence. It distinguishes retrieval availability, exposure
+decisions (including withheld events), citations, and a recorded decision when
+the caller supplies its verified receipt. Event references contain only the
+event ID, sequence, event digest, class, selected evidence ID/version, and the
+exposure boolean where applicable. Retrieval query text and unrelated
+candidates are not copied into the CDM artifact. The trace is included in the
+capture factual digest and strict record serialization. It represents recorded
+events, not proof that an agent cognitively used cited or exposed evidence.
+
 For a contemporaneous decision, first call `record_decision` with the option
 set, selected option, constraints, evidence references, policy ID and
 `ThresholdPolicy.implementation_digest`. It returns a record bound to a
