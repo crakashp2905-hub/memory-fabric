@@ -114,10 +114,9 @@ class Manifests(unittest.TestCase):
 
     def test_recorded_runs_are_valid(self) -> None:
         for m in manifest.read_all():
-            # These are historical artifacts without host measurements. Keep them
-            # readable for provenance, but never treat them as qualified manifests.
-            self.assertTrue(any("environment missing fields" in issue
-                                for issue in manifest.validate(m)), m["run_id"])
+            self.assertEqual(manifest.validate(m), [], m["run_id"])
+            self.assertEqual(set(m["environment"]), manifest.ENVIRONMENT_FIELDS, m["run_id"])
+            self.assertEqual(len(m["source"]["commit"]), 40, m["run_id"])
 
 
 class Stats(unittest.TestCase):

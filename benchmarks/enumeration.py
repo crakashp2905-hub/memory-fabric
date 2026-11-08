@@ -235,9 +235,6 @@ def write(table: dict[str, Any], v: dict[str, Any]) -> None:
     from benchmarks.manifest import write as write_manifest
 
     commit = head()[:12]
-    OUT_JSON.write_text(json.dumps({"commit": commit, "seeds": list(SEEDS), "k": K, "records": N_RECORDS,
-                                    "untyped_share": UNTYPED, "rows": table, "verdict": v},
-                                   indent=1) + "\n", encoding="utf-8")
     write_manifest(Manifest(
         run_id="e1-exhaustive-enumeration", suite="INT-03", arm="all", decision=v["decision"],
         repo_commit=commit, prereg="research/prereg/e1-exhaustive-enumeration.md",
@@ -250,6 +247,9 @@ def write(table: dict[str, Any], v: dict[str, Any]) -> None:
         cost={"model_usd": 0.0, "model_calls": 0},
         verification={"baseline_registered": True, "oracle_sanity_passed": v["sanity"]["ok"],
                       "holdout_frozen": True, "independent_replicated": False}))
+    OUT_JSON.write_text(json.dumps({"commit": commit, "seeds": list(SEEDS), "k": K, "records": N_RECORDS,
+                                    "untyped_share": UNTYPED, "rows": table, "verdict": v},
+                                   indent=1) + "\n", encoding="utf-8")
     rows = "\n".join(
         f"| {a} | {t['set_exact']:.3f} | {t['set_exact_narrow']:.3f} | {t['set_exact_broad']:.3f} | "
         f"{t['recall']:.3f} | {t['precision']:.3f} | {t['contents_read_per_query']:.1f} |"

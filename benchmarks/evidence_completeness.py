@@ -153,8 +153,6 @@ def main() -> int:
             "rows": runs, "summary": table, "decision": decision, "threshold": threshold,
             "oracle_violations": above, "cost": {"model_calls": 0, "model_usd": 0,
                 "hardware_usd": None, "note": "reads and latency measured; local hardware cost unpriced"}}
-    out = ROOT / f"research/results/ecv1-{args.split}.json"
-    out.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     if args.split == "test":
         write(Manifest(run_id="evidence-completeness-v1", suite="INT-03", arm="all", decision=decision,
                        repo_commit=head(), prereg="research/prereg/ecv1-design.md",
@@ -168,6 +166,8 @@ def main() -> int:
                        results={"summary": table, "threshold": threshold}, cost=data["cost"],
                        verification={"baseline_registered": True, "oracle_sanity_passed": not above,
                                      "holdout_frozen": True, "independent_replicated": False}))
+    out = ROOT / f"research/results/ecv1-{args.split}.json"
+    out.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     print(json.dumps({"summary": table, "decision": decision, "threshold": threshold}, indent=1))
     return 0
 
