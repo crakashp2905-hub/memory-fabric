@@ -33,6 +33,9 @@ whole path is drilled in CI against the last release
 
 ## Moving in from another memory system
 
+For a timed, reversible first import from JSON or vector recall, follow the
+[15-minute migration guide](guides/migrate-from-json-vector.md).
+
 ```bash
 memory-fabric --db store.db import export.jsonl --source mem0 --agent importer
 ```

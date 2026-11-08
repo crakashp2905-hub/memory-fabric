@@ -485,7 +485,9 @@ P1-08 completion evidence: `memory_fabric.offline.offline_mode()` temporarily bl
 - [x] **P1-09** · **P1** · Include local memory-vs-simple-store demonstration using exactly equal test information. **Acceptance:** Script prints both task utility and safety outcomes without cherry-picked labels..
 
 P1-09 completion evidence: `memory_vs_json.py` feeds one shared, two-record fixture to a JSON-style last-write-wins map and Memory Fabric, prints corrected-setting utility and stale-action safety for both, and demonstrates fresh action authorization. It labels the JSON baseline's missing gate and explicitly says the one-case counts are not general performance evidence. The offline example runner asserts input equality, both safety outcomes and the scope label. Evidence: `examples/memory_vs_json.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-09-memory-vs-json.json`, `research/results/p1-09-memory-vs-json.txt`.
-- [ ] **P1-10** · **P1** · Provide a 15-minute migration guide from basic JSON/vector recall to governed memory. **Acceptance:** Test fixture migrates sample records, validates ownership and preserves original data..
+- [x] **P1-10** · **P1** · Provide a 15-minute migration guide from basic JSON/vector recall to governed memory. **Acceptance:** Test fixture migrates sample records, validates ownership and preserves original data..
+
+P1-10 completion evidence: the 15-minute guide explains a reversible export/import/review/canary path and the limits of vector-index migration. Its fixture covers Mem0, LangChain and plain JSON shapes. The test verifies source bytes/hash unchanged, imported authors/source IDs/tenant attribution, candidate visibility before review, reviewed visibility and cross-tenant isolation. Evidence: `docs/guides/migrate-from-json-vector.md`, `docs/MIGRATION.md`, `examples/fixtures/basic-memory-export.jsonl`, `tests/test_migration_guide.py`, `research/results/p1-10-migration-guide.json`, `research/results/p1-10-migration-guide.txt`.
 
 
 #### P2 — Control Center and decision observability UX [P1]
