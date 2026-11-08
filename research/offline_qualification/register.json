@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "22e12d7943e87bdae04f69b94689c2876de4cd9a233af19f953773c680660b4d",
+    "sha256": "2c1d9c999dc01137a58fa33cbd78838ce95528da23c6c9cf59b9320559732461",
     "tasks": 260
   },
   "source": {
-    "commit": "0265b571515c39b7e946a8e03cf2775cf005f6bb",
+    "commit": "9260e482e05831db72afdada5820220448c15003",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 124,
-      "PARTIAL": 17,
+      "DONE": 125,
+      "PARTIAL": 16,
       "TODO": 119
     },
-    "completed": 124,
+    "completed": 125,
     "total": 260,
-    "percent_complete": 47.69,
-    "p0_open": 14,
+    "percent_complete": 48.08,
+    "p0_open": 13,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -87,27 +87,31 @@
       "task_id": "E1-03",
       "priority": "P0",
       "task": "Capture Python, OS, SQLite, CPU, thread count and process count in every benchmark manifest.",
-      "acceptance": "Manifest parser rejects missing environment fields and excludes nondeterministic timestamps from digest",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Manifest parser rejects missing environment fields and excludes nondeterministic timestamps from digest. Evidence: `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/e1-03-qualification-tests.xml`, `research/results/bench_runs/legacy/index.json` (DONE: all five active manifests were rerun from clean commit `9260e482e05831db72afdada5820220448c15003`; each includes Python, OS, SQLite, logical CPU, thread and process counts, exact SHA, clean state and input digests; 42 benchmark and qualification tests pass; strict manifest tests pass. Pre-capture files remain byte-preserved in the explicitly excluded legacy archive; no historical host facts were guessed)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/manifest.py",
         "tests/test_benchmarks.py",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
         "research/results/e1-03-manifest-environment.json",
-        "research/results/e1-03-manifest-environment.xml"
+        "research/results/e1-03-manifest-environment.xml",
+        "research/results/e1-03-qualification-tests.xml",
+        "research/results/bench_runs/legacy/index.json"
       ],
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
-        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
-        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
-        "research/results/e1-03-manifest-environment.json": "0f0f42a5d952ed49432496c8567d73e24c1041c2c30a015c56c7e435d0871d5b",
-        "research/results/e1-03-manifest-environment.xml": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75"
+        "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "db0c414cec6a256a1fdb98c63a49c8e369c0b5d0d15ea44555153ba7890b6795",
+        "research/results/e1-03-manifest-environment.json": "5ed99e83de2816ffcc794e3fc6ce36152aeb6656e48ed70951dd6b46dd30647b",
+        "research/results/e1-03-manifest-environment.xml": "fa5a1ca0039dfda2196642010f57fe9e440b98c668da371ef8f77976457aeaff",
+        "research/results/e1-03-qualification-tests.xml": "401ad2deb46cac421df48e262af9bc3fc7c66a36be005235114aa12e57cab760",
+        "research/results/bench_runs/legacy/index.json": "db4c07910d84ad61d8526e6e49385227909b1c0c8c5f434cdfe3d594c2736142"
       },
       "evidence_issues": {},
       "limitations": [
-        "New manifests capture required environment fields and reject omissions; timestamp-insensitive digest behavior is tested. Five historical bench_runs files lack truthful environment measurements and are rejected by the strict validator, so the every-manifest acceptance remains incomplete."
+        "Environment data covers the five active manifests and the Windows/Python 3.13.5 host that ran them; historical host details were unavailable and remain explicitly unqualified in the archive."
       ]
     },
     {
@@ -131,7 +135,7 @@
         "benchmarks/provenance.py": "7250095062183ad16033ed2dfdc2a9d5b7de6a80cad226cd003d269b94702288",
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "tests/test_result_provenance.py": "3827b4b9565730b4c218f79106b499c7d10c8f5b30d669247b0aa209e31a066a",
-        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
+        "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
         "docs/RESULT_PROVENANCE.md": "d5a0947d1006384302a4a4c50024fe128f700563981ece34ee829f0f8c09015a",
         "research/results/e1-04-result-provenance.json": "a835334785ca75db56197c24d1f285b7cb153e70a6d2018180acbf108271cb4f",
         "research/results/e1-04-result-provenance.xml": "8226679191009b14042c3e06199c69ec58cb22c213d740db54283c4a0aa3d56f"
@@ -162,10 +166,10 @@
       "evidence_digests": {
         "benchmarks/manifest.py": "717a7a686246f0fa5043f8c3329045bd3cb7aa5604828f480f4eb36808c0677c",
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
-        "benchmarks/evidence_completeness.py": "ead666b86fe5fe70058079d8822b6e183844b86315b2d705960336abf7f8d09d",
-        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
-        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "121b5248f1dd957a2e8f3d6d3c5af91c52de00c86f74482fe685132850a0850e",
-        "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
+        "benchmarks/evidence_completeness.py": "72405347e6c454dcab58d05f6ef02b8da626eee776c4bf9d1551df3ae85f743d",
+        "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md": "db0c414cec6a256a1fdb98c63a49c8e369c0b5d0d15ea44555153ba7890b6795",
+        "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/e1-05-input-digests.json": "899ef29340375d8309df40800eeb9db2364a62cc6775ea5e001a4056d5b6ec52",
         "research/results/e1-05-input-digests.xml": "1f5685ff159cc0de5616273af57cc14e262225ca662c2811d7295e8b40910dea"
       },
@@ -1497,9 +1501,9 @@
         "tools/results_manifest.py": "703fbebb388b6dfb8ebb39b90b6032e6ccc7653137bb39578931127395cb3a5e",
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
-        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
-        "research/results/MANIFEST.json": "8a2c6c1427bc7a4037e018e9a5aaafbc46152728816c0edb3090a08d3a8c5e62",
-        "research/results/BENCHMARK_SCOREBOARD.md": "b6d9477f254f4ae5e096d2aabe4396f10b8c03e2e9d82f7aa0d4e5793bd2e7ce",
+        "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
+        "research/results/MANIFEST.json": "0757f270c1f09e96d5aa838102883173a5f9975e6a9ad54bb648bbe775a1464a",
+        "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
       "evidence_issues": {},
@@ -1944,7 +1948,7 @@
         "research/results/r2-09-threshold-guard.xml"
       ],
       "evidence_digests": {
-        "benchmarks/evidence_completeness.py": "ead666b86fe5fe70058079d8822b6e183844b86315b2d705960336abf7f8d09d",
+        "benchmarks/evidence_completeness.py": "72405347e6c454dcab58d05f6ef02b8da626eee776c4bf9d1551df3ae85f743d",
         "research/prereg/ecv1-threshold.json": "8a84f8a5b18d62241e2cc3a74f114214a8c3b24802e40f33ffa62d1cd8ca6f22",
         "tests/test_ecv1_benchmark.py": "1480cc64985699e3e59253d5130b88e94c4ab80fad325c2233422988d11c2fcc",
         "research/results/r2-09-threshold-guard.xml": "262e42c4aa2f18c6240b7a7de960a8c05533e7849a586b5b7a84d205d9a92f6b"
@@ -2374,7 +2378,7 @@
       "evidence_digests": {
         "benchmarks/decision_verdict.py": "0469658c919ed709e6a24b03a116af3ed9590dae36c878db903f66c6e5737212",
         "benchmarks/evaluator_mutations.py": "4d13adc83ea08d1831ad191f61c7fa6c09849af1b41889b041220ca17e65209a",
-        "tests/test_benchmarks.py": "710888aa450b2d082d7e534b10d220a551e65836ec8697d9f6474276e007a661",
+        "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
         "tools/benchmark_evaluator_mutations.py": "77b3f514fd6c70ea99c72929802abff2acfb7f48f9f4f6a9c5b6dbc975156004",
         "research/results/r4-07-evaluator-mutations.json": "1e4c1406ad6da014fd50304cf68e3f9a45b9544cd9755369c11cab9eb93f5feb",
         "research/results/r4-07-evaluator-mutation-tests.xml": "22e144755ff1a39af5228daa9f0ee59105d1ccaa68f9fdefffe624afcf312238"

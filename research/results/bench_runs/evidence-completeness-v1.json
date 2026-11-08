@@ -18,17 +18,29 @@
   "solved": 2
  },
  "dataset": {
+  "generator": "benchmarks/evidence_completeness.py",
   "sha256": "79efb4a14720ea1840e2ca0acadb4cb53b9be5f808f738c51c75bfdad14186de",
   "split": "test"
  },
  "decision": "INCONCLUSIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/evidence_completeness.py": "72405347e6c454dcab58d05f6ef02b8da626eee776c4bf9d1551df3ae85f743d"
+ },
  "model": {
   "id": null,
   "provider": null
  },
  "prereg": "research/prereg/ecv1-design.md",
  "reason": "development lexical baseline saturates oracle; no attainable threshold registered",
- "repo_commit": "f5a3b8b822cf903245503ca773b7bdb00c841c45",
+ "repo_commit": "9260e482e05831db72afdada5820220448c15003",
  "results": {
   "summary": {
    "lexical": {
@@ -36,7 +48,7 @@
     "coverage": 0.25,
     "exact": 0.9,
     "false_complete": 0.0,
-    "latency_ms": 4.0613,
+    "latency_ms": 2.2587,
     "per_seed_exact": {
      "101": 1.0,
      "127": 1.0,
@@ -53,7 +65,7 @@
     "coverage": 0.7833,
     "exact": 1.0,
     "false_complete": 0.0,
-    "latency_ms": 4.8893,
+    "latency_ms": 2.7981,
     "per_seed_exact": {
      "101": 1.0,
      "127": 1.0,
@@ -70,7 +82,7 @@
     "coverage": 0.7833,
     "exact": 0.2,
     "false_complete": 0.0,
-    "latency_ms": 6.4624,
+    "latency_ms": 3.4359,
     "per_seed_exact": {
      "101": 0.0,
      "127": 0.5,
@@ -87,7 +99,7 @@
     "coverage": 0.5333,
     "exact": 0.0,
     "false_complete": 0.0,
-    "latency_ms": 0.751,
+    "latency_ms": 0.364,
     "per_seed_exact": {
      "101": 0.0,
      "127": 0.0,
@@ -104,7 +116,7 @@
     "coverage": 0.7833,
     "exact": 0.2,
     "false_complete": 0.0,
-    "latency_ms": 6.1759,
+    "latency_ms": 2.7303,
     "per_seed_exact": {
      "101": 0.0,
      "127": 0.5,
@@ -128,6 +140,11 @@
   163,
   181
  ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
  "suite": "INT-03",
  "verification": {
   "baseline_registered": true,

@@ -18,13 +18,24 @@
   ]
  },
  "decision": "DESCRIPTIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/federation_world.py": "fc200040613ca742ddf1cae187da07c236089a15c1f495af390e3ddbe8a8de96"
+ },
  "model": {
   "id": null,
   "provider": null
  },
  "prereg": null,
  "reason": "functional regression world; no superiority hypothesis",
- "repo_commit": "a514df95ef24f46fd3e27b6669ff61527f838362",
+ "repo_commit": "9260e482e05831db72afdada5820220448c15003",
  "results": {
   "invariant_violations": 0
  },
@@ -37,6 +48,11 @@
   4,
   5
  ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
  "suite": "INT-02",
  "verification": {
   "baseline_registered": false,

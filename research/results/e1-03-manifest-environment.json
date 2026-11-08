@@ -1,26 +1,115 @@
 {
-  "schema": "memory-fabric-e1-03/1",
-  "commit": "ecc8b523e3eee1fd2f59c8b97bffe1fccde07f1d",
-  "dirty_at_test": false,
-  "environment": {
-    "python": "3.13.5",
-    "os": "Windows-11-10.0.26200-SP0",
-    "sqlite": "3.49.1",
-    "logical_cpus": 8,
-    "thread_count": 1,
-    "process_count": 1
-  },
-  "test_command": "python -m pytest tests/test_benchmarks.py tests/test_offline_baseline.py -q --junitxml=research/results/e1-03-manifest-environment.xml",
-  "tests_passed": 26,
-  "tests_failed": 0,
-  "junit_sha256": "e46c06687a11de381b450bda207ad8204e4612967063408c6edaac056a70eb75",
-  "legacy_manifests_without_historical_environment": [
-    "e1-exhaustive-enumeration.json",
-    "evidence-completeness-v1.json",
-    "int01-memoryworld2.json",
-    "int02-federation-world.json",
-    "int04-compaction-drilldown.json"
+  "schema": "memory-fabric-e1-03/2",
+  "source_commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty_at_benchmark_runs": false,
+  "active_manifests": [
+    {
+      "run_id": "e1-exhaustive-enumeration",
+      "source": {
+        "classification": "QUALIFIED",
+        "commit": "9260e482e05831db72afdada5820220448c15003",
+        "dirty": false
+      },
+      "environment": {
+        "logical_cpus": 8,
+        "os": "Windows-11-10.0.26200-SP0",
+        "process_count": 1,
+        "python": "3.13.5",
+        "sqlite": "3.49.1",
+        "thread_count": 1
+      },
+      "input_digests": {
+        "benchmarks/enumeration.py": "67f1cc1a84d7a4bcade2019f661410033a44461fa95a4d4d475d6f04e5d3d9b6"
+      },
+      "sha256": "f628b6bb0989065ecadf70950611c68d739a19873b8465d3e2062545df3d1fc4"
+    },
+    {
+      "run_id": "evidence-completeness-v1",
+      "source": {
+        "classification": "QUALIFIED",
+        "commit": "9260e482e05831db72afdada5820220448c15003",
+        "dirty": false
+      },
+      "environment": {
+        "logical_cpus": 8,
+        "os": "Windows-11-10.0.26200-SP0",
+        "process_count": 1,
+        "python": "3.13.5",
+        "sqlite": "3.49.1",
+        "thread_count": 1
+      },
+      "input_digests": {
+        "benchmarks/evidence_completeness.py": "72405347e6c454dcab58d05f6ef02b8da626eee776c4bf9d1551df3ae85f743d"
+      },
+      "sha256": "34ec697d5566990871af807251ad38ea00054c39b4465f519a5f718282f9baf9"
+    },
+    {
+      "run_id": "int01-memoryworld2",
+      "source": {
+        "classification": "QUALIFIED",
+        "commit": "9260e482e05831db72afdada5820220448c15003",
+        "dirty": false
+      },
+      "environment": {
+        "logical_cpus": 8,
+        "os": "Windows-11-10.0.26200-SP0",
+        "process_count": 1,
+        "python": "3.13.5",
+        "sqlite": "3.49.1",
+        "thread_count": 1
+      },
+      "input_digests": {
+        "benchmarks/memoryworld2.py": "8322144e58edf57940119d20cec0be7c34c8b110788cc0691dcd7c2ffcc9311c"
+      },
+      "sha256": "3e2d7faaa13501b05d67632264478a4c1295de03ef8cf7b207c471c112b75186"
+    },
+    {
+      "run_id": "int02-federation-world",
+      "source": {
+        "classification": "QUALIFIED",
+        "commit": "9260e482e05831db72afdada5820220448c15003",
+        "dirty": false
+      },
+      "environment": {
+        "logical_cpus": 8,
+        "os": "Windows-11-10.0.26200-SP0",
+        "process_count": 1,
+        "python": "3.13.5",
+        "sqlite": "3.49.1",
+        "thread_count": 1
+      },
+      "input_digests": {
+        "benchmarks/federation_world.py": "fc200040613ca742ddf1cae187da07c236089a15c1f495af390e3ddbe8a8de96"
+      },
+      "sha256": "77bdd539262f351f527125f322fa0665f3bbd22b8b52c4a8f1aefb32f5acfefd"
+    },
+    {
+      "run_id": "int04-compaction-drilldown",
+      "source": {
+        "classification": "QUALIFIED",
+        "commit": "9260e482e05831db72afdada5820220448c15003",
+        "dirty": false
+      },
+      "environment": {
+        "logical_cpus": 8,
+        "os": "Windows-11-10.0.26200-SP0",
+        "process_count": 1,
+        "python": "3.13.5",
+        "sqlite": "3.49.1",
+        "thread_count": 1
+      },
+      "input_digests": {
+        "benchmarks/compaction.py": "ad656bbe78a3d799e5318e9b19f2b972bb4e15391ee9aca92c5ae0a8f9b3e18c"
+      },
+      "sha256": "d1fa5e175ee0a924d97f46a5e8ef2b0369881ea62a0d0b9d3bad83456bbac74f"
+    }
   ],
-  "legacy_manifests_are_rejected_by_strict_validator": true,
-  "verdict": "PARTIAL"
+  "legacy_archive": "research/results/bench_runs/legacy/index.json",
+  "strict_validation_passed": true,
+  "test_command": "python -m pytest tests/test_benchmarks.py tests/test_offline_qualification.py -q --junitxml=research/results/e1-03-qualification-tests.xml",
+  "tests_passed": 42,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "test_xml_sha256": "401ad2deb46cac421df48e262af9bc3fc7c66a36be005235114aa12e57cab760",
+  "verdict": "DONE"
 }

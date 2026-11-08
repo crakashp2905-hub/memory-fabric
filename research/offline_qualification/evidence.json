@@ -31,18 +31,20 @@
     },
     {
       "task_id": "E1-03",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/manifest.py",
         "tests/test_benchmarks.py",
         "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
         "research/results/e1-03-manifest-environment.json",
-        "research/results/e1-03-manifest-environment.xml"
+        "research/results/e1-03-manifest-environment.xml",
+        "research/results/e1-03-qualification-tests.xml",
+        "research/results/bench_runs/legacy/index.json"
       ],
       "limitations": [
-        "New manifests capture required environment fields and reject omissions; timestamp-insensitive digest behavior is tested. Five historical bench_runs files lack truthful environment measurements and are rejected by the strict validator, so the every-manifest acceptance remains incomplete."
+        "Environment data covers the five active manifests and the Windows/Python 3.13.5 host that ran them; historical host details were unavailable and remain explicitly unqualified in the archive."
       ]
     },
     {
