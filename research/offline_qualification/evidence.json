@@ -2333,6 +2333,21 @@
       "limitations": [
         "Reanalysis covers the registered synthetic 50-agent split (24 task cases, 1,200 attempts per arm); task clusters are exchangeable only within this fixture and do not support real-agent population claims."
       ]
+    },
+    {
+      "task_id": "R4-04",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "The heldout agent promotion gate now has target, tie, safety, stale-action and both fairness-margin boundary tests. A shared frozen threshold registry covering every registered hypothesis is still missing; the qualification script seeds also need reconciliation with the v1 preregistration."
+      ]
     }
   ]
 }

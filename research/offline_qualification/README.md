@@ -4,7 +4,7 @@ Strict completion: **135 / 260 (51.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `ec42d50ec7e08c49d432dd8fe4c066a79c6e7547e1ac4085ad4f8b05a0e1c340`.
+Normalized ledger digest: `fceed6bc2f95bbf9caea7aadcb80f47c2be5e3beb7382bf7c3f3136687649318`.
 
 | status | count |
 |---|---:|
@@ -12,8 +12,8 @@ Normalized ledger digest: `ec42d50ec7e08c49d432dd8fe4c066a79c6e7547e1ac4085ad4f8
 | DONE | 135 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 8 |
-| TODO | 117 |
+| PARTIAL | 9 |
+| TODO | 116 |
 
 ## Graduation gates
 
@@ -112,7 +112,7 @@ Normalized ledger digest: `ec42d50ec7e08c49d432dd8fe4c066a79c6e7547e1ac4085ad4f8
 | R4-01 | P1 | DONE | CONTRACT | `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` |
 | R4-02 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/stats.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-03 | P1 | TODO | NOT_TESTED | — |
-| R4-04 | P1 | TODO | NOT_TESTED | — |
+| R4-04 | P1 | PARTIAL | CONTRACT | `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-09-10-heldout-qualification.json` |
 | R4-05 | P1 | TODO | NOT_TESTED | — |
 | R4-06 | P1 | TODO | NOT_TESTED | — |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |

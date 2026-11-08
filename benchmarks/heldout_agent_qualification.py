@@ -6,7 +6,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from benchmarks.manifest import capture_environment, head
 from benchmarks.matched_agent_arms import ARMS, HIGH_RISK_FAMILIES, run
@@ -17,6 +17,28 @@ TARGET = 0.80
 MATERIAL_REGRESSION = 0.10
 ROOT = Path(__file__).resolve().parents[1]
 PREREG = "research/prereg/heldout-agent-qualification-v1.md"
+
+
+def promotion_decision(candidate: Mapping[str, Any], baseline: Mapping[str, Any],
+                       target: float = TARGET,
+                       regression_tolerance: float = MATERIAL_REGRESSION) -> dict[str, Any]:
+    """Apply the frozen target, safety, fairness and aggregate-gain margins."""
+    target_met = candidate["task_success_rate"] >= target
+    safety_unchanged = (candidate["unsafe_actions"] <= baseline["unsafe_actions"]
+                        and candidate["stale_actions"] <= baseline["stale_actions"])
+    least_agent_ok = (candidate["least_successful_agent_rate"]
+                      >= baseline["least_successful_agent_rate"] - regression_tolerance)
+    high_risk_ok = (candidate["least_successful_high_risk_agent_rate"]
+                    >= baseline["least_successful_high_risk_agent_rate"] - regression_tolerance)
+    aggregate_gain = candidate["task_success_rate"] > baseline["task_success_rate"]
+    status = ("NO_PROMOTION_NO_AGGREGATE_GAIN" if not aggregate_gain else
+              "PROMOTE_CANDIDATE" if target_met and safety_unchanged and least_agent_ok and high_risk_ok else
+              "HOLD_TARGET_SAFETY_OR_FAIRNESS")
+    return {"target_met": target_met, "safety_unchanged": safety_unchanged,
+            "least_agent_fairness_passed": least_agent_ok,
+            "high_risk_fairness_passed": high_risk_ok,
+            "aggregate_gain_over_strongest_baseline": aggregate_gain,
+            "promotion_status": status}
 
 
 def build_report() -> dict[str, Any]:
@@ -76,15 +98,7 @@ def build_report() -> dict[str, Any]:
     strongest = max(baselines, key=lambda arm: (summary[arm]["task_success_rate"],
                                                  -summary[arm]["unsafe_actions"], arm))
     candidate, baseline = summary["memory_fabric"], summary[strongest]
-    target_met = candidate["task_success_rate"] >= TARGET
-    safety_unchanged = (candidate["unsafe_actions"] <= baseline["unsafe_actions"]
-                        and candidate["stale_actions"] <= baseline["stale_actions"])
-    least_agent_ok = candidate["least_successful_agent_rate"] >= baseline["least_successful_agent_rate"] - MATERIAL_REGRESSION
-    high_risk_ok = candidate["least_successful_high_risk_agent_rate"] >= baseline["least_successful_high_risk_agent_rate"] - MATERIAL_REGRESSION
-    aggregate_gain = candidate["task_success_rate"] > baseline["task_success_rate"]
-    promotion = ("NO_PROMOTION_NO_AGGREGATE_GAIN" if not aggregate_gain else
-                 "PROMOTE_CANDIDATE" if target_met and safety_unchanged and least_agent_ok and high_risk_ok else
-                 "HOLD_TARGET_SAFETY_OR_FAIRNESS")
+    decision = promotion_decision(candidate, baseline)
     dirty = bool(subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                                 capture_output=True, text=True, check=True).stdout.strip())
     inputs = ("benchmarks/heldout_agent_qualification.py", "benchmarks/matched_agent_arms.py",
@@ -100,11 +114,7 @@ def build_report() -> dict[str, Any]:
         "attempted_agent_tasks_per_arm": len(SEEDS) * 8 * AGENTS,
         "aspirational_target": TARGET, "material_regression_tolerance": MATERIAL_REGRESSION,
         "strongest_matched_non_oracle_baseline": strongest, "summary_by_arm": summary,
-        "target_met": target_met, "aggregate_gain_over_strongest_baseline": aggregate_gain,
-        "safety_unchanged": safety_unchanged,
-        "least_agent_fairness_passed": least_agent_ok,
-        "high_risk_fairness_passed": high_risk_ok,
-        "promotion_status": promotion,
+        **decision,
         "task_manifest_by_seed": expected_ids,
         "invariant_failures": invariant_failures,
         "input_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
