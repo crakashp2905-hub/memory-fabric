@@ -1,0 +1,33 @@
+{
+  "episode_count": 4000,
+  "exposed_counts": {
+    "easy": 1811,
+    "hard": 196
+  },
+  "exposed_easy_fraction": 0.9023418036870952,
+  "exposed_easy_rate": 0.9055,
+  "exposed_hard_rate": 0.098,
+  "ips_absolute_error": 0.010633360932911257,
+  "ips_ci_high": 0.18644731363657296,
+  "ips_ci_low": 0.13481940822924954,
+  "ips_contrastive": true,
+  "ips_estimate": 0.16063336093291125,
+  "ips_n_eff": 717.8767603576746,
+  "ips_recovery_requirement_passed": true,
+  "limitations": [
+    "Synthetic randomized assignment within known difficulty strata; hidden confounding and incorrect propensity logs are not tested.",
+    "One memory and two task strata do not establish performance on real adaptive retrieval policies."
+  ],
+  "naive_bias": 0.4037549459980885,
+  "naive_bias_requirement_passed": true,
+  "naive_unadjusted_exposed_minus_withheld": 0.5537549459980885,
+  "schema": "memory-fabric-n3-04-confounded-credit/1",
+  "seed": 3404,
+  "selection_enrichment_requirement_passed": true,
+  "true_average_treatment_effect": 0.15,
+  "withheld_counts": {
+    "easy": 189,
+    "hard": 1804
+  },
+  "withheld_easy_fraction": 0.09483191169091822
+}

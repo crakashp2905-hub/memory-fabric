@@ -481,6 +481,23 @@
       ]
     },
     {
+      "task_id": "N3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-04-confounded-memory-credit-v1.md",
+        "benchmarks/n3_04_confounded_memory.py",
+        "tests/test_n3_04_confounded_memory.py",
+        "research/results/n3-04-confounded-memory.json",
+        "research/results/n3-04-confounded-memory.md",
+        "research/results/n3-04-confounded-memory-tests.xml"
+      ],
+      "limitations": [
+        "A seeded synthetic experiment with a constant positive effect, randomized treatment within known task-difficulty strata, and correctly logged propensities; hidden confounding and adaptive real retrieval are not tested."
+      ]
+    },
+    {
       "task_id": "E1-01",
       "status": "DONE",
       "acceptance_passed": true,
