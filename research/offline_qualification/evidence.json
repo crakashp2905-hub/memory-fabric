@@ -2361,6 +2361,22 @@
       ]
     },
     {
+      "task_id": "P1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "docs/QUICKSTART.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-01-example-tests.json",
+        "research/results/p1-01-example-tests.txt"
+      ],
+      "limitations": [
+        "The offline source install requires setuptools>=77 to be preinstalled as the local build backend; the Memory Fabric runtime has no dependencies."
+      ]
+    },
+    {
       "task_id": "P1-02",
       "status": "DONE",
       "acceptance_passed": true,

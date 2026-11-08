@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **141 / 260 (54.23%)**. Internal status: **BLOCKED**.
+Strict completion: **142 / 260 (54.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f5150630f7addcdbf27ddf5c5b185642985090902e1bcdf3b08962d7bf8c768d`.
+Normalized ledger digest: `2427446c66a5afc777fd5fbd4b72e8e39634fae21e8d9f14f720e1d92bc1dd13`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 141 |
+| DONE | 142 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 115 |
+| TODO | 114 |
 
 ## Graduation gates
 
@@ -239,7 +239,7 @@ Normalized ledger digest: `f5150630f7addcdbf27ddf5c5b185642985090902e1bcdf3b0896
 | H5-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `src/memory_fabric/limits.py`, `tests/test_agent_api_rate_limit.py`, `tools/rate_limit_qualification.py`, `.github/workflows/ci.yml`, `research/results/h5-08-rate-limit-qualification.json`, `research/results/h5-08-rate-limit-tests.xml` |
 | H5-09 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_production_defaults.py`, `tests/data/default_features.json`, `tests/test_presets.py`, `.github/workflows/ci.yml`, `research/results/h5-09-production-defaults.json` |
 | H5-10 | P1 | DONE | INTERNAL_INTEGRATION | `research/security/internal_findings.json`, `tools/security_findings.py`, `tests/test_security_findings.py`, `tools/check.py`, `research/results/h5-10-internal-security-findings.json`, `research/results/h5-10-finding-verification.xml` |
-| P1-01 | P1 | TODO | NOT_TESTED | — |
+| P1-01 | P1 | DONE | INTERNAL_INTEGRATION | `examples/getting_started.py`, `docs/QUICKSTART.md`, `tests/test_examples_run.py`, `research/results/p1-01-example-tests.json`, `research/results/p1-01-example-tests.txt` |
 | P1-02 | P1 | DONE | INTERNAL_INTEGRATION | `examples/reference_agent.py`, `examples/multi_agent_team.py`, `examples/action_gate.py`, `examples/README.md`, `tests/test_examples_run.py`, `research/results/p1-02-example-tests.json`, `research/results/p1-02-example-tests.txt` |
 | P1-03 | P1 | TODO | NOT_TESTED | — |
 | P1-04 | P1 | TODO | NOT_TESTED | — |

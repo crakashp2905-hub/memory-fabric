@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "9f98e411d65fbaa185f4fbea4603924e87a6be0ea3d3d753a851bc13a0cbac1c",
+    "sha256": "e133550ad70d028fa74df2abf68863275c154f80b8cb66cabb600dde5c08da01",
     "tasks": 260
   },
   "source": {
-    "commit": "0bea6e617c3f922e78ba1b03717fb487279e7207",
+    "commit": "ae3b7b8d134414f99dd1393a4a321efa055b0156",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 141,
+      "DONE": 142,
       "PARTIAL": 4,
-      "TODO": 115
+      "TODO": 114
     },
-    "completed": 141,
+    "completed": 142,
     "total": 260,
-    "percent_complete": 54.23,
+    "percent_complete": 54.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4801,13 +4801,27 @@
       "priority": "P1",
       "task": "Create one verified 60-second zero-credential getting-started path using only bundled fixtures.",
       "acceptance": "Clean offline install can initialize, ingest, correct, recall and see changed action status",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "docs/QUICKSTART.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-01-example-tests.json",
+        "research/results/p1-01-example-tests.txt"
+      ],
+      "evidence_digests": {
+        "examples/getting_started.py": "45a1ac6885701f17289ee442fce189852950e4710f5a722960da67ae91e81716",
+        "docs/QUICKSTART.md": "05544e779707571414dc741affd4d2e8866a4ec68d3f6b3ce79847cc1143ade3",
+        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
+        "research/results/p1-01-example-tests.json": "fb792160ec92843937eab275d2ac68839c96b95725825c0428be92436160d7f0",
+        "research/results/p1-01-example-tests.txt": "a8d09cf96fa067b944202e6161c893cc57a0d1d417bd17f982b41579e1230407"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The offline source install requires setuptools>=77 to be preinstalled as the local build backend; the Memory Fabric runtime has no dependencies."
+      ]
     },
     {
       "task_id": "P1-02",
@@ -4830,8 +4844,8 @@
         "examples/reference_agent.py": "a5ad01ad0d7c27aaee4f8270679d8b2cc6501473350d5f4ce268a13468ae4668",
         "examples/multi_agent_team.py": "2fc25f54439461f7d1d0d79bf652ae5d02f723c9f5e45662e7c1da1e88b85e53",
         "examples/action_gate.py": "c1b38de60be73579a4463e8a40ee84c5fd8f8a967d4aae4cb0c76362248df782",
-        "examples/README.md": "e3a2caa6067cbb5b60168e66c29967ffd4a48e9b158d4ed436a71711f26d4ee6",
-        "tests/test_examples_run.py": "d505323cf7d6b3ea3de1569e30cce8bf3ea7990dc85e9496dc56987a6210619c",
+        "examples/README.md": "59e6760bb940eb9ca2bb1b32ce96f6b9d748f9af0122b46cf81fa3dbeb00ea5e",
+        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
         "research/results/p1-02-example-tests.json": "a32f5d477e6173f8f32a3eb5952f92f746f82a1d6d5a24dbd0d4e730bcad89be",
         "research/results/p1-02-example-tests.txt": "c2c7fe8c33afe2560701fabf17d38fa9115fd706e9e45dd85a99a2165a7bf026"
       },
@@ -5457,7 +5471,7 @@
       "evidence_digests": {
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
-        "tests/test_examples_run.py": "d505323cf7d6b3ea3de1569e30cce8bf3ea7990dc85e9496dc56987a6210619c",
+        "tests/test_examples_run.py": "15d0971c085c1fd3a8ee3498adb7ad04171146616486ae3d8799ed1a9c78c245",
         "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_user_docs_no_research.py": "40204106f31b9514194afc005f47d8fcb6e8e23b7220750d0bda17801c460220",

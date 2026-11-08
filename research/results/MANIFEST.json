@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 226,
+ "results": 227,
  "missing_field_counts": {
-  "git_sha": 122,
+  "git_sha": 123,
   "prereg": 91,
-  "dataset_digest": 223,
-  "model_id": 190,
-  "prompt_hash": 226,
-  "seed": 147,
-  "cost": 203,
-  "verdict": 155
+  "dataset_digest": 224,
+  "model_id": 191,
+  "prompt_hash": 227,
+  "seed": 148,
+  "cost": 204,
+  "verdict": 156
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 214
+  "unclassified": 215
  },
  "rows": [
   {
@@ -3149,6 +3149,24 @@
     "O1c": true,
     "ceiling_ok": true
    },
+   "parsable": true
+  },
+  {
+   "experiment_id": "p1-01-example-tests",
+   "file": "research/results/p1-01-example-tests.json",
+   "file_sha256": "7c0997a1f8edd493682f65a3ad75c60031e123f602f5edd4eec42e2aea0595a0",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p1-evidence-chain-reconstruction.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {
