@@ -2245,6 +2245,22 @@
       ]
     },
     {
+      "task_id": "R5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/OFFLINE_REPRODUCIBILITY.md",
+        "tests/test_offline_reproducibility.py",
+        "research/claims.json",
+        "research/results/CLAIMS_LEDGER.json"
+      ],
+      "limitations": [
+        "The package is an internal reviewer checklist, not evidence of a third-party reproduction.",
+        "Some optional platform/model tests remain unavailable and are listed as such."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,
