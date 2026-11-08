@@ -560,6 +560,12 @@
       "signature": "(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000)",
       "symbol": "memory_fabric.limits.Limits",
       "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.offline",
+      "signature": "() -> Iterator[None]",
+      "symbol": "memory_fabric.offline.offline_mode",
+      "tier": "beta"
     }
   ]
 }

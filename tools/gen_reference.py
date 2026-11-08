@@ -67,6 +67,7 @@ API: list[tuple[str, str, list[str]]] = [
     ("Federation", "memory_fabric.federation:offer_remote", []),
     ("Background maintenance", "memory_fabric.manager:MemoryManager", ["run_once", "start", "stop"]),
     ("Limits", "memory_fabric.limits:Limits", []),
+    ("Offline execution", "memory_fabric.offline:offline_mode", []),
 ]
 
 

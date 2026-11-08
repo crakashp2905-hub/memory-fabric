@@ -362,3 +362,13 @@ Limits(max_content_bytes: int = 1048576, writes_per_window: int | None = None, i
 ```
 
 Limits(max_content_bytes: 'int' = 1048576, writes_per_window: 'int | None' = None, imports_per_window: 'int | None' = None, window_ms: 'int' = 60000)
+
+## Offline execution
+
+### `offline.offline_mode` (beta)
+
+```python
+offline_mode() -> Iterator[None]
+```
+
+Block Python DNS and socket network operations until the context exits.

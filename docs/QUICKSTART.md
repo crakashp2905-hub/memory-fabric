@@ -19,6 +19,12 @@ must already have the declared build backend (`setuptools>=77`).
 `tests/test_examples_run.py` verifies the offline install and full path within
 60 seconds.
 
+The longer `examples/quickstart.py` walkthrough runs inside the public
+`memory_fabric.offline.offline_mode()` context. While active, it refuses Python
+DNS lookups and socket connection or send calls, so an accidental networking
+dependency fails immediately. This is a process-local guard; use an OS sandbox
+as well when untrusted native code or child processes must also be contained.
+
 The longer walkthrough follows.
 
 Every step below is in [examples/quickstart.py](../examples/quickstart.py),
