@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "6853134079392fe1a987ce60c7f8ebf6368fd8395d80e1f91b7a79d2b0bbb8c4",
+    "sha256": "20227fc9ee1e396f661705cf08ce51308c71ae14b72f19ed916b576374cbb813",
     "tasks": 260
   },
   "source": {
-    "commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
+    "commit": "7934acab1b64b0d30534bad5370f95f5c536ad35",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 135,
-      "PARTIAL": 9,
+      "DONE": 137,
+      "PARTIAL": 7,
       "TODO": 116
     },
-    "completed": 135,
+    "completed": 137,
     "total": 260,
-    "percent_complete": 51.92,
-    "p0_open": 5,
+    "percent_complete": 52.69,
+    "p0_open": 4,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -116,9 +116,9 @@
       "task_id": "E1-04",
       "priority": "P0",
       "task": "Stamp every new result with exact source commit and dirty-tree state.",
-      "acceptance": "Reports reject unknown SHA or dirty state except explicitly labelled exploratory results",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "acceptance": "Reports reject unknown SHA or dirty state except explicitly labelled exploratory results. Evidence: `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` (DONE: exact 40-character source SHA and dirty state are stamped; unknown SHA and dirty non-exploratory results are rejected. Fifty-five historical rows remain non-reconstructible and are not upgraded by inference)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/provenance.py",
@@ -140,7 +140,7 @@
       },
       "evidence_issues": {},
       "limitations": [
-        "New benchmark manifest writes bind exact 40-character source SHA and explicit dirty state; unknown SHA and dirty non-exploratory records are rejected. Fifty-five existing historical result rows lack an exact source SHA and cannot be reconstructed truthfully."
+        "Fifty-five historical result rows lack reconstructible exact source metadata and are not retroactively upgraded; all new result stamping and rejection behavior meets the acceptance criteria."
       ]
     },
     {
@@ -4517,10 +4517,10 @@
     {
       "task_id": "H5-02",
       "priority": "P1",
-      "task": "Enable static lint/type/security checks already available locally as hard release gates.",
-      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` (PARTIAL: Ruff and secret scan pass; mypy reports 50 errors in 11 files; two HTTP adversarial families are blocked by sandbox sockets; pip-audit and bandit are UNAVAILABLE)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "task": "Enable static lint/type/security checks already locally available as hard release gates.",
+      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml`, `research/results/p5-02-local-checks.txt` (DONE: Ruff, mypy (176 files/0 issues), secret scan (127 examined/0 unexpected), security AST scan (16 modules/0 findings), internal findings gate, documentation tests and adversarial gate (21/21 families, 279 tests) pass. `pip-audit` and `bandit` are explicitly reported UNAVAILABLE, not counted green)",
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/check.py",
@@ -4540,7 +4540,7 @@
       },
       "evidence_issues": {},
       "limitations": [
-        "Ruff and secret scan pass; mypy has 50 errors across 11 files. Adversarial gate has two remaining HTTP delivery families blocked by sandbox loopback policy. pip-audit and bandit are explicitly UNAVAILABLE."
+        "pip-audit and bandit are unavailable and reported UNAVAILABLE; installed configured static and adversarial release gates passed."
       ]
     },
     {

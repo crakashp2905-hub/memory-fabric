@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **135 / 260 (51.92%)**. Internal status: **BLOCKED**.
+Strict completion: **137 / 260 (52.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7d2d0e811f88fb237eb3a123434296a990c0c8558d386e9196b8205973e8583d`.
+Normalized ledger digest: `e7c983ffdc311cad5f4210b500bfb4d55ef76661ececce8a5c845adadaec2fb2`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 135 |
+| DONE | 137 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 9 |
+| PARTIAL | 7 |
 | TODO | 116 |
 
 ## Graduation gates
@@ -32,7 +32,7 @@ Normalized ledger digest: `7d2d0e811f88fb237eb3a123434296a990c0c8558d386e9196b82
 | E1-01 | P0 | DONE | INTERNAL_INTEGRATION | `docs/NEXT_MASTER_CHECKLIST_EXECUTION.md`, `research/results/grand-50-agent-baseline-reproduction-v2.json` |
 | E1-02 | P0 | DONE | CONTRACT | `tools/offline_baseline.py`, `tests/test_offline_baseline.py`, `research/offline_qualification/baseline.json`, `research/results/e5-10-portable-paths.xml` |
 | E1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/e1-03-manifest-environment.json`, `research/results/e1-03-manifest-environment.xml`, `research/results/bench_runs/legacy/index.json` |
-| E1-04 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
+| E1-04 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/provenance.py`, `benchmarks/manifest.py`, `tests/test_result_provenance.py`, `tests/test_benchmarks.py`, `docs/RESULT_PROVENANCE.md`, `research/results/e1-04-result-provenance.json`, `research/results/e1-04-result-provenance.xml` |
 | E1-05 | P0 | PARTIAL | INTERNAL_INTEGRATION | `benchmarks/manifest.py`, `benchmarks/scoreboard.py`, `benchmarks/evidence_completeness.py`, `tests/test_benchmarks.py`, `docs/BENCHMARK_MANIFEST_ENVIRONMENT.md`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/e1-05-input-digests.json`, `research/results/e1-05-input-digests.xml` |
 | E1-06 | P0 | DONE | INTERNAL_INTEGRATION | `tools/local_check_report.py`, `tests/test_local_check_report.py`, `docs/LOCAL_CHECK_REPORT.md`, `research/results/e1-06-local-check-report.json`, `research/results/e1-06-local-check-report.xml`, `research/results/e1-06-local-check-evidence.json` |
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
@@ -230,7 +230,7 @@ Normalized ledger digest: `7d2d0e811f88fb237eb3a123434296a990c0c8558d386e9196b82
 | H4-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json`, `research/results/h4-09-clock-skew-tests.xml` |
 | H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
 | H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `research/results/h5-01-dependency-provenance.json` |
-| H5-02 | P1 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
+| H5-02 | P1 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
 | H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
 | H5-04 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` |
 | H5-05 | P1 | DONE | INTERNAL_INTEGRATION | `tools/mutation_check.py`, `tests/test_enforcement_tenant.py`, `tests/test_erasure_key_destroy.py`, `tests/test_transport_auth.py`, `research/results/h5-05-mutation-qualification.json`, `research/results/h5-05-mutation-contract-tests.xml` |

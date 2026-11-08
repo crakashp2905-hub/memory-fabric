@@ -48,8 +48,8 @@
     },
     {
       "task_id": "E1-04",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "benchmarks/provenance.py",
@@ -61,7 +61,7 @@
         "research/results/e1-04-result-provenance.xml"
       ],
       "limitations": [
-        "New benchmark manifest writes bind exact 40-character source SHA and explicit dirty state; unknown SHA and dirty non-exploratory records are rejected. Fifty-five existing historical result rows lack an exact source SHA and cannot be reconstructed truthfully."
+        "Fifty-five historical result rows lack reconstructible exact source metadata and are not retroactively upgraded; all new result stamping and rejection behavior meets the acceptance criteria."
       ]
     },
     {
@@ -1368,8 +1368,8 @@
     },
     {
       "task_id": "H5-02",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
+      "status": "DONE",
+      "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/check.py",
@@ -1380,7 +1380,7 @@
         "research/results/h5-01-02-local-tool-inventory-tests.xml"
       ],
       "limitations": [
-        "Ruff and secret scan pass; mypy has 50 errors across 11 files. Adversarial gate has two remaining HTTP delivery families blocked by sandbox loopback policy. pip-audit and bandit are explicitly UNAVAILABLE."
+        "pip-audit and bandit are unavailable and reported UNAVAILABLE; installed configured static and adversarial release gates passed."
       ]
     },
     {
