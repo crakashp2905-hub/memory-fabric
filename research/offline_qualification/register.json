@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "4381505837a3832e9bcb42e5c42f332a3759e9394ef357f559b2a736baac8b6a",
+    "sha256": "4fcafc104dc1d617039d3d767f849ec5fb01395e83df1ee2edf4508178a1172b",
     "tasks": 260
   },
   "source": {
-    "commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
+    "commit": "014e80639f5d2ed8285f2c2adaeb161a7ee2641d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 103,
+      "DONE": 104,
       "PARTIAL": 14,
-      "TODO": 143
+      "TODO": 142
     },
-    "completed": 103,
+    "completed": 104,
     "total": 260,
-    "percent_complete": 39.62,
+    "percent_complete": 40.0,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -4317,7 +4317,7 @@
         "research/results/h5-01-02-local-tool-inventory-tests.xml"
       ],
       "evidence_digests": {
-        "tools/check.py": "aa973af2bbef2c88bb2d5a40fb8683221652c8ac331368b0fc7af83512d9f26f",
+        "tools/check.py": "be6dad5288930d3464ca9b894dd22870d35ffc517dbc2090b618e4553de46dc6",
         "tools/adversarial_gate.py": "1ab5369f9ac645e62791af12f200ded0c8113e158c9362db56f4b53229f718ac",
         "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
         "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
@@ -4333,14 +4333,30 @@
       "task_id": "H5-03",
       "priority": "P1",
       "task": "Add AST-based scan for dangerous deserialization, subprocess, eval and unsafe path joins in security modules.",
-      "acceptance": "Verified known-positive fixture causes scan failure and approved exceptions require rationale",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Verified known-positive fixture causes scan failure and approved exceptions require rationale. Evidence: `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` (DONE: 16 security modules scanned; zero unapproved findings; known-positive and rationale-matched exception tests pass; static pattern checks do not establish general taint safety)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/security_ast_scan.py",
+        "tools/security_ast_exceptions.json",
+        "tests/test_security_ast_scan.py",
+        "tests/data/security_ast_positive.py",
+        "research/results/h5-03-security-ast.json",
+        "research/results/h5-03-security-ast-tests.xml"
+      ],
+      "evidence_digests": {
+        "tools/security_ast_scan.py": "6b3a32d28521c10540724e388c4d9511676b74b4122fde755d417ff42639d75d",
+        "tools/security_ast_exceptions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "tests/test_security_ast_scan.py": "6f603e04e993e37dab22f261bb77be51b08beac63032b6be9e6db4d289676bc2",
+        "tests/data/security_ast_positive.py": "596b39b3172cb9a625f3c3ed6012e6220c01e244caf8700bb03ad009bf70edc9",
+        "research/results/h5-03-security-ast.json": "a22b47c23c90537615b5b313896c1637ec09164b6590ef02ef0d3e7042c649e2",
+        "research/results/h5-03-security-ast-tests.xml": "9a3860314552b5f740d0541dcceda0bf2429ca8bad1ac6dc19f039bba1d1e7ba"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "AST rules cover direct dangerous calls, shell=True subprocess calls, and path joins with request-like variable names; this static analysis does not establish general taint safety or replace independent review."
+      ]
     },
     {
       "task_id": "H5-04",

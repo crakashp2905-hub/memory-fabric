@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **103 / 260 (39.62%)**. Internal status: **BLOCKED**.
+Strict completion: **104 / 260 (40.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `864a46a65813d857e3c3f058ad5f1d166c6dbef0fde1a4545f5306b2e9faf190`.
+Normalized ledger digest: `7b42e87cd5415e255c4f1870479a083ae22f82b869c2b5c7a9c6b8277df23b4d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 103 |
+| DONE | 104 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 143 |
+| TODO | 142 |
 
 ## Graduation gates
 
@@ -231,7 +231,7 @@ Normalized ledger digest: `864a46a65813d857e3c3f058ad5f1d166c6dbef0fde1a4545f530
 | H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
 | H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `research/results/h5-01-dependency-provenance.json` |
 | H5-02 | P1 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
-| H5-03 | P1 | TODO | NOT_TESTED | — |
+| H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
 | H5-04 | P1 | TODO | NOT_TESTED | — |
 | H5-05 | P1 | TODO | NOT_TESTED | — |
 | H5-06 | P1 | TODO | NOT_TESTED | — |

@@ -1360,6 +1360,23 @@
       ]
     },
     {
+      "task_id": "H5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/security_ast_scan.py",
+        "tools/security_ast_exceptions.json",
+        "tests/test_security_ast_scan.py",
+        "tests/data/security_ast_positive.py",
+        "research/results/h5-03-security-ast.json",
+        "research/results/h5-03-security-ast-tests.xml"
+      ],
+      "limitations": [
+        "AST rules cover direct dangerous calls, shell=True subprocess calls, and path joins with request-like variable names; this static analysis does not establish general taint safety or replace independent review."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,
