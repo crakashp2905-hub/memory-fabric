@@ -1,0 +1,73 @@
+{
+  "schema": "mf-dependency-provenance/1",
+  "source": {
+    "commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
+    "dirty": true
+  },
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "project": {
+    "name": "memory-fabric",
+    "version": "0.14.0",
+    "requires_python": ">=3.11",
+    "core_dependencies": [],
+    "optional_dependencies": {
+      "test": [
+        "pytest==9.0.3"
+      ],
+      "documents": [
+        "pypdf>=6.0,<7"
+      ],
+      "claude": [
+        "anthropic>=0.40"
+      ],
+      "postgres": [
+        "psycopg>=3.1"
+      ],
+      "langchain": [
+        "langchain-core>=0.3"
+      ],
+      "crypto": [
+        "cryptography>=42"
+      ],
+      "oauth": [
+        "PyJWT[crypto]>=2.10,<3"
+      ],
+      "retrieval": [
+        "fastembed>=0.5"
+      ],
+      "retrieval-torch": [
+        "sentence-transformers>=3"
+      ]
+    }
+  },
+  "declared_distributions": [
+    "anthropic",
+    "cryptography",
+    "fastembed",
+    "langchain-core",
+    "psycopg",
+    "pyjwt",
+    "pypdf",
+    "pytest",
+    "sentence-transformers"
+  ],
+  "installed_declared_distributions": {
+    "cryptography": "45.0.4",
+    "langchain-core": "1.6.2",
+    "psycopg": "3.3.6",
+    "pyjwt": "2.10.1",
+    "pypdf": "6.19.0",
+    "pytest": "9.0.3"
+  },
+  "artifacts": [],
+  "lock_metadata": "UNAVAILABLE: no committed dependency lock file",
+  "reproducible_build": "NOT_ESTABLISHED: local installed versions and artifact hashes are inventory only",
+  "inventory_run": {
+    "source_commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
+    "input_sha256": {
+      "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
+      "tools/dependency_provenance.py": "ba3680568289ddbbf46c2e4907ae74e740320f5b12efb1f2f01775734b7ba719"
+    },
+    "inventory_sha256": "8547f41c26e923d934f8a3975511ece343879e3378ccb3a2e85773432f126717"
+  }
+}

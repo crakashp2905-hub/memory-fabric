@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import importlib.util
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +39,14 @@ STEPS = [
 
 
 def main(argv: list[str]) -> int:
+    optional_tools = {
+        "ruff": "ruff", "mypy": "mypy", "pytest": "pytest", "build": "build",
+        "pip-audit": "pip_audit", "bandit": "bandit",
+    }
+    for command, module in optional_tools.items():
+        available = importlib.util.find_spec(module) is not None
+        print(f"tool availability: {command}: {'AVAILABLE' if available else 'UNAVAILABLE'}",
+              flush=True)
     steps = STEPS + ([("unit suite", [PY, "-m", "unittest", "discover", "-s", "tests", "-t", "."])]
                      if "--full" in argv else [])
     for name, cmd in steps:

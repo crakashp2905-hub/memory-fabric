@@ -1329,6 +1329,37 @@
       ]
     },
     {
+      "task_id": "H5-01",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "pyproject.toml",
+        "tools/dependency_provenance.py",
+        "research/results/h5-01-dependency-provenance.json"
+      ],
+      "limitations": [
+        "Core and optional extras are inventoried from project metadata and installed versions are recorded. No committed lock metadata exists; artifact build hashes and reproducible build instructions are not yet established."
+      ]
+    },
+    {
+      "task_id": "H5-02",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/check.py",
+        "tools/adversarial_gate.py",
+        "tests/test_secure_sdlc_inventory.py",
+        "research/results/h5-02-adversarial-gate.json",
+        "research/results/h5-02-static-security-gates.json",
+        "research/results/h5-01-02-local-tool-inventory-tests.xml"
+      ],
+      "limitations": [
+        "Ruff and secret scan pass; mypy has 50 errors across 11 files. Adversarial gate has two remaining HTTP delivery families blocked by sandbox loopback policy. pip-audit and bandit are explicitly UNAVAILABLE."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

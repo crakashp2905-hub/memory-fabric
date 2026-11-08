@@ -4,7 +4,7 @@ Strict completion: **103 / 260 (39.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `89d492cebc7168d8a8170b8b8dffa27fff316c2b91f08207028cff2b76dd0066`.
+Normalized ledger digest: `864a46a65813d857e3c3f058ad5f1d166c6dbef0fde1a4545f5306b2e9faf190`.
 
 | status | count |
 |---|---:|
@@ -12,8 +12,8 @@ Normalized ledger digest: `89d492cebc7168d8a8170b8b8dffa27fff316c2b91f08207028cf
 | DONE | 103 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 12 |
-| TODO | 145 |
+| PARTIAL | 14 |
+| TODO | 143 |
 
 ## Graduation gates
 
@@ -229,8 +229,8 @@ Normalized ledger digest: `89d492cebc7168d8a8170b8b8dffa27fff316c2b91f08207028cf
 | H4-08 | P0 | PARTIAL | INTERNAL_INTEGRATION | `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml` |
 | H4-09 | P0 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json` |
 | H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
-| H5-01 | P1 | TODO | NOT_TESTED | — |
-| H5-02 | P1 | TODO | NOT_TESTED | — |
+| H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `research/results/h5-01-dependency-provenance.json` |
+| H5-02 | P1 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
 | H5-03 | P1 | TODO | NOT_TESTED | — |
 | H5-04 | P1 | TODO | NOT_TESTED | — |
 | H5-05 | P1 | TODO | NOT_TESTED | — |

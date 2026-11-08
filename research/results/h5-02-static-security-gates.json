@@ -1,0 +1,30 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H5-02",
+  "source_commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
+  "input_sha256": {
+    "tools/check.py": "aa973af2bbef2c88bb2d5a40fb8683221652c8ac331368b0fc7af83512d9f26f",
+    "tools/adversarial_gate.py": "1ab5369f9ac645e62791af12f200ded0c8113e158c9362db56f4b53229f718ac",
+    "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
+    "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef"
+  },
+  "checks": {
+    "ruff": "PASS",
+    "secret_scan": "PASS: 119 high findings, 0 unexpected",
+    "mypy": "FAIL: 50 errors in 11 files",
+    "adversarial_gate": {
+      "passed_families": 19,
+      "failed_families": [
+        "offline_peers_and_recovery",
+        "key_rotation_and_retired_keys"
+      ]
+    },
+    "unavailable_tools": [
+      "pip-audit",
+      "bandit"
+    ]
+  },
+  "limitations": [
+    "Mandatory configured mypy gate currently fails; full check.py stops there. Adversarial gate remaining failures are HTTP transport suites blocked by WinError 10013 in sandbox; all other families pass."
+  ]
+}
