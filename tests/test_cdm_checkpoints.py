@@ -9,6 +9,7 @@ from dataclasses import replace
 from memory_fabric.causal_replay.checkpoints import (CacheKey, CheckpointCache, create,
     restore_rng, verify, verify_exact_ready)
 from memory_fabric.causal_replay.capture import capture_rng_state
+from memory_fabric.causal_replay.attribution import assess_fabric_source_roots
 from memory_fabric.causal_replay.state import Observation
 from memory_fabric.causal_replay.types import BeliefReference, CDMError, digest_json
 from memory_fabric import MemoryFabric
@@ -54,6 +55,23 @@ class TestCheckpoints(unittest.TestCase):
         operator = self.service.session(self.service.issue("operator"))
         operator.erase_content(self.memory_id, "privacy")
         self.assertFalse(verify(self.checkpoint, fabric=self.fabric, session=self.session))
+
+    def test_current_erasure_overrides_prior_cache_and_provenance_assessment(self):
+        key = CacheKey("tenant-a", "agent-a", ((self.memory_id, self.ref.version),),
+                       "b" * 64, "c" * 64, None, "erase-check")
+        cache = CheckpointCache()
+        cache.put(key, self.checkpoint)
+        before = assess_fabric_source_roots(self.fabric, self.session, (self.memory_id,))
+        self.assertEqual(before.independent_root_count, 1)
+        self.assertEqual(cache.get(key, fabric=self.fabric, session=self.session),
+                         self.checkpoint)
+
+        self.fabric.erase_content(self.memory_id, actor="privacy-operator",
+                                  reason="current erasure dominates cached replay")
+        self.assertIsNone(cache.get(key, fabric=self.fabric, session=self.session))
+        from memory_fabric.causal_replay.types import Erased
+        with self.assertRaises(Erased):
+            assess_fabric_source_roots(self.fabric, self.session, (self.memory_id,))
 
     def test_mutation_refuses(self):
         from dataclasses import replace

@@ -383,6 +383,8 @@ def assess_fabric_source_roots(fabric: Any, session: Any,
         raise CDMError("source-root assessment requires 1 to 100 unique evidence IDs")
     roots: dict[str, str | None] = {}
     for memory_id in ids:
+        if memory_id in fabric.state.erased:
+            raise Erased("requested evidence is unavailable")
         try:
             current = fabric.use(memory_id, agent_id=principal.agent_id,
                 tenant_id=principal.tenant_id, audit=False)
@@ -453,7 +455,8 @@ def assess_federated_versions(fabric: Any, session: Any,
             root_memory = fabric.state.memories[local_root]
         except Exception as exc:
             raise Erased("requested evidence is unavailable") from exc
-        if not current.usable or memory_id not in root_by_evidence:
+        if (memory_id in fabric.state.erased or not current.usable
+                or memory_id not in root_by_evidence):
             raise Erased("requested evidence is unavailable")
         context = root_memory.context if isinstance(root_memory.context, MappingABC) else {}
         origin = context.get("federation")
