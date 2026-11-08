@@ -109,7 +109,7 @@ The remaining workstreams are ordered for coverage, **not** as a request to exec
 - [ ] **E1-07** · **P0** · Build a single acceptance-ledger generator reading tests, metrics and evidence paths. **Acceptance:** Every claim links to one machine-verifiable artifact; missing artifacts produce INCOMPLETE..
 - [ ] **E1-08** · **P0** · Add a negative-control self-test that intentionally corrupts one expected result. **Acceptance:** Acceptance checker fails the manipulated run and restores normal passing state..
 - [ ] **E1-09** · **P0** · Detect result cherry-picking by comparing declared seed manifest against results on disk. **Acceptance:** Missing, repeated, or extra seed outputs block research acceptance..
-- [ ] **E1-10** · **P0** · Regenerate test count and feature status from source, not manually maintained prose. **Acceptance:** Exact-head CI fails if README, registry or status contradict actual package/test inventory..
+- [x] **E1-10** · **P0** · Regenerate test count and feature status from source, not manually maintained prose. **Acceptance:** Exact-head CI fails if README, registry or status contradict actual package/test inventory.. Evidence: `tools/count_tests.py`, `tools/status_at_head.py`, `tools/gen_capabilities.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `tests/test_capability_registry.py`, `.github/workflows/ci.yml`, `research/results/e1-10-generated-status.json`, `research/results/e1-10-generated-status.txt` (DONE: 17 tests pass; source-generated test count 2541, capability registry check and status-at-head check pass at exact HEAD. Configured CI matrix not run remotely.)..
 
 
 #### E2 — Event sourcing, consistency, corrections and historical belief [P0]

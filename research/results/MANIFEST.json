@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 245,
+ "results": 246,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 242,
-  "model_id": 209,
-  "prompt_hash": 245,
-  "seed": 166,
-  "cost": 222,
-  "verdict": 174
+  "dataset_digest": 243,
+  "model_id": 210,
+  "prompt_hash": 246,
+  "seed": 167,
+  "cost": 223,
+  "verdict": 175
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 233
+  "unclassified": 234
  },
  "rows": [
   {
@@ -693,6 +693,24 @@
    "prereg": "research/prereg/e1-exhaustive-enumeration.md",
    "git_sha": null,
    "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "e1-10-generated-status",
+   "file": "research/results/e1-10-generated-status.json",
+   "file_sha256": "f7e21d2c319d8796da101dc21291dc69ee749f2b83fefa663f9b94fda3201434",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/e1-exhaustive-enumeration.md",
+   "git_sha": "07815be520500783ca188e58ec99af36d957b439",
+   "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

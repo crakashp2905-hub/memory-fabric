@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "4e2785d33ae38f5e4f44cad00c9ae5b934b54466f459dad6c13904967b19a986",
+    "sha256": "74098dd49b0a1e0054a12f91995f7a5649c94dc9f8ff0f77f42ac549f152a5d0",
     "tasks": 260
   },
   "source": {
-    "commit": "0265ea261dc0cc803ceb89251c54b427a42802a6",
+    "commit": "07815be520500783ca188e58ec99af36d957b439",
     "dirty": true
   },
   "summary": {
@@ -282,41 +282,35 @@
       "task_id": "E1-10",
       "priority": "P0",
       "task": "Regenerate test count and feature status from source, not manually maintained prose.",
-      "acceptance": "Exact-head CI fails if README, registry or status contradict actual package/test inventory",
+      "acceptance": "Exact-head CI fails if README, registry or status contradict actual package/test inventory.. Evidence: `tools/count_tests.py`, `tools/status_at_head.py`, `tools/gen_capabilities.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `tests/test_capability_registry.py`, `.github/workflows/ci.yml`, `research/results/e1-10-generated-status.json`, `research/results/e1-10-generated-status.txt` (DONE: 17 tests pass; source-generated test count 2541, capability registry check and status-at-head check pass at exact HEAD. Configured CI matrix not run remotely.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/count_tests.py",
         "tools/status_at_head.py",
+        "tools/gen_capabilities.py",
         "tests/test_status_at_head.py",
         "tests/test_suite_hygiene.py",
+        "tests/test_capability_registry.py",
         ".github/workflows/ci.yml",
-        "pyproject.toml",
-        "README.md",
-        "docs/VALIDATION.md",
-        "docs/STATUS_AT_HEAD.md",
-        "research/results/e1-10-full-suite.xml",
-        "research/results/e1-10-full-suite-report.json",
-        "research/results/e1-10-full-suite-evidence.json"
+        "research/results/e1-10-generated-status.json",
+        "research/results/e1-10-generated-status.txt"
       ],
       "evidence_digests": {
         "tools/count_tests.py": "d35a88dd0f087584868fbf8e0dd7dc48bbfd52270f2838bcaf837bb0f8a7fe58",
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
+        "tools/gen_capabilities.py": "848c3441f130bbe983f8fbb6c32d9032adb0481ffe8e8790bb6fcc614be4e3c4",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
+        "tests/test_capability_registry.py": "671b0bdd08621ed38850a223c9fe9403b433b8e2f6338d39139be114f92cd46d",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
-        "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "9930c74b3a2733ff19ec83ef6c83855730bf56881a0fec9534e9b0a142a4cdb8",
-        "docs/VALIDATION.md": "9e7779f2e55bf99cc0eabfae78ea0056d2c4fa882bca810e2dfe375d702bb43a",
-        "docs/STATUS_AT_HEAD.md": "889de6a219d711164b45e0598619c87be2586107517f29440796583cf5cea80b",
-        "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
-        "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
-        "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
+        "research/results/e1-10-generated-status.json": "623bc3699b3a11a4e5cc0bb50be245e49c9cf94087107872b57dc98f344f269b",
+        "research/results/e1-10-generated-status.txt": "b219f99e0e20c53a432ea5421a002a4b3cae61f30f5f67fa23514d93f46ac13f"
       },
       "evidence_issues": {},
       "limitations": [
-        "Exact commit passed the full local suite; the GitHub Actions three-OS/three-Python branch matrix has not yet run."
+        "Remote CI matrix legs have not run for this branch."
       ]
     },
     {
@@ -1500,7 +1494,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "951fa47b269efde90a85f90429466d84a14ca2bf3e5113d1e761efa2bb11e579",
+        "research/results/MANIFEST.json": "b7a91f21d41570e3cda22744cd286d1cf666486bc6f9a3164acdc4ce3227062b",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },

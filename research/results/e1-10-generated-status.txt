@@ -1,0 +1,5 @@
+E1-10 source-generated test and feature status
+
+17 focused tests passed at exact HEAD 07815be520500783ca188e58ec99af36d957b439. `tools/count_tests.py --check` reports 2541 and matches README/docs validation counts. `tools/gen_capabilities.py --check` passes, the generated STATUS_AT_HEAD is current, and its exact-head check exits 0. CI calls count and status consistency checks; local registry tests pass.
+
+Unexecuted remote CI matrix legs remain outside this local evidence.

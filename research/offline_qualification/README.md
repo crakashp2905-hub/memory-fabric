@@ -4,7 +4,7 @@ Strict completion: **160 / 260 (61.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a6ba3a7ed31963d13a31b9497813a2cd3568c3c3ca9240f80864b91c2027f92d`.
+Normalized ledger digest: `82914a766442e519f67d22d9402c15a3fff135c25b0bc3947f61a4c97e6326ed`.
 
 | status | count |
 |---|---:|
@@ -38,7 +38,7 @@ Normalized ledger digest: `a6ba3a7ed31963d13a31b9497813a2cd3568c3c3ca9240f80864b
 | E1-07 | P0 | DONE | CONTRACT | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-07-ledger-verification.json`, `research/results/e1-07-ledger-verification.xml` |
 | E1-08 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `research/results/e1-08-negative-control.json`, `research/results/e1-08-negative-control.xml` |
 | E1-09 | P0 | DONE | INTERNAL_INTEGRATION | `tools/offline_qualification.py`, `tests/test_offline_qualification.py`, `docs/SEED_MANIFESTS.md`, `research/results/e1-09-seed-manifest.json`, `research/results/e1-09-seed-manifest.xml` |
-| E1-10 | P0 | DONE | INTERNAL_INTEGRATION | `tools/count_tests.py`, `tools/status_at_head.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `.github/workflows/ci.yml`, `pyproject.toml`, `README.md`, `docs/VALIDATION.md`, `docs/STATUS_AT_HEAD.md`, `research/results/e1-10-full-suite.xml`, `research/results/e1-10-full-suite-report.json`, `research/results/e1-10-full-suite-evidence.json` |
+| E1-10 | P0 | DONE | INTERNAL_INTEGRATION | `tools/count_tests.py`, `tools/status_at_head.py`, `tools/gen_capabilities.py`, `tests/test_status_at_head.py`, `tests/test_suite_hygiene.py`, `tests/test_capability_registry.py`, `.github/workflows/ci.yml`, `research/results/e1-10-generated-status.json`, `research/results/e1-10-generated-status.txt` |
 | E2-01 | P0 | DONE | CONTRACT | `docs/STATE_TRANSITIONS.json`, `docs/STATE_TRANSITIONS.md`, `tests/test_state_transition_contract.py` |
 | E2-02 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_replay_equivalence.py`, `tests/test_properties.py`, `tests/test_backup.py` |
 | E2-03 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_withdrawn_parent_orderings.py`, `tests/test_justification.py` |

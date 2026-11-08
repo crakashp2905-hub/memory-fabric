@@ -150,19 +150,16 @@
       "evidence_paths": [
         "tools/count_tests.py",
         "tools/status_at_head.py",
+        "tools/gen_capabilities.py",
         "tests/test_status_at_head.py",
         "tests/test_suite_hygiene.py",
+        "tests/test_capability_registry.py",
         ".github/workflows/ci.yml",
-        "pyproject.toml",
-        "README.md",
-        "docs/VALIDATION.md",
-        "docs/STATUS_AT_HEAD.md",
-        "research/results/e1-10-full-suite.xml",
-        "research/results/e1-10-full-suite-report.json",
-        "research/results/e1-10-full-suite-evidence.json"
+        "research/results/e1-10-generated-status.json",
+        "research/results/e1-10-generated-status.txt"
       ],
       "limitations": [
-        "Exact commit passed the full local suite; the GitHub Actions three-OS/three-Python branch matrix has not yet run."
+        "Remote CI matrix legs have not run for this branch."
       ]
     },
     {
