@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "4fcafc104dc1d617039d3d767f849ec5fb01395e83df1ee2edf4508178a1172b",
+    "sha256": "d8ddfdf894df89acf799da8a83bdc2890592fd36546e472d122cb604531784d7",
     "tasks": 260
   },
   "source": {
-    "commit": "014e80639f5d2ed8285f2c2adaeb161a7ee2641d",
+    "commit": "3bf6613914ce2aa89f48c5d842d38b46e70cc783",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 104,
+      "DONE": 105,
       "PARTIAL": 14,
-      "TODO": 142
+      "TODO": 141
     },
-    "completed": 104,
+    "completed": 105,
     "total": 260,
-    "percent_complete": 40.0,
+    "percent_complete": 40.38,
     "p0_open": 26,
     "internal_status": "BLOCKED"
   },
@@ -303,7 +303,7 @@
         "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
-        ".github/workflows/ci.yml": "55fd7a1299d2158a90e7636eeb4d858cd52abfc825db589cf4829495a6616dc8",
+        ".github/workflows/ci.yml": "36bc22c4a4f0af9f34d96b024953dc7284e241ebcd288021723d00b12fc62940",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
         "README.md": "644d2e8abaf77cf63d6bb6b6daf8cb567565dac240cc4f28ccf1d063fc4ae15b",
         "docs/VALIDATION.md": "fbde2d2ab39d5b49487371076fdf5201ba88b11cb9126ac50ee3908578e44b4f",
@@ -4362,14 +4362,32 @@
       "task_id": "H5-04",
       "priority": "P1",
       "task": "Validate package assets contain no real secrets, test corpora credentials or unexpected binary files.",
-      "acceptance": "Inspect generated wheel/sdist and fail on allowlist violations",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Inspect generated wheel/sdist and fail on allowlist violations. Evidence: `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` (DONE: built wheel and sdist contain only allowed text assets, no high-severity secret findings, corpora, or binary assets; mutation fixtures fail as required)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_package_assets.py",
+        "tests/test_package_asset_audit.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/publish-pypi.yml",
+        "research/results/h5-04-package-asset-audit.json",
+        "research/results/h5-04-package-asset-tests.xml"
+      ],
+      "evidence_digests": {
+        "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
+        "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
+        ".github/workflows/ci.yml": "36bc22c4a4f0af9f34d96b024953dc7284e241ebcd288021723d00b12fc62940",
+        ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
+        ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
+        "research/results/h5-04-package-asset-audit.json": "4d4a130ba114eb686c178364a7f4077e5b021dedc888452ab66189667b147ee9",
+        "research/results/h5-04-package-asset-tests.xml": "5876e67d176704b565859e576be0c63fa5794150585e0e6249f06c6d7a8be9da"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The audit checks generated wheel and sdist contents using path/type allowlists plus the repository sensitive-data detector; it does not prove a secret-free runtime environment."
+      ]
     },
     {
       "task_id": "H5-05",

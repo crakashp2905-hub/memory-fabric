@@ -48,6 +48,7 @@ jobs:
 
       - run: python -m pip install --upgrade build
       - run: python -m build --wheel --outdir dist
+      - run: python tools/audit_package_assets.py dist/*.whl
 
       - name: Wheel ships the dashboard and excludes experiments
         run: |

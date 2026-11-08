@@ -1377,6 +1377,24 @@
       ]
     },
     {
+      "task_id": "H5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_package_assets.py",
+        "tests/test_package_asset_audit.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/publish-pypi.yml",
+        "research/results/h5-04-package-asset-audit.json",
+        "research/results/h5-04-package-asset-tests.xml"
+      ],
+      "limitations": [
+        "The audit checks generated wheel and sdist contents using path/type allowlists plus the repository sensitive-data detector; it does not prove a secret-free runtime environment."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

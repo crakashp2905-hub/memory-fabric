@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **104 / 260 (40.00%)**. Internal status: **BLOCKED**.
+Strict completion: **105 / 260 (40.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7b42e87cd5415e255c4f1870479a083ae22f82b869c2b5c7a9c6b8277df23b4d`.
+Normalized ledger digest: `9572e45f31988a3dd715a6cb610f35377a67de9f4f81a64795aa22dc5484c7e8`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 104 |
+| DONE | 105 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 14 |
-| TODO | 142 |
+| TODO | 141 |
 
 ## Graduation gates
 
@@ -232,7 +232,7 @@ Normalized ledger digest: `7b42e87cd5415e255c4f1870479a083ae22f82b869c2b5c7a9c6b
 | H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `research/results/h5-01-dependency-provenance.json` |
 | H5-02 | P1 | PARTIAL | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
 | H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
-| H5-04 | P1 | TODO | NOT_TESTED | — |
+| H5-04 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` |
 | H5-05 | P1 | TODO | NOT_TESTED | — |
 | H5-06 | P1 | TODO | NOT_TESTED | — |
 | H5-07 | P1 | TODO | NOT_TESTED | — |
