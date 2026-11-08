@@ -36,6 +36,13 @@ raise `DecisionTransitionError`. Evidence versions use the memory ID and
 positive integer version; the record does not copy evidence content.
 Constraints are restricted to finite JSON scalar values.
 
-This is a schema contract. It does not persist decisions or automatically
-connect them to action-gate events; those remain separate decision-ledger
-implementation work.
+`DecisionLedger` stores immutable `DecisionRecorded`, `DecisionSeen`, and
+`DecisionEdgeRecorded` events in the hash-chained event log. `DecisionGraph`
+rebuilds the decision and its typed `seen`, `relied_on`, `authorized`, and
+`executed` relationships by replay. A `seen` row must point to an exposed
+`ExposureDecided` event; it is deliberately separate from reliance. A
+`relied_on` edge carries an exact evidence version listed by the decision.
+Effect edges carry no claim evidence. Their target is the integrator-supplied
+governed effect receipt ID, kept separate from claim evidence; automatic
+derivation from action-gate/execution receipts and correction-driven impact
+queries remain separate work.

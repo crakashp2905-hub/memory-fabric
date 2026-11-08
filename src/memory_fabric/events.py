@@ -57,6 +57,9 @@ class EventType:
     BRANCH_HEAD_MOVED = "BranchHeadMoved"
     MERGE_APPLIED = "MergeApplied"
     BRANCH_CLOSED = "BranchClosed"
+    DECISION_RECORDED = "DecisionRecorded"
+    DECISION_EDGE_RECORDED = "DecisionEdgeRecorded"
+    DECISION_SEEN = "DecisionSeen"
 
 
 @dataclass(frozen=True)

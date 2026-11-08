@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d6aa7391aeb77e47ed6ac0e60d84dfd19f9f9e348c8e3ec34ae0406c4511d413",
+    "sha256": "b3181b51b3284feb2aa6c1fb1f7dd08c3b04a43505279cb3fb7a89a06ff8686e",
     "tasks": 260
   },
   "source": {
-    "commit": "0624e2ce79a8dcb2ec4de78bd7ec87ab2614c034",
-    "dirty": false
+    "commit": "f0dfe2e9aa3ced33b30834dc35ab1ee9a335a000",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 197,
+      "DONE": 198,
       "PARTIAL": 4,
-      "TODO": 59
+      "TODO": 58
     },
-    "completed": 197,
+    "completed": 198,
     "total": 260,
-    "percent_complete": 75.77,
+    "percent_complete": 76.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2816,10 +2816,10 @@
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "fcc3531fcb9282e5eecba1262bcbe28c0c295b3ab33294dd038660657d41d5ce",
-        "src/memory_fabric/__init__.py": "05b917461432001eddd6f45dd6c4be2673ea4779f3a4bc397c8acab46643a4f1",
-        "docs/DECISION_RECORD_SCHEMA.md": "97e1b8caaa2e727065350c7b13a1be12950a8a3bf7da800b7f44ac5b5ab5a774",
-        "tests/test_decision_records.py": "f2b8983789fee04c42839144ab591dec4ccbff5b7f02ed133208e9cf4c7a2fc5",
+        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
+        "src/memory_fabric/__init__.py": "145ae76f56dd3b00d5fcac0c4ecb0d3aac157134c157586cafb2ca50e1bde0cd",
+        "docs/DECISION_RECORD_SCHEMA.md": "d61d53f65fda42803718842197f3e0ffb56a73ff92f82799e39c1f0b28f6eec6",
+        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -2831,14 +2831,30 @@
       "task_id": "N1-02",
       "priority": "P1",
       "task": "Record decision-to-claim and decision-to-tool-effect edges separately from observed exposure.",
-      "acceptance": "Graph distinguishes 'seen', 'relied upon', 'authorized' and 'executed' with typed edge tests",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Graph distinguishes 'seen', 'relied upon', 'authorized' and 'executed' with typed edge tests. Evidence: `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-02-decision-ledger-tests.xml` (DONE: append-only ledger events replay typed seen, relied_on, authorized and executed graph views; tests enforce exact evidence linkage and exposed-only observations. Decision-ledger, event-log, tamper-evident chain, stability and reference checks: 48 tests and 103 subtests passed. Effect target IDs are integrator-supplied receipt references; automatic linking to action gate/execution events is not claimed.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-02-decision-ledger-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
+        "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
+        "src/memory_fabric/__init__.py": "145ae76f56dd3b00d5fcac0c4ecb0d3aac157134c157586cafb2ca50e1bde0cd",
+        "docs/DECISION_RECORD_SCHEMA.md": "d61d53f65fda42803718842197f3e0ffb56a73ff92f82799e39c1f0b28f6eec6",
+        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
+        "research/results/n1-02-decision-ledger-tests.xml": "b0c1ab3424c127832f7f70a81a213fe837e1f3b871992b137d506154fc22f742"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The replayable graph keeps exposure observation separate from claim reliance and authorization/execution relationships. Tool effect target IDs are supplied by the integrator; automatic derivation from action-gate and execution receipt events is not implemented."
+      ]
     },
     {
       "task_id": "N1-03",
@@ -2893,8 +2909,8 @@
         "research/results/n1-01-decision-record-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_records.py": "fcc3531fcb9282e5eecba1262bcbe28c0c295b3ab33294dd038660657d41d5ce",
-        "tests/test_decision_records.py": "f2b8983789fee04c42839144ab591dec4ccbff5b7f02ed133208e9cf4c7a2fc5",
+        "src/memory_fabric/decision_records.py": "cf5ecececd852ff8b352e3750a9a32b63ee2747c191777a97ad8e49337a2f108",
+        "tests/test_decision_records.py": "fec52df909181646a8d6805a91b505cd2be174db2f68623316f9d8b7f5928fd6",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
       "evidence_issues": {},
@@ -3919,7 +3935,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
+        "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
@@ -4100,7 +4116,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
-        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
+        "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
         "research/results/h2-09-execution-receipt.json": "a7bc25f501ddeea3374c8a245e31de848e47852bb175f58db9a6dff12a6ba882",
@@ -4327,7 +4343,7 @@
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/events.py": "4146fd1d88c97ad3b36860a6216bc16b485aa1417a7efc53fb369daccf0f5a50",
+        "src/memory_fabric/events.py": "fe7480c5e6ac13d16ac3eca7eb70a163020f90df30c87820d3cbad61ac4c16af",
         "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
         "src/memory_fabric/_fabric/sealing.py": "f4f7a6e37c304ab620a54c1ff16d03bfb77c320b17dc9327fc527d029d0b5147",
         "src/memory_fabric/retrievers.py": "fbfe7e2edbb45fd14203fa116f5cfe5d448cb68b75125c4a3b00d444379372d6",

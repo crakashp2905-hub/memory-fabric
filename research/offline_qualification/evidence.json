@@ -18,6 +18,23 @@
       ]
     },
     {
+      "task_id": "N1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-02-decision-ledger-tests.xml"
+      ],
+      "limitations": [
+        "The replayable graph keeps exposure observation separate from claim reliance and authorization/execution relationships. Tool effect target IDs are supplied by the integrator; automatic derivation from action-gate and execution receipt events is not implemented."
+      ]
+    },
+    {
       "task_id": "N1-06",
       "status": "PARTIAL",
       "acceptance_passed": false,

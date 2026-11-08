@@ -22,11 +22,16 @@ from .answerability import ParameterEquivalences
 from .eventlog import EventLog
 from .events import Event, EventType
 from .decision_records import (
+    DecisionEdge,
+    DecisionEdgeError,
+    DecisionGraph,
+    DecisionLedger,
     DecisionOption,
     DecisionRecord,
     DecisionStatusTransition,
     DecisionTransitionError,
     EvidenceVersion,
+    SeenExposure,
 )
 from .evidence_status import (
     DecisionReadiness,

@@ -1,17 +1,183 @@
 """Typed, serializable records for decisions grounded in versioned evidence.
 
-This module defines the immutable contract only. Persistence, dependency edges,
-and correction-driven reevaluation are implemented by the decision ledger layer.
+Decision records and typed, replayable decision-to-evidence/effect links.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
 from datetime import datetime
+import hashlib
 import math
 from types import MappingProxyType
 from typing import Any, Mapping
 
+from .events import Event, EventType
+from .eventlog import EventLog
+
 __stability__ = "beta"
+
+class DecisionEdgeError(ValueError):
+    """A decision edge is malformed or points outside its decision."""
+
+
+@dataclass(frozen=True, slots=True)
+class DecisionEdge:
+    """A typed claim or tool-effect relationship recorded in the event log."""
+
+    edge_id: str
+    decision_id: str
+    relation: str
+    target_id: str
+    actor_id: str
+    recorded_at: str
+    evidence: EvidenceVersion | None = None
+
+    def __post_init__(self) -> None:
+        if self.relation not in {"relied_on", "authorized", "executed"}:
+            raise DecisionEdgeError("relation must be relied_on, authorized, or executed")
+        for name in ("edge_id", "decision_id", "target_id", "actor_id"):
+            if not isinstance(getattr(self, name), str) or not getattr(self, name).strip():
+                raise DecisionEdgeError(f"{name} must not be empty")
+        _validate_timestamp(self.recorded_at, "recorded_at")
+        if self.relation == "relied_on" and not isinstance(self.evidence, EvidenceVersion):
+            raise DecisionEdgeError("relied_on edges require an exact evidence version")
+        if self.relation != "relied_on" and self.evidence is not None:
+            raise DecisionEdgeError("tool-effect edges cannot carry claim evidence")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"edge_id": self.edge_id, "decision_id": self.decision_id,
+                "relation": self.relation, "target_id": self.target_id,
+                "actor_id": self.actor_id, "recorded_at": self.recorded_at,
+                "evidence": self.evidence.to_dict() if self.evidence else None}
+
+
+@dataclass(frozen=True, slots=True)
+class SeenExposure:
+    """A recorded exposure observation; it does not assert that it was relied on."""
+
+    decision_id: str
+    exposure_event_id: str
+    memory_id: str
+    version: int
+    actor_id: str
+    recorded_at: str
+
+
+@dataclass(frozen=True, slots=True)
+class DecisionGraph:
+    decision: DecisionRecord
+    seen: tuple[SeenExposure, ...]
+    relied_on: tuple[DecisionEdge, ...]
+    authorized: tuple[DecisionEdge, ...]
+    executed: tuple[DecisionEdge, ...]
+
+
+def _decode_edge(data: Mapping[str, Any]) -> DecisionEdge:
+    evidence = data.get("evidence")
+    return DecisionEdge(data["edge_id"], data["decision_id"], data["relation"],
+                        data["target_id"], data["actor_id"], data["recorded_at"],
+                        EvidenceVersion(evidence["memory_id"], evidence["version"])
+                        if evidence is not None else None)
+
+
+class DecisionLedger:
+    """Append-only decision graph backed by the Memory Fabric event log."""
+
+    def __init__(self, log: EventLog, clock: Any) -> None:
+        self._log = log
+        self._clock = clock
+
+    def record(self, decision: DecisionRecord) -> None:
+        if self.get(decision.decision_id) is not None:
+            raise DecisionEdgeError("decision_id already exists")
+        event = Event(type=EventType.DECISION_RECORDED, ts=self._clock(),
+                      agent_id=decision.agent_id,
+                      payload={"decision": decision.to_dict()},
+                      event_id="decision_" + hashlib.sha256(
+                          decision.decision_id.encode("utf-8")).hexdigest())
+        try:
+            self._log.append(event)
+        except Exception as exc:
+            if self.get(decision.decision_id) is not None:
+                raise DecisionEdgeError("decision_id already exists") from exc
+            raise
+
+    def get(self, decision_id: str) -> DecisionRecord | None:
+        for event in self._log.read_types([EventType.DECISION_RECORDED]):
+            if event.type == EventType.DECISION_RECORDED:
+                payload = event.payload["decision"]
+                if payload["decision_id"] == decision_id:
+                    return DecisionRecord.from_dict(payload)
+        return None
+
+    def link(self, edge: DecisionEdge) -> None:
+        decision = self.get(edge.decision_id)
+        if decision is None:
+            raise DecisionEdgeError("decision does not exist")
+        if edge.relation == "relied_on" and edge.evidence not in decision.evidence_versions:
+            raise DecisionEdgeError("relied_on evidence must be listed by the decision")
+        existing = self.graph(edge.decision_id)
+        if any(item.edge_id == edge.edge_id for group in
+               (existing.relied_on, existing.authorized, existing.executed) for item in group):
+            raise DecisionEdgeError("edge_id already exists")
+        try:
+            self._log.append(Event(type=EventType.DECISION_EDGE_RECORDED, ts=self._clock(),
+                                   agent_id=edge.actor_id, payload={"edge": edge.to_dict()},
+                                   event_id="decision_edge_" + hashlib.sha256(
+                                       edge.edge_id.encode("utf-8")).hexdigest()))
+        except Exception as exc:
+            current = self.graph(edge.decision_id)
+            if any(item.edge_id == edge.edge_id for group in
+                   (current.relied_on, current.authorized, current.executed) for item in group):
+                raise DecisionEdgeError("edge_id already exists") from exc
+            raise
+
+    def observe(self, decision_id: str, exposure_event_id: str, *, actor_id: str,
+                recorded_at: str) -> None:
+        if self.get(decision_id) is None:
+            raise DecisionEdgeError("decision does not exist")
+        source = next((event for event in self._log.read()
+                       if event.event_id == exposure_event_id), None)
+        if source is None or source.type != EventType.EXPOSURE_DECIDED:
+            raise DecisionEdgeError("seen must reference an ExposureDecided event")
+        if not source.payload.get("exposed"):
+            raise DecisionEdgeError("withheld exposure cannot be marked seen")
+        _validate_timestamp(recorded_at, "recorded_at")
+        decision = self.get(decision_id)
+        if source.agent_id != decision.agent_id:
+            raise DecisionEdgeError("exposure actor must match the decision agent")
+        self._log.append(Event(type=EventType.DECISION_SEEN, ts=self._clock(), agent_id=actor_id,
+                               payload={"decision_id": decision_id,
+                                        "exposure_event_id": exposure_event_id,
+                                        "memory_id": source.payload["memory_id"],
+                                        "version": source.payload["version"],
+                                        "recorded_at": recorded_at},
+                               event_id="decision_seen_" + hashlib.sha256(
+                                   f"{decision_id}\0{exposure_event_id}".encode("utf-8")
+                               ).hexdigest()))
+
+    def graph(self, decision_id: str) -> DecisionGraph:
+        decision = self.get(decision_id)
+        if decision is None:
+            raise DecisionEdgeError("decision does not exist")
+        seen: list[SeenExposure] = []
+        edges: list[DecisionEdge] = []
+        for event in self._log.read_types([EventType.DECISION_EDGE_RECORDED,
+                                           EventType.DECISION_SEEN]):
+            if event.type == EventType.DECISION_EDGE_RECORDED:
+                edge = _decode_edge(event.payload["edge"])
+                if edge.decision_id == decision_id:
+                    edges.append(edge)
+            elif event.type == EventType.DECISION_SEEN:
+                row = event.payload
+                if row["decision_id"] == decision_id:
+                    seen.append(SeenExposure(decision_id, row["exposure_event_id"],
+                                             row["memory_id"], row["version"],
+                                             event.agent_id or "", row["recorded_at"]))
+        return DecisionGraph(decision, tuple(seen),
+                             tuple(e for e in edges if e.relation == "relied_on"),
+                             tuple(e for e in edges if e.relation == "authorized"),
+                             tuple(e for e in edges if e.relation == "executed"))
 
 DECISION_STATUSES = frozenset({"proposed", "approved", "executed", "superseded",
                                "requires_reconsideration"})

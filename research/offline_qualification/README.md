@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **197 / 260 (75.77%)**. Internal status: **BLOCKED**.
+Strict completion: **198 / 260 (76.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `989f00d7adb71057ba0b8ee881e18bde20ce6dab0012dfc127b5b13d80ee56db`.
+Normalized ledger digest: `1a55bc61679bb28f625317347acd48fa283f7baf91573d4a07d54411983acc8a`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 197 |
+| DONE | 198 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 59 |
+| TODO | 58 |
 
 ## Graduation gates
 
@@ -130,7 +130,7 @@ Normalized ledger digest: `989f00d7adb71057ba0b8ee881e18bde20ce6dab0012dfc127b5b
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
 | R5-10 | P1 | DONE | CONTRACT | `research/OFFLINE_REPRODUCIBILITY.md`, `tests/test_offline_reproducibility.py`, `research/claims.json`, `research/results/CLAIMS_LEDGER.json` |
 | N1-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-01-decision-record-tests.xml` |
-| N1-02 | P1 | TODO | NOT_TESTED | — |
+| N1-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_records.py`, `src/memory_fabric/events.py`, `src/memory_fabric/__init__.py`, `docs/DECISION_RECORD_SCHEMA.md`, `tests/test_decision_records.py`, `research/results/n1-02-decision-ledger-tests.xml` |
 | N1-03 | P1 | TODO | NOT_TESTED | — |
 | N1-04 | P1 | TODO | NOT_TESTED | — |
 | N1-05 | P1 | TODO | NOT_TESTED | — |

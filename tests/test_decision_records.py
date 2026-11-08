@@ -4,7 +4,8 @@ import json
 import unittest
 
 from memory_fabric import (
-    DecisionOption, DecisionRecord, DecisionTransitionError, EvidenceVersion,
+    DecisionEdge, DecisionEdgeError, DecisionLedger, DecisionOption, DecisionRecord,
+    DecisionTransitionError, Event, EventLog, EventType, EvidenceVersion,
 )
 
 
@@ -119,6 +120,79 @@ class DecisionRecordSchemaTests(unittest.TestCase):
             DecisionRecord("d1", "tenant-1", "agent-1", "2026-11-08T10:00:00Z",
                            "goal", (DecisionOption("a", "A"),), None,
                            (), {"threshold": float("inf")})
+
+
+class DecisionLedgerTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.log = EventLog()
+        self.ledger = DecisionLedger(self.log, lambda: 1_800_000_000_000)
+        self.evidence = EvidenceVersion("m1", 2)
+        self.decision = DecisionRecord(
+            "d1", "tenant-1", "agent-1", "2026-11-08T10:00:00Z", "choose",
+            (DecisionOption("a", "A", (self.evidence,)),), "a", (self.evidence,), {},
+        )
+
+    def tearDown(self) -> None:
+        self.log.close()
+
+    def test_graph_keeps_seen_reliance_authorization_and_execution_distinct(self) -> None:
+        self.ledger.record(self.decision)
+        exposure = self.log.append(Event(
+            EventType.EXPOSURE_DECIDED, 2,
+            {"memory_id": "m1", "version": 2, "exposed": True, "propensity": 1.0},
+            agent_id="agent-1",
+        ))
+        self.ledger.observe("d1", exposure.event_id, actor_id="agent-1",
+                            recorded_at="2026-11-08T10:01:00Z")
+        for relation, target in (("relied_on", "claim-1"),
+                                 ("authorized", "effect:1"), ("executed", "effect:1")):
+            self.ledger.link(DecisionEdge(f"edge-{relation}", "d1", relation, target,
+                                          "agent-1", "2026-11-08T10:02:00Z",
+                                          self.evidence if relation == "relied_on" else None))
+        graph = self.ledger.graph("d1")
+        self.assertEqual(len(graph.seen), 1)
+        self.assertEqual(graph.seen[0].exposure_event_id, exposure.event_id)
+        self.assertEqual(len(graph.relied_on), 1)
+        self.assertEqual(graph.relied_on[0].target_id, "claim-1")
+        self.assertEqual(len(graph.authorized), 1)
+        self.assertEqual(len(graph.executed), 1)
+        self.assertNotEqual(graph.authorized[0].edge_id, graph.executed[0].edge_id)
+        with self.assertRaisesRegex(DecisionEdgeError, "edge_id already exists"):
+            self.ledger.link(graph.relied_on[0])
+        with self.assertRaisesRegex(DecisionEdgeError, "decision_id already exists"):
+            self.ledger.record(self.decision)
+
+    def test_ledger_replays_from_fresh_log_and_rejects_false_seen_or_unlinked_evidence(self) -> None:
+        self.ledger.record(self.decision)
+        replay = DecisionLedger(self.log, lambda: 1_800_000_000_000)
+        self.assertEqual(replay.get("d1"), self.decision)
+        with self.assertRaisesRegex(DecisionEdgeError, "listed by the decision"):
+            replay.link(DecisionEdge("bad", "d1", "relied_on", "claim",
+                                     "agent-1", "2026-11-08T10:02:00Z",
+                                     EvidenceVersion("other", 1)))
+        withheld = self.log.append(Event(
+            EventType.EXPOSURE_DECIDED, 3,
+            {"memory_id": "m1", "version": 2, "exposed": False, "propensity": 0.2},
+        ))
+        with self.assertRaisesRegex(DecisionEdgeError, "cannot be marked seen"):
+            replay.observe("d1", withheld.event_id, actor_id="agent-1",
+                           recorded_at="2026-11-08T10:03:00Z")
+        wrong_actor = self.log.append(Event(
+            EventType.EXPOSURE_DECIDED, 4,
+            {"memory_id": "m1", "version": 2, "exposed": True, "propensity": 1.0},
+            agent_id="another-agent",
+        ))
+        with self.assertRaisesRegex(DecisionEdgeError, "actor must match"):
+            replay.observe("d1", wrong_actor.event_id, actor_id="agent-1",
+                           recorded_at="2026-11-08T10:04:00Z")
+
+    def test_typed_edges_require_evidence_only_for_reliance(self) -> None:
+        with self.assertRaisesRegex(DecisionEdgeError, "exact evidence"):
+            DecisionEdge("e1", "d1", "relied_on", "claim", "agent-1",
+                         "2026-11-08T10:00:00Z")
+        with self.assertRaisesRegex(DecisionEdgeError, "cannot carry"):
+            DecisionEdge("e2", "d1", "executed", "effect:1", "agent-1",
+                         "2026-11-08T10:00:00Z", self.evidence)
 
 
 if __name__ == "__main__":
