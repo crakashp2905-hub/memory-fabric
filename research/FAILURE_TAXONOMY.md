@@ -13,6 +13,19 @@ index preserves failure mechanism and what evidence would change the next test.
 | PB1 — KILLED | No selective-sharing gain; fairness regression | `share_overlap` vs `share_all` was +0.008 [−0.042, +0.058] and worst-agent success fell from 70.0% to 68.3%. | A memory wrong at one site could still be useful at another site for the same recipient; static recipient-level filtering loses coverage. The oracle ceiling was also invalid because several arms beat it. | Move filtering to action-time context, repair the oracle, and preserve worst-agent/fairness outcomes. The ceiling failure invalidates headroom fractions, not PB1's arm-to-arm kill conditions. |
 | PB3 — INCONCLUSIVE | Missing implementation | Reputation weighting was not implemented, although the run had imports that could have supported it. | No treatment arm existed; this is missing work, not evidence for or against reputation. | Implement only under a new registration with explicit reputation inputs, leakage controls and matched comparisons. |
 
+## Claims that remain NOT_TESTED or EXTERNAL
+
+| Claim | Status | Why it cannot be measured by these local results |
+|---|---|---|
+| Performance and robustness across multiple real model families | NOT_TESTED | Historical local Qwen runs use one model family; deterministic TeamWorld has no language model. |
+| Human usefulness, pilot success, buyer demand or willingness to pay | NOT_TESTED | No representative participant or customer pilot data is present. |
+| Physical multi-host convergence under network partition and clock skew | NOT_TESTED | Single-host/in-process simulations are not independent hosts or real network partitions. |
+| Independent security assurance | EXTERNAL | Repository tests are not a commissioned human audit or independent red team. |
+| Global scientific novelty or patentability | EXTERNAL | Repository comparison and source reading do not replace source-aware external literature and patent review. |
+
+Do not turn these labels into an inferred negative result: no local measurement
+means the claim remains untested, not that it is false or supported.
+
 ## Interpretation rules
 
 - A killed hypothesis is not repaired by a later, differently scoped positive

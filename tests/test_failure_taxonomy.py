@@ -12,7 +12,8 @@ class FailureTaxonomy(unittest.TestCase):
         text = DOC.read_text(encoding="utf-8")
         for phrase in ("H2 — KILLED", "PA — KILLED", "PA′1 — KILLED", "PA′2 — SUPPORTED",
                        "PB1 — KILLED", "PB3 — INCONCLUSIVE", "invalid oracle",
-                       "Next test boundary"):
+                       "Next test boundary", "NOT_TESTED", "EXTERNAL",
+                       "not a commissioned human audit"):
             self.assertIn(phrase, text)
 
     def test_all_source_records_exist(self) -> None:

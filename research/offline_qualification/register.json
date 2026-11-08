@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "03d339058d72e3e31c89642d536f2e489a248553440d6292bbdf487b3a5bbb8c",
+    "sha256": "586932d5c0888e60e278787e93363b30b27a10870c4ef22d93709c5ed48b396c",
     "tasks": 260
   },
   "source": {
-    "commit": "e746e7222e02836c15a3caeaa0e4cd7532641249",
+    "commit": "1e87b33d5094ef0e5fc4044932288bb7dfaeb727",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 179,
+      "DONE": 180,
       "PARTIAL": 4,
-      "TODO": 77
+      "TODO": 76
     },
-    "completed": 179,
+    "completed": 180,
     "total": 260,
-    "percent_complete": 68.85,
+    "percent_complete": 69.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2481,14 +2481,22 @@
       "task_id": "R4-10",
       "priority": "P1",
       "task": "Preserve killed and inconclusive hypotheses with causal explanation and next test boundary.",
-      "acceptance": "Research scorecard remains candid; impossible-to-measure claims are labelled NOT_TESTED",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Research scorecard remains candid; impossible-to-measure claims are labelled NOT_TESTED.. Evidence: `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` (DONE: killed/inconclusive verdicts retain causes and follow-up boundary; external and unavailable claims are explicitly NOT_TESTED or EXTERNAL.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "evidence_digests": {
+        "research/FAILURE_TAXONOMY.md": "ccea6b1b51be66fe19e5ea03808f30952cb8efe0f8bf1dda3be6fc895a57d440",
+        "tests/test_failure_taxonomy.py": "f633a580a878637015881e9283b57f8f0609d2f6c0c0ecf44509825adee0f2f1"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Historical track index is scoped to named primary tracks; it does not replace a complete review of every research result."
+      ]
     },
     {
       "task_id": "R5-01",
@@ -2586,8 +2594,8 @@
         "tests/test_failure_taxonomy.py"
       ],
       "evidence_digests": {
-        "research/FAILURE_TAXONOMY.md": "3514782cd43fe07647162527ad4ed3ed1fb3ca3b4bc28de3bd4f80b466c2437b",
-        "tests/test_failure_taxonomy.py": "4c5206785b45a01d111d36deb03da89857218d17a9635180bd15bb4fbaef8c22"
+        "research/FAILURE_TAXONOMY.md": "ccea6b1b51be66fe19e5ea03808f30952cb8efe0f8bf1dda3be6fc895a57d440",
+        "tests/test_failure_taxonomy.py": "f633a580a878637015881e9283b57f8f0609d2f6c0c0ecf44509825adee0f2f1"
       },
       "evidence_issues": {},
       "limitations": [
