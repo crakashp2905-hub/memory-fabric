@@ -18,12 +18,15 @@ re-ingested, because withdrawn is not erased.
 
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
 from pathlib import Path
 
 from memory_fabric import MemoryFabric
+from memory_fabric.branching import Branches
 from memory_fabric.governance.erasure import ERASED_MARKER
+from memory_fabric.navigation import _words
 
 TEXT = "Pump seven bypass valve torque procedure for the coastal depot requires two people"
 
@@ -80,6 +83,43 @@ class ErasureLeavesNoResidue(unittest.TestCase):
         fabric.quarantine(mid, reason="poisoned", actor="op")
         self.assertIn(mid, fabric.copy_index.terms)
         self.assertIn(mid, fabric.copy_index.candidates(TEXT))
+
+    def test_erasure_clears_cached_topic_terms_for_every_version(self) -> None:
+        fabric = self.open()
+        mid = fabric.remember("a", TEXT)
+        fabric.revise(mid, TEXT + " and a spotter", agent_id="a", reason="correction")
+        _words(fabric, [mid])
+        self.assertTrue(any(key[0] == mid for key in fabric._topic_terms))
+        fabric.erase_content(mid, reason="request", actor="dpo")
+        self.assertFalse(any(key[0] == mid for key in fabric._topic_terms))
+        self.assertNotIn("torque", fabric._topic_terms)
+
+    def test_branch_history_and_pending_retraction_retain_no_erased_content(self) -> None:
+        fabric = self.open()
+        branch_text = "Branch residue canary: turbine omega at 19 bar"
+        origin_text = "Pending queue residue canary: pump delta at 23 bar"
+        target = fabric.remember("a", "Base instruction for the branch target", scope="team")
+        branches = Branches(fabric)
+        branches.create("erasure-probe", owner="a")
+        with branches.commit("erasure-probe", "a", "private proposal") as staged:
+            candidate = staged.add(branch_text)
+        commit_id = branches.history("erasure-probe")[0]["commit_id"]
+        fabric.erase_content(candidate, reason="request", actor="dpo")
+        branch_views = json.dumps({
+            "history": branches.history("erasure-probe"),
+            "diff": branches.diff("erasure-probe"),
+            "snapshot": branches.snapshot("erasure-probe", commit_id),
+        })
+        self.assertNotIn(branch_text, branch_views)
+        self.assertEqual(fabric.get(candidate).content, ERASED_MARKER)
+
+        pending_id = fabric.remember("a", origin_text, scope="federated")
+        fabric.request_retraction(pending_id, "withdrawn", ["st_peer"], actor="dpo")
+        fabric.erase_content(pending_id, reason="request", actor="dpo")
+        queued = json.dumps([row.retraction.to_json() for row in fabric.outbox.pending()])
+        self.assertNotIn(origin_text, queued)
+        self.assertNotIn("23 bar", queued)
+        self.assertEqual(fabric.get(target).content, "Base instruction for the branch target")
 
 
 if __name__ == "__main__":  # pragma: no cover

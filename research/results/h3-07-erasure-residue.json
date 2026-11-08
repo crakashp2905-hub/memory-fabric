@@ -1,17 +1,42 @@
 {
   "schema": "mf-qualification/1",
-  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
   "task_id": "H3-07",
+  "source_commit": "05cbdedc440ee2c68a528e6c7cb2c2c54d086359",
+  "source_dirty_at_test_start": true,
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "process_count": 1,
+    "thread_count": 1
+  },
   "input_sha256": {
-    "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
-    "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
-    "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+    "src/memory_fabric/_fabric/retrieval.py": "d009c2e5a81b35056d4f0178bd029643ceedb4e67167c2bd060e2d02941953f8",
+    "src/memory_fabric/navigation.py": "94644168cadf782a094084aef9a038fb76e19a3c941240b2f0d3ef5156bc417e",
+    "tests/test_erasure_residue.py": "f6e7d84fe2a1c008c0fccea052e10b1c05bb6dfa2125dbfefc51506c335a8a03",
+    "tests/test_lossless_compaction.py": "637e38df1fa1440768f5d99d00aef0a48bd5333eceba4556a9b89b156eba4ba1",
+    "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
+    "src/memory_fabric/branching.py": "306e557be237ecd530acadf0a5d3619470dfcd59edec34cf273a5f039d565e81",
+    "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850"
   },
   "checks": {
-    "live_store": "index/history and cross-process erasure tests pass",
-    "federation": "both tombstone ordering cases pass"
+    "live_and_cross_process_history": "PASS",
+    "lexical_copy_and_topic_caches": "PASS; topic terms are evicted for every version on _unindex",
+    "branch_history_diff_and_snapshot": "PASS; erased candidate content absent from stored/read branch surfaces",
+    "pending_federation_queue": "PASS; queued retraction contains no erased memory text",
+    "compaction_summary": "PASS; source erasure recursively erases summary",
+    "federation_tombstone_ordering": "PASS; snapshot/tombstone reorder remains fenced"
   },
+  "test_command": "python -m pytest tests/test_erasure_residue.py tests/test_lossless_compaction.py tests/test_tombstone_exchange.py -q --junitxml=research/results/h3-07-erasure-residue-tests.xml",
+  "tests_passed": 20,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "85fcba9aa4b08a423614d562495aac476097d3e2317be40498fd427901a1c784",
+  "acceptance_passed": false,
   "limitations": [
-    "Local pre-erasure backups and exhaustive branch/queue scans remain open."
-  ]
+    "Embedding caches owned by separately instantiated retriever/provider objects are not registered with the store erasure lifecycle and cannot be proven purged here.",
+    "Pre-erasure local backups are now reconciled by the required ledger documented and tested under H3-08; separately held keys and external/federated copies remain outside local scope."
+  ],
+  "verdict": "PARTIAL"
 }

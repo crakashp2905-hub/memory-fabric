@@ -400,6 +400,13 @@ class RetrievalMixin(FabricCore):
         self.lexical.remove(memory_id)
         self.chain_terms.pop(memory_id, None)
         self.chain_plain.pop(memory_id, None)
+        # Topic navigation caches tokenized plaintext by (id, version). Clear
+        # every version on both correction and erasure; otherwise an already
+        # built topic tree could retain terms after its source key is destroyed.
+        topic_terms = self.__dict__.get("_topic_terms")
+        if topic_terms is not None:
+            for key in [key for key in topic_terms if key[0] == memory_id]:
+                topic_terms.pop(key, None)
 
     @staticmethod
     def _index_text(memory: Memory) -> str:

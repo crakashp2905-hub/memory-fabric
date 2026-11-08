@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d9cf2d6da649234e653d5bb683539b4e52f5692fdfb0022047952ba04919d16a",
+    "sha256": "572483974f7113d148ebc5e3f3d5c67bab40eaaeca774937a1a6ec325fdb46ae",
     "tasks": 260
   },
   "source": {
-    "commit": "6c76ecdee2527a1fdb724c9d60f3dea1287de918",
+    "commit": "05cbdedc440ee2c68a528e6c7cb2c2c54d086359",
     "dirty": true
   },
   "summary": {
@@ -456,7 +456,7 @@
         "tests/test_data_access_paths.py": "63058d86e0f1903d2f0ae8e033944fb077fd9936c88318e9e60ce540b3c4cf74",
         "tests/test_posture.py": "045b4bc7a48d45188dee4e78844f6edb140198ce03ca8a3b716899e14ecd38da",
         "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
-        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026"
+        "tests/test_erasure_residue.py": "f6e7d84fe2a1c008c0fccea052e10b1c05bb6dfa2125dbfefc51506c335a8a03"
       },
       "evidence_issues": {},
       "limitations": [
@@ -634,7 +634,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/retrieval_routing.py": "09484ede93bd67851ee8425020229fc6b2c3bdb4bdaabbe66a044ee024ce659f",
-        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "src/memory_fabric/_fabric/retrieval.py": "d009c2e5a81b35056d4f0178bd029643ceedb4e67167c2bd060e2d02941953f8",
         "src/memory_fabric/retrieval_profiles.py": "116f51f1b8f9956b98fdde9cd65d30254e147054fc095360aa0ffc2822c81c97",
         "tests/test_retrieval_routing.py": "4dbb2b8c6b24c6eacfc654af6e82eb66a8c0386ab48fb840720cb1175d3a0b51",
         "docs/QUERY_ROUTING.md": "3402b5ae22307c4c96619c3fe0425b0eea7310f25e20dfbc30e84c90866d81e7"
@@ -684,7 +684,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/relations.py": "16fb875c4489f9ba760dda4dc5d5b19020c0564b161c9ed1699f216168a75361",
-        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "src/memory_fabric/_fabric/retrieval.py": "d009c2e5a81b35056d4f0178bd029643ceedb4e67167c2bd060e2d02941953f8",
         "tests/test_modifier_packages.py": "c3fef1dcb1acdcb472c246ca7f2b764e0675527c6a285c1ffb24c088d647eb66",
         "tests/test_extraction.py": "fa16566f2e7f6a86d859a3c7807029ee78194096588914fa4a9526267a635646",
         "docs/MODIFIER_EVIDENCE_PACKAGES.md": "50fa8f466ceb5764927abed1d9803fee721a59a1f08dc71573cb9371bfbf297f"
@@ -821,10 +821,10 @@
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
         "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
-        "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+        "src/memory_fabric/_fabric/retrieval.py": "d009c2e5a81b35056d4f0178bd029643ceedb4e67167c2bd060e2d02941953f8",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
         "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
-        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
+        "tests/test_erasure_residue.py": "f6e7d84fe2a1c008c0fccea052e10b1c05bb6dfa2125dbfefc51506c335a8a03",
         "tests/test_access_matrix.py": "4c3d3ca4cc078a9d467c2af2affc0e4cb97ab32e49d2e0483fba53e02fc11900",
         "docs/RETRIEVAL_INDEX_INVALIDATION.md": "79b95d75a648e2926f5d8f4b8fd8c7087672fd30faab816c833d66227b5d312d"
       },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "111e52ce3083a22849514d1dc673db5742ecf7dacd272ca6785cd065781d634e",
+        "research/results/MANIFEST.json": "86fccaa28c66f765fc48d90e7fdd8c2aadba122be91cec500ddcc9125bb09ac3",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -4039,27 +4039,33 @@
       "task_id": "H3-07",
       "priority": "P0",
       "task": "Run erasure residue scans over snapshots, indexes, caches, compaction, branch heads and pending federation queues.",
-      "acceptance": "Erased records never reappear through supported read surfaces after purge. Evidence: `tests/test_erasure_residue.py`, `tests/test_cipher.py`, `tests/test_tombstone_exchange.py`, `research/results/h3-07-erasure-residue.json`, `research/results/h3-07-erasure-residue-tests.xml` (PARTIAL: local backups, branch heads and all queue/cache surfaces remain unverified)",
+      "acceptance": "Erased records never reappear through supported read surfaces after purge. Evidence: `src/memory_fabric/_fabric/retrieval.py`, `tests/test_erasure_residue.py`, `tests/test_lossless_compaction.py`, `tests/test_tombstone_exchange.py`, `research/results/h3-07-erasure-residue.json` (PARTIAL: separately owned embedding caches are not attached to the erasure lifecycle)",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/_fabric/retrieval.py",
         "tests/test_erasure_residue.py",
+        "tests/test_lossless_compaction.py",
+        "tests/test_branching.py",
         "tests/test_cipher.py",
         "tests/test_tombstone_exchange.py",
         "research/results/h3-07-erasure-residue.json",
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "evidence_digests": {
-        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
+        "src/memory_fabric/_fabric/retrieval.py": "d009c2e5a81b35056d4f0178bd029643ceedb4e67167c2bd060e2d02941953f8",
+        "tests/test_erasure_residue.py": "f6e7d84fe2a1c008c0fccea052e10b1c05bb6dfa2125dbfefc51506c335a8a03",
+        "tests/test_lossless_compaction.py": "637e38df1fa1440768f5d99d00aef0a48bd5333eceba4556a9b89b156eba4ba1",
+        "tests/test_branching.py": "9c8b6b5530b89703c70750bb573c32bbb3804f509a5a5e1e437013b9553565b0",
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
-        "research/results/h3-07-erasure-residue.json": "ac6b12dea2f7d9e603ffec98004722da70d683bb24733e272f41c87caa1e6a50",
-        "research/results/h3-07-erasure-residue-tests.xml": "84f83f5d2a6e7fdaaf6d6f3f6db13e0df1f184ef5a4dcf6e726496025b2729ff"
+        "research/results/h3-07-erasure-residue.json": "b6b48ac5c0e9384384311e50745c4b0bc7db6799f2ae2f96c5ada3b53a6e33d0",
+        "research/results/h3-07-erasure-residue-tests.xml": "85fcba9aa4b08a423614d562495aac476097d3e2317be40498fd427901a1c784"
       },
       "evidence_issues": {},
       "limitations": [
-        "Live histories, search indexes, and cross-process refresh are tested; portable federation tombstones prevent stale snapshot resurrection. Pre-erasure local backups and restored keys remain outside the store erasure boundary. Branch and pending-queue residue scan is not yet exhaustive."
+        "Live and cross-process history, indexes, topic-term cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Embedding caches owned by separate retriever/provider instances are not registered with the erasure lifecycle. H3-08 covers local pre-erasure backup reconciliation; separately held keys and external/federated copies remain outside local scope."
       ]
     },
     {

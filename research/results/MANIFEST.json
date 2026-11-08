@@ -9,7 +9,7 @@
   "prompt_hash": 221,
   "seed": 142,
   "cost": 198,
-  "verdict": 155
+  "verdict": 154
  },
  "population_counts": {
   "synthetic_scripted": 11,
@@ -1963,7 +1963,7 @@
   {
    "experiment_id": "h3-07-erasure-residue",
    "file": "research/results/h3-07-erasure-residue.json",
-   "file_sha256": "0c1217162e34bb4a573cb1ad9fe1493f877ca295491fe2ed6e606faad5acc29d",
+   "file_sha256": "4bd83841e3e1ad174f7072c4086de2e5a12c17fe834dca8ac82fd3c2d05b09c5",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": "research/prereg/h3-selective-federation.md",
    "git_sha": null,
@@ -1975,7 +1975,7 @@
    "seed": null,
    "config": null,
    "cost": null,
-   "verdict": null,
+   "verdict": "PARTIAL",
    "parsable": true
   },
   {

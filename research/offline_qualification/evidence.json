@@ -1114,14 +1114,17 @@
       "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
+        "src/memory_fabric/_fabric/retrieval.py",
         "tests/test_erasure_residue.py",
+        "tests/test_lossless_compaction.py",
+        "tests/test_branching.py",
         "tests/test_cipher.py",
         "tests/test_tombstone_exchange.py",
         "research/results/h3-07-erasure-residue.json",
         "research/results/h3-07-erasure-residue-tests.xml"
       ],
       "limitations": [
-        "Live histories, search indexes, and cross-process refresh are tested; portable federation tombstones prevent stale snapshot resurrection. Pre-erasure local backups and restored keys remain outside the store erasure boundary. Branch and pending-queue residue scan is not yet exhaustive."
+        "Live and cross-process history, indexes, topic-term cache invalidation, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. Embedding caches owned by separate retriever/provider instances are not registered with the erasure lifecycle. H3-08 covers local pre-erasure backup reconciliation; separately held keys and external/federated copies remain outside local scope."
       ]
     },
     {
