@@ -1,0 +1,17 @@
+{
+  "schema": "mf-qualification/1",
+  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
+  "task_id": "H3-08",
+  "input_sha256": {
+    "src/memory_fabric/_fabric/sealing.py": "bdbbe9b30e58fbfb460b6a15e53febddedf419b365f81205db08791afcb9214c",
+    "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
+    "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+  },
+  "checks": {
+    "local_restore_reconciliation": "NOT_IMPLEMENTED",
+    "federation_exchange": "OPT_IN_AND_TESTED"
+  },
+  "limitations": [
+    "Restored old keys can make pre-erasure backups readable."
+  ]
+}

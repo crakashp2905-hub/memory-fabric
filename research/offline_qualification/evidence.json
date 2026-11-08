@@ -1108,6 +1108,53 @@
       ]
     },
     {
+      "task_id": "H3-07",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_erasure_residue.py",
+        "tests/test_cipher.py",
+        "tests/test_tombstone_exchange.py",
+        "research/results/h3-07-erasure-residue.json",
+        "research/results/h3-07-erasure-residue-tests.xml"
+      ],
+      "limitations": [
+        "Live histories, search indexes, and cross-process refresh are tested; portable federation tombstones prevent stale snapshot resurrection. Pre-erasure local backups and restored keys remain outside the store erasure boundary. Branch and pending-queue residue scan is not yet exhaustive."
+      ]
+    },
+    {
+      "task_id": "H3-08",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/tombstones.py",
+        "tests/test_tombstone_exchange.py",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
+        "research/results/h3-08-backup-erasure-limits.json"
+      ],
+      "limitations": [
+        "Federation tombstone exchange is opt-in and trusted-origin scoped. Local backup restore does not reconcile an external erasure ledger; with restored keys, a pre-erasure backup may recover old content."
+      ]
+    },
+    {
+      "task_id": "H3-09",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/metrics.py",
+        "tests/test_metrics.py",
+        "research/results/h3-09-sparse-metrics.json",
+        "research/results/h3-09-sparse-metrics-tests.xml"
+      ],
+      "limitations": [
+        "Current metrics are authenticated store-wide aggregates with no tenant labels, IDs, or content. No per-tenant aggregates exist; k-anonymity suppression for future tenant-level metrics is not implemented."
+      ]
+    },
+    {
       "task_id": "P5-06",
       "status": "DONE",
       "acceptance_passed": true,

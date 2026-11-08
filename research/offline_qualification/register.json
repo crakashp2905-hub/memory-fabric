@@ -2,18 +2,18 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "364cd098ab5aaa7fa5fc30d843baf6f775fea5ceea851b3be24b4b0a0f239769",
+    "sha256": "f0a2ca6cc7e666611be56fa8b4ac91ab3c22395d9c1a7518369faa7ee5d2ed7f",
     "tasks": 260
   },
   "source": {
-    "commit": "5be3746ee89878ea945fff4ac316af516495c901",
+    "commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
     "dirty": true
   },
   "summary": {
     "counts": {
       "DONE": 96,
-      "PARTIAL": 5,
-      "TODO": 159
+      "PARTIAL": 8,
+      "TODO": 156
     },
     "completed": 96,
     "total": 260,
@@ -3909,40 +3909,80 @@
       "task_id": "H3-07",
       "priority": "P0",
       "task": "Run erasure residue scans over snapshots, indexes, caches, compaction, branch heads and pending federation queues.",
-      "acceptance": "Erased records never reappear through supported read surfaces after purge",
-      "status": "TODO",
+      "acceptance": "Erased records never reappear through supported read surfaces after purge. Evidence: `tests/test_erasure_residue.py`, `tests/test_cipher.py`, `tests/test_tombstone_exchange.py`, `research/results/h3-07-erasure-residue.json`, `research/results/h3-07-erasure-residue-tests.xml` (PARTIAL: local backups, branch heads and all queue/cache surfaces remain unverified)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_erasure_residue.py",
+        "tests/test_cipher.py",
+        "tests/test_tombstone_exchange.py",
+        "research/results/h3-07-erasure-residue.json",
+        "research/results/h3-07-erasure-residue-tests.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
+        "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "research/results/h3-07-erasure-residue.json": "ac6b12dea2f7d9e603ffec98004722da70d683bb24733e272f41c87caa1e6a50",
+        "research/results/h3-07-erasure-residue-tests.xml": "84f83f5d2a6e7fdaaf6d6f3f6db13e0df1f184ef5a4dcf6e726496025b2729ff"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Live histories, search indexes, and cross-process refresh are tested; portable federation tombstones prevent stale snapshot resurrection. Pre-erasure local backups and restored keys remain outside the store erasure boundary. Branch and pending-queue residue scan is not yet exhaustive."
+      ]
     },
     {
       "task_id": "H3-08",
       "priority": "P0",
       "task": "Document backup erasure limits and implement local restore-with-tombstone reconciliation.",
-      "acceptance": "Restoring an older backup never silently restores previously erased actionable data",
-      "status": "TODO",
+      "acceptance": "Restoring an older backup never silently restores previously erased actionable data. Evidence: `src/memory_fabric/_fabric/sealing.py`, `src/memory_fabric/tombstones.py`, `tests/test_tombstone_exchange.py`, `docs/RETENTION_AND_AUDIT_PRESERVATION.md`, `research/results/h3-08-backup-erasure-limits.json` (PARTIAL: local restore reconciliation not implemented)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/tombstones.py",
+        "tests/test_tombstone_exchange.py",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
+        "research/results/h3-08-backup-erasure-limits.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/_fabric/sealing.py": "bdbbe9b30e58fbfb460b6a15e53febddedf419b365f81205db08791afcb9214c",
+        "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
+        "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6",
+        "research/results/h3-08-backup-erasure-limits.json": "77c808b2b6d5645a6f7d0ea3a2578fe0ce2a04bfbc9f8dc4822af5c5f6a2d882"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Federation tombstone exchange is opt-in and trusted-origin scoped. Local backup restore does not reconcile an external erasure ledger; with restored keys, a pre-erasure backup may recover old content."
+      ]
     },
     {
       "task_id": "H3-09",
       "priority": "P0",
       "task": "Add small k-anonymity-style aggregation leak probes for metrics dashboards.",
-      "acceptance": "Tenant metrics cannot reveal one other tenant's content or activity by exact sparse counts",
-      "status": "TODO",
+      "acceptance": "Tenant metrics cannot reveal one other tenant's content or activity by exact sparse counts. Evidence: `src/memory_fabric/observability/metrics.py`, `tests/test_metrics.py`, `research/results/h3-09-sparse-metrics.json`, `research/results/h3-09-sparse-metrics-tests.xml` (PARTIAL: current store-wide exports reveal no tenant-level counts; per-tenant metrics and k-anonymity suppression are not implemented)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/metrics.py",
+        "tests/test_metrics.py",
+        "research/results/h3-09-sparse-metrics.json",
+        "research/results/h3-09-sparse-metrics-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
+        "tests/test_metrics.py": "a8caa68ceb2a2c90ba2fde944dba69707addb7451e28c7ac8fce205861dbece1",
+        "research/results/h3-09-sparse-metrics.json": "ac5d1940a8d8a9e731a6d447d1466439880b19febea78bf621a3a9839347b587",
+        "research/results/h3-09-sparse-metrics-tests.xml": "4c587be0473ba5139699828e6a16e1278ff6b36cba76ef1962c13fe0e41b63a6"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Current metrics are authenticated store-wide aggregates with no tenant labels, IDs, or content. No per-tenant aggregates exist; k-anonymity suppression for future tenant-level metrics is not implemented."
+      ]
     },
     {
       "task_id": "H3-10",

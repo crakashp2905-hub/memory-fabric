@@ -1,0 +1,16 @@
+{
+  "schema": "mf-qualification/1",
+  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
+  "task_id": "H3-09",
+  "input_sha256": {
+    "src/memory_fabric/observability/metrics.py": "cb6f619732e3c60ee054abed3cf508ab3cfcc0fdd0445eb45213624a19022aef",
+    "tests/test_metrics.py": "a8caa68ceb2a2c90ba2fde944dba69707addb7451e28c7ac8fce205861dbece1"
+  },
+  "checks": {
+    "store_wide_metrics": "tenant/content labels absent",
+    "dashboard_overview": "rare tenant identity/content absent"
+  },
+  "limitations": [
+    "No k-anonymity suppression is implemented for hypothetical per-tenant metrics."
+  ]
+}

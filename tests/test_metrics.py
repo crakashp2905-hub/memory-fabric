@@ -34,6 +34,24 @@ class TestMetrics(unittest.TestCase):
         self.assertNotIn("ag_secretive", text)
         self.assertNotIn(mid, text)
 
+    def test_sparse_tenant_activity_does_not_create_tenant_labels_or_content(self):
+        f = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(f.close)
+        rare_id = f.remember(
+            "rare_tenant_agent", "UNIQUE-CANARY-9917 sparse activity marker",
+            tenant_id="tenant_rare", scope="team")
+        f.remember("common_tenant_agent", "ordinary shared activity",
+                   tenant_id="tenant_common", scope="team")
+        f.retrieve("rare_tenant_agent", "sparse activity", k=3)
+        metrics = StoreMetrics().render(f)
+        dashboard = Api(f)
+        overview = dashboard.handle("/api/overview", {})
+        visible = metrics + repr(overview)
+        for marker in ("tenant_rare", "rare_tenant_agent", "UNIQUE-CANARY-9917", rare_id):
+            self.assertNotIn(marker, visible)
+        self.assertIn("mf_writes_total 2", metrics)
+        self.assertIn("mf_retrievals_total 1", metrics)
+
     def test_served_through_the_dashboard_api(self):
         f = MemoryFabric(":memory:", auto_activate=True)
         self.addCleanup(f.close)

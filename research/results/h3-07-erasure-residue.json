@@ -1,0 +1,17 @@
+{
+  "schema": "mf-qualification/1",
+  "source_commit": "a83978cf112079899149e7fcb815a1bff77e8f63",
+  "task_id": "H3-07",
+  "input_sha256": {
+    "tests/test_erasure_residue.py": "cd9860fe7a179d3343dc0d3449931db29d54bdf8ebff6bcf5fa388590cb7f026",
+    "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+    "tests/test_tombstone_exchange.py": "82d328a9d16ccc10cca6680afe448824a12d64ec0be0ad425cda424dc83248c7"
+  },
+  "checks": {
+    "live_store": "index/history and cross-process erasure tests pass",
+    "federation": "both tombstone ordering cases pass"
+  },
+  "limitations": [
+    "Local pre-erasure backups and exhaustive branch/queue scans remain open."
+  ]
+}
