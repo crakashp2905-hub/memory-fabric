@@ -2,9 +2,9 @@
   "arms": {
     "exact_shapley": {
       "max_peak_memory_bytes": 35637,
-      "mean_cpu_nanoseconds": 15625000.0,
+      "mean_cpu_nanoseconds": 25000000.0,
       "mean_utility_difference": -0.12,
-      "mean_wall_nanoseconds": 18175680.0,
+      "mean_wall_nanoseconds": 22840660.0,
       "n": 5,
       "normal_approx_95_interval": [
         -0.3100290504107201,
@@ -13,9 +13,9 @@
     },
     "leave_one_out": {
       "max_peak_memory_bytes": 10845,
-      "mean_cpu_nanoseconds": 0.0,
+      "mean_cpu_nanoseconds": 9375000.0,
       "mean_utility_difference": -0.12,
-      "mean_wall_nanoseconds": 3328420.0,
+      "mean_wall_nanoseconds": 3747620.0,
       "n": 5,
       "normal_approx_95_interval": [
         -0.3100290504107201,
@@ -24,9 +24,9 @@
     },
     "oracle_one_removal": {
       "max_peak_memory_bytes": 5779,
-      "mean_cpu_nanoseconds": 9375000.0,
+      "mean_cpu_nanoseconds": 3125000.0,
       "mean_utility_difference": 0.0,
-      "mean_wall_nanoseconds": 1831480.0,
+      "mean_wall_nanoseconds": 1984800.0,
       "n": 5,
       "normal_approx_95_interval": [
         0.0,
@@ -35,9 +35,9 @@
     },
     "random": {
       "max_peak_memory_bytes": 3525,
-      "mean_cpu_nanoseconds": 3125000.0,
+      "mean_cpu_nanoseconds": 0.0,
       "mean_utility_difference": 0.0,
-      "mean_wall_nanoseconds": 657700.0,
+      "mean_wall_nanoseconds": 825860.0,
       "n": 5,
       "normal_approx_95_interval": [
         0.0,
@@ -48,7 +48,7 @@
       "max_peak_memory_bytes": 3531,
       "mean_cpu_nanoseconds": 0.0,
       "mean_utility_difference": -0.1,
-      "mean_wall_nanoseconds": 680380.0,
+      "mean_wall_nanoseconds": 819220.0,
       "n": 5,
       "normal_approx_95_interval": [
         -0.29600000000000004,
@@ -57,9 +57,9 @@
     },
     "sampled_shapley": {
       "max_peak_memory_bytes": 272833,
-      "mean_cpu_nanoseconds": 846875000.0,
+      "mean_cpu_nanoseconds": 943750000.0,
       "mean_utility_difference": -0.12,
-      "mean_wall_nanoseconds": 849227820.0,
+      "mean_wall_nanoseconds": 957673540.0,
       "n": 5,
       "normal_approx_95_interval": [
         -0.3100290504107201,
@@ -68,7 +68,7 @@
     }
   },
   "configuration_sha256": "ba19aa8aa50f9db33a17cb488763cf978ad494f8cf111c1de4c5272d4c96021c",
-  "csv_sha256": "febe108747a0c18c5fa7c89d6eef12f272b9f91993517beed427d0342a366e86",
+  "csv_sha256": "ae8cae1df4cd8e6df019c2db69374e72ac7fc353c36511eba06daed2e00b7c03",
   "generator_sha256": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
   "limitations": [
     "No official reproduction of Shapley, CAR or another external system.",
@@ -91,7 +91,7 @@
   "protocol": "CDM-R5-v3",
   "protocol_path": "research/prereg/cdm-r5-evaluator-executor-ablations.md",
   "protocol_sha256": "1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227",
-  "report_sha256": "7b0d10046bc90991a5d57416ceab73660f08a714d21302fd068d3edd6e597de6",
+  "report_sha256": "ca34de64f3964067c92506adaaf8d3c3a05824117c59a6fcb8b324962fd5b5bb",
   "safety": {
     "authority_changes": 0,
     "hidden_truth_visible_to_selectors": false,
@@ -117,5 +117,5 @@
   },
   "split": "development",
   "status": "PASS",
-  "summary_sha256": "119754bced7d864731205b7462e9d8ad5da8e2e6e0496916a5260c41095f831e"
+  "summary_sha256": "f7d47282b5fda7b2f02f217a7f694741be0ceea00c954487de61f4697d54fd68"
 }

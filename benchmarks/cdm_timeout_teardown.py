@@ -6,10 +6,11 @@ import argparse
 import json
 import subprocess
 import sys
-import tempfile
 import time
 from pathlib import Path
 from typing import Any
+
+from memory_fabric.causal_replay.tempfiles import temporary_workspace
 
 
 def run(timeout_seconds: float = 0.1) -> dict[str, Any]:
@@ -17,53 +18,51 @@ def run(timeout_seconds: float = 0.1) -> dict[str, Any]:
         raise ValueError("timeout_seconds must be positive")
     repo_root = Path(__file__).resolve().parents[1]
     artifact_root = repo_root / "research" / "results" / "cdm"
-    artifact_root.mkdir(parents=True, exist_ok=True)
-    temp = tempfile.TemporaryDirectory(prefix="cdm-timeout-", dir=artifact_root)
-    path = Path(temp.name)
-    marker = path / "started"
-    child_code = ("from pathlib import Path; import sys\n"
-                  "Path(sys.argv[1]).write_text('started', encoding='utf-8')\n"
-                  "while True: pass\n")
-    started = time.monotonic()
-    timed_out = False
-    marker_created = False
-    process: subprocess.Popen[bytes] | None = None
-    try:
-        process = subprocess.Popen([sys.executable, "-c", child_code, str(marker)],
-                                   cwd=path, stdin=subprocess.DEVNULL,
-                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        deadline = started + max(2.0, timeout_seconds * 10)
-        while not marker.exists() and time.monotonic() < deadline:
-            if process.poll() is not None:
-                raise RuntimeError("worker exited before entering bounded workload")
-            time.sleep(0.005)
-        if not marker.exists():
-            raise RuntimeError("worker startup exceeded teardown fixture deadline")
-        marker_created = True
+    with temporary_workspace() as path:
+        marker = path / "started"
+        child_code = ("from pathlib import Path; import sys\n"
+                      "Path(sys.argv[1]).write_text('started', encoding='utf-8')\n"
+                      "while True: pass\n")
+        started = time.monotonic()
+        timed_out = False
+        marker_created = False
+        process: subprocess.Popen[bytes] | None = None
         try:
-            process.wait(timeout=timeout_seconds)
-        except subprocess.TimeoutExpired:
-            timed_out = True
-    finally:
-        if process is not None:
-            if process.poll() is None:
-                process.terminate()
+            process = subprocess.Popen([sys.executable, "-c", child_code, str(marker)],
+                                       cwd=path, stdin=subprocess.DEVNULL,
+                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            deadline = started + max(2.0, timeout_seconds * 10)
+            while not marker.exists() and time.monotonic() < deadline:
+                if process.poll() is not None:
+                    raise RuntimeError("worker exited before entering bounded workload")
+                time.sleep(0.005)
+            if not marker.exists():
+                raise RuntimeError("worker startup exceeded teardown fixture deadline")
+            marker_created = True
             try:
-                process.wait(timeout=2.0)
+                process.wait(timeout=timeout_seconds)
             except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=2.0)
-            exit_code = process.returncode
-            worker_terminated = process.poll() is not None
-        else:
-            exit_code = None
-            worker_terminated = True
-        temp.cleanup()
+                timed_out = True
+        finally:
+            if process is not None:
+                if process.poll() is None:
+                    process.terminate()
+                try:
+                    process.wait(timeout=2.0)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=2.0)
+                exit_code = process.returncode
+                worker_terminated = process.poll() is not None
+            else:
+                exit_code = None
+                worker_terminated = True
+    temporary_directory_removed = not path.exists()
     return {"schema": "cdm-timeout-teardown-v1", "timeout_seconds": timeout_seconds,
         "timed_out": timed_out, "worker_marker_created": marker_created,
         "worker_returncode": exit_code, "worker_terminated": worker_terminated,
-        "temporary_directory_removed": not path.exists(),
-        "temporary_path_was_isolated": path.is_relative_to(artifact_root),
+        "temporary_directory_removed": temporary_directory_removed,
+        "temporary_path_was_isolated": path.is_relative_to(artifact_root.resolve()),
         "network_calls": 0, "model_calls": 0,
         "limitations": ["verifies parent-enforced wall timeout teardown",
             "does not impose or verify an OS-level CPU quota"]}

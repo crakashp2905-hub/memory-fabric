@@ -88,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     tests.append("tests.test_cdm_federated_provenance")
     tests.append("tests.test_cdm_correction_comparison")
     tests.append("tests.test_cdm_correction_utility")
+    tests.append("tests.test_cdm_tempfiles")
     tests.append("tests.test_cdm_architecture_superiority")
     steps = [run_step("CDM focused unit suite", [sys.executable, "-m", "unittest", *tests]),
              run_step("battery demonstrator", [sys.executable, "-m", "benchmarks.cdm_battery_world",

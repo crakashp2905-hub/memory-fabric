@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (220)
+## Complete at this checkpoint (221)
 
 | Task | Evidence |
 |---|---|
@@ -200,6 +200,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-203 | Current session + current version + erasure checks invalidate checkpoints |
 | CDM-204 | Replay accepts only built-in deterministic data configuration; no tool executor exists |
 | CDM-205 | Behavioral replay test forbids socket, process and shell construction |
+| CDM-206 | `causal_replay.tempfiles` resolves and confines parent/workspace paths beneath `research/results/cdm`, rejects outside and symlink-escape parents, and scopes cleanup with a context manager; interruption benchmark uses it; focused tests are part of the offline gate. |
 | CDM-207 | Capture artifact tests prove private content and credential signatures are absent |
 | CDM-208 | Replay certificates explicitly have no action entitlement; no action method is exposed |
 | CDM-210 | Duplicate observation IDs refuse in executor/verifier; reordered step sequence fails independent per-step verification |
@@ -245,12 +246,11 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-063 | Digest-bound `ExecutionCheckpoint` binds exact prefix observations, per-step trace, state fingerprint, simulator and policy; continuation plus suffix matches cold replay, tampering refuses | Prefix is replayed to establish integrity; optimized continuation that safely skips prefix remains open. |
 | CDM-068 | `execute_captured` revalidates authorized historical capture and immutable one-to-one overlay IDs against the recorded evidence; 15 replay tests pass, with Ruff/mypy clean | Bind domain-level observation values to a registered deterministic adapter over authorized historical content; caller-supplied overlay semantics remain unverified. |
 
-## Open (8)
+## Open (7)
 
 | Task | Required evidence |
 |---|---|
 
-| CDM-206 | Enforce allowed temp path and cleanup. |
 | CDM-209 | Prevent cross-policy hash confusion. |
 | CDM-211 | Prevent RNG-state forgery. |
 | CDM-213 | Stop parameter injection into updater/policy APIs. |
