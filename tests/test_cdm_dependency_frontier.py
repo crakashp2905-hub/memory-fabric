@@ -84,6 +84,29 @@ class DependencyFrontierTests(unittest.TestCase):
         self.assertEqual(fallback.steps, exhaustive.steps)
         self.assertEqual(fallback.execution_kind, "dependency_frontier_incomplete_fallback")
 
+    def test_collateral_recomputation_is_zero_with_complete_graph_and_explicit_on_fallback(self):
+        factual = self._trace(23)
+        baseline = execute_replay(factual, simulator=self.simulator, policy=self.policy)
+        counterfactual = tuple(item for item in factual if item.observation_id != "e0")
+        exact_affected_retained = {"e3", "e4"}
+        retained_ids = {item.observation_id for item in counterfactual}
+
+        precise = execute_dependency_frontier(counterfactual, baseline=baseline,
+            target_observation_id="e0", dependencies=self.dependencies,
+            dependencies_complete=True, simulator=self.simulator, policy=self.policy)
+        conservative = execute_dependency_frontier(counterfactual, baseline=baseline,
+            target_observation_id="e0", dependencies={}, dependencies_complete=False,
+            simulator=self.simulator, policy=self.policy)
+        precise_recomputed = {step.observation_id for step in precise.steps
+                              if step.observation_id in exact_affected_retained}
+        self.assertEqual(precise.consumed, len(exact_affected_retained))
+        self.assertEqual(precise_recomputed, exact_affected_retained)
+        self.assertEqual(precise.consumed - len(exact_affected_retained), 0)
+        self.assertEqual(conservative.consumed, len(retained_ids))
+        self.assertEqual(conservative.consumed - len(exact_affected_retained), 2)
+        self.assertEqual(conservative.execution_kind,
+                         "dependency_frontier_incomplete_fallback")
+
     def test_incomplete_complete_graph_and_unrelated_mutations_refuse(self):
         ids = ("e0", "e1", "e2", "e3", "e4")
         with self.assertRaises(CDMError):
