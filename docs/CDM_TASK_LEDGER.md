@@ -3,7 +3,7 @@
 This file tracks all 240 task IDs from the attached fully in-house master plan.
 The attached plan remains unchanged. Status is based on checked-in local artifacts and verified evidence.
 
-## Complete at this checkpoint (208)
+## Complete at this checkpoint (209)
 
 | Task | Evidence |
 |---|---|
@@ -170,6 +170,7 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | CDM-173 | Low-centrality fixture derives the pivotal ID through executed leave-one-out replay; at k=1, centrality selects higher-degree distractors and misses the degree-zero pivotal event (recall 0), while priority includes it (1). Ten scheduler tests pass. |
 | CDM-174 | No-signal candidate fixture verifies stable uninformative tie behavior |
 | CDM-175 | Local 10/100/1000 candidate scaling report includes selector/frontier timings, memory, recall and per-seed raw rows |
+| CDM-176 | Frozen `research/prereg/cdm-budgeted-inference.md` compares exact 8-node/256-state enumeration with likelihood-weighted sampling on equal 32/128/256 assignment budgets and 20 seeds. Exact refuses below 256; at 32 approximate mean absolute posterior error is 0.10/decision agreement 0.95; at 128, 0.04/1.00; at 256, 0.03/1.00; exact error is zero. Raw per-seed rows and effective sample sizes are recorded. Focused regression, Ruff and mypy pass; integrated gate includes it. Results are finite synthetic measurements, not production efficacy or wall-time/memory caps. |
 | CDM-177 | Cross-tenant key collision is a miss; valid committed entry acceptance and current auth revalidation are tested |
 | CDM-179 | Limitations document distinguishes estimated budget/memory and conservative frontier from hard caps or proven speedup |
 | CDM-180 | Efficiency manifest records source/output/workload hashes, Python/platform/CPU, seeds, limits and no remote telemetry |
@@ -238,7 +239,6 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 | Task | Required evidence |
 |---|---|
 
-| CDM-176 | Benchmark exact versus approximate quality under budgets. |
 | CDM-178 | Verify teardown under CPU/time cap interruption. |
 | CDM-186 | Classify harmful blanket invalidation. |
 | CDM-187 | Classify false positive collateral re-evaluations. |
