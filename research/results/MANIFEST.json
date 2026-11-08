@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 235,
+ "results": 236,
  "missing_field_counts": {
   "git_sha": 125,
   "prereg": 91,
-  "dataset_digest": 232,
-  "model_id": 199,
-  "prompt_hash": 235,
-  "seed": 156,
-  "cost": 212,
-  "verdict": 164
+  "dataset_digest": 233,
+  "model_id": 200,
+  "prompt_hash": 236,
+  "seed": 157,
+  "cost": 213,
+  "verdict": 165
  },
  "population_counts": {
   "synthetic_scripted": 12,
-  "unclassified": 223
+  "unclassified": 224
  },
  "rows": [
   {
@@ -3526,6 +3526,24 @@
    "config": null,
    "cost": null,
    "verdict": "SUPPORTED",
+   "parsable": true
+  },
+  {
+   "experiment_id": "p2-01-decision-detail",
+   "file": "research/results/p2-01-decision-detail.json",
+   "file_sha256": "d1e488cf6d3341c130adbe35568c3111b6295ade61e160f2c5ba9a2a8cacc8e8",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p2-context-sufficiency.md",
+   "git_sha": "dfa886eb35cbd6101c24710c0587a94b8de588db",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
    "parsable": true
   },
   {

@@ -2557,6 +2557,23 @@
       "limitations": [
         "The guide migrates text/source identity fields; it does not import third-party vector embeddings, application-specific metadata, or provide live dual-write. The old store remains the rollback source until operators complete their own canary and cutover checks."
       ]
+    },
+    {
+      "task_id": "P2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-01-decision-detail.json",
+        "research/results/p2-01-decision-detail.txt"
+      ],
+      "limitations": [
+        "UI and API tests use local deterministic fixtures and were run on Windows 11/Python 3.13.5. Support recomputation is explanatory current state, not action authorization; the ActionGate remains authoritative."
+      ]
     }
   ]
 }

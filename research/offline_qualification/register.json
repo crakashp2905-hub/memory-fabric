@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "83a13ceb8c3938a6374825b397b8c1ac9a2dfda9aa4ece2fa1cbcb20f1ed5b51",
+    "sha256": "cf389259ad89f8ec763852bb2a217e2b3c4e22098ad9f7e0fae195d28324fe22",
     "tasks": 260
   },
   "source": {
-    "commit": "7c4041b20010511205f314259b85a08d5467e688",
+    "commit": "dfa886eb35cbd6101c24710c0587a94b8de588db",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 150,
+      "DONE": 151,
       "PARTIAL": 4,
-      "TODO": 106
+      "TODO": 105
     },
-    "completed": 150,
+    "completed": 151,
     "total": 260,
-    "percent_complete": 57.69,
+    "percent_complete": 58.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -307,9 +307,9 @@
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-        "README.md": "1f2a588071aeeffece69e583262b0fe60055a6f9ec9797a0d7db74b65e71c7fc",
-        "docs/VALIDATION.md": "391a9d252a136b8d8f56659d308ddd38187e9e7381feff681a2313843150e21d",
-        "docs/STATUS_AT_HEAD.md": "998247902cf6aab9aea6d36807b9209a3f578f1c92eb857b5c0f31c9e201eb17",
+        "README.md": "95a831fb794c1cae09709fb4ac0dc3e6189ae18117748e93d4adbaf15431f581",
+        "docs/VALIDATION.md": "028a62fb413dfcfb09ea5c391e45ca26c5109c04b5894d4933340da24a99e23e",
+        "docs/STATUS_AT_HEAD.md": "de7220ad2730ca3d45c24aa990b35c866462cd29141a1f44d67e734056d47518",
         "research/results/e1-10-full-suite.xml": "d3daba8b0cf45e75dc04d8fb68f1eabc70fac0d5e433424434e7b7f6d25a0a00",
         "research/results/e1-10-full-suite-report.json": "f687116ab4132ce536bb85e1cc127758f9fa04f6709936a2100041da3ba32ddf",
         "research/results/e1-10-full-suite-evidence.json": "9f2494f25da2678cc3d7a5a4bc19f8167593e09b60d49b22ba5f5cd753da10c0"
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "c6782a8a160ce5170a8639976a713a6ab7fba75083168842a49b5fc889371e72",
+        "research/results/MANIFEST.json": "434d5333a5963c90532376ff2dac7e8631d42fa9f7d268f98b24bb5bb0b15b5f",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3946,7 +3946,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/observability/control.py": "5b941719e5fcc11828ab4ab55c111842e0aee82787029400bb09e23f8b4571ef",
+        "src/memory_fabric/observability/control.py": "97d7626253e8bd9a4e79887046964c1a8389a431a2b76acd4745de56423edd41",
         "tests/test_cross_tenant_surface_matrix.py": "ef6a14d77fcf1e326a3b152f0d3b7fd231121eec6aace785d13a3fe98ec85427",
         "tests/test_privacy_federation.py": "62f0f7c8b89113729ad6ecdd7c54c91ff2e53ffef099da5f27adb4c6574c4f85",
         "docs/SAFETY_AND_SECURITY.md": "e8cce74fa9eeeed8d27f3ebc93e39b4444d24c6f495518a8ad8f74e538afbcec",
@@ -5144,13 +5144,29 @@
       "priority": "P1",
       "task": "Add a decision-centric detail view with action, evidence, provenance and current support status.",
       "acceptance": "UI snapshot test verifies reason codes and identity scope from API fixture",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-01-decision-detail.json",
+        "research/results/p2-01-decision-detail.txt"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/observability/control.py": "97d7626253e8bd9a4e79887046964c1a8389a431a2b76acd4745de56423edd41",
+        "src/memory_fabric/observability/static/dashboard.html": "9b3c015acdede8b15cfa038cf7db18b4645d44b1915f86f4c4ca79ed4e510bec",
+        "tests/test_control_center_ui.py": "cea5d28a371661fb011bdeb81e880a46dfc7f82f37bd96f8b62d7362beb1c827",
+        "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+        "research/results/p2-01-decision-detail.json": "7c8c34b7b8b5d85e522cfbe42e8a37297828468eb326474e1d035ad04c2c8a8c",
+        "research/results/p2-01-decision-detail.txt": "69ec6ef4c8f0c293ba3c5de5a1eb5b07b41a85c2e272e81d73c7d367e2a06ffb"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "UI and API tests use local deterministic fixtures and were run on Windows 11/Python 3.13.5. Support recomputation is explanatory current state, not action authorization; the ActionGate remains authoritative."
+      ]
     },
     {
       "task_id": "P2-02",
