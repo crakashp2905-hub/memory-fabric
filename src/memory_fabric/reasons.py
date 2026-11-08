@@ -40,6 +40,9 @@ REASONS: dict[str, tuple[str, str]] = {
     "executed": ("Done: the action ran once, with its evidence re-checked at the moment it ran.", ""),
     "already_executed": ("Not repeated: an action with this idempotency key already ran.",
                          "Use the earlier result, or a new key for a genuinely new action."),
+    "idempotency_key_payload_mismatch": (
+        "Refused: this idempotency key was already used for a different action payload.",
+        "Use a fresh key; never reuse a key for a different target, parameters or evidence."),
     "failed": ("The action ran and failed; its evidence check had passed.",
                "Fix the tool error and retry with the same idempotency key."),
     "timed_out": ("The action did not finish in time.", "Check the target before retrying."),

@@ -1,6 +1,6 @@
 {
   "schema": "mf-local-qualification-summary/1",
-  "source_commit": "9f7a1f3",
+  "source_commit": "b0540000c0721f70ec35cbaacb46b6bcaf823261",
   "source_worktree_clean_at_check_start": false,
   "generated_documents_dirty_after_check": true,
   "checks": {
@@ -10,7 +10,7 @@
     "mypy": {
       "status": "PASS",
       "errors": 0,
-      "files": 175,
+      "files": 176,
       "evidence": "research/results/p5-02-local-checks.txt"
     },
     "secret_scan": {
@@ -50,26 +50,45 @@
       "evidence": "research/results/p5-02-adversarial-gate.json"
     },
     "full_unittest_discovery": {
-      "status": "INCOMPLETE",
-      "summary": "Interrupted after prolonged no-output waits; partial transcript includes failure/error/skip markers, with no final unittest summary. Not a pass.",
-      "evidence": "research/results/p5-02-full-unit-tests.txt"
+      "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+      "tests_run": 2458,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 17,
+      "duration_seconds": 1090.736,
+      "evidence": "research/results/p5-02-full-unit-tests.txt",
+      "skip_breakdown": {
+        "anthropic_sdk_missing": 5,
+        "postgres_service_not_configured": 7,
+        "agents_sdk_framework_contract_missing": 1,
+        "posix_only_on_windows": 4
+      }
     },
-    "pip_audit": "UNAVAILABLE",
-    "bandit": "UNAVAILABLE",
+    "pip_audit": {
+      "status": "UNAVAILABLE",
+      "reason": "not installed in this environment"
+    },
+    "bandit": {
+      "status": "UNAVAILABLE",
+      "reason": "not installed in this environment"
+    },
     "optional_production_defaults_audit": {
       "status": "PASS",
       "evidence": "research/results/h5-09-production-defaults.json"
     },
     "quick_check_suite": {
       "status": "PASS",
-      "command": "python tools/check.py (localhost socket access)",
+      "exit_code": 0,
+      "command": "python tools/check.py (localhost sockets; workspace-local temp)",
       "evidence": "research/results/p5-02-local-checks.txt"
     }
   },
-  "qualification": "PARTIAL_BLOCKED",
+  "qualification": "PARTIAL",
   "limitations": [
-    "Full unittest discovery did not produce a final summary and showed failure/error markers; the suite is not qualified.",
     "pip-audit and bandit are unavailable in this environment.",
+    "Seven PostgreSQL integration tests require MF_TEST_POSTGRES_URL; the local SQLite suite passed.",
+    "One framework contract requires the optional Agents SDK runtime; five real Anthropic SDK tests require the Anthropic SDK.",
+    "Four POSIX-only checks cannot execute on this Windows host.",
     "Independent external security review remains open; local security checks are not certification."
   ]
 }

@@ -10,11 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SecurityFindingsGate(unittest.TestCase):
-    def test_checked_in_register_is_blocked_by_limited_high_finding(self) -> None:
+    def test_checked_in_register_is_locally_ready_but_requires_external_review(self) -> None:
         register = json.loads((ROOT / "research/security/internal_findings.json").read_text(encoding="utf-8"))
         result = evaluate(register, ROOT)
-        self.assertFalse(result["local_ready"])
-        self.assertIn("F1", result["blocking_findings"])
+        # The locally reproducible F1/F16 fixes pass; O7 still requires an
+        # independent external review and is deliberately outside this gate.
+        self.assertTrue(result["local_ready"])
+        self.assertEqual(result["blocking_findings"], [])
         self.assertEqual(result["external_review_required"], ["O7"])
         self.assertFalse(result["external_review_complete"])
 

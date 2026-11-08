@@ -1517,7 +1517,9 @@
         "research/results/h5-09-production-defaults.json"
       ],
       "limitations": [
-        "mypy has 50 errors in 11 files; pip-audit and bandit are unavailable; adversarial gate has two failed families; full unittest discovery did not finish with a final summary. Candidate remains blocked."
+        "Full local unit suite passes: 2,458 tests, 0 failures/errors, 17 disclosed capability/platform skips (Anthropic SDK 5; PostgreSQL 7; Agents SDK runtime 1; POSIX-only Windows 4).",
+        "pip-audit and bandit are unavailable in this environment.",
+        "Independent external security review remains open; local checks do not certify security."
       ]
     },
     {
