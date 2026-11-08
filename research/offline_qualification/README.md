@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **187 / 260 (71.92%)**. Internal status: **BLOCKED**.
+Strict completion: **188 / 260 (72.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5b98464bfc6dee7b4d43380e48317a07fc87b3ffa574fbd7348aea0037de3c6b`.
+Normalized ledger digest: `2cfd785e7f8f04e83cd66168645ddfeda3ef35823d8f27a35e30323475bdcea5`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 187 |
+| DONE | 188 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 69 |
+| TODO | 68 |
 
 ## Graduation gates
 
@@ -265,7 +265,7 @@ Normalized ledger digest: `5b98464bfc6dee7b4d43380e48317a07fc87b3ffa574fbd7348ae
 | P3-04 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/upgrade_preview.py`, `src/memory_fabric/cli.py`, `tests/test_upgrade_preview.py`, `docs/UPGRADE_PREVIEW.md`, `docs/CLI.md`, `docs/README.md` |
 | P3-05 | P1 | DONE | INTERNAL_INTEGRATION | `docs/RUNBOOKS.md`, `docs/OPERATIONS.md`, `docs/CLI.md`, `src/memory_fabric/cli.py`, `tests/test_backup_runbook.py`, `tests/test_backup_custody.py`, `tests/test_backup.py`, `research/results/p3-05-backup-restore-runbook.json`, `research/results/p3-05-backup-restore-runbook.txt` |
 | P3-06 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/observability/incident_export.py`, `tools/replay_redacted_incident.py`, `tools/incident_replay_smoke.py`, `tests/test_incident_replay.py`, `tests/test_control_center_ui.py`, `docs/INCIDENT_REPLAY.md`, `docs/README.md`, `research/results/p3-06-incident-replay.json` |
-| P3-07 | P1 | TODO | NOT_TESTED | — |
+| P3-07 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/limits.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/lifecycle.py`, `src/memory_fabric/cli.py`, `tests/test_operational_budgets.py`, `tools/resource_budget_smoke.py`, `research/results/p3-07-resource-budgets.json`, `docs/RESOURCE_BUDGETS.md`, `docs/README.md` |
 | P3-08 | P1 | DONE | INTERNAL_INTEGRATION | `tests/test_fail_safe_environment.py`, `tests/test_cipher.py`, `tests/test_quickstart.py` |
 | P3-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md`, `docs/CLI.md`, `docs/README.md` |
 | P3-10 | P1 | DONE | INTERNAL_INTEGRATION | `tools/runbook_drill.py`, `tests/test_runbook_drill.py`, `docs/RUNBOOK_DRILLS.md`, `research/results/p3-10-runbook-drills.json` |

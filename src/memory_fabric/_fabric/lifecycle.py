@@ -420,6 +420,13 @@ class LifecycleMixin(FabricCore):
             allowed = set(actions)
             decisions = [d for d in decisions if d.action in allowed]
         if apply:
+            budget = self.limits.limits.max_retention_actions
+            if budget is not None:
+                # Stable order makes repeated bounded sweeps reproducible.
+                priority = {"deprecate": 0, "delete": 1}
+                decisions = sorted(
+                    decisions, key=lambda d: (priority.get(d.action, 2), d.memory_id)
+                )[:budget]
             emitted: list[ev.Event] = []
             for decision in decisions:
                 to_state = (

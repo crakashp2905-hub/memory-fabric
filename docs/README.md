@@ -50,6 +50,7 @@ Every document in the repository, by what you are trying to do.
 | [OPERATIONS.md](OPERATIONS.md) | Day-two operations, incidents, background maintenance |
 | [HEALTH_LEVELS.md](HEALTH_LEVELS.md) | Operator health levels and fail-closed meanings |
 | [INCIDENT_REPLAY.md](INCIDENT_REPLAY.md) | Verify and replay redacted incident explanations offline |
+| [RESOURCE_BUDGETS.md](RESOURCE_BUDGETS.md) | Configure retention, request, memory, and worker budgets |
 | [RUNBOOKS.md](RUNBOOKS.md) | Step by step: leaked credentials, key rotation, poisoning, restore |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Every error message and what to do |
 | [MIGRATION.md](MIGRATION.md) | Moving between versions, and moving in from elsewhere |

@@ -164,7 +164,7 @@ class WritesMixin(FabricCore):
         fed = (context or {}).get("federation") if isinstance(context, Mapping) else None
         self.limits.check_write(agent_id, content,
                                 str(fed.get("store")) if isinstance(fed, Mapping) else None,
-                                self.now())
+                                self.now(), memory_count=len(self.state.memories))
         if episode_id:
             key = (agent_id, episode_id, _digest(content))
             existing = self.state.written.get(key)

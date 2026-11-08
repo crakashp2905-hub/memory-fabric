@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1c14f57a5db57d8d03b47f8ef316709b49d7584662b029744e0e4087ccea394b",
+    "sha256": "8a5213cba0452401efc3e75ab033dc5cec8fee733eeb6170d11016270ea632d3",
     "tasks": 260
   },
   "source": {
-    "commit": "8f7ec3d2e76b8fd88f0737d104f85a67117be42a",
-    "dirty": false
+    "commit": "8f611e0ded8a2992c01a6ee105b243774010a526",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 187,
+      "DONE": 188,
       "PARTIAL": 4,
-      "TODO": 69
+      "TODO": 68
     },
-    "completed": 187,
+    "completed": 188,
     "total": 260,
-    "percent_complete": 71.92,
+    "percent_complete": 72.31,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -761,8 +761,8 @@
         "src/memory_fabric/answerability.py": "e1721a35b756926852ab5e5a705d070599f66e889bc17066c6549135370251a6",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_read_surface_semantics.py": "ea2ce641997152fe06f0616b3142e5254bd15cbd3383e2dff77dc1686f7d4d30",
         "docs/READ_SURFACE_SEMANTICS.md": "1fbdcd94c0e092722b4931077fb07fabf95761380ebf39df3f439390042496ae"
       },
@@ -814,7 +814,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
+        "src/memory_fabric/_fabric/writes.py": "02c10e652c0979b9306557f59e79f33e4d07d73d664cdac59ec14bddccc72868",
         "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
         "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
@@ -866,9 +866,9 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
-        "src/memory_fabric/_fabric/writes.py": "8e8651700c18c45537020b546e57897f8dde5bc36fa845daa0abe47369f092e6",
+        "src/memory_fabric/_fabric/writes.py": "02c10e652c0979b9306557f59e79f33e4d07d73d664cdac59ec14bddccc72868",
         "tests/test_stage_trace.py": "82e2b05cdc5065a5b2ce64f99a5d6c07651025d9699aff07b98b346e5a5ca5ac",
         "docs/STAGE_TRACING.md": "a886d1cf6414da320d50d8188c4b7dae31f775ef36d8b85833abf611111691ab"
       },
@@ -900,7 +900,7 @@
       ],
       "evidence_digests": {
         "experiments/p12b_api_load.py": "e3a94c046ab7e1e253b34db9ebc5dd2349a943a28de4b203b1da2bacbfb102ec",
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/stage_trace.py": "2068e53b7ac511c750bd27cb99ea8f57190636d4f8f3e27c0ed68dab4ad7ff4b",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -1236,8 +1236,8 @@
         "docs/ERROR_CONTRACT_MATRIX.md": "56f4bda5f90fb7132d8ccca9acf96f978ea4101737d92aad95926b725c732270",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
         "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_mcp.py": "b339fee340d18f787c2eef205b0643663975fb1ca9ef88553f507f699e80337d",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
@@ -1412,7 +1412,7 @@
         "research/results/e5-09-agent-api-refactor.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
         "tests/test_agent_api.py": "5afa3275e840534084a85b504b5ef8d0652e68936aefaaa92533d98adb3a01b7",
         "tests/data/agent_api_behavior.json": "e0ace124261631c09ef6b8eecb2f58bbf7c8d5f5653e3cfbf2bacd44847c02dd",
         "tools/agent_api_metrics.py": "7a7983e617133ae6b46ad0281625b0e96085f93317c6fe07bbdc0632c27f785f",
@@ -4249,7 +4249,7 @@
         "research/results/h3-08-backup-erasure-limits-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "src/memory_fabric/tombstones.py": "3269433f5a13103bb38292f3f093821a80433dce91576a1754adfac58ace09ea",
         "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
         "tests/test_restore_erasure_reconciliation.py": "57b4a281012bf57110afe58d060cd958b9e47f2d974e2f52bcdd7fc93da42de7",
@@ -4593,7 +4593,7 @@
       "evidence_digests": {
         "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
         "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
         "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb",
         "research/results/h4-10-incident-replay.json": "ff256d3723733c25a9afc8a271cba6e534664c54634ad39b0ae39a31ca19bb7c",
@@ -4821,8 +4821,8 @@
         "research/results/h5-08-rate-limit-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/agent_api.py": "14c3db7bd4d60eed23a1d3019f61f4e9f0d4f94337db28286954f24d3612e092",
-        "src/memory_fabric/limits.py": "854a798ecb6b025104510f660b1f06c393a3b723b25a3d35e3ea88eb818a889d",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
+        "src/memory_fabric/limits.py": "e1fe979eec94a8ae10da3d593fdc670e914b9460c138e9b161fcad6c61c3fc5a",
         "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
         "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
@@ -5067,7 +5067,7 @@
         "research/results/p1-05-setup-doctor.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
         "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
@@ -5598,7 +5598,7 @@
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "7c6815fe426b365e3126cd9028cd20b8c833b0c5a637ec4f56a82a4624474945",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8"
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5628,7 +5628,7 @@
         "research/results/p3-03-refusal-explainer.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "src/memory_fabric/reasons.py": "891f223cfbe692e7c6086aa77c28a1843778f0350d6eb13c643aac1f160c7944",
         "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
@@ -5662,11 +5662,11 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/upgrade_preview.py": "8f0c8d5fbdfcbc2d37d7314f34cff0663f6981c47a36197020a7a45b66140064",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8"
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5697,7 +5697,7 @@
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "docs/OPERATIONS.md": "5d632cb027b1c8f3dc4fb0e877dd25ec055e3ee1c6ca2fc7f4aef9e73061e3bc",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
         "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
         "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
@@ -5734,7 +5734,7 @@
         "tests/test_incident_replay.py": "6e3e7acd94cc1accd3c7f98a800fa6019e290840ff7ed9141263c8d46e5a1ba6",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "docs/INCIDENT_REPLAY.md": "964cb74bb4cf96398a27163862cbba5fc6a55920300227b7e1c50d8588664e49",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8",
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
         "research/results/p3-06-incident-replay.json": "19e2043a40d82da5f171be9171c7cb52fe23f802fd622aa623cad6b15915c26d"
       },
       "evidence_issues": {},
@@ -5748,14 +5748,40 @@
       "task_id": "P3-07",
       "priority": "P1",
       "task": "Add resource budget knobs for retention, request size, memory count and worker concurrency.",
-      "acceptance": "Invalid settings reject at startup; defaults documented and safe",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Invalid settings reject at startup; defaults documented and safe. Evidence: `src/memory_fabric/limits.py`, `src/memory_fabric/agent_api.py`, `src/memory_fabric/_fabric/writes.py`, `src/memory_fabric/_fabric/lifecycle.py`, `src/memory_fabric/cli.py`, `tests/test_operational_budgets.py`, `tools/resource_budget_smoke.py`, `research/results/p3-07-resource-budgets.json`, `docs/RESOURCE_BUDGETS.md`, `docs/README.md` (DONE: finite defaults, startup validation and CLI/Python knobs for memory count, per-sweep retention actions, request bytes and API workers; 11 focused tests and five smoke checks pass. Worker capacity primitive tested without socket load.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/limits.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/lifecycle.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_operational_budgets.py",
+        "tools/resource_budget_smoke.py",
+        "research/results/p3-07-resource-budgets.json",
+        "docs/RESOURCE_BUDGETS.md",
+        "docs/README.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/limits.py": "e1fe979eec94a8ae10da3d593fdc670e914b9460c138e9b161fcad6c61c3fc5a",
+        "src/memory_fabric/agent_api.py": "61a5678dcb79334f30697325ac7cf005ea39f43f44657c054a24dca693808e06",
+        "src/memory_fabric/_fabric/writes.py": "02c10e652c0979b9306557f59e79f33e4d07d73d664cdac59ec14bddccc72868",
+        "src/memory_fabric/_fabric/lifecycle.py": "df81a87f643b660b29213b3cb37a3d9087dcbb9079964deebc90af016df1317b",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
+        "tests/test_operational_budgets.py": "99e27d5aa482932167614d474d9d5cb4782943cd96df6f9ce4dd108c4c08c935",
+        "tools/resource_budget_smoke.py": "9266a01470812752947a3331b598f7e8f873a5c36934b0e80cbb89128f4522ce",
+        "research/results/p3-07-resource-budgets.json": "ac323f96f384d779b1907cde8c5dc02d2984d3e9bbab53aa7186544136a8a780",
+        "docs/RESOURCE_BUDGETS.md": "ae68b51b7959e4cbc34efa226e137b7f49a85c00fe00ae4da3b407c2561042fe",
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Worker saturation was verified through the integrated nonblocking budget primitive, not a socket-load test.",
+        "Memory and retention budgets were exercised with in-memory fixtures; no production capacity claim is made.",
+        "Retention caps each apply sweep and leaves later decisions for subsequent sweeps; it does not shorten retention policy periods."
+      ]
     },
     {
       "task_id": "P3-08",
@@ -5799,11 +5825,11 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/support_bundle.py": "cbbafd505300f97beec01e4e797157e145ecd1aca63d8f772dc3e36ca94e3710",
-        "src/memory_fabric/cli.py": "effb256a36ae261982702d6f3682ed1116a4c4070103f7ddcace4eedebc3aa12",
+        "src/memory_fabric/cli.py": "76d3849354faa78c23177acc5dc52cb6957d1c0d919e6322e8a841f242841a47",
         "tests/test_support_bundle.py": "0f19760797bdd9a2c9e2a1eff998d0fd3a5b22060ba9fa4f23024602fb2f9767",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "d18c083d3567ef3c14799c62351ee5f61a2f408f90ebf16d21f7bd73738e821b",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8"
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc"
       },
       "evidence_issues": {},
       "limitations": [
@@ -5860,7 +5886,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8",
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -6021,7 +6047,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "39a35aaa88114b657b8289d74b160a9ce49a5787fc3da82001ae60c6c07273e8",
+        "docs/README.md": "eb851e00479eca5e7385ff6aae8c877de18645e0c3f883f62f064e5f2436b3fc",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",

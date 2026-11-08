@@ -761,11 +761,19 @@ def cmd_maintain(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     return 0
 
 
-def _server_limits(fabric: MemoryFabric) -> None:
+def _server_limits(fabric: MemoryFabric, *, max_memories: int | None = None,
+                   max_retention_actions: int | None = None) -> None:
     """Servers meter writes: payload size, per-agent quota, per-peer import budget (`limits.py`)."""
+    from dataclasses import replace
     from .limits import SERVER_DEFAULTS, Meter
 
-    fabric.limits = Meter(SERVER_DEFAULTS)
+    limits = replace(
+        SERVER_DEFAULTS,
+        max_memories=(SERVER_DEFAULTS.max_memories if max_memories is None else max_memories),
+        max_retention_actions=(SERVER_DEFAULTS.max_retention_actions
+                               if max_retention_actions is None else max_retention_actions),
+    )
+    fabric.limits = Meter(limits)
 
 
 def cmd_serve(fabric: MemoryFabric, args: argparse.Namespace) -> int:
@@ -899,20 +907,23 @@ def _agent_service(fabric: MemoryFabric, agents_file: str):
 
 def cmd_agent_api(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Serve agents over authenticated HTTP. See `agent_api.py`."""
-    _server_limits(fabric)
     from .agent_api import AgentApi, ConfigurationError, RateLimit, build_agent_server
     from .identity import IdentityError
 
     try:
+        _server_limits(fabric, max_memories=args.max_memories,
+                       max_retention_actions=args.max_retention_actions)
         service = _agent_service(fabric, args.agents_file)
-        limits = RateLimit(rate=args.rate_limit, burst=args.burst)
+        limits = RateLimit(rate=args.rate_limit, burst=args.burst,
+                           max_request_bytes=args.max_request_bytes,
+                           max_workers=args.max_workers)
         oauth = None
         if args.oidc_config:
             from .oidc import OidcConfig, OidcJwtVerifier
             oauth = OidcJwtVerifier(OidcConfig.load(args.oidc_config))
         server = build_agent_server(AgentApi(service, limits, oauth=oauth), host=args.host,
                                     port=args.port, behind_tls=args.behind_tls)
-    except (ConfigurationError, OSError, IdentityError) as exc:
+    except (ConfigurationError, OSError, IdentityError, ValueError) as exc:
         print(f"{C.RED}{exc}{C.RESET}", file=sys.stderr)
         return 5
     host, port = server.server_address[:2]
@@ -3192,6 +3203,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--rate-limit", type=float, default=20.0,
                    help="requests a second per agent, on average (0 turns it off)")
     p.add_argument("--burst", type=int, default=40, help="requests per agent at once")
+    p.add_argument("--max-request-bytes", type=int, default=64 * 1024,
+                   help="maximum HTTP request body size")
+    p.add_argument("--max-workers", type=int, default=32,
+                   help="maximum concurrent agent API request workers")
+    p.add_argument("--max-memories", type=int, default=1_000_000,
+                   help="maximum memories in this store")
+    p.add_argument("--max-retention-actions", type=int, default=1_000,
+                   help="maximum lifecycle actions in one retention sweep")
     p.add_argument("--oidc-config",
                    help="optional OAuth/OIDC JWT resource-server configuration JSON")
 

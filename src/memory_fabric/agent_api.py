@@ -167,6 +167,13 @@ def check_bind(host: str, behind_tls: bool) -> None:
             "--behind-tls.")
 
 
+def request_length_allowed(length: int, maximum: int) -> bool:
+    """Validate a declared HTTP body length against its configured byte budget."""
+    if maximum < 1:
+        raise ValueError("max_request_bytes must be at least one")
+    return 0 <= length <= maximum
+
+
 # --- the API -----------------------------------------------------------------
 
 
@@ -191,10 +198,35 @@ class RateLimit:
     burst: int = 40
     auth_failures: float = 5.0
     max_buckets: int = 100_000
+    max_request_bytes: int = MAX_BODY
+    max_workers: int = 32
 
     def __post_init__(self) -> None:
-        if self.max_buckets < 1:
+        if isinstance(self.max_buckets, bool) or not isinstance(self.max_buckets, int) \
+                or self.max_buckets < 1:
             raise ValueError("max_buckets must be at least one")
+        if isinstance(self.max_request_bytes, bool) or not isinstance(self.max_request_bytes, int) \
+                or self.max_request_bytes < 1:
+            raise ValueError("max_request_bytes must be at least one")
+        if isinstance(self.max_workers, bool) or not isinstance(self.max_workers, int) \
+                or self.max_workers < 1:
+            raise ValueError("max_workers must be at least one")
+
+
+class WorkerBudget:
+    """Non-blocking bound on concurrent request work for one API server."""
+
+    def __init__(self, capacity: int) -> None:
+        if capacity < 1:
+            raise ValueError("worker capacity must be at least one")
+        self.capacity = capacity
+        self._semaphore = threading.BoundedSemaphore(capacity)
+
+    def try_acquire(self) -> bool:
+        return self._semaphore.acquire(blocking=False)
+
+    def release(self) -> None:
+        self._semaphore.release()
 
 
 @dataclass
@@ -250,6 +282,8 @@ class AgentApi:
         self.profile_recorder: Any = None
         self._request_stages: Any = None
         limits = limits or RateLimit()
+        self.request_limits = limits
+        self.worker_budget = WorkerBudget(limits.max_workers)
         self._per_agent = RateLimiter(limits.rate, limits.burst, clock,
                                       max_keys=limits.max_buckets)
         self._per_address = RateLimiter(limits.auth_failures,
@@ -537,7 +571,7 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             if 0 < length <= MAX_DRAIN:
                 remaining = length
                 while remaining > 0:
-                    chunk = self.rfile.read(min(remaining, MAX_BODY))
+                    chunk = self.rfile.read(min(remaining, api.request_limits.max_request_bytes))
                     if not chunk:
                         break
                     remaining -= len(chunk)
@@ -580,10 +614,11 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                 length = int(self.headers.get("Content-Length") or 0)
             except ValueError:
                 length = -1
-            if length < 0 or length > MAX_BODY:
+            max_bytes = api.request_limits.max_request_bytes
+            if not request_length_allowed(length, max_bytes):
                 self._drain_and_refuse(
                     HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-                    f"body must be at most {MAX_BODY} bytes")
+                    f"body must be at most {max_bytes} bytes")
                 return None
             try:
                 if trace is not None:
@@ -619,16 +654,25 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                 self._reply(HTTPStatus.OK, result)
 
         def do_POST(self) -> None:  # noqa: N802
-            trace = self._begin_post_trace()
-            if not self._post_route_allowed():
+            if not api.worker_budget.try_acquire():
+                self.close_connection = True
+                self._reply(HTTPStatus.SERVICE_UNAVAILABLE,
+                            {"error": "worker_budget_exhausted"}, 1)
                 return
-            body = self._read_post_body(trace)
-            if body is None:
-                return
+            trace = None
             try:
+                trace = self._begin_post_trace()
+                if not self._post_route_allowed():
+                    return
+                body = self._read_post_body(trace)
+                if body is None:
+                    return
                 self._dispatch_post(body, trace)
             finally:
-                self._finish_post_trace(trace)
+                try:
+                    self._finish_post_trace(trace)
+                finally:
+                    api.worker_budget.release()
 
         def do_GET(self) -> None:  # noqa: N802
             if self.path in {"/__profile", "/__profile/reset"}:

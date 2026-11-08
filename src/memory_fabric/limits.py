@@ -39,10 +39,25 @@ class Limits:
     writes_per_window: int | None = None
     imports_per_window: int | None = None
     window_ms: int = 60_000
+    max_memories: int | None = 1_000_000
+    max_retention_actions: int | None = 1_000
+
+    def __post_init__(self) -> None:
+        for name in ("max_content_bytes", "window_ms"):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+                raise ValueError(f"{name} must be at least one")
+        for name in ("writes_per_window", "imports_per_window", "max_memories",
+                     "max_retention_actions"):
+            value = getattr(self, name)
+            if value is not None and (
+                    isinstance(value, bool) or not isinstance(value, int) or value < 1):
+                raise ValueError(f"{name} must be positive or None")
 
 
 SERVER_DEFAULTS = Limits(max_content_bytes=256 * 1024, writes_per_window=600,
-                         imports_per_window=300)
+                         imports_per_window=300, max_memories=1_000_000,
+                         max_retention_actions=1_000)
 
 
 class Meter:
@@ -54,12 +69,15 @@ class Meter:
         self._lock = threading.Lock()
 
     def check_write(self, agent_id: str, content: str, origin_store: str | None,
-                    now_ms: int) -> None:
+                    now_ms: int, memory_count: int = 0) -> None:
         size = len(content.encode("utf-8"))
         if size > self.limits.max_content_bytes:
             raise LimitExceeded("payload_too_large",
                                 f"content is {size} bytes; the limit is "
                                 f"{self.limits.max_content_bytes}")
+        if self.limits.max_memories is not None and memory_count >= self.limits.max_memories:
+            raise LimitExceeded("memory_budget_exhausted",
+                                f"store has reached its {self.limits.max_memories} memory limit")
         if origin_store is not None:
             self._take(f"import:{origin_store}", self.limits.imports_per_window, now_ms,
                        "federation_budget_exhausted")
