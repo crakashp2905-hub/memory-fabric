@@ -18,6 +18,7 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 
 ARMS = ("isolated", "pooled_shared", "blanket_retraction", "memory_fabric", "oracle")
 TOOL = "publish"
+TOOL_CATALOG = ("publish", "archive", "notify")
 FAILURE_CLASSES = ("retrieval", "insufficient_evidence", "policy_refusal", "coordination", "tool_error")
 HIGH_RISK_FAMILIES = frozenset({"corrected", "contested"})
 
@@ -47,10 +48,33 @@ def _hash(value: Any) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
-def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
+def randomized_agent_ids(seed: int, count: int) -> list[str]:
+    """Opaque, seed-specific identities; no ordinal encodes an agent outcome."""
+    import random
+
+    rng = random.Random(seed ^ 0xA61D)
+    ids = [f"agent-{rng.getrandbits(64):016x}" for _ in range(count)]
+    if len(set(ids)) != count:
+        raise RuntimeError("agent identity collision")
+    rng.shuffle(ids)
+    return ids
+
+
+def randomized_tool_catalog(seed: int) -> list[str]:
+    """Vary registry insertion order while preserving the sole runtime grant."""
+    import random
+
+    tools = list(TOOL_CATALOG)
+    random.Random(seed ^ 0x7001).shuffle(tools)
+    return tools
+
+
+def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) -> dict[str, Any]:
     if agent_count not in AGENT_COUNTS or arm not in ARMS:
         raise ValueError("unknown agent count or arm")
-    agents = [f"agent-{i:03d}" for i in range(agent_count)]
+    agents = (randomized_agent_ids(seed, agent_count) if randomize_order else
+              [f"agent-{index:03d}" for index in range(agent_count)])
+    tool_order = randomized_tool_catalog(seed) if randomize_order else list(TOOL_CATALOG)
     tasks = task_manifest(seed)
     result: dict[str, dict[str, Any]] = {family: {"attempted": 0, "correct": 0, "unsafe_actions": 0,
                        "stale_actions": 0, "false_abstentions": 0,
@@ -62,7 +86,7 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
     started = time.perf_counter()
     with MemoryFabric(":memory:", recognise_copies=False, encrypt_content=False,
                       hold_suspicious=False) as fabric:
-        policy = ActionPolicy(tools={TOOL: ToolRule(TOOL)},
+        policy = ActionPolicy(tools={tool: ToolRule(tool) for tool in tool_order},
                               grants={agent: frozenset({TOOL}) for agent in agents})
         gate = ActionGate(fabric, policy)
         for task in tasks:
@@ -214,6 +238,9 @@ def run(seed: int, agent_count: int, arm: str) -> dict[str, Any]:
             "by_family": result, "task_manifest": details,
             "agent_fairness": agent_fairness,
             "context_budget_max": 1, "runtime_tool": TOOL, "runtime_permission_grants": agent_count,
+            "tool_registry_order": tool_order,
+            "agent_identity_order_sha256": _hash(agents),
+            "agent_identity_scheme": "seeded_opaque_ids_v1" if randomize_order else "ordinal_control",
             "elapsed_s": round(time.perf_counter() - started, 6),
             "model_calls": 0, "model_tokens": 0, "model_usd": 0}
 

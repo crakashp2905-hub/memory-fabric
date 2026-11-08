@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import unittest
 
-from benchmarks.matched_agent_arms import ARMS, FAILURE_CLASSES, classify_failure, run
+from benchmarks.matched_agent_arms import (
+    ARMS, FAILURE_CLASSES, classify_failure, randomized_agent_ids,
+    randomized_tool_catalog, run,
+)
 
 
 class MatchedAgentArms(unittest.TestCase):
@@ -41,6 +44,25 @@ class MatchedAgentArms(unittest.TestCase):
         self.assertTrue(all(agent["high_risk_attempted"] == 4 for agent in fairness["agents"]))
         self.assertGreaterEqual(fairness["p95_decision_latency_ms"], 0)
         self.assertGreaterEqual(fairness["max_decision_latency_ms"], fairness["p95_decision_latency_ms"])
+
+    def test_identity_and_tool_order_permutations_preserve_authorization_outcomes(self) -> None:
+        row = run(701, 5, "memory_fabric")
+        control = run(701, 5, "memory_fabric", randomize_order=False)
+        repeat = run(701, 5, "memory_fabric")
+        alternate = run(709, 5, "memory_fabric")
+        self.assertEqual(row["counts"], repeat["counts"])
+        self.assertEqual(row["counts"], control["counts"])
+        self.assertEqual(row["counts"], alternate["counts"])
+        self.assertEqual(row["tool_registry_order"], randomized_tool_catalog(701))
+        self.assertEqual(set(row["tool_registry_order"]), {"publish", "archive", "notify"})
+        self.assertIn("publish", row["tool_registry_order"])
+        self.assertEqual(row["agent_identity_scheme"], "seeded_opaque_ids_v1")
+        self.assertEqual(len(randomized_agent_ids(701, 5)), 5)
+        self.assertNotEqual(randomized_agent_ids(701, 5), randomized_agent_ids(709, 5))
+        self.assertNotEqual(row["agent_identity_order_sha256"],
+                            alternate["agent_identity_order_sha256"])
+        self.assertEqual(control["agent_identity_scheme"], "ordinal_control")
+        self.assertEqual(control["tool_registry_order"], ["publish", "archive", "notify"])
 
     def test_every_decision_failure_has_a_class_and_source_trace(self) -> None:
         self.assertIn("retrieval", classify_failure("pooled_shared", "supported", False, True, "miss"))

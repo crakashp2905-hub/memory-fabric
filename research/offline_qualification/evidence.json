@@ -3104,6 +3104,24 @@
       ]
     },
     {
+      "task_id": "R4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "tools/r4_06_randomization_qualification.py",
+        "research/prereg/r4-06-order-randomization-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "research/results/r4-06-randomization-qualification.json",
+        "research/results/r4-05-adversarial-cases.json"
+      ],
+      "limitations": [
+        "Thirty runs of deterministic scripted agents compare randomized opaque identities/tool registry order with ordinal controls; outcomes matched exactly within the predeclared zero-attempt tolerance. Answer order is checked by R4-05 shortcut controls. No model or real-tool robustness claim is made."
+      ]
+    },
+    {
       "task_id": "R4-04",
       "status": "DONE",
       "acceptance_passed": true,
