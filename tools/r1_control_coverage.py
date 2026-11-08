@@ -5,8 +5,10 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
@@ -104,6 +106,15 @@ def load_test(test_id: str) -> unittest.TestSuite:
 
 
 def build_report(*, write: bool = True) -> dict[str, Any]:
+    # The app-container's default Windows temp location is not writable by
+    # child processes. Keep test-created databases and crash-worker files in
+    # the checkout's writable scratch directory instead.
+    temp_dir = ROOT / ".test-tmp"
+    temp_dir.mkdir(exist_ok=True)
+    os.environ["TEMP"] = str(temp_dir)
+    os.environ["TMP"] = str(temp_dir)
+    os.environ["TMPDIR"] = str(temp_dir)
+    tempfile.tempdir = str(temp_dir)
     suites = registered_suites()
     actual = {str(suite["id"]): str(suite["name"]) for suite in suites}
     expected = {suite_id: row["name"] for suite_id, row in COVERAGE.items()}
