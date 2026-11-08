@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "6a4fd82b3ab7afceaab4f15f54e84953c7159d924d9f87a87a8301e23550633f",
+    "sha256": "1879d005c71726d57ac324695f10cf112d9f15c1f6cd25ef7d8ae3015e1fba8c",
     "tasks": 260
   },
   "source": {
-    "commit": "fe03f8c0c2ce50ebbe89f7f5484b15c3c2b9ca66",
-    "dirty": false
+    "commit": "d828956b658a4f3feaf1e66449dabd604f9c3845",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 194,
+      "DONE": 196,
       "PARTIAL": 3,
-      "TODO": 63
+      "TODO": 61
     },
-    "completed": 194,
+    "completed": 196,
     "total": 260,
-    "percent_complete": 74.62,
+    "percent_complete": 75.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2046,11 +2046,11 @@
         "research/results/r3-02-matched-agent-arms.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
         "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
         "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
-        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
+        "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "research/results/r3-02-matched-agent-arms-tests.xml": "c9e22ba7985777b8e963e668d63ad406eb36a051bb2cddd8bd1d8cf49ba8e2cd",
         "research/results/r3-02-matched-agent-arms.json": "99d72984e1c82a031c45aa6e777cdd55da221688835639065a0ff21042c239cd"
       },
@@ -2076,10 +2076,10 @@
         "research/results/r3-03-failure-taxonomy.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
         "research/prereg/failure-taxonomy-v1.md": "1a5ff50933a8179678dca7e5c50f111202b9bdb6b3fc061383905397bbfc2a96",
         "docs/FAILURE_TAXONOMY.md": "1bb27ae902a6fd82f156aa9eefc9937a48bbe284785bba1f7a6a8e67344c40fd",
-        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
+        "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "research/results/r3-03-failure-taxonomy-tests.xml": "c9e22ba7985777b8e963e668d63ad406eb36a051bb2cddd8bd1d8cf49ba8e2cd",
         "research/results/r3-03-failure-taxonomy.json": "99d72984e1c82a031c45aa6e777cdd55da221688835639065a0ff21042c239cd"
       },
@@ -2278,10 +2278,10 @@
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
         "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
         "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
-        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
+        "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "tests/test_heldout_agent_qualification.py": "7c8d6e7620b1badf02bb3b438fbb48171ae98df3316504bf69f70369828f0423",
         "research/results/r3-heldout-agent-qualification-tests.xml": "96ab55e17e3497295004cf557ebd7a1fa5cd1d4b696aa5a098ec91ebbce95957",
         "research/results/r3-09-10-heldout-qualification.json": "a18d5c6292e62e0b28af954da1d330da9537924c6bff92300748d95d83c67051"
@@ -2444,12 +2444,12 @@
         "research/results/r4-05-adversarial-cases.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "b346d041f7a1f85f7fcb6a1b7178a3889db837811c4d27e8800947cfb8819df3",
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
         "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686",
         "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
-        "tests/test_matched_agent_arms.py": "2dd2ebeb189cfd8866edaa43e731bda6fb5681533754402663716651a40e44a3",
+        "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "tests/test_r4_05_adversarial_cases.py": "12f57f5be67c0501779fad57b8e0a9fc4ee0e39a73c8c1a623d382e68b93ea0d",
-        "research/results/r4-06-randomization-qualification.json": "63d946aeec8c6f098350448b839635c1c2909b7d2a86e97bc6a432fe4fe8d4ea",
+        "research/results/r4-06-randomization-qualification.json": "bebecb95008e2e4a9d250a3b3f9344847c9047e6306b02f40020059c66780bf9",
         "research/results/r4-05-adversarial-cases.json": "7385f61181fede4e1cb184d60f2197c5956fa11c0e5d9627bc68e05c253834c9"
       },
       "evidence_issues": {},
@@ -2490,14 +2490,28 @@
       "task_id": "R4-08",
       "priority": "P1",
       "task": "Control for context size, retrieval count, wall time and number of tool calls across ablation arms.",
-      "acceptance": "Efficiency gains are normalized and cannot result from hidden additional information",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Efficiency gains are normalized and cannot result from hidden additional information. Evidence: `benchmarks/matched_agent_arms.py`, `research/prereg/r4-08-matched-resource-budget-v1.md`, `tests/test_matched_agent_arms.py`, `tools/r5_06_pareto_qualification.py`, `research/results/r5-06-pareto-qualification.json` (DONE: all five arms share at most one context item, exactly two store retrievals and one simulated decision per agent-task, zero external tool calls, and a 10-second per-run wall-time ceiling; tests verify equal counts and every observed run stayed under budget. Actual latency and storage remain measured outcomes, not falsely equalized. Synthetic scripted agents only.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
+        "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
+        "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
+        "research/results/r5-06-pareto-qualification.json": "eaa99ed85576c17a059bc197796142e2be7a991d9daf0cb7eced6c7b0e185cf7"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "All five scripted arms receive equal context/retrieval/decision/tool-call budgets and a shared wall-time ceiling, while actual elapsed time remains an outcome. SQLite page allocation is a local storage proxy. The 50-agent three-seed fixture is synthetic; runtime and storage do not transfer to production."
+      ]
     },
     {
       "task_id": "R4-09",
@@ -2656,14 +2670,28 @@
       "task_id": "R5-06",
       "priority": "P1",
       "task": "Record tradeoffs as Pareto curves for safety, task success, latency and memory cost.",
-      "acceptance": "Candidate is not declared superior when another arm dominates it on stated objectives",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Candidate is not declared superior when another arm dominates it on stated objectives. Evidence: `tools/r5_06_pareto_qualification.py`, `tests/test_r5_06_pareto_qualification.py`, `research/prereg/r4-08-matched-resource-budget-v1.md`, `research/results/r5-06-pareto-qualification.json` (DONE: five matched arms, three seeds and 1,200 attempts per arm report task success, unsafe/stale actions, local latency, and SQLite page-allocation cost with explicit Pareto frontier/dominance sets. Memory Fabric is dominated by the oracle on these measured objectives; no universal superiority claim is made. Local synthetic result, not deployment cost evidence.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_r5_06_pareto_qualification.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+        "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
+        "tests/test_r5_06_pareto_qualification.py": "75491066829a9322a14ad53dd4b5ef090c2f1e6a960fd2b6f2bfc141d21c9210",
+        "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
+        "research/results/r5-06-pareto-qualification.json": "eaa99ed85576c17a059bc197796142e2be7a991d9daf0cb7eced6c7b0e185cf7"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Pareto points cover five deterministic scripted arms, three seeds and the fixed 50-agent workload. Latency is local host timing, and memory cost is in-memory SQLite page allocation; neither is deployment cost evidence. The oracle dominates Memory Fabric in this measured fixture, so no general superiority claim is made."
+      ]
     },
     {
       "task_id": "R5-07",

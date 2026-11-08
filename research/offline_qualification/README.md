@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **194 / 260 (74.62%)**. Internal status: **BLOCKED**.
+Strict completion: **196 / 260 (75.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f76ddc66333b2fbdd56bc86651d360a7e897ab0356bde2ecd2b676b59d2a3256`.
+Normalized ledger digest: `d8c2bca320f8f9c9c67e424317cba64278b12b23fa03201c58565bc4c6d75df1`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 194 |
+| DONE | 196 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 63 |
+| TODO | 61 |
 
 ## Graduation gates
 
@@ -116,7 +116,7 @@ Normalized ledger digest: `f76ddc66333b2fbdd56bc86651d360a7e897ab0356bde2ecd2b67
 | R4-05 | P1 | DONE | INTERNAL_INTEGRATION | `experiments/r4_05_adversarial_cases.py`, `research/prereg/r4-05-adversarial-cases-v1.md`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-05-adversarial-cases.json` |
 | R4-06 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `tools/r4_06_randomization_qualification.py`, `research/prereg/r4-06-order-randomization-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_r4_05_adversarial_cases.py`, `research/results/r4-06-randomization-qualification.json`, `research/results/r4-05-adversarial-cases.json` |
 | R4-07 | P1 | DONE | CONTRACT | `benchmarks/decision_verdict.py`, `benchmarks/evaluator_mutations.py`, `tests/test_benchmarks.py`, `tools/benchmark_evaluator_mutations.py`, `research/results/r4-07-evaluator-mutations.json`, `research/results/r4-07-evaluator-mutation-tests.xml` |
-| R4-08 | P1 | TODO | NOT_TESTED | — |
+| R4-08 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/r4-08-matched-resource-budget-v1.md`, `tests/test_matched_agent_arms.py`, `tools/r5_06_pareto_qualification.py`, `research/results/r5-06-pareto-qualification.json` |
 | R4-09 | P1 | DONE | SIMULATED | `research/results/grand-50-agent-baseline-reproduction-v2.json`, `research/results/grand-50-agent-baseline-reproduction-v2.md`, `tests/test_r4_seed_reporting.py`, `research/results/r4-09-worst-seed-reporting.json`, `research/results/r4-09-worst-seed-reporting.txt` |
 | R4-10 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
 | R5-01 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
@@ -124,7 +124,7 @@ Normalized ledger digest: `f76ddc66333b2fbdd56bc86651d360a7e897ab0356bde2ecd2b67
 | R5-03 | P1 | TODO | NOT_TESTED | — |
 | R5-04 | P1 | DONE | CONTRACT | `research/REPRODUCIBILITY_APPENDIX.md`, `tests/test_reproducibility_appendix.py`, `research/results/p4-04-correction-strategy-comparison.json`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-06-provenance-dispute-demo.json` |
 | R5-05 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
-| R5-06 | P1 | TODO | NOT_TESTED | — |
+| R5-06 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/r4-08-matched-resource-budget-v1.md`, `tests/test_r5_06_pareto_qualification.py`, `tools/r5_06_pareto_qualification.py`, `research/results/r5-06-pareto-qualification.json` |
 | R5-07 | P1 | DONE | INTERNAL_INTEGRATION | `experiments/r4_05_adversarial_cases.py`, `tools/r5_07_contamination_audit.py`, `tests/test_r4_05_adversarial_cases.py`, `tests/test_r5_07_contamination_audit.py`, `research/results/r4-05-adversarial-cases.json`, `research/results/r5-07-contamination-audit.json` |
 | R5-08 | P1 | DONE | CONTRACT | `research/claims.json`, `tools/claims_ledger.py`, `tests/test_claims_ledger.py`, `tests/test_claim_checker_contract.py`, `research/results/CLAIMS_LEDGER.json`, `research/results/CLAIMS_LEDGER.md` |
 | R5-09 | P1 | DONE | CONTRACT | `research/RESEARCH_LIMITATIONS.md`, `tests/test_research_limitations.py` |
