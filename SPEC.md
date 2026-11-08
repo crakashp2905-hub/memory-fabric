@@ -206,6 +206,11 @@ actions.
 Protected tools may attach this graph to a static `ToolRule`. Authorization
 requires a claim-keyed certificate for each mandatory leaf and re-verifies
 those certificates under the rule's evidence checks and provenance threshold.
+Each distinct claim also requires a static typed `ClaimPredicate`; supporting
+memories must carry structured assertions matching the required subject,
+predicate, unit and value constraint. Retrieval similarity alone never
+satisfies an action claim. This structural check does not establish source
+truth, so source authority and corroboration remain policy decisions.
 Missing mandatory evidence fails closed. Exact approvals, grants and execution
 idempotency bind the complete claim-certificate set. `action_time` freshness
 uses certificate issuance time; `decision_time` requirements remain fail-closed

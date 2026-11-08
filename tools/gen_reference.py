@@ -50,6 +50,7 @@ API: list[tuple[str, str, list[str]]] = [
     ("Actions", "memory_fabric.actions:ActionGate",
      ["authorize", "execute", "issue_grant", "revoke_grant"]),
     ("Actions", "memory_fabric.actions:ToolRule", []),
+    ("Actions", "memory_fabric.actions:ClaimPredicate", []),
     ("Actions", "memory_fabric.actions:ActionRequest", []),
     ("Actions", "memory_fabric.actions:ActionDecision", []),
     ("Actions", "memory_fabric.actions:Approval", []),

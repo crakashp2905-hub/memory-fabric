@@ -213,10 +213,18 @@ Decides, immediately before a tool runs, whether it may run.
 ### `actions.ToolRule` (beta)
 
 ```python
-ToolRule(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None, requirement_graph: RequirementGraph | None = None)
+ToolRule(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None, requirement_graph: RequirementGraph | None = None, claim_predicates: Mapping[str, ClaimPredicate] = <factory>)
 ```
 
 How one tool is governed. `protected` tools need a valid certificate.
+
+### `actions.ClaimPredicate` (beta)
+
+```python
+ClaimPredicate(subject: str, predicate: str, operator: str, value: str | int | float | bool, unit: str | None = None)
+```
+
+A host-declared typed proposition an evidence record must support.
 
 ### `actions.ActionRequest` (beta)
 

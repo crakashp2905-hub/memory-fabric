@@ -118,6 +118,26 @@ requirements. A missing or invalid mandatory leaf returns
 `requirement_evidence_missing` and cannot grant the action. `and`, `or`, named
 rules, and independent-source nodes are evaluated deterministically.
 
+Every graph leaf also requires a host-owned `claim_predicates` entry. A
+`ClaimPredicate(subject, predicate, operator, value, unit)` is checked against
+structured assertions stored on supporting memories, for example:
+
+```python
+structured = {"claims": [{
+    "subject": "pump-7", "predicate": "pressure_psi", "value": 30, "unit": "psi"
+}]}
+predicate = ClaimPredicate("pump-7", "pressure_psi", "<=", 40, "psi")
+```
+
+The `ToolRule` must define exactly one predicate for each distinct graph claim;
+missing or extra declarations reject policy construction. Matching checks
+subject, predicate, unit and typed value, then counts distinct source roots
+that individually support the proposition. Thus a highly relevant 70 psi
+reading cannot satisfy a static `pressure_psi <= 40 psi` action requirement.
+Retrieval relevance never substitutes for this support check. Structured
+assertions and provenance do not independently prove that a source is truthful;
+hosts still set appropriate authority, review and corroboration thresholds.
+
 Human approvals use `certificate_set_digest(claim_certificates)` as their
 `Approval.certificate_digest`; `binding_digest(..., claim_certificates=...)`
 also binds the full claim-certificate set to target, parameters, agent, tenant

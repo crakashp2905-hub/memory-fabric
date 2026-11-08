@@ -69,7 +69,9 @@ import threading
 import time
 import hashlib
 import json
-from dataclasses import dataclass, field, fields, replace
+import math
+from dataclasses import asdict, dataclass, field, fields, replace
+from types import MappingProxyType
 from typing import Any, Callable, Mapping
 
 from . import events as ev
@@ -115,6 +117,7 @@ GRANT_REPLAYED = "grant_replayed"
 IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
 REQUIREMENT_EVIDENCE_MISSING = "requirement_evidence_missing"
 REQUIREMENT_EXPLANATION_LIMIT = "requirement_explanation_limit"
+CLAIM_EVIDENCE_NOT_SUPPORTING = "claim_evidence_not_supporting"
 MAX_GRANT_TTL_S = 300
 
 # Execution outcomes (`execute`).
@@ -130,6 +133,111 @@ like `timed_out`: the side effect may or may not have happened."""
 MAX_LEASE_S = 4.0
 """Below the store's default 5 s busy timeout, so a writer in another process
 waiting on the fence gets in before it gives up."""
+
+
+@dataclass(frozen=True)
+class ClaimPredicate:
+    """A host-declared typed proposition an evidence record must support.
+
+    Evidence memories carry structured assertions under ``structured["claims"]``
+    with matching subject, predicate and unit plus an observed value. The
+    operator compares that observed value to this policy's required bound.
+    """
+
+    subject: str
+    predicate: str
+    operator: str
+    value: str | int | float | bool
+    unit: str | None = None
+
+    def __post_init__(self) -> None:
+        if (not isinstance(self.subject, str) or not self.subject.strip()
+                or not isinstance(self.predicate, str) or not self.predicate.strip()):
+            raise ValueError("claim predicate subject and predicate must be non-empty")
+        if self.unit is not None and (not isinstance(self.unit, str) or not self.unit.strip()):
+            raise ValueError("claim predicate unit must be a non-empty string or None")
+        if not isinstance(self.value, (str, int, float, bool)):
+            raise ValueError("claim predicate value must be a string, boolean, or number")
+        if self.operator not in {"==", "!=", "<", "<=", ">", ">="}:
+            raise ValueError("claim predicate operator must be one of ==, !=, <, <=, >, >=")
+        if isinstance(self.value, float) and not math.isfinite(self.value):
+            raise ValueError("claim predicate numeric value must be finite")
+        if self.operator not in {"==", "!="} and (
+            isinstance(self.value, bool) or not isinstance(self.value, (int, float))
+        ):
+            raise ValueError("ordered claim predicates require a numeric policy value")
+
+    def supports(self, fabric: Any, certificate: EvidenceCertificate,
+                 min_independent_sources: int) -> bool:
+        roots: set[str] = set()
+        for evidence in certificate.supporting:
+            memory = fabric.state.memories.get(evidence.memory_id)
+            if memory is None or memory.version != evidence.version or not memory.structured:
+                continue
+            raw_claims = memory.structured.get("claims", ())
+            if not isinstance(raw_claims, (list, tuple)):
+                continue
+            if any(self._matches(item) for item in raw_claims):
+                try:
+                    roots.add(fabric.source_root(memory.id))
+                except Exception:
+                    return False
+        return len(roots) >= min_independent_sources
+
+    def _matches(self, item: Any) -> bool:
+        if not isinstance(item, Mapping):
+            return False
+        if (item.get("subject"), item.get("predicate"), item.get("unit")) != (
+            self.subject, self.predicate, self.unit
+        ):
+            return False
+        actual = item.get("value")
+        if isinstance(actual, float) and not math.isfinite(actual):
+            return False
+        if self.operator not in {"==", "!="}:
+            if isinstance(actual, bool) or not isinstance(actual, (int, float)):
+                return False
+        elif type(actual) is not type(self.value) and not (
+            isinstance(actual, (int, float)) and not isinstance(actual, bool)
+            and isinstance(self.value, (int, float)) and not isinstance(self.value, bool)
+        ):
+            return False
+        if self.operator == "==":
+            return actual == self.value
+        if self.operator == "!=":
+            return actual != self.value
+        if (isinstance(actual, bool) or not isinstance(actual, (int, float))
+                or isinstance(self.value, bool) or not isinstance(self.value, (int, float))):
+            return False
+        expected = float(self.value)
+        observed = float(actual)
+        if self.operator == "<":
+            return observed < expected
+        if self.operator == "<=":
+            return observed <= expected
+        if self.operator == ">":
+            return observed > expected
+        return observed >= expected
+
+
+def _graph_claim_ids(graph: RequirementGraph) -> frozenset[str]:
+    found: set[str] = set()
+
+    def visit(node, active: frozenset[str] = frozenset()) -> None:
+        if isinstance(node, (ClaimRequirement, IndependentSourcesRequirement)):
+            found.add(node.claim_id)
+        elif isinstance(node, (AllOfRequirement, AnyOfRequirement)):
+            for child in node.requirements:
+                visit(child, active)
+        elif isinstance(node, TemporalRequirement):
+            visit(node.requirement, active)
+        elif isinstance(node, RuleReference):
+            if node.rule_id in active:
+                raise ValueError("requirement graph contains a cyclic rule reference")
+            visit(graph.rules[node.rule_id], active | {node.rule_id})
+
+    visit(graph.root)
+    return frozenset(found)
 
 
 @dataclass(frozen=True)
@@ -167,6 +275,22 @@ class ToolRule:
     requirement_graph: RequirementGraph | None = None
     """Optional host-owned static evidence policy. Every claim leaf must be
     backed by a separately named certificate in `claim_certificates`."""
+    claim_predicates: Mapping[str, ClaimPredicate] = field(default_factory=dict)
+    """Exact host-owned proposition each graph claim must be supported by."""
+
+    def __post_init__(self) -> None:
+        predicates = dict(self.claim_predicates)
+        if any(not isinstance(key, str) or not key or not isinstance(value, ClaimPredicate)
+               for key, value in predicates.items()):
+            raise ValueError("claim_predicates maps non-empty claim IDs to ClaimPredicate values")
+        if self.requirement_graph is None:
+            if predicates:
+                raise ValueError("claim_predicates require a requirement_graph")
+        elif set(predicates) != set(_graph_claim_ids(self.requirement_graph)):
+            missing = sorted(set(_graph_claim_ids(self.requirement_graph)) - set(predicates))
+            extra = sorted(set(predicates) - set(_graph_claim_ids(self.requirement_graph)))
+            raise ValueError(f"claim_predicates must exactly cover graph claims; missing={missing}, extra={extra}")
+        object.__setattr__(self, "claim_predicates", MappingProxyType(predicates))
 
 
 @dataclass(frozen=True)
@@ -498,6 +622,15 @@ class ActionGate:
                     reason = self._authority(cert, rule)
                     if reason:
                         result = replace(result, ok=False, reason_codes=(reason,))
+                    else:
+                        predicate = rule.claim_predicates.get(claim_id)
+                        required_sources = max(cert.min_independent_sources,
+                                               rule.min_independent_sources, min_sources)
+                        if predicate is None or not predicate.supports(
+                            self.fabric, cert, required_sources
+                        ):
+                            result = replace(result, ok=False,
+                                             reason_codes=(CLAIM_EVIDENCE_NOT_SUPPORTING,))
                 cache[key] = (result.ok, result)
             return cache[key]
 
@@ -793,9 +926,13 @@ class ActionGate:
         rule_body = None
         if rule is not None:
             rule_body = {item.name: getattr(rule, item.name) for item in fields(rule)
-                         if item.name != "requirement_graph"}
+                         if item.name not in {"requirement_graph", "claim_predicates"}}
             if rule.requirement_graph is not None:
                 rule_body["requirement_graph"] = rule.requirement_graph.to_dict()
+            rule_body["claim_predicates"] = {
+                claim_id: asdict(predicate)
+                for claim_id, predicate in sorted(rule.claim_predicates.items())
+            }
         body = {"tool": tool, "rule": rule_body}
         encoded = json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
         return hashlib.sha256(encoded).hexdigest()
