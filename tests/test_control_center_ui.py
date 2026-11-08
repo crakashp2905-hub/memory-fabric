@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import re
+import hashlib
+import json
 import shutil
 import subprocess
 import tempfile
@@ -12,7 +14,7 @@ from pathlib import Path
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.observability.control import agents, graph, knowledge_map
-from memory_fabric.observability.server import Api
+from memory_fabric.observability.server import Api, STATIC_ROUTES, STATIC_DIR
 
 HTML = Path(__file__).resolve().parents[1] / "src" / "memory_fabric" / "observability" / "static" / "dashboard.html"
 
@@ -146,6 +148,25 @@ class TestPage(unittest.TestCase):
         self.assertIn("async function openEvent(eventId)", html)
         self.assertIn("/api/events/${encodeURIComponent(eventId)}", html)
         self.assertIn("click a memory to read its story or a dashed lineage edge", html)
+
+    def test_withholding_scorecard_has_denominator_risk_and_population_labels(self):
+        static = STATIC_DIR / "withholding-benchmark.json"
+        row = json.loads(static.read_text(encoding="utf-8"))
+        source_path = HTML.parents[4] / row["source_report"]
+        source = json.loads(source_path.read_text(encoding="utf-8"))
+        self.assertIn("/withholding-benchmark.json", STATIC_ROUTES)
+        self.assertEqual(hashlib.sha256(source_path.read_bytes()).hexdigest(),
+                         row["source_report_sha256"])
+        self.assertEqual((row["numerator"], row["denominator"], row["rate"]),
+                         (source["memory_fabric_valid_withheld"],
+                          source["task_denominator"], source["valid_withholding_rate"]))
+        self.assertEqual(row["population"], "synthetic_scripted")
+        self.assertEqual(row["risk_class"], "HIGH")
+        self.assertEqual(row["live_metric"]["status"], "not_measured")
+        html = HTML.read_text(encoding="utf-8")
+        for phrase in ("task opportunities", "Risk class", "not a measurement of this store",
+                       "This store’s live rate", "source_report_sha256"):
+            self.assertIn(phrase, html)
         self.assertIn("Refresh impact preview", html)
         self.assertIn("/correction`)", html)
         self.assertIn("The preview changed since it was shown", html)

@@ -464,6 +464,8 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       changed. This page only reads. Every change is a command it shows you, so nothing happens
       by a stray click.</div>
     <div id="hero"></div>
+    <section class="card" id="withholding-metric"><h3>Valid evidence withheld</h3>
+      <div class="sub">Loading frozen benchmark reference…</div></section>
     <ol class="guide" id="guide"></ol>
   </section>
 
@@ -735,6 +737,20 @@ async function loadOverview() {
     `Values marked <span class="val-none">*</span> come from a non-contrastive estimator: ` +
     `they are the average outcome of episodes where a memory was exposed, not the difference ` +
     `it made, and cannot show that it helped.`;
+  loadWithholdingMetric().catch((err) => {
+    $("withholding-metric").innerHTML = `<h3>Valid evidence withheld</h3><div class="note">Benchmark reference unavailable: ${esc(err.message)}</div>`;
+  });
+}
+
+async function loadWithholdingMetric() {
+  const m = await api("/withholding-benchmark.json");
+  const percent = (100 * m.rate).toFixed(1);
+  $("withholding-metric").innerHTML = `<h3>Valid evidence withheld</h3>
+    <p><b>${percent}% · ${m.numerator}/${m.denominator} task opportunities</b></p>
+    <p class="sub">Risk class ${esc(m.risk_class)} · ${m.agents_per_seed} scripted agents × ${m.seeds.length} seeds · population ${esc(m.population)}</p>
+    <p>This frozen oracle-labeled benchmark recorded valid evidence that the gate withheld. It is a synthetic reference, not a measurement of this store.</p>
+    <p class="sub">This store’s live rate: <b>not measured</b> · ${esc(m.live_metric.reason)}</p>
+    <p class="sub">Source: <code>${esc(m.source_report)}</code> · run ${esc(m.source_commit)} · SHA-256 ${esc(m.source_report_sha256)}</p>`;
 }
 
 /* ---------- attention ---------- */

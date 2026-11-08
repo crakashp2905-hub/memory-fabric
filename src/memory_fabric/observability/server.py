@@ -60,6 +60,7 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 STATIC_ROUTES: dict[str, tuple[str, str]] = {
     "/": ("dashboard.html", "text/html; charset=utf-8"),
     "/dashboard.html": ("dashboard.html", "text/html; charset=utf-8"),
+    "/withholding-benchmark.json": ("withholding-benchmark.json", "application/json; charset=utf-8"),
 }
 
 _ULID = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
