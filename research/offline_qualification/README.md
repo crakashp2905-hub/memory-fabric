@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **134 / 260 (51.54%)**. Internal status: **BLOCKED**.
+Strict completion: **135 / 260 (51.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `442575d201d93b84ce6387a7e3646427f662eaa11e3410fc661a1d00053c7a89`.
+Normalized ledger digest: `ec42d50ec7e08c49d432dd8fe4c066a79c6e7547e1ac4085ad4f8b05a0e1c340`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 134 |
+| DONE | 135 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 8 |
-| TODO | 118 |
+| TODO | 117 |
 
 ## Graduation gates
 
@@ -110,7 +110,7 @@ Normalized ledger digest: `442575d201d93b84ce6387a7e3646427f662eaa11e3410fc661a1
 | R3-09 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
 | R3-10 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `benchmarks/heldout_agent_qualification.py`, `research/prereg/heldout-agent-qualification-v1.md`, `tests/test_matched_agent_arms.py`, `tests/test_heldout_agent_qualification.py`, `research/results/r3-heldout-agent-qualification-tests.xml`, `research/results/r3-09-10-heldout-qualification.json` |
 | R4-01 | P1 | DONE | CONTRACT | `tests/test_statistical_intervals.py`, `tools/qualify_statistical_intervals.py`, `research/results/r4-01-binomial-intervals.json` |
-| R4-02 | P1 | TODO | NOT_TESTED | — |
+| R4-02 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/paired_agent_bootstrap.py`, `benchmarks/stats.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` |
 | R4-03 | P1 | TODO | NOT_TESTED | — |
 | R4-04 | P1 | TODO | NOT_TESTED | — |
 | R4-05 | P1 | TODO | NOT_TESTED | — |

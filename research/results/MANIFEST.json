@@ -1,18 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 222,
+ "results": 223,
  "missing_field_counts": {
-  "git_sha": 118,
-  "prereg": 88,
-  "dataset_digest": 219,
-  "model_id": 186,
-  "prompt_hash": 222,
-  "seed": 143,
-  "cost": 199,
+  "git_sha": 119,
+  "prereg": 89,
+  "dataset_digest": 220,
+  "model_id": 187,
+  "prompt_hash": 223,
+  "seed": 144,
+  "cost": 200,
   "verdict": 152
  },
  "population_counts": {
-  "synthetic_scripted": 11,
+  "synthetic_scripted": 12,
   "unclassified": 211
  },
  "rows": [
@@ -4274,6 +4274,24 @@
    "config": null,
    "cost": null,
    "verdict": "PASS",
+   "parsable": true
+  },
+  {
+   "experiment_id": "r4-02-paired-agent-bootstrap",
+   "file": "research/results/r4-02-paired-agent-bootstrap.json",
+   "file_sha256": "6c892e1a4a318d500b9ae83cd1005371068b63ee3003ecd01f5b0298d7930ea9",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "synthetic_scripted",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
    "parsable": true
   },
   {

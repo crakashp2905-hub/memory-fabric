@@ -2316,6 +2316,23 @@
       "limitations": [
         "Zero-denominator intervals intentionally represent complete uncertainty; this validates formulas, not workload-specific statistical power."
       ]
+    },
+    {
+      "task_id": "R4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/paired_agent_bootstrap.py",
+        "benchmarks/stats.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "tests/test_paired_agent_bootstrap.py",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r4-02-paired-agent-bootstrap.json"
+      ],
+      "limitations": [
+        "Reanalysis covers the registered synthetic 50-agent split (24 task cases, 1,200 attempts per arm); task clusters are exchangeable only within this fixture and do not support real-agent population claims."
+      ]
     }
   ]
 }

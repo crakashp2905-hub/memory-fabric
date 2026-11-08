@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "bb92e9eb133c498d9e41ed86a4256617e4adad1ae806023f3d709ea76c7921a8",
+    "sha256": "fec5b1b94319fa2dd1aaa8597409cc2f4a4d83ec620f0a75582e198914ed8c3f",
     "tasks": 260
   },
   "source": {
-    "commit": "a207290eaa3deb3395ff9dc7336f2f883370081f",
+    "commit": "58ad0fa07b00afcb314950a6868eff0a314b63d1",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 134,
+      "DONE": 135,
       "PARTIAL": 8,
-      "TODO": 118
+      "TODO": 117
     },
-    "completed": 134,
+    "completed": 135,
     "total": 260,
-    "percent_complete": 51.54,
+    "percent_complete": 51.92,
     "p0_open": 5,
     "internal_status": "BLOCKED"
   },
@@ -1500,7 +1500,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "3bdeafb0f0fd238f8fa51380588cae102813a595a48ab0c3900fbe48b0586182",
+        "research/results/MANIFEST.json": "4c3a0fcd64fb764be432c8a65d58fb89cb5749b39c8324c17516be7eadcf3bd1",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2306,14 +2306,30 @@
       "task_id": "R4-02",
       "priority": "P1",
       "task": "Use paired bootstrap intervals for per-task improvement against matched baselines.",
-      "acceptance": "Report effect, 95% CI, sample size, correlation assumptions and split identity",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Report effect, 95% CI, sample size, correlation assumptions and split identity. Evidence: `benchmarks/paired_agent_bootstrap.py`, `benchmarks/stats.py`, `research/prereg/matched-agent-arms-v1.md`, `tests/test_paired_agent_bootstrap.py`, `research/results/r3-02-matched-agent-arms.json`, `research/results/r4-02-paired-agent-bootstrap.json` (DONE: paired 95% cluster-bootstrap effects reported against three matched baselines using 24 task cases and 1,200 agent attempts per arm. Resampling unit, exchangeability assumption, fixed seed and split identity are recorded. Results are synthetic and descriptive)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/paired_agent_bootstrap.py",
+        "benchmarks/stats.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "tests/test_paired_agent_bootstrap.py",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r4-02-paired-agent-bootstrap.json"
+      ],
+      "evidence_digests": {
+        "benchmarks/paired_agent_bootstrap.py": "aa48e804f132c33c5ed79823bd0087cca2db4e457280715ce896359e4990654e",
+        "benchmarks/stats.py": "87387d40332c6e692d033cec01870431a9982924b6cb7a75bb630fcd4e1eeed0",
+        "research/prereg/matched-agent-arms-v1.md": "118061ff5a763917939207b76e4c428b0e9e37d926c660d17d46ef0b1b05adcf",
+        "tests/test_paired_agent_bootstrap.py": "cb65d05327989587e0f593d97491fe303f9154169ca699cbf8a2513ec34f1be7",
+        "research/results/r3-02-matched-agent-arms.json": "99d72984e1c82a031c45aa6e777cdd55da221688835639065a0ff21042c239cd",
+        "research/results/r4-02-paired-agent-bootstrap.json": "ea4ded38d924daaef9f99ea195f1b732c387aa97cd89b923d177a4b2fd68b08f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Reanalysis covers the registered synthetic 50-agent split (24 task cases, 1,200 attempts per arm); task clusters are exchangeable only within this fixture and do not support real-agent population claims."
+      ]
     },
     {
       "task_id": "R4-03",
