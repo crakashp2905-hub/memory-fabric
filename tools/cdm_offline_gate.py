@@ -27,7 +27,8 @@ def source_manifest() -> tuple[str, int, list[dict[str, str]]]:
             continue
         parts = path.relative_to(ROOT).parts
         if any(part in {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
-                        "build", "dist", ".tmp"} or part.endswith(".egg-info") for part in parts):
+                        "build", "dist"} or part.startswith(".tmp")
+               or part.endswith(".egg-info") for part in parts):
             continue
         try:
             digest = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -96,6 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     tests.append("tests.test_cdm_federated_provenance")
     tests.append("tests.test_cdm_correction_comparison")
     tests.append("tests.test_cdm_correction_utility")
+    tests.append("tests.test_cdm_task_inventory")
     tests.append("tests.test_cdm_tempfiles")
     tests.append("tests.test_cdm_in_process_compatibility")
     tests.append("tests.test_cdm_architecture_superiority")

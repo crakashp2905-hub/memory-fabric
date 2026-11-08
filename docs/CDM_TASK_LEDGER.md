@@ -249,8 +249,8 @@ The attached plan remains unchanged. Status is based on checked-in local artifac
 
 | Task | Remaining acceptance evidence |
 |---|---|
-| CDM-009 | Focused test output, Python version, exit codes and source digest in gate manifest | Existing full in-house regression baseline and artifact hash. |
-| CDM-020 | Change log, qualification manifest and `research/results/cdm/task-evidence-inventory.json` provide a broader inventory plus a digest for every evidence row and resolvable artifact | Direct implementation/source commit digests remain unlinked for many tasks; inventory reports only artifact paths explicitly referenced by the ledger. |
+| CDM-009 | Focused tests and the 22-stage gate are recorded; `research/results/cdm/full-suite-attempt/manifest.json` records the interrupted 2,437-test whole-repository attempt, source snapshot, observed socket failures, and preserved output SHA-256. | A complete non-interrupted whole-repository regression run and final artifact hash remain outstanding. |
+| CDM-020 | `research/results/cdm/task-evidence-inventory.json` binds every evidence row to the exact source-tree SHA-256, local Git HEAD and dirty-state flag; explicit artifacts include file SHA-256 and last committed revision. Inventory stability, source snapshot, and artifact checks are tested. | Direct task-specific implementation-file references are still absent from many ledger rows; global source snapshot links do not replace those per-task mappings. |
 | CDM-035 | Current authorization and erasure checks; inaccessible IDs collapse to one refusal | Full lineage redaction and side-channel audit remain open. |
 
 ## Open (0)

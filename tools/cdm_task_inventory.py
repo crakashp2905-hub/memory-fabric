@@ -6,8 +6,11 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import Path
 from typing import Any
+
+from tools.cdm_offline_gate import source_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER = ROOT / "docs" / "CDM_TASK_LEDGER.md"
@@ -37,8 +40,22 @@ def _artifact_paths(text: str, file_index: dict[str, list[str]]) -> list[str]:
     return sorted(resolved)
 
 
+def _git_output(*args: str) -> str | None:
+    try:
+        result = subprocess.run(["git", *args], cwd=ROOT, capture_output=True,
+                                text=True, timeout=5, check=False)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    value = result.stdout.strip()
+    return value if result.returncode == 0 and value else None
+
+
 def build_inventory() -> dict[str, Any]:
     lines = LEDGER.read_text(encoding="utf-8").splitlines()
+    source_tree_sha256, _source_file_count, _source_rows = source_manifest()
+    git_head = _git_output("rev-parse", "HEAD")
+    git_status = _git_output("status", "--porcelain=v1", "--untracked-files=all")
+    commit_by_path: dict[str, str | None] = {}
     file_index: dict[str, list[str]] = {}
     for path in ROOT.rglob("*"):
         if (path.is_file() and not any(part in {".git", ".tmp", ".tmp-cdm", "__pycache__"}
@@ -60,10 +77,19 @@ def build_inventory() -> dict[str, Any]:
         artifact_paths = _artifact_paths(body, file_index)
         artifacts = []
         for relative in artifact_paths:
+            # The generated inventory cannot contain its own content hash.
+            if relative == OUTPUT.relative_to(ROOT).as_posix():
+                continue
             artifact = ROOT / relative
-            artifacts.append({"path": relative, "sha256": sha256(artifact.read_bytes())})
+            if relative not in commit_by_path:
+                commit_by_path[relative] = _git_output("log", "-1", "--format=%H", "--", relative)
+            artifacts.append({"path": relative, "sha256": sha256(artifact.read_bytes()),
+                              "last_committed_revision": commit_by_path[relative]})
         entries.append({"task_id": f"CDM-{task_id}", "status": section,
             "evidence_row_sha256": sha256(line.encode("utf-8")),
+            "source_snapshot": {"git_head": git_head,
+                "source_tree_sha256": source_tree_sha256,
+                "working_tree_dirty": bool(git_status)},
             "referenced_artifacts": artifacts})
     ids = [item["task_id"] for item in entries]
     expected = {f"CDM-{number:03d}" for number in range(1, 241)}
@@ -72,6 +98,8 @@ def build_inventory() -> dict[str, Any]:
     counts = {status: sum(item["status"] == status for item in entries)
               for status in ("complete", "partial", "open")}
     return {"schema": "cdm-task-evidence-inventory-v1", "ledger": "docs/CDM_TASK_LEDGER.md",
+        "git_head": git_head, "source_tree_sha256": source_tree_sha256,
+        "working_tree_dirty": bool(git_status),
         "task_count": len(entries), "status_counts": counts,
         "artifact_count": sum(len(item["referenced_artifacts"]) for item in entries),
         "tasks": sorted(entries, key=lambda item: item["task_id"])}
