@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **122 / 260 (46.92%)**. Internal status: **BLOCKED**.
+Strict completion: **123 / 260 (47.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5fdb485f0634aa7c29a44f52b7819ebb1ecf0588b72001890cd0e4c3bcdbb5ac`.
+Normalized ledger digest: `602bac8bde6ace48bc48a3c16dc41b07f19caf8d3f176ee37b5afa8331dc5c1c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 122 |
+| DONE | 123 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 14 |
-| TODO | 124 |
+| PARTIAL | 15 |
+| TODO | 122 |
 
 ## Graduation gates
 
@@ -281,9 +281,9 @@ Normalized ledger digest: `5fdb485f0634aa7c29a44f52b7819ebb1ecf0588b72001890cd0e
 | P4-10 | P1 | TODO | NOT_TESTED | — |
 | P5-01 | P0 | TODO | NOT_TESTED | — |
 | P5-02 | P0 | TODO | NOT_TESTED | — |
-| P5-03 | P0 | TODO | NOT_TESTED | — |
+| P5-03 | P0 | PARTIAL | CONTRACT | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` |
 | P5-04 | P0 | TODO | NOT_TESTED | — |
-| P5-05 | P0 | TODO | NOT_TESTED | — |
+| P5-05 | P0 | DONE | INTERNAL_INTEGRATION | `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` |
 | P5-06 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/KNOWN_GAPS.md` |
 | P5-07 | P0 | DONE | CONTRACT | `tests/test_offline_qualification.py` |
 | P5-08 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/PRODUCT_READINESS.md` |

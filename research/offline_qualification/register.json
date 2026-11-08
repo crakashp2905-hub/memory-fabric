@@ -2,23 +2,23 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b6dc3a3a71cd6d07e1c07f4bd37adf6aa364197c2046c389c73335660a2ca97c",
+    "sha256": "40eefe5db8c1c7f6ae2f79a03acf04878ce5beb64f574bcf844812b664f0c57d",
     "tasks": 260
   },
   "source": {
-    "commit": "b72d50b6a64737b14ffbc60da2eff43ffc4de490",
+    "commit": "6a50e6092606cc426bce0d32e48ee8becc5f1f5e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 122,
-      "PARTIAL": 14,
-      "TODO": 124
+      "DONE": 123,
+      "PARTIAL": 15,
+      "TODO": 122
     },
-    "completed": 122,
+    "completed": 123,
     "total": 260,
-    "percent_complete": 46.92,
-    "p0_open": 16,
+    "percent_complete": 47.31,
+    "p0_open": 15,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -5242,14 +5242,22 @@
       "task_id": "P5-03",
       "priority": "P0",
       "task": "Confirm 3.11, 3.12 and 3.13 compatibility only when actual interpreter is locally available.",
-      "acceptance": "Missing interpreter remains NOT_TESTED; CI evidence needed for full matrix claim",
-      "status": "TODO",
+      "acceptance": "Missing interpreter remains NOT_TESTED; CI evidence needed for full matrix claim. Evidence: `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` (PARTIAL: Python 3.13.5 import smoke passes; 3.11 and 3.12 remain NOT_TESTED because no interpreter is installed/discoverable; a smoke import is not a full compatibility suite)",
+      "status": "PARTIAL",
       "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tools/python_compatibility.py",
+        "research/results/p5-03-python-compatibility.json"
+      ],
+      "evidence_digests": {
+        "tools/python_compatibility.py": "8ae6daf53315f4da151138464eed2935a54669429f272772253b4ae2317b9134",
+        "research/results/p5-03-python-compatibility.json": "3afca663df45f6868a875bdee1ce9389ed883acd30fafd9eb28bcc89ce45aad5"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Python 3.11 and 3.12 are NOT_TESTED because no interpreters are locally available. Python 3.13.5 received only an import smoke check, not a full suite."
+      ]
     },
     {
       "task_id": "P5-04",
@@ -5268,12 +5276,28 @@
       "task_id": "P5-05",
       "priority": "P0",
       "task": "Regenerate all user documentation from current API and test code examples.",
-      "acceptance": "Examples run and any broken command prevents local release qualification",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Examples run and any broken command prevents local release qualification. Evidence: `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` (DONE: current stability/API/CLI references regenerated with no stale diffs; executable user examples and documentation checks pass, 6 tests and 110 subtests)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_stability.py",
+        "tools/gen_reference.py",
+        "tests/test_examples_run.py",
+        "tests/test_doc_examples.py",
+        "tests/test_reference_docs.py",
+        "tests/test_user_docs_no_research.py",
+        "research/results/p5-05-documentation-examples.xml"
+      ],
+      "evidence_digests": {
+        "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
+        "tools/gen_reference.py": "14b756af18b8785ea03db173e2e202df89a2b5b46b2da312e8863ca86c01d467",
+        "tests/test_examples_run.py": "990c9acd3add87301ec44a0042143a8f04a667f14a97b465bc4825a38d4ea6db",
+        "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
+        "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
+        "tests/test_user_docs_no_research.py": "40204106f31b9514194afc005f47d8fcb6e8e23b7220750d0bda17801c460220",
+        "research/results/p5-05-documentation-examples.xml": "0b13d3cbe9773046574881b3b6a9e6f820d7cf0a1f89a00de67d97d3a32d8553"
+      },
       "evidence_issues": {},
       "limitations": []
     },

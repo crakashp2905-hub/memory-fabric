@@ -1480,6 +1480,35 @@
       ]
     },
     {
+      "task_id": "P5-03",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tools/python_compatibility.py",
+        "research/results/p5-03-python-compatibility.json"
+      ],
+      "limitations": [
+        "Python 3.11 and 3.12 are NOT_TESTED because no interpreters are locally available. Python 3.13.5 received only an import smoke check, not a full suite."
+      ]
+    },
+    {
+      "task_id": "P5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_stability.py",
+        "tools/gen_reference.py",
+        "tests/test_examples_run.py",
+        "tests/test_doc_examples.py",
+        "tests/test_reference_docs.py",
+        "tests/test_user_docs_no_research.py",
+        "research/results/p5-05-documentation-examples.xml"
+      ],
+      "limitations": []
+    },
+    {
       "task_id": "H1-08",
       "status": "DONE",
       "acceptance_passed": true,

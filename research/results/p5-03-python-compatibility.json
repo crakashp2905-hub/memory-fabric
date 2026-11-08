@@ -1,0 +1,34 @@
+{
+  "schema": "mf-python-compatibility-availability/1",
+  "source_commit": "6a50e6092606cc426bce0d32e48ee8becc5f1f5e",
+  "supported_versions": [
+    "3.11",
+    "3.12",
+    "3.13"
+  ],
+  "results": [
+    {
+      "version": "3.11",
+      "status": "NOT_TESTED",
+      "reason": "No interpreter binary for this version is installed or discoverable."
+    },
+    {
+      "version": "3.12",
+      "status": "NOT_TESTED",
+      "reason": "No interpreter binary for this version is installed or discoverable."
+    },
+    {
+      "version": "3.13",
+      "status": "SMOKE_PASS",
+      "executable": "C:\\Users\\CR Ramesh\\python.exe",
+      "observed_version": "3.13.5",
+      "return_code": 0,
+      "stderr": ""
+    }
+  ],
+  "full_matrix_confirmed": false,
+  "limitations": [
+    "A smoke import does not establish full test-suite compatibility.",
+    "NOT_TESTED versions require CI or a machine with those interpreter binaries."
+  ]
+}
