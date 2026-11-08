@@ -157,6 +157,25 @@ class TestPage(unittest.TestCase):
         self.assertIn("/api/actions/timeline?tool=", html)
         self.assertIn("external effect requires reconciliation", html)
 
+    def test_accessibility_contract_has_names_keyboard_paths_and_textual_statuses(self):
+        html = HTML.read_text(encoding="utf-8")
+        for label in ("Filter memories by content or id", "Filter memories by state",
+                      "Filter memories by scope", "Filter memories by type", "Sort memories",
+                      "Search memories", "Agent id (optional)", "Agent question (optional)"):
+            self.assertIn(f'aria-label="{label}"', html)
+        for state in ("in use", "waiting for review", "disputed", "withdrawn", "retired", "deleted"):
+            self.assertIn(f'"{state}"', html)
+        self.assertIn('aria-describedby="map-keyboard-help"', html)
+        self.assertIn('id="map-memory-list"', html)
+        self.assertIn('data-map-memory="${esc(m.id)}"', html)
+        self.assertIn('ev.key === "Enter" || ev.key === " "', html)
+        self.assertIn("function trapFocus(dialog, ev)", html)
+        self.assertIn("drawerReturnFocus?.focus?.()", html)
+        self.assertIn("paletteReturnFocus?.focus?.()", html)
+        self.assertIn("helpReturnFocus?.focus?.()", html)
+        self.assertIn(":focus-visible", html)
+        self.assertIn('aria-live="polite"', html)
+
     def test_withholding_scorecard_has_denominator_risk_and_population_labels(self):
         static = STATIC_DIR / "withholding-benchmark.json"
         row = json.loads(static.read_text(encoding="utf-8"))

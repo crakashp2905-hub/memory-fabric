@@ -253,6 +253,8 @@ body { font: 14px/1.55 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Rob
   min-height: 100vh; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 50; background: var(--panel); padding: 6px 10px; border-radius: 8px; }
 .skip:focus { left: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .app { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
 .side { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 18px 12px;
@@ -368,6 +370,9 @@ button { transition: background .12s, border-color .12s; }
 .map-key .line { width: 18px; height: 0; border-top: 2px solid var(--map-link); flex: none; }
 .map-hint { margin: 10px 0 0; font-size: 12px; color: var(--faint); }
 .map-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+.map-memory-list { margin: 0; padding: 0; list-style: none; display: grid; }
+.map-memory-list li { list-style: none; }
+.map-memory-list button { width: 100%; border-radius: 8px; text-align: left; }
 .map-topics button { border: 1px solid var(--border); background: var(--panel-2); color: var(--text); border-radius: 99px;
   padding: 4px 10px; font: inherit; font-size: 12.5px; cursor: pointer; }
 .map-topics button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
@@ -423,24 +428,24 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <span>Search or jump to…</span><kbd>Ctrl K</kbd></button>
   <nav id="nav">
     <div class="group">Overview</div>
-    <button data-tab="start" aria-selected="true"><i>◎</i>Start here</button>
-    <button data-tab="attention" aria-selected="false"><i>!</i>Needs attention<span class="count" id="c-attention"></span></button>
-    <button data-tab="review" aria-selected="false"><i>✓</i>Review<span class="count" id="c-review"></span></button>
+    <button data-tab="start" aria-selected="true"><i aria-hidden="true">◎</i>Start here</button>
+    <button data-tab="attention" aria-selected="false"><i aria-hidden="true">!</i>Needs attention<span class="count" id="c-attention"></span></button>
+    <button data-tab="review" aria-selected="false"><i aria-hidden="true">✓</i>Review<span class="count" id="c-review"></span></button>
     <div class="group">Knowledge</div>
-    <button data-tab="memories" aria-selected="false"><i>≡</i>Memories<span class="count" id="c-memories"></span></button>
-    <button data-tab="graph" aria-selected="false"><i>✳</i>Knowledge map</button>
-    <button data-tab="search" aria-selected="false"><i>⌕</i>Search</button>
+    <button data-tab="memories" aria-selected="false"><i aria-hidden="true">≡</i>Memories<span class="count" id="c-memories"></span></button>
+    <button data-tab="graph" aria-selected="false"><i aria-hidden="true">✳</i>Knowledge map</button>
+    <button data-tab="search" aria-selected="false"><i aria-hidden="true">⌕</i>Search</button>
     <div class="group">Activity</div>
-    <button data-tab="agents" aria-selected="false"><i>☺</i>Agents<span class="count" id="c-agents"></span></button>
-    <button data-tab="replay" aria-selected="false"><i>▶</i>Replay</button>
-    <button data-tab="actions" aria-selected="false"><i>⚡</i>Actions<span class="count" id="c-actions"></span></button>
-    <button data-tab="context" aria-selected="false"><i>◫</i>Agent context</button>
-    <button data-tab="episodes" aria-selected="false"><i>◷</i>Episodes<span class="count" id="c-episodes"></span></button>
+    <button data-tab="agents" aria-selected="false"><i aria-hidden="true">☺</i>Agents<span class="count" id="c-agents"></span></button>
+    <button data-tab="replay" aria-selected="false"><i aria-hidden="true">▶</i>Replay</button>
+    <button data-tab="actions" aria-selected="false"><i aria-hidden="true">⚡</i>Actions<span class="count" id="c-actions"></span></button>
+    <button data-tab="context" aria-selected="false"><i aria-hidden="true">◫</i>Agent context</button>
+    <button data-tab="episodes" aria-selected="false"><i aria-hidden="true">◷</i>Episodes<span class="count" id="c-episodes"></span></button>
     <div class="group">Governance</div>
-    <button data-tab="lifecycle" aria-selected="false"><i>↻</i>Lifecycle</button>
-    <button data-tab="posture" aria-selected="false"><i>⛨</i>Posture</button>
-    <button data-tab="changes" aria-selected="false"><i>⑂</i>Changes<span class="count" id="c-changes"></span></button>
-    <button data-tab="capabilities" aria-selected="false"><i>ⓘ</i>Capabilities &amp; limits</button>
+    <button data-tab="lifecycle" aria-selected="false"><i aria-hidden="true">↻</i>Lifecycle</button>
+    <button data-tab="posture" aria-selected="false"><i aria-hidden="true">⛨</i>Posture</button>
+    <button data-tab="changes" aria-selected="false"><i aria-hidden="true">⑂</i>Changes<span class="count" id="c-changes"></span></button>
+    <button data-tab="capabilities" aria-selected="false"><i aria-hidden="true">ⓘ</i>Capabilities &amp; limits</button>
   </nav>
   <div class="side-foot"><kbd>?</kbd> shortcuts · read-only</div>
 </aside>
@@ -473,7 +478,8 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <h2>Knowledge map</h2>
     <div class="map-layout">
       <div class="map-stage" id="map-stage">
-        <canvas id="g-canvas" role="img" aria-label="Knowledge map: topics as spheres, key memories around them"></canvas>
+        <canvas id="g-canvas" role="img" aria-label="Knowledge map: topics as spheres, key memories around them"
+          aria-describedby="map-keyboard-help"></canvas>
         <div class="g-tip" id="g-tip" hidden></div>
         <div class="map-empty" id="map-empty" hidden>No memories yet. Once agents start remembering,
           their knowledge appears here grouped by topic.</div>
@@ -498,6 +504,11 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
         <div class="map-card">
           <h3>Topics</h3>
           <div class="map-topics" id="map-topics"></div>
+        </div>
+        <div class="map-card">
+          <h3>Key memories</h3>
+          <p id="map-keyboard-help" class="map-hint">Use this keyboard-accessible list to open the memories shown on the map. Each name includes its state.</p>
+          <ul id="map-memory-list" class="map-topics map-memory-list"></ul>
         </div>
       </aside>
     </div>
@@ -555,11 +566,11 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
   <section id="tab-memories" hidden>
     <h2>Memories</h2>
     <div class="filters">
-      <input type="search" id="f-q" placeholder="Filter by content or id…" autocomplete="off">
-      <select id="f-state"><option value="">any state</option></select>
-      <select id="f-scope"><option value="">any scope</option></select>
-      <select id="f-type"><option value="">any type</option></select>
-      <select id="f-sort">
+      <input type="search" id="f-q" aria-label="Filter memories by content or id" placeholder="Filter by content or id…" autocomplete="off">
+      <select id="f-state" aria-label="Filter memories by state"><option value="">any state</option></select>
+      <select id="f-scope" aria-label="Filter memories by scope"><option value="">any scope</option></select>
+      <select id="f-type" aria-label="Filter memories by type"><option value="">any type</option></select>
+      <select id="f-sort" aria-label="Sort memories">
         <option value="created">newest first</option>
         <option value="exposures">most shown</option>
         <option value="value">highest value</option>
@@ -627,7 +638,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       create exposure events, so it cannot affect any value estimate.
     </div>
     <div class="filters">
-      <input type="search" id="s-q" placeholder="Query the index…" autocomplete="off">
+      <input type="search" id="s-q" aria-label="Search memories" placeholder="Query the index…" autocomplete="off">
       <label><input type="checkbox" id="s-all" checked> include non-retrievable states</label>
     </div>
     <div id="search-results"></div>
@@ -647,7 +658,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
   </div>
 </div>
 <div class="palette-bg" id="help-bg" hidden>
-  <div class="palette help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="palette help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts" tabindex="-1">
     <h3>Keyboard shortcuts</h3>
     <dl class="kv"><dt><kbd>Ctrl K</kbd> or <kbd>/</kbd></dt><dd>search and commands</dd>
       <dt><kbd>g</kbd> then <kbd>h</kbd></dt><dd>start here</dd>
@@ -661,7 +672,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
 </div>
 
 <div class="drawer-bg" id="drawer-bg" hidden>
-  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Memory detail"></div>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Memory detail" tabindex="-1"></div>
 </div>
 
 <script>
@@ -709,6 +720,7 @@ function actionBlock(cmd) {
 /* ---------- overview ---------- */
 
 let OVERVIEW = null;
+let drawerReturnFocus = null, paletteReturnFocus = null, helpReturnFocus = null;
 
 async function loadOverview() {
   const o = await api("/api/overview");
@@ -940,16 +952,43 @@ function treeHtml(node, isRoot) {
     ${kids ? `<ul>${kids}</ul>` : ""}</li>`;
 }
 
+function trapFocus(dialog, ev) {
+  if (ev.key !== "Tab") return;
+  const items = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+    .filter((el) => !el.hidden && el.getAttribute("aria-hidden") !== "true");
+  if (!items.length) { ev.preventDefault(); dialog.focus(); return; }
+  const first = items[0], last = items[items.length - 1];
+  if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+  else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+}
+
+function openHelp() {
+  helpReturnFocus = document.activeElement;
+  $("help-bg").hidden = false;
+  $("help-bg").querySelector('[role="dialog"]').focus();
+}
+
+function closeHelp() {
+  $("help-bg").hidden = true;
+  helpReturnFocus?.focus?.();
+  helpReturnFocus = null;
+}
+
 async function openDetail(id) {
   const bg = $("drawer-bg");
   const d = $("drawer");
+  if (bg.hidden) drawerReturnFocus = document.activeElement;
   bg.hidden = false;
   d.innerHTML = `<div class="empty">Loading…</div>`;
   let detail;
   try {
     detail = await api(`/api/memories/${encodeURIComponent(id)}`);
   } catch (err) {
-    d.innerHTML = `<div class="note">${esc(err.message)}</div>`;
+    d.innerHTML = `<div class="drawer-top"><div class="note">${esc(err.message)}</div>
+      <button class="close" id="drawer-close">Close</button></div>`;
+    d.setAttribute("aria-label", "Memory detail unavailable");
+    $("drawer-close").addEventListener("click", closeDetail);
+    $("drawer-close").focus();
     return;
   }
   const r = detail.row;
@@ -1015,8 +1054,8 @@ async function openDetail(id) {
     <h3>Would retrieval show this?</h3>
     <div class="sub">Re-traces retrieval's filters for one agent and question, without retrieving
       (which would log an exposure).</div>
-    <div class="why-form"><input id="why-agent" placeholder="agent id (optional)">
-      <input id="why-q" placeholder="the agent's question (optional)">
+    <div class="why-form"><input id="why-agent" aria-label="Agent id (optional)" placeholder="agent id (optional)">
+      <input id="why-q" aria-label="Agent question (optional)" placeholder="the agent's question (optional)">
       <button id="why-go">Check</button></div>
     <div id="why-out"></div>
 
@@ -1063,7 +1102,9 @@ async function openDetail(id) {
       return esc(`#${String(a.seq).padStart(4)} ${a.ts}  ${a.type.padEnd(18)} ${bits}`);
     }).join("\n") || "no events"}</pre>`;
 
+  d.setAttribute("aria-label", `Memory detail ${r.id}`);
   $("drawer-close").addEventListener("click", closeDetail);
+  $("drawer-close").focus();
   let shownCorrection = detail.correction;
   renderCorrectionPreview(r.id, shownCorrection);
   $("correction-refresh").addEventListener("click", async () => {
@@ -1104,11 +1145,19 @@ async function refreshCorrectionPreview(memoryId, previousPreview) {
 
 async function openEvent(eventId) {
   const bg = $("drawer-bg"), d = $("drawer");
+  if (bg.hidden) drawerReturnFocus = document.activeElement;
   bg.hidden = false;
   d.innerHTML = '<div class="empty">Loading event…</div>';
   let event;
   try { event = await api(`/api/events/${encodeURIComponent(eventId)}`); }
-  catch (err) { d.innerHTML = `<div class="note">${esc(err.message)}</div>`; return; }
+  catch (err) {
+    d.innerHTML = `<div class="drawer-top"><div class="note">${esc(err.message)}</div>
+      <button class="close" id="drawer-close">Close</button></div>`;
+    d.setAttribute("aria-label", "Event detail unavailable");
+    $("drawer-close").addEventListener("click", closeDetail);
+    $("drawer-close").focus();
+    return;
+  }
   d.innerHTML = `<div class="drawer-top"><div><div class="card-head">${badge(event.event_type, "low")}</div>
       <div class="id" style="margin-top:6px">Event #${event.seq} · ${esc(event.event_id)}</div></div>
       <button class="close" id="drawer-close">Close</button></div>
@@ -1116,7 +1165,9 @@ async function openEvent(eventId) {
       <dt>Actor</dt><dd>${esc(event.agent_id || "system")}</dd><dt>Type</dt><dd>${esc(event.event_type)}</dd></dl>
     <h3>What happened</h3><div class="content-quote">${esc(event.text || "No story sentence is available for this event type.")}</div>
     ${event.memory_id ? `<h3>Related memory</h3><span class="link link-id" data-id="${esc(event.memory_id)}">${esc(event.memory_id)}</span>` : ""}`;
+  d.setAttribute("aria-label", `Event detail ${event.event_id}`);
   $("drawer-close").addEventListener("click", closeDetail);
+  $("drawer-close").focus();
 }
 
 function fmtTs(ts) {
@@ -1197,7 +1248,11 @@ async function loadDependence(id) {
         evidence remains:</div><ul>${d.would_stand.map(row).join("")}</ul>` : ""}`;
 }
 
-function closeDetail() { $("drawer-bg").hidden = true; }
+function closeDetail() {
+  $("drawer-bg").hidden = true;
+  drawerReturnFocus?.focus?.();
+  drawerReturnFocus = null;
+}
 
 /* ---------- changes, context, capabilities ---------- */
 
@@ -1476,6 +1531,8 @@ function wire() {
     }
     const eventEl = ev.target.closest("[data-event-id]");
     if (eventEl) { ev.stopPropagation(); openEvent(eventEl.dataset.eventId); return; }
+    const mapMemory = ev.target.closest("[data-map-memory]");
+    if (mapMemory) { ev.stopPropagation(); openDetail(mapMemory.dataset.mapMemory); return; }
     const idEl = ev.target.closest("[data-id]");
     if (idEl) { ev.stopPropagation(); openDetail(idEl.dataset.id); }
   });
@@ -1484,7 +1541,14 @@ function wire() {
     if (ev.target === $("drawer-bg")) closeDetail();
   });
   document.addEventListener("keydown", (ev) => {
-    if (ev.key === "Escape") closeDetail();
+    const dialog = !$("drawer-bg").hidden ? $("drawer")
+      : !$("palette-bg").hidden ? $("palette-bg").querySelector('[role="dialog"]')
+      : !$("help-bg").hidden ? $("help-bg").querySelector('[role="dialog"]') : null;
+    if (ev.key === "Escape") {
+      if (!$("drawer-bg").hidden) closeDetail();
+      else if (!$("palette-bg").hidden) closePalette();
+      else if (!$("help-bg").hidden) closeHelp();
+    } else if (dialog) trapFocus(dialog, ev);
   });
 
   for (const id of ["f-state", "f-scope", "f-type", "f-sort"]) {
@@ -1818,6 +1882,9 @@ async function loadGraph() {
     if (o.kind === "memory") openDetail(o.id); else if (o.kind === "event") openEvent(o.event_id); else setFocus(o); };
   $("map-topics").innerHTML = topics.map((t) => `<button data-topic="${esc(t.id)}" aria-pressed="false">
     <span style="color:${t.hue}">●</span> ${esc(t.label)}<span class="n">${t.size}</span></button>`).join("");
+  $("map-memory-list").innerHTML = moons.map((m) => `<li><button data-map-memory="${esc(m.id)}">
+    ${esc(m.label)} · ${esc(STATE_WORDS[m.state] || m.state)} · topic ${esc(m.topic.label)}</button></li>`).join("")
+    || '<li class="sub">No key memories are available.</li>';
   $("map-topics").onclick = (ev) => { const btn = ev.target.closest("button"); if (btn) setFocus(byTopic.get(btn.dataset.topic)); };
 }
 
@@ -1830,9 +1897,14 @@ const TAB_LABELS = { start: "Start here", attention: "Needs attention", review: 
   changes: "Changes", capabilities: "Capabilities & limits" };
 
 function openPalette() {
+  paletteReturnFocus = document.activeElement;
   $("palette-bg").hidden = false; const i = $("palette-input"); i.value = ""; i.focus(); fillPalette("");
 }
-function closePalette() { $("palette-bg").hidden = true; }
+function closePalette() {
+  $("palette-bg").hidden = true;
+  paletteReturnFocus?.focus?.();
+  paletteReturnFocus = null;
+}
 function renderPalette() {
   $("palette-list").innerHTML = PAL.items.map((it, i) => `<li role="option" aria-selected="${i === PAL.sel}" data-i="${i}">
     <span class="k">${esc(it.kind)}</span><span>${esc(it.label)}</span></li>`).join("") ||
@@ -1845,7 +1917,7 @@ function fillPalette(q) {
   const tabs = Object.entries(TAB_LABELS).filter(([, l]) => !ql || l.toLowerCase().includes(ql))
     .map(([t, l]) => ({ kind: "go to", label: l, run: () => showTab(t) }));
   const cmds = [{ kind: "action", label: "Switch light or dark theme", run: toggleTheme },
-    { kind: "action", label: "Show keyboard shortcuts", run: () => { $("help-bg").hidden = false; } }]
+    { kind: "action", label: "Show keyboard shortcuts", run: openHelp }]
     .filter((c) => !ql || c.label.toLowerCase().includes(ql));
   PAL.items = [...tabs, ...cmds]; PAL.sel = 0;
   if (/^[0-9A-HJKMNP-TV-Z]{26}$/i.test(q.trim())) PAL.items.unshift({ kind: "open", label: `memory ${q.trim()}`, run: () => openDetail(q.trim()) });
@@ -1904,10 +1976,10 @@ document.addEventListener("keydown", (ev) => {
     else if (ev.key === "Enter") runPalette(PAL.sel);
     return;
   }
-  if (ev.key === "Escape") { $("help-bg").hidden = true; return; }
+  if (ev.key === "Escape") { closeHelp(); return; }
   if (typing) return;
   if (ev.key === "/") { ev.preventDefault(); openPalette(); return; }
-  if (ev.key === "?") { $("help-bg").hidden = false; return; }
+  if (ev.key === "?") { openHelp(); return; }
   if (ev.key === "t") { toggleTheme(); return; }
   if (G_PREFIX) { G_PREFIX = false;
     const map = { h: "start", m: "memories", k: "graph", a: "agents", r: "replay", s: "search", c: "capabilities" };
@@ -1920,7 +1992,7 @@ document.addEventListener("keydown", (ev) => {
   $("palette-open").addEventListener("click", openPalette);
   $("palette-input").addEventListener("input", (ev) => fillPalette(ev.target.value));
   $("palette-bg").addEventListener("click", (ev) => { if (ev.target === $("palette-bg")) closePalette(); });
-  $("help-bg").addEventListener("click", () => { $("help-bg").hidden = true; });
+  $("help-bg").addEventListener("click", () => closeHelp());
   $("theme-toggle").addEventListener("click", toggleTheme);
   api("/api/agents").then((r) => { AGENTS_CACHE = r; $("c-agents").textContent = r.length || ""; }).catch(() => {});
   livePoll(); setInterval(livePoll, 5000);
