@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "deb2ce8b7bbba82614cec553d711ff95072db3b0e01d8919161c22ebf4f16733",
+    "sha256": "8128211b26510a26e974cfbd95337ca7d47a0fc5ab5d7f254ffb7c4ad8b6f90a",
     "tasks": 260
   },
   "source": {
-    "commit": "2b85941b1998bfefcd10f8a63165e23e92b6986a",
+    "commit": "d28575c8c1543931c3ad3b8c90c7ed1991d37dbb",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 217,
+      "DONE": 218,
       "PARTIAL": 3,
-      "TODO": 40
+      "TODO": 39
     },
-    "completed": 217,
+    "completed": 218,
     "total": 260,
-    "percent_complete": 83.46,
+    "percent_complete": 83.85,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3568,14 +3568,28 @@
       "task_id": "N3-02",
       "priority": "P2",
       "task": "Construct small exact-oracle decision worlds where all permitted memory subsets can be enumerated.",
-      "acceptance": "Estimator output is tested against oracle causal differences, not mere source co-occurrence",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Estimator output is tested against oracle causal differences, not mere source co-occurrence. Evidence: `research/prereg/n3-02-exact-oracle-worlds-v1.md`, `benchmarks/n3_02_exact_oracle.py`, `tests/test_n3_02_exact_oracle.py`, `research/results/n3-02-exact-oracle.json`, `research/results/n3-02-exact-oracle-tests.xml` (DONE: four deterministic worlds enumerate all 16 subsets each; IPS matches the exact paired inclusion effect for all 16 memory/world combinations with zero absolute error. Synthetic implementation evidence only; no real-world identification claim.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-02-exact-oracle-worlds-v1.md",
+        "benchmarks/n3_02_exact_oracle.py",
+        "tests/test_n3_02_exact_oracle.py",
+        "research/results/n3-02-exact-oracle.json",
+        "research/results/n3-02-exact-oracle-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n3-02-exact-oracle-worlds-v1.md": "bf381ab067ac84f6f2e7c616ea40b0fa66fb75ac71210ed3a5ec5019d74039d6",
+        "benchmarks/n3_02_exact_oracle.py": "61e6a8508ea552c91478649fc98ed9ad8c01fe0db407315f8bf3c2df978e6599",
+        "tests/test_n3_02_exact_oracle.py": "c443ca151cc978d5f8e5b16f1cd8fb256626840c145b67961b5bbaa7d9f43142",
+        "research/results/n3-02-exact-oracle.json": "a2b3222a2e07bbe35880524a67714b214aa8de6f0ed1bf1333d6fbbb95a2f60a",
+        "research/results/n3-02-exact-oracle-tests.xml": "ca65d28d8e52c6091a0e2b3bc531b11e8d25c17ac302d9e74c2dfb2776a7cc81"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Four deterministic synthetic worlds enumerate every memory subset and test IPS against the exact finite-world average inclusion effect; this validates implementation against the registered estimand only, not causal identification in real-world observational data."
+      ]
     },
     {
       "task_id": "N3-03",

@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **217 / 260 (83.46%)**. Internal status: **BLOCKED**.
+Strict completion: **218 / 260 (83.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `d1f0f72f94b5d813414e8cf6adc8558462bc07d423ced8c18dd7872ce729adcf`.
+Normalized ledger digest: `af34fae432bc15a37d30c66174ed7daf651aa3a300efd3653e7e864ffe2da062`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 217 |
+| DONE | 218 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 40 |
+| TODO | 39 |
 
 ## Graduation gates
 
@@ -150,7 +150,7 @@ Normalized ledger digest: `d1f0f72f94b5d813414e8cf6adc8558462bc07d423ced8c18dd78
 | N2-09 | P1 | DONE | SIMULATED | `research/prereg/n2-09-answerability-vs-evidence-gate-v1.md`, `benchmarks/n2_09_decision_quality.py`, `tests/test_n2_09_decision_quality.py`, `research/results/n2-09-decision-quality.json`, `research/results/n2-09-decision-quality.md`, `research/results/n2-09-evaluator-tests.xml` |
 | N2-10 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/authorization_receipt.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/certificates.py`, `src/memory_fabric/requirement_graph.py`, `src/memory_fabric/__init__.py`, `tools/gen_reference.py`, `docs/AUTHORIZATION_PROOF_RECEIPTS.md`, `docs/API.md`, `docs/API_INVENTORY.json`, `CHANGELOG.md`, `tests/test_authorization_receipt.py`, `tests/test_action_execution_receipt.py`, `tests/test_action_requirements.py`, `tests/test_authority.py`, `tests/test_reference_docs.py`, `tests/test_doc_links.py`, `research/results/n2-10-authorization-receipt-tests.xml`, `research/results/n2-10-authorization-receipt-first-run-tests.xml` |
 | N3-01 | P2 | DONE | CONTRACT | `research/prereg/n3-01-counterfactual-interventions-v1.md` |
-| N3-02 | P2 | TODO | NOT_TESTED | — |
+| N3-02 | P2 | DONE | SIMULATED | `research/prereg/n3-02-exact-oracle-worlds-v1.md`, `benchmarks/n3_02_exact_oracle.py`, `tests/test_n3_02_exact_oracle.py`, `research/results/n3-02-exact-oracle.json`, `research/results/n3-02-exact-oracle-tests.xml` |
 | N3-03 | P2 | TODO | NOT_TESTED | — |
 | N3-04 | P2 | TODO | NOT_TESTED | — |
 | N3-05 | P2 | TODO | NOT_TESTED | — |
