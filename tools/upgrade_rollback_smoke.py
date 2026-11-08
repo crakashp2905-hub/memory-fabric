@@ -46,7 +46,8 @@ actual = {"event_count": len(events), "chain_ok": chain.ok,
           "chain_head": [head_seq, head_digest],
           "corrected_version": fabric.get(corrected).version,
           "corrected_content": fabric.get(corrected).content,
-          "withdrawn_state": fabric.get(withdrawn).lifecycle_state.value}
+          "withdrawn_state": fabric.get(withdrawn).lifecycle_state.value,
+          "grant_events": [dict(e.payload) for e in events if e.type == "GrantIssued"]}
 if len(expected["ids"]) > 2:
     actual["added_state"] = fabric.get(expected["ids"][2]).lifecycle_state.value
 assert actual["event_count"] == expected["event_count"], actual
@@ -56,6 +57,7 @@ assert actual["corrected_content"] == expected.get("corrected_content", "Pump P1
 assert actual["withdrawn_state"] == expected.get("withdrawn_state", "quarantined"), actual
 if "added_state" in expected:
     assert actual["added_state"] == expected["added_state"], actual
+assert actual["grant_events"] == expected.get("grant_events", []), actual
 print(json.dumps(actual))
 fabric.close()
 '''
@@ -63,6 +65,7 @@ fabric.close()
 POST_UPGRADE_WRITE = r'''
 import json, sys
 from memory_fabric import MemoryFabric
+from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 fabric = MemoryFabric(sys.argv[1])
 expected = json.loads(sys.argv[2])
 corrected, withdrawn = expected["ids"]
@@ -70,6 +73,12 @@ fabric.revise(corrected, "Pump P1 purge is 45 seconds.", agent_id="upgrade-agent
               reason="post-upgrade correction")
 added = fabric.remember("upgrade-agent", "Pump P3 purge is 20 seconds.")
 fabric.validate(added, actor="reviewer")
+policy = ActionPolicy(tools={"publish": ToolRule("publish", requires_grant=True)},
+                     grants={"upgrade-agent": frozenset({"publish"})},
+                     policy_id="upgrade-rollback-smoke")
+gate = ActionGate(fabric, policy)
+certificate = fabric.certify("publish-purge-setting", [corrected], "upgrade-agent")
+grant = gate.issue_grant("publish", "upgrade-agent", "host", certificate=certificate)
 events = list(fabric.log.read())
 chain = fabric.log.chain.verify(events)
 head_seq, head_digest = fabric.log.chain.head()
@@ -78,7 +87,10 @@ updated = {"ids": [corrected, withdrawn, added], "event_count": len(events),
            "corrected_version": fabric.get(corrected).version,
            "corrected_content": fabric.get(corrected).content,
            "withdrawn_state": fabric.get(withdrawn).lifecycle_state.value,
-           "added_state": fabric.get(added).lifecycle_state.value}
+           "added_state": fabric.get(added).lifecycle_state.value,
+           "grant_id": grant.grant_id,
+           "grant_events": [dict(event.payload) for event in events
+                            if event.type == "GrantIssued"]}
 print(json.dumps(updated))
 fabric.close()
 '''
