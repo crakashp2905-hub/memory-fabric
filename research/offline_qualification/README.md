@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **182 / 260 (70.00%)**. Internal status: **BLOCKED**.
+Strict completion: **183 / 260 (70.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `db90662f634ca307e3bd0078335bddec94c1889763afddf810796c80b44834fd`.
+Normalized ledger digest: `d180bacef13c5c225ed81949aa0a7bbe3fd8a78084c141ddb82ddd8e54c179b4`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 182 |
+| DONE | 183 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 4 |
-| TODO | 74 |
+| TODO | 73 |
 
 ## Graduation gates
 
@@ -266,7 +266,7 @@ Normalized ledger digest: `db90662f634ca307e3bd0078335bddec94c1889763afddf810796
 | P3-05 | P1 | DONE | INTERNAL_INTEGRATION | `docs/RUNBOOKS.md`, `docs/OPERATIONS.md`, `docs/CLI.md`, `src/memory_fabric/cli.py`, `tests/test_backup_runbook.py`, `tests/test_backup_custody.py`, `tests/test_backup.py`, `research/results/p3-05-backup-restore-runbook.json`, `research/results/p3-05-backup-restore-runbook.txt` |
 | P3-06 | P1 | TODO | NOT_TESTED | — |
 | P3-07 | P1 | TODO | NOT_TESTED | — |
-| P3-08 | P1 | TODO | NOT_TESTED | — |
+| P3-08 | P1 | DONE | INTERNAL_INTEGRATION | `tests/test_fail_safe_environment.py`, `tests/test_cipher.py`, `tests/test_quickstart.py` |
 | P3-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/support_bundle.py`, `src/memory_fabric/cli.py`, `tests/test_support_bundle.py`, `docs/SUPPORT_BUNDLE.md`, `docs/CLI.md`, `docs/README.md` |
 | P3-10 | P1 | TODO | NOT_TESTED | — |
 | P4-01 | P1 | DONE | INTERNAL_INTEGRATION | `docs/product/JOBS_TO_BE_DONE.md`, `docs/README.md`, `tests/test_product_jobs.py`, `tests/test_doc_links.py`, `examples/poisoning_and_rollback.py`, `examples/wrong_memory_demo.py`, `examples/action_gate.py`, `examples/multi_agent_team.py`, `research/results/p4-01-jobs-to-be-done.json`, `research/results/p4-01-jobs-to-be-done.txt` |

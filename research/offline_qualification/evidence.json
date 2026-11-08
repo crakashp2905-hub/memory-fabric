@@ -2322,6 +2322,21 @@
       ]
     },
     {
+      "task_id": "P3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_fail_safe_environment.py",
+        "tests/test_cipher.py",
+        "tests/test_quickstart.py"
+      ],
+      "limitations": [
+        "Disk exhaustion is simulated with SQLite max_page_count rather than a physically full host filesystem.",
+        "Offline socket/DNS refusal is tested through the repository's local network guard; no external network outage is reproduced."
+      ]
+    },
+    {
       "task_id": "P4-05",
       "status": "DONE",
       "acceptance_passed": true,

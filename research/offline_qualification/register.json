@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "66c2672be7605a2b98cc28987cbba41313b072924959bb648fb17eef82f4201a",
+    "sha256": "1011f3c24150c95d8a0e91b43d9e6203f632be897bb9e01f2b4dd5bd9c082196",
     "tasks": 260
   },
   "source": {
-    "commit": "b23042309ace93e6d831735ea99aa4822d4f7e03",
+    "commit": "8118acc2523826f7e21e53b7c473caa72f1e783e",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 182,
+      "DONE": 183,
       "PARTIAL": 4,
-      "TODO": 74
+      "TODO": 73
     },
-    "completed": 182,
+    "completed": 183,
     "total": 260,
-    "percent_complete": 70.0,
+    "percent_complete": 70.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -5699,14 +5699,25 @@
       "task_id": "P3-08",
       "priority": "P1",
       "task": "Test safe behavior for no disk space, disabled optional dependency and offline mode.",
-      "acceptance": "Feature degrades with named reason instead of crashing or silently skipping control",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Feature degrades with named reason instead of crashing or silently skipping control.. Evidence: `tests/test_fail_safe_environment.py`, `tests/test_cipher.py`, `tests/test_quickstart.py` (DONE: SQLITE_FULL rolls back without projected memory; missing optional crypto uses authenticated v2 or production profile refuses; offline mode refuses socket/DNS access.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_fail_safe_environment.py",
+        "tests/test_cipher.py",
+        "tests/test_quickstart.py"
+      ],
+      "evidence_digests": {
+        "tests/test_fail_safe_environment.py": "4efb6a04018b7d5451b09a478804bcc7d07aec72efd57d386f5d0a6cdb561094",
+        "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
+        "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Disk exhaustion is simulated with SQLite max_page_count rather than a physically full host filesystem.",
+        "Offline socket/DNS refusal is tested through the repository's local network guard; no external network outage is reproduced."
+      ]
     },
     {
       "task_id": "P3-09",
