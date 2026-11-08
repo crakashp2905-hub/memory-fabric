@@ -13,3 +13,10 @@ placing a `federation` object in user context; it resolves to its local store
 and source root. The assessment returns opaque `store-id/memory-id` group
 labels and performs no network request. It does not prove that a remote store
 is currently available or that the original evidence remains active there.
+
+The partition fixture imports an original and a differently worded local
+derivative, then quarantines the source without delivering a retraction to the
+recipient. The recipient still holds two active stale snapshots, but their
+shared portable root yields one source group rather than two independent
+corroborating sources. Current local authorization is checked; remote freshness
+is explicitly unknown during the partition.

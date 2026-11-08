@@ -91,6 +91,36 @@ class TestFederatedProvenance(unittest.TestCase):
                          [1, 2])
         self.assertEqual({binding.local_version for binding in assessment.bindings}, {1})
 
+    def test_partitioned_stale_imports_do_not_become_independent_corroboration(self):
+        source, recipient = _store(), _store()
+        self.addCleanup(source.close)
+        self.addCleanup(recipient.close)
+        source_id = source.remember("origin-agent",
+            "The north relay pressure remains stable during calibration", scope="team")
+        derived_id = source.derive("origin-agent",
+            "The north relay pressure remains stable throughout calibration",
+            parents=[source_id], scope="team")
+        source.validate(derived_id, actor="reviewer")
+        imported_original = offer(source, source_id, recipient, "reader", activate=True)
+        imported_derivative = offer(source, derived_id, recipient, "reader", activate=True)
+        self.assertTrue(imported_original.accepted and imported_derivative.accepted)
+
+        # Model a partition by delivering no retraction after the source changes state.
+        source.quarantine(source_id, reason="calibration source withdrawn", actor="reviewer")
+        recipient_service = MemoryService(recipient)
+        tenant_id = recipient.state.memories[imported_original.imported_memory_id].tenant_id
+        recipient_service.register_agent("reader", b"reader-partition-key", tenant_id=tenant_id)
+        session = recipient_service.session(recipient_service.issue("reader"))
+        self.assertEqual(recipient.get(imported_original.imported_memory_id).lifecycle_state.value,
+                         "active")
+        self.assertEqual(recipient.get(imported_derivative.imported_memory_id).lifecycle_state.value,
+                         "active")
+
+        assessment = assess_fabric_source_roots(recipient, session,
+            (imported_original.imported_memory_id, imported_derivative.imported_memory_id))
+        self.assertEqual(assessment.status, "ROOTS_RESOLVED")
+        self.assertEqual(assessment.independent_root_count, 1)
+
 
 if __name__ == "__main__":
     unittest.main()
