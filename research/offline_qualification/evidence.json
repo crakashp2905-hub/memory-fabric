@@ -4050,6 +4050,27 @@
         "Summary content preserves distinct preference statements while source metadata records exact version identity, version author, authoritative log sequence, recorded timestamp, and valid-time interval. The summary does not choose which preference applies without an explicit world time.",
         "Hierarchical metadata and certificates are validated locally in memory; no distributed-store or real-agent preference-resolution claim."
       ]
+    },
+    {
+      "task_id": "N4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_budget.py",
+        "experiments/n4_06_budgeted_compaction.py",
+        "docs/API.md",
+        "research/results/n4-06-budgeted-compaction.json",
+        "research/results/n4-06-budgeted-compaction.md",
+        "research/results/n4-06-budget-tests.xml",
+        "research/results/n4-06-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Strict policy treats every usable source as compulsory and refuses the complete summary if it exceeds the token budget; it does not select optional sources.",
+        "A token budget requires a caller-supplied counter and explicit tokenizer provenance. The recorded test tokenizer is deterministic whitespace counting, not a model tokenizer or cost estimate.",
+        "Token counts cover summary text only and exclude provider wrappers, prompts, and tool schemas."
+      ]
     }
   ]
 }

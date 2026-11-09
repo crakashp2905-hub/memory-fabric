@@ -458,10 +458,17 @@ Proposals and adoptions of objective changes, recorded in the store's log.
 ### `compaction.compact_session` (experimental)
 
 ```python
-compact_session(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default', token_counter: Callable[[str], int] | None = None, tokenizer_provenance: str | None = None) -> CompactionReport
+compact_session(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default', token_counter: Callable[[str], int] | None = None, tokenizer_provenance: str | None = None, max_summary_tokens: int | None = None) -> CompactionReport
 ```
 
-Write one governed summary of an episode, returning used and omitted inputs. `summary_source_metadata` records each parent ID/version, version author, authoritative log sequence, recorded time, and valid-time interval.
+Write one governed summary of an episode, returning used and omitted inputs. `summary_source_metadata` records each parent ID/version, version author, authoritative log sequence, recorded time, and valid-time interval. When a token budget is supplied, all usable inputs are compulsory and overflow raises `CompactionBudgetExceeded` before a summary is written. The report always includes exact UTF-8 byte counts; token counts require a supplied counter and explicit tokenizer provenance.
+
+### `compaction.CompactionBudgetExceeded` (experimental)
+
+The complete required summary does not fit the declared token budget.
+
+- **`CompactionBudgetExceeded.to_dict() -> dict[str, object]`**
+  Return a stable machine-readable failure with all compulsory inputs.
 
 ### `compaction.summary_for` (experimental)
 

@@ -61,6 +61,47 @@ class CompactionRefused(Exception):
     """The summary would lose or hide something; nothing was written."""
 
 
+class CompactionBudgetExceeded(CompactionRefused):
+    """The complete required summary does not fit the declared token budget."""
+
+    code = "required_evidence_exceeds_token_budget"
+
+    def __init__(
+        self,
+        *,
+        max_summary_tokens: int,
+        required_summary_tokens: int,
+        source_bytes_utf8: int,
+        summary_bytes_utf8: int,
+        tokenizer_provenance: str,
+        required_source_ids: Sequence[str],
+    ) -> None:
+        self.max_summary_tokens = max_summary_tokens
+        self.required_summary_tokens = required_summary_tokens
+        self.source_bytes_utf8 = source_bytes_utf8
+        self.summary_bytes_utf8 = summary_bytes_utf8
+        self.tokenizer_provenance = tokenizer_provenance
+        self.required_source_ids = tuple(required_source_ids)
+        super().__init__(
+            f"required summary needs {required_summary_tokens} tokens, "
+            f"budget is {max_summary_tokens}; no summary was written"
+        )
+
+    def to_dict(self) -> dict[str, object]:
+        """Return a stable machine-readable failure with all compulsory inputs."""
+        return {
+            "code": self.code,
+            "max_summary_tokens": self.max_summary_tokens,
+            "required_summary_tokens": self.required_summary_tokens,
+            "source_bytes_utf8": self.source_bytes_utf8,
+            "summary_bytes_utf8": self.summary_bytes_utf8,
+            "tokenizer_provenance": self.tokenizer_provenance,
+            "required_source_ids": list(self.required_source_ids),
+            "required_source_count": len(self.required_source_ids),
+            "summary_written": False,
+        }
+
+
 @dataclass
 class CompactionReport:
     episode_id: str
@@ -74,6 +115,8 @@ class CompactionReport:
     summary_token_estimate: int | None = None
     tokenizer_provenance: str | None = None
     token_measurement_status: str = "NOT_MEASURED"
+    max_summary_tokens: int | None = None
+    token_budget_status: str = "NOT_REQUESTED"
 
 
 @dataclass
@@ -239,21 +282,40 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                     | None = None, scope: str | None = None,
                     tenant_id: str = DEFAULT_TENANT,
                     token_counter: Callable[[str], int] | None = None,
-                    tokenizer_provenance: str | None = None) -> CompactionReport:
+                    tokenizer_provenance: str | None = None,
+                    max_summary_tokens: int | None = None) -> CompactionReport:
     """Write one governed summary of an episode, returning used and omitted inputs.
     `summary_source_metadata` records each parent ID/version, version author,
-    authoritative log sequence, recorded time, and valid-time interval.
+    authoritative log sequence, recorded time, and valid-time interval. When a
+    token budget is supplied, all usable inputs are compulsory and overflow
+    raises `CompactionBudgetExceeded` before a summary is written. The report
+    always includes exact UTF-8 byte counts; token counts require a supplied
+    counter and explicit tokenizer provenance.
 
     The report always includes exact UTF-8 byte counts. Optional token counts are
     produced only when both a tokenizer counter and its explicit provenance are
     supplied; byte counts are never treated as token or model-cost estimates.
     The summary context also maps each source version to its ID, version author,
     authoritative transaction sequence, recorded time, and valid-time interval.
+    When `max_summary_tokens` is supplied, every usable source is compulsory; if
+    the complete summary does not fit, `CompactionBudgetExceeded` is raised before
+    any summary memory is written.
     """
     report = CompactionReport(episode_id=episode_id, summary_id=None)
     usable = []
     from .navigation import _visible
 
+    if (max_summary_tokens is not None
+            and (isinstance(max_summary_tokens, bool)
+                 or not isinstance(max_summary_tokens, int)
+                 or max_summary_tokens < 1)):
+        raise ValueError("max_summary_tokens must be a positive integer")
+    if max_summary_tokens is not None and (
+        token_counter is None or not tokenizer_provenance or not tokenizer_provenance.strip()
+    ):
+        raise ValueError(
+            "a summary token budget requires a token counter and explicit tokenizer provenance"
+        )
     if not agent_id or not tenant_id:
         raise CompactionRefused("compaction requires agent and tenant identities")
     with fabric._transaction():
@@ -289,6 +351,17 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
     measured = _measurement(
         [memory.content for memory in usable], text, token_counter, tokenizer_provenance
     )
+    if (max_summary_tokens is not None
+            and measured["summary_token_estimate"] is not None
+            and measured["summary_token_estimate"] > max_summary_tokens):
+        raise CompactionBudgetExceeded(
+            max_summary_tokens=max_summary_tokens,
+            required_summary_tokens=measured["summary_token_estimate"],
+            source_bytes_utf8=measured["source_bytes_utf8"],
+            summary_bytes_utf8=measured["summary_bytes_utf8"],
+            tokenizer_provenance=str(measured["tokenizer_provenance"]),
+            required_source_ids=[memory.id for memory in usable],
+        )
     narrowest = min((m.scope for m in usable), key=lambda s: s.rank)
     if scope is not None and Scope(scope).rank > narrowest.rank:
         raise CompactionRefused("a summary cannot widen its sources' visibility")
@@ -303,6 +376,20 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                 "kind": "derived_claim",
                 "compaction_of": episode_id,
                 "summary_source_metadata": _source_metadata(fabric, usable),
+                **(
+                    {
+                        "summary_token_budget": {
+                            "limit": max_summary_tokens,
+                            "observed": measured["summary_token_estimate"],
+                            "tokenizer_provenance": measured["tokenizer_provenance"],
+                            "required_source_versions": [
+                                [memory.id, memory.version] for memory in usable
+                            ],
+                        }
+                    }
+                    if max_summary_tokens is not None
+                    else {}
+                ),
                 **(
                     {"summary_dependencies": dependencies}
                     if dependencies is not None
@@ -322,6 +409,8 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
     report.summary_token_estimate = measured["summary_token_estimate"]
     report.tokenizer_provenance = measured["tokenizer_provenance"]
     report.token_measurement_status = str(measured["token_measurement_status"])
+    report.max_summary_tokens = max_summary_tokens
+    report.token_budget_status = "WITHIN_BUDGET" if max_summary_tokens is not None else "NOT_REQUESTED"
     return report
 
 

@@ -1,0 +1,54 @@
+{
+  "schema": "memory-fabric-n4-06-budgeted-compaction/1",
+  "task_id": "N4-06",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "16550e66a3e273d429614e74b073ed0e981d89ac",
+    "dirty_before_result_write": true,
+    "script_sha256": "236968a58c1f835eb794340d539c14ad440a887496b53da2e1bb41fa90209b5a"
+  },
+  "within_budget": {
+    "limit": 100,
+    "observed_tokens": 24,
+    "tokenizer_provenance": "test-whitespace-tokenizer/1",
+    "status": "WITHIN_BUDGET",
+    "all_required_source_ids_remain_dependencies": true,
+    "summary_written": true
+  },
+  "over_budget_failure": {
+    "code": "required_evidence_exceeds_token_budget",
+    "max_summary_tokens": 1,
+    "required_summary_tokens": 24,
+    "source_bytes_utf8": 98,
+    "summary_bytes_utf8": 136,
+    "tokenizer_provenance": "test-whitespace-tokenizer/1",
+    "required_source_ids": [
+      "01M6YSNEJ9DZ5W0XKZV7Y8F9EJ",
+      "01M6YSNEJA8C3TWVXC1FNM8XTQ",
+      "01M6YSNEJA8C3TWVXC1FNM8XTS"
+    ],
+    "required_source_count": 3,
+    "summary_written": false,
+    "all_required_source_ids_reported": true,
+    "store_unchanged": true
+  },
+  "tests": {
+    "junit": "research/results/n4-06-budget-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "contract": {
+    "all_usable_sources_are_compulsory": true,
+    "partial_summary_never_written": true,
+    "failure_reports_utf8_bytes_and_tokens_separately": true,
+    "token_budget_requires_explicit_counter_and_provenance": true
+  },
+  "limitations": [
+    "This strict policy refuses the complete summary when it cannot fit; it does not silently omit optional sources.",
+    "Token counts cover summary text only and exclude provider wrappers, prompts, and tool schemas.",
+    "The test tokenizer is a deterministic fixture counter, not a model tokenizer or cost estimate."
+  ]
+}
