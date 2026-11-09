@@ -1,0 +1,171 @@
+{
+  "schema": "memory-fabric-n6-09-orchestration-cost-benchmark/1",
+  "task_id": "N6-09",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "sample_count": 20,
+  "protocols": {
+    "direct_sdk": {
+      "samples": 20,
+      "safe_completion_rate": 1.0,
+      "tool_calls_per_workflow": [
+        5
+      ],
+      "discovery_operations_per_workflow": [
+        1
+      ],
+      "transport_round_trips_per_workflow": [
+        0
+      ],
+      "application_request_bytes_median": 607,
+      "application_response_bytes_median": 355,
+      "wire_body_bytes_median": 0,
+      "workflow_wall_ms_p50": 0.102,
+      "workflow_wall_ms_p95": 0.285,
+      "workflow_cpu_ms_median": null,
+      "workflow_cpu_measurement": "BELOW_PER_WORKFLOW_CLOCK_RESOLUTION",
+      "model_tokens": null,
+      "model_cost_usd": null,
+      "external_service_cost_usd": 0.0,
+      "result": {
+        "lookup": {
+          "record_id": "seed-1",
+          "content": "coastal pump checklist"
+        },
+        "write": {
+          "record_id": "result-1",
+          "content": "checked at site"
+        },
+        "replay": {
+          "record_id": "result-1",
+          "content": "checked at site"
+        },
+        "denied_write": {
+          "error": "permission_denied"
+        },
+        "unauthenticated_read": {
+          "error": "authentication_required"
+        },
+        "record_count": 2,
+        "tool_calls": 5
+      }
+    },
+    "mcp": {
+      "samples": 20,
+      "safe_completion_rate": 1.0,
+      "tool_calls_per_workflow": [
+        5
+      ],
+      "discovery_operations_per_workflow": [
+        1
+      ],
+      "transport_round_trips_per_workflow": [
+        6
+      ],
+      "application_request_bytes_median": 863,
+      "application_response_bytes_median": 1165,
+      "wire_body_bytes_median": 2028,
+      "workflow_wall_ms_p50": 53.153,
+      "workflow_wall_ms_p95": 77.49,
+      "workflow_cpu_ms_median": null,
+      "workflow_cpu_measurement": "BELOW_PER_WORKFLOW_CLOCK_RESOLUTION",
+      "model_tokens": null,
+      "model_cost_usd": null,
+      "external_service_cost_usd": 0.0,
+      "result": {
+        "lookup": {
+          "record_id": "seed-1",
+          "content": "coastal pump checklist"
+        },
+        "write": {
+          "record_id": "result-1",
+          "content": "checked at site"
+        },
+        "replay": {
+          "record_id": "result-1",
+          "content": "checked at site"
+        },
+        "denied_write": {
+          "error": "permission_denied"
+        },
+        "unauthenticated_read": {
+          "error": "authentication_required"
+        },
+        "record_count": 2,
+        "tool_calls": 5
+      }
+    },
+    "utcp": {
+      "samples": 20,
+      "safe_completion_rate": 1.0,
+      "tool_calls_per_workflow": [
+        5
+      ],
+      "discovery_operations_per_workflow": [
+        1
+      ],
+      "transport_round_trips_per_workflow": [
+        6
+      ],
+      "application_request_bytes_median": 393,
+      "application_response_bytes_median": 1058,
+      "wire_body_bytes_median": 1451,
+      "workflow_wall_ms_p50": 46.582,
+      "workflow_wall_ms_p95": 76.494,
+      "workflow_cpu_ms_median": 7.8125,
+      "workflow_cpu_measurement": "MEASURED",
+      "model_tokens": null,
+      "model_cost_usd": null,
+      "external_service_cost_usd": 0.0,
+      "result": {
+        "lookup": {
+          "content": "coastal pump checklist",
+          "record_id": "seed-1"
+        },
+        "write": {
+          "content": "checked at site",
+          "record_id": "result-1"
+        },
+        "replay": {
+          "content": "checked at site",
+          "record_id": "result-1"
+        },
+        "denied_write": {
+          "error": "permission_denied"
+        },
+        "unauthenticated_read": {
+          "error": "authentication_required"
+        },
+        "record_count": 2,
+        "tool_calls": 5
+      }
+    }
+  },
+  "comparison": {
+    "same_semantics": true,
+    "same_tool_calls": true,
+    "safe_completion_all_samples": true,
+    "model_invocations": 0,
+    "model_token_savings_claimed": false,
+    "cost_accounting": "local wall latency and JSON application bytes measured; external service spend is zero; model cost is not applicable; per-workflow CPU time is reported only if the host clock resolves it"
+  },
+  "method": {
+    "workflow": "lookup, authorized write, idempotent replay, read-only write denial, unauthenticated read denial",
+    "samples_per_protocol": 20,
+    "bind_host": "127.0.0.1",
+    "byte_scope": "JSON request/response bodies; excludes HTTP headers and TCP/IP framing",
+    "direct_sdk": "in-process callable mock provider using the frozen Python tool registry",
+    "mcp": "loopback HTTP bridge carrying the production MCP JSON-RPC dispatcher",
+    "utcp": "loopback HTTP calls after production UTCP manual parser discovery"
+  },
+  "source": {
+    "commit": "530890bded719afaef6016ab6cc5fb6eb3260e32",
+    "experiment_sha256": "6938bc0d3d31767f856aeeb4b959564dc2d9d161e3371371e10a3c39bd398a7f"
+  },
+  "limitations": [
+    "The direct SDK path is an in-process callable mock; it does not call an LLM provider SDK or a production remote service.",
+    "MCP is measured over a loopback HTTP bridge around the repository's production JSON-RPC dispatcher, not its stdio framing.",
+    "UTCP transport is a loopback HTTP mapping around the production parser; public DNS, TLS and remote server latency are not measured.",
+    "Latency and CPU results describe this local Windows host and mock workload only; they are not general performance claims."
+  ]
+}

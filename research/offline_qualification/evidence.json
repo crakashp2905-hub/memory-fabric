@@ -4519,6 +4519,27 @@
         "External effects are represented by deterministic in-memory handlers; no production service is called.",
         "Exactly-once external effects depend on the external system honoring the idempotency key."
       ]
+    },
+    {
+      "task_id": "N6-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n6_09_orchestration_cost_benchmark.py",
+        "tests/test_n6_09_orchestration_cost_benchmark.py",
+        "research/results/n6-09-orchestration-cost-benchmark-tests.xml",
+        "research/results/n6-09-orchestration-cost-benchmark.json",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md",
+        "experiments/n6_05_protocol_equivalence.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/tool_protocol.py"
+      ],
+      "limitations": [
+        "The direct SDK path is an in-process callable mock, not a language-model provider SDK or production remote service.",
+        "MCP uses a loopback HTTP bridge around the repository JSON-RPC dispatcher; UTCP uses a loopback HTTP mapping after production parser discovery. Public DNS, TLS, framing and remote latency are not measured.",
+        "No model runs; token and model cost metrics are not applicable."
+      ]
     }
   ]
 }
