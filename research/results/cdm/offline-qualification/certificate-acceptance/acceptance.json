@@ -1,0 +1,498 @@
+{
+  "cases": [
+    {
+      "accepted": true,
+      "case": "genuine_exact",
+      "expected_accept": true,
+      "payload": {
+        "action_entitlement": false,
+        "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-v1",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "simulator_world"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "tampered_capture",
+      "expected_accept": false,
+      "payload": {
+        "action_entitlement": false,
+        "capture_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-v1",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "simulator_world"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "tampered_intervention",
+      "expected_accept": false,
+      "payload": {
+        "action_entitlement": false,
+        "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-v1",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "simulator_world"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "tampered_policy",
+      "expected_accept": false,
+      "payload": {
+        "action_entitlement": false,
+        "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-forged",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "simulator_world"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "forged_action_authority",
+      "expected_accept": false,
+      "payload": {
+        "action_entitlement": true,
+        "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-v1",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "simulator_world"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "unsupported_physical",
+      "expected_accept": false,
+      "payload": {
+        "action_entitlement": false,
+        "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+        "claims": [
+          "caused_internal_decision_change"
+        ],
+        "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "estimand": "policy_decision_flip",
+        "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "limitations": [
+          "no_action_entitlement",
+          "physical_world_not_verified",
+          "local_synthetic_or_simulator_evidence"
+        ],
+        "minimality_claim": "none",
+        "minimality_proof_digest": null,
+        "policy_id": "policy-v1",
+        "proposal_changed": true,
+        "schema": "memory-fabric-cdm-v1",
+        "status": "EXACT",
+        "updater_id": "up-v1",
+        "world_semantics": "physical_counterfactual_unsupported"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "genuine_truncated",
+      "expected_accept": false,
+      "payload": null
+    }
+  ],
+  "confusion_matrix": {
+    "attack_cases": 6,
+    "false_accept": 0,
+    "false_reject": 0,
+    "true_accept": 1,
+    "true_reject": 6
+  },
+  "schema": "cdm-certificate-acceptance-v1",
+  "scope": "first-party deterministic fixtures; not an empirical attack-rate estimate",
+  "verifier_ablation": {
+    "cases": [
+      {
+        "case": "genuine_exact",
+        "expected_accept": true,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": true
+      },
+      {
+        "case": "tampered_capture",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "tampered_intervention",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "tampered_policy",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-forged",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "forged_action_authority",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": true,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "unsupported_physical",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "physical_counterfactual_unsupported"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "missing_limitations",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "injected_completeness",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "complete": true,
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      },
+      {
+        "case": "fabricated_truncated_exact",
+        "expected_accept": false,
+        "payload": {
+          "action_entitlement": false,
+          "capture_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "certificate_digest": "5d088758c70578ca24d790935193dd0b29f5acc62930077a3bd31fa4508cfbc6",
+          "claims": [
+            "caused_internal_decision_change"
+          ],
+          "complete": false,
+          "counterfactual_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "estimand": "policy_decision_flip",
+          "factual_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "intervention_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "limitations": [
+            "no_action_entitlement",
+            "physical_world_not_verified",
+            "local_synthetic_or_simulator_evidence"
+          ],
+          "minimality_claim": "none",
+          "minimality_proof_digest": null,
+          "policy_id": "policy-v1",
+          "proposal_changed": true,
+          "schema": "memory-fabric-cdm-v1",
+          "status": "EXACT",
+          "updater_id": "up-v1",
+          "world_semantics": "simulator_world"
+        },
+        "self_certifying_executor_accepts": true,
+        "separate_verifier_accepts": false
+      }
+    ],
+    "protocol": "CDM-R9",
+    "scope": "deterministic local fixtures; not an empirical attack-rate estimate",
+    "self_certifying_executor": {
+      "cases": 9,
+      "false_accept": 8,
+      "false_reject": 0,
+      "true_accept": 1,
+      "true_reject": 0
+    },
+    "separate_first_party_verifier": {
+      "cases": 9,
+      "false_accept": 0,
+      "false_reject": 0,
+      "true_accept": 1,
+      "true_reject": 8
+    }
+  }
+}

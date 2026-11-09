@@ -1,0 +1,77 @@
+{
+  "all_complete": true,
+  "arms": {
+    "dependence": {
+      "mean_paired_utility_delta": -0.15,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.34870357598974183,
+        0.04870357598974184
+      ],
+      "refusals": 0
+    },
+    "factual": {
+      "mean_paired_utility_delta": 0.0,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "refusals": 0
+    },
+    "influence": {
+      "mean_paired_utility_delta": -0.15,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.34870357598974183,
+        0.04870357598974184
+      ],
+      "refusals": 0
+    },
+    "leave_one_out": {
+      "mean_paired_utility_delta": -0.15,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.34870357598974183,
+        0.04870357598974184
+      ],
+      "refusals": 0
+    },
+    "random": {
+      "mean_paired_utility_delta": 0.0,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        -0.029217954905997254,
+        0.029217954905997254
+      ],
+      "refusals": 0
+    },
+    "recency": {
+      "mean_paired_utility_delta": 0.0,
+      "n": 10,
+      "normal_approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "refusals": 0
+    }
+  },
+  "cases": 60,
+  "csv_sha256": "a9ce6955533432885c7c0c6bdf1ea744d186598c31301f67f8bb091441d05c10",
+  "json_sha256": "a374823a917c008402c4d37e0739b5aaea0f617ecddd1eaa5b13b94beb06617e",
+  "max_oracle_error": 0.0,
+  "schema": "cdm-paired-benchmark-v2",
+  "scope": "synthetic binary sensor worlds; local code-path oracle only",
+  "seeds": [
+    20261108,
+    20261109,
+    20261110,
+    20261111,
+    20261112,
+    20261113,
+    20261114,
+    20261115,
+    20261116,
+    20261117
+  ]
+}

@@ -75,7 +75,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (51)
+## Beta (53)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
@@ -121,17 +121,40 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.rerank`
 - `memory_fabric.response`
 - `memory_fabric.retrieval_profiles`
+- `memory_fabric.retrieval_routing`
 - `memory_fabric.retrievers`
 - `memory_fabric.review`
 - `memory_fabric.status`
 - `memory_fabric.tenancy`
 - `memory_fabric.tour`
 - `memory_fabric.typedclaims`
+- `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (24)
+## Experimental (45)
 
 - `memory_fabric.adapters.systemone`
+- `memory_fabric.causal_replay.__init__`
+- `memory_fabric.causal_replay.api`
+- `memory_fabric.causal_replay.attribution`
+- `memory_fabric.causal_replay.bayes`
+- `memory_fabric.causal_replay.capture`
+- `memory_fabric.causal_replay.certificates`
+- `memory_fabric.causal_replay.checkpoints`
+- `memory_fabric.causal_replay.environment`
+- `memory_fabric.causal_replay.evaluator`
+- `memory_fabric.causal_replay.executor`
+- `memory_fabric.causal_replay.intervention`
+- `memory_fabric.causal_replay.policy`
+- `memory_fabric.causal_replay.replay`
+- `memory_fabric.causal_replay.scheduler`
+- `memory_fabric.causal_replay.state`
+- `memory_fabric.causal_replay.tempfiles`
+- `memory_fabric.causal_replay.types`
+- `memory_fabric.causal_replay.verifier`
+- `memory_fabric.causal_replay.viewer`
+- `memory_fabric.causal_replay.visualization`
+- `memory_fabric.causal_replayeplay`
 - `memory_fabric.claimcheck`
 - `memory_fabric.compaction`
 - `memory_fabric.context_map`

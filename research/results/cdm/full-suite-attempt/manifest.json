@@ -1,0 +1,16 @@
+{
+  "schema": "cdm-full-regression-attempt-v1",
+  "status": "INCOMPLETE_INTERRUPTED",
+  "command": "python -m unittest discover -s tests",
+  "python": "3.13.5",
+  "git_head": "9621d68f4e17acfdb0a8735f56c0e970264478a1",
+  "source_tree_sha256": "2b938d3d2bb856cfe32dfa92a4b6c609a5750726cae74baf83d8562e6ae8c1e6",
+  "discovered_test_methods": 2437,
+  "completed_test_count": null,
+  "exit_code": 1,
+  "termination": "Interrupted after the run stopped producing test and temporary-directory progress; no unittest final summary was emitted.",
+  "observed_environment_failure": "Windows socket permission denial WinError 10013 in loopback HTTP/webhook tests; request timeout tests did not complete within the observed window.",
+  "output_path": ".tmp-tests/full-suite.log",
+  "output_bytes": 32806,
+  "output_sha256": "bb48b92147dcd3b0bc80b18bc284100814a37bffb0cd5018b9a1f92d2e4958b4"
+}

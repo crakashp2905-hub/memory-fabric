@@ -256,6 +256,19 @@ class Api:
 
                 return agents(f)
 
+            case ["user-catalog"]:
+                # Personal configuration only; keys remain environment-only
+                # and prompts are excluded by public_view(). This endpoint is
+                # read-only like every other Control Center route.
+                from ..models import configured
+                from ..user_catalog import UserCatalog
+
+                try:
+                    return {**UserCatalog().public_view(), "providers": configured()}
+                except (OSError, RuntimeError, ValueError) as exc:
+                    return {"selected_model": None, "agents": [], "providers": configured(),
+                            "unavailable": str(exc)}
+
             case ["story"]:
                 from .control import story
 

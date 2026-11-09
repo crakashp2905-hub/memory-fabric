@@ -102,6 +102,26 @@ class AccessMixin(FabricCore):
         ignores the decision still cannot act on withdrawn knowledge. A refusal
         is audited without the content (see `ev.access_denied`).
         """
+        return self._use_current(
+            memory_id, agent_id, risk=risk, include_contested=include_contested,
+            audit=audit, tenant_id=tenant_id,
+        )
+
+    def _use_current(
+        self,
+        memory_id: str,
+        agent_id: str,
+        risk: "RiskLevel" = RiskLevel.LOW,
+        include_contested: bool = False,
+        audit: bool = True,
+        tenant_id: str | None = None,
+    ) -> "EnforcedRead":
+        """Enforce against the already-refreshed projection.
+
+        Internal callers must hold ``self.lock`` and have refreshed once for
+        their whole batch.  Keeping this separate prevents N returned memories
+        from causing N identical cross-process freshness queries.
+        """
         decision = self.enforcer.check(
             memory_id, risk=risk, include_contested=include_contested,
             tenant_id=tenant_id, agent_id=agent_id,
@@ -131,6 +151,26 @@ class AccessMixin(FabricCore):
         return EnforcedRead(
             decision=decision, token=token, memory=memory, warnings=warnings
         )
+
+    @_fresh
+    def _use_many(
+        self,
+        memory_ids: Sequence[str],
+        agent_id: str,
+        risk: "RiskLevel" = RiskLevel.LOW,
+        include_contested: bool = False,
+        audit: bool = True,
+        tenant_id: str | None = None,
+    ) -> list["EnforcedRead"]:
+        """Internal batched enforced reads with one freshness boundary."""
+        return [
+            self._use_current(
+                memory_id, agent_id, risk=risk,
+                include_contested=include_contested, audit=audit,
+                tenant_id=tenant_id,
+            )
+            for memory_id in memory_ids
+        ]
 
     @_fresh
     def verify_before_action(

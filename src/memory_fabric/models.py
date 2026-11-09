@@ -157,6 +157,16 @@ class ModelClient:
         if spec is None:
             spec = os.environ.get(ENV_MODEL)
             if not spec:
+                # Imported lazily: user_catalog itself validates specs with ModelSpec.
+                from .user_catalog import UserCatalog
+
+                try:
+                    spec = UserCatalog().selected_model()
+                except (OSError, RuntimeError, ValueError):
+                    # A missing/unreadable personal catalog is not a model choice.
+                    # Explicitly supplied and deployment environment specs still work.
+                    spec = None
+            if not spec:
                 raise ModelError(f"no model chosen: pass one, or set {ENV_MODEL} "
                                  "(for example anthropic:claude-opus-5-5 or ollama:qwen2.5:7b)")
         self.spec = ModelSpec.parse(spec) if isinstance(spec, str) else spec
@@ -321,3 +331,30 @@ def configured() -> list[dict[str, Any]]:
         ready = local or bool(os.environ.get(key.split(" ")[0]))
         rows.append({"provider": p, "needs": key, "ready": ready})
     return rows
+
+
+def pull_model(spec: ModelSpec | str, *, opener: Opener | None = None,
+               timeout: float = 1800.0) -> dict[str, Any]:
+    """Ask a local Ollama server to pull a model and return its final status.
+
+    Hosted providers do not have a meaningful pull operation. Restricting this
+    API to Ollama also prevents a catalog entry from choosing an arbitrary URL.
+    """
+    parsed = ModelSpec.parse(spec) if isinstance(spec, str) else spec
+    if parsed.provider != "ollama":
+        raise ModelError("pull is supported only for ollama:<model>")
+    request = urllib.request.Request(
+        "http://127.0.0.1:11434/api/pull",
+        data=json.dumps({"name": parsed.model, "stream": False}).encode("utf-8"),
+        headers={"Content-Type": "application/json"}, method="POST")
+    try:
+        with (opener or urllib.request.urlopen)(request, timeout=timeout) as response:
+            data = json.loads(response.read())
+    except urllib.error.HTTPError as exc:
+        detail = exc.read()[:300].decode("utf-8", "replace")
+        raise ModelError(f"ollama: HTTP {exc.code}: {detail}") from None
+    except (urllib.error.URLError, OSError, ValueError) as exc:
+        raise ModelError(f"ollama: cannot pull {parsed.model}: {exc}") from None
+    if not isinstance(data, dict) or data.get("error"):
+        raise ModelError(f"ollama: pull failed: {data.get('error', 'unexpected response') if isinstance(data, dict) else 'unexpected response'}")
+    return data

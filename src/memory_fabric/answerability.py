@@ -84,7 +84,10 @@ class Answerability:
 
     @property
     def should_abstain(self) -> bool:
-        return self.verdict == INSUFFICIENT
+        # A conflict is evidence that an answer exists, but not evidence for
+        # choosing one alternative.  Treating it as non-abstaining invited the
+        # caller to select whichever contradictory row happened to rank first.
+        return self.verdict in (INSUFFICIENT, CONFLICTING)
 
     def to_json(self) -> dict[str, Any]:
         return {"verdict": self.verdict, "covering": list(self.covering),

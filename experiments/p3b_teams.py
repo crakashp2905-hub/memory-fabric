@@ -26,7 +26,7 @@ from typing import Any, Mapping, Sequence
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
 from experiments.teamworld import (  # noqa: E402
-    BACKENDS, Fact, World, build_memory, build_world,
+    BACKENDS, Fact, build_memory, build_world,
 )
 
 SEEDS = (1, 2, 3, 4, 5)
@@ -81,6 +81,7 @@ class TaskOutcome:
     had_correct_evidence: bool
     acted_on_withdrawn: bool
     valid_evidence_withheld: bool
+    evidence_miss_reason: str | None
     context_tokens: int
     latency_ms: float
 
@@ -100,6 +101,11 @@ class RunResult:
         n = len(self.tasks)
         mean = lambda xs: (sum(xs) / len(xs)) if xs else 0.0  # noqa: E731
         answerable = [t for t in self.tasks if t.correct_value is not None]
+        miss_reasons: dict[str, int] = {}
+        for task in self.tasks:
+            if task.evidence_miss_reason:
+                miss_reasons[task.evidence_miss_reason] = (
+                    miss_reasons.get(task.evidence_miss_reason, 0) + 1)
         return {
             "tasks": n,
             "task_success": round(mean([float(t.correct) for t in answerable]), 4),
@@ -109,6 +115,7 @@ class RunResult:
                 mean([float(t.acted_on_withdrawn) for t in self.tasks]), 4),
             "wrong_invalidation_rate": round(
                 mean([float(t.valid_evidence_withheld) for t in self.tasks]), 4),
+            "evidence_miss_reasons": dict(sorted(miss_reasons.items())),
             "abstention_rate": round(
                 mean([float(t.abstained) for t in self.tasks]), 4),
             "rediscovery_rate": round(
@@ -156,10 +163,12 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
                 old = world.current.get(event.fact.key)
                 if old is not None:
                     superseded[event.fact.key] = old.value
-                memory.withdraw(
-                    event.agent, event.fact.key, "re-measured after the move")
-                # The corrected value is then written as a new discovery.
-                memory.write(event.agent, event.fact.statement(), event.fact.key)
+                corrected_id = memory.correct(
+                    event.agent, event.fact, "re-measured after the move")
+                memory.confirm(
+                    corrected_id,
+                    "independently re-measured after the gantry moved",
+                )
                 world.current[event.fact.key] = event.fact
 
             elif event.kind == "task":
@@ -226,6 +235,10 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
                     valid_evidence_withheld=bool(
                         truth and not had_correct
                         and memory.holds(event.agent, truth.value)),
+                    evidence_miss_reason=(
+                        memory.miss_reason(event.agent, truth.statement(), rows)
+                        if truth and not had_correct else None
+                    ),
                     context_tokens=sum(len(c.split()) for c in contents),
                     latency_ms=elapsed,
                 ))
@@ -252,12 +265,26 @@ def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
             "sd": round(statistics.pstdev(values), 4) if len(values) > 1 else 0.0,
         }
 
-    metrics = [m for m in per_arm[arms[0]][0] if m != "tasks"]
+    metrics = [m for m, value in per_arm[arms[0]][0].items()
+               if m != "tasks" and isinstance(value, (int, float))]
+    reasons: dict[str, dict[str, int]] = {}
+    for arm in arms:
+        combined: dict[str, int] = {}
+        for row in per_arm[arm]:
+            for reason, count in row["evidence_miss_reasons"].items():
+                combined[reason] = combined.get(reason, 0) + int(count)
+        reasons[arm] = dict(sorted(combined.items()))
     return {
         "experiment": "p3b-agent-teams",
         "agents": agents, "rounds": rounds, "seeds": list(seeds),
         "tasks_per_seed": per_arm[arms[0]][0]["tasks"],
-        "arms": {arm: {m: agg(arm, m) for m in metrics} for arm in arms},
+        "arms": {
+            arm: {
+                **{m: agg(arm, m) for m in metrics},
+                "evidence_miss_reasons": reasons[arm],
+            }
+            for arm in arms
+        },
     }
 
 

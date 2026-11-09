@@ -340,6 +340,14 @@ class RetrievalMixin(FabricCore):
         `research/results/relevance-v1-real-embedder.md`.
         """
         mode = method or self.retrieval_mode
+        if mode == "auto":
+            from ..retrieval_routing import route
+            from ..vectors import HashingEmbedder
+
+            mode = route(
+                query,
+                trained_embedder=not isinstance(self.index.embedder, HashingEmbedder),
+            ).method
         if mode == "vector":
             return self.index.search(
                 query, k=k, restrict_to=eligible, min_relevance=min_relevance
@@ -350,7 +358,7 @@ class RetrievalMixin(FabricCore):
             )
         if mode != "hybrid":
             raise ValueError(
-                f"unknown retrieval mode {mode!r}; expected hybrid, lexical or vector"
+                f"unknown retrieval mode {mode!r}; expected auto, hybrid, lexical or vector"
             )
         # Each arm is asked for the whole pool before fusion: truncating an arm
         # to k first would let a memory ranked k+1 by one arm and 1 by the

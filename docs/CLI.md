@@ -55,6 +55,13 @@ WRITES: revoke a leaked credential, or all of one agent's; a running agent-api o
 - `--agent`: revoke every credential this agent holds
 - `--token`: the leaked credential, or - to read it from stdin
 
+### `agents`
+
+List or import declarative user agents: agents --import agent.json
+
+- `--import`: upload a memory-fabric-agent-v1 JSON manifest
+- `--replace`: replace an agent with the same id
+
 ### `anchor`
 
 Anchor the integrity checkpoint off the store (dir:, git:, https://), or verify anchors
@@ -342,6 +349,8 @@ WRITES: move content keys out of the database into a directory, verified by repl
 Which model providers are ready here, and test one: models [--test provider:model]
 
 - `--test`: send one short request, e.g. ollama:qwen2.5:7b
+- `--select`: persist this model as the user's default
+- `--pull`: pull a model into the local Ollama server
 
 ### `offer`
 

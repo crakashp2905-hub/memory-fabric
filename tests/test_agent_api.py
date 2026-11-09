@@ -20,7 +20,7 @@ import urllib.request
 from memory_fabric import MemoryFabric
 from memory_fabric.agent_api import (
     AgentApi, ConfigurationError, build_agent_server, check_bind,
-    decode_credential, encode_credential, load_agents, register_all,
+    _disagreements, decode_credential, encode_credential, load_agents, register_all,
 )
 from memory_fabric.service import MemoryService
 from memory_fabric.sdk import agent, operator
@@ -97,6 +97,27 @@ class TestTheSurface(ApiCase):
         status, _ = self.post("record_outcome", {"episode_id": "x", "outcome": 1.0},
                               self.token())
         self.assertEqual(status, 404)
+
+    def test_recall_always_has_structured_disagreements(self) -> None:
+        status, body = self.post("recall", {"query": "pilot cable coastal"}, self.token())
+        self.assertEqual(status, 200)
+        self.assertEqual(body["disagreements"], [])
+
+
+class TestContradictionRendering(unittest.TestCase):
+    def test_names_alternatives_sources_and_support(self) -> None:
+        fabric = MemoryFabric(":memory:", auto_activate=True, hold_suspicious=False)
+        self.addCleanup(fabric.close)
+        left = fabric.remember("ag_a", "Pump P-14 pressure is 12 bar.", scope="team")
+        right = fabric.remember("ag_b", "Pump P-14 pressure is 9 bar.", scope="team")
+        rendered = _disagreements(
+            fabric, [fabric.state.memories[left], fabric.state.memories[right]])
+        self.assertEqual(len(rendered), 1)
+        self.assertEqual(rendered[0]["status"], "unresolved")
+        self.assertEqual({a["source"] for a in rendered[0]["alternatives"]},
+                         {"ag_a", "ag_b"})
+        self.assertTrue(all(a["independent_sources"] >= 1
+                            for a in rendered[0]["alternatives"]))
 
 
 class TestIdentityAndTenancy(ApiCase):
