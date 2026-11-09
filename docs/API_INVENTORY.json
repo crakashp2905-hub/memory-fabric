@@ -592,6 +592,30 @@
       "tier": "beta"
     },
     {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.OriginCluster.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.ValueSupport.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.Support.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "(fabric: MemoryFabric, claim_text: str, tenant_id: str | None = None, exposure_aware: bool = False) -> Support",
+      "symbol": "memory_fabric.consensus.support",
+      "tier": "beta"
+    },
+    {
       "module": "memory_fabric.objective_v2",
       "signature": "(context: Mapping[str, Any]) -> tuple[bool, str]",
       "symbol": "memory_fabric.objective_v2.MemoryObjectiveV2.eligibility",

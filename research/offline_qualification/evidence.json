@@ -4148,6 +4148,27 @@
         "N4-07 is development-fixture evidence only and does not satisfy the registered unseen-family gates.",
         "Absolute novelty requires a separate prior-art review."
       ]
+    },
+    {
+      "task_id": "N5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/consensus.py",
+        "tests/test_consensus.py",
+        "experiments/n5_01_origin_clusters.py",
+        "docs/API.md",
+        "research/results/n5-01-origin-clusters.json",
+        "research/results/n5-01-origin-clusters.md",
+        "research/results/n5-01-origin-cluster-tests.xml",
+        "research/results/n5-01-consensus-regression.xml"
+      ],
+      "limitations": [
+        "Default origin clusters follow recognized source-root lineage and copy rules; off-store collusion is not detectable from local records.",
+        "Exposure-aware dependence remains a separate optional measure and may conservatively reduce apparent independence.",
+        "Contract evidence does not establish truth or authority of the reported claim."
+      ]
     }
   ]
 }

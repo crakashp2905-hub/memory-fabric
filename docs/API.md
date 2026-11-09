@@ -430,6 +430,34 @@ review_queue(fabric: MemoryFabric) -> list[Assessment]
 
 Every exposable or candidate memory whose assessment is suspicious, worst first.
 
+## Consensus
+
+### `consensus.OriginCluster` (beta)
+
+Memories and reporters that descend from one recognized source root.
+
+- **`OriginCluster.to_json() -> dict[str, Any]`**
+
+### `consensus.ValueSupport` (beta)
+
+ValueSupport(value: 'str', memories: 'tuple[str, ...]', agents: 'tuple[str, ...]', independent_sources: 'int', roots: 'tuple[str, ...]' = (), origin_clusters: 'tuple[OriginCluster, ...]' = ())
+
+- **`ValueSupport.to_json() -> dict[str, Any]`**
+
+### `consensus.Support` (beta)
+
+Support(claim: 'str', values: 'tuple[ValueSupport, ...]', leading: 'str | None', contested: 'bool')
+
+- **`Support.to_json() -> dict[str, Any]`**
+
+### `consensus.support` (beta)
+
+```python
+support(fabric: MemoryFabric, claim_text: str, tenant_id: str | None = None, exposure_aware: bool = False) -> Support
+```
+
+Who asserts which value for this claim, and from how many independent sources.
+
 ## Objectives
 
 ### `objective_v2.MemoryObjectiveV2` (experimental)

@@ -45,12 +45,29 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 @dataclass(frozen=True)
+class OriginCluster:
+    """Memories and reporters that descend from one recognized source root."""
+
+    root_id: str
+    memories: tuple[str, ...]
+    agents: tuple[str, ...]
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "root_id": self.root_id,
+            "memories": list(self.memories),
+            "agents": list(self.agents),
+        }
+
+
+@dataclass(frozen=True)
 class ValueSupport:
     value: str
     memories: tuple[str, ...]
     agents: tuple[str, ...]
     independent_sources: int
     roots: tuple[str, ...] = field(default=())
+    origin_clusters: tuple[OriginCluster, ...] = field(default=())
 
     @property
     def artificial(self) -> bool:
@@ -58,7 +75,8 @@ class ValueSupport:
 
     def to_json(self) -> dict[str, Any]:
         return {"value": self.value, "memories": list(self.memories), "agents": list(self.agents),
-                "independent_sources": self.independent_sources, "artificial": self.artificial}
+                "independent_sources": self.independent_sources, "artificial": self.artificial,
+                "origin_clusters": [cluster.to_json() for cluster in self.origin_clusters]}
 
 
 @dataclass(frozen=True)
@@ -116,9 +134,20 @@ def support(fabric: "MemoryFabric", claim_text: str, tenant_id: str | None = Non
     values = []
     for value, ms in by_value.items():
         roots = roots_of(ms)
+        cluster_members: dict[str, list[Any]] = {}
+        for memory in ms:
+            cluster_members.setdefault(fabric.source_root(memory.id), []).append(memory)
+        clusters = tuple(
+            OriginCluster(
+                root,
+                tuple(member.id for member in members),
+                tuple(sorted({author(member) for member in members})),
+            )
+            for root, members in sorted(cluster_members.items())
+        )
         values.append(ValueSupport(value, tuple(m.id for m in ms),
                                    tuple(sorted({author(m) for m in ms})), len(roots),
-                                   tuple(sorted(roots))))
+                                   tuple(sorted(roots)), clusters))
     values.sort(key=lambda v: (-v.independent_sources, v.value))
     leading = values[0].value if values else None
     contested = len(values) > 1 and values[0].independent_sources == values[1].independent_sources
