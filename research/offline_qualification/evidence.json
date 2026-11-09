@@ -4188,6 +4188,23 @@
         "Source-root counts inherit recognized-copy limitations and are not authenticity proofs.",
         "A support ranking alone does not authorize an action or resolve a hypothesis set."
       ]
+    },
+    {
+      "task_id": "N5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n5_03_echo_chamber.py",
+        "tests/test_n5_03_echo_chamber.py",
+        "research/results/n5-03-echo-chamber.json",
+        "research/results/n5-03-echo-chamber.md",
+        "research/results/n5-03-echo-chamber-tests.xml"
+      ],
+      "limitations": [
+        "The graph shapes and edge delays are synthetic fixtures, not measurements of real communication networks.",
+        "The model assumes every informed agent forwards the rumor over each uninformed neighbor edge."
+      ]
     }
   ]
 }

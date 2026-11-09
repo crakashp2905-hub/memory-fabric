@@ -1,0 +1,225 @@
+{
+  "schema": "memory-fabric-n5-03-echo-chamber/1",
+  "task_id": "N5-03",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "f262c60a06a61d2394d5376c2188bc8b12dac8d8",
+    "dirty_before_result_write": false
+  },
+  "configuration": {
+    "topologies": [
+      "star",
+      "chain",
+      "clustered"
+    ],
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "agents_per_run": 16,
+    "cluster_size": 4,
+    "delay_bounds_in_ticks": [
+      1,
+      3
+    ],
+    "delay_rng": "random.Random(seed), deterministic sorted-neighbor scheduling",
+    "synthetic_only": true
+  },
+  "runs": [
+    {
+      "run_id": "star-101",
+      "topology": "star",
+      "seed": 101,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 3,
+      "trace_sha256": "95dafa7c66426d47bef7a6354791b00aa242a6bc7e1a393513146b7ddcaf34f3"
+    },
+    {
+      "run_id": "chain-101",
+      "topology": "chain",
+      "seed": 101,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 31,
+      "trace_sha256": "7888db16be389069d5d78c5447da0b2ca3dc7a5da616b0e0c4bde51f0896bd63"
+    },
+    {
+      "run_id": "clustered-101",
+      "topology": "clustered",
+      "seed": 101,
+      "agent_count": 16,
+      "edge_count": 27,
+      "delivery_count": 27,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 17,
+      "trace_sha256": "d3c1c9ba42a7f7d6e7938c6d393905925017bc00decc593a91023c2d41fc164d"
+    },
+    {
+      "run_id": "star-102",
+      "topology": "star",
+      "seed": 102,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 3,
+      "trace_sha256": "bd973b874f93bc328e5a625f24b213c457609674c7393bce9c87197fb863deec"
+    },
+    {
+      "run_id": "chain-102",
+      "topology": "chain",
+      "seed": 102,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 35,
+      "trace_sha256": "570402eac91fa25c5e5466fe812b98662d8191fb0a29a295c15f606f67b1674d"
+    },
+    {
+      "run_id": "clustered-102",
+      "topology": "clustered",
+      "seed": 102,
+      "agent_count": 16,
+      "edge_count": 27,
+      "delivery_count": 27,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 16,
+      "trace_sha256": "42871e7d0631d9eeafa3c9ba9364630e598030f3ad63984df9bf50638986179b"
+    },
+    {
+      "run_id": "star-103",
+      "topology": "star",
+      "seed": 103,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 3,
+      "trace_sha256": "6d7fce99a6036b6c0104246445448bfbceb391270a8d27dcf66d8950ef7e219e"
+    },
+    {
+      "run_id": "chain-103",
+      "topology": "chain",
+      "seed": 103,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 35,
+      "trace_sha256": "e2ef3d4ee1ccdd8fc7905943d596ee11c85322aac84db0bced9d57a5bd782bb7"
+    },
+    {
+      "run_id": "clustered-103",
+      "topology": "clustered",
+      "seed": 103,
+      "agent_count": 16,
+      "edge_count": 27,
+      "delivery_count": 27,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 15,
+      "trace_sha256": "60a053dcbecaa038ba2ce950be3bc4be282a0baa5f4985c443930079cd71ad80"
+    },
+    {
+      "run_id": "star-104",
+      "topology": "star",
+      "seed": 104,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 3,
+      "trace_sha256": "b2e978a75533ad33ea3899a5d31c0330b3e95a847fd4a9d2805edddce08a9dc7"
+    },
+    {
+      "run_id": "chain-104",
+      "topology": "chain",
+      "seed": 104,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 21,
+      "trace_sha256": "b50c23caa6c0614208eb31a4e8c0d881a8670fcd854d111fcc443f53c9704abb"
+    },
+    {
+      "run_id": "clustered-104",
+      "topology": "clustered",
+      "seed": 104,
+      "agent_count": 16,
+      "edge_count": 27,
+      "delivery_count": 27,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 12,
+      "trace_sha256": "f1302dbbf9df6aee70b9aed6c1ba7dabbdc092c24afb54f2f54a432cda6aa16e"
+    },
+    {
+      "run_id": "star-105",
+      "topology": "star",
+      "seed": 105,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 3,
+      "trace_sha256": "576fbc44f1117156a4fb357a7e78906634719b261c11b19e05c27106fdc9b78e"
+    },
+    {
+      "run_id": "chain-105",
+      "topology": "chain",
+      "seed": 105,
+      "agent_count": 16,
+      "edge_count": 15,
+      "delivery_count": 15,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 28,
+      "trace_sha256": "bf4b2d14804fe31c8ca64c9281a0751968bfb9e79fb7826b7a7d982833cddf33"
+    },
+    {
+      "run_id": "clustered-105",
+      "topology": "clustered",
+      "seed": 105,
+      "agent_count": 16,
+      "edge_count": 27,
+      "delivery_count": 27,
+      "adopted_count": 15,
+      "rumor_reach": 16,
+      "propagation_duration": 16,
+      "trace_sha256": "1d6890e4591452e9ba9af8bfe95a0e207dfecfec3353126b6cdd660d4e54a3c3"
+    }
+  ],
+  "tests": {
+    "junit": "research/results/n5-03-echo-chamber-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "The graph shapes and edge delays are synthetic fixtures, not measurements of real communication networks.",
+    "The model assumes every informed agent forwards the rumor over each uninformed neighbor edge."
+  ]
+}
