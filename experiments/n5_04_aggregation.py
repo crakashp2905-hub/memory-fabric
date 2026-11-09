@@ -154,6 +154,7 @@ def predict(reports: tuple[Report, ...], policy: str, reputation: tuple[float, .
 
 
 POLICIES = ("majority", "reputation", "independent_root", "evidence_quality")
+ARMS = POLICIES + ("oracle",)
 
 
 def utility(action: int | None, truth: int) -> int:
@@ -162,19 +163,24 @@ def utility(action: int | None, truth: int) -> int:
 
 def pilot_is_degenerate(rows: dict[str, dict[str, int | float]]) -> bool:
     """Seed-200 stop rule: any policy perfectly matches oracle utility and errors."""
-    return any(row["mean_utility"] == 1.0 and row["action_errors"] == 0 for row in rows.values())
+    return any(
+        rows[policy]["mean_utility"] == 1.0 and rows[policy]["action_errors"] == 0
+        for policy in POLICIES
+        if policy in rows
+    )
 
 
 def score(dataset: Dataset) -> dict[str, object]:
     """Score all policies on identical tasks and report waves, with oracle checks."""
-    per_policy: dict[str, list[dict[str, object]]] = {policy: [] for policy in POLICIES}
+    per_policy: dict[str, list[dict[str, object]]] = {policy: [] for policy in ARMS}
     oracle_utility = 1.0
     for task_id, task in enumerate(dataset.tasks):
-        actions: dict[str, list[int | None]] = {policy: [] for policy in POLICIES}
+        actions: dict[str, list[int | None]] = {policy: [] for policy in ARMS}
         for wave in range(1, WAVES + 1):
             arrived = tuple(report for report in task.reports if report.wave <= wave)
             for policy in POLICIES:
                 actions[policy].append(predict(arrived, policy, dataset.reputation))
+            actions["oracle"].append(task.truth)
         correct_roots = sum(
             1 for root_id in range(8)
             if any(report.root_id == root_id and report.value == task.truth for report in task.reports)

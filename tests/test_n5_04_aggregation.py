@@ -4,6 +4,7 @@ import unittest
 
 from experiments.n5_04_aggregation import (
     POLICIES,
+    ARMS,
     Report,
     generate,
     pilot_is_degenerate,
@@ -64,7 +65,7 @@ class AggregationBenchmarkTests(unittest.TestCase):
         result = score(generate(19, 20))
         summaries = result["summary"]
         tasks = result["tasks"]
-        self.assertEqual(set(summaries), set(POLICIES))
+        self.assertEqual(set(summaries), set(ARMS))
         self.assertEqual(len(tasks["majority"]), 20)
         for summary in summaries.values():
             self.assertLessEqual(float(summary["mean_utility"]), 1.0)
