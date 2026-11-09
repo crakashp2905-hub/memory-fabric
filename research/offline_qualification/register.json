@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "85d31ef214cac001de72f3f9c07b75c2d7d0ec51937e82060edd2ed4c9dea4f1",
+    "sha256": "51ce2707e15879fab7fffd742e65e7abc69273ad6829f052b1470a05d7fa4663",
     "tasks": 260
   },
   "source": {
-    "commit": "e4ebd2208084117ec642fef3b64be5cbf594d9a7",
+    "commit": "6bf71fa680d45caef5cba752d235d30cf2a7ff95",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 234,
+      "DONE": 235,
       "PARTIAL": 3,
-      "TODO": 23
+      "TODO": 22
     },
-    "completed": 234,
+    "completed": 235,
     "total": 260,
-    "percent_complete": 90.0,
+    "percent_complete": 90.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -3854,7 +3854,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
         "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
         "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
@@ -3895,7 +3895,7 @@
         "research/results/n4-05-compaction-regression.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
         "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
@@ -3935,7 +3935,7 @@
         "research/results/n4-03-compaction-tests.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "experiments/n4_03_compaction_size.py": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e",
         "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
@@ -3999,7 +3999,7 @@
         "research/results/n4-05-compaction-regression.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_temporal.py": "9a5ba9efd3a3677928ae56af77241fe73e1775675f61308e6d722d2cad471590",
         "experiments/n4_05_temporal_compaction.py": "dfa824b5db7059101e7dfdd3f00258664de37e169a228dedcd3a5b0b8acfabcf",
         "docs/API.md": "0d05ddbabdeec4195c0c3a38deb7c9f80e7e12c4dcd152d2cd7f41bee94e9831",
@@ -4033,7 +4033,7 @@
         "research/results/n4-06-compaction-regression.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_budget.py": "e7a194c1414f9c4882c5b6e8e7725d051a2dcba2019f3dd8eeb99a5ff3239f4c",
         "experiments/n4_06_budgeted_compaction.py": "236968a58c1f835eb794340d539c14ad440a887496b53da2e1bb41fa90209b5a",
         "docs/API.md": "0d05ddbabdeec4195c0c3a38deb7c9f80e7e12c4dcd152d2cd7f41bee94e9831",
@@ -4099,7 +4099,7 @@
         "research/results/n4-08-compaction-regression.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/compaction.py": "d0ddbf4dcfa503f8e10b02b69604f28d84a15ddcf2e64ee0c3c863a578a6e445",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_certificate.py": "4e5c4dec1b4936941a6bb92a83ca1e30f85dd78c4df6d5b6dec5b8cded415d6b",
         "experiments/n4_08_lossy_compaction.py": "1bc011d28720008778400ec7e365fd41c2315363c779ed851f85c4ec3038c7ce",
         "docs/API.md": "0d05ddbabdeec4195c0c3a38deb7c9f80e7e12c4dcd152d2cd7f41bee94e9831",
@@ -4119,14 +4119,36 @@
       "task_id": "N4-09",
       "priority": "P1",
       "task": "Profile incremental summary refresh versus complete rebuild under repeated corrections.",
-      "acceptance": "Affected-summary recomputation remains bounded and deterministic",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Affected-summary recomputation remains bounded and deterministic. Evidence: `research/prereg/n4-09-summary-refresh-v1.md`, `src/memory_fabric/compaction.py`, `experiments/n4_09_summary_refresh.py`, `tests/test_n4_09_summary_refresh.py`, `research/results/n4-09-summary-refresh.json`, `research/results/n4-09-summary-refresh.md`, `research/results/n4-09-summary-refresh-tests.xml`, `research/results/n4-09-compaction-regression.xml` (DONE: five seeds, six sessions and three repeated corrections per seed. Targeted refresh performs exactly one eight-source summary rebuild per correction and preserves unaffected summaries; the complete-rebuild arm rebuilds all six. Mean post-correction writes are 3 versus 18 and source inputs reprocessed are 24 versus 144. Same-seed normalized final-summary hashes match across repeated runs. The harness exposed and fixed duplicate recompact work over multiple stale summaries for one episode. Four focused tests and 51 compaction/reference tests plus 116 subtests pass. Counts are local operation evidence, not latency or production-scale measurements; refresh rebuilds the affected session rather than patching text in place.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-09-summary-refresh-v1.md",
+        "src/memory_fabric/compaction.py",
+        "experiments/n4_09_summary_refresh.py",
+        "tests/test_n4_09_summary_refresh.py",
+        "research/results/n4-09-summary-refresh.json",
+        "research/results/n4-09-summary-refresh.md",
+        "research/results/n4-09-summary-refresh-tests.xml",
+        "research/results/n4-09-compaction-regression.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n4-09-summary-refresh-v1.md": "16caff907f2a4f00ba2e39a5f8eb47300c4108fb8be2ec360a38c8d1fa7957da",
+        "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
+        "experiments/n4_09_summary_refresh.py": "fcbc5ab74e72b01182c70dc32e19c13cef2ca14b2e0038c0c201feb06c35e9fe",
+        "tests/test_n4_09_summary_refresh.py": "990a95eae08d49c91b55558e998161f6d5d3019a5bcd85e061303736d9cd1ce4",
+        "research/results/n4-09-summary-refresh.json": "c0bbb74c7da18eb9333fe13888f99f99821e5641a5d9e98c5f336e7162200fe2",
+        "research/results/n4-09-summary-refresh.md": "5fb8dc3d6f65c30feef2bab62ebe6fd0091e3494e39f63b4cca9ce18729f8a6f",
+        "research/results/n4-09-summary-refresh-tests.xml": "9c74098ad6ade5e878c11243c9fd377188807f753ae7f3bcba48d36f89632808",
+        "research/results/n4-09-compaction-regression.xml": "6142e8289e623d4e6c1daa204670c70043636f0913c4a336760e2cc9cf7d306f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Affected refresh performs a complete rebuild of only the affected session; it does not patch summary text in place.",
+        "Operation counts and deterministic text hashes are reported; wall-clock latency and production-scale behavior are not.",
+        "The fixture is local and in-memory, with no distributed queues or concurrent corrections."
+      ]
     },
     {
       "task_id": "N4-10",
