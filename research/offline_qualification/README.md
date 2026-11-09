@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **238 / 260 (91.54%)**. Internal status: **BLOCKED**.
+Strict completion: **239 / 260 (91.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `7eee7940c91baf6ae432e7a2390ee838c72f52e180334bc0cbd516bd85003a2d`.
+Normalized ledger digest: `5ad6b8e26697a9917619709d84488546b73fc5970475c41a9de0b2df73b29225`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 238 |
+| DONE | 239 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 19 |
+| TODO | 18 |
 
 ## Graduation gates
 
@@ -171,7 +171,7 @@ Normalized ledger digest: `7eee7940c91baf6ae432e7a2390ee838c72f52e180334bc0cbd51
 | N4-10 | P1 | DONE | CONTRACT | `research/prereg/n4-10-provenance-compression-hypothesis-v1.md`, `tests/test_n4_10_compaction_preregistration.py`, `research/results/n4-10-preregistration-tests.xml` |
 | N5-01 | P2 | DONE | CONTRACT | `src/memory_fabric/consensus.py`, `tests/test_consensus.py`, `experiments/n5_01_origin_clusters.py`, `docs/API.md`, `research/results/n5-01-origin-clusters.json`, `research/results/n5-01-origin-clusters.md`, `research/results/n5-01-origin-cluster-tests.xml`, `research/results/n5-01-consensus-regression.xml` |
 | N5-02 | P2 | DONE | CONTRACT | `tests/test_n5_02_hypothesis_preservation.py`, `experiments/n5_02_hypothesis_preservation.py`, `research/results/n5-02-hypothesis-preservation.json`, `research/results/n5-02-hypothesis-preservation.md`, `research/results/n5-02-hypothesis-tests.xml`, `research/results/n5-02-hypothesis-regression.xml` |
-| N5-03 | P2 | TODO | NOT_TESTED | — |
+| N5-03 | P2 | DONE | CONTRACT | `experiments/n5_03_echo_chamber.py`, `tests/test_n5_03_echo_chamber.py`, `research/results/n5-03-echo-chamber.json`, `research/results/n5-03-echo-chamber.md`, `research/results/n5-03-echo-chamber-tests.xml` |
 | N5-04 | P2 | TODO | NOT_TESTED | — |
 | N5-05 | P2 | TODO | NOT_TESTED | — |
 | N5-06 | P2 | TODO | NOT_TESTED | — |

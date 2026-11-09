@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "bb97eeee71e53be3dbbf921208f6b5a4b3084daa5dbf338358a03c92ec0fe195",
+    "sha256": "b35f722c7de25f6c439829e33db80a6fb76b1d95fb206bd33a8811bde5473a09",
     "tasks": 260
   },
   "source": {
-    "commit": "b69e0db4e2b4b4266f8153d27286f345e3e8f2b9",
+    "commit": "b5856fe77e7d580c6781c97cd74c8ebac0c3b97c",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 238,
+      "DONE": 239,
       "PARTIAL": 3,
-      "TODO": 19
+      "TODO": 18
     },
-    "completed": 238,
+    "completed": 239,
     "total": 260,
-    "percent_complete": 91.54,
+    "percent_complete": 91.92,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4245,14 +4245,29 @@
       "task_id": "N5-03",
       "priority": "P2",
       "task": "Create adversarial echo-chamber graph generator for star, chain and clustered teams.",
-      "acceptance": "Same source rumor propagates with controlled topology and timings",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Same source rumor propagates with controlled topology and timings. Evidence: `experiments/n5_03_echo_chamber.py`, `tests/test_n5_03_echo_chamber.py`, `research/results/n5-03-echo-chamber.json`, `research/results/n5-03-echo-chamber.md`, `research/results/n5-03-echo-chamber-tests.xml` (DONE: generator builds explicit star, chain and clustered graphs and propagates one rumor with seeded 1\u20133 tick edge delays. Five fixed seeds per topology yield 15 16-agent traces with complete reach. Four focused tests pass, checking graph shapes, reproducibility, delay bounds and reach. Synthetic fixture only; it does not model real-world network behavior.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n5_03_echo_chamber.py",
+        "tests/test_n5_03_echo_chamber.py",
+        "research/results/n5-03-echo-chamber.json",
+        "research/results/n5-03-echo-chamber.md",
+        "research/results/n5-03-echo-chamber-tests.xml"
+      ],
+      "evidence_digests": {
+        "experiments/n5_03_echo_chamber.py": "c112cc7c2ec5724d11048c69669b9791cf0d39d00bc89cc3124ab1cf6debf5e6",
+        "tests/test_n5_03_echo_chamber.py": "ab630a7008ad1842224bb91e7c899f459ccdf7fc63f5515a9f9b9f8427789b09",
+        "research/results/n5-03-echo-chamber.json": "f2b10217307970023976bc191f29aebca3b3b608b7475205bc1ab0b9086fdb35",
+        "research/results/n5-03-echo-chamber.md": "39725c3eb96d4662f53a48fac4f02bc9a82367a4675f7e2ec82998a8c5d415d4",
+        "research/results/n5-03-echo-chamber-tests.xml": "2ccffc2dd4b741f4aa1b7696faa15bb89e95ccb2520611d4c95744ec8dec5279"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The graph shapes and edge delays are synthetic fixtures, not measurements of real communication networks.",
+        "The model assumes every informed agent forwards the rumor over each uninformed neighbor edge."
+      ]
     },
     {
       "task_id": "N5-04",
