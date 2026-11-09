@@ -4271,6 +4271,26 @@
         "The threat model was authored before implementation and pilot generation, but first committed with the implementation; repository commit history alone does not independently timestamp preregistration.",
         "Results evaluate aggregation only; they do not prove Byzantine resilience in live federation or authorize actions."
       ]
+    },
+    {
+      "task_id": "N5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/federation.py",
+        "src/memory_fabric/independence.py",
+        "src/memory_fabric/protocol.py",
+        "tests/test_independence.py",
+        "tests/test_federation.py",
+        "tests/test_consensus.py",
+        "research/results/n5-07-federation-tests.xml"
+      ],
+      "limitations": [
+        "The contract fixture covers newly recorded relay chains; legacy imports without a chain retain only their immediate origin and cannot reconstruct older hops.",
+        "Source-root identity depends on the imported provenance metadata and does not authenticate an origin store or detect off-protocol copies.",
+        "The 16-hop outbound limit matches bounded retraction propagation; deeper paths are refused rather than accepted with incomplete retraction coverage."
+      ]
     }
   ]
 }

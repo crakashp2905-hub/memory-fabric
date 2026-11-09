@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b4168e03a449e9dba9bee2d3a9f266a6825bb42a6196c4040e21d5314c10cd68",
+    "sha256": "e65c54345336a6c48e6646cea9114dad369fb76579194d6d923a1a1bb493701a",
     "tasks": 260
   },
   "source": {
-    "commit": "7839e2da091eda5b7e26688f7f52f8bcfc42ab7f",
-    "dirty": false
+    "commit": "82508679d2a07bea77ff25041f472406e2dd4b9c",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 242,
+      "DONE": 243,
       "PARTIAL": 3,
-      "TODO": 15
+      "TODO": 14
     },
-    "completed": 242,
+    "completed": 243,
     "total": 260,
-    "percent_complete": 93.08,
+    "percent_complete": 93.46,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4382,14 +4382,34 @@
       "task_id": "N5-07",
       "priority": "P2",
       "task": "Implement source-root deduplication across multiple federation hops with cycle guards.",
-      "acceptance": "A copied memo never acquires spurious independence through relaying",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "A copied memo never acquires spurious independence through relaying. Evidence: `src/memory_fabric/federation.py`, `src/memory_fabric/independence.py`, `src/memory_fabric/protocol.py`, `tests/test_independence.py`, `tests/test_federation.py`, `tests/test_consensus.py`, `research/results/n5-07-federation-tests.xml` (DONE: a six-store adversarial contract test relays one source through two separate three-hop paths into the same receiver. All imported copies preserve the original `(store_id, memory_id)`, the receiver counts the two relay arrivals as one independent source, and a return offer to the origin is denied as a provenance-chain cycle. The federation/independence/consensus regression set passes 36 tests with none skipped. New relay chains are capped at 16 hops to match retraction delivery; legacy imports without a recorded chain can only retain their immediate origin.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/federation.py",
+        "src/memory_fabric/independence.py",
+        "src/memory_fabric/protocol.py",
+        "tests/test_independence.py",
+        "tests/test_federation.py",
+        "tests/test_consensus.py",
+        "research/results/n5-07-federation-tests.xml"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
+        "src/memory_fabric/independence.py": "11e9f7358304f2c451ac8f35cf1bb8d2bc1a91b345be2b92e11c04cb341c78f1",
+        "src/memory_fabric/protocol.py": "4eb07c94f00036826e8d98ad0b06fed2b39837ba508e629551b33ac82621b7fb",
+        "tests/test_independence.py": "f8921d4ae8984bb4c1029bcb61ae3bc21f2d71a7860a85c46ba1dc34b28196e8",
+        "tests/test_federation.py": "df20aaa2844021dacb93f5a4705187e143f2960cf7a1833597889d35395e8915",
+        "tests/test_consensus.py": "12dfb78a7c772edc2e0188cc9fbd9694de0e033e3f252cc2cfddb1c5bf1f0772",
+        "research/results/n5-07-federation-tests.xml": "44531970e3f06ad50dd857345bfdac1b0253a14d59e77f6265a83140f74e7687"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The contract fixture covers newly recorded relay chains; legacy imports without a chain retain only their immediate origin and cannot reconstruct older hops.",
+        "Source-root identity depends on the imported provenance metadata and does not authenticate an origin store or detect off-protocol copies.",
+        "The 16-hop outbound limit matches bounded retraction propagation; deeper paths are refused rather than accepted with incomplete retraction coverage."
+      ]
     },
     {
       "task_id": "N5-08",

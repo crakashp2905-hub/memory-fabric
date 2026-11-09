@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **242 / 260 (93.08%)**. Internal status: **BLOCKED**.
+Strict completion: **243 / 260 (93.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f5d19de62b4e2723a9683429faf64c50c44be93ed78e338e1736a9106c317f08`.
+Normalized ledger digest: `62a8ef5dab20ab220ac28dad74b6fb46687e970210421de5dacf1c52ce0dcd14`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 242 |
+| DONE | 243 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 15 |
+| TODO | 14 |
 
 ## Graduation gates
 
@@ -175,7 +175,7 @@ Normalized ledger digest: `f5d19de62b4e2723a9683429faf64c50c44be93ed78e338e1736a
 | N5-04 | P2 | DONE | SIMULATED | `research/prereg/n5-04-aggregation-policies-v1.md`, `experiments/n5_04_aggregation.py`, `tests/test_n5_04_aggregation.py`, `research/results/n5-04-aggregation-tests.xml`, `research/results/n5-04-aggregation-policies.json`, `research/results/n5-04-aggregation-policies.md`, `research/results/n5-04-aggregation-manifest.json` |
 | N5-05 | P2 | DONE | CONTRACT | `src/memory_fabric/context_map.py`, `src/memory_fabric/context_receipt.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/cli.py`, `tests/test_n5_05_disagreement_budget.py`, `experiments/n5_05_disagreement_budget.py`, `research/results/n5-05-disagreement-budget.json`, `research/results/n5-05-disagreement-budget.md`, `research/results/n5-05-disagreement-tests.xml`, `research/results/n5-05-context-regression.xml`, `SPEC.md`, `docs/architecture/ADR-003-context-receipts.md` |
 | N5-06 | P2 | DONE | SIMULATED | `research/prereg/n5-06-byzantine-agents-v1.md`, `experiments/n5_06_byzantine_agents.py`, `tests/test_n5_06_byzantine_agents.py`, `research/results/n5-06-byzantine-tests.xml`, `research/results/n5-06-byzantine-agents.json`, `research/results/n5-06-byzantine-agents.md` |
-| N5-07 | P2 | TODO | NOT_TESTED | — |
+| N5-07 | P2 | DONE | CONTRACT | `src/memory_fabric/federation.py`, `src/memory_fabric/independence.py`, `src/memory_fabric/protocol.py`, `tests/test_independence.py`, `tests/test_federation.py`, `tests/test_consensus.py`, `research/results/n5-07-federation-tests.xml` |
 | N5-08 | P2 | TODO | NOT_TESTED | — |
 | N5-09 | P2 | TODO | NOT_TESTED | — |
 | N5-10 | P2 | TODO | NOT_TESTED | — |
