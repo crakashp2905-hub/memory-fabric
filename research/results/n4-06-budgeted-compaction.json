@@ -4,8 +4,8 @@
   "acceptance_passed": true,
   "evidence_level": "CONTRACT",
   "source": {
-    "commit": "16550e66a3e273d429614e74b073ed0e981d89ac",
-    "dirty_before_result_write": true,
+    "commit": "f4ec4df2424a94d19ec6e9428accd52410af3a1e",
+    "dirty_before_result_write": false,
     "script_sha256": "236968a58c1f835eb794340d539c14ad440a887496b53da2e1bb41fa90209b5a"
   },
   "within_budget": {
@@ -24,9 +24,9 @@
     "summary_bytes_utf8": 136,
     "tokenizer_provenance": "test-whitespace-tokenizer/1",
     "required_source_ids": [
-      "01M6YSNEJ9DZ5W0XKZV7Y8F9EJ",
-      "01M6YSNEJA8C3TWVXC1FNM8XTQ",
-      "01M6YSNEJA8C3TWVXC1FNM8XTS"
+      "01M6YSRCMZT0V1PPS1SYYC62X8",
+      "01M6YSRCMZT0V1PPS1SYYC62XA",
+      "01M6YSRCN07MHQB3SPQ1PH0QHJ"
     ],
     "required_source_count": 3,
     "summary_written": false,
