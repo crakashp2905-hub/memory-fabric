@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "bc20edab177335480bc6448b63f68fc9c3550dec84b6260f2bba87248e6edf63",
+    "sha256": "9df2eb980b0ef996305609d365d404366c4ff510bbd017662063d5baae48c5fb",
     "tasks": 260
   },
   "source": {
-    "commit": "f466731d75206d77aff61d216872a55ed7a2ecf0",
-    "dirty": false
+    "commit": "b075bab072ee13973550abbeb656e5418f1823c7",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 247,
+      "DONE": 248,
       "PARTIAL": 3,
-      "TODO": 10
+      "TODO": 9
     },
-    "completed": 247,
+    "completed": 248,
     "total": 260,
-    "percent_complete": 95.0,
+    "percent_complete": 95.38,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4566,14 +4566,27 @@
       "task_id": "N6-02",
       "priority": "P1",
       "task": "Build dependency-free System 1 router from local features: risk, evidence gaps, tool class and budget.",
-      "acceptance": "Repeated runs are deterministic and avoid new mandatory dependencies",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Repeated runs are deterministic and avoid new mandatory dependencies. Evidence: `src/memory_fabric/decision_router.py`, `tests/test_decision_router.py`, `research/results/n6-02-router-tests.xml`, `docs/SYSTEM1_ROUTING.md` (DONE: high/critical risk, evidence gaps, consequential or unknown tool classes select System 2; insufficient System 2 token budget abstains rather than downgrading. Low/medium risk with complete evidence on read/analysis routes to System 1. Repeated calls are identical. Five focused tests plus eight subtests pass; Ruff passes. No new runtime dependency. Routing is advisory and does not authorize actions.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_router.py",
+        "tests/test_decision_router.py",
+        "research/results/n6-02-router-tests.xml",
+        "docs/SYSTEM1_ROUTING.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_router.py": "72caf7a6dfaa3222e0ed8fc9a8812ac02e149a15179e3cb9412ce3de126dd974",
+        "tests/test_decision_router.py": "edaf4de41f6d5609528463c0faccdd2c0b8a257a17c91c6abf255051e4b9284a",
+        "research/results/n6-02-router-tests.xml": "1bbbea13b69244f5ed4aa3df66055fbc6190204665c2b0228ac3f9155a42acd2",
+        "docs/SYSTEM1_ROUTING.md": "6d002e9a47f84bd74e0292992270aef1e902af8288f13269bd21d3308465c8b4"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Routing uses host-supplied features and fixed rules; feature extraction accuracy and real-agent utility are not evaluated.",
+        "The result is an advisory route and never substitutes for ActionGate authorization."
+      ]
     },
     {
       "task_id": "N6-03",

@@ -4381,6 +4381,22 @@
         "The six cases are deterministic API contracts, not a distributional estimate of agent performance.",
         "Proposal selection and escalation remain advisory. ActionGate must independently authorize any consequential tool call."
       ]
+    },
+    {
+      "task_id": "N6-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_router.py",
+        "tests/test_decision_router.py",
+        "research/results/n6-02-router-tests.xml",
+        "docs/SYSTEM1_ROUTING.md"
+      ],
+      "limitations": [
+        "Routing uses host-supplied features and fixed rules; feature extraction accuracy and real-agent utility are not evaluated.",
+        "The result is an advisory route and never substitutes for ActionGate authorization."
+      ]
     }
   ]
 }

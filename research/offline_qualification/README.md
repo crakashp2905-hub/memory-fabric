@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **247 / 260 (95.00%)**. Internal status: **BLOCKED**.
+Strict completion: **248 / 260 (95.38%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a8ec5c448623a4189f2658930e889ff90bbddc236855862377c67771cb9ce15f`.
+Normalized ledger digest: `5ad1e681df0c1f22ced1d38fd8d61ee522da8322bcd80c8ba0710fc37fee0778`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 247 |
+| DONE | 248 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 10 |
+| TODO | 9 |
 
 ## Graduation gates
 
@@ -180,7 +180,7 @@ Normalized ledger digest: `a8ec5c448623a4189f2658930e889ff90bbddc236855862377c67
 | N5-09 | P2 | DONE | CONTRACT | `src/memory_fabric/freshness.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/federation.py`, `experiments/n5_09_partition_freshness.py`, `tests/test_n5_09_partition_freshness.py`, `tests/test_freshness.py`, `research/results/n5-09-partition-tests.xml`, `research/results/n5-09-partition-freshness.json`, `research/results/n5-09-partition-freshness.md` |
 | N5-10 | P2 | DONE | SIMULATED | `research/prereg/h4-topology-and-diversity.md`, `research/results/h4-topology-and-diversity.md`, `research/prereg/n5-10-false-consensus-recovery-v1.md`, `research/prereg/n5-10-followup-false-consensus-recovery-v1.md`, `experiments/n5_10_false_consensus_recovery.py`, `tests/test_n5_10_false_consensus_recovery.py`, `research/results/n5-10-experiment-tests.xml`, `research/results/n5-10-false-consensus-recovery.json`, `research/results/n5-10-false-consensus-recovery.md`, `research/results/n5-10-followup-false-consensus-recovery.json`, `research/results/n5-10-followup-false-consensus-recovery.md` |
 | N6-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `research/bench/n6_01_decision_tasks/cases.json`, `experiments/n6_01_typed_decision_tasks.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_decision_models.py`, `research/results/n6-01-decision-tests.xml`, `research/results/n6-01-decision-evaluation.json` |
-| N6-02 | P1 | TODO | NOT_TESTED | — |
+| N6-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_router.py`, `tests/test_decision_router.py`, `research/results/n6-02-router-tests.xml`, `docs/SYSTEM1_ROUTING.md` |
 | N6-03 | P1 | TODO | NOT_TESTED | — |
 | N6-04 | P1 | TODO | NOT_TESTED | — |
 | N6-05 | P1 | TODO | NOT_TESTED | — |
