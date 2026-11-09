@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "d9db5e9e1b47a464702128a0f43159a4dd24ef140d65f27221975c7869db7a49",
+    "sha256": "96047e4406c97444a59699f93d899221bccbce44c92b781675adeb60059e9304",
     "tasks": 260
   },
   "source": {
-    "commit": "6992a6e82218e7d1714bc1ef465439429950c8f5",
+    "commit": "088dfc852c99d29313d1dd541eebca494f644029",
     "dirty": true
   },
   "summary": {
@@ -1453,7 +1453,7 @@
         "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
         "research/results/e5-10-portable-paths.xml": "c9903e4a9d079afd55da5ef27b51c1c563907b07baa868f724d43fd470feb7e9",
-        "research/results/p5-03-full-suite-matrix.json": "ced116e2e4957cd0e526d45639f563c7111411d68ee419960bdd4c8b1d39012e",
+        "research/results/p5-03-full-suite-matrix.json": "d1228bf137ac76221ac55e9a5c3b2b625b6976a7370ed792d249bf0816fb7f30",
         "research/results/p5-03-python311-tests.xml": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
         "research/results/p5-03-python312-tests.xml": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
         "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384",
@@ -1508,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "b82c80aeb10b835f38524b41567a765630373ff2cb301a3d241f0350bfaa9c9d",
+        "research/results/MANIFEST.json": "24bf8b0fba82bb52f4162af6c5044e1ece93ef3539e5bb479089af7e8ab523a4",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -6048,8 +6048,8 @@
         "tools/normalize_sdist.py": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
         "tests/test_normalize_sdist.py": "f0acfb36b997b7d28dcfc0c007cb93cffe5b039cbedd9bd97ac6d566f822f293",
         "docs/REPRODUCIBLE_CORE_BUILD.md": "eaabe01e9422afe4d4b443d81ee105827c188798f5e743a7e2abe9c667dba85c",
-        "research/results/h5-01-core-build-repeatability.json": "6bc7a1b3fc72db816c3f0c5b0a43eb963b2125625384832ab0902ce973f269a6",
-        "research/results/h5-01-dependency-provenance.json": "1d5078726fcfe71c4b3b366c2b8abf50e6f1b9d730f10b753b56683a58ddffcb",
+        "research/results/h5-01-core-build-repeatability.json": "0e15cc0782e9b4f893f3e4ef1e3b42ecf1c3a3e4c8206b7573db6c8b4b2bd801",
+        "research/results/h5-01-dependency-provenance.json": "989e37d7e0c5289e211f684e22be13a2b5e717213fcbb5ac1deced164f27f0df",
         "research/results/h5-01-normalize-sdist-tests.xml": "0ac850ee7eb43219de5a35a686dcc6f8549d397b23d2c0325dabf8337fcc0378"
       },
       "evidence_issues": {},
@@ -6062,7 +6062,7 @@
       "task_id": "H5-02",
       "priority": "P1",
       "task": "Enable static lint/type/security checks already locally available as hard release gates.",
-      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml`, `research/results/p5-02-local-checks.txt` (DONE: Ruff passes; mypy reports 0 issues in 197 files; secret scan reports 129 high-severity matches and 0 unexpected; security AST scans 16 modules with 0 findings; internal gate has 0 blocking findings; 27 documentation tests and adversarial gate (21/21 families, 260 tests) pass. `pip-audit` and `bandit` are reported UNAVAILABLE and are not counted as green.)",
+      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml`, `research/results/p5-02-local-checks.txt` (DONE: Ruff passes; mypy reports 0 issues in 197 files; secret scan reports 129 high-severity matches and 0 unexpected; security AST scans 16 modules with 0 findings; internal gate has 0 blocking findings; 27 documentation tests and adversarial gate (21/21 families, 283 tests) pass on exact source commit 088dfc852c99d29313d1dd541eebca494f644029. `pip-audit` and `bandit` are reported UNAVAILABLE and are not counted as green.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -6072,15 +6072,17 @@
         "tests/test_secure_sdlc_inventory.py",
         "research/results/h5-02-adversarial-gate.json",
         "research/results/h5-02-static-security-gates.json",
-        "research/results/h5-01-02-local-tool-inventory-tests.xml"
+        "research/results/h5-01-02-local-tool-inventory-tests.xml",
+        "research/results/adversarial-gate-windows-v3.json"
       ],
       "evidence_digests": {
         "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
         "tests/test_secure_sdlc_inventory.py": "2a11c4858561b128ef18b749e7fa3630de42654d9139bd2b402f14e0309acc26",
-        "research/results/h5-02-adversarial-gate.json": "184332a735641c2f84855cd5852f64c34e3da1d75997b45226f7080115a814b1",
-        "research/results/h5-02-static-security-gates.json": "a7eff1384ac09c76d0a6046811e00f4e926a7da8c792406fc25beb7b9cad0fd7",
-        "research/results/h5-01-02-local-tool-inventory-tests.xml": "6d00febbe5ace55a0ab01d0e620fcf29eeec28381b08f9ad6354e993c6ff1b4e"
+        "research/results/h5-02-adversarial-gate.json": "d252355d3802381ea4b93e15b7f0751dba8a8df601c05b89bf4b56f9ea943888",
+        "research/results/h5-02-static-security-gates.json": "57fd776700dc3b52673891c3d907a60fe18ab01f6f7cfc3f6b2558e30faa7243",
+        "research/results/h5-01-02-local-tool-inventory-tests.xml": "6d00febbe5ace55a0ab01d0e620fcf29eeec28381b08f9ad6354e993c6ff1b4e",
+        "research/results/adversarial-gate-windows-v3.json": "d252355d3802381ea4b93e15b7f0751dba8a8df601c05b89bf4b56f9ea943888"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7620,7 +7622,7 @@
       "task_id": "P5-02",
       "priority": "P0",
       "task": "Run full local check suite, lint, docs, adversarial tests and optional-capability audit.",
-      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate. Evidence: `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` (DONE: full unittest discovery on exact pushed source SHA `cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc` passed 2,458 tests with 17 disclosed capability/platform skips and 0 failures; `tools/check.py` passed docs, branding, Ruff, mypy (176 files/0 issues), secret scan, security AST, internal findings gate, documentation tests and adversarial gate (21/21 families, 279 tests). Skips require Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), or POSIX environment (4). `pip-audit` and `bandit` are reported `UNAVAILABLE`; external review remains separately required)",
+      "acceptance": "Any FAIL or unexpectedly SKIPPED critical check blocks candidate. Evidence: `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` (DONE: full pytest suite on exact source commit 088dfc852c99d29313d1dd541eebca494f644029 passed 2,773 tests with 17 disclosed capability/platform skips and 2,730 subtests; `tools/check.py` passed generated docs, branding, Ruff, mypy (197 files/0 issues), secret scan (129 findings/0 unexpected), security AST (16 modules/0 findings), internal findings gate (0 local blockers; external O7 remains), 27 documentation tests and adversarial gate (21/21 families, 283 tests). Skips require Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), or POSIX environment (4). `pip-audit` and `bandit` are reported `UNAVAILABLE`; external review remains separately required.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -7630,7 +7632,11 @@
         "research/results/p5-02-full-unit-tests.txt",
         "research/results/p5-02-adversarial-gate.json",
         "research/results/p5-02-local-qualification.json",
-        "research/results/h5-09-production-defaults.json"
+        "research/results/h5-09-production-defaults.json",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml",
+        "research/results/adversarial-gate-windows-v3.json",
+        "research/results/h5-02-static-security-gates.json"
       ],
       "evidence_digests": {
         "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
@@ -7638,13 +7644,17 @@
         "research/results/p5-02-full-unit-tests.txt": "5e0711e3959b030db88aba4054e45da7ac34f858dcdebbe77733c3df7c1f375a",
         "research/results/p5-02-adversarial-gate.json": "238d61a4662ca385dbbcb3a1d66037fe13ff3814789cd5641a2fa37f6cb4b13f",
         "research/results/p5-02-local-qualification.json": "58b474540417934669a9cb530311f2cb34b10934152667704de0f75673c223df",
-        "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
+        "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd",
+        "research/results/p5-02-exact-088dfc8.json": "c21df25b9e0c66d33e6906ea1f13ab74758b37f39309615d01b72210ca91a4de",
+        "research/results/final-exact-088dfc8-py313.xml": "bf07bfa3da65054364e6e84ca71f41ebd0ea3afce4061db3b58f9b9b368761e6",
+        "research/results/adversarial-gate-windows-v3.json": "d252355d3802381ea4b93e15b7f0751dba8a8df601c05b89bf4b56f9ea943888",
+        "research/results/h5-02-static-security-gates.json": "57fd776700dc3b52673891c3d907a60fe18ab01f6f7cfc3f6b2558e30faa7243"
       },
       "evidence_issues": {},
       "limitations": [
-        "Full suite passed 2,458 tests with 17 explicitly explained capability/platform skips: Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), and POSIX-only Windows tests (4).",
-        "pip-audit and bandit are explicitly reported UNAVAILABLE; no claim is made that their scans ran.",
-        "External human security review is a separate open checklist task and is not substituted by these local checks."
+        "The exact committed source SHA 088dfc852c99d29313d1dd541eebca494f644029 passed 2,773 tests with 17 disclosed capability/platform skips and 2,730 passing subtests; machine-readable JUnit and summary bind hashes.",
+        "pip-audit and bandit are unavailable and are not counted as passed.",
+        "Independent external human security review remains a separate open requirement; local checks are not certification."
       ]
     },
     {
@@ -7661,20 +7671,24 @@
         "research/results/p5-03-full-suite-matrix.json",
         "research/results/p5-03-python311-tests.xml",
         "research/results/p5-03-python312-tests.xml",
-        "research/results/p5-03-python313-tests.xml"
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml"
       ],
       "evidence_digests": {
         "tools/python_compatibility.py": "f23c58a711f7124e0380803ab776ae9548f3e3f78c8683c70bd80f6b6a0099fa",
         "research/results/p5-03-python-compatibility.json": "bd49f463fcb5acd668997cf1bedc54b6f69359f91b86a5a6e240a7baa94248dc",
-        "research/results/p5-03-full-suite-matrix.json": "ced116e2e4957cd0e526d45639f563c7111411d68ee419960bdd4c8b1d39012e",
+        "research/results/p5-03-full-suite-matrix.json": "d1228bf137ac76221ac55e9a5c3b2b625b6976a7370ed792d249bf0816fb7f30",
         "research/results/p5-03-python311-tests.xml": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
         "research/results/p5-03-python312-tests.xml": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
-        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384"
+        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384",
+        "research/results/p5-02-exact-088dfc8.json": "c21df25b9e0c66d33e6906ea1f13ab74758b37f39309615d01b72210ca91a4de",
+        "research/results/final-exact-088dfc8-py313.xml": "bf07bfa3da65054364e6e84ca71f41ebd0ea3afce4061db3b58f9b9b368761e6"
       },
       "evidence_issues": {},
       "limitations": [
-        "Full 2,790-test suite passed on Windows 11 for Python 3.11.15, 3.12.13 and 3.13.5; skipped tests and subtest counts are recorded in each run artifact.",
-        "This evidence does not establish Linux or macOS compatibility; those matrix cells remain part of E5-10."
+        "Windows full-suite matrix passed on Python 3.11.15, 3.12.13 and 3.13.5 at source commit 6d09ed3; a further full-suite run passed on Python 3.13.5 at exact commit 088dfc852c99d29313d1dd541eebca494f644029.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
       ]
     },
     {

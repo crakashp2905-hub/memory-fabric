@@ -51,5 +51,6 @@
   "limitations": [
     "The artifacts are local candidates, not a published release.",
     "The lock resolves every declared extra, but optional integrations are not claimed to have been installed or tested."
-  ]
+  ],
+  "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a"
 }

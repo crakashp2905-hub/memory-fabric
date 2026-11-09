@@ -70,5 +70,6 @@
   "limitations": [
     "All three supported Python versions ran on this Windows host. This is not evidence for Linux/macOS matrix cells.",
     "Skipped tests are retained in JUnit reports and were not counted as passes."
-  ]
+  ],
+  "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a"
 }

@@ -1,7 +1,7 @@
 {
   "schema": "mf-qualification/1",
   "task_id": "H5-02",
-  "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+  "source_commit": "088dfc852c99d29313d1dd541eebca494f644029",
   "checks": {
     "quick_pipeline": "PASS",
     "ruff": "PASS",
@@ -33,12 +33,22 @@
     "adversarial_gate": {
       "status": "PASS",
       "families": 21,
-      "tests": 260
+      "tests": 283,
+      "report": "research/results/adversarial-gate-windows-v3.json"
     },
     "unavailable_tools": [
       "pip-audit",
       "bandit"
-    ]
+    ],
+    "exact_commit_full_suite": {
+      "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+      "passed": 2773,
+      "skipped": 17,
+      "subtests_passed": 2730,
+      "failures": 0,
+      "errors": 0,
+      "report": "research/results/p5-02-exact-088dfc8.json"
+    }
   },
   "input_sha256": {
     "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
@@ -51,5 +61,6 @@
   "limitations": [
     "pip-audit and bandit are unavailable and are not counted as passed.",
     "Independent external security review O7 remains separate from this local gate."
-  ]
+  ],
+  "git_sha": "088dfc852c99d29313d1dd541eebca494f644029"
 }

@@ -2099,7 +2099,8 @@
         "tests/test_secure_sdlc_inventory.py",
         "research/results/h5-02-adversarial-gate.json",
         "research/results/h5-02-static-security-gates.json",
-        "research/results/h5-01-02-local-tool-inventory-tests.xml"
+        "research/results/h5-01-02-local-tool-inventory-tests.xml",
+        "research/results/adversarial-gate-windows-v3.json"
       ],
       "limitations": [
         "pip-audit and bandit are unavailable and reported UNAVAILABLE; installed configured static and adversarial release gates passed."
@@ -3017,12 +3018,16 @@
         "research/results/p5-02-full-unit-tests.txt",
         "research/results/p5-02-adversarial-gate.json",
         "research/results/p5-02-local-qualification.json",
-        "research/results/h5-09-production-defaults.json"
+        "research/results/h5-09-production-defaults.json",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml",
+        "research/results/adversarial-gate-windows-v3.json",
+        "research/results/h5-02-static-security-gates.json"
       ],
       "limitations": [
-        "Full suite passed 2,458 tests with 17 explicitly explained capability/platform skips: Anthropic SDK (5), PostgreSQL service (7), Agents SDK framework runtime (1), and POSIX-only Windows tests (4).",
-        "pip-audit and bandit are explicitly reported UNAVAILABLE; no claim is made that their scans ran.",
-        "External human security review is a separate open checklist task and is not substituted by these local checks."
+        "The exact committed source SHA 088dfc852c99d29313d1dd541eebca494f644029 passed 2,773 tests with 17 disclosed capability/platform skips and 2,730 passing subtests; machine-readable JUnit and summary bind hashes.",
+        "pip-audit and bandit are unavailable and are not counted as passed.",
+        "Independent external human security review remains a separate open requirement; local checks are not certification."
       ]
     },
     {
@@ -3036,11 +3041,13 @@
         "research/results/p5-03-full-suite-matrix.json",
         "research/results/p5-03-python311-tests.xml",
         "research/results/p5-03-python312-tests.xml",
-        "research/results/p5-03-python313-tests.xml"
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml"
       ],
       "limitations": [
-        "Full 2,790-test suite passed on Windows 11 for Python 3.11.15, 3.12.13 and 3.13.5; skipped tests and subtest counts are recorded in each run artifact.",
-        "This evidence does not establish Linux or macOS compatibility; those matrix cells remain part of E5-10."
+        "Windows full-suite matrix passed on Python 3.11.15, 3.12.13 and 3.13.5 at source commit 6d09ed3; a further full-suite run passed on Python 3.13.5 at exact commit 088dfc852c99d29313d1dd541eebca494f644029.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
       ]
     },
     {

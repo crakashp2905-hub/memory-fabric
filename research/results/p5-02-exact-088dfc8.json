@@ -1,0 +1,40 @@
+{
+  "schema": "memory-fabric-exact-commit-test-run/1",
+  "source_commit": "088dfc852c99d29313d1dd541eebca494f644029",
+  "source_worktree_dirty_at_run_start": true,
+  "dirty_state_note": "Only qualification/manifests and generated result artifacts were dirty; source and test code were committed at this SHA.",
+  "command": "python -m pytest tests -q --junitxml=research/results/final-exact-088dfc8-py313.xml",
+  "platform": {
+    "system": "Windows 11",
+    "build": "10.0.26200"
+  },
+  "python": "3.13.5",
+  "result": {
+    "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+    "passed": 2773,
+    "skipped": 17,
+    "subtests_passed": 2730,
+    "failures": 0,
+    "errors": 0,
+    "duration_seconds": 1490.24
+  },
+  "junit": {
+    "path": "research/results/final-exact-088dfc8-py313.xml",
+    "testcases_including_subtests": 5520,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 17,
+    "sha256": "bf07bfa3da65054364e6e84ca71f41ebd0ea3afce4061db3b58f9b9b368761e6"
+  },
+  "skip_breakdown": {
+    "anthropic_sdk_missing": 5,
+    "postgres_service_not_configured": 7,
+    "agents_sdk_framework_contract_missing": 1,
+    "posix_only_on_windows": 4
+  },
+  "limitations": [
+    "This run qualifies the committed Windows/Python 3.13.5 source SHA only.",
+    "The three-interpreter Windows matrix is separately recorded; Linux/macOS remain unverified."
+  ],
+  "git_sha": "088dfc852c99d29313d1dd541eebca494f644029"
+}
