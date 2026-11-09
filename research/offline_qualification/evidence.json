@@ -1397,7 +1397,7 @@
         "research/results/e5-10-portable-paths.xml"
       ],
       "limitations": [
-        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS × Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
       ]
     },
     {
@@ -4477,6 +4477,26 @@
       "limitations": [
         "The check covers the repository's pinned UTCP subset and a frozen local corpus; no remote manual is fetched.",
         "Public HTTPS URL validation is syntactic and does not resolve DNS, establish TLS, or authenticate the endpoint."
+      ]
+    },
+    {
+      "task_id": "N6-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/code_mode_malicious_plans.json",
+        "tests/test_code_mode_fuzz.py",
+        "experiments/n6_07_code_mode_static_bounds.py",
+        "tests/test_n6_07_code_mode_static_bounds.py",
+        "research/results/n6-07-code-mode-static-bounds-tests.xml",
+        "research/results/n6-07-code-mode-static-bounds.json",
+        "docs/DECISION_MODELS_AND_UTCP.md"
+      ],
+      "limitations": [
+        "Qualification covers parser structure and source/plan/argument bounds; it does not sandbox registered handlers.",
+        "The grammar has no loop or recursion construct, so bounded branching remains disabled; untrusted handlers still need host authorization and an OS-level sandbox."
       ]
     }
   ]

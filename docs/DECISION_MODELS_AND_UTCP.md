@@ -84,6 +84,12 @@ loop, or recursive execution construct in the grammar. `GovernedToolRuntime`
 dispatches only handlers present in its host-owned registry; an unknown name
 fails before reaching the action gate.
 
+The N6-07 local qualification runs the frozen hostile-plan corpus and checks
+each parser limit at its boundary. The maximum call count is accepted; one more
+call, oversized source or arguments, and excessive argument nesting fail
+closed. Bounded branching remains disabled. See
+`research/results/n6-07-code-mode-static-bounds.json` and its test result.
+
 Offline smoke tests can install `tools.offline_network_guard` in an isolated
 Python process. It denies non-loopback DNS and socket connection attempts with
 an explicit `PermissionError`, while allowing loopback destinations for mock

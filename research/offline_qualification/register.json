@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b75a990934621d91f4176a43833c3f2751a9b7dda0729866ce4541a1e995f985",
+    "sha256": "508a8c9fc347ed93cbe52035ef23d3a22c16d908b92a729157b27f31d8e01e34",
     "tasks": 260
   },
   "source": {
-    "commit": "9f0c946730a801e951f5919cd76953e3033c0028",
-    "dirty": false
+    "commit": "abdeef7d36bb697e2a63f792af5f4aef39900bac",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 252,
+      "DONE": 253,
       "PARTIAL": 3,
-      "TODO": 5
+      "TODO": 4
     },
-    "completed": 252,
+    "completed": 253,
     "total": 260,
-    "percent_complete": 96.92,
+    "percent_complete": 97.31,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -1297,7 +1297,7 @@
       "evidence_digests": {
         "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
         "research/results/e5-05-tool-schema.xml": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
       },
@@ -1326,7 +1326,7 @@
         "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/e5-06-utcp-malicious.json": "64b3ecf0bf58dbfb006776d1f893a5ab6d246457e5246b0724ed044f9fb81285",
         "research/results/e5-06-utcp-malicious.xml": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
       },
@@ -4726,14 +4726,35 @@
       "task_id": "N6-07",
       "priority": "P1",
       "task": "Retain constrained CodeModePlan as default; introduce optional bounded branching only after verification.",
-      "acceptance": "Static analyzer limits loop iterations, recursion, I/O and dynamic tool access with fail-closed behavior",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Static analyzer limits loop iterations, recursion, I/O and dynamic tool access with fail-closed behavior. Evidence: `src/memory_fabric/tool_protocol.py`, `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `experiments/n6_07_code_mode_static_bounds.py`, `tests/test_n6_07_code_mode_static_bounds.py`, `research/results/n6-07-code-mode-static-bounds-tests.xml`, `research/results/n6-07-code-mode-static-bounds.json`, `docs/DECISION_MODELS_AND_UTCP.md` (DONE: CodeModePlan accepts only literal keyword tool calls, so loops have zero permitted iterations, recursion and I/O are not expressible, and dynamic access is rejected. The frozen hostile source corpus is rejected; the 32-call maximum is accepted while excess calls, >64 KiB source, >32 KiB arguments and depth >16 fail closed. Branching remains disabled. Evidence qualifies parsing and structural bounds, not handler sandboxing.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/code_mode_malicious_plans.json",
+        "tests/test_code_mode_fuzz.py",
+        "experiments/n6_07_code_mode_static_bounds.py",
+        "tests/test_n6_07_code_mode_static_bounds.py",
+        "research/results/n6-07-code-mode-static-bounds-tests.xml",
+        "research/results/n6-07-code-mode-static-bounds.json",
+        "docs/DECISION_MODELS_AND_UTCP.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
+        "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+        "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
+        "experiments/n6_07_code_mode_static_bounds.py": "615799b1522c9272f7de8e40844a4dd8cf5d45bc57787cec832340178248bb59",
+        "tests/test_n6_07_code_mode_static_bounds.py": "8ff904c24a457c3b113aa11a180a7b1e3297f125a8d5bdcf401d17e785d4656a",
+        "research/results/n6-07-code-mode-static-bounds-tests.xml": "ea3f649bd814b272582859c268fc8445c1a6cb095b33c95b01a77c4617e5de11",
+        "research/results/n6-07-code-mode-static-bounds.json": "91a4770ed5dc9296f8b7cd22566ee195929ed4cff276a68b79acb0578332a419",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Qualification covers parser structure and source/plan/argument bounds; it does not sandbox registered handlers.",
+        "The grammar has no loop or recursion construct, so bounded branching remains disabled; untrusted handlers still need host authorization and an OS-level sandbox."
+      ]
     },
     {
       "task_id": "N6-08",
@@ -5156,7 +5177,7 @@
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-05-code-mode-parser.json": "f300f6e049606d4d6d0e534ad19906ede6960bf199bc741ee1516a20d63bd4b7"
       },
@@ -5187,7 +5208,7 @@
         "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/h2-05-code-mode-parser-tests.xml": "64b50eef0aa18abe00585d8c7cae5a7cecda5a670a74d4a57257124b30b48167",
         "research/results/h2-06-code-mode-bounds.json": "5a7d4755577d486b57ec273b0ee41974ceba8970fd1053bd7f33592ba8fe576d"
       },
@@ -5214,7 +5235,7 @@
       "evidence_digests": {
         "tools/offline_network_guard.py": "d1bd692ea741f909599cfb9e9d31ff6b8e99b9f33c1f7cf1daada65f45db5b4b",
         "tests/test_offline_network_guard.py": "f3c1c4cb8ec6e84b11c27a77ba46e6ac9ddacbd2e8499152939b10c0a42e8887",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/h2-07-offline-egress-tests.xml": "a7d5e7ab884a494bae89a9401f2df6c1641e3b860e28b12dc77690b3077b3281",
         "research/results/h2-07-offline-egress.json": "02de47d62f95055bb712809e7ab466ae8da62175059f3b50779b9047d37354da"
       },
@@ -5243,7 +5264,7 @@
         "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/h2-08-utcp-transport.json": "00d3d84ace8b0f5f70409db651cf9680863ea267613c403df73366037c61487a",
         "research/results/h2-08-utcp-transport-tests.xml": "c1d03e62f3274837fd960a8520925f55a9048ccedee03d5dceb1ef4393cb319b"
       },
@@ -5301,7 +5322,7 @@
         "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
         "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
-        "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+        "docs/DECISION_MODELS_AND_UTCP.md": "efb452206ee46abe42207c6f543416591e3f7e200f3485e9122942c3f5f59ed2",
         "research/results/h2-10-confused-deputy.json": "b4c31feb30b47e0bf8c88c1778ce20b3528e34e7cfeaa500ad2efea220730184",
         "research/results/h2-10-confused-deputy-tests.xml": "8c29893c942996676442c3c07abd316a727208af950bc78ef100a760c89fdcb8"
       },

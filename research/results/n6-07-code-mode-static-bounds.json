@@ -1,0 +1,51 @@
+{
+  "schema": "memory-fabric-n6-07-code-mode-static-bounds/1",
+  "task_id": "N6-07",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "corpus": {
+    "path": "tests/data/code_mode_malicious_plans.json",
+    "sha256": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+    "cases": 26,
+    "rejected": 26,
+    "families": [
+      "attribute_access",
+      "comprehension",
+      "control_flow",
+      "dunder_tool_name",
+      "dynamic_arguments",
+      "eval",
+      "imports",
+      "reflection",
+      "unpacking"
+    ]
+  },
+  "bounds": {
+    "source_bytes": 65536,
+    "calls": 32,
+    "argument_bytes": 32768,
+    "argument_depth": 16,
+    "calls_at_limit_accepted": true,
+    "over_limit_rejections": {
+      "calls_plus_one": "code-mode plan exceeds maximum tool calls",
+      "source_bytes_plus_one": "code-mode source exceeds byte limit",
+      "argument_bytes_over_limit": "code-mode arguments exceed byte limit",
+      "argument_depth_over_limit": "code-mode argument exceeds nesting limit"
+    }
+  },
+  "grammar": {
+    "loops": "rejected",
+    "recursion": "not expressible",
+    "file_and_network_io": "not expressible",
+    "dynamic_tool_access": "rejected",
+    "optional_branching": false
+  },
+  "source": {
+    "commit": "abdeef7d36bb697e2a63f792af5f4aef39900bac",
+    "experiment_sha256": "615799b1522c9272f7de8e40844a4dd8cf5d45bc57787cec832340178248bb59"
+  },
+  "limitations": [
+    "This verifies plan parsing and structural bounds; it does not sandbox a registered handler.",
+    "External effects still require host authorization and an OS-level sandbox where handlers are untrusted."
+  ]
+}
