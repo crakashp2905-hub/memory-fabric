@@ -69,7 +69,7 @@ def run(out: TextIO | None = None, pause: float = 0.8, color: bool | None = None
         step(3, "An operations agent asks to act on it")
         cert = f.certify("P-14 relief should be 12 bar", [fact], "ops-agent")
         first = gate.authorize("set_relief_valve", "ops-agent", cert)
-        say("   " + c(GREEN, "ALLOWED") + ": set_relief_valve, on evidence checked just now")
+        say("   " + c(GREEN, "ALLOWED") + ": set_relief_valve, on evidence checked against current records")
 
         step(4, "The vendor says 12 bar was wrong")
         f.quarantine(fact, reason="vendor re-specified the setting as 10 bar",

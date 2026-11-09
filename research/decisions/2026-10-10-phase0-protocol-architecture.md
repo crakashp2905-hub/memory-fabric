@@ -65,7 +65,7 @@ Invariant 7 needs only "is this retraction about a version I have superseded?",
 which a per-origin cursor plus an exact version answers. Principle 9 applies:
 infrastructure follows measured need.
 
-**Consequence, and it is a real cost.** Today's retraction carries no version at
+**Consequence, and it is a real cost.** The retraction at the time of this decision carries no version at
 all, so `propagate_retraction` would withdraw an import of v3 on a retraction of
 v1. Adding the version is a schema change to the retraction event and a change
 to the matching logic in `descendants_of`. The projection must also stop
@@ -85,7 +85,7 @@ report:
 **An unreachable recipient is `unknown`.** Not `verified`, not `failed`, not
 absent from the report.
 
-**Rejected: a boolean.** `PropagationResult.acted` is what exists today and it
+**Rejected: a boolean.** `PropagationResult.acted` is what exists at the time of this decision and it
 cannot express the ordinary case the roadmap names — retracted at source, one
 recipient enforced, another offline.
 
@@ -121,7 +121,7 @@ invariant 3, unimplementable without an outbox. This is the single largest gap
 in the audit.
 
 **Rejected: relying on state convergence for idempotency.** Re-running
-`propagate_retraction` is harmless today because it skips an already-quarantined
+`propagate_retraction` is harmless at the time of this decision because it skips an already-quarantined
 import. That is convergence, not deduplication, and it cannot distinguish a
 replay from a genuinely new second retraction of the same memory. Event identity
 can.
@@ -155,5 +155,5 @@ durable, reliable, end-to-end retraction path before adding anything else.**
 None of it requires peer-to-peer networking, a broker, consensus, or a learned
 controller, all of which stay deferred. The transport is authenticated HTTP, and
 even that is Phase 2 — Phase 1 is durability and idempotency with both sides in
-one process, which is a strictly larger set of guarantees than exists today and
+one process, which is a strictly larger set of guarantees than existed at the time of this decision and
 is testable without a network.

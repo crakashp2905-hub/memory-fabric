@@ -17,7 +17,7 @@ to the claim at audit?
 
 | what the origin receives | fields |
 |---|---|
-| `ack`: today's `Acknowledgement` | state, `state_revision` (the recipient's log head), `origin_sequence_seen`, `at`, `detail` (bounded free text: "N memory/ies withdrawn; forwarded to K peer(s)") |
+| `ack`: the `Acknowledgement` as registered | state, `state_revision` (the recipient's log head), `origin_sequence_seen`, `at`, `detail` (bounded free text: "N memory/ies withdrawn; forwarded to K peer(s)") |
 | `receipt`: S5's `CorrectionReceipt` | ids, `state`, a 32-byte `commitment` to (local ids, apply sequence, chain digest) under a nonce only the recipient can derive, and a 32-byte HMAC `tag` |
 
 ## 3. Design

@@ -27,13 +27,13 @@ visitor car park, the rear fire exit, the courier desk.
 | locked | The {s} is locked overnight. | The {s} is never locked overnight. | Overnight, the {s} gets locked. | The {s} was fitted with a new handle. |
 | staffed | The {s} is staffed on weekends. | The {s} is not staffed on weekends. | On weekends there is staff at the {s}. | The {s} got a new rota system. |
 | accessible | The {s} is wheelchair accessible. | The {s} is not wheelchair accessible. | Wheelchair users can reach the {s}. | The {s} has a ramp near the entrance. |
-| monitored | The {s} is covered by CCTV. | The {s} has no CCTV coverage. | CCTV covers the {s}. | The {s} cameras were cleaned last month. |
+| monitored | The {s} is covered by CCTV. | The {s} has no CCTV coverage. | CCTV covers the {s}. | `The {s} cameras were cleaned last month.` |
 | heated | The {s} is heated in winter. | The {s} is unheated in winter. | In winter the {s} has heating. | The {s} heater is a gas model. |
 | smoking | Smoking is permitted at the {s}. | Smoking is prohibited at the {s}. | People may smoke at the {s}. | The {s} has a new bin by the door. |
 
 ## 3. Arms
 
-`structural` (the product today), `typed` (`TypedClaimChecker`, no model), `oracle`.
+`structural` (the product as registered), `typed` (`TypedClaimChecker`, no model), `oracle`.
 
 ## 4. Thresholds (on H, pooled over seeds)
 

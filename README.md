@@ -33,7 +33,7 @@ memory-fabric tour
 
 ```
 3. An operations agent asks to act on it
-   ALLOWED: set_relief_valve, on evidence checked just now
+   ALLOWED: set_relief_valve, on evidence checked against current records
 
 4. The vendor says 12 bar was wrong
    shift-lead withdraws the fact, once, in one place
@@ -280,7 +280,7 @@ python tools/check.py           # regenerate docs, lint, type-check, doc tests, 
 python tools/check.py --full    # and the full suite, which needs no dependencies
 ```
 
-**2446 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
+**2447 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
 a multi-store fault matrix and an adversarial release gate run
 in CI on Linux, macOS and Windows. Read [AGENTS.md](AGENTS.md), the rules for
 everyone who changes this repository, humans and AI agents alike, and

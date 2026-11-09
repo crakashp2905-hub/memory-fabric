@@ -33,7 +33,7 @@ Then 32 new claims by other authors, 8 of each type, drawn per seed:
 
 | arm | |
 |---|---|
-| `structural` | the product today: the built-in rules only (baseline) |
+| `structural` | the product as registered: the built-in rules only (baseline) |
 | `haiku` | `ModelClaimChecker("claude-cli:haiku")`, k = 5 |
 | `sonnet` | `ModelClaimChecker("claude-cli:sonnet")`, k = 5 |
 | `oracle` | holds exactly the contradictions |

@@ -13,6 +13,6 @@ Raw numbers: [int01-memoryworld2.json](int01-memoryworld2.json).
 ## Reading
 
 Valid-time retrieval answers "what was true at t" from the product path. "What did the store
-believe at τ" needs the log replayed to τ, which only `incident.replay_until` does today; there is
+believe at τ" needs the log replayed to τ, which only `incident.replay_until` does at this commit; there is
 no `retrieve(known_at=τ)`. That API is the open RQ3 work item, and this harness is its acceptance
 test. Overwrite (one value per fact) is the baseline that loses both questions once facts change.

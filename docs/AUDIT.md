@@ -183,7 +183,7 @@ Stated so they can be refused rather than discovered.
 | Serving agents over a network | **unsupported for writes** | The HTTP surface is read-only by design and has one shared bearer token with no identity, roles, expiry, or revocation. |
 | Relying on value-ranked exposure | **not recommended** | Three live attempts lost to cheap baselines ([Phase A](../research/results/phase-a-real-agent-benchmark.md), [PA′](../research/results/phase-a-prime-attribution.md)), and the ranking has a [known defect](../research/decisions/2026-10-10-value-ranking-ignores-uncertainty.md). |
 
-**Supported today:** one process, one writer, loopback or trusted-network read-only observability, authenticated agents at a handle, per-tenant authorisation within one store, and transitive federation over authenticated HTTP.
+**Supported at 0.14.0:** one process, one writer, loopback or trusted-network read-only observability, authenticated agents at a handle, per-tenant authorisation within one store, and transitive federation over authenticated HTTP.
 
 ---
 

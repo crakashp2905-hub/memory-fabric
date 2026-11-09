@@ -7,7 +7,7 @@
 Over a long task where facts are corrected while agents keep working, how many
 actions are taken on a value that is no longer true, and how long after a
 correction does that keep happening? This is the number a buyer asks for. It
-is measured against how teams use a vector store today, with the honest
+is measured against how teams use a vector store, with the honest
 ceiling beside it.
 
 ## 2. World (deterministic, seeds 1–5)
