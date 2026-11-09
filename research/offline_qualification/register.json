@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "eb642de853a9746f28b19e90291ba4348dc166acd6a4e1ce52819f99208107b1",
+    "sha256": "b5acb33b693bda388834f0e34e2e9181b4c60ceef1b9df62e74e30c2aa4f8c75",
     "tasks": 260
   },
   "source": {
-    "commit": "f6154e1dc9e2ec791b6fb8dc505b1ecfd44d8db3",
+    "commit": "9aa16852326196e51bb847d44935f374b308222d",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 245,
+      "DONE": 246,
       "PARTIAL": 3,
-      "TODO": 12
+      "TODO": 11
     },
-    "completed": 245,
+    "completed": 246,
     "total": 260,
-    "percent_complete": 94.23,
+    "percent_complete": 94.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4492,14 +4492,43 @@
       "task_id": "N5-10",
       "priority": "P2",
       "task": "Preregister whether diversity preservation improves recovery after false consensus.",
-      "acceptance": "Compare preexisting H4b mechanisms and require incremental causal contribution",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Compare preexisting H4b mechanisms and require incremental causal contribution. Evidence: `research/prereg/h4-topology-and-diversity.md`, `research/results/h4-topology-and-diversity.md`, `research/prereg/n5-10-false-consensus-recovery-v1.md`, `research/prereg/n5-10-followup-false-consensus-recovery-v1.md`, `experiments/n5_10_false_consensus_recovery.py`, `tests/test_n5_10_false_consensus_recovery.py`, `research/results/n5-10-experiment-tests.xml`, `research/results/n5-10-false-consensus-recovery.json`, `research/results/n5-10-false-consensus-recovery.md`, `research/results/n5-10-followup-false-consensus-recovery.json`, `research/results/n5-10-followup-false-consensus-recovery.md` (DONE: paired continuation forks isolate the post-false-consensus intervention from the checkpoint state. The original preregistered 1,000-seed batch yielded 112 eligible states versus its 200 minimum and remains reported as underpowered. A separately preregistered fixed follow-up on seeds 20,000\u201324,999 yielded 533 eligible states against its 400 minimum. H4b retesting recovered 97.2% versus 12.0% under complete-collapse (+85.2 pp, 97.5% paired bootstrap CI +81.6 to +88.6 pp), and 97.2% versus 9.2% against ring-collapse (+88.0 pp, CI +84.6 to +91.2 pp). Three focused tests pass; Ruff passes. Follow-up was prompted by the initial underpowered batch, not blinded; synthetic bandit only, conditional on false consensus under complete-collapse. The topology-by-preservation interaction is negative (\u22123.4 pp, 95% CI \u22126.2 to \u22120.6 pp), so topology and retesting may be partially substitutable.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/h4-topology-and-diversity.md",
+        "research/results/h4-topology-and-diversity.md",
+        "research/prereg/n5-10-false-consensus-recovery-v1.md",
+        "research/prereg/n5-10-followup-false-consensus-recovery-v1.md",
+        "experiments/n5_10_false_consensus_recovery.py",
+        "tests/test_n5_10_false_consensus_recovery.py",
+        "research/results/n5-10-experiment-tests.xml",
+        "research/results/n5-10-false-consensus-recovery.json",
+        "research/results/n5-10-false-consensus-recovery.md",
+        "research/results/n5-10-followup-false-consensus-recovery.json",
+        "research/results/n5-10-followup-false-consensus-recovery.md"
+      ],
+      "evidence_digests": {
+        "research/prereg/h4-topology-and-diversity.md": "11391b6a670543bd095d7d438b2373e83ac01b873be9f550250b3bf645dae5f9",
+        "research/results/h4-topology-and-diversity.md": "125853c7cf9a78d0cc55631130925392c835a49e02981a1d1593f65a3fa7edb3",
+        "research/prereg/n5-10-false-consensus-recovery-v1.md": "a199e79423c6ce9fb221118c4cab15d03e34b69042c2777b362f32759db84dd7",
+        "research/prereg/n5-10-followup-false-consensus-recovery-v1.md": "c05aac71990e41fbc5c75fa0797414d9c3efe35a926e54fe232fc50057ef1862",
+        "experiments/n5_10_false_consensus_recovery.py": "c65d3d51dca2d21dbfa29c063df33da37a98571578fce02c6c3cb30ec56719f0",
+        "tests/test_n5_10_false_consensus_recovery.py": "30bab38731ebf052fa5bc4cba78120e6b35d6aa5d997cd7000562e01d4d0d1ee",
+        "research/results/n5-10-experiment-tests.xml": "8f3cafd06b0fd3f691400ab7274f309b6970f2eb8018769819d952117f52321a",
+        "research/results/n5-10-false-consensus-recovery.json": "ac193b4c9f0caa9e02f3b118de374afe8b1b1b4f91f7d5f6d2ba84bd462d85f7",
+        "research/results/n5-10-false-consensus-recovery.md": "02a0fdd407b8b051a1050f0920f61faab34de01bf47b7cfefac469005e7e9679",
+        "research/results/n5-10-followup-false-consensus-recovery.json": "cc7c9781f6e30e76248264ee68612828574e36bbd8ae1ebaf6a000d7b00018f2",
+        "research/results/n5-10-followup-false-consensus-recovery.md": "a79e3a2c99b62d3f70763396c43c2a7d16aa78e95e727ceeea07e567c6110499"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The original preregistered batch produced 112 eligible seeds, below its 200-seed threshold; its verdict remains underpowered and inconclusive.",
+        "The fixed follow-up was registered after the initial outcomes were observed. It is reported separately and is not blinded independent validation.",
+        "The follow-up uses a synthetic bandit simulator and conditions on false consensus under complete-collapse; it does not estimate language-model-agent or production behavior.",
+        "The secondary interaction suggests topology and active minority retesting may be partially substitutable; the primary contrasts establish incremental improvement over both registered collapse comparators in this simulator."
+      ]
     },
     {
       "task_id": "N6-01",
