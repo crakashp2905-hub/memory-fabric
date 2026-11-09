@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **236 / 260 (90.77%)**. Internal status: **BLOCKED**.
+Strict completion: **237 / 260 (91.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `f4d2307d1d4544b9847287063e60fa014d29d9ba4bc7af1db6a15a8fbbceaa1c`.
+Normalized ledger digest: `1ad87d5b150858b785ca6b862b7eabe20d228af5b8b55e43dc428fe0f4afa75c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 236 |
+| DONE | 237 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 21 |
+| TODO | 20 |
 
 ## Graduation gates
 
@@ -169,7 +169,7 @@ Normalized ledger digest: `f4d2307d1d4544b9847287063e60fa014d29d9ba4bc7af1db6a15
 | N4-08 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `tests/test_compaction_certificate.py`, `experiments/n4_08_lossy_compaction.py`, `docs/API.md`, `research/results/n4-08-lossy-compaction.json`, `research/results/n4-08-lossy-compaction.md`, `research/results/n4-08-lossy-compaction-tests.xml`, `research/results/n4-08-compaction-regression.xml` |
 | N4-09 | P1 | DONE | CONTRACT | `research/prereg/n4-09-summary-refresh-v1.md`, `src/memory_fabric/compaction.py`, `experiments/n4_09_summary_refresh.py`, `tests/test_n4_09_summary_refresh.py`, `research/results/n4-09-summary-refresh.json`, `research/results/n4-09-summary-refresh.md`, `research/results/n4-09-summary-refresh-tests.xml`, `research/results/n4-09-compaction-regression.xml` |
 | N4-10 | P1 | DONE | CONTRACT | `research/prereg/n4-10-provenance-compression-hypothesis-v1.md`, `tests/test_n4_10_compaction_preregistration.py`, `research/results/n4-10-preregistration-tests.xml` |
-| N5-01 | P2 | TODO | NOT_TESTED | — |
+| N5-01 | P2 | DONE | CONTRACT | `src/memory_fabric/consensus.py`, `tests/test_consensus.py`, `experiments/n5_01_origin_clusters.py`, `docs/API.md`, `research/results/n5-01-origin-clusters.json`, `research/results/n5-01-origin-clusters.md`, `research/results/n5-01-origin-cluster-tests.xml`, `research/results/n5-01-consensus-regression.xml` |
 | N5-02 | P2 | TODO | NOT_TESTED | — |
 | N5-03 | P2 | TODO | NOT_TESTED | — |
 | N5-04 | P2 | TODO | NOT_TESTED | — |
