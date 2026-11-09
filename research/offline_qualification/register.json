@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f709c80260865783d3f6da2b1d04159991ec685a",
-    "dirty": false
+    "commit": "7f48de7deb3c7866bc9f627ac2f41541ae3d584f",
+    "dirty": true
   },
   "summary": {
     "counts": {
@@ -4366,7 +4366,7 @@
         "experiments/n5_06_byzantine_agents.py": "2f26104d1c3dd77e106f9da7c7fd4702c42873561b2125f589c81eff7a0185e9",
         "tests/test_n5_06_byzantine_agents.py": "6721c93d6013df8993e0ac8845d3f1ff438b3a475af149a65a58bd87b1cc7def",
         "research/results/n5-06-byzantine-tests.xml": "b68d0dc79b09c64f620899f221bbbf376a6909be0480911b8939f4013bf1c8fb",
-        "research/results/n5-06-byzantine-agents.json": "c76b3704c20d7a7e07880cbb53bf26d5cf9c430a6fe07a038e2b3899bdb90d10",
+        "research/results/n5-06-byzantine-agents.json": "2554af48c4c33d9dac6c926a7418aa498bca2220adc37fc3dd92d2045c2ff527",
         "research/results/n5-06-byzantine-agents.md": "a5bf06d32b72ae431e832cf56e96f93f2151f9cf14a506aab24deab4b8e5d08b"
       },
       "evidence_issues": {},

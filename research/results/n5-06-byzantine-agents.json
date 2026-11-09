@@ -5,7 +5,7 @@
   "evidence_level": "SIMULATED",
   "source": {
     "commit": "cb514d5ede3a7dad32efbae63de679d586434759",
-    "dirty_before_result_write": true,
+    "dirty_before_result_write": false,
     "script_sha256": "2f26104d1c3dd77e106f9da7c7fd4702c42873561b2125f589c81eff7a0185e9"
   },
   "protocol": "research/prereg/n5-06-byzantine-agents-v1.md",
