@@ -156,10 +156,10 @@
     "These are isolated local component effects, not evidence that the combination beats external systems or improves real-agent performance."
   ],
   "source": {
-    "commit": "6b86d20adfcc18e7cf5b73ca772626947a0e1db2",
+    "commit": "0c7f9dad56a0b220fa52a7ac4261e2dd0c5bd210",
     "experiment_sha256": "86e45d353da670c56a67cc18242df29ab11b9b0de652d8b7ba5c0408918e4763"
   },
-  "runtime_seconds": 0.233,
+  "runtime_seconds": 0.235,
   "limitations": [
     "The dependency ablation intentionally bypasses the dependency-verification result and ignores the summary lifecycle flag; it isolates that check but is not representative of every live caller.",
     "Routing hazards are generated from the same features consumed by the router.",
