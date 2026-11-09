@@ -4071,6 +4071,25 @@
         "A token budget requires a caller-supplied counter and explicit tokenizer provenance. The recorded test tokenizer is deterministic whitespace counting, not a model tokenizer or cost estimate.",
         "Token counts cover summary text only and exclude provider wrappers, prompts, and tool schemas."
       ]
+    },
+    {
+      "task_id": "N4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n4-07-compaction-comparison-v1.md",
+        "experiments/n4_07_compaction_comparison.py",
+        "tests/test_n4_07_compaction_comparison.py",
+        "research/results/n4-07-compaction-comparison.json",
+        "research/results/n4-07-compaction-comparison.md",
+        "research/results/n4-07-compaction-tests.xml"
+      ],
+      "limitations": [
+        "Five-seed deterministic synthetic agent contract study, not a real-agent evaluation.",
+        "The extractive arm uses summary text only; the provenance-preserving arm includes exact source metadata and a verified fact dependency map.",
+        "UTF-8 payload bytes are not tokenizer counts or model-cost estimates; no method-superiority claim is made from this fixture."
+      ]
     }
   ]
 }

@@ -1,0 +1,393 @@
+{
+  "schema": "memory-fabric-n4-07-compaction-comparison/1",
+  "task_id": "N4-07",
+  "acceptance_passed": true,
+  "evidence_level": "SIMULATED",
+  "simulation_label": "DETERMINISTIC_SYNTHETIC_AGENT_CONTRACT",
+  "source": {
+    "commit": "1b18008763f0b90d04e67a82671dc808974152ce",
+    "dirty_before_result_write": true,
+    "script_sha256": "5fa3e66fd718b3ba1038fcfce7e03c44582180bc4b65fcad0907307f40009dbf",
+    "preregistration_sha256": "31141b799bb033165092d6e07cd552d9cf490230abfb56bb921e06bc29185c51"
+  },
+  "preregistration": "research/prereg/n4-07-compaction-comparison-v1.md",
+  "dataset": {
+    "seeds": [
+      11,
+      23,
+      37,
+      41,
+      59
+    ],
+    "subjects": [
+      "U1",
+      "U2",
+      "U3",
+      "U4"
+    ],
+    "values": {
+      "U1": [
+        "warm",
+        "cool"
+      ],
+      "U2": [
+        "quiet",
+        "loud"
+      ],
+      "U3": [
+        "bright",
+        "dim"
+      ],
+      "U4": [
+        "firm",
+        "soft"
+      ]
+    },
+    "query_times": [
+      50,
+      150
+    ],
+    "record_cap": 6,
+    "tasks_per_seed": 8,
+    "sha256": "2c3dee9bf2c272beb6569cb0ca50134772f7db25a678f9538f5c7cca87a7ed94"
+  },
+  "arms": {
+    "no_compaction": {
+      "task_count": 40,
+      "task_successes": 40,
+      "task_success_rate": 1.0,
+      "false_stale_actions": 0,
+      "false_stale_action_rate": 0.0,
+      "abstentions": 0,
+      "mean_context_bytes_utf8": 8647.0,
+      "mean_compression_factor": 1.0,
+      "mean_source_identity_reconstruction_fidelity": 1.0,
+      "mean_factual_text_reconstruction_fidelity": 1.0
+    },
+    "naive_recency": {
+      "task_count": 40,
+      "task_successes": 12,
+      "task_success_rate": 0.3,
+      "false_stale_actions": 0,
+      "false_stale_action_rate": 0.0,
+      "abstentions": 28,
+      "mean_context_bytes_utf8": 3264.2,
+      "mean_compression_factor": 2.6492832074336463,
+      "mean_source_identity_reconstruction_fidelity": 0.375,
+      "mean_factual_text_reconstruction_fidelity": 0.375
+    },
+    "extractive_summary": {
+      "task_count": 40,
+      "task_successes": 20,
+      "task_success_rate": 0.5,
+      "false_stale_actions": 20,
+      "false_stale_action_rate": 0.5,
+      "abstentions": 0,
+      "mean_context_bytes_utf8": 701.0,
+      "mean_compression_factor": 12.335235378031383,
+      "mean_source_identity_reconstruction_fidelity": 0.0,
+      "mean_factual_text_reconstruction_fidelity": 1.0
+    },
+    "provenance_preserving_summary": {
+      "task_count": 40,
+      "task_successes": 40,
+      "task_success_rate": 1.0,
+      "false_stale_actions": 0,
+      "false_stale_action_rate": 0.0,
+      "abstentions": 0,
+      "mean_context_bytes_utf8": 5242.0,
+      "mean_compression_factor": 1.6495612361694012,
+      "mean_source_identity_reconstruction_fidelity": 1.0,
+      "mean_factual_text_reconstruction_fidelity": 1.0
+    }
+  },
+  "seed_results": [
+    {
+      "seed": 11,
+      "task_count": 8,
+      "arms": {
+        "no_compaction": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 8647,
+          "compression_factor": 1.0,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "naive_recency": {
+          "task_count": 8,
+          "task_successes": 1,
+          "task_success_rate": 0.125,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 7,
+          "context_bytes_utf8": 3297,
+          "compression_factor": 2.6226872914771002,
+          "source_identity_reconstruction_fidelity": 0.375,
+          "factual_text_reconstruction_fidelity": 0.375
+        },
+        "extractive_summary": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 4,
+          "false_stale_action_rate": 0.5,
+          "abstentions": 0,
+          "context_bytes_utf8": 701,
+          "compression_factor": 12.335235378031383,
+          "source_identity_reconstruction_fidelity": 0.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "provenance_preserving_summary": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 5242,
+          "compression_factor": 1.649561236169401,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        }
+      },
+      "dependency_map_verified": true
+    },
+    {
+      "seed": 23,
+      "task_count": 8,
+      "arms": {
+        "no_compaction": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 8647,
+          "compression_factor": 1.0,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "naive_recency": {
+          "task_count": 8,
+          "task_successes": 2,
+          "task_success_rate": 0.25,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 6,
+          "context_bytes_utf8": 3273,
+          "compression_factor": 2.641918728994806,
+          "source_identity_reconstruction_fidelity": 0.375,
+          "factual_text_reconstruction_fidelity": 0.375
+        },
+        "extractive_summary": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 4,
+          "false_stale_action_rate": 0.5,
+          "abstentions": 0,
+          "context_bytes_utf8": 701,
+          "compression_factor": 12.335235378031383,
+          "source_identity_reconstruction_fidelity": 0.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "provenance_preserving_summary": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 5242,
+          "compression_factor": 1.649561236169401,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        }
+      },
+      "dependency_map_verified": true
+    },
+    {
+      "seed": 37,
+      "task_count": 8,
+      "arms": {
+        "no_compaction": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 8647,
+          "compression_factor": 1.0,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "naive_recency": {
+          "task_count": 8,
+          "task_successes": 1,
+          "task_success_rate": 0.125,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 7,
+          "context_bytes_utf8": 3296,
+          "compression_factor": 2.623483009708738,
+          "source_identity_reconstruction_fidelity": 0.375,
+          "factual_text_reconstruction_fidelity": 0.375
+        },
+        "extractive_summary": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 4,
+          "false_stale_action_rate": 0.5,
+          "abstentions": 0,
+          "context_bytes_utf8": 701,
+          "compression_factor": 12.335235378031383,
+          "source_identity_reconstruction_fidelity": 0.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "provenance_preserving_summary": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 5242,
+          "compression_factor": 1.649561236169401,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        }
+      },
+      "dependency_map_verified": true
+    },
+    {
+      "seed": 41,
+      "task_count": 8,
+      "arms": {
+        "no_compaction": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 8647,
+          "compression_factor": 1.0,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "naive_recency": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 4,
+          "context_bytes_utf8": 3227,
+          "compression_factor": 2.679578555934304,
+          "source_identity_reconstruction_fidelity": 0.375,
+          "factual_text_reconstruction_fidelity": 0.375
+        },
+        "extractive_summary": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 4,
+          "false_stale_action_rate": 0.5,
+          "abstentions": 0,
+          "context_bytes_utf8": 701,
+          "compression_factor": 12.335235378031383,
+          "source_identity_reconstruction_fidelity": 0.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "provenance_preserving_summary": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 5242,
+          "compression_factor": 1.649561236169401,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        }
+      },
+      "dependency_map_verified": true
+    },
+    {
+      "seed": 59,
+      "task_count": 8,
+      "arms": {
+        "no_compaction": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 8647,
+          "compression_factor": 1.0,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "naive_recency": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 4,
+          "context_bytes_utf8": 3228,
+          "compression_factor": 2.6787484510532837,
+          "source_identity_reconstruction_fidelity": 0.375,
+          "factual_text_reconstruction_fidelity": 0.375
+        },
+        "extractive_summary": {
+          "task_count": 8,
+          "task_successes": 4,
+          "task_success_rate": 0.5,
+          "false_stale_actions": 4,
+          "false_stale_action_rate": 0.5,
+          "abstentions": 0,
+          "context_bytes_utf8": 701,
+          "compression_factor": 12.335235378031383,
+          "source_identity_reconstruction_fidelity": 0.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        },
+        "provenance_preserving_summary": {
+          "task_count": 8,
+          "task_successes": 8,
+          "task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "false_stale_action_rate": 0.0,
+          "abstentions": 0,
+          "context_bytes_utf8": 5242,
+          "compression_factor": 1.649561236169401,
+          "source_identity_reconstruction_fidelity": 1.0,
+          "factual_text_reconstruction_fidelity": 1.0
+        }
+      },
+      "dependency_map_verified": true
+    }
+  ],
+  "tests": {
+    "junit": "research/results/n4-07-compaction-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "interpretation": [
+    "This is a simulated contract fixture, not a real-agent evaluation.",
+    "UTF-8 byte counts are context-payload size proxies, not token or cost estimates.",
+    "No superiority claim is made; the full-history baseline is a fixture ceiling."
+  ]
+}
