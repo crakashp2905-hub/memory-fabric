@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+import tempfile
 import time
 from collections import Counter, defaultdict
 from statistics import fmean
@@ -87,7 +88,10 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
     per_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
     blanket_source_withdrawn = False
     started = time.perf_counter()
-    with MemoryFabric(":memory:", recognise_copies=False, encrypt_content=False,
+    # A file, not ":memory:": the storage measurement below is SQLite page
+    # metadata, and file-path stores stay on SQLite even in the Postgres test job.
+    scratch = tempfile.TemporaryDirectory()
+    with MemoryFabric(str(Path(scratch.name) / "arm.db"), recognise_copies=False, encrypt_content=False,
                       hold_suspicious=False) as fabric:
         policy = ActionPolicy(tools={tool: ToolRule(tool) for tool in tool_order},
                               grants={agent: frozenset({TOOL}) for agent in agents})
@@ -222,6 +226,7 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
         if page_count_row is None or page_size_row is None:
             raise RuntimeError("SQLite did not return storage page metadata")
         memory_storage_bytes = int(page_count_row[0]) * int(page_size_row[0])
+    scratch.cleanup()
     agent_summaries = []
     for agent, outcomes in sorted(per_agent.items()):
         high_risk = [item for item in outcomes if item["high_risk"]]
