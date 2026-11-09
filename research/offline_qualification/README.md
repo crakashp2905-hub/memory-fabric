@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **235 / 260 (90.38%)**. Internal status: **BLOCKED**.
+Strict completion: **236 / 260 (90.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `e0c3d434b28eedfea2c86906713597627664303c76fd62e0864b1e3bb9096bc6`.
+Normalized ledger digest: `545bb15002e12312b25595aad94938b5f95fe5f3602a6575b25b16605f903147`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 235 |
+| DONE | 236 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 22 |
+| TODO | 21 |
 
 ## Graduation gates
 
@@ -168,7 +168,7 @@ Normalized ledger digest: `e0c3d434b28eedfea2c86906713597627664303c76fd62e0864b1
 | N4-07 | P1 | DONE | SIMULATED | `research/prereg/n4-07-compaction-comparison-v1.md`, `experiments/n4_07_compaction_comparison.py`, `tests/test_n4_07_compaction_comparison.py`, `research/results/n4-07-compaction-comparison.json`, `research/results/n4-07-compaction-comparison.md`, `research/results/n4-07-compaction-tests.xml` |
 | N4-08 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `tests/test_compaction_certificate.py`, `experiments/n4_08_lossy_compaction.py`, `docs/API.md`, `research/results/n4-08-lossy-compaction.json`, `research/results/n4-08-lossy-compaction.md`, `research/results/n4-08-lossy-compaction-tests.xml`, `research/results/n4-08-compaction-regression.xml` |
 | N4-09 | P1 | DONE | CONTRACT | `research/prereg/n4-09-summary-refresh-v1.md`, `src/memory_fabric/compaction.py`, `experiments/n4_09_summary_refresh.py`, `tests/test_n4_09_summary_refresh.py`, `research/results/n4-09-summary-refresh.json`, `research/results/n4-09-summary-refresh.md`, `research/results/n4-09-summary-refresh-tests.xml`, `research/results/n4-09-compaction-regression.xml` |
-| N4-10 | P1 | TODO | NOT_TESTED | — |
+| N4-10 | P1 | DONE | CONTRACT | `research/prereg/n4-10-provenance-compression-hypothesis-v1.md`, `tests/test_n4_10_compaction_preregistration.py`, `research/results/n4-10-preregistration-tests.xml` |
 | N5-01 | P2 | TODO | NOT_TESTED | — |
 | N5-02 | P2 | TODO | NOT_TESTED | — |
 | N5-03 | P2 | TODO | NOT_TESTED | — |

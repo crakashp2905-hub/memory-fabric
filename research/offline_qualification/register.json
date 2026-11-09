@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "51ce2707e15879fab7fffd742e65e7abc69273ad6829f052b1470a05d7fa4663",
+    "sha256": "2a5b1c7981e4bb93294a0ed0e0496a836dd0b511f6428c887ec8c15cca7d58f4",
     "tasks": 260
   },
   "source": {
-    "commit": "6bf71fa680d45caef5cba752d235d30cf2a7ff95",
+    "commit": "04cb89ad8845d0852dd118a05aec4e5342c83476",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 235,
+      "DONE": 236,
       "PARTIAL": 3,
-      "TODO": 22
+      "TODO": 21
     },
-    "completed": 235,
+    "completed": 236,
     "total": 260,
-    "percent_complete": 90.38,
+    "percent_complete": 90.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4154,14 +4154,26 @@
       "task_id": "N4-10",
       "priority": "P1",
       "task": "Preregister novelty hypothesis: provenance-preserving compression improves decision-per-context cost at equal safety.",
-      "acceptance": "Do not assert novelty or improvement unless comparisons survive unseen history families",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Do not assert novelty or improvement unless comparisons survive unseen history families. Evidence: `research/prereg/n4-10-provenance-compression-hypothesis-v1.md`, `tests/test_n4_10_compaction_preregistration.py`, `research/results/n4-10-preregistration-tests.xml` (DONE: preregistration freezes four matched arms, tokenizer-based primary metric, equal-safety gates, full-history ceiling checks, development/held-out separation, four unseen history families and at least five seeds per family. Four protocol tests plus eight subtests pass. The hypothesis is NOT_RUN; N4-07 is development evidence only. No improvement, cost-efficiency, superiority or novelty claim is made pending held-out results and separate prior-art review.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-10-provenance-compression-hypothesis-v1.md",
+        "tests/test_n4_10_compaction_preregistration.py",
+        "research/results/n4-10-preregistration-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n4-10-provenance-compression-hypothesis-v1.md": "1ab025c2a5bf5df8600c69aaf3b16b14ec3cf042ad1ae60aa2470bcf635fce78",
+        "tests/test_n4_10_compaction_preregistration.py": "39ace30cc77c977f93df3451d86a4ec39fb1febce37ef800a5ca51ecf25f4293",
+        "research/results/n4-10-preregistration-tests.xml": "b0bfea9c1447b3fd4f4fef3a228ef335140a9526a052cdc448439c6744dc2c71"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The registered hypothesis has not been run; token-normalized and provider-cost outcomes remain NOT_RUN.",
+        "N4-07 is development-fixture evidence only and does not satisfy the registered unseen-family gates.",
+        "Absolute novelty requires a separate prior-art review."
+      ]
     },
     {
       "task_id": "N5-01",
