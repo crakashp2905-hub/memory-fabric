@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **255 / 260 (98.08%)**. Internal status: **BLOCKED**.
+Strict completion: **256 / 260 (98.46%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a0fe1793ff1d06e2a3cbf52fd5b9b14bc48b7ff6eb9c839902d3fb59e5b149cb`.
+Normalized ledger digest: `496d0acee793efcb2478aa84a530662bea9ba008546a426d1d5666e357fe2afa`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 255 |
+| DONE | 256 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 2 |
+| TODO | 1 |
 
 ## Graduation gates
 
@@ -188,7 +188,7 @@ Normalized ledger digest: `a0fe1793ff1d06e2a3cbf52fd5b9b14bc48b7ff6eb9c839902d3f
 | N6-07 | P1 | DONE | CONTRACT | `src/memory_fabric/tool_protocol.py`, `tests/data/code_mode_malicious_plans.json`, `tests/test_code_mode_fuzz.py`, `experiments/n6_07_code_mode_static_bounds.py`, `tests/test_n6_07_code_mode_static_bounds.py`, `research/results/n6-07-code-mode-static-bounds-tests.xml`, `research/results/n6-07-code-mode-static-bounds.json`, `docs/DECISION_MODELS_AND_UTCP.md` |
 | N6-08 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/tool_protocol.py`, `src/memory_fabric/actions.py`, `tests/test_n6_08_code_mode_effect_authorization.py`, `tests/test_action_fence.py`, `tests/test_action_crash.py`, `tests/test_credential_rotation_actions.py`, `research/results/n6-08-code-mode-effect-authorization-tests.xml`, `research/results/n6-08-code-mode-effect-authorization.json`, `docs/DECISION_MODELS_AND_UTCP.md` |
 | N6-09 | P1 | DONE | CONTRACT | `experiments/n6_09_orchestration_cost_benchmark.py`, `tests/test_n6_09_orchestration_cost_benchmark.py`, `research/results/n6-09-orchestration-cost-benchmark-tests.xml`, `research/results/n6-09-orchestration-cost-benchmark.json`, `docs/LOCAL_PROTOCOL_EQUIVALENCE.md`, `experiments/n6_05_protocol_equivalence.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/tool_protocol.py` |
-| N6-10 | P1 | TODO | NOT_TESTED | — |
+| N6-10 | P1 | DONE | INTERNAL_INTEGRATION | `docs/research/preregistrations/N6-10-generated-program-provenance.md`, `src/memory_fabric/tool_protocol.py`, `src/memory_fabric/actions.py`, `experiments/n6_10_generated_program_provenance.py`, `tests/test_n6_10_generated_program_provenance.py`, `tests/test_action_fence.py`, `tests/test_authority.py`, `research/results/n6-10-generated-program-provenance-tests.xml`, `research/results/n6-10-generated-program-provenance.json`, `docs/DECISION_MODELS_AND_UTCP.md`, `docs/DECISION_FEATURE_PROVENANCE.md` |
 | H1-01 | P0 | DONE | CONTRACT | `docs/SAFETY_AND_SECURITY.md`, `tests/test_security_regression.py`, `tests/test_retraction_protocol.py`, `tests/test_adapters.py`, `tests/test_privacy_federation.py`, `tests/test_code_mode_fuzz.py`, `tests/test_action_fence.py`, `research/results/h1-01-trust-boundaries.xml` |
 | H1-02 | P0 | DONE | CONTRACT | `tests/data/prompt_injection_corpus.json`, `tests/test_injection_patterns.py`, `research/results/h1-02-injection-corpus-tests.xml` |
 | H1-03 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_authority.py`, `tests/test_confused_deputy.py`, `research/results/h1-03-04-authority-delayed-poisoning.xml` |

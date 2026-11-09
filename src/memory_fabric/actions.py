@@ -381,10 +381,18 @@ class ToolRule:
 
 @dataclass(frozen=True)
 class ActionRequest:
-    """The exact action: what it acts on and with which parameters."""
+    """The exact action: target, parameters and optional generation provenance."""
 
     target: str
     parameters: Mapping[str, Any] = field(default_factory=dict)
+    provenance: Mapping[str, str] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        provenance = dict(self.provenance)
+        if any(not isinstance(key, str) or not key or not isinstance(value, str) or not value
+               for key, value in provenance.items()):
+            raise ValueError("action provenance must map non-empty strings to non-empty strings")
+        object.__setattr__(self, "provenance", MappingProxyType(provenance))
 
 
 @dataclass(frozen=True)
@@ -409,6 +417,8 @@ def binding_digest(tool: str, agent_id: str, tenant_id: str | None,
             "parameters": dict(request.parameters) if request else None,
             "evidence": sorted([e.memory_id, e.version] for e in certificate.evidence)
             if certificate else []}
+    if request is not None and request.provenance:
+        body["provenance"] = dict(request.provenance)
     if claim_certificates is not None:
         body["claim_certificates"] = {
             claim_id: cert.digest() for claim_id, cert in sorted(claim_certificates.items())

@@ -4540,6 +4540,30 @@
         "MCP uses a loopback HTTP bridge around the repository JSON-RPC dispatcher; UTCP uses a loopback HTTP mapping after production parser discovery. Public DNS, TLS, framing and remote latency are not measured.",
         "No model runs; token and model cost metrics are not applicable."
       ]
+    },
+    {
+      "task_id": "N6-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/research/preregistrations/N6-10-generated-program-provenance.md",
+        "src/memory_fabric/tool_protocol.py",
+        "src/memory_fabric/actions.py",
+        "experiments/n6_10_generated_program_provenance.py",
+        "tests/test_n6_10_generated_program_provenance.py",
+        "tests/test_action_fence.py",
+        "tests/test_authority.py",
+        "research/results/n6-10-generated-program-provenance-tests.xml",
+        "research/results/n6-10-generated-program-provenance.json",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "docs/DECISION_FEATURE_PROVENANCE.md"
+      ],
+      "limitations": [
+        "A single implementation pilot was run before registration and is disclosed/excluded; the preregistered confirmatory mutation matrix was run after registration.",
+        "The evidence is a fixed local integration experiment with ten source mutations, one policy and one workflow; it does not generalize to model-generated programs or broad utility.",
+        "Exact source text is bound, so whitespace/comment changes require new approval."
+      ]
     }
   ]
 }

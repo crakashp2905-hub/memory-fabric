@@ -99,6 +99,16 @@ replay is suppressed and the changed payload is refused as an idempotency
 conflict. External handlers still need to deduplicate the key if a prior
 external effect succeeded but its response was lost.
 
+Every parsed `CodeModePlan` also carries the SHA-256 digest of its exact source.
+`GovernedToolRuntime` includes that digest in `ActionRequest` provenance,
+which the action binding covers when a human approval or exact-action grant is
+required. N6-10 preregistered ten source mutations that preserved the first
+effect's arguments: each failed the original approval while the exact approved
+program executed. An ordinary argument/evidence-only policy wrapper accepted
+the same unchanged action, showing the additional source-mutation check. Exact
+text is bound, so whitespace or comment changes need fresh approval; the local
+result does not establish broader agent utility or production effectiveness.
+
 Offline smoke tests can install `tools.offline_network_guard` in an isolated
 Python process. It denies non-loopback DNS and socket connection attempts with
 an explicit `PermissionError`, while allowing loopback destinations for mock

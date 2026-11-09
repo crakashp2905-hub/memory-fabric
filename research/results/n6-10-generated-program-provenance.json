@@ -1,0 +1,198 @@
+{
+  "schema": "memory-fabric-n6-10-generated-program-provenance/1",
+  "task_id": "N6-10",
+  "evidence_level": "INTERNAL_INTEGRATION",
+  "acceptance_passed": true,
+  "hypothesis": {
+    "id": "MF-N6-10-H1",
+    "claim": "Binding human approval to the SHA-256 digest of the complete constrained generated program, in addition to each exact ActionRequest and evidence certificate, prevents source-mutated plans from reusing approval when their first effect has unchanged arguments.",
+    "null": "A policy-wrapped exact tool request provides the same source-mutation detection as generated-program provenance binding.",
+    "primary_outcome": "Changed source is refused before handler invocation while the exact approved source executes.",
+    "secondary_outcome": "Baseline request/evidence binding remains equal across the source mutation because it contains no program digest.",
+    "scope": "Deterministic local integration test; one fixed plan mutation; no model-generated programs or statistical generalization."
+  },
+  "results": {
+    "approved_program_sha256": "d7fe370bdc8643c1587156c520d75d53d0fe83a92e9c0dfa86b947fc39279bd0",
+    "approved_outcome": "executed",
+    "mutations_total": 10,
+    "mutations_refused": 10,
+    "mutations_with_approval_invalid": 10,
+    "mutated_programs": [
+      {
+        "variant_id": "trailing_comment",
+        "source_sha256": "4816ceffbf220835234896ef62db73c5d9479f3bd01c9a784feaef956e81974f",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "leading_comment",
+        "source_sha256": "20c9ef6778bb400b570eda7aa3b94f13f7a1d1e21aea702d739760825b3144dd",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "blank_prefix",
+        "source_sha256": "4d516e885be347edcbbf40fc6982a8524327a387d26ccf10305c5164e1b1e327",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "keyword_order",
+        "source_sha256": "fbacb6c1ad217da8a216aadfd63a62f0320df59d6082153a4a3337b1d8b09910",
+        "first_call_arguments": {
+          "setpoint": 40,
+          "target": "pump-7"
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "multiline",
+        "source_sha256": "79b6e5b9f661c1729c85b7c990ab09196d58c32abed074c2986f1118b8b435fa",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "append_new_effect",
+        "source_sha256": "7e30bc619697299f1445d5605a46756d8c1b6c929a025e2749e53bf1f1870962",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "duplicate_effect",
+        "source_sha256": "c2f55e2feed9882219deeee079c45e017086697fa281c13d9127810cbbc8af6d",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "semicolon_new_effect",
+        "source_sha256": "c929c599b46dc8f6ba04cce65e13e8c9f02bebaa845a47c9199a6dc2a075acd6",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "parenthesized_call",
+        "source_sha256": "7d4fc284d4e2969977275eb7d8e676037dc90002e49b03d8428c0caf830326d0",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      },
+      {
+        "variant_id": "alternate_spacing",
+        "source_sha256": "24edaea798962a7d5e33d7d1282cbef9c7946547c85a7445a1175da0a3c7db27",
+        "first_call_arguments": {
+          "target": "pump-7",
+          "setpoint": 40
+        },
+        "outcome": "refused",
+        "reason_codes": [
+          "approval_invalid"
+        ],
+        "per_effect_key_differs": true,
+        "ordinary_binding_equal": true,
+        "provenance_binding_changed": true
+      }
+    ],
+    "handler_effects": [
+      {
+        "target": "pump-7",
+        "setpoint": 40
+      }
+    ],
+    "simple_policy_baseline_outcome": "executed",
+    "simple_policy_baseline_effects": [
+      {
+        "target": "pump-7",
+        "setpoint": 40
+      }
+    ],
+    "ordinary_action_binding_equal": true,
+    "provenance_binding_changed": true,
+    "per_effect_keys_differ_for_all_mutations": true
+  },
+  "source": {
+    "commit": "4c7645a1a9ed74d7ac1f38ce5cba30b8011b0df1",
+    "experiment_sha256": "d7657561e04c34d432f905c4dcf1ec4a3bf2071879d1b812574477d246b742fe"
+  },
+  "limitations": [
+    "One deterministic source mutation and one tool effect are tested; this is not a broad adversarial benchmark or model study.",
+    "Approval remains host-issued and the test uses an in-memory certificate; deployment policy and key custody are outside this experiment.",
+    "Program provenance binds the exact source text, including comments and whitespace; semantically equivalent text requires fresh approval."
+  ]
+}

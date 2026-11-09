@@ -89,7 +89,8 @@ def evaluate() -> dict[str, Any]:
         original = plan.calls[0]
         injected = GovernedToolCall(original.tool,
                                     {**original.arguments, "setpoint": 99},
-                                    original.idempotency_key)
+                                    original.idempotency_key,
+                                    original.program_digest)
         changed = runtime.execute(injected, agent_id="operator", session=session,
                                   certificate=certificate, tenant_id="tenant-1")
         argument_case = {

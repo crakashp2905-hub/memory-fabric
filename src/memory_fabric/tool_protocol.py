@@ -341,6 +341,7 @@ class GovernedToolCall:
     tool: str
     arguments: Mapping[str, Any]
     idempotency_key: str
+    program_digest: str
 
 
 class GovernedToolRuntime:
@@ -356,10 +357,17 @@ class GovernedToolRuntime:
                 retry: bool = False, session: Any = None) -> Any:
         if session is None:
             raise ToolProtocolError("governed tool execution requires an authenticated session")
+        if (not isinstance(call.program_digest, str)
+                or re.fullmatch(r"[0-9a-f]{64}", call.program_digest) is None):
+            raise ToolProtocolError("governed Code Mode call requires a valid program digest")
         handler = self.handlers.get(call.tool)
         if handler is None:
             raise ToolProtocolError(f"no registered handler for {call.tool}")
-        request = ActionRequest(target=call.tool, parameters=dict(call.arguments))
+        request = ActionRequest(
+            target=call.tool,
+            parameters=dict(call.arguments),
+            provenance={"code_mode_program_sha256": call.program_digest},
+        )
         return self.gate.execute(
             call.tool,
             agent_id,
@@ -398,8 +406,14 @@ def _validate_code_mode_literal(value: Any, depth: int = 1) -> Any:
 class CodeModePlan:
     """Validated sequence of literal tool calls; not an arbitrary code evaluator."""
 
-    def __init__(self, calls: Sequence[GovernedToolCall]) -> None:
+    def __init__(self, calls: Sequence[GovernedToolCall], source_digest: str) -> None:
+        if (not isinstance(source_digest, str)
+                or re.fullmatch(r"[0-9a-f]{64}", source_digest) is None):
+            raise ToolProtocolError("code-mode plan requires a valid source digest")
+        if any(call.program_digest != source_digest for call in calls):
+            raise ToolProtocolError("code-mode call provenance does not match its plan")
         self.calls = tuple(calls)
+        self.source_digest = source_digest
 
     @classmethod
     def parse(cls, source: str) -> "CodeModePlan":
@@ -411,6 +425,7 @@ class CodeModePlan:
             raise ToolProtocolError("code-mode source is not valid UTF-8 text") from exc
         if source_size > MAX_CODE_MODE_SOURCE_BYTES:
             raise ToolProtocolError("code-mode source exceeds byte limit")
+        source_digest = hashlib.sha256(source.encode("utf-8")).hexdigest()
 
         try:
             tree = ast.parse(source, mode="exec")
@@ -455,12 +470,13 @@ class CodeModePlan:
             argument_bytes += len(encoded_arguments)
             if argument_bytes > MAX_CODE_MODE_ARGUMENT_BYTES:
                 raise ToolProtocolError("code-mode arguments exceed byte limit")
-            binding = json.dumps({"tool": node.func.id, "arguments": arguments},
+            binding = json.dumps({"tool": node.func.id, "arguments": arguments,
+                                  "program_sha256": source_digest},
                                  sort_keys=True, separators=(",", ":"), default=str)
             digest = hashlib.sha256(binding.encode()).hexdigest()[:20]
             calls.append(GovernedToolCall(node.func.id, arguments,
-                                           f"code-mode:{index}:{digest}"))
-        return cls(calls)
+                                           f"code-mode:{index}:{digest}", source_digest))
+        return cls(calls, source_digest)
 
     def execute(self, runtime: GovernedToolRuntime, **authorization: Any) -> tuple[Any, ...]:
         return tuple(runtime.execute(call, **authorization) for call in self.calls)
