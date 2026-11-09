@@ -4291,6 +4291,30 @@
         "Source-root identity depends on the imported provenance metadata and does not authenticate an origin store or detect off-protocol copies.",
         "The 16-hop outbound limit matches bounded retraction propagation; deeper paths are refused rather than accepted with incomplete retraction coverage."
       ]
+    },
+    {
+      "task_id": "N5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/duplicates.py",
+        "src/memory_fabric/consensus.py",
+        "src/memory_fabric/evidence_status.py",
+        "experiments/n5_08_minority_origin.py",
+        "tests/test_n5_08_minority_origin.py",
+        "research/results/n5-08-minority-origin-tests.xml",
+        "research/results/n5-08-context-regression.xml",
+        "research/results/n5-08-minority-origin.json",
+        "research/results/n5-08-minority-origin.md"
+      ],
+      "limitations": [
+        "This deterministic contract fixture knows which value is correct; the store does not and keeps both alternatives in review.",
+        "The disagreement is explicitly challenged before retrieval; automatic semantic discovery of every contradiction is not established.",
+        "The correlated reports are exact recognized copies; paraphrase laundering and off-store collusion are outside this fixture.",
+        "Progressive over-fetch may examine more than the initial 4*k pool when source copies otherwise crowd out distinct roots; search stops when k roots are available or eligible results are exhausted."
+      ]
     }
   ]
 }

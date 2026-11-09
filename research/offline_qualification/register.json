@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e65c54345336a6c48e6646cea9114dad369fb76579194d6d923a1a1bb493701a",
+    "sha256": "057f53ca3872e5fc7cdcfe8ff52196ad4dce47876abe3815cbbd982265a53aa9",
     "tasks": 260
   },
   "source": {
-    "commit": "40396f57efa568966fe0acd02586c539baa5c88a",
-    "dirty": false
+    "commit": "5eecda24fd8e48a59200541380a5f00fc702cf90",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 243,
+      "DONE": 244,
       "PARTIAL": 3,
-      "TODO": 14
+      "TODO": 13
     },
-    "completed": 243,
+    "completed": 244,
     "total": 260,
-    "percent_complete": 93.46,
+    "percent_complete": 93.85,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -628,7 +628,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/retrieval_routing.py": "09484ede93bd67851ee8425020229fc6b2c3bdb4bdaabbe66a044ee024ce659f",
-        "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
+        "src/memory_fabric/_fabric/retrieval.py": "4c1ff75cc8af703707f2c195d4f6504df45c329a7044fa22a29cc800a9c2ebd2",
         "src/memory_fabric/retrieval_profiles.py": "116f51f1b8f9956b98fdde9cd65d30254e147054fc095360aa0ffc2822c81c97",
         "tests/test_retrieval_routing.py": "4dbb2b8c6b24c6eacfc654af6e82eb66a8c0386ab48fb840720cb1175d3a0b51",
         "docs/QUERY_ROUTING.md": "3402b5ae22307c4c96619c3fe0425b0eea7310f25e20dfbc30e84c90866d81e7"
@@ -678,7 +678,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/relations.py": "16fb875c4489f9ba760dda4dc5d5b19020c0564b161c9ed1699f216168a75361",
-        "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
+        "src/memory_fabric/_fabric/retrieval.py": "4c1ff75cc8af703707f2c195d4f6504df45c329a7044fa22a29cc800a9c2ebd2",
         "tests/test_modifier_packages.py": "c3fef1dcb1acdcb472c246ca7f2b764e0675527c6a285c1ffb24c088d647eb66",
         "tests/test_extraction.py": "fa16566f2e7f6a86d859a3c7807029ee78194096588914fa4a9526267a635646",
         "docs/MODIFIER_EVIDENCE_PACKAGES.md": "50fa8f466ceb5764927abed1d9803fee721a59a1f08dc71573cb9371bfbf297f"
@@ -815,7 +815,7 @@
       "evidence_digests": {
         "src/memory_fabric/_fabric/core.py": "c00152ecbd886ee12a06b868c5eaf0b543e39ff468ef7cbafaa4a15fa887b341",
         "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
-        "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
+        "src/memory_fabric/_fabric/retrieval.py": "4c1ff75cc8af703707f2c195d4f6504df45c329a7044fa22a29cc800a9c2ebd2",
         "tests/test_retrieval_index_invalidation.py": "673021979e8b3d86fd023169c9155624e8707201f8c6b12c4bdda89142c09045",
         "tests/test_cross_process_freshness.py": "e9869abb46a4f6277f1ce40cdf425b7fe42eeb0036cb9df9fd0ec521f155cfd6",
         "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",
@@ -4415,14 +4415,41 @@
       "task_id": "N5-08",
       "priority": "P2",
       "task": "Add minority-origin resilience tests where one uncommon correct claim opposes many correlated wrong claims.",
-      "acceptance": "The correct independent alternative remains retrievable and flagged for validation",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "The correct independent alternative remains retrievable and flagged for validation. Evidence: `src/memory_fabric/_fabric/retrieval.py`, `src/memory_fabric/duplicates.py`, `src/memory_fabric/consensus.py`, `src/memory_fabric/evidence_status.py`, `experiments/n5_08_minority_origin.py`, `tests/test_n5_08_minority_origin.py`, `research/results/n5-08-minority-origin-tests.xml`, `research/results/n5-08-context-regression.xml`, `research/results/n5-08-minority-origin.json`, `research/results/n5-08-minority-origin.md` (DONE: one correct independent 9-bar alternative remains exposed at default `k=2` against one wrong source copied 1, 12, or 24 times. Twenty-four wrong copies produce 25 reporting agents but still one root; the correct report is a distinct second root, and support does not select a winner. After the disagreement is explicitly opened, the correct alternative stays contested, evidence validity is `invalid`, and decision readiness is `review`. Progressive source-root over-fetch was needed because the fixed `4*k` candidate pool otherwise filled with copies before grouping. Four focused tests plus five subtests pass; 103 retrieval, copy, support, evidence-status, routing, and context tests plus 22 subtests pass. The fixture knows truth and tests retention/review signaling, not automatic contradiction discovery or truth resolution.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/duplicates.py",
+        "src/memory_fabric/consensus.py",
+        "src/memory_fabric/evidence_status.py",
+        "experiments/n5_08_minority_origin.py",
+        "tests/test_n5_08_minority_origin.py",
+        "research/results/n5-08-minority-origin-tests.xml",
+        "research/results/n5-08-context-regression.xml",
+        "research/results/n5-08-minority-origin.json",
+        "research/results/n5-08-minority-origin.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/_fabric/retrieval.py": "4c1ff75cc8af703707f2c195d4f6504df45c329a7044fa22a29cc800a9c2ebd2",
+        "src/memory_fabric/duplicates.py": "813d28b5e8d4b40625ba5a8f38f219546743753dee33510107fc9c5257246162",
+        "src/memory_fabric/consensus.py": "df1f95dfd8bec8521a90f85491a4b44a295195db8ae461a6ae5fdaacbf9607a9",
+        "src/memory_fabric/evidence_status.py": "28679506f38ebe119103ffb8d781318599846f7e71d81b92cfa41860d250899f",
+        "experiments/n5_08_minority_origin.py": "0d2d624ea542763fd623b26d30a193d9c56f28fc70963fbe421f1ce98097e67e",
+        "tests/test_n5_08_minority_origin.py": "d218950a02477f34fc1cec1e27083b0e0d1d5047c78b1a167e4ca18fdb9ea190",
+        "research/results/n5-08-minority-origin-tests.xml": "f113f7441cf036d29ad85682fd47aec6de4d6669538b2c509ed174d7aa82e961",
+        "research/results/n5-08-context-regression.xml": "ce138d905441593822c1df65959f1a68f242d47435c3d0d3923e7e795982bf0b",
+        "research/results/n5-08-minority-origin.json": "82b71579c1d67a49adb300c2fc041cfd416ab5e5c07ea11d8c55e6e9a042d46c",
+        "research/results/n5-08-minority-origin.md": "c2eec347d99aa95b93fd678513f08da2abd757fa1a1c3e75846aa6b04049076d"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "This deterministic contract fixture knows which value is correct; the store does not and keeps both alternatives in review.",
+        "The disagreement is explicitly challenged before retrieval; automatic semantic discovery of every contradiction is not established.",
+        "The correlated reports are exact recognized copies; paraphrase laundering and off-store collusion are outside this fixture.",
+        "Progressive over-fetch may examine more than the initial 4*k pool when source copies otherwise crowd out distinct roots; search stops when k roots are available or eligible results are exhausted."
+      ]
     },
     {
       "task_id": "N5-09",
@@ -5304,7 +5331,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
-        "src/memory_fabric/_fabric/retrieval.py": "4d20d5e5f6be900a2480a9602a6dfd65594866846f782b60d68a80363cca7d9d",
+        "src/memory_fabric/_fabric/retrieval.py": "4c1ff75cc8af703707f2c195d4f6504df45c329a7044fa22a29cc800a9c2ebd2",
         "src/memory_fabric/_fabric/sealing.py": "f4f7a6e37c304ab620a54c1ff16d03bfb77c320b17dc9327fc527d029d0b5147",
         "src/memory_fabric/retrievers.py": "fbfe7e2edbb45fd14203fa116f5cfe5d448cb68b75125c4a3b00d444379372d6",
         "tests/test_erasure_residue.py": "bbadbe2a5f36c54b6f5e31f006e3cb45be9a03bc16894b91eca2324e6ba09a2a",

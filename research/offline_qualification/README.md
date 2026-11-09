@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **243 / 260 (93.46%)**. Internal status: **BLOCKED**.
+Strict completion: **244 / 260 (93.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `62a8ef5dab20ab220ac28dad74b6fb46687e970210421de5dacf1c52ce0dcd14`.
+Normalized ledger digest: `f0a230e4e88d73651786de5f6d728ca26f6c0237dcf1244453558081e43fe321`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 243 |
+| DONE | 244 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 14 |
+| TODO | 13 |
 
 ## Graduation gates
 
@@ -176,7 +176,7 @@ Normalized ledger digest: `62a8ef5dab20ab220ac28dad74b6fb46687e970210421de5dacf1
 | N5-05 | P2 | DONE | CONTRACT | `src/memory_fabric/context_map.py`, `src/memory_fabric/context_receipt.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/cli.py`, `tests/test_n5_05_disagreement_budget.py`, `experiments/n5_05_disagreement_budget.py`, `research/results/n5-05-disagreement-budget.json`, `research/results/n5-05-disagreement-budget.md`, `research/results/n5-05-disagreement-tests.xml`, `research/results/n5-05-context-regression.xml`, `SPEC.md`, `docs/architecture/ADR-003-context-receipts.md` |
 | N5-06 | P2 | DONE | SIMULATED | `research/prereg/n5-06-byzantine-agents-v1.md`, `experiments/n5_06_byzantine_agents.py`, `tests/test_n5_06_byzantine_agents.py`, `research/results/n5-06-byzantine-tests.xml`, `research/results/n5-06-byzantine-agents.json`, `research/results/n5-06-byzantine-agents.md` |
 | N5-07 | P2 | DONE | CONTRACT | `src/memory_fabric/federation.py`, `src/memory_fabric/independence.py`, `src/memory_fabric/protocol.py`, `tests/test_independence.py`, `tests/test_federation.py`, `tests/test_consensus.py`, `research/results/n5-07-federation-tests.xml` |
-| N5-08 | P2 | TODO | NOT_TESTED | — |
+| N5-08 | P2 | DONE | CONTRACT | `src/memory_fabric/_fabric/retrieval.py`, `src/memory_fabric/duplicates.py`, `src/memory_fabric/consensus.py`, `src/memory_fabric/evidence_status.py`, `experiments/n5_08_minority_origin.py`, `tests/test_n5_08_minority_origin.py`, `research/results/n5-08-minority-origin-tests.xml`, `research/results/n5-08-context-regression.xml`, `research/results/n5-08-minority-origin.json`, `research/results/n5-08-minority-origin.md` |
 | N5-09 | P2 | TODO | NOT_TESTED | — |
 | N5-10 | P2 | TODO | NOT_TESTED | — |
 | N6-01 | P1 | TODO | NOT_TESTED | — |
