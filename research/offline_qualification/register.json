@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "e0049fe131b311018a5cb7a81d97e9e0ae0bcc4d",
+    "commit": "465efe8396a57cf8f31767e9a9f6fd4f3260db13",
     "dirty": true
   },
   "summary": {
@@ -7027,7 +7027,7 @@
         "src/memory_fabric/observability/health.py": "22b3f40f9128c32e0135da3b21f9543539a6ee2f03de55a1a1d16855311b665c",
         "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
         "src/memory_fabric/observability/static/dashboard.html": "6a06145bb33c30c712d3f6a53e063e1cd57d2eb9e536391ba50d417bbb6cae74",
-        "tests/test_service_health.py": "cb4ad1d2e99c0622e991e1bb99aa812f4f2d469f7c7cd9b0110483298512454c",
+        "tests/test_service_health.py": "c64bbad379b2989ac05f20557850ef3a7b4b4d100b7254f3966c5d5e930e1d28",
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "b9c010594e84ba9d5a0f2e14b04b2fd9f685284d06c34f5a9b0d3a80f82f8f1d",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
@@ -7230,7 +7230,7 @@
         "tests/test_quickstart.py"
       ],
       "evidence_digests": {
-        "tests/test_fail_safe_environment.py": "4efb6a04018b7d5451b09a478804bcc7d07aec72efd57d386f5d0a6cdb561094",
+        "tests/test_fail_safe_environment.py": "1377c2bfedfcde9ab27cbe88788cc82d91bd801d78a1884b2956ed0ecd1c00a4",
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770"
       },
@@ -7257,7 +7257,7 @@
         "docs/README.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/support_bundle.py": "d2f494e8a66e0eb86865bd083de55d036738c51b1e78b18ff7f9e9260392a65c",
+        "src/memory_fabric/support_bundle.py": "71de51bce5344fb735ed93c92a75688a2f48e6cfe142b63c4e2be68a38ef813b",
         "src/memory_fabric/cli.py": "86d6bf47a3baf60a58254487a61406c06d7530f690336441c5ab440f420be027",
         "tests/test_support_bundle.py": "e508e82e58526f6c7e496042596f1704e9d868b68af5a95b27286016cd0e9e68",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",

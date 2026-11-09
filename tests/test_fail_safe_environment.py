@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import sqlite3
+import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
@@ -10,7 +12,10 @@ from memory_fabric.governance import cipher
 
 class FailSafeEnvironment(unittest.TestCase):
     def test_sqlite_full_refuses_write_without_partial_projection(self) -> None:
-        fabric = MemoryFabric(":memory:", seed=0, encrypt_content=False)
+        # SQLite's page limit: a file store, which stays on SQLite in every run.
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        fabric = MemoryFabric(Path(scratch.name) / "store.db", seed=0, encrypt_content=False)
         try:
             before_events = len(fabric.log)
             before_memories = len(fabric.state.memories)

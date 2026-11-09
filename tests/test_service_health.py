@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
 from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
@@ -30,7 +32,9 @@ class ServiceHealth(unittest.TestCase):
         self.assertEqual(result["reason_codes"], ["corrections_pending"])
 
     def test_tampered_event_chain_is_unsafe_to_execute(self) -> None:
-        with MemoryFabric(":memory:", auto_activate=True) as fabric:
+        # Edits SQLite's trigger and rows directly: a file store, on SQLite in every run.
+        with tempfile.TemporaryDirectory() as tmp, \
+                MemoryFabric(Path(tmp) / "store.db", auto_activate=True) as fabric:
             fabric.remember("agent", "integrity fixture", scope="team")
             fabric.log._conn.execute("DROP TRIGGER events_no_update")
             fabric.log._conn.execute("UPDATE events SET payload = '{}' WHERE seq = 1")

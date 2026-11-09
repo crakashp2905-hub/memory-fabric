@@ -22,8 +22,11 @@ def build_support_bundle(fabric: Any) -> dict[str, Any]:
     state_counts = Counter(memory.lifecycle_state.value for memory in fabric.state.memories.values())
     type_counts = Counter(memory.type.value for memory in fabric.state.memories.values())
     connection = fabric.log._conn
-    page_count = int(connection.execute("PRAGMA page_count").fetchone()[0])
-    page_size = int(connection.execute("PRAGMA page_size").fetchone()[0])
+    # SQLite reports page sizes; other backends report none, and the bundle says so.
+    count_row = connection.execute("PRAGMA page_count").fetchone()
+    size_row = connection.execute("PRAGMA page_size").fetchone()
+    page_count = int(count_row[0]) if count_row else None
+    page_size = int(size_row[0]) if size_row else None
     return {
         "schema": "memory-fabric-support-bundle/1",
         "product": {"name": "memory-fabric", "version": __version__,
@@ -36,7 +39,8 @@ def build_support_bundle(fabric: Any) -> dict[str, Any]:
             "memory_type_counts": dict(sorted(type_counts.items())),
             "sqlite_page_count": page_count,
             "sqlite_page_size_bytes": page_size,
-            "sqlite_allocated_bytes": page_count * page_size,
+            "sqlite_allocated_bytes": (page_count * page_size
+                                       if page_count is not None and page_size is not None else None),
         },
         "content_included": False,
         "identifier_included": False,
