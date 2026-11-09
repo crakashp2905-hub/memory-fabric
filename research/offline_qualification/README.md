@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **241 / 260 (92.69%)**. Internal status: **BLOCKED**.
+Strict completion: **242 / 260 (93.08%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `069db69a3a16e75726833192f4f2c1105ad9c74bc5b2f79660d620f49f67cb2c`.
+Normalized ledger digest: `1ac1ff004b56a6e7545ca4befebf5b4d5cb87946580fc6f9816be2800bd88f44`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 241 |
+| DONE | 242 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 16 |
+| TODO | 15 |
 
 ## Graduation gates
 
@@ -174,7 +174,7 @@ Normalized ledger digest: `069db69a3a16e75726833192f4f2c1105ad9c74bc5b2f79660d62
 | N5-03 | P2 | DONE | CONTRACT | `experiments/n5_03_echo_chamber.py`, `tests/test_n5_03_echo_chamber.py`, `research/results/n5-03-echo-chamber.json`, `research/results/n5-03-echo-chamber.md`, `research/results/n5-03-echo-chamber-tests.xml` |
 | N5-04 | P2 | DONE | SIMULATED | `research/prereg/n5-04-aggregation-policies-v1.md`, `experiments/n5_04_aggregation.py`, `tests/test_n5_04_aggregation.py`, `research/results/n5-04-aggregation-tests.xml`, `research/results/n5-04-aggregation-policies.json`, `research/results/n5-04-aggregation-policies.md`, `research/results/n5-04-aggregation-manifest.json` |
 | N5-05 | P2 | DONE | CONTRACT | `src/memory_fabric/context_map.py`, `src/memory_fabric/context_receipt.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/cli.py`, `tests/test_n5_05_disagreement_budget.py`, `experiments/n5_05_disagreement_budget.py`, `research/results/n5-05-disagreement-budget.json`, `research/results/n5-05-disagreement-budget.md`, `research/results/n5-05-disagreement-tests.xml`, `research/results/n5-05-context-regression.xml`, `SPEC.md`, `docs/architecture/ADR-003-context-receipts.md` |
-| N5-06 | P2 | TODO | NOT_TESTED | — |
+| N5-06 | P2 | DONE | SIMULATED | `research/prereg/n5-06-byzantine-agents-v1.md`, `experiments/n5_06_byzantine_agents.py`, `tests/test_n5_06_byzantine_agents.py`, `research/results/n5-06-byzantine-tests.xml`, `research/results/n5-06-byzantine-agents.json`, `research/results/n5-06-byzantine-agents.md` |
 | N5-07 | P2 | TODO | NOT_TESTED | — |
 | N5-08 | P2 | TODO | NOT_TESTED | — |
 | N5-09 | P2 | TODO | NOT_TESTED | — |

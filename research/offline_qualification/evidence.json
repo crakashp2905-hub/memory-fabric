@@ -4250,6 +4250,27 @@
         "One representative is rendered per distinct normalized claim text; only selected representatives are linked in the receipt.",
         "Context assembly exposes uncertainty but does not decide which alternative is true or authorize an action."
       ]
+    },
+    {
+      "task_id": "N5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-06-byzantine-agents-v1.md",
+        "experiments/n5_06_byzantine_agents.py",
+        "tests/test_n5_06_byzantine_agents.py",
+        "research/results/n5-06-byzantine-tests.xml",
+        "research/results/n5-06-byzantine-agents.json",
+        "research/results/n5-06-byzantine-agents.md"
+      ],
+      "limitations": [
+        "The benchmark uses synthetic binary tasks and fixed source reliability rates; it does not estimate field behavior.",
+        "Attackers know task truth and honest report values, while identities are fixed and source-root labels are assumed accurate.",
+        "Requested 10%, 25%, and 40% fault fractions realize as 6.25%, 25%, and 37.5% with 16 reporter identities and floor rounding.",
+        "The threat model was authored before implementation and pilot generation, but first committed with the implementation; repository commit history alone does not independently timestamp preregistration.",
+        "Results evaluate aggregation only; they do not prove Byzantine resilience in live federation or authorize actions."
+      ]
     }
   ]
 }

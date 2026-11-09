@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "3c600a746d524ec89fbb8ddf3136f8ffc0a8f44875e099163321d5e6fe48be46",
+    "sha256": "b4168e03a449e9dba9bee2d3a9f266a6825bb42a6196c4040e21d5314c10cd68",
     "tasks": 260
   },
   "source": {
-    "commit": "711ec241c15203a87452e7c08d3caf94b29a8298",
+    "commit": "cb514d5ede3a7dad32efbae63de679d586434759",
     "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 241,
+      "DONE": 242,
       "PARTIAL": 3,
-      "TODO": 16
+      "TODO": 15
     },
-    "completed": 241,
+    "completed": 242,
     "total": 260,
-    "percent_complete": 92.69,
+    "percent_complete": 93.08,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4349,14 +4349,34 @@
       "task_id": "N5-06",
       "priority": "P2",
       "task": "Simulate Byzantine agents who lie, replay, copy or selectively withdraw evidence.",
-      "acceptance": "Safety results are conditional on explicit threat model and fault fraction",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Safety results are conditional on explicit threat model and fault fraction. Evidence: `research/prereg/n5-06-byzantine-agents-v1.md`, `experiments/n5_06_byzantine_agents.py`, `tests/test_n5_06_byzantine_agents.py`, `research/results/n5-06-byzantine-tests.xml`, `research/results/n5-06-byzantine-agents.json`, `research/results/n5-06-byzantine-agents.md` (DONE: preregistered four attacks and requested reporter fault fractions 0%, 10%, 25%, 40%; realized fractions are 0%, 6.25%, 25%, 37.5% because the population has 16 identities and counts round down. Five held-out seeds \u00d7 200 tasks cover all 16 conditions (16,000 tasks), with 10,000 paired bootstrap replicates for 48 nonzero-fault policy contrasts. Ten focused tests pass with none skipped; report binds clean source commit, script/protocol hashes, seed hashes and all conditions. At 40% requested lying, mean wrong-action rates rise from 0.259 to 0.757 for majority, 0.263 to 0.663 for reputation, 0.065 to 0.407 for independent-root, and 0.093 to 0.487 for evidence-quality. Under replay, independent-root and evidence-quality rates remain at their zero-fault levels (0.065 and 0.093); this is synthetic evidence only. Findings assume fixed identities, accurate root labels, and attackers who know truth; they do not establish live Byzantine resilience or action safety.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-06-byzantine-agents-v1.md",
+        "experiments/n5_06_byzantine_agents.py",
+        "tests/test_n5_06_byzantine_agents.py",
+        "research/results/n5-06-byzantine-tests.xml",
+        "research/results/n5-06-byzantine-agents.json",
+        "research/results/n5-06-byzantine-agents.md"
+      ],
+      "evidence_digests": {
+        "research/prereg/n5-06-byzantine-agents-v1.md": "ae0748c0ca7c9dfa0346b867b5ca1bd5af96e9530be7668d18d646d710c599c2",
+        "experiments/n5_06_byzantine_agents.py": "2f26104d1c3dd77e106f9da7c7fd4702c42873561b2125f589c81eff7a0185e9",
+        "tests/test_n5_06_byzantine_agents.py": "6721c93d6013df8993e0ac8845d3f1ff438b3a475af149a65a58bd87b1cc7def",
+        "research/results/n5-06-byzantine-tests.xml": "b68d0dc79b09c64f620899f221bbbf376a6909be0480911b8939f4013bf1c8fb",
+        "research/results/n5-06-byzantine-agents.json": "c76b3704c20d7a7e07880cbb53bf26d5cf9c430a6fe07a038e2b3899bdb90d10",
+        "research/results/n5-06-byzantine-agents.md": "a5bf06d32b72ae431e832cf56e96f93f2151f9cf14a506aab24deab4b8e5d08b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The benchmark uses synthetic binary tasks and fixed source reliability rates; it does not estimate field behavior.",
+        "Attackers know task truth and honest report values, while identities are fixed and source-root labels are assumed accurate.",
+        "Requested 10%, 25%, and 40% fault fractions realize as 6.25%, 25%, and 37.5% with 16 reporter identities and floor rounding.",
+        "The threat model was authored before implementation and pilot generation, but first committed with the implementation; repository commit history alone does not independently timestamp preregistration.",
+        "Results evaluate aggregation only; they do not prove Byzantine resilience in live federation or authorize actions."
+      ]
     },
     {
       "task_id": "N5-07",
