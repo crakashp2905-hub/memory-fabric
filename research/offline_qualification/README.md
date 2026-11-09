@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **246 / 260 (94.62%)**. Internal status: **BLOCKED**.
+Strict completion: **247 / 260 (95.00%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1bb111151f6e65ada84795d97faad8e46fe99dd8373b46bedc707ec25752283a`.
+Normalized ledger digest: `a8ec5c448623a4189f2658930e889ff90bbddc236855862377c67771cb9ce15f`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 246 |
+| DONE | 247 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 11 |
+| TODO | 10 |
 
 ## Graduation gates
 
@@ -179,7 +179,7 @@ Normalized ledger digest: `1bb111151f6e65ada84795d97faad8e46fe99dd8373b46bedc707
 | N5-08 | P2 | DONE | CONTRACT | `src/memory_fabric/_fabric/retrieval.py`, `src/memory_fabric/duplicates.py`, `src/memory_fabric/consensus.py`, `src/memory_fabric/evidence_status.py`, `experiments/n5_08_minority_origin.py`, `tests/test_n5_08_minority_origin.py`, `research/results/n5-08-minority-origin-tests.xml`, `research/results/n5-08-context-regression.xml`, `research/results/n5-08-minority-origin.json`, `research/results/n5-08-minority-origin.md` |
 | N5-09 | P2 | DONE | CONTRACT | `src/memory_fabric/freshness.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/federation.py`, `experiments/n5_09_partition_freshness.py`, `tests/test_n5_09_partition_freshness.py`, `tests/test_freshness.py`, `research/results/n5-09-partition-tests.xml`, `research/results/n5-09-partition-freshness.json`, `research/results/n5-09-partition-freshness.md` |
 | N5-10 | P2 | DONE | SIMULATED | `research/prereg/h4-topology-and-diversity.md`, `research/results/h4-topology-and-diversity.md`, `research/prereg/n5-10-false-consensus-recovery-v1.md`, `research/prereg/n5-10-followup-false-consensus-recovery-v1.md`, `experiments/n5_10_false_consensus_recovery.py`, `tests/test_n5_10_false_consensus_recovery.py`, `research/results/n5-10-experiment-tests.xml`, `research/results/n5-10-false-consensus-recovery.json`, `research/results/n5-10-false-consensus-recovery.md`, `research/results/n5-10-followup-false-consensus-recovery.json`, `research/results/n5-10-followup-false-consensus-recovery.md` |
-| N6-01 | P1 | TODO | NOT_TESTED | — |
+| N6-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `research/bench/n6_01_decision_tasks/cases.json`, `experiments/n6_01_typed_decision_tasks.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_decision_models.py`, `research/results/n6-01-decision-tests.xml`, `research/results/n6-01-decision-evaluation.json` |
 | N6-02 | P1 | TODO | NOT_TESTED | — |
 | N6-03 | P1 | TODO | NOT_TESTED | — |
 | N6-04 | P1 | TODO | NOT_TESTED | — |

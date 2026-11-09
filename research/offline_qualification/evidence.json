@@ -4362,6 +4362,25 @@
         "The follow-up uses a synthetic bandit simulator and conditions on false consensus under complete-collapse; it does not estimate language-model-agent or production behavior.",
         "The secondary interaction suggests topology and active minority retesting may be partially substitutable; the primary contrasts establish incremental improvement over both registered collapse comparators in this simulator."
       ]
+    },
+    {
+      "task_id": "N6-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "research/bench/n6_01_decision_tasks/cases.json",
+        "experiments/n6_01_typed_decision_tasks.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_decision_models.py",
+        "research/results/n6-01-decision-tests.xml",
+        "research/results/n6-01-decision-evaluation.json"
+      ],
+      "limitations": [
+        "The six cases are deterministic API contracts, not a distributional estimate of agent performance.",
+        "Proposal selection and escalation remain advisory. ActionGate must independently authorize any consequential tool call."
+      ]
     }
   ]
 }

@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b5acb33b693bda388834f0e34e2e9181b4c60ceef1b9df62e74e30c2aa4f8c75",
+    "sha256": "bc20edab177335480bc6448b63f68fc9c3550dec84b6260f2bba87248e6edf63",
     "tasks": 260
   },
   "source": {
-    "commit": "259f21043aaf4ce75c1f3b172865ccae2fd0b105",
-    "dirty": false
+    "commit": "df586fc46eef43d3be9b18f3844c72450bad69eb",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 246,
+      "DONE": 247,
       "PARTIAL": 3,
-      "TODO": 11
+      "TODO": 10
     },
-    "completed": 246,
+    "completed": 247,
     "total": 260,
-    "percent_complete": 94.62,
+    "percent_complete": 95.0,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4534,14 +4534,33 @@
       "task_id": "N6-01",
       "priority": "P1",
       "task": "Keep the existing decision schema and evaluate typed confidence, abstention and escalation on new tasks.",
-      "acceptance": "Every invalid probability vector fails; no selected option authorizes itself",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Every invalid probability vector fails; no selected option authorizes itself. Evidence: `src/memory_fabric/decision_models.py`, `research/bench/n6_01_decision_tasks/cases.json`, `experiments/n6_01_typed_decision_tasks.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_decision_models.py`, `research/results/n6-01-decision-tests.xml`, `research/results/n6-01-decision-evaluation.json` (DONE: all six new contract scenarios pass for selection, valid probabilities, abstention, confidence/entropy routing and consequential escalation. Ten malformed vector forms and six invalid confidence forms, including booleans, strings, non-finite and overflow-sized values, fail with `DecisionModelError`; 10 focused/regression tests plus 16 subtests pass. A selected deploy proposal alone is denied by `ActionGate` for missing evidence. Ruff passes. This is API contract evidence, not a real-agent performance estimate.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "research/bench/n6_01_decision_tasks/cases.json",
+        "experiments/n6_01_typed_decision_tasks.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_decision_models.py",
+        "research/results/n6-01-decision-tests.xml",
+        "research/results/n6-01-decision-evaluation.json"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_models.py": "869ad0ab433b91f1f180bcf11c0a50dc1e6d5353668910a3b9ff51b4af940802",
+        "research/bench/n6_01_decision_tasks/cases.json": "94e9ae9b17e37befe53aa42cdbd5037f53ca13971bf2c7f1e42c071a0764bc52",
+        "experiments/n6_01_typed_decision_tasks.py": "2444cb6a5c4c0b7fab34ce96c61821bd36cad766f0f58b7f41d4e429460ae53a",
+        "tests/test_n6_01_decision_contract.py": "51b31d8ae04d2584b7714a5b6acd4493aff97a6ee666f9b583d6ca94eb77920d",
+        "tests/test_decision_models.py": "d709a769b242fba2e487dedb71842bee368b2ecf533888cc5346a0497e874f63",
+        "research/results/n6-01-decision-tests.xml": "ba3b05ff1ac22ef5cf03a4983bcb443f7ab029f4bfed9a84c1a98bf2225e7d47",
+        "research/results/n6-01-decision-evaluation.json": "6847921982a7aa8e1e7e74b094911e62bb3d8d2eeb3133dc30114f470126052f"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The six cases are deterministic API contracts, not a distributional estimate of agent performance.",
+        "Proposal selection and escalation remain advisory. ActionGate must independently authorize any consequential tool call."
+      ]
     },
     {
       "task_id": "N6-02",
@@ -6208,7 +6227,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/decision_models.py": "0e664e815eacc5815e59cf7d7f2d213c3259a36beeeaab0694fa3cb8a931f46c",
+        "src/memory_fabric/decision_models.py": "869ad0ab433b91f1f180bcf11c0a50dc1e6d5353668910a3b9ff51b4af940802",
         "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
         "examples/sdk_workflow.py": "e1852e5f96d18fbb9162008da21bd5b7fc5dedfcd341bd76fff4e97ba21d7627",
