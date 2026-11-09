@@ -4,15 +4,15 @@
   "acceptance_passed": true,
   "evidence_level": "CONTRACT",
   "source": {
-    "commit": "12ac247bb8724c66cf3b08437b5149af822b457f",
-    "dirty_before_result_write": true,
+    "commit": "2d9b932816badaae2ffd31c42e722ecf3b3e07df",
+    "dirty_before_result_write": false,
     "script_sha256": "1bc011d28720008778400ec7e365fd41c2315363c779ed851f85c4ec3038c7ce"
   },
   "lossy_nonconsequential_case": {
     "nonconsequential_chatter_removed": true,
     "source_versions_still_bound": true,
     "consequential_fact_edge_preserved": true,
-    "certificate": "e2fffd701131f06dd391bb42313a0a3f926631f2573766877666fd1f683deb91"
+    "certificate": "09adbf4e0f56d11b1559f40344af0143f1ab7100d9ac9428bdd8bcdabbda8699"
   },
   "strict_missing_edge_case": {
     "dropped_fact_refused": true,
