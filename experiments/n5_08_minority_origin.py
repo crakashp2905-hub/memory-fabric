@@ -70,11 +70,8 @@ def run_case(correlated_wrong_copies: int) -> dict[str, Any]:
             "review_agent",
             QUESTION,
             k=2,
-            pool=64,
-            min_relevance=0.0,
             include_contested=True,
             group_by_source_root=True,
-            expand_lineage=0,
         )
         assessment = result.assessment(QUESTION)
         exposed_ids = {memory.id for memory in result.exposed}
@@ -166,7 +163,9 @@ def run() -> dict[str, Any]:
                 "k": 2,
                 "group_by_source_root": True,
                 "include_contested": True,
-                "expand_lineage": 0,
+                "pool": "default (4*k)",
+                "min_relevance": "default",
+                "expand_lineage": "default",
             },
         },
         "scenarios": scenarios,

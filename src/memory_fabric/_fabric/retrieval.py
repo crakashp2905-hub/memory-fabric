@@ -545,45 +545,57 @@ class RetrievalMixin(FabricCore):
                         if isinstance(eligible, Eligible)
                         else {m for m in eligible
                               if objective.admits(self.state.memories[m].context)})
-        hits = self._search(query, pool_size, eligible, min_relevance, method=method)
-        if objective is not None and hasattr(objective, "rank"):
-            # V2: evidence-aware ranking within what is eligible. It can only
-            # re-order or drop, never add (`objective_v2.py`).
-            hits = objective.rank(self, hits)
-        if self.rerank and hasattr(self.rerank, "score"):
-            # A model reranker (`retrievers.py`): same place, reorders only.
-            from ..retrievers import apply_reranker
+        search_limit = max(1, min(pool_size, len(eligible)))
+        while True:
+            hits = self._search(query, search_limit, eligible, min_relevance, method=method)
+            search_exhausted = len(hits) < search_limit
+            if objective is not None and hasattr(objective, "rank"):
+                # V2: evidence-aware ranking within what is eligible. It can only
+                # re-order or drop, never add (`objective_v2.py`).
+                hits = objective.rank(self, hits)
+            if self.rerank and hasattr(self.rerank, "score"):
+                # A model reranker (`retrievers.py`): same place, reorders only.
+                from ..retrievers import apply_reranker
 
-            hits = apply_reranker(cast(Any, self.rerank), query, hits,
-                                  lambda mid: self.state.memories[mid].content)
-        elif self.rerank:
-            # After fusion and before grouping. Reranking a *fused* pool is
-            # the claim under test -- that a reranker makes fusion safe -- so
-            # it has to see what fusion produced, and grouping afterwards still
-            # collapses copies in the new order.
-            hits = reranking.rerank(
-                query, hits,
-                {mid: self.state.memories[mid].content for mid, _ in hits},
-                self.lexical._idf(),
-                mode=self.rerank if isinstance(self.rerank, str) else "tiebreak",
-            )
-        if expand_lineage:
-            hits = self._expand_lineage(
-                hits, eligible, limit=pool_size, depth=expand_lineage
-            )
-        if use_extraction:
-            # Before relation-following, so a default admitted here can then
-            # drag in whatever qualifies it.
-            hits = self._admit_defaults(
-                hits, eligible, entities, pool_size, k)
-        if follow_relations:
-            # After lineage expansion and before grouping: a qualifier should
-            # travel with whatever it qualifies even if that arrived by
-            # premise promotion, and grouping afterwards still collapses
-            # copies in the new order.
-            hits = self._follow_relations(hits, eligible, limit=pool_size)
-        if group_by_source_root:
-            hits = self._group_by_root(hits, limit=pool_size)
+                hits = apply_reranker(cast(Any, self.rerank), query, hits,
+                                      lambda mid: self.state.memories[mid].content)
+            elif self.rerank:
+                # After fusion and before grouping. Reranking a *fused* pool is
+                # the claim under test -- that a reranker makes fusion safe -- so
+                # it has to see what fusion produced, and grouping afterwards still
+                # collapses copies in the new order.
+                hits = reranking.rerank(
+                    query, hits,
+                    {mid: self.state.memories[mid].content for mid, _ in hits},
+                    self.lexical._idf(),
+                    mode=self.rerank if isinstance(self.rerank, str) else "tiebreak",
+                )
+            if expand_lineage:
+                hits = self._expand_lineage(
+                    hits, eligible, limit=search_limit, depth=expand_lineage
+                )
+            if use_extraction:
+                # Before relation-following, so a default admitted here can then
+                # drag in whatever qualifies it.
+                hits = self._admit_defaults(
+                    hits, eligible, entities, search_limit, k)
+            if follow_relations:
+                # After lineage expansion and before grouping: a qualifier should
+                # travel with whatever it qualifies even if that arrived by
+                # premise promotion, and grouping afterwards still collapses
+                # copies in the new order.
+                hits = self._follow_relations(hits, eligible, limit=search_limit)
+            if group_by_source_root:
+                hits = self._group_by_root(hits, limit=search_limit)
+                # A fixed relevance pool can contain only copies of one source,
+                # so collapsing after search may return fewer than k results even
+                # when distinct roots exist below that pool. Expand progressively
+                # until the grouped result is sufficient or search is exhausted.
+                if (len(hits) < k and not search_exhausted
+                        and search_limit < len(eligible)):
+                    search_limit = min(len(eligible), max(search_limit + 1, search_limit * 2))
+                    continue
+            break
 
         # Only estimate values when the policy will actually rank on them.
         # Refitting the estimator on every retrieval and then ranking by
