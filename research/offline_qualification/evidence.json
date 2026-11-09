@@ -4564,6 +4564,27 @@
         "The evidence is a fixed local integration experiment with ten source mutations, one policy and one workflow; it does not generalize to model-generated programs or broad utility.",
         "Exact source text is bound, so whitespace/comment changes require new approval."
       ]
+    },
+    {
+      "task_id": "R5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/r5_03_component_removal.py",
+        "tests/test_r5_03_component_removal.py",
+        "research/results/r5-03-component-removal-tests.xml",
+        "research/results/r5-03-component-removal.json",
+        "experiments/n4_07_compaction_comparison.py",
+        "experiments/n6_03_router_comparison.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "docs/COMPONENT_REMOVAL_ABLATIONS.md"
+      ],
+      "limitations": [
+        "The dependency ablation bypasses dependency verification and lifecycle filtering to isolate the check.",
+        "Router labels and features share an idealized synthetic source; fixed System 1/System 2 are diagnostic controls.",
+        "Compression reuses five deterministic N4-07 seeds and UTF-8 byte metrics; no real-agent evaluation, confidence interval or model-token cost is included."
+      ]
     }
   ]
 }

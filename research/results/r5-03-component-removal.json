@@ -1,0 +1,169 @@
+{
+  "schema": "memory-fabric-r5-03-component-removal/1",
+  "task_id": "R5-03",
+  "acceptance_passed": true,
+  "evidence_level": "SIMULATED",
+  "design": "Matched local one-component-removal diagnostics; each component is compared against a named absence/fixed-fallback arm on the same case or seeds.",
+  "components": {
+    "summary_dependencies": {
+      "component": "summary fact-to-source-version dependency validation",
+      "matched_case": "one summarized valve fact corrected from 4 bar to must remain closed",
+      "with_component": {
+        "outcome": "refused",
+        "refusal_reason": "summary omitted source facts: ['[[\"v7\"],[\"closed\",\"must\",\"remain\",\"valve\"],[]]']",
+        "stale_summary_exposed": false
+      },
+      "component_removed": {
+        "outcome": "unverified text accepted by ablated reader",
+        "stale_summary_exposed": true,
+        "source_version": 2,
+        "summary_lifecycle": "contested"
+      },
+      "marginal_effect": {
+        "stale_fact_blocked_by_component": true
+      },
+      "limitations": [
+        "The ablated reader intentionally ignores the dependency verification outcome and reads the stored text; this isolates the check but does not model every caller's lifecycle filtering.",
+        "One correction and one summary fact are evaluated; this is not a population estimate."
+      ]
+    },
+    "decision_routing": {
+      "component": "risk/evidence-aware deterministic System 1/System 2 router",
+      "matched_protocol": {
+        "seed": 60301,
+        "tasks": 2000,
+        "hazard_rate": 0.25,
+        "hazard_count": 495
+      },
+      "arms": {
+        "router_enabled": {
+          "tasks": 2000,
+          "hazard_tasks": 495,
+          "unsafe_system1_count": 0,
+          "unsafe_system1_rate": 0.0,
+          "unnecessary_system2_count": 0,
+          "correct_route_rate": 1.0,
+          "mean_utility": 0.87625
+        },
+        "router_removed_fixed_system1": {
+          "tasks": 2000,
+          "hazard_tasks": 495,
+          "unsafe_system1_count": 495,
+          "unsafe_system1_rate": 1.0,
+          "unnecessary_system2_count": 0,
+          "correct_route_rate": 0.7525,
+          "mean_utility": -0.485
+        },
+        "router_removed_fixed_system2": {
+          "tasks": 2000,
+          "hazard_tasks": 495,
+          "unsafe_system1_count": 0,
+          "unsafe_system1_rate": 0.0,
+          "unnecessary_system2_count": 1505,
+          "correct_route_rate": 0.2475,
+          "mean_utility": 0.27425
+        }
+      },
+      "marginal_effect_vs_fixed_system1": {
+        "unsafe_actions_avoided": 495,
+        "utility_delta": 1.36125
+      },
+      "marginal_effect_vs_fixed_system2": {
+        "unnecessary_escalations_avoided": 1505,
+        "utility_delta": 0.602
+      },
+      "limitations": [
+        "Hazards and router features derive from the same synthetic labels, so the router is given an idealized signal.",
+        "Utility weights are synthetic; fixed System 1/System 2 are diagnostic component-removal controls, not fitted agent policies."
+      ]
+    },
+    "temporal_compression": {
+      "component": "provenance-preserving temporal compaction",
+      "matched_protocol": {
+        "seeds": [
+          11,
+          23,
+          37,
+          41,
+          59
+        ],
+        "tasks_per_seed": 8,
+        "paired_seed_inputs": true
+      },
+      "arms": {
+        "component_removed_no_compaction": {
+          "mean_task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "mean_context_bytes_utf8": 8647
+        },
+        "component_enabled_provenance_summary": {
+          "mean_task_success_rate": 1.0,
+          "false_stale_actions": 0,
+          "mean_context_bytes_utf8": 5242,
+          "mean_compression_factor": 1.649561236169401,
+          "mean_source_identity_fidelity": 1.0,
+          "mean_factual_text_fidelity": 1.0
+        }
+      },
+      "marginal_effect": {
+        "task_success_rate_delta": 0.0,
+        "false_stale_action_delta": 0,
+        "context_bytes_saved_mean": 3405,
+        "context_bytes_reduction_fraction": 0.3937781889672719
+      },
+      "per_seed_paired_deltas": [
+        {
+          "seed": 11,
+          "task_success_rate_delta": 0.0,
+          "false_stale_action_delta": 0,
+          "context_bytes_saved": 3405
+        },
+        {
+          "seed": 23,
+          "task_success_rate_delta": 0.0,
+          "false_stale_action_delta": 0,
+          "context_bytes_saved": 3405
+        },
+        {
+          "seed": 37,
+          "task_success_rate_delta": 0.0,
+          "false_stale_action_delta": 0,
+          "context_bytes_saved": 3405
+        },
+        {
+          "seed": 41,
+          "task_success_rate_delta": 0.0,
+          "false_stale_action_delta": 0,
+          "context_bytes_saved": 3405
+        },
+        {
+          "seed": 59,
+          "task_success_rate_delta": 0.0,
+          "false_stale_action_delta": 0,
+          "context_bytes_saved": 3405
+        }
+      ],
+      "limitations": [
+        "This replays the frozen N4-07 deterministic fixture; it is not a real-agent study or token-cost measurement.",
+        "The full-history arm is a fixture ceiling; five paired seeds are descriptive and no confidence interval or significance claim is made."
+      ]
+    }
+  },
+  "interpretation": [
+    "The dependency verifier prevented one stale summarized fact from passing the check; the ablated reader exposed it.",
+    "Routing traded off two fixed fallbacks: compared with fixed System 1 it avoided unsafe routes; compared with fixed System 2 it avoided unnecessary escalations.",
+    "Compression reduced bytes while preserving the fixture's task success and stale-action results; its contribution is the measured paired delta, not the entire integrated system score.",
+    "These are isolated local component effects, not evidence that the combination beats external systems or improves real-agent performance."
+  ],
+  "source": {
+    "commit": "6b86d20adfcc18e7cf5b73ca772626947a0e1db2",
+    "experiment_sha256": "86e45d353da670c56a67cc18242df29ab11b9b0de652d8b7ba5c0408918e4763"
+  },
+  "runtime_seconds": 0.233,
+  "limitations": [
+    "The dependency ablation intentionally bypasses the dependency-verification result and ignores the summary lifecycle flag; it isolates that check but is not representative of every live caller.",
+    "Routing hazards are generated from the same features consumed by the router.",
+    "Compression results reuse N4-07 synthetic temporal tasks and report UTF-8 bytes, not model tokens or cost.",
+    "No confidence intervals, human evaluation, live agents, or external baselines are included."
+  ]
+}

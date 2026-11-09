@@ -2,22 +2,21 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "2ff46a3c48392708a0541a8687031a58f2abdc68b9909d1d8086d595cfb92dfb",
+    "sha256": "3e87f85b2df80db4c69966ae96cfe46a7810be123301811b6022902e74dd59b4",
     "tasks": 260
   },
   "source": {
-    "commit": "67d23a5dc45cda4fecf2108547b904847b3f3a5f",
-    "dirty": false
+    "commit": "6b86d20adfcc18e7cf5b73ca772626947a0e1db2",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 256,
-      "PARTIAL": 3,
-      "TODO": 1
+      "DONE": 257,
+      "PARTIAL": 3
     },
-    "completed": 256,
+    "completed": 257,
     "total": 260,
-    "percent_complete": 98.46,
+    "percent_complete": 98.85,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -2608,14 +2607,36 @@
       "task_id": "R5-03",
       "priority": "P1",
       "task": "Run one-component removal studies on dependency graphs, routing and compression.",
-      "acceptance": "Result shows marginal effect rather than attributing a whole integrated gain to one module",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Result shows marginal effect rather than attributing a whole integrated gain to one module. Evidence: `experiments/r5_03_component_removal.py`, `tests/test_r5_03_component_removal.py`, `research/results/r5-03-component-removal-tests.xml`, `research/results/r5-03-component-removal.json`, `experiments/n4_07_compaction_comparison.py`, `experiments/n6_03_router_comparison.py`, `src/memory_fabric/summary_dependencies.py`, `docs/COMPONENT_REMOVAL_ABLATIONS.md` (DONE: matched ablations isolate (1) dependency validation blocking one stale summarized fact, (2) routing versus fixed System 1/System 2 on the same 2,000 seeded synthetic tasks, and (3) provenance-preserving compaction versus full history on five paired temporal seeds. The router avoided 495 unsafe fixed-System-1 routes or 1,505 unnecessary fixed-System-2 escalations; the summary reduced mean UTF-8 context bytes by 3,405 (39.4%) with no task-success or stale-action delta. Dependency ablation deliberately ignores the lifecycle flag; router labels/features share an idealized synthetic source; compression is a fixture ceiling. No real-agent or broad causal claim.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/r5_03_component_removal.py",
+        "tests/test_r5_03_component_removal.py",
+        "research/results/r5-03-component-removal-tests.xml",
+        "research/results/r5-03-component-removal.json",
+        "experiments/n4_07_compaction_comparison.py",
+        "experiments/n6_03_router_comparison.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "docs/COMPONENT_REMOVAL_ABLATIONS.md"
+      ],
+      "evidence_digests": {
+        "experiments/r5_03_component_removal.py": "86e45d353da670c56a67cc18242df29ab11b9b0de652d8b7ba5c0408918e4763",
+        "tests/test_r5_03_component_removal.py": "325c751aa21f070a7d459f6d21b15762de0bcfe437a7610795fac84a90ff6947",
+        "research/results/r5-03-component-removal-tests.xml": "d4c61832492d52f8f3a59a02154af3c7f0a6abc75cb02d82aad182ef04628e3d",
+        "research/results/r5-03-component-removal.json": "88ae0640c9739978382c1875aeb5ebc7c8157ee8bb64998bfb5d807ecd4439fc",
+        "experiments/n4_07_compaction_comparison.py": "5fa3e66fd718b3ba1038fcfce7e03c44582180bc4b65fcad0907307f40009dbf",
+        "experiments/n6_03_router_comparison.py": "2683a0b5115f698d5b48f1b17210e4217518fd2403983a6d679ac0ef18bb9beb",
+        "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
+        "docs/COMPONENT_REMOVAL_ABLATIONS.md": "db109d37e6c4db2b5f0aaeb42ae14d05c19a20fcc75a1c409622d9c4dac97320"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The dependency ablation bypasses dependency verification and lifecycle filtering to isolate the check.",
+        "Router labels and features share an idealized synthetic source; fixed System 1/System 2 are diagnostic controls.",
+        "Compression reuses five deterministic N4-07 seeds and UTF-8 byte metrics; no real-agent evaluation, confidence interval or model-token cost is included."
+      ]
     },
     {
       "task_id": "R5-04",

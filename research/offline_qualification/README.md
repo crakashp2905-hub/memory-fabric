@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **256 / 260 (98.46%)**. Internal status: **BLOCKED**.
+Strict completion: **257 / 260 (98.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `61ea30e386dc53b8241f2e0479719122b1dc9bd2908a21546e26e626c800d967`.
+Normalized ledger digest: `b06d65f662a16e639a5b6baefac43b0e13f67666d9768bfaf5bd582977a03f30`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 256 |
+| DONE | 257 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 1 |
+| TODO | 0 |
 
 ## Graduation gates
 
@@ -121,7 +121,7 @@ Normalized ledger digest: `61ea30e386dc53b8241f2e0479719122b1dc9bd2908a21546e26e
 | R4-10 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
 | R5-01 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
 | R5-02 | P1 | DONE | CONTRACT | `research/CONTRIBUTION_MAP.md`, `tests/test_contribution_map.py` |
-| R5-03 | P1 | TODO | NOT_TESTED | — |
+| R5-03 | P1 | DONE | SIMULATED | `experiments/r5_03_component_removal.py`, `tests/test_r5_03_component_removal.py`, `research/results/r5-03-component-removal-tests.xml`, `research/results/r5-03-component-removal.json`, `experiments/n4_07_compaction_comparison.py`, `experiments/n6_03_router_comparison.py`, `src/memory_fabric/summary_dependencies.py`, `docs/COMPONENT_REMOVAL_ABLATIONS.md` |
 | R5-04 | P1 | DONE | CONTRACT | `research/REPRODUCIBILITY_APPENDIX.md`, `tests/test_reproducibility_appendix.py`, `research/results/p4-04-correction-strategy-comparison.json`, `research/results/p4-05-selective-correction-demo.json`, `research/results/p4-06-provenance-dispute-demo.json` |
 | R5-05 | P1 | DONE | CONTRACT | `research/FAILURE_TAXONOMY.md`, `tests/test_failure_taxonomy.py` |
 | R5-06 | P1 | DONE | INTERNAL_INTEGRATION | `benchmarks/matched_agent_arms.py`, `research/prereg/r4-08-matched-resource-budget-v1.md`, `tests/test_r5_06_pareto_qualification.py`, `tools/r5_06_pareto_qualification.py`, `research/results/r5-06-pareto-qualification.json` |
