@@ -43,13 +43,14 @@ def _features(hazard: bool) -> RoutingFeatures:
     )
 
 
-def _proposal(probability_system2: float, reverse_insertion_order: bool = False) -> bool:
+def _proposal(probability_system2: float, reorder_options: bool = False) -> bool:
     probabilities = {"system1": 1.0 - probability_system2,
                      "system2": probability_system2}
-    if reverse_insertion_order:
+    if reorder_options:
         probabilities = dict(reversed(list(probabilities.items())))
     model = CallableDecisionModel("simulated-probability-source", lambda _ctx: probabilities)
-    proposal = route_decision(model, DecisionContext("route task", OPTIONS), POLICY)
+    options = tuple(reversed(OPTIONS)) if reorder_options else OPTIONS
+    proposal = route_decision(model, DecisionContext("route task", options), POLICY)
     return proposal.requires_system2
 
 
@@ -81,7 +82,7 @@ def run(tasks: int = TASKS, seed: int = SEED) -> dict[str, Any]:
     deterministic = [route_system(_features(hazard)).route == "system2" for hazard in hazards]
     calibrated = [_proposal(0.9 if hazard else 0.1) for hazard in hazards]
     overconfident_reversed = [_proposal(0.01 if hazard else 0.99) for hazard in hazards]
-    reordered = [_proposal(0.9 if hazard else 0.1, reverse_insertion_order=True)
+    reordered = [_proposal(0.9 if hazard else 0.1, reorder_options=True)
                  for hazard in hazards]
     policies = {
         "deterministic_local_features": deterministic,
@@ -131,7 +132,7 @@ def run(tasks: int = TASKS, seed: int = SEED) -> dict[str, Any]:
         "limitations": [
             "Hazard labels and local features are generated from the same synthetic ground truth, giving the deterministic router an idealized feature signal.",
             "The calibrated and overconfident sources are fixed probability fixtures, not fitted real-model calibration curves.",
-            "Only keyed mapping insertion order is perturbed; semantic option/probability misbinding is not treated as a valid typed output.",
+            "Option tuple and keyed mapping insertion order are reversed together; semantic option/probability misbinding is not treated as a valid typed output.",
             "Utility weights are declared synthetic costs and do not estimate deployment values or safety risk in a real workflow.",
         ],
     }
