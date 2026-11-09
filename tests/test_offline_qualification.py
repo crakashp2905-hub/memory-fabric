@@ -128,7 +128,7 @@ def test_full_attestation_is_refused_while_p0_is_open(
     scope = tmp_path / "scope.md"
     lines = oq.SCOPE.read_text(encoding="utf-8").splitlines()
     for index, line in enumerate(lines):
-        if line.startswith("- [x]") and "· **P0** ·" in line:
+        if line.startswith("- [x]") and "**P0**" in line:
             lines[index] = line.replace("- [x]", "- [ ]", 1)
             break
     else:
