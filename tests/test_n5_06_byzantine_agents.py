@@ -4,6 +4,7 @@ import unittest
 
 from experiments.n5_06_byzantine_agents import (
     BEHAVIORS,
+    ByzantineReport,
     _predict,
     generate,
     paired_bootstrap,
@@ -17,14 +18,14 @@ class ByzantineAgentTests(unittest.TestCase):
         replayed = [row for row in first.reports if row.byzantine]
         self.assertTrue(replayed)
         self.assertEqual({row.replay_index for row in replayed}, {0, 1, 2})
+        groups: dict[tuple[int, int, int, int], list[ByzantineReport]] = {}
+        for row in replayed:
+            groups.setdefault((row.task_id, row.root_id, row.reporter, row.wave), []).append(row)
+        self.assertTrue(all(len(rows) == 3 for rows in groups.values()))
         self.assertTrue(all(
-            row.root_id == next(
-                original.root_id for original in first.reports
-                if original.task_id == row.task_id
-                and original.reporter == row.reporter
-                and original.root_id == row.root_id
-            )
-            for row in replayed
+            len({(row.root_id, row.value, row.quality, row.wave) for row in rows}) == 1
+            and {row.replay_index for row in rows} == {0, 1, 2}
+            for rows in groups.values()
         ))
 
     def test_fault_fractions_are_identity_level_with_explicit_rounding(self) -> None:
@@ -73,6 +74,19 @@ class ByzantineAgentTests(unittest.TestCase):
             for task_id in range(20):
                 rows = [row for row in dataset.reports if row.task_id == task_id]
                 self.assertLessEqual(len({row.root_id for row in rows}), 8)
+
+    def test_copy_attack_repeats_observed_majority_claim(self) -> None:
+        copied = generate(48, 20, "copy", 0.40)
+        source = generate(48, 20, "copy", 0.0)
+        for task_id in range(20):
+            source_rows = [row for row in source.reports if row.task_id == task_id]
+            counts = [0, 0]
+            for row in source_rows:
+                counts[row.value] += 1
+            observed_mode = 0 if counts[0] >= counts[1] else 1
+            for row in copied.reports:
+                if row.task_id == task_id and row.byzantine:
+                    self.assertEqual(row.value, observed_mode)
 
     def test_predictions_do_not_read_truth_or_byzantine_metadata(self) -> None:
         dataset = generate(55, 20, "lie", 0.25)
