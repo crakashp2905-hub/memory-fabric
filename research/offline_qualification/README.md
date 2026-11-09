@@ -1,18 +1,18 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **257 / 260 (98.85%)**. Internal status: **BLOCKED**.
+Strict completion: **259 / 260 (99.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `aa158cc6f6a2d2197647e4c681ee7e38aab47229d69ee7715aade261507f3f2e`.
+Normalized ledger digest: `0d556a634a2bef6f261147da2390e5b1209f6390406000f4d9dccc3cbc97c2ad`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 257 |
+| DONE | 259 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
-| PARTIAL | 3 |
+| PARTIAL | 1 |
 | TODO | 0 |
 
 ## Graduation gates
@@ -78,7 +78,7 @@ Normalized ledger digest: `aa158cc6f6a2d2197647e4c681ee7e38aab47229d69ee7715aade
 | E5-07 | P1 | DONE | INTERNAL_INTEGRATION | `tools/package_parity.py`, `docs/PACKAGE_PARITY.md`, `research/results/e5-07-package-parity.json` |
 | E5-08 | P1 | DONE | INTERNAL_INTEGRATION | `docs/HISTORICAL_COMPATIBILITY_FIXTURES.md`, `tests/data/historical/manifest.json`, `tests/data/historical/v0.11.0.db.gz`, `tests/test_historical_fixtures.py`, `tests/test_version_skew.py`, `tests/test_integrity_chain.py`, `research/results/e5-08-historical-fixtures.json`, `research/results/e5-08-historical-fixtures.xml` |
 | E5-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `tests/test_agent_api.py`, `tests/data/agent_api_behavior.json`, `tools/agent_api_metrics.py`, `research/results/e5-09-agent-api-before.json`, `research/results/e5-09-agent-api-before.xml`, `research/results/e5-09-agent-api-after.json`, `research/results/e5-09-agent-api-after.xml`, `research/results/e5-09-agent-api-after-core.xml`, `research/results/e5-09-agent-api-refactor.json` |
-| E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml` |
+| E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml`, `research/results/p5-03-full-suite-matrix.json`, `research/results/p5-03-python311-tests.xml`, `research/results/p5-03-python312-tests.xml`, `research/results/p5-03-python313-tests.xml` |
 | R1-01 | P0 | DONE | CONTRACT | `research/prereg/offline-10-families-v1.md` |
 | R1-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/results_manifest.py`, `benchmarks/scoreboard.py`, `tests/test_status_at_head.py`, `tests/test_benchmarks.py`, `research/results/MANIFEST.json`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/r1-population-separation-tests.xml` |
 | R1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
@@ -229,7 +229,7 @@ Normalized ledger digest: `aa158cc6f6a2d2197647e4c681ee7e38aab47229d69ee7715aade
 | H4-08 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `tests/test_backup_restore_qualification.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml`, `research/results/p5-04-upgrade-rollback-smoke.json` |
 | H4-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json`, `research/results/h4-09-clock-skew-tests.xml` |
 | H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
-| H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json`, `research/results/h5-01-normalize-sdist-tests.xml` |
+| H5-01 | P1 | DONE | INTERNAL_INTEGRATION | `pyproject.toml`, `uv.lock`, `tools/dependency_provenance.py`, `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json`, `research/results/h5-01-normalize-sdist-tests.xml` |
 | H5-02 | P1 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
 | H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
 | H5-04 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` |
@@ -281,7 +281,7 @@ Normalized ledger digest: `aa158cc6f6a2d2197647e4c681ee7e38aab47229d69ee7715aade
 | P4-10 | P1 | DONE | CONTRACT | `docs/product/decisions/2026-10-28-packaging-options.md`, `tests/test_packaging_hypotheses.py` |
 | P5-01 | P0 | DONE | INTERNAL_INTEGRATION | `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `research/results/p5-01-exact-candidate.json`, `research/results/p5-01-package-assets.json`, `research/results/p5-01-reproducible-sdist-tests.xml`, `research/results/p5-01-fresh-machine.txt` |
 | P5-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `research/results/p5-02-local-checks.txt`, `research/results/p5-02-full-unit-tests.txt`, `research/results/p5-02-adversarial-gate.json`, `research/results/p5-02-local-qualification.json`, `research/results/h5-09-production-defaults.json` |
-| P5-03 | P0 | PARTIAL | CONTRACT | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` |
+| P5-03 | P0 | DONE | INTERNAL_INTEGRATION | `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json`, `research/results/p5-03-full-suite-matrix.json`, `research/results/p5-03-python311-tests.xml`, `research/results/p5-03-python312-tests.xml`, `research/results/p5-03-python313-tests.xml` |
 | P5-04 | P0 | DONE | INTERNAL_INTEGRATION | `tools/upgrade_rollback_smoke.py`, `research/results/p5-04-upgrade-rollback-smoke.json` |
 | P5-05 | P0 | DONE | INTERNAL_INTEGRATION | `tools/gen_stability.py`, `tools/gen_reference.py`, `tests/test_examples_run.py`, `tests/test_doc_examples.py`, `tests/test_reference_docs.py`, `tests/test_user_docs_no_research.py`, `research/results/p5-05-documentation-examples.xml` |
 | P5-06 | P0 | DONE | CONTRACT | `docs/LIMITATIONS.md`, `docs/KNOWN_GAPS.md` |

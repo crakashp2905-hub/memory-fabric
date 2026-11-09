@@ -14,7 +14,7 @@ from typing import Callable
 try:
     from .n3_02_exact_oracle import worlds
 except ImportError:  # Direct script execution places benchmarks/, not the repo root, on sys.path.
-    from n3_02_exact_oracle import worlds
+    from n3_02_exact_oracle import worlds  # type: ignore[no-redef]
 
 World = tuple[str, tuple[str, ...], Callable[[frozenset[str]], float]]
 SEEDS = 128
@@ -138,7 +138,7 @@ def run() -> dict[str, object]:
     }
     truths: dict[tuple[str, str], float] = {}
     queries: dict[str, list[int]] = {name: [] for name in method_estimates}
-    per_world: dict[str, dict[str, dict[str, object]]] = {}
+    per_world: dict[str, dict[str, dict[str, float | int]]] = {}
 
     for world_index, (world_name, memories, outcome) in enumerate(worlds()):
         exact = exact_shapley(memories, outcome)

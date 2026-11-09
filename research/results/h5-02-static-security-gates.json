@@ -1,30 +1,55 @@
 {
   "schema": "mf-qualification/1",
   "task_id": "H5-02",
-  "source_commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
-  "input_sha256": {
-    "tools/check.py": "aa973af2bbef2c88bb2d5a40fb8683221652c8ac331368b0fc7af83512d9f26f",
-    "tools/adversarial_gate.py": "1ab5369f9ac645e62791af12f200ded0c8113e158c9362db56f4b53229f718ac",
-    "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
-    "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef"
-  },
+  "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
   "checks": {
+    "quick_pipeline": "PASS",
     "ruff": "PASS",
-    "secret_scan": "PASS: 119 high findings, 0 unexpected",
-    "mypy": "FAIL: 50 errors in 11 files",
-    "adversarial_gate": {
-      "passed_families": 19,
-      "failed_families": [
-        "offline_peers_and_recovery",
-        "key_rotation_and_retired_keys"
+    "mypy": {
+      "status": "PASS",
+      "files": 197
+    },
+    "secret_scan": {
+      "status": "PASS",
+      "high_findings": 129,
+      "unexpected": 0
+    },
+    "security_ast": {
+      "status": "PASS",
+      "modules": 16,
+      "findings": 0
+    },
+    "internal_security_findings": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "external_review_required": [
+        "O7"
       ]
+    },
+    "documentation_tests": {
+      "status": "PASS",
+      "tests": 27
+    },
+    "adversarial_gate": {
+      "status": "PASS",
+      "families": 21,
+      "tests": 260
     },
     "unavailable_tools": [
       "pip-audit",
       "bandit"
     ]
   },
+  "input_sha256": {
+    "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
+    "tools/scan_secrets.py": "357bfb05169dfe338bc8a24be5169b95a06066c4ad4bc026a174df235d8501de",
+    "tools/security_ast_scan.py": "6b3a32d28521c10540724e388c4d9511676b74b4122fde755d417ff42639d75d",
+    "tools/security_findings.py": "aa00e43612ecdb511ebf74205f331c2b7421eb66366245e3d21e0f8cca454220",
+    "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
+    "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2"
+  },
   "limitations": [
-    "Mandatory configured mypy gate currently fails; full check.py stops there. Adversarial gate remaining failures are HTTP transport suites blocked by WinError 10013 in sandbox; all other families pass."
+    "pip-audit and bandit are unavailable and are not counted as passed.",
+    "Independent external security review O7 remains separate from this local gate."
   ]
 }

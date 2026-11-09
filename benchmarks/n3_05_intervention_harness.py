@@ -7,11 +7,12 @@ import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
+from typing import cast
 
 try:
     from .intervention_harness import RandomizedInterventionHarness
 except ImportError:  # Direct execution places benchmarks/, not the repository root, on sys.path.
-    from intervention_harness import RandomizedInterventionHarness
+    from intervention_harness import RandomizedInterventionHarness  # type: ignore[no-redef]
 
 SEED = 20_261_109
 UNITS = 10_000
@@ -54,11 +55,11 @@ def run() -> dict[str, object]:
     for row in first:
         strata[str(row["difficulty"])].append(row)
 
-    rates = {}
+    rates: dict[str, dict[str, float | int]] = {}
     for difficulty, rows in sorted(strata.items()):
         rates[difficulty] = {
             "units": len(rows),
-            "registered_probability_treated": rows[0]["probability_treated"],
+            "registered_probability_treated": cast(float, rows[0]["probability_treated"]),
             "observed_treatment_rate": sum(bool(row["treated"]) for row in rows) / len(rows),
             "registered_probability_observed_treated": 0.8,
             "registered_probability_observed_control": 0.9,
@@ -71,8 +72,10 @@ def run() -> dict[str, object]:
         }
 
     propensity_rows_correct = all(
-        row["assignment_propensity"]
-        == (row["probability_treated"] if row["treated"] else 1.0 - row["probability_treated"])
+        cast(float, row["assignment_propensity"])
+        == (cast(float, row["probability_treated"])
+            if cast(bool, row["treated"])
+            else 1.0 - cast(float, row["probability_treated"]))
         for row in first
     )
     rate_checks = all(

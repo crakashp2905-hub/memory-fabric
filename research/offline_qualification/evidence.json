@@ -1394,10 +1394,18 @@
         "src/memory_fabric/freshness.py",
         "tests/test_portable_paths.py",
         "docs/PORTABLE_PATHS.md",
-        "research/results/e5-10-portable-paths.xml"
+        "research/results/e5-10-portable-paths.xml",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/e5-10-portable-paths-py311.xml",
+        "research/results/e5-10-portable-paths-py312.xml",
+        "research/results/e5-10-portable-paths-py313.xml"
       ],
       "limitations": [
-        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS × Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+        "The selected portable-path suite passed on Windows/Python 3.11.15, 3.12.13 and 3.13.5 (5 tests and 3 subtests per interpreter); the full suite also passed on all three versions.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
       ]
     },
     {
@@ -2061,11 +2069,12 @@
     },
     {
       "task_id": "H5-01",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "pyproject.toml",
+        "uv.lock",
         "tools/dependency_provenance.py",
         "tools/normalize_sdist.py",
         "tests/test_normalize_sdist.py",
@@ -2075,9 +2084,8 @@
         "research/results/h5-01-normalize-sdist-tests.xml"
       ],
       "limitations": [
-        "Two fixed-epoch local builds produced byte-identical core wheels and normalized sdists; the wheel installed in a fresh no-index virtual environment.",
-        "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
-        "The wheel and sdist are local candidates, not a release, and no package was published."
+        "This qualifies reproducible local core artifacts and a complete dependency lock; no package was published.",
+        "Optional integrations were resolved in the lock but are not claimed to have been installed or exercised."
       ]
     },
     {
@@ -3019,15 +3027,20 @@
     },
     {
       "task_id": "P5-03",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/python_compatibility.py",
-        "research/results/p5-03-python-compatibility.json"
+        "research/results/p5-03-python-compatibility.json",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml"
       ],
       "limitations": [
-        "Python 3.11 and 3.12 are NOT_TESTED because no interpreters are locally available. Python 3.13.5 received only an import smoke check, not a full suite."
+        "Full 2,790-test suite passed on Windows 11 for Python 3.11.15, 3.12.13 and 3.13.5; skipped tests and subtest counts are recorded in each run artifact.",
+        "This evidence does not establish Linux or macOS compatibility; those matrix cells remain part of E5-10."
       ]
     },
     {

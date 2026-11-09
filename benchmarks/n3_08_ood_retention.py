@@ -94,7 +94,7 @@ def _projection_from_rows(rows: list[dict[str, Any]]) -> tuple[Projection, Event
     return projection, log
 
 
-def _source_training(seed: int) -> tuple[dict[str, float], dict[str, float]]:
+def _source_training(seed: int) -> tuple[dict[str, float], dict[str, str]]:
     rng = random.Random(10_000 + seed)
     rows: list[dict[str, Any]] = []
     memory_kinds: dict[str, str] = {}

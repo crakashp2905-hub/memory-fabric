@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0764476e60141c5c0f2c394fa1d232db92169e541e4806a67039dd0e8c02fcf3",
+    "sha256": "1403397600591e9632e0e121391654aaeeb99f7824a541a5a88cf4e76a3410c7",
     "tasks": 260
   },
   "source": {
-    "commit": "34140473ac59c9966cced8f9a055ffe37d7d34b0",
-    "dirty": false
+    "commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 257,
-      "PARTIAL": 3
+      "DONE": 259,
+      "PARTIAL": 1
     },
-    "completed": 257,
+    "completed": 259,
     "total": 260,
-    "percent_complete": 98.85,
-    "p0_open": 1,
+    "percent_complete": 99.62,
+    "p0_open": 0,
     "internal_status": "BLOCKED"
   },
   "gates": {
@@ -1171,9 +1171,9 @@
       "evidence_digests": {
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "STABILITY.md": "69106f23aeea86f01d81fb6fb66d21dc9fb3e4de714f714fd568563179e3282c",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "STABILITY.md": "4654a32fa6d9ea5df83a8ef08d1ad188b7db04fed599c8b527b1174191c32b8d",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -1200,7 +1200,7 @@
         "research/results/e5-02-typed-wheel.json"
       ],
       "evidence_digests": {
-        "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
+        "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2",
         "src/memory_fabric/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "tools/check_typed_consumer.py": "66776d0b1770eb44f3ac620672ebb008c46ae4bc6f9b359e6503466a86941873",
         "research/results/e5-02-typed-wheel.json": "772133bbe46a271b45eacf920eef711a44afd32275f5f8349f69c9b82e305689"
@@ -1267,7 +1267,7 @@
       ],
       "evidence_digests": {
         "docs/EXPERIMENTAL_DEFAULTS.md": "4c0ae759ff9963a322476e30ed3c743d45c12ac08f743067d243b44b822d99f8",
-        "tests/data/default_features.json": "83504b3ef4dab543b5f32af7b50c9ce83a9a238e1cc6ce4780059f38eb8fe041",
+        "tests/data/default_features.json": "c7e3146633a6bbdf1b9ffd57cdc6b52c56b03bf13bcb13d6564227e9d8979b32",
         "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
         "research/results/e5-04-default-flags.json": "9eeab37df605d96b55e4a81ee6c99da40d93514bba4fc95b6287678fac9b9afb",
@@ -1431,7 +1431,7 @@
       "task_id": "E5-10",
       "priority": "P1",
       "task": "Test Windows/macOS/Linux path and encoding assumptions using portable local fixtures.",
-      "acceptance": "Text, unicode, separators, line endings and case-collision guards pass across available CI matrix. Evidence: `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml` (PARTIAL: 40 selected portable-path, freshness and event-log tests plus 15 subtests pass on Windows/Python 3.13.5, covering Unicode paths/content, native separators, LF/CRLF/CR JSONL input, normalized LF output and tracked-path case-fold collisions. CI config covers Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13, but this branch has no results from the other matrix cells; cross-platform acceptance remains unverified.)",
+      "acceptance": "Text, unicode, separators, line endings and case-collision guards pass across available CI matrix. Evidence: `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml`, `research/results/p5-03-full-suite-matrix.json` (PARTIAL: selected portable-path tests and full suites pass locally on Windows with Python 3.11.15, 3.12.13 and 3.13.5. Ubuntu and macOS matrix cells remain unverified because those runners were unavailable locally.)",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -1439,17 +1439,26 @@
         "src/memory_fabric/freshness.py",
         "tests/test_portable_paths.py",
         "docs/PORTABLE_PATHS.md",
-        "research/results/e5-10-portable-paths.xml"
+        "research/results/e5-10-portable-paths.xml",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml"
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
         "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
-        "research/results/e5-10-portable-paths.xml": "c9903e4a9d079afd55da5ef27b51c1c563907b07baa868f724d43fd470feb7e9"
+        "research/results/e5-10-portable-paths.xml": "c9903e4a9d079afd55da5ef27b51c1c563907b07baa868f724d43fd470feb7e9",
+        "research/results/p5-03-full-suite-matrix.json": "ced116e2e4957cd0e526d45639f563c7111411d68ee419960bdd4c8b1d39012e",
+        "research/results/p5-03-python311-tests.xml": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
+        "research/results/p5-03-python312-tests.xml": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
+        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384"
       },
       "evidence_issues": {},
       "limitations": [
-        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+        "Selected portable-path tests and all full suites pass on Windows for Python 3.11.15, 3.12.13 and 3.13.5.",
+        "Ubuntu and macOS matrix results are unavailable on this local host; cross-platform acceptance remains unverified."
       ]
     },
     {
@@ -1493,7 +1502,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "c6f00fa618a9c61240f6be7758d6e8be54fb7b2745adfa07000dc6c9e8202843",
+        "research/results/MANIFEST.json": "80439b004a6b30710287c4a96ec8bfc7796d2873f184eafbe11b42f64770ce31",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -2843,13 +2852,13 @@
       ],
       "evidence_digests": {
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
-        "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
+        "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2",
         "src/memory_fabric/model.py": "926c0413821d5a50b281add679c94bf1e922898a36a33e8bb095f8342535175d",
         "src/memory_fabric/decision_records.py": "6318b5ce2e5632fcd4167118a912ad5a63e52e38c34eb7ff9277daf1bd906fe2",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "research/results/n1-01-decision-record-tests.xml": "6bb514482e60402ba471e44311223330755789b2474eee2bc28d23d28d78b51f"
       },
@@ -3070,8 +3079,8 @@
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "tests/test_revision_conflicts.py": "42bdce5761f54e0964018ce7c9541e3937b3b21806d138e38a216abc48c20ec8",
         "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
         "tests/test_fabric.py": "811679fd2c23d38662ec1022879bbab8d334247503a20eecf28db49a0155d73e",
@@ -3162,8 +3171,8 @@
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_requirement_graph.py": "f980d9a45ffb5448a912662315ee88d0c965f66b7f454f7ff643422e6b1d8491",
@@ -3205,8 +3214,8 @@
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
@@ -3259,8 +3268,8 @@
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_requirement_explanations.py": "feebfff9e022d5331a755b35cdfe1f39b0e513bb30fc1463a33c2e3908dbb587",
@@ -3311,8 +3320,8 @@
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
@@ -3361,8 +3370,8 @@
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "SPEC.md": "52a53311ebaa8468d7a5774c37ecebcc83fa88bcba2e648b07c4a9b8bc1caa9e",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
@@ -3463,8 +3472,8 @@
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "docs/READ_ONLY_ADVISORIES.md": "844048c0877487fb2437e3173b3e47ea22bc8ef7e70476424a5b5fa23cbb09e9",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_advisory.py": "971538a1972b069c5c70d7e48e73e3482c2ecd4d44cab010b45424dfc0f381e3",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
@@ -3547,8 +3556,8 @@
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/AUTHORIZATION_PROOF_RECEIPTS.md": "bdbfa667fb5e5d8e571d1fec9e16021900dd9acfb8471da3db7a78e489319013",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "CHANGELOG.md": "ffddf450e85a05c6fb6133d94222a51969ae41246bf5c5dc9be706a2defd7217",
         "tests/test_authorization_receipt.py": "1a3a4842e9d4592c77e422ad748917af018d024ad32868cabeee1032c0b4041e",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
@@ -4023,7 +4032,7 @@
         "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_temporal.py": "9a5ba9efd3a3677928ae56af77241fe73e1775675f61308e6d722d2cad471590",
         "experiments/n4_05_temporal_compaction.py": "dfa824b5db7059101e7dfdd3f00258664de37e169a228dedcd3a5b0b8acfabcf",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
         "research/results/n4-05-temporal-compaction.json": "817560e44f78b5de7510fadacca509bad70442449dabda8728704f5440a11330",
         "research/results/n4-05-temporal-compaction.md": "ded21b5c7c93f4973de4b9f4c9c41509f008d8b3feb72e6e74077f37be64b6c1",
         "research/results/n4-05-temporal-tests.xml": "06f4dd2f5d98a81f212ebc8870c6200aed19840c5eaed01be6182830e71e620f",
@@ -4057,7 +4066,7 @@
         "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_budget.py": "e7a194c1414f9c4882c5b6e8e7725d051a2dcba2019f3dd8eeb99a5ff3239f4c",
         "experiments/n4_06_budgeted_compaction.py": "236968a58c1f835eb794340d539c14ad440a887496b53da2e1bb41fa90209b5a",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
         "research/results/n4-06-budgeted-compaction.json": "5f574175def7b0715d028baf3e8235b165250fd9608037552b8cc12c7e8bd4f1",
         "research/results/n4-06-budgeted-compaction.md": "dbc13bf697633cfb63b4b7fc623093d48e26c1846a39d2819c6ae004b5ce5bd8",
         "research/results/n4-06-budget-tests.xml": "3cac77cb53b55cd537aba3901c45e60487676905e6f4e5a8519de51832419612",
@@ -4123,7 +4132,7 @@
         "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_compaction_certificate.py": "4e5c4dec1b4936941a6bb92a83ca1e30f85dd78c4df6d5b6dec5b8cded415d6b",
         "experiments/n4_08_lossy_compaction.py": "1bc011d28720008778400ec7e365fd41c2315363c779ed851f85c4ec3038c7ce",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
         "research/results/n4-08-lossy-compaction.json": "59fe309fa0175a6b1e7e77666febfea3e160376a23815122cb56f661db891c1a",
         "research/results/n4-08-lossy-compaction.md": "cfc9c091dc04c9c559e8fcfbb1a892bda8aad39e6cded11088d182ceb0dcd58b",
         "research/results/n4-08-lossy-compaction-tests.xml": "7f3ea428993b44a250c8ffa9841423931c55c0ef7edfc45c180d83281a030fdf",
@@ -4218,7 +4227,7 @@
         "src/memory_fabric/consensus.py": "df1f95dfd8bec8521a90f85491a4b44a295195db8ae461a6ae5fdaacbf9607a9",
         "tests/test_consensus.py": "12dfb78a7c772edc2e0188cc9fbd9694de0e033e3f252cc2cfddb1c5bf1f0772",
         "experiments/n5_01_origin_clusters.py": "c0703da03308e9eb21a4741f6d011b8fbd505cd344070812ac4f79351c8d064e",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
         "research/results/n5-01-origin-clusters.json": "a2ea7b9a96b5ad66c97b1936bdae70dc705eabfdde46339972c587b05ddddcce",
         "research/results/n5-01-origin-clusters.md": "cd197e741d0b4e2cf0e782b759443358416aa0f9282cc272c556c8dbd3fc59f0",
         "research/results/n5-01-origin-cluster-tests.xml": "e369df881d13bdf9fa5c8be11ac25bda5129622638c9cb2ebb4c018868adecfa",
@@ -4536,7 +4545,7 @@
         "research/prereg/n5-10-false-consensus-recovery-v1.md": "a199e79423c6ce9fb221118c4cab15d03e34b69042c2777b362f32759db84dd7",
         "research/prereg/n5-10-followup-false-consensus-recovery-v1.md": "c05aac71990e41fbc5c75fa0797414d9c3efe35a926e54fe232fc50057ef1862",
         "experiments/n5_10_false_consensus_recovery.py": "c65d3d51dca2d21dbfa29c063df33da37a98571578fce02c6c3cb30ec56719f0",
-        "tests/test_n5_10_false_consensus_recovery.py": "30bab38731ebf052fa5bc4cba78120e6b35d6aa5d997cd7000562e01d4d0d1ee",
+        "tests/test_n5_10_false_consensus_recovery.py": "2c88cdae8c4b9eac82b098842493049ca6662da909e64abc469f9669580c61ae",
         "research/results/n5-10-experiment-tests.xml": "8f3cafd06b0fd3f691400ab7274f309b6970f2eb8018769819d952117f52321a",
         "research/results/n5-10-false-consensus-recovery.json": "ac193b4c9f0caa9e02f3b118de374afe8b1b1b4f91f7d5f6d2ba84bd462d85f7",
         "research/results/n5-10-false-consensus-recovery.md": "02a0fdd407b8b051a1050f0920f61faab34de01bf47b7cfefac469005e7e9679",
@@ -5719,7 +5728,7 @@
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
-        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
+        "docs/TROUBLESHOOTING.md": "d8fb8dfdcb61e209776df368dafa647f82e4e231cf8995ae25a52942cfcf3838",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "475b7c0ed68b776a9da20c0ea09104cdd3e71edf4de2a9062e5026a8a8e32c31",
         "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
@@ -6011,12 +6020,13 @@
       "task_id": "H5-01",
       "priority": "P1",
       "task": "Generate dependency and build provenance inventory for core and optional extras from local lock metadata.",
-      "acceptance": "Every released artifact has package list, source SHA and reproducible build instructions. Evidence: `pyproject.toml`, `tools/dependency_provenance.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json` (PARTIAL: a core wheel built from `d9eeb31` is byte-identical across two fixed-epoch local builds, has its package manifest/hash and installed in a fresh no-index venv. The sdist did not reproduce because tar directory timestamps differed. `uv lock --offline` failed because `pytest==9.0.3` metadata is absent from cache, leaving all optional-extra transitive locks unresolved. No package was published; installed versions do not substitute for lock metadata.)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "acceptance": "Every released artifact has package list, source SHA and reproducible build instructions. Evidence: `pyproject.toml`, `uv.lock`, `tools/dependency_provenance.py`, `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json`, `research/results/h5-01-normalize-sdist-tests.xml` (DONE: uv.lock resolves 114 packages across the core and every declared extra; two fixed-epoch builds from source commit `6d09ed3` produced byte-identical wheels and normalized sdists, with package manifests, hashes, build instructions and a fresh no-index wheel install recorded.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "pyproject.toml",
+        "uv.lock",
         "tools/dependency_provenance.py",
         "tools/normalize_sdist.py",
         "tests/test_normalize_sdist.py",
@@ -6026,20 +6036,20 @@
         "research/results/h5-01-normalize-sdist-tests.xml"
       ],
       "evidence_digests": {
-        "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
-        "tools/dependency_provenance.py": "6302e2e27ad1471f6dd27de28f3da93e062adda95c5c2721002b4b2a579a7dfa",
+        "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2",
+        "uv.lock": "087b8c0bdf9f34c1c2796f1f28e90ca12c49114c0a109dad94976cfbdb891df2",
+        "tools/dependency_provenance.py": "56aab9be9c8eae4bf389471c667530eb16328e75c8646f1dff5282e8f3533a5b",
         "tools/normalize_sdist.py": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
         "tests/test_normalize_sdist.py": "f0acfb36b997b7d28dcfc0c007cb93cffe5b039cbedd9bd97ac6d566f822f293",
-        "docs/REPRODUCIBLE_CORE_BUILD.md": "f141e26b273ae24e1b7034d28f64b0165d5cfe6512ca49846572cb0b530320c5",
-        "research/results/h5-01-core-build-repeatability.json": "b17195b897673515423c47f72980a1a6d76e5313b9fddff8af3908f64e07b972",
-        "research/results/h5-01-dependency-provenance.json": "099e4f96dc5a90792c8b5e94dada97f09724d01958d89e8cc6b7834e269ad9c3",
-        "research/results/h5-01-normalize-sdist-tests.xml": "c6ed72826ea9176d054492e1b4bd407f63a1405c04bbc0ccd763783e7adb8c5a"
+        "docs/REPRODUCIBLE_CORE_BUILD.md": "eaabe01e9422afe4d4b443d81ee105827c188798f5e743a7e2abe9c667dba85c",
+        "research/results/h5-01-core-build-repeatability.json": "6bc7a1b3fc72db816c3f0c5b0a43eb963b2125625384832ab0902ce973f269a6",
+        "research/results/h5-01-dependency-provenance.json": "1d5078726fcfe71c4b3b366c2b8abf50e6f1b9d730f10b753b56683a58ddffcb",
+        "research/results/h5-01-normalize-sdist-tests.xml": "0ac850ee7eb43219de5a35a686dcc6f8549d397b23d2c0325dabf8337fcc0378"
       },
       "evidence_issues": {},
       "limitations": [
-        "Two fixed-epoch local builds produced byte-identical core wheels and normalized sdists; the wheel installed in a fresh no-index virtual environment.",
-        "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
-        "The wheel and sdist are local candidates, not a release, and no package was published."
+        "This qualifies reproducible local core artifacts and a complete dependency lock; no package was published.",
+        "Optional integrations were resolved in the lock but are not claimed to have been installed or exercised."
       ]
     },
     {
@@ -6061,7 +6071,7 @@
       "evidence_digests": {
         "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
-        "tests/test_secure_sdlc_inventory.py": "85659cd2956f4a2d372fe75a40a4edc6fd34b3a4efeab4b3524d10585847a83a",
+        "tests/test_secure_sdlc_inventory.py": "2a11c4858561b128ef18b749e7fa3630de42654d9139bd2b402f14e0309acc26",
         "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
         "research/results/h5-02-static-security-gates.json": "09e4783869c0b9f5b79542fae10923e627e3b46f739f81b4f937f2118c5f77dd",
         "research/results/h5-01-02-local-tool-inventory-tests.xml": "6d00febbe5ace55a0ab01d0e620fcf29eeec28381b08f9ad6354e993c6ff1b4e"
@@ -6266,7 +6276,7 @@
       ],
       "evidence_digests": {
         "tools/audit_production_defaults.py": "48485e4850c517bc9fa4d585ff8121853d569183be084f1a19e7061f4c02cc88",
-        "tests/data/default_features.json": "83504b3ef4dab543b5f32af7b50c9ce83a9a238e1cc6ce4780059f38eb8fe041",
+        "tests/data/default_features.json": "c7e3146633a6bbdf1b9ffd57cdc6b52c56b03bf13bcb13d6564227e9d8979b32",
         "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
         ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
         "research/results/h5-09-production-defaults.json": "6866ea928027ce2b50b3cdb2b75688347203c1f4c92724c14001a674d0aa02fd"
@@ -6548,7 +6558,7 @@
         "examples/README.md": "19b0baddd5bc56eb3dc46b459e3bbbd871d025c62170ae22690fb185cbdf4a9c",
         "tests/test_examples_run.py": "61407d6dd43e004687c1e69f185d64c23ba3c145ee1ad0ce552ea81b75d8540c",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
-        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
+        "docs/TROUBLESHOOTING.md": "d8fb8dfdcb61e209776df368dafa647f82e4e231cf8995ae25a52942cfcf3838",
         "research/results/p1-07-why-blocked.json": "fcb50baa15005ff94ea2db3d3e2d0d778b98fcbdd791b755f582e8eb2648d4aa",
         "research/results/p1-07-why-blocked.txt": "1114460986292a1a00becafa8ae2030a7ea2465af2074d86a814fb711f9b120b"
       },
@@ -6580,8 +6590,8 @@
         "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
         "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770",
         "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
-        "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
-        "docs/API_INVENTORY.json": "15615714b0b2bc5a9a0fbf65c20ea6f50a7abfaffe5e43acd5413af62cf6891c",
+        "docs/API.md": "781447b16cb72a2575d6c13347caa01ca0c31b92a8d5b9d6f8eb5b0a7d8ff487",
+        "docs/API_INVENTORY.json": "f454b8becf5a1bf5bca2cbff50ee0dd50478e03e7652f9966bd62268aef386c8",
         "research/results/p1-08-offline-mode.json": "12f81837862632491b0305009817030550b5b9a1474242b357ad40f8945b7b4c",
         "research/results/p1-08-offline-mode.txt": "e1e06a433688b30386cdcd67a5a64a27b17a720a0cf26994ccff4738461b97c6"
       },
@@ -7013,7 +7023,7 @@
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "7c6815fe426b365e3126cd9028cd20b8c833b0c5a637ec4f56a82a4624474945",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7044,13 +7054,13 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/cli.py": "e5cf7e464b0273f545a929597b2f11cee6ced37ca6b7dc925cf21a97bdde0745",
-        "src/memory_fabric/reasons.py": "0a866fd17c9991ab2ff4bc2e30d8a3afdfac392f2af56101d815cf8bd2ea04df",
+        "src/memory_fabric/reasons.py": "1d3a3a7dec00e62b4f055ae6506c65ae144ee0c6f50a762de6ef022b5f8ff9f4",
         "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "docs/CLI.md": "eb28d2757b1b82fd3a17687aa8eaba1a035d314e6a277318afb4e95891dd5a4a",
-        "docs/TROUBLESHOOTING.md": "e02420c7e99f46b671e5c122f2f1b3ca055ce6d31d701298f1b56fe96b6aad91",
+        "docs/TROUBLESHOOTING.md": "d8fb8dfdcb61e209776df368dafa647f82e4e231cf8995ae25a52942cfcf3838",
         "research/results/p3-03-refusal-explainer.json": "d0f0f043daed3051d0db3b24180da0ed4c13744ec17440f393ed695e3f3cf660",
         "research/results/p3-03-refusal-explainer.txt": "9461ada349627121c5def79228df16595a62aa6d4ee8e2566adc7045558b4c4a"
       },
@@ -7081,7 +7091,7 @@
         "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "eb28d2757b1b82fd3a17687aa8eaba1a035d314e6a277318afb4e95891dd5a4a",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7149,7 +7159,7 @@
         "tests/test_incident_replay.py": "bab1345b0fdf9590ba93ef84c8bab6510dd773cfde6c9cde7011bf813c6fa7a3",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "docs/INCIDENT_REPLAY.md": "964cb74bb4cf96398a27163862cbba5fc6a55920300227b7e1c50d8588664e49",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739",
         "research/results/p3-06-incident-replay.json": "19e2043a40d82da5f171be9171c7cb52fe23f802fd622aa623cad6b15915c26d"
       },
       "evidence_issues": {},
@@ -7189,7 +7199,7 @@
         "tools/resource_budget_smoke.py": "9266a01470812752947a3331b598f7e8f873a5c36934b0e80cbb89128f4522ce",
         "research/results/p3-07-resource-budgets.json": "ac323f96f384d779b1907cde8c5dc02d2984d3e9bbab53aa7186544136a8a780",
         "docs/RESOURCE_BUDGETS.md": "ae68b51b7959e4cbc34efa226e137b7f49a85c00fe00ae4da3b407c2561042fe",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7244,7 +7254,7 @@
         "tests/test_support_bundle.py": "7463e79769974be5e69fdea081838301a49d89e695860184bf3fe10bde2799af",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "eb28d2757b1b82fd3a17687aa8eaba1a035d314e6a277318afb4e95891dd5a4a",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138"
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7301,7 +7311,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739",
         "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -7476,7 +7486,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
-        "docs/README.md": "1db9d289246f66d41d9d10a549bdcd893ebffc970f0048117a70dbff16599138",
+        "docs/README.md": "c462bf7d9ca6fc401c2c64cd100ab1b75d7fe895c561d1b9a5007916c1c41739",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
@@ -7635,21 +7645,30 @@
       "task_id": "P5-03",
       "priority": "P0",
       "task": "Confirm 3.11, 3.12 and 3.13 compatibility only when actual interpreter is locally available.",
-      "acceptance": "Missing interpreter remains NOT_TESTED; CI evidence needed for full matrix claim. Evidence: `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json` (PARTIAL: Python 3.13.5 import smoke passes; 3.11 and 3.12 remain NOT_TESTED because no interpreter is installed/discoverable; a smoke import is not a full compatibility suite)",
-      "status": "PARTIAL",
-      "acceptance_passed": false,
-      "evidence_level": "CONTRACT",
+      "acceptance": "Missing interpreter remains NOT_TESTED; CI evidence needed for full matrix claim. Evidence: `tools/python_compatibility.py`, `research/results/p5-03-python-compatibility.json`, `research/results/p5-03-full-suite-matrix.json`, `research/results/p5-03-python311-tests.xml`, `research/results/p5-03-python312-tests.xml`, `research/results/p5-03-python313-tests.xml` (DONE: complete 2,790-test suite passes on Windows 11 for Python 3.11.15, 3.12.13 and 3.13.5; JUnit XML preserves skipped tests and subtest totals. This qualifies the available Python versions on Windows, not Linux/macOS.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
       "evidence_paths": [
         "tools/python_compatibility.py",
-        "research/results/p5-03-python-compatibility.json"
+        "research/results/p5-03-python-compatibility.json",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml"
       ],
       "evidence_digests": {
-        "tools/python_compatibility.py": "8ae6daf53315f4da151138464eed2935a54669429f272772253b4ae2317b9134",
-        "research/results/p5-03-python-compatibility.json": "32dc30ecfb8a0aed9d2c562f1e212f2c79be5e4a5d2eba054a4cd80c7d0848e5"
+        "tools/python_compatibility.py": "f23c58a711f7124e0380803ab776ae9548f3e3f78c8683c70bd80f6b6a0099fa",
+        "research/results/p5-03-python-compatibility.json": "bd49f463fcb5acd668997cf1bedc54b6f69359f91b86a5a6e240a7baa94248dc",
+        "research/results/p5-03-full-suite-matrix.json": "ced116e2e4957cd0e526d45639f563c7111411d68ee419960bdd4c8b1d39012e",
+        "research/results/p5-03-python311-tests.xml": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
+        "research/results/p5-03-python312-tests.xml": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
+        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384"
       },
       "evidence_issues": {},
       "limitations": [
-        "Python 3.11 and 3.12 are NOT_TESTED because no interpreters are locally available. Python 3.13.5 received only an import smoke check, not a full suite."
+        "Full 2,790-test suite passed on Windows 11 for Python 3.11.15, 3.12.13 and 3.13.5; skipped tests and subtest counts are recorded in each run artifact.",
+        "This evidence does not establish Linux or macOS compatibility; those matrix cells remain part of E5-10."
       ]
     },
     {

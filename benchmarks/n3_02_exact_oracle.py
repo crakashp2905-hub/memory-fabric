@@ -44,6 +44,7 @@ def exact_effect(
 
 def run() -> dict[str, object]:
     result_worlds: list[dict[str, object]] = []
+    total_enumerated_subsets = 0
     for world_name, memories, outcome in worlds():
         log = EventLog(":memory:")
         projection = Projection()
@@ -56,6 +57,7 @@ def run() -> dict[str, object]:
             frozenset(memory for memory, included in zip(memories, flags) if included)
             for flags in itertools.product((False, True), repeat=len(memories))
         ]
+        total_enumerated_subsets += len(subsets)
         for index, included in enumerate(subsets):
             episode_id = f"{world_name}-{index:02d}"
             emit(ev.episode_started(
@@ -106,7 +108,7 @@ def run() -> dict[str, object]:
         "assignment_propensity": 0.5,
         "tolerance": TOLERANCE,
         "world_count": len(result_worlds),
-        "total_enumerated_subsets": sum(int(w["enumerated_subsets"]) for w in result_worlds),
+        "total_enumerated_subsets": total_enumerated_subsets,
         "passed": all_passed,
         "worlds": result_worlds,
         "limitations": [

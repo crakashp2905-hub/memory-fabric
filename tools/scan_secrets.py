@@ -50,6 +50,9 @@ ALLOWED_LINES = {
     # `token=args.token`, which is code rather than an assignment of a secret.
     ("src/memory_fabric/estimators.py", "credit_card"),
     ("src/memory_fabric/cli.py", "password_assignment"),
+    # Generic bearer-token variables read from a request header and sent by a
+    # synthetic protocol benchmark are not embedded credentials.
+    ("experiments/n6_05_protocol_equivalence.py", "password_assignment"),
     # The staging run's adversary submits a fake credential on purpose, to
     # check that the ingest screen quarantines it.
     ("experiments/staging_run.py", "password_in_prose"),

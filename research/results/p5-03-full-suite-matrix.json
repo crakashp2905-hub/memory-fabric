@@ -1,0 +1,74 @@
+{
+  "schema": "memory-fabric-python-full-suite-matrix/1",
+  "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+  "command": "python -m pytest tests -q",
+  "platform": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200"
+  },
+  "results": [
+    {
+      "python": "3.11",
+      "observed_runtime": "3.11.15",
+      "status": "PASS",
+      "summary": {
+        "passed": 2759,
+        "skipped": 31,
+        "subtests_passed": 2714
+      },
+      "junit": {
+        "path": "research/results/p5-03-python311-tests.xml",
+        "tests_including_subtests": 5504,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 31,
+        "sha256": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
+        "hostname": "DESKTOP-LDJIE30"
+      }
+    },
+    {
+      "python": "3.12",
+      "observed_runtime": "3.12.13",
+      "status": "PASS",
+      "summary": {
+        "passed": 2759,
+        "skipped": 31,
+        "subtests_passed": 2714
+      },
+      "junit": {
+        "path": "research/results/p5-03-python312-tests.xml",
+        "tests_including_subtests": 5504,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 31,
+        "sha256": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
+        "hostname": "DESKTOP-LDJIE30"
+      }
+    },
+    {
+      "python": "3.13",
+      "observed_runtime": "3.13.5",
+      "status": "PASS",
+      "summary": {
+        "passed": 2773,
+        "skipped": 17,
+        "subtests_passed": 2730
+      },
+      "junit": {
+        "path": "research/results/p5-03-python313-tests.xml",
+        "tests_including_subtests": 5520,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 17,
+        "sha256": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384",
+        "hostname": "DESKTOP-LDJIE30"
+      }
+    }
+  ],
+  "all_supported_versions_passed": true,
+  "limitations": [
+    "All three supported Python versions ran on this Windows host. This is not evidence for Linux/macOS matrix cells.",
+    "Skipped tests are retained in JUnit reports and were not counted as passes."
+  ]
+}

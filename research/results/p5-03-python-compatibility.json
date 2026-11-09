@@ -1,6 +1,6 @@
 {
   "schema": "mf-python-compatibility-availability/1",
-  "source_commit": "75cc9add67442c66b8dea3b2dbd5a148e58108c5",
+  "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
   "supported_versions": [
     "3.11",
     "3.12",
@@ -9,13 +9,19 @@
   "results": [
     {
       "version": "3.11",
-      "status": "NOT_TESTED",
-      "reason": "No interpreter binary for this version is installed or discoverable."
+      "status": "SMOKE_PASS",
+      "executable": "D:\\Memory Fabric\\master-checklist\\.uv-python\\cpython-3.11-windows-x86_64-none\\python.exe",
+      "observed_version": "3.11.15",
+      "return_code": 0,
+      "stderr": ""
     },
     {
       "version": "3.12",
-      "status": "NOT_TESTED",
-      "reason": "No interpreter binary for this version is installed or discoverable."
+      "status": "SMOKE_PASS",
+      "executable": "D:\\Memory Fabric\\master-checklist\\.uv-python\\cpython-3.12-windows-x86_64-none\\python.exe",
+      "observed_version": "3.12.13",
+      "return_code": 0,
+      "stderr": ""
     },
     {
       "version": "3.13",
@@ -26,7 +32,7 @@
       "stderr": ""
     }
   ],
-  "full_matrix_confirmed": false,
+  "all_interpreters_smoke_confirmed": true,
   "limitations": [
     "A smoke import does not establish full test-suite compatibility.",
     "NOT_TESTED versions require CI or a machine with those interpreter binaries."

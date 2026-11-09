@@ -98,6 +98,8 @@ def _world(copy_count: int) -> tuple[tuple[str, ...], Projection]:
 
 def run() -> dict[str, object]:
     rows: list[dict[str, object]] = []
+    useful_values: list[float] = []
+    irrelevant_totals: list[float] = []
     for copy_count in COPY_COUNTS:
         memories, projection = _world(copy_count)
         estimator = IPSEstimator(min_n_eff=2.0)
@@ -111,6 +113,8 @@ def run() -> dict[str, object]:
         )
         irrelevant_ips_values = [estimator.estimate(memory).mean for memory in irrelevant_ids]
         irrelevant_ips_total = sum(irrelevant_ips_values)
+        useful_values.append(useful_ips)
+        irrelevant_totals.append(irrelevant_ips_total)
         rows.append({
             "irrelevant_copy_count": copy_count,
             "recognized_copy_count": len(projection.state.copy_of),
@@ -124,8 +128,6 @@ def run() -> dict[str, object]:
             "irrelevant_group_max_abs_ips": max(abs(value) for value in irrelevant_ips_values),
         })
 
-    useful_values = [float(row["useful_ips_estimate"]) for row in rows]
-    irrelevant_totals = [float(row["irrelevant_group_ips_total"]) for row in rows]
     result: dict[str, object] = {
         "schema": "memory-fabric-n3-06-copy-invariance/1",
         "copy_counts": list(COPY_COUNTS),

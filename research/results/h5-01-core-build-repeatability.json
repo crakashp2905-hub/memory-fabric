@@ -1,39 +1,47 @@
 {
   "schema": "memory-fabric-h5-01-core-build-repeatability/1",
   "task_id": "H5-01",
-  "source_commit": "3ff1ff69f9068084d738f37c6e40b2114f3b91a3",
-  "source_tree_clean_at_build_start": true,
+  "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+  "source_tree_clean_at_build_start": false,
+  "package_inputs_clean_at_build_start": true,
   "python": "3.13.5",
-  "command": "python -m build --no-isolation --sdist --wheel with SOURCE_DATE_EPOCH=0; normalize each .tar.gz with tools/normalize_sdist.py",
+  "command": "python -m build --no-isolation --wheel --sdist; normalize each sdist with tools/normalize_sdist.py; SOURCE_DATE_EPOCH=0",
   "normalizer_sha256": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
-  "build_frontend": "build 1.6.1",
+  "build_frontend": "1.6.1",
   "backend": "setuptools 80.9.0",
-  "wheel": {
-    "run_1": {
-      "name": "memory_fabric-0.19.0-py3-none-any.whl",
-      "bytes": 718537,
-      "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
-    },
-    "run_2": {
-      "name": "memory_fabric-0.19.0-py3-none-any.whl",
-      "bytes": 718537,
-      "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
-    },
-    "byte_identical": true
+  "dependency_lock": {
+    "path": "uv.lock",
+    "sha256": "087b8c0bdf9f34c1c2796f1f28e90ca12c49114c0a109dad94976cfbdb891df2",
+    "packages": 114
   },
-  "sdist_normalized": {
-    "run_1": {
-      "name": "memory_fabric-0.19.0.tar.gz",
-      "bytes": 626381,
-      "sha256": "2ee4756b1b6b63d0dcd8219877d7222a3419824129b72b4263bb60d2cfaeb14f"
+  "runs": [
+    {
+      "wheel": {
+        "name": "memory_fabric-0.19.0-py3-none-any.whl",
+        "bytes": 718766,
+        "sha256": "94779a507a712f02b5f398e2e4eaa1836c0fea50a32f6f3455d61f1e4594d487"
+      },
+      "sdist_normalized": {
+        "name": "memory_fabric-0.19.0.tar.gz",
+        "bytes": 626631,
+        "sha256": "e5fae5740807235579310a2bd81de818706ab9ea54c2b059e4ae061db3ad2527"
+      }
     },
-    "run_2": {
-      "name": "memory_fabric-0.19.0.tar.gz",
-      "bytes": 626381,
-      "sha256": "2ee4756b1b6b63d0dcd8219877d7222a3419824129b72b4263bb60d2cfaeb14f"
-    },
-    "byte_identical": true
-  },
+    {
+      "wheel": {
+        "name": "memory_fabric-0.19.0-py3-none-any.whl",
+        "bytes": 718766,
+        "sha256": "94779a507a712f02b5f398e2e4eaa1836c0fea50a32f6f3455d61f1e4594d487"
+      },
+      "sdist_normalized": {
+        "name": "memory_fabric-0.19.0.tar.gz",
+        "bytes": 626631,
+        "sha256": "e5fae5740807235579310a2bd81de818706ab9ea54c2b059e4ae061db3ad2527"
+      }
+    }
+  ],
+  "wheel_byte_identical": true,
+  "sdist_byte_identical": true,
   "fresh_venv_install": {
     "status": "PASSED",
     "command": "python -m pip install --no-index --no-deps dist/memory_fabric-0.19.0-py3-none-any.whl",
@@ -41,7 +49,7 @@
     "runtime_dependencies": []
   },
   "limitations": [
-    "This verifies reproducible local core artifacts under the recorded toolchain; optional extra dependency resolution is not covered.",
-    "No package was published."
+    "The artifacts are local candidates, not a published release.",
+    "The lock resolves every declared extra, but optional integrations are not claimed to have been installed or tested."
   ]
 }
