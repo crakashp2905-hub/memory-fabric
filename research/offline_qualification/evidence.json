@@ -4169,6 +4169,25 @@
         "Exposure-aware dependence remains a separate optional measure and may conservatively reduce apparent independence.",
         "Contract evidence does not establish truth or authority of the reported claim."
       ]
+    },
+    {
+      "task_id": "N5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_n5_02_hypothesis_preservation.py",
+        "experiments/n5_02_hypothesis_preservation.py",
+        "research/results/n5-02-hypothesis-preservation.json",
+        "research/results/n5-02-hypothesis-preservation.md",
+        "research/results/n5-02-hypothesis-tests.xml",
+        "research/results/n5-02-hypothesis-regression.xml"
+      ],
+      "limitations": [
+        "The fixture proves disagreement remains represented and unresolved; it does not determine which claim is true.",
+        "Source-root counts inherit recognized-copy limitations and are not authenticity proofs.",
+        "A support ranking alone does not authorize an action or resolve a hypothesis set."
+      ]
     }
   ]
 }

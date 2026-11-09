@@ -1,0 +1,131 @@
+{
+  "schema": "memory-fabric-n5-02-hypothesis-preservation/1",
+  "task_id": "N5-02",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "f75467b142621008d9aecac0c7846dd8929829a1",
+    "dirty_before_result_write": true,
+    "script_sha256": "7844873b0ec0658dd1a6a54db02db42214257891847eece87c316bc57699a04e"
+  },
+  "fixture": {
+    "six_bar": {
+      "value": "6",
+      "memories": [
+        "01M6YW3AD7YPHJ3N7N9HJ0T5ZX",
+        "01M6YW3AET19NERS3JAGF7D8QA",
+        "01M6YW3AEV33AE7Z5NTM0GBGDM",
+        "01M6YW3AEV33AE7Z5NTM0GBGDQ",
+        "01M6YW3AEV33AE7Z5NTM0GBGDT",
+        "01M6YW3AEW29TYG25F0XV3KF25",
+        "01M6YW3AEW29TYG25F0XV3KF28",
+        "01M6YW3AEXP9PBSBV1244NQA3Z",
+        "01M6YW3AEXP9PBSBV1244NQA42",
+        "01M6YW3AEXP9PBSBV1244NQA45"
+      ],
+      "agents": [
+        "repeat_0",
+        "repeat_1",
+        "repeat_2",
+        "repeat_3",
+        "repeat_4",
+        "repeat_5",
+        "repeat_6",
+        "repeat_7",
+        "repeat_8",
+        "repeat_9"
+      ],
+      "independent_sources": 1,
+      "artificial": true,
+      "origin_clusters": [
+        {
+          "root_id": "01M6YW3AD7YPHJ3N7N9HJ0T5ZX",
+          "memories": [
+            "01M6YW3AD7YPHJ3N7N9HJ0T5ZX",
+            "01M6YW3AET19NERS3JAGF7D8QA",
+            "01M6YW3AEV33AE7Z5NTM0GBGDM",
+            "01M6YW3AEV33AE7Z5NTM0GBGDQ",
+            "01M6YW3AEV33AE7Z5NTM0GBGDT",
+            "01M6YW3AEW29TYG25F0XV3KF25",
+            "01M6YW3AEW29TYG25F0XV3KF28",
+            "01M6YW3AEXP9PBSBV1244NQA3Z",
+            "01M6YW3AEXP9PBSBV1244NQA42",
+            "01M6YW3AEXP9PBSBV1244NQA45"
+          ],
+          "agents": [
+            "repeat_0",
+            "repeat_1",
+            "repeat_2",
+            "repeat_3",
+            "repeat_4",
+            "repeat_5",
+            "repeat_6",
+            "repeat_7",
+            "repeat_8",
+            "repeat_9"
+          ]
+        }
+      ]
+    },
+    "nine_bar": {
+      "value": "9",
+      "memories": [
+        "01M6YW3AEY0SH6TMRCBFY5NHRJ",
+        "01M6YW3AEY0SH6TMRCBFY5NHRM"
+      ],
+      "agents": [
+        "inspector_a",
+        "inspector_b"
+      ],
+      "independent_sources": 2,
+      "artificial": false,
+      "origin_clusters": [
+        {
+          "root_id": "01M6YW3AEY0SH6TMRCBFY5NHRJ",
+          "memories": [
+            "01M6YW3AEY0SH6TMRCBFY5NHRJ"
+          ],
+          "agents": [
+            "inspector_a"
+          ]
+        },
+        {
+          "root_id": "01M6YW3AEY0SH6TMRCBFY5NHRM",
+          "memories": [
+            "01M6YW3AEY0SH6TMRCBFY5NHRM"
+          ],
+          "agents": [
+            "inspector_b"
+          ]
+        }
+      ]
+    },
+    "claim_support_leading_before_challenge": "9",
+    "hypothesis_set_id": "hset_01M6YW3AEZJY6R3C769JHEKP86",
+    "hypothesis_set_resolved": false,
+    "hypothesis_set_member_count": 12,
+    "hypothesis_source_roots": {
+      "6": [
+        "01M6YW3AD7YPHJ3N7N9HJ0T5ZX"
+      ],
+      "9": [
+        "01M6YW3AEY0SH6TMRCBFY5NHRJ",
+        "01M6YW3AEY0SH6TMRCBFY5NHRM"
+      ]
+    },
+    "all_members_contested": true,
+    "automatic_experiment_events": 0,
+    "both_values_preserved": true
+  },
+  "tests": {
+    "junit": "research/results/n5-02-hypothesis-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "The fixture demonstrates representation and non-resolution; it does not determine which pressure claim is true.",
+    "Source-root counts inherit the repository's copy-recognition limits and do not establish source honesty."
+  ]
+}
