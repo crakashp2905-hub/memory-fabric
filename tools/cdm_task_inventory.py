@@ -120,7 +120,9 @@ def build_inventory() -> dict[str, Any]:
     commit_by_path: dict[str, str | None] = {}
     file_index: dict[str, list[str]] = {}
     for path in ROOT.rglob("*"):
-        if (path.is_file() and not any(part in {".git", ".tmp", ".tmp-cdm", "__pycache__"}
+        # Build output holds copies of source files; a bare file name would match
+        # both copies and stop resolving, so only tracked source is indexed.
+        if (path.is_file() and not any(part in {".git", ".tmp", ".tmp-cdm", "__pycache__", "build", "dist"}
                                        for part in path.relative_to(ROOT).parts)):
             file_index.setdefault(path.name, []).append(path.relative_to(ROOT).as_posix())
     source_bundles: dict[str, dict[str, Any]] = {}
