@@ -135,7 +135,6 @@ def main(argv: list[str]) -> int:
     print(json.dumps(data, indent=1))
     if "--no-write" in argv:
         return 0
-    OUT_JSON.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     ok = inv["withdrawn_resurrected"] == 0 and inv["erased_returned_text"] == 0 and inv["summary_still_exposable"] == 0
     write_manifest(Manifest(
         run_id="int04-compaction-drilldown", suite="INT-04", arm="all", decision="DESCRIPTIVE",
@@ -145,6 +144,7 @@ def main(argv: list[str]) -> int:
         verification={"baseline_registered": True, "oracle_sanity_passed": all(
             table[b]["oracle"] >= max(table[b].values()) for b in table),
             "holdout_frozen": False, "independent_replicated": False}))
+    OUT_JSON.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     rows = "\n".join(f"| {b} | " + " | ".join(f"{table[b][a]:.3f}" for a in arms) + " |" for b in table)
     OUT_MD.write_text(f"""# INT-04 — compaction with reversible drill-down (descriptive)
 

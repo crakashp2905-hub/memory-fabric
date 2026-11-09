@@ -28,6 +28,11 @@ _MULTI_HOP = re.compile(
     r"difference between|how does|why does|what caused)\b",
     re.IGNORECASE,
 )
+_SEMANTIC = re.compile(
+    r"\b(?:advice|recommend|recommendation|similar|meaning|means|paraphrase|"
+    r"unusual|symptom|issue|problem|concept|describe|explain)\b",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -47,6 +52,8 @@ def route(query: str, *, trained_embedder: bool) -> Route:
         if trained_embedder:
             return Route("multi_hop", "hybrid", "trained semantic recall can nominate connectors")
         return Route("multi_hop", "lexical", "hashing vectors are not admitted to fusion")
-    if trained_embedder:
+    if trained_embedder and _SEMANTIC.search(query):
         return Route("semantic", "hybrid", "trained semantic and lexical arms are both qualified")
-    return Route("semantic", "lexical", "hashing vectors are not admitted to fusion")
+    if _SEMANTIC.search(query):
+        return Route("semantic", "lexical", "hashing vectors are not admitted to fusion")
+    return Route("unknown", "lexical", "unrecognized query shape falls back deterministically")

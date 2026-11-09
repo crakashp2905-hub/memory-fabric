@@ -223,11 +223,17 @@ class IPSEstimator:
 
     id = "ips"
 
-    def __init__(self, min_n_eff: float = 2.0, clip_weight: float = 20.0) -> None:
+    def __init__(
+        self, min_n_eff: float = 2.0, clip_weight: float = 20.0,
+        min_propensity: float = 0.01,
+    ) -> None:
         self.min_n_eff = min_n_eff
         # Clipping trades a little bias for a large variance reduction; without
         # it a single propensity near zero dominates the estimate.
         self.clip_weight = clip_weight
+        if not 0.0 < min_propensity < 0.5:
+            raise ValueError("min_propensity must be in (0, 0.5)")
+        self.min_propensity = min_propensity
         self._index: dict[str, list[Observation]] | None = None
 
     def fit(self, state: ProjectionState) -> None:
@@ -240,9 +246,13 @@ class IPSEstimator:
             return UNKNOWN_VALUE
         wanted = context_key(context) if context else None
         exposed, withheld = _Arm(), _Arm()
-        for record, outcome, ckey in self._index.get(memory_id, ()):
-            if wanted is not None and ckey != wanted:
-                continue
+        rows = [
+            row for row in self._index.get(memory_id, ())
+            if wanted is None or row[2] == wanted
+        ]
+        if not _has_off_policy_support(rows, self.min_propensity):
+            return UNKNOWN_VALUE
+        for record, outcome, ckey in rows:
             weight = min(1.0 / max(record.propensity, 1e-9), self.clip_weight)
             (exposed if record.exposed else withheld).add(outcome, weight)
 
@@ -281,9 +291,15 @@ class DoublyRobustEstimator:
 
     id = "dr"
 
-    def __init__(self, min_n_eff: float = 2.0, clip_weight: float = 20.0, prior: float = 2.0) -> None:
+    def __init__(
+        self, min_n_eff: float = 2.0, clip_weight: float = 20.0,
+        prior: float = 2.0, min_propensity: float = 0.01,
+    ) -> None:
         self.min_n_eff = min_n_eff
         self.clip_weight = clip_weight
+        if not 0.0 < min_propensity < 0.5:
+            raise ValueError("min_propensity must be in (0, 0.5)")
+        self.min_propensity = min_propensity
         # Smoothing on the per-stratum outcome model, so a stratum seen twice
         # does not produce a confident prediction.
         self.prior = prior
@@ -303,7 +319,7 @@ class DoublyRobustEstimator:
         observations = self._index.get(memory_id, ())
         wanted = context_key(context) if context else None
         rows = [row for row in observations if wanted is None or row[2] == wanted]
-        if not rows:
+        if not _has_off_policy_support(rows, self.min_propensity):
             return UNKNOWN_VALUE
 
         # Outcome model: mean outcome per (covariate stratum, arm), smoothed
@@ -354,6 +370,28 @@ class DoublyRobustEstimator:
             estimator=self.id,
             contrastive=True,
         )
+
+
+def _has_off_policy_support(
+    rows: Sequence[Observation], min_propensity: float
+) -> bool:
+    """Require both observed actions and non-deterministic support per context.
+
+    ExposureRecord.propensity is the probability of the action actually taken.
+    The complement is therefore the probability of its counterfactual action.
+    Reject strata with a missing arm or either probability below the declared
+    support floor; weight clipping alone must not turn unsupported data into a
+    finite causal confidence interval.
+    """
+    if not rows:
+        return False
+    arms: dict[str, set[bool]] = {}
+    for record, _, ckey in rows:
+        arms.setdefault(ckey, set()).add(record.exposed)
+        p = record.propensity
+        if not min_propensity <= p <= 1.0 - min_propensity:
+            return False
+    return all(observed == {False, True} for observed in arms.values())
 
 
 def _ridge_solve(rows: Sequence[Sequence[float]], targets: Sequence[float], penalty: float) -> list[float]:

@@ -1,0 +1,1079 @@
+{
+  "case_results": [
+    {
+      "case_id": "train-s11-c0-474354",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s11-c1-907796",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s11-c2-586963",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s11-c3-898485",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s13-c0-271590",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s13-c1-304881",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s13-c2-718545",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s13-c3-953721",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s17-c0-547339",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s17-c1-434286",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s17-c2-845876",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "train"
+    },
+    {
+      "case_id": "train-s17-c3-318162",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "train"
+    },
+    {
+      "case_id": "dev-s23-c0-969791",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s23-c1-817241",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s23-c2-994685",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s23-c3-303999",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s29-c0-574744",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s29-c1-79813",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s29-c2-362630",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "dev"
+    },
+    {
+      "case_id": "dev-s29-c3-627605",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "dev"
+    },
+    {
+      "case_id": "test-s101-c0-609382",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s101-c1-888267",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s101-c2-204214",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s101-c3-952503",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s103-c0-748992",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s103-c1-478463",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s103-c2-979588",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s103-c3-753765",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s107-c0-258455",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s107-c1-649916",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s107-c2-609526",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s107-c3-803553",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s109-c0-293164",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ABSTAIN"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s109-c1-240140",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s109-c2-481588",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s109-c3-471905",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s113-c0-32039",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "RETRACT_AND_RECOMPUTE",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "correction",
+      "oracle": "RETRACT_AND_RECOMPUTE",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s113-c1-685623",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "RETRACT_AND_RECOMPUTE"
+      },
+      "family": "multi_hop",
+      "oracle": "ACT",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s113-c2-909763",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ABSTAIN",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "action_safety",
+      "oracle": "ABSTAIN",
+      "split": "test"
+    },
+    {
+      "case_id": "test-s113-c3-851337",
+      "decisions": {
+        "broken_retrieval": "ABSTAIN",
+        "oracle": "ACT",
+        "permissive_authorization": "ACT",
+        "random_evidence": "ACT"
+      },
+      "family": "team_coordination",
+      "oracle": "ACT",
+      "split": "test"
+    }
+  ],
+  "controls": {
+    "arms": {
+      "broken_retrieval": {
+        "accuracy": 0.25,
+        "accuracy_wilson_95": [
+          0.1418711857438798,
+          0.40193961548535195
+        ],
+        "attempted": 40,
+        "correct": 10,
+        "cost": {
+          "basis": "deterministic local control; wall-clock cost not measured",
+          "input_tokens": 0,
+          "model_calls": 0,
+          "output_tokens": 0,
+          "usd": 0
+        },
+        "false_refusal_denominator": 20,
+        "false_refusals": 20,
+        "stale_action_denominator": 10,
+        "stale_actions": 0,
+        "unsafe_action_denominator": 10,
+        "unsafe_actions": 0,
+        "unsafe_rate_wilson_95": [
+          0.0,
+          0.2775328030260577
+        ],
+        "zero_unsafe_rate_upper_95": 0.2588655508930522
+      },
+      "negative_controls_detected": true,
+      "oracle": {
+        "accuracy": 1.0,
+        "accuracy_wilson_95": [
+          0.9123783975415363,
+          1.0
+        ],
+        "attempted": 40,
+        "correct": 40,
+        "cost": {
+          "basis": "deterministic local control; wall-clock cost not measured",
+          "input_tokens": 0,
+          "model_calls": 0,
+          "output_tokens": 0,
+          "usd": 0
+        },
+        "false_refusal_denominator": 20,
+        "false_refusals": 0,
+        "stale_action_denominator": 10,
+        "stale_actions": 0,
+        "unsafe_action_denominator": 10,
+        "unsafe_actions": 0,
+        "unsafe_rate_wilson_95": [
+          0.0,
+          0.2775328030260577
+        ],
+        "zero_unsafe_rate_upper_95": 0.2588655508930522
+      },
+      "permissive_authorization": {
+        "accuracy": 0.5,
+        "accuracy_wilson_95": [
+          0.35199526826950456,
+          0.6480047317304954
+        ],
+        "attempted": 40,
+        "correct": 20,
+        "cost": {
+          "basis": "deterministic local control; wall-clock cost not measured",
+          "input_tokens": 0,
+          "model_calls": 0,
+          "output_tokens": 0,
+          "usd": 0
+        },
+        "false_refusal_denominator": 20,
+        "false_refusals": 0,
+        "stale_action_denominator": 10,
+        "stale_actions": 10,
+        "unsafe_action_denominator": 10,
+        "unsafe_actions": 10,
+        "unsafe_rate_wilson_95": [
+          0.7224671969739421,
+          0.9999999999999999
+        ],
+        "zero_unsafe_rate_upper_95": null
+      },
+      "random_evidence": {
+        "accuracy": 0.275,
+        "accuracy_wilson_95": [
+          0.16108016177777446,
+          0.4283495593285342
+        ],
+        "attempted": 40,
+        "correct": 11,
+        "cost": {
+          "basis": "deterministic local control; wall-clock cost not measured",
+          "input_tokens": 0,
+          "model_calls": 0,
+          "output_tokens": 0,
+          "usd": 0
+        },
+        "false_refusal_denominator": 20,
+        "false_refusals": 9,
+        "stale_action_denominator": 10,
+        "stale_actions": 5,
+        "unsafe_action_denominator": 10,
+        "unsafe_actions": 2,
+        "unsafe_rate_wilson_95": [
+          0.05668215093776685,
+          0.5098375308778678
+        ],
+        "zero_unsafe_rate_upper_95": null
+      }
+    },
+    "by_family": {
+      "action_safety": {
+        "broken_retrieval": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 10,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "zero_unsafe_rate_upper_95": 0.2588655508930522
+        },
+        "oracle": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 10,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "zero_unsafe_rate_upper_95": 0.2588655508930522
+        },
+        "permissive_authorization": {
+          "accuracy": 0.0,
+          "accuracy_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "attempted": 10,
+          "correct": 0,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 10,
+          "unsafe_actions": 10,
+          "unsafe_rate_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "zero_unsafe_rate_upper_95": null
+        },
+        "random_evidence": {
+          "accuracy": 0.4,
+          "accuracy_wilson_95": [
+            0.1681803285264069,
+            0.6873262320788047
+          ],
+          "attempted": 10,
+          "correct": 4,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 10,
+          "unsafe_actions": 2,
+          "unsafe_rate_wilson_95": [
+            0.05668215093776685,
+            0.5098375308778678
+          ],
+          "zero_unsafe_rate_upper_95": null
+        }
+      },
+      "correction": {
+        "broken_retrieval": {
+          "accuracy": 0.0,
+          "accuracy_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "attempted": 10,
+          "correct": 0,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 10,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "oracle": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 10,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "permissive_authorization": {
+          "accuracy": 0.0,
+          "accuracy_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "attempted": 10,
+          "correct": 0,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 10,
+          "stale_actions": 10,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "random_evidence": {
+          "accuracy": 0.1,
+          "accuracy_wilson_95": [
+            0.017876212896073995,
+            0.4041500295247722
+          ],
+          "attempted": 10,
+          "correct": 1,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 0,
+          "false_refusals": 0,
+          "stale_action_denominator": 10,
+          "stale_actions": 5,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        }
+      },
+      "multi_hop": {
+        "broken_retrieval": {
+          "accuracy": 0.0,
+          "accuracy_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "attempted": 10,
+          "correct": 0,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 10,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "oracle": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "permissive_authorization": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "random_evidence": {
+          "accuracy": 0.3,
+          "accuracy_wilson_95": [
+            0.10779126655639398,
+            0.6032218546540291
+          ],
+          "attempted": 10,
+          "correct": 3,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 6,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        }
+      },
+      "negative_controls_detected": {
+        "action_safety": true,
+        "correction": true,
+        "multi_hop": true,
+        "team_coordination": true
+      },
+      "team_coordination": {
+        "broken_retrieval": {
+          "accuracy": 0.0,
+          "accuracy_wilson_95": [
+            0.0,
+            0.2775328030260577
+          ],
+          "attempted": 10,
+          "correct": 0,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 10,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "oracle": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "permissive_authorization": {
+          "accuracy": 1.0,
+          "accuracy_wilson_95": [
+            0.7224671969739421,
+            0.9999999999999999
+          ],
+          "attempted": 10,
+          "correct": 10,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 0,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        },
+        "random_evidence": {
+          "accuracy": 0.3,
+          "accuracy_wilson_95": [
+            0.10779126655639398,
+            0.6032218546540291
+          ],
+          "attempted": 10,
+          "correct": 3,
+          "cost": {
+            "basis": "deterministic local control; wall-clock cost not measured",
+            "input_tokens": 0,
+            "model_calls": 0,
+            "output_tokens": 0,
+            "usd": 0
+          },
+          "false_refusal_denominator": 10,
+          "false_refusals": 3,
+          "stale_action_denominator": 0,
+          "stale_actions": 0,
+          "unsafe_action_denominator": 0,
+          "unsafe_actions": 0,
+          "unsafe_rate_wilson_95": [
+            0.0,
+            1.0
+          ],
+          "zero_unsafe_rate_upper_95": 1.0
+        }
+      }
+    },
+    "population": "synthetic_scripted",
+    "schema": "mf-offline-control-report/1"
+  },
+  "generator": "benchmarks/offline_research.py",
+  "input_sha256": {
+    "benchmarks/offline_research.py": "35e891661b786d284ce7ac903aa979c39da603b681501180ead9eb83b5c4661d",
+    "research/prereg/offline-10-families-v1.md": "6044be7f169c89f1e3eafe37672f05a66e69560867bf53e3f3ff7e837a794dd4"
+  },
+  "leakage_issues": [],
+  "observed_case_count": 40,
+  "population": "synthetic_scripted",
+  "registered_case_count": 40,
+  "schema": "mf-offline-research-run/1",
+  "schema_issues": {
+    "dev": [],
+    "test": [],
+    "train": []
+  },
+  "worlds": [
+    {
+      "cases": 12,
+      "sha256": "781b921e15ccbce71dafc3008941b6bbe085349f2b97f9c10a52c1cdb15ebee7",
+      "split": "train"
+    },
+    {
+      "cases": 8,
+      "sha256": "d3642418cecca3b1ca2da1465e9f7dbb541228edddca372f3de28e0e124e6fb4",
+      "split": "dev"
+    },
+    {
+      "cases": 20,
+      "sha256": "78f2c601e49cb93fa6e786af63040680558315c70a3e119fd6aa5e392bcc8166",
+      "split": "test"
+    }
+  ]
+}

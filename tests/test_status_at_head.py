@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import results_manifest  # noqa: E402
 import status_at_head  # noqa: E402
+import count_tests  # noqa: E402
 
 
 class StatusAtHead(unittest.TestCase):
@@ -40,6 +41,12 @@ class StatusAtHead(unittest.TestCase):
         self.assertEqual(results_manifest.OUT.read_text(encoding="utf-8"), results_manifest.render(),
                          "regenerate: python tools/results_manifest.py --write")
 
+    def test_generated_status_check_passes_at_current_tree(self) -> None:
+        self.assertEqual(status_at_head.main(["--check"]), 0)
+
+    def test_test_count_check_passes_at_current_tree(self) -> None:
+        self.assertEqual(count_tests.main(["--check"]), 0)
+
     def test_detects_a_drifted_spec(self) -> None:
         v = dict(status_at_head.versions(), spec_header="0.0.1")
         self.assertTrue(status_at_head.contradictions(v))
@@ -49,6 +56,17 @@ class StatusAtHead(unittest.TestCase):
             if row["git_sha"] is None:
                 self.assertIsNone(row["git_sha_source"])
             self.assertEqual(len(row["file_sha256"]), 64)
+            self.assertIn(row["population"], results_manifest.POPULATIONS)
+
+    def test_population_requires_explicit_supported_label(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "population.json"
+            path.write_text('{"population":"synthetic_scripted"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "synthetic_scripted")
+            path.write_text('{"model_id":"unknown-model"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "unclassified")
+            path.write_text('{"population":"scripted-but-not-enumerated"}', encoding="utf-8")
+            self.assertEqual(results_manifest.entry(path)["population"], "unclassified")
 
 
 if __name__ == "__main__":

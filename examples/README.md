@@ -4,13 +4,26 @@ Each runs from the repository root with nothing installed beyond the package,
 except where noted. `tests/test_examples_run.py` runs every offline one on
 every CI build.
 
+Each runnable script prints a visible `DEMO ONLY` label describing whether it
+uses deterministic fixtures, a scripted model, or a real local model. These
+examples demonstrate behavior; they are not live-model evaluations or
+independent compliance validation.
+
 | example | what it shows | needs |
 |---|---|---|
+| [getting_started.py](getting_started.py) | Store, retrieve, and correct a fixture; see a protected action change from allowed to blocked | local package install; no network or credentials |
 | [quickstart.py](quickstart.py) | Store, retrieve, inspect the evidence, correct, verify the correction ([QUICKSTART.md](../docs/QUICKSTART.md)) | nothing |
 | [reference_agent.py](reference_agent.py) | A complete agent loop: retrieve, decide, cite, get a grant for the exact action, execute through the fence, have the outcome verified, remember what worked. A poisoned web note is refused at the gate | nothing |
 | [poisoning_and_rollback.py](poisoning_and_rollback.py) | The governance story: a false memory consolidated into a belief and a procedure, shared, then traced and retracted everywhere | nothing |
 | [wrong_memory_demo.py](wrong_memory_demo.py) | A corrected policy end to end: context with a receipt, a preview applied only if still current, the stale rule left out, an alternative proposed on a branch and kept as a conflict | nothing |
 | [action_gate.py](action_gate.py) | A tool call gated on its evidence, with a memory retracted between recall and action | nothing |
+| [why_blocked.py](why_blocked.py) | Explain an action refusal with its reason code, memory pointer, withdrawal reason and repair path | nothing |
+| [memory_vs_json.py](memory_vs_json.py) | Apply identical source records to a JSON-style store and governed memory; print task utility and stale-action safety outcomes | nothing |
+| [multi_agent_team.py](multi_agent_team.py) | Two deterministic agents share a reviewed fact; a correction withdraws the dependent procedure for the team | nothing |
+| [multi_agent_provenance_dispute.py](multi_agent_provenance_dispute.py) | Many copied reports count as one source; independent reports change support without claiming truth | nothing |
+| [sdk_workflow.py](sdk_workflow.py) | Typed add, recall, explain, decide, correction and action-fenced execution | nothing |
+| [correction_spares_unrelated_action.py](correction_spares_unrelated_action.py) | Correction refuses the dependent stale action while an unrelated action still passes | nothing |
+| [correction_strategy_comparison.py](correction_strategy_comparison.py) | Compare naive deletion, blanket invalidation and selective action gating, including false blocks | nothing |
 | [agent_on_the_fabric.py](agent_on_the_fabric.py) | The Claude adapter end to end, with a scripted model; drop the stub to use the live API | nothing (`pip install ".[claude]"` and a key for the live API) |
 | [live_memory_os.py](live_memory_os.py) | The whole layer driven by real local models: governed writes, semantic retrieval, federation, retraction | Ollama with `qwen2.5:3b` and `nomic-embed-text` |
 

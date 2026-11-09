@@ -1,12 +1,12 @@
-"""MemoryFabric's structure: one facade over a core and cohesive services, public API unchanged.
+"""MemoryFabric's structure: one facade over a core and cohesive services, API recorded.
 
 `memory_fabric/fabric.py` composes `memory_fabric/_fabric/`: a `FabricCore`
 (identity, log, refresh, transactions, replay) and one mixin per service
 (federation, sealing, retrieval, lifecycle, sharing, access, writes). These
 tests keep that shape honest:
 
-- the public API is exactly the one recorded before the split
-  (`tests/data/memory_fabric_api.json`, generated from the original class);
+- the public API matches the checked-in snapshot
+  (`tests/data/memory_fabric_api.json`);
 - the methods `FabricCore` declares for the type checker match their
   implementations, so the declarations cannot drift;
 - services depend on the core, never on each other;
@@ -49,6 +49,12 @@ class PublicApi(unittest.TestCase):
                 member = member.fget
             current[name] = _args(inspect.unwrap(member))
         self.assertEqual(current, recorded)
+
+    def test_tenant_existence_concealment_is_enabled_by_default(self) -> None:
+        # This security default is asserted separately because the API snapshot
+        # intentionally records the signature as well as its default.
+        self.assertTrue(inspect.signature(MemoryFabric).parameters[
+            "conceal_cross_tenant"].default)
 
     def test_no_public_member_was_added_unrecorded(self) -> None:
         recorded = set(json.loads((ROOT / "tests/data/memory_fabric_api.json")

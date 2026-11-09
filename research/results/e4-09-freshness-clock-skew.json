@@ -1,0 +1,51 @@
+{
+  "schema": "memory-fabric-e4-09-freshness-clock-skew/1",
+  "tested_commit": "318f89abb9f4eb7040f75f1e8efc574b9903917f",
+  "recorded_at_utc": "2026-11-07T18:24:05.726338+00:00",
+  "machine": {
+    "system": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "command": "python -m pytest tests/test_freshness.py tests/test_action_fence.py tests/test_visibility_at_action.py -q --junitxml=research/results/e4-09-freshness-clock-skew.xml",
+  "result": {
+    "tests": 29,
+    "subtests": 2,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e4-09-freshness-clock-skew.xml",
+    "sha256": "88dd8a3e40640ca955b2884ccb399a358629a1d30dd22bddaf2a2ebee41ff3e3"
+  },
+  "coverage": [
+    {
+      "scenario": "receiver clock ahead by 120 seconds",
+      "test": "Federation.test_fast_and_slow_receiver_clocks_reject_the_lease_but_keep_safe_reads",
+      "outcome": "lease rejected; require_fresh action denied; lenient action and read remain available"
+    },
+    {
+      "scenario": "receiver clock behind by 120 seconds",
+      "test": "Federation.test_fast_and_slow_receiver_clocks_reject_the_lease_but_keep_safe_reads",
+      "outcome": "same fail-closed result"
+    },
+    {
+      "scenario": "wall-clock rollback after acceptance",
+      "test": "Federation.test_wall_clock_rollback_cannot_extend_lease_past_monotonic_ttl",
+      "outcome": "monotonic TTL expires; protected action denied while a lenient action remains permitted"
+    },
+    {
+      "scenario": "expired, forged, replayed, withdrawn and version-mismatched leases",
+      "tests": "tests/test_freshness.py",
+      "outcome": "invalid freshness never satisfies the protected action rule"
+    },
+    {
+      "scenario": "safe reads with missing/invalid freshness",
+      "tests": "Federation.test_fast_and_slow_receiver_clocks_reject_the_lease_but_keep_safe_reads; Federation.test_a_forged_lease_is_rejected; Federation.test_partition_bounds_staleness_to_one_lease_lifetime",
+      "outcome": "local imported memory reads remain available"
+    }
+  ],
+  "limitations": [
+    "Clock-skew bound assumes the receiver can read a clock within the configured 30-second default of the signed origin timestamp. This does not establish trusted time or guarantee freshness through arbitrary clock compromise; deployments must monitor time synchronization. Monotonic deadline is process-local; restart requires lease re-verification."
+  ]
+}

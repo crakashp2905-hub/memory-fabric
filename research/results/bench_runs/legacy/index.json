@@ -1,0 +1,60 @@
+{
+  "schema": "mf-legacy-benchmark-manifest-index/1",
+  "records": [
+    {
+      "file": "e1-exhaustive-enumeration.json",
+      "sha256": "a49de5666bae39f48cba4ed425078c3f76318634b912cf6cea7023614233aa80",
+      "qualification": "UNQUALIFIED_HISTORICAL",
+      "reasons": [
+        "environment fields were not captured at run time",
+        "source commit is abbreviated or unavailable",
+        "declared input digests are absent"
+      ],
+      "active_scoreboard": false
+    },
+    {
+      "file": "evidence-completeness-v1.json",
+      "sha256": "f9b78bfbf2d40b21bd47b949260779d6481ba8367e055488ad7d19ca6959fd31",
+      "qualification": "UNQUALIFIED_HISTORICAL",
+      "reasons": [
+        "environment fields were not captured at run time",
+        "source commit is abbreviated or unavailable",
+        "declared input digests are absent"
+      ],
+      "active_scoreboard": false
+    },
+    {
+      "file": "int01-memoryworld2.json",
+      "sha256": "6edfbf0215d2f0904c243443dc0a87ba6849b472dbd77988f186549e6fa50987",
+      "qualification": "UNQUALIFIED_HISTORICAL",
+      "reasons": [
+        "environment fields were not captured at run time",
+        "source commit is abbreviated or unavailable",
+        "declared input digests are absent"
+      ],
+      "active_scoreboard": false
+    },
+    {
+      "file": "int02-federation-world.json",
+      "sha256": "d268c532655dea93c421857367eb7aee1f15ef1d6c0d32af82e09e9d9c9a2920",
+      "qualification": "UNQUALIFIED_HISTORICAL",
+      "reasons": [
+        "environment fields were not captured at run time",
+        "source commit is abbreviated or unavailable",
+        "declared input digests are absent"
+      ],
+      "active_scoreboard": false
+    },
+    {
+      "file": "int04-compaction-drilldown.json",
+      "sha256": "b326f4cd0f5b31bcd2237898cb98fa42083dec976b92adc01ee3271754a42294",
+      "qualification": "UNQUALIFIED_HISTORICAL",
+      "reasons": [
+        "environment fields were not captured at run time",
+        "source commit is abbreviated or unavailable",
+        "declared input digests are absent"
+      ],
+      "active_scoreboard": false
+    }
+  ]
+}

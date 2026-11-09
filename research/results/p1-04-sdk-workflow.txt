@@ -1,0 +1,90 @@
+test_require_raises_for_a_path_that_must_not_proceed (tests.test_sdk.TestActionTimeVerificationThroughTheSdk.test_require_raises_for_a_path_that_must_not_proceed) ... ok
+test_verify_defaults_to_high_risk (tests.test_sdk.TestActionTimeVerificationThroughTheSdk.test_verify_defaults_to_high_risk)
+The only reason to call it is that something consequential is about ... ok
+test_verify_returns_the_current_decision (tests.test_sdk.TestActionTimeVerificationThroughTheSdk.test_verify_returns_the_current_decision) ... ok
+test_the_whole_sequence (tests.test_sdk.TestEndToEndDemonstration.test_the_whole_sequence) ... ok
+test_a_third_party_verifier_is_accepted (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_a_third_party_verifier_is_accepted) ... ok
+test_an_agent_cannot_choose_its_own_scope (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_an_agent_cannot_choose_its_own_scope)
+Promoting a memory beyond private is the firewall's decision and ... ok
+test_an_agent_cannot_verify_its_own_outcome (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_an_agent_cannot_verify_its_own_outcome) ... ok
+test_an_agent_cannot_write_as_another_agent (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_an_agent_cannot_write_as_another_agent) ... ok
+test_every_result_carries_a_token (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_every_result_carries_a_token)
+An integration that wants the content gets the means to re-verify it ... ok
+test_fetch_raises_rather_than_returning_withdrawn_content (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_fetch_raises_rather_than_returning_withdrawn_content) ... ok
+test_operation_risk_keeps_reads_available_and_recommendations_more_cautious (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_operation_risk_keeps_reads_available_and_recommendations_more_cautious) ... ok
+test_recall_cannot_be_used_as_an_execution_path (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_recall_cannot_be_used_as_an_execution_path) ... ok
+test_recall_omits_what_enforcement_refuses (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_recall_omits_what_enforcement_refuses) ... ok
+test_the_refusal_does_not_quote_the_memory (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_the_refusal_does_not_quote_the_memory)
+A refusal that carried the content would move it into every log that ... ok
+test_there_is_no_unenforced_read (tests.test_sdk.TestTheAgentClientCannotBypassEnforcement.test_there_is_no_unenforced_read)
+`MemoryFabric.get()` returns a withdrawn memory to an operator tool. ... ok
+test_an_operator_cannot_act_as_an_agent (tests.test_sdk.TestTheOperatorClient.test_an_operator_cannot_act_as_an_agent) ... ok
+test_an_operator_may_read_a_withdrawn_memory (tests.test_sdk.TestTheOperatorClient.test_an_operator_may_read_a_withdrawn_memory)
+Deciding whether a withdrawal was justified requires reading the ... ok
+test_an_unreachable_recipient_is_never_shown_as_verified (tests.test_sdk.TestTheOperatorClient.test_an_unreachable_recipient_is_never_shown_as_verified) ... ok
+test_erasure_is_an_operator_capability (tests.test_sdk.TestTheOperatorClient.test_erasure_is_an_operator_capability) ... ok
+test_propagation_shows_pending_recipients (tests.test_sdk.TestTheOperatorClient.test_propagation_shows_pending_recipients)
+Invariant 9: offline, pending and failed must be explicit. ... ok
+test_release_returns_to_candidate_not_active (tests.test_sdk.TestTheOperatorClient.test_release_returns_to_candidate_not_active) ... ok
+test_support_explains_why_a_conclusion_stands (tests.test_sdk.TestTheOperatorClient.test_support_explains_why_a_conclusion_stands) ... ok
+test_the_attention_list_is_reachable (tests.test_sdk.TestTheOperatorClient.test_the_attention_list_is_reachable) ... ok
+test_a_conclusion_with_another_independent_premise_is_kept (tests.test_correction.IndependentSupportSurvives.test_a_conclusion_with_another_independent_premise_is_kept) ... ok
+test_a_new_descendant_after_the_preview_refuses_the_apply (tests.test_correction.StalePreviewsAreRefused.test_a_new_descendant_after_the_preview_refuses_the_apply) ... ok
+test_a_revision_after_the_preview_refuses_the_apply (tests.test_correction.StalePreviewsAreRefused.test_a_revision_after_the_preview_refuses_the_apply) ... ok
+test_a_short_digest_is_not_enough (tests.test_correction.StalePreviewsAreRefused.test_a_short_digest_is_not_enough) ... ok
+test_an_unchanged_preview_applies (tests.test_correction.StalePreviewsAreRefused.test_an_unchanged_preview_applies) ... ok
+test_a_correction_needs_a_named_actor (tests.test_correction.StoresAreOwedTheRetraction.test_a_correction_needs_a_named_actor) ... ok
+test_apply_owes_every_store_that_received_it_and_status_follows (tests.test_correction.StoresAreOwedTheRetraction.test_apply_owes_every_store_that_received_it_and_status_follows) ... ok
+test_a_stale_command_line_preview_returns_a_code_and_does_not_withdraw (tests.test_correction.TheCommand.test_a_stale_command_line_preview_returns_a_code_and_does_not_withdraw) ... ok
+test_an_unknown_cli_command_keeps_the_argparse_exit_code (tests.test_correction.TheCommand.test_an_unknown_cli_command_keeps_the_argparse_exit_code) ... ok
+test_preview_then_apply_from_the_command_line (tests.test_correction.TheCommand.test_preview_then_apply_from_the_command_line) ... ok
+test_over_random_graphs (tests.test_correction.ThePreviewIsTheOutcome.test_over_random_graphs) ... ok
+test_a_probability_of_exactly_one_lands_in_the_last_bin (tests.test_systemone.TestCalibrationMetrics.test_a_probability_of_exactly_one_lands_in_the_last_bin)
+Half-open bins would drop it, and 1.0 is where a model is most ... ok
+test_an_honest_coin_is_well_calibrated_but_uninformative (tests.test_systemone.TestCalibrationMetrics.test_an_honest_coin_is_well_calibrated_but_uninformative)
+ECE 0 and Brier 0.25 together: the distinction AUC cannot draw. A ... ok
+test_bins_are_weighted_by_population (tests.test_systemone.TestCalibrationMetrics.test_bins_are_weighted_by_population)
+Nine calibrated predictions and one wrong one is not a 50% error. ... ok
+test_confidently_wrong_scores_worst (tests.test_systemone.TestCalibrationMetrics.test_confidently_wrong_scores_worst)
+The failure mode to design against: certain and completely wrong. ... ok
+test_empty_input_is_none_rather_than_zero (tests.test_systemone.TestCalibrationMetrics.test_empty_input_is_none_rather_than_zero)
+Zero would read as perfect calibration. ... ok
+test_overconfidence_is_visible (tests.test_systemone.TestCalibrationMetrics.test_overconfidence_is_visible)
+Claims 0.9, right 50% of the time. ... ok
+test_perfect_confident_predictions_score_zero (tests.test_systemone.TestCalibrationMetrics.test_perfect_confident_predictions_score_zero) ... ok
+test_an_unnamed_row_is_skipped_rather_than_blank (tests.test_systemone.TestListingModels.test_an_unnamed_row_is_skipped_rather_than_blank) ... ok
+test_kevs_shape (tests.test_systemone.TestListingModels.test_kevs_shape) ... ok
+test_typesafes_shape (tests.test_systemone.TestListingModels.test_typesafes_shape) ... ok
+test_a_choice_answer_keeps_the_whole_distribution (tests.test_systemone.TestParsingAnswers.test_a_choice_answer_keeps_the_whole_distribution)
+The argmax discards exactly what the model was chosen for. ... ok
+test_a_missing_answers_block_is_empty (tests.test_systemone.TestParsingAnswers.test_a_missing_answers_block_is_empty) ... ok
+test_a_single_option_has_no_margin (tests.test_systemone.TestParsingAnswers.test_a_single_option_has_no_margin) ... ok
+test_a_yes_no_answer_becomes_a_distribution (tests.test_systemone.TestParsingAnswers.test_a_yes_no_answer_becomes_a_distribution)
+The server reports P(yes) alone. Keeping both sides means every ... ok
+test_an_unknown_field_degrades_rather_than_raising (tests.test_systemone.TestParsingAnswers.test_an_unknown_field_degrades_rather_than_raising)
+A server version that renames a field should cost a reported number, ... ok
+test_margin_is_reported_because_confidence_cannot_see_rivals (tests.test_systemone.TestParsingAnswers.test_margin_is_reported_because_confidence_cannot_see_rivals)
+`confidence` rescales p_max alone, so it cannot tell one close rival ... ok
+test_p_true_is_none_for_a_non_binary_question (tests.test_systemone.TestParsingAnswers.test_p_true_is_none_for_a_non_binary_question) ... ok
+test_a_bare_option_list_becomes_a_mapping (tests.test_systemone.TestQuestionBuilders.test_a_bare_option_list_becomes_a_mapping) ... ok
+test_a_yes_no_question_carries_its_descriptions (tests.test_systemone.TestQuestionBuilders.test_a_yes_no_question_carries_its_descriptions)
+The model sees the descriptions and never the question id, so an ... ok
+test_criteria_are_omitted_when_not_given (tests.test_systemone.TestQuestionBuilders.test_criteria_are_omitted_when_not_given)
+An empty criteria object is not the same as none, and the server ... ok
+test_option_descriptions_are_kept (tests.test_systemone.TestQuestionBuilders.test_option_descriptions_are_kept) ... ok
+test_score_levels_stay_ordered (tests.test_systemone.TestQuestionBuilders.test_score_levels_stay_ordered)
+Lowest first, because the answer is an expected level index and ... ok
+test_a_missing_server_says_how_to_start_one (tests.test_systemone.TestTransport.test_a_missing_server_says_how_to_start_one) ... ok
+test_a_sink_cannot_break_the_call (tests.test_systemone.TestTransport.test_a_sink_cannot_break_the_call) ... ok
+test_no_questions_is_refused_before_a_request (tests.test_systemone.TestTransport.test_no_questions_is_refused_before_a_request) ... ok
+test_questions_are_sent_in_one_request (tests.test_systemone.TestTransport.test_questions_are_sent_in_one_request)
+They share the text and cannot read each other, which is what makes ... ok
+test_the_call_is_logged_with_the_state_hashed_not_stored (tests.test_systemone.TestTransport.test_the_call_is_logged_with_the_state_hashed_not_stored) ... ok
+test_usage_totals_across_calls (tests.test_systemone.TestTransport.test_usage_totals_across_calls) ... ok
+test_getting_started_runs_from_a_clean_offline_install (tests.test_examples_run.Examples.test_getting_started_runs_from_a_clean_offline_install) ... ok
+test_offline_examples_run (tests.test_examples_run.Examples.test_offline_examples_run) ... ok
+
+----------------------------------------------------------------------
+Ran 64 tests in 29.873s
+
+OK

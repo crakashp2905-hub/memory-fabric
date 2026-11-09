@@ -25,7 +25,7 @@ from dataclasses import replace
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from memory_fabric import LifecycleState, MemoryFabric
+from memory_fabric import LifecycleState, MemoryFabric, NotFound
 from memory_fabric.enforcement import WRONG_TENANT, RiskLevel, Verdict
 from memory_fabric.federation import offer
 from memory_fabric.identity import (
@@ -169,7 +169,7 @@ class TenantIsolationTests(unittest.TestCase):
     def test_the_enforced_read_does_not_cross(self) -> None:
         read = self.globex.use(self.acme_memory)
         self.assertIs(read.decision.verdict, Verdict.DENY)
-        self.assertEqual(read.decision.reason_code, WRONG_TENANT)
+        self.assertEqual(read.decision.reason_code, "not_found")
         self.assertIsNone(read.memory)
 
     def test_the_refusal_leaks_nothing_about_the_memory(self) -> None:
@@ -184,7 +184,7 @@ class TenantIsolationTests(unittest.TestCase):
             actor="operator", basis="co_occurrence",
         )
         decision = self.globex.use(self.acme_memory).decision
-        self.assertEqual(decision.reason_code, WRONG_TENANT)
+        self.assertEqual(decision.reason_code, "not_found")
         self.assertEqual(decision.version, 0)
         self.assertEqual(decision.detail, "")
         # The owning tenant does get the informative reason.
@@ -207,12 +207,9 @@ class TenantIsolationTests(unittest.TestCase):
         self.assertNotEqual(decision.reason_code, WRONG_TENANT)
 
         smuggled = replace(read.token, tenant_id="tn_globex", agent_id="agent-globex")
-        self.assertEqual(
-            self.fabric.verify_before_action(
-                smuggled, agent_id="agent-globex", risk=RiskLevel.HIGH
-            ).reason_code,
-            WRONG_TENANT,
-        )
+        self.assertFalse(self.fabric.verify_before_action(
+            smuggled, agent_id="agent-globex", risk=RiskLevel.HIGH
+        ).usable)
 
     def test_a_conclusion_cannot_be_justified_across_a_tenant(self) -> None:
         """`derive` copies its parents' context, federation origin and all.
@@ -222,7 +219,7 @@ class TenantIsolationTests(unittest.TestCase):
         retraction at the premise would recompute support for a conclusion in a
         tenant that never saw it.
         """
-        with self.assertRaises(IdentityError):
+        with self.assertRaises(NotFound):
             self.globex.derive("therefore the pump is at fault", parents=[self.acme_memory])
         # And within a tenant it still works.
         mine = self.globex.remember("the east gate closes at 1800")

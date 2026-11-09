@@ -13,9 +13,12 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 import urllib.error
 import urllib.request
+from pathlib import Path
+from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
 from memory_fabric.agent_api import (
@@ -24,6 +27,7 @@ from memory_fabric.agent_api import (
 )
 from memory_fabric.service import MemoryService
 from memory_fabric.sdk import agent, operator
+from memory_fabric.identity import IdentityError
 
 KEY_A = "aa" * 32
 KEY_B = "bb" * 32
@@ -73,6 +77,94 @@ class ApiCase(unittest.TestCase):
 
 
 class TestTheSurface(ApiCase):
+    def test_http_behavior_characterization_snapshot(self) -> None:
+        expected = json.loads((Path(__file__).parent / "data/agent_api_behavior.json")
+                              .read_text(encoding="utf-8"))
+        token = self.token()
+        recall_status, recall = self.post("recall", {"query": "pilot cable coastal"}, token)
+        memory = next(row for row in recall["memories"] if row["memory_id"] == self.mid)
+        observed = {
+            "unauthenticated": {"status": self.post("recall", {"query": "pilot"})[0],
+                                "body": self.post("recall", {"query": "pilot"})[1]},
+            "invalid_recall_limit": {"status": self.post(
+                "recall", {"query": "pilot", "k": 0}, token)[0],
+                "body": self.post("recall", {"query": "pilot", "k": 0}, token)[1]},
+            "unknown_operation": {"status": self.post("record_outcome", {}, token)[0],
+                                  "body": self.post("record_outcome", {}, token)[1]},
+            "recall": {"status": recall_status,
+                       "top_level_keys": sorted(recall),
+                       "memory_keys": sorted(memory),
+                       "memory_content": memory["content"],
+                       "answerability_keys": sorted(recall["answerability"]),
+                       "disagreements_type": type(recall["disagreements"]).__name__},
+        }
+        self.assertEqual(observed, expected)
+
+    def test_benchmark_profile_is_local_opt_in_and_resettable(self) -> None:
+        import tracemalloc
+
+        was_tracing = tracemalloc.is_tracing()
+        profile_token = "profile-token-for-test-only-1234567890"
+        api = AgentApi(self.service)
+        with patch.dict(os.environ, {"MEMORY_FABRIC_PROFILE": "1",
+                                    "MEMORY_FABRIC_PROFILE_ALLOCATIONS": "1",
+                                    "MEMORY_FABRIC_PROFILE_TOKEN": profile_token}):
+            server = build_agent_server(api, port=0)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{server.server_address[1]}"
+            denied = urllib.request.Request(base + "/__profile/reset")
+            with self.assertRaises(urllib.error.HTTPError) as caught:
+                urllib.request.urlopen(denied, timeout=2)
+            self.assertEqual(caught.exception.code, 404)
+            profile_headers = {"X-Memory-Fabric-Profile-Token": profile_token}
+            authorized = urllib.request.Request(base + "/__profile/reset",
+                                                headers=profile_headers)
+            with urllib.request.urlopen(authorized, timeout=2) as response:
+                self.assertEqual(response.status, 200)
+            credential = self.token()
+            request = urllib.request.Request(
+                base + "/v1/recall", data=json.dumps({"query": "pilot cable"}).encode(),
+                headers={"Authorization": f"Bearer {credential}",
+                         "Content-Type": "application/json"}, method="POST")
+            with urllib.request.urlopen(request, timeout=2) as response:
+                self.assertEqual(response.status, 200)
+            request = urllib.request.Request(base + "/__profile", headers=profile_headers)
+            with urllib.request.urlopen(request, timeout=2) as response:
+                profile = json.loads(response.read())
+            self.assertIn("server_python_allocation_peak_bytes", profile)
+            self.assertIn("fabric_lock_wait", profile)
+
+            credential = self.token()
+            waiting = threading.Event()
+            errors: list[BaseException] = []
+
+            def blocked_recall() -> None:
+                waiting.set()
+                try:
+                    api.handle("recall", credential, {"query": "pilot cable"},
+                               remote="127.0.0.1")
+                except BaseException as exc:  # surfaced in the test thread
+                    errors.append(exc)
+
+            with self.fabric.lock:
+                worker = threading.Thread(target=blocked_recall)
+                worker.start()
+                self.assertTrue(waiting.wait(2))
+                time.sleep(0.05)
+            worker.join(timeout=5)
+            self.assertFalse(worker.is_alive())
+            self.assertEqual(errors, [])
+            measured = api.profile_recorder.snapshot()["fabric_lock_wait"]
+            self.assertGreaterEqual(measured["total"], 20_000_000)
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+            if not was_tracing:
+                tracemalloc.stop()
+
     def test_recall_verify_remember(self) -> None:
         token = self.token()
         status, body = self.post("recall", {"query": "pilot cable coastal"}, token)
@@ -90,13 +182,18 @@ class TestTheSurface(ApiCase):
         operator(self.fabric, "op").retract(self.mid, reason="wrong", basis="contradicted")
         status, body = self.post("verify", {"memory_id": self.mid}, token)
         self.assertEqual((status, body["usable"]), (200, False))
-        status, _ = self.post("fetch", {"memory_id": self.mid}, token)
+        from memory_fabric.sdk import NotUsable, agent
+        with self.assertRaises(NotUsable) as expected:
+            agent(self.fabric, "ag_a", "tn_acme").fetch(self.mid)
+        status, body = self.post("fetch", {"memory_id": self.mid}, token)
         self.assertEqual(status, 403)
+        self.assertIn(expected.exception.decision.reason_code, body["error"])
 
     def test_there_is_no_outcome_endpoint(self) -> None:
-        status, _ = self.post("record_outcome", {"episode_id": "x", "outcome": 1.0},
-                              self.token())
+        status, body = self.post("record_outcome", {"episode_id": "x", "outcome": 1.0},
+                                 self.token())
         self.assertEqual(status, 404)
+        self.assertEqual(body["error"], "unknown operation")
 
     def test_recall_always_has_structured_disagreements(self) -> None:
         status, body = self.post("recall", {"query": "pilot cable coastal"}, self.token())
@@ -180,6 +277,11 @@ class TestTransportDefences(ApiCase):
     def test_credential_round_trip(self) -> None:
         credential = self.service.issue("ag_a", ttl_seconds=60)
         self.assertEqual(decode_credential(encode_credential(credential)), credential)
+
+    def test_credential_decode_errors_are_refused_cleanly(self) -> None:
+        for token in ("%%%", "e30", "eyJ4Ijoi" + "A" * 2048):
+            with self.subTest(token=token[:12]), self.assertRaises(IdentityError):
+                decode_credential(token)
 
 
 class TestAgentsFile(unittest.TestCase):

@@ -63,6 +63,90 @@ class TestTheConnectorIsFound(unittest.TestCase):
         self.assertIn("tug-3", why)
 
 
+class TestFixedBudgetEvidencePackage(unittest.TestCase):
+    def setUp(self) -> None:
+        self.chain = chains.search(list(CHAIN), terms_of(CHAIN), NEED)
+        self.required_cost = sum(max(1, (len(CHAIN[mid]) + 3) // 4)
+                                 for mid in self.chain.necessary_ids)
+
+    def test_exact_budget_retains_every_required_citation(self):
+        package = chains.pack_evidence(self.chain, CHAIN, self.required_cost)
+        self.assertTrue(package.complete)
+        self.assertEqual(set(package.memory_ids), set(self.chain.necessary_ids))
+        self.assertLessEqual(package.tokens_estimated, package.budget)
+
+    def test_one_token_short_returns_structured_missing_evidence(self):
+        package = chains.pack_evidence(self.chain, CHAIN, self.required_cost - 1)
+        self.assertFalse(package.complete)
+        self.assertEqual(package.memory_ids, ())
+        self.assertEqual(set(package.missing_required), set(self.chain.necessary_ids))
+        self.assertEqual(package.failure_reason, "MANDATORY_EVIDENCE_EXCEEDS_BUDGET")
+
+    def test_optional_support_is_dropped_before_a_required_bridge(self):
+        from dataclasses import replace
+
+        optional = replace(self.chain.steps[-1], memory_id="d3", necessary=False)
+        expanded = replace(self.chain, steps=self.chain.steps + (optional,))
+        package = chains.pack_evidence(expanded, CHAIN, self.required_cost)
+        self.assertTrue(package.complete)
+        self.assertNotIn("d3", package.memory_ids)
+        self.assertEqual(set(package.memory_ids), set(self.chain.necessary_ids))
+
+    def test_missing_required_bridge_content_is_a_surfaced_failure(self):
+        bridge = next(s.memory_id for s in self.chain.steps
+                      if s.reason is ReasonCode.DEPENDENCY_REQUIRED)
+        content = {key: value for key, value in CHAIN.items() if key != bridge}
+        package = chains.pack_evidence(self.chain, content, self.required_cost)
+        self.assertFalse(package.complete)
+        self.assertEqual(package.memory_ids, ())
+        self.assertEqual(package.missing_required, (bridge,))
+        self.assertEqual(package.failure_reason,
+                         "REQUIRED_EVIDENCE_CONTENT_MISSING")
+
+    def test_missing_optional_content_does_not_break_required_chain(self):
+        from dataclasses import replace
+
+        optional = replace(self.chain.steps[-1], memory_id="d3", necessary=False)
+        expanded = replace(self.chain, steps=self.chain.steps + (optional,))
+        content = {key: value for key, value in CHAIN.items() if key != "d3"}
+        package = chains.pack_evidence(expanded, content, self.required_cost)
+        self.assertTrue(package.complete)
+        self.assertEqual(set(package.memory_ids), set(self.chain.necessary_ids))
+
+
+class TestFourHopZeroOverlapBridges(unittest.TestCase):
+    def corpus(self, seed: int) -> dict[str, str]:
+        return {
+            "h1": f"bay {seed} coastal site assigned tug-{seed}",
+            "h2": f"tug-{seed} carries heavy-axle-{seed}",
+            "h3": f"heavy-axle-{seed} governed by winter-rule-{seed}",
+            "h4": f"winter-rule-{seed} pressure run limit is {seed + 3}.2 bar winter",
+            "d1": f"bay {seed + 20} coastal site assigned crane-{seed}",
+            "d2": f"light-axle-{seed} pressure run limit is 2.0 bar winter",
+        }
+
+    def test_seeded_four_hop_chains_recover_both_zero_query_bridges(self):
+        for seed in range(1, 6):
+            with self.subTest(seed=seed):
+                corpus = self.corpus(seed)
+                need = ["bay", str(seed), "coastal", "site", "pressure", "run", "winter"]
+                chain = chains.search(list(corpus), terms_of(corpus), need)
+                self.assertTrue(chain.complete, chain.insufficient_reason)
+                self.assertEqual(set(chain.memory_ids), {"h1", "h2", "h3", "h4"})
+                for bridge in ("h2", "h3"):
+                    step = next(s for s in chain.steps if s.memory_id == bridge)
+                    self.assertEqual(step.covers, ())
+                    self.assertIs(step.reason, ReasonCode.DEPENDENCY_REQUIRED)
+
+    def test_missing_bridge_returns_precise_disconnected_reason(self):
+        corpus = self.corpus(1)
+        del corpus["h2"]
+        need = ["bay", "1", "coastal", "site", "pressure", "run", "winter"]
+        chain = chains.search(list(corpus), terms_of(corpus), need)
+        self.assertFalse(chain.complete)
+        self.assertEqual(chain.insufficient_reason, "DISCONNECTED_EVIDENCE")
+
+
 class TestCoverageAloneIsNotEnough(unittest.TestCase):
     """The first defect: a covering pair that shares nothing.
 
@@ -183,6 +267,7 @@ class TestBounds(unittest.TestCase):
         self.assertTrue(chain.budget_exhausted)
         self.assertFalse(chain.complete)
         self.assertLessEqual(chain.nodes_explored, 1)
+        self.assertEqual(chain.insufficient_reason, "SEARCH_BUDGET_EXHAUSTED")
 
     def test_a_generous_deadline_changes_nothing(self):
         plain = chains.search(list(CHAIN), terms_of(CHAIN), NEED)
@@ -194,11 +279,13 @@ class TestBounds(unittest.TestCase):
                               NEED + ["unobtainable"])
         self.assertFalse(chain.complete)
         self.assertIn("unobtainable", chain.missing)
+        self.assertIn("unobtainable", chain.insufficient_reason or "")
 
     def test_no_candidates_yields_an_empty_chain(self):
         chain = chains.search([], {}, NEED)
         self.assertEqual(chain.steps, ())
         self.assertFalse(chain.complete)
+        self.assertEqual(chain.insufficient_reason, "NO_QUERY_ANCHOR")
 
     def test_no_need_yields_an_empty_chain(self):
         chain = chains.search(list(CHAIN), terms_of(CHAIN), [])

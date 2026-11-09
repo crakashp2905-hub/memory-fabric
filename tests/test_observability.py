@@ -15,9 +15,11 @@ import dataclasses
 import json
 import threading
 import unittest
+from unittest.mock import patch
 import urllib.error
 import urllib.request
 from http import HTTPStatus
+from typing import Any
 
 from memory_fabric import (
     SCHEMA_VERSION,
@@ -33,7 +35,7 @@ from memory_fabric.observability.auth import (
     InsecureConfiguration,
     build_config,
 )
-from memory_fabric.observability.server import build_server
+from memory_fabric.observability.server import Api, build_server
 
 
 def populated(path: str = ":memory:", **kwargs) -> MemoryFabric:
@@ -387,12 +389,12 @@ class TestReadModel(unittest.TestCase):
             self.assertNotIn("memory", row["payload"])
             self.assertNotIn("candidates", row["payload"])
 
-    def test_search_marks_non_retrievable_hits(self) -> None:
-        hits = report.preview_search(self.fabric, "threshold 45", k=10)
+    def test_search_marks_contested_hits_non_retrievable(self) -> None:
+        hits = report.preview_search(self.fabric, "warn above 45", k=10)
         self.assertTrue(hits)
-        quarantined = [h for h in hits if h.lifecycle_state == "quarantined"]
-        self.assertTrue(quarantined)
-        self.assertFalse(quarantined[0].retrievable)
+        non_retrievable = [h for h in hits if not h.retrievable]
+        self.assertTrue(non_retrievable)
+        self.assertEqual(non_retrievable[0].lifecycle_state, "contested")
 
     def test_search_can_restrict_to_retrievable_states(self) -> None:
         hits = report.preview_search(self.fabric, "threshold 45", all_states=False)
@@ -443,6 +445,13 @@ class TestServer(unittest.TestCase):
             status = exc.code
         parsed = json.loads(body) if "json" in ctype else body
         return status, parsed, ctype
+
+    def test_unexpected_corrupt_read_error_is_generic_and_does_not_leak(self) -> None:
+        with patch.object(Api, "handle", side_effect=RuntimeError("private evidence canary")):
+            status, body, _ = self.get("/api/memories")
+        self.assertEqual(status, 500)
+        self.assertEqual(body, {"error": "internal error"})
+        self.assertNotIn("private evidence canary", json.dumps(body))
 
     def test_serves_the_dashboard(self) -> None:
         status, body, ctype = self.get("/")
@@ -517,7 +526,7 @@ class TestServer(unittest.TestCase):
         self.assertIn("error", payload)
 
     def test_search_returns_hits(self) -> None:
-        status, hits, _ = self.get("/api/search?q=threshold")
+        status, hits, _ = self.get("/api/search?q=warn")
         self.assertEqual(status, 200)
         self.assertTrue(hits)
 

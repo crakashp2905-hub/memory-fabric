@@ -1,0 +1,52 @@
+{
+  "schema": "mf-benchmark-evaluator-mutations/1",
+  "population": "CONTRACT",
+  "mutations": [
+    {
+      "mutation": "omit_stale_action_check",
+      "expected": {
+        "verdict": "FAIL",
+        "failures": [
+          "stale_action"
+        ]
+      },
+      "mutated": {
+        "verdict": "PASS",
+        "failures": []
+      },
+      "killed": true
+    },
+    {
+      "mutation": "omit_source_scope_check",
+      "expected": {
+        "verdict": "FAIL",
+        "failures": [
+          "source_scope_violation"
+        ]
+      },
+      "mutated": {
+        "verdict": "PASS",
+        "failures": []
+      },
+      "killed": true
+    },
+    {
+      "mutation": "omit_abstention_check",
+      "expected": {
+        "verdict": "FAIL",
+        "failures": [
+          "false_abstention"
+        ]
+      },
+      "mutated": {
+        "verdict": "PASS",
+        "failures": []
+      },
+      "killed": true
+    }
+  ],
+  "killed": 3,
+  "survivors": [],
+  "total": 3,
+  "all_killed": true
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "memory-fabric-n4-03-compaction-size/1",
+  "task_id": "N4-03",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "df928ebe0208f3dd5ef6fdf35473f5c13cdda844",
+    "dirty_before_result_write": false,
+    "script_sha256": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e"
+  },
+  "fixture": {
+    "source_memory_count": 8,
+    "source_content_sha256": "66a5661498ff5de2658d58d4c50fc5905a9fadfde7035a910805cbba4f478885",
+    "summary_content_sha256": "3aa5c94d1f2446e0a14bfe767242cab2a6898b2a176077b7edb679ba556563f5"
+  },
+  "measurements": {
+    "source_bytes_utf8": 272,
+    "summary_bytes_utf8": 321,
+    "source_token_estimate": null,
+    "summary_token_estimate": null,
+    "tokenizer_provenance": null,
+    "token_measurement_status": "NOT_MEASURED_NO_TOKENIZER",
+    "tokenizer_unavailable_reason": "ConnectionError: tokenizer data could not be initialized; check the local cache or network availability",
+    "token_scope": "sum of independently encoded source memory contents; summary content only",
+    "provider_wrappers_included": false
+  },
+  "interpretation": {
+    "bytes_are_not_token_counts": true,
+    "bytes_are_not_model_cost": true,
+    "token_counts_are_not_end_to_end_request_usage": true
+  },
+  "tests": {
+    "junit": "research/results/n4-03-compaction-tests.xml",
+    "console_log": "research/results/n4-03-compaction-tests.txt",
+    "reported_test_cases": 18,
+    "reported_subtests": 114,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

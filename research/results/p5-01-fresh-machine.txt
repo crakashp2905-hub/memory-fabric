@@ -1,0 +1,125 @@
+$ C:\Users\CR Ramesh\python.exe -m venv D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\python.exe -m pip install --quiet D:\Memory Fabric\master-checklist\dist\candidate-2ef5273\memory_fabric-0.14.0-py3-none-any.whl
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\python.exe D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\quickstart.py D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\q.db
+shown before the correction:
+  Pump P1 purge time is 10 seconds.
+  Pump P1 requires a 30 second purge.
+  Schedule P1 restarts with a 10 s purge.
+
+why is the plan remembered?
+  Memory 01M6WGSSA0JX6SNPDYYXC9RX8S (v1, semantic)
+  "Schedule P1 restarts with a 10 s purge."
+
+  State:      active / scope team / internal
+  Created by: planner (consolidated)
+  Derived from:  01M6WGSS4WA3BV9JKDH507TMZ0
+  Traces back to: 01M6WGSS4WA3BV9JKDH507TMZ0
+
+  Exposed 1x, withheld 0x, cited 0x, 1 version(s)
+  Value: not yet estimated
+
+  Caveats:
+    - No value evidence: this memory has never been evaluated against outcomes.
+    - Exposure policy 'top_k:relevance' is deterministic, so value figures are observational: they cannot separate this memory helping from it being retrieved on easier tasks.
+
+  History:
+    created: by planner
+authority of the plan: unverified | sources: ('field-tech',)
+
+correcting it would contest: ['01M6WGSSA0JX6SNPDYYXC9RX8S']
+
+shown after: ['Pump P1 requires a 30 second purge.']
+recovery: contained / quarantined
+downstream of the wrong memory: ['01M6WGSSA0JX6SNPDYYXC9RX8S']
+
+quickstart complete; the store is at D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\q.db
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\python.exe D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\reference_agent.py
+P1: verified 30
+P2: refused 5 authority_insufficient
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\memory-fabric.exe init D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory
+\mf-fresh-c73vk3qn\memory\keys review      # what agents wrote, waiting for you
+  memory-fabric --db D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db --keys D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\keys serve       # the dashboard
+  memory-fabric --db D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db --keys D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\keys connect --list   # set up another agent tool
+  memory-fabric --db D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db --keys D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\keys agent-api --agents-file D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\agents.txt
+
+
+Doctor
+──────
+  D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db  ·  st_01M6WGSTXBET9NG80NA0NPZCGR  ·  schema 0.14.0  ·  Python 3.13.5
+
+  [ok  ] background manager
+         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`
+  [ok  ] append-only enforcement
+         both triggers present and refusing writes
+  [ok  ] event chain
+         1 event(s) verified; checkpoint seq 1 a3aa64a8ce189827…
+  [ok  ] replay from the log
+         1 event(s) replay to the same 0 memory/ies
+  [ok  ] schema version
+         0.14.0 throughout
+  [ok  ] retraction delivery
+         nothing outstanding
+  [ok  ] withdrawal evidence
+         no memory is withdrawn on a weak basis
+  [ok  ] content keys
+         all content readable
+  [ok  ] content cipher
+         no content yet; keys externally (DirectoryKeyProvider)
+  [ok  ] withdrawn knowledge is not exposed
+         0 blocked memory/ies, none of them usable
+  [ok  ] tenant isolation
+         single-tenant store (tn_default); nothing to cross
+  [ok  ] dashboard asset
+         present (99413 bytes)
+
+  Sound. Every check verified, none skipped.
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\memory-fabric.exe --db D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db --keys D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\keys doctor
+
+Doctor
+──────
+  D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\memory\store.db  ·  st_01M6WGSTXBET9NG80NA0NPZCGR  ·  schema 0.14.0  ·  Python 3.13.5
+
+  [ok  ] background manager
+         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`
+  [ok  ] append-only enforcement
+         both triggers present and refusing writes
+  [ok  ] event chain
+         1 event(s) verified; checkpoint seq 1 a3aa64a8ce189827…
+  [ok  ] replay from the log
+         1 event(s) replay to the same 0 memory/ies
+  [ok  ] schema version
+         0.14.0 throughout
+  [ok  ] retraction delivery
+         nothing outstanding
+  [ok  ] withdrawal evidence
+         no memory is withdrawn on a weak basis
+  [ok  ] content keys
+         all content readable
+  [ok  ] content cipher
+         no content yet; keys externally (DirectoryKeyProvider)
+  [ok  ] withdrawn knowledge is not exposed
+         0 blocked memory/ies, none of them usable
+  [ok  ] tenant isolation
+         single-tenant store (tn_default); nothing to cross
+  [ok  ] dashboard asset
+         present (99413 bytes)
+
+  Sound. Every check verified, none skipped.
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\python.exe -m pip uninstall --yes memory-fabric
+Found existing installation: memory-fabric 0.14.0
+Uninstalling memory-fabric-0.14.0:
+  Successfully uninstalled memory-fabric-0.14.0
+
+$ D:\Memory Fabric\master-checklist\.test-tmp\mf-fresh-c73vk3qn\venv\Scripts\python.exe -c import memory_fabric
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import memory_fabric
+ModuleNotFoundError: No module named 'memory_fabric'
+
+fresh-machine acceptance passed

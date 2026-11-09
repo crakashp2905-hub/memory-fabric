@@ -1,0 +1,131 @@
+{
+  "schema": "memory-fabric-n6-01-decision-evaluation/1",
+  "task_id": "N6-01",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "dataset": {
+    "path": "research/bench/n6_01_decision_tasks/cases.json",
+    "sha256": "94e9ae9b17e37befe53aa42cdbd5037f53ca13971bf2c7f1e42c071a0764bc52",
+    "cases": 6
+  },
+  "source": {
+    "commit": "df586fc46eef43d3be9b18f3844c72450bad69eb",
+    "dirty_before_result_write": false,
+    "experiment_sha256": "2444cb6a5c4c0b7fab34ce96c61821bd36cad766f0f58b7f41d4e429460ae53a"
+  },
+  "passed": 6,
+  "failed": [],
+  "observations": [
+    {
+      "case_id": "confident-routine-choice",
+      "selected": "a",
+      "abstained": false,
+      "confidence": 0.9,
+      "probabilities": {
+        "a": 0.9,
+        "b": 0.1
+      },
+      "requires_system2": false,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    },
+    {
+      "case_id": "moderate-confidence-escalates",
+      "selected": "a",
+      "abstained": false,
+      "confidence": 0.7,
+      "probabilities": {
+        "a": 0.7,
+        "b": 0.3
+      },
+      "requires_system2": true,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    },
+    {
+      "case_id": "high-entropy-escalates",
+      "selected": "a",
+      "abstained": false,
+      "confidence": 0.6,
+      "probabilities": {
+        "a": 0.6,
+        "b": 0.4
+      },
+      "requires_system2": true,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    },
+    {
+      "case_id": "consequential-action-always-escalates",
+      "selected": "open",
+      "abstained": false,
+      "confidence": 0.99,
+      "probabilities": {
+        "open": 0.99,
+        "hold": 0.01
+      },
+      "requires_system2": true,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    },
+    {
+      "case_id": "tie-abstains-and-escalates",
+      "selected": null,
+      "abstained": true,
+      "confidence": 0.5,
+      "probabilities": {
+        "a": 0.5,
+        "b": 0.5
+      },
+      "requires_system2": true,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    },
+    {
+      "case_id": "single-option-is-not-ambiguous",
+      "selected": "summary",
+      "abstained": false,
+      "confidence": 1.0,
+      "probabilities": {
+        "summary": 1.0
+      },
+      "requires_system2": false,
+      "checks": {
+        "selected_matches": true,
+        "abstention_matches": true,
+        "system2_matches": true,
+        "probabilities_valid": true
+      },
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Cases are deterministic API contracts authored for this fixture; they are not a distributional estimate of agent performance.",
+    "The experiment evaluates proposal validation and escalation routing only. It does not execute or authorize the selected action."
+  ]
+}

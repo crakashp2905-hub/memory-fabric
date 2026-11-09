@@ -1,0 +1,66 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H5-02",
+  "source_commit": "088dfc852c99d29313d1dd541eebca494f644029",
+  "checks": {
+    "quick_pipeline": "PASS",
+    "ruff": "PASS",
+    "mypy": {
+      "status": "PASS",
+      "files": 197
+    },
+    "secret_scan": {
+      "status": "PASS",
+      "high_findings": 129,
+      "unexpected": 0
+    },
+    "security_ast": {
+      "status": "PASS",
+      "modules": 16,
+      "findings": 0
+    },
+    "internal_security_findings": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "external_review_required": [
+        "O7"
+      ]
+    },
+    "documentation_tests": {
+      "status": "PASS",
+      "tests": 27
+    },
+    "adversarial_gate": {
+      "status": "PASS",
+      "families": 21,
+      "tests": 283,
+      "report": "research/results/adversarial-gate-windows-v3.json"
+    },
+    "unavailable_tools": [
+      "pip-audit",
+      "bandit"
+    ],
+    "exact_commit_full_suite": {
+      "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+      "passed": 2773,
+      "skipped": 17,
+      "subtests_passed": 2730,
+      "failures": 0,
+      "errors": 0,
+      "report": "research/results/p5-02-exact-088dfc8.json"
+    }
+  },
+  "input_sha256": {
+    "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
+    "tools/scan_secrets.py": "357bfb05169dfe338bc8a24be5169b95a06066c4ad4bc026a174df235d8501de",
+    "tools/security_ast_scan.py": "6b3a32d28521c10540724e388c4d9511676b74b4122fde755d417ff42639d75d",
+    "tools/security_findings.py": "aa00e43612ecdb511ebf74205f331c2b7421eb66366245e3d21e0f8cca454220",
+    "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
+    "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2"
+  },
+  "limitations": [
+    "pip-audit and bandit are unavailable and are not counted as passed.",
+    "Independent external security review O7 remains separate from this local gate."
+  ],
+  "git_sha": "088dfc852c99d29313d1dd541eebca494f644029"
+}

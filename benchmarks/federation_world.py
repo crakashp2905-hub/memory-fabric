@@ -112,8 +112,6 @@ def main(argv: list[str]) -> int:
             "scope": "single-process scheduled partition; no models or network SLO claim"}
     print(json.dumps(data, indent=1))
     if "--no-write" not in argv:
-        path = ROOT / "research/results/int02-federation-world.json"
-        path.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
         write(Manifest(run_id="int02-federation-world", suite="INT-02", arm="chain/star",
                        decision="FAIL" if violations else "DESCRIPTIVE", repo_commit=head(),
                        reason="functional regression world; no superiority hypothesis",
@@ -121,6 +119,8 @@ def main(argv: list[str]) -> int:
                        seeds=list(SEEDS), results={"invariant_violations": len(violations)},
                        counts={"attempted": len(rows), "completed": len(rows), "failed": len(violations)},
                        cost={"model_calls": 0, "model_usd": 0.0}))
+        path = ROOT / "research/results/int02-federation-world.json"
+        path.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     return bool(violations)
 
 

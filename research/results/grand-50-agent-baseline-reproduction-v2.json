@@ -1,0 +1,40 @@
+{
+  "schema": "memory-fabric-baseline-reproduction/2",
+  "date": "2026-11-01",
+  "experiment_id": "grand-50-agent-baseline-reproduction-v2",
+  "git_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+  "candidate_sha": "12c612ea37980f92d206fe2b343b217603d1b3cc",
+  "worktree_clean": true,
+  "model_id": "deterministic-teamworld-agent",
+  "seeds": [101, 102, 103, 104, 105],
+  "config": {"agents": 50, "rounds": 60, "tasks_per_seed": 100, "k": 5},
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "python": "3.13.5",
+    "cpus": 8
+  },
+  "source_sha256": {
+    "experiments/teamworld.py": "0f0bb05bf5a30e8fc211cf26d464705925749c61cc253d7e693e6ef332f96c99",
+    "experiments/p3b_teams.py": "9615d30523e016bb4d86f5fc992f991d9b3559ca3792748587a00e6eb7f3ef8a"
+  },
+  "raw_output_sha256": "ed34dbf25df33b6625286c903564ae912027d191a2f402d181f0671375968c4d",
+  "fabric_per_seed": [
+    {"seed": 101, "task_success": 0.64, "valid_evidence_withheld": 0.10, "stale_action_rate": 0.0},
+    {"seed": 102, "task_success": 0.60, "valid_evidence_withheld": 0.15, "stale_action_rate": 0.0},
+    {"seed": 103, "task_success": 0.53, "valid_evidence_withheld": 0.19, "stale_action_rate": 0.0},
+    {"seed": 104, "task_success": 0.59, "valid_evidence_withheld": 0.21, "stale_action_rate": 0.0},
+    {"seed": 105, "task_success": 0.56, "valid_evidence_withheld": 0.19, "stale_action_rate": 0.0}
+  ],
+  "fabric": {
+    "task_success": {"mean": 0.584, "bootstrap_ci95_over_seeds": [0.550, 0.616], "denominator": 500},
+    "valid_evidence_withheld": {"mean": 0.168, "bootstrap_ci95_over_seeds": [0.130, 0.198], "denominator": 500},
+    "stale_action_rate": {"mean": 0.0, "bootstrap_ci95_over_seeds": [0.0, 0.0], "denominator": 500}
+  },
+  "matched_reference": {
+    "task_success": 0.584,
+    "valid_evidence_withheld": 0.168,
+    "stale_action_rate": 0.0
+  },
+  "verdict": "REPRODUCED_EXACTLY"
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P1-09",
+  "commit": "8818b2e71a7158e7f723beaa3c3f1d2bce959562",
+  "command": "python -m unittest tests.test_examples_run -q",
+  "exit_code": 0,
+  "tests_run": 2,
+  "elapsed_seconds": 54.757,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "2bb9876b96744b51518463479610bf15e211ef05e7ef6db9c1ed0829a063b23e",
+    "tests/test_examples_run.py": "076401c2dcaa5c58018faea6fe6d4968f28d3245ec755623626d0c2bd8e2be02",
+    "examples/memory_vs_json.py": "74e863679f9f8dc234ee0516166f736a30444dd100f277caf5b9642b2134a03b",
+    "examples/README.md": "d7de505cd91d12dcdf55dbbc56ac2841bacf1afae316e5527e300a7c63ef4e25"
+  },
+  "result_text_sha256": "fe165af54b659d1f96a3f74dfd8dd06e8b39bdb690c554af6da8579e91e58847"
+}

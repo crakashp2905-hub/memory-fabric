@@ -22,6 +22,26 @@ class RoutingRules(unittest.TestCase):
     def test_trained_semantic_and_multi_hop_queries_are_hybrid(self) -> None:
         self.assertEqual(route("advice for unusual vibration", trained_embedder=True).method,
                          "hybrid")
+
+    def test_unrecognized_shapes_fall_back_to_lexical(self) -> None:
+        for query in ("", "flibbertigibbet", "*** ??? ***"):
+            selected = route(query, trained_embedder=True)
+            self.assertEqual((selected.query_type, selected.method), ("unknown", "lexical"))
+
+    def test_adaptive_routing_cannot_widen_governance_eligibility(self) -> None:
+        fabric = MemoryFabric(auto_activate=True)
+        self.addCleanup(fabric.close)
+        private = fabric.remember("alice", "Unusual vibration means bearing B-9 failed.")
+        withdrawn = fabric.remember(
+            "alice", "Unusual vibration means bearing B-8 failed.", scope="team"
+        )
+        fabric.quarantine(withdrawn, reason="incorrect", actor="reviewer")
+        result = fabric.retrieve(
+            "mallory", "advice for unusual vibration", profile="adaptive", k=10
+        )
+        exposed = {memory.id for memory in result.exposed}
+        self.assertNotIn(private, exposed)
+        self.assertNotIn(withdrawn, exposed)
         self.assertEqual(route("what caused the shutdown?", trained_embedder=True).method,
                          "hybrid")
 

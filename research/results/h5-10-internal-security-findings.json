@@ -1,0 +1,15 @@
+{
+  "schema": "memory-fabric-local-security-gate/1",
+  "scope": "known findings in the checked-in internal register; this is not a security certification",
+  "local_ready": true,
+  "blocking_findings": [],
+  "external_review_required": [
+    "O7"
+  ],
+  "external_review_complete": false,
+  "findings_count": 15,
+  "limitations": [
+    "An independent external security review remains required; it cannot be completed by this local gate.",
+    "Only findings present in the register are evaluated; absence is not proof of absence."
+  ]
+}

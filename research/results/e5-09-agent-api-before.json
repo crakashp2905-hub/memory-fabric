@@ -1,0 +1,11 @@
+{
+  "schema": "memory-fabric-e5-09-agent-api-metrics/1",
+  "phase": "before",
+  "source_commit": "9456e3b0a914950c5809a3ec36d8a4c7d7b3c076",
+  "method": "AST cyclomatic estimate: decision nodes plus one; duplicated memory-id input-validation call sites",
+  "metrics": {
+    "post_handler_cyclomatic": 21,
+    "duplicate_memory_id_validators": 1,
+    "memory_id_validator_call_sites": 2
+  }
+}

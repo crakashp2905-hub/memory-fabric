@@ -1,0 +1,3 @@
+P2-07 accessibility and keyboard checks
+
+29 focused tests passed; Ruff, git diff check and JavaScript syntax check passed. Coverage includes accessible names, text status vocabulary, keyboard map activation, dialog focus trap, Escape handling, return focus, focus-visible styling and live announcements. This is local automated evidence, not a manual screen-reader audit. GitHub CI matrix not run.

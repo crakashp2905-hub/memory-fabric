@@ -8,14 +8,14 @@ the code disagree.
 
 | tier | promise | may change |
 |---|---|---|
-| **stable** | Public functions, classes and CLI commands keep their names and meaning within a minor series. Removals are deprecated for one minor version first and noted in the CHANGELOG. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). | Internals, private names (`_x`), wording of messages |
+| **stable** | Public functions, classes, CLI commands, signatures and meanings stay compatible within a minor series. Incompatible changes require deprecation plus a CHANGELOG migration note. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). The canonical symbols and signatures are in [API_INVENTORY.json](docs/API_INVENTORY.json). | Internals, private names (`_x`), wording of messages |
 | **beta** | Used in production paths and tested, but new. Names may change in a minor version, always with a CHANGELOG entry. Events they write are covered by the replay guarantee like any other. | Signatures, defaults, output shapes |
 | **experimental** | New mechanisms. **All opt-in**: nothing in the default path calls them unless you turn it on. | Anything, or removal |
 
 Promotion needs evidence that the change in default behaviour helps,
 and the owner's decision (AGENTS.md principle 9).
 
-## Stable (57)
+## Stable (58)
 
 - `memory_fabric.__init__`
 - `memory_fabric._fabric.__init__`
@@ -68,6 +68,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.projections`
 - `memory_fabric.protocol`
 - `memory_fabric.relevance`
+- `memory_fabric.requirement_graph`
 - `memory_fabric.sdk`
 - `memory_fabric.service`
 - `memory_fabric.session`
@@ -75,17 +76,19 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (53)
+## Beta (65)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
 - `memory_fabric.adapters.claude`
 - `memory_fabric.adapters.claude_chat`
 - `memory_fabric.adapters.ollama`
+- `memory_fabric.advisory`
 - `memory_fabric.agent_api`
 - `memory_fabric.answerability`
 - `memory_fabric.auditor`
 - `memory_fabric.authority`
+- `memory_fabric.authorization_receipt`
 - `memory_fabric.branching`
 - `memory_fabric.chains`
 - `memory_fabric.conflicts`
@@ -93,7 +96,10 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.consensus`
 - `memory_fabric.context_receipt`
 - `memory_fabric.correction`
+- `memory_fabric.decision_records`
 - `memory_fabric.dependence`
+- `memory_fabric.evidence_state`
+- `memory_fabric.evidence_status`
 - `memory_fabric.extraction`
 - `memory_fabric.freshness`
 - `memory_fabric.governance.directive`
@@ -109,9 +115,13 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.migrate`
 - `memory_fabric.models`
 - `memory_fabric.observability.control`
+- `memory_fabric.observability.health`
+- `memory_fabric.observability.incident_export`
 - `memory_fabric.observability.logs`
 - `memory_fabric.observability.metrics`
 - `memory_fabric.observability.server`
+- `memory_fabric.offline`
+- `memory_fabric.oidc`
 - `memory_fabric.pilot`
 - `memory_fabric.posture`
 - `memory_fabric.presets`
@@ -124,14 +134,17 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.retrieval_routing`
 - `memory_fabric.retrievers`
 - `memory_fabric.review`
+- `memory_fabric.stage_trace`
 - `memory_fabric.status`
+- `memory_fabric.support_bundle`
 - `memory_fabric.tenancy`
 - `memory_fabric.tour`
 - `memory_fabric.typedclaims`
+- `memory_fabric.upgrade_preview`
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (45)
+## Experimental (48)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.causal_replay.__init__`
@@ -160,6 +173,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.context_map`
 - `memory_fabric.decay`
 - `memory_fabric.decision_models`
+- `memory_fabric.decision_router`
 - `memory_fabric.docsource`
 - `memory_fabric.document_formats`
 - `memory_fabric.evidence_completeness`
@@ -175,6 +189,8 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.objective_v2`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
+- `memory_fabric.summary_dependencies`
+- `memory_fabric.tombstones`
 - `memory_fabric.tool_protocol`
 - `memory_fabric.trust`
 - `memory_fabric.typed_query`

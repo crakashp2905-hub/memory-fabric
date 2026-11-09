@@ -249,6 +249,16 @@ def accept_offer(target: "MemoryFabric", prepared: PreparedOffer, recipient_agen
     """
     from .model import MemoryType, Provenance, SecurityClass
 
+    if target.outbox.blocks_import(
+        prepared.origin_store_id, prepared.source_memory_id, prepared.version
+    ):
+        return OfferResult(
+            source_memory_id=prepared.source_memory_id,
+            accepted=False,
+            decision=FirewallDecision.DENY,
+            reasons=["recipient refused: exact origin version has a durable tombstone"],
+        )
+
     origin = prepared.context.get(ORIGIN_KEY) or {}
     if target.store_id in list(origin.get("chain") or []):
         return OfferResult(source_memory_id=prepared.source_memory_id, accepted=False,

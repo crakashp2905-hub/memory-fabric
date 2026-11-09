@@ -37,12 +37,20 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Callable, Sequence
+import hashlib
+import json
+from typing import TYPE_CHECKING, Callable, Sequence, TypedDict
 
 from .conflicts import author, claim, find_conflicts
 from .events import EventType
 from .model import EXPOSABLE_STATES, ProvenanceMethod, Scope, visible_to
 from .identity import DEFAULT_TENANT
+from .summary_dependencies import (
+    DependencyMapRefused,
+    make_edge_certificate,
+    reconstruct_dependency_map,
+    verify_stored_dependency_map,
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from .fabric import MemoryFabric
@@ -53,6 +61,47 @@ class CompactionRefused(Exception):
     """The summary would lose or hide something; nothing was written."""
 
 
+class CompactionBudgetExceeded(CompactionRefused):
+    """The complete required summary does not fit the declared token budget."""
+
+    code = "required_evidence_exceeds_token_budget"
+
+    def __init__(
+        self,
+        *,
+        max_summary_tokens: int,
+        required_summary_tokens: int,
+        source_bytes_utf8: int,
+        summary_bytes_utf8: int,
+        tokenizer_provenance: str,
+        required_source_ids: Sequence[str],
+    ) -> None:
+        self.max_summary_tokens = max_summary_tokens
+        self.required_summary_tokens = required_summary_tokens
+        self.source_bytes_utf8 = source_bytes_utf8
+        self.summary_bytes_utf8 = summary_bytes_utf8
+        self.tokenizer_provenance = tokenizer_provenance
+        self.required_source_ids = tuple(required_source_ids)
+        super().__init__(
+            f"required summary needs {required_summary_tokens} tokens, "
+            f"budget is {max_summary_tokens}; no summary was written"
+        )
+
+    def to_dict(self) -> dict[str, object]:
+        """Return a stable machine-readable failure with all compulsory inputs."""
+        return {
+            "code": self.code,
+            "max_summary_tokens": self.max_summary_tokens,
+            "required_summary_tokens": self.required_summary_tokens,
+            "source_bytes_utf8": self.source_bytes_utf8,
+            "summary_bytes_utf8": self.summary_bytes_utf8,
+            "tokenizer_provenance": self.tokenizer_provenance,
+            "required_source_ids": list(self.required_source_ids),
+            "required_source_count": len(self.required_source_ids),
+            "summary_written": False,
+        }
+
+
 @dataclass
 class CompactionReport:
     episode_id: str
@@ -60,6 +109,117 @@ class CompactionReport:
     inputs: list[str] = field(default_factory=list)
     left_out: dict[str, str] = field(default_factory=dict)
     disputes: list[list[str]] = field(default_factory=list)
+    source_bytes_utf8: int = 0
+    summary_bytes_utf8: int = 0
+    source_token_estimate: int | None = None
+    summary_token_estimate: int | None = None
+    tokenizer_provenance: str | None = None
+    token_measurement_status: str = "NOT_MEASURED"
+    max_summary_tokens: int | None = None
+    token_budget_status: str = "NOT_REQUESTED"
+
+
+@dataclass
+class HierarchicalCompactionReport:
+    episode_id: str
+    root_summary_id: str
+    leaf_summary_ids: list[str]
+    leaf_source_groups: list[list[str]]
+    certificates: dict[str, str]
+    source_bytes_utf8: int = 0
+    root_summary_bytes_utf8: int = 0
+    source_token_estimate: int | None = None
+    root_summary_token_estimate: int | None = None
+    tokenizer_provenance: str | None = None
+    token_measurement_status: str = "NOT_MEASURED"
+
+
+class _CompactionMeasurement(TypedDict):
+    source_bytes_utf8: int
+    summary_bytes_utf8: int
+    source_token_estimate: int | None
+    summary_token_estimate: int | None
+    tokenizer_provenance: str | None
+    token_measurement_status: str
+
+
+def _measurement(
+    source_texts: Sequence[str],
+    summary_text: str,
+    token_counter: Callable[[str], int] | None,
+    tokenizer_provenance: str | None,
+) -> _CompactionMeasurement:
+    """Measure UTF-8 bytes exactly and tokens only with declared tokenizer provenance."""
+    source_bytes = sum(len(text.encode("utf-8")) for text in source_texts)
+    summary_bytes = len(summary_text.encode("utf-8"))
+    if token_counter is None:
+        if tokenizer_provenance is not None:
+            raise ValueError("tokenizer provenance requires a token counter")
+        return {
+            "source_bytes_utf8": source_bytes,
+            "summary_bytes_utf8": summary_bytes,
+            "source_token_estimate": None,
+            "summary_token_estimate": None,
+            "tokenizer_provenance": None,
+            "token_measurement_status": "NOT_MEASURED_NO_TOKENIZER",
+        }
+    if not tokenizer_provenance or not tokenizer_provenance.strip():
+        raise ValueError("token counter requires explicit tokenizer provenance")
+    source_tokens = sum(token_counter(text) for text in source_texts)
+    summary_tokens = token_counter(summary_text)
+    if any(isinstance(value, bool) or not isinstance(value, int) or value < 0
+           for value in (source_tokens, summary_tokens)):
+        raise ValueError("token counter must return non-negative integer counts")
+    return {
+        "source_bytes_utf8": source_bytes,
+        "summary_bytes_utf8": summary_bytes,
+        "source_token_estimate": source_tokens,
+        "summary_token_estimate": summary_tokens,
+        "tokenizer_provenance": tokenizer_provenance.strip(),
+        "token_measurement_status": "MEASURED",
+    }
+
+
+def _recorded_memory_sequences(fabric: "MemoryFabric") -> dict[tuple[str, int], int]:
+    """Index exact create/revision transaction positions for this log head."""
+    head = fabric.log.head_seq
+    cached = getattr(fabric, "_compaction_memory_sequences", None)
+    if cached is not None and cached[0] == head:
+        return cached[1]
+    sequences: dict[tuple[str, int], int] = {}
+    for event in fabric.log.read_types([EventType.MEMORY_CREATED, EventType.MEMORY_VERSIONED]):
+        raw = event.payload.get("memory")
+        if isinstance(raw, dict) and isinstance(raw.get("id"), str):
+            version = raw.get("version")
+            if isinstance(version, int) and not isinstance(version, bool) and event.seq is not None:
+                sequences[(raw["id"], version)] = event.seq
+    fabric.__dict__["_compaction_memory_sequences"] = (head, sequences)
+    return sequences
+
+
+def _source_metadata(
+    fabric: "MemoryFabric", memories: Sequence["Memory"]
+) -> list[dict[str, int | str | None]]:
+    """Preserve valid time, exact log order, version author, and source identity."""
+    sequences = _recorded_memory_sequences(fabric)
+    metadata = []
+    for memory in memories:
+        recorded_seq = sequences.get((memory.id, memory.version))
+        if recorded_seq is None:
+            raise CompactionRefused(
+                f"source {memory.id!r} version {memory.version} has no log sequence"
+            )
+        row: dict[str, int | str | None] = {
+            "source_id": memory.id,
+            "source_version": memory.version,
+            "version_author": author(memory),
+            "recorded_seq": recorded_seq,
+            "recorded_at": memory.created_at,
+            "valid_from": memory.valid_from,
+            "valid_to": memory.valid_to,
+        }
+        metadata.append(row)
+    return metadata
 
 
 def session_memories(fabric: "MemoryFabric", episode_id: str) -> list["Memory"]:
@@ -85,11 +245,11 @@ def session_label(fabric: "MemoryFabric", episode_id: str) -> str:
 def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory"]]) -> str:
     """One line per distinct claim; disputed claims listed with every value and source.
 
-    A claim is its identifiers and values (`conflicts.claim`): restatements of
-    one claim keep only the shortest wording. A note with neither identifiers
-    nor values ("shift handover went smoothly") is chatter and is dropped. The
-    C1 pilot found the first version, which kept every distinct sentence, wrote
-    summaries too long for any context budget.
+    A claim is its identifiers, content words, and values (`conflicts.claim`):
+    exact normalized restatements keep only the shortest wording. A note with
+    neither identifiers nor values ("shift handover went smoothly") is chatter
+    and is dropped. The C1 pilot found the first version, which kept every
+    distinct sentence, wrote summaries too long for any context budget.
     """
     disputed = {m.id for group in disputes for m in group}
     best: dict[object, str] = {}
@@ -97,11 +257,14 @@ def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory
     for memory in memories:
         if memory.id in disputed:
             continue
-        ids, _, values = claim(memory.content)
+        ids, words, values = claim(memory.content)
         text = memory.content.strip()
         if not ids and not values:
             continue
-        key = (ids, values) if (ids or values) else text.lower()
+        # Include claim words even when a statement has no numeric value (for
+        # example a preference). Keying only by identifiers and values made
+        # "prefer warm" and "prefer cool" collapse to whichever was shortest.
+        key = (ids, words, values) if (ids or values) else text.lower()
         if key not in best:
             order.append(key)
             best[key] = text
@@ -117,12 +280,42 @@ def extractive(memories: Sequence["Memory"], disputes: Sequence[Sequence["Memory
 def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                     summarise: Callable[[Sequence["Memory"], Sequence[Sequence["Memory"]]], str]
                     | None = None, scope: str | None = None,
-                    tenant_id: str = DEFAULT_TENANT) -> CompactionReport:
-    """Write one governed summary of an episode. Returns what was used and left out."""
+                    tenant_id: str = DEFAULT_TENANT,
+                    token_counter: Callable[[str], int] | None = None,
+                    tokenizer_provenance: str | None = None,
+                    max_summary_tokens: int | None = None) -> CompactionReport:
+    """Write one governed summary of an episode, returning used and omitted inputs.
+    `summary_source_metadata` records each parent ID/version, version author,
+    authoritative log sequence, recorded time, and valid-time interval. When a
+    token budget is supplied, all usable inputs are compulsory and overflow
+    raises `CompactionBudgetExceeded` before a summary is written. The report
+    always includes exact UTF-8 byte counts; token counts require a supplied
+    counter and explicit tokenizer provenance.
+
+    The report always includes exact UTF-8 byte counts. Optional token counts are
+    produced only when both a tokenizer counter and its explicit provenance are
+    supplied; byte counts are never treated as token or model-cost estimates.
+    The summary context also maps each source version to its ID, version author,
+    authoritative transaction sequence, recorded time, and valid-time interval.
+    When `max_summary_tokens` is supplied, every usable source is compulsory; if
+    the complete summary does not fit, `CompactionBudgetExceeded` is raised before
+    any summary memory is written.
+    """
     report = CompactionReport(episode_id=episode_id, summary_id=None)
     usable = []
     from .navigation import _visible
 
+    if (max_summary_tokens is not None
+            and (isinstance(max_summary_tokens, bool)
+                 or not isinstance(max_summary_tokens, int)
+                 or max_summary_tokens < 1)):
+        raise ValueError("max_summary_tokens must be a positive integer")
+    if max_summary_tokens is not None and (
+        token_counter is None or not tokenizer_provenance or not tokenizer_provenance.strip()
+    ):
+        raise ValueError(
+            "a summary token budget requires a token counter and explicit tokenizer provenance"
+        )
     if not agent_id or not tenant_id:
         raise CompactionRefused("compaction requires agent and tenant identities")
     with fabric._transaction():
@@ -149,34 +342,429 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
         for m in group:
             if not set(claim(m.content)[2]) <= set(stated):
                 raise CompactionRefused("the summary resolves a dispute instead of keeping it")
+    dependency_error = None
+    try:
+        dependencies = reconstruct_dependency_map(text, usable)
+    except DependencyMapRefused as exc:
+        dependencies = None
+        dependency_error = str(exc)
+    measured = _measurement(
+        [memory.content for memory in usable], text, token_counter, tokenizer_provenance
+    )
+    if (max_summary_tokens is not None
+            and measured["summary_token_estimate"] is not None
+            and measured["summary_token_estimate"] > max_summary_tokens):
+        raise CompactionBudgetExceeded(
+            max_summary_tokens=max_summary_tokens,
+            required_summary_tokens=measured["summary_token_estimate"],
+            source_bytes_utf8=measured["source_bytes_utf8"],
+            summary_bytes_utf8=measured["summary_bytes_utf8"],
+            tokenizer_provenance=str(measured["tokenizer_provenance"]),
+            required_source_ids=[memory.id for memory in usable],
+        )
     narrowest = min((m.scope for m in usable), key=lambda s: s.rank)
     if scope is not None and Scope(scope).rank > narrowest.rank:
         raise CompactionRefused("a summary cannot widen its sources' visibility")
+    parent_versions = [(memory.id, memory.version) for memory in usable]
+    edge_certificate = (
+        make_edge_certificate(text, parent_versions, dependencies)
+        if dependencies is not None else None
+    )
     with fabric._transaction():
         eligible = set(_visible(fabric, agent_id, tenant_id)) - fabric.state.erased
         if any(m.id not in eligible or fabric.state.memories[m.id].version != m.version for m in usable):
             raise CompactionRefused("compaction sources changed during summarization; retry with current evidence")
-        report.summary_id = fabric.derive(
+        summary_id = fabric.derive(
             agent_id, text, parents=[m.id for m in usable],
             method=ProvenanceMethod.CONSOLIDATED,
-            context={"kind": "derived_claim", "compaction_of": episode_id},
+            context={
+                "kind": "derived_claim",
+                "compaction_of": episode_id,
+                "summary_source_metadata": _source_metadata(fabric, usable),
+                "summary_edge_certificate": edge_certificate,
+                **(
+                    {
+                        "summary_token_budget": {
+                            "limit": max_summary_tokens,
+                            "observed": measured["summary_token_estimate"],
+                            "tokenizer_provenance": measured["tokenizer_provenance"],
+                            "required_source_versions": [
+                                [memory.id, memory.version] for memory in usable
+                            ],
+                        }
+                    }
+                    if max_summary_tokens is not None
+                    else {}
+                ),
+                **(
+                    {"summary_dependencies": dependencies}
+                    if dependencies is not None
+                    else {"summary_dependency_error": "unverified_fact_mapping"}
+                ),
+            },
             scope=scope or narrowest)
+        report.summary_id = summary_id
+        if dependencies is None and fabric.state.memories[summary_id].lifecycle_state in EXPOSABLE_STATES:
+            raise CompactionRefused(
+                f"summary dependency map could not be proven: {dependency_error}"
+            )
     report.inputs = [m.id for m in usable]
+    report.source_bytes_utf8 = measured["source_bytes_utf8"]
+    report.summary_bytes_utf8 = measured["summary_bytes_utf8"]
+    report.source_token_estimate = measured["source_token_estimate"]
+    report.summary_token_estimate = measured["summary_token_estimate"]
+    report.tokenizer_provenance = measured["tokenizer_provenance"]
+    report.token_measurement_status = str(measured["token_measurement_status"])
+    report.max_summary_tokens = max_summary_tokens
+    report.token_budget_status = "WITHIN_BUDGET" if max_summary_tokens is not None else "NOT_REQUESTED"
     return report
 
 
+def verify_compaction_certificate(
+    fabric: "MemoryFabric", summary_id: str
+) -> dict[str, object]:
+    """Verify an active flat summary's exact source versions and proof edges.
+
+    Summaries may omit non-factual chatter, but every consequential source fact
+    must remain represented by the stored dependency map and its digest.
+    """
+    summary = fabric.state.memories.get(summary_id)
+    if summary is None or summary.lifecycle_state not in EXPOSABLE_STATES:
+        raise CompactionRefused("compaction summary is unavailable or contested")
+    context = summary.context or {}
+    metadata = context.get("summary_source_metadata")
+    if not isinstance(metadata, list) or not metadata:
+        raise CompactionRefused("compaction summary has no exact source metadata")
+    sources = []
+    source_versions: list[tuple[str, int]] = []
+    seen: set[str] = set()
+    for item in metadata:
+        if not isinstance(item, dict):
+            raise CompactionRefused("compaction summary source metadata is malformed")
+        memory_id = item.get("source_id")
+        version = item.get("source_version")
+        if (not isinstance(memory_id, str) or not memory_id
+                or isinstance(version, bool) or not isinstance(version, int)
+                or memory_id in seen):
+            raise CompactionRefused("compaction summary source identity is invalid")
+        seen.add(memory_id)
+        source = fabric.state.memories.get(memory_id)
+        if (source is None or source.version != version
+                or source.lifecycle_state not in EXPOSABLE_STATES):
+            raise CompactionRefused("a compaction source version is stale or unavailable")
+        sources.append(source)
+        source_versions.append((memory_id, version))
+    parent_versions = {
+        (str(memory_id), int(version))
+        for memory_id, version in summary.provenance.parents
+    }
+    if parent_versions != set(source_versions):
+        raise CompactionRefused("compaction summary parents differ from certified sources")
+    if _source_metadata(fabric, sources) != metadata:
+        raise CompactionRefused("compaction summary source metadata differs from current sources")
+    try:
+        dependencies = verify_stored_dependency_map(summary, sources)
+    except DependencyMapRefused as exc:
+        raise CompactionRefused(f"compaction proof edges failed verification: {exc}") from exc
+    expected = make_edge_certificate(summary.content, source_versions, dependencies)
+    certificate = context.get("summary_edge_certificate")
+    if not isinstance(certificate, str) or certificate != expected:
+        raise CompactionRefused("compaction summary edge certificate digest mismatch")
+    return {"certificate": certificate, "source_versions": source_versions,
+            "dependencies": dependencies}
+
+
+def _hierarchy_certificate(
+    content: str,
+    parents: Sequence[tuple[str, int]],
+    dependencies: dict[str, list[list[str | int]]],
+    child_edges: Sequence[dict[str, object]],
+    source_metadata: Sequence[dict[str, int | str | None]],
+) -> str:
+    payload = json.dumps(
+        {
+            "edge_certificate": make_edge_certificate(content, parents, dependencies),
+            "child_edges": list(child_edges),
+            "source_metadata": list(source_metadata),
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def compact_hierarchy(
+    fabric: "MemoryFabric",
+    episode_id: str,
+    agent_id: str,
+    *,
+    leaf_size: int = 8,
+    tenant_id: str = DEFAULT_TENANT,
+    token_counter: Callable[[str], int] | None = None,
+    tokenizer_provenance: str | None = None,
+) -> HierarchicalCompactionReport:
+    """Build deterministic leaf summaries and a certified history root.
+
+    Root lineage includes both leaf summaries and original versions. This
+    deliberately gives corrections a short invalidation path while preserving
+    independently usable sibling leaves. Leaf and root metadata retain each
+    source version's ID, version author, transaction sequence, recorded time,
+    and valid-time interval; these fields are covered by hierarchy certificates.
+    """
+    from .navigation import _visible
+
+    if not agent_id or not tenant_id:
+        raise CompactionRefused("compaction requires agent and tenant identities")
+    if isinstance(leaf_size, bool) or not isinstance(leaf_size, int) or leaf_size < 2:
+        raise ValueError("leaf_size must be an integer of at least 2")
+    with fabric._transaction():
+        eligible = set(_visible(fabric, agent_id, tenant_id)) - fabric.state.erased
+        usable = [
+            memory
+            for memory in session_memories(fabric, episode_id)
+            if memory.tenant_id == tenant_id
+            and visible_to(memory, agent_id, fabric.state)
+            and memory.id in eligible
+        ]
+    usable.sort(key=lambda memory: (memory.created_at, memory.id, memory.version))
+    if len(usable) <= leaf_size:
+        raise CompactionRefused(
+            f"hierarchical compaction requires more than {leaf_size} active source memories"
+        )
+    groups = [usable[start:start + leaf_size] for start in range(0, len(usable), leaf_size)]
+    label = session_label(fabric, episode_id)
+    leaf_plans: list[
+        tuple[list["Memory"], str, dict[str, list[list[str | int]]], list[dict[str, int | str | None]], str]
+    ] = []
+    for index, group in enumerate(groups):
+        text = f"Session summary ({label} leaf {index + 1}): " + extractive(
+            group, find_conflicts(group)
+        )
+        try:
+            dependencies = reconstruct_dependency_map(text, group)
+        except DependencyMapRefused as exc:
+            raise CompactionRefused(f"leaf summary dependency map failed: {exc}") from exc
+        parent_versions = [(memory.id, memory.version) for memory in group]
+        source_metadata = _source_metadata(fabric, group)
+        certificate = _hierarchy_certificate(
+            text, parent_versions, dependencies, [], source_metadata
+        )
+        leaf_plans.append((group, text, dependencies, source_metadata, certificate))
+
+    root_disputes = find_conflicts(usable)
+    root_text = f"Session summary ({label}): " + extractive(usable, root_disputes)
+    try:
+        root_dependencies = reconstruct_dependency_map(root_text, usable)
+    except DependencyMapRefused as exc:
+        raise CompactionRefused(f"root summary dependency map failed: {exc}") from exc
+    measured = _measurement(
+        [memory.content for memory in usable], root_text, token_counter, tokenizer_provenance
+    )
+    root_source_metadata = _source_metadata(fabric, usable)
+
+    narrowest = min((memory.scope for memory in usable), key=lambda scope: scope.rank)
+    leaf_ids: list[str] = []
+    leaf_edges: list[dict[str, object]] = []
+    certificates: dict[str, str] = {}
+    with fabric._transaction():
+        eligible = set(_visible(fabric, agent_id, tenant_id)) - fabric.state.erased
+        for memory in usable:
+            current = fabric.state.memories.get(memory.id)
+            if (memory.id not in eligible or current is None
+                    or current.version != memory.version
+                    or current.lifecycle_state not in EXPOSABLE_STATES):
+                raise CompactionRefused(
+                    "hierarchy sources changed during summarization; retry with current evidence"
+                )
+        for index, (group, text, dependencies, source_metadata, certificate) in enumerate(leaf_plans):
+            leaf_scope = min((memory.scope for memory in group), key=lambda scope: scope.rank)
+            summary_id = fabric.derive(
+                agent_id,
+                text,
+                parents=[memory.id for memory in group],
+                method=ProvenanceMethod.CONSOLIDATED,
+                context={
+                    "kind": "derived_claim",
+                    "summary_hierarchy": episode_id,
+                    "hierarchy_node": "leaf",
+                    "hierarchy_index": index,
+                    "summary_dependencies": dependencies,
+                    "summary_source_metadata": source_metadata,
+                    "summary_edge_certificate": certificate,
+                },
+                scope=leaf_scope,
+            )
+            if fabric.state.memories[summary_id].lifecycle_state not in EXPOSABLE_STATES:
+                raise CompactionRefused("a hierarchy leaf did not pass the ingest screen")
+            leaf_ids.append(summary_id)
+            certificates[summary_id] = certificate
+            leaf_edges.append({
+                "summary_id": summary_id,
+                "summary_version": fabric.state.memories[summary_id].version,
+                "source_versions": [[memory.id, memory.version] for memory in group],
+                "certificate": certificate,
+            })
+
+        direct_parents = leaf_ids + [memory.id for memory in usable]
+        direct_parent_versions = [
+            (summary_id, fabric.state.memories[summary_id].version) for summary_id in leaf_ids
+        ] + [(memory.id, memory.version) for memory in usable]
+        root_certificate = _hierarchy_certificate(
+            root_text,
+            direct_parent_versions,
+            root_dependencies,
+            leaf_edges,
+            root_source_metadata,
+        )
+        root_id = fabric.derive(
+            agent_id,
+            root_text,
+            parents=direct_parents,
+            method=ProvenanceMethod.CONSOLIDATED,
+            context={
+                "kind": "derived_claim",
+                "compaction_of": episode_id,
+                "summary_hierarchy": episode_id,
+                "hierarchy_node": "root",
+                "hierarchy_leaf_ids": leaf_ids,
+                "summary_source_versions": [
+                    [memory.id, memory.version] for memory in usable
+                ],
+                "summary_dependencies": root_dependencies,
+                "summary_source_metadata": root_source_metadata,
+                "summary_edge_certificates": leaf_edges,
+                "summary_hierarchy_certificate": root_certificate,
+                "summary_edge_certificate": None,
+            },
+            scope=narrowest,
+        )
+        if fabric.state.memories[root_id].lifecycle_state not in EXPOSABLE_STATES:
+            raise CompactionRefused("the hierarchy root did not pass the ingest screen")
+    certificates[root_id] = root_certificate
+    return HierarchicalCompactionReport(
+        episode_id=episode_id,
+        root_summary_id=root_id,
+        leaf_summary_ids=leaf_ids,
+        leaf_source_groups=[[memory.id for memory in group] for group in groups],
+        certificates=certificates,
+        source_bytes_utf8=measured["source_bytes_utf8"],
+        root_summary_bytes_utf8=measured["summary_bytes_utf8"],
+        source_token_estimate=measured["source_token_estimate"],
+        root_summary_token_estimate=measured["summary_token_estimate"],
+        tokenizer_provenance=measured["tokenizer_provenance"],
+        token_measurement_status=str(measured["token_measurement_status"]),
+    )
+
+
+def verify_hierarchical_summary(
+    fabric: "MemoryFabric", root_summary_id: str
+) -> dict[str, object]:
+    """Verify the root/leaf certificates and exact active source partition."""
+    root = fabric.state.memories[root_summary_id]
+    context = root.context or {}
+    if (root.lifecycle_state not in EXPOSABLE_STATES
+            or context.get("hierarchy_node") != "root"):
+        raise CompactionRefused("hierarchy root is not an active certified root")
+    child_edges = context.get("summary_edge_certificates")
+    source_refs = context.get("summary_source_versions")
+    if not isinstance(child_edges, list) or len(child_edges) < 2 or not isinstance(source_refs, list):
+        raise CompactionRefused("hierarchy root has no complete child certificate list")
+    flattened: list[tuple[str, int]] = []
+    expected_children: set[tuple[str, int]] = set()
+    for edge in child_edges:
+        if not isinstance(edge, dict):
+            raise CompactionRefused("malformed hierarchy child certificate")
+        child_id = str(edge.get("summary_id"))
+        child = fabric.state.memories.get(child_id)
+        if (child is None or child.lifecycle_state not in EXPOSABLE_STATES
+                or child.version != int(edge.get("summary_version", -1))):
+            raise CompactionRefused("a hierarchy leaf is stale or unavailable")
+        if (child.context or {}).get("summary_hierarchy") != context.get("summary_hierarchy"):
+            raise CompactionRefused("hierarchy leaf belongs to another root")
+        child_sources = edge.get("source_versions")
+        if not isinstance(child_sources, list):
+            raise CompactionRefused("hierarchy leaf certificate has no source versions")
+        refs = [(str(pair[0]), int(pair[1])) for pair in child_sources]
+        if set(child.provenance.parents) != set(refs):
+            raise CompactionRefused("hierarchy leaf parents differ from its certificate")
+        source_memories = []
+        for memory_id, version in refs:
+            source = fabric.state.memories.get(memory_id)
+            if (source is None or source.version != version
+                    or source.lifecycle_state not in EXPOSABLE_STATES):
+                raise CompactionRefused("a hierarchy source version is no longer active")
+            source_memories.append(source)
+        expected_metadata = _source_metadata(fabric, source_memories)
+        if (child.context or {}).get("summary_source_metadata") != expected_metadata:
+            raise CompactionRefused("hierarchy leaf source identity or valid-time metadata differs")
+        verify_stored_dependency_map(child, source_memories)
+        child_certificate = _hierarchy_certificate(
+            child.content,
+            refs,
+            (child.context or {}).get("summary_dependencies", {}),
+            [],
+            expected_metadata,
+        )
+        if (child_certificate != edge.get("certificate")
+                or child_certificate != (child.context or {}).get("summary_edge_certificate")):
+            raise CompactionRefused("hierarchy leaf edge certificate digest mismatch")
+        flattened.extend(refs)
+        expected_children.add((child_id, child.version))
+
+    normalized_source_refs = [(str(pair[0]), int(pair[1])) for pair in source_refs]
+    if flattened != normalized_source_refs or len(flattened) != len(set(flattened)):
+        raise CompactionRefused("hierarchy leaves do not partition the certified source versions")
+    expected_parents = expected_children | set(normalized_source_refs)
+    if set(root.provenance.parents) != expected_parents:
+        raise CompactionRefused("root provenance differs from its explicit edge certificate")
+    root_sources = [fabric.state.memories[mid] for mid, _ in normalized_source_refs]
+    root_metadata = _source_metadata(fabric, root_sources)
+    if context.get("summary_source_metadata") != root_metadata:
+        raise CompactionRefused("hierarchy root source identity or valid-time metadata differs")
+    verify_stored_dependency_map(root, root_sources)
+    root_parent_versions = list(root.provenance.parents)
+    root_certificate = _hierarchy_certificate(
+        root.content,
+        root_parent_versions,
+        context.get("summary_dependencies", {}),
+        child_edges,
+        root_metadata,
+    )
+    if root_certificate != context.get("summary_hierarchy_certificate"):
+        raise CompactionRefused("hierarchy root certificate digest mismatch")
+    return {
+        "root_summary_id": root.id,
+        "leaf_summary_ids": sorted(expected_children),
+        "source_versions": normalized_source_refs,
+        "certificate": root_certificate,
+    }
+
+
 def stale_summaries(fabric: "MemoryFabric") -> list[tuple[str, str]]:
-    """Compaction summaries withdrawn or contested because an input changed: (summary, episode)."""
-    out = []
+    """Return one latest stale summary per episode that needs a refresh."""
+    active_episodes = {
+        str((memory.context or {}).get("compaction_of"))
+        for memory in fabric.state.memories.values()
+        if (memory.context or {}).get("compaction_of")
+        and memory.lifecycle_state in EXPOSABLE_STATES
+    }
+    latest_stale: dict[str, "Memory"] = {}
     for memory in fabric.state.memories.values():
         episode = (memory.context or {}).get("compaction_of")
-        if episode and memory.lifecycle_state not in EXPOSABLE_STATES:
-            newer = [m for m in fabric.state.memories.values()
-                     if (m.context or {}).get("compaction_of") == episode
-                     and m.lifecycle_state in EXPOSABLE_STATES]
-            if not newer:
-                out.append((memory.id, str(episode)))
-    return out
+        if not episode or memory.lifecycle_state in EXPOSABLE_STATES:
+            continue
+        episode_id = str(episode)
+        if episode_id in active_episodes:
+            continue
+        previous = latest_stale.get(episode_id)
+        if previous is None or (memory.created_at, memory.id) > (
+            previous.created_at, previous.id
+        ):
+            latest_stale[episode_id] = memory
+    return [
+        (latest_stale[episode_id].id, episode_id)
+        for episode_id in sorted(latest_stale)
+    ]
 
 
 def recompact(fabric: "MemoryFabric", agent_id: str) -> list[CompactionReport]:

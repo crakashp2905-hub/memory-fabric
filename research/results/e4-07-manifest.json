@@ -1,0 +1,13 @@
+{
+  "schema": "memory-fabric-e4-07-evidence-manifest/1",
+  "measurement_source_commit": "061315b9b7126d93e7985a8a22d9e73ff3997f2f",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "artifacts_sha256": {
+    "experiments/e4_three_hosts.py": "214602e29b82f82b9823c7f1379224889260008922f4f908043c7d74026df974",
+    "research/results/e4-07-three-hosts.json": "fb80ad81cf5c0c0c13d6b155676a25af699d34bf788cdf67430fecbbbb487b6f",
+    "research/results/e4-07-three-hosts.md": "6ad40ecd19cc3729001a485ee7a807195c6fff91ec78f26f0891fd77b2801557",
+    "research/results/e4-07-regression-tests.xml": "925fd81fd7510f8e8fce53374274a1c6719eafb5bcc8b9b9ef970717b43ddaa9",
+    "tests/test_federation_transport.py": "7314918ec2be2a7b8b3b8c03e7a1fd0de729927e22071d4187f7bdeedfe038b8",
+    "tests/test_retraction_protocol.py": "5e92c3967b1bd7197666bbd85adfb447a5320dcebf5222d3bfc68669b32f5f6b"
+  }
+}

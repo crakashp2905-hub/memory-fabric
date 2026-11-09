@@ -132,7 +132,6 @@ def main(argv: list[str]) -> int:
     print(json.dumps(data, indent=1))
     if "--no-write" in argv:
         return 0
-    OUT_JSON.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     write_manifest(Manifest(
         run_id="int01-memoryworld2", suite="INT-01", arm="all", decision="DESCRIPTIVE", repo_commit=commit,
         reason="descriptive: functional check of bitemporal answers, no improvement claim",
@@ -141,6 +140,7 @@ def main(argv: list[str]) -> int:
         verification={"baseline_registered": True,
                       "oracle_sanity_passed": table["valid:oracle"] == 1.0 and table["believed:oracle"] == 1.0,
                       "holdout_frozen": False, "independent_replicated": False}))
+    OUT_JSON.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     arms = ("overwrite", "valid_time", "bitemporal", "oracle")
     OUT_MD.write_text(f"""# INT-01 — MemoryWorld 2: true at t vs believed at τ (descriptive)
 

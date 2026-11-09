@@ -49,9 +49,12 @@ from __future__ import annotations
 __stability__ = "beta"
 
 import base64
+import hmac
+import ipaddress
 import json
 import logging
 import math
+import os
 import threading
 import time
 from collections import OrderedDict
@@ -63,6 +66,8 @@ from typing import Any, Callable, Mapping
 from .limits import LimitExceeded
 from .enforcement import ExposureToken, RiskLevel
 from .identity import Credential, IdentityError, ROLE_AGENT
+from .ids import new_ulid
+from .oidc import TokenVerifier
 from ._fabric.common import FabricError
 from .reasons import say
 from .sdk import AgentClient, NotUsable, UsableMemory, public_error
@@ -162,6 +167,13 @@ def check_bind(host: str, behind_tls: bool) -> None:
             "--behind-tls.")
 
 
+def request_length_allowed(length: int, maximum: int) -> bool:
+    """Validate a declared HTTP body length against its configured byte budget."""
+    if maximum < 1:
+        raise ValueError("max_request_bytes must be at least one")
+    return 0 <= length <= maximum
+
+
 # --- the API -----------------------------------------------------------------
 
 
@@ -185,6 +197,36 @@ class RateLimit:
     rate: float = 20.0
     burst: int = 40
     auth_failures: float = 5.0
+    max_buckets: int = 100_000
+    max_request_bytes: int = MAX_BODY
+    max_workers: int = 32
+
+    def __post_init__(self) -> None:
+        if isinstance(self.max_buckets, bool) or not isinstance(self.max_buckets, int) \
+                or self.max_buckets < 1:
+            raise ValueError("max_buckets must be at least one")
+        if isinstance(self.max_request_bytes, bool) or not isinstance(self.max_request_bytes, int) \
+                or self.max_request_bytes < 1:
+            raise ValueError("max_request_bytes must be at least one")
+        if isinstance(self.max_workers, bool) or not isinstance(self.max_workers, int) \
+                or self.max_workers < 1:
+            raise ValueError("max_workers must be at least one")
+
+
+class WorkerBudget:
+    """Non-blocking bound on concurrent request work for one API server."""
+
+    def __init__(self, capacity: int) -> None:
+        if capacity < 1:
+            raise ValueError("worker capacity must be at least one")
+        self.capacity = capacity
+        self._semaphore = threading.BoundedSemaphore(capacity)
+
+    def try_acquire(self) -> bool:
+        return self._semaphore.acquire(blocking=False)
+
+    def release(self) -> None:
+        self._semaphore.release()
 
 
 @dataclass
@@ -227,16 +269,26 @@ class AgentApi:
     """Request handling, separate from HTTP so it can be tested with dicts."""
 
     def __init__(self, service: MemoryService, limits: RateLimit | None = None,
-                 clock: Callable[[], float] = time.monotonic) -> None:
+                 clock: Callable[[], float] = time.monotonic,
+                 oauth: TokenVerifier | None = None,
+                 trace_recorder: Any = None) -> None:
         self.service = service
         # The server owns the service; reaching its fabric here is the server
         # building the narrow per-agent client, not a caller bypassing it.
         self._fabric = service._fabric
         self._issued: dict[str, OrderedDict[str, ExposureToken]] = {}
+        self._oauth = oauth
+        self.trace_recorder = trace_recorder
+        self.profile_recorder: Any = None
+        self._request_stages: Any = None
         limits = limits or RateLimit()
-        self._per_agent = RateLimiter(limits.rate, limits.burst, clock)
+        self.request_limits = limits
+        self.worker_budget = WorkerBudget(limits.max_workers)
+        self._per_agent = RateLimiter(limits.rate, limits.burst, clock,
+                                      max_keys=limits.max_buckets)
         self._per_address = RateLimiter(limits.auth_failures,
-                                        max(1, int(limits.auth_failures * 2)), clock)
+                                        max(1, int(limits.auth_failures * 2)), clock,
+                                        max_keys=limits.max_buckets)
 
     def _refused(self, remote: str) -> "_ApiError":
         # One answer for every failure: unknown agent, bad signature,
@@ -247,7 +299,8 @@ class AgentApi:
                              retry_after=wait)
         return _ApiError(HTTPStatus.UNAUTHORIZED, "authentication required")
 
-    def precheck(self, bearer: str | None, remote: str = "") -> Credential:
+    def precheck(self, bearer: str | None,
+                 remote: str = "") -> tuple[str, Credential | None]:
         """Refuse or rate-limit without touching the store; return the credential.
 
         Signature and expiry need only the in-memory registrations, so a forged
@@ -257,20 +310,31 @@ class AgentApi:
         try:
             if not bearer:
                 raise IdentityError("no credential")
-            credential = decode_credential(bearer)
-            agent_id = self.service.precheck(credential)
+            if self._oauth is not None and bearer.count(".") == 2:
+                agent_id = self._oauth.authenticate(bearer)
+                self.service.principals.principal(agent_id)
+                credential = None
+            else:
+                credential = decode_credential(bearer)
+                agent_id = self.service.precheck(credential)
         except IdentityError:
             raise self._refused(remote) from None
         wait = self._per_agent.acquire(agent_id)
         if wait:
             raise _ApiError(HTTPStatus.TOO_MANY_REQUESTS, "too many requests",
                             retry_after=wait)
-        return credential
+        return agent_id, credential
 
-    def client_for(self, credential: Credential, remote: str = "") -> AgentClient:
+    def client_for(self, agent_id: str, credential: Credential | None,
+                   remote: str = "") -> AgentClient:
         """Full verification, revocation included. Call under the fabric's lock."""
         try:
-            principal = self.service.session(credential).principal()
+            if credential is None:
+                principal = self.service.principals.principal(agent_id)
+                if self.service.principals.revocations.is_revoked(agent_id, ""):
+                    raise IdentityError("agent revoked")
+            else:
+                principal = self.service.session(credential).principal()
         except IdentityError:
             raise self._refused(remote) from None
         return AgentClient(self._fabric, principal.agent_id, principal.tenant_id)
@@ -285,18 +349,42 @@ class AgentApi:
         # of 200 times under ten agents (experiments/p12_http.py) -- an
         # interfered-with read is a revocation check that can say "not
         # revoked".
-        credential = self.precheck(bearer, remote)
-        with self._fabric.lock:
-            client = self.client_for(credential, remote)
-            if operation == "recall":
-                return self._recall(client, body)
-            if operation == "fetch":
-                return self._fetch(client, body)
-            if operation == "verify":
-                return self._verify(client, body)
-            if operation == "remember":
-                return self._remember(client, body)
-            raise _ApiError(HTTPStatus.NOT_FOUND, "unknown operation")
+        stages = None
+        if self.trace_recorder is not None and getattr(self, "_request_stages", None) is None:
+            from .stage_trace import RequestStages
+
+            stages = RequestStages(self.trace_recorder, new_ulid(), operation)
+            self._request_stages = stages
+            setattr(self._fabric, "_stage_marker", stages.mark)
+        try:
+            if stages is not None:
+                stages.mark("auth")
+            agent_id, credential = self.precheck(bearer, remote)
+            lock_started = time.perf_counter_ns()
+            self._fabric.lock.acquire()
+            profile = getattr(self._fabric, "_profile_marker", None)
+            if profile is not None:
+                profile("fabric_lock_wait", time.perf_counter_ns() - lock_started)
+            try:
+                client = self.client_for(agent_id, credential, remote)
+                if stages is not None:
+                    stages.mark("dispatch_other")
+                if operation == "recall":
+                    return self._recall(client, body)
+                if operation == "fetch":
+                    return self._fetch(client, body)
+                if operation == "verify":
+                    return self._verify(client, body)
+                if operation == "remember":
+                    return self._remember(client, body)
+                raise _ApiError(HTTPStatus.NOT_FOUND, "unknown operation")
+            finally:
+                self._fabric.lock.release()
+        finally:
+            if stages is not None:
+                stages.finish_elapsed(stages.recorder.clock_ns() - stages.started)
+                self._request_stages = None
+                setattr(self._fabric, "_stage_marker", None)
 
     def _recall(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
         query = _string(body, "query")
@@ -329,7 +417,7 @@ class AgentApi:
         }
 
     def _fetch(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
-        memory_id = _string(body, "memory_id")
+        memory_id = _memory_id(body)
         try:
             return self._present(client, client.fetch(memory_id))
         except NotUsable as exc:
@@ -338,7 +426,7 @@ class AgentApi:
                             f"({say(exc.decision.reason_code)})") from None
 
     def _verify(self, client: AgentClient, body: Mapping[str, Any]) -> dict[str, Any]:
-        memory_id = _string(body, "memory_id")
+        memory_id = _memory_id(body)
         issued = self._issued.get(client.agent_id, OrderedDict()).get(memory_id)
         if issued is None:
             # Not recalled or fetched by this agent: fetch it now, through the
@@ -396,6 +484,11 @@ def _string(body: Mapping[str, Any], key: str) -> str:
     return value
 
 
+def _memory_id(body: Mapping[str, Any]) -> str:
+    """One canonical validator for memory-id request fields."""
+    return _string(body, "memory_id")
+
+
 def _disagreements(fabric: Any, memories: list[Any]) -> list[dict[str, Any]]:
     """Contradiction groups with source and support visible to the caller."""
     from .conflicts import author, find_conflicts
@@ -427,6 +520,22 @@ def _disagreements(fabric: Any, memories: list[Any]) -> list[dict[str, Any]]:
 def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
                        behind_tls: bool = False) -> ThreadingHTTPServer:
     check_bind(host, behind_tls)
+    profile_token = os.environ.get("MEMORY_FABRIC_PROFILE_TOKEN", "")
+    profiling_enabled = (os.environ.get("MEMORY_FABRIC_PROFILE") == "1"
+                         and len(profile_token) >= 32)
+    allocation_tracking = os.environ.get("MEMORY_FABRIC_PROFILE_ALLOCATIONS") == "1"
+    allocation_baseline = [0]
+    if profiling_enabled:
+        from .stage_trace import ProfileRecorder
+
+        api.profile_recorder = ProfileRecorder()
+        setattr(api._fabric, "_profile_marker", api.profile_recorder.add)
+    if allocation_tracking:
+        import tracemalloc
+
+        if not tracemalloc.is_tracing():
+            tracemalloc.start()
+        allocation_baseline[0] = tracemalloc.get_traced_memory()[0]
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "MemoryFabricAgentAPI/1"
@@ -437,7 +546,12 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
 
         def _reply(self, status: HTTPStatus, payload: Any,
                    retry_after: float | None = None) -> None:
+            trace = getattr(self, "_request_trace", None)
+            if trace is not None:
+                trace.mark("serialization")
             body = json.dumps(payload).encode()
+            if trace is not None:
+                trace.mark("transport")
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(body)))
@@ -457,55 +571,138 @@ def build_agent_server(api: AgentApi, host: str = "127.0.0.1", port: int = 8766,
             if 0 < length <= MAX_DRAIN:
                 remaining = length
                 while remaining > 0:
-                    chunk = self.rfile.read(min(remaining, MAX_BODY))
+                    chunk = self.rfile.read(min(remaining, api.request_limits.max_request_bytes))
                     if not chunk:
                         break
                     remaining -= len(chunk)
             self.close_connection = True
             self._reply(status, {"error": message})
 
-        def do_POST(self) -> None:  # noqa: N802
-            if self.headers.get("Origin"):
-                self._drain_and_refuse(HTTPStatus.FORBIDDEN, "browser requests are not accepted")
+        def _begin_post_trace(self) -> Any:
+            recorder = api.trace_recorder
+            if recorder is None:
+                return None
+            from .stage_trace import RequestStages
+
+            trace = RequestStages(recorder, new_ulid(), self.path)
+            self._request_trace = trace
+            api._request_stages = trace
+            setattr(api._fabric, "_stage_marker", trace.mark)
+            trace.mark("body_decode")
+            return trace
+
+        def _finish_post_trace(self, trace: Any) -> None:
+            if trace is None:
                 return
+            trace.finish()
+            setattr(self, "_request_trace", None)
+            setattr(api, "_request_stages", None)
+            setattr(api._fabric, "_stage_marker", None)
+
+        def _post_route_allowed(self) -> bool:
+            if self.headers.get("Origin"):
+                self._drain_and_refuse(HTTPStatus.FORBIDDEN,
+                                       "browser requests are not accepted")
+                return False
             if not self.path.startswith("/v1/"):
                 self._drain_and_refuse(HTTPStatus.NOT_FOUND, "not found")
-                return
+                return False
+            return True
+
+        def _read_post_body(self, trace: Any) -> dict[str, Any] | None:
             try:
                 length = int(self.headers.get("Content-Length") or 0)
             except ValueError:
                 length = -1
-            if length < 0 or length > MAX_BODY:
-                self._drain_and_refuse(HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-                                       f"body must be at most {MAX_BODY} bytes")
-                return
+            max_bytes = api.request_limits.max_request_bytes
+            if not request_length_allowed(length, max_bytes):
+                self._drain_and_refuse(
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                    f"body must be at most {max_bytes} bytes")
+                return None
             try:
+                if trace is not None:
+                    trace.mark("body_decode")
                 body = json.loads(self.rfile.read(length) or b"{}")
             except (ValueError, UnicodeDecodeError):
                 self._reply(HTTPStatus.BAD_REQUEST, {"error": "body is not JSON"})
-                return
+                return None
             if not isinstance(body, dict):
                 self._reply(HTTPStatus.BAD_REQUEST, {"error": "body must be an object"})
-                return
+                return None
+            return body
+
+        def _dispatch_post(self, body: dict[str, Any], trace: Any) -> None:
             header = self.headers.get("Authorization") or ""
             scheme, _, value = header.partition(" ")
             bearer = value.strip() if scheme.lower() == "bearer" else None
             try:
+                if trace is not None:
+                    trace.mark("auth")
                 result = api.handle(self.path[len("/v1/"):], bearer, body,
                                     remote=self.client_address[0])
             except _ApiError as exc:
                 self._reply(exc.status, {"error": exc.message}, exc.retry_after)
             except LimitExceeded as exc:
-                self._reply(HTTPStatus.TOO_MANY_REQUESTS if exc.code != "payload_too_large"
-                            else HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-                            {"error": exc.code}, 1)
+                status = (HTTPStatus.TOO_MANY_REQUESTS if exc.code != "payload_too_large"
+                          else HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                self._reply(status, {"error": exc.code}, 1)
             except Exception as exc:  # a refused write is an answer, not a crash
                 logging.getLogger(__name__).warning("request refused", exc_info=exc)
                 self._reply(HTTPStatus.UNPROCESSABLE_ENTITY, {"error": public_error(exc)})
             else:
                 self._reply(HTTPStatus.OK, result)
 
+        def do_POST(self) -> None:  # noqa: N802
+            if not api.worker_budget.try_acquire():
+                self.close_connection = True
+                self._reply(HTTPStatus.SERVICE_UNAVAILABLE,
+                            {"error": "worker_budget_exhausted"}, 1)
+                return
+            trace = None
+            try:
+                trace = self._begin_post_trace()
+                if not self._post_route_allowed():
+                    return
+                body = self._read_post_body(trace)
+                if body is None:
+                    return
+                self._dispatch_post(body, trace)
+            finally:
+                try:
+                    self._finish_post_trace(trace)
+                finally:
+                    api.worker_budget.release()
+
         def do_GET(self) -> None:  # noqa: N802
+            if self.path in {"/__profile", "/__profile/reset"}:
+                try:
+                    peer = ipaddress.ip_address(self.client_address[0])
+                except ValueError:
+                    peer = None
+                if (not profiling_enabled or peer is None or not peer.is_loopback
+                        or not hmac.compare_digest(
+                            self.headers.get("X-Memory-Fabric-Profile-Token", "").encode("utf-8"),
+                            profile_token.encode("utf-8"))
+                        or api.profile_recorder is None):
+                    self._reply(HTTPStatus.NOT_FOUND, {"error": "not found"})
+                    return
+                if self.path == "/__profile/reset":
+                    api.profile_recorder.reset()
+                    if allocation_tracking:
+                        tracemalloc.reset_peak()
+                        allocation_baseline[0] = tracemalloc.get_traced_memory()[0]
+                    self._reply(HTTPStatus.OK, {"ok": True})
+                    return
+                profile = api.profile_recorder.snapshot()
+                if allocation_tracking:
+                    current, peak = tracemalloc.get_traced_memory()
+                    profile["server_python_allocation_current_bytes"] = max(
+                        0, current - allocation_baseline[0])
+                    profile["server_python_allocation_peak_bytes"] = max(
+                        0, peak - allocation_baseline[0])
+                self._reply(HTTPStatus.OK, profile)
+                return
             if self.path == "/v1/health":
                 self._reply(HTTPStatus.OK, {"ok": True})
             else:

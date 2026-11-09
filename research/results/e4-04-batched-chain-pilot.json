@@ -1,0 +1,458 @@
+{
+  "schema": "memory-fabric-http-capacity/1",
+  "commit": "ec58c67",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "configuration": {
+    "agents": [
+      10,
+      50
+    ],
+    "ops_per_agent": 20,
+    "warmup_ops": 5,
+    "repeats": 3
+  },
+  "results": [
+    {
+      "agents": 10,
+      "trial": 0,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 200,
+      "ok": 200,
+      "wall_s": 12.131605200003833,
+      "ops_per_s": 16.48586454164671,
+      "errors": {},
+      "operation_counts": {
+        "remember": 65,
+        "recall": 87,
+        "fetch+verify": 48
+      },
+      "profile": {
+        "process_cpu_seconds": 5.453125,
+        "process_cpu_percent_of_one_core": 44.949740039333605,
+        "server_read_bytes": 1142784,
+        "server_write_bytes": 9531168,
+        "server_rss_start_bytes": 52211712,
+        "server_rss_end_bytes": 54116352,
+        "server_rss_peak_bytes": 54272000,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 101163583600,
+            "count": 248
+          },
+          "sqlite_append_ns": {
+            "total": 4223732700,
+            "count": 152
+          },
+          "projection_events": {
+            "total": 1720,
+            "count": 152
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 200,
+          "server_python_allocation_current_bytes": 701104,
+          "server_python_allocation_peak_bytes": 831479,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 547.5819000275806,
+          "p95": 963.3832999970764,
+          "p99": 1113.00020001363
+        },
+        "remember": {
+          "p50": 491.48059997241944,
+          "p95": 778.6803999915719,
+          "p99": 789.2965999781154
+        },
+        "recall": {
+          "p50": 495.21560000721365,
+          "p95": 739.9917000439018,
+          "p99": 813.0891999462619
+        },
+        "fetch+verify": {
+          "p50": 851.0558000416495,
+          "p95": 1113.00020001363,
+          "p99": 1213.7180999852717
+        }
+      }
+    },
+    {
+      "agents": 10,
+      "trial": 1,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 200,
+      "ok": 200,
+      "wall_s": 12.916862300015055,
+      "ops_per_s": 15.483636455562966,
+      "errors": {},
+      "operation_counts": {
+        "remember": 61,
+        "recall": 98,
+        "fetch+verify": 41
+      },
+      "profile": {
+        "process_cpu_seconds": 5.984375,
+        "process_cpu_percent_of_one_core": 46.32994345687981,
+        "server_read_bytes": 1134592,
+        "server_write_bytes": 10079176,
+        "server_rss_start_bytes": 52219904,
+        "server_rss_end_bytes": 54013952,
+        "server_rss_peak_bytes": 54194176,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 107908135000,
+            "count": 241
+          },
+          "sqlite_append_ns": {
+            "total": 4472071700,
+            "count": 159
+          },
+          "projection_events": {
+            "total": 1918,
+            "count": 159
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 200,
+          "server_python_allocation_current_bytes": 724888,
+          "server_python_allocation_peak_bytes": 846100,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 601.9663999904878,
+          "p95": 1057.689199980814,
+          "p99": 1275.8117000339553
+        },
+        "remember": {
+          "p50": 576.9232999882661,
+          "p95": 823.2487000059336,
+          "p99": 841.4440000196919
+        },
+        "recall": {
+          "p50": 580.5409000022337,
+          "p95": 778.0160999973305,
+          "p99": 817.942599998787
+        },
+        "fetch+verify": {
+          "p50": 854.1252000140958,
+          "p95": 1275.8117000339553,
+          "p99": 1451.3009999645874
+        }
+      }
+    },
+    {
+      "agents": 10,
+      "trial": 2,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 200,
+      "ok": 200,
+      "wall_s": 12.660664799972437,
+      "ops_per_s": 15.796958782167222,
+      "errors": {},
+      "operation_counts": {
+        "remember": 67,
+        "recall": 91,
+        "fetch+verify": 42
+      },
+      "profile": {
+        "process_cpu_seconds": 5.4375,
+        "process_cpu_percent_of_one_core": 42.94798168901713,
+        "server_read_bytes": 1126400,
+        "server_write_bytes": 9761984,
+        "server_rss_start_bytes": 52097024,
+        "server_rss_end_bytes": 53706752,
+        "server_rss_peak_bytes": 53796864,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 101982056400,
+            "count": 242
+          },
+          "sqlite_append_ns": {
+            "total": 4373599900,
+            "count": 158
+          },
+          "projection_events": {
+            "total": 1768,
+            "count": 158
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 200,
+          "server_python_allocation_current_bytes": 708037,
+          "server_python_allocation_peak_bytes": 800303,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 574.4873000076041,
+          "p95": 1005.3036999888718,
+          "p99": 1212.0454999967478
+        },
+        "remember": {
+          "p50": 511.97279995540157,
+          "p95": 725.6212000502273,
+          "p99": 865.5223000096157
+        },
+        "recall": {
+          "p50": 516.814099973999,
+          "p95": 824.684499995783,
+          "p99": 840.0332999881357
+        },
+        "fetch+verify": {
+          "p50": 858.3913000184111,
+          "p95": 1212.0454999967478,
+          "p99": 1269.2957000108436
+        }
+      }
+    },
+    {
+      "agents": 50,
+      "trial": 0,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 1000,
+      "ok": 1000,
+      "wall_s": 65.21056940004928,
+      "ops_per_s": 15.334937406622986,
+      "errors": {},
+      "operation_counts": {
+        "remember": 306,
+        "recall": 496,
+        "fetch+verify": 198
+      },
+      "profile": {
+        "process_cpu_seconds": 30.59375,
+        "process_cpu_percent_of_one_core": 46.9153241283872,
+        "server_read_bytes": 11051008,
+        "server_write_bytes": 52439664,
+        "server_rss_start_bytes": 52195328,
+        "server_rss_end_bytes": 61112320,
+        "server_rss_peak_bytes": 63016960,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 3014115814900,
+            "count": 1198
+          },
+          "sqlite_append_ns": {
+            "total": 22824703900,
+            "count": 804
+          },
+          "projection_events": {
+            "total": 9663,
+            "count": 804
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 1000,
+          "server_python_allocation_current_bytes": 3541955,
+          "server_python_allocation_peak_bytes": 8860266,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 2788.2257000310346,
+          "p95": 5432.357199955732,
+          "p99": 6086.74349996727
+        },
+        "remember": {
+          "p50": 2741.2390999961644,
+          "p95": 3510.206400009338,
+          "p99": 3981.2758000334725
+        },
+        "recall": {
+          "p50": 2670.9637000458315,
+          "p95": 3500.3929000231437,
+          "p99": 3912.641100003384
+        },
+        "fetch+verify": {
+          "p50": 5103.233499976341,
+          "p95": 6086.74349996727,
+          "p99": 6946.217599965166
+        }
+      }
+    },
+    {
+      "agents": 50,
+      "trial": 1,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 1000,
+      "ok": 1000,
+      "wall_s": 66.6837940000114,
+      "ops_per_s": 14.99614733978437,
+      "errors": {},
+      "operation_counts": {
+        "remember": 300,
+        "recall": 525,
+        "fetch+verify": 175
+      },
+      "profile": {
+        "process_cpu_seconds": 31.171875,
+        "process_cpu_percent_of_one_core": 46.74580303573409,
+        "server_read_bytes": 11620352,
+        "server_write_bytes": 54132288,
+        "server_rss_start_bytes": 52224000,
+        "server_rss_end_bytes": 60747776,
+        "server_rss_peak_bytes": 63799296,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 3092377620100,
+            "count": 1175
+          },
+          "sqlite_append_ns": {
+            "total": 23391764400,
+            "count": 827
+          },
+          "projection_events": {
+            "total": 10233,
+            "count": 827
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 1000,
+          "server_python_allocation_current_bytes": 3704744,
+          "server_python_allocation_peak_bytes": 9305583,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 2891.8014999944717,
+          "p95": 5640.966099977959,
+          "p99": 6252.9783000354655
+        },
+        "remember": {
+          "p50": 2784.6184999798425,
+          "p95": 3806.161999993492,
+          "p99": 3964.0090000466444
+        },
+        "recall": {
+          "p50": 2768.0871000047773,
+          "p95": 3813.849600031972,
+          "p99": 3896.6467999853194
+        },
+        "fetch+verify": {
+          "p50": 5300.053000042681,
+          "p95": 6280.587800021749,
+          "p99": 6698.003999947105
+        }
+      }
+    },
+    {
+      "agents": 50,
+      "trial": 2,
+      "ops_per_agent": 20,
+      "warmup_ops": 5,
+      "ops": 1000,
+      "ok": 1000,
+      "wall_s": 67.08349359995918,
+      "ops_per_s": 14.90679668478996,
+      "errors": {},
+      "operation_counts": {
+        "remember": 336,
+        "recall": 484,
+        "fetch+verify": 180
+      },
+      "profile": {
+        "process_cpu_seconds": 30.390625,
+        "process_cpu_percent_of_one_core": 45.302686799869484,
+        "server_read_bytes": 11706368,
+        "server_write_bytes": 52683680,
+        "server_rss_start_bytes": 52396032,
+        "server_rss_end_bytes": 61198336,
+        "server_rss_peak_bytes": 63709184,
+        "psutil_available": true,
+        "fabric_profile": {
+          "fabric_lock_wait": {
+            "total": 3107825378800,
+            "count": 1180
+          },
+          "sqlite_append_ns": {
+            "total": 23566090300,
+            "count": 822
+          },
+          "projection_events": {
+            "total": 9423,
+            "count": 822
+          }
+        },
+        "python_allocation_pass": {
+          "ops": 1000,
+          "server_python_allocation_current_bytes": 3612645,
+          "server_python_allocation_peak_bytes": 9111293,
+          "note": "separate traced pass; excluded from reported latency and throughput"
+        }
+      },
+      "latency_ms": {
+        "all": {
+          "p50": 2861.168200033717,
+          "p95": 5664.493799966294,
+          "p99": 6154.167700035032
+        },
+        "remember": {
+          "p50": 2767.4891999922693,
+          "p95": 3932.0415999973193,
+          "p99": 4110.53099995479
+        },
+        "recall": {
+          "p50": 2783.965900016483,
+          "p95": 3944.8344000265934,
+          "p99": 4159.072600014042
+        },
+        "fetch+verify": {
+          "p50": 5383.283799979836,
+          "p95": 6155.9469000203535,
+          "p99": 6673.562299984042
+        }
+      }
+    }
+  ],
+  "capacity_curve": [
+    {
+      "agents": 10,
+      "trials": 3,
+      "successful_operations": 600,
+      "attempted_operations": 600,
+      "throughput_ops_s": {
+        "mean": 15.922153259792298,
+        "ci95_low": 15.341968399386273,
+        "ci95_high": 16.502338120198324
+      },
+      "p99_ms": {
+        "mean": 1200.2858000147778,
+        "ci95_low": 1107.4484388115434,
+        "ci95_high": 1293.1231612180122
+      }
+    },
+    {
+      "agents": 50,
+      "trials": 3,
+      "successful_operations": 3000,
+      "attempted_operations": 3000,
+      "throughput_ops_s": {
+        "mean": 15.079293810399106,
+        "ci95_low": 14.823713214607366,
+        "ci95_high": 15.334874406190846
+      },
+      "p99_ms": {
+        "mean": 6164.629833345923,
+        "ci95_low": 6070.016466942119,
+        "ci95_high": 6259.243199749726
+      }
+    }
+  ]
+}

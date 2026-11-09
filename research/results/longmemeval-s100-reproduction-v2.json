@@ -1,0 +1,52 @@
+{
+  "schema": "memory-fabric-longmemeval-reproduction/2",
+  "date": "2026-11-02",
+  "commit": "beadf2c2126326aecf91beae07fcdd6dfaf69a87",
+  "worktree_clean": true,
+  "benchmark": "longmemeval",
+  "split": "s",
+  "dataset": {
+    "file": "longmemeval_s_cleaned.json",
+    "bytes": 277383467,
+    "sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+    "license_note": "Upstream dataset README does not declare a dataset licence; used only for internal qualification."
+  },
+  "config": {
+    "instances": 100,
+    "selection": "deterministic stratified round-robin by question type",
+    "k": 10,
+    "temporal": "as_of",
+    "median_turns": 494,
+    "max_turns": 616
+  },
+  "type_counts": {
+    "knowledge-update": 17,
+    "multi-session": 17,
+    "single-session-assistant": 17,
+    "single-session-preference": 17,
+    "single-session-user": 16,
+    "temporal-reasoning": 16
+  },
+  "arms": {
+    "lexical": {
+      "turn_recall": 0.7385,
+      "session_recall": 0.93,
+      "any_gold_turn": 0.82,
+      "latency_ms": 25.7968,
+      "wall_seconds": 395.5
+    },
+    "hybrid": {
+      "turn_recall": 0.6917,
+      "session_recall": 0.92,
+      "any_gold_turn": 0.79,
+      "latency_ms": 29.0482,
+      "wall_seconds": 454.3
+    }
+  },
+  "matched_reference": {"lexical_turn_recall": 0.7385, "hybrid_turn_recall": 0.6917},
+  "verdict": {
+    "historical_values_reproduced_exactly": true,
+    "hybrid_exceeds_lexical": false,
+    "registered_gate": "FAIL"
+  }
+}

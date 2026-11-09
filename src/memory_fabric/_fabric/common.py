@@ -6,7 +6,6 @@ __stability__ = "stable"
 
 
 import functools
-
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Callable, Concatenate, Mapping, ParamSpec, TypeVar
 
@@ -34,6 +33,19 @@ class PolicyViolation(FabricError):
     """Raised when a caller asks for something governance forbids."""
 
 
+class RevisionConflictError(PolicyViolation):
+    """A revision's expected source version is no longer current."""
+
+    def __init__(self, memory_id: str, expected_version: int, actual_version: int) -> None:
+        self.memory_id = memory_id
+        self.expected_version = expected_version
+        self.actual_version = actual_version
+        super().__init__(
+            f"revision conflict for {memory_id}: expected version {expected_version}, "
+            f"current version is {actual_version}"
+        )
+
+
 @dataclass
 class RetrievalResult:
     """What the agent gets back, plus the record of what it did not get.
@@ -58,7 +70,7 @@ class RetrievalResult:
     def contents(self) -> list[str]:
         return [m.content for m in self.exposed]
 
-    def answerability(self, question: str, judge: Any = None) -> Any:
+    def answerability(self, question: str, judge: Any = None, equivalences: Any = None) -> Any:
         """Whether what was exposed answers `question` (`answerability.assess`).
 
         A verdict separate from the retrieval scores, which are passed only
@@ -66,7 +78,14 @@ class RetrievalResult:
         """
         from ..answerability import assess
 
-        return assess(question, self.exposed, scores=self.scores, judge=judge)
+        return assess(question, self.exposed, scores=self.scores, judge=judge,
+                      equivalences=equivalences)
+
+    def assessment(self, question: str, judge: Any = None) -> Any:
+        """Return separately typed ranking, validity, and readiness fields."""
+        from ..evidence_status import assess
+
+        return assess(self, question, judge=judge)
 
 
 @dataclass

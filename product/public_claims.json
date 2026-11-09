@@ -1,0 +1,26 @@
+{
+  "schema": "memory-fabric-public-claims/1",
+  "claims": [
+    {
+      "id": "claim.correction-governance",
+      "text": "Memory Fabric provides correction-aware evidence and action checks.",
+      "capabilities": ["governance.correction.preview", "governance.action.fence"],
+      "evidence": ["docs/product/CAPABILITY_REGISTRY.md", "tests/test_capability_registry.py"],
+      "qualification": "Behavior is implemented and covered by repository tests; effectiveness is workload-dependent."
+    },
+    {
+      "id": "claim.provenance-inspection",
+      "text": "Memory Fabric records inspectable provenance and memory lineage.",
+      "capabilities": ["memory.provenance.inspect", "memory.lineage.graph"],
+      "evidence": ["docs/product/CAPABILITY_REGISTRY.md", "tests/test_capability_registry.py"],
+      "qualification": "Only provenance supplied to and recorded by the system can be shown."
+    },
+    {
+      "id": "claim.vector-fit",
+      "text": "Plain vector retrieval is sufficient for many semantic lookup workloads.",
+      "capabilities": ["memory.retrieve.governed"],
+      "evidence": ["docs/product/WHEN_TO_USE_MEMORY_FABRIC.md", "research/results/l1-long-running.md", "research/results/x4-governed-vs-pooled.md"],
+      "qualification": "Workload-specific synthetic results; no universal performance claim."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-07",
+  "commit": "14e2d14b11f77ae79ee2debfdda4156218a005f9",
+  "command": "python -m unittest tests.test_doc_links tests.test_product_fit_guidance -q",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 1.414,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "vector_store_sufficient_use_cases_documented": "PASS",
+    "matched_negative_and_no_headroom_evidence_cited": "PASS",
+    "measured_operational_overhead_and_scope_cited": "PASS",
+    "buyer_demand_not_inferred": "PASS",
+    "documentation_links": "PASS",
+    "Ruff": "PASS"
+  },
+  "limitations": [
+    "The cited studies are workload-specific synthetic/local results and do not establish universal comparative performance."
+  ],
+  "file_sha256": {
+    "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "4fd236c5bed079fcabc5bcef1417ff18313c7c17ca672f9bb8a854086d4d0afd",
+    "docs/README.md": "92b8b761ea04f6b49edd1b316bb5721a6360b256aa7a812da2c65fa5f78223fe",
+    "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
+    "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
+    "research/results/master-checklist-http-capacity-v1.md": "d66e0c240eb780b412436946dbeaa4ebbc62b59a5f1913197522c1f85cc91185",
+    "tests/test_product_fit_guidance.py": "9ae43b64460424b2aed3db4e5273bb6a38550064292c10538aa4da98c3c58d95",
+    "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "b0db2eb1f2e79752825a8571872af6cc6cc15882fb20dcb1f36c7bc7e03e5af9"
+  }
+}

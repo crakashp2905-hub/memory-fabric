@@ -75,7 +75,7 @@ class FabricCore:
         def _suspicious(self, agent_id: str, content: str, context: Any, tenant_id: str) -> bool: ...
         def shared_with(self, memory_id: str) -> dict[str, str]: ...
         def _index(self, memory_id: str, text: str) -> None: ...
-        def _unindex(self, memory_id: str) -> None: ...
+        def _unindex(self, memory_id: str, *, forget_text: str | None = None) -> None: ...
         @staticmethod
         def _index_text(memory: Memory) -> str: ...
         def value(self, memory_id: str, context: Mapping[str, Any] | None=None, persist: bool=False) -> ValueEstimate: ...
@@ -101,7 +101,7 @@ class FabricCore:
         busy_timeout_ms: int = 5_000,
         recognise_copies: bool = True,
         rerank: "bool | str | Any" = False,
-        conceal_cross_tenant: bool = False,
+        conceal_cross_tenant: bool = True,
         limits: "Any" = None,
         withhold_hostile_sources: bool = True,
         hold_suspicious: bool = True,
@@ -109,9 +109,8 @@ class FabricCore:
         contest_restatements: bool = True,
         claim_checker: Any = None,
     ) -> None:
-        # Off by default to keep the documented reason code. On, a request
-        # from another tenant is refused exactly as a missing id is, so the
-        # refusal does not confirm that the id exists anywhere (plan Task 11).
+        # On by default: cross-tenant refusal is indistinguishable from a
+        # missing id, so it cannot confirm that the id exists elsewhere.
         self.conceal_cross_tenant = conceal_cross_tenant
         from ..limits import Limits, Meter
 
@@ -350,7 +349,16 @@ class FabricCore:
         return self._clock()
 
     def _emit(self, *events: ev.Event) -> list[ev.Event]:
+        profile = getattr(self, "_profile_marker", None)
+        io_started = time.perf_counter_ns() if profile is not None else 0
+        stage = getattr(self, "_stage_marker", None)
+        if stage is not None:
+            stage("event_append")
         stored = self.log.append_many(events)
+        if profile is not None:
+            profile("sqlite_append_ns", time.perf_counter_ns() - io_started)
+        if stage is not None:
+            stage("projection")
         if stored and stored[0].seq != self._seen_seq + 1:
             # Another process appended between our last catch-up and this
             # write, so folding only our own events would put the projection
@@ -362,6 +370,8 @@ class FabricCore:
         tracked.begin()  # type: ignore[attr-defined]
         for event in stored:
             self.projection.apply(event)
+        if profile is not None:
+            profile("projection_events", len(stored))
         self._reindex_changed(dict(tracked.before))  # type: ignore[attr-defined]
         if stored and stored[-1].seq is not None:
             self._seen_seq = stored[-1].seq
@@ -468,18 +478,27 @@ class FabricCore:
                 self._unindex(memory_id)
                 self.copy_index.remove(memory_id)
                 continue
+            retrieval_indexable = (
+                state in (LifecycleState.ACTIVE, LifecycleState.CONTESTED)
+                and memory_id not in self.state.erased
+            )
             text = self._index_text(memory)
             present = memory_id in self.index
             changed = old is None or self._index_text(old) != text
-            if state is LifecycleState.DEPRECATED or memory_id in self.state.erased:
-                # Not served, so an absent entry may stay absent -- but a
-                # present one must stay current, or it is stale text waiting
-                # for the memory to become servable again. The first version
-                # of this rule left it alone, and tests/test_catch_up.py found
-                # a revision of a deprecated memory indexed under its old text
-                # once a later transition made it contested.
-                if old is None or (present and changed):
-                    self._index(memory_id, text)
+            if not retrieval_indexable:
+                # The copy detector is an ingest/governance index, not a
+                # retrieval cache. Keep it able to recognise quarantined
+                # copies, but remove untrusted or withdrawn content from every
+                # index used to answer a query.
+                forget_text = (
+                    self._index_text(old)
+                    if memory_id in self.state.erased and old is not None else None
+                )
+                self._unindex(memory_id, forget_text=forget_text)
+                if memory_id in self.state.erased:
+                    self.copy_index.remove(memory_id)
+                elif changed and self.recognise_copies:
+                    self.copy_index.add(memory_id, text)
                 continue
             if changed or not present:
                 self._index(memory_id, text)
@@ -520,6 +539,13 @@ class FabricCore:
     def _replay(self) -> None:
         """Rebuild all state from the log, including the vector index."""
         head = self.log.head_seq
+        # A crash may occur after the erasure event/key destruction commits but
+        # before a disk-backed embedder cache is purged. The event carries only
+        # opaque per-model cache tokens so replay can finish those deletions.
+        for event in self.log.read_types([ev.EventType.CONTENT_ERASED]):
+            token = event.payload.get("embedding_cache_token")
+            if isinstance(token, str) and token:
+                self.index.forget_erasure_token(token)
         self.projection = Projection.rebuild(
             self.log, unsealer=self._unseal_content
         )
@@ -537,8 +563,15 @@ class FabricCore:
             warm([self._index_text(m) for m in self.state.memories.values()
                   if m.lifecycle_state is not LifecycleState.DELETED])
         for memory in self.state.memories.values():
-            if memory.lifecycle_state is not LifecycleState.DELETED:
+            if (memory.lifecycle_state in (LifecycleState.ACTIVE, LifecycleState.CONTESTED)
+                    and memory.id not in self.state.erased):
                 self._index(memory.id, self._index_text(memory))
+            else:
+                self._unindex(memory.id)
+                if (self.recognise_copies
+                        and memory.lifecycle_state is not LifecycleState.DELETED
+                        and memory.id not in self.state.erased):
+                    self.copy_index.add(memory.id, self._index_text(memory))
         # Read before the rebuild: an event appended during it is picked up by
         # the next `refresh` rather than counted as seen and never folded.
         self._seen_seq = head

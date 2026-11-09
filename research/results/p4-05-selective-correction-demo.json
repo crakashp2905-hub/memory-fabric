@@ -1,0 +1,40 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-05",
+  "commit": "2fbfb4f94608631eec6ad9d20224d0cc3a3a859e",
+  "command": "python -m unittest tests.test_examples_run -q; TEMP/TMP and tempfile.tempdir routed to .task-tmp; loopback not required",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 61.773,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "outcome": {
+    "dependent_action_before_correction": "executed",
+    "dependent_action_after_correction": "refused",
+    "unrelated_action_before_correction": "executed",
+    "unrelated_action_after_correction": "executed",
+    "simulated_effects": [
+      "restart",
+      "tyre-check",
+      "tyre-check"
+    ]
+  },
+  "checks": {
+    "all_offline_examples": "PASS",
+    "new_example_output_assertions": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "Effects are local callback records only; no external device or tool was called.",
+    "Examples use deterministic in-memory fixtures, not real operator workloads."
+  ],
+  "file_sha256": {
+    "examples/correction_spares_unrelated_action.py": "1d3ac714b9a34c9c53cad8eb79731793e8ce1d58ab778f387ee8f66d7b3f27ba",
+    "examples/README.md": "d5e65b795294b165a09b94478d7b7a955afa87803d2fe185dfffd54bf8b8b54c",
+    "tests/test_examples_run.py": "f0e0c0f3d162da7d3a833ab7027597b8abc9bcdb18f465cc455d264ff3bb4f96",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "cd7689c05dd1f835e002944de7edea3e20291c8afd60878ac94e12017a302cf8"
+  }
+}

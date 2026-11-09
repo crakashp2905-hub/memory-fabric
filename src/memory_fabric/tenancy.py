@@ -11,8 +11,11 @@ someone holding the database file. For tenants that must not share a file,
 Nothing is shared between tenants: not a connection, a lock, an index, a
 key or a cache. A request for one tenant can only ever open that tenant's
 directory, and tenant ids are restricted to `[a-z0-9_-]` so an id cannot
-name a path outside the root. Removing a tenant is deleting its directory,
-which is an operator's decision and not offered here.
+name a path outside the root. Key directories and backup destinations are
+operator-managed: place each tenant's backup under a distinct destination and
+protect keys under separate filesystem credentials where the threat model
+requires it. Removing a tenant is deleting its directory, which is an
+operator's decision and not offered here.
 """
 
 from __future__ import annotations
@@ -28,7 +31,7 @@ from .fabric import MemoryFabric, TenantView
 from .governance.erasure import DirectoryKeyProvider
 from .identity import Principal
 
-TENANT_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
+TENANT_ID = re.compile(r"[a-z0-9][a-z0-9_-]{0,63}")
 
 
 class TenantRouter:
@@ -40,7 +43,7 @@ class TenantRouter:
         self._lock = threading.Lock()
 
     def _dir(self, tenant_id: str) -> Path:
-        if not TENANT_ID.match(tenant_id):
+        if not isinstance(tenant_id, str) or TENANT_ID.fullmatch(tenant_id) is None:
             raise ValueError(f"invalid tenant id {tenant_id!r}: use [a-z0-9_-], at most 64")
         path = (self.root / tenant_id).resolve()
         if path.parent != self.root.resolve():
@@ -67,7 +70,7 @@ class TenantRouter:
 
     def tenants(self) -> list[str]:
         return sorted(p.name for p in self.root.iterdir()
-                      if p.is_dir() and TENANT_ID.match(p.name) and (p / "store.db").exists())
+                      if p.is_dir() and TENANT_ID.fullmatch(p.name) and (p / "store.db").exists())
 
     def close(self) -> None:
         with self._lock:

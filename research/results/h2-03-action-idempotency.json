@@ -1,0 +1,31 @@
+{
+  "acceptance_status": "PASS",
+  "input_sha256": {
+    "docs/ACTION_IDEMPOTENCY.md": "3e4d1fbdf4f4031bafcbb58faa52baecd24145af907fde92278883efa05342be",
+    "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
+    "src/memory_fabric/events.py": "1c85ed539ffd79e11fde46e48605df291b33dc1fce1c7775fbd30e7df671f43c",
+    "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
+    "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b"
+  },
+  "limitations": [
+    "External tools must implement idempotency for the forwarded key; local logs cannot atomically commit a separate system's effect.",
+    "Legacy action records without a binding digest fail closed and need outcome reconciliation before a new key is chosen."
+  ],
+  "population": "local_mock_side_effect",
+  "schema": "mf-action-idempotency-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "a01e948e0d4b8b8f939692ebeef5c7996d4af5a9",
+  "tests": {
+    "command": "python -m pytest tests/test_action_fence.py::Fence tests/test_action_crash.py",
+    "failures": 0,
+    "missing_cases": [],
+    "required_cases_present": true,
+    "total": 11
+  },
+  "verified_contracts": [
+    "same-payload completed retry does not rerun the effect",
+    "changed tool/request payload under a reused key is refused",
+    "lost-response retry deduplicates at the idempotent mock effect",
+    "crash-left uncertain attempt requires explicit retry"
+  ]
+}

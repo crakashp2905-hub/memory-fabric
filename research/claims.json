@@ -1,0 +1,147 @@
+{
+  "schema": "memory-fabric-claims/1",
+  "claims": [
+    {
+      "id": "teamworld-current-baseline",
+      "claim": "The current 50-agent deterministic TeamWorld baseline achieves 0.584 task success with zero stale actions.",
+      "class": "deterministic-agent-simulation",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+      "dataset": "TeamWorld generated tasks, seeds 101-105, 500 tasks",
+      "model": "deterministic-teamworld-agent",
+      "commit_field": "git_sha",
+      "verdict": "REPRODUCED_EXACTLY",
+      "limitation": "Measures evidence delivery in a simulator, not behavior of a language-model agent or a physical multi-host deployment.",
+      "expected_commit": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+      "expected_evidence_sha256": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+      "quantitative_assertions": [
+        {
+          "path": "/fabric/task_success/mean",
+          "equals": 0.584
+        },
+        {
+          "path": "/fabric/task_success/denominator",
+          "equals": 500
+        },
+        {
+          "path": "/fabric/stale_action_rate/mean",
+          "equals": 0.0
+        }
+      ]
+    },
+    {
+      "id": "http-50-client",
+      "claim": "The authenticated single-host 50-client run completes all 1,000 operations correctly but fails its throughput and p99 release thresholds.",
+      "class": "single-host-network",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/master-checklist-http-50.json",
+      "dataset": "Seeded 1,000-operation remember/recall/fetch+verify workload",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "One Windows host and one run; this is not a three-host capacity result.",
+      "expected_commit": "f46aea6",
+      "expected_evidence_sha256": "ff4d947cb2519eaf42199c5d3b122a616e6c1ab86e44b17edb2511c68b9720d5",
+      "quantitative_assertions": [
+        {
+          "path": "/results/0/agents",
+          "equals": 50
+        },
+        {
+          "path": "/results/0/ops",
+          "equals": 1000
+        },
+        {
+          "path": "/results/0/ok",
+          "equals": 1000
+        }
+      ]
+    },
+    {
+      "id": "http-capacity-curve",
+      "claim": "Across repeated 1/5/10/25/50-client trials, all 5,460 operations succeeded, but throughput saturated at 4.3-4.8 ops/s and mean 50-client p99 was 24.2 seconds.",
+      "class": "single-host-network",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/master-checklist-http-capacity-v1.json",
+      "dataset": "Seeded 200-memory corpus; three trials per concurrency point; 20 operations per client after 10 warm-up requests",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "Single Windows/SQLite host; confidence intervals cover three machine-local trials and do not generalize to PostgreSQL or multi-host deployments.",
+      "expected_commit": "a626fdccd69842bac31d86811bd5783a6e31543c",
+      "expected_evidence_sha256": "796fa74fcb7e6c3d76d9f3e90ebe4871eb2caf6bf2e407f50c460835ca892432",
+      "quantitative_assertions": [
+        {
+          "count_path": "/results",
+          "equals": 15
+        },
+        {
+          "sum_field": "ops",
+          "rows_path": "/results",
+          "equals": 5460
+        },
+        {
+          "sum_field": "ok",
+          "rows_path": "/results",
+          "equals": 5460
+        }
+      ]
+    },
+    {
+      "id": "longmemeval-s100",
+      "claim": "On the pinned LongMemEval-s 100-instance sample, lexical turn recall is 0.7385 and hybrid is 0.6917, so the registered hybrid-over-lexical gate fails.",
+      "class": "retrieval-benchmark",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/longmemeval-s100-reproduction-v2.json",
+      "dataset": "LongMemEval-s cleaned, SHA-256 d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442",
+      "model": "none",
+      "commit_field": "commit",
+      "verdict": "FAIL",
+      "limitation": "Retrieval-only, 100-instance deterministic sample; dataset license is not declared upstream.",
+      "expected_commit": "beadf2c2126326aecf91beae07fcdd6dfaf69a87",
+      "expected_evidence_sha256": "e923e948ec9b1da2a4ddfc5a9a8dd3cb7da7e5ab4bd052f07d5d5a5a5b3f16f9",
+      "quantitative_assertions": [
+        {
+          "path": "/arms/lexical/turn_recall",
+          "equals": 0.7385
+        },
+        {
+          "path": "/arms/hybrid/turn_recall",
+          "equals": 0.6917
+        },
+        {
+          "sum_values_path": "/type_counts",
+          "equals": 100
+        }
+      ]
+    },
+    {
+      "id": "windows-adversarial-gate",
+      "claim": "All 21 adversarial families pass on the qualified Windows run.",
+      "class": "single-host-security-test",
+      "source": "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+      "evidence": "research/results/adversarial-gate-windows-v2.json",
+      "dataset": "Repository adversarial test families",
+      "model": "none",
+      "commit_field": "git_sha",
+      "verdict": "PASS",
+      "limitation": "AI-led repository testing is not an independent external human security review.",
+      "expected_commit": "6b77d7d",
+      "expected_evidence_sha256": "184332a735641c2f84855cd5852f64c34e3da1d75997b45226f7080115a814b1",
+      "quantitative_assertions": [
+        {
+          "count_path": "/families",
+          "equals": 21
+        },
+        {
+          "path": "/passed",
+          "equals": true
+        },
+        {
+          "path": "/failed",
+          "equals": []
+        }
+      ]
+    }
+  ]
+}

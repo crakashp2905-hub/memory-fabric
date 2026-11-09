@@ -1,0 +1,34 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-08",
+  "commit": "ff575ce56fa0bd998ddf4de14611081bad694f0c",
+  "command": "python unittest runner: test_control_center_ui + test_control_center + test_observability; tempfile.tempdir=.task-tmp; loopback-enabled",
+  "exit_code": 0,
+  "tests_run": 94,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 33.521,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "ruff": "PASS",
+    "git_diff_check": "PASS",
+    "large_history_pagination": "PASS (205 added records, three bounded pages, no overlap)",
+    "empty_filter": "PASS",
+    "conflicting_evidence_read_models": "PASS in observability and control-center fixtures",
+    "unexpected_error_redaction": "PASS (HTTP 500 body excludes private canary)"
+  },
+  "limitations": [
+    "Loopback HTTP integration tests require local socket access; they ran outside the network-restricted sandbox.",
+    "Pagination offset uses a snapshot-free sorted view; concurrent inserts can shift page boundaries between requests."
+  ],
+  "file_sha256": {
+    "src/memory_fabric/observability/report.py": "864aaaceaf628ab23cdf63469337ae0930a4354e8022e99af3b5f4a18a30defc",
+    "src/memory_fabric/observability/server.py": "ffd1bcf20949dcf4a4030d1907e69af3b0076792001974f95406a0b045df6da9",
+    "src/memory_fabric/observability/static/dashboard.html": "f7deb67d38bd83b2418d10fd4e8c4c538d82579cb040c7908602164fb97bf3f3",
+    "tests/test_control_center.py": "2b0f2e31da4fcf71059f182268a5b87722bb12d254adf97135493f6ab2f76424",
+    "tests/test_control_center_ui.py": "fffabac3f3365cf3076213113e82f2f08fdfa5d0b8d8efe3056a5f2fb2e0d5c3",
+    "tests/test_observability.py": "8c3269190cc475d7a322b9597c2b62bdb30dcef6258c2772f716c02453b67815",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "1a0fcd7c9b05106250d6105ebd3f9ea0ddbeccd29c44fffc13eb2a94eadf1e91"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "memory-fabric-n5-08-minority-origin/1",
+  "task_id": "N5-08",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "5eecda24fd8e48a59200541380a5f00fc702cf90",
+    "dirty_before_result_write": false,
+    "script_sha256": "0d2d624ea542763fd623b26d30a193d9c56f28fc70963fbe421f1ce98097e67e",
+    "fixture_sha256": "9e7f7ac20af528d4e1af789065a5d7128153d5f0d41af0135d08080be20a36d7"
+  },
+  "fixture": {
+    "known_truth": "9 bar",
+    "correlated_wrong_value": "6 bar",
+    "correct_report_is_independent": true,
+    "conflict_flagging": "explicit hypothesis-set challenge before retrieval",
+    "retrieval": {
+      "k": 2,
+      "group_by_source_root": true,
+      "include_contested": true,
+      "pool": "default (4*k)",
+      "min_relevance": "default",
+      "expand_lineage": "default"
+    }
+  },
+  "scenarios": [
+    {
+      "correlated_wrong_copies": 1,
+      "wrong_reporting_agents": 2,
+      "wrong_source_roots": 1,
+      "wrong_support_independent_sources": 1,
+      "wrong_support_artificial": true,
+      "correct_reporting_agents": 1,
+      "correct_source_roots": 1,
+      "support_contested": true,
+      "support_leading": null,
+      "correct_root_differs_from_wrong": true,
+      "hypothesis_member_count": 3,
+      "hypothesis_resolved": false,
+      "correct_alternative_retrieved": true,
+      "distinct_source_roots_retrieved": 2,
+      "correct_lifecycle_state": "contested",
+      "retrieval_evidence_validity": "invalid",
+      "retrieval_decision_readiness": "review",
+      "relevance_scores_present": true
+    },
+    {
+      "correlated_wrong_copies": 12,
+      "wrong_reporting_agents": 13,
+      "wrong_source_roots": 1,
+      "wrong_support_independent_sources": 1,
+      "wrong_support_artificial": true,
+      "correct_reporting_agents": 1,
+      "correct_source_roots": 1,
+      "support_contested": true,
+      "support_leading": null,
+      "correct_root_differs_from_wrong": true,
+      "hypothesis_member_count": 14,
+      "hypothesis_resolved": false,
+      "correct_alternative_retrieved": true,
+      "distinct_source_roots_retrieved": 2,
+      "correct_lifecycle_state": "contested",
+      "retrieval_evidence_validity": "invalid",
+      "retrieval_decision_readiness": "review",
+      "relevance_scores_present": true
+    },
+    {
+      "correlated_wrong_copies": 24,
+      "wrong_reporting_agents": 25,
+      "wrong_source_roots": 1,
+      "wrong_support_independent_sources": 1,
+      "wrong_support_artificial": true,
+      "correct_reporting_agents": 1,
+      "correct_source_roots": 1,
+      "support_contested": true,
+      "support_leading": null,
+      "correct_root_differs_from_wrong": true,
+      "hypothesis_member_count": 26,
+      "hypothesis_resolved": false,
+      "correct_alternative_retrieved": true,
+      "distinct_source_roots_retrieved": 2,
+      "correct_lifecycle_state": "contested",
+      "retrieval_evidence_validity": "invalid",
+      "retrieval_decision_readiness": "review",
+      "relevance_scores_present": true
+    }
+  ],
+  "tests": {
+    "junit": "research/results/n5-08-minority-origin-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "This is a deterministic synthetic contract fixture, not a field prevalence or accuracy estimate.",
+    "The test knows which value is correct; the store does not and keeps both alternatives in review.",
+    "The conflict is explicitly challenged before retrieval; automatic semantic discovery of every contradiction is not established here.",
+    "Copy recognition is exact-content containment in this fixture; paraphrase laundering is outside this task and is addressed separately by exposure-aware independence research."
+  ]
+}

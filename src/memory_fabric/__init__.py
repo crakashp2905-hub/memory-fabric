@@ -18,8 +18,42 @@ ones due at P4.
 __stability__ = "stable"
 
 from .estimators import IPSEstimator, NaiveUsageEstimator, ValueEstimator
+from .answerability import ParameterEquivalences
+from .advisory import (
+    ReadOnlyAdvisoryDecision,
+    ReadOnlyAdvisoryPolicy,
+    assess_read_only_advisory,
+)
+from .authorization_receipt import (
+    AuthorizationProofReceipt,
+    AuthorizationReceiptVerification,
+    issue_authorization_receipt,
+    verify_authorization_receipt,
+)
 from .eventlog import EventLog
 from .events import Event, EventType
+from .decision_records import (
+    DecisionEdge,
+    DecisionEdgeError,
+    DecisionGraph,
+    DecisionImpact,
+    DecisionReevaluationReceipt,
+    DecisionAlternativeAssessment,
+    DecisionAlternativeView,
+    DecisionLedger,
+    DecisionOption,
+    DecisionRecord,
+    DecisionStatusTransition,
+    DecisionTransitionError,
+    EvidenceVersion,
+    SeenExposure,
+)
+from .evidence_status import (
+    DecisionReadiness,
+    EvidenceValidity,
+    RetrievalAssessment,
+    RetrievalRanking,
+)
 from .explain import Explanation
 from .exposure import (
     AlwaysExposePolicy,
@@ -35,6 +69,7 @@ from .fabric import (
     MemoryFabric,
     NotFound,
     PolicyViolation,
+    RevisionConflictError,
     RetrievalResult,
     TenantView,
 )
@@ -90,13 +125,52 @@ from .relevance import (
     RelevanceLabel,
     SelectionDecision,
 )
+from .requirement_graph import (
+    AllOfRequirement,
+    AnyOfRequirement,
+    ClaimRequirement,
+    IndependentSourcesRequirement,
+    RequirementGraph,
+    RequirementGraphError,
+    RuleReference,
+    TemporalRequirement,
+    minimal_missing_evidence_sets,
+    parse_requirement_graph,
+    requirement_atom_keys,
+)
 from .service import MemoryService, Session
 from .session import AgentSession, SessionClosed
 from .vectors import Embedder, HashingEmbedder, VectorIndex
 
-__version__ = "0.14.0"
+__version__ = "0.19.0"
 
 __all__ = [
+    "AuthorizationProofReceipt",
+    "AuthorizationReceiptVerification",
+    "issue_authorization_receipt",
+    "verify_authorization_receipt",
+    "ReadOnlyAdvisoryPolicy",
+    "ReadOnlyAdvisoryDecision",
+    "assess_read_only_advisory",
+    "ParameterEquivalences",
+    "DecisionRecord",
+    "DecisionOption",
+    "DecisionEdge",
+    "DecisionEdgeError",
+    "DecisionGraph",
+    "DecisionImpact",
+    "DecisionReevaluationReceipt",
+    "DecisionAlternativeAssessment",
+    "DecisionAlternativeView",
+    "DecisionLedger",
+    "EvidenceVersion",
+    "SeenExposure",
+    "DecisionStatusTransition",
+    "DecisionTransitionError",
+    "RetrievalRanking",
+    "RetrievalAssessment",
+    "EvidenceValidity",
+    "DecisionReadiness",
     "RevocationStore",
     "InMemoryRevocations",
     "SqliteRevocations",
@@ -132,6 +206,18 @@ __all__ = [
     "FabricError",
     "NotFound",
     "PolicyViolation",
+    "RevisionConflictError",
+    "RequirementGraph",
+    "RequirementGraphError",
+    "minimal_missing_evidence_sets",
+    "ClaimRequirement",
+    "AllOfRequirement",
+    "AnyOfRequirement",
+    "IndependentSourcesRequirement",
+    "TemporalRequirement",
+    "RuleReference",
+    "parse_requirement_graph",
+    "requirement_atom_keys",
     # model
     "Memory",
     "MemoryStats",

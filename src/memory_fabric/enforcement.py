@@ -54,6 +54,34 @@ class RiskLevel(str, Enum):
     HIGH = "high"
 
 
+class EvidenceOperation(str, Enum):
+    """Intended use of evidence; external effects remain on the ActionGate path."""
+
+    READ = "read"
+    SUMMARIZE = "summarize"
+    RECOMMEND = "recommend"
+    EXECUTE = "execute"
+
+
+_OPERATION_RISK = {
+    EvidenceOperation.READ: RiskLevel.LOW,
+    EvidenceOperation.SUMMARIZE: RiskLevel.LOW,
+    EvidenceOperation.RECOMMEND: RiskLevel.MEDIUM,
+    EvidenceOperation.EXECUTE: RiskLevel.HIGH,
+}
+_RISK_ORDER = {RiskLevel.LOW: 0, RiskLevel.MEDIUM: 1, RiskLevel.HIGH: 2}
+
+
+def risk_for_operation(operation: EvidenceOperation) -> RiskLevel:
+    """Return the default evidence threshold for a typed use of memory."""
+    return _OPERATION_RISK[EvidenceOperation(operation)]
+
+
+def risk_is_at_least(actual: RiskLevel, required: RiskLevel) -> bool:
+    """Whether an explicit risk choice is as strict as the operation default."""
+    return _RISK_ORDER[RiskLevel(actual)] >= _RISK_ORDER[RiskLevel(required)]
+
+
 class Verdict(str, Enum):
     USABLE = "usable"
     WARN = "warn"

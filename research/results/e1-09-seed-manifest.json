@@ -1,0 +1,17 @@
+{
+  "schema": "memory-fabric-e1-09/1",
+  "commit": "952693f9b60ef9aac286657cf0cf4254bc16f727",
+  "dirty_at_test": false,
+  "test_command": "python -m pytest tests/test_offline_qualification.py -q --junitxml=.test-tmp/e1-09-seed-manifest.xml",
+  "tests_passed": 14,
+  "tests_failed": 0,
+  "junit_sha256": "3f2b83043d1e4cf5d69c37846b0454774eef8f80b64b52116bf2cff3c7a0e81c",
+  "on_disk_controls": {
+    "exact_seed_files": "PASS",
+    "missing_seed": "BLOCKED",
+    "duplicate_seed_output": "BLOCKED",
+    "extra_seed": "BLOCKED"
+  },
+  "verdict": "PASS",
+  "limitation": "Existing historical experiment outputs must opt into the seed manifest contract."
+}

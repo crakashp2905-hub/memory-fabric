@@ -41,7 +41,7 @@ from ..projections import Episode, _digest
 
 
 from .core import FabricCore
-from .common import NotFound, PolicyViolation, _screened_text, _fresh
+from .common import NotFound, PolicyViolation, RevisionConflictError, _screened_text, _fresh
 
 
 class WritesMixin(FabricCore):
@@ -164,7 +164,7 @@ class WritesMixin(FabricCore):
         fed = (context or {}).get("federation") if isinstance(context, Mapping) else None
         self.limits.check_write(agent_id, content,
                                 str(fed.get("store")) if isinstance(fed, Mapping) else None,
-                                self.now())
+                                self.now(), memory_count=len(self.state.memories))
         if episode_id:
             key = (agent_id, episode_id, _digest(content))
             existing = self.state.written.get(key)
@@ -195,6 +195,9 @@ class WritesMixin(FabricCore):
             # is a separate origin, and linking them let a withdrawal in one
             # tenant reach the other (masterplan GOV-07).
             memories = self.state.memories
+            stage = getattr(self, "_stage_marker", None)
+            if stage is not None:
+                stage("copy_lookup")
             copy_of = self.copy_index.find(
                 content, accept=lambda mid: mid in memories and memories[mid].tenant_id == tenant_id)
 
@@ -307,8 +310,6 @@ class WritesMixin(FabricCore):
                 )
             )
         self._emit(*emitted)
-        # From the state, not the local object: see `revise` for why.
-        self._index(memory.id, self._index_text(self.state.memories[memory.id]))
         return memory.id
 
     @_fresh
@@ -319,16 +320,46 @@ class WritesMixin(FabricCore):
         agent_id: str,
         reason: str,
         method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED,
+        expected_version: int | None = None,
     ) -> Memory:
-        """Create the next version of a memory. The old version stays in history.
+        """Create the next version of a memory, retaining its history. With
+        `expected_version`, stale concurrent corrections raise
+        `RevisionConflictError` without appending a new revision.
 
         Refused once the content has been erased. Erasure is terminal for a
         memory's content: writing a new version under the same id would make it
         readable again and would defeat the erasure record. A property-based
         walk found the sequence (erase, then revise) and it stored the new text
         in plaintext, because the destroyed key made the sealer fall back.
+
+        When `expected_version` is supplied, the check and append are one
+        transaction. A competing correction from another version raises
+        `RevisionConflictError` with the observed current version.
         """
-        current = self._require(memory_id)
+        if expected_version is not None and (
+            isinstance(expected_version, bool) or not isinstance(expected_version, int)
+            or expected_version < 1
+        ):
+            raise ValueError("expected_version must be a positive integer")
+        # Acquire SQLite's durable write lock before re-reading the version.
+        # Across separate processes, a competing writer either commits first
+        # and makes this expectation stale, or runs after this transaction.
+        with self.log.transaction():
+            self._catch_up()
+            current = self._require(memory_id)
+            if expected_version is not None and current.version != expected_version:
+                raise RevisionConflictError(memory_id, expected_version, current.version)
+            return self._revise_current(current, content, agent_id, reason, method)
+
+    def _revise_current(
+        self,
+        current: Memory,
+        content: str,
+        agent_id: str,
+        reason: str,
+        method: str | ProvenanceMethod,
+    ) -> Memory:
+        memory_id = current.id
         if memory_id in self.state.erased:
             raise PolicyViolation(
                 f"{memory_id} has been content-erased; record new information "
@@ -377,12 +408,37 @@ class WritesMixin(FabricCore):
                 else []
             ),
         )
-        # The state's version, not `revised`: if another process revised the
-        # same memory just after us, `_emit` has folded that later version in,
-        # and indexing our own would put superseded text back in the index
-        # under the current version. Found by tests/test_catch_up.py.
+        # Parent references are version-pinned. A revision changes the root
+        # version a derived memory relied on, so recompute downstream support
+        # nearest-first; independent alternative support can survive, while
+        # summaries that depended on the superseded version become contested.
+        for node in sorted(
+            self.lineage_graph.descendants(memory_id), key=lambda item: item.depth
+        ):
+            descendant = self.state.memories.get(node.memory_id)
+            if descendant is None or descendant.lifecycle_state is not LifecycleState.ACTIVE:
+                continue
+            verdict = self.justifications.recompute(node.memory_id)
+            events = [ev.support_recomputed(
+                ts=self.now(),
+                memory_id=verdict.memory_id,
+                trigger_memory_id=memory_id,
+                verdict=verdict.verdict,
+                surviving=list(verdict.surviving),
+                lost=list(verdict.lost),
+                independent_count=verdict.independent_count,
+                reason=verdict.reason,
+                actor=agent_id,
+            )]
+            if not verdict.still_justified:
+                events.append(self._transition(
+                    verdict.memory_id,
+                    LifecycleState.CONTESTED,
+                    f"parent version changed after {memory_id} was revised: {verdict.reason}",
+                    agent_id,
+                ))
+            self._emit(*events)
         current = self.state.memories[memory_id]
-        self._index(memory_id, self._index_text(current))
         self._contest(left_behind, f"restates the value {memory_id} v{current.version - 1} "
                                    f"had before it was corrected", agent_id)
         return current

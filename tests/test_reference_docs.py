@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 import unittest
@@ -18,6 +19,19 @@ class ReferenceDocs(unittest.TestCase):
         done = subprocess.run([sys.executable, "tools/gen_reference.py", "--check"], cwd=ROOT,
                               capture_output=True, text=True)
         self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+
+    def test_public_inventory_has_unique_tiered_signatures_and_migration_policy(self) -> None:
+        inventory = json.loads((ROOT / "docs/API_INVENTORY.json").read_text(encoding="utf-8"))
+        self.assertEqual(inventory["schema"], "memory-fabric-public-api/1")
+        self.assertIn("CHANGELOG migration note", inventory["compatibility_policy"])
+        symbols = inventory["symbols"]
+        names = [entry["symbol"] for entry in symbols]
+        self.assertEqual(len(names), len(set(names)))
+        self.assertTrue(symbols)
+        for entry in symbols:
+            with self.subTest(symbol=entry["symbol"]):
+                self.assertIn(entry["tier"], {"stable", "beta", "experimental"})
+                self.assertTrue(entry["signature"])
 
     def test_every_cli_option_has_help(self) -> None:
         parser = build_parser()

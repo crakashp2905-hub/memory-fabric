@@ -154,6 +154,56 @@ class StalePreviewsAreRefused(unittest.TestCase):
 
 
 class TheCommand(unittest.TestCase):
+    def test_an_unknown_cli_command_keeps_the_argparse_exit_code(self) -> None:
+        import contextlib
+        import io
+
+        from memory_fabric.cli import main
+
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as caught:
+            main(["not-a-memory-fabric-command"])
+        self.assertEqual(caught.exception.code, 2)
+
+    def test_a_stale_command_line_preview_returns_a_code_and_does_not_withdraw(self) -> None:
+        import contextlib
+        import io
+        import json
+        import os
+        import tempfile
+
+        from memory_fabric import MemoryFabric, LifecycleState
+        from memory_fabric.cli import main
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db = os.path.join(tmp, "store.db")
+            fabric = MemoryFabric(db, auto_activate=True)
+            root = fabric.remember("ana", "pump P2 pressure is 4 bar", scope="team")
+            child = fabric.derive("ana", "line P2 is safe at 4 bar", parents=[root],
+                                  scope="team")
+            fabric.close()
+
+            preview_output = io.StringIO()
+            with contextlib.redirect_stdout(preview_output):
+                self.assertEqual(main(["--db", db, "--json", "correct", root]), 0)
+            digest = json.loads(preview_output.getvalue())["digest"]
+            changed = MemoryFabric(db, auto_activate=True)
+            changed.derive("ana", "downstream P2 valve also depends on this", parents=[root],
+                           scope="team")
+            changed.close()
+
+            error_output = io.StringIO()
+            with contextlib.redirect_stderr(error_output):
+                code = main(["--db", db, "correct", root, "--apply", "--reason", "fault",
+                             "--actor", "reviewer", "--preview", digest])
+            self.assertEqual(code, 5)
+            self.assertIn("STALE_PREVIEW", error_output.getvalue())
+            reopened = MemoryFabric(db)
+            try:
+                self.assertIs(reopened.get(root).lifecycle_state, LifecycleState.ACTIVE)
+                self.assertIs(reopened.get(child).lifecycle_state, LifecycleState.ACTIVE)
+            finally:
+                reopened.close()
+
     def test_preview_then_apply_from_the_command_line(self) -> None:
         import contextlib
         import io

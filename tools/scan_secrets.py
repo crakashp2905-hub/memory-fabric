@@ -50,6 +50,9 @@ ALLOWED_LINES = {
     # `token=args.token`, which is code rather than an assignment of a secret.
     ("src/memory_fabric/estimators.py", "credit_card"),
     ("src/memory_fabric/cli.py", "password_assignment"),
+    # Generic bearer-token variables read from a request header and sent by a
+    # synthetic protocol benchmark are not embedded credentials.
+    ("experiments/n6_05_protocol_equivalence.py", "password_assignment"),
     # The staging run's adversary submits a fake credential on purpose, to
     # check that the ingest screen quarantines it.
     ("experiments/staging_run.py", "password_in_prose"),
@@ -132,11 +135,23 @@ ALLOWED_LINES = {
 # renaming the concept to dodge a detector would be worse naming for a cosmetic
 # reason.
 ALLOWED_SNIPPETS = {
+    # Historical nanosecond timing counters are long digit runs; allow only
+    # the exact profiling field in these two generated results. Other values
+    # and other files remain subject to the detector.
+    ("research/results/e4-03-local-profile.json", "credit_card", '"total": 3478897227000'),
+    ("research/results/e4-04-contention-before-after.json", "credit_card", '"total": 3478897227000'),
     # A placeholder for a stubbed HTTP transport: the SDK requires *some*
     # credential to build a client, and no request leaves the process.
     ("tests/test_claude_contract.py", "password_assignment", "api_key=STUB_KEY"),
     ("src/memory_fabric/enforcement.py", "password_assignment", "ExposureToken"),
     ("src/memory_fabric/enforcement.py", "password_assignment", "token.expired"),
+    # Erasure replay uses a digest-like cache token, never an authentication
+    # credential. The API delegates that opaque value to the cache adapter.
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", 'token = event.payload.get("embedding_cache_token")'),
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", "isinstance(token, str) and token"),
+    ("src/memory_fabric/vectors.py", "password_assignment", 'token = getattr(self.embedder, "erasure_token", None)'),
+    # Deliberately unsafe fixture proves the package scanner rejects secrets.
+    ("tests/test_package_asset_audit.py", "password_assignment", "password = 'hunter2'"),
     ("src/memory_fabric/fabric.py", "password_assignment", "ExposureToken"),
     # The recorded public API of MemoryFabric: a signature, `token: 'ExposureToken'`.
     ("tests/data/memory_fabric_api.json", "password_assignment", "ExposureToken"),
@@ -171,7 +186,8 @@ def is_allowed(path: str, kind: str, raw: str, line_text: str = "") -> bool:
     if (path, kind) in ALLOWED_LINES:
         return True
     for allowed_path, allowed_kind, snippet in ALLOWED_SNIPPETS:
-        if path == allowed_path and kind == allowed_kind and snippet in line_text:
+        if (path == allowed_path and kind == allowed_kind and snippet in line_text
+                and raw in line_text):
             return True
     stripped = raw.strip()
     if stripped in ALLOWED_VALUES:

@@ -1,0 +1,144 @@
+{
+  "schema": "memory-fabric-adversarial-family-registry/1",
+  "families": [
+    {
+      "name": "injection",
+      "tests": [
+        "tests.test_injection_patterns",
+        "tests.test_directive"
+      ]
+    },
+    {
+      "name": "delayed_and_progressive_poisoning",
+      "tests": [
+        "tests.test_authority.DelayedActivation",
+        "tests.test_poisonworld"
+      ]
+    },
+    {
+      "name": "laundering_through_summaries_tools_federation",
+      "tests": [
+        "tests.test_authority.TheBoundarySurvivesEveryTransformation"
+      ]
+    },
+    {
+      "name": "false_corroboration",
+      "tests": [
+        "tests.test_independence"
+      ]
+    },
+    {
+      "name": "cross_tenant_access_and_metadata_leakage",
+      "tests": [
+        "tests.test_identity",
+        "tests.test_metadata_leakage"
+      ]
+    },
+    {
+      "name": "stale_authorization_and_replay",
+      "tests": [
+        "tests.test_authority.ExactActionGrants",
+        "tests.test_action_fence"
+      ]
+    },
+    {
+      "name": "authority_and_elevation",
+      "tests": [
+        "tests.test_authority.Elevation",
+        "tests.test_authority.OutcomesDoNotConferAuthority"
+      ]
+    },
+    {
+      "name": "offline_peers_and_recovery",
+      "tests": [
+        "tests.test_verified_recovery",
+        "tests.test_source_notice",
+        "tests.test_retraction_protocol",
+        "tests.test_multihop_http",
+        "tests.test_remote_offer"
+      ]
+    },
+    {
+      "name": "key_rotation_and_retired_keys",
+      "tests": [
+        "tests.test_key_rotation_drill"
+      ]
+    },
+    {
+      "name": "plain_false_claims",
+      "tests": [
+        "tests.test_validation"
+      ]
+    },
+    {
+      "name": "authorization_across_access_paths",
+      "tests": [
+        "tests.test_access_matrix",
+        "tests.test_visibility_at_action"
+      ]
+    },
+    {
+      "name": "actions_under_crashes_and_timeouts",
+      "tests": [
+        "tests.test_action_crash"
+      ]
+    },
+    {
+      "name": "log_and_chain_rewrite_detection",
+      "tests": [
+        "tests.test_checkpoint_rewrite"
+      ]
+    },
+    {
+      "name": "production_cryptography",
+      "tests": [
+        "tests.test_crypto_profile"
+      ]
+    },
+    {
+      "name": "log_tampering",
+      "tests": [
+        "tests.test_integrity_chain",
+        "tests.test_chains"
+      ]
+    },
+    {
+      "name": "privacy",
+      "tests": [
+        "tests.test_privacy_federation",
+        "tests.test_receipts"
+      ]
+    },
+    {
+      "name": "resource_exhaustion",
+      "tests": [
+        "tests.test_limits"
+      ]
+    },
+    {
+      "name": "privilege_separation",
+      "tests": [
+        "tests.test_permissions"
+      ]
+    },
+    {
+      "name": "governed_code_mode",
+      "tests": [
+        "tests.test_tool_protocol"
+      ]
+    },
+    {
+      "name": "backup_tamper_and_restore",
+      "tests": [
+        "tests.test_backup_custody"
+      ]
+    },
+    {
+      "name": "objective_filters_never_drop_safety_evidence",
+      "tests": [
+        "tests.test_objective_v2.HardSoftUncertain",
+        "tests.test_objective_v2.IrrelevantIsNotDeletable"
+      ]
+    }
+  ]
+}

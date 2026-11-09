@@ -1,0 +1,2237 @@
+{
+  "acceptance_status": "PASS",
+  "arms": {
+    "answerability_baseline": {
+      "attempted": 45,
+      "correct": 25,
+      "false_abstention_denominator": 15,
+      "false_abstentions": 5,
+      "false_authorization_denominator": 30,
+      "false_authorizations": 15,
+      "latency_p50_ns": 333700,
+      "latency_p95_ns": 516400,
+      "mean_content_token_estimate_on_oracle_allow": 13.333333333333334,
+      "mean_supporting_records_on_oracle_allow": 0.6666666666666666,
+      "task_success_rate": 0.5555555555555556
+    },
+    "typed_evidence_gate": {
+      "attempted": 45,
+      "correct": 45,
+      "false_abstention_denominator": 15,
+      "false_abstentions": 0,
+      "false_authorization_denominator": 30,
+      "false_authorizations": 0,
+      "latency_p50_ns": 1163700,
+      "latency_p95_ns": 2333800,
+      "mean_content_token_estimate_on_oracle_allow": 33.0,
+      "mean_supporting_records_on_oracle_allow": 1.6666666666666667,
+      "task_success_rate": 1.0
+    }
+  },
+  "case_count": 45,
+  "cases_per_seed": [
+    "safe_single",
+    "safe_corroborated",
+    "safe_paraphrase",
+    "wrong_value",
+    "unstructured",
+    "missing",
+    "conflicting",
+    "copied",
+    "withdrawn"
+  ],
+  "comparison": {
+    "false_abstention_difference": -5,
+    "false_authorization_difference": -15,
+    "mean_extra_content_token_estimate_on_oracle_allow": 19.666666666666668,
+    "mean_extra_supporting_records_on_oracle_allow": 1.0,
+    "task_success_difference": 0.4444444444444444
+  },
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "benchmarks/n2_09_decision_quality.py": "d73aa333d88c8b2dd36a57681b395923ea35b7a1f6d524d0f8f559c2921498c0",
+    "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md": "9724040f31ead6b780bdc12c228eb5244a85f557b5f1a0e20817aa7d0a316e71"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Forty-five held-out synthetic scripted cases; not real-agent or language-model evidence.",
+    "Answerability uses a one-record minimum-support proxy while the typed gate counts all certificate records; the reported difference is a transparent evidence-reference/token estimate, not billed inference cost.",
+    "Latency is local in-process timing with scenario construction outside the timed decision paths; it is not a deployment or network latency claim.",
+    "Structured assertions and source-root metadata are fixture inputs, not proof of real-world truth or source authority."
+  ],
+  "manifest_by_seed": {
+    "101": [
+      {
+        "case": "safe_single",
+        "expected": "ALLOW",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-safe_single"
+      },
+      {
+        "case": "safe_corroborated",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 101,
+        "task_id": "n2-09-101-safe_corroborated"
+      },
+      {
+        "case": "safe_paraphrase",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 101,
+        "task_id": "n2-09-101-safe_paraphrase"
+      },
+      {
+        "case": "wrong_value",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-wrong_value"
+      },
+      {
+        "case": "unstructured",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-unstructured"
+      },
+      {
+        "case": "missing",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-missing"
+      },
+      {
+        "case": "conflicting",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-conflicting"
+      },
+      {
+        "case": "copied",
+        "expected": "ABSTAIN",
+        "min_sources": 2,
+        "seed": 101,
+        "task_id": "n2-09-101-copied"
+      },
+      {
+        "case": "withdrawn",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 101,
+        "task_id": "n2-09-101-withdrawn"
+      }
+    ],
+    "103": [
+      {
+        "case": "safe_single",
+        "expected": "ALLOW",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-safe_single"
+      },
+      {
+        "case": "safe_corroborated",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 103,
+        "task_id": "n2-09-103-safe_corroborated"
+      },
+      {
+        "case": "safe_paraphrase",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 103,
+        "task_id": "n2-09-103-safe_paraphrase"
+      },
+      {
+        "case": "wrong_value",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-wrong_value"
+      },
+      {
+        "case": "unstructured",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-unstructured"
+      },
+      {
+        "case": "missing",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-missing"
+      },
+      {
+        "case": "conflicting",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-conflicting"
+      },
+      {
+        "case": "copied",
+        "expected": "ABSTAIN",
+        "min_sources": 2,
+        "seed": 103,
+        "task_id": "n2-09-103-copied"
+      },
+      {
+        "case": "withdrawn",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 103,
+        "task_id": "n2-09-103-withdrawn"
+      }
+    ],
+    "107": [
+      {
+        "case": "safe_single",
+        "expected": "ALLOW",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-safe_single"
+      },
+      {
+        "case": "safe_corroborated",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 107,
+        "task_id": "n2-09-107-safe_corroborated"
+      },
+      {
+        "case": "safe_paraphrase",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 107,
+        "task_id": "n2-09-107-safe_paraphrase"
+      },
+      {
+        "case": "wrong_value",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-wrong_value"
+      },
+      {
+        "case": "unstructured",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-unstructured"
+      },
+      {
+        "case": "missing",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-missing"
+      },
+      {
+        "case": "conflicting",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-conflicting"
+      },
+      {
+        "case": "copied",
+        "expected": "ABSTAIN",
+        "min_sources": 2,
+        "seed": 107,
+        "task_id": "n2-09-107-copied"
+      },
+      {
+        "case": "withdrawn",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 107,
+        "task_id": "n2-09-107-withdrawn"
+      }
+    ],
+    "109": [
+      {
+        "case": "safe_single",
+        "expected": "ALLOW",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-safe_single"
+      },
+      {
+        "case": "safe_corroborated",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 109,
+        "task_id": "n2-09-109-safe_corroborated"
+      },
+      {
+        "case": "safe_paraphrase",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 109,
+        "task_id": "n2-09-109-safe_paraphrase"
+      },
+      {
+        "case": "wrong_value",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-wrong_value"
+      },
+      {
+        "case": "unstructured",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-unstructured"
+      },
+      {
+        "case": "missing",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-missing"
+      },
+      {
+        "case": "conflicting",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-conflicting"
+      },
+      {
+        "case": "copied",
+        "expected": "ABSTAIN",
+        "min_sources": 2,
+        "seed": 109,
+        "task_id": "n2-09-109-copied"
+      },
+      {
+        "case": "withdrawn",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 109,
+        "task_id": "n2-09-109-withdrawn"
+      }
+    ],
+    "113": [
+      {
+        "case": "safe_single",
+        "expected": "ALLOW",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-safe_single"
+      },
+      {
+        "case": "safe_corroborated",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 113,
+        "task_id": "n2-09-113-safe_corroborated"
+      },
+      {
+        "case": "safe_paraphrase",
+        "expected": "ALLOW",
+        "min_sources": 2,
+        "seed": 113,
+        "task_id": "n2-09-113-safe_paraphrase"
+      },
+      {
+        "case": "wrong_value",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-wrong_value"
+      },
+      {
+        "case": "unstructured",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-unstructured"
+      },
+      {
+        "case": "missing",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-missing"
+      },
+      {
+        "case": "conflicting",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-conflicting"
+      },
+      {
+        "case": "copied",
+        "expected": "ABSTAIN",
+        "min_sources": 2,
+        "seed": 113,
+        "task_id": "n2-09-113-copied"
+      },
+      {
+        "case": "withdrawn",
+        "expected": "ABSTAIN",
+        "min_sources": 1,
+        "seed": 113,
+        "task_id": "n2-09-113-withdrawn"
+      }
+    ]
+  },
+  "population": "synthetic_scripted",
+  "preregistration_sha256": "9724040f31ead6b780bdc12c228eb5244a85f557b5f1a0e20817aa7d0a316e71",
+  "protocol": "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md",
+  "repo_commit": "d3096b835f81fc0c949b096e73c272d387e25ec0",
+  "rows": [
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 367700,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "6f31072a8486656493834b051025f545c688469b781c0fef54f85a245797d1e5",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 6818000,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "safe_single",
+      "entity": "P-101-00",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP84945QRPSGBJADWZJ9"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-00?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP84945QRPSGBJADWZJ9": "01M6YEPP84945QRPSGBJADWZJ9"
+      },
+      "task_id": "n2-09-101-safe_single"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 21,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 409500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "9029aeece03acc6c068ad5ae63bb446e740ed996c89e93690caa9bc0ec924e48",
+          "content_token_estimate": 44,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 2333800,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_corroborated",
+      "entity": "P-101-01",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP8GZT1EN6DWFSQ2S6C0",
+        "01M6YEPP8GZT1EN6DWFSQ2S6C2"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-101-01?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP8GZT1EN6DWFSQ2S6C0": "01M6YEPP8GZT1EN6DWFSQ2S6C0",
+        "01M6YEPP8GZT1EN6DWFSQ2S6C2": "01M6YEPP8GZT1EN6DWFSQ2S6C2"
+      },
+      "task_id": "n2-09-101-safe_corroborated"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": false,
+          "decision": "ABSTAIN",
+          "false_abstention": true,
+          "false_authorization": false,
+          "latency_ns": 333700,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "194fb4ae70647bc148f35e1c6f74a3ac1c78f5fe92833d7661d92a7c03fa60c5",
+          "content_token_estimate": 36,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1843000,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_paraphrase",
+      "entity": "P-101-02",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP8NPG0YERQY135VSC79",
+        "01M6YEPP8P611Z5SZMJDYQYXMV"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-101-02?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP8NPG0YERQY135VSC79": "01M6YEPP8NPG0YERQY135VSC79",
+        "01M6YEPP8P611Z5SZMJDYQYXMV": "01M6YEPP8P611Z5SZMJDYQYXMV"
+      },
+      "task_id": "n2-09-101-safe_paraphrase"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 288300,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "e71ad76e08d9bfd5d2aa5de98d9eb63ed90be6ae968c71786550ac009e43ef6d",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 975100,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "wrong_value",
+      "entity": "P-101-03",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPP8TPA23RTM6FQ71V43F"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-03?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP8TPA23RTM6FQ71V43F": "01M6YEPP8TPA23RTM6FQ71V43F"
+      },
+      "task_id": "n2-09-101-wrong_value"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 15,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 339500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "7aa5655ef742b1d35849753fde7b4da3c670342730bb8f3be39b4cbf4b50638d",
+          "content_token_estimate": 15,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 919900,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "unstructured",
+      "entity": "P-101-04",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPP8X5GM2BNXJMH0ZKXVB"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-04?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP8X5GM2BNXJMH0ZKXVB": "01M6YEPP8X5GM2BNXJMH0ZKXVB"
+      },
+      "task_id": "n2-09-101-unstructured"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 164700,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": null,
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 19000,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 0
+        }
+      },
+      "case": "missing",
+      "entity": "P-101-05",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-05?",
+      "seed": 101,
+      "source_roots": {},
+      "task_id": "n2-09-101-missing"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 375700,
+          "supporting_records": 0,
+          "verdict": "conflicting"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "114d1c3898d4428e7a7782fbac86bc3980edb50882e03ccc27759d0bfe887f09",
+          "content_token_estimate": 34,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 4212000,
+          "reason_codes": [
+            "claim_evidence_disputed",
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "conflicting",
+      "entity": "P-101-06",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPP92VEQV216HPKMXFKBV",
+        "01M6YEPP932E4GPZG1BD75N955"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-06?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP92VEQV216HPKMXFKBV": "01M6YEPP92VEQV216HPKMXFKBV",
+        "01M6YEPP932E4GPZG1BD75N955": "01M6YEPP932E4GPZG1BD75N955"
+      },
+      "task_id": "n2-09-101-conflicting"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 518500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "48f12d6b33280fd9d822d90729adb1aafa693962ffeaf8484fbcd90c71acfeba",
+          "content_token_estimate": 70,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 166500,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 3
+        }
+      },
+      "case": "copied",
+      "entity": "P-101-07",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPP99K8ZAHPEB6YA2WTGD",
+        "01M6YEPP9AF18WAVYRSHV8YFG0",
+        "01M6YEPP9BHR3BFKRQ5CX7KQPD"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-101-07?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP99K8ZAHPEB6YA2WTGD": "01M6YEPP99K8ZAHPEB6YA2WTGD",
+        "01M6YEPP9AF18WAVYRSHV8YFG0": "01M6YEPP99K8ZAHPEB6YA2WTGD",
+        "01M6YEPP9BHR3BFKRQ5CX7KQPD": "01M6YEPP99K8ZAHPEB6YA2WTGD"
+      },
+      "task_id": "n2-09-101-copied"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 155300,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "0d058d344beba9036cfd1048ff07ade04f670e2c5dc69dc659f2d1fcbeafceea",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 125500,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "withdrawn",
+      "entity": "P-101-08",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-101-08?",
+      "seed": 101,
+      "source_roots": {
+        "01M6YEPP9D65WQB41BQA0EANXY": "01M6YEPP9D65WQB41BQA0EANXY"
+      },
+      "task_id": "n2-09-101-withdrawn"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 279700,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "74e9d90f9a2d73b7ab3c82e542f652b111eb7bc2ad60413241e7a9cc082a3d0f",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1440100,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "safe_single",
+      "entity": "P-103-00",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP9GCYAT9TYEPG0NB89E"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-00?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPP9GCYAT9TYEPG0NB89E": "01M6YEPP9GCYAT9TYEPG0NB89E"
+      },
+      "task_id": "n2-09-103-safe_single"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 21,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 403000,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "098551342046c050cf75cbdc2ffb8d0134b4e28de6761f1c3a80b1fc2acc7f44",
+          "content_token_estimate": 44,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1804600,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_corroborated",
+      "entity": "P-103-01",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP9MKATBJ8HJ82RS42KM",
+        "01M6YEPP9NHHRVFMAM2V2ZRQVQ"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-103-01?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPP9MKATBJ8HJ82RS42KM": "01M6YEPP9MKATBJ8HJ82RS42KM",
+        "01M6YEPP9NHHRVFMAM2V2ZRQVQ": "01M6YEPP9NHHRVFMAM2V2ZRQVQ"
+      },
+      "task_id": "n2-09-103-safe_corroborated"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": false,
+          "decision": "ABSTAIN",
+          "false_abstention": true,
+          "false_authorization": false,
+          "latency_ns": 335000,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "6e9497ce149ac3b4a48a13e89de2c4b55a74d0866c3cf1c9e5157d6e72931f5d",
+          "content_token_estimate": 36,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1643300,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_paraphrase",
+      "entity": "P-103-02",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPP9SJV9RG74QDC1SN552",
+        "01M6YEPP9SJV9RG74QDC1SN554"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-103-02?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPP9SJV9RG74QDC1SN552": "01M6YEPP9SJV9RG74QDC1SN552",
+        "01M6YEPP9SJV9RG74QDC1SN554": "01M6YEPP9SJV9RG74QDC1SN554"
+      },
+      "task_id": "n2-09-103-safe_paraphrase"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 292900,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "21b856bbc90901310a7f704d908a3ca7328d64262017a07e3ebc4fa8a6a1869d",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 895000,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "wrong_value",
+      "entity": "P-103-03",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPP9X6364Y2CKFPQB5BG6"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-03?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPP9X6364Y2CKFPQB5BG6": "01M6YEPP9X6364Y2CKFPQB5BG6"
+      },
+      "task_id": "n2-09-103-wrong_value"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 15,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 266800,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "48714e367c826566abd1bcdbac87ab551e4b655a477545de6235285fb1b23cce",
+          "content_token_estimate": 15,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1237700,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "unstructured",
+      "entity": "P-103-04",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPA0SS9Z1X04CTG8ZTT4"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-04?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPPA0SS9Z1X04CTG8ZTT4": "01M6YEPPA0SS9Z1X04CTG8ZTT4"
+      },
+      "task_id": "n2-09-103-unstructured"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 147500,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": null,
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 20100,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 0
+        }
+      },
+      "case": "missing",
+      "entity": "P-103-05",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-05?",
+      "seed": 103,
+      "source_roots": {},
+      "task_id": "n2-09-103-missing"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 372800,
+          "supporting_records": 0,
+          "verdict": "conflicting"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "d0b2e478eecddf636bd92073035d7b39950c1e4f4c30e18de973a2c2f45757fa",
+          "content_token_estimate": 34,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1557100,
+          "reason_codes": [
+            "claim_evidence_disputed",
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "conflicting",
+      "entity": "P-103-06",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPA6CAKSJX1CETXVCV2K",
+        "01M6YEPPA6CAKSJX1CETXVCV2N"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-06?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPPA6CAKSJX1CETXVCV2K": "01M6YEPPA6CAKSJX1CETXVCV2K",
+        "01M6YEPPA6CAKSJX1CETXVCV2N": "01M6YEPPA6CAKSJX1CETXVCV2N"
+      },
+      "task_id": "n2-09-103-conflicting"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 516400,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "dd5a595b2c015f7a850f8b4bf2d486236937d59078409fb76945af7d90196d9f",
+          "content_token_estimate": 70,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 167400,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 3
+        }
+      },
+      "case": "copied",
+      "entity": "P-103-07",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPAAWS7AEW5QSJ3W0YM2",
+        "01M6YEPPABC12R0TWGGTTY6G5W",
+        "01M6YEPPABC12R0TWGGTTY6G5Z"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-103-07?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPPAAWS7AEW5QSJ3W0YM2": "01M6YEPPAAWS7AEW5QSJ3W0YM2",
+        "01M6YEPPABC12R0TWGGTTY6G5W": "01M6YEPPAAWS7AEW5QSJ3W0YM2",
+        "01M6YEPPABC12R0TWGGTTY6G5Z": "01M6YEPPAAWS7AEW5QSJ3W0YM2"
+      },
+      "task_id": "n2-09-103-copied"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 153300,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "a47a4472f4793925b7c0092ade13ae12faedcc68b2566c06c14dacea08d13aae",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 125800,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "withdrawn",
+      "entity": "P-103-08",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-103-08?",
+      "seed": 103,
+      "source_roots": {
+        "01M6YEPPAEAB3ZB59FJ3Z43VPM": "01M6YEPPAEAB3ZB59FJ3Z43VPM"
+      },
+      "task_id": "n2-09-103-withdrawn"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 269800,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "6bbed0dcc7641c2639cba025406f71fda5bab77b399421de8792b3a4ebe587f5",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1166700,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "safe_single",
+      "entity": "P-107-00",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPAG0ENT4472JD11Z61K"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-00?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPAG0ENT4472JD11Z61K": "01M6YEPPAG0ENT4472JD11Z61K"
+      },
+      "task_id": "n2-09-107-safe_single"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 21,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 498900,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "7f5754bcdf1e3f410423929fea4b9d8bc192a91f313cb59983cb8c5dffe05b69",
+          "content_token_estimate": 44,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1802600,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_corroborated",
+      "entity": "P-107-01",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPAMJ1M2HN5613W3ZN6H",
+        "01M6YEPPAN3J21Q8JCF9DD5G8S"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-107-01?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPAMJ1M2HN5613W3ZN6H": "01M6YEPPAMJ1M2HN5613W3ZN6H",
+        "01M6YEPPAN3J21Q8JCF9DD5G8S": "01M6YEPPAN3J21Q8JCF9DD5G8S"
+      },
+      "task_id": "n2-09-107-safe_corroborated"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": false,
+          "decision": "ABSTAIN",
+          "false_abstention": true,
+          "false_authorization": false,
+          "latency_ns": 328900,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "984b082da68c82815ea8fa70ee5ceed2d4ef6b4ab5632ced00c6382d8621681f",
+          "content_token_estimate": 36,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1632600,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_paraphrase",
+      "entity": "P-107-02",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPASY14NMDTW0KXDZ4PM",
+        "01M6YEPPAT8Q1WCF7D2EEX86DR"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-107-02?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPASY14NMDTW0KXDZ4PM": "01M6YEPPASY14NMDTW0KXDZ4PM",
+        "01M6YEPPAT8Q1WCF7D2EEX86DR": "01M6YEPPAT8Q1WCF7D2EEX86DR"
+      },
+      "task_id": "n2-09-107-safe_paraphrase"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 271400,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "80799fa4f26a53c25d5605176a068c86c51b5c413e5273c4fc310ccc5824406b",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1229200,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "wrong_value",
+      "entity": "P-107-03",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPAYPTHTDCX2YK3RFP3A"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-03?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPAYPTHTDCX2YK3RFP3A": "01M6YEPPAYPTHTDCX2YK3RFP3A"
+      },
+      "task_id": "n2-09-107-wrong_value"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 15,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 313300,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "8493d9a6afe74505b9f402b7264e7a9a11582865106020e8b64b122bf0ab5076",
+          "content_token_estimate": 15,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 817700,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "unstructured",
+      "entity": "P-107-04",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPB19W2R5B6T7B6V8WS1"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-04?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPB19W2R5B6T7B6V8WS1": "01M6YEPPB19W2R5B6T7B6V8WS1"
+      },
+      "task_id": "n2-09-107-unstructured"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 141800,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": null,
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 16400,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 0
+        }
+      },
+      "case": "missing",
+      "entity": "P-107-05",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-05?",
+      "seed": 107,
+      "source_roots": {},
+      "task_id": "n2-09-107-missing"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 437900,
+          "supporting_records": 0,
+          "verdict": "conflicting"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "37f8f3bf8e3616dc6f7fadb9326e8631680b0adf6fd55f405e3c403d7abde4e1",
+          "content_token_estimate": 34,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1637600,
+          "reason_codes": [
+            "claim_evidence_disputed",
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "conflicting",
+      "entity": "P-107-06",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPB5GF7FRT8W6W3YZJF6",
+        "01M6YEPPB62T4CCRG37P7MGVM6"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-06?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPB5GF7FRT8W6W3YZJF6": "01M6YEPPB5GF7FRT8W6W3YZJF6",
+        "01M6YEPPB62T4CCRG37P7MGVM6": "01M6YEPPB62T4CCRG37P7MGVM6"
+      },
+      "task_id": "n2-09-107-conflicting"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 516200,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "faa1e5b3c1620f6eda910fd272328ca594b1f6988491222d850baf54455eee5f",
+          "content_token_estimate": 70,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 162900,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 3
+        }
+      },
+      "case": "copied",
+      "entity": "P-107-07",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPBA3NG3KF4GR39E0CJV",
+        "01M6YEPPBA3NG3KF4GR39E0CJX",
+        "01M6YEPPBBFEJ2NBAVSBHYWE18"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-107-07?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPBA3NG3KF4GR39E0CJV": "01M6YEPPBA3NG3KF4GR39E0CJV",
+        "01M6YEPPBA3NG3KF4GR39E0CJX": "01M6YEPPBA3NG3KF4GR39E0CJV",
+        "01M6YEPPBBFEJ2NBAVSBHYWE18": "01M6YEPPBA3NG3KF4GR39E0CJV"
+      },
+      "task_id": "n2-09-107-copied"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 154400,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "96a17d0cadd08aa12f10910f30ac5b07e1e1995cf4548894afe60257a94879f8",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 116200,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "withdrawn",
+      "entity": "P-107-08",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-107-08?",
+      "seed": 107,
+      "source_roots": {
+        "01M6YEPPBEJP5WJ5E08VAZEEYR": "01M6YEPPBEJP5WJ5E08VAZEEYR"
+      },
+      "task_id": "n2-09-107-withdrawn"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 451800,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "e500b75ceb05f155d656d7268fb02d4e5947c1086147a62b6aac4a5fd617c22f",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1175500,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "safe_single",
+      "entity": "P-109-00",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPBG7G043R201B571C36"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-00?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPBG7G043R201B571C36": "01M6YEPPBG7G043R201B571C36"
+      },
+      "task_id": "n2-09-109-safe_single"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 21,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 393500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "57205229fb7cfbf09e46208b5376ba5b90a77925bbe83377af9ad876317f665d",
+          "content_token_estimate": 44,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1754700,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_corroborated",
+      "entity": "P-109-01",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPBK849FCPPT83WTKX03",
+        "01M6YEPPBMBTVS13V9KS29SYSP"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-109-01?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPBK849FCPPT83WTKX03": "01M6YEPPBK849FCPPT83WTKX03",
+        "01M6YEPPBMBTVS13V9KS29SYSP": "01M6YEPPBMBTVS13V9KS29SYSP"
+      },
+      "task_id": "n2-09-109-safe_corroborated"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": false,
+          "decision": "ABSTAIN",
+          "false_abstention": true,
+          "false_authorization": false,
+          "latency_ns": 345700,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "6bad5697c7c9c2146dda64bf48c01d29dab34b0fde8c7bf49c898fde4c7294ed",
+          "content_token_estimate": 36,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1648700,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_paraphrase",
+      "entity": "P-109-02",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPBRSN1SVKP9EGA3MPW9",
+        "01M6YEPPBSFG5DADYWAYN28PA6"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-109-02?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPBRSN1SVKP9EGA3MPW9": "01M6YEPPBRSN1SVKP9EGA3MPW9",
+        "01M6YEPPBSFG5DADYWAYN28PA6": "01M6YEPPBSFG5DADYWAYN28PA6"
+      },
+      "task_id": "n2-09-109-safe_paraphrase"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 273100,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "871668482977eda92b86bf58702af7f51de554ca6497b12e2a504a5de8f4d8ce",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 893900,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "wrong_value",
+      "entity": "P-109-03",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPBX1320WJH9V2KMZAV7"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-03?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPBX1320WJH9V2KMZAV7": "01M6YEPPBX1320WJH9V2KMZAV7"
+      },
+      "task_id": "n2-09-109-wrong_value"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 15,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 299400,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "73bafa6ef98014e1c55d440cea2c1049fa3d866163a30ec4b0318acf88152a75",
+          "content_token_estimate": 15,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 802900,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "unstructured",
+      "entity": "P-109-04",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPC0R271ZG2G6QN1G2WR"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-04?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPC0R271ZG2G6QN1G2WR": "01M6YEPPC0R271ZG2G6QN1G2WR"
+      },
+      "task_id": "n2-09-109-unstructured"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 142400,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": null,
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 15800,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 0
+        }
+      },
+      "case": "missing",
+      "entity": "P-109-05",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-05?",
+      "seed": 109,
+      "source_roots": {},
+      "task_id": "n2-09-109-missing"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 369400,
+          "supporting_records": 0,
+          "verdict": "conflicting"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "a916c94d7083c1deb6e3eebaa83e796e3fc4a552b56d5623d0171002711d39dd",
+          "content_token_estimate": 34,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1516000,
+          "reason_codes": [
+            "claim_evidence_disputed",
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "conflicting",
+      "entity": "P-109-06",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPC4YCP42ARQZP3T18G1",
+        "01M6YEPPC4YCP42ARQZP3T18G3"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-06?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPC4YCP42ARQZP3T18G1": "01M6YEPPC4YCP42ARQZP3T18G1",
+        "01M6YEPPC4YCP42ARQZP3T18G3": "01M6YEPPC4YCP42ARQZP3T18G3"
+      },
+      "task_id": "n2-09-109-conflicting"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 549800,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "46148b6826693843fbcef6851908b840e8bcd7a882d1495a67504d39df529cc0",
+          "content_token_estimate": 70,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 352400,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 3
+        }
+      },
+      "case": "copied",
+      "entity": "P-109-07",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPC8P7NM307HXYJMB90E",
+        "01M6YEPPC9AN78SCVMBF79XJK1",
+        "01M6YEPPC9AN78SCVMBF79XJK4"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-109-07?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPC8P7NM307HXYJMB90E": "01M6YEPPC8P7NM307HXYJMB90E",
+        "01M6YEPPC9AN78SCVMBF79XJK1": "01M6YEPPC8P7NM307HXYJMB90E",
+        "01M6YEPPC9AN78SCVMBF79XJK4": "01M6YEPPC8P7NM307HXYJMB90E"
+      },
+      "task_id": "n2-09-109-copied"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 160000,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "7a54252f6655f1114a38491b63562c032c2cf5334b2d5ab14078f0f5f1b7c47c",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 156400,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "withdrawn",
+      "entity": "P-109-08",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-109-08?",
+      "seed": 109,
+      "source_roots": {
+        "01M6YEPPCDW6P6JF8DYMWHV304": "01M6YEPPCDW6P6JF8DYMWHV304"
+      },
+      "task_id": "n2-09-109-withdrawn"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 276200,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "fda5c50be14beafc3267045fa449d3e47133e9fdbf3c46740f38ab53f01f4aca",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1018700,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "safe_single",
+      "entity": "P-113-00",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPCFV308735VWV1VXYG8"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-00?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPCFV308735VWV1VXYG8": "01M6YEPPCFV308735VWV1VXYG8"
+      },
+      "task_id": "n2-09-113-safe_single"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 21,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 405300,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "cbeb0b569784bfdb35f753ec5174d4ab94244f9ce8eff5d8ac405b6fe7c98f58",
+          "content_token_estimate": 44,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1739400,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_corroborated",
+      "entity": "P-113-01",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPCJHYSZ7M3P534WA6M5",
+        "01M6YEPPCK6MWVYZFVTVCAT883"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-113-01?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPCJHYSZ7M3P534WA6M5": "01M6YEPPCJHYSZ7M3P534WA6M5",
+        "01M6YEPPCK6MWVYZFVTVCAT883": "01M6YEPPCK6MWVYZFVTVCAT883"
+      },
+      "task_id": "n2-09-113-safe_corroborated"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": false,
+          "decision": "ABSTAIN",
+          "false_abstention": true,
+          "false_authorization": false,
+          "latency_ns": 323100,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "9d6c96b2c25c9cf3debcbb5e5f500d7568d08170e86d951dfd6f0b2cf3c3aa78",
+          "content_token_estimate": 36,
+          "correct": true,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1772100,
+          "reason_codes": [
+            "allowed"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "safe_paraphrase",
+      "entity": "P-113-02",
+      "expected": "ALLOW",
+      "exposed_evidence_ids": [
+        "01M6YEPPCQT7SDQ1JCVS16SRMZ",
+        "01M6YEPPCRYP03B8PJZ7SVB5YF"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-113-02?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPCQT7SDQ1JCVS16SRMZ": "01M6YEPPCQT7SDQ1JCVS16SRMZ",
+        "01M6YEPPCRYP03B8PJZ7SVB5YF": "01M6YEPPCRYP03B8PJZ7SVB5YF"
+      },
+      "task_id": "n2-09-113-safe_paraphrase"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 389500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "bae5a1affc1e0e7be8026cd49e78da8c5d904a7bffb01a19261a3964f7d43e01",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1287700,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "wrong_value",
+      "entity": "P-113-03",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPCWR35QZDX9H142X1AG"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-03?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPCWR35QZDX9H142X1AG": "01M6YEPPCWR35QZDX9H142X1AG"
+      },
+      "task_id": "n2-09-113-wrong_value"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 15,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 450400,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "410eac8bb5fd8310d294f8018fb6aacdcf6a76d0c6d9f010c384fc0b85084cea",
+          "content_token_estimate": 15,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1163700,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "unstructured",
+      "entity": "P-113-04",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPCZF3RZ9HZ9S69P42R7"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-04?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPCZF3RZ9HZ9S69P42R7": "01M6YEPPCZF3RZ9HZ9S69P42R7"
+      },
+      "task_id": "n2-09-113-unstructured"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 146200,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": null,
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 19100,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 0
+        }
+      },
+      "case": "missing",
+      "entity": "P-113-05",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-05?",
+      "seed": 113,
+      "source_roots": {},
+      "task_id": "n2-09-113-missing"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 368700,
+          "supporting_records": 0,
+          "verdict": "conflicting"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "0ed12247ecde5d6b9dbfb8e8941f00e02c472b848641410edcdec6461c09be23",
+          "content_token_estimate": 34,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 1534500,
+          "reason_codes": [
+            "claim_evidence_disputed",
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 2
+        }
+      },
+      "case": "conflicting",
+      "entity": "P-113-06",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPD42VD3K2HHH3DKDM20",
+        "01M6YEPPD59G41NAY6CABVCGW5"
+      ],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-06?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPD42VD3K2HHH3DKDM20": "01M6YEPPD42VD3K2HHH3DKDM20",
+        "01M6YEPPD59G41NAY6CABVCGW5": "01M6YEPPD59G41NAY6CABVCGW5"
+      },
+      "task_id": "n2-09-113-conflicting"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 19,
+          "correct": false,
+          "decision": "ALLOW",
+          "false_abstention": false,
+          "false_authorization": true,
+          "latency_ns": 503500,
+          "supporting_records": 1,
+          "verdict": "answerable"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "db9ecd278d3f5c43acd5faaa9eeff23240807f4f57e54619f587461315861046",
+          "content_token_estimate": 70,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 167500,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 3
+        }
+      },
+      "case": "copied",
+      "entity": "P-113-07",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [
+        "01M6YEPPD9Z07JEMDNAHC7S03E",
+        "01M6YEPPD9Z07JEMDNAHC7S03G",
+        "01M6YEPPDA90JK84159Z3RQJ88"
+      ],
+      "min_sources": 2,
+      "query": "What is the relief pressure of pump P-113-07?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPD9Z07JEMDNAHC7S03E": "01M6YEPPD9Z07JEMDNAHC7S03E",
+        "01M6YEPPD9Z07JEMDNAHC7S03G": "01M6YEPPD9Z07JEMDNAHC7S03E",
+        "01M6YEPPDA90JK84159Z3RQJ88": "01M6YEPPD9Z07JEMDNAHC7S03E"
+      },
+      "task_id": "n2-09-113-copied"
+    },
+    {
+      "arms": {
+        "answerability_baseline": {
+          "content_token_estimate": 0,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 303000,
+          "supporting_records": 0,
+          "verdict": "insufficient"
+        },
+        "typed_evidence_gate": {
+          "certificate_digest": "58e24d482810d662df819448ef549882389b59e9ac2c318f9b2f24d72a09e6ff",
+          "content_token_estimate": 19,
+          "correct": true,
+          "decision": "ABSTAIN",
+          "false_abstention": false,
+          "false_authorization": false,
+          "latency_ns": 209800,
+          "reason_codes": [
+            "requirement_evidence_missing"
+          ],
+          "supporting_records": 1
+        }
+      },
+      "case": "withdrawn",
+      "entity": "P-113-08",
+      "expected": "ABSTAIN",
+      "exposed_evidence_ids": [],
+      "min_sources": 1,
+      "query": "What is the relief pressure of pump P-113-08?",
+      "seed": 113,
+      "source_roots": {
+        "01M6YEPPDDF9MCJSD2MES7C5ZK": "01M6YEPPDDF9MCJSD2MES7C5ZK"
+      },
+      "task_id": "n2-09-113-withdrawn"
+    }
+  ],
+  "schema": "mf-n2-09-decision-quality/1",
+  "seeds": [
+    101,
+    103,
+    107,
+    109,
+    113
+  ]
+}

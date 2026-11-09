@@ -184,6 +184,21 @@ class EvidenceChain:
     def necessary_ids(self) -> tuple[str, ...]:
         return tuple(s.memory_id for s in self.steps if s.necessary)
 
+    @property
+    def insufficient_reason(self) -> str | None:
+        """Stable reason a caller may surface when the chain is incomplete."""
+        if self.complete:
+            return None
+        if self.budget_exhausted:
+            return "SEARCH_BUDGET_EXHAUSTED"
+        if not self.steps:
+            return "NO_QUERY_ANCHOR"
+        if self.missing:
+            return "MISSING_QUERY_TERMS:" + ",".join(self.missing)
+        if not self.connected:
+            return "DISCONNECTED_EVIDENCE"
+        return "INSUFFICIENT_CHAIN"
+
     def why(self, memory_id: str) -> str:
         """A one-line account of this memory's role, for an operator.
 
@@ -202,6 +217,62 @@ class EvidenceChain:
         link = (" and links to the chain through " + ", ".join(step.bridges)
                 if step.bridges else "")
         return f"{memory_id} ({need}, rank {step.rank}): {what}{link}"
+
+
+@dataclass(frozen=True)
+class EvidencePackage:
+    """A fixed-budget chain package that never silently drops dependencies."""
+
+    memory_ids: tuple[str, ...]
+    tokens_estimated: int
+    budget: int
+    complete: bool
+    missing_required: tuple[str, ...] = ()
+    failure_reason: str | None = None
+
+
+def pack_evidence(chain: EvidenceChain, content: Mapping[str, str],
+                  token_budget: int) -> EvidencePackage:
+    """Pack necessary steps first, or fail before returning partial evidence."""
+    if token_budget < 0:
+        raise ValueError("token_budget must be non-negative")
+    if not chain.complete:
+        return EvidencePackage((), 0, token_budget, False, chain.necessary_ids,
+                               chain.insufficient_reason)
+
+    def cost(memory_id: str) -> int:
+        return max(1, (len(content[memory_id]) + 3) // 4)
+
+    required = chain.necessary_ids
+    missing_content = tuple(memory_id for memory_id in required
+                            if memory_id not in content)
+    if missing_content:
+        return EvidencePackage(
+            (), 0, token_budget, False, missing_content,
+            "REQUIRED_EVIDENCE_CONTENT_MISSING",
+        )
+    required_cost = sum(cost(memory_id) for memory_id in required)
+    if required_cost > token_budget:
+        return EvidencePackage(
+            (), 0, token_budget, False, required,
+            "MANDATORY_EVIDENCE_EXCEEDS_BUDGET",
+        )
+
+    selected = list(required)
+    used = required_cost
+    for step in chain.steps:
+        if step.memory_id in selected:
+            continue
+        # Supporting evidence is optional: if it is unavailable, omit it and
+        # keep the complete mandatory dependency chain intact.
+        if step.memory_id not in content:
+            continue
+        item_cost = cost(step.memory_id)
+        if used + item_cost <= token_budget:
+            selected.append(step.memory_id)
+            used += item_cost
+    ordered = tuple(step.memory_id for step in chain.steps if step.memory_id in selected)
+    return EvidencePackage(ordered, used, token_budget, True)
 
 
 @dataclass

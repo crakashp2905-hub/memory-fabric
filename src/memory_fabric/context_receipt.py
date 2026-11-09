@@ -79,12 +79,14 @@ def render(plan: ContextPlan) -> str:
 def build_context(fabric: "MemoryFabric", agent_id: str, query: str, budget: int = 2000,
                   mode: str = "auto", tenant_id: str = DEFAULT_TENANT,
                   branch: str = "main", commit_id: str | None = None,
-                  context_map: ContextMap | None = None) -> ContextBundle:
+                  context_map: ContextMap | None = None,
+                  disagreement_budget: int = 256) -> ContextBundle:
     """Plan, render and record one context bundle. Returns the text and its receipt."""
     cmap = context_map or ContextMap(fabric)
     plan = cmap.plan(agent_id, query, budget=budget, mode=mode, tenant_id=tenant_id,
-                     branch=branch)
+                     branch=branch, disagreement_budget=disagreement_budget)
     receipt = {
+        "schema": "memory-fabric-context-receipt/2",
         "receipt_id": f"ctx_{new_ulid()}",
         "tenant_id": tenant_id,
         "agent_id": agent_id,
@@ -95,6 +97,9 @@ def build_context(fabric: "MemoryFabric", agent_id: str, query: str, budget: int
         "excluded": plan.excluded,
         "token_budget": budget,
         "tokens_estimated": plan.tokens,
+        "disagreement_budget": disagreement_budget,
+        "disagreement_tokens_estimated": plan.disagreement_tokens,
+        "uncertainty": plan.uncertainty,
         "mode": plan.mode,
         "policy_id": plan.policy_id,
         "retrieval_config": retrieval_config(fabric),
@@ -129,9 +134,16 @@ def get_receipt(fabric: "MemoryFabric", receipt_id: str,
 def explain_receipt(fabric: "MemoryFabric", receipt_id: str,
                     tenant_id: str | None = None) -> dict[str, Any]:
     """The receipt, with each selected item's admissibility now."""
+    from .enforcement import RiskLevel
+    from .model import LifecycleState
+
     r = get_receipt(fabric, receipt_id, tenant_id=tenant_id)
     if r is None:
         raise KeyError(receipt_id)
+    r.setdefault("schema", "memory-fabric-context-receipt/1")
+    r.setdefault("disagreement_budget", 0)
+    r.setdefault("disagreement_tokens_estimated", 0)
+    r.setdefault("uncertainty", [])
     state = fabric.state.memories
     items = []
     for item in r["selected"]:
@@ -143,8 +155,19 @@ def explain_receipt(fabric: "MemoryFabric", receipt_id: str,
             if current is None:
                 problems.append(f"{memory_id}: unknown here")
                 continue
-            if not fabric.use(memory_id, agent_id=r["agent_id"], tenant_id=r["tenant_id"],
-                              audit=False).usable:
+            include_contested = (
+                item["kind"] in {"disagreement", "insufficiency"}
+                and current is not None
+                and current.lifecycle_state is LifecycleState.CONTESTED
+            )
+            if not fabric.use(
+                memory_id,
+                agent_id=r["agent_id"],
+                tenant_id=r["tenant_id"],
+                risk=RiskLevel.LOW,
+                include_contested=include_contested,
+                audit=False,
+            ).usable:
                 problems.append(f"{memory_id}: not admissible now ({current.lifecycle_state.value})")
             elif version is not None and current.version != version:
                 problems.append(f"{memory_id}: revised since (v{version} -> v{current.version})")

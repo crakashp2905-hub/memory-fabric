@@ -1,0 +1,5 @@
+P2-10 selected-decision offline incident export
+
+34 focused tests passed on exact source commit 0265ea261dc0cc803ceb89251c54b427a42802a6. The selected-action dashboard offers a JSON download. The endpoint reconstructs the action through the content-free incident module and attaches SHA-256 over canonical report JSON. Tests verify the digest, omit a synthetic secret canary and source text, and reject malformed/missing action sequence IDs. Ruff and git diff checks pass.
+
+The digest detects accidental alteration but is not a signature or source-store attestation. The report retains agent and memory identifiers needed to inspect the incident.

@@ -36,6 +36,38 @@ class Session(unittest.TestCase):
             self.assertEqual(self.f.get(mid).lifecycle_state, LifecycleState.ACTIVE,
                              "originals are kept")
 
+    def test_report_separates_utf8_bytes_and_unmeasured_tokens(self) -> None:
+        report = compact_session(self.f, self.ep, agent_id="compactor")
+        sources = [self.f.get(memory_id).content for memory_id in report.inputs]
+        summary = self.f.get(report.summary_id).content
+
+        self.assertEqual(report.source_bytes_utf8, sum(len(text.encode("utf-8")) for text in sources))
+        self.assertEqual(report.summary_bytes_utf8, len(summary.encode("utf-8")))
+        self.assertIsNone(report.source_token_estimate)
+        self.assertIsNone(report.summary_token_estimate)
+        self.assertIsNone(report.tokenizer_provenance)
+        self.assertEqual(report.token_measurement_status, "NOT_MEASURED_NO_TOKENIZER")
+
+    def test_report_records_explicit_tokenizer_provenance(self) -> None:
+        report = compact_session(
+            self.f, self.ep, agent_id="compactor", token_counter=lambda text: len(text.split()),
+            tokenizer_provenance="test-whitespace/1",
+        )
+
+        self.assertEqual(report.tokenizer_provenance, "test-whitespace/1")
+        self.assertEqual(report.token_measurement_status, "MEASURED")
+        self.assertGreater(report.source_token_estimate, 0)
+        self.assertGreater(report.summary_token_estimate, 0)
+
+    def test_invalid_token_counter_fails_before_writing_summary(self) -> None:
+        before = set(self.f.state.memories)
+        with self.assertRaisesRegex(ValueError, "non-negative integer"):
+            compact_session(
+                self.f, self.ep, agent_id="compactor", token_counter=lambda text: -1,
+                tokenizer_provenance="invalid-test-counter/1",
+            )
+        self.assertEqual(set(self.f.state.memories), before)
+
     def test_the_summary_inherits_the_lowest_authority(self) -> None:
         report = compact_session(self.f, self.ep, agent_id="compactor")
         a = self.f.authority(report.summary_id)

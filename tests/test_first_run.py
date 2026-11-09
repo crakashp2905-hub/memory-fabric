@@ -57,6 +57,23 @@ class Init(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(main(["init", self.dir]), 2)
 
+    def test_init_works_in_a_unicode_path_with_spaces(self) -> None:
+        root = Path(self.dir) / "Mémoire – 東京" / "Memory Fabric"
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = main(["init", str(root), "--agent", "helper-東京"])
+        self.assertEqual(code, 0, out.getvalue())
+        self.assertIn(str(root / "store.db"), out.getvalue())
+        self.assertEqual(load_agents(str(root / "agents.txt"))[0].agent_id, "helper-東京")
+        fabric = MemoryFabric(root / "store.db",
+                              key_provider=DirectoryKeyProvider(root / "keys"))
+        try:
+            memory_id = fabric.remember("helper-東京", "München / 東京")
+            self.assertEqual(fabric.get(memory_id).content, "München / 東京")
+            self.assertEqual(fabric.get(memory_id).tenant_id, "tn_default")
+        finally:
+            fabric.close()
+
     def test_the_printed_mcp_configuration_works(self) -> None:
         config = json.loads(self.output[self.output.index("{"):self.output.index("\nNext:")])
         args = config["mcpServers"]["memory-fabric"]["args"]

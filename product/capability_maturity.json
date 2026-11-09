@@ -1,0 +1,27 @@
+{
+  "schema": "memory-fabric-capability-maturity/1",
+  "status_definitions": {
+    "implemented": "Available in the repository with code, tests and documented limitations.",
+    "experimental": "Implemented but explicitly experimental or limited; claims must retain that qualification.",
+    "simulated": "Shown only in a scripted or synthetic demonstration; not evidence of real-world performance.",
+    "externally_unverified": "Requires independent review, external users, real deployments or other evidence unavailable locally."
+  },
+  "overrides": {
+    "compliance.certification": {
+      "status": "externally_unverified",
+      "basis": "No independent certification or legal review is present."
+    },
+    "research.general_effectiveness": {
+      "status": "simulated",
+      "basis": "Available decision and agent results are synthetic or scripted local experiments."
+    },
+    "security.independent_review": {
+      "status": "externally_unverified",
+      "basis": "No commissioned independent human security review is recorded."
+    },
+    "product.market_demand": {
+      "status": "externally_unverified",
+      "basis": "No representative buyer interviews or pilot demand evidence is recorded."
+    }
+  }
+}

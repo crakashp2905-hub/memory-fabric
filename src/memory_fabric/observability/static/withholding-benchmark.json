@@ -1,0 +1,19 @@
+{
+  "schema": "mf-dashboard-withholding-reference/1",
+  "metric": "valid_evidence_withheld",
+  "numerator": 86,
+  "denominator": 500,
+  "rate": 0.172,
+  "risk_class": "HIGH",
+  "risk_class_basis": "The protected ActionGate certificate verifier uses its HIGH risk default.",
+  "population": "synthetic_scripted",
+  "seeds": [101, 102, 103, 104, 105],
+  "agents_per_seed": 50,
+  "source_report": "research/results/r2-false-withholding-ablation.json",
+  "source_commit": "feeb28ea9dfda0c673499c9494b50490d26bdd32",
+  "source_report_sha256": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
+  "live_metric": {
+    "status": "not_measured",
+    "reason": "Live store events do not carry an independent truth oracle or a valid-opportunity denominator."
+  }
+}

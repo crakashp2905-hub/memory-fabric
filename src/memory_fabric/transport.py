@@ -149,6 +149,18 @@ def peer_agent(origin_store_id: str) -> str:
     return f"peer:{origin_store_id}"
 
 
+def retraction_signer(retraction: Retraction) -> str:
+    """Return the peer whose key must authenticate this hop."""
+    return retraction.forwarded_by or retraction.origin_store_id
+
+
+def verify_retraction_signature(retraction: Retraction,
+                                signature: Mapping[str, str],
+                                key: bytes | None) -> bool:
+    """Fail closed unless a configured peer key verifies the exact message."""
+    return key is not None and retraction.verify(signature, key)
+
+
 class Transport(Protocol):
     """Deliver one retraction and return the recipient's acknowledgement."""
 
@@ -434,11 +446,11 @@ def build_federation_server(
             # (experiments/multihost.py); the in-process transport, which
             # checks no signatures, never showed it. `forwarded_by` is inside
             # the signed payload, so a forwarder cannot claim another name.
-            sender = retraction.forwarded_by or retraction.origin_store_id
+            sender = retraction_signer(retraction)
             key = registry.key_for(sender,
                                    signature.get("key_id") if isinstance(signature, Mapping)
                                    else None)
-            if key is None or not retraction.verify(signature, key):
+            if not verify_retraction_signature(retraction, signature, key):
                 # Still recorded locally: a refused retraction is an audit
                 # event worth having. But the acknowledgement is *not* the
                 # reply. It carries `recipient_store_id`, `state_revision` —

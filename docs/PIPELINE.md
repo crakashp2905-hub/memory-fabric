@@ -148,7 +148,7 @@ perfectly well.
 | A premise can be invalidated without destroying independently justified conclusions | Lose one of two independent premises and the conclusion stays active; lose both and it is contested, never deleted |
 | A re-ingested copy does not become independent support | Product matches the oracle on both splits ([P2b](../research/results/p2b-copy-recognition.md)) |
 | Causal value of a memory is estimable | ρ **0.76** against a naive 0.47, 8% overhead ([H1](../research/SCORECARD.md)) |
-| A team does better than with an ordinary shared store | **86%** of measured headroom, holding to **100 agents** ([P3b](../research/results/p3b-agent-teams.md)) |
+| Historical deterministic TeamWorld comparison | Original P3b reported **86%** of measured headroom; it is not the current release baseline. The exact current 50-agent run is **0.584** task success with zero stale actions ([current reproduction](../research/results/grand-50-agent-baseline-reproduction-v2.md), [P3b](../research/results/p3b-agent-teams.md), [claims ledger](../research/results/CLAIMS_LEDGER.md)) |
 | It holds up operationally | Every concurrency, scale and failure condition passes ([P4](../research/results/p4-envelope.md)) |
 | Content erased while accountability survives | Crypto-erasure, keys optionally outside the database |
 | The log is tamper-**evident**, not merely append-only | Hash chain plus external checkpoints |

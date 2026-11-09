@@ -32,6 +32,49 @@ class Consensus(unittest.TestCase):
         self.assertEqual(s.leading, "14", "independent sources lead, not agent count")
         self.assertTrue(honest_a and honest_b)
 
+    def test_ten_replicas_are_one_origin_cluster_with_ten_agents(self) -> None:
+        source_text = "Compressor K-31: the relief pressure is 22 bar."
+        memory_ids = [self.f.remember("ag_0", source_text)]
+        for i in range(1, 10):
+            memory_ids.append(self.f.remember(f"ag_{i}", source_text))
+
+        value = next(
+            item for item in support(self.f, source_text).values
+            if item.value == "22"
+        )
+        payload = value.to_json()
+
+        self.assertEqual(len(value.agents), 10)
+        self.assertEqual(value.independent_sources, 1)
+        self.assertTrue(value.artificial)
+        self.assertEqual(len(value.origin_clusters), 1)
+        self.assertEqual(set(value.origin_clusters[0].memories), set(memory_ids))
+        self.assertEqual(set(value.origin_clusters[0].agents), {
+            f"ag_{index}" for index in range(10)
+        })
+        self.assertEqual(payload["independent_sources"], 1)
+        self.assertEqual(len(payload["agents"]), 10)
+        self.assertEqual(len(payload["origin_clusters"]), 1)
+
+    def test_independent_root_clusters_are_exposed_separately(self) -> None:
+        texts = (
+            "Compressor K-31 relief pressure measured at 14 bar Monday.",
+            "Field check: compressor K-31 relief setpoint reads 14 bar.",
+        )
+        memory_ids = [
+            self.f.remember(f"observer_{index}", text)
+            for index, text in enumerate(texts)
+        ]
+        value = next(
+            item for item in support(self.f, CLAIM).values if item.value == "14"
+        )
+        self.assertEqual(value.independent_sources, 2)
+        self.assertEqual(len(value.origin_clusters), 2)
+        self.assertEqual(
+            {memory_id for cluster in value.origin_clusters for memory_id in cluster.memories},
+            set(memory_ids),
+        )
+
     def test_independent_reports_are_counted(self) -> None:
         for i, text in enumerate(("Compressor K-31 relief pressure measured at 14 bar Monday.",
                                   "Field check: compressor K-31 relief setpoint reads 14 bar.",

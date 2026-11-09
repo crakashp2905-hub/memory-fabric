@@ -1,0 +1,51 @@
+{
+  "schema": "memory-fabric-e4-08-fault-matrix/1",
+  "tested_commit": "00c6e0c8d6d15510e30400cf755f9cc64a8d36db",
+  "recorded_at_utc": "2026-11-07T18:17:58.073449+00:00",
+  "machine": {
+    "system": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "command": "python -m pytest tests/test_federation_transport.py tests/test_retraction_protocol.py tests/test_auditor.py -q --junitxml=research/results/e4-08-federation-faults.xml",
+  "result": {
+    "tests": 75,
+    "subtests": 16,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e4-08-federation-faults.xml",
+    "sha256": "8f1018300a3bffe91e1c89ad583c160edf4edfd316f4f72fb21eaade970196a1"
+  },
+  "fault_coverage": [
+    {
+      "case": "reordered",
+      "test": "TestReconciliation.test_a_replay_is_applied_in_the_origins_order",
+      "outcome": "older and newer corrections both enforced in origin order"
+    },
+    {
+      "case": "duplicated",
+      "test": "TestReconciliation.test_reconciliation_is_idempotent and test_replaying_too_much_is_safe",
+      "outcome": "duplicate replay leaves exactly one RetractionApplied event"
+    },
+    {
+      "case": "delayed",
+      "test": "TestOfflineRecipient.test_it_converges_when_the_recipient_returns; ReorderedDeliveryAcrossMemories.test_a_delayed_retraction_of_another_memory_still_applies",
+      "outcome": "offline delivery remains owed and later converges; a delayed distinct correction still applies"
+    },
+    {
+      "case": "permanently_dropped",
+      "test": "TestOfflineRecipient.test_repeated_transient_failure_ends_in_a_visible_failure and test_a_permanent_route_failure_fails_fast",
+      "outcome": "retry exhaustion and permanent routing failure remain explicit FAILED outcomes"
+    },
+    {
+      "case": "repair_and_observability",
+      "test": "TestOfflineRecipient.test_failed_delivery_is_auditable_and_operator_repair_is_durable",
+      "outcome": "auditor reports active failure; explicit operator requeue stores prior error and repair reason; valid acknowledgement settles it"
+    }
+  ],
+  "limitations": [
+    "Fault scheduling uses deterministic in-process transport tests; HTTP serialization/authentication regressions are included in the same test run, but packet-level loss/reordering on physical networks is not claimed."
+  ]
+}

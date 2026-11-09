@@ -24,13 +24,24 @@
   ]
  },
  "decision": "FAIL",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/enumeration.py": "67f1cc1a84d7a4bcade2019f661410033a44461fa95a4d4d475d6f04e5d3d9b6"
+ },
  "model": {
   "id": null,
   "provider": null
  },
  "prereg": "research/prereg/e1-exhaustive-enumeration.md",
  "reason": "",
- "repo_commit": "092e200e5627",
+ "repo_commit": "9260e482e058",
  "results": {
   "bar": 0.768,
   "lexical": 0.6133,
@@ -46,6 +57,11 @@
   4,
   5
  ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
  "suite": "INT-03",
  "verification": {
   "baseline_registered": true,

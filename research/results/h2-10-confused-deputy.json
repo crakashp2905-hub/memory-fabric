@@ -1,0 +1,31 @@
+{
+  "acceptance_status": "PASS",
+  "checks": {
+    "audit": "attempt and refusal receipt attributed to authenticated low-trust principal",
+    "copied_privileged_descriptor": "effective low-trust session identity resolved before attempt and authorization",
+    "external_effect": "privileged handler not called",
+    "missing_session": "rejected before handler dispatch",
+    "policy": "host grant for privileged identity not inherited by low-trust principal"
+  },
+  "input_sha256": {
+    "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
+    "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
+    "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0",
+    "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
+    "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230"
+  },
+  "junit": "research/results/h2-10-confused-deputy-tests.xml",
+  "limitations": [
+    "The runtime trusts its host to provide the authentic Session object; credential issuance, verification keys and transport binding are deployment responsibilities."
+  ],
+  "schema": "mf-confused-deputy-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "0c90f8f4d746ccae00d7d78546d4ac27d4a7f03d",
+  "test_summary": {
+    "command": "python -m pytest tests/test_confused_deputy.py tests/test_tool_protocol.py tests/test_action_fence.py -q",
+    "failed": 0,
+    "passed": 24,
+    "subtests_passed": 49,
+    "total": 24
+  }
+}

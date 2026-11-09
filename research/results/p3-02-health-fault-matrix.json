@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "healthy": true,
+    "pending_correction": true,
+    "store_read_failure": true,
+    "tampered_chain": true
+  },
+  "expected_levels": {
+    "healthy": "healthy",
+    "pending_correction": "degraded",
+    "store_read_failure": "unavailable",
+    "tampered_chain": "unsafe-to-execute"
+  },
+  "limitations": [
+    "Local SQLite and in-process faults; no hardware failure or physical host outage.",
+    "A healthy point-in-time result is not an action authorization or a lock.",
+    "Local chain verification does not replace an off-host trusted checkpoint."
+  ],
+  "observed_levels": {
+    "healthy": "healthy",
+    "pending_correction": "degraded",
+    "store_read_failure": "unavailable",
+    "tampered_chain": "unsafe-to-execute"
+  },
+  "passed": true,
+  "schema": "memory-fabric-health-fault-matrix/1",
+  "scope": "local fault injection"
+}

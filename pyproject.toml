@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "memory-fabric"
-version = "0.14.0"
+version = "0.19.0"
 description = "Trust infrastructure for collective intelligence."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -35,6 +35,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+test = ["pytest==9.0.3", "psutil>=5.9", "setuptools>=77"]
 documents = ["pypdf>=6.0,<7"]
 # Adapters only. `ollama` needs nothing — it speaks HTTP over urllib.
 claude = ["anthropic>=0.40"]
@@ -46,6 +47,8 @@ langchain = ["langchain-core>=0.3"]
 # AES-256-GCM from a maintained library; required by the production crypto
 # profile (MEMORY_FABRIC_CRYPTO_PROFILE=production).
 crypto = ["cryptography>=42"]
+# Standards-based OAuth 2.0 JWT access-token validation for agent-api.
+oauth = ["PyJWT[crypto]>=2.10,<3"]
 # Trained retrieval (memory_fabric.retrievers): ONNX models on CPU, no PyTorch.
 retrieval = ["fastembed>=0.5"]
 # The same with sentence-transformers, for teams already on PyTorch or a GPU.

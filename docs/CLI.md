@@ -33,6 +33,11 @@ WRITES: serve agents over authenticated HTTP (recall, fetch, verify, remember), 
 - `--behind-tls`: allow a non-loopback bind because TLS terminates in front
 - `--rate-limit`: requests a second per agent, on average (0 turns it off)
 - `--burst`: requests per agent at once
+- `--max-request-bytes`: maximum HTTP request body size
+- `--max-workers`: maximum concurrent agent API request workers
+- `--max-memories`: maximum memories in this store
+- `--max-retention-actions`: maximum lifecycle actions in one retention sweep
+- `--oidc-config`: optional OAuth/OIDC JWT resource-server configuration JSON
 - `--no-maintain`: do not run the background memory manager in this process
 - `--maintain-interval`: seconds between background maintenance cycles
 - `--peers`: JSON peer list for retraction delivery (or $MEMORY_FABRIC_PEERS)
@@ -150,6 +155,7 @@ Build an agent's context bundle under a token budget and record its receipt (WRI
 - `--agent`: the agent the context is for
 - `--query`: what the agent is working on (stored only as a digest)
 - `--budget`: token budget (estimated as characters / 4)
+- `--disagreement-budget`: estimated-token cap for disagreement alternatives (default 256)
 - `--mode`: auto picks exact for numbers, ids and dates, else balanced
 - `--limit`: how many receipts to list
 - `--node`: a decay-view node LO-HI, for zoom and summarise
@@ -177,6 +183,9 @@ WRITES: seed a demonstration store
 
 Whether this installation's answers can be believed (exit 0/1/5)
 
+- `--host`: host to probe with --port (default 127.0.0.1)
+- `--port`: optionally check that the planned service port is available
+- `--min-free-mb`: optionally require this much free space beside the local store
 - `--webhook`: POST a JSON alert here when the store is not sound
 - `--webhook-on`: alert on failures only (default), or on warnings too
 
@@ -199,6 +208,19 @@ WRITES: crypto-erase one memory's content (provenance and audit stay), then repo
 What an erasure of one memory reached, kept, and could not reach
 
 - `id`: the memory whose erasure you are scoping
+
+### `explain`
+
+Explain a refusal reason or inspect the checks for a recorded action
+
+- `reason_code`: known refusal reason code
+- `--action`: inspect one recorded action sequence without printing memory content
+
+### `export-erasure-ledger`
+
+Export content-free erasure ids for safe reconciliation of older backups
+
+- `path`: where to write the protected ledger
 
 ### `federate`
 
@@ -409,6 +431,7 @@ WRITES: restore a backup made with `backup`, after checking its manifest
 
 - `backup`: the backup file (its .manifest.json must be beside it)
 - `dest`: directory to restore into; must not exist
+- `--erasure-ledger`: current content-free ledger exported from the source store
 
 ### `retention`
 
@@ -479,6 +502,12 @@ Why the system remembers one memory
 
 - `id`: the memory id
 
+### `support-bundle`
+
+WRITES: export aggregate schema and health metrics without memory content, identifiers, tenant metadata, keys or event payloads
+
+- `--out`: path to the JSON support bundle
+
 ### `suspicious`
 
 Memories whose claim contradicts what the store knows: a corrected value restated, a value far out of range, or a contradiction of an established fact
@@ -495,6 +524,12 @@ Which tenants this store holds
 The whole idea in sixty seconds: one fact, four agents, one correction
 
 - `--fast`: print it at once, without pauses
+
+### `upgrade-preview`
+
+Read-only SQLite schema compatibility diagnosis; performs no migration
+
+- `database`: SQLite database path (defaults to global --db)
 
 ### `validate`
 

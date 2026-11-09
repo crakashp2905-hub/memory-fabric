@@ -1,0 +1,239 @@
+{
+  "schema": "memory-fabric-mutation-qualification/1",
+  "source_commit": "b72d50b6a64737b14ffbc60da2eff43ffc4de490",
+  "source_worktree_dirty": false,
+  "source_files_sha256": {
+    "src/memory_fabric/_fabric/lifecycle.py": "afa8958e104c149160ee4f442450ed3f0a5feb14b7319c5e4fe841fba286fa45",
+    "src/memory_fabric/_fabric/retrieval.py": "dff68d8e6d98e401470a7a6c986e4b0b914cc3213ba1dc3c3953abb2947ffc84",
+    "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
+    "src/memory_fabric/authority.py": "d008557dde7b1fcf038a8112c67c7c6ac49e607c4ed87d6e79f18bdde4226d14",
+    "src/memory_fabric/compaction.py": "f6e795697fbbb213858925fbae1b51db97f112b85875c6c7ca978853752beec0",
+    "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
+    "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
+    "src/memory_fabric/governance/erasure.py": "8a7fc4bdac5837a3d09a42c50dd1aaa57a2d80a09e63078bd0a6b4b2fbb067ac",
+    "src/memory_fabric/identity.py": "6cbb4357d1226110c86fb26f8b3cb1ce8f65d06f5b6c6103c9185192a7291a78",
+    "src/memory_fabric/limits.py": "854a798ecb6b025104510f660b1f06c393a3b723b25a3d35e3ea88eb818a889d",
+    "src/memory_fabric/model.py": "8e0aec8a3db5d0ad3a7d57d5655cdc42b1666d534edf80ec14c3fa426113cbd4",
+    "src/memory_fabric/transport.py": "17e9073afed67dc86b073f3017d8c9630370dd1f8d4acb9c6186069922df34e3",
+    "src/memory_fabric/validation.py": "46927ebe54d291d865f1e9e0001d24cef624a6f5f6bf1b00faf599309f0427d3"
+  },
+  "mutants_total": 21,
+  "mutants_killed": 21,
+  "survivors": 0,
+  "results": [
+    {
+      "name": "action-time check ignores visibility (F15)",
+      "path": "src/memory_fabric/enforcement.py",
+      "tests": [
+        "tests.test_visibility_at_action",
+        "tests.test_access_matrix"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.91
+    },
+    {
+      "name": "a token works for any agent",
+      "path": "src/memory_fabric/enforcement.py",
+      "tests": [
+        "tests.test_enforcement"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.87
+    },
+    {
+      "name": "an expired token is accepted",
+      "path": "src/memory_fabric/enforcement.py",
+      "tests": [
+        "tests.test_enforcement"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.882
+    },
+    {
+      "name": "the enforced read ignores the tenant",
+      "path": "src/memory_fabric/enforcement.py",
+      "tests": [
+        "tests.test_enforcement_tenant"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.774
+    },
+    {
+      "name": "private memories visible to everyone",
+      "path": "src/memory_fabric/model.py",
+      "tests": [
+        "tests.test_scope_visibility",
+        "tests.test_access_matrix"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 1.955
+    },
+    {
+      "name": "an ungranted agent may call a protected tool",
+      "path": "src/memory_fabric/actions.py",
+      "tests": [
+        "tests.test_action_fence",
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 3.766
+    },
+    {
+      "name": "an expired grant is accepted",
+      "path": "src/memory_fabric/actions.py",
+      "tests": [
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.889
+    },
+    {
+      "name": "a used grant can be replayed",
+      "path": "src/memory_fabric/actions.py",
+      "tests": [
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.883
+    },
+    {
+      "name": "a grant covers a different action",
+      "path": "src/memory_fabric/actions.py",
+      "tests": [
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.914
+    },
+    {
+      "name": "a crash mid-action is treated as never attempted",
+      "path": "src/memory_fabric/actions.py",
+      "tests": [
+        "tests.test_action_crash"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 2.488
+    },
+    {
+      "name": "a forwarded retraction is verified with the origin's key (F16)",
+      "path": "src/memory_fabric/transport.py",
+      "tests": [
+        "tests.test_transport_auth"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.755
+    },
+    {
+      "name": "a retraction's signature is not checked",
+      "path": "src/memory_fabric/transport.py",
+      "tests": [
+        "tests.test_transport_auth"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.75
+    },
+    {
+      "name": "copies may outrun their retraction (no hop limit)",
+      "path": "src/memory_fabric/federation.py",
+      "tests": [
+        "tests.test_federation_reach"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 1.047
+    },
+    {
+      "name": "a corrected value restated is not flagged",
+      "path": "src/memory_fabric/validation.py",
+      "tests": [
+        "tests.test_validation"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.879
+    },
+    {
+      "name": "authority is not inherited from sources",
+      "path": "src/memory_fabric/authority.py",
+      "tests": [
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.902
+    },
+    {
+      "name": "an author may elevate its own memory",
+      "path": "src/memory_fabric/_fabric/lifecycle.py",
+      "tests": [
+        "tests.test_authority"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.896
+    },
+    {
+      "name": "no payload limit",
+      "path": "src/memory_fabric/limits.py",
+      "tests": [
+        "tests.test_limits"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.798
+    },
+    {
+      "name": "permissions are not enforced",
+      "path": "src/memory_fabric/identity.py",
+      "tests": [
+        "tests.test_permissions"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.822
+    },
+    {
+      "name": "erasure leaves the content key usable",
+      "path": "src/memory_fabric/governance/erasure.py",
+      "tests": [
+        "tests.test_erasure_key_destroy"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 1.089
+    },
+    {
+      "name": "a summary may drop recorded values",
+      "path": "src/memory_fabric/compaction.py",
+      "tests": [
+        "tests.test_compaction"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.856
+    },
+    {
+      "name": "a hostile source is not withheld",
+      "path": "src/memory_fabric/_fabric/retrieval.py",
+      "tests": [
+        "tests.test_source_notice.InProcess"
+      ],
+      "status": "KILLED",
+      "severity": "CRITICAL",
+      "elapsed_seconds": 0.978
+    }
+  ],
+  "prioritized_backlog": []
+}

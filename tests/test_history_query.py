@@ -30,6 +30,35 @@ class HistoricalReads(unittest.TestCase):
         exposure = list(self.f.log.read_types([EventType.EXPOSURE_DECIDED]))[-1]
         self.assertEqual(exposure.payload["propensity"], 1.0)
 
+    def test_late_correction_does_not_rewrite_belief_or_restore_current_access(self):
+        mid = self.remember("The inspection limit is 10 bar.", valid_from=100)
+        original_seq = self.f.log.head_seq
+
+        # This correction arrives later in transaction time. It must not
+        # rewrite the old snapshot selected at the same domain-valid time.
+        self.f.revise(
+            mid,
+            "The inspection limit is 12 bar.",
+            reason="late laboratory correction",
+            agent_id="writer",
+        )
+        corrected_seq = self.f.log.head_seq
+
+        before = query(self.f, "reader", [mid], known_at=original_seq, valid_at=150)
+        after = query(self.f, "reader", [mid], known_at=corrected_seq, valid_at=150)
+        self.assertEqual(before.rows[0].content, "The inspection limit is 10 bar.")
+        self.assertEqual(before.rows[0].version, 1)
+        self.assertEqual(after.rows[0].content, "The inspection limit is 12 bar.")
+        self.assertEqual(after.rows[0].version, 2)
+
+        # Transaction-time reconstruction is archival, never an escape hatch
+        # around present-day lifecycle authorization.
+        self.f.quarantine(mid, reason="access withdrawn", actor="reviewer")
+        self.assertEqual(
+            query(self.f, "reader", [mid], known_at=original_seq, valid_at=150).rows,
+            [],
+        )
+
     def test_current_retraction_and_erasure_override_historical_visibility(self):
         revoked = self.remember()
         erased = self.remember("The spare limit is 9 bar.")

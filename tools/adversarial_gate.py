@@ -18,13 +18,18 @@ push.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
+import platform
 import sys
+import tempfile
 import time
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REGISTRY_PATH = ROOT / "tests" / "data" / "adversarial_family_registry.json"
 
 FAMILIES: dict[str, tuple[str, ...]] = {
     "injection": ("tests.test_injection_patterns", "tests.test_directive"),
@@ -61,6 +66,51 @@ FAMILIES: dict[str, tuple[str, ...]] = {
 }
 
 
+def validate_registry(families: dict[str, tuple[str, ...]],
+                      registry: dict[str, object]) -> None:
+    """Require the executable gate table to match the frozen family manifest."""
+    if registry.get("schema") != "memory-fabric-adversarial-family-registry/1":
+        raise ValueError("unknown adversarial family registry schema")
+    rows = registry.get("families")
+    if not isinstance(rows, list):
+        raise ValueError("adversarial registry families must be a list")
+    expected: dict[str, tuple[str, ...]] = {}
+    for row in rows:
+        if not isinstance(row, dict) or not isinstance(row.get("name"), str):
+            raise ValueError("each registry row requires a family name")
+        name = row["name"]
+        tests = row.get("tests")
+        if not isinstance(tests, list) or not tests or any(not isinstance(t, str) for t in tests):
+            raise ValueError(f"{name}: registry must name one or more test selectors")
+        if name in expected:
+            raise ValueError(f"duplicate attack family: {name}")
+        expected[name] = tuple(tests)
+    if set(families) != set(expected):
+        raise ValueError("attack family set differs from frozen registry: "
+                         f"missing={sorted(set(expected) - set(families))}, "
+                         f"unexpected={sorted(set(families) - set(expected))}")
+    for name, selectors in expected.items():
+        if families[name] != selectors:
+            raise ValueError(f"{name}: executable test selectors differ from frozen registry")
+
+
+def configure_temp(path: Path | None) -> str:
+    """Use an explicit writable temp root for Windows/app-container runs."""
+
+    if path is None:
+        return str(Path(tempfile.gettempdir()).resolve())
+    resolved = path.resolve()
+    resolved.mkdir(parents=True, exist_ok=True)
+    probe = resolved / ".memory-fabric-write-probe"
+    probe.write_bytes(b"ok")
+    probe.unlink()
+    value = str(resolved)
+    os.environ["TEMP"] = value
+    os.environ["TMP"] = value
+    tempfile.tempdir = value
+    return value
+
+
 def run_family(names: tuple[str, ...]) -> dict[str, object]:
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
@@ -85,19 +135,47 @@ def run_family(names: tuple[str, ...]) -> dict[str, object]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--report", type=Path, default=None)
+    parser.add_argument("--validate-only", action="store_true",
+                        help="validate frozen family names/selectors without running attacks")
+    parser.add_argument(
+        "--temp-dir", type=Path, default=None,
+        help="explicit writable temp root (recommended in Windows app containers)",
+    )
     args = parser.parse_args(argv)
+    temp_dir = configure_temp(args.temp_dir)
+    registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    validate_registry(FAMILIES, registry)
+    registry_sha256 = hashlib.sha256(REGISTRY_PATH.read_bytes()).hexdigest()
+    if args.validate_only:
+        print(json.dumps({"schema": "memory-fabric-adversarial-registry-check/1",
+                          "family_count": len(FAMILIES),
+                          "registry_sha256": registry_sha256, "passed": True}, indent=2))
+        return 0
     sys.path.insert(0, str(ROOT / "src"))
     sys.path.insert(0, str(ROOT))
-    report = {family: run_family(names) for family, names in FAMILIES.items()}
-    failed = [f for f, r in report.items() if not r["passed"]]
-    for family, r in report.items():
+    families = {family: run_family(names) for family, names in FAMILIES.items()}
+    failed = [f for f, r in families.items() if not r["passed"]]
+    for family, r in families.items():
         mark = "PASS" if r["passed"] else "FAIL"
         print(f"{mark}  {family:48s} {r['tests']:4d} tests  {r['seconds']:6.2f}s")
         for line in [*r["failures"], *r["errors"]][:5]:  # type: ignore[misc]
             print(f"        {line}")
     if args.report:
-        args.report.write_text(json.dumps({"families": report, "failed": failed}, indent=2),
-                               encoding="utf-8")
+        report = {
+            "schema": "memory-fabric-adversarial-gate/2",
+            "environment": {
+                "platform": platform.platform(),
+                "machine": platform.machine(),
+                "python": platform.python_version(),
+                "temp_dir": temp_dir,
+            },
+            "registry": {"path": REGISTRY_PATH.relative_to(ROOT).as_posix(),
+                         "sha256": registry_sha256, "family_count": len(FAMILIES)},
+            "families": families,
+            "failed": failed,
+            "passed": not failed,
+        }
+        args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"\n{'release gate FAILED: ' + ', '.join(failed) if failed else 'release gate passed'}")
     return 1 if failed else 0
 

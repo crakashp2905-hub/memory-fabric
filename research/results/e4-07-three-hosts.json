@@ -1,0 +1,81 @@
+{
+  "schema": "memory-fabric-e4-07-three-logical-hosts/1",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "host_processes": {
+    "origin": 10344,
+    "recipient-a": 15860,
+    "recipient-b": 18452
+  },
+  "stores": {
+    "origin": {
+      "store_id": "st_01M6VJVTS5R8YAV40PM4ZQ9WXV",
+      "database": "origin.db",
+      "endpoint": "http://127.0.0.1:56190"
+    },
+    "recipient-a": {
+      "store_id": "st_01M6VJVVEPMNSDA5VMJXS4QE04",
+      "database": "recipient-a.db",
+      "endpoint": "http://127.0.0.1:56191"
+    },
+    "recipient-b": {
+      "store_id": "st_01M6VJVW2HM7CK49TVTF0PS420",
+      "database": "recipient-b.db",
+      "endpoint": "http://127.0.0.1:56192"
+    }
+  },
+  "scenario": {
+    "offered_over_authenticated_http": 2,
+    "retraction_recipients": 2,
+    "partitioned_host": "recipient-b",
+    "recipient_b_restarted_with_same_store": true,
+    "b_pid_before": 21656,
+    "b_pid_after": 18452
+  },
+  "offline_delivery": {
+    "report": {
+      "attempted": 2,
+      "enforced": 1,
+      "retrying": 1
+    },
+    "states": {
+      "recipient-a": "enforced",
+      "recipient-b": "retrying"
+    },
+    "acknowledged_recipients": [
+      "st_01M6VJVVEPMNSDA5VMJXS4QE04"
+    ]
+  },
+  "after_rejoin": {
+    "report": {
+      "attempted": 1,
+      "enforced": 1,
+      "retrying": 0
+    },
+    "acknowledgements": {
+      "recipient-a": {
+        "state": "enforced",
+        "state_revision": 1
+      },
+      "recipient-b": {
+        "state": "enforced",
+        "state_revision": 1
+      }
+    },
+    "pending_outbox_rows": 0,
+    "recipient_lifecycle": {
+      "recipient-a": "quarantined",
+      "recipient-b": "quarantined"
+    },
+    "recipient_origin_cursors": {
+      "recipient-a": 1,
+      "recipient-b": 1
+    },
+    "expected_origin_sequence": 1
+  },
+  "passed": true,
+  "limitations": [
+    "Three logical hosts are separate localhost processes with distinct SQLite files, all on one physical machine.",
+    "The partition is modeled by stopping recipient B's server process; this does not emulate packet loss, bandwidth limits, or clock skew."
+  ],
+  "commit": "061315b9b7126d93e7985a8a22d9e73ff3997f2f"
+}

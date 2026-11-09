@@ -1,0 +1,94 @@
+{
+  "schema": "mf-local-qualification-summary/1",
+  "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
+  "source_worktree_clean_at_check_start": false,
+  "generated_documents_dirty_after_check": true,
+  "checks": {
+    "generated_docs_and_test_counts": "PASS",
+    "canonical_branding": "PASS",
+    "ruff": "PASS",
+    "mypy": {
+      "status": "PASS",
+      "errors": 0,
+      "files": 176,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "secret_scan": {
+      "status": "PASS",
+      "unexpected_findings": 0,
+      "findings_examined": 127,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "security_ast_scan": {
+      "status": "PASS",
+      "modules_scanned": 16,
+      "findings": 0,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "internal_security_findings_gate": {
+      "status": "PASS",
+      "local_blockers": [],
+      "external_review_complete": false,
+      "evidence": "research/results/h5-10-internal-security-findings.json"
+    },
+    "documentation_tests": {
+      "status": "PASS",
+      "tests": 26,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "socket_security_regressions": {
+      "status": "PASS",
+      "tests": 6,
+      "evidence": "research/results/p5-02-local-checks.txt"
+    },
+    "adversarial_gate": {
+      "status": "PASS",
+      "families_total": 21,
+      "families_passed": 21,
+      "tests_run": 279,
+      "failed_families": [],
+      "evidence": "research/results/p5-02-adversarial-gate.json"
+    },
+    "full_unittest_discovery": {
+      "status": "PASS_WITH_DISCLOSED_CAPABILITY_SKIPS",
+      "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
+      "tests_run": 2458,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 17,
+      "duration_seconds": 1157.399,
+      "evidence": "research/results/p5-02-full-unit-tests.txt",
+      "skip_breakdown": {
+        "anthropic_sdk_missing": 5,
+        "postgres_service_not_configured": 7,
+        "agents_sdk_framework_contract_missing": 1,
+        "posix_only_on_windows": 4
+      }
+    },
+    "pip_audit": {
+      "status": "UNAVAILABLE",
+      "reason": "not installed in this environment"
+    },
+    "bandit": {
+      "status": "UNAVAILABLE",
+      "reason": "not installed in this environment"
+    },
+    "optional_production_defaults_audit": {
+      "status": "PASS",
+      "evidence": "research/results/h5-09-production-defaults.json"
+    },
+    "quick_check_suite": {
+      "status": "PASS",
+      "exit_code": 0,
+      "source_commit": "cc2d1610c54fd71f623e4dc4481d2cfbcdba87bc",
+      "command": "python tools/check.py (localhost sockets; workspace-local temp)",
+      "evidence": "research/results/p5-02-local-checks.txt"
+    }
+  },
+  "qualification": "PASS_WITH_DISCLOSED_CAPABILITY_GAPS",
+  "limitations": [
+    "Full suite disclosed 17 capability/platform skips: Anthropic SDK 5; PostgreSQL service 7; Agents SDK framework runtime 1; POSIX-only Windows 4.",
+    "pip-audit and bandit are unavailable and are reported as such; neither is counted green.",
+    "Independent external security review remains a separate open requirement; these local checks are not certification."
+  ]
+}

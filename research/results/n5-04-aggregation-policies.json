@@ -1,0 +1,698 @@
+{
+  "schema": "memory-fabric-n5-04-aggregation-policies/1",
+  "task_id": "N5-04",
+  "acceptance_passed": true,
+  "evidence_level": "SIMULATED",
+  "source": {
+    "commit": "cfaabfb1e688369aef709340bfdbd09180c374b0",
+    "dirty_before_result_write": false,
+    "script_sha256": "206f1f7fe50635149c2e59f6bd564849ce020175981aa7c2c1bf303a9e6100b0"
+  },
+  "protocol": "research/prereg/n5-04-aggregation-policies-v1.md",
+  "pilot": {
+    "seed": 200,
+    "report_sha256": "7d327d63f1d7604b7052c54fc1a81d3fb78ef51613d2560c6d79dd0e2474fa42",
+    "summary": {
+      "majority": {
+        "task_count": 100,
+        "mean_utility": 0.24,
+        "accuracy_decisive": 0.6224489795918368,
+        "coverage": 0.98,
+        "action_errors": 37,
+        "wrong_decision_rate": 0.37755102040816324,
+        "abstentions": 2,
+        "minority_task_count": 14,
+        "minority_recovery": 0.0,
+        "convergence_rate": 1.0,
+        "mean_convergence_wave": 2.35
+      },
+      "reputation": {
+        "task_count": 100,
+        "mean_utility": 0.28,
+        "accuracy_decisive": 0.64,
+        "coverage": 1.0,
+        "action_errors": 36,
+        "wrong_decision_rate": 0.36,
+        "abstentions": 0,
+        "minority_task_count": 14,
+        "minority_recovery": 0.0,
+        "convergence_rate": 1.0,
+        "mean_convergence_wave": 2.71
+      },
+      "independent_root": {
+        "task_count": 100,
+        "mean_utility": 0.53,
+        "accuracy_decisive": 0.8271604938271605,
+        "coverage": 0.81,
+        "action_errors": 14,
+        "wrong_decision_rate": 0.1728395061728395,
+        "abstentions": 19,
+        "minority_task_count": 14,
+        "minority_recovery": 0.0,
+        "convergence_rate": 1.0,
+        "mean_convergence_wave": 2.35
+      },
+      "evidence_quality": {
+        "task_count": 100,
+        "mean_utility": 0.82,
+        "accuracy_decisive": 0.91,
+        "coverage": 1.0,
+        "action_errors": 9,
+        "wrong_decision_rate": 0.09,
+        "abstentions": 0,
+        "minority_task_count": 14,
+        "minority_recovery": 0.6428571428571429,
+        "convergence_rate": 1.0,
+        "mean_convergence_wave": 1.68
+      },
+      "oracle": {
+        "task_count": 100,
+        "mean_utility": 1.0,
+        "accuracy_decisive": 1.0,
+        "coverage": 1.0,
+        "action_errors": 0,
+        "wrong_decision_rate": 0.0,
+        "abstentions": 0,
+        "minority_task_count": 14,
+        "minority_recovery": 1.0,
+        "convergence_rate": 1.0,
+        "mean_convergence_wave": 1.0
+      }
+    },
+    "paired_bootstrap": {
+      "replicates": 10000,
+      "policy_mean_utility_95ci": {
+        "majority": [
+          0.05,
+          0.43
+        ],
+        "reputation": [
+          0.1,
+          0.46
+        ],
+        "independent_root": [
+          0.38,
+          0.67
+        ],
+        "evidence_quality": [
+          0.7,
+          0.92
+        ]
+      },
+      "evidence_quality_minus_best_baseline_95ci": [
+        0.33999999999999997,
+        0.74
+      ],
+      "headroom_share_95ci": [
+        0.5588235294117647,
+        0.8947368421052632
+      ],
+      "bootstrap_seed": 50200
+    },
+    "stopped_for_metric_degeneracy": false
+  },
+  "held_out": [
+    {
+      "seed": 201,
+      "task_count": 500,
+      "report_sha256": "2dd7f5567b1fda163230b2a43b4ffa3b2089ce46daf7872c5757129f95a9aec6",
+      "summary": {
+        "majority": {
+          "task_count": 500,
+          "mean_utility": 0.304,
+          "accuracy_decisive": 0.6557377049180328,
+          "coverage": 0.976,
+          "action_errors": 168,
+          "wrong_decision_rate": 0.3442622950819672,
+          "abstentions": 12,
+          "minority_task_count": 42,
+          "minority_recovery": 0.023809523809523808,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.056
+        },
+        "reputation": {
+          "task_count": 500,
+          "mean_utility": 0.3,
+          "accuracy_decisive": 0.65,
+          "coverage": 1.0,
+          "action_errors": 175,
+          "wrong_decision_rate": 0.35,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 0.047619047619047616,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.84
+        },
+        "independent_root": {
+          "task_count": 500,
+          "mean_utility": 0.656,
+          "accuracy_decisive": 0.8980582524271845,
+          "coverage": 0.824,
+          "action_errors": 42,
+          "wrong_decision_rate": 0.10194174757281553,
+          "abstentions": 88,
+          "minority_task_count": 42,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.224
+        },
+        "evidence_quality": {
+          "task_count": 500,
+          "mean_utility": 0.816,
+          "accuracy_decisive": 0.908,
+          "coverage": 1.0,
+          "action_errors": 46,
+          "wrong_decision_rate": 0.092,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 0.4523809523809524,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.436
+        },
+        "oracle": {
+          "task_count": 500,
+          "mean_utility": 1.0,
+          "accuracy_decisive": 1.0,
+          "coverage": 1.0,
+          "action_errors": 0,
+          "wrong_decision_rate": 0.0,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 1.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.0
+        }
+      },
+      "paired_bootstrap": {
+        "replicates": 10000,
+        "policy_mean_utility_95ci": {
+          "majority": [
+            0.22,
+            0.388
+          ],
+          "reputation": [
+            0.216,
+            0.384
+          ],
+          "independent_root": [
+            0.6,
+            0.708
+          ],
+          "evidence_quality": [
+            0.764,
+            0.864
+          ]
+        },
+        "evidence_quality_minus_best_baseline_95ci": [
+          0.41400000000000003,
+          0.5920000000000001
+        ],
+        "headroom_share_95ci": [
+          0.6498516320474778,
+          0.8041237113402062
+        ],
+        "bootstrap_seed": 50201
+      }
+    },
+    {
+      "seed": 202,
+      "task_count": 500,
+      "report_sha256": "ec545fa6aa33a34ed42c30ddd2f22905aff35ef651de9c55848f2cbb76c003a4",
+      "summary": {
+        "majority": {
+          "task_count": 500,
+          "mean_utility": 0.304,
+          "accuracy_decisive": 0.6551020408163265,
+          "coverage": 0.98,
+          "action_errors": 169,
+          "wrong_decision_rate": 0.3448979591836735,
+          "abstentions": 10,
+          "minority_task_count": 50,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.1
+        },
+        "reputation": {
+          "task_count": 500,
+          "mean_utility": 0.324,
+          "accuracy_decisive": 0.6619999999999999,
+          "coverage": 1.0,
+          "action_errors": 169,
+          "wrong_decision_rate": 0.338,
+          "abstentions": 0,
+          "minority_task_count": 50,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.35
+        },
+        "independent_root": {
+          "task_count": 500,
+          "mean_utility": 0.64,
+          "accuracy_decisive": 0.8809523809523809,
+          "coverage": 0.84,
+          "action_errors": 50,
+          "wrong_decision_rate": 0.11904761904761904,
+          "abstentions": 80,
+          "minority_task_count": 50,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.278
+        },
+        "evidence_quality": {
+          "task_count": 500,
+          "mean_utility": 0.816,
+          "accuracy_decisive": 0.908,
+          "coverage": 1.0,
+          "action_errors": 46,
+          "wrong_decision_rate": 0.092,
+          "abstentions": 0,
+          "minority_task_count": 50,
+          "minority_recovery": 0.5,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.47
+        },
+        "oracle": {
+          "task_count": 500,
+          "mean_utility": 1.0,
+          "accuracy_decisive": 1.0,
+          "coverage": 1.0,
+          "action_errors": 0,
+          "wrong_decision_rate": 0.0,
+          "abstentions": 0,
+          "minority_task_count": 50,
+          "minority_recovery": 1.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.0
+        }
+      },
+      "paired_bootstrap": {
+        "replicates": 10000,
+        "policy_mean_utility_95ci": {
+          "majority": [
+            0.22,
+            0.388
+          ],
+          "reputation": [
+            0.24,
+            0.408
+          ],
+          "independent_root": [
+            0.58,
+            0.696
+          ],
+          "evidence_quality": [
+            0.764,
+            0.864
+          ]
+        },
+        "evidence_quality_minus_best_baseline_95ci": [
+          0.404,
+          0.58
+        ],
+        "headroom_share_95ci": [
+          0.6494252873563219,
+          0.8010471204188482
+        ],
+        "bootstrap_seed": 50202
+      }
+    },
+    {
+      "seed": 203,
+      "task_count": 500,
+      "report_sha256": "4a367bc747d50a95aa0407e91d6d249644b9e3813a5ef994f3dd203ca28e1f70",
+      "summary": {
+        "majority": {
+          "task_count": 500,
+          "mean_utility": 0.298,
+          "accuracy_decisive": 0.6536082474226804,
+          "coverage": 0.97,
+          "action_errors": 168,
+          "wrong_decision_rate": 0.3463917525773196,
+          "abstentions": 15,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0425531914893617,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.124
+        },
+        "reputation": {
+          "task_count": 500,
+          "mean_utility": 0.24,
+          "accuracy_decisive": 0.62,
+          "coverage": 1.0,
+          "action_errors": 190,
+          "wrong_decision_rate": 0.38,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0425531914893617,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.24
+        },
+        "independent_root": {
+          "task_count": 500,
+          "mean_utility": 0.626,
+          "accuracy_decisive": 0.8845208845208845,
+          "coverage": 0.814,
+          "action_errors": 47,
+          "wrong_decision_rate": 0.11547911547911548,
+          "abstentions": 93,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.35
+        },
+        "evidence_quality": {
+          "task_count": 500,
+          "mean_utility": 0.808,
+          "accuracy_decisive": 0.904,
+          "coverage": 1.0,
+          "action_errors": 48,
+          "wrong_decision_rate": 0.096,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 0.5106382978723404,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.518
+        },
+        "oracle": {
+          "task_count": 500,
+          "mean_utility": 1.0,
+          "accuracy_decisive": 1.0,
+          "coverage": 1.0,
+          "action_errors": 0,
+          "wrong_decision_rate": 0.0,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 1.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.0
+        }
+      },
+      "paired_bootstrap": {
+        "replicates": 10000,
+        "policy_mean_utility_95ci": {
+          "majority": [
+            0.218,
+            0.378
+          ],
+          "reputation": [
+            0.156,
+            0.324
+          ],
+          "independent_root": [
+            0.568,
+            0.682
+          ],
+          "evidence_quality": [
+            0.756,
+            0.86
+          ]
+        },
+        "evidence_quality_minus_best_baseline_95ci": [
+          0.42,
+          0.602
+        ],
+        "headroom_share_95ci": [
+          0.64375,
+          0.8005390835579514
+        ],
+        "bootstrap_seed": 50203
+      }
+    },
+    {
+      "seed": 204,
+      "task_count": 500,
+      "report_sha256": "eab5d2dd355e85f6ea41c0b49177603e95d97ec1b72e25da4de1454d3326d45f",
+      "summary": {
+        "majority": {
+          "task_count": 500,
+          "mean_utility": 0.29,
+          "accuracy_decisive": 0.6494845360824743,
+          "coverage": 0.97,
+          "action_errors": 170,
+          "wrong_decision_rate": 0.35051546391752575,
+          "abstentions": 15,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.054
+        },
+        "reputation": {
+          "task_count": 500,
+          "mean_utility": 0.284,
+          "accuracy_decisive": 0.642,
+          "coverage": 1.0,
+          "action_errors": 179,
+          "wrong_decision_rate": 0.358,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0425531914893617,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.23
+        },
+        "independent_root": {
+          "task_count": 500,
+          "mean_utility": 0.628,
+          "accuracy_decisive": 0.8848039215686274,
+          "coverage": 0.816,
+          "action_errors": 47,
+          "wrong_decision_rate": 0.11519607843137254,
+          "abstentions": 92,
+          "minority_task_count": 47,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.238
+        },
+        "evidence_quality": {
+          "task_count": 500,
+          "mean_utility": 0.82,
+          "accuracy_decisive": 0.91,
+          "coverage": 1.0,
+          "action_errors": 45,
+          "wrong_decision_rate": 0.09,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 0.48936170212765956,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.488
+        },
+        "oracle": {
+          "task_count": 500,
+          "mean_utility": 1.0,
+          "accuracy_decisive": 1.0,
+          "coverage": 1.0,
+          "action_errors": 0,
+          "wrong_decision_rate": 0.0,
+          "abstentions": 0,
+          "minority_task_count": 47,
+          "minority_recovery": 1.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.0
+        }
+      },
+      "paired_bootstrap": {
+        "replicates": 10000,
+        "policy_mean_utility_95ci": {
+          "majority": [
+            0.206,
+            0.372
+          ],
+          "reputation": [
+            0.2,
+            0.368
+          ],
+          "independent_root": [
+            0.57,
+            0.684
+          ],
+          "evidence_quality": [
+            0.768,
+            0.868
+          ]
+        },
+        "evidence_quality_minus_best_baseline_95ci": [
+          0.43400000000000005,
+          0.612
+        ],
+        "headroom_share_95ci": [
+          0.667605633802817,
+          0.8138297872340425
+        ],
+        "bootstrap_seed": 50204
+      }
+    },
+    {
+      "seed": 205,
+      "task_count": 500,
+      "report_sha256": "118939fd566f1868526653fe1200b0705dfeb0726e89b8b6d142b1038f7dc5a0",
+      "summary": {
+        "majority": {
+          "task_count": 500,
+          "mean_utility": 0.328,
+          "accuracy_decisive": 0.6673469387755102,
+          "coverage": 0.98,
+          "action_errors": 163,
+          "wrong_decision_rate": 0.3326530612244898,
+          "abstentions": 10,
+          "minority_task_count": 42,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.11
+        },
+        "reputation": {
+          "task_count": 500,
+          "mean_utility": 0.352,
+          "accuracy_decisive": 0.6759999999999999,
+          "coverage": 1.0,
+          "action_errors": 162,
+          "wrong_decision_rate": 0.324,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 0.023809523809523808,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.818
+        },
+        "independent_root": {
+          "task_count": 500,
+          "mean_utility": 0.654,
+          "accuracy_decisive": 0.8978102189781022,
+          "coverage": 0.822,
+          "action_errors": 42,
+          "wrong_decision_rate": 0.10218978102189781,
+          "abstentions": 89,
+          "minority_task_count": 42,
+          "minority_recovery": 0.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 2.3
+        },
+        "evidence_quality": {
+          "task_count": 500,
+          "mean_utility": 0.8,
+          "accuracy_decisive": 0.9,
+          "coverage": 1.0,
+          "action_errors": 50,
+          "wrong_decision_rate": 0.1,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 0.35714285714285715,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.522
+        },
+        "oracle": {
+          "task_count": 500,
+          "mean_utility": 1.0,
+          "accuracy_decisive": 1.0,
+          "coverage": 1.0,
+          "action_errors": 0,
+          "wrong_decision_rate": 0.0,
+          "abstentions": 0,
+          "minority_task_count": 42,
+          "minority_recovery": 1.0,
+          "convergence_rate": 1.0,
+          "mean_convergence_wave": 1.0
+        }
+      },
+      "paired_bootstrap": {
+        "replicates": 10000,
+        "policy_mean_utility_95ci": {
+          "majority": [
+            0.246,
+            0.408
+          ],
+          "reputation": [
+            0.272,
+            0.432
+          ],
+          "independent_root": [
+            0.598,
+            0.706
+          ],
+          "evidence_quality": [
+            0.744,
+            0.852
+          ]
+        },
+        "evidence_quality_minus_best_baseline_95ci": [
+          0.36000000000000004,
+          0.536
+        ],
+        "headroom_share_95ci": [
+          0.6050955414012739,
+          0.7688172043010753
+        ],
+        "bootstrap_seed": 50205
+      }
+    }
+  ],
+  "pooled_task_counts": {
+    "pilot_tasks": 100,
+    "held_out_tasks": 2500,
+    "held_out_minority_tasks": 228,
+    "held_out_seed_count": 5
+  },
+  "manifest": {
+    "path": "research/results/n5-04-aggregation-manifest.json",
+    "seeds": [
+      200,
+      201,
+      202,
+      203,
+      204,
+      205
+    ],
+    "sha256": "712fb2a28721a35f79333ab0324e71d7a5eb294efee7e705f950d44d382dad1b"
+  },
+  "confirmatory_contrast": {
+    "candidate": "evidence_quality",
+    "baseline": "best of majority and reputation",
+    "per_seed_headroom_share": [
+      0.7356321839080461,
+      0.7278106508875739,
+      0.7264957264957266,
+      0.7464788732394367,
+      0.6913580246913581
+    ],
+    "mean_headroom_share": 0.7255550918444282,
+    "registered_target": 0.25,
+    "target_met": true,
+    "interpretable": true
+  },
+  "configuration": {
+    "held_out_seeds": [
+      201,
+      202,
+      203,
+      204,
+      205
+    ],
+    "tasks_per_seed": 500,
+    "root_multiplicities": [
+      1,
+      1,
+      2,
+      2,
+      4,
+      4,
+      8,
+      8
+    ],
+    "quality_rates": {
+      "high": 0.85,
+      "medium": 0.65,
+      "low": 0.55
+    },
+    "waves": 8,
+    "synthetic_only": true
+  },
+  "tests": {
+    "junit": "research/results/n5-04-aggregation-tests.xml",
+    "reported_test_cases": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "Evidence-quality tiers are synthetic assumptions and do not estimate real source reliability.",
+    "Source-root deduplication is only as reliable as the benchmark's supplied provenance labels.",
+    "Reporter reputation is simulated from a separate calibration split and is not an operational trust score."
+  ]
+}

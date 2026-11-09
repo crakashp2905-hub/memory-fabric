@@ -1,0 +1,246 @@
+{
+  "agent_count": 50,
+  "budget_controls": {
+    "context_items_max": 1,
+    "external_tool_calls": 0,
+    "matched_across_arms": true,
+    "memory_cost_metric": "SQLite in-memory page_count \u00d7 page_size after run",
+    "retrieval_calls_per_agent_task": 2,
+    "simulated_decision_attempts_per_agent_task": 1,
+    "wall_time_budget_ms_per_run": 10000
+  },
+  "comparative_conclusion": {
+    "interpretation": "The fixed scripted benchmark exposes trade-offs; the oracle dominates Memory Fabric on measured objectives and no general superiority is claimed.",
+    "memory_fabric_dominated_by": [
+      "pooled_shared",
+      "oracle"
+    ],
+    "universal_superiority_claim": false
+  },
+  "decision": "PASS",
+  "dirty": false,
+  "dominated_by": {
+    "blanket_retraction": [
+      "oracle"
+    ],
+    "isolated": [
+      "oracle"
+    ],
+    "memory_fabric": [
+      "pooled_shared",
+      "oracle"
+    ],
+    "oracle": [],
+    "pooled_shared": [
+      "oracle"
+    ]
+  },
+  "frontier": [
+    "oracle"
+  ],
+  "input_sha256": {
+    "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+    "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+    "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
+    "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
+    "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Three seeds and deterministic scripted agents only.",
+    "Latency is local host wall time; the 10-second budget is a ceiling, not equalized runtime.",
+    "SQLite page allocation is a local storage-cost proxy, not production memory or dollar cost.",
+    "Only the fixed 50-agent condition and five policy arms are represented."
+  ],
+  "pareto_objectives": {
+    "maximize": [
+      "success_rate"
+    ],
+    "minimize": [
+      "unsafe_rate",
+      "mean_latency_ms",
+      "mean_memory_storage_bytes"
+    ]
+  },
+  "points": [
+    {
+      "arm": "isolated",
+      "attempts": 1200,
+      "external_tool_calls_per_run": [
+        0
+      ],
+      "false_abstentions": 0,
+      "mean_context_items_exposed": 300.0,
+      "mean_latency_ms": 549.1623333333333,
+      "mean_memory_storage_bytes": 629418.6666666666,
+      "memory_storage_bytes_by_seed": {
+        "701": 630784,
+        "709": 626688,
+        "719": 630784
+      },
+      "observed_run_latency_ms": [
+        579.706,
+        542.294,
+        525.487
+      ],
+      "retrieval_calls_per_run": [
+        800
+      ],
+      "simulated_decision_attempts_per_run": [
+        400
+      ],
+      "stale_actions": 300,
+      "success_rate": 0.5,
+      "unsafe_actions": 600,
+      "unsafe_rate": 0.5,
+      "wall_time_budget_ms_per_run": [
+        10000
+      ]
+    },
+    {
+      "arm": "pooled_shared",
+      "attempts": 1200,
+      "external_tool_calls_per_run": [
+        0
+      ],
+      "false_abstentions": 0,
+      "mean_context_items_exposed": 300.0,
+      "mean_latency_ms": 552.494,
+      "mean_memory_storage_bytes": 629418.6666666666,
+      "memory_storage_bytes_by_seed": {
+        "701": 630784,
+        "709": 626688,
+        "719": 630784
+      },
+      "observed_run_latency_ms": [
+        580.455,
+        558.955,
+        518.072
+      ],
+      "retrieval_calls_per_run": [
+        800
+      ],
+      "simulated_decision_attempts_per_run": [
+        400
+      ],
+      "stale_actions": 0,
+      "success_rate": 1.0,
+      "unsafe_actions": 0,
+      "unsafe_rate": 0.0,
+      "wall_time_budget_ms_per_run": [
+        10000
+      ]
+    },
+    {
+      "arm": "blanket_retraction",
+      "attempts": 1200,
+      "external_tool_calls_per_run": [
+        0
+      ],
+      "false_abstentions": 300,
+      "mean_context_items_exposed": 300.0,
+      "mean_latency_ms": 551.25,
+      "mean_memory_storage_bytes": 629418.6666666666,
+      "memory_storage_bytes_by_seed": {
+        "701": 630784,
+        "709": 626688,
+        "719": 630784
+      },
+      "observed_run_latency_ms": [
+        524.036,
+        549.167,
+        580.547
+      ],
+      "retrieval_calls_per_run": [
+        800
+      ],
+      "simulated_decision_attempts_per_run": [
+        400
+      ],
+      "stale_actions": 0,
+      "success_rate": 0.75,
+      "unsafe_actions": 0,
+      "unsafe_rate": 0.0,
+      "wall_time_budget_ms_per_run": [
+        10000
+      ]
+    },
+    {
+      "arm": "memory_fabric",
+      "attempts": 1200,
+      "external_tool_calls_per_run": [
+        0
+      ],
+      "false_abstentions": 0,
+      "mean_context_items_exposed": 300.0,
+      "mean_latency_ms": 1037.0863333333334,
+      "mean_memory_storage_bytes": 936618.6666666666,
+      "memory_storage_bytes_by_seed": {
+        "701": 933888,
+        "709": 942080,
+        "719": 933888
+      },
+      "observed_run_latency_ms": [
+        971.838,
+        1097.969,
+        1041.452
+      ],
+      "retrieval_calls_per_run": [
+        800
+      ],
+      "simulated_decision_attempts_per_run": [
+        400
+      ],
+      "stale_actions": 0,
+      "success_rate": 1.0,
+      "unsafe_actions": 0,
+      "unsafe_rate": 0.0,
+      "wall_time_budget_ms_per_run": [
+        10000
+      ]
+    },
+    {
+      "arm": "oracle",
+      "attempts": 1200,
+      "external_tool_calls_per_run": [
+        0
+      ],
+      "false_abstentions": 0,
+      "mean_context_items_exposed": 300.0,
+      "mean_latency_ms": 542.1703333333332,
+      "mean_memory_storage_bytes": 629418.6666666666,
+      "memory_storage_bytes_by_seed": {
+        "701": 630784,
+        "709": 626688,
+        "719": 630784
+      },
+      "observed_run_latency_ms": [
+        552.959,
+        567.155,
+        506.397
+      ],
+      "retrieval_calls_per_run": [
+        800
+      ],
+      "simulated_decision_attempts_per_run": [
+        400
+      ],
+      "stale_actions": 0,
+      "success_rate": 1.0,
+      "unsafe_actions": 0,
+      "unsafe_rate": 0.0,
+      "wall_time_budget_ms_per_run": [
+        10000
+      ]
+    }
+  ],
+  "population": "synthetic_scripted",
+  "repo_commit": "d828956b658a4f3feaf1e66449dabd604f9c3845",
+  "runs": 15,
+  "schema": "mf-r5-06-pareto-qualification/1",
+  "seeds": [
+    701,
+    709,
+    719
+  ]
+}

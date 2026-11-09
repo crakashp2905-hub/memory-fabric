@@ -1,0 +1,35 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P3-05",
+  "commit": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
+  "command": "python unittest: tests.test_backup_runbook + tests.test_backup_custody + tests.test_backup; tempfile.tempdir=.task-tmp",
+  "exit_code": 0,
+  "tests_run": 16,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 47.607,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "runbook_checkpoint_order": "PASS",
+    "backup_manifest_and_replay": "PASS",
+    "restore_erasure_reconciliation": "PASS",
+    "corruption_refusal": "PASS in backup custody tests",
+    "external_key_custody_caveat": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "Tested local SQLite fixtures on Windows/Python 3.13.5; no external KMS, network filesystem or disaster-recovery site was involved."
+  ],
+  "file_sha256": {
+    "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
+    "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+    "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
+    "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
+    "tests/test_backup_runbook.py": "9ddb2010ea4274af3e4ce1d9ccba1045070db275a07d91cd2802d70aea510f38",
+    "tests/test_backup_custody.py": "8f7d767d22f411c104d32ed51236c7c45eb501952627f6d23497cca0dea73df5",
+    "tests/test_backup.py": "f540e7935d211c9c49c5ccf0909ea91c36a5f41fbb1cf0561a1ced2f252c491b",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "83f3247d5989391379b9e876de2ff3d67536efeafd857346066699ffb5cc66a8"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-01",
+  "source_commit": "995d5da7c756d1909421ec82a053b154083c4327",
+  "input_sha256": {
+    "tests/test_write_fault_injection.py": "c613229b26d8353c10dcdfdba416da73f5e04a3a124f63158ed8679ae83803d9",
+    "src/memory_fabric/eventlog.py": "1d0450681eb840c45b23d59395cedc676fd4ffbf397ea05dd72cb204729230e9",
+    "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
+    "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48"
+  },
+  "checks": {
+    "append": "rollback consistent",
+    "correction": "rollback consistent",
+    "erase": "key/projection consistent",
+    "action_receipt": "effect may occur; attempt remains durable and receipt is unknown"
+  },
+  "limitations": [
+    "SQLite abort triggers target event append boundaries. External effects cannot be rolled back; reconcile/idempotently retry."
+  ],
+  "test_summary": {
+    "command": "H4-01",
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  }
+}

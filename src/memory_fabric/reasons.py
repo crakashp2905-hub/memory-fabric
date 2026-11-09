@@ -40,6 +40,9 @@ REASONS: dict[str, tuple[str, str]] = {
     "executed": ("Done: the action ran once, with its evidence re-checked at the moment it ran.", ""),
     "already_executed": ("Not repeated: an action with this idempotency key already ran.",
                          "Use the earlier result, or a new key for a genuinely new action."),
+    "idempotency_key_payload_mismatch": (
+        "Refused: this idempotency key was already used for a different action payload.",
+        "Use a fresh key; never reuse a key for a different target, parameters or evidence."),
     "failed": ("The action ran and failed; its evidence check had passed.",
                "Fix the tool error and retry with the same idempotency key."),
     "timed_out": ("The action did not finish in time.", "Check the target before retrying."),
@@ -84,6 +87,18 @@ REASONS: dict[str, tuple[str, str]] = {
     # Certificates and evidence
     "certificate_required": ("Refused: this tool needs an evidence certificate.",
                              "Certify the claim with the memories it rests on."),
+    "requirement_evidence_missing": (
+        "Refused: one or more required evidence conditions are not supported.",
+        "Provide evidence for each missing requirement before authorising the action."),
+    "requirement_explanation_limit": (
+        "Refused: the requirement explanation exceeded its configured safety limit.",
+        "Simplify the requirement graph or raise the reviewed explanation limit."),
+    "claim_evidence_not_supporting": (
+        "Refused: cited evidence does not support the claim required by this action.",
+        "Use evidence that establishes the exact required claim."),
+    "claim_evidence_disputed": (
+        "Refused: evidence for a required claim is disputed.",
+        "Resolve the dispute and certify the claim with current supporting evidence."),
     "certificate_expired": ("Refused: the evidence certificate has expired.",
                             "Certify again with current evidence."),
     "certificate_too_large": ("Refused: the certificate cites too much evidence.",
@@ -122,6 +137,9 @@ REASONS: dict[str, tuple[str, str]] = {
                                  "Re-derive it from the new version."),
     # Limits
     "payload_too_large": ("Refused: the request is too large.", "Send less at once."),
+    "memory_budget_exhausted": (
+        "Refused: the store has reached its configured memory limit.",
+        "Review retention and the memory budget before retrying the write."),
     "write_quota_exhausted": ("Refused: this agent has used its write allowance for now.",
                               "Wait, or raise the quota."),
     "federation_budget_exhausted": ("Refused: the federation budget for this peer is used up.",

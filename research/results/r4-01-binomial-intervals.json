@@ -1,0 +1,99 @@
+{
+  "cases": [
+    {
+      "case": "wilson_zero_of_20",
+      "observed": [
+        0.0,
+        0.16112516018512965
+      ],
+      "passed": true,
+      "reference": [
+        0.0,
+        0.16112516018512965
+      ]
+    },
+    {
+      "case": "wilson_half_of_20",
+      "observed": [
+        0.2992980068701797,
+        0.7007019931298203
+      ],
+      "passed": true,
+      "reference": [
+        0.2992980068701797,
+        0.7007019931298203
+      ]
+    },
+    {
+      "case": "wilson_all_of_20",
+      "observed": [
+        0.8388748398148705,
+        1.0
+      ],
+      "passed": true,
+      "reference": [
+        0.8388748398148705,
+        1.0
+      ]
+    },
+    {
+      "case": "wilson_zero_denominator",
+      "observed": [
+        0.0,
+        1.0
+      ],
+      "passed": true,
+      "reference": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "case": "exact_zero_event_upper_20",
+      "observed": [
+        0.13910834066826516
+      ],
+      "passed": true,
+      "reference": [
+        0.13910834066826516
+      ]
+    },
+    {
+      "case": "exact_zero_event_upper_100",
+      "observed": [
+        0.029513049607039932
+      ],
+      "passed": true,
+      "reference": [
+        0.029513049607039932
+      ]
+    },
+    {
+      "case": "exact_zero_event_upper_zero_denominator",
+      "observed": [
+        1.0
+      ],
+      "passed": true,
+      "reference": [
+        1.0
+      ]
+    }
+  ],
+  "decision": "PASS",
+  "dirty_tree": true,
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "input_sha256": {
+    "benchmarks/stats.py": "87387d40332c6e692d033cec01870431a9982924b6cb7a75bb630fcd4e1eeed0",
+    "tests/test_statistical_intervals.py": "48825ada19ae2068dac9a00c307bb0d71bc263e8ff4dbd420d74b6489e7ecc39",
+    "tools/qualify_statistical_intervals.py": "03be110eb87933c5764d081ad9ad530393d7d0d27f898cfa976701d6923a8681"
+  },
+  "limitations": [
+    "Reference-formula validation only; it does not establish workload-specific statistical power."
+  ],
+  "method": "Wilson score interval with z=1.959964; exact one-sided zero-event upper bound",
+  "schema": "mf-binomial-interval-reference-qualification/1",
+  "source_commit": "a207290eaa3deb3395ff9dc7336f2f883370081f"
+}

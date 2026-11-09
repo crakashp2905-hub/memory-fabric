@@ -1,0 +1,465 @@
+{
+  "agent_count": 50,
+  "arm_outcomes": [
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "ee86ce184679b230f18d014d90249c343e7795415589c5f304cb91ad16b2091c",
+      "arm": "isolated",
+      "condition": "randomized",
+      "seed": 701,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "notify",
+        "publish",
+        "archive"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "ee86ce184679b230f18d014d90249c343e7795415589c5f304cb91ad16b2091c",
+      "arm": "pooled_shared",
+      "condition": "randomized",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "publish",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "ee86ce184679b230f18d014d90249c343e7795415589c5f304cb91ad16b2091c",
+      "arm": "blanket_retraction",
+      "condition": "randomized",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "publish",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "ee86ce184679b230f18d014d90249c343e7795415589c5f304cb91ad16b2091c",
+      "arm": "memory_fabric",
+      "condition": "randomized",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "publish",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "ee86ce184679b230f18d014d90249c343e7795415589c5f304cb91ad16b2091c",
+      "arm": "oracle",
+      "condition": "randomized",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "publish",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "faed77b469cff4a5c2b090c4fd14813267b2478abfebfb179de1c70fca80f620",
+      "arm": "isolated",
+      "condition": "randomized",
+      "seed": 709,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "notify",
+        "archive",
+        "publish"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "faed77b469cff4a5c2b090c4fd14813267b2478abfebfb179de1c70fca80f620",
+      "arm": "pooled_shared",
+      "condition": "randomized",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "archive",
+        "publish"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "faed77b469cff4a5c2b090c4fd14813267b2478abfebfb179de1c70fca80f620",
+      "arm": "blanket_retraction",
+      "condition": "randomized",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "archive",
+        "publish"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "faed77b469cff4a5c2b090c4fd14813267b2478abfebfb179de1c70fca80f620",
+      "arm": "memory_fabric",
+      "condition": "randomized",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "archive",
+        "publish"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "faed77b469cff4a5c2b090c4fd14813267b2478abfebfb179de1c70fca80f620",
+      "arm": "oracle",
+      "condition": "randomized",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "notify",
+        "archive",
+        "publish"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "15483b7ef93318738f30eaa8423ab6f42dcde1b3bd190694eed6aed746884562",
+      "arm": "isolated",
+      "condition": "randomized",
+      "seed": 719,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "publish",
+        "notify",
+        "archive"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "15483b7ef93318738f30eaa8423ab6f42dcde1b3bd190694eed6aed746884562",
+      "arm": "pooled_shared",
+      "condition": "randomized",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "notify",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "15483b7ef93318738f30eaa8423ab6f42dcde1b3bd190694eed6aed746884562",
+      "arm": "blanket_retraction",
+      "condition": "randomized",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "notify",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "15483b7ef93318738f30eaa8423ab6f42dcde1b3bd190694eed6aed746884562",
+      "arm": "memory_fabric",
+      "condition": "randomized",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "notify",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "15483b7ef93318738f30eaa8423ab6f42dcde1b3bd190694eed6aed746884562",
+      "arm": "oracle",
+      "condition": "randomized",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "notify",
+        "archive"
+      ],
+      "unsafe_actions": 0
+    }
+  ],
+  "arms": [
+    "isolated",
+    "pooled_shared",
+    "blanket_retraction",
+    "memory_fabric",
+    "oracle"
+  ],
+  "control_arm_outcomes": [
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "isolated",
+      "condition": "ordinal_control",
+      "seed": 701,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "pooled_shared",
+      "condition": "ordinal_control",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "blanket_retraction",
+      "condition": "ordinal_control",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "memory_fabric",
+      "condition": "ordinal_control",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "oracle",
+      "condition": "ordinal_control",
+      "seed": 701,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "isolated",
+      "condition": "ordinal_control",
+      "seed": 709,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "pooled_shared",
+      "condition": "ordinal_control",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "blanket_retraction",
+      "condition": "ordinal_control",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "memory_fabric",
+      "condition": "ordinal_control",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "oracle",
+      "condition": "ordinal_control",
+      "seed": 709,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.5,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "isolated",
+      "condition": "ordinal_control",
+      "seed": 719,
+      "stale_actions": 100,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 200
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "pooled_shared",
+      "condition": "ordinal_control",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 0.75,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "blanket_retraction",
+      "condition": "ordinal_control",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "memory_fabric",
+      "condition": "ordinal_control",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    },
+    {
+      "accuracy": 1.0,
+      "agent_identity_order_sha256": "62b10cdca542e274991da70fe28a9ac378f01edd371e810e4dabfd014fbbc71b",
+      "arm": "oracle",
+      "condition": "ordinal_control",
+      "seed": 719,
+      "stale_actions": 0,
+      "tool_registry_order": [
+        "publish",
+        "archive",
+        "notify"
+      ],
+      "unsafe_actions": 0
+    }
+  ],
+  "decision": "PASS",
+  "dirty": false,
+  "input_sha256": {
+    "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+    "benchmarks/matched_agent_arms.py": "bbc3d1ed3dff89289989f475c2858bb7b069eba5ab858f225db3d596a242041d",
+    "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
+    "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
+    "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Three seeds and deterministic scripted agents only.",
+    "Tool-order variation is inert registry-order variation; only publish is authorized.",
+    "No external model or real-tool execution is evaluated."
+  ],
+  "permutation_tolerance_absolute_attempts": 0,
+  "population": "synthetic_scripted",
+  "randomization": {
+    "agent_ids": "seeded opaque identities; arm-matched within seed",
+    "answer_order": "adversarial answer-order coverage is in r4-05 fixture",
+    "task_order": "seed-shuffled registered manifests",
+    "tool_registry": "seed-shuffled catalog with three tools; only publish granted"
+  },
+  "repo_commit": "d828956b658a4f3feaf1e66449dabd604f9c3845",
+  "runs": 30,
+  "schema": "mf-r4-06-randomization-qualification/1",
+  "seeds": [
+    701,
+    709,
+    719
+  ]
+}

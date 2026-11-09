@@ -1,0 +1,26 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-06",
+  "commit": "718ad9ac8c9a14478903ed3e21ecc983b11eb5b8",
+  "command": "python -c unittest runner loading control-center, reconciliation, execution-receipt, and action-fence suites; tempfile.tempdir=.task-tmp",
+  "exit_code": 0,
+  "tests_run": 41,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 8.846,
+  "process_elapsed_seconds": 9.723,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "tests/test_control_center_ui.py": "80376a4cd67f63e4f71c801d60a391c5aa82c8291ad0b5e815587daf1ca8b0b2",
+    "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+    "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
+    "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
+    "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
+    "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
+    "src/memory_fabric/observability/server.py": "a115e9f6bb78708c0f1a137d05792e142ddce60ca8ec436f3ff86c90c169f96c",
+    "src/memory_fabric/observability/static/dashboard.html": "57955e2220b3df1888210a0b6e3b116276cc2037a98e058082f3af5519b40b3a",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "1895ba278222466d9225b5955843ad329db49e135cfae72d4fef579a9a371cfa"
+  },
+  "result_text_sha256": "231069fa069d9f167fb8f04a19667462af9d8352724fc1f5ca7e4bfc919f7794"
+}

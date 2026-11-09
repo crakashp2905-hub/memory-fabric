@@ -1,0 +1,26 @@
+{
+  "schema": "memory-fabric-example-validation/1",
+  "source_commit": "0bea6e617c3f922e78ba1b03717fb487279e7207",
+  "command": "python -m unittest tests.test_examples_run -v",
+  "tests_run": 1,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "duration_seconds": 6.154,
+  "examples": [
+    "quickstart",
+    "wrong_memory_demo",
+    "reference_agent",
+    "poisoning_and_rollback",
+    "action_gate",
+    "multi_agent_team",
+    "agent_on_the_fabric"
+  ],
+  "model_or_endpoint_required": false,
+  "ci_workflow": ".github/workflows/ci.yml (pytest tests -q)",
+  "log_path": "research/results/p1-02-example-tests.txt",
+  "log_sha256": "c2c7fe8c33afe2560701fabf17d38fa9115fd706e9e45dd85a99a2165a7bf026",
+  "notes": [
+    "Examples use deterministic scripted fixtures; no hosted model or external endpoint."
+  ]
+}

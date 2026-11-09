@@ -1,0 +1,25 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-10",
+  "source_commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
+  "input_sha256": {
+    "src/memory_fabric/incident.py": "85b89f19e84cc7474c1afd4b500dec846f149ad97435628fb4778084e9d40fab",
+    "src/memory_fabric/response.py": "0c7f0dd6f3096db0a3fb7775f579ab12dd993e33374eaf977053574f40094b29",
+    "src/memory_fabric/cli.py": "dc4f3a70a8e0f197eb7b6d30df7712139ee0673d0bdfff4eef3f9ff9b869f496",
+    "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
+    "tests/test_response.py": "a95ddd6b815ba5a101d95ed7adc2e6e28387c0a26ca8baa410e1dc5a1dd210bb"
+  },
+  "checks": {
+    "timeline": "action, evidence, exposures, later findings and outstanding retractions",
+    "redaction": "content absent from report",
+    "read_only": "reconstruction leaves event head unchanged"
+  },
+  "limitations": [
+    "Dependency analysis is not proof of causation."
+  ],
+  "test_summary": {
+    "passed": 15,
+    "subtests_passed": 0,
+    "failed": 0
+  }
+}

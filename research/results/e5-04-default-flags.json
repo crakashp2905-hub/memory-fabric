@@ -1,0 +1,26 @@
+{
+  "schema": "memory-fabric-e5-04-default-flags/1",
+  "tested_commit": "7546b50568f84c54828dd9ab6ac0c0ed32149d3e",
+  "recorded_at_utc": "2026-11-07T18:54:10.9419431Z",
+  "machine": {
+    "platform": "Microsoft Windows 10.0.26200",
+    "python": "Python 3.13.5"
+  },
+  "command": "python -m pytest tests/test_stability.py tests/test_presets.py tests/test_mcp_extended.py tests/test_capability_registry.py tests/test_dashboard_versioning.py --junitxml=research/results/e5-04-default-flags.xml",
+  "result": {
+    "tests": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e5-04-default-flags.xml",
+    "sha256": "a073a8d5e07d4ea0b57fefa14ff9d444140dca0fcc228b3f36730395669ee70c"
+  },
+  "snapshot": "tests/data/default_features.json",
+  "documentation": "docs/EXPERIMENTAL_DEFAULTS.md",
+  "limitations": [
+    "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
+  ]
+}
