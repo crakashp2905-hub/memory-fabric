@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **251 / 260 (96.54%)**. Internal status: **BLOCKED**.
+Strict completion: **252 / 260 (96.92%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `862471672856ac9dfb47f183c343b21f9bd70b920028f31b1084d9332406e6ea`.
+Normalized ledger digest: `91be5fa87f161506017f4fb7ad58a394b7eaa23861b7c8ee625f40238e144c74`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 251 |
+| DONE | 252 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 6 |
+| TODO | 5 |
 
 ## Graduation gates
 
@@ -184,7 +184,7 @@ Normalized ledger digest: `862471672856ac9dfb47f183c343b21f9bd70b920028f31b1084d
 | N6-03 | P1 | DONE | SIMULATED | `experiments/n6_03_router_comparison.py`, `tests/test_n6_03_router_comparison.py`, `research/results/n6-03-router-tests.xml`, `research/results/n6-03-router-comparison.json` |
 | N6-04 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `tests/test_n6_04_feature_provenance.py`, `tests/test_decision_models.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_action_race_barriers.py`, `tests/test_authorization_receipt.py`, `tests/test_permissions.py`, `research/results/n6-04-provenance-tests.xml`, `docs/DECISION_FEATURE_PROVENANCE.md` |
 | N6-05 | P1 | DONE | CONTRACT | `experiments/n6_05_protocol_equivalence.py`, `tests/test_n6_05_protocol_equivalence.py`, `research/results/n6-05-protocol-tests.xml`, `research/results/n6-05-protocol-equivalence.json`, `docs/LOCAL_PROTOCOL_EQUIVALENCE.md`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/tool_protocol.py` |
-| N6-06 | P1 | TODO | NOT_TESTED | — |
+| N6-06 | P1 | DONE | CONTRACT | `src/memory_fabric/tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `experiments/n6_06_utcp_policy_check.py`, `tests/test_n6_06_utcp_policy_check.py`, `tests/test_tool_protocol.py`, `research/results/n6-06-utcp-policy-tests.xml`, `research/results/n6-06-utcp-policy-check.json`, `docs/UTCP_MANUAL_POLICY.md` |
 | N6-07 | P1 | TODO | NOT_TESTED | — |
 | N6-08 | P1 | TODO | NOT_TESTED | — |
 | N6-09 | P1 | TODO | NOT_TESTED | — |

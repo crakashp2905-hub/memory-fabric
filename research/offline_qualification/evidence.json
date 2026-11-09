@@ -4458,6 +4458,26 @@
         "UTCP uses the production manual parser, but the harness maps descriptor names to loopback routes and does not exercise public HTTPS, DNS or TLS.",
         "The workflow is deliberately small and has no latency or paid-model/token-cost claim."
       ]
+    },
+    {
+      "task_id": "N6-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "experiments/n6_06_utcp_policy_check.py",
+        "tests/test_n6_06_utcp_policy_check.py",
+        "tests/test_tool_protocol.py",
+        "research/results/n6-06-utcp-policy-tests.xml",
+        "research/results/n6-06-utcp-policy-check.json",
+        "docs/UTCP_MANUAL_POLICY.md"
+      ],
+      "limitations": [
+        "The check covers the repository's pinned UTCP subset and a frozen local corpus; no remote manual is fetched.",
+        "Public HTTPS URL validation is syntactic and does not resolve DNS, establish TLS, or authenticate the endpoint."
+      ]
     }
   ]
 }

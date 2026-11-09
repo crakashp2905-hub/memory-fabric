@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "5430c2f9ea2c2627eae312d39a346ca9131ea51a0befca2fea2114df983a197b",
+    "sha256": "b75a990934621d91f4176a43833c3f2751a9b7dda0729866ce4541a1e995f985",
     "tasks": 260
   },
   "source": {
-    "commit": "e1859d4a10219556a70cf9c4baa932bbeea3f746",
-    "dirty": false
+    "commit": "e79772a047f6ac0dd67209910b7b147b90bd37ca",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 251,
+      "DONE": 252,
       "PARTIAL": 3,
-      "TODO": 6
+      "TODO": 5
     },
-    "completed": 251,
+    "completed": 252,
     "total": 260,
-    "percent_complete": 96.54,
+    "percent_complete": 96.92,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4692,14 +4692,35 @@
       "task_id": "N6-06",
       "priority": "P1",
       "task": "Add transport policy checker for dangerous UTCP manuals and unsupported versions.",
-      "acceptance": "Local malicious manual corpus is rejected before any socket or file access",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Local malicious manual corpus is rejected before any socket or file access. Evidence: `src/memory_fabric/tool_protocol.py`, `tests/data/utcp_malicious_manuals.json`, `experiments/n6_06_utcp_policy_check.py`, `tests/test_n6_06_utcp_policy_check.py`, `tests/test_tool_protocol.py`, `research/results/n6-06-utcp-policy-tests.xml`, `research/results/n6-06-utcp-policy-check.json`, `docs/UTCP_MANUAL_POLICY.md` (DONE: the full frozen corpus of 24 malicious/unsupported manuals is rejected with `ToolProtocolError` while socket, file-open and URL-open functions are patched to fail on use; a safe public-HTTPS control manual parses. 14 focused/protocol tests and 49 subtests pass; Ruff passes. No live URL or filesystem access is involved in validation. This qualifies the pinned local parser subset, not DNS/TLS or endpoint behavior.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "experiments/n6_06_utcp_policy_check.py",
+        "tests/test_n6_06_utcp_policy_check.py",
+        "tests/test_tool_protocol.py",
+        "research/results/n6-06-utcp-policy-tests.xml",
+        "research/results/n6-06-utcp-policy-check.json",
+        "docs/UTCP_MANUAL_POLICY.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
+        "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
+        "experiments/n6_06_utcp_policy_check.py": "5b62ea852b56fc99828cdc8625a7a7b1de9267efd037a79611f045e10369a137",
+        "tests/test_n6_06_utcp_policy_check.py": "c1af3cb34314f363cdb817fdfdb04386207b1f8da995e5d93985d6f90371c587",
+        "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
+        "research/results/n6-06-utcp-policy-tests.xml": "83461911ce5c67dfc0977b0c4018d19581a8edaea49d3cfac7e2cd2d97e9094b",
+        "research/results/n6-06-utcp-policy-check.json": "1099d8cd234ec55b2eee0dc6c16dcd578b3cab3c8325dbdbcbbdcf87be4f040b",
+        "docs/UTCP_MANUAL_POLICY.md": "3028742e0ec14cf83d2149aad189e9dc6d1024f3e2b91d3eec02c86be754aee3"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The check covers the repository's pinned UTCP subset and a frozen local corpus; no remote manual is fetched.",
+        "Public HTTPS URL validation is syntactic and does not resolve DNS, establish TLS, or authenticate the endpoint."
+      ]
     },
     {
       "task_id": "N6-07",

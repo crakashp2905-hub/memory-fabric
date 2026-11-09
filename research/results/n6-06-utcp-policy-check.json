@@ -1,0 +1,129 @@
+{
+  "schema": "memory-fabric-n6-06-utcp-policy-check/1",
+  "task_id": "N6-06",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "corpus": {
+    "path": "tests/data/utcp_malicious_manuals.json",
+    "sha256": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
+    "cases": 24
+  },
+  "rejected": [
+    {
+      "case_id": "future-utcp-version",
+      "reason": "unsupported UTCP version: 2.0.0"
+    },
+    {
+      "case_id": "malformed-utcp-version",
+      "reason": "unsupported UTCP version: 1.0.evil"
+    },
+    {
+      "case_id": "unsupported-manual-version",
+      "reason": "unsupported UTCP version: 1.0.1"
+    },
+    {
+      "case_id": "unknown-manual-security-field",
+      "reason": "unsupported UTCP manual descriptor field(s): authorization"
+    },
+    {
+      "case_id": "malformed-tool-name",
+      "reason": "UTCP tool name must be a non-empty string"
+    },
+    {
+      "case_id": "case-folded-duplicate",
+      "reason": "duplicate tool: read"
+    },
+    {
+      "case_id": "invalid-schema-type",
+      "reason": "tool input schema root type must be object"
+    },
+    {
+      "case_id": "malformed-required",
+      "reason": "JSON Schema required must be an array of strings"
+    },
+    {
+      "case_id": "invalid-regex-schema",
+      "reason": "JSON Schema pattern is malformed"
+    },
+    {
+      "case_id": "unsupported-schema-security-extension",
+      "reason": "unsupported JSON Schema descriptor field(s): x-required-scope"
+    },
+    {
+      "case_id": "insecure-http",
+      "reason": "UTCP transport must use a public HTTPS origin"
+    },
+    {
+      "case_id": "file-transport",
+      "reason": "unsupported or dangerous UTCP transport type"
+    },
+    {
+      "case_id": "localhost-host",
+      "reason": "UTCP transport host is local or not a public DNS name"
+    },
+    {
+      "case_id": "loopback-ip-host",
+      "reason": "UTCP transport host is a non-public IP address"
+    },
+    {
+      "case_id": "integer-loopback-host",
+      "reason": "UTCP transport host is local or not a public DNS name"
+    },
+    {
+      "case_id": "cloud-metadata-host",
+      "reason": "UTCP transport host is a non-public IP address"
+    },
+    {
+      "case_id": "credentialed-url",
+      "reason": "UTCP transport must use a public HTTPS origin"
+    },
+    {
+      "case_id": "nonstandard-port",
+      "reason": "UTCP transport must use a public HTTPS origin"
+    },
+    {
+      "case_id": "unknown-transport-security-field",
+      "reason": "unsupported UTCP transport descriptor field(s): authorization"
+    },
+    {
+      "case_id": "invalid-http-method",
+      "reason": "unsupported UTCP HTTP method"
+    },
+    {
+      "case_id": "shell-command-substitution",
+      "reason": "UTCP transport URL contains forbidden characters"
+    },
+    {
+      "case_id": "encoded-shell-command-substitution",
+      "reason": "UTCP transport URL contains encoded shell metacharacters"
+    },
+    {
+      "case_id": "encoded-header-control",
+      "reason": "UTCP transport URL contains encoded control characters"
+    },
+    {
+      "case_id": "encoded-authority-host",
+      "reason": "UTCP transport host must not use percent encoding"
+    }
+  ],
+  "rejected_count": 24,
+  "accepted_safe_manual_tools": [
+    "lookup"
+  ],
+  "io_guards": {
+    "socket": true,
+    "path_open": true,
+    "builtin_open": true,
+    "urlopen": true,
+    "triggered": false
+  },
+  "source": {
+    "commit": "e79772a047f6ac0dd67209910b7b147b90bd37ca",
+    "dirty_before_result_write": false,
+    "experiment_sha256": "5b62ea852b56fc99828cdc8625a7a7b1de9267efd037a79611f045e10369a137"
+  },
+  "limitations": [
+    "The corpus tests the repository's pinned UTCP subset and local parser; no live remote manual or network client is involved.",
+    "The HTTP transport validator restricts destinations to public HTTPS origins, but the parser does not perform DNS resolution or authenticate endpoint behavior."
+  ]
+}
