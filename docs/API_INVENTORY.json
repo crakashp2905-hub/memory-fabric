@@ -641,6 +641,12 @@
     },
     {
       "module": "memory_fabric.compaction",
+      "signature": "(fabric: MemoryFabric, summary_id: str) -> dict[str, object]",
+      "symbol": "memory_fabric.compaction.verify_compaction_certificate",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.compaction",
       "signature": "(fabric: MemoryFabric, episode_id: str) -> Memory | None",
       "symbol": "memory_fabric.compaction.summary_for",
       "tier": "experimental"

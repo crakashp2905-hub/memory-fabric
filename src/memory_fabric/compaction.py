@@ -365,6 +365,11 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
     narrowest = min((m.scope for m in usable), key=lambda s: s.rank)
     if scope is not None and Scope(scope).rank > narrowest.rank:
         raise CompactionRefused("a summary cannot widen its sources' visibility")
+    parent_versions = [(memory.id, memory.version) for memory in usable]
+    edge_certificate = (
+        make_edge_certificate(text, parent_versions, dependencies)
+        if dependencies is not None else None
+    )
     with fabric._transaction():
         eligible = set(_visible(fabric, agent_id, tenant_id)) - fabric.state.erased
         if any(m.id not in eligible or fabric.state.memories[m.id].version != m.version for m in usable):
@@ -376,6 +381,7 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
                 "kind": "derived_claim",
                 "compaction_of": episode_id,
                 "summary_source_metadata": _source_metadata(fabric, usable),
+                "summary_edge_certificate": edge_certificate,
                 **(
                     {
                         "summary_token_budget": {
@@ -412,6 +418,60 @@ def compact_session(fabric: "MemoryFabric", episode_id: str, agent_id: str,
     report.max_summary_tokens = max_summary_tokens
     report.token_budget_status = "WITHIN_BUDGET" if max_summary_tokens is not None else "NOT_REQUESTED"
     return report
+
+
+def verify_compaction_certificate(
+    fabric: "MemoryFabric", summary_id: str
+) -> dict[str, object]:
+    """Verify an active flat summary's exact source versions and proof edges.
+
+    Summaries may omit non-factual chatter, but every consequential source fact
+    must remain represented by the stored dependency map and its digest.
+    """
+    summary = fabric.state.memories.get(summary_id)
+    if summary is None or summary.lifecycle_state not in EXPOSABLE_STATES:
+        raise CompactionRefused("compaction summary is unavailable or contested")
+    context = summary.context or {}
+    metadata = context.get("summary_source_metadata")
+    if not isinstance(metadata, list) or not metadata:
+        raise CompactionRefused("compaction summary has no exact source metadata")
+    sources = []
+    source_versions: list[tuple[str, int]] = []
+    seen: set[str] = set()
+    for item in metadata:
+        if not isinstance(item, dict):
+            raise CompactionRefused("compaction summary source metadata is malformed")
+        memory_id = item.get("source_id")
+        version = item.get("source_version")
+        if (not isinstance(memory_id, str) or not memory_id
+                or isinstance(version, bool) or not isinstance(version, int)
+                or memory_id in seen):
+            raise CompactionRefused("compaction summary source identity is invalid")
+        seen.add(memory_id)
+        source = fabric.state.memories.get(memory_id)
+        if (source is None or source.version != version
+                or source.lifecycle_state not in EXPOSABLE_STATES):
+            raise CompactionRefused("a compaction source version is stale or unavailable")
+        sources.append(source)
+        source_versions.append((memory_id, version))
+    parent_versions = {
+        (str(memory_id), int(version))
+        for memory_id, version in summary.provenance.parents
+    }
+    if parent_versions != set(source_versions):
+        raise CompactionRefused("compaction summary parents differ from certified sources")
+    if _source_metadata(fabric, sources) != metadata:
+        raise CompactionRefused("compaction summary source metadata differs from current sources")
+    try:
+        dependencies = verify_stored_dependency_map(summary, sources)
+    except DependencyMapRefused as exc:
+        raise CompactionRefused(f"compaction proof edges failed verification: {exc}") from exc
+    expected = make_edge_certificate(summary.content, source_versions, dependencies)
+    certificate = context.get("summary_edge_certificate")
+    if not isinstance(certificate, str) or certificate != expected:
+        raise CompactionRefused("compaction summary edge certificate digest mismatch")
+    return {"certificate": certificate, "source_versions": source_versions,
+            "dependencies": dependencies}
 
 
 def _hierarchy_certificate(

@@ -81,6 +81,7 @@ API: list[tuple[str, str, list[str]]] = [
     ("Objectives", "memory_fabric.objective_v2:ObjectiveLog", ["propose", "adopt"]),
     ("Sessions", "memory_fabric.compaction:compact_session", []),
     ("Sessions", "memory_fabric.compaction:CompactionBudgetExceeded", ["to_dict"]),
+    ("Sessions", "memory_fabric.compaction:verify_compaction_certificate", []),
     ("Sessions", "memory_fabric.compaction:summary_for", []),
     ("Sessions", "memory_fabric.adapters.transcripts:ingest_transcript", []),
     ("Federation", "memory_fabric.federation:offer", []),

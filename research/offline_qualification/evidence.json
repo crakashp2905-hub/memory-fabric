@@ -4090,6 +4090,27 @@
         "The extractive arm uses summary text only; the provenance-preserving arm includes exact source metadata and a verified fact dependency map.",
         "UTF-8 payload bytes are not tokenizer counts or model-cost estimates; no method-superiority claim is made from this fixture."
       ]
+    },
+    {
+      "task_id": "N4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_certificate.py",
+        "experiments/n4_08_lossy_compaction.py",
+        "docs/API.md",
+        "research/results/n4-08-lossy-compaction.json",
+        "research/results/n4-08-lossy-compaction.md",
+        "research/results/n4-08-lossy-compaction-tests.xml",
+        "research/results/n4-08-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Non-consequential text is identified by the current fact-signature parser; no universal semantic relevance classifier is claimed.",
+        "Certificates are verified against the local current store and do not establish distributed trust or independent audit.",
+        "The lossy path is caller-supplied and opt-in; default summary behavior is unchanged."
+      ]
     }
   ]
 }

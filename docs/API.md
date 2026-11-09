@@ -470,6 +470,14 @@ The complete required summary does not fit the declared token budget.
 - **`CompactionBudgetExceeded.to_dict() -> dict[str, object]`**
   Return a stable machine-readable failure with all compulsory inputs.
 
+### `compaction.verify_compaction_certificate` (experimental)
+
+```python
+verify_compaction_certificate(fabric: MemoryFabric, summary_id: str) -> dict[str, object]
+```
+
+Verify an active flat summary's exact source versions and proof edges.
+
 ### `compaction.summary_for` (experimental)
 
 ```python
