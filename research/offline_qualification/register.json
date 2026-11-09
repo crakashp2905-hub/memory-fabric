@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "804a7d8a1efca10d34a2e4c50a765f677fa6f38b0843061bd9cbb336ff1395d2",
+    "sha256": "c0f717731fc177271b8371e39e15c01d4e23604c9a2dddcbec9a0c59682d6192",
     "tasks": 260
   },
   "source": {
-    "commit": "201f24dda529706110f7b4757ed4c1dd8b5d0e32",
-    "dirty": false
+    "commit": "87946dbe98b153c8cd358e82b541480296a16878",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 249,
+      "DONE": 250,
       "PARTIAL": 3,
-      "TODO": 8
+      "TODO": 7
     },
-    "completed": 249,
+    "completed": 250,
     "total": 260,
-    "percent_complete": 95.77,
+    "percent_complete": 96.15,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -553,7 +553,7 @@
         "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_visibility_at_action.py": "5a1edd92a7f99d242f632f50bf9dfe2bc2ba8c6015cfe2c41a44c9d572b6f19b",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f"
       },
       "evidence_issues": {},
@@ -1931,7 +1931,7 @@
       "evidence_digests": {
         "src/memory_fabric/enforcement.py": "5a2b794e9385f5837ab26a42a66ebe64d1b896313461fa6b421547ec91d1a42f",
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "docs/EVIDENCE_OPERATION_RISK.md": "c5e1a22247597768893a0129f36b537107d9fafa490672559c71053ebfc85396",
@@ -3181,7 +3181,7 @@
         "research/results/n2-05-disputed-claims-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
         "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
@@ -3233,7 +3233,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/requirement_graph.py": "e2e1c090b18657042fd373c17b0c0cae1c0e9824979f51d29f8d64c5c6970cdc",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
@@ -3286,7 +3286,7 @@
         "research/results/n2-05-disputed-claims-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
@@ -3336,7 +3336,7 @@
         "research/results/n2-05-disputed-claims-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
@@ -3439,7 +3439,7 @@
       "evidence_digests": {
         "src/memory_fabric/advisory.py": "2f5641627a919588144856bea8ba7dc24914cb5cc4c77a6724beafc3c2667a55",
         "src/memory_fabric/evidence_status.py": "28679506f38ebe119103ffb8d781318599846f7e71d81b92cfa41860d250899f",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "docs/READ_ONLY_ADVISORIES.md": "844048c0877487fb2437e3173b3e47ea22bc8ef7e70476424a5b5fa23cbb09e9",
         "docs/API.md": "6d275582fe8e3688cf9c84b7fd9d854680943e3e62359048ff8cde0fa0a1357e",
@@ -3520,7 +3520,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/authorization_receipt.py": "42a5eeacee6eb02c7753f396301a23f04d6c8600d44b804402d5ea5ed860d2cd",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/certificates.py": "db152206455bcfc7d12c710de7b8235c076e603b9ded45c964cc8dd9318032dc",
         "src/memory_fabric/requirement_graph.py": "e2e1c090b18657042fd373c17b0c0cae1c0e9824979f51d29f8d64c5c6970cdc",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
@@ -4472,7 +4472,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
         "experiments/n5_09_partition_freshness.py": "75b6e836f7de063bd6fd518b50f066df453a5b2a27741f2ec0a7e46ac0cc1bd8",
         "tests/test_n5_09_partition_freshness.py": "1b14e4414ff7e20529298d5af3569d7280af7ef4fec7637a982823c20ffeaab9",
@@ -4548,7 +4548,7 @@
         "research/results/n6-01-decision-evaluation.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/decision_models.py": "869ad0ab433b91f1f180bcf11c0a50dc1e6d5353668910a3b9ff51b4af940802",
+        "src/memory_fabric/decision_models.py": "0caad83871dcb5148bea13a16bf397ce73a8664b709442e2e20297f5096f41f8",
         "research/bench/n6_01_decision_tasks/cases.json": "94e9ae9b17e37befe53aa42cdbd5037f53ca13971bf2c7f1e42c071a0764bc52",
         "experiments/n6_01_typed_decision_tasks.py": "2444cb6a5c4c0b7fab34ce96c61821bd36cad766f0f58b7f41d4e429460ae53a",
         "tests/test_n6_01_decision_contract.py": "51b31d8ae04d2584b7714a5b6acd4493aff97a6ee666f9b583d6ca94eb77920d",
@@ -4620,14 +4620,39 @@
       "task_id": "N6-04",
       "priority": "P1",
       "task": "Define feature provenance contracts so poisoned memory cannot directly rewrite policy or tool authority.",
-      "acceptance": "All model/policy outputs remain proposals behind ActionGate",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "All model/policy outputs remain proposals behind ActionGate. Evidence: `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `tests/test_n6_04_feature_provenance.py`, `tests/test_decision_models.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_action_race_barriers.py`, `tests/test_authorization_receipt.py`, `tests/test_permissions.py`, `research/results/n6-04-provenance-tests.xml`, `docs/DECISION_FEATURE_PROVENANCE.md` (DONE: context options and nested constraints are immutable snapshots; proposal evidence references must come from the supplied context; `ActionPolicy` snapshots host tool/grant mappings. A malicious predictor cannot mutate context or self-grant `deploy`, and ActionGate denies its proposal absent a host grant. 29 focused/regression tests and 16 subtests pass; Ruff passes. The boundary protects these data structures but is not a sandbox for arbitrary Python model code.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_n6_04_feature_provenance.py",
+        "tests/test_decision_models.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_action_race_barriers.py",
+        "tests/test_authorization_receipt.py",
+        "tests/test_permissions.py",
+        "research/results/n6-04-provenance-tests.xml",
+        "docs/DECISION_FEATURE_PROVENANCE.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/decision_models.py": "0caad83871dcb5148bea13a16bf397ce73a8664b709442e2e20297f5096f41f8",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
+        "tests/test_n6_04_feature_provenance.py": "cb6191943beca02579d8c032dbc051429d1da46dd0baef89ac7ab145147a0ba6",
+        "tests/test_decision_models.py": "d709a769b242fba2e487dedb71842bee368b2ecf533888cc5346a0497e874f63",
+        "tests/test_n6_01_decision_contract.py": "51b31d8ae04d2584b7714a5b6acd4493aff97a6ee666f9b583d6ca94eb77920d",
+        "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
+        "tests/test_authorization_receipt.py": "1a3a4842e9d4592c77e422ad748917af018d024ad32868cabeee1032c0b4041e",
+        "tests/test_permissions.py": "0b42a4ad6f3971d71eb8cbccaf832ad4ec6c86f6500954c4bde004410835fe96",
+        "research/results/n6-04-provenance-tests.xml": "942fd654caea0f7bbbe1d800aa2bf0e79b00b6f21ce16e3b282dc0e9d792db2b",
+        "docs/DECISION_FEATURE_PROVENANCE.md": "3813c8f7de3d09b1895eb29c68f0789eada92f1617c2d94701c02942aa87c3e9"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The immutable snapshots constrain model-visible typed context and policy mappings; they are not an execution sandbox for arbitrary Python model code.",
+        "ActionGate must still be used at the actual tool boundary; the proposal API itself does not execute or authorize effects."
+      ]
     },
     {
       "task_id": "N6-05",
@@ -4965,7 +4990,7 @@
         "research/results/r2-h2-acceptance-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "tests/test_action_race_barriers.py": "048d14415a15c470b3963be1c8047ab5ac71cbcd30efd2876c1afff05a0f8158",
         "docs/ACTION_RACE_SERIALIZATION.md": "ff390aa7da336deb17cca296a20ddca8e2d6a510f993c184fef40205e1c5071f",
         "research/results/h2-01-authorize-execute-race-tests.xml": "86f4a4b42d378acdec1b3e6af1294d2cdab0329c5ff56f8e061a969a8cfc460b",
@@ -4991,7 +5016,7 @@
         "research/results/h2-02-action-binding-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "docs/ACTION_GRANT_BINDING.md": "a3da1f494979fe15740e0bd5da10c63e714da5e3fec65244e493be1466a5bbc5",
         "research/results/h2-02-action-binding-tests.xml": "2394c229f9f94094d102925a67780d46217e830ff265dfb57217e49c75e18960"
@@ -5021,7 +5046,7 @@
         "research/results/h2-03-action-compatibility-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
@@ -5054,7 +5079,7 @@
         "research/results/h2-04-action-reconciliation.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
@@ -5202,7 +5227,7 @@
         "research/results/h2-09-execution-receipt-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/events.py": "a01cba52c86649225c17b0f684461f0e78eae5f5f9aa7e9e8c9fcefb97cf8909",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",
         "docs/ACTION_RECONCILIATION.md": "1d960eebaed97edfaf8c184ba1532943007dd85a5b6bc019e318dd12fac30b8e",
@@ -5231,7 +5256,7 @@
         "research/results/h2-10-confused-deputy-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e",
         "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
         "docs/DECISION_MODELS_AND_UTCP.md": "ffaf6a5d69083a05da90024e8a169d256df45e5404a9333c3aa1fb4ea842b111",
@@ -6255,8 +6280,8 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/sdk.py": "fad8025d813c97dc71b4de31b7a34fa578ad2baf8030bea7e6ec3f21b5e164a3",
-        "src/memory_fabric/decision_models.py": "869ad0ab433b91f1f180bcf11c0a50dc1e6d5353668910a3b9ff51b4af940802",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/decision_models.py": "0caad83871dcb5148bea13a16bf397ce73a8664b709442e2e20297f5096f41f8",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "src/memory_fabric/correction.py": "dfdfef0d108e209b8617aa9a3425281f964c7b04c95eb99862d761b8a236bb2e",
         "examples/sdk_workflow.py": "e1852e5f96d18fbb9162008da21bd5b7fc5dedfcd341bd76fff4e97ba21d7627",
         "docs/SDK_WORKFLOW.md": "878acf586f0d21161bee3fc00d04e94192012efb7be5c5e22b62d646d3f2a182",
@@ -6628,7 +6653,7 @@
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
         "src/memory_fabric/observability/server.py": "c8ff07375c2a8502cec4d1c16afc4ac51e1db494299989920219bd4616aa86ae",
         "src/memory_fabric/observability/static/dashboard.html": "e180f3d17b8d9cd4dd86a4040088ea4b9ed2fa18f563aaa9908f4ba4d7225472",
-        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/actions.py": "d1a48966b739fac09f846bf2a9ff52e5af3a971d44e7e36b11936ae7009ce8c4",
         "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
         "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca",
         "tests/test_action_execution_receipt.py": "bef0f44ce2d45ed9f13aeb830a7e389f268db107a957782f4a8917dc4e199bc5",

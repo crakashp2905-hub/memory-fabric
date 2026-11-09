@@ -435,6 +435,25 @@ class ActionPolicy:
     approvers: frozenset[str] = frozenset()
     policy_id: str = ACTION_POLICY_VERSION
 
+    def __post_init__(self) -> None:
+        """Snapshot host policy so model-facing input cannot mutate authority."""
+        if not isinstance(self.tools, Mapping) or not isinstance(self.grants, Mapping):
+            raise ValueError("tools and grants must be mappings")
+        tools = dict(self.tools)
+        if any(not isinstance(name, str) or not name or not isinstance(rule, ToolRule)
+               for name, rule in tools.items()):
+            raise ValueError("tools maps non-empty names to ToolRule values")
+        grants: dict[str, frozenset[str]] = {}
+        for agent, names in self.grants.items():
+            if (not isinstance(agent, str) or not agent
+                    or not isinstance(names, (set, frozenset, tuple, list))
+                    or any(not isinstance(name, str) or not name for name in names)):
+                raise ValueError("grants maps agent ids to collections of non-empty tool names")
+            grants[agent] = frozenset(names)
+        object.__setattr__(self, "tools", MappingProxyType(tools))
+        object.__setattr__(self, "grants", MappingProxyType(grants))
+        object.__setattr__(self, "approvers", frozenset(self.approvers))
+
 
 @dataclass(frozen=True)
 class Approval:

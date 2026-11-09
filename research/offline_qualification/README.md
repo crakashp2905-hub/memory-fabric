@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **249 / 260 (95.77%)**. Internal status: **BLOCKED**.
+Strict completion: **250 / 260 (96.15%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `116a83e1d5693c17b6fc8afa21e821e1f7f9dfd5eeb49970283e77b55e038890`.
+Normalized ledger digest: `9c8fc6ddebf2788e9b232dd226eefae01b699fb34a9dfc19dc3ddc20b489aa86`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 249 |
+| DONE | 250 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 8 |
+| TODO | 7 |
 
 ## Graduation gates
 
@@ -182,7 +182,7 @@ Normalized ledger digest: `116a83e1d5693c17b6fc8afa21e821e1f7f9dfd5eeb49970283e7
 | N6-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `research/bench/n6_01_decision_tasks/cases.json`, `experiments/n6_01_typed_decision_tasks.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_decision_models.py`, `research/results/n6-01-decision-tests.xml`, `research/results/n6-01-decision-evaluation.json` |
 | N6-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_router.py`, `tests/test_decision_router.py`, `research/results/n6-02-router-tests.xml`, `docs/SYSTEM1_ROUTING.md` |
 | N6-03 | P1 | DONE | SIMULATED | `experiments/n6_03_router_comparison.py`, `tests/test_n6_03_router_comparison.py`, `research/results/n6-03-router-tests.xml`, `research/results/n6-03-router-comparison.json` |
-| N6-04 | P1 | TODO | NOT_TESTED | — |
+| N6-04 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `src/memory_fabric/actions.py`, `tests/test_n6_04_feature_provenance.py`, `tests/test_decision_models.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_action_race_barriers.py`, `tests/test_authorization_receipt.py`, `tests/test_permissions.py`, `research/results/n6-04-provenance-tests.xml`, `docs/DECISION_FEATURE_PROVENANCE.md` |
 | N6-05 | P1 | TODO | NOT_TESTED | — |
 | N6-06 | P1 | TODO | NOT_TESTED | — |
 | N6-07 | P1 | TODO | NOT_TESTED | — |

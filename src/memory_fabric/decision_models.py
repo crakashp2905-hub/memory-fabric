@@ -11,6 +11,7 @@ __stability__ = "experimental"
 
 import math
 from dataclasses import dataclass, field
+from types import MappingProxyType
 from typing import Any, Callable, Mapping, Protocol, Sequence
 
 
@@ -25,12 +26,32 @@ def _finite_number(value: object) -> bool:
         return False
 
 
+def _freeze(value: Any) -> Any:
+    """Copy nested caller data into immutable containers before a model sees it."""
+    if isinstance(value, Mapping):
+        if any(not isinstance(key, str) for key in value):
+            raise DecisionModelError("feature mapping keys must be strings")
+        return MappingProxyType({key: _freeze(item) for key, item in value.items()})
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze(item) for item in value)
+    if isinstance(value, (set, frozenset)):
+        return frozenset(_freeze(item) for item in value)
+    if value is None or isinstance(value, (str, bool, int, float)):
+        return value
+    raise DecisionModelError("features must use immutable scalar or container data")
+
+
 @dataclass(frozen=True)
 class DecisionOption:
     id: str
     description: str
     action: str | None = None
     parameters: Mapping[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.parameters, Mapping):
+            raise DecisionModelError("option parameters must be a mapping")
+        object.__setattr__(self, "parameters", _freeze(self.parameters))
 
 
 @dataclass(frozen=True)
@@ -46,6 +67,14 @@ class DecisionContext:
         ids = [option.id for option in self.options]
         if len(ids) != len(set(ids)):
             raise DecisionModelError("option ids must be unique")
+        if (any(not isinstance(item, str) or not item for item in self.evidence_ids)
+                or len(self.evidence_ids) != len(set(self.evidence_ids))):
+            raise DecisionModelError("evidence ids must be unique non-empty strings")
+        if not isinstance(self.constraints, Mapping):
+            raise DecisionModelError("decision constraints must be a mapping")
+        object.__setattr__(self, "options", tuple(self.options))
+        object.__setattr__(self, "evidence_ids", tuple(self.evidence_ids))
+        object.__setattr__(self, "constraints", _freeze(self.constraints))
 
 
 @dataclass(frozen=True)
@@ -76,6 +105,11 @@ class DecisionProposal:
             raise DecisionModelError("abstention and selected option disagree")
         if self.selected is not None and self.selected not in expected:
             raise DecisionModelError("selected option is not in the decision context")
+        if (not isinstance(self.evidence_ids, tuple)
+                or any(not isinstance(item, str) or not item for item in self.evidence_ids)
+                or len(self.evidence_ids) != len(set(self.evidence_ids))
+                or not set(self.evidence_ids).issubset(context.evidence_ids)):
+            raise DecisionModelError("proposal evidence ids must be unique members of the supplied context")
         if (isinstance(self.confidence, bool)
                 or not isinstance(self.confidence, (int, float))
                 or not _finite_number(self.confidence)

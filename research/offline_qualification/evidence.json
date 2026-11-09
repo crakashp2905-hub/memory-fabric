@@ -4415,6 +4415,28 @@
         "The reordering condition reverses option order and keyed-map insertion order together; invalid semantic key/value mismatches are rejected by typed contracts rather than scored as valid predictions.",
         "Utility weights are illustrative synthetic costs and do not estimate operational value."
       ]
+    },
+    {
+      "task_id": "N6-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_n6_04_feature_provenance.py",
+        "tests/test_decision_models.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_action_race_barriers.py",
+        "tests/test_authorization_receipt.py",
+        "tests/test_permissions.py",
+        "research/results/n6-04-provenance-tests.xml",
+        "docs/DECISION_FEATURE_PROVENANCE.md"
+      ],
+      "limitations": [
+        "The immutable snapshots constrain model-visible typed context and policy mappings; they are not an execution sandbox for arbitrary Python model code.",
+        "ActionGate must still be used at the actual tool boundary; the proposal API itself does not execute or authorize effects."
+      ]
     }
   ]
 }
