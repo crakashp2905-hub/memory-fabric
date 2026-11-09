@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **232 / 260 (89.23%)**. Internal status: **BLOCKED**.
+Strict completion: **233 / 260 (89.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `a2756d6ced1c1ea4834a4a2d6f09676f80ceedf4cd2b3d8aeec888eda8918614`.
+Normalized ledger digest: `afe9618006d0f430c7bb34889d4901b5ee0dc60e6783c984ffaa8f6c9590bcab`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 232 |
+| DONE | 233 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 25 |
+| TODO | 24 |
 
 ## Graduation gates
 
@@ -165,7 +165,7 @@ Normalized ledger digest: `a2756d6ced1c1ea4834a4a2d6f09676f80ceedf4cd2b3d8aeec88
 | N4-04 | P1 | DONE | CONTRACT | `tests/test_compaction_contested_facts.py`, `experiments/n4_04_contested_compaction.py`, `research/results/n4-04-contested-compaction.json`, `research/results/n4-04-contested-compaction.md`, `research/results/n4-04-contested-tests.xml` |
 | N4-05 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `tests/test_compaction_temporal.py`, `experiments/n4_05_temporal_compaction.py`, `docs/API.md`, `research/results/n4-05-temporal-compaction.json`, `research/results/n4-05-temporal-compaction.md`, `research/results/n4-05-temporal-tests.xml`, `research/results/n4-05-compaction-regression.xml` |
 | N4-06 | P1 | DONE | CONTRACT | `src/memory_fabric/compaction.py`, `tests/test_compaction_budget.py`, `experiments/n4_06_budgeted_compaction.py`, `docs/API.md`, `research/results/n4-06-budgeted-compaction.json`, `research/results/n4-06-budgeted-compaction.md`, `research/results/n4-06-budget-tests.xml`, `research/results/n4-06-compaction-regression.xml` |
-| N4-07 | P1 | TODO | NOT_TESTED | — |
+| N4-07 | P1 | DONE | SIMULATED | `research/prereg/n4-07-compaction-comparison-v1.md`, `experiments/n4_07_compaction_comparison.py`, `tests/test_n4_07_compaction_comparison.py`, `research/results/n4-07-compaction-comparison.json`, `research/results/n4-07-compaction-comparison.md`, `research/results/n4-07-compaction-tests.xml` |
 | N4-08 | P1 | TODO | NOT_TESTED | — |
 | N4-09 | P1 | TODO | NOT_TESTED | — |
 | N4-10 | P1 | TODO | NOT_TESTED | — |

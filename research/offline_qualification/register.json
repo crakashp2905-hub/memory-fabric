@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "0dec35e97aa4fddc19e038c6e73e1205e6a3ef9a364d1fec122b543e6750926c",
+    "sha256": "bc4de4964b5bc04a4fa646aa84da925072864ba7e1c7dc2c9314e49cb03f00fb",
     "tasks": 260
   },
   "source": {
-    "commit": "2e3cf63c8611a1147da7426e9b99449646214d70",
+    "commit": "8ecb6c1a960e112a446d4c4bac6a0df27b1dd496",
     "dirty": false
   },
   "summary": {
     "counts": {
-      "DONE": 232,
+      "DONE": 233,
       "PARTIAL": 3,
-      "TODO": 25
+      "TODO": 24
     },
-    "completed": 232,
+    "completed": 233,
     "total": 260,
-    "percent_complete": 89.23,
+    "percent_complete": 89.62,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4053,14 +4053,32 @@
       "task_id": "N4-07",
       "priority": "P1",
       "task": "Compare no compaction, naive recency, extractive summary and provenance-preserving summary.",
-      "acceptance": "Report task success, false stale actions, compression factor and reconstruction fidelity",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Report task success, false stale actions, compression factor and reconstruction fidelity. Evidence: `research/prereg/n4-07-compaction-comparison-v1.md`, `experiments/n4_07_compaction_comparison.py`, `tests/test_n4_07_compaction_comparison.py`, `research/results/n4-07-compaction-comparison.json`, `research/results/n4-07-compaction-comparison.md`, `research/results/n4-07-compaction-tests.xml` (DONE: five fixed seeds \u00d7 eight identical temporal tasks per arm. Full history and provenance-preserving summaries both score 40/40 with zero stale actions; naive recency scores 12/40 and abstains on 28; extractive text scores 20/40 with 20 stale actions. Mean compression factors are 1.00, 2.65, 12.34 and 1.65 respectively; source identity reconstruction is 100%, 37.5%, 0% and 100%, with factual text reconstruction 100% for all but recency at 37.5%. Four focused tests pass. Deterministic synthetic contract evidence only; byte counts are not token/cost measures and no superiority claim is made.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n4-07-compaction-comparison-v1.md",
+        "experiments/n4_07_compaction_comparison.py",
+        "tests/test_n4_07_compaction_comparison.py",
+        "research/results/n4-07-compaction-comparison.json",
+        "research/results/n4-07-compaction-comparison.md",
+        "research/results/n4-07-compaction-tests.xml"
+      ],
+      "evidence_digests": {
+        "research/prereg/n4-07-compaction-comparison-v1.md": "31141b799bb033165092d6e07cd552d9cf490230abfb56bb921e06bc29185c51",
+        "experiments/n4_07_compaction_comparison.py": "5fa3e66fd718b3ba1038fcfce7e03c44582180bc4b65fcad0907307f40009dbf",
+        "tests/test_n4_07_compaction_comparison.py": "c9c28d70e4825fccb2bf4dc72eca65adcbf1950323bb0bb5c99fe2d8e2cf2cdf",
+        "research/results/n4-07-compaction-comparison.json": "3bae73ca56ce1bd283b97a0d80f0a73f695dff9ff3ffe63e1c0231a6f4120084",
+        "research/results/n4-07-compaction-comparison.md": "6c49adc8a66f1338871de421482f1537d3d536fb3dc0a649e16b1d0914f8d6aa",
+        "research/results/n4-07-compaction-tests.xml": "cb6a4683ad3d959c038ddd30031e421e2eb67018a55725bb961d1591c9182a09"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Five-seed deterministic synthetic agent contract study, not a real-agent evaluation.",
+        "The extractive arm uses summary text only; the provenance-preserving arm includes exact source metadata and a verified fact dependency map.",
+        "UTF-8 payload bytes are not tokenizer counts or model-cost estimates; no method-superiority claim is made from this fixture."
+      ]
     },
     {
       "task_id": "N4-08",
