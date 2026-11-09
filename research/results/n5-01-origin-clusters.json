@@ -4,24 +4,24 @@
   "acceptance_passed": true,
   "evidence_level": "CONTRACT",
   "source": {
-    "commit": "a14215edf4228c4e52dbc67648fe773c86be17c4",
-    "dirty_before_result_write": true,
+    "commit": "cc4eaf1ae616d976c0c5ad80469e7a2f2614d960",
+    "dirty_before_result_write": false,
     "script_sha256": "c0703da03308e9eb21a4741f6d011b8fbd505cd344070812ac4f79351c8d064e"
   },
   "fixture": {
     "repeated_source": {
       "value": "22",
       "memories": [
-        "01M6YVQYJDCERW7WWM6DDY3WF2",
-        "01M6YVQYM0HR07NZ9JFNP5QFYD",
-        "01M6YVQYM14SRXWY39CC8V05M2",
-        "01M6YVQYM14SRXWY39CC8V05M5",
-        "01M6YVQYM2Q6XBKBFEE2NVEA5A",
-        "01M6YVQYM2Q6XBKBFEE2NVEA5D",
-        "01M6YVQYM3J49XENQPK69TPTBX",
-        "01M6YVQYM3J49XENQPK69TPTC0",
-        "01M6YVQYM3J49XENQPK69TPTC3",
-        "01M6YVQYM49G6ARWKGHP94VN2Z"
+        "01M6YVX5HS0M8W3FNZ954J8JQ4",
+        "01M6YVX5K9SGQCBCEMQRJ30QCK",
+        "01M6YVX5K9SGQCBCEMQRJ30QCP",
+        "01M6YVX5KA94W6MCZ7EG4DJARW",
+        "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+        "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+        "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+        "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+        "01M6YVX5KD632Q25K74RPA17H6",
+        "01M6YVX5KD632Q25K74RPA17H9"
       ],
       "agents": [
         "observer_0",
@@ -39,18 +39,18 @@
       "artificial": true,
       "origin_clusters": [
         {
-          "root_id": "01M6YVQYJDCERW7WWM6DDY3WF2",
+          "root_id": "01M6YVX5HS0M8W3FNZ954J8JQ4",
           "memories": [
-            "01M6YVQYJDCERW7WWM6DDY3WF2",
-            "01M6YVQYM0HR07NZ9JFNP5QFYD",
-            "01M6YVQYM14SRXWY39CC8V05M2",
-            "01M6YVQYM14SRXWY39CC8V05M5",
-            "01M6YVQYM2Q6XBKBFEE2NVEA5A",
-            "01M6YVQYM2Q6XBKBFEE2NVEA5D",
-            "01M6YVQYM3J49XENQPK69TPTBX",
-            "01M6YVQYM3J49XENQPK69TPTC0",
-            "01M6YVQYM3J49XENQPK69TPTC3",
-            "01M6YVQYM49G6ARWKGHP94VN2Z"
+            "01M6YVX5HS0M8W3FNZ954J8JQ4",
+            "01M6YVX5K9SGQCBCEMQRJ30QCK",
+            "01M6YVX5K9SGQCBCEMQRJ30QCP",
+            "01M6YVX5KA94W6MCZ7EG4DJARW",
+            "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+            "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+            "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+            "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+            "01M6YVX5KD632Q25K74RPA17H6",
+            "01M6YVX5KD632Q25K74RPA17H9"
           ],
           "agents": [
             "observer_0",
@@ -70,8 +70,8 @@
     "independent_sources": {
       "value": "14",
       "memories": [
-        "01M6YVQYM49G6ARWKGHP94VN32",
-        "01M6YVQYM5KVTCV8S995R8H8SN"
+        "01M6YVX5KEZ8747ATYPF9PT6RQ",
+        "01M6YVX5KEZ8747ATYPF9PT6RS"
       ],
       "agents": [
         "field_a",
@@ -81,18 +81,18 @@
       "artificial": false,
       "origin_clusters": [
         {
-          "root_id": "01M6YVQYM49G6ARWKGHP94VN32",
+          "root_id": "01M6YVX5KEZ8747ATYPF9PT6RQ",
           "memories": [
-            "01M6YVQYM49G6ARWKGHP94VN32"
+            "01M6YVX5KEZ8747ATYPF9PT6RQ"
           ],
           "agents": [
             "field_a"
           ]
         },
         {
-          "root_id": "01M6YVQYM5KVTCV8S995R8H8SN",
+          "root_id": "01M6YVX5KEZ8747ATYPF9PT6RS",
           "memories": [
-            "01M6YVQYM5KVTCV8S995R8H8SN"
+            "01M6YVX5KEZ8747ATYPF9PT6RS"
           ],
           "agents": [
             "field_b"
@@ -103,20 +103,20 @@
     "claim_leading_value": "14",
     "claim_contested": false,
     "ten_report_ids": [
-      "01M6YVQYJDCERW7WWM6DDY3WF2",
-      "01M6YVQYM0HR07NZ9JFNP5QFYD",
-      "01M6YVQYM14SRXWY39CC8V05M2",
-      "01M6YVQYM14SRXWY39CC8V05M5",
-      "01M6YVQYM2Q6XBKBFEE2NVEA5A",
-      "01M6YVQYM2Q6XBKBFEE2NVEA5D",
-      "01M6YVQYM3J49XENQPK69TPTBX",
-      "01M6YVQYM3J49XENQPK69TPTC0",
-      "01M6YVQYM3J49XENQPK69TPTC3",
-      "01M6YVQYM49G6ARWKGHP94VN2Z"
+      "01M6YVX5HS0M8W3FNZ954J8JQ4",
+      "01M6YVX5K9SGQCBCEMQRJ30QCK",
+      "01M6YVX5K9SGQCBCEMQRJ30QCP",
+      "01M6YVX5KA94W6MCZ7EG4DJARW",
+      "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+      "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+      "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+      "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+      "01M6YVX5KD632Q25K74RPA17H6",
+      "01M6YVX5KD632Q25K74RPA17H9"
     ],
     "two_independent_report_ids": [
-      "01M6YVQYM49G6ARWKGHP94VN32",
-      "01M6YVQYM5KVTCV8S995R8H8SN"
+      "01M6YVX5KEZ8747ATYPF9PT6RQ",
+      "01M6YVX5KEZ8747ATYPF9PT6RS"
     ]
   },
   "tests": {
