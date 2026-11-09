@@ -4111,6 +4111,27 @@
         "Certificates are verified against the local current store and do not establish distributed trust or independent audit.",
         "The lossy path is caller-supplied and opt-in; default summary behavior is unchanged."
       ]
+    },
+    {
+      "task_id": "N4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-09-summary-refresh-v1.md",
+        "src/memory_fabric/compaction.py",
+        "experiments/n4_09_summary_refresh.py",
+        "tests/test_n4_09_summary_refresh.py",
+        "research/results/n4-09-summary-refresh.json",
+        "research/results/n4-09-summary-refresh.md",
+        "research/results/n4-09-summary-refresh-tests.xml",
+        "research/results/n4-09-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Affected refresh performs a complete rebuild of only the affected session; it does not patch summary text in place.",
+        "Operation counts and deterministic text hashes are reported; wall-clock latency and production-scale behavior are not.",
+        "The fixture is local and in-memory, with no distributed queues or concurrent corrections."
+      ]
     }
   ]
 }

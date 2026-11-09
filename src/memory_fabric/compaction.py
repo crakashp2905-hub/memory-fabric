@@ -741,17 +741,30 @@ def verify_hierarchical_summary(
 
 
 def stale_summaries(fabric: "MemoryFabric") -> list[tuple[str, str]]:
-    """Compaction summaries withdrawn or contested because an input changed: (summary, episode)."""
-    out = []
+    """Return one latest stale summary per episode that needs a refresh."""
+    active_episodes = {
+        str((memory.context or {}).get("compaction_of"))
+        for memory in fabric.state.memories.values()
+        if (memory.context or {}).get("compaction_of")
+        and memory.lifecycle_state in EXPOSABLE_STATES
+    }
+    latest_stale: dict[str, "Memory"] = {}
     for memory in fabric.state.memories.values():
         episode = (memory.context or {}).get("compaction_of")
-        if episode and memory.lifecycle_state not in EXPOSABLE_STATES:
-            newer = [m for m in fabric.state.memories.values()
-                     if (m.context or {}).get("compaction_of") == episode
-                     and m.lifecycle_state in EXPOSABLE_STATES]
-            if not newer:
-                out.append((memory.id, str(episode)))
-    return out
+        if not episode or memory.lifecycle_state in EXPOSABLE_STATES:
+            continue
+        episode_id = str(episode)
+        if episode_id in active_episodes:
+            continue
+        previous = latest_stale.get(episode_id)
+        if previous is None or (memory.created_at, memory.id) > (
+            previous.created_at, previous.id
+        ):
+            latest_stale[episode_id] = memory
+    return [
+        (latest_stale[episode_id].id, episode_id)
+        for episode_id in sorted(latest_stale)
+    ]
 
 
 def recompact(fabric: "MemoryFabric", agent_id: str) -> list[CompactionReport]:
