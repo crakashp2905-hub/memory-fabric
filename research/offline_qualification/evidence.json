@@ -4132,6 +4132,22 @@
         "Operation counts and deterministic text hashes are reported; wall-clock latency and production-scale behavior are not.",
         "The fixture is local and in-memory, with no distributed queues or concurrent corrections."
       ]
+    },
+    {
+      "task_id": "N4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-10-provenance-compression-hypothesis-v1.md",
+        "tests/test_n4_10_compaction_preregistration.py",
+        "research/results/n4-10-preregistration-tests.xml"
+      ],
+      "limitations": [
+        "The registered hypothesis has not been run; token-normalized and provider-cost outcomes remain NOT_RUN.",
+        "N4-07 is development-fixture evidence only and does not satisfy the registered unseen-family gates.",
+        "Absolute novelty requires a separate prior-art review."
+      ]
     }
   ]
 }
