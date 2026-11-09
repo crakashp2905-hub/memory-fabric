@@ -4,7 +4,7 @@ Strict completion: **257 / 260 (98.85%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `3a4d1baeaa0f653fd800b80a15c9a01493b6f1f74eaa2884874b8ddf986d1525`.
+Normalized ledger digest: `02fc17d005f6434d311986d056118741f378b926465bac56f53e5af420166a24`.
 
 | status | count |
 |---|---:|
@@ -229,7 +229,7 @@ Normalized ledger digest: `3a4d1baeaa0f653fd800b80a15c9a01493b6f1f74eaa2884874b8
 | H4-08 | P0 | DONE | INTERNAL_INTEGRATION | `tests/test_backup.py`, `tests/test_version_skew.py`, `tests/test_historical_fixtures.py`, `tests/test_backup_restore_qualification.py`, `research/results/h4-08-backup-upgrade.json`, `research/results/h4-08-backup-upgrade-tests.xml`, `research/results/p5-04-upgrade-rollback-smoke.json` |
 | H4-09 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `docs/FRESHNESS_LEASES.md`, `tests/test_freshness.py`, `tests/test_certificates.py`, `tests/test_identity.py`, `research/results/h4-09-clock-skew.json`, `research/results/h4-09-clock-skew-tests.xml` |
 | H4-10 | P0 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/incident.py`, `src/memory_fabric/response.py`, `src/memory_fabric/cli.py`, `tests/test_incident.py`, `tests/test_response.py`, `research/results/h4-10-incident-replay.json`, `research/results/h4-10-incident-replay-tests.xml` |
-| H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json` |
+| H5-01 | P1 | PARTIAL | CONTRACT | `pyproject.toml`, `tools/dependency_provenance.py`, `tools/normalize_sdist.py`, `tests/test_normalize_sdist.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json`, `research/results/h5-01-normalize-sdist-tests.xml` |
 | H5-02 | P1 | DONE | INTERNAL_INTEGRATION | `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml` |
 | H5-03 | P1 | DONE | INTERNAL_INTEGRATION | `tools/security_ast_scan.py`, `tools/security_ast_exceptions.json`, `tests/test_security_ast_scan.py`, `tests/data/security_ast_positive.py`, `research/results/h5-03-security-ast.json`, `research/results/h5-03-security-ast-tests.xml` |
 | H5-04 | P1 | DONE | INTERNAL_INTEGRATION | `tools/audit_package_assets.py`, `tests/test_package_asset_audit.py`, `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/publish-pypi.yml`, `research/results/h5-04-package-asset-audit.json`, `research/results/h5-04-package-asset-tests.xml` |

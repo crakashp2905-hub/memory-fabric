@@ -6,6 +6,7 @@ import importlib.metadata
 import json
 import subprocess
 import sys
+import tarfile
 import tomllib
 import zipfile
 from pathlib import Path
@@ -58,8 +59,21 @@ def main() -> int:
                                               if name.endswith(".dist-info/METADATA")), None)
                         metadata = (archive.read(metadata_name).decode("utf-8")
                                     if metadata_name else "")
+                    file_count = len(names)
+                elif path.name.endswith(".tar.gz"):
+                    with tarfile.open(path, mode="r:gz") as archive:
+                        members = archive.getmembers()
+                        metadata_member = next((member for member in members
+                                                if member.name.endswith("/PKG-INFO")), None)
+                        metadata = (archive.extractfile(metadata_member).read().decode("utf-8")
+                                    if metadata_member else "")
+                    file_count = sum(member.isfile() for member in members)
+                else:
+                    metadata = ""
+                    file_count = 0
+                if path.suffix == ".whl" or path.name.endswith(".tar.gz"):
                     item["package_manifest"] = {
-                        "file_count": len(names),
+                        "file_count": file_count,
                         "requires_dist": [line.removeprefix("Requires-Dist: ")
                                           for line in metadata.splitlines()
                                           if line.startswith("Requires-Dist:")],
@@ -94,7 +108,7 @@ def main() -> int:
             "repeatability_result": (repeatability_path.relative_to(ROOT).as_posix()
                                      if repeatability else None),
             "repeatability": repeatability,
-            "scope": "Core wheel only; optional extras are not locked and the sdist repeatability check failed.",
+            "scope": "Core wheel and normalized sdist only; optional extras are not locked.",
         },
         "inventory_run": {
             "generated_at_commit": inventory_commit,

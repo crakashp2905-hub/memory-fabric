@@ -1,55 +1,64 @@
-"""Normalize an sdist tarball's metadata for reproducible candidate artifacts."""
+"""Normalize a setuptools sdist archive for deterministic local provenance."""
 from __future__ import annotations
 
 import argparse
+import copy
 import gzip
 import io
+import os
 import tarfile
+import tempfile
 from pathlib import Path
 
 
-def normalize(source: Path, destination: Path, epoch: int) -> None:
-    if epoch < 0:
-        raise ValueError("SOURCE_DATE_EPOCH must be non-negative")
-    with tarfile.open(source, "r:gz") as archive:
-        members = sorted(archive.getmembers(), key=lambda item: item.name)
-        payloads: list[tuple[tarfile.TarInfo, bytes | None]] = []
-        for member in members:
-            path = Path(member.name.replace("\\", "/"))
-            if path.is_absolute() or ".." in path.parts:
-                raise ValueError(f"unsafe sdist member path: {member.name}")
-            info = tarfile.TarInfo(member.name)
-            info.type = member.type
-            info.mode = member.mode & 0o777
-            info.size = member.size if member.isfile() else 0
-            info.mtime = epoch
-            info.uid = 0
-            info.gid = 0
-            info.uname = ""
-            info.gname = ""
-            info.linkname = member.linkname
-            info.pax_headers = {}
-            content = archive.extractfile(member).read() if member.isfile() else None
-            payloads.append((info, content))
+def normalize(source: Path, destination: Path | None = None) -> Path:
+    """Rewrite tar/gzip metadata to stable values while preserving file bytes."""
+    source = source.resolve()
+    destination = destination.resolve() if destination is not None else source
 
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    with destination.open("wb") as raw:
-        with gzip.GzipFile(filename="", fileobj=raw, mode="wb", compresslevel=9, mtime=0) as zipped:
-            with tarfile.open(fileobj=zipped, mode="w", format=tarfile.GNU_FORMAT) as normalized:
-                for info, content in payloads:
-                    normalized.addfile(info, io.BytesIO(content) if content is not None else None)
+    entries: list[tuple[tarfile.TarInfo, bytes | None]] = []
+    with tarfile.open(source, mode="r:gz") as archive:
+        for original in archive.getmembers():
+            member = copy.copy(original)
+            if member.isfile():
+                stream = archive.extractfile(original)
+                if stream is None:
+                    raise ValueError(f"missing regular-file payload: {member.name}")
+                data = stream.read()
+            else:
+                data = None
+            member.mtime = 0
+            member.uid = 0
+            member.gid = 0
+            member.uname = ""
+            member.gname = ""
+            member.pax_headers = {}
+            entries.append((member, data))
+
+    fd, temporary_name = tempfile.mkstemp(
+        prefix=destination.name + ".normalizing-", dir=destination.parent)
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(fd, "wb") as raw_output:
+            with gzip.GzipFile(fileobj=raw_output, mode="wb", filename="",
+                               mtime=0, compresslevel=9) as compressed:
+                with tarfile.open(fileobj=compressed, mode="w|",
+                                  format=tarfile.PAX_FORMAT) as output:
+                    for member, data in sorted(entries, key=lambda item: item[0].name):
+                        output.addfile(member, io.BytesIO(data) if data is not None else None)
+        os.replace(temporary, destination)
+    finally:
+        temporary.unlink(missing_ok=True)
+    return destination
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("source", type=Path)
-    parser.add_argument("destination", type=Path)
-    parser.add_argument("--epoch", required=True, type=int)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("archive", type=Path, help="sdist .tar.gz to normalize in place")
     args = parser.parse_args()
-    normalize(args.source, args.destination, args.epoch)
-    print(f"normalized {args.source.name} -> {args.destination.name} at epoch {args.epoch}")
+    normalize(args.archive)
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())

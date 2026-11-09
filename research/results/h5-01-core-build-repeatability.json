@@ -1,9 +1,11 @@
 {
   "schema": "memory-fabric-h5-01-core-build-repeatability/1",
   "task_id": "H5-01",
-  "source_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+  "source_commit": "3ff1ff69f9068084d738f37c6e40b2114f3b91a3",
+  "source_tree_clean_at_build_start": true,
   "python": "3.13.5",
-  "command": "python -m build --no-isolation --sdist --wheel with SOURCE_DATE_EPOCH=0; repeated into independent output directories",
+  "command": "python -m build --no-isolation --sdist --wheel with SOURCE_DATE_EPOCH=0; normalize each .tar.gz with tools/normalize_sdist.py",
+  "normalizer_sha256": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
   "build_frontend": "build 1.6.1",
   "backend": "setuptools 80.9.0",
   "wheel": {
@@ -19,29 +21,27 @@
     },
     "byte_identical": true
   },
-  "sdist": {
+  "sdist_normalized": {
     "run_1": {
       "name": "memory_fabric-0.19.0.tar.gz",
-      "bytes": 641458,
-      "sha256": "124077df2ffaf105034089bb1a94ee4601d794e049bf0d01a0759d6bfdb78054"
+      "bytes": 626381,
+      "sha256": "2ee4756b1b6b63d0dcd8219877d7222a3419824129b72b4263bb60d2cfaeb14f"
     },
     "run_2": {
       "name": "memory_fabric-0.19.0.tar.gz",
-      "bytes": 641445,
-      "sha256": "dfe9de9c09846cd05730909a1c63cc57dfeaf7227b2b20114683f7134b3b6f8e"
+      "bytes": 626381,
+      "sha256": "2ee4756b1b6b63d0dcd8219877d7222a3419824129b72b4263bb60d2cfaeb14f"
     },
-    "byte_identical": false
+    "byte_identical": true
   },
-  "limitations": [
-    "Core wheel builds are byte-identical under the recorded local toolchain and fixed epoch.",
-    "The sdist differs between runs because tar member directory timestamps remain wall-clock values.",
-    "This does not lock or validate optional extras, which need registry metadata unavailable offline."
-  ],
-  "source_tree_clean_at_build_start": true,
   "fresh_venv_install": {
     "status": "PASSED",
     "command": "python -m pip install --no-index --no-deps dist/memory_fabric-0.19.0-py3-none-any.whl",
     "installed_version": "0.19.0",
     "runtime_dependencies": []
-  }
+  },
+  "limitations": [
+    "This verifies reproducible local core artifacts under the recorded toolchain; optional extra dependency resolution is not covered.",
+    "No package was published."
+  ]
 }

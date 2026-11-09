@@ -1397,7 +1397,7 @@
         "research/results/e5-10-portable-paths.xml"
       ],
       "limitations": [
-        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS × Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
       ]
     },
     {
@@ -2067,14 +2067,17 @@
       "evidence_paths": [
         "pyproject.toml",
         "tools/dependency_provenance.py",
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
         "docs/REPRODUCIBLE_CORE_BUILD.md",
         "research/results/h5-01-core-build-repeatability.json",
-        "research/results/h5-01-dependency-provenance.json"
+        "research/results/h5-01-dependency-provenance.json",
+        "research/results/h5-01-normalize-sdist-tests.xml"
       ],
       "limitations": [
-        "The local zero-dependency core wheel reproduced byte-for-byte twice and installed in a fresh no-index virtual environment; the sdist differed due archive directory timestamps.",
+        "Two fixed-epoch local builds produced byte-identical core wheels and normalized sdists; the wheel installed in a fresh no-index virtual environment.",
         "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
-        "The wheel is a local candidate, not a release, and no package was published."
+        "The wheel and sdist are local candidates, not a release, and no package was published."
       ]
     },
     {

@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4efcd90e5c59a9fcd125ab8814814263fdc04416",
-    "dirty": false
+    "commit": "3ff1ff69f9068084d738f37c6e40b2114f3b91a3",
+    "dirty": true
   },
   "summary": {
     "counts": {
@@ -6018,22 +6018,28 @@
       "evidence_paths": [
         "pyproject.toml",
         "tools/dependency_provenance.py",
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
         "docs/REPRODUCIBLE_CORE_BUILD.md",
         "research/results/h5-01-core-build-repeatability.json",
-        "research/results/h5-01-dependency-provenance.json"
+        "research/results/h5-01-dependency-provenance.json",
+        "research/results/h5-01-normalize-sdist-tests.xml"
       ],
       "evidence_digests": {
         "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
-        "tools/dependency_provenance.py": "7bdd13091a61fa5fe17b017bd7f2bfc7d1fc680384dfd849f4a93ec4695f6177",
-        "docs/REPRODUCIBLE_CORE_BUILD.md": "90068a2c157de121116092614e3421b0a06b30edb6f78bf80df3a0f5229e3e5b",
-        "research/results/h5-01-core-build-repeatability.json": "093e33c0d7266cce772ef13e49e14b8d8919bd065c74471932bd068476109a45",
-        "research/results/h5-01-dependency-provenance.json": "2cf0cf54aba98a4b45a9be12a68535124d184aa00eacead73d397da27cf9d9c2"
+        "tools/dependency_provenance.py": "6302e2e27ad1471f6dd27de28f3da93e062adda95c5c2721002b4b2a579a7dfa",
+        "tools/normalize_sdist.py": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
+        "tests/test_normalize_sdist.py": "f0acfb36b997b7d28dcfc0c007cb93cffe5b039cbedd9bd97ac6d566f822f293",
+        "docs/REPRODUCIBLE_CORE_BUILD.md": "f141e26b273ae24e1b7034d28f64b0165d5cfe6512ca49846572cb0b530320c5",
+        "research/results/h5-01-core-build-repeatability.json": "b17195b897673515423c47f72980a1a6d76e5313b9fddff8af3908f64e07b972",
+        "research/results/h5-01-dependency-provenance.json": "099e4f96dc5a90792c8b5e94dada97f09724d01958d89e8cc6b7834e269ad9c3",
+        "research/results/h5-01-normalize-sdist-tests.xml": "124800f1c0d13b84e5cfb688e02f222c572430a89d50cf5ca0e33f15f82990c5"
       },
       "evidence_issues": {},
       "limitations": [
-        "The local zero-dependency core wheel reproduced byte-for-byte twice and installed in a fresh no-index virtual environment; the sdist differed due archive directory timestamps.",
+        "Two fixed-epoch local builds produced byte-identical core wheels and normalized sdists; the wheel installed in a fresh no-index virtual environment.",
         "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
-        "The wheel is a local candidate, not a release, and no package was published."
+        "The wheel and sdist are local candidates, not a release, and no package was published."
       ]
     },
     {
@@ -7582,8 +7588,8 @@
         "research/results/p5-01-fresh-machine.txt"
       ],
       "evidence_digests": {
-        "tools/normalize_sdist.py": "9a1e8ab40d1554b9101be24c1414824290da5872a7d463c7c87de2dad4e875a9",
-        "tests/test_normalize_sdist.py": "0a134459618d8fbd76c998eaa1e6bfa5ca64b0f87b88c9fed1731e5b43aa210c",
+        "tools/normalize_sdist.py": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
+        "tests/test_normalize_sdist.py": "f0acfb36b997b7d28dcfc0c007cb93cffe5b039cbedd9bd97ac6d566f822f293",
         "research/results/p5-01-exact-candidate.json": "e96887420adff5ed43e657ed9450a1ab7057e5aead5d743459a2fb7af420aaf7",
         "research/results/p5-01-package-assets.json": "be5468282028a50e1cff96182ea16394c28fc3a179239d405edf89653af0a9a0",
         "research/results/p5-01-reproducible-sdist-tests.xml": "69ad222c1c6c1b9d68590eaede8e69db056eb7d3d0fe301bbe08b8fd65e1e3fd",
