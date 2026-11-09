@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "3ff1ff69f9068084d738f37c6e40b2114f3b91a3",
-    "dirty": true
+    "commit": "34140473ac59c9966cced8f9a055ffe37d7d34b0",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -6033,7 +6033,7 @@
         "docs/REPRODUCIBLE_CORE_BUILD.md": "f141e26b273ae24e1b7034d28f64b0165d5cfe6512ca49846572cb0b530320c5",
         "research/results/h5-01-core-build-repeatability.json": "b17195b897673515423c47f72980a1a6d76e5313b9fddff8af3908f64e07b972",
         "research/results/h5-01-dependency-provenance.json": "099e4f96dc5a90792c8b5e94dada97f09724d01958d89e8cc6b7834e269ad9c3",
-        "research/results/h5-01-normalize-sdist-tests.xml": "124800f1c0d13b84e5cfb688e02f222c572430a89d50cf5ca0e33f15f82990c5"
+        "research/results/h5-01-normalize-sdist-tests.xml": "c6ed72826ea9176d054492e1b4bd407f63a1405c04bbc0ccd763783e7adb8c5a"
       },
       "evidence_issues": {},
       "limitations": [
