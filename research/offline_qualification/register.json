@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4c7645a1a9ed74d7ac1f38ce5cba30b8011b0df1",
+    "commit": "8960ff64bbb371bc7f80fac1f5184b08c939f5fe",
     "dirty": true
   },
   "summary": {
@@ -1295,7 +1295,7 @@
         "research/results/e5-05-tool-schema.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9",
         "research/results/e5-05-tool-schema.json": "006244632d6832aeadfb9d9475a64b4391323ab6587f5c65ef030ddd3560aa0c",
@@ -1323,7 +1323,7 @@
         "research/results/e5-06-utcp-malicious.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9",
@@ -4678,7 +4678,7 @@
         "research/results/n6-05-protocol-equivalence.json": "f6b970b37381225ba094d3561de80524487e0880b6ee276bb1e22e8211c2e61c",
         "docs/LOCAL_PROTOCOL_EQUIVALENCE.md": "1a2e50340c288b05792a190c57bc21b3fd781e6efef433b0188f06194cb19699",
         "src/memory_fabric/adapters/mcp.py": "3222432632f89de2e2f6044ecc0ecaba8646c33fe6cbd2c298cbe7432030e7da",
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068"
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701"
       },
       "evidence_issues": {},
       "limitations": [
@@ -4707,7 +4707,7 @@
         "docs/UTCP_MANUAL_POLICY.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
         "experiments/n6_06_utcp_policy_check.py": "5b62ea852b56fc99828cdc8625a7a7b1de9267efd037a79611f045e10369a137",
         "tests/test_n6_06_utcp_policy_check.py": "c1af3cb34314f363cdb817fdfdb04386207b1f8da995e5d93985d6f90371c587",
@@ -4741,13 +4741,13 @@
         "docs/DECISION_MODELS_AND_UTCP.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "experiments/n6_07_code_mode_static_bounds.py": "615799b1522c9272f7de8e40844a4dd8cf5d45bc57787cec832340178248bb59",
         "tests/test_n6_07_code_mode_static_bounds.py": "8ff904c24a457c3b113aa11a180a7b1e3297f125a8d5bdcf401d17e785d4656a",
-        "research/results/n6-07-code-mode-static-bounds-tests.xml": "ea3f649bd814b272582859c268fc8445c1a6cb095b33c95b01a77c4617e5de11",
-        "research/results/n6-07-code-mode-static-bounds.json": "f9929854f604f94032318aa3889671af5756f0c41c7c3239e8161728da95c160",
+        "research/results/n6-07-code-mode-static-bounds-tests.xml": "4ed9ef341e5e2d44b0a82242952ecbb70f7604a2259b54c2572a054fa7ff4692",
+        "research/results/n6-07-code-mode-static-bounds.json": "05dac9fa6bee567f14461b0f60a6f6d86487bb18ae6fa37ff25e0e20cc2c6f0b",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9"
       },
       "evidence_issues": {},
@@ -4776,14 +4776,14 @@
         "docs/DECISION_MODELS_AND_UTCP.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
         "tests/test_n6_08_code_mode_effect_authorization.py": "6367648d161a7847582ddd21559694754841898fa54bff18f292ab8ec4fc6aef",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
         "tests/test_credential_rotation_actions.py": "615c685e96a6660b843aa23d085cd2fff4ab6bf6aed730521eb2b0af59fdd346",
-        "research/results/n6-08-code-mode-effect-authorization-tests.xml": "553cc47eb4ae6fee93109051bc8382e56b2ee86d0d56b13ec9c9256cae6005ef",
-        "research/results/n6-08-code-mode-effect-authorization.json": "77d41b09bbfeacaf80ae17a36957a9cf1d52c2ae3c89eacdfcc01994f9e33813",
+        "research/results/n6-08-code-mode-effect-authorization-tests.xml": "40b2af80db3fdc495da1177163b95d922c44cb3a066bd1e4d44dbc2dde46b28d",
+        "research/results/n6-08-code-mode-effect-authorization.json": "b7b6b6bb4676a660e58bcc11034d18a4ecd7e01594beb3a960834fed22274966",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9"
       },
       "evidence_issues": {},
@@ -4818,7 +4818,7 @@
         "docs/LOCAL_PROTOCOL_EQUIVALENCE.md": "1a2e50340c288b05792a190c57bc21b3fd781e6efef433b0188f06194cb19699",
         "experiments/n6_05_protocol_equivalence.py": "fdef9751c7eca312e092a7fb28457e89bd3f78676e51483478580a209d4215c7",
         "src/memory_fabric/adapters/mcp.py": "3222432632f89de2e2f6044ecc0ecaba8646c33fe6cbd2c298cbe7432030e7da",
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068"
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701"
       },
       "evidence_issues": {},
       "limitations": [
@@ -4850,14 +4850,14 @@
       ],
       "evidence_digests": {
         "docs/research/preregistrations/N6-10-generated-program-provenance.md": "209d49e6fb5dfdb511cefd5df5eece0e57a6a4db3c650f9dca7b007aba9ef9bb",
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
         "experiments/n6_10_generated_program_provenance.py": "d7657561e04c34d432f905c4dcf1ec4a3bf2071879d1b812574477d246b742fe",
         "tests/test_n6_10_generated_program_provenance.py": "fa92684d93839c0ba3c925b94ed957b491cdf68e52c8a07286ffca222a18e8e9",
         "tests/test_action_fence.py": "28aa96ee5336cce9cf822fdbebd10058c5f0a490b6229974face264989ed2c6b",
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
-        "research/results/n6-10-generated-program-provenance-tests.xml": "48c60f4d0c8d8cc8816403e97e0a9d1971d94f62d238983a2582a9a6bb4cd743",
-        "research/results/n6-10-generated-program-provenance.json": "a203b886e603d52b9f62a2bfaa4d36f1cd188243c408eefabfa0ca97405dade0",
+        "research/results/n6-10-generated-program-provenance-tests.xml": "ad5195018dbde9ddd5507e15de5f0269fad58690c0e9202353510f795397c84f",
+        "research/results/n6-10-generated-program-provenance.json": "a91f42a4e20464024b4b1c931157fb3079dce912a51f8d34fa94d6fd5c6608f3",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9",
         "docs/DECISION_FEATURE_PROVENANCE.md": "019d05c3376855e44157838e420b017eec61c2603b750d6e7d650d2c87cfc312"
       },
@@ -5246,7 +5246,7 @@
         "research/results/h2-05-code-mode-parser.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
@@ -5277,7 +5277,7 @@
         "research/results/h2-06-code-mode-bounds.json"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/test_code_mode_fuzz.py": "fd057884eee386819b51257e066be81fe2723d199b8eb89d7b91a6bb91e70c8d",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "tools/code_mode_parser_qualification.py": "f52287b089e50c344b8c8c5a001673e5ec7bcb5ee88d36059ee05e88d615a6c7",
@@ -5334,7 +5334,7 @@
         "research/results/h2-08-utcp-transport-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
         "tests/test_tool_protocol.py": "08bcc298efe8748e252c1fe68e46d0b52ea17b9c204cfdddec6468c747289230",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9",
@@ -5393,7 +5393,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
-        "src/memory_fabric/tool_protocol.py": "ea560b79f67bd16a60076e2c1ef840186d65b7b67620e897397d3defe3c91068",
+        "src/memory_fabric/tool_protocol.py": "6de9f53de3bb8baa6b88c92df1d80399a8fc9be7fc1d3b2d2e22436f078fc701",
         "tests/test_confused_deputy.py": "45ef0ac772dd2d758644ed7565a4eaba70a2a572f9b2d661acd47959fb75934d",
         "docs/DECISION_MODELS_AND_UTCP.md": "608cdb800e87e05ffffa2ed623fdccaa72c70f9e302b7c0a6f32fe41126ca0c9",
         "research/results/h2-10-confused-deputy.json": "b4c31feb30b47e0bf8c88c1778ce20b3528e34e7cfeaa500ad2efea220730184",

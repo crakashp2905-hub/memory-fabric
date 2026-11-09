@@ -25,8 +25,8 @@
     ]
   },
   "source": {
-    "commit": "4104733bcc8e2ff4c7cb936521476e970afb8573",
-    "experiment_sha256": "6dc23917498d2513591a13c681e987994d88fd4e3d906daf619d8e1dbb65fdfa"
+    "commit": "8960ff64bbb371bc7f80fac1f5184b08c939f5fe",
+    "experiment_sha256": "950c110c5d3b8924c48aff7d9a61e39addfe8415a9d99d44a86fed11ac0d3601"
   },
   "limitations": [
     "External effects are represented by deterministic in-memory handlers; no production service is called.",
