@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "16550e66a3e273d429614e74b073ed0e981d89ac",
-    "dirty": true
+    "commit": "2e3cf63c8611a1147da7426e9b99449646214d70",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -4037,7 +4037,7 @@
         "tests/test_compaction_budget.py": "e7a194c1414f9c4882c5b6e8e7725d051a2dcba2019f3dd8eeb99a5ff3239f4c",
         "experiments/n4_06_budgeted_compaction.py": "236968a58c1f835eb794340d539c14ad440a887496b53da2e1bb41fa90209b5a",
         "docs/API.md": "a39bb5d1fea4a15d5e81b013d68132327273d1a0e606aad9b65614e863c9bf06",
-        "research/results/n4-06-budgeted-compaction.json": "a718d090107249d7cad3aa42e069df83b6a99b0c87ddff648de313084d8e1901",
+        "research/results/n4-06-budgeted-compaction.json": "5f574175def7b0715d028baf3e8235b165250fd9608037552b8cc12c7e8bd4f1",
         "research/results/n4-06-budgeted-compaction.md": "dbc13bf697633cfb63b4b7fc623093d48e26c1846a39d2819c6ae004b5ce5bd8",
         "research/results/n4-06-budget-tests.xml": "3cac77cb53b55cd537aba3901c45e60487676905e6f4e5a8519de51832419612",
         "research/results/n4-06-compaction-regression.xml": "cdd95861f411e6a12d8121f27d2dcf60e2e75f68b7ec59c33241f4ad7f1ff5bb"
