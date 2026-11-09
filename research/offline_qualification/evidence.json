@@ -1,0 +1,4617 @@
+{
+  "schema": "memory-fabric-offline-evidence/1",
+  "tasks": [
+    {
+      "task_id": "N1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "SPEC.md",
+        "pyproject.toml",
+        "src/memory_fabric/model.py",
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "tests/test_decision_records.py",
+        "research/results/n1-01-decision-record-tests.xml"
+      ],
+      "limitations": [
+        "DecisionRecord v1 is a validated immutable schema contract with strict identity/time fields and serialization. Persistence, links to claim/action events, and migration between stored schema versions remain unimplemented and are tracked by later N1 tasks."
+      ]
+    },
+    {
+      "task_id": "N1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/events.py",
+        "tools/gen_reference.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
+        "research/results/n1-02-decision-ledger-tests.xml"
+      ],
+      "limitations": [
+        "The replayable graph keeps exposure observation separate from claim reliance and authorization/execution relationships. Tool effect target IDs are supplied by the integrator; automatic derivation from action-gate and execution receipt events is not implemented."
+      ]
+    },
+    {
+      "task_id": "N1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-03-decision-impact-tests.xml"
+      ],
+      "limitations": [
+        "Impact queries follow explicit relied_on edges to exact evidence versions and report only effects attached to affected decisions. Correction and RetractionApplied triggers are supported; requested but unapplied retractions do not trigger impact results."
+      ]
+    },
+    {
+      "task_id": "N1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "tests/test_decision_records.py",
+        "tools/n1_04_dependency_index.py",
+        "research/results/n1-04-dependency-index.json"
+      ],
+      "limitations": [
+        "The dependency index is in-memory and incrementally consumes new event-log sequences; process restart rebuilds it by replaying the complete log. Qualification uses a deterministic 10,000-decision generated dataset and records the seed and dataset digest."
+      ]
+    },
+    {
+      "task_id": "N1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "research/results/n1-05-alternative-reassessment.xml"
+      ],
+      "limitations": [
+        "Alternative assessments preserve a human or agent supplied rejection explanation and exact evidence basis. Reconsideration marks an alternative as potentially viable after correction; it does not compute truth, select an option, or grant action authority."
+      ]
+    },
+    {
+      "task_id": "N1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "SPEC.md",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/model.py",
+        "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
+        "research/results/n1-06-status-transition-tests.xml"
+      ],
+      "limitations": [
+        "Status changes are durable, append-only event-log transitions. Competing writes were exercised with SQLite; the PostgreSQL adapter uses the same EventLog transaction boundary but was not live-tested because no PostgreSQL service is available. External business approval remains the responsibility of the caller's governance policy; this ledger records the transition and does not grant tool authority."
+      ]
+    },
+    {
+      "task_id": "N1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_records.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "docs/DECISION_RECORD_SCHEMA.md",
+        "tests/test_decision_records.py",
+        "tests/test_protocol_schemas.py",
+        "tests/test_support_bundle.py",
+        "research/results/n1-07-reevaluation-receipt-tests.xml"
+      ],
+      "limitations": [
+        "Receipts are deterministic projections of the local durable event log. They are advisory and do not approve, authorize, or execute effects; a distributed receipt-delivery protocol is not implied."
+      ]
+    },
+    {
+      "task_id": "N1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/common.py",
+        "src/memory_fabric/fabric.py",
+        "src/memory_fabric/__init__.py",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tools/gen_reference.py",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "tests/test_revision_conflicts.py",
+        "tests/test_concurrency.py",
+        "tests/test_fabric.py",
+        "tests/test_reference_docs.py",
+        "research/results/n1-08-revision-conflict-tests.xml"
+      ],
+      "limitations": [
+        "The contention test uses two independent SQLite connections on one Windows host; a multi-host PostgreSQL race has not been exercised."
+      ]
+    },
+    {
+      "task_id": "N1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/n1_09_decision_continuity.py",
+        "tests/test_n1_09_decision_continuity.py",
+        "research/results/n1-09-decision-continuity-tests.xml",
+        "research/results/n1-09-decision-continuity.json",
+        "research/results/n1-09-decision-continuity.md"
+      ],
+      "limitations": [
+        "Five deterministic synthetic seeds and an oracle routing rule; no real-agent task outcomes, model inference, or external actions. Host-specific routing timings use computationally different baseline operations; index build is reported separately."
+      ]
+    },
+    {
+      "task_id": "N1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n1-10-decision-repair-novelty.md",
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py",
+        "research/results/n1-10-preregistration-tests.xml"
+      ],
+      "limitations": [
+        "This completes preregistration only. The matched held-out agent evaluation and independent prior-art review have not run; efficacy and global novelty remain NOT_PROVEN."
+      ]
+    },
+    {
+      "task_id": "N2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_requirement_explanations.py",
+        "tests/test_requirement_graph.py",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-03-minimal-missing-evidence-tests.xml"
+      ],
+      "limitations": [
+        "The explanation API consumes caller-supplied satisfied atom IDs; it does not retrieve, judge, or validate evidence. ActionGate derives satisfied atoms only from its deterministic certificate checks.",
+        "The exhaustive oracle covers bounded small graphs, not every possible valid graph or production workload."
+      ]
+    },
+    {
+      "task_id": "N2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-02-action-requirements-tests.xml",
+        "research/results/n2-04-claim-support-tests.xml",
+        "research/results/n2-05-disputed-claims-tests.xml"
+      ],
+      "limitations": [
+        "decision_time temporal requirements fail closed because the current authorization API has no authenticated decision-time timestamp; action_time freshness is enforced from certificate issuance time.",
+        "The qualification is local SQLite contract and integration evidence, not a distributed deployment or independent security review."
+      ]
+    },
+    {
+      "task_id": "N2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_action_requirements.py",
+        "tests/test_answerability.py",
+        "tests/test_requirement_explanations.py",
+        "tests/test_requirement_graph.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-04-claim-support-tests.xml",
+        "research/results/n2-05-disputed-claims-tests.xml"
+      ],
+      "limitations": [
+        "Structured assertions establish a typed proposition-to-policy match, not real-world truth. Source authority, review and independent corroboration remain necessary to trust the assertion.",
+        "The local tests demonstrate deterministic gate behavior on constructed counterexamples; they do not establish general natural-language entailment or model performance."
+      ]
+    },
+    {
+      "task_id": "N2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_certificates.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-05-disputed-claims-tests.xml"
+      ],
+      "limitations": [
+        "Disagreement detection considers separately rooted structured claims included in the action certificates; it cannot detect omitted or inaccessible evidence.",
+        "Structured values are not truth proofs. Trusted authority, review and corroboration policies remain necessary."
+      ]
+    },
+    {
+      "task_id": "N2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "SPEC.md",
+        "CHANGELOG.md",
+        "tests/test_requirement_graph.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-01-requirement-graph-tests.xml"
+      ],
+      "limitations": [
+        "This is a bounded static policy grammar and parser only. Evidence satisfaction, source independence checks, action-policy binding, and authorization are later tasks and are intentionally not performed here."
+      ]
+    },
+    {
+      "task_id": "N2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md",
+        "research/results/n2-06-graph-evidence-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_chains.py --junitxml=research/results/n2-06-graph-evidence-tests.xml -q",
+      "limitations": [
+        "Token budgets use a deterministic local estimate of one token per four characters with per-item rounding; provider-specific tokenization is not measured.",
+        "The packer preserves dependencies marked necessary by EvidenceChain and surfaces incomplete chain status; it does not independently establish that retrieval discovered every real-world dependency."
+      ]
+    },
+    {
+      "task_id": "N2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/duplicates.py",
+        "docs/EVIDENCE_REQUIREMENT_GRAPHS.md",
+        "tests/test_certificates.py",
+        "tests/test_duplicates.py",
+        "research/results/n2-07-source-dependence-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_certificates.py --junitxml=research/results/n2-07-source-dependence-tests.xml -q",
+      "limitations": [
+        "Independence counts depend on recorded lineage and recognized copy relations. Semantic paraphrases or reused facts not recognized as copies may still appear independent.",
+        "Distinct source roots are provenance evidence, not proof that claims are true or that sources are authoritative."
+      ]
+    },
+    {
+      "task_id": "N2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/advisory.py",
+        "src/memory_fabric/evidence_status.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/__init__.py",
+        "docs/READ_ONLY_ADVISORIES.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "CHANGELOG.md",
+        "tests/test_advisory.py",
+        "tests/test_action_requirements.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-08-safe-advisory-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_advisory.py tests/test_action_requirements.py tests/test_reference_docs.py tests/test_doc_links.py --junitxml=research/results/n2-08-safe-advisory-tests.xml -q",
+      "limitations": [
+        "The library returns an advisory presentation decision and mandatory disclosure but does not render the host UI; hosts must preserve the disclosure when displaying advisory content.",
+        "This mechanism does not establish the truth of evidence or authorize actions. Protected execution must continue through ActionGate and its independent policy checks."
+      ]
+    },
+    {
+      "task_id": "N2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n2-09-answerability-vs-evidence-gate-v1.md",
+        "benchmarks/n2_09_decision_quality.py",
+        "tests/test_n2_09_decision_quality.py",
+        "research/results/n2-09-decision-quality.json",
+        "research/results/n2-09-decision-quality.md",
+        "research/results/n2-09-evaluator-tests.xml"
+      ],
+      "test_command": "python -m benchmarks.n2_09_decision_quality",
+      "limitations": [
+        "Forty-five held-out synthetic scripted cases; not real-agent or language-model evidence.",
+        "Evaluator contract tests validate the manifest and aggregate arithmetic; the held-out result itself is the archived machine-readable experiment output.",
+        "The benchmark uses a one-record minimum-support proxy for answerability and counts all candidate certificate records; token cost is ceil(UTF-8 content bytes / 4), not provider tokenization or billing.",
+        "Latency is local in-process decision timing and excludes scenario construction; it is not a deployment or network latency claim.",
+        "Structured assertions and source-root metadata are fixture inputs, not proof of real-world truth or source authority."
+      ]
+    },
+    {
+      "task_id": "N2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/authorization_receipt.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/requirement_graph.py",
+        "src/memory_fabric/__init__.py",
+        "tools/gen_reference.py",
+        "docs/AUTHORIZATION_PROOF_RECEIPTS.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "CHANGELOG.md",
+        "tests/test_authorization_receipt.py",
+        "tests/test_action_execution_receipt.py",
+        "tests/test_action_requirements.py",
+        "tests/test_authority.py",
+        "tests/test_reference_docs.py",
+        "tests/test_doc_links.py",
+        "research/results/n2-10-authorization-receipt-tests.xml",
+        "research/results/n2-10-authorization-receipt-first-run-tests.xml"
+      ],
+      "test_command": "python -m pytest tests/test_authorization_receipt.py tests/test_action_execution_receipt.py tests/test_action_requirements.py tests/test_authority.py tests/test_reference_docs.py tests/test_doc_links.py --junitxml=research/results/n2-10-authorization-receipt-tests.xml -q",
+      "limitations": [
+        "The verifier compares the receipt with current state and re-verifies exact certificate versions; it does not reconstruct a historical store snapshot if current evidence has changed.",
+        "Receipt SHA-256 is an integrity digest, not a digital signature or proof of issuer identity. Sign or anchor receipts externally when origin authentication is required.",
+        "Request parameters are not stored; replay requires the caller to supply the original request, and likewise any approval or grant used at issuance."
+      ]
+    },
+    {
+      "task_id": "N3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n3-01-counterfactual-interventions-v1.md"
+      ],
+      "limitations": [
+        "This preregistration defines interventions, estimands, and identification assumptions before estimator implementation; it does not establish that any estimator is unbiased or valid on real deployments."
+      ]
+    },
+    {
+      "task_id": "N3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-02-exact-oracle-worlds-v1.md",
+        "benchmarks/n3_02_exact_oracle.py",
+        "tests/test_n3_02_exact_oracle.py",
+        "research/results/n3-02-exact-oracle.json",
+        "research/results/n3-02-exact-oracle-tests.xml"
+      ],
+      "limitations": [
+        "Four deterministic synthetic worlds enumerate every memory subset and test IPS against the exact finite-world average inclusion effect; this validates implementation against the registered estimand only, not causal identification in real-world observational data."
+      ]
+    },
+    {
+      "task_id": "N3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-03-estimator-cost-comparison-v1.md",
+        "benchmarks/n3_03_estimator_comparison.py",
+        "tests/test_n3_03_estimator_comparison.py",
+        "research/results/n3-03-estimator-comparison.json",
+        "research/results/n3-03-estimator-comparison.md",
+        "research/results/n3-03-estimator-comparison-tests.xml"
+      ],
+      "limitations": [
+        "The comparison evaluates synthetic deterministic worlds against exact Shapley truth; it reports a common query cap and realized method costs, but does not establish real-world validity or model inference costs. Recency remains a noncausal descriptive baseline."
+      ]
+    },
+    {
+      "task_id": "N3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-04-confounded-memory-credit-v1.md",
+        "benchmarks/n3_04_confounded_memory.py",
+        "tests/test_n3_04_confounded_memory.py",
+        "research/results/n3-04-confounded-memory.json",
+        "research/results/n3-04-confounded-memory.md",
+        "research/results/n3-04-confounded-memory-tests.xml"
+      ],
+      "limitations": [
+        "A seeded synthetic experiment with a constant positive effect, randomized treatment within known task-difficulty strata, and correctly logged propensities; hidden confounding and adaptive real retrieval are not tested."
+      ]
+    },
+    {
+      "task_id": "N3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-05-randomized-intervention-harness-v1.md",
+        "benchmarks/intervention_harness.py",
+        "benchmarks/n3_05_intervention_harness.py",
+        "tests/test_n3_05_intervention_harness.py",
+        "research/results/n3-05-intervention-harness.json",
+        "research/results/n3-05-intervention-harness.ndjson",
+        "research/results/n3-05-intervention-harness.md",
+        "research/results/n3-05-intervention-harness-tests.xml"
+      ],
+      "limitations": [
+        "Seeded SHA-256 draws qualify replayable pseudorandom assignment and observation logging, not cryptographic randomness, treatment-effect recovery, or missing-data identification."
+      ]
+    },
+    {
+      "task_id": "N3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-06-copy-invariance-v1.md",
+        "benchmarks/n3_06_copy_invariance.py",
+        "tests/test_n3_06_copy_invariance.py",
+        "research/results/n3-06-copy-invariance.json",
+        "research/results/n3-06-copy-invariance.md",
+        "research/results/n3-06-copy-invariance-tests.xml"
+      ],
+      "limitations": [
+        "All subsets are enumerated in synthetic worlds with recognized irrelevant-copy lineage; unrecognized paraphrases and observational cases without overlap remain untested."
+      ]
+    },
+    {
+      "task_id": "N3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/prereg/n3-07-outcome-authority-separation-v1.md",
+        "tests/test_authority.py",
+        "research/results/n3-07-authority-feedback-tests.xml",
+        "research/results/n3-07-authority-feedback.md"
+      ],
+      "limitations": [
+        "Authority remains unchanged after successful synthetic outcomes for a false tool source and an injected instruction; the environment outcome label itself is not independently validated by this fixture."
+      ]
+    },
+    {
+      "task_id": "N3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-08-heldout-world-family-transfer-v1.md",
+        "benchmarks/n3_08_ood_retention.py",
+        "tests/test_n3_08_ood_retention.py",
+        "research/results/n3-08-ood-retention.json",
+        "research/results/n3-08-ood-retention.md",
+        "research/results/n3-08-ood-retention-tests.xml"
+      ],
+      "limitations": [
+        "The source-trained policy transferred to two synthetic task families that preserve the registered feature-to-effect mapping while changing contexts and base-success generators. This does not reverse H2's RuleWorld result or establish transfer to real agents, different feature semantics, or field data."
+      ]
+    },
+    {
+      "task_id": "E1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md",
+        "research/results/grand-50-agent-baseline-reproduction-v2.json"
+      ],
+      "limitations": [
+        "PR #30 remains provisional until merged"
+      ]
+    },
+    {
+      "task_id": "E1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tools/offline_baseline.py",
+        "tests/test_offline_baseline.py",
+        "research/offline_qualification/baseline.json",
+        "research/results/e5-10-portable-paths.xml"
+      ],
+      "limitations": [
+        "Read-only report describes the current local interpreter and host"
+      ]
+    },
+    {
+      "task_id": "E1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/manifest.py",
+        "tests/test_benchmarks.py",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
+        "research/results/e1-03-manifest-environment.json",
+        "research/results/e1-03-manifest-environment.xml",
+        "research/results/bench_runs/legacy/index.json"
+      ],
+      "limitations": [
+        "Environment data covers the five active manifests and the Windows/Python 3.13.5 host that ran them; historical host details were unavailable and remain explicitly unqualified in the archive."
+      ]
+    },
+    {
+      "task_id": "E1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/provenance.py",
+        "benchmarks/manifest.py",
+        "tests/test_result_provenance.py",
+        "tests/test_benchmarks.py",
+        "docs/RESULT_PROVENANCE.md",
+        "research/results/e1-04-result-provenance.json",
+        "research/results/e1-04-result-provenance.xml"
+      ],
+      "limitations": [
+        "Fifty-five historical result rows lack reconstructible exact source metadata and are not retroactively upgraded; all new result stamping and rejection behavior meets the acceptance criteria."
+      ]
+    },
+    {
+      "task_id": "E1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/manifest.py",
+        "benchmarks/scoreboard.py",
+        "benchmarks/evidence_completeness.py",
+        "tests/test_benchmarks.py",
+        "docs/BENCHMARK_MANIFEST_ENVIRONMENT.md",
+        "research/results/BENCHMARK_SCOREBOARD.md",
+        "research/results/e1-05-input-digests.json",
+        "research/results/e1-05-input-digests.xml"
+      ],
+      "limitations": [
+        "Five historical benchmark manifests and legacy results lack complete truthful input inventories; new manifests verify declared generators and inputs before aggregation."
+      ]
+    },
+    {
+      "task_id": "E1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/local_check_report.py",
+        "tests/test_local_check_report.py",
+        "docs/LOCAL_CHECK_REPORT.md",
+        "research/results/e1-06-local-check-report.json",
+        "research/results/e1-06-local-check-report.xml",
+        "research/results/e1-06-local-check-evidence.json"
+      ],
+      "limitations": [
+        "Package and optional-capability inventory is for Windows/Python 3.13.5 only; it is not a cross-platform matrix result."
+      ]
+    },
+    {
+      "task_id": "E1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py",
+        "research/results/e1-07-ledger-verification.json",
+        "research/results/e1-07-ledger-verification.xml"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "E1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py",
+        "research/results/e1-08-negative-control.json",
+        "research/results/e1-08-negative-control.xml"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "E1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py",
+        "docs/SEED_MANIFESTS.md",
+        "research/results/e1-09-seed-manifest.json",
+        "research/results/e1-09-seed-manifest.xml"
+      ],
+      "limitations": [
+        "The on-disk verifier is available and tested; existing historical experiment outputs must opt into the seed manifest contract."
+      ]
+    },
+    {
+      "task_id": "E1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/count_tests.py",
+        "tools/status_at_head.py",
+        "tools/gen_capabilities.py",
+        "tests/test_status_at_head.py",
+        "tests/test_suite_hygiene.py",
+        "tests/test_capability_registry.py",
+        ".github/workflows/ci.yml",
+        "research/results/e1-10-generated-status.json",
+        "research/results/e1-10-generated-status.txt"
+      ],
+      "limitations": [
+        "Remote CI matrix legs have not run for this branch."
+      ]
+    },
+    {
+      "task_id": "E2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/STATE_TRANSITIONS.json",
+        "docs/STATE_TRANSITIONS.md",
+        "tests/test_state_transition_contract.py"
+      ],
+      "limitations": [
+        "Physical multi-host ordering and arbitrary storage corruption are outside this transition contract"
+      ]
+    },
+    {
+      "task_id": "E2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_replay_equivalence.py",
+        "tests/test_properties.py",
+        "tests/test_backup.py"
+      ],
+      "limitations": [
+        "Five deterministic randomized histories exercise local event-log replay; physical distributed replay is separate"
+      ]
+    },
+    {
+      "task_id": "E2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_withdrawn_parent_orderings.py",
+        "tests/test_justification.py"
+      ],
+      "limitations": [
+        "Covers required-premise local derivations before and after withdrawal; federation ordering has separate acceptance tasks"
+      ]
+    },
+    {
+      "task_id": "E2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "tests/test_supersede.py",
+        "src/memory_fabric/duplicates.py"
+      ],
+      "limitations": [
+        "Copy semantics are exact/subset and canonicalized variants; semantic paraphrase identity is deliberately not claimed"
+      ]
+    },
+    {
+      "task_id": "E2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/BITEMPORAL_HISTORY.md",
+        "src/memory_fabric/history_query.py",
+        "tests/test_history_query.py",
+        "tests/test_bitemporal.py"
+      ],
+      "limitations": [
+        "The stable revise API preserves the existing validity window; historical reads are explicit-ID and experimental"
+      ]
+    },
+    {
+      "task_id": "E2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/HISTORICAL_SURFACE_SECURITY.md",
+        "tests/test_history_query.py",
+        "tests/test_data_access_paths.py",
+        "tests/test_posture.py",
+        "tests/test_branching.py",
+        "tests/test_erasure_residue.py"
+      ],
+      "limitations": [
+        "Raw MemoryFabric history and projection access are trusted in-process operator capabilities, not agent APIs"
+      ]
+    },
+    {
+      "task_id": "E2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tombstones.py",
+        "src/memory_fabric/outbox.py",
+        "src/memory_fabric/federation.py",
+        "tests/test_tombstone_exchange.py",
+        "docs/TOMBSTONE_EXCHANGE.md"
+      ],
+      "limitations": [
+        "Offline bundles require explicit trusted-origin opt-in; transport authentication or detached signing remains the deployer's responsibility"
+      ]
+    },
+    {
+      "task_id": "E2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_version_skew.py",
+        "docs/EVENT_SCHEMA_COMPATIBILITY.md",
+        "experiments/rollback_drill.py"
+      ],
+      "limitations": [
+        "The real-release rollback drill depends on the retained v0.11.0 git tag; focused rollback and all shipped-schema fixtures run offline"
+      ]
+    },
+    {
+      "task_id": "E2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/crashworker.py",
+        "tests/test_multiprocess_crash.py",
+        "docs/CRASH_BOUNDARY_MATRIX.md"
+      ],
+      "limitations": [
+        "Hard-crash boundary qualification is local SQLite evidence; PostgreSQL and filesystem/power-loss guarantees require deployment-specific testing"
+      ]
+    },
+    {
+      "task_id": "E2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "tests/test_action_fence.py",
+        "tests/test_visibility_at_action.py",
+        "src/memory_fabric/actions.py",
+        "docs/ACTION_RACE_SERIALIZATION.md"
+      ],
+      "limitations": [
+        "The fence covers corrections locally visible to the store; remote corrections still depend on freshness leases and durable retraction delivery"
+      ]
+    },
+    {
+      "task_id": "E3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/bench/retrieval_errors_v1/cases.json",
+        "research/bench/retrieval_errors_v1/build.py",
+        "research/bench/retrieval_errors_v1/README.md",
+        "tests/test_retrieval_error_taxonomy.py"
+      ],
+      "limitations": [
+        "This taxonomy is a deterministic diagnostic corpus, not a measured retrieval-performance result"
+      ]
+    },
+    {
+      "task_id": "E3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/longmemeval.md",
+        "experiments/longmemeval_bench.py",
+        "docs/RETRIEVAL_BASELINE_QUALIFICATION.md",
+        "tests/test_retrieval_baseline_contract.py"
+      ],
+      "limitations": [
+        "Internal run on an external dataset; retrieval-stage only; full reproduction requires the separately obtained LongMemEval dataset; the chain arm can return fewer than the shared k=10 cap"
+      ]
+    },
+    {
+      "task_id": "E3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/retrieval_routing.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/retrieval_profiles.py",
+        "tests/test_retrieval_routing.py",
+        "docs/QUERY_ROUTING.md"
+      ],
+      "limitations": [
+        "Routing is rule-based and beta; hybrid is admitted only when a non-hashing trained embedder is configured"
+      ]
+    },
+    {
+      "task_id": "E3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_CHAIN_SELECTION.md"
+      ],
+      "limitations": [
+        "Bridge discovery depends on shared discriminating terms or declared graph relations; an unlinked bridge correctly remains insufficient"
+      ]
+    },
+    {
+      "task_id": "E3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/relations.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_modifier_packages.py",
+        "tests/test_extraction.py",
+        "docs/MODIFIER_EVIDENCE_PACKAGES.md"
+      ],
+      "limitations": [
+        "Modifier preservation requires an explicit or extracted QUALIFIES relation; relation discovery is not inferred from similarity"
+      ]
+    },
+    {
+      "task_id": "E3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/evidence_status.py",
+        "src/memory_fabric/_fabric/common.py",
+        "tests/test_evidence_status.py",
+        "tests/test_answerability.py",
+        "docs/EVIDENCE_STATUS_API.md"
+      ],
+      "limitations": [
+        "Decision readiness is a deterministic structural assessment, not authorization for consequential external effects"
+      ]
+    },
+    {
+      "task_id": "E3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/answerability.py",
+        "src/memory_fabric/_fabric/common.py",
+        "tests/test_answerability.py",
+        "docs/PARAMETER_EQUIVALENCES.md"
+      ],
+      "limitations": [
+        "Equivalences are application-supplied reviewed local data; novel or unregistered paraphrases deliberately remain undetermined"
+      ]
+    },
+    {
+      "task_id": "E3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/answerability.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_read_surface_semantics.py",
+        "docs/READ_SURFACE_SEMANTICS.md"
+      ],
+      "limitations": [
+        "Reason codes express evidence semantics, not permission to execute an external effect"
+      ]
+    },
+    {
+      "task_id": "E3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/chains.py",
+        "tests/test_chains.py",
+        "docs/EVIDENCE_PACKAGE_BUDGETS.md"
+      ],
+      "limitations": [
+        "The package reports a deterministic four-characters-per-token estimate, not provider-specific model tokenization"
+      ]
+    },
+    {
+      "task_id": "E3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "tests/test_retrieval_index_invalidation.py",
+        "tests/test_cross_process_freshness.py",
+        "tests/test_erasure_residue.py",
+        "tests/test_access_matrix.py",
+        "docs/RETRIEVAL_INDEX_INVALIDATION.md"
+      ],
+      "limitations": [
+        "The governance copy detector intentionally retains quarantined fingerprints to catch re-ingestion; it is not used for retrieval and erasure removes it"
+      ]
+    },
+    {
+      "task_id": "E4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/master-checklist-http-capacity-v1.json",
+        "research/results/master-checklist-http-capacity-v1.md"
+      ],
+      "limitations": [
+        "Historical 32.6 ops/s was not reproduced exactly; the same fixed harness produced a worse capacity failure"
+      ]
+    },
+    {
+      "task_id": "E4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/stage_trace.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_stage_trace.py",
+        "docs/STAGE_TRACING.md"
+      ],
+      "limitations": [
+        "Opt-in in-process trace ring captures local HTTP request boundaries; it does not instrument remote network segments or claim zero measurement overhead"
+      ]
+    },
+    {
+      "task_id": "E4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/p12b_api_load.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/stage_trace.py",
+        "tests/test_agent_api.py",
+        "tests/test_p12b_api_load.py",
+        "tests/test_p12b_harness.py",
+        "research/results/e4-03-local-profile.json",
+        "research/results/e4-03-local-profile.md",
+        "research/results/e4-03-local-profile-manifest.json",
+        "research/results/e4-03-profile-tests.xml"
+      ],
+      "limitations": [
+        "Three trials per concurrency level on one Windows 8-CPU host are local operational evidence, not a production capacity guarantee",
+        "Python allocation peaks use a separate tracemalloc pass to avoid distorting latency and throughput",
+        "OS process I/O counters can omit cached writes and RSS is sampled every 10 ms"
+      ]
+    },
+    {
+      "task_id": "E4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/integrity.py",
+        "tests/test_integrity_chain.py",
+        "tests/test_eventlog.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/e4-04-contention-before-after.json",
+        "research/results/e4-04-contention-before-after.md",
+        "research/results/e4-04-regression-tests.xml",
+        "research/results/e4-04-batched-chain-pilot.json",
+        "research/results/e4-04-100-client.json",
+        "research/results/e4-04-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host; three trials per concurrency level and normal-approximation confidence intervals are operational evidence, not a general capacity guarantee.",
+        "The optimization reduces latency modestly at measured concurrency; it does not remove the remaining process-local lock queue.",
+        "The 100-client after run omits the separate tracemalloc pass; latency and throughput are untraced."
+      ]
+    },
+    {
+      "task_id": "E4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_sqlite_stress.py",
+        "docs/OPERATIONS.md",
+        "tests/test_concurrency.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-05-sqlite-qualification.json",
+        "research/results/e4-05-sqlite-qualification.md",
+        "research/results/e4-05-sqlite-5s.json",
+        "research/results/e4-05-sqlite-30s.json",
+        "research/results/e4-05-regression-tests.xml",
+        "research/results/e4-05-manifest.json"
+      ],
+      "limitations": [
+        "One local Windows 8-CPU host with SQLite 3.49.1; this is not a multi-host capacity guarantee.",
+        "The default 5-second timeout produced explicit database-is-locked failures under the synchronized 50-process workload; the tested configuration required busy_timeout_ms=30000.",
+        "At 30 seconds, the longest measured transaction took 20.2 seconds; callers must accept potentially long waits under contention."
+      ]
+    },
+    {
+      "task_id": "E4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_scan_benchmark.py",
+        "tests/test_eventlog.py",
+        "research/results/e4-06-page-scan.json",
+        "research/results/e4-06-page-scan.md",
+        "research/results/e4-06-page-scan.svg",
+        "research/results/e4-06-regression-tests.xml",
+        "research/results/e4-06-manifest.json"
+      ],
+      "limitations": [
+        "Synthetic one-MemoryCreated-event-per-memory fixture on one local Windows host with a warm SQLite cache; not an external production corpus or remote-storage benchmark.",
+        "This benchmark covers bounded EventLog keyset scans; the operator list path still materializes and sorts the complete in-memory projection before applying its output limit, and is flagged for separate work."
+      ]
+    },
+    {
+      "task_id": "E4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_three_hosts.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/e4-07-three-hosts.json",
+        "research/results/e4-07-three-hosts.md",
+        "research/results/e4-07-regression-tests.xml",
+        "research/results/e4-07-manifest.json"
+      ],
+      "limitations": [
+        "Three logical hosts are separate localhost processes and SQLite files, but share one physical host.",
+        "Partition is modeled by stopping a server process; no packet-loss, bandwidth, clock-skew, or physical multi-host properties are claimed."
+      ]
+    },
+    {
+      "task_id": "E4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "docs/OPERATIONS.md",
+        "research/results/e4-08-federation-faults.json",
+        "research/results/e4-08-federation-faults.xml"
+      ],
+      "limitations": [
+        "Fault schedules use deterministic in-process transport. The test run includes HTTP integration regressions but does not emulate physical network packet impairment."
+      ]
+    },
+    {
+      "task_id": "E4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_freshness.py",
+        "docs/FRESHNESS_LEASES.md",
+        "research/results/e4-09-freshness-clock-skew.json",
+        "research/results/e4-09-freshness-clock-skew.xml"
+      ],
+      "limitations": [
+        "Clock-skew bound assumes a receiver clock within the configured tolerance; time synchronization remains an operational dependency. Monotonic expiry is process-local and leases are reverified on restart."
+      ]
+    },
+    {
+      "task_id": "E4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/e4_soak.py",
+        "docs/E4_SOAK.md",
+        "tests/test_multiprocess_crash.py",
+        "tests/test_backup.py",
+        "research/results/e4-10-deterministic-soak.json",
+        "research/results/e4-10-deterministic-soak.md",
+        "research/results/e4-10-crash-backup-regressions.xml",
+        "research/results/e4-10-evidence.json"
+      ],
+      "limitations": [
+        "Forty hard-crash cycles are deterministic local SQLite qualification, not a continuous production-duration soak, physical-host failure, PostgreSQL, or deployment-hardware resource ceiling."
+      ]
+    },
+    {
+      "task_id": "E5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_reference.py",
+        "tools/gen_stability.py",
+        "docs/API_INVENTORY.json",
+        "docs/API.md",
+        "STABILITY.md",
+        "tests/test_reference_docs.py",
+        "tests/test_fabric_structure.py",
+        "tests/test_stability.py",
+        "research/results/e5-01-api-inventory.json",
+        "research/results/e5-01-api-inventory.xml"
+      ],
+      "limitations": [
+        "The inventory covers documented public API symbols; the migration-note requirement is documented and review-enforced rather than inferred from arbitrary Git history."
+      ]
+    },
+    {
+      "task_id": "E5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "pyproject.toml",
+        "src/memory_fabric/py.typed",
+        "tools/check_typed_consumer.py",
+        "research/results/e5-02-typed-wheel.json"
+      ],
+      "limitations": [
+        "Local wheel and isolated typing check on Python 3.13.5; full supported-interpreter/platform matrix remains separate."
+      ]
+    },
+    {
+      "task_id": "E5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/ERROR_CONTRACT_MATRIX.md",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_sdk.py",
+        "tests/test_mcp.py",
+        "tests/test_agent_api.py",
+        "tests/test_correction.py",
+        "research/results/e5-03-error-contracts.json",
+        "research/results/e5-03-error-contracts.xml"
+      ],
+      "limitations": [
+        "Protocols retain native error envelopes and surfaces that intentionally do not expose identity/apply operations are marked N/A in the contract matrix."
+      ]
+    },
+    {
+      "task_id": "E5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/EXPERIMENTAL_DEFAULTS.md",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        "tests/test_stability.py",
+        "research/results/e5-04-default-flags.json",
+        "research/results/e5-04-default-flags.xml"
+      ],
+      "limitations": [
+        "Verifies repository preset snapshots, standard entrypoint import boundaries, and MCP defaults; runtime overrides supplied by external deployment configuration are outside this local test."
+      ]
+    },
+    {
+      "task_id": "E5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-05-tool-schema.json",
+        "research/results/e5-05-tool-schema.xml"
+      ],
+      "limitations": [
+        "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
+      ]
+    },
+    {
+      "task_id": "E5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/e5-06-utcp-malicious.json",
+        "research/results/e5-06-utcp-malicious.xml"
+      ],
+      "limitations": [
+        "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
+      ]
+    },
+    {
+      "task_id": "E5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/package_parity.py",
+        "docs/PACKAGE_PARITY.md",
+        "research/results/e5-07-package-parity.json"
+      ],
+      "limitations": [
+        "Validated on Windows with Python 3.13.5 only; supported interpreter and operating-system CI matrix remains separate. Built artifacts are represented by their recorded SHA-256 hashes and were installed in temporary environments that were removed after the run."
+      ]
+    },
+    {
+      "task_id": "E5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/HISTORICAL_COMPATIBILITY_FIXTURES.md",
+        "tests/data/historical/manifest.json",
+        "tests/data/historical/v0.11.0.db.gz",
+        "tests/test_historical_fixtures.py",
+        "tests/test_version_skew.py",
+        "tests/test_integrity_chain.py",
+        "research/results/e5-08-historical-fixtures.json",
+        "research/results/e5-08-historical-fixtures.xml"
+      ],
+      "limitations": [
+        "The checked-in authentic artifact covers the only formal release tag/artifact available in this repository, v0.11.0. Older 0.2.0-0.8.0 cases are reconstructed transition tests, not release binaries; 0.12.0-0.14.0 have no formal release artifacts in the repository."
+      ]
+    },
+    {
+      "task_id": "E5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/agent_api.py",
+        "tests/test_agent_api.py",
+        "tests/data/agent_api_behavior.json",
+        "tools/agent_api_metrics.py",
+        "research/results/e5-09-agent-api-before.json",
+        "research/results/e5-09-agent-api-before.xml",
+        "research/results/e5-09-agent-api-after.json",
+        "research/results/e5-09-agent-api-after.xml",
+        "research/results/e5-09-agent-api-after-core.xml",
+        "research/results/e5-09-agent-api-refactor.json"
+      ],
+      "limitations": [
+        "Characterization and complexity/duplication evidence are scoped to the high-churn agent HTTP API module; the AST complexity measure is a documented local proxy, not a whole-project metric."
+      ]
+    },
+    {
+      "task_id": "E5-10",
+      "status": "PARTIAL",
+      "acceptance_passed": false,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "tests/test_portable_paths.py",
+        "docs/PORTABLE_PATHS.md",
+        "research/results/e5-10-portable-paths.xml",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/e5-10-portable-paths-py311.xml",
+        "research/results/e5-10-portable-paths-py312.xml",
+        "research/results/e5-10-portable-paths-py313.xml"
+      ],
+      "limitations": [
+        "The selected portable-path suite passed on Windows/Python 3.11.15, 3.12.13 and 3.13.5 (5 tests and 3 subtests per interpreter); the full suite also passed on all three versions.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
+      ]
+    },
+    {
+      "task_id": "H1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/SAFETY_AND_SECURITY.md",
+        "tests/test_security_regression.py",
+        "tests/test_retraction_protocol.py",
+        "tests/test_adapters.py",
+        "tests/test_privacy_federation.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_action_fence.py",
+        "research/results/h1-01-trust-boundaries.xml"
+      ],
+      "limitations": [
+        "The threat map records expected controls and existing test evidence; it does not prove semantic truth or model compliance."
+      ]
+    },
+    {
+      "task_id": "H1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "research/results/h1-02-injection-corpus-tests.xml"
+      ],
+      "limitations": [
+        "Eight deterministic local cases are not a broad semantic detector benchmark. The suite records bypasses and two false-withholding near misses; unknown and encoded content remains non-authoritative only because candidate state cannot authorize consequential effects."
+      ]
+    },
+    {
+      "task_id": "H1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_confused_deputy.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "limitations": [
+        "The test proves local governed-policy behavior; it does not constrain arbitrary trusted host code or prove semantic truth."
+      ]
+    },
+    {
+      "task_id": "H1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "tests/test_security_regression.py",
+        "research/results/h1-03-04-authority-delayed-poisoning.xml"
+      ],
+      "limitations": [
+        "Deterministic local fixtures cover revisions, derivation, tool copies and federation; they do not establish detection of all semantic paraphrases."
+      ]
+    },
+    {
+      "task_id": "H1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_authority.py",
+        "research/results/h1-05-unfamiliar-claim-tests.xml"
+      ],
+      "limitations": [
+        "Unfamiliar authorship is not a truth oracle. The test demonstrates configured provenance thresholds and safe reads, not whether the factual claim is true."
+      ]
+    },
+    {
+      "task_id": "H1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_duplicates.py",
+        "docs/LIMITATIONS.md",
+        "research/results/h1-06-copy-laundering-tests.xml"
+      ],
+      "limitations": [
+        "Recognition is bounded to exact and supported normalized/subset copies; semantic paraphrase detection is not claimed."
+      ]
+    },
+    {
+      "task_id": "H1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_certificates.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_agent_api.py",
+        "research/results/h1-07-malformed-input-tests.xml"
+      ],
+      "limitations": [
+        "Input-size/list limits and nested-structure rejection are tested; whole-process memory/RSS is not instrumented."
+      ]
+    },
+    {
+      "task_id": "H1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h1-08-compromised-writer-race.xml"
+      ],
+      "limitations": [
+        "The guarantee is local to the store transaction and the deterministic tests; unseen remote revocations require federation freshness/lease controls."
+      ]
+    },
+    {
+      "task_id": "H1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_authority.py",
+        "research/results/h1-09-authority-mutation.json"
+      ],
+      "limitations": [
+        "The 21 mutations are a curated set of critical local guards; mutation survival/killing does not establish absence of other vulnerabilities."
+      ]
+    },
+    {
+      "task_id": "H1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/data/prompt_injection_corpus.json",
+        "tests/test_injection_patterns.py",
+        "tools/prompt_injection_corpus_report.py",
+        "research/results/h1-10-injection-outcomes.json"
+      ],
+      "limitations": [
+        "The 8-case templated fixture measures only local contract behavior. It records two false-withholding near-misses and two screening-gap candidates, and cannot estimate population precision/recall or downstream model compliance."
+      ]
+    },
+    {
+      "task_id": "H2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_race_barriers.py",
+        "docs/ACTION_RACE_SERIALIZATION.md",
+        "research/results/h2-01-authorize-execute-race-tests.xml",
+        "research/results/r2-h2-acceptance-tests.xml"
+      ],
+      "limitations": [
+        "The test proves revalidation against corrections committed in the local store before execution. Remote corrections still depend on freshness leases and durable retraction delivery."
+      ]
+    },
+    {
+      "task_id": "H2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_authority.py",
+        "docs/ACTION_GRANT_BINDING.md",
+        "research/results/h2-02-action-binding-tests.xml"
+      ],
+      "limitations": [
+        "Grant binding and stored expiry are verified locally; downstream effect idempotency and remote identity-provider revocation remain external-system responsibilities."
+      ]
+    },
+    {
+      "task_id": "H2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tests/test_action_fence.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_IDEMPOTENCY.md",
+        "tools/action_idempotency_qualification.py",
+        "research/results/h2-03-idempotency-tests.xml",
+        "research/results/h2-03-action-idempotency.json",
+        "research/results/h2-03-action-compatibility-tests.xml"
+      ],
+      "limitations": [
+        "The local mock deduplicates by action key; external tools must provide equivalent idempotency. Historical action events without a payload digest fail closed and require external reconciliation."
+      ]
+    },
+    {
+      "task_id": "H2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "tests/test_action_reconciliation.py",
+        "tests/test_action_crash.py",
+        "docs/ACTION_RECONCILIATION.md",
+        "tools/action_reconciliation_qualification.py",
+        "research/results/h2-04-action-reconciliation-tests.xml",
+        "research/results/h2-04-action-reconciliation.json"
+      ],
+      "limitations": [
+        "The event ledger classifies local receipts and unresolved attempts; the host must reconcile an unknown outcome against the external system's own state. Exactly-once external effects are not promised."
+      ]
+    },
+    {
+      "task_id": "H2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/code_mode_malicious_plans.json",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-05-code-mode-parser-tests.xml",
+        "research/results/h2-05-code-mode-parser.json"
+      ],
+      "limitations": [
+        "The parser blocks unsupported plan syntax and reserved interpreter builtins; registered tool handlers can still perform effects and require independent tool policy and action-gate controls."
+      ]
+    },
+    {
+      "task_id": "H2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_code_mode_fuzz.py",
+        "tests/test_tool_protocol.py",
+        "tools/code_mode_parser_qualification.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-05-code-mode-parser-tests.xml",
+        "research/results/h2-06-code-mode-bounds.json"
+      ],
+      "limitations": [
+        "Local parser bounds and host-owned handler allowlisting are tested; this does not impose runtime limits inside registered tool handlers or sandbox their external effects."
+      ]
+    },
+    {
+      "task_id": "H2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/offline_network_guard.py",
+        "tests/test_offline_network_guard.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-07-offline-egress-tests.xml",
+        "research/results/h2-07-offline-egress.json"
+      ],
+      "limitations": [
+        "The process-local guard is test defense in depth and is not an OS sandbox; native code or direct system calls can bypass it."
+      ]
+    },
+    {
+      "task_id": "H2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "tests/test_tool_protocol.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-08-utcp-transport.json",
+        "research/results/h2-08-utcp-transport-tests.xml"
+      ],
+      "limitations": [
+        "No UTCP transport executor is implemented. Callers must invoke same-origin redirect validation for every hop; connection-time DNS address checks are still required to prevent rebinding."
+      ]
+    },
+    {
+      "task_id": "H2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/events.py",
+        "tests/test_action_execution_receipt.py",
+        "docs/ACTION_RECONCILIATION.md",
+        "research/results/h2-09-execution-receipt.json",
+        "research/results/h2-09-execution-receipt-tests.xml"
+      ],
+      "limitations": [
+        "When no descriptor digest is configured, the fallback hashes the canonical host policy rule and tool name, not the handler's executable code."
+      ]
+    },
+    {
+      "task_id": "H2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/tool_protocol.py",
+        "tests/test_confused_deputy.py",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "research/results/h2-10-confused-deputy.json",
+        "research/results/h2-10-confused-deputy-tests.xml"
+      ],
+      "limitations": [
+        "The governed runtime requires a Session object supplied by the trusted host integration; transport and credential verification remain deployment responsibilities."
+      ]
+    },
+    {
+      "task_id": "H3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/core.py",
+        "src/memory_fabric/observability/control.py",
+        "tests/test_cross_tenant_surface_matrix.py",
+        "tests/test_privacy_federation.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-01-cross-tenant-matrix.json",
+        "research/results/h3-01-cross-tenant-matrix-tests.xml"
+      ],
+      "limitations": [
+        "HTTP and MCP protocol handlers are exercised in-process; loopback HTTP socket transport is unavailable in this sandbox. Low-level MemoryFabric and operator interfaces remain trusted-local APIs."
+      ]
+    },
+    {
+      "task_id": "H3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_metadata_sidechannels.py",
+        "tests/test_metadata_leakage.py",
+        "docs/SAFETY_AND_SECURITY.md",
+        "research/results/h3-02-metadata-sidechannels.json",
+        "research/results/h3-02-metadata-sidechannels-tests.xml"
+      ],
+      "limitations": [
+        "Timing comparison uses an intentionally coarse 10x median threshold and does not establish constant-time behavior or eliminate all statistical timing inference."
+      ]
+    },
+    {
+      "task_id": "H3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tenancy.py",
+        "tests/test_tenancy.py",
+        "tests/test_backup_custody.py",
+        "research/results/h3-03-physical-tenancy.json",
+        "research/results/h3-03-physical-tenancy-tests.xml"
+      ],
+      "limitations": [
+        "Backup destinations are explicit local filesystem paths supplied by the operator; remote backup isolation and external key custody are deployment responsibilities."
+      ]
+    },
+    {
+      "task_id": "H3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_credential_rotation_actions.py",
+        "tests/test_service.py",
+        "tests/test_action_fence.py",
+        "research/results/h3-04-credential-rotation-tests.xml",
+        "research/results/h3-04-credential-rotation.json"
+      ],
+      "limitations": [
+        "Credential revocation is rechecked against the local service registry. Cross-process durability depends on the configured revocation store; production deployments must use its durable SQLite-backed implementation."
+      ]
+    },
+    {
+      "task_id": "H3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_personal_data_redaction.py",
+        "tools/scan_secrets.py",
+        "research/results/h3-05-personal-data-redaction.json",
+        "research/results/h3-05-personal-data-redaction-tests.xml"
+      ],
+      "limitations": [
+        "The synthetic email canary is absent from the encrypted database file and checked in temporary logs, exceptions, traces, audit export and support detail. Repository scanner result is zero unexpected findings; key management remains local and deployment dependent."
+      ]
+    },
+    {
+      "task_id": "H3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/governance/retention.py",
+        "tests/test_retention_boundaries.py",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
+        "research/results/h3-06-retention-boundaries.json",
+        "research/results/h3-06-retention-boundaries-tests.xml"
+      ],
+      "limitations": [
+        "Coverage tests zero, exact boundary and very large grace values, not every integer. Event/audit preservation is separate from memory payload retention and is disclosed in the retention document."
+      ]
+    },
+    {
+      "task_id": "H3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/events.py",
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/_fabric/sealing.py",
+        "src/memory_fabric/retrievers.py",
+        "tests/test_erasure_residue.py",
+        "tests/test_retrievers.py",
+        "tests/test_lossless_compaction.py",
+        "tests/test_branching.py",
+        "tests/test_cipher.py",
+        "tests/test_tombstone_exchange.py",
+        "research/results/h3-07-erasure-residue.json",
+        "research/results/h3-07-erasure-residue-tests.xml"
+      ],
+      "limitations": [
+        "Live and cross-process history, indexes, built-in content-keyed vector cache invalidation and crash recovery, compaction, branch history/snapshot, pending retraction queues, and federation tombstone ordering are probed. User-supplied embedders with private caches must implement the erasure hooks; external/federated copies remain outside local scope. H3-08 separately covers local pre-erasure backup reconciliation."
+      ]
+    },
+    {
+      "task_id": "H3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "src/memory_fabric/tombstones.py",
+        "tests/test_tombstone_exchange.py",
+        "tests/test_restore_erasure_reconciliation.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup_restore_qualification.py",
+        "docs/RETENTION_AND_AUDIT_PRESERVATION.md",
+        "docs/RUNBOOKS.md",
+        "docs/CLI.md",
+        "research/results/h3-08-backup-erasure-limits.json",
+        "research/results/h3-08-backup-erasure-limits-tests.xml"
+      ],
+      "limitations": [
+        "The content-free erasure ledger is unsigned and must be protected independently; deploy authenticated storage or signatures when tamper resistance is required. Local reconciliation does not erase federated copies, external exports, or separately stored keys omitted from restore. Federation tombstone exchange remains opt-in and trusted-origin scoped."
+      ]
+    },
+    {
+      "task_id": "H3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/metrics.py",
+        "tests/test_metrics.py",
+        "tests/test_control_center.py",
+        "docs/OPERATIONS.md",
+        "research/results/h3-09-sparse-metrics.json",
+        "research/results/h3-09-sparse-metrics-tests.xml"
+      ],
+      "limitations": [
+        "Metrics are exact store-wide aggregates for authorized operators, not a tenant-scoped reporting API. The endpoint must remain operator-token protected; any future per-tenant metrics require new leakage review and suppression tests."
+      ]
+    },
+    {
+      "task_id": "H3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "tests/test_doctor.py",
+        "docs/TROUBLESHOOTING.md",
+        "docs/RUNBOOKS.md",
+        "research/results/h3-10-key-loss.json",
+        "research/results/h3-10-key-loss-tests.xml"
+      ],
+      "limitations": [
+        "Recovery requires operator-held key backups; destroyed keys cannot be recovered."
+      ]
+    },
+    {
+      "task_id": "H4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_write_fault_injection.py",
+        "research/results/h4-01-stage-fault-injection.json",
+        "research/results/h4-01-stage-fault-injection-tests.xml"
+      ],
+      "limitations": [
+        "SQLite triggers inject at event append boundaries. External action effects cannot be rolled back; idempotency and reconciliation are required."
+      ]
+    },
+    {
+      "task_id": "H4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_multiprocess_crash.py",
+        "tests/crashworker.py",
+        "tests/test_cipher.py",
+        "tests/test_event_schema_hardening.py",
+        "research/results/h4-02-power-loss.json",
+        "research/results/h4-02-power-loss-tests.xml"
+      ],
+      "limitations": [
+        "Hard process termination is tested; physical power loss and storage-controller cache loss are not simulated."
+      ]
+    },
+    {
+      "task_id": "H4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/eventlog.py",
+        "tests/test_storage_failure_modes.py",
+        "research/results/h4-03-storage-failure.json",
+        "research/results/h4-03-storage-failure-tests.xml"
+      ],
+      "limitations": [
+        "Malformed path, SQLite full, read-only database and real Windows ACL permission-denied cases pass. The ACL integration probe is Windows-specific; other operating systems need their own permission-denied run."
+      ]
+    },
+    {
+      "task_id": "H4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
+        "tests/test_freshness.py",
+        "tests/test_tombstone_exchange.py",
+        "research/results/h4-04-partition-lease-timing.json",
+        "research/results/h4-04-partition-lease-timing-tests.xml"
+      ],
+      "limitations": [
+        "The deterministic in-process partition model does not measure physical network impairment, multi-host clock accuracy, or production latency."
+      ]
+    },
+    {
+      "task_id": "H4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_tombstone_exchange.py",
+        "tests/test_multiprocess_crash.py",
+        "research/results/h4-05-reordered-corrections.json",
+        "research/results/h4-05-reordered-corrections-tests.xml"
+      ],
+      "limitations": [
+        "Three-store ordering is deterministic and local; production network scheduling and multi-host timing remain external validation."
+      ]
+    },
+    {
+      "task_id": "H4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/outbox.py",
+        "tests/test_federation_transport.py",
+        "tests/test_retraction_protocol.py",
+        "research/results/h4-06-retry-deadletter.json",
+        "research/results/h4-06-retry-deadletter-tests.xml"
+      ],
+      "limitations": [
+        "HTTP transport subtests were unavailable because loopback sockets are denied in this sandbox. Retry exhaustion, audit, repair and reconciliation tests ran in process. Terminal failed deliveries require an explicit operator repair."
+      ]
+    },
+    {
+      "task_id": "H4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_checkpoint_rewrite.py",
+        "tests/test_integrity_chain.py",
+        "tests/test_freshness.py",
+        "research/results/h4-07-checkpoint-trust.json",
+        "research/results/h4-07-checkpoint-trust-tests.xml"
+      ],
+      "limitations": [
+        "Independent local directory anchors detect rewritten history. If the anchor is writable by the same attacker as the store, it provides no independent trust."
+      ]
+    },
+    {
+      "task_id": "H4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_backup.py",
+        "tests/test_version_skew.py",
+        "tests/test_historical_fixtures.py",
+        "tests/test_backup_restore_qualification.py",
+        "research/results/h4-08-backup-upgrade.json",
+        "research/results/h4-08-backup-upgrade-tests.xml",
+        "research/results/p5-04-upgrade-rollback-smoke.json"
+      ],
+      "limitations": [
+        "Static ActionPolicy configuration is host-managed and supplied again when a gate is constructed after restore; durable exact-action grant events and replay state are preserved and tested."
+      ]
+    },
+    {
+      "task_id": "H4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "docs/FRESHNESS_LEASES.md",
+        "tests/test_freshness.py",
+        "tests/test_certificates.py",
+        "tests/test_identity.py",
+        "research/results/h4-09-clock-skew.json",
+        "research/results/h4-09-clock-skew-tests.xml"
+      ],
+      "limitations": [
+        "Clock discipline remains an operational dependency; deterministic callback tests do not measure synchronization quality on other hosts."
+      ]
+    },
+    {
+      "task_id": "H4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/incident.py",
+        "src/memory_fabric/response.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_incident.py",
+        "tests/test_response.py",
+        "research/results/h4-10-incident-replay.json",
+        "research/results/h4-10-incident-replay-tests.xml"
+      ],
+      "limitations": [
+        "Report reconstructs logged dependencies and timing; counterfactual dependency is not proof of causation. Output deliberately excludes memory content."
+      ]
+    },
+    {
+      "task_id": "H5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "pyproject.toml",
+        "uv.lock",
+        "tools/dependency_provenance.py",
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
+        "docs/REPRODUCIBLE_CORE_BUILD.md",
+        "research/results/h5-01-core-build-repeatability.json",
+        "research/results/h5-01-dependency-provenance.json",
+        "research/results/h5-01-normalize-sdist-tests.xml"
+      ],
+      "limitations": [
+        "This qualifies reproducible local core artifacts and a complete dependency lock; no package was published.",
+        "Optional integrations were resolved in the lock but are not claimed to have been installed or exercised."
+      ]
+    },
+    {
+      "task_id": "H5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/check.py",
+        "tools/adversarial_gate.py",
+        "tests/test_secure_sdlc_inventory.py",
+        "research/results/h5-02-adversarial-gate.json",
+        "research/results/h5-02-static-security-gates.json",
+        "research/results/h5-01-02-local-tool-inventory-tests.xml",
+        "research/results/adversarial-gate-windows-v3.json"
+      ],
+      "limitations": [
+        "pip-audit and bandit are unavailable and reported UNAVAILABLE; installed configured static and adversarial release gates passed."
+      ]
+    },
+    {
+      "task_id": "H5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/security_ast_scan.py",
+        "tools/security_ast_exceptions.json",
+        "tests/test_security_ast_scan.py",
+        "tests/data/security_ast_positive.py",
+        "research/results/h5-03-security-ast.json",
+        "research/results/h5-03-security-ast-tests.xml"
+      ],
+      "limitations": [
+        "AST rules cover direct dangerous calls, shell=True subprocess calls, and path joins with request-like variable names; this static analysis does not establish general taint safety or replace independent review."
+      ]
+    },
+    {
+      "task_id": "H5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_package_assets.py",
+        "tests/test_package_asset_audit.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/publish-pypi.yml",
+        "research/results/h5-04-package-asset-audit.json",
+        "research/results/h5-04-package-asset-tests.xml"
+      ],
+      "limitations": [
+        "The audit checks generated wheel and sdist contents using path/type allowlists plus the repository sensitive-data detector; it does not prove a secret-free runtime environment."
+      ]
+    },
+    {
+      "task_id": "H5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/mutation_check.py",
+        "tests/test_enforcement_tenant.py",
+        "tests/test_erasure_key_destroy.py",
+        "tests/test_transport_auth.py",
+        "research/results/h5-05-mutation-qualification.json",
+        "research/results/h5-05-mutation-contract-tests.xml"
+      ],
+      "limitations": [
+        "All 21 locally runnable critical guard mutations were killed. HTTP socket integration modules remain blocked by WinError 10013; equivalent sender selection and signature verification functions have direct no-socket tests."
+      ]
+    },
+    {
+      "task_id": "H5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/adversarial_family_registry.json",
+        "tools/adversarial_gate.py",
+        "tests/test_adversarial_registry.py",
+        "research/results/h5-06-adversarial-registry.json",
+        "research/results/h5-06-adversarial-registry-tests.xml"
+      ],
+      "limitations": [
+        "The registry validates family completeness and test selectors; it does not make sandbox-blocked HTTP integration families pass."
+      ]
+    },
+    {
+      "task_id": "H5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/data/security_fuzz_seeds.json",
+        "tests/data/code_mode_malicious_plans.json",
+        "tools/fuzz_security_boundaries.py",
+        "tests/test_security_fuzz.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-07-security-fuzz.json",
+        "research/results/h5-07-security-fuzz-tests.xml"
+      ],
+      "limitations": [
+        "The fuzzer bounds Python-traced heap, not whole-process RSS. It mutates the local Code Mode parser and runs accepted calls only through a denying action gate; it is not a general-purpose native-code fuzzer."
+      ]
+    },
+    {
+      "task_id": "H5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/limits.py",
+        "tests/test_agent_api_rate_limit.py",
+        "tools/rate_limit_qualification.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-08-rate-limit-qualification.json",
+        "research/results/h5-08-rate-limit-tests.xml"
+      ],
+      "limitations": [
+        "Rate limiting and quotas are in-process per-service counters and reset on process restart; tests prove configured in-process bounds and no partial event writes under deterministic credential/address cycling."
+      ]
+    },
+    {
+      "task_id": "H5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/audit_production_defaults.py",
+        "tests/data/default_features.json",
+        "tests/test_presets.py",
+        ".github/workflows/ci.yml",
+        "research/results/h5-09-production-defaults.json"
+      ],
+      "limitations": [
+        "Fresh isolated wheel import and listener factory defaults are checked; deployment-level firewall rules and remote network topology are outside this local audit."
+      ]
+    },
+    {
+      "task_id": "H5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/security/internal_findings.json",
+        "tools/security_findings.py",
+        "tests/test_security_findings.py",
+        "tools/check.py",
+        "research/results/h5-10-internal-security-findings.json",
+        "research/results/h5-10-finding-verification.xml"
+      ],
+      "limitations": [
+        "The local-ready gate intentionally remains false: F1 HTTP concurrency and F16 multihop HTTP require socket-enabled CI; F1 test output includes WinError 10013 thread warnings in this sandbox.",
+        "Independent external security review remains outstanding and cannot be completed internally."
+      ]
+    },
+    {
+      "task_id": "P1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "docs/QUICKSTART.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-01-example-tests.json",
+        "research/results/p1-01-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
+      ],
+      "limitations": [
+        "The offline source install requires setuptools>=77 to be preinstalled as the local build backend; the Memory Fabric runtime has no dependencies."
+      ]
+    },
+    {
+      "task_id": "P1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/reference_agent.py",
+        "examples/multi_agent_team.py",
+        "examples/action_gate.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-02-example-tests.json",
+        "research/results/p1-02-example-tests.txt",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
+      ],
+      "limitations": [
+        "The examples and test are configured in the CI workflow, but GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
+    },
+    {
+      "task_id": "P1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/getting_started.py",
+        "examples/quickstart.py",
+        "examples/reference_agent.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/multi_agent_team.py",
+        "examples/agent_on_the_fabric.py",
+        "examples/live_memory_os.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-03-example-labels.json",
+        "research/results/p1-03-example-labels.txt",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
+      ],
+      "limitations": [
+        "The local-model example is checked for its visible scope label but is not run by the offline suite because it requires a configured Ollama service and model."
+      ]
+    },
+    {
+      "task_id": "P1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/decision_models.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/correction.py",
+        "examples/sdk_workflow.py",
+        "docs/SDK_WORKFLOW.md",
+        "tests/test_sdk.py",
+        "tests/test_examples_run.py",
+        "research/results/p1-04-sdk-workflow.json",
+        "research/results/p1-04-sdk-workflow.txt"
+      ],
+      "limitations": [
+        "DecisionModel is experimental; its proposal never grants authority and must still pass ActionGate. The example's decision policy and effect recorder are deterministic fixtures."
+      ]
+    },
+    {
+      "task_id": "P1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "tests/test_doctor.py",
+        "tests/test_first_run.py",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "research/results/p1-05-setup-doctor.json",
+        "research/results/p1-05-setup-doctor.txt"
+      ],
+      "limitations": [
+        "The local port bind check is a time-of-check probe and cannot reserve the port. Disk floor is checked on the local store filesystem; PostgreSQL and in-memory stores require a server-side capacity check. Keys and schema continue to use the existing doctor checks.",
+        "GitHub CI has not run for this branch because PR creation is unavailable through the connected GitHub credentials."
+      ]
+    },
+    {
+      "task_id": "P1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_connect.py",
+        "tests/test_portable_paths.py",
+        "tests/test_first_run.py",
+        ".github/workflows/ci.yml",
+        "research/results/p1-06-portable-paths.json",
+        "research/results/p1-06-portable-paths.txt"
+      ],
+      "limitations": [
+        "The exact-commit test run is on Windows 11 with Python 3.13.5. The configured macOS, Linux, and other Python matrix legs have not run for this branch because GitHub CI is unavailable through the connected credentials.",
+        "The default tenant is a logical authorization boundary, not a physical isolation boundary; one SQLite store remains one blast radius."
+      ]
+    },
+    {
+      "task_id": "P1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/why_blocked.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "tests/test_reasons.py",
+        "docs/TROUBLESHOOTING.md",
+        "research/results/p1-07-why-blocked.json",
+        "research/results/p1-07-why-blocked.txt"
+      ],
+      "limitations": [
+        "The example uses deterministic local records and exercises authorization only; it never calls an external tool. GitHub CI has not run for this branch because PR creation is unavailable through connected credentials."
+      ]
+    },
+    {
+      "task_id": "P1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/offline.py",
+        "examples/quickstart.py",
+        "tests/test_quickstart.py",
+        "docs/QUICKSTART.md",
+        "docs/API.md",
+        "docs/API_INVENTORY.json",
+        "research/results/p1-08-offline-mode.json",
+        "research/results/p1-08-offline-mode.txt"
+      ],
+      "limitations": [
+        "The guard blocks Python DNS and socket operations in the current process; it does not contain subprocesses or untrusted native code. Deploy an OS-level sandbox where those are in scope.",
+        "Exact-commit execution is Windows 11/Python 3.13.5; the configured cross-platform CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/memory_vs_json.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p1-09-memory-vs-json.json",
+        "research/results/p1-09-memory-vs-json.txt"
+      ],
+      "limitations": [
+        "This is a fixed two-record demonstration, not an efficacy benchmark or population estimate. The JSON-style baseline is explicitly unauthorised: it has no action-gating API. No external action is executed."
+      ]
+    },
+    {
+      "task_id": "P1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/guides/migrate-from-json-vector.md",
+        "docs/MIGRATION.md",
+        "examples/fixtures/basic-memory-export.jsonl",
+        "tests/test_migration_guide.py",
+        "src/memory_fabric/migrate.py",
+        "research/results/p1-10-migration-guide.json",
+        "research/results/p1-10-migration-guide.txt"
+      ],
+      "limitations": [
+        "The guide migrates text/source identity fields; it does not import third-party vector embeddings, application-specific metadata, or provide live dual-write. The old store remains the rollback source until operators complete their own canary and cutover checks."
+      ]
+    },
+    {
+      "task_id": "P2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-01-decision-detail.json",
+        "research/results/p2-01-decision-detail.txt"
+      ],
+      "limitations": [
+        "UI and API tests use local deterministic fixtures and were run on Windows 11/Python 3.13.5. Support recomputation is explanatory current state, not action authorization; the ActionGate remains authoritative."
+      ]
+    },
+    {
+      "task_id": "P2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "research/results/p2-02-event-links.json",
+        "research/results/p2-02-event-links.txt"
+      ],
+      "limitations": [
+        "Tests use local deterministic fixtures and were run on Windows 11/Python 3.13.5. Topic-similarity links are not provenance events; only actual lineage edges carry event IDs. The external CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_control_center.py",
+        "research/results/p2-03-block-reasons.json",
+        "research/results/p2-03-block-reasons.txt"
+      ],
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. Reason categories organize recorded gate checks but do not establish semantic truth. The external CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/correction.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_correction.py",
+        "research/results/p2-04-correction-preview.json",
+        "research/results/p2-04-correction-preview.txt"
+      ],
+      "limitations": [
+        "Tests use local deterministic fixtures on Windows 11/Python 3.13.5. The dashboard is read-only and displays a command; the existing CLI rechecks preview digest atomically during apply. The external CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/observability/static/withholding-benchmark.json",
+        "research/results/r2-false-withholding-ablation.json",
+        "tests/test_control_center_ui.py",
+        "tests/test_false_withholding.py",
+        "research/results/p2-05-withholding-scorecard.json",
+        "research/results/p2-05-withholding-scorecard.txt"
+      ],
+      "limitations": [
+        "The dashboard reports a frozen synthetic scripted scorecard, not a live or real-agent withholding rate. A live rate is not measured because event logs lack independent truth labels and an opportunity denominator. The external CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/control.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "src/memory_fabric/actions.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_action_reconciliation.py",
+        "tests/test_action_execution_receipt.py",
+        "tests/test_action_fence.py",
+        "research/results/p2-06-action-timeline.json",
+        "research/results/p2-06-action-timeline.txt"
+      ],
+      "limitations": [
+        "Receipt state reports the local event log and does not independently prove external system state. Idempotency keys are returned as short SHA-256 fingerprints. Tests use local fixtures on Windows 11/Python 3.13.5; the external CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "research/results/p2-07-accessibility.json",
+        "research/results/p2-07-accessibility.txt"
+      ],
+      "limitations": [
+        "Automated local contract/keyboard checks; not a manual screen-reader or browser assistive-technology audit.",
+        "GitHub CI matrix has not run for this branch."
+      ]
+    },
+    {
+      "task_id": "P2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/report.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center.py",
+        "tests/test_control_center_ui.py",
+        "tests/test_observability.py",
+        "research/results/p2-08-history-boundaries.json",
+        "research/results/p2-08-history-boundaries.txt"
+      ],
+      "limitations": [
+        "Offset pagination is not snapshot-isolated; concurrent inserts can shift page boundaries between requests.",
+        "Loopback HTTP integration tests require local socket access."
+      ]
+    },
+    {
+      "task_id": "P2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_observability.py",
+        "tests/test_control_center.py",
+        "research/results/p2-09-read-only-dashboard.json",
+        "research/results/p2-09-read-only-dashboard.txt"
+      ],
+      "limitations": [
+        "Authenticated privileged operations remain outside the dashboard API."
+      ]
+    },
+    {
+      "task_id": "P2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/incident_export.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_control_center_ui.py",
+        "tests/test_incident.py",
+        "research/results/p2-10-incident-export.json",
+        "research/results/p2-10-incident-export.txt"
+      ],
+      "limitations": [
+        "SHA-256 detects accidental modification but is not a signature or source-store attestation.",
+        "The report retains agent and memory IDs for investigation."
+      ]
+    },
+    {
+      "task_id": "P3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/cli.py",
+        "src/memory_fabric/reasons.py",
+        "tests/test_cli_explain.py",
+        "tests/test_reasons.py",
+        "tests/test_troubleshooting.py",
+        "tests/test_reference_docs.py",
+        "docs/CLI.md",
+        "docs/TROUBLESHOOTING.md",
+        "research/results/p3-03-refusal-explainer.json",
+        "research/results/p3-03-refusal-explainer.txt"
+      ],
+      "limitations": [
+        "Action explanation is read-only and does not authorize or retry actions."
+      ]
+    },
+    {
+      "task_id": "P3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/RUNBOOKS.md",
+        "docs/OPERATIONS.md",
+        "docs/CLI.md",
+        "src/memory_fabric/cli.py",
+        "tests/test_backup_runbook.py",
+        "tests/test_backup_custody.py",
+        "tests/test_backup.py",
+        "research/results/p3-05-backup-restore-runbook.json",
+        "research/results/p3-05-backup-restore-runbook.txt"
+      ],
+      "limitations": [
+        "Local SQLite/Windows fixture evidence only; no external KMS, network filesystem or disaster-recovery site."
+      ]
+    },
+    {
+      "task_id": "P4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/product/JOBS_TO_BE_DONE.md",
+        "docs/README.md",
+        "tests/test_product_jobs.py",
+        "tests/test_doc_links.py",
+        "examples/poisoning_and_rollback.py",
+        "examples/wrong_memory_demo.py",
+        "examples/action_gate.py",
+        "examples/multi_agent_team.py",
+        "research/results/p4-01-jobs-to-be-done.json",
+        "research/results/p4-01-jobs-to-be-done.txt"
+      ],
+      "limitations": [
+        "Product jobs are hypotheses, not validated buyer demand or willingness to pay."
+      ]
+    },
+    {
+      "task_id": "P4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/memory_vs_json.py",
+        "tests/test_examples_run.py",
+        "research/results/p4-02-ordinary-memory-adapter.json",
+        "research/results/p4-02-ordinary-memory-adapter.txt"
+      ],
+      "limitations": [
+        "Fixed one-case demonstration, not a benchmark/population estimate.",
+        "Baseline has no action authorization API by design."
+      ]
+    },
+    {
+      "task_id": "P4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "examples/correction_strategy_comparison.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p4-04-correction-strategy-comparison.json",
+        "research/results/p4-04-correction-strategy-comparison.txt"
+      ],
+      "limitations": [
+        "The three-arm comparison is a deterministic single-case demonstration, not a population benchmark.",
+        "The naive deletion and blanket invalidation arms are scripted comparators; only selective authorization exercises Memory Fabric behavior.",
+        "No real tools or external effects were invoked."
+      ]
+    },
+    {
+      "task_id": "P4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/measure_local_footprint.py",
+        "tests/test_local_footprint.py",
+        "docs/LOCAL_FOOTPRINT.md",
+        "research/results/p4-08-local-footprint.json",
+        "research/results/p4-08-local-footprint.txt"
+      ],
+      "limitations": [
+        "Measured on one Windows 11 host with Python 3.13.5; results are host- and environment-specific.",
+        "Startup is cold process CLI --version wall time, not a loaded service startup SLO.",
+        "Storage growth is one 200-record SQLite fixture; it excludes backups, WAL peak, encryption keys and multi-tenant/federated workloads.",
+        "Idle CPU is a single 30-second sample; not a long-duration soak."
+      ]
+    },
+    {
+      "task_id": "P4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "product/capabilities.json",
+        "product/capability_maturity.json",
+        "product/public_claims.json",
+        "tools/check_product_claims.py",
+        "tests/test_product_claims.py",
+        "docs/product/CAPABILITY_MATURITY.md"
+      ],
+      "limitations": [
+        "Automated claim gate covers the maintained public claim inventory; it cannot infer and police every unregistered sentence in arbitrary external marketing material.",
+        "Implemented status establishes repository evidence only, not independent validation or production certification."
+      ]
+    },
+    {
+      "task_id": "P4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/product/decisions/2026-10-28-packaging-options.md",
+        "tests/test_packaging_hypotheses.py"
+      ],
+      "limitations": [
+        "Tier contents are unvalidated product hypotheses; no prices, demand, revenue or service commitments are established."
+      ]
+    },
+    {
+      "task_id": "R5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/RESEARCH_LIMITATIONS.md",
+        "tests/test_research_limitations.py"
+      ],
+      "limitations": [
+        "The contract test checks evidence labeling and reference presence; it cannot statically police every future manuscript sentence.",
+        "External/model/user validation remains open and is not asserted by this task."
+      ]
+    },
+    {
+      "task_id": "R5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "limitations": [
+        "Statements are preregistration hypotheses, not evidence of global novelty or efficacy."
+      ]
+    },
+    {
+      "task_id": "R5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/CONTRIBUTION_MAP.md",
+        "tests/test_contribution_map.py"
+      ],
+      "limitations": [
+        "The map identifies prior repository mechanisms; it does not replace external literature review."
+      ]
+    },
+    {
+      "task_id": "R5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "limitations": [
+        "Taxonomy consolidates the named preregistered historical tracks; it is not a complete audit of every repository result."
+      ]
+    },
+    {
+      "task_id": "R5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/claims.json",
+        "tools/claims_ledger.py",
+        "tests/test_claims_ledger.py",
+        "tests/test_claim_checker_contract.py",
+        "research/results/CLAIMS_LEDGER.json",
+        "research/results/CLAIMS_LEDGER.md"
+      ],
+      "limitations": [
+        "Checker protects registered quantitative claims; it does not parse all unregistered prose or replace scientific review.",
+        "Claims can be supported by a result whose verdict is FAIL; supported here means the sentence matches the pinned evidence, not that the experiment met a success gate."
+      ]
+    },
+    {
+      "task_id": "R5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/OFFLINE_REPRODUCIBILITY.md",
+        "tests/test_offline_reproducibility.py",
+        "research/claims.json",
+        "research/results/CLAIMS_LEDGER.json"
+      ],
+      "limitations": [
+        "The package is an internal reviewer checklist, not evidence of a third-party reproduction.",
+        "Some optional platform/model tests remain unavailable and are listed as such."
+      ]
+    },
+    {
+      "task_id": "R5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/REPRODUCIBILITY_APPENDIX.md",
+        "tests/test_reproducibility_appendix.py",
+        "research/results/p4-04-correction-strategy-comparison.json",
+        "research/results/p4-05-selective-correction-demo.json",
+        "research/results/p4-06-provenance-dispute-demo.json"
+      ],
+      "limitations": [
+        "Appendix scope is the three deterministic local demo tables; it does not claim every model-assisted result in the repository can be rerun without model weights or external data.",
+        "Historical P4-04 focused test ran on a dirty source snapshot; file hashes are recorded and the appendix does not misstate it as exact-clean-SHA evidence."
+      ]
+    },
+    {
+      "task_id": "R4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/FAILURE_TAXONOMY.md",
+        "tests/test_failure_taxonomy.py"
+      ],
+      "limitations": [
+        "Historical track index is scoped to named primary tracks; it does not replace a complete review of every research result."
+      ]
+    },
+    {
+      "task_id": "P3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/support_bundle.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_support_bundle.py",
+        "docs/SUPPORT_BUNDLE.md",
+        "docs/CLI.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Aggregate counts and storage size can disclose approximate store volume; review before sharing.",
+        "The canary test verifies current export fields but is not a formal proof against all future schema changes."
+      ]
+    },
+    {
+      "task_id": "P3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/upgrade_preview.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_upgrade_preview.py",
+        "docs/UPGRADE_PREVIEW.md",
+        "docs/CLI.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Preview inspects SQLite only and does not run a migration on a copy.",
+        "A structurally compatible version label does not prove application-level semantic compatibility."
+      ]
+    },
+    {
+      "task_id": "P3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_fail_safe_environment.py",
+        "tests/test_cipher.py",
+        "tests/test_quickstart.py"
+      ],
+      "limitations": [
+        "Disk exhaustion is simulated with SQLite max_page_count rather than a physically full host filesystem.",
+        "Offline socket/DNS refusal is tested through the repository's local network guard; no external network outage is reproduced."
+      ]
+    },
+    {
+      "task_id": "P4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/correction_spares_unrelated_action.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "research/results/p4-05-selective-correction-demo.json",
+        "research/results/p4-05-selective-correction-demo.txt"
+      ],
+      "limitations": [
+        "Effects are local callback records only; no real external device/tool was called.",
+        "Deterministic examples do not establish real operator workload benefit."
+      ]
+    },
+    {
+      "task_id": "P4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "examples/multi_agent_provenance_dispute.py",
+        "examples/README.md",
+        "tests/test_examples_run.py",
+        "tests/test_consensus.py",
+        "research/results/p4-06-provenance-dispute-demo.json",
+        "research/results/p4-06-provenance-dispute-demo.txt"
+      ],
+      "limitations": [
+        "Synthetic claims and deterministic agents only. Independent provenance is not truth verification or source authority."
+      ]
+    },
+    {
+      "task_id": "P4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md",
+        "docs/README.md",
+        "research/results/l1-long-running.md",
+        "research/results/x4-governed-vs-pooled.md",
+        "research/results/master-checklist-http-capacity-v1.md",
+        "tests/test_product_fit_guidance.py",
+        "tests/test_doc_links.py",
+        "research/results/p4-07-product-fit.json",
+        "research/results/p4-07-product-fit.txt"
+      ],
+      "limitations": [
+        "Cited studies are workload-specific synthetic/local results; no universal comparative performance or demand claim."
+      ]
+    },
+    {
+      "task_id": "P5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/normalize_sdist.py",
+        "tests/test_normalize_sdist.py",
+        "research/results/p5-01-exact-candidate.json",
+        "research/results/p5-01-package-assets.json",
+        "research/results/p5-01-reproducible-sdist-tests.xml",
+        "research/results/p5-01-fresh-machine.txt"
+      ],
+      "limitations": [
+        "The candidate is built for Python 3.13 and retains in the local ignored dist directory; independent publication approval and supported-version CI remain separate gates."
+      ]
+    },
+    {
+      "task_id": "P5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/check.py",
+        "research/results/p5-02-local-checks.txt",
+        "research/results/p5-02-full-unit-tests.txt",
+        "research/results/p5-02-adversarial-gate.json",
+        "research/results/p5-02-local-qualification.json",
+        "research/results/h5-09-production-defaults.json",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml",
+        "research/results/adversarial-gate-windows-v3.json",
+        "research/results/h5-02-static-security-gates.json"
+      ],
+      "limitations": [
+        "The exact committed source SHA 088dfc852c99d29313d1dd541eebca494f644029 passed 2,773 tests with 17 disclosed capability/platform skips and 2,730 passing subtests; machine-readable JUnit and summary bind hashes.",
+        "pip-audit and bandit are unavailable and are not counted as passed.",
+        "Independent external human security review remains a separate open requirement; local checks are not certification."
+      ]
+    },
+    {
+      "task_id": "P5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/python_compatibility.py",
+        "research/results/p5-03-python-compatibility.json",
+        "research/results/p5-03-full-suite-matrix.json",
+        "research/results/p5-03-python311-tests.xml",
+        "research/results/p5-03-python312-tests.xml",
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/p5-02-exact-088dfc8.json",
+        "research/results/final-exact-088dfc8-py313.xml"
+      ],
+      "limitations": [
+        "Windows full-suite matrix passed on Python 3.11.15, 3.12.13 and 3.13.5 at source commit 6d09ed3; a further full-suite run passed on Python 3.13.5 at exact commit 088dfc852c99d29313d1dd541eebca494f644029.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
+      ]
+    },
+    {
+      "task_id": "P5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/upgrade_rollback_smoke.py",
+        "research/results/p5-04-upgrade-rollback-smoke.json"
+      ],
+      "limitations": [
+        "The v0.11.0 baseline uses host-configured ActionPolicy authorization; the drill proves a durable exact-action GrantIssued event created after upgrade survives rollback, not persistence of the host policy configuration.",
+        "The local simulation covers record creation, correction, quarantine/retraction, an exact-action grant event and audit-chain verification; it does not exercise every event type or external side effect."
+      ]
+    },
+    {
+      "task_id": "P5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/gen_stability.py",
+        "tools/gen_reference.py",
+        "tests/test_examples_run.py",
+        "tests/test_doc_examples.py",
+        "tests/test_reference_docs.py",
+        "tests/test_user_docs_no_research.py",
+        "research/results/p5-05-documentation-examples.xml"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/LIMITATIONS.md",
+        "docs/KNOWN_GAPS.md"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_offline_qualification.py"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/LIMITATIONS.md",
+        "docs/PRODUCT_READINESS.md"
+      ],
+      "limitations": []
+    },
+    {
+      "task_id": "P5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "docs/NEXT_MASTER_CHECKLIST_EXECUTION.md"
+      ],
+      "limitations": [
+        "External validation is not complete"
+      ]
+    },
+    {
+      "task_id": "P5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tools/offline_qualification.py",
+        "tests/test_offline_qualification.py"
+      ],
+      "limitations": [
+        "Owner approval and external validation remain mandatory"
+      ]
+    },
+    {
+      "task_id": "R1-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/offline-10-families-v1.md"
+      ],
+      "limitations": [
+        "This is a frozen preregistration contract. It does not claim the benchmark families have been executed or that model-agent performance has been measured."
+      ]
+    },
+    {
+      "task_id": "R1-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/results_manifest.py",
+        "benchmarks/scoreboard.py",
+        "tests/test_status_at_head.py",
+        "tests/test_benchmarks.py",
+        "research/results/MANIFEST.json",
+        "research/results/BENCHMARK_SCOREBOARD.md",
+        "research/results/r1-population-separation-tests.xml"
+      ],
+      "limitations": [
+        "Historical artifacts without an explicit supported population declaration are labelled unclassified and cannot be counted as model-agent results. This preserves separation while leaving those legacy populations unresolved."
+      ]
+    },
+    {
+      "task_id": "R1-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The 40 generated scenarios are synthetic scripted fixtures and establish generator reproducibility and split separation, not real-agent performance."
+      ]
+    },
+    {
+      "task_id": "R1-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Leakage checks operate on explicit synthetic entity, template, topology, motif-signature and seed identities; they do not prove absence of semantic leakage in arbitrary external datasets."
+      ]
+    },
+    {
+      "task_id": "R1-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "experiments/external_bench.py",
+        "experiments/longmemeval_bench.py",
+        "tools/r1_control_coverage.py",
+        "tests/test_offline_research.py",
+        "tests/test_r1_control_coverage.py",
+        "tests/test_r1_external_negative_controls.py",
+        "tests/test_r1_known_failure_controls.py",
+        "research/results/r1-05-suite-control-coverage.json",
+        "research/results/r1-05-full-unit-tests.json",
+        "research/results/r1-05-full-unit-tests.txt",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The three shared negative controls are evaluated on the preregistered 40-case synthetic families. All 11 RUN suites have an individually passing known-failure regression, but the external PUB-11/PUB-14 negative-control checks use small synthetic fixtures and the shared controls are not applicable to every suite."
+      ]
+    },
+    {
+      "task_id": "R1-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The impossible and out-of-scope requests are controlled synthetic cases; they do not establish real-user refusal calibration."
+      ]
+    },
+    {
+      "task_id": "R1-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Paraphrase and indirect-support metadata are synthetic fixtures, not a human-validated natural language benchmark."
+      ]
+    },
+    {
+      "task_id": "R1-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The report gives exact synthetic task denominators, Wilson intervals, and zero-event bounds. Deterministic local model/token cost is zero; wall-clock cost and real model/API cost are not measured."
+      ]
+    },
+    {
+      "task_id": "R1-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "The frozen 40-case registry and complete per-case control outcomes apply to the new synthetic suite. Other existing benchmark suites have not yet adopted this case registry."
+      ]
+    },
+    {
+      "task_id": "R1-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/offline_research.py",
+        "docs/OFFLINE_RESEARCH_BENCHMARK.md",
+        "tests/test_offline_research.py",
+        "research/results/r1-offline-synthetic.json",
+        "research/results/r1-offline-synthetic-tests.xml"
+      ],
+      "limitations": [
+        "Deterministic replay is verified for this synthetic suite; wall-clock timing varies by host and is explicitly not represented as reproducible."
+      ]
+    },
+    {
+      "task_id": "R2-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "research/results/grand-50-agent-baseline-reproduction-v2.json",
+        "research/prereg/r2-false-withholding-v1.md",
+        "benchmarks/false_withholding.py",
+        "research/results/r2-false-withholding-ablation.json",
+        "benchmarks/pr30_case_extractor.py",
+        "tests/test_pr30_withheld_cases.py",
+        "docs/PR30_WITHHELD_CASES.md",
+        "research/results/pr30-withheld-cases.json",
+        "research/results/pr30-withheld-cases-tests.xml"
+      ],
+      "limitations": [
+        "The PR did not serialize row-level examples; all 84 cases are regenerated from its exact clean candidate commit and deterministic seeds. This is synthetic scripted TeamWorld evidence, not real-model evidence."
+      ]
+    },
+    {
+      "task_id": "R2-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "Attribution is for 86 locally encoded valid-withholding cases and 125 stale-action controls, not the unavailable PR #30 row-level dataset. Categories are multi-label and population specific."
+      ]
+    },
+    {
+      "task_id": "R2-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "Dry runs use the local ActionGate against frozen evidence, disable audit writes, verify the event-log watermark remains fixed, and never call an executor."
+      ]
+    },
+    {
+      "task_id": "R2-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/false_withholding.py",
+        "research/prereg/r2-false-withholding-v1.md",
+        "tests/test_false_withholding.py",
+        "research/results/r2-false-withholding-tests.xml",
+        "research/results/r2-false-withholding-ablation.json"
+      ],
+      "limitations": [
+        "No individual rule relaxation recovered task completion because the observed refusals are upstream evidence lifecycle/retrieval failures. On this local held-out corpus, each ablation recovered 0/86 valid tasks and authorized 0/125 stale controls; Wilson 95% bounds are recorded. This is a negative result, not a promoted policy."
+      ]
+    },
+    {
+      "task_id": "R2-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/evidence_state.py",
+        "tests/test_evidence_state.py",
+        "research/results/r2-05-evidence-state.xml"
+      ],
+      "limitations": [
+        "The lattice orders evidence-state information; it does not authorize actions. Existing policy checks remain responsible for action eligibility."
+      ]
+    },
+    {
+      "task_id": "R2-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/certificates.py",
+        "src/memory_fabric/justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "limitations": [
+        "The selective reassessment behavior is verified on local fixtures. It does not establish a real-world false-withholding rate."
+      ]
+    },
+    {
+      "task_id": "R2-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/justification.py",
+        "src/memory_fabric/certificates.py",
+        "tests/test_justification.py",
+        "tests/test_certificates.py",
+        "research/results/r2-06-07-support-tests.xml"
+      ],
+      "limitations": [
+        "Copy and shared-ancestry examples establish the support-root rule in local scenarios; broader corpus-scale failure rates remain unmeasured."
+      ]
+    },
+    {
+      "task_id": "R2-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/sdk.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_sdk.py",
+        "tests/test_action_fence.py",
+        "docs/EVIDENCE_OPERATION_RISK.md",
+        "research/results/r2-08-risk-sensitive-operations.xml",
+        "research/results/r2-08-action-fence.xml"
+      ],
+      "limitations": [
+        "Summarize and recommend are typed evidence-use modes on recall/fetch; application-specific summarization and recommendation outputs still require their caller to preserve evidence references and warnings."
+      ]
+    },
+    {
+      "task_id": "R2-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/evidence_completeness.py",
+        "research/prereg/ecv1-threshold.json",
+        "tests/test_ecv1_benchmark.py",
+        "research/results/r2-09-threshold-guard.xml"
+      ],
+      "limitations": [
+        "This guard qualifies the ECV1 threshold tool. Its registered development result found no attainable headroom, so the held-out test remains diagnostic and cannot promote a candidate."
+      ]
+    },
+    {
+      "task_id": "R2-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/withholding_promotion_gate.py",
+        "research/prereg/r2-withholding-promotion-gate-v1.md",
+        "docs/WITHHOLDING_PROMOTION_GATE.md",
+        "tests/test_withholding_promotion_gate.py",
+        "research/results/r2-10-promotion-gate-tests.xml",
+        "research/results/r2-10-ledger-gate-tests.xml",
+        "research/results/r2-withholding-promotion-gate.json"
+      ],
+      "limitations": [
+        "On the frozen local synthetic corpus, valid withholding is 86/500 (17.2%), above the 5% gate. No diagnostic arm recovers a task, and no additional stale authorization is observed in 125 stale controls; the gate retains the existing policy. This is not real-agent evidence."
+      ]
+    },
+    {
+      "task_id": "R3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/agent_scale.py",
+        "tests/test_agent_scale.py",
+        "research/prereg/agent-scale-v1.md",
+        "docs/AGENT_SCALE_BENCHMARK.md",
+        "research/results/r3-01-agent-scale-tests.xml",
+        "research/results/r3-01-agent-scale.json"
+      ],
+      "limitations": [
+        "This is a three-seed scripted-agent benchmark on one in-process store; it is not a real-model-agent or multi-host performance result."
+      ]
+    },
+    {
+      "task_id": "R3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "benchmarks/agent_scale.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "docs/MATCHED_AGENT_ARMS.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-02-matched-agent-arms-tests.xml",
+        "research/results/r3-02-matched-agent-arms.json"
+      ],
+      "limitations": [
+        "The five arms are local synthetic policy implementations on one in-process store. They do not represent independently built third-party memory products or real-model reasoning."
+      ]
+    },
+    {
+      "task_id": "R3-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/failure-taxonomy-v1.md",
+        "docs/FAILURE_TAXONOMY.md",
+        "tests/test_matched_agent_arms.py",
+        "research/results/r3-03-failure-taxonomy-tests.xml",
+        "research/results/r3-03-failure-taxonomy.json"
+      ],
+      "limitations": [
+        "Failure attribution covers this deterministic authorization benchmark; tool execution and real agent coordination are not exercised, so their observed counts are zero rather than evidence of general absence."
+      ]
+    },
+    {
+      "task_id": "R3-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/correction_timing.py",
+        "research/prereg/correction-timing-v1.md",
+        "docs/CORRECTION_TIMING_BENCHMARK.md",
+        "tests/test_correction_timing.py",
+        "research/results/r3-04-correction-timing-tests.xml",
+        "research/results/r3-04-correction-timing.json"
+      ],
+      "limitations": [
+        "Three seeds and synthetic scripted agents on one local store. Event ordering is verified; elapsed times are not portable performance claims."
+      ]
+    },
+    {
+      "task_id": "R3-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/minority_source.py",
+        "research/prereg/minority-source-v1.md",
+        "docs/MINORITY_SOURCE_BENCHMARK.md",
+        "tests/test_minority_source.py",
+        "research/results/r3-05-minority-source-tests.xml",
+        "research/results/r3-05-minority-source.json"
+      ],
+      "limitations": [
+        "Three synthetic seeds and scripted policies. The result documents a constructed false-refusal case; it is not a population estimate for real agents."
+      ]
+    },
+    {
+      "task_id": "R3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/safety_tradeoff.py",
+        "research/prereg/safety-tradeoff-v1.md",
+        "docs/SAFETY_COMPLETION_TRADEOFF.md",
+        "tests/test_safety_tradeoff.py",
+        "research/results/r3-06-safety-tradeoff-tests.xml",
+        "research/results/r3-06-safety-tradeoff.json"
+      ],
+      "limitations": [
+        "Three synthetic seeds and scripted policies. Authorization outcomes only; no external action is executed. Local latency is descriptive, not a performance claim."
+      ]
+    },
+    {
+      "task_id": "R3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tests/test_r3_simulation_labels.py",
+        "research/results/r3-simulation-labels-tests.xml",
+        "research/results/r3-01-agent-scale.json",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r3-03-failure-taxonomy.json",
+        "research/results/r3-04-correction-timing.json",
+        "research/results/r3-05-minority-source.json",
+        "research/results/r3-06-safety-tradeoff.json"
+      ],
+      "limitations": [
+        "The local R3 report family is explicitly synthetic_scripted and each report names its model-free limitations; this does not provide real-model evidence."
+      ]
+    },
+    {
+      "task_id": "R3-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/agent_adapter.py",
+        "docs/AGENT_ADAPTER.md",
+        "tests/test_agent_adapter.py",
+        "research/results/r3-agent-adapter-tests.xml"
+      ],
+      "limitations": [
+        "The transport-neutral protocol and offline scripted adapter are implemented. No external-model adapter or model evaluation is claimed."
+      ]
+    },
+    {
+      "task_id": "R3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-heldout-agent-qualification-tests.xml",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "The 80% target is evaluated on 24 unique local synthetic held-out task cases; results are clustered scripted-agent attempts, not model-agent evidence. The target is met, but the strongest matched baseline ties the result, so there is no promotion."
+      ]
+    },
+    {
+      "task_id": "R3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-heldout-agent-qualification-tests.xml",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "Per-agent success, corrected/contested high-risk success, p95 and worst-agent decision latency are measured on local scripted tasks. Latencies are host-dependent; the least-agent and high-risk fairness checks are synthetic."
+      ]
+    },
+    {
+      "task_id": "R4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_statistical_intervals.py",
+        "tools/qualify_statistical_intervals.py",
+        "research/results/r4-01-binomial-intervals.json"
+      ],
+      "limitations": [
+        "Zero-denominator intervals intentionally represent complete uncertainty; this validates formulas, not workload-specific statistical power."
+      ]
+    },
+    {
+      "task_id": "R4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/paired_agent_bootstrap.py",
+        "benchmarks/stats.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "tests/test_paired_agent_bootstrap.py",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r4-02-paired-agent-bootstrap.json"
+      ],
+      "limitations": [
+        "Reanalysis covers the registered synthetic 50-agent split (24 task cases, 1,200 attempts per arm); task clusters are exchangeable only within this fixture and do not support real-agent population claims."
+      ]
+    },
+    {
+      "task_id": "R4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/paired_agent_bootstrap.py",
+        "benchmarks/threshold_registry.py",
+        "research/prereg/matched-agent-arms-v1.md",
+        "tests/test_paired_agent_bootstrap.py",
+        "research/results/r3-02-matched-agent-arms.json",
+        "research/results/r4-02-paired-agent-bootstrap.json"
+      ],
+      "limitations": [
+        "One overall task-success primary outcome is contrasted against three non-oracle baselines with Holm-adjusted directional exact sign tests. Four family outcomes and safety metrics are secondary; family-specific comparisons, latency and agent extrema are exploratory. The hierarchy amendment postdates inspection of the v1 result, so current p-values are explicitly exploratory and cannot be used as confirmatory evidence. Confirmatory use requires a future independently seeded run."
+      ]
+    },
+    {
+      "task_id": "R5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/r4_05_adversarial_cases.py",
+        "tools/r5_07_contamination_audit.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "tests/test_r5_07_contamination_audit.py",
+        "research/results/r4-05-adversarial-cases.json",
+        "research/results/r5-07-contamination-audit.json"
+      ],
+      "limitations": [
+        "Lexical contamination audit covers the R4-05 synthetic fixture only: 256 case IDs, 1,024 memory IDs, 1,024 texts, and three declared tool names. An injected scenario label is detected and invalidates the fixture. Semantic leakage and other datasets are not covered."
+      ]
+    },
+    {
+      "task_id": "R4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "limitations": [
+        "All five scripted arms receive equal context/retrieval/decision/tool-call budgets and a shared wall-time ceiling, while actual elapsed time remains an outcome. SQLite page allocation is a local storage proxy. The 50-agent three-seed fixture is synthetic; runtime and storage do not transfer to production."
+      ]
+    },
+    {
+      "task_id": "R5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "research/prereg/r4-08-matched-resource-budget-v1.md",
+        "tests/test_r5_06_pareto_qualification.py",
+        "tools/r5_06_pareto_qualification.py",
+        "research/results/r5-06-pareto-qualification.json"
+      ],
+      "limitations": [
+        "Pareto points cover five deterministic scripted arms, three seeds and the fixed 50-agent workload. Latency is local host timing, and memory cost is in-memory SQLite page allocation; neither is deployment cost evidence. The oracle dominates Memory Fabric in this measured fixture, so no general superiority claim is made."
+      ]
+    },
+    {
+      "task_id": "R4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "experiments/r4_05_adversarial_cases.py",
+        "research/prereg/r4-05-adversarial-cases-v1.md",
+        "tests/test_r4_05_adversarial_cases.py",
+        "research/results/r4-05-adversarial-cases.json"
+      ],
+      "limitations": [
+        "The 256-case dataset is deterministic synthetic shortcut-control evidence. First-position and lexicographic-ID heuristics are under the fixture's 35% ceiling, but no language model or production retrieval policy is evaluated. Semantic generalization across independently authored paraphrases remains untested."
+      ]
+    },
+    {
+      "task_id": "R4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/matched_agent_arms.py",
+        "tools/r4_06_randomization_qualification.py",
+        "research/prereg/r4-06-order-randomization-v1.md",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_r4_05_adversarial_cases.py",
+        "research/results/r4-06-randomization-qualification.json",
+        "research/results/r4-05-adversarial-cases.json"
+      ],
+      "limitations": [
+        "Thirty runs of deterministic scripted agents compare randomized opaque identities/tool registry order with ordinal controls; outcomes matched exactly within the predeclared zero-attempt tolerance. Answer order is checked by R4-05 shortcut controls. No model or real-tool robustness claim is made."
+      ]
+    },
+    {
+      "task_id": "R4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "benchmarks/threshold_registry.py",
+        "benchmarks/heldout_agent_qualification.py",
+        "research/prereg/heldout-agent-qualification-v1.md",
+        "tests/test_threshold_registry.py",
+        "tests/test_heldout_agent_qualification.py",
+        "research/results/r3-09-10-heldout-qualification.json"
+      ],
+      "limitations": [
+        "The v1 gate margins are frozen in a shared registry and tested at boundaries; the run uses registered seeds 701/709/719. Synthetic scripted-agent outcomes do not establish model-agent performance, and registry coverage is limited to the registered R4 outcomes rather than every research hypothesis."
+      ]
+    },
+    {
+      "task_id": "R4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "benchmarks/decision_verdict.py",
+        "benchmarks/evaluator_mutations.py",
+        "tests/test_benchmarks.py",
+        "tools/benchmark_evaluator_mutations.py",
+        "research/results/r4-07-evaluator-mutations.json",
+        "research/results/r4-07-evaluator-mutation-tests.xml"
+      ],
+      "limitations": [
+        "The deterministic contract suite tests the benchmark evaluator predicate; it is not product-system security evidence."
+      ]
+    },
+    {
+      "task_id": "R4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/results/grand-50-agent-baseline-reproduction-v2.json",
+        "research/results/grand-50-agent-baseline-reproduction-v2.md",
+        "tests/test_r4_seed_reporting.py",
+        "research/results/r4-09-worst-seed-reporting.json",
+        "research/results/r4-09-worst-seed-reporting.txt"
+      ],
+      "limitations": [
+        "Five deterministic synthetic seeds only; extrema are descriptive and not tail-risk guarantees.",
+        "This evidence augments the grand-baseline report, not every historical experiment."
+      ]
+    },
+    {
+      "task_id": "P3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "tools/runbook_drill.py",
+        "tests/test_runbook_drill.py",
+        "docs/RUNBOOK_DRILLS.md",
+        "research/results/p3-10-runbook-drills.json"
+      ],
+      "limitations": [
+        "Outage and corruption drills are local simulated fixtures; no physical network partition or arbitrary disk damage.",
+        "Mass retraction verifies 100 descendants in-memory; remote stores and distributed delivery are not exercised.",
+        "Irrecoverable guidance describes verified-backup and key-loss boundaries, not a live recovery of customer data."
+      ]
+    },
+    {
+      "task_id": "P3-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_slo_dashboard.py",
+        "tools/slo_dashboard_smoke.py",
+        "research/results/p3-01-slo-dashboard.json",
+        "docs/OPERATIONS.md"
+      ],
+      "limitations": [
+        "Smoke report uses a synthetic in-process fixture and is not a production traffic measurement.",
+        "HTTP observations are process-local, reset on restart, and latency percentiles use a bounded rolling sample.",
+        "Blocked action counts are cumulative, and correction lag depends on peer-issued timestamps and clock accuracy."
+      ]
+    },
+    {
+      "task_id": "P3-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/health.py",
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/static/dashboard.html",
+        "tests/test_service_health.py",
+        "tools/service_health_smoke.py",
+        "research/results/p3-02-health-fault-matrix.json",
+        "docs/HEALTH_LEVELS.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Fault injection uses local SQLite and in-process failures, not physical host or hardware faults.",
+        "Event-chain verification is a full scan run only when an operator explicitly requests the health check.",
+        "A healthy point-in-time result is not an action authorization or a substitute for an off-host checkpoint."
+      ]
+    },
+    {
+      "task_id": "P3-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/observability/incident_export.py",
+        "tools/replay_redacted_incident.py",
+        "tools/incident_replay_smoke.py",
+        "tests/test_incident_replay.py",
+        "tests/test_control_center_ui.py",
+        "docs/INCIDENT_REPLAY.md",
+        "docs/README.md",
+        "research/results/p3-06-incident-replay.json"
+      ],
+      "limitations": [
+        "Replay verifies and renders an already generated redacted report; it does not reconstruct the event history without the store.",
+        "SHA-256 detects accidental edits but is not a signature or proof of sender identity.",
+        "Pseudonymous identifiers remain in the artifact, while raw memory text is excluded."
+      ]
+    },
+    {
+      "task_id": "P3-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/limits.py",
+        "src/memory_fabric/agent_api.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/_fabric/lifecycle.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_operational_budgets.py",
+        "tools/resource_budget_smoke.py",
+        "research/results/p3-07-resource-budgets.json",
+        "docs/RESOURCE_BUDGETS.md",
+        "docs/README.md"
+      ],
+      "limitations": [
+        "Worker saturation was verified through the integrated nonblocking budget primitive, not a socket-load test.",
+        "Memory and retention budgets were exercised with in-memory fixtures; no production capacity claim is made.",
+        "Retention caps each apply sweep and leaves later decisions for subsequent sweeps; it does not shorten retention policy periods."
+      ]
+    },
+    {
+      "task_id": "P4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/p4_03_retrieval_governance.py",
+        "tests/test_p4_03_retrieval_governance.py",
+        "research/results/p4-03-retrieval-governance.json",
+        "research/results/p4-03-retrieval-governance.md"
+      ],
+      "limitations": [
+        "Twenty authored deterministic synthetic cases across five setting families; not a held-out or real-agent study.",
+        "Ordinary retrieval stale outcomes are counterfactual WOULD EXECUTE labels; no external side effect occurs.",
+        "No latency or cost measurements; the finding is limited to corrected-task completion and stale action gating in this fixture."
+      ]
+    },
+    {
+      "task_id": "N3-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n3-09-off-policy-support-v1.md",
+        "src/memory_fabric/model.py",
+        "src/memory_fabric/estimators.py",
+        "tests/test_estimators.py",
+        "research/results/n3-09-off-policy-support.json",
+        "research/results/n3-09-off-policy-support.md",
+        "research/results/n3-09-support-tests.xml",
+        "research/results/n3-09-compat-tests.xml"
+      ],
+      "limitations": [
+        "Synthetic contract evidence only; does not validate propensity correctness or eliminate unmeasured confounding.",
+        "The configurable 0.01 support floor may conservatively reject mathematically positive but weak overlap."
+      ]
+    },
+    {
+      "task_id": "N3-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n3-10-policy-graduation-v1.md",
+        "benchmarks/n3_10_policy_graduation.py",
+        "tests/test_n3_10_policy_graduation.py",
+        "research/results/n3-10-policy-graduation.json",
+        "research/results/n3-10-policy-graduation.md",
+        "research/results/n3-10-policy-graduation-tests.xml"
+      ],
+      "limitations": [
+        "Synthetic simulator and unsafe-action probabilities; not real-agent or tool-safety evidence.",
+        "Transfer evidence preserves the procedure-versus-legacy effect mapping from N3-08.",
+        "Row-count compute is a deterministic proxy; measured wall time is host-specific.",
+        "Graduation means supervised research continuation only, not product release or autonomous deployment."
+      ]
+    },
+    {
+      "task_id": "N4-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-01-summary-dependencies.json",
+        "research/results/n4-01-summary-dependencies.md",
+        "research/results/n4-01-dependency-map-tests.xml",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "research/results/n4-02-hierarchy-tests.xml"
+      ],
+      "limitations": [
+        "Fact identity follows the current normalized identifier/content-word/numeric-value extractor; unstructured qualitative claims without identifiers or values are not certified as consequential facts.",
+        "This is local contract evidence, not an independent security or model-quality review."
+      ]
+    },
+    {
+      "task_id": "N4-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "src/memory_fabric/_fabric/writes.py",
+        "tests/test_hierarchical_compaction.py",
+        "tests/test_summary_dependencies.py",
+        "tests/test_compaction.py",
+        "tests/test_lossless_compaction.py",
+        "research/results/n4-02-hierarchical-compaction.json",
+        "research/results/n4-02-hierarchical-compaction.md",
+        "research/results/n4-02-hierarchy-tests.xml",
+        "research/results/n4-02-revision-compat-tests.xml",
+        "tests/test_compaction_temporal.py",
+        "research/results/n4-05-compaction-regression.xml"
+      ],
+      "limitations": [
+        "The implementation is a deterministic two-level hierarchy; deeper recursive trees are not qualified.",
+        "SHA-256 certificates detect mismatched content/edges but are not signatures or proof against an authorized writer changing both data and digest.",
+        "Hierarchy was tested on synthetic local histories, not distributed stores or external model summaries."
+      ]
+    },
+    {
+      "task_id": "N4-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "experiments/n4_03_compaction_size.py",
+        "tests/test_compaction.py",
+        "tests/test_hierarchical_compaction.py",
+        "research/results/n4-03-compaction-size.json",
+        "research/results/n4-03-compaction-size.md",
+        "research/results/n4-03-compaction-tests.xml",
+        "research/results/n4-03-compaction-tests.txt"
+      ],
+      "limitations": [
+        "UTF-8 byte measurements are exact and are not token counts or model cost.",
+        "The local tiktoken package could not initialize cl100k_base because tokenizer data was not cached and network resolution was unavailable; the result labels token counts NOT_MEASURED. The API supports separately reported token counts only when a counter and explicit provenance are supplied.",
+        "Token counts, when supplied, cover source memory contents and summary text only; provider wrappers, prompts, and tool schemas are excluded."
+      ]
+    },
+    {
+      "task_id": "N4-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_compaction_contested_facts.py",
+        "experiments/n4_04_contested_compaction.py",
+        "research/results/n4-04-contested-compaction.json",
+        "research/results/n4-04-contested-compaction.md",
+        "research/results/n4-04-contested-tests.xml"
+      ],
+      "limitations": [
+        "The 10:1 compaction cases exercise already exposable competing evidence by disabling write-time suspicion holding in the fixture; they do not assert either value is true.",
+        "With default suspicion holding, the minority remains a candidate in the review queue and is deliberately excluded from the active summary until reviewed.",
+        "Local in-memory contract evidence; no distributed or real-agent efficacy claim."
+      ]
+    },
+    {
+      "task_id": "N4-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_temporal.py",
+        "experiments/n4_05_temporal_compaction.py",
+        "docs/API.md",
+        "research/results/n4-05-temporal-compaction.json",
+        "research/results/n4-05-temporal-compaction.md",
+        "research/results/n4-05-temporal-tests.xml",
+        "research/results/n4-05-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Summary content preserves distinct preference statements while source metadata records exact version identity, version author, authoritative log sequence, recorded timestamp, and valid-time interval. The summary does not choose which preference applies without an explicit world time.",
+        "Hierarchical metadata and certificates are validated locally in memory; no distributed-store or real-agent preference-resolution claim."
+      ]
+    },
+    {
+      "task_id": "N4-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_budget.py",
+        "experiments/n4_06_budgeted_compaction.py",
+        "docs/API.md",
+        "research/results/n4-06-budgeted-compaction.json",
+        "research/results/n4-06-budgeted-compaction.md",
+        "research/results/n4-06-budget-tests.xml",
+        "research/results/n4-06-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Strict policy treats every usable source as compulsory and refuses the complete summary if it exceeds the token budget; it does not select optional sources.",
+        "A token budget requires a caller-supplied counter and explicit tokenizer provenance. The recorded test tokenizer is deterministic whitespace counting, not a model tokenizer or cost estimate.",
+        "Token counts cover summary text only and exclude provider wrappers, prompts, and tool schemas."
+      ]
+    },
+    {
+      "task_id": "N4-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n4-07-compaction-comparison-v1.md",
+        "experiments/n4_07_compaction_comparison.py",
+        "tests/test_n4_07_compaction_comparison.py",
+        "research/results/n4-07-compaction-comparison.json",
+        "research/results/n4-07-compaction-comparison.md",
+        "research/results/n4-07-compaction-tests.xml"
+      ],
+      "limitations": [
+        "Five-seed deterministic synthetic agent contract study, not a real-agent evaluation.",
+        "The extractive arm uses summary text only; the provenance-preserving arm includes exact source metadata and a verified fact dependency map.",
+        "UTF-8 payload bytes are not tokenizer counts or model-cost estimates; no method-superiority claim is made from this fixture."
+      ]
+    },
+    {
+      "task_id": "N4-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/compaction.py",
+        "tests/test_compaction_certificate.py",
+        "experiments/n4_08_lossy_compaction.py",
+        "docs/API.md",
+        "research/results/n4-08-lossy-compaction.json",
+        "research/results/n4-08-lossy-compaction.md",
+        "research/results/n4-08-lossy-compaction-tests.xml",
+        "research/results/n4-08-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Non-consequential text is identified by the current fact-signature parser; no universal semantic relevance classifier is claimed.",
+        "Certificates are verified against the local current store and do not establish distributed trust or independent audit.",
+        "The lossy path is caller-supplied and opt-in; default summary behavior is unchanged."
+      ]
+    },
+    {
+      "task_id": "N4-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-09-summary-refresh-v1.md",
+        "src/memory_fabric/compaction.py",
+        "experiments/n4_09_summary_refresh.py",
+        "tests/test_n4_09_summary_refresh.py",
+        "research/results/n4-09-summary-refresh.json",
+        "research/results/n4-09-summary-refresh.md",
+        "research/results/n4-09-summary-refresh-tests.xml",
+        "research/results/n4-09-compaction-regression.xml"
+      ],
+      "limitations": [
+        "Affected refresh performs a complete rebuild of only the affected session; it does not patch summary text in place.",
+        "Operation counts and deterministic text hashes are reported; wall-clock latency and production-scale behavior are not.",
+        "The fixture is local and in-memory, with no distributed queues or concurrent corrections."
+      ]
+    },
+    {
+      "task_id": "N4-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "research/prereg/n4-10-provenance-compression-hypothesis-v1.md",
+        "tests/test_n4_10_compaction_preregistration.py",
+        "research/results/n4-10-preregistration-tests.xml"
+      ],
+      "limitations": [
+        "The registered hypothesis has not been run; token-normalized and provider-cost outcomes remain NOT_RUN.",
+        "N4-07 is development-fixture evidence only and does not satisfy the registered unseen-family gates.",
+        "Absolute novelty requires a separate prior-art review."
+      ]
+    },
+    {
+      "task_id": "N5-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/consensus.py",
+        "tests/test_consensus.py",
+        "experiments/n5_01_origin_clusters.py",
+        "docs/API.md",
+        "research/results/n5-01-origin-clusters.json",
+        "research/results/n5-01-origin-clusters.md",
+        "research/results/n5-01-origin-cluster-tests.xml",
+        "research/results/n5-01-consensus-regression.xml"
+      ],
+      "limitations": [
+        "Default origin clusters follow recognized source-root lineage and copy rules; off-store collusion is not detectable from local records.",
+        "Exposure-aware dependence remains a separate optional measure and may conservatively reduce apparent independence.",
+        "Contract evidence does not establish truth or authority of the reported claim."
+      ]
+    },
+    {
+      "task_id": "N5-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_n5_02_hypothesis_preservation.py",
+        "experiments/n5_02_hypothesis_preservation.py",
+        "research/results/n5-02-hypothesis-preservation.json",
+        "research/results/n5-02-hypothesis-preservation.md",
+        "research/results/n5-02-hypothesis-tests.xml",
+        "research/results/n5-02-hypothesis-regression.xml"
+      ],
+      "limitations": [
+        "The fixture proves disagreement remains represented and unresolved; it does not determine which claim is true.",
+        "Source-root counts inherit recognized-copy limitations and are not authenticity proofs.",
+        "A support ranking alone does not authorize an action or resolve a hypothesis set."
+      ]
+    },
+    {
+      "task_id": "N5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n5_03_echo_chamber.py",
+        "tests/test_n5_03_echo_chamber.py",
+        "research/results/n5-03-echo-chamber.json",
+        "research/results/n5-03-echo-chamber.md",
+        "research/results/n5-03-echo-chamber-tests.xml"
+      ],
+      "limitations": [
+        "The graph shapes and edge delays are synthetic fixtures, not measurements of real communication networks.",
+        "The model assumes every informed agent forwards the rumor over each uninformed neighbor edge."
+      ]
+    },
+    {
+      "task_id": "N5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-04-aggregation-policies-v1.md",
+        "experiments/n5_04_aggregation.py",
+        "tests/test_n5_04_aggregation.py",
+        "research/results/n5-04-aggregation-tests.xml",
+        "research/results/n5-04-aggregation-policies.json",
+        "research/results/n5-04-aggregation-policies.md",
+        "research/results/n5-04-aggregation-manifest.json"
+      ],
+      "limitations": [
+        "The benchmark is synthetic; evidence-quality tier rates are assumptions and do not estimate real source reliability.",
+        "Source-root deduplication depends on supplied provenance labels; it does not prove actual independence.",
+        "Reporter reputation is simulated from a separate calibration split and is not an operational trust score."
+      ]
+    },
+    {
+      "task_id": "N5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/context_map.py",
+        "src/memory_fabric/context_receipt.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_n5_05_disagreement_budget.py",
+        "experiments/n5_05_disagreement_budget.py",
+        "research/results/n5-05-disagreement-budget.json",
+        "research/results/n5-05-disagreement-budget.md",
+        "research/results/n5-05-disagreement-tests.xml",
+        "research/results/n5-05-context-regression.xml",
+        "SPEC.md",
+        "docs/architecture/ADR-003-context-receipts.md"
+      ],
+      "limitations": [
+        "Query relevance uses identifier and content-token matching; it is not an action classifier and can miss or overinclude a set.",
+        "One representative is rendered per distinct normalized claim text; only selected representatives are linked in the receipt.",
+        "Context assembly exposes uncertainty but does not decide which alternative is true or authorize an action."
+      ]
+    },
+    {
+      "task_id": "N5-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-06-byzantine-agents-v1.md",
+        "experiments/n5_06_byzantine_agents.py",
+        "tests/test_n5_06_byzantine_agents.py",
+        "research/results/n5-06-byzantine-tests.xml",
+        "research/results/n5-06-byzantine-agents.json",
+        "research/results/n5-06-byzantine-agents.md"
+      ],
+      "limitations": [
+        "The benchmark uses synthetic binary tasks and fixed source reliability rates; it does not estimate field behavior.",
+        "Attackers know task truth and honest report values, while identities are fixed and source-root labels are assumed accurate.",
+        "Requested 10%, 25%, and 40% fault fractions realize as 6.25%, 25%, and 37.5% with 16 reporter identities and floor rounding.",
+        "The threat model was authored before implementation and pilot generation, but first committed with the implementation; repository commit history alone does not independently timestamp preregistration.",
+        "Results evaluate aggregation only; they do not prove Byzantine resilience in live federation or authorize actions."
+      ]
+    },
+    {
+      "task_id": "N5-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/federation.py",
+        "src/memory_fabric/independence.py",
+        "src/memory_fabric/protocol.py",
+        "tests/test_independence.py",
+        "tests/test_federation.py",
+        "tests/test_consensus.py",
+        "research/results/n5-07-federation-tests.xml"
+      ],
+      "limitations": [
+        "The contract fixture covers newly recorded relay chains; legacy imports without a chain retain only their immediate origin and cannot reconstruct older hops.",
+        "Source-root identity depends on the imported provenance metadata and does not authenticate an origin store or detect off-protocol copies.",
+        "The 16-hop outbound limit matches bounded retraction propagation; deeper paths are refused rather than accepted with incomplete retraction coverage."
+      ]
+    },
+    {
+      "task_id": "N5-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/duplicates.py",
+        "src/memory_fabric/consensus.py",
+        "src/memory_fabric/evidence_status.py",
+        "experiments/n5_08_minority_origin.py",
+        "tests/test_n5_08_minority_origin.py",
+        "research/results/n5-08-minority-origin-tests.xml",
+        "research/results/n5-08-context-regression.xml",
+        "research/results/n5-08-minority-origin.json",
+        "research/results/n5-08-minority-origin.md"
+      ],
+      "limitations": [
+        "This deterministic contract fixture knows which value is correct; the store does not and keeps both alternatives in review.",
+        "The disagreement is explicitly challenged before retrieval; automatic semantic discovery of every contradiction is not established.",
+        "The correlated reports are exact recognized copies; paraphrase laundering and off-store collusion are outside this fixture.",
+        "Progressive over-fetch may examine more than the initial 4*k pool when source copies otherwise crowd out distinct roots; search stops when k roots are available or eligible results are exhausted."
+      ]
+    },
+    {
+      "task_id": "N5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/federation.py",
+        "experiments/n5_09_partition_freshness.py",
+        "tests/test_n5_09_partition_freshness.py",
+        "tests/test_freshness.py",
+        "research/results/n5-09-partition-tests.xml",
+        "research/results/n5-09-partition-freshness.json",
+        "research/results/n5-09-partition-freshness.md"
+      ],
+      "limitations": [
+        "The experiment uses real in-process lease, action-gate and retraction code with a deterministic clock; it is not a physical network partition or production availability measurement.",
+        "One withdrawn source, one importer, one lease TTL and one-second observation resolution are evaluated; results do not generalize to fleet distributions.",
+        "Lenient actions are an ungated comparison only and are not a recommendation for consequential operations."
+      ]
+    },
+    {
+      "task_id": "N5-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/h4-topology-and-diversity.md",
+        "research/results/h4-topology-and-diversity.md",
+        "research/prereg/n5-10-false-consensus-recovery-v1.md",
+        "research/prereg/n5-10-followup-false-consensus-recovery-v1.md",
+        "experiments/n5_10_false_consensus_recovery.py",
+        "tests/test_n5_10_false_consensus_recovery.py",
+        "research/results/n5-10-experiment-tests.xml",
+        "research/results/n5-10-false-consensus-recovery.json",
+        "research/results/n5-10-false-consensus-recovery.md",
+        "research/results/n5-10-followup-false-consensus-recovery.json",
+        "research/results/n5-10-followup-false-consensus-recovery.md"
+      ],
+      "limitations": [
+        "The original preregistered batch produced 112 eligible seeds, below its 200-seed threshold; its verdict remains underpowered and inconclusive.",
+        "The fixed follow-up was registered after the initial outcomes were observed. It is reported separately and is not blinded independent validation.",
+        "The follow-up uses a synthetic bandit simulator and conditions on false consensus under complete-collapse; it does not estimate language-model-agent or production behavior.",
+        "The secondary interaction suggests topology and active minority retesting may be partially substitutable; the primary contrasts establish incremental improvement over both registered collapse comparators in this simulator."
+      ]
+    },
+    {
+      "task_id": "N6-01",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "research/bench/n6_01_decision_tasks/cases.json",
+        "experiments/n6_01_typed_decision_tasks.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_decision_models.py",
+        "research/results/n6-01-decision-tests.xml",
+        "research/results/n6-01-decision-evaluation.json"
+      ],
+      "limitations": [
+        "The six cases are deterministic API contracts, not a distributional estimate of agent performance.",
+        "Proposal selection and escalation remain advisory. ActionGate must independently authorize any consequential tool call."
+      ]
+    },
+    {
+      "task_id": "N6-02",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_router.py",
+        "tests/test_decision_router.py",
+        "research/results/n6-02-router-tests.xml",
+        "docs/SYSTEM1_ROUTING.md"
+      ],
+      "limitations": [
+        "Routing uses host-supplied features and fixed rules; feature extraction accuracy and real-agent utility are not evaluated.",
+        "The result is an advisory route and never substitutes for ActionGate authorization."
+      ]
+    },
+    {
+      "task_id": "N6-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/n6_03_router_comparison.py",
+        "tests/test_n6_03_router_comparison.py",
+        "research/results/n6-03-router-tests.xml",
+        "research/results/n6-03-router-comparison.json"
+      ],
+      "limitations": [
+        "Synthetic hazard labels and local features are aligned by construction; the experiment does not measure feature extraction mistakes.",
+        "Probability sources are fixed fixtures rather than fitted or independently calibrated real models.",
+        "The reordering condition reverses option order and keyed-map insertion order together; invalid semantic key/value mismatches are rejected by typed contracts rather than scored as valid predictions.",
+        "Utility weights are illustrative synthetic costs and do not estimate operational value."
+      ]
+    },
+    {
+      "task_id": "N6-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/decision_models.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_n6_04_feature_provenance.py",
+        "tests/test_decision_models.py",
+        "tests/test_n6_01_decision_contract.py",
+        "tests/test_action_race_barriers.py",
+        "tests/test_authorization_receipt.py",
+        "tests/test_permissions.py",
+        "research/results/n6-04-provenance-tests.xml",
+        "docs/DECISION_FEATURE_PROVENANCE.md"
+      ],
+      "limitations": [
+        "The immutable snapshots constrain model-visible typed context and policy mappings; they are not an execution sandbox for arbitrary Python model code.",
+        "ActionGate must still be used at the actual tool boundary; the proposal API itself does not execute or authorize effects."
+      ]
+    },
+    {
+      "task_id": "N6-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n6_05_protocol_equivalence.py",
+        "tests/test_n6_05_protocol_equivalence.py",
+        "research/results/n6-05-protocol-tests.xml",
+        "research/results/n6-05-protocol-equivalence.json",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/tool_protocol.py"
+      ],
+      "limitations": [
+        "All tool invocations go through one loopback mock provider; this is not public production interoperability evidence.",
+        "The MCP workflow uses a loopback bridge around the repository's JSON-RPC dispatcher; the production adapter remains stdio-based.",
+        "UTCP uses the production manual parser, but the harness maps descriptor names to loopback routes and does not exercise public HTTPS, DNS or TLS.",
+        "The workflow is deliberately small and has no latency or paid-model/token-cost claim."
+      ]
+    },
+    {
+      "task_id": "N6-06",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/utcp_malicious_manuals.json",
+        "experiments/n6_06_utcp_policy_check.py",
+        "tests/test_n6_06_utcp_policy_check.py",
+        "tests/test_tool_protocol.py",
+        "research/results/n6-06-utcp-policy-tests.xml",
+        "research/results/n6-06-utcp-policy-check.json",
+        "docs/UTCP_MANUAL_POLICY.md"
+      ],
+      "limitations": [
+        "The check covers the repository's pinned UTCP subset and a frozen local corpus; no remote manual is fetched.",
+        "Public HTTPS URL validation is syntactic and does not resolve DNS, establish TLS, or authenticate the endpoint."
+      ]
+    },
+    {
+      "task_id": "N6-07",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "tests/data/code_mode_malicious_plans.json",
+        "tests/test_code_mode_fuzz.py",
+        "experiments/n6_07_code_mode_static_bounds.py",
+        "tests/test_n6_07_code_mode_static_bounds.py",
+        "research/results/n6-07-code-mode-static-bounds-tests.xml",
+        "research/results/n6-07-code-mode-static-bounds.json",
+        "docs/DECISION_MODELS_AND_UTCP.md"
+      ],
+      "limitations": [
+        "Qualification covers parser structure and source/plan/argument bounds; it does not sandbox registered handlers.",
+        "The grammar has no loop or recursion construct, so bounded branching remains disabled; untrusted handlers still need host authorization and an OS-level sandbox."
+      ]
+    },
+    {
+      "task_id": "N6-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_n6_08_code_mode_effect_authorization.py",
+        "tests/test_action_fence.py",
+        "tests/test_action_crash.py",
+        "tests/test_credential_rotation_actions.py",
+        "research/results/n6-08-code-mode-effect-authorization-tests.xml",
+        "research/results/n6-08-code-mode-effect-authorization.json",
+        "docs/DECISION_MODELS_AND_UTCP.md"
+      ],
+      "limitations": [
+        "External effects are represented by deterministic in-memory handlers; no production service is called.",
+        "Exactly-once external effects depend on the external system honoring the idempotency key."
+      ]
+    },
+    {
+      "task_id": "N6-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n6_09_orchestration_cost_benchmark.py",
+        "tests/test_n6_09_orchestration_cost_benchmark.py",
+        "research/results/n6-09-orchestration-cost-benchmark-tests.xml",
+        "research/results/n6-09-orchestration-cost-benchmark.json",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md",
+        "experiments/n6_05_protocol_equivalence.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/tool_protocol.py"
+      ],
+      "limitations": [
+        "The direct SDK path is an in-process callable mock, not a language-model provider SDK or production remote service.",
+        "MCP uses a loopback HTTP bridge around the repository JSON-RPC dispatcher; UTCP uses a loopback HTTP mapping after production parser discovery. Public DNS, TLS, framing and remote latency are not measured.",
+        "No model runs; token and model cost metrics are not applicable."
+      ]
+    },
+    {
+      "task_id": "N6-10",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "docs/research/preregistrations/N6-10-generated-program-provenance.md",
+        "src/memory_fabric/tool_protocol.py",
+        "src/memory_fabric/actions.py",
+        "experiments/n6_10_generated_program_provenance.py",
+        "tests/test_n6_10_generated_program_provenance.py",
+        "tests/test_action_fence.py",
+        "tests/test_authority.py",
+        "research/results/n6-10-generated-program-provenance-tests.xml",
+        "research/results/n6-10-generated-program-provenance.json",
+        "docs/DECISION_MODELS_AND_UTCP.md",
+        "docs/DECISION_FEATURE_PROVENANCE.md"
+      ],
+      "limitations": [
+        "A single implementation pilot was run before registration and is disclosed/excluded; the preregistered confirmatory mutation matrix was run after registration.",
+        "The evidence is a fixed local integration experiment with ten source mutations, one policy and one workflow; it does not generalize to model-generated programs or broad utility.",
+        "Exact source text is bound, so whitespace/comment changes require new approval."
+      ]
+    },
+    {
+      "task_id": "R5-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/r5_03_component_removal.py",
+        "tests/test_r5_03_component_removal.py",
+        "research/results/r5-03-component-removal-tests.xml",
+        "research/results/r5-03-component-removal.json",
+        "experiments/n4_07_compaction_comparison.py",
+        "experiments/n6_03_router_comparison.py",
+        "src/memory_fabric/summary_dependencies.py",
+        "docs/COMPONENT_REMOVAL_ABLATIONS.md"
+      ],
+      "limitations": [
+        "The dependency ablation bypasses dependency verification and lifecycle filtering to isolate the check.",
+        "Router labels and features share an idealized synthetic source; fixed System 1/System 2 are diagnostic controls.",
+        "Compression reuses five deterministic N4-07 seeds and UTF-8 byte metrics; no real-agent evaluation, confidence interval or model-token cost is included."
+      ]
+    }
+  ]
+}

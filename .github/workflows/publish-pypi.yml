@@ -51,6 +51,7 @@ jobs:
       - name: Build once and validate both distributions
         run: |
           python -m build
+          python tools/audit_package_assets.py dist/*.whl dist/*.tar.gz
           python -m twine check --strict dist/*
           python tools/fresh_machine.py dist/memory_fabric-*.whl
           python -m venv /tmp/memory-fabric-sdist

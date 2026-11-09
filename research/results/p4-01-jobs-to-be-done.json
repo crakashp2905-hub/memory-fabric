@@ -1,0 +1,35 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-01",
+  "commit": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
+  "command": "python -m unittest tests.test_product_jobs tests.test_doc_links -q",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 1.199,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "three_named_jobs": "PASS",
+    "seeded_workflows_exist": "PASS",
+    "buyer_benefit_baseline_and_outcome_for_each": "PASS",
+    "no_demand_claim": "PASS",
+    "documentation_links": "PASS",
+    "Ruff": "PASS"
+  },
+  "limitations": [
+    "These are workflow hypotheses and metrics, not validated buyer demand or customer willingness to pay."
+  ],
+  "file_sha256": {
+    "docs/product/JOBS_TO_BE_DONE.md": "1363987f23be1e851ed5e7bc5ae60c4cd0fb1d67edc5ae3ae95e726f6450d523",
+    "docs/README.md": "5e7f06449a21c6e8e781f35b15315d23fe5b696a433e9e656e5b1bb84d7bcecd",
+    "tests/test_product_jobs.py": "561f18f2441c79c4b6cd8a64f414df091da2e50924aae328fc013a1da4de07a9",
+    "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+    "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
+    "examples/wrong_memory_demo.py": "ed6514153fa51b9fbf6d989486a2f8105f11a165c711acdd6c4fe07bec337a3e",
+    "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
+    "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "b7f9d640bf94af0a03e78d7278db566e2591f7089319847684547e4c20534a21"
+  }
+}

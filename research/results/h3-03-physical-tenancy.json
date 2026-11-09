@@ -1,0 +1,48 @@
+{
+  "acceptance_status": "PASS",
+  "backups": {
+    "destinations_distinct": true,
+    "key_bundles_distinct": true,
+    "tenant_a": "<root>/backups/acme.bak and its .keys bundle",
+    "tenant_b": "<root>/backups/globex.bak and its .keys bundle"
+  },
+  "input_sha256": {
+    "src/memory_fabric/tenancy.py": "daf1048ec5f2f7c8126419579c37853e610e5c98bdfe4142d55e9a251fd06eec",
+    "tests/test_backup_custody.py": "48f4ef6a73355877baa40b187a3ba3c701ebef1da6aec6cc6b4f1b60b4e336c1",
+    "tests/test_tenancy.py": "dea604785b848d3b5e4fec0694a9a8eb7c9cd667a6756837292cb50ba90ba61c"
+  },
+  "junit": "research/results/h3-03-physical-tenancy-tests.xml",
+  "layout": {
+    "key_directories_distinct": true,
+    "memory_keys_distinct": true,
+    "stores_distinct": true,
+    "tenant_a": "<root>/acme/store.db + <root>/acme/keys/",
+    "tenant_b": "<root>/globex/store.db + <root>/globex/keys/"
+  },
+  "limitations": [
+    "The router uses distinct local paths and key directories. Filesystem permissions, remote backup destinations and external key custody must be configured by the operator."
+  ],
+  "schema": "mf-physical-tenant-isolation-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "18d6b6097f69bec1b44d966327b99df966209572",
+  "tenant_id_validation": {
+    "regex": "fullmatch [a-z0-9][a-z0-9_-]{0,63}",
+    "rejected": [
+      "path traversal",
+      "separator",
+      "uppercase",
+      "empty",
+      "overlong",
+      "whitespace",
+      "trailing newline",
+      "non-string"
+    ]
+  },
+  "test_summary": {
+    "command": "python -m pytest tests/test_tenancy.py tests/test_backup_custody.py -q",
+    "failed": 0,
+    "passed": 6,
+    "subtests_passed": 10,
+    "total": 6
+  }
+}

@@ -1,0 +1,3005 @@
+{
+  "eligible_seeds": [
+    10009,
+    10023,
+    10024,
+    10029,
+    10030,
+    10032,
+    10042,
+    10056,
+    10069,
+    10073,
+    10091,
+    10116,
+    10117,
+    10118,
+    10122,
+    10139,
+    10143,
+    10149,
+    10153,
+    10155,
+    10171,
+    10176,
+    10191,
+    10194,
+    10210,
+    10215,
+    10222,
+    10225,
+    10240,
+    10247,
+    10255,
+    10277,
+    10282,
+    10302,
+    10317,
+    10322,
+    10358,
+    10367,
+    10379,
+    10404,
+    10405,
+    10408,
+    10422,
+    10434,
+    10443,
+    10447,
+    10450,
+    10461,
+    10465,
+    10468,
+    10477,
+    10484,
+    10485,
+    10487,
+    10488,
+    10492,
+    10512,
+    10532,
+    10554,
+    10559,
+    10562,
+    10566,
+    10580,
+    10584,
+    10586,
+    10598,
+    10601,
+    10618,
+    10619,
+    10644,
+    10654,
+    10656,
+    10671,
+    10676,
+    10682,
+    10704,
+    10710,
+    10714,
+    10715,
+    10724,
+    10725,
+    10731,
+    10762,
+    10774,
+    10776,
+    10777,
+    10778,
+    10783,
+    10804,
+    10822,
+    10825,
+    10832,
+    10833,
+    10839,
+    10844,
+    10854,
+    10858,
+    10868,
+    10871,
+    10883,
+    10892,
+    10893,
+    10894,
+    10915,
+    10937,
+    10939,
+    10945,
+    10955,
+    10968,
+    10973,
+    10975,
+    10989
+  ],
+  "eligible_count": 112,
+  "preregistered_minimum": 200,
+  "preregistered_minimum_met": false,
+  "arms": {
+    "complete_collapse": {
+      "recovery_rate": 0.08035714285714286,
+      "recovered_n": 9,
+      "mean_recovery_round_among_recovered": 56.111111111111114,
+      "mean_bad_pull_fraction": 0.943220238095238
+    },
+    "complete_preserve": {
+      "recovery_rate": 0.9732142857142857,
+      "recovered_n": 109,
+      "mean_recovery_round_among_recovered": 27.91743119266055,
+      "mean_bad_pull_fraction": 0.21850714285714284
+    },
+    "ring_collapse": {
+      "recovery_rate": 0.10714285714285714,
+      "recovered_n": 12,
+      "mean_recovery_round_among_recovered": 106.66666666666667,
+      "mean_bad_pull_fraction": 0.938297619047619
+    },
+    "ring_preserve": {
+      "recovery_rate": 0.9821428571428571,
+      "recovered_n": 110,
+      "mean_recovery_round_among_recovered": 57.1,
+      "mean_bad_pull_fraction": 0.3160476190476191
+    }
+  },
+  "contrasts": {
+    "h1_complete_preserve_minus_complete_collapse": {
+      "treatment": "complete_preserve",
+      "control": "complete_collapse",
+      "mean_recovery_uplift": 0.8928571428571429,
+      "ci97_5": [
+        0.8214285714285714,
+        0.9553571428571429
+      ]
+    },
+    "h2_complete_preserve_minus_ring_collapse": {
+      "treatment": "complete_preserve",
+      "control": "ring_collapse",
+      "mean_recovery_uplift": 0.8660714285714286,
+      "ci97_5": [
+        0.7857142857142857,
+        0.9375
+      ]
+    },
+    "interaction": {
+      "mean_difference_in_differences": 0.017857142857142856,
+      "ci95": [
+        -0.03571428571428571,
+        0.07142857142857142
+      ],
+      "interpretation": "secondary_interaction"
+    }
+  },
+  "verdict": "INCONCLUSIVE_UNDERPOWERED",
+  "schema": "memory-fabric-n5-10-false-consensus-recovery/1",
+  "task_id": "N5-10",
+  "acceptance_passed": true,
+  "evidence_level": "SIMULATED",
+  "preregistration": {
+    "path": "research/prereg/n5-10-false-consensus-recovery-v1.md",
+    "sha256": "a199e79423c6ce9fb221118c4cab15d03e34b69042c2777b362f32759db84dd7",
+    "git_commit": "32c5491b619c5fb285e68c98b38a4139dd9996dd"
+  },
+  "source": {
+    "commit": "16f5c019fb8e57ef10fd5d46c87c3df9122bbe3a",
+    "dirty_before_result_write": false,
+    "experiment_sha256": "c65d3d51dca2d21dbfa29c063df33da37a98571578fce02c6c3cb30ec56719f0"
+  },
+  "protocol": {
+    "seed_start": 10000,
+    "seed_end_exclusive": 11000,
+    "attempted_seeds": 1000,
+    "minimum_eligible": 200,
+    "checkpoint_round_index": 20,
+    "rounds": 150,
+    "eligible_rule": "all agents believe BAD at round index 20 under complete+collapse"
+  },
+  "runtime_seconds": 4.721,
+  "raw_paired_outcomes": [
+    {
+      "seed": 10009,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.1888
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 59,
+          "bad_pull_fraction": 0.29386666666666666
+        }
+      }
+    },
+    {
+      "seed": 10023,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 66,
+          "bad_pull_fraction": 0.43866666666666665
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 50,
+          "bad_pull_fraction": 0.3004
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 112,
+          "bad_pull_fraction": 0.7006666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 65,
+          "bad_pull_fraction": 0.27746666666666664
+        }
+      }
+    },
+    {
+      "seed": 10024,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16506666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 65,
+          "bad_pull_fraction": 0.31866666666666665
+        }
+      }
+    },
+    {
+      "seed": 10029,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.14893333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.1888
+        }
+      }
+    },
+    {
+      "seed": 10030,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 38,
+          "bad_pull_fraction": 0.2501333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 44,
+          "bad_pull_fraction": 0.3102666666666667
+        }
+      }
+    },
+    {
+      "seed": 10032,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9906666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 21,
+          "bad_pull_fraction": 0.18093333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 34,
+          "bad_pull_fraction": 0.27573333333333333
+        }
+      }
+    },
+    {
+      "seed": 10042,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9826666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.20333333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9826666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 41,
+          "bad_pull_fraction": 0.332
+        }
+      }
+    },
+    {
+      "seed": 10056,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.17333333333333334
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 26,
+          "bad_pull_fraction": 0.2136
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 112,
+          "bad_pull_fraction": 0.55
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 118,
+          "bad_pull_fraction": 0.42346666666666666
+        }
+      }
+    },
+    {
+      "seed": 10069,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.20093333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 68,
+          "bad_pull_fraction": 0.32
+        }
+      }
+    },
+    {
+      "seed": 10073,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16066666666666668
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.1732
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 101,
+          "bad_pull_fraction": 0.5313333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.2696
+        }
+      }
+    },
+    {
+      "seed": 10091,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.1976
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 77,
+          "bad_pull_fraction": 0.3604
+        }
+      }
+    },
+    {
+      "seed": 10116,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 42,
+          "bad_pull_fraction": 0.27813333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 80,
+          "bad_pull_fraction": 0.41506666666666664
+        }
+      }
+    },
+    {
+      "seed": 10117,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 38,
+          "bad_pull_fraction": 0.24
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 57,
+          "bad_pull_fraction": 0.3172
+        }
+      }
+    },
+    {
+      "seed": 10118,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.15293333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 58,
+          "bad_pull_fraction": 0.2312
+        }
+      }
+    },
+    {
+      "seed": 10122,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.1724
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 42,
+          "bad_pull_fraction": 0.28173333333333334
+        }
+      }
+    },
+    {
+      "seed": 10139,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.16613333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 48,
+          "bad_pull_fraction": 0.23426666666666668
+        }
+      }
+    },
+    {
+      "seed": 10143,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15386666666666668
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 52,
+          "bad_pull_fraction": 0.2764
+        }
+      }
+    },
+    {
+      "seed": 10149,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.1496
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.19053333333333333
+        }
+      }
+    },
+    {
+      "seed": 10153,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15173333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.18173333333333333
+        }
+      }
+    },
+    {
+      "seed": 10155,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.16586666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 40,
+          "bad_pull_fraction": 0.22013333333333332
+        }
+      }
+    },
+    {
+      "seed": 10171,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 26,
+          "bad_pull_fraction": 0.17466666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.2516
+        }
+      }
+    },
+    {
+      "seed": 10176,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.18053333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 71,
+          "bad_pull_fraction": 0.3528
+        }
+      }
+    },
+    {
+      "seed": 10191,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.23013333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 47,
+          "bad_pull_fraction": 0.28573333333333334
+        }
+      }
+    },
+    {
+      "seed": 10194,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.15826666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 38,
+          "bad_pull_fraction": 0.21653333333333333
+        }
+      }
+    },
+    {
+      "seed": 10210,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.17093333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 55,
+          "bad_pull_fraction": 0.256
+        }
+      }
+    },
+    {
+      "seed": 10215,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.22413333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 88,
+          "bad_pull_fraction": 0.4226666666666667
+        }
+      }
+    },
+    {
+      "seed": 10222,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.21133333333333335
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.2812
+        }
+      }
+    },
+    {
+      "seed": 10225,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.992
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.20853333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.992
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 55,
+          "bad_pull_fraction": 0.3196
+        }
+      }
+    },
+    {
+      "seed": 10240,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.994
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.1596
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.994
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.23266666666666666
+        }
+      }
+    },
+    {
+      "seed": 10247,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 42,
+          "bad_pull_fraction": 0.2504
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 61,
+          "bad_pull_fraction": 0.396
+        }
+      }
+    },
+    {
+      "seed": 10255,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 36,
+          "bad_pull_fraction": 0.2304
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 46,
+          "bad_pull_fraction": 0.29786666666666667
+        }
+      }
+    },
+    {
+      "seed": 10277,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 21,
+          "bad_pull_fraction": 0.17786666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 37,
+          "bad_pull_fraction": 0.28826666666666667
+        }
+      }
+    },
+    {
+      "seed": 10282,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9886666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.17173333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.936
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 40,
+          "bad_pull_fraction": 0.3181333333333333
+        }
+      }
+    },
+    {
+      "seed": 10302,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 119,
+          "bad_pull_fraction": 0.772
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.18693333333333334
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 123,
+          "bad_pull_fraction": 0.5846666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 86,
+          "bad_pull_fraction": 0.36666666666666664
+        }
+      }
+    },
+    {
+      "seed": 10317,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16666666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.2909333333333333
+        }
+      }
+    },
+    {
+      "seed": 10322,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.2304
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 81,
+          "bad_pull_fraction": 0.3626666666666667
+        }
+      }
+    },
+    {
+      "seed": 10358,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.2456
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 133,
+          "bad_pull_fraction": 0.5793333333333334
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 74,
+          "bad_pull_fraction": 0.3092
+        }
+      }
+    },
+    {
+      "seed": 10367,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 29,
+          "bad_pull_fraction": 0.20893333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 52,
+          "bad_pull_fraction": 0.2966666666666667
+        }
+      }
+    },
+    {
+      "seed": 10379,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9893333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.20773333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9893333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 45,
+          "bad_pull_fraction": 0.3453333333333333
+        }
+      }
+    },
+    {
+      "seed": 10404,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.20773333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 35,
+          "bad_pull_fraction": 0.23466666666666666
+        }
+      }
+    },
+    {
+      "seed": 10405,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.19826666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 47,
+          "bad_pull_fraction": 0.28373333333333334
+        }
+      }
+    },
+    {
+      "seed": 10408,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9913333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.15533333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9913333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.23733333333333334
+        }
+      }
+    },
+    {
+      "seed": 10422,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 34,
+          "bad_pull_fraction": 0.2396
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 62,
+          "bad_pull_fraction": 0.398
+        }
+      }
+    },
+    {
+      "seed": 10434,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.17746666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 40,
+          "bad_pull_fraction": 0.23933333333333334
+        }
+      }
+    },
+    {
+      "seed": 10443,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.20186666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 93,
+          "bad_pull_fraction": 0.3930666666666667
+        }
+      }
+    },
+    {
+      "seed": 10447,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.1544
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 58,
+          "bad_pull_fraction": 0.24426666666666666
+        }
+      }
+    },
+    {
+      "seed": 10450,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.192
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 69,
+          "bad_pull_fraction": 0.39013333333333333
+        }
+      }
+    },
+    {
+      "seed": 10461,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.17346666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 36,
+          "bad_pull_fraction": 0.2502666666666667
+        }
+      }
+    },
+    {
+      "seed": 10465,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.18666666666666668
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 48,
+          "bad_pull_fraction": 0.2836
+        }
+      }
+    },
+    {
+      "seed": 10468,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.25066666666666665
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.2116
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 129,
+          "bad_pull_fraction": 0.4726666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 31,
+          "bad_pull_fraction": 0.31506666666666666
+        }
+      }
+    },
+    {
+      "seed": 10477,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.994
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.1872
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.994
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 59,
+          "bad_pull_fraction": 0.30906666666666666
+        }
+      }
+    },
+    {
+      "seed": 10484,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.2156
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 114,
+          "bad_pull_fraction": 0.4165333333333333
+        }
+      }
+    },
+    {
+      "seed": 10485,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.2714666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.994
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 83,
+          "bad_pull_fraction": 0.3937333333333333
+        }
+      }
+    },
+    {
+      "seed": 10487,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15053333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 34,
+          "bad_pull_fraction": 0.19573333333333334
+        }
+      }
+    },
+    {
+      "seed": 10488,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.97
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.18546666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.97
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 67,
+          "bad_pull_fraction": 0.3681333333333333
+        }
+      }
+    },
+    {
+      "seed": 10492,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 100,
+          "bad_pull_fraction": 0.642
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.19946666666666665
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9746666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 51,
+          "bad_pull_fraction": 0.35
+        }
+      }
+    },
+    {
+      "seed": 10512,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15906666666666666
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 89,
+          "bad_pull_fraction": 0.27666666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 43,
+          "bad_pull_fraction": 0.22653333333333334
+        }
+      }
+    },
+    {
+      "seed": 10532,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.2558666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.38706666666666667
+        }
+      }
+    },
+    {
+      "seed": 10554,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.30866666666666664
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.18546666666666667
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 90,
+          "bad_pull_fraction": 0.45066666666666666
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 55,
+          "bad_pull_fraction": 0.2996
+        }
+      }
+    },
+    {
+      "seed": 10559,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.3208
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 44,
+          "bad_pull_fraction": 0.2504
+        }
+      }
+    },
+    {
+      "seed": 10562,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.17466666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 32,
+          "bad_pull_fraction": 0.2248
+        }
+      }
+    },
+    {
+      "seed": 10566,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16293333333333335
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 38,
+          "bad_pull_fraction": 0.19226666666666667
+        }
+      }
+    },
+    {
+      "seed": 10580,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.1632
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 93,
+          "bad_pull_fraction": 0.3308
+        }
+      }
+    },
+    {
+      "seed": 10584,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.25333333333333335
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 81,
+          "bad_pull_fraction": 0.36386666666666667
+        }
+      }
+    },
+    {
+      "seed": 10586,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.1892
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 58,
+          "bad_pull_fraction": 0.34146666666666664
+        }
+      }
+    },
+    {
+      "seed": 10598,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9873333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.18826666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9873333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 59,
+          "bad_pull_fraction": 0.30373333333333336
+        }
+      }
+    },
+    {
+      "seed": 10601,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9873333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 29,
+          "bad_pull_fraction": 0.19213333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9873333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 54,
+          "bad_pull_fraction": 0.2964
+        }
+      }
+    },
+    {
+      "seed": 10618,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.1636
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 83,
+          "bad_pull_fraction": 0.4016
+        }
+      }
+    },
+    {
+      "seed": 10619,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.2052
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 56,
+          "bad_pull_fraction": 0.2968
+        }
+      }
+    },
+    {
+      "seed": 10644,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.16346666666666668
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 43,
+          "bad_pull_fraction": 0.2284
+        }
+      }
+    },
+    {
+      "seed": 10654,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.16133333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 31,
+          "bad_pull_fraction": 0.18733333333333332
+        }
+      }
+    },
+    {
+      "seed": 10656,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.16226666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.276
+        }
+      }
+    },
+    {
+      "seed": 10671,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 39,
+          "bad_pull_fraction": 0.2612
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 79,
+          "bad_pull_fraction": 0.43173333333333336
+        }
+      }
+    },
+    {
+      "seed": 10676,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.16986666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 52,
+          "bad_pull_fraction": 0.3144
+        }
+      }
+    },
+    {
+      "seed": 10682,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.2172
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 120,
+          "bad_pull_fraction": 0.5228
+        }
+      }
+    },
+    {
+      "seed": 10704,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 46,
+          "bad_pull_fraction": 0.3294666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 68,
+          "bad_pull_fraction": 0.35026666666666667
+        }
+      }
+    },
+    {
+      "seed": 10710,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15906666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.1908
+        }
+      }
+    },
+    {
+      "seed": 10714,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15533333333333332
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 53,
+          "bad_pull_fraction": 0.2844
+        }
+      }
+    },
+    {
+      "seed": 10715,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.98
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 29,
+          "bad_pull_fraction": 0.18346666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.98
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 60,
+          "bad_pull_fraction": 0.3621333333333333
+        }
+      }
+    },
+    {
+      "seed": 10724,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.99
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.1476
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.99
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 35,
+          "bad_pull_fraction": 0.2156
+        }
+      }
+    },
+    {
+      "seed": 10725,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9793333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.2518666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.6566666666666666
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 92,
+          "bad_pull_fraction": 0.40973333333333334
+        }
+      }
+    },
+    {
+      "seed": 10731,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16973333333333335
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 59,
+          "bad_pull_fraction": 0.2982666666666667
+        }
+      }
+    },
+    {
+      "seed": 10762,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.18
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.19106666666666666
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 99,
+          "bad_pull_fraction": 0.4513333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 26,
+          "bad_pull_fraction": 0.2982666666666667
+        }
+      }
+    },
+    {
+      "seed": 10774,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "complete_preserve": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9898666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 89,
+          "bad_pull_fraction": 0.3910666666666667
+        }
+      }
+    },
+    {
+      "seed": 10776,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9906666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 27,
+          "bad_pull_fraction": 0.1712
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9913333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.24813333333333334
+        }
+      }
+    },
+    {
+      "seed": 10777,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 30,
+          "bad_pull_fraction": 0.196
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9986666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 61,
+          "bad_pull_fraction": 0.2976
+        }
+      }
+    },
+    {
+      "seed": 10778,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 114,
+          "bad_pull_fraction": 0.4345333333333333
+        }
+      }
+    },
+    {
+      "seed": 10783,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        }
+      }
+    },
+    {
+      "seed": 10804,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 36,
+          "bad_pull_fraction": 0.2264
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 63,
+          "bad_pull_fraction": 0.32626666666666665
+        }
+      }
+    },
+    {
+      "seed": 10822,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9906666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 31,
+          "bad_pull_fraction": 0.20213333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9906666666666667
+        },
+        "ring_preserve": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.5097333333333334
+        }
+      }
+    },
+    {
+      "seed": 10825,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 21,
+          "bad_pull_fraction": 0.1492
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9946666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 36,
+          "bad_pull_fraction": 0.23413333333333333
+        }
+      }
+    },
+    {
+      "seed": 10832,
+      "arms": {
+        "complete_collapse": {
+          "recovered": true,
+          "recovery_round": 47,
+          "bad_pull_fraction": 0.2906666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 26,
+          "bad_pull_fraction": 0.168
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.962
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 45,
+          "bad_pull_fraction": 0.3124
+        }
+      }
+    },
+    {
+      "seed": 10833,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.1564
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.2124
+        }
+      }
+    },
+    {
+      "seed": 10839,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.16466666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 43,
+          "bad_pull_fraction": 0.25253333333333333
+        }
+      }
+    },
+    {
+      "seed": 10844,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.15293333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 47,
+          "bad_pull_fraction": 0.28546666666666665
+        }
+      }
+    },
+    {
+      "seed": 10854,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 28,
+          "bad_pull_fraction": 0.19373333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 36,
+          "bad_pull_fraction": 0.30186666666666667
+        }
+      }
+    },
+    {
+      "seed": 10858,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.1616
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9933333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 41,
+          "bad_pull_fraction": 0.2484
+        }
+      }
+    },
+    {
+      "seed": 10868,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 29,
+          "bad_pull_fraction": 0.19853333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 73,
+          "bad_pull_fraction": 0.4345333333333333
+        }
+      }
+    },
+    {
+      "seed": 10871,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.184
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 45,
+          "bad_pull_fraction": 0.29586666666666667
+        }
+      }
+    },
+    {
+      "seed": 10883,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.17613333333333334
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.996
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 47,
+          "bad_pull_fraction": 0.3016
+        }
+      }
+    },
+    {
+      "seed": 10892,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9853333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 23,
+          "bad_pull_fraction": 0.154
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 112,
+          "bad_pull_fraction": 0.5753333333333334
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 37,
+          "bad_pull_fraction": 0.2902666666666667
+        }
+      }
+    },
+    {
+      "seed": 10893,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 24,
+          "bad_pull_fraction": 0.17213333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 49,
+          "bad_pull_fraction": 0.2670666666666667
+        }
+      }
+    },
+    {
+      "seed": 10894,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.984
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 26,
+          "bad_pull_fraction": 0.22613333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.984
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 122,
+          "bad_pull_fraction": 0.4478666666666667
+        }
+      }
+    },
+    {
+      "seed": 10915,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 25,
+          "bad_pull_fraction": 0.23946666666666666
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9973333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 120,
+          "bad_pull_fraction": 0.3924
+        }
+      }
+    },
+    {
+      "seed": 10937,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 1.0
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.1788
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 1.0
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 42,
+          "bad_pull_fraction": 0.30666666666666664
+        }
+      }
+    },
+    {
+      "seed": 10939,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.99
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 31,
+          "bad_pull_fraction": 0.19773333333333334
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 66,
+          "bad_pull_fraction": 0.3393333333333333
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 41,
+          "bad_pull_fraction": 0.2404
+        }
+      }
+    },
+    {
+      "seed": 10945,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 40,
+          "bad_pull_fraction": 0.24573333333333333
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.988
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 53,
+          "bad_pull_fraction": 0.2792
+        }
+      }
+    },
+    {
+      "seed": 10955,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9846666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 63,
+          "bad_pull_fraction": 0.3644
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.978
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 80,
+          "bad_pull_fraction": 0.5018666666666667
+        }
+      }
+    },
+    {
+      "seed": 10968,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9953333333333333
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 33,
+          "bad_pull_fraction": 0.21413333333333334
+        },
+        "ring_collapse": {
+          "recovered": true,
+          "recovery_round": 114,
+          "bad_pull_fraction": 0.568
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 42,
+          "bad_pull_fraction": 0.216
+        }
+      }
+    },
+    {
+      "seed": 10973,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 38,
+          "bad_pull_fraction": 0.2384
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9926666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 69,
+          "bad_pull_fraction": 0.33026666666666665
+        }
+      }
+    },
+    {
+      "seed": 10975,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 50,
+          "bad_pull_fraction": 0.3016
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.9966666666666667
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 76,
+          "bad_pull_fraction": 0.42933333333333334
+        }
+      }
+    },
+    {
+      "seed": 10989,
+      "arms": {
+        "complete_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "complete_preserve": {
+          "recovered": true,
+          "recovery_round": 22,
+          "bad_pull_fraction": 0.16426666666666667
+        },
+        "ring_collapse": {
+          "recovered": false,
+          "recovery_round": null,
+          "bad_pull_fraction": 0.998
+        },
+        "ring_preserve": {
+          "recovered": true,
+          "recovery_round": 105,
+          "bad_pull_fraction": 0.4149333333333333
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "This is a synthetic bandit mechanism test using the existing H4 simulator, not language-model agents or production memory behavior.",
+    "Eligibility is conditional on false consensus under the pre-treatment complete+collapse path; results do not estimate population-wide prevention of false consensus.",
+    "The intervention tests the same H4b posterior-overlap retesting rule; no independent semantic hypothesis detector is modeled."
+  ]
+}

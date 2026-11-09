@@ -58,6 +58,11 @@ class EventType:
     BRANCH_HEAD_MOVED = "BranchHeadMoved"
     MERGE_APPLIED = "MergeApplied"
     BRANCH_CLOSED = "BranchClosed"
+    DECISION_RECORDED = "DecisionRecorded"
+    DECISION_EDGE_RECORDED = "DecisionEdgeRecorded"
+    DECISION_SEEN = "DecisionSeen"
+    DECISION_OPTION_ASSESSED = "DecisionOptionAssessed"
+    DECISION_STATUS_CHANGED = "DecisionStatusChanged"
 
 
 @dataclass(frozen=True)
@@ -445,7 +450,8 @@ def support_recomputed(
 
 
 def content_erased(
-    ts: int, memory_id: str, reason: str, actor: str, had_content: bool
+    ts: int, memory_id: str, reason: str, actor: str, had_content: bool,
+    embedding_cache_token: str | None = None,
 ) -> Event:
     """A memory's content key was destroyed.
 
@@ -456,15 +462,18 @@ def content_erased(
     can read, which is the point. Erasure removes the content, not the
     accountability.
     """
+    payload = {
+        "memory_id": memory_id,
+        "reason": reason[:256],
+        "had_content": had_content,
+    }
+    if embedding_cache_token is not None:
+        payload["embedding_cache_token"] = embedding_cache_token
     return Event(
         type=EventType.CONTENT_ERASED,
         ts=ts,
         agent_id=actor,
-        payload={
-            "memory_id": memory_id,
-            "reason": reason[:256],
-            "had_content": had_content,
-        },
+        payload=payload,
     )
 
 
@@ -653,6 +662,9 @@ def action_gated(
     min_independent_sources: int | None = None,
     grant_id: str | None = None,
     binding: str | None = None,
+    claim_certificates: Mapping[str, Any] | None = None,
+    missing_evidence_sets: list[list[str]] | None = None,
+    disputed_claims: list[Mapping[str, Any]] | None = None,
 ) -> Event:
     """A decision about a protected tool call, with the evidence it rested on.
 
@@ -677,6 +689,12 @@ def action_gated(
             "min_independent_sources": min_independent_sources,
             "grant_id": grant_id,
             "binding": binding,
+            "claim_certificate_digests": {
+                claim_id: getattr(certificate, "digest")()
+                for claim_id, certificate in sorted((claim_certificates or {}).items())
+            },
+            "missing_evidence_sets": [list(items) for items in (missing_evidence_sets or [])],
+            "disputed_claims": [dict(item) for item in (disputed_claims or [])],
         },
     )
 
@@ -720,6 +738,9 @@ def action_executed(
     elapsed_ms: int,
     evidence: list[list[Any]],
     tenant_id: str | None = None,
+    binding: str | None = None,
+    policy_version: str | None = None,
+    tool_digest: str | None = None,
 ) -> Event:
     """A protected tool call that ran under the action fence (schema 0.11.0).
 
@@ -730,21 +751,28 @@ def action_executed(
     reports any change to its evidence after this event. Ids only, never
     content.
     """
+    payload = {
+        "key": key,
+        "tool": tool,
+        "outcome": outcome,
+        "fenced": fenced,
+        "watermark": watermark,
+        "lease_ms": lease_ms,
+        "elapsed_ms": elapsed_ms,
+        "evidence": [list(e) for e in evidence],
+        "tenant_id": tenant_id,
+    }
+    if binding is not None:
+        payload["binding"] = binding
+    if policy_version is not None:
+        payload["policy_version"] = policy_version
+    if tool_digest is not None:
+        payload["tool_digest"] = tool_digest
     return Event(
         type=EventType.ACTION_EXECUTED,
         ts=ts,
         agent_id=agent_id,
-        payload={
-            "key": key,
-            "tool": tool,
-            "outcome": outcome,
-            "fenced": fenced,
-            "watermark": watermark,
-            "lease_ms": lease_ms,
-            "elapsed_ms": elapsed_ms,
-            "evidence": [list(e) for e in evidence],
-            "tenant_id": tenant_id,
-        },
+        payload=payload,
     )
 
 
@@ -823,7 +851,9 @@ def objective_changed(ts: int, actor: str, digest: str, status: str, proposer: s
 
 
 def action_attempted(ts: int, agent_id: str, key: str, tool: str,
-                     tenant_id: str | None = None) -> Event:
+                     tenant_id: str | None = None, binding: str | None = None,
+                     policy_version: str | None = None,
+                     tool_digest: str | None = None) -> Event:
     """An action is about to run under the fence (0.12.0). Committed *before* it.
 
     The fence's own record commits with the outcome, so a crash mid-tool
@@ -831,16 +861,24 @@ def action_attempted(ts: int, agent_id: str, key: str, tool: str,
     after it is an **uncertain** side effect, and the next call with the
     same key is refused until a caller passes `retry=True`.
     """
+    payload = {"key": key, "tool": tool, "tenant_id": tenant_id}
+    if binding is not None:
+        payload["binding"] = binding
+    if policy_version is not None:
+        payload["policy_version"] = policy_version
+    if tool_digest is not None:
+        payload["tool_digest"] = tool_digest
     return Event(type=EventType.ACTION_ATTEMPTED, ts=ts, agent_id=agent_id,
-                 payload={"key": key, "tool": tool, "tenant_id": tenant_id})
+                 payload=payload)
 
 
 
 def context_built(ts: int, agent_id: str, receipt: Mapping[str, Any]) -> Event:
-    """A context bundle was delivered to an agent (0.13.0).
+    """A context bundle was delivered to an agent (0.13.0; receipt v2 in 0.19.0).
 
-    Ids, versions, digests and reason codes only: never the query, never
-    memory or summary content (docs/architecture/ADR-003-context-receipts.md).
+    Receipts carry ids, versions, digests, reason codes and uncertainty status;
+    never the query or memory content.
+    (docs/architecture/ADR-003-context-receipts.md).
     """
     return Event(type=EventType.CONTEXT_BUILT, ts=ts, agent_id=agent_id,
                  payload=dict(receipt))

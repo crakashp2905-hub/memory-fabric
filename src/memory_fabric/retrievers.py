@@ -78,6 +78,7 @@ class VectorCache:
         self._db: sqlite3.Connection | None = None
         if path:
             self._db = sqlite3.connect(path, check_same_thread=False)
+            self._db.execute("PRAGMA secure_delete=ON")
             self._db.execute("CREATE TABLE IF NOT EXISTS vectors "
                              "(key TEXT PRIMARY KEY, vector TEXT NOT NULL)")
             self._db.commit()
@@ -88,6 +89,10 @@ class VectorCache:
 
     def _key(self, text: str) -> str:
         return hashlib.sha256(f"{self.model}\0{text}".encode("utf-8")).hexdigest()
+
+    def key_for(self, text: str) -> str:
+        """Opaque content-keyed cache token suitable for a durable erasure event."""
+        return self._key(text)
 
     def get(self, text: str) -> list[float] | None:
         key = self._key(text)
@@ -112,6 +117,18 @@ class VectorCache:
                 self._db.executemany(
                     "INSERT OR REPLACE INTO vectors (key, vector) VALUES (?, ?)",
                     [(key, json.dumps(vector)) for key, vector in rows])
+                self._db.commit()
+
+    def forget(self, text: str) -> None:
+        """Remove an erased document vector from memory and persistent cache."""
+        self.forget_key(self._key(text))
+
+    def forget_key(self, key: str) -> None:
+        """Idempotently remove a vector by an opaque token recorded at erasure."""
+        with self._lock:
+            self._memory.pop(key, None)
+            if self._db is not None:
+                self._db.execute("DELETE FROM vectors WHERE key = ?", (key,))
                 self._db.commit()
 
     def __len__(self) -> int:
@@ -196,6 +213,16 @@ class _BatchEmbedder:
             self.warm([text])
             found = self.cache.get(text) or []
         return found
+
+    def forget(self, text: str) -> None:
+        """Forget a document embedding when its owning memory is erased."""
+        self.cache.forget(text)
+
+    def erasure_token(self, text: str) -> str:
+        return self.cache.key_for(text)
+
+    def forget_erasure_token(self, token: str) -> None:
+        self.cache.forget_key(token)
 
     def embed_query(self, text: str) -> list[float]:
         """Queries may need a different encoding (an instruction prefix)."""

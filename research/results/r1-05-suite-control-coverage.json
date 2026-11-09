@@ -1,0 +1,170 @@
+{
+  "all_registered_run_suites_covered": true,
+  "controls": {
+    "broken_retrieval": "returns no evidence; expected to fail answerable retrieval cases",
+    "permissive_authorization": "ignores authorization policy; exercised by the registered synthetic action_safety family",
+    "random_evidence": "seeded selection independent of query labels"
+  },
+  "coverage_count": 11,
+  "input_sha256": {
+    "benchmarks/offline_research.py": "2597e98d82c096bccf2d3624ce1ff1125d4d43cb456fdd6557583b4945c3da64",
+    "benchmarks/registry.json": "e5e0814759a30aa5ee8140cdb2be461672288cfda34930b589120ab5145dc6b8",
+    "research/prereg/offline-10-families-v1.md": "6044be7f169c89f1e3eafe37672f05a66e69560867bf53e3f3ff7e837a794dd4",
+    "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
+    "tests/test_compaction.py": "b44dc21ec452f6dca03a2b03b4f16cd2d4f3667442736be2bd7d31d2ffddebb7",
+    "tests/test_examples_run.py": "990c9acd3add87301ec44a0042143a8f04a667f14a97b465bc4825a38d4ea6db",
+    "tests/test_federation_world.py": "98f1e2dbe468924b46d169b615b612a7667d59f457e82363389a5a6fde697114",
+    "tests/test_gov_conformance.py": "86eef2767f397a6a3f936d8b142fbc96df2b5dbc0fcedfa936c9b97f0adc5642",
+    "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+    "tests/test_r1_external_negative_controls.py": "04789dc54a3a2120f491a1c9e029f6b330ac401f1ffceb3936ee58a4630fc332",
+    "tests/test_r1_known_failure_controls.py": "bc491f695ad945737424f51b8e33ef8a0c925dbdf6911b8854fa34fa12488613",
+    "tests/test_security_regression.py": "20ee714c00ddc4b56ede8ee306e2c1d033b5f5b9cc02b46e52294a6089a73b61",
+    "tools/r1_control_coverage.py": "fe623a5199f6b288058989eed91a12e40110badca25c6c5ff1e355fd2517e1e2"
+  },
+  "limitations": [
+    "The external PUB-11/PUB-14 control tests use small synthetic fixtures; full external dataset evaluations remain separately reported.",
+    "The cross-suite matrix proves one registered known-failure regression per RUN suite, not that every arm is appropriate for every suite.",
+    "The shared broken/random/permissive controls are evaluated on the preregistered offline synthetic families; external benchmark suites remain retrieval-only where governance is out of scope."
+  ],
+  "population": "synthetic_scripted_and_contract_regressions",
+  "registry_run_suite_count": 11,
+  "rows": [
+    {
+      "control": "broken_retrieval and seeded random evidence",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.054s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "PUB-11",
+      "suite_name": "LongMemEval (s, cleaned)",
+      "test": "tests.test_r1_external_negative_controls.ExternalSuiteNegativeControls.test_longmemeval_broken_and_random_arms_miss_the_synthetic_gold_turn",
+      "tests_run": 1
+    },
+    {
+      "control": "broken_retrieval and seeded random evidence",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "PUB-14",
+      "suite_name": "SciFact (BEIR)",
+      "test": "tests.test_r1_external_negative_controls.ExternalSuiteNegativeControls.test_scifact_broken_and_random_arms_fall_below_the_oracle",
+      "tests_run": 1
+    },
+    {
+      "control": "overwrite baseline ignores valid-time changes",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.404s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-01",
+      "suite_name": "MemoryWorld 2 changing-knowledge QA",
+      "test": "tests.test_r1_known_failure_controls.KnownFailureControls.test_int01_overwrite_baseline_fails_to_recover_changed_facts",
+      "tests_run": 1
+    },
+    {
+      "control": "partition leaves stale dependent actions; rejoin must invalidate them",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.105s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-02",
+      "suite_name": "MemoryWorld 2 multi-agent federation",
+      "test": "tests.test_federation_world.WorldTests.test_partition_is_visible_and_rejoin_invalidates_dependent_actions",
+      "tests_run": 1
+    },
+    {
+      "control": "typed and navigation arms miss oracle-labelled exact results",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 3.037s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-03",
+      "suite_name": "Exhaustive enumeration: tree vs typed filter",
+      "test": "tests.test_r1_known_failure_controls.KnownFailureControls.test_int03_search_arms_fail_known_exact_enumeration_cases",
+      "tests_run": 1
+    },
+    {
+      "control": "lossy summary drops a required value and must be refused",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.008s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-04",
+      "suite_name": "Compaction with reversible drill-down",
+      "test": "tests.test_compaction.Session.test_a_summariser_that_drops_a_value_or_resolves_the_dispute_is_refused",
+      "tests_run": 1
+    },
+    {
+      "control": "injected instruction is quarantined at ingestion",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.952s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-06",
+      "suite_name": "Adversarial memory injections",
+      "test": "tests.test_security_regression.TestInjection.test_an_injection_is_quarantined_on_write",
+      "tests_run": 1
+    },
+    {
+      "control": "withdrawn evidence is not exposed",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.006s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-07",
+      "suite_name": "Compliance/access-governance matrix (GOV-01..24)",
+      "test": "tests.test_gov_conformance.Direct.test_withdrawn_memory_is_never_exposed",
+      "tests_run": 1
+    },
+    {
+      "control": "process killed mid-retraction leaves no partial trace",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 1.674s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-08",
+      "suite_name": "Concurrency/crash/distribution",
+      "test": "tests.test_multiprocess_crash.CrashInsideATransaction.test_a_retraction_killed_mid_transaction_leaves_no_trace",
+      "tests_run": 1
+    },
+    {
+      "control": "offline install and documented examples execute end to end",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 4.356s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-09",
+      "suite_name": "SDK/MCP/operator onboarding",
+      "test": "tests.test_examples_run.Examples.test_offline_examples_run",
+      "tests_run": 1
+    },
+    {
+      "control": "cost-per-safe-success with zero safe successes is refused",
+      "errors": 0,
+      "failures": 0,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.150s\n\nOK",
+      "passed": true,
+      "skipped": 0,
+      "suite_id": "INT-10",
+      "suite_name": "Economic and environment benchmark",
+      "test": "tests.test_benchmarks.Manifests.test_cost_per_safe_success_without_one_is_refused",
+      "tests_run": 1
+    }
+  ],
+  "schema": "mf-r1-05-suite-control-coverage/1",
+  "source_commit": "d9f68bf2a1c15ae2a8a662818c586882b47acf9e",
+  "stale_suite_ids": [],
+  "suite_name_mismatches": [],
+  "uncovered_suite_ids": []
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "memory-fabric-n6-01-decision-cases/1",
+  "description": "New deterministic proposal, abstention, confidence, entropy and consequential-action routing contracts.",
+  "cases": [
+    {
+      "id": "confident-routine-choice",
+      "query": "Which report should be summarized?",
+      "options": [{"id": "a", "action": null}, {"id": "b", "action": null}],
+      "scores": {"a": 9, "b": 1},
+      "min_confidence": 0.8,
+      "max_entropy": 0.5,
+      "consequential_actions": [],
+      "expected_selected": "a",
+      "expected_abstained": false,
+      "expected_system2": false
+    },
+    {
+      "id": "moderate-confidence-escalates",
+      "query": "Which maintenance window is safer?",
+      "options": [{"id": "a", "action": null}, {"id": "b", "action": null}],
+      "scores": {"a": 7, "b": 3},
+      "min_confidence": 0.8,
+      "max_entropy": 1.0,
+      "consequential_actions": [],
+      "expected_selected": "a",
+      "expected_abstained": false,
+      "expected_system2": true
+    },
+    {
+      "id": "high-entropy-escalates",
+      "query": "Which of two similar reports is more reliable?",
+      "options": [{"id": "a", "action": null}, {"id": "b", "action": null}],
+      "scores": {"a": 6, "b": 4},
+      "min_confidence": 0.5,
+      "max_entropy": 0.5,
+      "consequential_actions": [],
+      "expected_selected": "a",
+      "expected_abstained": false,
+      "expected_system2": true
+    },
+    {
+      "id": "consequential-action-always-escalates",
+      "query": "Should the controller open the isolation valve?",
+      "options": [{"id": "open", "action": "open_valve"}, {"id": "hold", "action": "hold"}],
+      "scores": {"open": 99, "hold": 1},
+      "min_confidence": 0.5,
+      "max_entropy": 1.0,
+      "consequential_actions": ["open_valve"],
+      "expected_selected": "open",
+      "expected_abstained": false,
+      "expected_system2": true
+    },
+    {
+      "id": "tie-abstains-and-escalates",
+      "query": "Which equally supported claim should be used?",
+      "options": [{"id": "a", "action": null}, {"id": "b", "action": null}],
+      "scores": {"a": 1, "b": 1},
+      "min_confidence": 0.1,
+      "max_entropy": 1.0,
+      "consequential_actions": [],
+      "expected_selected": null,
+      "expected_abstained": true,
+      "expected_system2": true
+    },
+    {
+      "id": "single-option-is-not-ambiguous",
+      "query": "There is only one approved summary format.",
+      "options": [{"id": "summary", "action": null}],
+      "scores": {"summary": 1},
+      "min_confidence": 0.8,
+      "max_entropy": 0.5,
+      "consequential_actions": [],
+      "expected_selected": "summary",
+      "expected_abstained": false,
+      "expected_system2": false
+    }
+  ]
+}

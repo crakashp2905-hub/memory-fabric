@@ -1,0 +1,28 @@
+P2-02 · Source history and correction lineage event links
+Commit: 6776203b67c551f695e8533b3e5a140da2c52bb2
+Platform: Windows 11 10.0.26200 (Python 3.13.5)
+
+Exact-commit test run:
+  Python unittest loaded tests.test_control_center_ui and tests.test_control_center
+  with tempfile.tempdir set to D:\Memory Fabric\master-checklist\.task-tmp
+  Result: 22 tests passed, 0 failures, 0 errors (5.921 seconds runner time)
+  Process exit code: 0
+
+Additional checks on the same commit:
+  ruff check src/memory_fabric/observability/control.py
+             src/memory_fabric/observability/server.py
+             tests/test_control_center_ui.py — passed
+  git diff --check — passed
+
+Verified behaviors:
+  - Each returned provenance graph edge includes its immutable event ID and sequence.
+  - Every returned map lineage link includes an event ID resolving to the same log record.
+  - Timeline entries link to the exact event by immutable ID; aggregate recall summaries remain unlinked.
+  - The read-only API event detail response matches the linked ID, sequence and type.
+  - Dashboard timeline entries and dashed provenance edges open that event detail.
+  - The event detail view exposes safe story text and identity fields, not the raw payload.
+
+Limitations:
+  - Tests use local deterministic fixtures on Windows 11/Python 3.13.5.
+  - Topic-similarity relationships are not provenance events and are not shown as event-backed lineage.
+  - The configured cross-platform GitHub CI matrix has not run for this branch.

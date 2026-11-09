@@ -1,0 +1,29 @@
+{
+  "schema": "memory-fabric-e5-06-utcp-malicious/1",
+  "tested_commit": "c391910b30255d6a5709415ca5e7a26fe06237bf",
+  "recorded_at_utc": "2026-11-07T19:04:28.4794663Z",
+  "machine": {
+    "platform": "Microsoft Windows 10.0.26200",
+    "python": "Python 3.13.5"
+  },
+  "command": "python -m pytest tests/test_tool_protocol.py tests/test_reference_docs.py tests/test_stability.py --junitxml=research/results/e5-06-utcp-malicious.xml",
+  "result": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e5-06-utcp-malicious.xml",
+    "sha256": "c096cc94480e3dfd4f88d6a2a14abc2ea07a29ec3dc38fc6332d17316cee5b0b"
+  },
+  "malicious_manual_corpus": {
+    "path": "tests/data/utcp_malicious_manuals.json",
+    "cases": 20,
+    "rejected": true
+  },
+  "limitations": [
+    "Local parser and policy corpus only; no transport executor exists. A future executor must revalidate resolved addresses and redirects at connection time to prevent DNS rebinding and redirect-based SSRF."
+  ]
+}

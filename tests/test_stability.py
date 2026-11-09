@@ -38,11 +38,18 @@ class Stability(unittest.TestCase):
 
     def test_experimental_modules_are_not_imported_by_the_default_path(self) -> None:
         experimental = {m.rsplit(".", 1)[-1] for m, t in declared().items() if t == "experimental"}
-        for core in ("fabric", "service", "agent_api", "session"):
-            text = (ROOT / "src" / "memory_fabric" / f"{core}.py").read_text(encoding="utf-8")
-            top = [line for line in text.splitlines() if line.startswith(("from .", "import "))]
-            hits = [line for line in top if any(f"from .{e} import" in line for e in experimental)]
-            self.assertEqual(hits, [], f"{core}.py imports an experimental module at top level")
+        entrypoints = ("__init__.py", "fabric.py", "service.py", "agent_api.py", "session.py",
+                       "sdk.py", "presets.py", "cli.py", "adapters/mcp.py")
+        for relative in entrypoints:
+            text = (ROOT / "src" / "memory_fabric" / relative).read_text(encoding="utf-8")
+            top = [line for line in text.splitlines()
+                   if line.startswith(("from .", "import "))]
+            hits = [line for line in top if any(
+                re.search(rf"from \.{{1,2}}(?:[\w.]*\.)?{re.escape(module)} import", line)
+                for module in experimental
+            )]
+            self.assertEqual(hits, [],
+                             f"{relative} imports experimental code at module scope")
 
 
 if __name__ == "__main__":  # pragma: no cover

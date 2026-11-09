@@ -1,0 +1,32 @@
+{
+  "schema": "memory-fabric-e5-01-api-inventory/1",
+  "tested_commit": "995d7a0c54c110a1e5f6b6d0d859c19e709c70de",
+  "recorded_at_utc": "2026-11-07T18:40:29.236865+00:00",
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "inventory": {
+    "path": "docs/API_INVENTORY.json",
+    "symbols": 93,
+    "tiers": {
+      "stable": 62,
+      "beta": 23,
+      "experimental": 8
+    }
+  },
+  "regression": {
+    "command": "python -m pytest tests/test_stability.py tests/test_reference_docs.py tests/test_fabric_structure.py -q --junitxml=research/results/e5-01-api-inventory.xml",
+    "path": "research/results/e5-01-api-inventory.xml",
+    "sha256": "4d51cfe0fc3d8ce533b84141ff98bf1e4c08279863e031f7c710a3b0275522c4",
+    "tests": 11,
+    "subtests": 104,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "passed": true,
+  "limitations": [
+    "The inventory covers the documented public SDK/API symbols plus all MemoryFabric methods captured by its existing exact-signature snapshot; private module internals are intentionally excluded. The migration-note rule is a documented release policy and code review gate."
+  ]
+}

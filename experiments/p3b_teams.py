@@ -28,6 +28,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from experiments.teamworld import (  # noqa: E402
     BACKENDS, Fact, build_memory, build_world,
 )
+from experiments.stats import bootstrap_ci  # noqa: E402
 
 SEEDS = (1, 2, 3, 4, 5)
 BASELINES = ("local", "shared", "shared_blanket")
@@ -251,18 +252,22 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
 def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
         agents: int = 10, rounds: int = 60) -> dict[str, Any]:
     per_arm: dict[str, list[dict[str, Any]]] = {}
+    raw: dict[str, list[RunResult]] = {}
     for arm in arms:
-        per_arm[arm] = [
-            run_one(arm, seed, agents, rounds).summary() for seed in seeds
-        ]
+        raw[arm] = [run_one(arm, seed, agents, rounds) for seed in seeds]
+        per_arm[arm] = [result.summary() for result in raw[arm]]
 
     def agg(arm: str, metric: str) -> dict[str, float]:
         values = [row[metric] for row in per_arm[arm]]
+        low, high = ((values[0], values[0]) if len(values) == 1
+                     else bootstrap_ci(values, seed=20261101))
         return {
             "mean": round(statistics.fmean(values), 4),
             "min": round(min(values), 4),
             "max": round(max(values), 4),
             "sd": round(statistics.pstdev(values), 4) if len(values) > 1 else 0.0,
+            "ci95_low": round(low, 4),
+            "ci95_high": round(high, 4),
         }
 
     metrics = [m for m, value in per_arm[arms[0]][0].items()
@@ -274,10 +279,50 @@ def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
             for reason, count in row["evidence_miss_reasons"].items():
                 combined[reason] = combined.get(reason, 0) + int(count)
         reasons[arm] = dict(sorted(combined.items()))
+    failures: dict[str, list[dict[str, Any]]] = {}
+    for arm in arms:
+        examples: list[dict[str, Any]] = []
+        for seed, result in zip(seeds, raw[arm]):
+            for task_index, task in enumerate(result.tasks):
+                if task.correct:
+                    continue
+                examples.append({
+                    "seed": seed,
+                    "task_index": task_index,
+                    "agent": task.agent,
+                    "key": list(task.key),
+                    "answered": task.answered,
+                    "correct_value": task.correct_value,
+                    "abstained": task.abstained,
+                    "rediscovered": task.rediscovered,
+                    "acted_on_withdrawn": task.acted_on_withdrawn,
+                    "valid_evidence_withheld": task.valid_evidence_withheld,
+                    "evidence_miss_reason": task.evidence_miss_reason,
+                })
+                if len(examples) == 10:
+                    break
+            if len(examples) == 10:
+                break
+        failures[arm] = examples
     return {
         "experiment": "p3b-agent-teams",
         "agents": agents, "rounds": rounds, "seeds": list(seeds),
         "tasks_per_seed": per_arm[arms[0]][0]["tasks"],
+        "metric_denominators": {
+            "task_success": "answerable tasks",
+            "correct_evidence_rate": "answerable tasks",
+            "stale_action_rate": "all task decisions",
+            "wrong_invalidation_rate": "all task decisions",
+            "abstention_rate": "all task decisions",
+        },
+        "per_seed": {
+            arm: [
+                {"seed": seed, **summary}
+                for seed, summary in zip(seeds, per_arm[arm])
+            ]
+            for arm in arms
+        },
+        "failure_examples": failures,
         "arms": {
             arm: {
                 **{m: agg(arm, m) for m in metrics},

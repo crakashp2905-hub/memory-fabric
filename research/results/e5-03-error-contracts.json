@@ -1,0 +1,32 @@
+{
+  "schema": "memory-fabric-e5-03-error-contracts/1",
+  "tested_commit": "51929501bbba7828cf3f21cd26e9f2fa5afc54d5",
+  "recorded_at_utc": "2026-11-07T18:49:54.559288+00:00",
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "command": "python -m pytest tests/test_sdk.py tests/test_mcp.py tests/test_agent_api.py tests/test_correction.py -q --junitxml=research/results/e5-03-error-contracts.xml",
+  "result": {
+    "tests": 73,
+    "subtests": 45,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e5-03-error-contracts.xml",
+    "sha256": "b28c00407688e95a7f80c8941bf8e22fa5707f0e8628df9ea52d5ee2b84025e8"
+  },
+  "contract_matrix": "docs/ERROR_CONTRACT_MATRIX.md",
+  "scenarios": [
+    "identity refusal and opaque HTTP auth response",
+    "shared invalid-evidence reason code across SDK/MCP/HTTP",
+    "unavailable tool/operation behavior in MCP/HTTP/CLI",
+    "stale-preview refusal in SDK and CLI, with no mutation",
+    "surfaces lacking a caller-auth or correction-apply capability marked N/A"
+  ],
+  "limitations": [
+    "Error payloads retain each protocol\u2019s native envelope; the matrix standardizes shared reason codes where the same operation exists. CLI remains an operator surface; MCP correction is read-only; agent HTTP has no correction-apply endpoint."
+  ]
+}

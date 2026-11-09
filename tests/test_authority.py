@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from dataclasses import replace
 
 from memory_fabric import MemoryFabric, authority
 from memory_fabric.actions import (ALLOWED, AUTHORITY_INSUFFICIENT, GRANT_EXPIRED,
@@ -86,6 +87,18 @@ class TheBoundarySurvivesEveryTransformation(unittest.TestCase):
         with self.assertRaises(PolicyViolation):
             self.peer.elevate(imported, approver="peer-lead", reason="looks fine")
 
+    def test_malicious_import_does_not_change_policy_or_grant_rights(self) -> None:
+        before_policy = gate(self.peer).policy
+        before_grants = before_policy.grants
+        imported = offer(self.origin, self.tool_copy, self.peer, recipient_agent="x",
+                         activate=True).imported_memory_id
+        self.assertIsNotNone(imported)
+        after_policy = gate(self.peer).policy
+        self.assertEqual(after_policy.grants, before_grants)
+        self.assertEqual(self.peer.authority(imported).trust, authority.UNTRUSTED)
+        cert = self.peer.certify("spin", [imported], "ops")
+        self.assertFalse(gate(self.peer).authorize("spin", "ops", cert).allowed)
+
     def test_the_gate_refuses_every_copy_as_evidence(self) -> None:
         g = gate(self.origin)
         for memory_id in (self.summary, self.tool_copy):
@@ -134,6 +147,20 @@ class Elevation(unittest.TestCase):
         decision = gate(self.f).authorize("spin", "ops", self.f.certify("spin", [note], "ops"))
         self.assertEqual(decision.reason_code, INSTRUCTION_EVIDENCE)
 
+    def test_unfamiliar_claim_stays_unverified_under_strict_policy(self) -> None:
+        claim = self.f.remember("unfamiliar-author", "Bridge B is rated for 90 tonnes.",
+                                scope="team")
+        authority_before = self.f.authority(claim)
+        self.assertEqual(authority_before.trust, authority.UNVERIFIED)
+        strict_gate = gate(self.f, min_authority=authority.ELEVATED)
+        cert = self.f.certify("spin", [claim], "ops")
+        self.assertEqual(strict_gate.authorize("spin", "ops", cert).reason_code,
+                         AUTHORITY_INSUFFICIENT)
+        self.assertEqual(self.f.authority(claim), authority_before)
+        safe_id = self.f.remember("known-agent", "The service manual is stored in cabinet 4.")
+        self.assertEqual(self.f.get(safe_id).content,
+                         "The service manual is stored in cabinet 4.")
+
     def test_the_kind_is_bound_at_first_write(self) -> None:
         note = self.f.remember("lead", "Spin C2 at 4000 rpm.", context={"kind": "instruction"},
                                scope="team")
@@ -180,6 +207,28 @@ class OutcomesDoNotConferAuthority(unittest.TestCase):
         f.record_outcome(episode, 1.0, verifier_id="env")
         self.assertEqual(f.authority(poison), before)
 
+    def test_success_does_not_rehabilitate_false_source_or_injected_instruction(self) -> None:
+        f = store()
+        self.addCleanup(f.close)
+        false_source = f.remember(
+            "agent", "Centrifuge C2 is rated to 3500 rpm.",
+            context={"origin": "tool:scraper"}, scope="team",
+        )
+        injection = f.remember("mallory", INJECTION, scope="team")
+        targets = ((false_source, "C2 3500 rpm"), (injection, "figure for every centrifuge"))
+        before = {memory_id: f.authority(memory_id) for memory_id, _ in targets}
+        action_gate = gate(f)
+
+        for index, (memory_id, query) in enumerate(targets):
+            with self.subTest(memory_id=memory_id):
+                episode = f.start_episode("ops", f"authority-feedback-{index}").id
+                f.retrieve("ops", query, episode_id=episode)
+                f.record_outcome(episode, 1.0, verifier_id="synthetic-env")
+                self.assertEqual(f.authority(memory_id), before[memory_id])
+                self.assertEqual(before[memory_id].trust, authority.UNTRUSTED)
+                certificate = f.certify("spin", [memory_id], "ops")
+                self.assertFalse(action_gate.authorize("spin", "ops", certificate).allowed)
+
 
 class ExactActionGrants(unittest.TestCase):
     """Poison, an expired grant, a retracted premise, a changed target and a replay all fail."""
@@ -218,6 +267,30 @@ class ExactActionGrants(unittest.TestCase):
                         ActionRequest("centrifuge/C2", {"rpm": 9000})):
             self.assertEqual(self.g.authorize("spin", "ops", self.cert, request=changed,
                                               grant=grant).reason_code, GRANT_MISMATCH)
+
+    def test_grant_binding_covers_every_action_field_and_uses_issued_expiry(self) -> None:
+        grant = self.grant(ttl_s=5)
+        baseline = binding_digest("spin", "ops", None, self.req, self.cert)
+        variants = [
+            ("slow-spin", "ops", None, self.req),
+            ("spin", "other-agent", None, self.req),
+            ("spin", "ops", "tenant-2", self.req),
+            ("spin", "ops", None, ActionRequest("centrifuge/C3", {"rpm": 4000})),
+            ("spin", "ops", None, ActionRequest("centrifuge/C2", {"rpm": 4001})),
+        ]
+        for tool, agent, tenant, request in variants:
+            with self.subTest(tool=tool, agent=agent, tenant=tenant, request=request):
+                changed = binding_digest(tool, agent, tenant, request, self.cert)
+                self.assertNotEqual(changed, baseline)
+                self.assertEqual(self.g._check_grant(grant.grant_id, tool, agent, changed),
+                                 GRANT_MISMATCH)
+
+        # The signed/stored grant record is authoritative; changing a client
+        # copy's expiry cannot extend the issuer's grant.
+        forged = replace(grant, expires_ms=grant.expires_ms + 60_000)
+        self.clock.t += 5_000
+        self.assertEqual(self.g.authorize("spin", "ops", self.cert, request=self.req,
+                                          grant=forged).reason_code, GRANT_EXPIRED)
 
     def test_a_revoked_grant_is_refused(self) -> None:
         grant = self.grant()

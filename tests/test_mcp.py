@@ -118,8 +118,12 @@ class TestTools(McpCase):
 
     def test_fetch_of_a_retracted_memory_is_a_tool_error_without_content(self) -> None:
         self.operator.retract(self.memory_id, reason="wrong fault", basis="contradicted")
+        from memory_fabric.sdk import NotUsable
+        with self.assertRaises(NotUsable) as expected:
+            self.server.client.fetch(self.memory_id)
         payload, is_error = self.call("fetch", {"memory_id": self.memory_id})
         self.assertTrue(is_error)
+        self.assertIn(expected.exception.decision.reason_code, payload["error"])
         self.assertNotIn("pilot cable", json.dumps(payload))
 
     def test_verify_catches_a_retraction_after_recall(self) -> None:

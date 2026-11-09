@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import random
+import copy
 import tempfile
 import unittest
 from pathlib import Path
 
-from benchmarks import checks, cost, manifest, registry, scoreboard, stats
+from benchmarks import checks, cost, evaluator_mutations, manifest, registry, scoreboard, stats
 
 
 class Registry(unittest.TestCase):
@@ -35,12 +36,59 @@ class Manifests(unittest.TestCase):
         self.assertTrue(manifest.validate(m))
         m.verification.update(baseline_registered=True, oracle_sanity_passed=True)
         m.prereg = "research/prereg/x.md"
+        m.input_digests = manifest.digest_inputs(["docs/RESULT_PROVENANCE.md"])
         self.assertEqual(manifest.validate(m), [])
+
+    def test_missing_input_digest_blocks_completed_run(self) -> None:
+        m = manifest.Manifest("r", "INT-01", "baseline", "FAIL", repo_commit="abc")
+        self.assertTrue(any("digest its declared inputs" in issue for issue in manifest.validate(m)))
+
+    def test_input_paths_cannot_escape_checkout(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "escapes repository"):
+                manifest.digest_inputs(["../outside.json"], root=Path(directory))
+
+    def test_input_tampering_fails_before_score_aggregation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "generated" / "queries.json"
+            source.parent.mkdir()
+            source.write_text('{"query":"original"}\n', encoding="utf-8")
+            m = manifest.Manifest("r", "INT-01", "baseline", "FAIL", repo_commit="abc")
+            m.input_digests = manifest.digest_inputs(["generated/queries.json"], root=root)
+            data = m.to_json()
+            runs, rejected = scoreboard.aggregate_runs([data], root=root)
+            self.assertIn("INT-01", runs)
+            self.assertEqual(rejected, 0)
+            source.write_text('{"query":"tampered"}\n', encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "input digest mismatch"):
+                scoreboard.aggregate_runs([data], root=root)
 
     def test_not_run_needs_a_reason_and_a_run_needs_a_commit(self) -> None:
         self.assertTrue(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "NOT_RUN")))
         self.assertTrue(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "FAIL")))
         self.assertEqual(manifest.validate(manifest.Manifest("r", "PUB-01", "x", "NOT_RUN", reason="licence")), [])
+
+    def test_environment_is_captured_and_required(self) -> None:
+        data = manifest.Manifest("r", "INT-01", "baseline", "NOT_RUN", reason="offline").to_json()
+        self.assertEqual(set(data["environment"]), manifest.ENVIRONMENT_FIELDS)
+        self.assertTrue(all(data["environment"].values()))
+        del data["environment"]["sqlite"]
+        self.assertTrue(any("environment missing fields" in issue for issue in manifest.validate(data)))
+
+    def test_environment_capture_excludes_nondeterministic_timestamps(self) -> None:
+        first = manifest.capture_environment()
+        second = manifest.capture_environment()
+        self.assertEqual(first, second)
+
+    def test_manifest_digest_ignores_nondeterministic_timestamps(self) -> None:
+        data = manifest.Manifest("r", "INT-01", "baseline", "NOT_RUN", reason="offline").to_json()
+        changed = copy.deepcopy(data)
+        data["timestamp"] = "2026-01-01T00:00:00Z"
+        changed["timestamp"] = "2026-12-31T23:59:59Z"
+        self.assertEqual(manifest.digest(data), manifest.digest(changed))
+        changed["environment"]["python"] = "different"
+        self.assertNotEqual(manifest.digest(data), manifest.digest(changed))
 
     def test_cost_per_safe_success_without_one_is_refused(self) -> None:
         m = manifest.Manifest("r", "X", "a", "FAIL", repo_commit="abc", cost={"cost_per_safe_success": 1.0})
@@ -48,14 +96,27 @@ class Manifests(unittest.TestCase):
 
     def test_write_and_read(self) -> None:
         with tempfile.TemporaryDirectory() as d:
-            manifest.write(manifest.Manifest("r1", "X", "a", "NOT_RUN", reason="why"), Path(d))
-            self.assertEqual(manifest.read_all(Path(d))[0]["run_id"], "r1")
+            root = Path(d) / "repo"
+            root.mkdir()
+            import subprocess
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "tests@example.invalid"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "Tests"], cwd=root, check=True)
+            (root / "source.txt").write_text("clean\n", encoding="utf-8")
+            subprocess.run(["git", "add", "source.txt"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "fixture"], cwd=root, check=True)
+            manifest.write(manifest.Manifest("r1", "X", "a", "NOT_RUN", reason="why"), Path(d), root=root)
+            saved = manifest.read_all(Path(d))[0]
+            self.assertEqual(saved["run_id"], "r1")
+            self.assertEqual(len(saved["source"]["commit"]), 40)
             with self.assertRaises(ValueError):
-                manifest.write(manifest.Manifest("r2", "X", "a", "WON"), Path(d))
+                manifest.write(manifest.Manifest("r2", "X", "a", "WON"), Path(d), root=root)
 
     def test_recorded_runs_are_valid(self) -> None:
         for m in manifest.read_all():
             self.assertEqual(manifest.validate(m), [], m["run_id"])
+            self.assertEqual(set(m["environment"]), manifest.ENVIRONMENT_FIELDS, m["run_id"])
+            self.assertEqual(len(m["source"]["commit"]), 40, m["run_id"])
 
 
 class Stats(unittest.TestCase):
@@ -105,6 +166,12 @@ class Checks(unittest.TestCase):
         self.assertTrue(checks.baseline_measured(p, "set_exact", 50, "test"))
         self.assertFalse(checks.baseline_measured(p, "set_exact", 5, "test"))
 
+    def test_evaluator_mutations_are_all_killed(self) -> None:
+        result = evaluator_mutations.run()
+        self.assertTrue(result["all_killed"], result["survivors"])
+        self.assertEqual(result["killed"], result["total"])
+        self.assertGreaterEqual(result["total"], 3)
+
 
 class Cost(unittest.TestCase):
     def test_total_and_safe_success(self) -> None:
@@ -130,6 +197,12 @@ class Scoreboard(unittest.TestCase):
             if line.startswith("| PUB-0"):
                 ours = line.split("|")[4]
                 self.assertNotIn("%", ours)
+
+    def test_population_is_explicit_and_legacy_runs_stay_unclassified(self) -> None:
+        self.assertIn("| population |", scoreboard.render().splitlines()[4])
+        self.assertTrue(all(scoreboard.population(run) in {
+            "synthetic_scripted", "real_model_agent", "external_vendor", "human_adjudicated", "unclassified"
+        } for run in scoreboard.aggregate_runs(scoreboard.read_all())[0].values()))
 
 
 if __name__ == "__main__":

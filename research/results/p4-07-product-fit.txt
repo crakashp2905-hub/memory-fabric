@@ -1,0 +1,3 @@
+P4-07 product-fit guidance
+
+Two documentation and regression tests passed on exact commit 14e2d14b11f77ae79ee2debfdda4156218a005f9. The new product note states when plain vector search is sufficient, when governance may justify its overhead, and names current workload-specific negative findings and measured single-host latency/throughput. It explicitly avoids universal performance and demand claims.

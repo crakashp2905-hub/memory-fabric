@@ -1,0 +1,31 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-06",
+  "commit": "cfd52a1b959e8b37b5571b54df6b265801ef7f08",
+  "command": "python -m unittest tests.test_examples_run; TEMP/TMP and tempfile.tempdir routed to .task-tmp",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 87.787,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "many_echoes_share_one_origin_root": "PASS",
+    "one_independent_root_prevents_copy_majority": "PASS (contested, no leading claim)",
+    "second_independent_root_changes_support": "PASS",
+    "truth_not_inferred_from_origin_count": "PASS",
+    "offline_example_suite": "PASS",
+    "Ruff": "PASS"
+  },
+  "limitations": [
+    "Synthetic local agents and claims only. Independent provenance is not truth verification or source authority."
+  ],
+  "file_sha256": {
+    "examples/multi_agent_provenance_dispute.py": "bb83a77f770a22e8846329ce54f40e78eb581b124bf34af0e48e534c81b66859",
+    "examples/README.md": "44230996df1bc01b083fdbd77b1e9d4bf6723383d679af566c0ed0b5cd7fefa5",
+    "tests/test_examples_run.py": "eafa62389d614aa97da03852684b9baa514e23d1bb689ebfec50095e61cd572c",
+    "tests/test_consensus.py": "d582168c75f0008ca856a495139ed5e0d42c4b58c3ad2a815d2f0d8d42dfcf3d",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "aaebd8dc0f0f458a7df8c0c556529caef5389c40eae74c12e0715bd2ce01b37c"
+  }
+}

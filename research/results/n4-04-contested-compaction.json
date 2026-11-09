@@ -1,0 +1,60 @@
+{
+  "schema": "memory-fabric-n4-04-contested-compaction/1",
+  "task_id": "N4-04",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "711f929c7f1183d622b1ce2239a04214fa880ca1",
+    "dirty_before_result_write": false,
+    "script_sha256": "48db66ed906ffb7a818eab014fac47561eb13c1eff042a0b8242cdf2bb6a7530"
+  },
+  "fixture": {
+    "majority_assertion_count": 10,
+    "minority_assertion_count": 1,
+    "majority_value": "6 bar",
+    "minority_value": "9 bar",
+    "flat_and_hierarchical_sources_pre_admitted": true,
+    "hold_suspicious_disabled_only_for_preservation_cases": true
+  },
+  "flat_compaction": {
+    "dispute_count": 1,
+    "disputed_source_count": 11,
+    "both_values_rendered": true,
+    "explicitly_unresolved": true,
+    "all_source_ids_in_dependency_map": true,
+    "summary_sha256": "948e01d6456cb3a37ac2637cc7b01ad518bc740080d8d7fc83d23c3433eb643d"
+  },
+  "hierarchical_compaction": {
+    "leaf_sizes": [
+      10,
+      1
+    ],
+    "minority_is_alone_in_second_leaf": true,
+    "minority_leaf_contains_9_bar": true,
+    "minority_leaf_contains_no_majority_6_bar": true,
+    "both_values_rendered_in_root": true,
+    "root_explicitly_unresolved": true,
+    "certificate_verified": true,
+    "source_count_verified": true,
+    "root_sha256": "948e01d6456cb3a37ac2637cc7b01ad518bc740080d8d7fc83d23c3433eb643d"
+  },
+  "default_hold_safety": {
+    "minority_lifecycle": "candidate",
+    "minority_left_out_state": "candidate",
+    "minority_remains_in_review_queue": true,
+    "active_summary_excludes_held_alternative": true,
+    "minority_not_promoted": true
+  },
+  "tests": {
+    "junit": "research/results/n4-04-contested-tests.xml",
+    "reported_test_cases": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "The 10:1 compaction cases exercise already exposable competing evidence by disabling write-time suspicion holding in the fixture; they do not assert either value is true.",
+    "With default suspicion holding, the minority remains a candidate in the review queue and is deliberately excluded from the active summary until reviewed.",
+    "Local in-memory contract evidence; no distributed or real-agent efficacy claim."
+  ]
+}

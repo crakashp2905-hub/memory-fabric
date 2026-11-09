@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import importlib.util
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +29,8 @@ STEPS = [
     ("ruff", [PY, "-m", "ruff", "check"]),
     ("mypy", [PY, "-m", "mypy"]),
     ("secret scan", [PY, "tools/scan_secrets.py"]),
+    ("security AST scan", [PY, "tools/security_ast_scan.py"]),
+    ("internal security findings gate", [PY, "tools/security_findings.py"]),
     ("document tests", [PY, "-m", "unittest", "tests.test_stability", "tests.test_suite_hygiene",
                         "tests.test_doc_links", "tests.test_doc_index", "tests.test_doc_examples",
                         "tests.test_reference_docs", "tests.test_troubleshooting",
@@ -51,11 +54,19 @@ STEPS = [
                                      "--seeds", *[str(20261321 + offset) for offset in range(20)]]),
     ("CDM battery demonstrator", [PY, "-m", "benchmarks.cdm_battery_world",
                                    "--seed", "20261108"]),
-    ("adversarial gate", [PY, "tools/adversarial_gate.py"]),
+    ("adversarial gate", [PY, "tools/adversarial_gate.py", "--temp-dir", ".test-tmp"]),
 ]
 
 
 def main(argv: list[str]) -> int:
+    optional_tools = {
+        "ruff": "ruff", "mypy": "mypy", "pytest": "pytest", "build": "build",
+        "pip-audit": "pip_audit", "bandit": "bandit",
+    }
+    for command, module in optional_tools.items():
+        available = importlib.util.find_spec(module) is not None
+        print(f"tool availability: {command}: {'AVAILABLE' if available else 'UNAVAILABLE'}",
+              flush=True)
     steps = STEPS + ([("unit suite", [PY, "-m", "unittest", "discover", "-s", "tests", "-t", "."])]
                      if "--full" in argv else [])
     for name, cmd in steps:

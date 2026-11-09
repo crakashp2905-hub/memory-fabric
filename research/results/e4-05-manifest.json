@@ -1,0 +1,18 @@
+{
+  "schema": "memory-fabric-e4-05-evidence-manifest/1",
+  "measurement_source_commit": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5, SQLite 3.49.1",
+  "artifacts_sha256": {
+    "experiments/e4_sqlite_stress.py": "3ee2d1967ca3674209ea27353f27568affdb7b273a043d48845811dc0a69b51e",
+    "docs/OPERATIONS.md": "01c2f409c03da05739afca69a53861e6f69534672f2716c89e222fad8fc54b7c",
+    "tests/test_concurrency.py": "b3d3bf1da8117b531559de24b0c1c0160d9080312d97f760a710069754ba0085",
+    "tests/test_eventlog.py": "9411f98f7238857755eb392ea0f03df93e8034a39b940f4b6cb98728cdaf8aa1",
+    "research/results/e4-05-sqlite-5s.json": "eb9259cc0ee389805ce4069f7190c9bc59382bbbc3d0847a521977702940390e",
+    "research/results/e4-05-sqlite-5s.md": "103cc67a3a379ccedb364dc54c3ff805d1be3e6735c2b481f3163f910c7770c9",
+    "research/results/e4-05-sqlite-30s.json": "677e4a5d153c7302990342f58089ef3b1424a19785230aab767f1b3f74af03ee",
+    "research/results/e4-05-sqlite-30s.md": "42ecd14672bf4c700763ecc5c5e04a5b1af170e6c9ccf06d849f8c8f1a6f9b44",
+    "research/results/e4-05-regression-tests.xml": "a4af3a91acf3577ae1bfd21c91c477564385a9c2b05eeb8a158c29af81757ff5",
+    "research/results/e4-05-sqlite-qualification.json": "5060cb447351caab6327c8fe2cac819e5b4c507a1ee71b01a3bd610a611bafc0",
+    "research/results/e4-05-sqlite-qualification.md": "a48412c378499ffcfcf781a997496d4359bb5a7e51e9faa7cc7bc69ad7e9e4e2"
+  }
+}

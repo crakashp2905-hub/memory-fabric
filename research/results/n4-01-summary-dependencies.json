@@ -1,0 +1,34 @@
+{
+  "schema": "memory-fabric-n4-01-summary-dependencies/1",
+  "task_id": "N4-01",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "invariant": "Each recognized consequential fact in an exposable summary maps to exact active original memory versions, and every source fact is represented.",
+  "oracle_cases": [
+    "generated extractive summary maps four facts, including both sides of a dispute, to exact source IDs and versions",
+    "lossless phrase-dictionary summary decodes exactly and maps source facts to all original versions",
+    "added unsupported fact causes compaction refusal and no memory commit",
+    "retracted original version is refused by stored dependency-map verification",
+    "omitted source fact is refused",
+    "identical duplicate factual source text maps to every active original version, including a corrected version 2",
+    "revision of a referenced parent version contests dependent summaries so active summaries cannot cite superseded versions"
+  ],
+  "tests": {
+    "paths": [
+      "tests/test_summary_dependencies.py",
+      "tests/test_compaction.py",
+      "tests/test_lossless_compaction.py"
+    ],
+    "passed": 20,
+    "skipped": 0,
+    "junit": "research/results/n4-01-dependency-map-tests.xml"
+  },
+  "lint": {
+    "command": "python -m ruff check src/memory_fabric/summary_dependencies.py src/memory_fabric/compaction.py tests/test_summary_dependencies.py tests/test_lossless_compaction.py",
+    "passed": true
+  },
+  "limitations": [
+    "Fact identity follows the current normalized identifier/content-word/numeric-value extractor; unstructured qualitative claims without identifiers or values are not certified as consequential facts.",
+    "This is local contract evidence, not an independent security or model-quality review."
+  ]
+}

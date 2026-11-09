@@ -55,7 +55,7 @@ from __future__ import annotations
 __stability__ = "beta"
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Callable, Sequence
+from typing import TYPE_CHECKING, Any, Callable, Mapping, Sequence
 
 from .conflicts import author, claim
 
@@ -67,7 +67,45 @@ CONFLICTING = "conflicting"
 INSUFFICIENT = "insufficient"
 UNDETERMINED = "undetermined"
 
+SEMANTIC_REASON_CODES = {
+    ANSWERABLE: "ANSWERABLE",
+    INSUFFICIENT: "UNKNOWN",
+    CONFLICTING: "CONFLICTING",
+    UNDETERMINED: "UNDETERMINED",
+}
+
 Judge = Callable[[str, Sequence[str]], "tuple[bool, str]"]
+
+
+@dataclass(frozen=True)
+class ParameterEquivalences:
+    """A bounded, reviewed table of parameter phrases that mean the same thing."""
+
+    groups: tuple[tuple[frozenset[str], ...], ...]
+
+    @classmethod
+    def from_mapping(cls, entries: Mapping[str, Sequence[str]]) -> "ParameterEquivalences":
+        if len(entries) > 64:
+            raise ValueError("at most 64 parameter equivalence groups are allowed")
+        groups: list[tuple[frozenset[str], ...]] = []
+        for canonical, aliases in entries.items():
+            if len(aliases) > 16:
+                raise ValueError("at most 16 aliases are allowed per parameter")
+            phrases = (canonical, *aliases)
+            tokens = tuple(claim(phrase)[1] for phrase in phrases)
+            if any(not item for item in tokens):
+                raise ValueError("parameter phrases must contain content words")
+            groups.append(tokens)
+        return cls(tuple(groups))
+
+    def recognizes(self, words: frozenset[str]) -> bool:
+        return any(phrase <= words for group in self.groups for phrase in group)
+
+    def matches(self, left: frozenset[str], right: frozenset[str]) -> bool:
+        return any(
+            any(a <= left for a in group) and any(a <= right for a in group)
+            for group in self.groups
+        )
 
 
 @dataclass(frozen=True)
@@ -87,35 +125,43 @@ class Answerability:
         # A conflict is evidence that an answer exists, but not evidence for
         # choosing one alternative.  Treating it as non-abstaining invited the
         # caller to select whichever contradictory row happened to rank first.
-        return self.verdict in (INSUFFICIENT, CONFLICTING)
+        return self.verdict in (INSUFFICIENT, CONFLICTING, UNDETERMINED)
+
+    @property
+    def reason_code(self) -> str:
+        return SEMANTIC_REASON_CODES[self.verdict]
 
     def to_json(self) -> dict[str, Any]:
-        return {"verdict": self.verdict, "covering": list(self.covering),
+        return {"verdict": self.verdict, "reason_code": self.reason_code,
+                "covering": list(self.covering),
                 "reasons": list(self.reasons), "values": self.values,
                 "retrieval_confidence": self.retrieval_confidence, "judged": self.judged}
 
 
-def covers(question: str, content: str) -> bool:
+def covers(question: str, content: str,
+           equivalences: ParameterEquivalences | None = None) -> bool:
     """Whether one memory's text states a value for the question's subject and parameter."""
     q_ids, q_words, _ = claim(question)
     ids, words, values = claim(content)
     if not q_ids or not values or not q_ids <= ids:
         return False
     need = min(2, len(q_words))
-    return len(q_words & words) >= max(1, need)
+    lexical = len(q_words & words) >= max(1, need)
+    return lexical or (equivalences is not None and equivalences.matches(q_words, words))
 
 
 def assess(question: str, memories: Sequence["Memory"], *,
            scores: dict[str, float] | None = None, judge: Judge | None = None,
-           judge_always: bool = False) -> Answerability:
+           judge_always: bool = False,
+           equivalences: ParameterEquivalences | None = None) -> Answerability:
     """The answerability verdict for `question` given the memories retrieval returned.
 
     `memories` should be what the caller is about to place in context (usable
     ones). `scores`, if given, only fills `retrieval_confidence`.
     """
     confidence = max(scores.values()) if scores else None
-    q_ids, _, _ = claim(question)
-    covering = [m for m in memories if covers(question, m.content)]
+    q_ids, q_words, _ = claim(question)
+    covering = [m for m in memories if covers(question, m.content, equivalences)]
     values: dict[str, list[str]] = {}
     for m in covering:
         key = ",".join(sorted(claim(m.content)[2]))
@@ -123,6 +169,9 @@ def assess(question: str, memories: Sequence["Memory"], *,
 
     if not q_ids:
         verdict, reasons = UNDETERMINED, ["the question names no identifier to check cover for"]
+    elif not covering and equivalences is not None and not equivalences.recognizes(q_words):
+        verdict = UNDETERMINED
+        reasons = ["the asked parameter is not in the reviewed equivalence table"]
     elif not covering:
         verdict = INSUFFICIENT
         reasons = [f"no usable memory states a value for {', '.join(sorted(q_ids))} "

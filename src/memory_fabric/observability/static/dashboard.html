@@ -253,6 +253,8 @@ body { font: 14px/1.55 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Rob
   min-height: 100vh; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 50; background: var(--panel); padding: 6px 10px; border-radius: 8px; }
 .skip:focus { left: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .app { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
 .side { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 18px 12px;
@@ -368,6 +370,9 @@ button { transition: background .12s, border-color .12s; }
 .map-key .line { width: 18px; height: 0; border-top: 2px solid var(--map-link); flex: none; }
 .map-hint { margin: 10px 0 0; font-size: 12px; color: var(--faint); }
 .map-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+.map-memory-list { margin: 0; padding: 0; list-style: none; display: grid; }
+.map-memory-list li { list-style: none; }
+.map-memory-list button { width: 100%; border-radius: 8px; text-align: left; }
 .map-topics button { border: 1px solid var(--border); background: var(--panel-2); color: var(--text); border-radius: 99px;
   padding: 4px 10px; font: inherit; font-size: 12.5px; cursor: pointer; }
 .map-topics button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
@@ -447,31 +452,31 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <span>Search or jump to…</span><kbd>Ctrl K</kbd></button>
   <nav id="nav">
     <div class="group">Overview</div>
-    <button data-tab="value" aria-selected="true"><i>◆</i>Your impact</button>
-    <button data-tab="start" aria-selected="false"><i>◎</i>Get started</button>
-    <button data-tab="notifications" aria-selected="false"><i>●</i>Notifications<span class="count" id="c-notifications"></span></button>
-    <button data-tab="attention" aria-selected="false"><i>!</i>Needs attention<span class="count" id="c-attention"></span></button>
-    <button data-tab="review" aria-selected="false"><i>✓</i>Review<span class="count" id="c-review"></span></button>
+    <button data-tab="value" aria-selected="true"><i aria-hidden="true">◆</i>Your impact</button>
+    <button data-tab="start" aria-selected="false"><i aria-hidden="true">◎</i>Start here</button>
+    <button data-tab="notifications" aria-selected="false"><i aria-hidden="true">●</i>Notifications<span class="count" id="c-notifications"></span></button>
+    <button data-tab="attention" aria-selected="false"><i aria-hidden="true">!</i>Needs attention<span class="count" id="c-attention"></span></button>
+    <button data-tab="review" aria-selected="false"><i aria-hidden="true">✓</i>Review<span class="count" id="c-review"></span></button>
     <div class="group">Knowledge</div>
-    <button data-tab="memories" aria-selected="false"><i>≡</i>Memories<span class="count" id="c-memories"></span></button>
-    <button data-tab="graph" aria-selected="false"><i>✳</i>Knowledge map</button>
-    <button data-tab="search" aria-selected="false"><i>⌕</i>Search</button>
+    <button data-tab="memories" aria-selected="false"><i aria-hidden="true">≡</i>Memories<span class="count" id="c-memories"></span></button>
+    <button data-tab="graph" aria-selected="false"><i aria-hidden="true">✳</i>Knowledge map</button>
+    <button data-tab="search" aria-selected="false"><i aria-hidden="true">⌕</i>Search</button>
     <div class="group">Activity</div>
-    <button data-tab="agents" aria-selected="false"><i>☺</i>Agents<span class="count" id="c-agents"></span></button>
-    <button data-tab="studio" aria-selected="false"><i>＋</i>Agent Studio</button>
-    <button data-tab="replay" aria-selected="false"><i>▶</i>Replay</button>
-    <button data-tab="actions" aria-selected="false"><i>⚡</i>Actions<span class="count" id="c-actions"></span></button>
-    <button data-tab="context" aria-selected="false"><i>◫</i>Agent context</button>
-    <button data-tab="compare" aria-selected="false"><i>⇄</i>With vs without</button>
-    <button data-tab="episodes" aria-selected="false"><i>◷</i>Episodes<span class="count" id="c-episodes"></span></button>
+    <button data-tab="agents" aria-selected="false"><i aria-hidden="true">☺</i>Agents<span class="count" id="c-agents"></span></button>
+    <button data-tab="studio" aria-selected="false"><i aria-hidden="true">＋</i>Agent Studio</button>
+    <button data-tab="replay" aria-selected="false"><i aria-hidden="true">▶</i>Replay</button>
+    <button data-tab="actions" aria-selected="false"><i aria-hidden="true">⚡</i>Actions<span class="count" id="c-actions"></span></button>
+    <button data-tab="context" aria-selected="false"><i aria-hidden="true">◫</i>Agent context</button>
+    <button data-tab="compare" aria-selected="false"><i aria-hidden="true">⇄</i>With vs without</button>
+    <button data-tab="episodes" aria-selected="false"><i aria-hidden="true">◷</i>Episodes<span class="count" id="c-episodes"></span></button>
     <div class="group">Governance</div>
-    <button data-tab="lifecycle" aria-selected="false"><i>↻</i>Lifecycle</button>
-    <button data-tab="posture" aria-selected="false"><i>⛨</i>Posture</button>
-    <button data-tab="quality" aria-selected="false"><i>◈</i>Quality scorecard</button>
-    <button data-tab="changes" aria-selected="false"><i>⑂</i>Changes<span class="count" id="c-changes"></span></button>
-    <button data-tab="capabilities" aria-selected="false"><i>ⓘ</i>Capabilities &amp; limits</button>
-    <button data-tab="proof" aria-selected="false"><i>✓</i>Proof &amp; benchmarks</button>
-    <button data-tab="howto" aria-selected="false"><i>?</i>How to use</button>
+    <button data-tab="lifecycle" aria-selected="false"><i aria-hidden="true">↻</i>Lifecycle</button>
+    <button data-tab="posture" aria-selected="false"><i aria-hidden="true">⛨</i>Posture</button>
+    <button data-tab="quality" aria-selected="false"><i aria-hidden="true">◈</i>Quality scorecard</button>
+    <button data-tab="changes" aria-selected="false"><i aria-hidden="true">⑂</i>Changes<span class="count" id="c-changes"></span></button>
+    <button data-tab="capabilities" aria-selected="false"><i aria-hidden="true">ⓘ</i>Capabilities &amp; limits</button>
+    <button data-tab="proof" aria-selected="false"><i aria-hidden="true">✓</i>Proof &amp; benchmarks</button>
+    <button data-tab="howto" aria-selected="false"><i aria-hidden="true">?</i>How to use</button>
   </nav>
   <div class="side-foot"><kbd>?</kbd> shortcuts · read-only</div>
 </aside>
@@ -510,6 +515,10 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       changed. This page only reads. Every change is a command it shows you, so nothing happens
       by a stray click.</div>
     <div id="hero"></div>
+    <section class="card" id="slo-dashboard"><h3>Local service health</h3>
+      <div class="sub">Loading request latency, errors, blocked actions, and correction queue…</div></section>
+    <section class="card" id="withholding-metric"><h3>Valid evidence withheld</h3>
+      <div class="sub">Loading frozen benchmark reference…</div></section>
     <ol class="guide" id="guide"></ol>
     <h2>Your setup progress</h2><div id="onboarding"></div>
   </section>
@@ -550,7 +559,8 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <h2>Knowledge map</h2>
     <div class="map-layout">
       <div class="map-stage" id="map-stage">
-        <canvas id="g-canvas" role="img" aria-label="Knowledge map: topics as spheres, key memories around them"></canvas>
+        <canvas id="g-canvas" role="img" aria-label="Knowledge map: topics as spheres, key memories around them"
+          aria-describedby="map-keyboard-help"></canvas>
         <div class="g-tip" id="g-tip" hidden></div>
         <div class="map-empty" id="map-empty" hidden>No memories yet. Once agents start remembering,
           their knowledge appears here grouped by topic.</div>
@@ -570,11 +580,16 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
             <li><span class="dot" style="--c:var(--st-withdrawn)"></span>Withdrawn: agents no longer see it</li>
             <li><span class="line"></span>Built from a memory in another topic</li>
           </ul>
-          <p class="map-hint">Point at anything for details; click a memory to read its story.</p>
+          <p class="map-hint">Point at anything for details; click a memory to read its story or a dashed lineage edge to open its logged event.</p>
         </div>
         <div class="map-card">
           <h3>Topics</h3>
           <div class="map-topics" id="map-topics"></div>
+        </div>
+        <div class="map-card">
+          <h3>Key memories</h3>
+          <p id="map-keyboard-help" class="map-hint">Use this keyboard-accessible list to open the memories shown on the map. Each name includes its state.</p>
+          <ul id="map-memory-list" class="map-topics map-memory-list"></ul>
         </div>
       </aside>
     </div>
@@ -605,8 +620,13 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <div class="note">Every request to run a protected tool, with what the gate decided and the
       memories it rested on. Open one to see each piece of evidence as it was then and as it is
       now: an action whose evidence has since been withdrawn or revised is marked.</div>
+    <h3>Execution receipt state</h3>
+    <div class="note">A completed state means this store logged a successful fenced outcome; it does not
+      independently confirm what an external system did. Unknown outcomes need reconciliation.</div>
+    <div id="action-reconciliation"></div>
     <div id="actions-list"></div>
     <div id="action-detail"></div>
+    <div id="action-timeline"></div>
   </section>
 
   <section id="tab-attention" hidden>
@@ -627,11 +647,11 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
   <section id="tab-memories" hidden>
     <h2>Memories</h2>
     <div class="filters">
-      <input type="search" id="f-q" placeholder="Filter by content or id…" autocomplete="off">
-      <select id="f-state"><option value="">any state</option></select>
-      <select id="f-scope"><option value="">any scope</option></select>
-      <select id="f-type"><option value="">any type</option></select>
-      <select id="f-sort">
+      <input type="search" id="f-q" aria-label="Filter memories by content or id" placeholder="Filter by content or id…" autocomplete="off">
+      <select id="f-state" aria-label="Filter memories by state"><option value="">any state</option></select>
+      <select id="f-scope" aria-label="Filter memories by scope"><option value="">any scope</option></select>
+      <select id="f-type" aria-label="Filter memories by type"><option value="">any type</option></select>
+      <select id="f-sort" aria-label="Sort memories">
         <option value="created">newest first</option>
         <option value="exposures">most shown</option>
         <option value="value">highest value</option>
@@ -639,6 +659,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       </select>
     </div>
     <div id="memories-table"></div>
+    <div id="memory-pages" class="filters" aria-label="Memory history pages"></div>
   </section>
 
   <section id="tab-changes" hidden>
@@ -699,7 +720,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
       create exposure events, so it cannot affect any value estimate.
     </div>
     <div class="filters">
-      <input type="search" id="s-q" placeholder="Query the index…" autocomplete="off">
+      <input type="search" id="s-q" aria-label="Search memories" placeholder="Query the index…" autocomplete="off">
       <label><input type="checkbox" id="s-all" checked> include non-retrievable states</label>
     </div>
     <div id="search-results"></div>
@@ -719,7 +740,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
   </div>
 </div>
 <div class="palette-bg" id="help-bg" hidden>
-  <div class="palette help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="palette help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts" tabindex="-1">
     <h3>Keyboard shortcuts</h3>
     <dl class="kv"><dt><kbd>Ctrl K</kbd> or <kbd>/</kbd></dt><dd>search and commands</dd>
       <dt><kbd>g</kbd> then <kbd>h</kbd></dt><dd>start here</dd>
@@ -733,7 +754,7 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
 </div>
 
 <div class="drawer-bg" id="drawer-bg" hidden>
-  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Memory detail"></div>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Memory detail" tabindex="-1"></div>
 </div>
 
 <script>
@@ -781,6 +802,7 @@ function actionBlock(cmd) {
 /* ---------- overview ---------- */
 
 let OVERVIEW = null;
+let drawerReturnFocus = null, paletteReturnFocus = null, helpReturnFocus = null;
 
 async function loadOverview() {
   const o = await api("/api/overview");
@@ -814,6 +836,51 @@ async function loadOverview() {
     `Values marked <span class="val-none">*</span> come from a non-contrastive estimator: ` +
     `they are the average outcome of episodes where a memory was exposed, not the difference ` +
     `it made, and cannot show that it helped.`;
+  loadSloDashboard().catch((err) => {
+    $("slo-dashboard").innerHTML = `<h3>Local service health</h3><div class="note">Unavailable: ${esc(err.message)}</div>`;
+  });
+  loadWithholdingMetric().catch((err) => {
+    $("withholding-metric").innerHTML = `<h3>Valid evidence withheld</h3><div class="note">Benchmark reference unavailable: ${esc(err.message)}</div>`;
+  });
+}
+
+async function loadSloDashboard() {
+  const s = await api("/api/slo"), h = s.http, lat = h.latency_ms;
+  const show = (value) => value === null ? "not measured" : Number(value).toFixed(1);
+  const lag = s.corrections.oldest_pending_lag_seconds;
+  $("slo-dashboard").innerHTML = `<h3>Local service health</h3><div class="tiles">
+    <div class="tile" title="Completed HTTP responses since process start"><div class="n">${h.requests_total}</div><div class="k">HTTP requests</div></div>
+    <div class="tile" title="4xx and 5xx divided by all completed HTTP responses"><div class="n">${h.error_rate === null ? "not measured" : `${(100*h.error_rate).toFixed(1)}%`}</div><div class="k">Error rate (${h.error_responses_total}/${h.error_denominator})</div></div>
+    <div class="tile" title="Milliseconds; bounded rolling sample denominator ${h.latency_denominator}"><div class="n">${show(lat.p50)} / ${show(lat.p95)} / ${show(lat.p99)}</div><div class="k">Latency p50 / p95 / p99 ms</div></div>
+    <div class="tile" title="Cumulative denied action gate decisions"><div class="n">${s.actions.blocked_total}</div><div class="k">Blocked actions / ${s.actions.denominator}</div></div>
+    <div class="tile" title="Unsettled retraction deliveries in durable outbox"><div class="n">${s.corrections.pending_deliveries}</div><div class="k">Pending corrections</div></div>
+    <div class="tile" title="Age of oldest pending retraction using peer-issued timestamps"><div class="n">${lag === null ? "none" : `${Number(lag).toFixed(1)} s`}</div><div class="k">Oldest correction lag</div></div>
+    </div><div class="sub">Process-local cumulative HTTP counters; latency uses a bounded rolling sample. ${s.limitations.map(esc).join(" ")}</div>
+    <div class="action"><button id="run-health-check">Run full store health check</button><span id="health-result" class="sub">Full event-chain verification runs only on request.</span></div>`;
+  $("run-health-check").addEventListener("click", runFullHealthCheck);
+}
+
+async function runFullHealthCheck() {
+  const target = $("health-result"), button = $("run-health-check");
+  button.disabled = true; target.textContent = "Checking store and verifying event chain…";
+  try {
+    const h = await api("/api/health");
+    target.textContent = `${h.level}: ${h.reason_codes.join(", ") || "all checks passed"}; ` +
+      `store ${h.checks.store_readable}, event integrity ${h.checks.event_integrity}, ` +
+      `pending deliveries ${h.checks.pending_correction_deliveries}.`;
+  } catch (err) { target.textContent = `Health check unavailable: ${err.message}`; }
+  finally { button.disabled = false; }
+}
+
+async function loadWithholdingMetric() {
+  const m = await api("/withholding-benchmark.json");
+  const percent = (100 * m.rate).toFixed(1);
+  $("withholding-metric").innerHTML = `<h3>Valid evidence withheld</h3>
+    <p><b>${percent}% · ${m.numerator}/${m.denominator} task opportunities</b></p>
+    <p class="sub">Risk class ${esc(m.risk_class)} · ${m.agents_per_seed} scripted agents × ${m.seeds.length} seeds · population ${esc(m.population)}</p>
+    <p>This frozen oracle-labeled benchmark recorded valid evidence that the gate withheld. It is a synthetic reference, not a measurement of this store.</p>
+    <p class="sub">This store’s live rate: <b>not measured</b> · ${esc(m.live_metric.reason)}</p>
+    <p class="sub">Source: <code>${esc(m.source_report)}</code> · run ${esc(m.source_commit)} · SHA-256 ${esc(m.source_report_sha256)}</p>`;
 }
 
 /* ---------- attention ---------- */
@@ -902,8 +969,12 @@ async function loadReview() {
 
 /* ---------- memories ---------- */
 
+const MEMORY_PAGE_SIZE = 100;
+let MEMORY_OFFSET = 0;
 async function loadMemories() {
   const p = new URLSearchParams();
+  p.set("limit", String(MEMORY_PAGE_SIZE));
+  p.set("offset", String(MEMORY_OFFSET));
   const q = $("f-q").value.trim();
   if (q) p.set("q", q);
   for (const [key, el] of [["state", "f-state"], ["scope", "f-scope"], ["type", "f-type"]]) {
@@ -912,9 +983,15 @@ async function loadMemories() {
   p.set("sort", $("f-sort").value);
 
   const rows = await api("/api/memories?" + p.toString());
-  $("c-memories").textContent = `(${rows.length})`;
+  $("c-memories").textContent = `(${MEMORY_OFFSET + rows.length}${rows.length === MEMORY_PAGE_SIZE ? "+" : ""})`;
+  const pages = $("memory-pages");
+  pages.innerHTML = `<span class="sub">Showing ${rows.length ? MEMORY_OFFSET + 1 : 0}–${MEMORY_OFFSET + rows.length}</span>
+    <button id="memory-prev" ${MEMORY_OFFSET === 0 ? "disabled" : ""}>Previous</button>
+    <button id="memory-next" ${rows.length < MEMORY_PAGE_SIZE ? "disabled" : ""}>Next</button>`;
+  $("memory-prev").onclick = () => { MEMORY_OFFSET = Math.max(0, MEMORY_OFFSET - MEMORY_PAGE_SIZE); loadMemories().catch(showError); };
+  $("memory-next").onclick = () => { MEMORY_OFFSET += MEMORY_PAGE_SIZE; loadMemories().catch(showError); };
   if (!rows.length) {
-    $("memories-table").innerHTML = `<div class="empty">No memories match.</div>`;
+    $("memories-table").innerHTML = `<div class="empty">No memories match this page or filter.</div>`;
     return;
   }
   $("memories-table").innerHTML = `
@@ -998,16 +1075,43 @@ function treeHtml(node, isRoot) {
     ${kids ? `<ul>${kids}</ul>` : ""}</li>`;
 }
 
+function trapFocus(dialog, ev) {
+  if (ev.key !== "Tab") return;
+  const items = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+    .filter((el) => !el.hidden && el.getAttribute("aria-hidden") !== "true");
+  if (!items.length) { ev.preventDefault(); dialog.focus(); return; }
+  const first = items[0], last = items[items.length - 1];
+  if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+  else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+}
+
+function openHelp() {
+  helpReturnFocus = document.activeElement;
+  $("help-bg").hidden = false;
+  $("help-bg").querySelector('[role="dialog"]').focus();
+}
+
+function closeHelp() {
+  $("help-bg").hidden = true;
+  helpReturnFocus?.focus?.();
+  helpReturnFocus = null;
+}
+
 async function openDetail(id) {
   const bg = $("drawer-bg");
   const d = $("drawer");
+  if (bg.hidden) drawerReturnFocus = document.activeElement;
   bg.hidden = false;
   d.innerHTML = `<div class="empty">Loading…</div>`;
   let detail;
   try {
     detail = await api(`/api/memories/${encodeURIComponent(id)}`);
   } catch (err) {
-    d.innerHTML = `<div class="note">${esc(err.message)}</div>`;
+    d.innerHTML = `<div class="drawer-top"><div class="note">${esc(err.message)}</div>
+      <button class="close" id="drawer-close">Close</button></div>`;
+    d.setAttribute("aria-label", "Memory detail unavailable");
+    $("drawer-close").addEventListener("click", closeDetail);
+    $("drawer-close").focus();
     return;
   }
   const r = detail.row;
@@ -1065,25 +1169,16 @@ async function openDetail(id) {
     </dl>
 
     <h3>If this were withdrawn</h3>
-    <dl class="kv">
-      <dt>Contested</dt><dd>${detail.correction.would_contest.length
-        ? detail.correction.would_contest.map((p) => `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ")
-        : '<span class="sub">nothing</span>'}</dd>
-      <dt>Still standing</dt><dd>${detail.correction.would_survive.length
-        ? detail.correction.would_survive.map((p) => `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ") +
-          ' <span class="sub">independent support</span>'
-        : '<span class="sub">nothing</span>'}</dd>
-      <dt>Stores owed a retraction</dt><dd>${detail.correction.stores.length
-        ? detail.correction.stores.map((s) => `<span class="id">${esc(s.store_id)}</span>`).join(", ")
-        : '<span class="sub">none</span>'}</dd>
-    </dl>
-    ${actionBlock(`memory-fabric --db <store> correct ${r.id} --apply --reason "<why>" --actor <you> --preview ${(detail.correction.digest || "").slice(0, 16)}`)}
+    <div class="sub">This preview is read-only. Applying its command rechecks the digest atomically;
+      a stale digest is refused without applying and requires a fresh preview.</div>
+    <button id="correction-refresh">Refresh impact preview</button>
+    <div id="correction-preview"></div>
 
     <h3>Would retrieval show this?</h3>
     <div class="sub">Re-traces retrieval's filters for one agent and question, without retrieving
       (which would log an exposure).</div>
-    <div class="why-form"><input id="why-agent" placeholder="agent id (optional)">
-      <input id="why-q" placeholder="the agent's question (optional)">
+    <div class="why-form"><input id="why-agent" aria-label="Agent id (optional)" placeholder="agent id (optional)">
+      <input id="why-q" aria-label="Agent question (optional)" placeholder="the agent's question (optional)">
       <button id="why-go">Check</button></div>
     <div id="why-out"></div>
 
@@ -1130,11 +1225,72 @@ async function openDetail(id) {
       return esc(`#${String(a.seq).padStart(4)} ${a.ts}  ${a.type.padEnd(18)} ${bits}`);
     }).join("\n") || "no events"}</pre>`;
 
+  d.setAttribute("aria-label", `Memory detail ${r.id}`);
   $("drawer-close").addEventListener("click", closeDetail);
+  $("drawer-close").focus();
+  let shownCorrection = detail.correction;
+  renderCorrectionPreview(r.id, shownCorrection);
+  $("correction-refresh").addEventListener("click", async () => {
+    try { shownCorrection = await refreshCorrectionPreview(r.id, shownCorrection); }
+    catch (err) { showError(err); }
+  });
   $("why-go").addEventListener("click", () => runWhy(r.id).catch(showError));
   loadDependence(r.id).catch((err) => { $("dep-out").textContent = err.message; });
   loadTimeline(r.id).catch((err) => { $("tl-out").textContent = err.message; });
   $("wrong-go").addEventListener("click", () => loadIfWrong(r.id).catch(showError));
+}
+
+function renderCorrectionPreview(memoryId, preview, previousPreview = null) {
+  const changed = previousPreview !== null && previousPreview.digest !== preview.digest;
+  const status = changed
+    ? "The preview changed since it was shown. The old digest will be rejected; use this refreshed preview."
+    : "Current preview digest. Applying rechecks it under the write lock; if stale, nothing is applied.";
+  const ids = (values) => values.length ? values.map((p) =>
+    `<span class="link link-id" data-id="${esc(p)}">${esc(p)}</span>`).join(", ") : '<span class="sub">none</span>';
+  const impact = (row) => `<dl class="kv"><dt>Would be contested</dt><dd>${ids(row.would_contest)}</dd>
+      <dt>Would retain independent support</dt><dd>${ids(row.would_survive)}</dd>
+      <dt>Copies affected</dt><dd>${ids(row.copies)}</dd>
+      <dt>Stores owed a retraction</dt><dd>${row.stores.length
+        ? row.stores.map((s) => `<span class="id">${esc(s.store_id || "unknown store")}</span>`).join(", ")
+        : '<span class="sub">none</span>'}</dd></dl>`;
+  $("correction-preview").innerHTML = `<div id="correction-preview-status" class="note">${badge(changed ? "Preview changed" : "Current preview", changed ? "medium" : "low")} ${status}</div>
+    ${changed ? `<div class="map-layout"><section><h4>Previously shown · ${esc(previousPreview.digest.slice(0, 16))}</h4>${impact(previousPreview)}</section>
+      <section><h4>Fresh impact · ${esc(preview.digest.slice(0, 16))}</h4>${impact(preview)}</section></div>` : impact(preview)}
+    <div class="id">current preview digest ${esc(preview.digest)}</div>
+      ${actionBlock(`memory-fabric --db <store> correct ${memoryId} --apply --reason "<why>" --actor <you> --preview ${preview.digest.slice(0, 16)}`)}`;
+}
+
+async function refreshCorrectionPreview(memoryId, previousPreview) {
+  const next = await api(`/api/memories/${encodeURIComponent(memoryId)}/correction`);
+  renderCorrectionPreview(memoryId, next, previousPreview);
+  return next;
+}
+
+async function openEvent(eventId) {
+  const bg = $("drawer-bg"), d = $("drawer");
+  if (bg.hidden) drawerReturnFocus = document.activeElement;
+  bg.hidden = false;
+  d.innerHTML = '<div class="empty">Loading event…</div>';
+  let event;
+  try { event = await api(`/api/events/${encodeURIComponent(eventId)}`); }
+  catch (err) {
+    d.innerHTML = `<div class="drawer-top"><div class="note">${esc(err.message)}</div>
+      <button class="close" id="drawer-close">Close</button></div>`;
+    d.setAttribute("aria-label", "Event detail unavailable");
+    $("drawer-close").addEventListener("click", closeDetail);
+    $("drawer-close").focus();
+    return;
+  }
+  d.innerHTML = `<div class="drawer-top"><div><div class="card-head">${badge(event.event_type, "low")}</div>
+      <div class="id" style="margin-top:6px">Event #${event.seq} · ${esc(event.event_id)}</div></div>
+      <button class="close" id="drawer-close">Close</button></div>
+    <h3>Recorded event</h3><dl class="kv"><dt>When</dt><dd>${esc(fmtTs(event.ts))}</dd>
+      <dt>Actor</dt><dd>${esc(event.agent_id || "system")}</dd><dt>Type</dt><dd>${esc(event.event_type)}</dd></dl>
+    <h3>What happened</h3><div class="content-quote">${esc(event.text || "No story sentence is available for this event type.")}</div>
+    ${event.memory_id ? `<h3>Related memory</h3><span class="link link-id" data-id="${esc(event.memory_id)}">${esc(event.memory_id)}</span>` : ""}`;
+  d.setAttribute("aria-label", `Event detail ${event.event_id}`);
+  $("drawer-close").addEventListener("click", closeDetail);
+  $("drawer-close").focus();
 }
 
 function fmtTs(ts) {
@@ -1144,7 +1300,7 @@ function fmtTs(ts) {
 function storyItems(steps, linkIds) {
   return steps.map((s) => `<li class="k-${esc(s.kind)}"><div>${esc(s.text)}${
     linkIds && s.memory_id ? ` <span class="link link-id" data-id="${esc(s.memory_id)}">follow</span>` : ""}</div>
-    <div class="when">${s.seq ? "#" + s.seq + " · " : ""}${esc(fmtTs(s.ts))}</div></li>`).join("");
+    <div class="when">${s.event_id ? `<button class="link link-id" data-event-id="${esc(s.event_id)}">Event #${s.seq} · ${esc(s.event_id)}</button>` : ""}${esc(fmtTs(s.ts))}</div></li>`).join("");
 }
 
 async function loadTimeline(id) {
@@ -1215,7 +1371,11 @@ async function loadDependence(id) {
         evidence remains:</div><ul>${d.would_stand.map(row).join("")}</ul>` : ""}`;
 }
 
-function closeDetail() { $("drawer-bg").hidden = true; }
+function closeDetail() {
+  $("drawer-bg").hidden = true;
+  drawerReturnFocus?.focus?.();
+  drawerReturnFocus = null;
+}
 
 /* ---------- changes, context, capabilities ---------- */
 
@@ -1504,15 +1664,40 @@ async function loadHowTo() {
     grant themselves permissions, or provide their own outcome scores.</div>`;
 }
 
+function supportLabel(value) {
+  return ({justified: "A justification survives; this does not authorize action",
+    contested: "Support is disputed or incomplete",
+    unsupported: "No justification survives; this claim may still be true"})[value]
+    || (value === "unknown" || !value ? "Not assessed" : value);
+}
+
+function claimCheckLabel(value) {
+  return ({suspicious: "Flagged for review; truth and intent are not established",
+    provisional: "Provisional; not independently established",
+    corroborated: "Corroborated by an independent source; not proof of truth",
+    unremarkable: "No conflict signal; truth is not verified"})[value]
+    || (value === "unknown" || !value ? "Not assessed" : value);
+}
+
 async function loadActions() {
-  const rows = await api("/api/actions");
+  const [rows, receipts] = await Promise.all([
+    api("/api/actions"), api("/api/action-reconciliation")
+  ]);
   $("c-actions").textContent = rows.length ? `(${rows.length})` : "";
   $("action-detail").innerHTML = "";
+  $("action-timeline").innerHTML = "";
+  $("action-reconciliation").innerHTML = receipts.length ? `<table><thead><tr><th>tool</th><th>agent</th>
+    <th>idempotency ref</th><th>attempts</th><th>last outcome</th><th>fenced</th><th>receipt state</th></tr></thead><tbody>${receipts.map((r) => `<tr>
+      <td>${esc(r.tool)}</td><td>${esc(r.agent_id)}</td><td class="mono">${esc(r.idempotency_ref)}</td>
+      <td>${r.attempt_count}</td><td>${esc(r.last_outcome || "pending")}</td>
+      <td>${r.fenced === false ? "no · may have run" : r.fenced === true ? "yes" : "—"}</td>
+      <td>${esc(receiptStatusLabel(r.status))}${r.reconciliation_required ? ' <span class="badge medium">reconcile</span>' : ""}</td></tr>`).join("")}</tbody></table>`
+    : '<div class="sub">No idempotency attempts have been recorded.</div>';
   $("actions-list").innerHTML = rows.length ? `<table><thead><tr><th>#</th><th>agent</th>
     <th>tool</th><th>decision</th><th>evidence</th></tr></thead><tbody>${rows.map((a) => `
     <tr class="link" data-seq="${a.seq}"><td>${a.seq}</td><td>${esc(a.agent_id)}</td>
     <td><b>${esc(a.tool)}</b></td><td>${a.allowed ? badge("allowed", "low") : badge("refused", "high")}
-    <span class="sub">${esc(a.reason_codes.join(", "))}</span></td><td>${a.evidence}</td></tr>`).join("")}
+    <span class="sub">${(a.reason_groups || []).map((g) => esc(g.category)).join(" · ")}</span></td><td>${a.evidence}</td></tr>`).join("")}
     </tbody></table>` : `<div class="sub">No gated actions yet. Protected tools run through
     <code>ActionGate</code> appear here.</div>`;
   for (const tr of $("actions-list").querySelectorAll("[data-seq]")) {
@@ -1520,18 +1705,61 @@ async function loadActions() {
   }
 }
 
+function receiptStatusLabel(status) {
+  return ({completed: "Completed · fenced outcome recorded",
+    definitely_unexecuted: "Definitely not executed · refused",
+    unknown: "Unknown · external effect requires reconciliation"})[status] || "Unknown";
+}
+
+async function loadActionTimeline(tool) {
+  const rows = await api(`/api/actions/timeline?tool=${encodeURIComponent(tool)}`);
+  $("action-timeline").innerHTML = `<h3>${esc(tool)} authorization and execution timeline</h3>${rows.length
+    ? `<table><thead><tr><th>event</th><th>type</th><th>agent</th><th>authorization / outcome</th><th>idempotency ref</th><th>receipt state</th></tr></thead><tbody>${rows.map((r) => `<tr>
+      <td><button class="link link-id" data-event-id="${esc(r.event_id)}">#${r.seq} · ${esc(r.event_id)}</button></td>
+      <td>${esc(r.event_type)}</td><td>${esc(r.agent_id || "system")}</td>
+      <td>${r.allowed === true ? "allowed" : r.allowed === false ? `blocked: ${esc(r.reason_codes.join(", "))}` :
+        `${esc(r.outcome || "attempted")}${r.fenced === false ? " · unfenced" : ""}`}</td>
+      <td class="mono">${esc(r.idempotency_ref || "not recorded on gate event")}</td>
+      <td>${r.receipt_state ? esc(receiptStatusLabel(r.receipt_state)) : "—"}</td></tr>`).join("")}</tbody></table>`
+    : '<div class="sub">No authorization or execution events for this tool.</div>'}`;
+}
+
+async function downloadIncident(seq) {
+  const report = await api(`/api/incidents/${encodeURIComponent(seq)}/export`);
+  const blob = new Blob([JSON.stringify(report, null, 2) + "\n"], {type: "application/json"});
+  const url = URL.createObjectURL(blob), link = document.createElement("a");
+  link.href = url; link.download = `memory-fabric-incident-${seq}.json`;
+  document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+}
+
 async function showAction(seq) {
   const a = await api(`/api/actions/${seq}`);
   $("action-detail").innerHTML = `<h3>Action #${a.seq}: ${esc(a.decision.tool)} by ${esc(a.agent_id)}</h3>
+    <button id="incident-export" aria-label="Download redacted incident report for action ${a.seq}">Download redacted incident report</button>
+    <p class="sub">Identity scope: agent ${esc(a.identity_scope.agent_id || "unknown")};
+      tenant ${esc(a.identity_scope.tenant_id || "unspecified")};
+      claim ${esc(a.identity_scope.claim_id || "unspecified")}</p>
     <p>${a.decision.allowed ? badge("allowed", "low") : badge("refused", "high")}
       ${esc((a.decision.reason_codes || []).join(", "))}
       ${a.still_holds === false ? badge("evidence changed since", "high") : ""}</p>
-    ${(a.explanation || []).length ? `<ul class="caveats">${a.explanation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-    <table><thead><tr><th>memory</th><th>then</th><th>now</th><th>claim check</th></tr></thead>
+    ${!a.decision.allowed && (a.reason_groups || []).length ? `<h4>Blocked because</h4><div class="reason-groups">${a.reason_groups.map((g) =>
+      `<section><b>${esc(g.category)}</b><ul class="caveats">${g.messages.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>` : ""}
+    ${(a.explanation || []).length ? `<h4>Changes since this decision</h4><ul class="caveats">${a.explanation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    <table><thead><tr><th>evidence and provenance</th><th>version then</th><th>current state</th>
+      <th>support now</th><th>claim check</th><th>origin authority</th></tr></thead>
     <tbody>${a.evidence.map((x) => `<tr><td><span class="link link-id" data-id="${esc(x.memory_id)}">
-      ${esc(x.memory_id)}</span><div class="sub">${esc(x.content_now || "")}</div></td>
-      <td>v${x.version_then}</td><td>${x.version_now ? "v" + x.version_now : ""} ${badge(x.state_now)}</td>
-      <td>${esc(x.claim_check_now || "")}</td></tr>`).join("")}</tbody></table>`;
+      ${esc(x.memory_id)}</span><div>${esc(x.content_now || "")}</div>
+      <div class="sub">by ${esc(x.provenance?.created_by || "unknown")} · ${esc(x.provenance?.method || "unknown")}
+      ${x.provenance?.parents?.length ? ` · derived from ${esc(x.provenance.parents.join(", "))}` : ""}</div></td>
+      <td>v${x.version_then}</td><td>${x.version_now ? "v" + x.version_now : ""} ${badge(x.state_now)}
+      <div class="sub">${x.usable_now ? "usable now" : "not currently usable"}</div></td>
+      <td>${esc(x.support_label || supportLabel(x.support_now?.verdict))}<div class="sub">${esc(x.support_now?.reason || "")}</div></td>
+      <td>${esc(x.claim_check_label || claimCheckLabel(x.claim_check_now))}</td>
+      <td>${esc(x.authority_now?.trust || "unknown")}<div class="sub">${esc((x.authority_now?.origins || []).join(", "))}</div></td>
+      </tr>`).join("")}</tbody></table>
+    <p class="sub">Support recomputation and evidence state describe the current store; they do not grant permission to act.</p>`;
+  $("incident-export").addEventListener("click", () => downloadIncident(a.seq).catch(showError));
+  loadActionTimeline(a.decision.tool).catch((err) => { $("action-timeline").textContent = err.message; });
 }
 
 async function loadCapabilities() {
@@ -1619,6 +1847,10 @@ function wire() {
       }).catch(() => {});
       return;
     }
+    const eventEl = ev.target.closest("[data-event-id]");
+    if (eventEl) { ev.stopPropagation(); openEvent(eventEl.dataset.eventId); return; }
+    const mapMemory = ev.target.closest("[data-map-memory]");
+    if (mapMemory) { ev.stopPropagation(); openDetail(mapMemory.dataset.mapMemory); return; }
     const idEl = ev.target.closest("[data-id]");
     if (idEl) { ev.stopPropagation(); openDetail(idEl.dataset.id); }
   });
@@ -1627,15 +1859,22 @@ function wire() {
     if (ev.target === $("drawer-bg")) closeDetail();
   });
   document.addEventListener("keydown", (ev) => {
-    if (ev.key === "Escape") closeDetail();
+    const dialog = !$("drawer-bg").hidden ? $("drawer")
+      : !$("palette-bg").hidden ? $("palette-bg").querySelector('[role="dialog"]')
+      : !$("help-bg").hidden ? $("help-bg").querySelector('[role="dialog"]') : null;
+    if (ev.key === "Escape") {
+      if (!$("drawer-bg").hidden) closeDetail();
+      else if (!$("palette-bg").hidden) closePalette();
+      else if (!$("help-bg").hidden) closeHelp();
+    } else if (dialog) trapFocus(dialog, ev);
   });
 
   for (const id of ["f-state", "f-scope", "f-type", "f-sort"]) {
-    $(id).addEventListener("change", () => loadMemories().catch(showError));
+    $(id).addEventListener("change", () => { MEMORY_OFFSET = 0; loadMemories().catch(showError); });
   }
   $("f-q").addEventListener("input", () => {
     clearTimeout(filterTimer);
-    filterTimer = setTimeout(() => loadMemories().catch(showError), 180);
+    filterTimer = setTimeout(() => { MEMORY_OFFSET = 0; loadMemories().catch(showError); }, 180);
   });
   $("s-q").addEventListener("input", () => {
     clearTimeout(searchTimer);
@@ -1802,7 +2041,8 @@ async function loadGraph() {
   const byTopic = new Map(topics.map((t) => [t.id, t]));
   const byMemory = new Map(moons.map((m) => [m.id, m]));
   const tlinks = data.links.map((l) => ({ a: byTopic.get(l.from), b: byTopic.get(l.to), w: l.weight })).filter((l) => l.a && l.b);
-  const mlinks = data.memory_links.map((l) => ({ a: byMemory.get(l.from), b: byMemory.get(l.to) })).filter((l) => l.a && l.b);
+  const mlinks = data.memory_links.map((l) => ({ a: byMemory.get(l.from), b: byMemory.get(l.to), event_id: l.event_id, seq: l.seq }))
+    .filter((l) => l.a && l.b && l.event_id);
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const dpr = window.devicePixelRatio || 1;
@@ -1944,7 +2184,16 @@ async function loadGraph() {
 
   const hit = (ev) => { const b = canvas.getBoundingClientRect(), x = ev.clientX - b.left, y = ev.clientY - b.top;
     const near = bodies.filter((o) => o.screen && (o.screen.x - x) ** 2 + (o.screen.y - y) ** 2 <= (o.screen.r + 5) ** 2);
-    return near.sort((a, c) => (a.kind === "memory" ? -1 : 1) - (c.kind === "memory" ? -1 : 1))[0] || null; };
+    const body = near.sort((a, c) => (a.kind === "memory" ? -1 : 1) - (c.kind === "memory" ? -1 : 1))[0];
+    if (body) return body;
+    let closest = null, best = 36;
+    for (const l of mlinks) {
+      const a = l.a.screen, c = l.b.screen, dx = c.x - a.x, dy = c.y - a.y;
+      const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (y - a.y) * dy) / Math.max(1, dx * dx + dy * dy)));
+      const dist = (x - (a.x + t * dx)) ** 2 + (y - (a.y + t * dy)) ** 2;
+      if (dist < best) { best = dist; closest = { kind: "event", ...l }; }
+    }
+    return closest; };
   canvas.onmousemove = (ev) => {
     const o = hit(ev); G.hover = o; G.paused = !!o; canvas.classList.toggle("pointing", !!o);
     if (!o) { tip.hidden = true; return; }
@@ -1953,15 +2202,19 @@ async function loadGraph() {
     tip.style.top = `${Math.min(ev.clientY - b.top + 16, stage.clientHeight - 90)}px`;
     tip.innerHTML = o.kind === "topic"
       ? `<b>${esc(o.label)}</b><div class="sub">${esc(topicSub(o))} · recalled ${o.exposures}× · click to focus</div>`
+      : o.kind === "event" ? `<b>Lineage event #${o.seq}</b><div class="sub">${esc(o.event_id)} · click to open the logged event</div>`
       : `<b>${esc(o.label)}</b><div class="sub">${esc(o.why)} · by ${esc(o.author)} · click to read its story</div>`;
   };
   canvas.onmouseleave = () => { G.hover = null; G.paused = false; tip.hidden = true; };
   const setFocus = (t) => { G.focus = G.focus === t ? null : t;
     document.querySelectorAll("#map-topics button").forEach((btn) => btn.setAttribute("aria-pressed", String(G.focus && btn.dataset.topic === G.focus.id))); };
   canvas.onclick = (ev) => { const o = hit(ev); if (!o) { if (G.focus) setFocus(G.focus); return; }
-    if (o.kind === "memory") openDetail(o.id); else setFocus(o); };
+    if (o.kind === "memory") openDetail(o.id); else if (o.kind === "event") openEvent(o.event_id); else setFocus(o); };
   $("map-topics").innerHTML = topics.map((t) => `<button data-topic="${esc(t.id)}" aria-pressed="false">
     <span style="color:${t.hue}">●</span> ${esc(t.label)}<span class="n">${t.size}</span></button>`).join("");
+  $("map-memory-list").innerHTML = moons.map((m) => `<li><button data-map-memory="${esc(m.id)}">
+    ${esc(m.label)} · ${esc(STATE_WORDS[m.state] || m.state)} · topic ${esc(m.topic.label)}</button></li>`).join("")
+    || '<li class="sub">No key memories are available.</li>';
   $("map-topics").onclick = (ev) => { const btn = ev.target.closest("button"); if (btn) setFocus(byTopic.get(btn.dataset.topic)); };
 }
 
@@ -1988,9 +2241,14 @@ function applyRole(role) {
 }
 
 function openPalette() {
+  paletteReturnFocus = document.activeElement;
   $("palette-bg").hidden = false; const i = $("palette-input"); i.value = ""; i.focus(); fillPalette("");
 }
-function closePalette() { $("palette-bg").hidden = true; }
+function closePalette() {
+  $("palette-bg").hidden = true;
+  paletteReturnFocus?.focus?.();
+  paletteReturnFocus = null;
+}
 function renderPalette() {
   $("palette-list").innerHTML = PAL.items.map((it, i) => `<li role="option" aria-selected="${i === PAL.sel}" data-i="${i}">
     <span class="k">${esc(it.kind)}</span><span>${esc(it.label)}</span></li>`).join("") ||
@@ -2003,7 +2261,7 @@ function fillPalette(q) {
   const tabs = Object.entries(TAB_LABELS).filter(([, l]) => !ql || l.toLowerCase().includes(ql))
     .map(([t, l]) => ({ kind: "go to", label: l, run: () => showTab(t) }));
   const cmds = [{ kind: "action", label: "Switch light or dark theme", run: toggleTheme },
-    { kind: "action", label: "Show keyboard shortcuts", run: () => { $("help-bg").hidden = false; } }]
+    { kind: "action", label: "Show keyboard shortcuts", run: openHelp }]
     .filter((c) => !ql || c.label.toLowerCase().includes(ql));
   PAL.items = [...tabs, ...cmds]; PAL.sel = 0;
   if (/^[0-9A-HJKMNP-TV-Z]{26}$/i.test(q.trim())) PAL.items.unshift({ kind: "open", label: `memory ${q.trim()}`, run: () => openDetail(q.trim()) });
@@ -2040,6 +2298,7 @@ function toast(row) {
 async function livePoll() {
   if (document.hidden) return;
   try {
+    loadSloDashboard().catch(() => {});
     const o = await api("/api/overview");
     if (LIVE_SEQ === null) { LIVE_SEQ = o.events; $("live").classList.remove("off"); return; }
     if (o.events > LIVE_SEQ) {
@@ -2062,10 +2321,10 @@ document.addEventListener("keydown", (ev) => {
     else if (ev.key === "Enter") runPalette(PAL.sel);
     return;
   }
-  if (ev.key === "Escape") { $("help-bg").hidden = true; return; }
+  if (ev.key === "Escape") { closeHelp(); return; }
   if (typing) return;
   if (ev.key === "/") { ev.preventDefault(); openPalette(); return; }
-  if (ev.key === "?") { $("help-bg").hidden = false; return; }
+  if (ev.key === "?") { openHelp(); return; }
   if (ev.key === "t") { toggleTheme(); return; }
   if (G_PREFIX) { G_PREFIX = false;
     const map = { h: "start", m: "memories", k: "graph", a: "agents", r: "replay", s: "search", c: "capabilities" };
@@ -2081,7 +2340,7 @@ document.addEventListener("keydown", (ev) => {
   $("palette-open").addEventListener("click", openPalette);
   $("palette-input").addEventListener("input", (ev) => fillPalette(ev.target.value));
   $("palette-bg").addEventListener("click", (ev) => { if (ev.target === $("palette-bg")) closePalette(); });
-  $("help-bg").addEventListener("click", () => { $("help-bg").hidden = true; });
+  $("help-bg").addEventListener("click", () => closeHelp());
   $("theme-toggle").addEventListener("click", toggleTheme);
   api("/api/agents").then((r) => { AGENTS_CACHE = r; $("c-agents").textContent = r.length || ""; }).catch(() => {});
   notificationData().then((r) => { $("c-notifications").textContent = r.length ? `(${r.length})` : "";

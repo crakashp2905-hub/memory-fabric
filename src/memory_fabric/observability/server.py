@@ -22,6 +22,7 @@ import json
 import re
 import threading
 import time
+from collections import deque
 from dataclasses import is_dataclass
 from functools import partial
 from http import HTTPStatus
@@ -32,6 +33,7 @@ from urllib.parse import parse_qs, urlparse
 
 from ..identity import DEFAULT_TENANT
 from . import report
+from .health import classify as classify_health
 from .auth import (
     AuthConfig,
     Authenticator,
@@ -60,6 +62,7 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 STATIC_ROUTES: dict[str, tuple[str, str]] = {
     "/": ("dashboard.html", "text/html; charset=utf-8"),
     "/dashboard.html": ("dashboard.html", "text/html; charset=utf-8"),
+    "/withholding-benchmark.json": ("withholding-benchmark.json", "application/json; charset=utf-8"),
 }
 
 _ULID = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
@@ -126,6 +129,86 @@ class Api:
         # dashboard and the agent API on one store must serialise across both.
         self._lock = fabric.lock
         self._metrics: Any = None
+        self._slo_lock = threading.Lock()
+        self._request_started = time.time()
+        self._request_count = 0
+        self._request_errors = 0
+        self._request_latencies_ms: deque[float] = deque(maxlen=10000)
+
+    def record_http_response(self, status: int, elapsed_ms: float) -> None:
+        """Record bounded process-local HTTP observations; no paths or identities."""
+        with self._slo_lock:
+            self._request_count += 1
+            self._request_errors += int(status >= 400)
+            self._request_latencies_ms.append(max(0.0, elapsed_ms))
+
+    def slo_snapshot(self) -> dict[str, Any]:
+        """Return explicit cumulative denominators and store queue gauges."""
+        with self._lock:
+            self.fabric.refresh()
+            from .metrics import StoreMetrics
+            if self._metrics is None:
+                self._metrics = StoreMetrics()
+            self._metrics.render(self.fabric)
+            pending = self.fabric.outbox.pending()
+            now = time.time()
+            oldest_lag_seconds = None
+            if pending:
+                import datetime
+                issued = min(row.retraction.issued_at for row in pending)
+                try:
+                    timestamp = datetime.datetime.fromisoformat(issued.replace("Z", "+00:00"))
+                    oldest_lag_seconds = max(0.0, now - timestamp.timestamp())
+                except (ValueError, TypeError):
+                    oldest_lag_seconds = None
+            with self._slo_lock:
+                samples = sorted(self._request_latencies_ms)
+                count, errors = self._request_count, self._request_errors
+                started = self._request_started
+            def percentile(p: float) -> float | None:
+                if not samples:
+                    return None
+                return round(samples[min(len(samples) - 1, int((len(samples) - 1) * p))], 3)
+            blocked = sum(n for (tool, allowed), n in
+                          (self._metrics.actions.items() if self._metrics else ())
+                          if allowed == "false")
+            return {
+                "schema": "memory-fabric-slo-snapshot/1",
+                "window": {"kind": "process_lifetime_bounded_latency_sample", "started_at_unix_seconds": started,
+                           "latency_sample_capacity": 10000, "latency_sample_count": len(samples)},
+                "http": {"requests_total": count, "error_responses_total": errors,
+                         "error_rate": (errors / count if count else None),
+                         "error_denominator": count, "latency_unit": "milliseconds",
+                         "latency_ms": {"p50": percentile(.50), "p95": percentile(.95),
+                                        "p99": percentile(.99)},
+                         "latency_denominator": len(samples)},
+                "actions": {"blocked_total": blocked, "denominator": sum(self._metrics.actions.values())
+                            if self._metrics else 0},
+                "corrections": {"pending_deliveries": len(pending),
+                                "oldest_pending_lag_seconds": oldest_lag_seconds,
+                                "lag_denominator": len(pending)},
+                "limitations": ["HTTP observations reset on process restart and use a bounded rolling latency sample.",
+                                "Blocked actions are cumulative gate decisions, not a time-window rate.",
+                                "Correction lag uses peer-issued timestamps and depends on peer clock accuracy."],
+            }
+
+    def health_snapshot(self) -> dict[str, Any]:
+        """Run explicit operator checks; unlike `/metrics`, this verifies the full chain."""
+        with self._lock:
+            try:
+                self.fabric.refresh()
+                self.fabric.health()
+                pending = len(self.fabric.outbox.pending())
+            except Exception:
+                return classify_health(store_readable=False, integrity_ok=None,
+                                       pending_corrections=None,
+                                       failure_code="store_unavailable")
+            try:
+                integrity_ok = bool(self.fabric.log.chain.verify(self.fabric.log.read()).ok)
+            except Exception:
+                integrity_ok = None
+            return classify_health(store_readable=True, integrity_ok=integrity_ok,
+                                   pending_corrections=pending)
 
     def metrics_text(self) -> str:
         """Prometheus exposition for this store (`metrics.py`), behind the same auth."""
@@ -144,6 +227,10 @@ class Api:
         if not parts or parts[0] != "api":
             raise ApiError(HTTPStatus.NOT_FOUND, "not found")
         rest = parts[1:]
+        if rest == ["health"]:
+            # health_snapshot owns its error handling so a read failure becomes
+            # an explicit unavailable result instead of a generic 500/healthy.
+            return self.health_snapshot()
 
         with self._lock:
             # A dashboard runs for hours while operators act from the CLI. It
@@ -160,6 +247,10 @@ class Api:
         f = self.fabric
 
         match rest:
+            case ["health"]:
+                return self.health_snapshot()
+            case ["slo"]:
+                return self.slo_snapshot()
             case ["overview"]:
                 return report.overview(f).to_json()
 
@@ -200,13 +291,18 @@ class Api:
                 return report.retention_preview(f)
 
             case ["memories"]:
+                page_size = _int(params, "limit", 200) or 200
+                offset = _int(params, "offset", 0) or 0
+                if page_size < 1 or offset < 0:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "limit must be positive and offset non-negative")
                 rows = report.memory_rows(
                     f,
                     state=_one(params, "state"),
                     scope=_one(params, "scope"),
                     type=_one(params, "type"),
                     query=_one(params, "q"),
-                    limit=_int(params, "limit", 200),
+                    limit=min(page_size, 1000),
+                    offset=offset,
                     sort=_one(params, "sort") or "created",
                 )
                 return [r.to_json() for r in rows]
@@ -275,10 +371,40 @@ class Api:
                 return story(f, after=_int(params, "after", 0) or 0,
                              limit=_int(params, "limit", 300) or 300)
 
+            case ["events", event_id]:
+                from .control import event_detail
+
+                try:
+                    return event_detail(f, event_id)
+                except KeyError as exc:
+                    raise ApiError(HTTPStatus.NOT_FOUND, "no such event") from exc
+
             case ["actions"]:
                 from .control import action_rows
 
                 return action_rows(f, limit=_int(params, "limit", 200) or 200)
+
+            case ["action-reconciliation"]:
+                from .control import action_reconciliation
+
+                return action_reconciliation(f, limit=_int(params, "limit", 200) or 200)
+
+            case ["incidents", raw_seq, "export"]:
+                if not raw_seq.isdigit():
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "incident id is an action sequence number")
+                from .incident_export import export_incident
+                try:
+                    return export_incident(f, int(raw_seq))
+                except LookupError as exc:
+                    raise ApiError(HTTPStatus.NOT_FOUND, "no such gated action") from exc
+
+            case ["actions", "timeline"]:
+                from .control import action_timeline
+
+                tool = _one(params, "tool")
+                if not tool:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "tool is required")
+                return action_timeline(f, tool, limit=_int(params, "limit", 200) or 200)
 
             case ["actions", raw_seq]:
                 from .control import action_detail
@@ -472,6 +598,7 @@ class Handler(BaseHTTPRequestHandler):
         self.quiet = quiet
         self.access_log = access_log
         self.operator: str | None = None
+        self._request_started_perf = time.perf_counter()
         super().__init__(*args, **kwargs)
 
     # Only GET and HEAD exist. Anything else is refused explicitly.
@@ -490,6 +617,7 @@ class Handler(BaseHTTPRequestHandler):
         intermittent dropped connection rather than a clean refusal. Draining
         first, and closing after, keeps the refusal well-formed.
         """
+        self._request_started_perf = time.perf_counter()
         try:
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
@@ -507,6 +635,7 @@ class Handler(BaseHTTPRequestHandler):
     do_POST = do_PUT = do_PATCH = do_DELETE = do_OPTIONS = _refuse_write  # noqa: N815
 
     def _serve(self, body: bool) -> None:
+        self._request_started_perf = time.perf_counter()
         # Authenticate before routing, so an unauthenticated caller cannot learn
         # which paths exist from the difference between 404 and 401.
         outcome = self.authenticator.authenticate(self.path, self.headers)
@@ -543,8 +672,8 @@ class Handler(BaseHTTPRequestHandler):
                 result = self.api.handle(path, parse_qs(parsed.query))
             except ApiError as exc:
                 self._send_json({"error": exc.message}, exc.status, body)
-            except Exception as exc:  # pragma: no cover - defensive
-                self._send_json({"error": f"internal error: {exc}"}, HTTPStatus.INTERNAL_SERVER_ERROR, body)
+            except Exception:  # pragma: no cover - defensive
+                self._send_json({"error": "internal error"}, HTTPStatus.INTERNAL_SERVER_ERROR, body)
             else:
                 self._send_json(result, HTTPStatus.OK, body)
             return
@@ -608,6 +737,9 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         if body:
             self.wfile.write(payload)
+        self.api.record_http_response(
+            int(status), (time.perf_counter() - self._request_started_perf) * 1000.0
+        )
 
     def log_message(self, format: str, *args: Any) -> None:
         """Log with the bootstrap token removed.

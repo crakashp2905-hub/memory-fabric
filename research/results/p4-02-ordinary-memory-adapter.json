@@ -1,0 +1,30 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-02",
+  "commit": "126cb2a71b9d0fb64d973933af5d185b0d6e74dc",
+  "command": "python unittest: tests.test_examples_run; TEMP/TMP and tempfile.tempdir routed to .task-tmp",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 97.594,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "ordinary_SQLite_JSON_adapter": "PASS",
+    "same_source_records_to_both_arms": "PASS",
+    "matched_task_and_stale_action_workflow": "PASS",
+    "offline_examples_and_clean_install": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "This remains a fixed one-case demonstration, not a performance benchmark or population estimate.",
+    "The JSON-style baseline deliberately has no authorization API; its stale action is a counterfactual WOULD RUN outcome."
+  ],
+  "file_sha256": {
+    "examples/memory_vs_json.py": "578d5285c89a4cf9808365303f28b1ce98beb3f8e7cc8f3eac1fa70879452786",
+    "tests/test_examples_run.py": "ac75373f418c4de520193dd549cf9d36fbce996e2ecb384455bded2ded955c41",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "21088d6dbd087fa1374d41f938ab043f25b652602cca5f2a6d2b5de7d320c3fc"
+  }
+}

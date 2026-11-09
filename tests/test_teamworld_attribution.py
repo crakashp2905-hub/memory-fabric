@@ -7,6 +7,19 @@ import unittest
 from experiments.p3b_teams import run
 
 
+def test_failed_tasks_have_replay_coordinates_and_cause() -> None:
+    result = run(arms=("fabric",), seeds=(101,), agents=50, rounds=60)
+    failures = result["failure_examples"]["fabric"]
+    assert len(failures) == 10
+    assert all(row["seed"] == 101 and isinstance(row["task_index"], int) for row in failures)
+    assert all(row["correct_value"] is not None for row in failures)
+    assert all(
+        row["evidence_miss_reason"] or row["rediscovered"]
+        or row["acted_on_withdrawn"] or row["answered"] != row["correct_value"]
+        for row in failures
+    )
+
+
 class EvidenceMissAttribution(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -22,6 +35,16 @@ class EvidenceMissAttribution(unittest.TestCase):
     def test_plain_shared_store_does_not_claim_governance_reasons(self) -> None:
         self.assertEqual(
             self.result["arms"]["shared"]["evidence_miss_reasons"], {})
+
+    def test_result_preserves_per_seed_values_intervals_and_denominators(self) -> None:
+        fabric = self.result["arms"]["fabric"]
+        self.assertIn("ci95_low", fabric["task_success"])
+        self.assertIn("ci95_high", fabric["task_success"])
+        self.assertEqual(self.result["per_seed"]["fabric"][0]["seed"], 101)
+        self.assertEqual(
+            self.result["metric_denominators"]["wrong_invalidation_rate"],
+            "all task decisions",
+        )
 
     def test_authority_conditioned_corrections_reduce_unvalidated_misses(self) -> None:
         improved = run(

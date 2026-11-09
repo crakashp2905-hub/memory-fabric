@@ -83,6 +83,7 @@ def federating_firewall() -> Firewall:
 
 
 def main() -> int:
+    print("DEMO ONLY: real local Ollama model; scripted scenario; not independent validation or certification.")
     client = OllamaClient()
     try:
         available = client.available()

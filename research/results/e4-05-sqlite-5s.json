@@ -1,0 +1,1935 @@
+{
+  "schema": "memory-fabric-e4-05-sqlite-stress/1",
+  "commit": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5, SQLite 3.49.1",
+  "configuration": {
+    "processes": 50,
+    "cycles": 2,
+    "repeats": 3,
+    "busy_timeout_ms": 5000,
+    "start_stagger_ms": 25,
+    "transaction_event_sizes": [
+      1,
+      5,
+      10
+    ],
+    "start_method": "spawn",
+    "sqlite_synchronous": "FULL default"
+  },
+  "results": [
+    {
+      "processes": 50,
+      "cycles_per_process": 2,
+      "batch_sizes_events_per_transaction": [
+        1,
+        5,
+        10
+      ],
+      "busy_timeout_ms": 5000,
+      "wall_s": 25.282756600005087,
+      "initial_sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "successful_transactions": 180,
+      "events_expected": 1600,
+      "events_observed": 832,
+      "events_attempted": 856,
+      "events_committed_by_workers": 832,
+      "explicitly_failed_event_keys": 24,
+      "transaction_latency_ms": {
+        "mean": 1134.7552350010826,
+        "p95": 5432.686700019985,
+        "max": 5482.500099984463
+      },
+      "errors": [
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked"
+      ],
+      "start_error": null,
+      "worker_errors": [
+        {
+          "worker": 18,
+          "phase": "append",
+          "attempted_keys": [
+            "18:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5431.379499961622
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 26,
+          "phase": "append",
+          "attempted_keys": [
+            "26:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5429.371399979573
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 5,
+          "phase": "append",
+          "attempted_keys": [
+            "5:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.522200011183
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 37,
+          "phase": "append",
+          "attempted_keys": [
+            "37:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5427.738300000783
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 11,
+          "phase": "append",
+          "attempted_keys": [
+            "11:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.526499985717
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 41,
+          "phase": "append",
+          "attempted_keys": [
+            "41:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5428.424099984113
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 0,
+          "phase": "append",
+          "attempted_keys": [
+            "0:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.695799994282
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 43,
+          "phase": "append",
+          "attempted_keys": [
+            "43:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.660600017291
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 17,
+          "phase": "append",
+          "attempted_keys": [
+            "17:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.3354999865405
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 9,
+          "phase": "append",
+          "attempted_keys": [
+            "9:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5434.603500005323
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 24,
+          "phase": "append",
+          "attempted_keys": [
+            "24:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.259499989916
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 48,
+          "phase": "append",
+          "attempted_keys": [
+            "48:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5429.3370000086725
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 15,
+          "phase": "append",
+          "attempted_keys": [
+            "15:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5432.686700019985
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 22,
+          "phase": "append",
+          "attempted_keys": [
+            "22:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5431.512099981774
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 10,
+          "phase": "append",
+          "attempted_keys": [
+            "10:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5433.971699967515
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 39,
+          "phase": "append",
+          "attempted_keys": [
+            "39:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5427.344600029755
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 32,
+          "phase": "append",
+          "attempted_keys": [
+            "32:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5429.7774999868125
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 40,
+          "phase": "append",
+          "attempted_keys": [
+            "40:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5434.0462000109255
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 47,
+          "phase": "append",
+          "attempted_keys": [
+            "47:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.151500040665
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 8,
+          "phase": "append",
+          "attempted_keys": [
+            "8:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5434.416899981443
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 36,
+          "phase": "append",
+          "attempted_keys": [
+            "36:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5433.971300022677
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 25,
+          "phase": "append",
+          "attempted_keys": [
+            "25:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5434.3711999827065
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 4,
+          "phase": "append",
+          "attempted_keys": [
+            "4:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5435.432999976911
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 31,
+          "phase": "append",
+          "attempted_keys": [
+            "31:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.7384000276215
+          ],
+          "error": "OperationalError: database is locked"
+        }
+      ],
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "duplicate_events": false,
+      "missing_event_keys": [],
+      "unexpected_event_keys": [],
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "integrity_events_verified": 832,
+      "wal_checkpoint_passive": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wal_checkpoint_truncate": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "busy_timeout_control": {
+        "configured_busy_timeout_ms": 250,
+        "blocked_append_error": "OperationalError",
+        "blocked_append_elapsed_ms": 360.79319997224957,
+        "blocked_event_was_not_committed": true,
+        "write_succeeds_after_release": true
+      },
+      "passed": false,
+      "trial": 0
+    },
+    {
+      "processes": 50,
+      "cycles_per_process": 2,
+      "batch_sizes_events_per_transaction": [
+        1,
+        5,
+        10
+      ],
+      "busy_timeout_ms": 5000,
+      "wall_s": 25.596855200012214,
+      "initial_sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "successful_transactions": 75,
+      "events_expected": 1600,
+      "events_observed": 160,
+      "events_attempted": 205,
+      "events_committed_by_workers": 160,
+      "explicitly_failed_event_keys": 45,
+      "transaction_latency_ms": {
+        "mean": 3558.4189306688495,
+        "p95": 5535.898800007999,
+        "max": 5536.865099973511
+      },
+      "errors": [
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked"
+      ],
+      "start_error": null,
+      "worker_errors": [
+        {
+          "worker": 47,
+          "phase": "append",
+          "attempted_keys": [
+            "47:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5430.834500002675
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 28,
+          "phase": "append",
+          "attempted_keys": [
+            "28:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5433.695599960629
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 4,
+          "phase": "append",
+          "attempted_keys": [
+            "4:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5434.141700039618
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 30,
+          "phase": "append",
+          "attempted_keys": [
+            "30:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5433.389600017108
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 14,
+          "phase": "append",
+          "attempted_keys": [
+            "14:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5488.4715000516735
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 35,
+          "phase": "append",
+          "attempted_keys": [
+            "35:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5487.965799984522
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 7,
+          "phase": "append",
+          "attempted_keys": [
+            "7:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.835200005677
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 8,
+          "phase": "append",
+          "attempted_keys": [
+            "8:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.624900044873
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 11,
+          "phase": "append",
+          "attempted_keys": [
+            "11:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.8939999877475
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 12,
+          "phase": "append",
+          "attempted_keys": [
+            "12:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.458199997898
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 45,
+          "phase": "append",
+          "attempted_keys": [
+            "45:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.88880001707
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 40,
+          "phase": "append",
+          "attempted_keys": [
+            "40:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5488.370899984147
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 27,
+          "phase": "append",
+          "attempted_keys": [
+            "27:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.098799997009
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 32,
+          "phase": "append",
+          "attempted_keys": [
+            "32:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.264000032563
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 9,
+          "phase": "append",
+          "attempted_keys": [
+            "9:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.104200016707
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 44,
+          "phase": "append",
+          "attempted_keys": [
+            "44:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5488.972499966621
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 26,
+          "phase": "append",
+          "attempted_keys": [
+            "26:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.163400001824
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 36,
+          "phase": "append",
+          "attempted_keys": [
+            "36:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.7505000117235
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 17,
+          "phase": "append",
+          "attempted_keys": [
+            "17:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.252700052224
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 34,
+          "phase": "append",
+          "attempted_keys": [
+            "34:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5489.549399993848
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 5,
+          "phase": "append",
+          "attempted_keys": [
+            "5:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.471399960574
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 22,
+          "phase": "append",
+          "attempted_keys": [
+            "22:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.292599996086
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 29,
+          "phase": "append",
+          "attempted_keys": [
+            "29:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.183099987917
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 49,
+          "phase": "append",
+          "attempted_keys": [
+            "49:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.639400028158
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 16,
+          "phase": "append",
+          "attempted_keys": [
+            "16:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5492.037000018172
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 38,
+          "phase": "append",
+          "attempted_keys": [
+            "38:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.445299994666
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 43,
+          "phase": "append",
+          "attempted_keys": [
+            "43:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5492.659999988973
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 18,
+          "phase": "append",
+          "attempted_keys": [
+            "18:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5493.109199975152
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 33,
+          "phase": "append",
+          "attempted_keys": [
+            "33:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.266499971971
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 13,
+          "phase": "append",
+          "attempted_keys": [
+            "13:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5493.433800002094
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 2,
+          "phase": "append",
+          "attempted_keys": [
+            "2:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5495.055600011256
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 0,
+          "phase": "append",
+          "attempted_keys": [
+            "0:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5494.475000014063
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 25,
+          "phase": "append",
+          "attempted_keys": [
+            "25:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5495.0274000293575
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 20,
+          "phase": "append",
+          "attempted_keys": [
+            "20:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5490.106899989769
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 6,
+          "phase": "append",
+          "attempted_keys": [
+            "6:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5491.10839999048
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 15,
+          "phase": "append",
+          "attempted_keys": [
+            "15:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5494.335199997295
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 19,
+          "phase": "append",
+          "attempted_keys": [
+            "19:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5492.906200001016
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 21,
+          "phase": "append",
+          "attempted_keys": [
+            "21:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5493.22669999674
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 46,
+          "phase": "append",
+          "attempted_keys": [
+            "46:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5493.504400015809
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 39,
+          "phase": "append",
+          "attempted_keys": [
+            "39:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5534.6783000277355
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 1,
+          "phase": "append",
+          "attempted_keys": [
+            "1:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5536.666799976956
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 31,
+          "phase": "append",
+          "attempted_keys": [
+            "31:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5536.865099973511
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 48,
+          "phase": "append",
+          "attempted_keys": [
+            "48:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5535.898800007999
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 41,
+          "phase": "append",
+          "attempted_keys": [
+            "41:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5535.531500005163
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 42,
+          "phase": "append",
+          "attempted_keys": [
+            "42:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5536.796599975787
+          ],
+          "error": "OperationalError: database is locked"
+        }
+      ],
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "duplicate_events": false,
+      "missing_event_keys": [],
+      "unexpected_event_keys": [],
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "integrity_events_verified": 160,
+      "wal_checkpoint_passive": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wal_checkpoint_truncate": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "busy_timeout_control": {
+        "configured_busy_timeout_ms": 250,
+        "blocked_append_error": "OperationalError",
+        "blocked_append_elapsed_ms": 340.6918999971822,
+        "blocked_event_was_not_committed": true,
+        "write_succeeds_after_release": true
+      },
+      "passed": false,
+      "trial": 1
+    },
+    {
+      "processes": 50,
+      "cycles_per_process": 2,
+      "batch_sizes_events_per_transaction": [
+        1,
+        5,
+        10
+      ],
+      "busy_timeout_ms": 5000,
+      "wall_s": 24.441886299988255,
+      "initial_sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "successful_transactions": 80,
+      "events_expected": 1600,
+      "events_observed": 192,
+      "events_attempted": 236,
+      "events_committed_by_workers": 192,
+      "explicitly_failed_event_keys": 44,
+      "transaction_latency_ms": {
+        "mean": 3326.6548075036553,
+        "p95": 5459.453699993901,
+        "max": 5460.770100005902
+      },
+      "errors": [
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked",
+        "OperationalError: database is locked"
+      ],
+      "start_error": null,
+      "worker_errors": [
+        {
+          "worker": 10,
+          "phase": "append",
+          "attempted_keys": [
+            "10:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5415.0786000536755
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 33,
+          "phase": "append",
+          "attempted_keys": [
+            "33:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5412.387999997009
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 21,
+          "phase": "append",
+          "attempted_keys": [
+            "21:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5414.675599953625
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 43,
+          "phase": "append",
+          "attempted_keys": [
+            "43:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5411.814099992625
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 34,
+          "phase": "append",
+          "attempted_keys": [
+            "34:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5412.252200010698
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 24,
+          "phase": "append",
+          "attempted_keys": [
+            "24:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5414.1451000468805
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 40,
+          "phase": "append",
+          "attempted_keys": [
+            "40:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5412.085100018885
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 6,
+          "phase": "append",
+          "attempted_keys": [
+            "6:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5414.923800039105
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 12,
+          "phase": "append",
+          "attempted_keys": [
+            "12:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5414.225099957548
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 16,
+          "phase": "append",
+          "attempted_keys": [
+            "16:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5415.15439999057
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 7,
+          "phase": "append",
+          "attempted_keys": [
+            "7:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5414.273599977605
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 27,
+          "phase": "append",
+          "attempted_keys": [
+            "27:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5412.881100026425
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 29,
+          "phase": "append",
+          "attempted_keys": [
+            "29:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5412.791899987496
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 1,
+          "phase": "append",
+          "attempted_keys": [
+            "1:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5415.173300018068
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 39,
+          "phase": "append",
+          "attempted_keys": [
+            "39:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5454.686999961268
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 3,
+          "phase": "append",
+          "attempted_keys": [
+            "3:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.199200008996
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 22,
+          "phase": "append",
+          "attempted_keys": [
+            "22:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5455.7802000199445
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 45,
+          "phase": "append",
+          "attempted_keys": [
+            "45:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5455.820600036532
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 20,
+          "phase": "append",
+          "attempted_keys": [
+            "20:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.159399986267
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 26,
+          "phase": "append",
+          "attempted_keys": [
+            "26:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.332799978554
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 18,
+          "phase": "append",
+          "attempted_keys": [
+            "18:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.3979000085965
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 46,
+          "phase": "append",
+          "attempted_keys": [
+            "46:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5455.602100002579
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 14,
+          "phase": "append",
+          "attempted_keys": [
+            "14:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.509300031234
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 25,
+          "phase": "append",
+          "attempted_keys": [
+            "25:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.477700023446
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 37,
+          "phase": "append",
+          "attempted_keys": [
+            "37:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.876300042495
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 8,
+          "phase": "append",
+          "attempted_keys": [
+            "8:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5458.441799972206
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 17,
+          "phase": "append",
+          "attempted_keys": [
+            "17:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.53529999638
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 38,
+          "phase": "append",
+          "attempted_keys": [
+            "38:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.989099970087
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 5,
+          "phase": "append",
+          "attempted_keys": [
+            "5:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.390500036534
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 49,
+          "phase": "append",
+          "attempted_keys": [
+            "49:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5456.439199973829
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 31,
+          "phase": "append",
+          "attempted_keys": [
+            "31:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.852599967737
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 30,
+          "phase": "append",
+          "attempted_keys": [
+            "30:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.471200010739
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 4,
+          "phase": "append",
+          "attempted_keys": [
+            "4:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.125299996231
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 32,
+          "phase": "append",
+          "attempted_keys": [
+            "32:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.111699972302
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 41,
+          "phase": "append",
+          "attempted_keys": [
+            "41:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.026300020516
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 36,
+          "phase": "append",
+          "attempted_keys": [
+            "36:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5457.9216000274755
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 11,
+          "phase": "append",
+          "attempted_keys": [
+            "11:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.2571999528445
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 2,
+          "phase": "append",
+          "attempted_keys": [
+            "2:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5460.312699957285
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 9,
+          "phase": "append",
+          "attempted_keys": [
+            "9:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.453699993901
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 13,
+          "phase": "append",
+          "attempted_keys": [
+            "13:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5460.770100005902
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 15,
+          "phase": "append",
+          "attempted_keys": [
+            "15:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5459.393700002693
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 47,
+          "phase": "append",
+          "attempted_keys": [
+            "47:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5455.560499976855
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 0,
+          "phase": "append",
+          "attempted_keys": [
+            "0:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5458.326000021771
+          ],
+          "error": "OperationalError: database is locked"
+        },
+        {
+          "worker": 28,
+          "phase": "append",
+          "attempted_keys": [
+            "28:0:0"
+          ],
+          "committed_keys": [],
+          "failed_batches": 1,
+          "durations_ms": [
+            5458.898800017778
+          ],
+          "error": "OperationalError: database is locked"
+        }
+      ],
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "duplicate_events": false,
+      "missing_event_keys": [],
+      "unexpected_event_keys": [],
+      "sequence_contiguous": true,
+      "integrity_chain_ok": true,
+      "integrity_events_verified": 192,
+      "wal_checkpoint_passive": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "wal_checkpoint_truncate": {
+        "busy": 0,
+        "log_frames": 0,
+        "checkpointed_frames": 0
+      },
+      "busy_timeout_control": {
+        "configured_busy_timeout_ms": 250,
+        "blocked_append_error": "OperationalError",
+        "blocked_append_elapsed_ms": 320.0749999959953,
+        "blocked_event_was_not_committed": true,
+        "write_succeeds_after_release": true
+      },
+      "passed": false,
+      "trial": 2
+    }
+  ],
+  "passed": false,
+  "limitations": [
+    "One local Windows host and local SQLite file; not a multi-host test.",
+    "SQLite WAL auto-checkpoint behavior is recorded at the tested workload size."
+  ]
+}

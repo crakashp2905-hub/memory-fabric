@@ -1,5 +1,12 @@
 # Troubleshooting
 
+## Resource limits
+
+- `memory_budget_exhausted`: the store reached its configured maximum number
+  of memories. Review retention and `Limits.max_memories` in
+  [RESOURCE_BUDGETS.md](RESOURCE_BUDGETS.md), then remove or archive records
+  through the supported lifecycle before retrying the write.
+
 Start with `memory-fabric --db <store> doctor`. Every warning and failure it
 prints carries the fix. The exit codes are meant for scripts: **0** sound,
 **1** sound with warnings, **5** not sound. Below are the symptoms people
@@ -106,6 +113,10 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `tool_not_granted` | the agent is not granted this tool | add it to `ActionPolicy.grants` |
 | `unprotected_tool` | allowed: the tool needs no evidence | nothing |
 | `certificate_required` | a protected tool was called without a certificate | `fabric.certify(...)` the evidence first |
+| `requirement_evidence_missing` | one or more conditions in the action's requirement graph lack evidence | provide evidence for each missing requirement |
+| `requirement_explanation_limit` | the requirement graph exceeded the configured explanation bound | simplify the graph or deliberately raise the reviewed limit |
+| `claim_evidence_not_supporting` | cited evidence does not establish the required claim | cite evidence that supports the exact claim |
+| `claim_evidence_disputed` | evidence supporting the required claim is disputed | resolve the dispute and re-certify with current evidence |
 | `malformed_certificate`, `unknown_certificate_version`, `certificate_too_large`, `unknown_required_check` | the certificate cannot be read | rebuild it with this version's `certify` |
 | `wrong_store`, `wrong_agent`, `wrong_tenant` | the certificate was issued elsewhere or for someone else | certify in this store, as this agent |
 | `certificate_expired`, `policy_changed` | the certificate is stale | certify again |
@@ -123,6 +134,7 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `grant_unknown`, `grant_revoked`, `grant_expired` | the grant does not exist, was revoked, or its time ran out (≤ 300 s) | issue a new grant |
 | `grant_binding_mismatch` | target, parameters, evidence or agent differ from what was granted | issue a grant for this action |
 | `grant_replayed` | the grant was already used | grants are single-use: issue another |
+| `idempotency_key_payload_mismatch` | the key was previously used for a different action payload | use a fresh key; never reuse a key for a different target, parameters or evidence |
 | `state_unavailable` | the store could not be read, or the audit write failed | fix the store; a protected action fails closed |
 | `retry_required` | the last attempt with this key timed out or failed with unknown effect | check the tool's side effect, then `execute(..., retry=True)` |
 
@@ -180,3 +192,20 @@ shows the screen and its signals. For a false alarm:
 `memory-fabric --db <store> overview` and `doctor --json` are what to attach
 to a report. Neither contains memory content. Security problems go to the maintainer by
 email, privately ([SECURITY.md](../SECURITY.md#reporting)).
+
+
+## Explain an action refusal
+
+Use a reason code without opening a store to see its meaning and safe next step:
+
+```console
+memory-fabric explain evidence_withdrawn
+```
+
+For a specific decision, inspect the recorded policy groups and evidence versions by action sequence:
+
+```console
+memory-fabric --db store.db explain --action 42
+```
+
+The action form prints identifiers, versions, current states and support labels; it omits memory content. It is read-only.

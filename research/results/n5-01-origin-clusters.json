@@ -1,0 +1,133 @@
+{
+  "schema": "memory-fabric-n5-01-origin-clusters/1",
+  "task_id": "N5-01",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "cc4eaf1ae616d976c0c5ad80469e7a2f2614d960",
+    "dirty_before_result_write": false,
+    "script_sha256": "c0703da03308e9eb21a4741f6d011b8fbd505cd344070812ac4f79351c8d064e"
+  },
+  "fixture": {
+    "repeated_source": {
+      "value": "22",
+      "memories": [
+        "01M6YVX5HS0M8W3FNZ954J8JQ4",
+        "01M6YVX5K9SGQCBCEMQRJ30QCK",
+        "01M6YVX5K9SGQCBCEMQRJ30QCP",
+        "01M6YVX5KA94W6MCZ7EG4DJARW",
+        "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+        "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+        "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+        "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+        "01M6YVX5KD632Q25K74RPA17H6",
+        "01M6YVX5KD632Q25K74RPA17H9"
+      ],
+      "agents": [
+        "observer_0",
+        "observer_1",
+        "observer_2",
+        "observer_3",
+        "observer_4",
+        "observer_5",
+        "observer_6",
+        "observer_7",
+        "observer_8",
+        "observer_9"
+      ],
+      "independent_sources": 1,
+      "artificial": true,
+      "origin_clusters": [
+        {
+          "root_id": "01M6YVX5HS0M8W3FNZ954J8JQ4",
+          "memories": [
+            "01M6YVX5HS0M8W3FNZ954J8JQ4",
+            "01M6YVX5K9SGQCBCEMQRJ30QCK",
+            "01M6YVX5K9SGQCBCEMQRJ30QCP",
+            "01M6YVX5KA94W6MCZ7EG4DJARW",
+            "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+            "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+            "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+            "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+            "01M6YVX5KD632Q25K74RPA17H6",
+            "01M6YVX5KD632Q25K74RPA17H9"
+          ],
+          "agents": [
+            "observer_0",
+            "observer_1",
+            "observer_2",
+            "observer_3",
+            "observer_4",
+            "observer_5",
+            "observer_6",
+            "observer_7",
+            "observer_8",
+            "observer_9"
+          ]
+        }
+      ]
+    },
+    "independent_sources": {
+      "value": "14",
+      "memories": [
+        "01M6YVX5KEZ8747ATYPF9PT6RQ",
+        "01M6YVX5KEZ8747ATYPF9PT6RS"
+      ],
+      "agents": [
+        "field_a",
+        "field_b"
+      ],
+      "independent_sources": 2,
+      "artificial": false,
+      "origin_clusters": [
+        {
+          "root_id": "01M6YVX5KEZ8747ATYPF9PT6RQ",
+          "memories": [
+            "01M6YVX5KEZ8747ATYPF9PT6RQ"
+          ],
+          "agents": [
+            "field_a"
+          ]
+        },
+        {
+          "root_id": "01M6YVX5KEZ8747ATYPF9PT6RS",
+          "memories": [
+            "01M6YVX5KEZ8747ATYPF9PT6RS"
+          ],
+          "agents": [
+            "field_b"
+          ]
+        }
+      ]
+    },
+    "claim_leading_value": "14",
+    "claim_contested": false,
+    "ten_report_ids": [
+      "01M6YVX5HS0M8W3FNZ954J8JQ4",
+      "01M6YVX5K9SGQCBCEMQRJ30QCK",
+      "01M6YVX5K9SGQCBCEMQRJ30QCP",
+      "01M6YVX5KA94W6MCZ7EG4DJARW",
+      "01M6YVX5KBG5J0JDDBQ0TSWHA8",
+      "01M6YVX5KBG5J0JDDBQ0TSWHAB",
+      "01M6YVX5KC3MVDGD1C7Q6C2B5V",
+      "01M6YVX5KC3MVDGD1C7Q6C2B5Y",
+      "01M6YVX5KD632Q25K74RPA17H6",
+      "01M6YVX5KD632Q25K74RPA17H9"
+    ],
+    "two_independent_report_ids": [
+      "01M6YVX5KEZ8747ATYPF9PT6RQ",
+      "01M6YVX5KEZ8747ATYPF9PT6RS"
+    ]
+  },
+  "tests": {
+    "junit": "research/results/n5-01-origin-cluster-tests.xml",
+    "reported_test_cases": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "Origin clusters use the repository's recognized source-root lineage and copy rules; they cannot detect unrecorded off-store collusion.",
+    "Exposure-aware dependence remains a separate optional metric from the default source-root clusters."
+  ]
+}

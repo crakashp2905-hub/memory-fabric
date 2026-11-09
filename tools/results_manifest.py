@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "research" / "results"
 PREREG = ROOT / "research" / "prereg"
 OUT = RESULTS / "MANIFEST.json"
+POPULATIONS = {"synthetic_scripted", "real_model_agent", "external_vendor", "human_adjudicated", "unclassified"}
 
 
 def _prereg(stem: str) -> str | None:
@@ -61,6 +62,9 @@ def entry(path: Path) -> dict[str, Any]:
             sha, sha_from = found[1], "md"
     verdict = _first(d, "verdict", "decision", "pass")
     model = _first(d, "model", "model_id")
+    declared_population = _first(d, "population", "agent_population")
+    population = (declared_population if isinstance(declared_population, str)
+                  and declared_population in POPULATIONS else "unclassified")
     return {
         "experiment_id": path.stem,
         "file": f"research/results/{path.name}",
@@ -73,6 +77,7 @@ def entry(path: Path) -> dict[str, Any]:
         "git_sha_source": sha_from,
         "dataset_digest": _first(d, "dataset_digest", "dataset_sha256"),
         "model_id": model if isinstance(model, str) else (json.dumps(model, sort_keys=True) if model else None),
+        "population": population,
         "prompt_hash": _first(d, "prompt_hash", "prompt_sha256"),
         "seed": _first(d, "seeds", "seed"),
         "config": _first(d, "config", "run", "budget"),
@@ -86,8 +91,10 @@ def build() -> dict[str, Any]:
     rows = [entry(p) for p in sorted(RESULTS.glob("*.json"), key=lambda p: p.name) if p.name != OUT.name]
     missing = {k: sum(1 for r in rows if r[k] is None)
                for k in ("git_sha", "prereg", "dataset_digest", "model_id", "prompt_hash", "seed", "cost", "verdict")}
+    populations = {name: sum(1 for row in rows if row["population"] == name)
+                   for name in sorted({row["population"] for row in rows})}
     return {"generated_by": "tools/results_manifest.py", "results": len(rows),
-            "missing_field_counts": missing, "rows": rows}
+            "missing_field_counts": missing, "population_counts": populations, "rows": rows}
 
 
 def render() -> str:

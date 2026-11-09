@@ -1,0 +1,119 @@
+{
+  "schema": "memory-fabric-e4-10-deterministic-soak/1",
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "logical_cpus": 8,
+    "psutil": "7.0.0"
+  },
+  "configuration": {
+    "cycles": 40,
+    "hard_crash_after_commit_each_cycle": true,
+    "checkpoint_interval": 10,
+    "database_ceiling_bytes": 134217728,
+    "temporary_disk_ceiling_bytes": 402653184,
+    "child_rss_ceiling_bytes": 536870912,
+    "parent_traced_memory_ceiling_bytes": 268435456,
+    "pending_outbox_rows_ceiling": 10,
+    "p99_drift_ratio_ceiling": 3.0
+  },
+  "measurements": {
+    "restart_latency_seconds": [
+      1.1973247000132687,
+      0.933358300011605,
+      0.9949472000007518,
+      1.361872699984815,
+      1.0713057999964803,
+      0.9660500999889337,
+      1.0294831999926828,
+      1.0494535999605432,
+      0.9308246000437066,
+      1.0394560999702662,
+      1.0492415999760851,
+      0.9498791000223719,
+      1.0425248999963515,
+      1.310288499982562,
+      0.9917257000342943,
+      1.6881926000351086,
+      0.907948000007309,
+      0.9795699000242166,
+      0.9830074000055902,
+      1.321321800001897,
+      1.5494403000338934,
+      1.1499023999786004,
+      1.1690082999994047,
+      1.733005799993407,
+      1.0766903999610804,
+      1.1176441999850795,
+      1.1195533000282012,
+      0.8952024999889545,
+      1.1246165999909863,
+      1.294417000026442,
+      1.0302417000057176,
+      0.8897833999944851,
+      0.937900000018999,
+      0.977332100039348,
+      1.064136500004679,
+      1.1588530000299215,
+      1.3785674000391737,
+      1.3169172999914736,
+      1.2504589000018314,
+      1.1338381000095978
+    ],
+    "restart_latency_p50_seconds": 1.0677211500005797,
+    "restart_latency_p99_seconds": 1.733005799993407,
+    "first_quartile_p99_seconds": 1.361872699984815,
+    "last_quartile_p99_seconds": 1.3785674000391737,
+    "p99_drift_ratio": 1.0122586347861624,
+    "peak_child_rss_bytes": 46452736,
+    "python_peak_traced_bytes": 5722200,
+    "max_database_file_bytes": 217088,
+    "max_temporary_disk_bytes": 5231512,
+    "max_pending_rows": 10,
+    "restored_checkpoints": 4,
+    "reconciliation_deliveries": 40,
+    "checkpoints": [
+      {
+        "through_cycle": 10,
+        "pending_before_restore": 10,
+        "pending_after_restore": 10,
+        "replayed": 10,
+        "dispatch_enforced": 10,
+        "restored_chain_valid": true,
+        "database_bytes": 159744
+      },
+      {
+        "through_cycle": 20,
+        "pending_before_restore": 10,
+        "pending_after_restore": 10,
+        "replayed": 10,
+        "dispatch_enforced": 10,
+        "restored_chain_valid": true,
+        "database_bytes": 176128
+      },
+      {
+        "through_cycle": 30,
+        "pending_before_restore": 10,
+        "pending_after_restore": 10,
+        "replayed": 10,
+        "dispatch_enforced": 10,
+        "restored_chain_valid": true,
+        "database_bytes": 196608
+      },
+      {
+        "through_cycle": 40,
+        "pending_before_restore": 10,
+        "pending_after_restore": 10,
+        "replayed": 10,
+        "dispatch_enforced": 10,
+        "restored_chain_valid": true,
+        "database_bytes": 217088
+      }
+    ]
+  },
+  "passed": true,
+  "limitations": [
+    "Local SQLite and localhost process restarts only; not a continuous 24-hour production soak, physical host failure, or PostgreSQL validation."
+  ],
+  "commit": "e792c1f4b314dd49b99494c986f600a9ddfc164d"
+}

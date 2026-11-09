@@ -5,6 +5,40 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.19.0): budgeted disagreement context receipts
+- Record an explicit receipt schema for new context bundles, a separate disagreement-token budget, selected source references and uncertainty status; old context receipts remain readable unchanged.
+- Keep a relevant open hypothesis set atomic in context: include one permitted representative per distinct alternative when it fits, otherwise return an insufficiency marker without selecting a winner.
+- Expose the disagreement budget in Python, CLI and MCP context assembly and keep the uncertainty status visible to callers.
+
+### Added: policy-controlled read-only advisories
+- Add a host policy and assessment API that can present insufficient evidence only as an explicitly disclosed read-only advisory; advisory results always report that they do not authorize action.
+- Keep protected execution on the independent action-gate path, with regression coverage proving an advisory opt-in cannot cause protected side effects.
+
+### Added: replayable authorization proof receipts
+- Bind requirement-graph and tool-policy digests, exact evidence IDs/versions, action-binding and authorization digests, and the original allow/refusal into a content-free receipt.
+- Replay without side effects; unchanged snapshots verify, while changed requirements, action context, or evidence return precise invalidation reasons. The receipt digest is integrity-only and is not a signature or authorization capability.
+
+### Added: bounded evidence requirement graph grammar
+- Add a typed parser for AND, OR, independent-source and temporal evidence requirements, with acyclic named rules, canonical serialization and bounded, path-aware validation. The grammar declares policy only and never authorizes an action.
+- Let host-owned protected-tool rules bind the grammar to required claim certificates. The action gate evaluates mandatory AND/OR/rule/source requirements, verifies each selected claim against current evidence and provenance, binds the complete certificate set to approvals, grants and idempotency, and fails closed for missing leaves or unsupported decision-time anchors.
+- Compute deterministic minimal missing-evidence alternatives for a requirement graph, with antichain minimization and explicit expansion bounds; compare small graph results against exhaustive enumeration.
+- Require each action-graph claim to have a host-declared typed proposition and verify supporting structured evidence against its subject, predicate, unit and operator/value. Relevant but non-supporting evidence leaves the action blocked and is reported as missing.
+- Refuse when independent structured evidence for an action claim disagrees across the required predicate, return all conflicting alternatives with an explicit disputed reason, and record source/evidence references without choosing a value.
+
+### Added (schema 0.18.0): deterministic decision re-evaluation receipts
+- Exact correction impacts expose canonical replay-stable receipts with the changed evidence premise, current decision status, proof and affected-effect edge IDs. Receipts require re-evaluation and never authorize an action.
+- Memory revisions can opt into an expected-version check; the check and append are serialized so a stale competing correction produces a typed conflict instead of overwriting a newer correction.
+
+### Added (schema 0.17.0): durable decision status history
+- Legal status transitions are append-only, replayable events serialized under the event-log transaction; illegal/stale transitions are rejected without adding history.
+
+### Added (schema 0.16.0): evidence-dependent decision alternatives
+- Alternative loss reasons and exact rejection evidence are append-only; correction-aware reassessment flags only alternatives whose rejection basis changed, without selecting or authorizing them.
+
+### Added (schema 0.15.0): replayable decision evidence graph
+- Decision records, typed exposure/reliance/effect links, and deterministic correction/retraction impact queries are stored as append-only, hash-chained events.
+- Existing event rows remain unchanged; projections and older readers continue to ignore unknown event types.
+
 ### Changed: Memory Fabric namespace
 - Product, package, Python import, CLI, MCP setup and environment prefix now use Memory Fabric. The public store class is `Memory Fabric`; retired import/command aliases are intentionally absent under the owner's complete-rename decision.
 - Existing events, schema version and cryptographic key-derivation/associated-data bytes remain unchanged. Historical text was terminology-normalized; original evidence commits remain in Git and numerical outcomes were not improved by renaming.

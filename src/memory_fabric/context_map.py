@@ -43,6 +43,13 @@ estimated token. Modes:
 
 Token costs are estimates (⌈characters / 4⌉), reported as such.
 
+Open hypothesis sets are retrieved as low-risk evidence and planned as one
+atomic disagreement item. The per-context `disagreement_budget` caps their
+combined token cost; a relevant set is shown with one permitted representative
+per distinct alternative, or replaced by an explicit insufficiency marker.
+Unrelated open sets do not enter the prompt. This is context assembly only and
+does not authorize an action based on contested evidence.
+
 **What extractive-v2 saves, and what it does not.** It keeps every distinct
 fact verbatim, so it compresses only restatements (one claim said several
 ways keeps its shortest wording) and chatter with no fact in it. A bundle of
@@ -236,8 +243,11 @@ class PlannedItem:
 class ContextPlan:
     mode: str
     budget: int
+    disagreement_budget: int = 256
+    disagreement_tokens: int = 0
     items: list[PlannedItem] = field(default_factory=list)
     excluded: list[dict[str, str]] = field(default_factory=list)
+    uncertainty: list[dict[str, Any]] = field(default_factory=list)
     policy_id: str = ""
 
     @property
@@ -333,16 +343,147 @@ class ContextMap:
             del self._nodes[k]
         return len(gone)
 
+    def _hypothesis_unit(
+        self,
+        hypothesis_id: str,
+        agent_id: str,
+        query: str,
+        tenant_id: str,
+    ) -> tuple[PlannedItem, PlannedItem, set[str], str, int]:
+        """Return complete-alternatives and insufficiency items for one relevant set."""
+        from .enforcement import RiskLevel
+
+        hypothesis = self.fabric.state.hypothesis_sets[hypothesis_id]
+        members = [
+            self.fabric.state.memories[mid]
+            for mid in sorted(hypothesis.memory_ids)
+            if mid in self.fabric.state.memories
+        ]
+        by_value: dict[
+            tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]], list["Memory"]
+        ] = {}
+        for memory in members:
+            identifiers, _words, values = claim(memory.content)
+            normalized_claim = " ".join(memory.content.casefold().split())
+            key: tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]] = (
+                tuple(sorted(identifiers)),
+                tuple(sorted(values)),
+                (hashlib.sha256(normalized_claim.encode()).hexdigest(),),
+            )
+            by_value.setdefault(key, []).append(memory)
+        representatives: list["Memory"] = []
+        accessible_all = len(members) == len(hypothesis.memory_ids)
+        for key in sorted(by_value):
+            representative = None
+            for memory in sorted(by_value[key], key=lambda item: (item.created_at, item.id)):
+                if memory.tenant_id != tenant_id or memory.id in self.fabric.state.erased:
+                    continue
+                decision = self.fabric.use(
+                    memory.id,
+                    agent_id=agent_id,
+                    tenant_id=tenant_id,
+                    risk=RiskLevel.LOW,
+                    include_contested=True,
+                    audit=False,
+                )
+                if decision.usable:
+                    representative = memory
+                    break
+            if representative is None:
+                accessible_all = False
+            else:
+                representatives.append(representative)
+        representative_ids = {memory.id for memory in representatives}
+        retrieved = self.fabric.retrieve(
+            agent_id=agent_id,
+            query=query,
+            k=max(1, len(representatives)),
+            tenant_id=tenant_id,
+            include_contested=True,
+            within=representative_ids,
+            group_by_source_root=False,
+            expand_lineage=0,
+        ) if representatives else None
+        exposed = {memory.id for memory in retrieved.exposed} if retrieved else set()
+        complete = (
+            accessible_all
+            and len(by_value) >= 2
+            and representative_ids <= exposed
+            and all(memory.tenant_id == tenant_id for memory in members)
+        )
+        selected = [memory for memory in representatives if memory.id in exposed]
+        source_refs = [f"{memory.id}@v{memory.version}" for memory in selected]
+        all_ids = {memory.id for memory in members}
+        if complete:
+            lines = [
+                f"{DISPUTED} Alternative {index}: {memory.content}"
+                for index, memory in enumerate(representatives, start=1)
+            ]
+            content = "\n".join(lines)
+            full = PlannedItem(
+                "disagreement", hypothesis_id, None, estimate_tokens(content), content,
+                sources=source_refs,
+            )
+            status = "PRESERVED"
+            source_refs_for_marker = source_refs
+        else:
+            full = PlannedItem("disagreement", hypothesis_id, None, 0, "")
+            reason = (
+                "not all alternatives are accessible"
+                if not accessible_all
+                else "not all distinct alternatives passed retrieval policy"
+                if representative_ids - exposed
+                else "the open set did not contain two distinguishable alternatives"
+            )
+            content = (
+                f"[INSUFFICIENT: unresolved disagreement {hypothesis_id}; {reason}. "
+                "No alternative was selected. Do not act on a single value.]"
+            )
+            status = "INSUFFICIENT"
+            source_refs_for_marker = source_refs
+        marker_content = content if not complete else (
+            f"[INSUFFICIENT: unresolved disagreement {hypothesis_id} omitted by the "
+            "configured disagreement budget. No alternative was selected.]"
+        )
+        marker = PlannedItem(
+            "insufficiency", hypothesis_id, None, estimate_tokens(marker_content), marker_content,
+            sources=source_refs_for_marker,
+        )
+        return full, marker, all_ids, status, len(by_value)
+
+    @staticmethod
+    def _hypothesis_relevant(query: str, members: Sequence["Memory"]) -> bool:
+        query_ids, query_words, _query_values = claim(query)
+        group_ids: set[str] = set()
+        group_words: set[str] = set()
+        for memory in members:
+            identifiers, words, _values = claim(memory.content)
+            group_ids.update(identifiers)
+            group_words.update(words)
+        if query_ids:
+            return bool(query_ids & group_ids)
+        overlap = len(query_words & group_words)
+        return overlap >= min(2, len(query_words)) if query_words else False
+
     # --- planning ------------------------------------------------------
 
     def plan(self, agent_id: str, query: str, budget: int = 2000, mode: str = "auto",
-             tenant_id: str = DEFAULT_TENANT, branch: str = "main", k: int = 20) -> ContextPlan:
+             tenant_id: str = DEFAULT_TENANT, branch: str = "main", k: int = 20,
+             disagreement_budget: int = 256) -> ContextPlan:
         if mode not in MODES:
             raise ValueError(f"mode must be one of {MODES}")
+        if type(budget) is not int or budget < 0:
+            raise ValueError("budget must be a non-negative integer")
+        if type(disagreement_budget) is not int or disagreement_budget < 0:
+            raise ValueError("disagreement_budget must be a non-negative integer")
         if mode == "auto":
             mode = "exact" if _EXACT.search(query) else "balanced"
-        result = self.fabric.retrieve(agent_id, query, k=k, tenant_id=tenant_id)
-        plan = ContextPlan(mode=mode, budget=budget, policy_id=result.policy_id)
+        result = self.fabric.retrieve(
+            agent_id, query, k=k, tenant_id=tenant_id, include_contested=True
+        )
+        plan = ContextPlan(mode=mode, budget=budget,
+                           disagreement_budget=disagreement_budget,
+                           policy_id=result.policy_id)
         for m in result.withheld:
             plan.excluded.append({"id": m.id, "reason_code": (
                 "CONTESTED" if m.lifecycle_state.value == "contested" else "WITHHELD_BY_POLICY")})
@@ -351,13 +492,153 @@ class ContextMap:
         # Disagreements are flagged here, in the planned text, so the flag is
         # paid for out of the budget. Added at rendering (the first version),
         # it pushed bundles past the budget they were planned under.
-        disputed = {m.id for g in find_conflicts(candidates) for m in g}
+        disagreement_units: dict[str, dict[str, Any]] = {}
+        member_unit: dict[str, str] = {}
+        seen_hypotheses: set[str] = set()
+        irrelevant_member_ids: set[str] = set()
+        for memory in candidates:
+            hypothesis_id = memory.hypothesis_set
+            if hypothesis_id and hypothesis_id in seen_hypotheses:
+                continue
+            if hypothesis_id:
+                seen_hypotheses.add(hypothesis_id)
+            hypothesis = self.fabric.state.hypothesis_sets.get(hypothesis_id) if hypothesis_id else None
+            if hypothesis is None or hypothesis.resolved:
+                if memory.lifecycle_state.value == "contested":
+                    orphan_id = hypothesis_id or f"contested_{memory.id}"
+                    orphan_members = (
+                        set(hypothesis.memory_ids) if hypothesis is not None else {memory.id}
+                    )
+                    marker_content = (
+                        "[INSUFFICIENT: contested evidence has no complete unresolved "
+                        "alternative set available. No value was selected.]"
+                    )
+                    disagreement_units[orphan_id] = {
+                        "full": PlannedItem("disagreement", orphan_id, None, 0, ""),
+                        "marker": PlannedItem(
+                            "insufficiency", orphan_id, None, estimate_tokens(marker_content),
+                            marker_content, sources=[f"{memory.id}@v{memory.version}"],
+                        ),
+                        "members": orphan_members,
+                        "status": "INSUFFICIENT",
+                        "alternatives": 0,
+                    }
+                    for member_id in orphan_members:
+                        member_unit[member_id] = orphan_id
+                continue
+            assert hypothesis_id is not None
+            hypothesis_members = [
+                self.fabric.state.memories[mid]
+                for mid in hypothesis.memory_ids
+                if mid in self.fabric.state.memories
+            ]
+            if not self._hypothesis_relevant(query, hypothesis_members):
+                irrelevant_member_ids.update(hypothesis.memory_ids)
+                plan.excluded.extend(
+                    {"id": member_id, "reason_code": "DISAGREEMENT_NOT_QUERY_RELEVANT"}
+                    for member_id in sorted(hypothesis.memory_ids)
+                )
+                continue
+            full, marker, member_ids, status, alternatives = self._hypothesis_unit(
+                hypothesis_id, agent_id, query, tenant_id
+            )
+            disagreement_units[hypothesis_id] = {
+                "full": full,
+                "marker": marker,
+                "members": member_ids,
+                "status": status,
+                "alternatives": alternatives,
+            }
+            for member_id in member_ids:
+                member_unit[member_id] = hypothesis_id
 
-        def shown(m: "Memory") -> str:
-            return f"{DISPUTED} {m.content}" if m.id in disputed else m.content
+        for memory in result.withheld:
+            if memory.lifecycle_state.value != "contested" or member_unit.get(memory.id):
+                continue
+            hypothesis_id = memory.hypothesis_set
+            hypothesis = self.fabric.state.hypothesis_sets.get(hypothesis_id) if hypothesis_id else None
+            members = [
+                self.fabric.state.memories[mid]
+                for mid in (hypothesis.memory_ids if hypothesis else {memory.id})
+                if mid in self.fabric.state.memories
+            ]
+            if not self._hypothesis_relevant(query, members):
+                continue
+            unit_id = hypothesis_id or f"contested_{memory.id}"
+            marker_content = (
+                "[INSUFFICIENT: relevant contested evidence was withheld by retrieval "
+                "policy. No alternative was selected.]"
+            )
+            disagreement_units[unit_id] = {
+                "full": PlannedItem("disagreement", unit_id, None, 0, ""),
+                "marker": PlannedItem(
+                    "insufficiency", unit_id, None, estimate_tokens(marker_content),
+                    marker_content,
+                ),
+                "members": {member.id for member in members},
+                "status": "INSUFFICIENT",
+                "alternatives": 0,
+            }
+            member_unit[memory.id] = unit_id
+            candidates.append(memory)
+            score[memory.id] = result.scores.get(memory.id, 1.0)
 
-        records = [PlannedItem("memory", m.id, m.version, estimate_tokens(shown(m)), shown(m))
-                   for m in candidates]
+        candidates = [memory for memory in candidates if memory.id not in irrelevant_member_ids]
+        clean_candidates = [memory for memory in candidates if memory.id not in member_unit]
+        active_groups = find_conflicts(clean_candidates)
+        relevant_groups: list[list["Memory"]] = []
+        for group in active_groups:
+            if self._hypothesis_relevant(query, group):
+                relevant_groups.append(group)
+            else:
+                for memory in group:
+                    plan.excluded.append({
+                        "id": memory.id,
+                        "reason_code": "DISAGREEMENT_NOT_QUERY_RELEVANT",
+                    })
+                    irrelevant_member_ids.add(memory.id)
+        candidates = [memory for memory in candidates if memory.id not in irrelevant_member_ids]
+        clean_candidates = [memory for memory in candidates if memory.id not in member_unit]
+        active_groups = [
+            group for group in relevant_groups
+            if all(memory.id in {item.id for item in clean_candidates} for memory in group)
+        ]
+        for group in active_groups:
+            member_ids = {memory.id for memory in group}
+            group_id = "conflict_" + hashlib.sha256(
+                "|".join(sorted(member_ids)).encode()
+            ).hexdigest()[:16]
+            content = "\n".join(
+                f"{DISPUTED} Alternative {index}: {memory.content}"
+                for index, memory in enumerate(group, start=1)
+            )
+            refs = [f"{memory.id}@v{memory.version}" for memory in group]
+            full = PlannedItem(
+                "disagreement", group_id, None, estimate_tokens(content), content,
+                sources=refs,
+            )
+            marker_content = (
+                f"[INSUFFICIENT: unresolved disagreement {group_id} omitted by the "
+                "configured disagreement budget. No alternative was selected.]"
+            )
+            marker = PlannedItem(
+                "insufficiency", group_id, None, estimate_tokens(marker_content),
+                marker_content, sources=refs,
+            )
+            disagreement_units[group_id] = {
+                "full": full,
+                "marker": marker,
+                "members": member_ids,
+                "status": "PRESERVED",
+                "alternatives": len(group),
+            }
+            for member_id in member_ids:
+                member_unit[member_id] = group_id
+
+        records = [
+            PlannedItem("memory", m.id, m.version, estimate_tokens(m.content), m.content)
+            for m in candidates if m.id not in member_unit
+        ]
         options: list[tuple[float, PlannedItem, set[str]]] = []
         if mode != "exact":
             self.build(agent_id, tenant_id, branch)
@@ -367,6 +648,8 @@ class ContextMap:
                     continue
                 covers = set(node.memory_ids) & wanted
                 if len(covers) < 2:
+                    continue
+                if set(node.memory_ids) & set(member_unit):
                     continue
                 status = self.status(node, agent_id, tenant_id)
                 if status != "valid":
@@ -396,8 +679,70 @@ class ContextMap:
             return 0  # balanced: cheapest first, below
 
         covered: set[str] = set()
+        handled_units: set[str] = set()
+        # Preserve uncertainty before ordinary records consume the shared
+        # budget; a high-relevance single claim must not crowd out its rival.
         for m in candidates:
-            if m.id in covered:
+            candidate_unit_id = member_unit.get(m.id)
+            if not candidate_unit_id or candidate_unit_id in handled_units:
+                continue
+            handled_units.add(candidate_unit_id)
+            unit = disagreement_units[candidate_unit_id]
+            item = unit["full"]
+            status = unit["status"]
+            if (
+                status == "PRESERVED"
+                and plan.disagreement_tokens + item.tokens <= disagreement_budget
+                and plan.tokens + item.tokens <= budget
+            ):
+                plan.items.append(item)
+                plan.disagreement_tokens += item.tokens
+                covered.update(unit["members"])
+                plan.uncertainty.append({
+                    "id": candidate_unit_id,
+                    "status": "PRESERVED",
+                    "alternatives": unit["alternatives"],
+                })
+                continue
+            marker = unit["marker"]
+            marker_status = (
+                status if status != "PRESERVED"
+                else "INSUFFICIENT_DISAGREEMENT_BUDGET"
+            )
+            if (
+                plan.disagreement_tokens + marker.tokens <= disagreement_budget
+                and plan.tokens + marker.tokens <= budget
+            ):
+                plan.items.append(marker)
+                plan.disagreement_tokens += marker.tokens
+                plan.uncertainty.append({
+                    "id": candidate_unit_id,
+                    "status": marker_status,
+                    "alternatives": unit["alternatives"],
+                })
+            else:
+                plan.uncertainty.append({
+                    "id": candidate_unit_id,
+                    "status": "INSUFFICIENT_MARKER_NOT_FIT",
+                    "alternatives": unit["alternatives"],
+                })
+                plan.excluded.append({
+                    "id": candidate_unit_id,
+                    "reason_code": "DISAGREEMENT_MARKER_OVER_BUDGET",
+                })
+            covered.update(unit["members"])
+            reason = (
+                "DISAGREEMENT_BUDGET"
+                if status == "PRESERVED"
+                else "DISAGREEMENT_INCOMPLETE"
+            )
+            plan.excluded.extend(
+                {"id": member_id, "reason_code": reason}
+                for member_id in sorted(unit["members"])
+            )
+
+        for m in candidates:
+            if m.id in member_unit or m.id in covered:
                 continue
             covering = sorted((o for o in options if m.id in o[2]),
                               key=lambda o: (preference(o[1]), o[1].tokens))
@@ -413,7 +758,7 @@ class ContextMap:
         plan.excluded = [e for e in plan.excluded if not (
             e["reason_code"] == "OVER_BUDGET" and (e["id"] in covered or e["id"] in chosen))]
         for m in candidates:
-            if m.id in covered and not any(i.kind == "memory" and i.id == m.id
-                                           for i in plan.items):
+            if (m.id in covered and m.id not in member_unit
+                    and not any(i.kind == "memory" and i.id == m.id for i in plan.items)):
                 plan.excluded.append({"id": m.id, "reason_code": "COVERED_BY_SUMMARY"})
         return plan

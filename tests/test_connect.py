@@ -16,7 +16,8 @@ class TestConnect(unittest.TestCase):
     def setUp(self):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
-        self.home = Path(tmp.name)
+        # Match real per-user profiles that contain spaces or non-ASCII names.
+        self.home = Path(tmp.name) / "München – 東京 Home"
         patcher = mock.patch("pathlib.Path.home", return_value=self.home)
         patcher.start()
         self.addCleanup(patcher.stop)

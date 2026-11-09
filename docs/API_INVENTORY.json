@@ -1,0 +1,727 @@
+{
+  "compatibility_policy": "Stable signatures require deprecation and a CHANGELOG migration note before an incompatible minor-series change; beta and experimental rules are in STABILITY.md.",
+  "generated_by": "tools/gen_reference.py",
+  "schema": "memory-fabric-public-api/1",
+  "symbols": [
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(path: str | Path = ':memory:', estimator: str | ValueEstimator = 'naive_usage', exposure_policy: str | ExposurePolicy = 'top_k', firewall: Firewall | None = None, retention: RetentionPolicy | None = None, embedder: Embedder | None = None, seed: int | None = None, clock = None, auto_activate: bool = False, encrypt_content: bool = True, key_provider: KeyProvider | None = None, retrieval: str = 'lexical', busy_timeout_ms: int = 5000, recognise_copies: bool = True, rerank: bool | str | Any = False, conceal_cross_tenant: bool = True, limits: Any = None, withhold_hostile_sources: bool = True, hold_suspicious: bool = True, crypto_profile: str | None = None, contest_restatements: bool = True, claim_checker: Any = None)",
+      "symbol": "memory_fabric.fabric.MemoryFabric",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(agent_id: str, content: str, type: str | MemoryType = MemoryType.SEMANTIC, context: Mapping[str, Any] | None = None, source_episodes: Sequence[str] = (), parents: Sequence[tuple[str, int]] = (), method: str | ProvenanceMethod = ProvenanceMethod.OBSERVED, structured: Mapping[str, Any] | None = None, security_class: str | SecurityClass = SecurityClass.INTERNAL, capabilities: Sequence[str] = (), scope: str | Scope = Scope.PRIVATE, episode_id: str | None = None, auto_activate: bool | None = None, tenant_id: str = 'tn_default', valid_from: int | None = None, valid_to: int | None = None) -> str",
+      "symbol": "memory_fabric.fabric.MemoryFabric.remember",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(agent_id: str, content: str, parents: Sequence[str], type: str | MemoryType = MemoryType.SEMANTIC, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED, context: Mapping[str, Any] | None = None, tenant_id: str | None = None, security_class: str | SecurityClass | None = None, scope: str | Scope = Scope.PRIVATE, auto_activate: bool | None = None) -> str",
+      "symbol": "memory_fabric.fabric.MemoryFabric.derive",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, content: str, agent_id: str, reason: str, method: str | ProvenanceMethod = ProvenanceMethod.CONSOLIDATED, expected_version: int | None = None) -> Memory",
+      "symbol": "memory_fabric.fabric.MemoryFabric.revise",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(agent_id: str, query: str, context: Mapping[str, Any] | None = None, k: int = 5, episode_id: str | None = None, pool: int | None = None, include_contested: bool = False, step: int = 0, min_relevance: float = 1e-06, tenant_id: str | None = None, as_of: int | None = None, until: int | None = None, group_by_source_root: bool = True, expand_lineage: int = 1, follow_relations: bool = False, entities: Sequence[str] = (), use_extraction: bool = False, objective: Any = None, profile: str | None = None, method: str | None = None, within: Iterable[str] | None = None) -> RetrievalResult",
+      "symbol": "memory_fabric.fabric.MemoryFabric.retrieve",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> Memory",
+      "symbol": "memory_fabric.fabric.MemoryFabric.get",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> list[Memory]",
+      "symbol": "memory_fabric.fabric.MemoryFabric.history",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> Explanation",
+      "symbol": "memory_fabric.fabric.MemoryFabric.explain",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> LineageView",
+      "symbol": "memory_fabric.fabric.MemoryFabric.lineage",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> list[ev.Event]",
+      "symbol": "memory_fabric.fabric.MemoryFabric.audit_trail",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(agent_id: str, task_id: str, context: Mapping[str, Any] | None = None, seed: int | None = None) -> Episode",
+      "symbol": "memory_fabric.fabric.MemoryFabric.start_episode",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(agent_id: str, episode_id: str, memory_id: str, step: int = 0)",
+      "symbol": "memory_fabric.fabric.MemoryFabric.cite",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(episode_id: str, outcome: float, verifier_id: str)",
+      "symbol": "memory_fabric.fabric.MemoryFabric.record_outcome",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(episode_id: str) -> Episode",
+      "symbol": "memory_fabric.fabric.MemoryFabric.end_episode",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, actor: str, reason: str = 'validated') -> Memory",
+      "symbol": "memory_fabric.fabric.MemoryFabric.validate",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, reason: str, actor: str = 'operator', propagate: bool = True, basis: str | WithdrawalBasis | None = None) -> list[str]",
+      "symbol": "memory_fabric.fabric.MemoryFabric.quarantine",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, actor: str, reason: str = 'reviewed and released') -> Memory",
+      "symbol": "memory_fabric.fabric.MemoryFabric.release",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, reason: str, actor: str = 'operator') -> Memory",
+      "symbol": "memory_fabric.fabric.MemoryFabric.forget",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, scope: str | Scope, actor: str = 'operator', granted_capabilities: Iterable[str] = ()) -> FirewallRuling",
+      "symbol": "memory_fabric.fabric.MemoryFabric.share",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_ids: Sequence[str], evidence: str, detector_id: str = 'manual', confidence: float = 1.0, hypothesis_set: str | None = None, actor: str = 'operator') -> str",
+      "symbol": "memory_fabric.fabric.MemoryFabric.challenge",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, reason: str, actor: str = 'operator') -> bool",
+      "symbol": "memory_fabric.fabric.MemoryFabric.erase_content",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str) -> Any",
+      "symbol": "memory_fabric.fabric.MemoryFabric.authority",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, approver: str, reason: str, policy: str = 'manual-review', revoke: bool = False) -> Any",
+      "symbol": "memory_fabric.fabric.MemoryFabric.elevate",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(apply: bool = False, actor: str = 'retention', actions: Iterable[str] | None = None) -> list[RetentionDecision]",
+      "symbol": "memory_fabric.fabric.MemoryFabric.sweep_retention",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None = None, required_checks: Sequence[str] = (), min_independent_sources: int = 1, ttl_ms: int | None = 300000) -> EvidenceCertificate",
+      "symbol": "memory_fabric.fabric.MemoryFabric.certify",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(certificate: Any, agent_id: str, tenant_id: str | None = None, risk: RiskLevel = RiskLevel.HIGH, mode: str = 'selective') -> CertificateVerification",
+      "symbol": "memory_fabric.fabric.MemoryFabric.verify_certificate",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "(payload: Mapping[str, Any] | str | bytes, max_nodes: int = 256) -> RequirementGraph",
+      "symbol": "memory_fabric.requirement_graph.parse_requirement_graph",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "(graph: RequirementGraph) -> tuple[str, ...]",
+      "symbol": "memory_fabric.requirement_graph.requirement_atom_keys",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "(graph: RequirementGraph, satisfied_requirements: Iterable[str], max_sets: int = 1024) -> tuple[tuple[str, ...], ...]",
+      "symbol": "memory_fabric.requirement_graph.minimal_missing_evidence_sets",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.requirement_graph.RequirementGraph.to_dict",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.requirement_graph",
+      "signature": "() -> str",
+      "symbol": "memory_fabric.requirement_graph.RequirementGraph.to_json",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(fabric: Any, agent_id: str, tenant_id: str = 'tn_default') -> AgentClient",
+      "symbol": "memory_fabric.sdk.agent",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(query: str, k: int = 5, context: Mapping[str, Any] | None = None, include_contested: bool = False, episode_id: str | None = None, within: Iterable[str] | None = None, operation: EvidenceOperation = EvidenceOperation.READ) -> RecallResult",
+      "symbol": "memory_fabric.sdk.AgentClient.recall",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, risk: RiskLevel | None = None, operation: EvidenceOperation = EvidenceOperation.READ) -> UsableMemory",
+      "symbol": "memory_fabric.sdk.AgentClient.fetch",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(usable: UsableMemory, risk: RiskLevel = RiskLevel.HIGH) -> AccessDecision",
+      "symbol": "memory_fabric.sdk.AgentClient.verify",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(usable: UsableMemory, risk: RiskLevel = RiskLevel.HIGH) -> AccessDecision",
+      "symbol": "memory_fabric.sdk.AgentClient.require",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(content: str, type: str | MemoryType = MemoryType.SEMANTIC, context: Mapping[str, Any] | None = None, source_episodes: Sequence[str] = (), episode_id: str | None = None) -> str",
+      "symbol": "memory_fabric.sdk.AgentClient.remember",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(task_id: str, context: Mapping[str, Any] | None = None)",
+      "symbol": "memory_fabric.sdk.AgentClient.episode",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(episode_id: str, outcome: float, verifier_id: str)",
+      "symbol": "memory_fabric.sdk.AgentClient.record_outcome",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(fabric: Any, actor: str) -> OperatorClient",
+      "symbol": "memory_fabric.sdk.operator",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str) -> Memory",
+      "symbol": "memory_fabric.sdk.OperatorClient.inspect",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str)",
+      "symbol": "memory_fabric.sdk.OperatorClient.explain",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str)",
+      "symbol": "memory_fabric.sdk.OperatorClient.lineage",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "()",
+      "symbol": "memory_fabric.sdk.OperatorClient.attention",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, reason: str, recipients: Sequence[str] = (), basis: str | None = None) -> Retraction",
+      "symbol": "memory_fabric.sdk.OperatorClient.retract",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, reason: str = 'validated') -> Memory",
+      "symbol": "memory_fabric.sdk.OperatorClient.validate",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, scope: str = 'team', granted_capabilities: Sequence[str] = ()) -> Any",
+      "symbol": "memory_fabric.sdk.OperatorClient.share",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, reason: str = 'reviewed and released') -> Memory",
+      "symbol": "memory_fabric.sdk.OperatorClient.release",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.sdk",
+      "signature": "(memory_id: str, reason: str) -> bool",
+      "symbol": "memory_fabric.sdk.OperatorClient.erase_content",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(agent_id: str, key: bytes, tenant_id: str, roles: Iterable[str] = ('agent',)) -> Principal",
+      "symbol": "memory_fabric.service.MemoryService.register_agent",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(agent_id: str, ttl_seconds: int = 3600, **kwargs: Any) -> Credential",
+      "symbol": "memory_fabric.service.MemoryService.issue",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(credential: Credential) -> Session",
+      "symbol": "memory_fabric.service.MemoryService.session",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(credential: Credential | str) -> bool",
+      "symbol": "memory_fabric.service.MemoryService.revoke",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(agent_id: str)",
+      "symbol": "memory_fabric.service.MemoryService.revoke_agent",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(content: str, collection: str | None = None, **kwargs: Any) -> str",
+      "symbol": "memory_fabric.service.Session.remember",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(query: str, **kwargs: Any)",
+      "symbol": "memory_fabric.service.Session.retrieve",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(memory_id: str, **kwargs: Any)",
+      "symbol": "memory_fabric.service.Session.use",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(claim_id: str, evidence: Sequence[Any], **kwargs: Any)",
+      "symbol": "memory_fabric.service.Session.certify",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(memory_id: str, reason: str, basis: str | None = None)",
+      "symbol": "memory_fabric.service.Session.quarantine",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(memory_id: str, reason: str = 'validated')",
+      "symbol": "memory_fabric.service.Session.validate",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "(memory_id: str)",
+      "symbol": "memory_fabric.service.Session.inspect",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.service",
+      "signature": "() -> list[dict[str, Any]]",
+      "symbol": "memory_fabric.service.Session.export_audit",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.identity",
+      "signature": "() -> frozenset[str]",
+      "symbol": "memory_fabric.identity.Principal.permissions",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.identity",
+      "signature": "(permission: str) -> bool",
+      "symbol": "memory_fabric.identity.Principal.can",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.tenancy",
+      "signature": "(tenant_id: str) -> MemoryFabric",
+      "symbol": "memory_fabric.tenancy.TenantRouter.store",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.tenancy",
+      "signature": "(tenant_id: str, agent_id: str) -> TenantView",
+      "symbol": "memory_fabric.tenancy.TenantRouter.view",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.tenancy",
+      "signature": "() -> list[str]",
+      "symbol": "memory_fabric.tenancy.TenantRouter.tenants",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionDecision",
+      "symbol": "memory_fabric.actions.ActionGate.authorize",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> ActionExecution",
+      "symbol": "memory_fabric.actions.ActionGate.execute",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant",
+      "symbol": "memory_fabric.actions.ActionGate.issue_grant",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(grant_id: str, issuer: str)",
+      "symbol": "memory_fabric.actions.ActionGate.revoke_grant",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(name: str, protected: bool = True, required_checks: tuple[str, ...] = ('authorized_for_caller', 'policy_current', 'evidence_current'), min_independent_sources: int = 1, requires_human_approval: bool = False, min_authority: str = 'unverified', requires_grant: bool = False, refuse_suspicious: bool = True, require_fresh: bool = False, refuse_provisional: bool = False, tool_digest: str | None = None, requirement_graph: RequirementGraph | None = None, claim_predicates: Mapping[str, ClaimPredicate] = <factory>)",
+      "symbol": "memory_fabric.actions.ToolRule",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(subject: str, predicate: str, operator: str, value: str | int | float | bool, unit: str | None = None)",
+      "symbol": "memory_fabric.actions.ClaimPredicate",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(value: str | int | float | bool, supports_policy: bool, evidence_ids: tuple[str, ...], source_roots: tuple[str, ...])",
+      "symbol": "memory_fabric.actions.ClaimValueEvidence",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(claim_id: str, subject: str, predicate: str, unit: str | None, alternatives: tuple[ClaimValueEvidence, ...])",
+      "symbol": "memory_fabric.actions.ClaimDispute",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(target: str, parameters: Mapping[str, Any] = <factory>, provenance: Mapping[str, str] = <factory>)",
+      "symbol": "memory_fabric.actions.ActionRequest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(allowed: bool, tool: str, agent_id: str, reason_codes: tuple[str, ...], verification: CertificateVerification | None = None, notes: tuple[str, ...] = <factory>, missing_evidence_sets: tuple[tuple[str, ...], ...] = (), disputed_claims: tuple[ClaimDispute, ...] = ())",
+      "symbol": "memory_fabric.actions.ActionDecision",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(approver_id: str, certificate_digest: str, binding: str | None = None)",
+      "symbol": "memory_fabric.actions.Approval",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(tool: str, agent_id: str, tenant_id: str | None, request: ActionRequest | None, certificate: EvidenceCertificate | None, claim_certificates: Mapping[str, EvidenceCertificate] | None = None) -> str",
+      "symbol": "memory_fabric.actions.binding_digest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.actions",
+      "signature": "(certificates: Mapping[str, EvidenceCertificate]) -> str",
+      "symbol": "memory_fabric.actions.certificate_set_digest",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(schema: str, tool: str, agent_id: str, tenant_id: str | None, policy_id: str, policy_digest: str, requirement_version: str | None, requirement_digest: str | None, action_binding_digest: str, authorization_digest: str, certificate_digest: str, certificates_json: str, evidence: tuple[tuple[str, int], ...], approval_digest: str | None, grant_digest: str | None, allowed: bool, reason_codes: tuple[str, ...], verified_at_watermark: int | None, receipt_digest: str)",
+      "symbol": "memory_fabric.authorization_receipt.AuthorizationProofReceipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(status: str, valid: bool, reason_codes: tuple[str, ...] = (), current_allowed: bool | None = None)",
+      "symbol": "memory_fabric.authorization_receipt.AuthorizationReceiptVerification",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(gate: ActionGate, tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None, claim_certificates: Mapping[str, EvidenceCertificate | Mapping[str, Any]] | None = None) -> tuple[AuthorizationProofReceipt, ActionDecision]",
+      "symbol": "memory_fabric.authorization_receipt.issue_authorization_receipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authorization_receipt",
+      "signature": "(receipt: AuthorizationProofReceipt | Mapping[str, Any], gate: ActionGate, request: ActionRequest | None = None, approval: Approval | None = None, grant: Grant | str | None = None) -> AuthorizationReceiptVerification",
+      "symbol": "memory_fabric.authorization_receipt.verify_authorization_receipt",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(policy_id: str, allow_insufficient: bool = False, allow_review: bool = False)",
+      "symbol": "memory_fabric.advisory.ReadOnlyAdvisoryPolicy",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(policy_id: str, presentation_allowed: bool, evidence: RetrievalAssessment, disclosure: str | None)",
+      "symbol": "memory_fabric.advisory.ReadOnlyAdvisoryDecision",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.advisory",
+      "signature": "(result: RetrievalResult, question: str, policy: ReadOnlyAdvisoryPolicy, judge: Any = None) -> ReadOnlyAdvisoryDecision",
+      "symbol": "memory_fabric.advisory.assess_read_only_advisory",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.correction",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> CorrectionPreview",
+      "symbol": "memory_fabric.correction.preview",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.fabric",
+      "signature": "(memory_id: str, expected_version: int, actual_version: int)",
+      "symbol": "memory_fabric.fabric.RevisionConflictError",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.correction",
+      "signature": "(fabric: MemoryFabric, memory_id: str, reason: str, actor: str, basis: str = 'contradicted', preview_digest: str | None = None) -> dict[str, Any]",
+      "symbol": "memory_fabric.correction.apply",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.correction",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> list[dict[str, Any]]",
+      "symbol": "memory_fabric.correction.status",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.response",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> dict[str, Any]",
+      "symbol": "memory_fabric.response.verify_recovery",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.influence",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> dict[str, Any]",
+      "symbol": "memory_fabric.influence.impact",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.influence",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> list[str]",
+      "symbol": "memory_fabric.influence.paraphrases",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.authority",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> Authority",
+      "symbol": "memory_fabric.authority.of",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.validation",
+      "signature": "(fabric: MemoryFabric, memory_id: str) -> Assessment",
+      "symbol": "memory_fabric.validation.assess",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.validation",
+      "signature": "(fabric: MemoryFabric, agent_id: str, content: str, context: Any = None, tenant_id: str | None = None) -> Assessment",
+      "symbol": "memory_fabric.validation.assess_write",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.validation",
+      "signature": "(fabric: MemoryFabric) -> list[Assessment]",
+      "symbol": "memory_fabric.validation.review_queue",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.OriginCluster.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.ValueSupport.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "() -> dict[str, Any]",
+      "symbol": "memory_fabric.consensus.Support.to_json",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.consensus",
+      "signature": "(fabric: MemoryFabric, claim_text: str, tenant_id: str | None = None, exposure_aware: bool = False) -> Support",
+      "symbol": "memory_fabric.consensus.support",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(context: Mapping[str, Any]) -> tuple[bool, str]",
+      "symbol": "memory_fabric.objective_v2.MemoryObjectiveV2.eligibility",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(fabric: MemoryFabric, memory_ids: Sequence[str]) -> list[dict[str, Any]]",
+      "symbol": "memory_fabric.objective_v2.MemoryObjectiveV2.explain",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(contents: Sequence[str]) -> list[str]",
+      "symbol": "memory_fabric.objective_v2.MemoryObjectiveV2.omissions",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(reviewer: str) -> MemoryObjectiveV2",
+      "symbol": "memory_fabric.objective_v2.MemoryObjectiveV2.reviewed",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(objective: MemoryObjectiveV2, proposer: str, evaluation: Mapping[str, float], reason: str) -> str",
+      "symbol": "memory_fabric.objective_v2.ObjectiveLog.propose",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.objective_v2",
+      "signature": "(digest: str, reviewer: str, baseline: Mapping[str, float], higher_is_better: Sequence[str] = ('accuracy',)) -> MemoryObjectiveV2",
+      "symbol": "memory_fabric.objective_v2.ObjectiveLog.adopt",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.compaction",
+      "signature": "(fabric: MemoryFabric, episode_id: str, agent_id: str, summarise: Callable[[Sequence[Memory], Sequence[Sequence[Memory]]], str] | None = None, scope: str | None = None, tenant_id: str = 'tn_default', token_counter: Callable[[str], int] | None = None, tokenizer_provenance: str | None = None, max_summary_tokens: int | None = None) -> CompactionReport",
+      "symbol": "memory_fabric.compaction.compact_session",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.compaction",
+      "signature": "() -> dict[str, object]",
+      "symbol": "memory_fabric.compaction.CompactionBudgetExceeded.to_dict",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.compaction",
+      "signature": "(fabric: MemoryFabric, summary_id: str) -> dict[str, object]",
+      "symbol": "memory_fabric.compaction.verify_compaction_certificate",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.compaction",
+      "signature": "(fabric: MemoryFabric, episode_id: str) -> Memory | None",
+      "symbol": "memory_fabric.compaction.summary_for",
+      "tier": "experimental"
+    },
+    {
+      "module": "memory_fabric.adapters.transcripts",
+      "signature": "(fabric: MemoryFabric, agent_id: str, task_id: str, turns: Iterable[Turn | Mapping[str, Any]], context: Mapping[str, Any] | None = None, outcome: float | None = None, verifier_id: str | None = None, summary: str | None = None) -> dict[str, Any]",
+      "symbol": "memory_fabric.adapters.transcripts.ingest_transcript",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.federation",
+      "signature": "(source: MemoryFabric, memory_id: str, target: MemoryFabric, recipient_agent: str, granted_capabilities: Iterable[str] = (), activate: bool = False, tenant_id: str | None = None) -> OfferResult",
+      "symbol": "memory_fabric.federation.offer",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.federation",
+      "signature": "(source: MemoryFabric, memory_id: str, transport: Any, recipient_store_id: str, recipient_agent: str, granted_capabilities: Iterable[str] = ()) -> OfferResult",
+      "symbol": "memory_fabric.federation.offer_remote",
+      "tier": "stable"
+    },
+    {
+      "module": "memory_fabric.manager",
+      "signature": "() -> ManagerReport",
+      "symbol": "memory_fabric.manager.MemoryManager.run_once",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.manager",
+      "signature": "() -> MemoryManager",
+      "symbol": "memory_fabric.manager.MemoryManager.start",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.manager",
+      "signature": "(timeout: float = 5.0)",
+      "symbol": "memory_fabric.manager.MemoryManager.stop",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.limits",
+      "signature": "(max_content_bytes: int = 1048576, writes_per_window: int | None = None, imports_per_window: int | None = None, window_ms: int = 60000, max_memories: int | None = 1000000, max_retention_actions: int | None = 1000)",
+      "symbol": "memory_fabric.limits.Limits",
+      "tier": "beta"
+    },
+    {
+      "module": "memory_fabric.offline",
+      "signature": "() -> Iterator[None]",
+      "symbol": "memory_fabric.offline.offline_mode",
+      "tier": "beta"
+    }
+  ]
+}

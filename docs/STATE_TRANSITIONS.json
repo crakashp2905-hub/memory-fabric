@@ -1,0 +1,41 @@
+{
+  "schema": "memory-fabric-state-transitions/1",
+  "operations": [
+    {
+      "operation": "append",
+      "preconditions": ["agent and tenant are identified", "content passes ingestion limits and screening"],
+      "postconditions": ["MemoryCreated is appended", "version is 1", "provenance names creator", "state is candidate unless explicit safe auto-activation applies"],
+      "invariants": ["event log is append-only", "persistent memory has provenance", "unvalidated shared memory is not federated"]
+    },
+    {
+      "operation": "correct",
+      "preconditions": ["memory exists", "content has not been erased", "new content passes the same screen as append"],
+      "postconditions": ["MemoryVersioned is appended", "version increases exactly once", "old version remains in history", "dependent restatements are re-evaluated"],
+      "invariants": ["history is not rewritten", "current indexes contain only current content", "erasure is terminal for the identity"]
+    },
+    {
+      "operation": "withdraw",
+      "preconditions": ["memory exists", "withdrawal basis is recorded or explicitly unstated"],
+      "postconditions": ["LifecycleChanged to quarantined is appended", "memory is not exposable", "copies and dependent claims are recomputed"],
+      "invariants": ["withdrawn evidence cannot authorize action", "independently justified descendants survive", "copies cannot bypass withdrawal"]
+    },
+    {
+      "operation": "erase",
+      "preconditions": ["memory exists", "caller uses an authorized operator path"],
+      "postconditions": ["per-memory content key is destroyed", "ContentErased is appended", "indexes and derived summaries lose plaintext", "audit lineage remains"],
+      "invariants": ["plaintext never falls back after key loss", "erased identity cannot be revised", "audit history remains append-only"]
+    },
+    {
+      "operation": "branch",
+      "preconditions": ["branch name is valid and unique", "owner and tenant are explicit", "base sequence exists"],
+      "postconditions": ["branch changes remain candidate and isolated", "commit is immutable and content-addressed", "head moves with compare-and-swap"],
+      "invariants": ["branch candidates do not reach main retrieval or action", "cross-tenant branch changes are refused", "failed commit is atomic"]
+    },
+    {
+      "operation": "merge",
+      "preconditions": ["reviewer is authorized", "branch head and preview digest are current", "each change passes governance classification"],
+      "postconditions": ["allowed changes use ordinary append/correct/withdraw operations", "receipt records every decision", "idempotency key binds one merge"],
+      "invariants": ["merge never resurrects withdrawn memory", "stale preview writes nothing", "replay with same key is idempotent"]
+    }
+  ]
+}

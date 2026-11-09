@@ -14,6 +14,7 @@ from __future__ import annotations
 __stability__ = "beta"
 
 import json
+import hashlib
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -32,7 +33,8 @@ def eligibility(f: "MemoryFabric", memory_id: str, agent_id: str = "",
     from ..vectors import MIN_RELEVANCE
 
     memory = f.state.memories.get(memory_id)
-    if memory is None:
+    if (memory is None or (tenant_id is not None and f.conceal_cross_tenant
+                           and memory.tenant_id != tenant_id)):
         return {"memory_id": memory_id, "eligible": False,
                 "checks": [{"check": "exists", "passed": False, "detail": "no such memory"}]}
     checks: list[dict[str, Any]] = []
@@ -89,13 +91,56 @@ def action_rows(f: "MemoryFabric", limit: int = 200) -> list[dict[str, Any]]:
         p = e.payload
         rows.append({"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id, "tool": p.get("tool"),
                      "allowed": p.get("allowed"), "reason_codes": p.get("reason_codes", []),
+                     "reason_groups": (_reason_groups(list(p.get("reason_codes", [])))
+                                       if not p.get("allowed") else []),
                      "claim_id": p.get("claim_id"), "evidence": len(p.get("evidence", []))})
     return list(reversed(rows))[:limit]
+
+
+def _reason_groups(codes: list[str]) -> list[dict[str, Any]]:
+    """Separate evidence sufficiency from authorization without inferring truth."""
+    from ..reasons import fix, say
+
+    evidence_codes = {"no_supporting_evidence", "insufficient_independent_support",
+                      "certificate_required", "certificate_too_large"}
+    policy_codes = {"unknown_tool", "tool_not_granted", "execute_permission_missing",
+                    "human_approval_required", "approval_invalid", "credential_invalid",
+                    "authority_insufficient", "wrong_agent", "wrong_store", "wrong_tenant"}
+    groups: dict[str, list[str]] = {"Evidence and support": [], "Authorization and policy": [],
+                                    "Other gate checks": []}
+    for code in codes:
+        if code in evidence_codes or code.startswith(("evidence_", "dependency_")):
+            group = "Evidence and support"
+        elif (code in policy_codes or code.startswith(("grant_", "approval_", "tool_"))):
+            group = "Authorization and policy"
+        else:
+            group = "Other gate checks"
+        groups[group].append(code)
+    return [{"category": category, "reason_codes": items,
+             "messages": [" ".join(filter(None, (say(code), fix(code)))) for code in items]}
+            for category, items in groups.items() if items]
+
+
+def _support_label(verdict: str | None) -> str:
+    return {"justified": "A justification survives; this does not authorize action",
+            "contested": "Support is disputed or incomplete",
+            "unsupported": "No justification survives; this claim may still be true"}.get(
+                verdict or "", "Not assessed" if not verdict else verdict)
+
+
+def _claim_check_label(level: str | None) -> str:
+    return {"suspicious": "Flagged for review; truth and intent are not established",
+            "provisional": "Provisional; not independently established",
+            "corroborated": "Corroborated by an independent source; not proof of truth",
+            "unremarkable": "No conflict signal; truth is not verified"}.get(
+                level or "", "Not assessed" if not level else level)
 
 
 def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
     """One decision with each piece of evidence as it was then and as it is now."""
     from .. import events as ev
+    from ..authority import of
+    from ..justification import JustificationGraph
     from ..validation import assess
 
     for e in f.log.read_types([ev.EventType.ACTION_GATED]):
@@ -105,12 +150,27 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
         evidence = []
         for mid, version in p.get("evidence", []):
             m = f.state.memories.get(mid)
+            support = JustificationGraph(f).recompute(mid) if m else None
+            authority = of(f, mid) if m else None
+            claim_check = assess(f, mid).level if m else None
             evidence.append({
                 "memory_id": mid, "version_then": version,
                 "version_now": m.version if m else None,
                 "state_now": m.lifecycle_state.value if m else "missing",
-                "claim_check_now": assess(f, mid).level if m else None,
+                "claim_check_now": claim_check,
                 "content_now": _safe(f, mid) if m else None,
+                "provenance": ({"created_by": m.provenance.created_by,
+                                "method": m.provenance.method.value,
+                                "parents": [parent for parent, _ in m.provenance.parents]}
+                               if m else None),
+                "authority_now": ({"trust": authority.trust,
+                                   "origins": list(authority.origins),
+                                   "reasons": list(authority.reasons)} if authority else None),
+                "support_now": support.to_json() if support else None,
+                "support_label": _support_label(support.verdict if support else None),
+                "claim_check_label": _claim_check_label(claim_check),
+                "usable_now": bool(m and m.lifecycle_state.value == "active"
+                                   and support and support.still_justified),
                 "changed_since": bool(m) and (m.version != version
                                               or m.lifecycle_state.value != "active"),
             })
@@ -126,10 +186,67 @@ def action_detail(f: "MemoryFabric", seq: int) -> dict[str, Any]:
                        if who else f"changed (now v{x['version_now']}, {x['state_now']})") + ".")
         for code in p.get("reason_codes", []):
             explanation.append(" ".join(filter(None, [say(code), fix(code)])))
-        return {"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id, "decision": p,
-                "explanation": explanation, "evidence": evidence,
+        reason_codes = list(p.get("reason_codes", []))
+        return {"seq": e.seq, "ts": e.ts, "agent_id": e.agent_id,
+                "identity_scope": {"agent_id": e.agent_id,
+                                   "tenant_id": p.get("tenant_id"),
+                                   "claim_id": p.get("claim_id")},
+                "decision": p,
+                "explanation": explanation,
+                "reason_groups": _reason_groups(reason_codes) if not p.get("allowed") else [],
+                "evidence": evidence,
                 "still_holds": all(not x["changed_since"] for x in evidence) if evidence else None}
     raise KeyError(seq)
+
+
+def action_reconciliation(f: "MemoryFabric", limit: int = 200) -> list[dict[str, Any]]:
+    """Expose receipt state without revealing caller-supplied idempotency keys."""
+    from ..actions import reconciliation_ledger
+    from .. import events as ev
+
+    by_seq = {event.seq: event for event in f.log.read_types(
+        [ev.EventType.ACTION_ATTEMPTED, ev.EventType.ACTION_EXECUTED])}
+    rows = []
+    for item in reconciliation_ledger(f):
+        event = by_seq.get(item["last_event_seq"])
+        rows.append({"idempotency_ref": hashlib.sha256(item["key"].encode()).hexdigest()[:12],
+                     "tool": item["tool"], "agent_id": item["agent_id"],
+                     "attempt_count": item["attempt_count"], "status": item["status"],
+                     "last_outcome": item.get("last_outcome"),
+                     "fenced": event.payload.get("fenced") if event and event.type == ev.EventType.ACTION_EXECUTED else None,
+                     "reconciliation_required": item["reconciliation_required"],
+                     "last_event_id": event.event_id if event else None,
+                     "last_event_seq": item["last_event_seq"]})
+    return sorted(rows, key=lambda row: row["last_event_seq"], reverse=True)[:limit]
+
+
+def action_timeline(f: "MemoryFabric", tool: str, limit: int = 200) -> list[dict[str, Any]]:
+    """Chronological authorization and execution events for one protected tool."""
+    from .. import events as ev
+    from ..actions import reconciliation_ledger
+
+    receipt_by_key = {row["key"]: row for row in reconciliation_ledger(f)}
+    events = f.log.read_types([ev.EventType.ACTION_GATED,
+                               ev.EventType.ACTION_ATTEMPTED,
+                               ev.EventType.ACTION_EXECUTED])
+    rows = []
+    for event in events:
+        payload = event.payload
+        if payload.get("tool") != tool:
+            continue
+        key = payload.get("key")
+        receipt = receipt_by_key.get(str(key)) if key else None
+        gated = event.type == ev.EventType.ACTION_GATED
+        rows.append({"event_id": event.event_id, "seq": event.seq, "ts": event.ts,
+                     "event_type": event.type, "tool": tool, "agent_id": event.agent_id,
+                     "allowed": payload.get("allowed") if gated else None,
+                     "reason_codes": payload.get("reason_codes", []) if gated else [],
+                     "outcome": payload.get("outcome"),
+                     "fenced": payload.get("fenced"),
+                     "idempotency_ref": hashlib.sha256(str(key).encode()).hexdigest()[:12] if key else None,
+                     "receipt_state": receipt.get("status") if receipt else None,
+                     "reconciliation_required": receipt.get("reconciliation_required") if receipt else False})
+    return rows[-limit:]
 
 
 def dependence(f: "MemoryFabric", memory_id: str) -> dict[str, Any]:
@@ -217,7 +334,21 @@ def _sentence(f: "MemoryFabric", e: Any, focus: str | None = None) -> dict[str, 
                 + " ".join(say(c).split(": ", 1)[-1] for c in codes[:2]))
     if kind is None:
         return None
-    return {"seq": e.seq, "ts": e.ts, "kind": kind, "memory_id": mid, "text": text}
+    return {"seq": e.seq, "event_id": e.event_id, "event_type": e.type,
+            "ts": e.ts, "kind": kind, "memory_id": mid, "text": text}
+
+
+def event_detail(f: "MemoryFabric", event_id: str) -> dict[str, Any]:
+    """Resolve an immutable event id to its safe story sentence and identity."""
+    for event in f.log.read():
+        if event.event_id != event_id:
+            continue
+        row = _sentence(f, event)
+        return {"event_id": event.event_id, "seq": event.seq, "event_type": event.type,
+                "ts": event.ts, "agent_id": event.agent_id,
+                "memory_id": row["memory_id"] if row else None,
+                "text": row["text"] if row else None}
+    raise KeyError(event_id)
 
 
 def timeline(f: "MemoryFabric", memory_id: str, limit: int = 200) -> dict[str, Any]:
@@ -245,7 +376,8 @@ def timeline(f: "MemoryFabric", memory_id: str, limit: int = 200) -> dict[str, A
                                              and p.get("original_memory_id") == memory_id):
             steps.append(row)
     if recalls:
-        steps.append({"seq": None, "ts": None, "kind": "recalled", "memory_id": memory_id,
+        steps.append({"seq": None, "event_id": None, "event_type": None,
+                      "ts": None, "kind": "recalled", "memory_id": memory_id,
                       "text": "recalled by " + ", ".join(f"{a} ×{n}" for a, n in
                                                          sorted(recalls.items()))})
     memory = f.state.memories[memory_id]
@@ -313,21 +445,32 @@ def graph(f: "MemoryFabric", limit: int = 400) -> dict[str, Any]:
     order = sorted(memories, key=lambda mid: (mid not in linked, -memories[mid].created_at))
     chosen = set(order[:limit])
     exposures: dict[str, int] = {}
-    copies: list[tuple[str, str]] = []
-    for e in f.log.read_types([ev.EventType.EXPOSURE_DECIDED, ev.EventType.COPY_RECOGNISED]):
+    copies: list[dict[str, Any]] = []
+    creation_events: dict[str, dict[str, Any]] = {}
+    for e in f.log.read_types([ev.EventType.EXPOSURE_DECIDED,
+                               ev.EventType.COPY_RECOGNISED,
+                               ev.EventType.MEMORY_CREATED]):
         p = e.payload
         if e.type == ev.EventType.EXPOSURE_DECIDED:
             if p.get("exposed") and p.get("memory_id") in chosen:
                 exposures[p["memory_id"]] = exposures.get(p["memory_id"], 0) + 1
-        elif p.get("memory_id") in chosen and p.get("original_memory_id") in chosen:
-            copies.append((p["original_memory_id"], p["memory_id"]))
+        elif e.type == ev.EventType.COPY_RECOGNISED:
+            if p.get("memory_id") in chosen and p.get("original_memory_id") in chosen:
+                copies.append({"from": p["original_memory_id"], "to": p["memory_id"],
+                               "event_id": e.event_id, "seq": e.seq})
+        else:
+            memory = p.get("memory", {})
+            mid = memory.get("id") if isinstance(memory, dict) else None
+            if isinstance(mid, str) and mid in chosen:
+                creation_events[mid] = {"event_id": e.event_id, "seq": e.seq}
     nodes = [{"id": mid, "label": _short(_safe(f, mid), 60), "state": m.lifecycle_state.value,
               "type": m.type.value, "author": m.provenance.created_by,
               "exposures": exposures.get(mid, 0)}
              for mid in order[:limit] for m in [memories[mid]]]
-    edges = [{"from": parent, "to": mid, "kind": "derived"}
-             for mid in chosen for parent, _ in memories[mid].provenance.parents if parent in chosen]
-    edges += [{"from": a, "to": b, "kind": "copy"} for a, b in copies]
+    edges = [{"from": parent, "to": mid, "kind": "derived", **creation_events[mid]}
+             for mid in chosen for parent, _ in memories[mid].provenance.parents
+             if parent in chosen and mid in creation_events]
+    edges += [{**copy, "kind": "copy"} for copy in copies]
     return {"nodes": nodes, "edges": edges, "total": len(memories), "shown": len(nodes)}
 
 
@@ -386,6 +529,13 @@ def knowledge_map(f: "MemoryFabric", max_topics: int = 8, per_topic: int = 4,
         if e.payload.get("exposed") and mid in topic_of:
             exposures[mid] = exposures.get(mid, 0) + 1
 
+    creation_events: dict[str, dict[str, Any]] = {}
+    for event in f.log.read_types([ev.EventType.MEMORY_CREATED]):
+        memory = event.payload.get("memory", {})
+        mid = memory.get("id") if isinstance(memory, dict) else None
+        if mid in topic_of:
+            creation_events[mid] = {"event_id": event.event_id, "seq": event.seq}
+
     withdrawn = ("quarantined", "deprecated", "deleted")
     priority = {"quarantined": 0, "deprecated": 1, "contested": 2, "candidate": 3}
 
@@ -439,8 +589,8 @@ def knowledge_map(f: "MemoryFabric", max_topics: int = 8, per_topic: int = 4,
             if a != b:
                 pair = (min(a, b), max(a, b))
                 between[pair] = between.get(pair, 0) + 1
-            if parent in shown and mid in shown:
-                memory_links.append({"from": parent, "to": mid})
+            if parent in shown and mid in shown and mid in creation_events:
+                memory_links.append({"from": parent, "to": mid, **creation_events[mid]})
     total_withdrawn = sum(1 for mid in ids if memories[mid].lifecycle_state.value in withdrawn)
     disputed = sum(1 for mid in ids if memories[mid].lifecycle_state.value == "contested")
     named = [t for t in out_topics if t["id"] != "_other"]

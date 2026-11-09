@@ -204,6 +204,15 @@ class PgConnection:
         with self._lock:
             return self._execute(sql, tuple(params))
 
+    def executemany(self, sql: str, seq_of_params: Iterable[Iterable[Any]]) -> Cursor:
+        """Execute a parameterized statement for each row on this connection."""
+        rowcount = 0
+        with self._lock:
+            for params in seq_of_params:
+                result = self._execute(sql, tuple(params))
+                rowcount += max(result.rowcount, 0)
+        return Cursor(rowcount=rowcount)
+
     def executescript(self, script: str) -> None:
         with self._lock:
             self._pg.execute("SELECT pg_advisory_lock(%s)", (_SCHEMA_LOCK,))

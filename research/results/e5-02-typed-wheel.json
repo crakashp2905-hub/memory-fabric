@@ -1,0 +1,29 @@
+{
+  "schema": "memory-fabric-e5-02-typed-wheel/1",
+  "tested_commit": "97371447f4b295dabd49ac797657aa7f366a88b6",
+  "recorded_at_utc": "2026-11-07T18:42:33.907175+00:00",
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "build": {
+    "command": "python -m build --wheel --no-isolation --outdir .test-tmp/e5-02-wheel",
+    "wheel_name": "memory_fabric-0.14.0-py3-none-any.whl",
+    "wheel_sha256": "4d833580e492423424aa6521a6c174cb6fa5a58d599e226e242087348d2a4d61",
+    "wheel_bytes": 647662,
+    "members": 148,
+    "py_typed_present": true,
+    "checkout_clean_at_build": true
+  },
+  "typed_consumer": {
+    "command": "python tools/check_typed_consumer.py <wheel>",
+    "result": "PASS",
+    "positive_consumer": "strict mypy accepted import, MemoryFabric.remember -> str, and AgentClient.agent_id -> str",
+    "negative_consumer": "strict mypy rejected assigning MemoryFabric.remember result to int with [assignment]",
+    "installed_import_outside_checkout": true
+  },
+  "passed": true,
+  "limitations": [
+    "Wheel qualification is local for this source SHA and Python 3.13.5; supported-version and clean OS matrix remain CI/release evidence."
+  ]
+}

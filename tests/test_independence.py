@@ -95,6 +95,56 @@ class AcrossStores(unittest.TestCase):
         own_at_2 = offer(s1, own, s2, recipient_agent="x", activate=True).imported_memory_id
         self.assertEqual(independent_sources(s2, [a_at_2, own_at_2]), 2)
 
+    def test_parallel_multihop_relays_keep_one_root_and_block_return_cycle(self) -> None:
+        # Two independent relay paths carry the same origin observation into
+        # one receiver. Copies remain one global source despite distinct
+        # immediate senders, and forwarding either path home is refused.
+        a, b, c, d, e, receiver = [store() for _ in range(6)]
+        stores = (a, b, c, d, e, receiver)
+        for fabric in stores:
+            self.addCleanup(fabric.close)
+
+        original = a.remember("origin", REPORT, scope="team")
+        a.share(original, Scope.FEDERATED, actor="operator")
+
+        first_b = offer(a, original, b, recipient_agent="b", activate=True)
+        first_d = offer(a, original, d, recipient_agent="d", activate=True)
+        self.assertTrue(first_b.accepted)
+        self.assertTrue(first_d.accepted)
+        b_copy = first_b.imported_memory_id
+        d_copy = first_d.imported_memory_id
+        b.share(b_copy, Scope.FEDERATED, actor="operator")
+        d.share(d_copy, Scope.FEDERATED, actor="operator")
+
+        second_c = offer(b, b_copy, c, recipient_agent="c", activate=True)
+        second_e = offer(d, d_copy, e, recipient_agent="e", activate=True)
+        self.assertTrue(second_c.accepted)
+        self.assertTrue(second_e.accepted)
+        c_copy = second_c.imported_memory_id
+        e_copy = second_e.imported_memory_id
+        c.share(c_copy, Scope.FEDERATED, actor="operator")
+        e.share(e_copy, Scope.FEDERATED, actor="operator")
+
+        via_c = offer(c, c_copy, receiver, recipient_agent="receiver", activate=True)
+        via_e = offer(e, e_copy, receiver, recipient_agent="receiver", activate=True)
+        self.assertTrue(via_c.accepted)
+        self.assertTrue(via_e.accepted)
+        c_at_receiver = via_c.imported_memory_id
+        e_at_receiver = via_e.imported_memory_id
+
+        expected_root = (a.store_id, original)
+        self.assertEqual(global_ref(b, b_copy), expected_root)
+        self.assertEqual(global_ref(c, c_copy), expected_root)
+        self.assertEqual(global_ref(e, e_copy), expected_root)
+        self.assertEqual(global_ref(receiver, c_at_receiver), expected_root)
+        self.assertEqual(global_ref(receiver, e_at_receiver), expected_root)
+        self.assertEqual(independent_sources(receiver, [c_at_receiver, e_at_receiver]), 1)
+
+        cycle = offer(e, e_copy, a, recipient_agent="origin", activate=True)
+        self.assertFalse(cycle.accepted)
+        self.assertTrue(any("already on this memory's provenance chain" in reason
+                            for reason in cycle.reasons))
+
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

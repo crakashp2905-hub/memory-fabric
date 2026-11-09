@@ -1,5 +1,5 @@
 {
- "commit": "f5a3b8b822cf903245503ca773b7bdb00c841c45",
+ "commit": "9260e482e05831db72afdada5820220448c15003",
  "split": "test",
  "dataset_sha256": "79efb4a14720ea1840e2ca0acadb4cb53b9be5f808f738c51c75bfdad14186de",
  "config": {
@@ -46,7 +46,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.534,
+     "latency_ms": 6.728,
      "matched": [
       "test-101-18",
       "test-101-26",
@@ -75,7 +75,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 3.432,
+     "latency_ms": 1.694,
      "matched": [
       "test-101-17",
       "test-101-21",
@@ -104,7 +104,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.617,
+     "latency_ms": 0.375,
      "matched": [],
      "gold": [
       "test-101-18",
@@ -125,7 +125,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.534,
+     "latency_ms": 0.343,
      "matched": [
       "test-101-28"
      ],
@@ -149,7 +149,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.938,
+     "latency_ms": 2.566,
      "matched": [
       "test-101-26",
       "test-101-33",
@@ -176,7 +176,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 7.361,
+     "latency_ms": 2.509,
      "matched": [
       "test-101-17",
       "test-101-21",
@@ -203,7 +203,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 6.744,
+     "latency_ms": 3.135,
      "matched": [
       "test-101-26",
       "test-101-33",
@@ -230,7 +230,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.86,
+     "latency_ms": 4.073,
      "matched": [
       "test-101-17",
       "test-101-21",
@@ -257,7 +257,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.853,
+     "latency_ms": 2.497,
      "matched": [
       "test-101-18",
       "test-101-26",
@@ -286,7 +286,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.602,
+     "latency_ms": 2.641,
      "matched": [
       "test-101-17",
       "test-101-21",
@@ -317,7 +317,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 2.922,
+     "latency_ms": 1.869,
      "matched": [
       "test-127-0",
       "test-127-1",
@@ -350,7 +350,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 2.767,
+     "latency_ms": 1.646,
      "matched": [
       "test-127-13",
       "test-127-16",
@@ -385,7 +385,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.612,
+     "latency_ms": 0.416,
      "matched": [
       "test-127-0"
      ],
@@ -410,7 +410,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.989,
+     "latency_ms": 0.337,
      "matched": [
       "test-127-16",
       "test-127-4"
@@ -438,7 +438,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 7.616,
+     "latency_ms": 2.573,
      "matched": [
       "test-127-0",
       "test-127-34",
@@ -468,7 +468,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 8.198,
+     "latency_ms": 2.723,
      "matched": [
       "test-127-13",
       "test-127-16",
@@ -503,7 +503,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 7.51,
+     "latency_ms": 2.968,
      "matched": [
       "test-127-0",
       "test-127-34",
@@ -533,7 +533,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 6.653,
+     "latency_ms": 3.205,
      "matched": [
       "test-127-13",
       "test-127-16",
@@ -568,7 +568,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.615,
+     "latency_ms": 2.459,
      "matched": [
       "test-127-0",
       "test-127-1",
@@ -601,7 +601,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.321,
+     "latency_ms": 2.739,
      "matched": [
       "test-127-13",
       "test-127-16",
@@ -638,7 +638,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 3.865,
+     "latency_ms": 1.919,
      "matched": [
       "test-149-0",
       "test-149-10",
@@ -680,7 +680,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 3.169,
+     "latency_ms": 1.436,
      "matched": [
       "test-149-1",
       "test-149-12",
@@ -709,7 +709,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.686,
+     "latency_ms": 0.369,
      "matched": [
       "test-149-0",
       "test-149-20",
@@ -743,7 +743,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.557,
+     "latency_ms": 0.333,
      "matched": [
       "test-149-12",
       "test-149-44"
@@ -768,7 +768,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 3.906,
+     "latency_ms": 2.363,
      "matched": [
       "test-149-0",
       "test-149-20",
@@ -807,7 +807,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.526,
+     "latency_ms": 2.952,
      "matched": [
       "test-149-1",
       "test-149-12",
@@ -836,7 +836,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 6.88,
+     "latency_ms": 2.963,
      "matched": [
       "test-149-0",
       "test-149-20",
@@ -875,7 +875,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 6.217,
+     "latency_ms": 4.213,
      "matched": [
       "test-149-1",
       "test-149-12",
@@ -904,7 +904,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 3.884,
+     "latency_ms": 2.589,
      "matched": [
       "test-149-0",
       "test-149-10",
@@ -949,7 +949,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.469,
+     "latency_ms": 2.835,
      "matched": [
       "test-149-1",
       "test-149-12",
@@ -980,7 +980,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.357,
+     "latency_ms": 2.513,
      "matched": [
       "test-163-18",
       "test-163-22",
@@ -1013,7 +1013,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.185,
+     "latency_ms": 1.571,
      "matched": [
       "test-163-15",
       "test-163-16",
@@ -1046,7 +1046,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.65,
+     "latency_ms": 0.379,
      "matched": [
       "test-163-24"
      ],
@@ -1071,7 +1071,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 0.554,
+     "latency_ms": 0.37,
      "matched": [
       "test-163-16",
       "test-163-32"
@@ -1098,7 +1098,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.727,
+     "latency_ms": 3.595,
      "matched": [
       "test-163-18",
       "test-163-22",
@@ -1128,7 +1128,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 8.181,
+     "latency_ms": 3.266,
      "matched": [
       "test-163-15",
       "test-163-16",
@@ -1160,7 +1160,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 6.434,
+     "latency_ms": 3.889,
      "matched": [
       "test-163-18",
       "test-163-22",
@@ -1190,7 +1190,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 7.459,
+     "latency_ms": 3.938,
      "matched": [
       "test-163-15",
       "test-163-16",
@@ -1222,7 +1222,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.161,
+     "latency_ms": 4.057,
      "matched": [
       "test-163-18",
       "test-163-22",
@@ -1255,7 +1255,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.789,
+     "latency_ms": 3.49,
      "matched": [
       "test-163-15",
       "test-163-16",
@@ -1290,7 +1290,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.431,
+     "latency_ms": 1.676,
      "matched": [
       "test-181-13",
       "test-181-16",
@@ -1323,7 +1323,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.951,
+     "latency_ms": 1.535,
      "matched": [
       "test-181-10",
       "test-181-11",
@@ -1358,7 +1358,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 1.023,
+     "latency_ms": 0.376,
      "matched": [
       "test-181-16",
       "test-181-28",
@@ -1385,7 +1385,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 0,
-     "latency_ms": 1.288,
+     "latency_ms": 0.342,
      "matched": [
       "test-181-24",
       "test-181-8"
@@ -1413,7 +1413,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.988,
+     "latency_ms": 2.336,
      "matched": [
       "test-181-16",
       "test-181-28",
@@ -1443,7 +1443,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.318,
+     "latency_ms": 2.42,
      "matched": [
       "test-181-24",
       "test-181-25",
@@ -1473,7 +1473,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 4.846,
+     "latency_ms": 2.858,
      "matched": [
       "test-181-16",
       "test-181-28",
@@ -1503,7 +1503,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 7.021,
+     "latency_ms": 3.117,
      "matched": [
       "test-181-24",
       "test-181-25",
@@ -1533,7 +1533,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.981,
+     "latency_ms": 2.297,
      "matched": [
       "test-181-13",
       "test-181-16",
@@ -1566,7 +1566,7 @@
      "complete": false,
      "false_complete": false,
      "reads": 12,
-     "latency_ms": 5.218,
+     "latency_ms": 2.377,
      "matched": [
       "test-181-10",
       "test-181-11",
@@ -1602,7 +1602,7 @@
    "complete": 0.0,
    "false_complete": 0.0,
    "reads": 12.0,
-   "latency_ms": 4.0613,
+   "latency_ms": 2.2587,
    "coverage": 0.25,
    "per_seed_exact": {
     "101": 1.0,
@@ -1619,7 +1619,7 @@
    "complete": 0.0,
    "false_complete": 0.0,
    "reads": 0.0,
-   "latency_ms": 0.751,
+   "latency_ms": 0.364,
    "coverage": 0.5333,
    "per_seed_exact": {
     "101": 0.0,
@@ -1636,7 +1636,7 @@
    "complete": 0.0,
    "false_complete": 0.0,
    "reads": 12.0,
-   "latency_ms": 6.1759,
+   "latency_ms": 2.7303,
    "coverage": 0.7833,
    "per_seed_exact": {
     "101": 0.0,
@@ -1653,7 +1653,7 @@
    "complete": 0.0,
    "false_complete": 0.0,
    "reads": 12.0,
-   "latency_ms": 6.4624,
+   "latency_ms": 3.4359,
    "coverage": 0.7833,
    "per_seed_exact": {
     "101": 0.0,
@@ -1670,7 +1670,7 @@
    "complete": 0.0,
    "false_complete": 0.0,
    "reads": 12.0,
-   "latency_ms": 4.8893,
+   "latency_ms": 2.7981,
    "coverage": 0.7833,
    "per_seed_exact": {
     "101": 1.0,

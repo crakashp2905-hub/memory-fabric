@@ -34,6 +34,7 @@ def rule(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: scripted agents; deterministic fixture; not a compliance evaluation.")
     fabric = MemoryFabric(auto_activate=True, seed=0)
 
     rule("1. An agent learns something from an episode")

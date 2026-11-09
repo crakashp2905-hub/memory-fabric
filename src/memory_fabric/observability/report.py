@@ -267,6 +267,7 @@ def memory_rows(
     sort: str = "created",
     tenant: str | None = None,
     agent: str | None = None,
+    offset: int = 0,
 ) -> list[MemoryRow]:
     """Filtered listing. `query` is a substring match on content, not retrieval:
     listing must never depend on the embedder or touch the exposure log."""
@@ -296,7 +297,8 @@ def memory_rows(
         "state": lambda r: (r.lifecycle_state, r.id),
     }
     rows.sort(key=keys.get(sort, keys["created"]), reverse=sort == "created")
-    return rows[:limit] if limit else rows
+    start = max(0, offset)
+    return rows[start:start + limit] if limit else rows[start:]
 
 
 def overview(fabric: "MemoryFabric") -> Overview:

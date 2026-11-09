@@ -1,0 +1,37 @@
+{
+  "all_assignment_and_observation_rates_within_tolerance": true,
+  "all_realized_assignment_propensities_correct": true,
+  "different_seed_changes_sequence": true,
+  "empirical_tolerance": 0.05,
+  "limitations": [
+    "SHA-256 domain-separated seeded draws are reproducible pseudorandomization, not a cryptographic entropy source.",
+    "The fixture qualifies assignment and observation logging only; it does not establish effect recovery under missing data."
+  ],
+  "record_count": 10000,
+  "record_digest_sha256": "6e4271118c13a5562a3cc50222109f4397b86e878398aed8fee571bf3cb29b71",
+  "records_artifact": "n3-05-intervention-harness.ndjson",
+  "same_seed_replay_identical": true,
+  "schema": "memory-fabric-n3-05-intervention-harness/1",
+  "seed": 20261109,
+  "strata": {
+    "easy": {
+      "observation_rate_control": 0.894808743169399,
+      "observation_rate_treated": 0.8099547511312217,
+      "observed_treatment_rate": 0.7072,
+      "registered_probability_observed_control": 0.9,
+      "registered_probability_observed_treated": 0.8,
+      "registered_probability_treated": 0.7,
+      "units": 5000
+    },
+    "hard": {
+      "observation_rate_control": 0.9013921113689095,
+      "observation_rate_treated": 0.8073453608247423,
+      "observed_treatment_rate": 0.3104,
+      "registered_probability_observed_control": 0.9,
+      "registered_probability_observed_treated": 0.8,
+      "registered_probability_treated": 0.3,
+      "units": 5000
+    }
+  },
+  "unit_count": 10000
+}

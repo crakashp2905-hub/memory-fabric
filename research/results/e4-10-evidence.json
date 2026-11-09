@@ -1,0 +1,20 @@
+{
+  "schema": "memory-fabric-e4-10-soak-evidence/1",
+  "tested_commit": "e792c1f4b314dd49b99494c986f600a9ddfc164d",
+  "recorded_at_utc": "2026-11-07T18:36:40.908842+00:00",
+  "soak_result": "research/results/e4-10-deterministic-soak.json",
+  "soak_sha256": "faae654420a9f7ca277b1ccacb061b0faf80ba510bf7421eac5e33c2f64f5a84",
+  "regression_run": {
+    "command": "python -m pytest tests/test_multiprocess_crash.py tests/test_backup.py -q --junitxml=research/results/e4-10-crash-backup-regressions.xml",
+    "path": "research/results/e4-10-crash-backup-regressions.xml",
+    "sha256": "01f0582121aa95845e999eccde060563d6e1a7cc583ba086c0109badd365fe1d",
+    "tests": 22,
+    "subtests": 18,
+    "failures": 0,
+    "errors": 0
+  },
+  "passed": true,
+  "limitations": [
+    "Local SQLite and localhost process restarts only; not a continuous 24-hour production soak, physical host failure, or PostgreSQL validation."
+  ]
+}

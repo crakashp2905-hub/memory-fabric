@@ -4,6 +4,23 @@ Status: prepared for owner review (N51); no commercial, license or SLA decision
 is approved by this document. Evidence still needed: independent workflow pilots,
 operating-cost measurements, security review and supported-deployment envelope.
 
+## Unvalidated tier hypotheses
+
+These are packaging options for research, not offers, approved entitlements,
+prices, demand estimates or revenue forecasts. Do not publish a price or claim
+buyer demand until workload costs and representative interviews support it.
+
+| Hypothesis | Possible scope to investigate | What must be validated first |
+|---|---|---|
+| Free developer | Local SQLite, core SDK, examples and self-service docs | Onboarding success, support burden, dependency and license review |
+| Local individual | Single-user local workflows, backups and operator explanations | Upgrade/restore usability, local storage needs and willingness to adopt |
+| Team | Shared workspace, tenant administration, policy configuration and audit exports | Isolation requirements, measured operating cost, admin workload and buyer interviews |
+| Enterprise | Private deployment, deployment assistance, identity integration and support options | Security review, service boundaries, support capacity, legal terms and pilot evidence |
+
+All four rows remain hypotheses. They do not imply that hosted service,
+enterprise identity integration, contracted support or certification is
+currently available.
+
 ## Product boundary
 
 Working positioning: general-purpose trust, memory and continuity infrastructure

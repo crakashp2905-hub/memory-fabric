@@ -1,0 +1,23 @@
+{
+  "schema": "memory-fabric-e1-08/1",
+  "commit": "69e52f8c784e5987e37d3b3549ea8a6878357c0f",
+  "dirty_at_test": false,
+  "test_command": "python -m pytest tests/test_offline_qualification.py -q --junitxml=.test-tmp/e1-08-negative-control.xml",
+  "tests_passed": 10,
+  "tests_failed": 0,
+  "junit_sha256": "8b2aa25ab5af069fe85fc86e9572ef71f062aa59f3368cffc63acd6c84bc0baa",
+  "corruption_case": {
+    "expected": {
+      "decision": "PASS",
+      "solved": 7
+    },
+    "manipulated": {
+      "decision": "PASS",
+      "solved": 6
+    },
+    "checker_rejected": true,
+    "original_bytes_restored": true,
+    "post_restore_check": "PASS"
+  },
+  "verdict": "PASS"
+}

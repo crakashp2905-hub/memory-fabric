@@ -1,0 +1,250 @@
+{
+  "aggregate": {
+    "arms": {
+      "blanket_invalidation": {
+        "correctly_routed_decisions": 196,
+        "decision_correctness_rate_median": 0.098,
+        "re_evaluations": 2000,
+        "stale_decisions": 0,
+        "unnecessary_re_evaluations": 1804,
+        "update_cost_ns_median": 16200
+      },
+      "exact_dependency_index": {
+        "correctly_routed_decisions": 2000,
+        "decision_correctness_rate_median": 1.0,
+        "re_evaluations": 196,
+        "stale_decisions": 0,
+        "unnecessary_re_evaluations": 0,
+        "update_cost_ns_median": 1585900
+      },
+      "plain_versioning": {
+        "correctly_routed_decisions": 1804,
+        "decision_correctness_rate_median": 0.902,
+        "re_evaluations": 0,
+        "stale_decisions": 196,
+        "unnecessary_re_evaluations": 0,
+        "update_cost_ns_median": 200
+      }
+    },
+    "decisions_per_seed": 2000,
+    "oracle_definition": "Only decisions relying on corrected-memory v1 require re-evaluation; all other decisions should remain usable.",
+    "seeds": 5
+  },
+  "benchmark": "N1-09 decision continuity",
+  "configuration": {
+    "correction_fraction_target": 0.1,
+    "decisions_per_seed": 2000,
+    "model_assisted_re_evaluation": false,
+    "seeds": [
+      20261109,
+      20261110,
+      20261111,
+      20261112,
+      20261113
+    ]
+  },
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5"
+  },
+  "limitations": [
+    "Synthetic deterministic decisions and oracle; not a real-agent task-success benchmark.",
+    "Re-evaluation is counted as routing work; model inference latency, quality and cost are excluded.",
+    "Timed baseline operations have different computational shapes; timings are descriptive and host-specific.",
+    "Dependency-index warm-up is reported separately from hot correction update cost.",
+    "No external actions are executed."
+  ],
+  "runs": [
+    {
+      "affected_decisions_oracle": 196,
+      "arms": {
+        "blanket_invalidation": {
+          "correctly_routed_decisions": 196,
+          "decision_correctness_rate": 0.098,
+          "re_evaluations": 2000,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 1804,
+          "update_cost_ns_median": 10500
+        },
+        "exact_dependency_index": {
+          "correctly_routed_decisions": 2000,
+          "decision_correctness_rate": 1.0,
+          "re_evaluations": 196,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 1585900
+        },
+        "plain_versioning": {
+          "correctly_routed_decisions": 1804,
+          "decision_correctness_rate": 0.902,
+          "re_evaluations": 0,
+          "stale_decisions": 196,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 200
+        }
+      },
+      "base_events": 4000,
+      "correction_events_scanned": 1,
+      "dataset_sha256": "0e44599e3b04184780e424d20eead9eee4f32b767107d617d6f1fee77d144d6f",
+      "decisions": 2000,
+      "index_build_events_scanned": 4000,
+      "index_build_ns": 265184200,
+      "indexed_impacts_match_oracle": true,
+      "seed": 20261109
+    },
+    {
+      "affected_decisions_oracle": 196,
+      "arms": {
+        "blanket_invalidation": {
+          "correctly_routed_decisions": 196,
+          "decision_correctness_rate": 0.098,
+          "re_evaluations": 2000,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 1804,
+          "update_cost_ns_median": 18900
+        },
+        "exact_dependency_index": {
+          "correctly_routed_decisions": 2000,
+          "decision_correctness_rate": 1.0,
+          "re_evaluations": 196,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 2488000
+        },
+        "plain_versioning": {
+          "correctly_routed_decisions": 1804,
+          "decision_correctness_rate": 0.902,
+          "re_evaluations": 0,
+          "stale_decisions": 196,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 200
+        }
+      },
+      "base_events": 4000,
+      "correction_events_scanned": 1,
+      "dataset_sha256": "31e4699bf7f00fb283ca58efa08ce03cad9d0103ff3afe2e5f72b5c38864f7f9",
+      "decisions": 2000,
+      "index_build_events_scanned": 4000,
+      "index_build_ns": 336154800,
+      "indexed_impacts_match_oracle": true,
+      "seed": 20261110
+    },
+    {
+      "affected_decisions_oracle": 197,
+      "arms": {
+        "blanket_invalidation": {
+          "correctly_routed_decisions": 197,
+          "decision_correctness_rate": 0.0985,
+          "re_evaluations": 2000,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 1803,
+          "update_cost_ns_median": 6200
+        },
+        "exact_dependency_index": {
+          "correctly_routed_decisions": 2000,
+          "decision_correctness_rate": 1.0,
+          "re_evaluations": 197,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 767800
+        },
+        "plain_versioning": {
+          "correctly_routed_decisions": 1803,
+          "decision_correctness_rate": 0.9015,
+          "re_evaluations": 0,
+          "stale_decisions": 197,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 100
+        }
+      },
+      "base_events": 4000,
+      "correction_events_scanned": 1,
+      "dataset_sha256": "1d33ff9b5033e4f2f41a5b222352ccda8238a34a0f401343ae1f8a16fe0a3e92",
+      "decisions": 2000,
+      "index_build_events_scanned": 4000,
+      "index_build_ns": 201009200,
+      "indexed_impacts_match_oracle": true,
+      "seed": 20261111
+    },
+    {
+      "affected_decisions_oracle": 184,
+      "arms": {
+        "blanket_invalidation": {
+          "correctly_routed_decisions": 184,
+          "decision_correctness_rate": 0.092,
+          "re_evaluations": 2000,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 1816,
+          "update_cost_ns_median": 16200
+        },
+        "exact_dependency_index": {
+          "correctly_routed_decisions": 2000,
+          "decision_correctness_rate": 1.0,
+          "re_evaluations": 184,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 1508000
+        },
+        "plain_versioning": {
+          "correctly_routed_decisions": 1816,
+          "decision_correctness_rate": 0.908,
+          "re_evaluations": 0,
+          "stale_decisions": 184,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 300
+        }
+      },
+      "base_events": 4000,
+      "correction_events_scanned": 1,
+      "dataset_sha256": "f72e49ca7750599aff939b2dc7d8f8bfed89c92987835bb0ef5b8683720062a1",
+      "decisions": 2000,
+      "index_build_events_scanned": 4000,
+      "index_build_ns": 291812800,
+      "indexed_impacts_match_oracle": true,
+      "seed": 20261112
+    },
+    {
+      "affected_decisions_oracle": 194,
+      "arms": {
+        "blanket_invalidation": {
+          "correctly_routed_decisions": 194,
+          "decision_correctness_rate": 0.097,
+          "re_evaluations": 2000,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 1806,
+          "update_cost_ns_median": 27400
+        },
+        "exact_dependency_index": {
+          "correctly_routed_decisions": 2000,
+          "decision_correctness_rate": 1.0,
+          "re_evaluations": 194,
+          "stale_decisions": 0,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 2246200
+        },
+        "plain_versioning": {
+          "correctly_routed_decisions": 1806,
+          "decision_correctness_rate": 0.903,
+          "re_evaluations": 0,
+          "stale_decisions": 194,
+          "unnecessary_re_evaluations": 0,
+          "update_cost_ns_median": 600
+        }
+      },
+      "base_events": 4000,
+      "correction_events_scanned": 1,
+      "dataset_sha256": "4b1b3a374e2bcda76621816fd46c10b22b607020b00f58fc12b5f5a8a34e25b9",
+      "decisions": 2000,
+      "index_build_events_scanned": 4000,
+      "index_build_ns": 391112700,
+      "indexed_impacts_match_oracle": true,
+      "seed": 20261113
+    }
+  ],
+  "schema": "memory-fabric-decision-continuity-benchmark/1",
+  "source": {
+    "benchmark_script_sha256": "df211f87c82b9fc04e3a98b470d122334cf54fc34ba49e76d0f05d74f9ee5c91",
+    "commit": "6ee07f1add39dd07b465d117735a2b319082ea0a",
+    "dirty_before_result_write": false
+  }
+}

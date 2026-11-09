@@ -55,6 +55,30 @@ here is a formal security proof, and nothing here has been externally audited.
 6. **Store → external checkpoint.** This is the only defence against a writer
    who rewrites the whole history.
 
+### 3.1 Untrusted entry-point map
+
+The following table tracks attacker-controlled input from its entry point to
+the protected assets and the control that applies. “Untrusted” means the
+content can be false or instruction-like; successful parsing or a valid peer
+signature does not establish semantic truth.
+
+| Entry point | What an attacker controls | Protected assets at risk | Expected defense and evidence | Remaining limit |
+|---|---|---|---|---|
+| Agent memory ingestion and revision | Text, context, structured metadata, labels and claimed source | Memory content, provenance, future decisions | Identity/tenant authorization, bounded parsing, write-time screens, candidate lifecycle; `test_security_regression.py::TestPoisoning`, `test_injection_patterns.py`, `test_data_access_paths.py` | A clean-looking false claim from an authorized writer still requires review or contrary evidence |
+| Imported memory and federation | Signed payload contents, replay order, claimed lineage and forwarding peer | Lifecycle, provenance, retraction state, tenant content | Peer-key authentication, firewall policy, candidate import, lineage/cycle checks and idempotent retractions; `test_retraction_protocol.py`, `test_echo_import.py`, `test_transport_auth.py`, `test_privacy_federation.py` | A peer signature proves origin, not truth; HTTP multi-hop coverage needs socket-enabled CI |
+| Tool output returned to an agent | Tool text, claimed authority, copied instructions and result metadata | Memory content and later action selection | Treat tool output as untrusted data at ingestion; it cannot change roles, grants or policy; `test_adapters.py`, `test_enforcement_tenant.py`, `test_certificates.py`, `test_action_fence.py` | Downstream model behavior is not controlled by the storage layer |
+| Derived memory or summary | Summary text, context/structured fields and selected premises | Confidentiality, provenance, correction propagation | Derivation preserves premise lineage and the strictest class; screens apply to all fields; invalidated premises make derived evidence unusable; `test_justification.py`, `test_security_regression.py::TestDerivedLeakage`, `test_privacy_federation.py::TestDerivedContent` | No separate autonomous summarizer/mental-model object is currently implemented |
+| Generated decision or Code Mode plan | Requested operation, tool name, target, arguments and dynamic call sequence | Tool authority and external effects | Strict `CodeModePlan` parser, per-effect `ActionRequest`, exact grant binding, action-time revalidation and idempotency; `test_code_mode_fuzz.py`, `test_authority.py`, `test_action_fence.py`, `test_confused_deputy.py` | General-purpose generated code execution is deliberately unsupported |
+| Credential, grant or policy configuration | Bearer credential, requested operation and caller-supplied identifiers | Identity, authorization and tenant isolation | Server-derived identity, signatures, revocation checks and grant binding; `test_auth.py`, `test_identity.py`, `test_authority.py`, `test_visibility_at_action.py` | Host code and a database writer remain privileged trust assumptions |
+
+Across these paths the assets include confidential memory, identity and grant
+state, provenance and correction links, the append-only event history, content
+keys, action decisions and audit evidence (see §1). The primary adversary is a
+compromised valid agent or peer: it can submit false/instruction-like content,
+replay or reorder messages and exercise its own permissions, but does not hold
+another principal's secret. Controls are expected to preserve authorization
+and provenance; they do not prove semantic truth or model compliance.
+
 ## 4. Threat register
 
 Status values:
@@ -78,7 +102,7 @@ Status values:
 | S12 | **Overblocking** | Justification is recomputed rather than blanket-invalidated. Independent support survives a single-source retraction. Benchmarks measure how often valid evidence is withheld. | `test_justification.py::test_losing_one_of_two_independent_premises…`, `test_certificates.py::TestSelectiveReassessment`, `research/results/p3b-agent-teams.md`, Task 5 results | **controlled** in the tested scenarios, and measured (§6) |
 | S13 | **Authorization drift** (a permission changes after retrieval) | Credentials are re-verified per call. The certificate verifier re-reads revocation status when the action happens. | `test_service.py::test_a_revoked_credential_stops_working_immediately`, `test_certificates.py::TestRevokedPermission` | **controlled** for revocation and expiry |
 | S15 | **Derived-content leakage across classes** | `derive` inherits the strictest security class of its premises, and a caller cannot lower it | `test_privacy_federation.py::TestDerivedContent` | **controlled**. Found by these tests: a summary of `restricted` content was written `internal` |
-| S16 | **Existence disclosure** | Cross-tenant refusals name only `wrong_tenant`, never the version or lifecycle. With `conceal_cross_tenant=True` they are identical to a missing id | `test_privacy_federation.py::TestDisclosureOfExistence` | **partial**: by default the refusal confirms the id exists elsewhere (documented policy). Concealment is opt-in |
+| S16 | **Existence disclosure** | Cross-tenant refusals are identical to a missing id by default: same `not_found` code, version, lifecycle and detail. Set `conceal_cross_tenant=False` only for trusted operator diagnostics | `test_privacy_federation.py::TestDisclosureOfExistence`, `test_cross_tenant_surface_matrix.py`, `test_metadata_sidechannels.py`, `test_metadata_leakage.py` | **controlled** on tested SDK, in-process HTTP, MCP, typed-query and dashboard eligibility paths; coarse timing probe detects no separate 10x class, but does not prove constant-time behavior. Low-level operator APIs remain trusted-local |
 | S17 | **Concurrent requests on one store connection** (a threaded server serving several agents or peers) | One re-entrant lock owned by the fabric. Its entry points take it; the agent API holds it for revocation and the operation, the dashboard and federation server per store call, the service for credential reads and writes. Signature, expiry and rate limit run outside it, so a forged or over-rate request never queues | `test_concurrent_requests.py::ConcurrentAgentRequests`, `test_rate_limit.py::TestApiLimits` | **controlled**. Found 2026-10-18 by `experiments/p12_http.py`: 39 of 200 requests failed with `InterfaceError`, because authentication read revocations outside the lock; an interfered read can answer "not revoked" |
 | S18 | **Erased content surviving in a running process** | Erasure scrubs every version in the projection's history and removes the memory's copy-index entry, in the erasing process and in any that folds the erasure in | `test_erasure_residue.py::ErasureLeavesNoResidue`, `test_catch_up.py::CatchUpEqualsReplay` | **controlled**. Found 2026-10-18: earlier versions' plaintext stayed in `history()` and the dashboard, and the term set in the copy index, until a restart |
 | S19 | **Scope not enforced on reads** (another agent in the tenant reading a private or restricted memory) | Private means the writing agent, checked in the one retrieval chokepoint and in the enforcer before any lifecycle fact; restricted memories cannot be written or shared wider than private; `derive` is no wider than its narrowest premise | `test_scope_visibility.py::PrivateMeansTheWriter`, `test_scope_visibility.py::RestrictedStaysPrivate`, `test_scope_visibility.py::DerivedIsNoWiderThanItsPremises` | **controlled**. Found 2026-10-18 (F10): retrieval checked only lifecycle and tenant |

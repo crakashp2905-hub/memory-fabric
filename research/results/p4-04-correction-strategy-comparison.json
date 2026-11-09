@@ -1,0 +1,52 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P4-04",
+  "tested_commit": "UNCOMMITTED_SOURCE_SNAPSHOT",
+  "command": "python -m unittest tests.test_examples_run; TEMP/TMP and tempfile.tempdir routed to .task-tmp",
+  "exit_code": 0,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 87.272,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "three_arm_comparison_output": "PASS",
+    "selective_gate_blocks_stale_action": "PASS",
+    "selective_gate_allows_unrelated_action": "PASS",
+    "false_block_cost_reported": "PASS",
+    "offline_example_suite": "PASS",
+    "Ruff": "PASS"
+  },
+  "observed": {
+    "naive_delete": {
+      "stale_action": "WOULD RUN",
+      "unrelated_action": "allowed",
+      "stale_actions": 1,
+      "false_blocks": 0
+    },
+    "blanket": {
+      "stale_action": "blocked",
+      "unrelated_action": "blocked",
+      "stale_actions": 0,
+      "false_blocks": 1
+    },
+    "selective_gate": {
+      "stale_action": "blocked",
+      "unrelated_action": "allowed",
+      "stale_actions": 0,
+      "false_blocks": 0
+    }
+  },
+  "limitations": [
+    "The three-arm comparison is a deterministic single-case demonstration, not a population benchmark.",
+    "Naive deletion and blanket invalidation are scripted comparators; the selective arm uses Memory Fabric authorization.",
+    "No external tool or effect was invoked."
+  ],
+  "file_sha256": {
+    "examples/correction_strategy_comparison.py": "b572c3ebf90b917654d33d4c9625f7722593d2c46dddde1e7b4e2a17058c12db",
+    "examples/README.md": "19b0baddd5bc56eb3dc46b459e3bbbd871d025c62170ae22690fb185cbdf4a9c",
+    "tests/test_examples_run.py": "61407d6dd43e004687c1e69f185d64c23ba3c145ee1ad0ce552ea81b75d8540c",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "0ba6781977e487ac7e0e2ab23f5b7b0048ed619c4d319ce8443d29103d4a4afb"
+  }
+}

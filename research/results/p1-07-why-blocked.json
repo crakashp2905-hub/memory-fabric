@@ -1,0 +1,20 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P1-07",
+  "commit": "7052d297862186d752b80018352f0479b637c223",
+  "command": "python -m unittest tests.test_examples_run tests.test_reasons tests.test_troubleshooting -q",
+  "exit_code": 0,
+  "tests_run": 7,
+  "elapsed_seconds": 39.654,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "examples/why_blocked.py": "165c3b3f812251f07760a91664a3af692d9f8434afe72fa9e30e55eb52dd482f",
+    "tests/test_examples_run.py": "cd328be7841af3828abc4052b3de3f90b76128c6f0005735aa00fcc01b207437",
+    "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "d5d686501595a4dd1cd3dd97db4bb26fd15799bb6acff5d1f65aebeea27e2c3a",
+    "docs/TROUBLESHOOTING.md": "e4267c4a8ca3e324a311ac418d51214d0d7e50f5e2200c3f056cd5ee3a781ef5",
+    "examples/README.md": "7ee530fc904d78504cd03a809f279c3588b6b6469910877b8bf62f2f41467cbd"
+  },
+  "result_text_sha256": "1114460986292a1a00becafa8ae2030a7ea2465af2074d86a814fb711f9b120b"
+}

@@ -614,8 +614,14 @@ def cmd_episodes(fabric: MemoryFabric, args: argparse.Namespace) -> int:
 
 def cmd_search(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     hits = report.preview_search(fabric, args.query, k=args.limit, all_states=not args.retrievable)
+    from .answerability import assess
+
+    memories = [fabric.state.memories[hit.id] for hit in hits if hit.id in fabric.state.memories]
+    answerability = assess(args.query, memories)
     if args.json:
-        print(json.dumps(report.jsonable([h.to_json() for h in hits]), indent=2, allow_nan=False))
+        print(json.dumps({"memories": report.jsonable([h.to_json() for h in hits]),
+                          "answerability": answerability.to_json()},
+                         indent=2, allow_nan=False))
         return 0
     heading(f"Index search: {args.query!r}")
     print(f"{C.DIM}Reads the index directly and logs nothing, so this cannot affect "
@@ -636,6 +642,7 @@ def cmd_search(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     )
     if not hits:
         print(f"{C.DIM}Nothing above the relevance floor.{C.RESET}")
+    print(f"Semantic result: {answerability.reason_code}")
     return 0
 
 
@@ -754,11 +761,19 @@ def cmd_maintain(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     return 0
 
 
-def _server_limits(fabric: MemoryFabric) -> None:
+def _server_limits(fabric: MemoryFabric, *, max_memories: int | None = None,
+                   max_retention_actions: int | None = None) -> None:
     """Servers meter writes: payload size, per-agent quota, per-peer import budget (`limits.py`)."""
+    from dataclasses import replace
     from .limits import SERVER_DEFAULTS, Meter
 
-    fabric.limits = Meter(SERVER_DEFAULTS)
+    limits = replace(
+        SERVER_DEFAULTS,
+        max_memories=(SERVER_DEFAULTS.max_memories if max_memories is None else max_memories),
+        max_retention_actions=(SERVER_DEFAULTS.max_retention_actions
+                               if max_retention_actions is None else max_retention_actions),
+    )
+    fabric.limits = Meter(limits)
 
 
 def cmd_serve(fabric: MemoryFabric, args: argparse.Namespace) -> int:
@@ -892,15 +907,23 @@ def _agent_service(fabric: MemoryFabric, agents_file: str):
 
 def cmd_agent_api(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     """Serve agents over authenticated HTTP. See `agent_api.py`."""
-    _server_limits(fabric)
     from .agent_api import AgentApi, ConfigurationError, RateLimit, build_agent_server
+    from .identity import IdentityError
 
     try:
+        _server_limits(fabric, max_memories=args.max_memories,
+                       max_retention_actions=args.max_retention_actions)
         service = _agent_service(fabric, args.agents_file)
-        limits = RateLimit(rate=args.rate_limit, burst=args.burst)
-        server = build_agent_server(AgentApi(service, limits), host=args.host,
+        limits = RateLimit(rate=args.rate_limit, burst=args.burst,
+                           max_request_bytes=args.max_request_bytes,
+                           max_workers=args.max_workers)
+        oauth = None
+        if args.oidc_config:
+            from .oidc import OidcConfig, OidcJwtVerifier
+            oauth = OidcJwtVerifier(OidcConfig.load(args.oidc_config))
+        server = build_agent_server(AgentApi(service, limits, oauth=oauth), host=args.host,
                                     port=args.port, behind_tls=args.behind_tls)
-    except (ConfigurationError, OSError) as exc:
+    except (ConfigurationError, OSError, IdentityError, ValueError) as exc:
         print(f"{C.RED}{exc}{C.RESET}", file=sys.stderr)
         return 5
     host, port = server.server_address[:2]
@@ -1207,6 +1230,31 @@ def cmd_audit_export(fabric: MemoryFabric, args: argparse.Namespace) -> int:
           f"({', '.join(f'{k} {n}' for k, n in sorted(manifest['counts'].items())) or 'none'}); "
           f"content excluded; ends with a chain checkpoint")
     return 0
+
+
+def cmd_support_bundle(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Write aggregate diagnostics without memory content or identifiers."""
+    from .support_bundle import write_support_bundle
+
+    bundle = write_support_bundle(fabric, args.out)
+    metrics = bundle["metrics"]
+    print(f"wrote metadata-only support bundle to {args.out} "
+          f"({metrics['memory_count']} memories, {metrics['event_count']} events; "
+          "content, identifiers and tenant metadata excluded)")
+    return 0
+
+
+def cmd_upgrade_preview(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
+    """Inspect event schema compatibility without opening the store writable."""
+    from .upgrade_preview import preview_upgrade
+
+    try:
+        report = preview_upgrade(args.database)
+    except OSError as exc:
+        print(f"upgrade preview: {exc}", file=sys.stderr)
+        return 4
+    print(json.dumps(report, indent=2, allow_nan=False))
+    return 0 if report["compatible_for_current_reader"] and report["store_byte_identical"] else 5
 
 
 def cmd_import(fabric: MemoryFabric, args: argparse.Namespace) -> int:
@@ -1543,7 +1591,8 @@ def cmd_context(fabric: MemoryFabric, args: argparse.Namespace) -> int:
             print(f"{C.RED}--agent and --query are required{C.RESET}", file=sys.stderr)
             return 2
         bundle = cr.build_context(fabric, args.agent, args.query, budget=args.budget,
-                                  mode=args.mode, tenant_id=tenant)
+                                  mode=args.mode, tenant_id=tenant,
+                                  disagreement_budget=args.disagreement_budget)
         if args.json:
             print(json.dumps({"text": bundle.text, "receipt": bundle.receipt}, indent=2))
             return 0
@@ -1552,6 +1601,8 @@ def cmd_context(fabric: MemoryFabric, args: argparse.Namespace) -> int:
         print(f"\n{C.DIM}receipt {r['receipt_id']}: {len(r['selected'])} selected, "
               f"{len(r['excluded'])} excluded, ~{r['tokens_estimated']}/{r['token_budget']} "
               f"tokens ({r['mode']}){C.RESET}")
+        if r.get("uncertainty"):
+            print(f"{C.YELLOW}Uncertainty: {json.dumps(r['uncertainty'])}{C.RESET}")
         return 0
     if args.action == "receipts":
         rows = cr.receipts(fabric, tenant_id=tenant, agent_id=args.agent)
@@ -1904,16 +1955,41 @@ def _backup_custody(fabric: MemoryFabric, args: argparse.Namespace, target: Path
 
 
 def cmd_restore(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
-    """Restore a backup into a new directory, refusing one that does not match its manifest."""
+    """Restore a verified backup and reconcile it with a current erasure ledger."""
     import shutil
 
     backup = Path(args.backup)
+    ledger_path = Path(args.erasure_ledger) if args.erasure_ledger else None
+    if ledger_path is None or not ledger_path.is_file():
+        print(f"{C.RED}restore requires --erasure-ledger from the current source store; "
+              f"an older backup cannot prove that no later erasures occurred.{C.RESET}",
+              file=sys.stderr)
+        return 2
+    try:
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"{C.RED}cannot read erasure ledger: {exc}{C.RESET}", file=sys.stderr)
+        return 2
+    if ledger.get("format") != "memory-fabric-erasure-ledger/1":
+        print(f"{C.RED}unsupported erasure ledger format{C.RESET}", file=sys.stderr)
+        return 2
     manifest_path = backup.with_name(backup.name + ".manifest.json")
     if not manifest_path.exists():
         print(f"{C.RED}no manifest at {manifest_path}; back up again with this "
               f"version to get one{C.RESET}", file=sys.stderr)
         return 2
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if ledger.get("store_id") != manifest.get("store_id"):
+        print(f"{C.RED}erasure ledger store id does not match the backup{C.RESET}",
+              file=sys.stderr)
+        return 2
+    erasures = ledger.get("erasures")
+    if not isinstance(erasures, list) or any(
+        not isinstance(item, dict) or not isinstance(item.get("memory_id"), str)
+        or not item["memory_id"] for item in erasures
+    ):
+        print(f"{C.RED}invalid erasure ledger entries{C.RESET}", file=sys.stderr)
+        return 2
     bad = [name for name, digest in manifest["files"].items()
            if not (backup.parent / name).is_file()
            or _sha256(backup.parent / name) != digest]
@@ -1937,24 +2013,54 @@ def cmd_restore(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
     restored = MemoryFabric(str(dest / "store.db"),
                             key_provider=DirectoryKeyProvider(str(keys)) if keys else None)
     try:
+        original_events = len(restored.log)
+        original_head = list(restored.log.chain.head())
+        if (original_events != manifest["events"] or
+                original_head != [manifest["chain_head"]["seq"],
+                                  manifest["chain_head"]["digest"]]):
+            print(f"{C.RED}restored snapshot does not match its manifest{C.RESET}",
+                  file=sys.stderr)
+            return 5
+        existing_erased = {
+            str(event.payload.get("memory_id")) for event in restored.log.read()
+            if event.type == "ContentErased"
+        }
+        reconciled = 0
+        for item in erasures:
+            memory_id = item["memory_id"]
+            if memory_id in existing_erased or memory_id not in restored.state.memories:
+                continue
+            restored.erase_content(memory_id, "restore reconciliation from current erasure ledger",
+                                   actor="restore-erasure-ledger")
+            reconciled += 1
         events = len(restored.log)
-        head = list(restored.log.chain.head())
         memories = len(restored.state.memories)
         verification = restored.log.chain.verify(restored.log.read())
+        head_matches = original_head == [manifest["chain_head"]["seq"],
+                                         manifest["chain_head"]["digest"]]
     finally:
         restored.close()
-    if events != manifest["events"] or head != [manifest["chain_head"]["seq"],
-                                                manifest["chain_head"]["digest"]]:
-        print(f"{C.RED}restored {events} events, head {head}; the manifest says "
-              f"{manifest['events']} and {manifest['chain_head']}{C.RESET}", file=sys.stderr)
-        return 5
     ok = getattr(verification, "ok", True)
-    print(f"restored {events} events, {memories} memories into {dest}; chain head matches"
-          f"{'' if ok else '; CHAIN DOES NOT VERIFY'}")
+    print(f"restored {events} events, {memories} memories into {dest}; "
+          f"backup head {'matches' if head_matches else 'does not match'}; "
+          f"chain {'verifies' if ok else 'DOES NOT VERIFY'}; "
+          f"reconciled {reconciled} erased record(s)")
     if keys is None:
         print(f"  {C.YELLOW}no keys in this backup: if the store's keys were external, "
               f"its content cannot be read until they are restored.{C.RESET}")
-    return 0 if ok else 5
+    return 0 if ok and head_matches else 5
+
+
+def cmd_export_erasure_ledger(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Export content-free erasure identifiers for reconciling an older backup."""
+    rows = sorted({str(event.payload.get("memory_id")) for event in fabric.log.read()
+                   if event.type == "ContentErased" and event.payload.get("memory_id")})
+    payload = {"format": "memory-fabric-erasure-ledger/1", "store_id": fabric.store_id,
+               "erasures": [{"memory_id": memory_id} for memory_id in rows]}
+    Path(args.path).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    print(f"wrote {len(rows)} content-free erasure record(s) to {args.path}; "
+          "protect and retain this ledger independently of the backup")
+    return 0
 
 
 def cmd_pilot_report(fabric: MemoryFabric, args: argparse.Namespace) -> int:
@@ -2629,6 +2735,59 @@ def _check_manager(fabric: MemoryFabric) -> Finding:
     return Finding("ok", "background manager", f"last cycle {age_s:.0f} s ago by {run.get('holder')}")
 
 
+def _check_setup_port(host: str, port: int) -> Finding:
+    """Non-mutating bind probe for the address an operator plans to serve."""
+    import socket
+
+    if not 1 <= port <= 65535:
+        return Finding("fail", "setup port", f"port {port} is outside 1..65535",
+                       "Choose an unused unprivileged port with `serve --port <port>`.")
+    try:
+        family = socket.AF_INET6 if ":" in host else socket.AF_INET
+        with socket.socket(family, socket.SOCK_STREAM) as probe:
+            probe.bind((host, port))
+    except OSError as exc:
+        return Finding(
+            "fail", "setup port", f"cannot bind {host}:{port}: {exc}",
+            f"Stop the process holding {host}:{port}, or choose a free port with "
+            "`memory-fabric --db <store> serve --port <free-port>`. No store data was changed.",
+        )
+    return Finding("ok", "setup port", f"{host}:{port} is available at probe time")
+
+
+def _check_setup_disk(fabric: MemoryFabric, min_free_mb: int) -> Finding:
+    """Check explicitly requested free-space floor without writing to the store."""
+    from .pgcompat import is_postgres_url
+
+    if min_free_mb <= 0:
+        return Finding("fail", "disk capacity", "minimum free space must be positive",
+                       "Set `doctor --min-free-mb <positive-MiB>` to the required floor.")
+    database = str(fabric.log.path)
+    if database == ":memory:" or is_postgres_url(database):
+        return Finding(
+            "warn", "disk capacity", "the store is not on a local filesystem volume",
+            "Check free space on the database server volume before deployment.",
+        )
+    volume = pathlib.Path(database).expanduser().resolve().parent
+    try:
+        free = shutil.disk_usage(volume).free
+    except OSError as exc:
+        return Finding("warn", "disk capacity", f"cannot inspect {volume}: {exc}",
+                       "Check the volume with the operating system's disk utility.")
+    required = min_free_mb * 1024 * 1024
+    available_mb = free // (1024 * 1024)
+    if free < required:
+        return Finding(
+            "fail", "disk capacity",
+            f"{available_mb} MiB free on {volume}; {min_free_mb} MiB required",
+            "Free or expand this volume, or move the store using a verified backup: "
+            "`memory-fabric --db <store> backup <backup>`; then point `--db` at the new volume. "
+            "The doctor made no store changes.",
+        )
+    return Finding("ok", "disk capacity",
+                   f"{available_mb} MiB free on {volume}; {min_free_mb} MiB required")
+
+
 DOCTOR_CHECKS = (
     _check_manager,
     _check_append_only,
@@ -2703,6 +2862,14 @@ def cmd_doctor(fabric: MemoryFabric, args: argparse.Namespace) -> int:
                         "report the error if it persists.")
             )
 
+    host = getattr(args, "host", "127.0.0.1")
+    port = getattr(args, "port", None)
+    min_free_mb = getattr(args, "min_free_mb", None)
+    if port is not None:
+        findings.append(_check_setup_port(host, port))
+    if min_free_mb is not None:
+        findings.append(_check_setup_disk(fabric, min_free_mb))
+
     failures = [f for f in findings if f.status == "fail"]
     warnings = [f for f in findings if f.status == "warn"]
     if getattr(args, "webhook", None):
@@ -2746,6 +2913,75 @@ def cmd_doctor(fabric: MemoryFabric, args: argparse.Namespace) -> int:
         print(f"  {C.YELLOW}Sound, with {len(warnings)} warning(s).{C.RESET}")
         return 1
     print(f"  {C.GREEN}Sound. Every check verified, none skipped.{C.RESET}")
+    return 0
+
+
+def cmd_explain(fabric: MemoryFabric | None, args: argparse.Namespace) -> int:
+    """Explain a known refusal code or one recorded gated action without content."""
+    if args.action_seq is not None:
+        if fabric is None:
+            print("explaining an action requires an existing store", file=sys.stderr)
+            return 2
+        from .observability.control import action_detail
+
+        try:
+            detail = action_detail(fabric, args.action_seq)
+        except KeyError:
+            print(f"no gated action at sequence {args.action_seq}", file=sys.stderr)
+            return 4
+        decision = detail["decision"]
+        output = {
+            "action_seq": detail["seq"], "tool": decision.get("tool"),
+            "allowed": decision.get("allowed"),
+            "identity_scope": detail["identity_scope"],
+            "reason_codes": decision.get("reason_codes", []),
+            "checks": detail.get("reason_groups", []),
+            "evidence": [{"memory_id": row["memory_id"],
+                          "version_then": row["version_then"],
+                          "version_now": row["version_now"],
+                          "state_now": row["state_now"],
+                          "usable_now": row["usable_now"],
+                          "support": row["support_label"],
+                          "claim_check": row["claim_check_label"]}
+                         for row in detail.get("evidence", [])],
+        }
+        if args.json:
+            print(json.dumps(output, indent=2))
+            return 0
+        print(f"Action {output['action_seq']} · {output['tool']} · "
+              f"{'allowed' if output['allowed'] else 'refused'}")
+        print(f"Identity: {output['identity_scope']}")
+        if output["reason_codes"]:
+            print("Reason codes: " + ", ".join(output["reason_codes"]))
+        for group in output["checks"]:
+            print(f"\n{group['category']}")
+            for message in group["messages"]:
+                print(f"  {message}")
+        print("\nEvidence checked:")
+        if output["evidence"]:
+            for row in output["evidence"]:
+                print(f"  {row['memory_id']} v{row['version_then']} → "
+                      f"v{row['version_now']} ({row['state_now']}); "
+                      f"{row['support']}; {row['claim_check']}; "
+                      f"{'usable' if row['usable_now'] else 'not usable'} now")
+        else:
+            print("  no evidence was recorded for this decision")
+        return 0
+
+    from .reasons import REASONS
+    code = args.reason_code
+    if not code or code not in REASONS:
+        print("give a known reason code or --action SEQUENCE", file=sys.stderr)
+        return 2
+    happened, remedy = REASONS[code]
+    output = {"reason_code": code, "what_happened": happened,
+              "safe_remediation": remedy}
+    if args.json:
+        print(json.dumps(output, indent=2))
+    else:
+        print(f"{code}: {happened}")
+        if remedy:
+            print(f"Next: {remedy}")
     return 0
 
 
@@ -2808,6 +3044,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     add("overview", cmd_overview, "Store health and what it can and cannot tell you")
     add("tenants", cmd_tenants, "Which tenants this store holds")
+    p = add("explain", cmd_explain,
+            "Explain a refusal reason or inspect the checks for a recorded action")
+    p.add_argument("reason_code", nargs="?", help="known refusal reason code")
+    p.add_argument("--action", dest="action_seq", type=int,
+                   help="inspect one recorded action sequence without printing memory content")
     p = add("anchor", cmd_anchor,
             "Anchor the integrity checkpoint off the store (dir:, git:, https://), or verify anchors")
     p.add_argument("--to", action="append", metavar="TARGET",
@@ -2820,6 +3061,12 @@ def build_parser() -> argparse.ArgumentParser:
                    help="a checkpoint JSON file saved earlier, elsewhere")
     p = add("doctor", cmd_doctor,
             "Whether this installation's answers can be believed (exit 0/1/5)")
+    p.add_argument("--host", default="127.0.0.1",
+                   help="host to probe with --port (default 127.0.0.1)")
+    p.add_argument("--port", type=int,
+                   help="optionally check that the planned service port is available")
+    p.add_argument("--min-free-mb", type=int,
+                   help="optionally require this much free space beside the local store")
     p.add_argument("--webhook", metavar="URL",
                    help="POST a JSON alert here when the store is not sound")
     p.add_argument("--webhook-on", choices=["fail", "warn"], default="fail",
@@ -3008,6 +3255,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--rate-limit", type=float, default=20.0,
                    help="requests a second per agent, on average (0 turns it off)")
     p.add_argument("--burst", type=int, default=40, help="requests per agent at once")
+    p.add_argument("--max-request-bytes", type=int, default=64 * 1024,
+                   help="maximum HTTP request body size")
+    p.add_argument("--max-workers", type=int, default=32,
+                   help="maximum concurrent agent API request workers")
+    p.add_argument("--max-memories", type=int, default=1_000_000,
+                   help="maximum memories in this store")
+    p.add_argument("--max-retention-actions", type=int, default=1_000,
+                   help="maximum lifecycle actions in one retention sweep")
+    p.add_argument("--oidc-config",
+                   help="optional OAuth/OIDC JWT resource-server configuration JSON")
 
     p.add_argument("--no-maintain", action="store_true",
                    help="do not run the background memory manager in this process")
@@ -3096,6 +3353,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--kind", action="append", choices=["decisions", "changes", "access", "deletions"])
     p.add_argument("--since-seq", type=int, default=0)
 
+    p = add("support-bundle", cmd_support_bundle,
+            "WRITES: export aggregate schema and health metrics without memory content, "
+            "identifiers, tenant metadata, keys or event payloads")
+    p.add_argument("--out", required=True, help="path to the JSON support bundle")
+
+    p = add("upgrade-preview", cmd_upgrade_preview,
+            "Read-only SQLite schema compatibility diagnosis; performs no migration")
+    p.add_argument("database", nargs="?", default=argparse.SUPPRESS,
+                   help="SQLite database path (defaults to global --db)")
+
     p = add("import", cmd_import,
             "WRITES: import another store's export (JSON list or JSONL: Mem0, LangChain "
             "documents, plain content) as private candidates waiting for review")
@@ -3168,6 +3435,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--agent")
     p.add_argument("--query")
     p.add_argument("--budget", type=int, default=2000)
+    p.add_argument("--disagreement-budget", type=int, default=256,
+                   help="estimated-token cap for disagreement alternatives (default 256)")
     p.add_argument("--mode", default="auto",
                    choices=["auto", "compact", "balanced", "evidence-first", "exact"])
     p.add_argument("--limit", type=int, default=50)
@@ -3248,6 +3517,12 @@ def build_parser() -> argparse.ArgumentParser:
             "WRITES: restore a backup made with `backup`, after checking its manifest")
     p.add_argument("backup", help="the backup file (its .manifest.json must be beside it)")
     p.add_argument("dest", help="directory to restore into; must not exist")
+    p.add_argument("--erasure-ledger", required=True,
+                   help="current content-free ledger exported from the source store")
+
+    p = add("export-erasure-ledger", cmd_export_erasure_ledger,
+            "Export content-free erasure ids for safe reconciliation of older backups")
+    p.add_argument("path", help="where to write the protected ledger")
 
     add("demo", cmd_demo, "WRITES: seed a demonstration store")
     p = add("sandbox", cmd_sandbox,
@@ -3426,10 +3701,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     from .observability.logs import configure as configure_logs
 
     configure_logs(args.log_format, args.log_level)
+    if args.command == "explain" and args.action_seq is None:
+        return cmd_explain(None, args)
     if args.command == "init":  # creates its own layout; opens no --db
         return cmd_init(args)
     if args.command == "restore":  # writes a new directory; opens no --db
         return cmd_restore(None, args)  # type: ignore[arg-type]
+    if args.command == "upgrade-preview":  # read-only; never opens EventLog writable
+        if not hasattr(args, "database"):
+            args.database = args.db
+        return cmd_upgrade_preview(None, args)
     if args.command == "connect":  # writes a tool's config, not the store
         return cmd_connect(None, args)  # type: ignore[arg-type]
     if args.command == "models":  # environment only; opens no --db

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="1.248" timestamp="2026-11-09T02:29:11.176276+05:30" hostname="DESKTOP-LDJIE30"><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_changed_action_context_invalidates_the_binding" time="0.088" /><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_changed_requirement_version_is_reported_precisely" time="0.008" /><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_original_refusal_verifies_as_refusal" time="0.008" /><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_receipt_round_trips_and_verifies_without_audit_or_side_effect" time="0.010" /><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_tampered_receipt_is_rejected" time="0.008" /><testcase classname="tests.test_authorization_receipt.AuthorizationReceiptTests" name="test_withdrawn_evidence_returns_precise_invalidation_reason" time="0.007"><failure message="AssertionError: 'evidence_withdrawn' not found in ('requirement_evidence_missing',)">self = &lt;tests.test_authorization_receipt.AuthorizationReceiptTests testMethod=test_withdrawn_evidence_returns_precise_invalidation_reason&gt;
+
+    def test_withdrawn_evidence_returns_precise_invalidation_reason(self) -&gt; None:
+        receipt, decision = self.issue()
+        self.assertTrue(decision.allowed)
+        self.fabric.quarantine(self.memory_id, actor="reviewer", reason="bad reading",
+                               basis="contradicted")
+        replay = verify_authorization_receipt(
+            receipt, _gate(self.fabric), request=self.request)
+        self.assertFalse(replay.valid)
+        self.assertEqual(replay.status, "INVALIDATED")
+&gt;       self.assertIn("evidence_withdrawn", replay.reason_codes)
+E       AssertionError: 'evidence_withdrawn' not found in ('requirement_evidence_missing',)
+
+tests\test_authorization_receipt.py:85: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,1344 @@
+{
+  "baseline_seconds_mean": 0.4476601650021621,
+  "baseline_seconds_p50": 0.4106374999973923,
+  "causal_candidate_scoring_seconds_mean": 5.738749605370686e-05,
+  "causal_source_seconds_mean": 2.268240625000908,
+  "causal_source_seconds_p50": 2.1893227000255138,
+  "compute_gate": {
+    "amortization_families": 2,
+    "amortized_causal_rows_per_family": 10000.0,
+    "baseline_rows_per_family": 4000,
+    "maximum_ratio": 5.0,
+    "passed": true,
+    "row_work_ratio": 2.5
+  },
+  "decision": "GRADUATE_FOR_SUPERVISED_RESEARCH",
+  "evaluation_episodes_per_seed_family": 3000,
+  "evidence_level": "SIMULATED",
+  "family_results": {
+    "incident_response": {
+      "baseline_mean_regret": 0.08626666666666667,
+      "baseline_unsafe_rate_mean": 0.017816666666666668,
+      "causal_mean_regret": 0.0,
+      "causal_unsafe_rate_mean": 0.01145,
+      "per_seed": [
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4815316000021994,
+          "baseline_regret": 0.07066666666666666,
+          "baseline_success": 0.5143333333333333,
+          "baseline_unsafe_rate": 0.018666666666666668,
+          "causal_candidate_scoring_seconds": 5.0799979362636805e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.585,
+          "causal_unsafe_rate": 0.014,
+          "oracle_success": 0.585,
+          "regret_reduction": 0.07066666666666666,
+          "seed": 40,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 15,
+              "procedure": 5
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.451084100001026,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.004666666666666668
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.46509439998771995,
+          "baseline_regret": 0.10133333333333339,
+          "baseline_success": 0.5013333333333333,
+          "baseline_unsafe_rate": 0.017666666666666667,
+          "causal_candidate_scoring_seconds": 7.950002327561378e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6026666666666667,
+          "causal_unsafe_rate": 0.011666666666666667,
+          "oracle_success": 0.6026666666666667,
+          "regret_reduction": 0.10133333333333339,
+          "seed": 41,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.548493000038434,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3790533000137657,
+          "baseline_regret": 0.09466666666666668,
+          "baseline_success": 0.514,
+          "baseline_unsafe_rate": 0.016666666666666666,
+          "causal_candidate_scoring_seconds": 5.119998240843415e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6086666666666667,
+          "causal_unsafe_rate": 0.010666666666666666,
+          "oracle_success": 0.6086666666666667,
+          "regret_reduction": 0.09466666666666668,
+          "seed": 42,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.4756449999986216,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.38779649999924004,
+          "baseline_regret": 0.08366666666666667,
+          "baseline_success": 0.5126666666666667,
+          "baseline_unsafe_rate": 0.016666666666666666,
+          "causal_candidate_scoring_seconds": 5.029997555539012e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5963333333333334,
+          "causal_unsafe_rate": 0.010666666666666666,
+          "oracle_success": 0.5963333333333334,
+          "regret_reduction": 0.08366666666666667,
+          "seed": 43,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.534913100011181,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4220962999970652,
+          "baseline_regret": 0.07466666666666666,
+          "baseline_success": 0.5183333333333333,
+          "baseline_unsafe_rate": 0.019,
+          "causal_candidate_scoring_seconds": 6.700004450976849e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.593,
+          "causal_unsafe_rate": 0.011666666666666667,
+          "oracle_success": 0.593,
+          "regret_reduction": 0.07466666666666666,
+          "seed": 44,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 15,
+              "procedure": 5
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0528586999862455,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007333333333333332
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.5764333999832161,
+          "baseline_regret": 0.07633333333333336,
+          "baseline_success": 0.5253333333333333,
+          "baseline_unsafe_rate": 0.015,
+          "causal_candidate_scoring_seconds": 5.229999078437686e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6016666666666667,
+          "causal_unsafe_rate": 0.01,
+          "oracle_success": 0.6016666666666667,
+          "regret_reduction": 0.07633333333333336,
+          "seed": 45,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 16,
+              "procedure": 4
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.143345099990256,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.004999999999999999
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.6420188000192866,
+          "baseline_regret": 0.08733333333333332,
+          "baseline_success": 0.48333333333333334,
+          "baseline_unsafe_rate": 0.010666666666666666,
+          "causal_candidate_scoring_seconds": 9.569997200742364e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5706666666666667,
+          "causal_unsafe_rate": 0.005333333333333333,
+          "oracle_success": 0.5706666666666667,
+          "regret_reduction": 0.08733333333333332,
+          "seed": 46,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.740793799981475,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.005333333333333333
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.5504988000029698,
+          "baseline_regret": 0.07966666666666666,
+          "baseline_success": 0.5223333333333333,
+          "baseline_unsafe_rate": 0.017333333333333333,
+          "causal_candidate_scoring_seconds": 0.00018769997404888272,
+          "causal_regret": 0.0,
+          "causal_success": 0.602,
+          "causal_unsafe_rate": 0.01,
+          "oracle_success": 0.602,
+          "regret_reduction": 0.07966666666666666,
+          "seed": 47,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.616515800007619,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007333333333333332
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3822719000163488,
+          "baseline_regret": 0.07200000000000006,
+          "baseline_success": 0.5273333333333333,
+          "baseline_unsafe_rate": 0.012333333333333333,
+          "causal_candidate_scoring_seconds": 4.799995804205537e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5993333333333334,
+          "causal_unsafe_rate": 0.007666666666666666,
+          "oracle_success": 0.5993333333333334,
+          "regret_reduction": 0.07200000000000006,
+          "seed": 48,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 15,
+              "procedure": 5
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.4085251999786124,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.004666666666666667
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3828370999544859,
+          "baseline_regret": 0.08600000000000008,
+          "baseline_success": 0.5133333333333333,
+          "baseline_unsafe_rate": 0.021,
+          "causal_candidate_scoring_seconds": 4.830001853406429e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5993333333333334,
+          "causal_unsafe_rate": 0.014666666666666666,
+          "oracle_success": 0.5993333333333334,
+          "regret_reduction": 0.08600000000000008,
+          "seed": 49,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.1233306999783963,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006333333333333335
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3966849999851547,
+          "baseline_regret": 0.08266666666666667,
+          "baseline_success": 0.514,
+          "baseline_unsafe_rate": 0.02266666666666667,
+          "causal_candidate_scoring_seconds": 4.88999648950994e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5966666666666667,
+          "causal_unsafe_rate": 0.01633333333333333,
+          "oracle_success": 0.5966666666666667,
+          "regret_reduction": 0.08266666666666667,
+          "seed": 50,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.179019699979108,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006333333333333337
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4106374999973923,
+          "baseline_regret": 0.09499999999999997,
+          "baseline_success": 0.5096666666666667,
+          "baseline_unsafe_rate": 0.019666666666666666,
+          "causal_candidate_scoring_seconds": 4.9099966417998075e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6046666666666667,
+          "causal_unsafe_rate": 0.012,
+          "oracle_success": 0.6046666666666667,
+          "regret_reduction": 0.09499999999999997,
+          "seed": 51,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0540544000105,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666665
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4099892000085674,
+          "baseline_regret": 0.09333333333333327,
+          "baseline_success": 0.5146666666666667,
+          "baseline_unsafe_rate": 0.017333333333333333,
+          "causal_candidate_scoring_seconds": 4.7799956519156694e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.608,
+          "causal_unsafe_rate": 0.009666666666666667,
+          "oracle_success": 0.608,
+          "regret_reduction": 0.09333333333333327,
+          "seed": 52,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0721773999975994,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666665
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.41101209999760613,
+          "baseline_regret": 0.10166666666666668,
+          "baseline_success": 0.498,
+          "baseline_unsafe_rate": 0.021666666666666667,
+          "causal_candidate_scoring_seconds": 4.650000482797623e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5996666666666667,
+          "causal_unsafe_rate": 0.014,
+          "oracle_success": 0.5996666666666667,
+          "regret_reduction": 0.10166666666666668,
+          "seed": 53,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.057788399979472,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666667
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4166082000010647,
+          "baseline_regret": 0.08299999999999996,
+          "baseline_success": 0.515,
+          "baseline_unsafe_rate": 0.022,
+          "causal_candidate_scoring_seconds": 5.170004442334175e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.598,
+          "causal_unsafe_rate": 0.014333333333333333,
+          "oracle_success": 0.598,
+          "regret_reduction": 0.08299999999999996,
+          "seed": 54,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0287642999901436,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666665
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.42183309997199103,
+          "baseline_regret": 0.08366666666666667,
+          "baseline_success": 0.5146666666666667,
+          "baseline_unsafe_rate": 0.015333333333333332,
+          "causal_candidate_scoring_seconds": 5.000003147870302e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5983333333333334,
+          "causal_unsafe_rate": 0.010333333333333333,
+          "oracle_success": 0.5983333333333334,
+          "regret_reduction": 0.08366666666666667,
+          "seed": 55,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 16,
+              "procedure": 4
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.2071324000135064,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.004999999999999999
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.37202569999499246,
+          "baseline_regret": 0.09399999999999997,
+          "baseline_success": 0.512,
+          "baseline_unsafe_rate": 0.019666666666666666,
+          "causal_candidate_scoring_seconds": 4.640000406652689e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.606,
+          "causal_unsafe_rate": 0.010666666666666666,
+          "oracle_success": 0.606,
+          "regret_reduction": 0.09399999999999997,
+          "seed": 56,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0769865000038408,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.009
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.38405940000666305,
+          "baseline_regret": 0.07800000000000007,
+          "baseline_success": 0.5003333333333333,
+          "baseline_unsafe_rate": 0.01633333333333333,
+          "causal_candidate_scoring_seconds": 4.740001168102026e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5783333333333334,
+          "causal_unsafe_rate": 0.011,
+          "oracle_success": 0.5783333333333334,
+          "regret_reduction": 0.07800000000000007,
+          "seed": 57,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 16,
+              "procedure": 4
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0965533000417054,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.005333333333333332
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.9718555999570526,
+          "baseline_regret": 0.09033333333333338,
+          "baseline_success": 0.5033333333333333,
+          "baseline_unsafe_rate": 0.017,
+          "causal_candidate_scoring_seconds": 0.00010300002759322524,
+          "causal_regret": 0.0,
+          "causal_success": 0.5936666666666667,
+          "causal_unsafe_rate": 0.011,
+          "oracle_success": 0.5936666666666667,
+          "regret_reduction": 0.09033333333333338,
+          "seed": 58,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.1893227000255138,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006000000000000002
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4034504999872297,
+          "baseline_regret": 0.09733333333333333,
+          "baseline_success": 0.49533333333333335,
+          "baseline_unsafe_rate": 0.019666666666666666,
+          "causal_candidate_scoring_seconds": 4.680000711232424e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.5926666666666667,
+          "causal_unsafe_rate": 0.013333333333333334,
+          "oracle_success": 0.5926666666666667,
+          "regret_reduction": 0.09733333333333333,
+          "seed": 59,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.3075089000049047,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.0063333333333333314
+        }
+      ],
+      "regret_gate_passed": true,
+      "regret_reduction_ci_95": [
+        0.08221666666666667,
+        0.09038333333333334
+      ],
+      "regret_reduction_mean": 0.08626666666666667,
+      "safety_gate_passed": true,
+      "seed_count": 20,
+      "unsafe_rate_difference_ci_95": [
+        -0.006883333333333333,
+        -0.005866666666666667
+      ],
+      "unsafe_rate_difference_mean": -0.006366666666666666
+    },
+    "supply_chain_dispatch": {
+      "baseline_mean_regret": 0.08778333333333332,
+      "baseline_unsafe_rate_mean": 0.019716666666666667,
+      "causal_mean_regret": 0.0,
+      "causal_unsafe_rate_mean": 0.0124,
+      "per_seed": [
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4897223000298254,
+          "baseline_regret": 0.09266666666666667,
+          "baseline_success": 0.6083333333333333,
+          "baseline_unsafe_rate": 0.013666666666666667,
+          "causal_candidate_scoring_seconds": 5.2099989261478186e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.701,
+          "causal_unsafe_rate": 0.010666666666666666,
+          "oracle_success": 0.701,
+          "regret_reduction": 0.09266666666666667,
+          "seed": 40,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.451084100001026,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.003000000000000001
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4321743999607861,
+          "baseline_regret": 0.08566666666666667,
+          "baseline_success": 0.6173333333333333,
+          "baseline_unsafe_rate": 0.016666666666666666,
+          "causal_candidate_scoring_seconds": 4.7900015488266945e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.703,
+          "causal_unsafe_rate": 0.010333333333333333,
+          "oracle_success": 0.703,
+          "regret_reduction": 0.08566666666666667,
+          "seed": 41,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.548493000038434,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006333333333333333
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4165305999922566,
+          "baseline_regret": 0.08699999999999997,
+          "baseline_success": 0.6196666666666667,
+          "baseline_unsafe_rate": 0.021333333333333333,
+          "causal_candidate_scoring_seconds": 4.740001168102026e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7066666666666667,
+          "causal_unsafe_rate": 0.012333333333333333,
+          "oracle_success": 0.7066666666666667,
+          "regret_reduction": 0.08699999999999997,
+          "seed": 42,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.4756449999986216,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.009
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.40080500004114583,
+          "baseline_regret": 0.09166666666666667,
+          "baseline_success": 0.617,
+          "baseline_unsafe_rate": 0.022333333333333334,
+          "causal_candidate_scoring_seconds": 4.6999950427562e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7086666666666667,
+          "causal_unsafe_rate": 0.015333333333333332,
+          "oracle_success": 0.7086666666666667,
+          "regret_reduction": 0.09166666666666667,
+          "seed": 43,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.534913100011181,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007000000000000001
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3942986999754794,
+          "baseline_regret": 0.08933333333333338,
+          "baseline_success": 0.6113333333333333,
+          "baseline_unsafe_rate": 0.016,
+          "causal_candidate_scoring_seconds": 4.9399968702346087e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7006666666666667,
+          "causal_unsafe_rate": 0.01,
+          "oracle_success": 0.7006666666666667,
+          "regret_reduction": 0.08933333333333338,
+          "seed": 44,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0528586999862455,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.4767596000456251,
+          "baseline_regret": 0.08933333333333326,
+          "baseline_success": 0.6206666666666667,
+          "baseline_unsafe_rate": 0.020666666666666667,
+          "causal_candidate_scoring_seconds": 6.919994484633207e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.71,
+          "causal_unsafe_rate": 0.012,
+          "oracle_success": 0.71,
+          "regret_reduction": 0.08933333333333326,
+          "seed": 45,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.143345099990256,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.008666666666666666
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.5887391000287607,
+          "baseline_regret": 0.08866666666666667,
+          "baseline_success": 0.6146666666666667,
+          "baseline_unsafe_rate": 0.019333333333333334,
+          "causal_candidate_scoring_seconds": 5.3999945521354675e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7033333333333334,
+          "causal_unsafe_rate": 0.011333333333333334,
+          "oracle_success": 0.7033333333333334,
+          "regret_reduction": 0.08866666666666667,
+          "seed": 46,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.740793799981475,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.008
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.5063049000455067,
+          "baseline_regret": 0.08799999999999997,
+          "baseline_success": 0.5963333333333334,
+          "baseline_unsafe_rate": 0.018333333333333333,
+          "causal_candidate_scoring_seconds": 5.960004637017846e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6843333333333333,
+          "causal_unsafe_rate": 0.011666666666666667,
+          "oracle_success": 0.6843333333333333,
+          "regret_reduction": 0.08799999999999997,
+          "seed": 47,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.616515800007619,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006666666666666666
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3914337000460364,
+          "baseline_regret": 0.08799999999999997,
+          "baseline_success": 0.6126666666666667,
+          "baseline_unsafe_rate": 0.016666666666666666,
+          "causal_candidate_scoring_seconds": 4.499999340623617e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7006666666666667,
+          "causal_unsafe_rate": 0.011666666666666667,
+          "oracle_success": 0.7006666666666667,
+          "regret_reduction": 0.08799999999999997,
+          "seed": 48,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.4085251999786124,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.004999999999999999
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.39718779997201636,
+          "baseline_regret": 0.07700000000000007,
+          "baseline_success": 0.6183333333333333,
+          "baseline_unsafe_rate": 0.022333333333333334,
+          "causal_candidate_scoring_seconds": 7.350003579631448e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6953333333333334,
+          "causal_unsafe_rate": 0.014666666666666666,
+          "oracle_success": 0.6953333333333334,
+          "regret_reduction": 0.07700000000000007,
+          "seed": 49,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.1233306999783963,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666667
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.41683200001716614,
+          "baseline_regret": 0.09333333333333338,
+          "baseline_success": 0.6093333333333333,
+          "baseline_unsafe_rate": 0.022333333333333334,
+          "causal_candidate_scoring_seconds": 4.569999873638153e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7026666666666667,
+          "causal_unsafe_rate": 0.011333333333333334,
+          "oracle_success": 0.7026666666666667,
+          "regret_reduction": 0.09333333333333338,
+          "seed": 50,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.179019699979108,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.011
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.3803055000025779,
+          "baseline_regret": 0.08866666666666667,
+          "baseline_success": 0.6066666666666667,
+          "baseline_unsafe_rate": 0.021,
+          "causal_candidate_scoring_seconds": 4.650000482797623e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6953333333333334,
+          "causal_unsafe_rate": 0.013,
+          "oracle_success": 0.6953333333333334,
+          "regret_reduction": 0.08866666666666667,
+          "seed": 51,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0540544000105,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.008000000000000002
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.39630369999213144,
+          "baseline_regret": 0.09833333333333338,
+          "baseline_success": 0.594,
+          "baseline_unsafe_rate": 0.02266666666666667,
+          "causal_candidate_scoring_seconds": 5.15999854542315e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6923333333333334,
+          "causal_unsafe_rate": 0.013333333333333334,
+          "oracle_success": 0.6923333333333334,
+          "regret_reduction": 0.09833333333333338,
+          "seed": 52,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 20,
+              "procedure": 0
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0721773999975994,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.009333333333333334
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.376292500004638,
+          "baseline_regret": 0.08133333333333337,
+          "baseline_success": 0.6113333333333333,
+          "baseline_unsafe_rate": 0.020666666666666667,
+          "causal_candidate_scoring_seconds": 4.650000482797623e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6926666666666667,
+          "causal_unsafe_rate": 0.013,
+          "oracle_success": 0.6926666666666667,
+          "regret_reduction": 0.08133333333333337,
+          "seed": 53,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 17,
+              "procedure": 3
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.057788399979472,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007666666666666667
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.38399280002340674,
+          "baseline_regret": 0.07466666666666666,
+          "baseline_success": 0.6286666666666667,
+          "baseline_unsafe_rate": 0.020666666666666667,
+          "causal_candidate_scoring_seconds": 4.539999645203352e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7033333333333334,
+          "causal_unsafe_rate": 0.014666666666666666,
+          "oracle_success": 0.7033333333333334,
+          "regret_reduction": 0.07466666666666666,
+          "seed": 54,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 16,
+              "procedure": 4
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0287642999901436,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.38685330003499985,
+          "baseline_regret": 0.09033333333333327,
+          "baseline_success": 0.5973333333333334,
+          "baseline_unsafe_rate": 0.021,
+          "causal_candidate_scoring_seconds": 4.710000939667225e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6876666666666666,
+          "causal_unsafe_rate": 0.012666666666666666,
+          "oracle_success": 0.6876666666666666,
+          "regret_reduction": 0.09033333333333327,
+          "seed": 55,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 19,
+              "procedure": 1
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.2071324000135064,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.008333333333333335
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.36871319997590035,
+          "baseline_regret": 0.09099999999999997,
+          "baseline_success": 0.6136666666666667,
+          "baseline_unsafe_rate": 0.021,
+          "causal_candidate_scoring_seconds": 4.910002462565899e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.7046666666666667,
+          "causal_unsafe_rate": 0.012333333333333333,
+          "oracle_success": 0.7046666666666667,
+          "regret_reduction": 0.09099999999999997,
+          "seed": 56,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0769865000038408,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.008666666666666668
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.39500600000610575,
+          "baseline_regret": 0.08766666666666667,
+          "baseline_success": 0.591,
+          "baseline_unsafe_rate": 0.015333333333333332,
+          "causal_candidate_scoring_seconds": 4.640000406652689e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6786666666666666,
+          "causal_unsafe_rate": 0.008333333333333333,
+          "oracle_success": 0.6786666666666666,
+          "regret_reduction": 0.08766666666666667,
+          "seed": 57,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.0965533000417054,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.006999999999999999
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.618368300027214,
+          "baseline_regret": 0.07599999999999996,
+          "baseline_success": 0.6216666666666667,
+          "baseline_unsafe_rate": 0.021333333333333333,
+          "causal_candidate_scoring_seconds": 5.7299970649182796e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.6976666666666667,
+          "causal_unsafe_rate": 0.014,
+          "oracle_success": 0.6976666666666667,
+          "regret_reduction": 0.07599999999999996,
+          "seed": 58,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 16,
+              "procedure": 4
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.1893227000255138,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.007333333333333332
+        },
+        {
+          "baseline_calibration_and_ranking_seconds": 0.42199479998089373,
+          "baseline_regret": 0.09699999999999998,
+          "baseline_success": 0.607,
+          "baseline_unsafe_rate": 0.021,
+          "causal_candidate_scoring_seconds": 4.640000406652689e-05,
+          "causal_regret": 0.0,
+          "causal_success": 0.704,
+          "causal_unsafe_rate": 0.015333333333333332,
+          "oracle_success": 0.704,
+          "regret_reduction": 0.09699999999999998,
+          "seed": 59,
+          "selected_kinds": {
+            "oracle": {
+              "legacy": 0,
+              "procedure": 20
+            },
+            "smoothed_success": {
+              "legacy": 18,
+              "procedure": 2
+            },
+            "source_causal_policy": {
+              "legacy": 0,
+              "procedure": 20
+            }
+          },
+          "source_rows_processed": 20000,
+          "source_training_seconds": 2.3075089000049047,
+          "target_rows_processed": 4000,
+          "unsafe_rate_difference": -0.005666666666666669
+        }
+      ],
+      "regret_gate_passed": true,
+      "regret_reduction_ci_95": [
+        0.08503333333333332,
+        0.09034999999999999
+      ],
+      "regret_reduction_mean": 0.08778333333333332,
+      "safety_gate_passed": true,
+      "seed_count": 20,
+      "unsafe_rate_difference_ci_95": [
+        -0.008066666666666666,
+        -0.006566666666666667
+      ],
+      "unsafe_rate_difference_mean": -0.0073166666666666675
+    }
+  },
+  "graduation_passed": true,
+  "heldout_families": [
+    "supply_chain_dispatch",
+    "incident_response"
+  ],
+  "limitations": [
+    "Synthetic simulator with known success effects and registered unsafe-action rates; not real-agent or tool safety evidence.",
+    "The world families preserve N3-08's procedure-versus-legacy effect mapping.",
+    "Row-count compute is a deterministic work proxy; wall time is descriptive and host-specific.",
+    "Passing would justify supervised research continuation only, not product release or autonomous deployment."
+  ],
+  "regret_margin": 0.05,
+  "safety_noninferiority_margin": 0.005,
+  "schema": "memory-fabric-n3-10-policy-graduation/1",
+  "seeds": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "source_rows_per_seed": 20000,
+  "target_calibration_rows_per_seed_family": 4000,
+  "unsafe_rate_by_kind": {
+    "legacy": 0.02,
+    "procedure": 0.012
+  }
+}

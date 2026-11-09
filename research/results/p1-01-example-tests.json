@@ -1,0 +1,22 @@
+{
+  "schema": "memory-fabric-quickstart-validation/1",
+  "source_commit": "13d1fb3b51c2a852314897feca2723bc83be09cc",
+  "command": "python -m unittest tests.test_sdk tests.test_correction tests.test_systemone tests.test_examples_run -v",
+  "tests_run": 64,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "offline_install": true,
+  "package_indexes_used": false,
+  "credentials_required": false,
+  "hosted_model_required": false,
+  "external_endpoint_required": false,
+  "offline_install_and_example_asserted_under_seconds": 60,
+  "observed_test_suite_seconds": 29.873,
+  "log_path": "research/results/p1-04-sdk-workflow.txt",
+  "log_sha256": "5f6e637c040c5026611b04f5215f39a83e3b4a6ba7c168f6b181e0e6a944c212",
+  "notes": [
+    "Offline installation uses --no-index --no-deps --no-build-isolation and local setuptools>=77.",
+    "The test asserts total offline install and example execution remains below 60 seconds."
+  ]
+}

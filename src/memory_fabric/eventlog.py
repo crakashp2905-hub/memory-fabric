@@ -9,20 +9,31 @@ from __future__ import annotations
 
 __stability__ = "stable"
 
-from .dbtypes import Connection, Row
-
 import json
+import re
 import sqlite3
 import time
 from pathlib import Path
 from typing import Iterable, Iterator
 
 from . import pgcompat
+from .dbtypes import Connection, Row
 from .events import Event
 from .integrity import IntegrityChain
 from .txn import depth as txn_depth
 from .txn import forget as txn_forget
 from .txn import transaction as txn_transaction
+
+_SCHEMA_VERSION = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
+
+
+def _require_schema_version(value: object) -> str:
+    """Fail closed when an event cannot identify the schema that wrote it."""
+    if not isinstance(value, str) or not _SCHEMA_VERSION.fullmatch(value):
+        raise ValueError(
+            "event schema_version must be an explicit numeric major.minor.patch"
+        )
+    return value
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS events (
@@ -77,9 +88,17 @@ class EventLog:
         # the default, a statement silently opens a transaction and any
         # `with conn:` exit commits it — which is how `request_retraction`
         # came to be non-atomic.
-        conn = sqlite3.connect(
-            self.path, check_same_thread=False, isolation_level=None
-        )
+        try:
+            conn = sqlite3.connect(
+                self.path, check_same_thread=False, isolation_level=None
+            )
+        except sqlite3.OperationalError as exc:
+            if "unable to open database file" in str(exc).lower():
+                raise PermissionError(
+                    f"cannot open event store at {self.path!r}; check directory write "
+                    "permissions and available storage"
+                ) from exc
+            raise
         conn.row_factory = sqlite3.Row
         self._conn = conn
         conn.execute("PRAGMA journal_mode=WAL")
@@ -138,6 +157,10 @@ class EventLog:
         batch = list(events)
         if not batch:
             return []
+        # Validate the entire batch before opening the transaction, so a bad
+        # last event cannot leave earlier events or chain links committed.
+        for event in batch:
+            _require_schema_version(event.schema_version)
         with self.transaction():
             stored: list[Event] = []
             for event in batch:
@@ -231,6 +254,6 @@ def _row_to_event(row: Row) -> Event:
         agent_id=row["agent_id"],
         episode_id=row["episode_id"],
         event_id=row["event_id"],
-        schema_version=row["schema_version"],
+        schema_version=_require_schema_version(row["schema_version"]),
         seq=int(row["seq"]),
     )

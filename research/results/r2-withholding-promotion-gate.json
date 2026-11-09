@@ -1,0 +1,154 @@
+{
+  "acceptance_status": "PASS",
+  "candidate_arms": [
+    {
+      "arm": "live",
+      "executor_calls": 0,
+      "live_policy_mutated": false,
+      "recovered_valid_rate": 0.0,
+      "recovered_valid_tasks": 0,
+      "stale_action_rate": 0.0,
+      "stale_actions": 0,
+      "stale_control_denominator": 125,
+      "task_denominator": 500,
+      "valid_withheld_denominator": 86,
+      "withheld": 86,
+      "withholding_rate": 0.172,
+      "withholding_wilson_95": [
+        0.1414541196226405,
+        0.20754744779843962
+      ],
+      "zero_stale_rate_upper_95": 0.023680957510334832
+    },
+    {
+      "arm": "single_source_floor_placebo",
+      "executor_calls": 0,
+      "live_policy_mutated": false,
+      "recovered_valid_rate": 0.0,
+      "recovered_valid_tasks": 0,
+      "stale_action_rate": 0.0,
+      "stale_actions": 0,
+      "stale_control_denominator": 125,
+      "task_denominator": 500,
+      "valid_withheld_denominator": 86,
+      "withheld": 86,
+      "withholding_rate": 0.172,
+      "withholding_wilson_95": [
+        0.1414541196226405,
+        0.20754744779843962
+      ],
+      "zero_stale_rate_upper_95": 0.023680957510334832
+    },
+    {
+      "arm": "allow_suspicious",
+      "executor_calls": 0,
+      "live_policy_mutated": false,
+      "recovered_valid_rate": 0.0,
+      "recovered_valid_tasks": 0,
+      "stale_action_rate": 0.0,
+      "stale_actions": 0,
+      "stale_control_denominator": 125,
+      "task_denominator": 500,
+      "valid_withheld_denominator": 86,
+      "withheld": 86,
+      "withholding_rate": 0.172,
+      "withholding_wilson_95": [
+        0.1414541196226405,
+        0.20754744779843962
+      ],
+      "zero_stale_rate_upper_95": 0.023680957510334832
+    },
+    {
+      "arm": "provisional_guard_placebo",
+      "executor_calls": 0,
+      "live_policy_mutated": false,
+      "recovered_valid_rate": 0.0,
+      "recovered_valid_tasks": 0,
+      "stale_action_rate": 0.0,
+      "stale_actions": 0,
+      "stale_control_denominator": 125,
+      "task_denominator": 500,
+      "valid_withheld_denominator": 86,
+      "withheld": 86,
+      "withholding_rate": 0.172,
+      "withholding_wilson_95": [
+        0.1414541196226405,
+        0.20754744779843962
+      ],
+      "zero_stale_rate_upper_95": 0.023680957510334832
+    },
+    {
+      "arm": "no_authority_floor",
+      "executor_calls": 0,
+      "live_policy_mutated": false,
+      "recovered_valid_rate": 0.0,
+      "recovered_valid_tasks": 0,
+      "stale_action_rate": 0.0,
+      "stale_actions": 0,
+      "stale_control_denominator": 125,
+      "task_denominator": 500,
+      "valid_withheld_denominator": 86,
+      "withheld": 86,
+      "withholding_rate": 0.172,
+      "withholding_wilson_95": [
+        0.1414541196226405,
+        0.20754744779843962
+      ],
+      "zero_stale_rate_upper_95": 0.023680957510334832
+    }
+  ],
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "existing_policy_retained": true,
+  "frozen_local_denominators": {
+    "stale_controls": 125,
+    "tasks": 500,
+    "valid_withheld": 86
+  },
+  "gate": {
+    "maximum_valid_withholding_rate": 0.05,
+    "promotion_requires_both": true,
+    "stale_action_rule": "zero observed additional stale authorizations on the frozen stale-control set"
+  },
+  "historical_reference": {
+    "candidate_sha": "12c612ea37980f92d206fe2b343b217603d1b3cc",
+    "comparison_note": "Historical reference is context only; promotion uses the frozen local held-out corpus and its explicit denominators.",
+    "stale_action_denominator": 500,
+    "stale_action_rate": 0.0,
+    "valid_withholding_rate": 0.168,
+    "withholding_denominator": 500
+  },
+  "input_sha256": {
+    "benchmarks/withholding_promotion_gate.py": "b5d003c7f637457c6c1e42b0e5a78349ca2fafce064905384d566848d83c9169",
+    "research/prereg/r2-withholding-promotion-gate-v1.md": "e140069a954b968688b466494bbe20d29acbaf13ca809b748ccdac6247eecca1",
+    "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+    "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+  },
+  "invariant_failures": [],
+  "known_failure_detected": true,
+  "limitations": [
+    "The local 500-task and 125 stale-control evidence is deterministic synthetic simulation, not real-agent or deployment evidence.",
+    "Guard counterfactuals are dry-run decisions; they do not test a retrieval fix or execute an external effect.",
+    "The Wilson interval is descriptive; the registered promotion rule is the observed-rate threshold plus zero observed stale authorization."
+  ],
+  "pareto_frontier": [
+    "live",
+    "single_source_floor_placebo",
+    "allow_suspicious",
+    "provisional_guard_placebo",
+    "no_authority_floor"
+  ],
+  "population": "synthetic_scripted",
+  "promotion_eligible_arms": [],
+  "promotion_status": "HOLD_EXISTING_POLICY",
+  "repo_commit": "48158b62e6727ba70178fada92165178be70fb51",
+  "schema": "mf-withholding-promotion-gate/1"
+}

@@ -1,0 +1,193 @@
+{
+  "all_methods_within_budget": true,
+  "common_oracle_evaluation_budget_per_world_replicate": 64,
+  "exact_shapley_efficiency_passed": true,
+  "exact_truth": "all-order Shapley value over enumerated potential outcomes",
+  "ips_rows_per_memory": 16,
+  "limitations": [
+    "The four deterministic worlds are synthetic and use exact known potential outcomes.",
+    "The shared budget is a maximum oracle-evaluation cap; realized query counts are reported and differ by method.",
+    "Recency is a descriptive noncausal score centered at 0.5, not an authorization signal.",
+    "No result establishes field accuracy, model inference cost, or external validity."
+  ],
+  "memories_per_world": 4,
+  "methods": {
+    "ips": {
+      "estimate_count": 2048,
+      "max_oracle_outcome_queries_per_world_replicate": 64,
+      "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+      "mean_signed_error": 0.01446533203125,
+      "mean_within_memory_world_variance": 0.11893337965011597,
+      "rmse_vs_exact_shapley": 0.34707421433161273
+    },
+    "loo": {
+      "estimate_count": 2048,
+      "max_oracle_outcome_queries_per_world_replicate": 5,
+      "mean_oracle_outcome_queries_per_world_replicate": 5.0,
+      "mean_signed_error": 0.0,
+      "mean_within_memory_world_variance": 0.0,
+      "rmse_vs_exact_shapley": 0.25
+    },
+    "naive_recency": {
+      "estimate_count": 2048,
+      "max_oracle_outcome_queries_per_world_replicate": 64,
+      "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+      "mean_signed_error": -0.06334660444293053,
+      "mean_within_memory_world_variance": 0.042388672925639546,
+      "rmse_vs_exact_shapley": 0.3409386100195471
+    },
+    "shapley_approx": {
+      "estimate_count": 2048,
+      "max_oracle_outcome_queries_per_world_replicate": 11,
+      "mean_oracle_outcome_queries_per_world_replicate": 9.20703125,
+      "mean_signed_error": -5.204170427930421e-18,
+      "mean_within_memory_world_variance": 0.020666334364149306,
+      "rmse_vs_exact_shapley": 0.14433756729740643
+    }
+  },
+  "per_world": {
+    "complementary": {
+      "ips": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": -0.002685546875,
+        "mean_within_memory_world_variance": 0.06336474418640137,
+        "rmse_vs_exact_shapley": 0.2535755057362106
+      },
+      "loo": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 5,
+        "mean_oracle_outcome_queries_per_world_replicate": 5.0,
+        "mean_signed_error": 0.25,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.3535533905932738
+      },
+      "naive_recency": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": -0.351755609913592,
+        "mean_within_memory_world_variance": 0.056493149326992925,
+        "rmse_vs_exact_shapley": 0.45790450055566645
+      },
+      "shapley_approx": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 11,
+        "mean_oracle_outcome_queries_per_world_replicate": 9.34375,
+        "mean_signed_error": -1.0625181290357943e-17,
+        "mean_within_memory_world_variance": 0.03926595052083333,
+        "rmse_vs_exact_shapley": 0.19982631347136331
+      }
+    },
+    "harmful": {
+      "ips": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": 0.016357421875,
+        "mean_within_memory_world_variance": 0.11846709251403809,
+        "rmse_vs_exact_shapley": 0.3460064435590398
+      },
+      "loo": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 5,
+        "mean_oracle_outcome_queries_per_world_replicate": 5.0,
+        "mean_signed_error": 0.0,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.0
+      },
+      "naive_recency": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": 0.1319335740491078,
+        "mean_within_memory_world_variance": 0.04332691945453933,
+        "rmse_vs_exact_shapley": 0.32639332421767603
+      },
+      "shapley_approx": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 11,
+        "mean_oracle_outcome_queries_per_world_replicate": 9.140625,
+        "mean_signed_error": 0.0,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.0
+      }
+    },
+    "irrelevant": {
+      "ips": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": -0.003662109375,
+        "mean_within_memory_world_variance": 0.11383605003356934,
+        "rmse_vs_exact_shapley": 0.338786970422602
+      },
+      "loo": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 5,
+        "mean_oracle_outcome_queries_per_world_replicate": 5.0,
+        "mean_signed_error": 0.0,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.0
+      },
+      "naive_recency": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": -0.12176702115171469,
+        "mean_within_memory_world_variance": 0.04254681395104619,
+        "rmse_vs_exact_shapley": 0.32555045985000225
+      },
+      "shapley_approx": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 11,
+        "mean_oracle_outcome_queries_per_world_replicate": 9.078125,
+        "mean_signed_error": 0.0,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.0
+      }
+    },
+    "redundant": {
+      "ips": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": 0.0478515625,
+        "mean_within_memory_world_variance": 0.18006563186645508,
+        "rmse_vs_exact_shapley": 0.42783692406540835
+      },
+      "loo": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 5,
+        "mean_oracle_outcome_queries_per_world_replicate": 5.0,
+        "mean_signed_error": -0.25,
+        "mean_within_memory_world_variance": 0.0,
+        "rmse_vs_exact_shapley": 0.3535533905932738
+      },
+      "naive_recency": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 64,
+        "mean_oracle_outcome_queries_per_world_replicate": 64.0,
+        "mean_signed_error": 0.08820263924447681,
+        "mean_within_memory_world_variance": 0.02718780896997975,
+        "rmse_vs_exact_shapley": 0.2067953277438734
+      },
+      "shapley_approx": {
+        "estimate_count": 512,
+        "max_oracle_outcome_queries_per_world_replicate": 11,
+        "mean_oracle_outcome_queries_per_world_replicate": 9.265625,
+        "mean_signed_error": -1.0191500421363742e-17,
+        "mean_within_memory_world_variance": 0.043399386935763895,
+        "rmse_vs_exact_shapley": 0.20833333333333334
+      }
+    }
+  },
+  "recency_decay_per_step": 0.8,
+  "schema": "memory-fabric-n3-03-estimator-comparison/1",
+  "seed_count": 128,
+  "seed_end_inclusive": 127,
+  "seed_start": 0,
+  "shapley_permutations": 3,
+  "world_count": 4
+}

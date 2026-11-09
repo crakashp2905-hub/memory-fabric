@@ -1,0 +1,44 @@
+{
+  "acceptance_status": "PASS",
+  "checks": {
+    "address_policy": "local, reserved and non-global IPs rejected",
+    "discovery_io": "socket and file access patched to fail; valid manual parsed",
+    "redirects": "only same-origin public HTTPS redirects accepted",
+    "schemes": "HTTPS only"
+  },
+  "input_sha256": {
+    "docs/DECISION_MODELS_AND_UTCP.md": "369cda8499e47fca55f505dbf4a3733216615ede7e4ca53e1115a08502df4866",
+    "src/memory_fabric/tool_protocol.py": "e4e8252dfce1d077b0630d006f5f998fb5d862c3245f2af7bed968477473c9cf",
+    "tests/data/utcp_malicious_manuals.json": "ec6d2a1fac03acc64d82b4f9dee1f82b00e36702244c858d9875b86bf5573765",
+    "tests/test_tool_protocol.py": "e4782dcc2050554f0327ddc00635120ba7bd9dcb03f6bf8b3acd2ba6ad904141"
+  },
+  "junit": "research/results/h2-08-utcp-transport-tests.xml",
+  "limitations": [
+    "There is no UTCP transport executor in the package. Callers must validate each redirect before following it.",
+    "Connection-time DNS resolution validation remains necessary to prevent rebinding between parse and connect."
+  ],
+  "malicious_manual_corpus": {
+    "all_rejected": true,
+    "cases": 24,
+    "families": [
+      "unsupported versions",
+      "unknown security fields",
+      "malformed schemas",
+      "local and reserved destinations",
+      "credentials and unsafe ports",
+      "unexpected transports and methods",
+      "literal and percent-encoded shell syntax",
+      "encoded control characters"
+    ]
+  },
+  "schema": "mf-utcp-transport-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "e16ea60a6321f80259c275562908de704a38a00f",
+  "test_summary": {
+    "command": "python -m pytest tests/test_tool_protocol.py -q",
+    "failed": 0,
+    "passed": 12,
+    "subtests_passed": 49,
+    "total": 12
+  }
+}

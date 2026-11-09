@@ -1,0 +1,34 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-03",
+  "source_commit": "55aa3357f50e8d31ba46fae9287fd393be423a14",
+  "source_dirty_at_test_start": true,
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "logical_cpus": 8,
+    "process_count": 1,
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "src/memory_fabric/eventlog.py": "6598af4e0f70d0d15286105cec68f75533f0da7fafee6539626fd0b72db672c6",
+    "tests/test_storage_failure_modes.py": "e2eec331543094ad920cfc3fb17c6048b13efbedc24e50425b8eaa4c1e3b19ed"
+  },
+  "checks": {
+    "malformed_path": "PASS; raises actionable OS/database open error",
+    "database_full": "PASS; failed append rolled back after reopen",
+    "sqlite_readonly": "PASS; write refused and row count unchanged",
+    "filesystem_permission_denied": "PASS; real Windows ACL denial refused store creation, names database path and recommends checking permissions/storage, no partial file"
+  },
+  "test_command": "python -m pytest tests/test_storage_failure_modes.py -q --junitxml=research/results/h4-03-storage-failure-tests.xml",
+  "tests_passed": 4,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "5e77a84b09b94d7fa082dca7cc905c1255625dc0c3e1f455933eb658cf7752e5",
+  "acceptance_passed": true,
+  "limitations": [
+    "The filesystem ACL probe is Windows-specific and was exercised on the Windows 11/Python 3.13.5 host; other operating systems require their own permission-denied integration run."
+  ],
+  "verdict": "PASS"
+}

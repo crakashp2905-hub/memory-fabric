@@ -1,0 +1,1294 @@
+{
+  "acceptance_status": "PASS",
+  "agent_count_per_seed": 50,
+  "arms": [
+    "permissive",
+    "blanket",
+    "memory_fabric",
+    "oracle"
+  ],
+  "decision": "DESCRIPTIVE",
+  "dirty": true,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "families": [
+    "supported",
+    "contested_valid",
+    "corrected_withdrawn",
+    "missing"
+  ],
+  "input_sha256": {
+    "benchmarks/safety_tradeoff.py": "6df97e1e549af54e1e5a71c4de9f7744d6962d0a17768ccbd278fedac8216a99",
+    "research/prereg/safety-tradeoff-v1.md": "392eef1c2a256f21c42d31534d398229f5611cabca9700cb7375b35ddfe0e1c5"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Three fixed synthetic seeds with scripted policies; not a real-agent estimate.",
+    "Actions are authorization outcomes only; no external side effects are executed.",
+    "Decision latency is local descriptive timing, not a performance claim."
+  ],
+  "population": "synthetic_scripted",
+  "repo_commit": "a47a5cb36978314d296ca7740ed18737f4107884",
+  "rows": [
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.746,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.758,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 50,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.761,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.763,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.765,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.767,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1001,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 0.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.769,
+      "delayed_decisions": 50,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1001,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": -2.5,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.77,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.772,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1001,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.777,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.778,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.78,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.782,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1001,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.783,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.785,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 58.786,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1001,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.977,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.985,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 50,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.987,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.989,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.991,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.993,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1009,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 0.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.994,
+      "delayed_decisions": 50,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1009,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": -2.5,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.996,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.998,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1009,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.999,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.001,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.003,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.007,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1009,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.009,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.011,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 35.012,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1009,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.409,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.418,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 50,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.42,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.422,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "supported",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.423,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.426,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1013,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 0.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.428,
+      "delayed_decisions": 50,
+      "expected_allow": true,
+      "false_refusals": 50,
+      "family": "contested_valid",
+      "seed": 1013,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": -2.5,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.43,
+      "delayed_decisions": 0,
+      "expected_allow": true,
+      "false_refusals": 0,
+      "family": "contested_valid",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 50.0,
+      "wasted_calls": 0
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.432,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1013,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.434,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.436,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.438,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "corrected_withdrawn",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 50,
+      "arm": "permissive",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.439,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1013,
+      "task_successes": 0,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 50,
+      "utility": -270.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "blanket",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.441,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 50,
+      "allow_decisions": 0,
+      "arm": "memory_fabric",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 1,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.442,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 50,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    },
+    {
+      "action_time_revalidation_calls": 0,
+      "allow_decisions": 0,
+      "arm": "oracle",
+      "attempted": 50,
+      "calls_per_agent": {
+        "authorization": 0,
+        "planning": 1,
+        "retrieval": 1
+      },
+      "decision_latency_ms": 34.446,
+      "delayed_decisions": 0,
+      "expected_allow": false,
+      "false_refusals": 0,
+      "family": "missing",
+      "seed": 1013,
+      "task_successes": 50,
+      "total_calls": {
+        "authorization": 0,
+        "planning": 50,
+        "retrieval": 50
+      },
+      "unsafe_actions": 0,
+      "utility": 30.0,
+      "wasted_calls": 100
+    }
+  ],
+  "schema": "mf-safety-completion-tradeoff/1",
+  "seeds": [
+    1001,
+    1009,
+    1013
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-07",
+  "commit": "ed9c3d6",
+  "command": "python unittest runner: tests.test_control_center_ui + tests.test_control_center; tempfile.tempdir=.task-tmp",
+  "exit_code": 0,
+  "tests_run": 29,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 5.946,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "ruff": "PASS",
+    "git_diff_check": "PASS",
+    "javascript_parse": "PASS via TestPage.test_script_parses",
+    "keyboard_accessibility_contract": "PASS via static local assertions"
+  },
+  "limitations": [
+    "Automated local contract/keyboard checks; not a manual screen-reader or browser assistive-technology audit.",
+    "GitHub CI matrix has not run for this branch."
+  ],
+  "file_sha256": {
+    "tests/test_control_center_ui.py": "a9a349745cd5147f5c7455ae8e2893b86aebd2e97aecc10080d22d9c9ea5129a",
+    "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+    "src/memory_fabric/observability/static/dashboard.html": "ea40f663d6e107b7476cd7bb116a39c8a6e2dc478fb7f683d27549f3dd919b83",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "7b2f7faebc5c7eea6b47514bb364b58216cff85edcdb5db0d07ef5409042a594"
+  },
+  "result_text_sha256": "1f517fb9414f4a826ffee8887cf34c6d8e546575f748acb109c428e78d00e8e8"
+}

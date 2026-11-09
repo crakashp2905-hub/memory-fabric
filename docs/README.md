@@ -34,6 +34,7 @@ Every document in the repository, by what you are trying to do.
 | document | for |
 |---|---|
 | [API.md](API.md) | The Python API, generated from the code |
+| [DECISION_RECORD_SCHEMA.md](DECISION_RECORD_SCHEMA.md) | Typed decisions, evidence links, and correction impact queries |
 | [CLI.md](CLI.md) | Every command and option, generated from the parser |
 | [RETRIEVAL.md](RETRIEVAL.md) | Getting the best retrieval: trained embedders, rerankers, one line |
 | [INTEGRATIONS.md](INTEGRATIONS.md) | MCP, HTTP, SDK, LangChain, Claude, Ollama, PostgreSQL |
@@ -49,6 +50,9 @@ Every document in the repository, by what you are trying to do.
 |---|---|
 | [../DEPLOYMENT.md](../DEPLOYMENT.md) | Serving, capacity as measured, upgrades |
 | [OPERATIONS.md](OPERATIONS.md) | Day-two operations, incidents, background maintenance |
+| [HEALTH_LEVELS.md](HEALTH_LEVELS.md) | Operator health levels and fail-closed meanings |
+| [INCIDENT_REPLAY.md](INCIDENT_REPLAY.md) | Verify and replay redacted incident explanations offline |
+| [RESOURCE_BUDGETS.md](RESOURCE_BUDGETS.md) | Configure retention, request, memory, and worker budgets |
 | [RUNBOOKS.md](RUNBOOKS.md) | Step by step: leaked credentials, key rotation, poisoning, restore |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Every error message and what to do |
 | [MIGRATION.md](MIGRATION.md) | Moving between versions, and moving in from elsewhere |
@@ -122,6 +126,15 @@ use the product.
 | [WORKPLAN.md](WORKPLAN.md) | Work in progress, with every result and failure |
 | [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | What is implemented, task by task |
 | [RESEARCH_ROADMAP.md](RESEARCH_ROADMAP.md) | The research agenda |
+| [AUTHORIZATION_PROOF_RECEIPTS.md](AUTHORIZATION_PROOF_RECEIPTS.md) | Receipts that bind authorization decisions to evidence |
+| [COMPONENT_REMOVAL_ABLATIONS.md](COMPONENT_REMOVAL_ABLATIONS.md) | Component removal experiments and their limits |
+| [DECISION_FEATURE_PROVENANCE.md](DECISION_FEATURE_PROVENANCE.md) | Provenance fields available to decision models |
+| [EVIDENCE_REQUIREMENT_GRAPHS.md](EVIDENCE_REQUIREMENT_GRAPHS.md) | Typed evidence requirements for governed actions |
+| [LOCAL_PROTOCOL_EQUIVALENCE.md](LOCAL_PROTOCOL_EQUIVALENCE.md) | Matched MCP, UTCP and Code Mode workflows |
+| [READ_ONLY_ADVISORIES.md](READ_ONLY_ADVISORIES.md) | Non-authoritative risk advisories and escalation |
+| [REPRODUCIBLE_CORE_BUILD.md](REPRODUCIBLE_CORE_BUILD.md) | Reproducing the local core package artifacts |
+| [SYSTEM1_ROUTING.md](SYSTEM1_ROUTING.md) | Calibrated fast-path decision routing |
+| [UTCP_MANUAL_POLICY.md](UTCP_MANUAL_POLICY.md) | UTCP discovery under the existing authorization policy |
 | [AI_SAFETY_CYBER_RESEARCH_IMPLEMENTATION_PLAN.md](AI_SAFETY_CYBER_RESEARCH_IMPLEMENTATION_PLAN.md) | The safety and security implementation plan |
 | [../research/SCORECARD.md](../research/SCORECARD.md) | Every research claim and its outcome |
 | [../RESEARCH.md](../RESEARCH.md), [../EVALUATION.md](../EVALUATION.md) | Research design and evaluation method |
@@ -131,6 +144,9 @@ use the product.
 ## Memory Fabric 2 roadmap
 
 - [Product and research masterplan](MEMORY_FABRIC_2_PRODUCT_RESEARCH_MASTERPLAN.md)
+- [When ordinary vector retrieval is enough](product/WHEN_TO_USE_MEMORY_FABRIC.md)
+- [Capability maturity matrix and claim gate](product/CAPABILITY_MATURITY.md)
+- [Three product jobs to be done](product/JOBS_TO_BE_DONE.md)
 - [Implementation status and compiler ADR](MF2_IMPLEMENTATION_STATUS.md)
 
 ## Current checklist work
@@ -152,3 +168,60 @@ use the product.
 - [Historical read security design](adr/0002-historical-belief-reads.md)
 - [Procedural asset schema draft](adr/0003-procedural-asset-draft.md)
 - [Product decision packet](product/decisions/2026-10-28-packaging-options.md)
+
+## Engineering and research evidence
+
+| document | for |
+|---|---|
+| [Action race serialization](ACTION_RACE_SERIALIZATION.md) | Concurrent action authorization ordering |
+| [Benchmark manifest environment](BENCHMARK_MANIFEST_ENVIRONMENT.md) | Runtime, host and input evidence for benchmark runs |
+| [Bitemporal history](BITEMPORAL_HISTORY.md) | Historical validity and belief-time reads |
+| [Crash boundary matrix](CRASH_BOUNDARY_MATRIX.md) | Persistence behavior across process crashes |
+| [E4 soak](E4_SOAK.md) | Local soak and recovery evidence |
+| [Error contract matrix](ERROR_CONTRACT_MATRIX.md) | Error semantics across public adapters |
+| [Event schema compatibility](EVENT_SCHEMA_COMPATIBILITY.md) | Event format upgrade rules |
+| [Evidence chain selection](EVIDENCE_CHAIN_SELECTION.md) | Evidence chain ranking and constraints |
+| [Evidence package budgets](EVIDENCE_PACKAGE_BUDGETS.md) | Bounded evidence packaging |
+| [Evidence status API](EVIDENCE_STATUS_API.md) | Evidence sufficiency response contract |
+| [Experimental defaults](EXPERIMENTAL_DEFAULTS.md) | Defaults and opt-in feature inventory |
+| [Freshness leases](FRESHNESS_LEASES.md) | Federation evidence freshness |
+| [Historical compatibility fixtures](HISTORICAL_COMPATIBILITY_FIXTURES.md) | Store compatibility test fixtures |
+| [Historical surface security](HISTORICAL_SURFACE_SECURITY.md) | Access controls for historical reads |
+| [Local check report](LOCAL_CHECK_REPORT.md) | Test outcomes and optional capability inventory |
+| [Local footprint qualification](LOCAL_FOOTPRINT.md) | Installed size, CLI startup, SQLite growth and idle CPU on one host |
+| [Support bundle](SUPPORT_BUNDLE.md) | Metadata-only diagnostics export and privacy boundary |
+| [Upgrade preview](UPGRADE_PREVIEW.md) | Read-only schema compatibility diagnosis before opening a store writable |
+| [Runbook drills](RUNBOOK_DRILLS.md) | Local outage, key loss, corruption and mass-retraction drills |
+| [Offline qualification checklist](MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md) | 260-item offline qualification scope |
+| [Modifier evidence packages](MODIFIER_EVIDENCE_PACKAGES.md) | Evidence attached to memory modifications |
+| [Next master checklist execution](NEXT_MASTER_CHECKLIST_EXECUTION.md) | Prior checklist evidence and remaining gates |
+| [OAuth](OAUTH.md) | OAuth resource-server validation |
+| [Action grant binding](ACTION_GRANT_BINDING.md) | Binding one-use grants to actions |
+| [Action idempotency](ACTION_IDEMPOTENCY.md) | Retry and replay semantics |
+| [Action reconciliation](ACTION_RECONCILIATION.md) | Recovering uncertain external effects |
+| [Agent adapter](AGENT_ADAPTER.md) | Agent integration adapter contracts |
+| [Agent scale benchmark](AGENT_SCALE_BENCHMARK.md) | Multi-agent scale benchmark method |
+| [Correction timing benchmark](CORRECTION_TIMING_BENCHMARK.md) | Measuring correction propagation |
+| [Evidence operation risk](EVIDENCE_OPERATION_RISK.md) | Operational risks in evidence handling |
+| [Failure taxonomy](FAILURE_TAXONOMY.md) | Benchmark failure categories |
+| [False withholding ablation](FALSE_WITHHOLDING_ABLATION.md) | Diagnosing valid evidence withheld by policy |
+| [Matched agent arms](MATCHED_AGENT_ARMS.md) | Matched benchmark arms and controls |
+| [Minority source benchmark](MINORITY_SOURCE_BENCHMARK.md) | Minority-source evidence benchmark |
+| [Offline research benchmark](OFFLINE_RESEARCH_BENCHMARK.md) | Replaying offline benchmark suites |
+| [Withheld cases](PR30_WITHHELD_CASES.md) | Reproduced withheld-evidence cases |
+| [Retention and audit preservation](RETENTION_AND_AUDIT_PRESERVATION.md) | Retention and audit guarantees |
+| [Safety completion tradeoff](SAFETY_COMPLETION_TRADEOFF.md) | Safety and task completion measures |
+| [Withholding promotion gate](WITHHOLDING_PROMOTION_GATE.md) | Promotion criteria for withholding changes |
+| [Package parity](PACKAGE_PARITY.md) | Installed wheel and source distribution parity |
+| [Parameter equivalences](PARAMETER_EQUIVALENCES.md) | Equivalent parameterized query forms |
+| [Portable paths](PORTABLE_PATHS.md) | Path, text encoding and case-collision behavior |
+| [Typed SDK workflow](SDK_WORKFLOW.md) | Add, recall, correction, decision proposals and fenced execution |
+| [Query routing](QUERY_ROUTING.md) | Deterministic retrieval routing behavior |
+| [Read surface semantics](READ_SURFACE_SEMANTICS.md) | Shared read response reason codes |
+| [Result provenance](RESULT_PROVENANCE.md) | Exact commit and dirty-tree result binding |
+| [Retrieval baseline qualification](RETRIEVAL_BASELINE_QUALIFICATION.md) | Retrieval acceptance gates and caveats |
+| [Retrieval index invalidation](RETRIEVAL_INDEX_INVALIDATION.md) | Index update and invalidation rules |
+| [Seed manifests](SEED_MANIFESTS.md) | On-disk seed output verification |
+| [Stage tracing](STAGE_TRACING.md) | Retrieval stage measurements |
+| [State transitions](STATE_TRANSITIONS.md) | Lifecycle transition contract |
+| [Tombstone exchange](TOMBSTONE_EXCHANGE.md) | Retraction propagation protocol |

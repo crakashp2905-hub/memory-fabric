@@ -1,0 +1,82 @@
+{
+  "copy_counts": [
+    0,
+    1,
+    2,
+    4,
+    8
+  ],
+  "irrelevant_copy_credit_zero": true,
+  "irrelevant_credit_max_abs_total": 0.0,
+  "limitations": [
+    "All subsets are enumerated in deterministic synthetic worlds with recognized copy lineage.",
+    "Unrecognized paraphrases and observational settings without overlap are not covered.",
+    "The noncontrastive usage baseline is not causal credit and must not be summed across copies."
+  ],
+  "schema": "memory-fabric-n3-06-copy-invariance/1",
+  "tolerance": 1e-12,
+  "useful_credit_max_drift": 0.0,
+  "useful_credit_stable": true,
+  "worlds": [
+    {
+      "enumerated_subset_count": 4,
+      "irrelevant_copy_count": 0,
+      "irrelevant_group_exact_shapley_total": 0.0,
+      "irrelevant_group_ips_total": 0.0,
+      "irrelevant_group_max_abs_ips": 0.0,
+      "memory_count": 2,
+      "recognized_copy_count": 0,
+      "useful_exact_average_inclusion_effect": 1.0,
+      "useful_exact_shapley": 1.0,
+      "useful_ips_estimate": 1.0
+    },
+    {
+      "enumerated_subset_count": 8,
+      "irrelevant_copy_count": 1,
+      "irrelevant_group_exact_shapley_total": 0.0,
+      "irrelevant_group_ips_total": 0.0,
+      "irrelevant_group_max_abs_ips": 0.0,
+      "memory_count": 3,
+      "recognized_copy_count": 1,
+      "useful_exact_average_inclusion_effect": 1.0,
+      "useful_exact_shapley": 1.0,
+      "useful_ips_estimate": 1.0
+    },
+    {
+      "enumerated_subset_count": 16,
+      "irrelevant_copy_count": 2,
+      "irrelevant_group_exact_shapley_total": 0.0,
+      "irrelevant_group_ips_total": 0.0,
+      "irrelevant_group_max_abs_ips": 0.0,
+      "memory_count": 4,
+      "recognized_copy_count": 2,
+      "useful_exact_average_inclusion_effect": 1.0,
+      "useful_exact_shapley": 1.0,
+      "useful_ips_estimate": 1.0
+    },
+    {
+      "enumerated_subset_count": 64,
+      "irrelevant_copy_count": 4,
+      "irrelevant_group_exact_shapley_total": 0.0,
+      "irrelevant_group_ips_total": 0.0,
+      "irrelevant_group_max_abs_ips": 0.0,
+      "memory_count": 6,
+      "recognized_copy_count": 4,
+      "useful_exact_average_inclusion_effect": 1.0,
+      "useful_exact_shapley": 1.0000000000000004,
+      "useful_ips_estimate": 1.0
+    },
+    {
+      "enumerated_subset_count": 1024,
+      "irrelevant_copy_count": 8,
+      "irrelevant_group_exact_shapley_total": 0.0,
+      "irrelevant_group_ips_total": 0.0,
+      "irrelevant_group_max_abs_ips": 0.0,
+      "memory_count": 10,
+      "recognized_copy_count": 8,
+      "useful_exact_average_inclusion_effect": 1.0,
+      "useful_exact_shapley": 0.9999999999999976,
+      "useful_ips_estimate": 1.0
+    }
+  ]
+}

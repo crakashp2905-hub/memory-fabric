@@ -1,0 +1,472 @@
+{
+  "schema": "memory-fabric-n5-09-partition-freshness/1",
+  "evidence_class": "DETERMINISTIC_CONTRACT_SIMULATION",
+  "clock": "shared deterministic millisecond wall and monotonic clock",
+  "scenarios": [
+    {
+      "reconnect_ms": 4000,
+      "origin_withdraws": true,
+      "lease_ttl_ms": 5000,
+      "sample_interval_ms": 1000,
+      "stale_knowledge_window_ms": 2000,
+      "stale_strict_action_window_ms": 2000,
+      "stale_read_samples": 2,
+      "stale_strict_action_samples": 2,
+      "strict_denied_while_origin_current_samples": 0,
+      "reconnected_and_retracted": true,
+      "observations": [
+        {
+          "elapsed_ms": 0,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 1000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 2000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 3000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 4000,
+          "lease_status": "withdrawn_at_origin",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": false,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": false,
+          "reconnection": true,
+          "withdrawn_lease_accepted": true,
+          "retraction_delivery": [
+            "quarantined"
+          ]
+        }
+      ]
+    },
+    {
+      "reconnect_ms": 8000,
+      "origin_withdraws": true,
+      "lease_ttl_ms": 5000,
+      "sample_interval_ms": 1000,
+      "stale_knowledge_window_ms": 6000,
+      "stale_strict_action_window_ms": 3000,
+      "stale_read_samples": 6,
+      "stale_strict_action_samples": 3,
+      "strict_denied_while_origin_current_samples": 0,
+      "reconnected_and_retracted": true,
+      "observations": [
+        {
+          "elapsed_ms": 0,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 1000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 2000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 3000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 4000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 5000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 6000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 7000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 8000,
+          "lease_status": "withdrawn_at_origin",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": false,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": false,
+          "reconnection": true,
+          "withdrawn_lease_accepted": true,
+          "retraction_delivery": [
+            "quarantined"
+          ]
+        }
+      ]
+    },
+    {
+      "reconnect_ms": null,
+      "origin_withdraws": true,
+      "lease_ttl_ms": 5000,
+      "sample_interval_ms": 1000,
+      "stale_knowledge_window_ms": 6000,
+      "stale_strict_action_window_ms": 3000,
+      "stale_read_samples": 7,
+      "stale_strict_action_samples": 3,
+      "strict_denied_while_origin_current_samples": 0,
+      "reconnected_and_retracted": false,
+      "observations": [
+        {
+          "elapsed_ms": 0,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 1000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 2000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 3000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 4000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 5000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 6000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 7000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 8000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": true,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        }
+      ]
+    },
+    {
+      "reconnect_ms": null,
+      "origin_withdraws": false,
+      "lease_ttl_ms": 5000,
+      "sample_interval_ms": 1000,
+      "stale_knowledge_window_ms": 0,
+      "stale_strict_action_window_ms": 0,
+      "stale_read_samples": 0,
+      "stale_strict_action_samples": 0,
+      "strict_denied_while_origin_current_samples": 4,
+      "reconnected_and_retracted": false,
+      "observations": [
+        {
+          "elapsed_ms": 0,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 1000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 2000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 3000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 4000,
+          "lease_status": "fresh",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": true,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 5000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 6000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 7000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        },
+        {
+          "elapsed_ms": 8000,
+          "lease_status": "lease_expired",
+          "imported_memory_readable": true,
+          "imported_memory_active_for_retrieval": true,
+          "origin_withdrawn": false,
+          "strict_action_allowed": false,
+          "lenient_action_allowed": true,
+          "reconnection": false,
+          "withdrawn_lease_accepted": null,
+          "retraction_delivery": null
+        }
+      ]
+    }
+  ],
+  "conclusion": "Offline stale knowledge is nonzero: a withdrawn import remains readable until retraction arrives. A valid lease bounds strict stale-action exposure to its remaining lifetime, but strict actions become unavailable after expiry even when the origin is still current. Reconnection can deliver a withdrawn lease and quarantine the import. These results are contract-level, not a claim of zero stale reads, physical partition behavior, or field availability.",
+  "task_id": "N5-09",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "f6154e1dc9e2ec791b6fb8dc505b1ecfd44d8db3",
+    "dirty_before_result_write": true,
+    "experiment_sha256": "75b6e836f7de063bd6fd518b50f066df453a5b2a27741f2ec0a7e46ac0cc1bd8"
+  },
+  "tests": {
+    "junit": "research/results/n5-09-partition-tests.xml",
+    "test_cases": 23,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "This uses real in-process lease, action-gate and retraction code with a deterministic clock; it is not a physical network partition or production availability measurement.",
+    "One withdrawn source, one importer, one lease TTL and one-second observation resolution are evaluated; results do not generalize to fleet distributions.",
+    "Lenient actions are intentionally shown as an ungated comparison and are not a recommendation for consequential operations."
+  ]
+}

@@ -209,6 +209,8 @@ EXTENDED_TOOLS: list[dict[str, Any]] = [
                 "mode": {"type": "string",
                           "enum": ["auto", "compact", "balanced", "evidence-first", "exact"],
                           "description": "exact for numbers, ids and dates; auto decides."},
+                "disagreement_budget": {"type": "integer", "minimum": 0, "maximum": 20000,
+                                        "description": "Estimated-token cap for open alternatives; omitted alternatives produce an insufficiency marker. Default 256."},
             },
             "required": ["query"],
             "additionalProperties": False,
@@ -519,7 +521,8 @@ class McpServer:
         if not isinstance(include_contested, bool):
             raise _ToolError("include_contested must be a boolean")
         hits = self.client.recall(query, k=k, include_contested=include_contested)
-        return {"memories": [self._with_trust(self._present(m)) for m in hits]}
+        return {"memories": [self._with_trust(self._present(m)) for m in hits],
+                "answerability": hits.answerability.to_json()}
 
     def _path(self, args: Mapping[str, Any], required: bool) -> list[str]:
         path = args.get("path", [])
@@ -638,12 +641,18 @@ class McpServer:
         mode = args.get("mode", "auto")
         if mode not in ("auto", "compact", "balanced", "evidence-first", "exact"):
             raise _ToolError("unknown mode")
+        disagreement_budget = args.get("disagreement_budget", 256)
+        if (not isinstance(disagreement_budget, int) or isinstance(disagreement_budget, bool)
+                or not 0 <= disagreement_budget <= 20000):
+            raise _ToolError("disagreement_budget must be an integer from 0 to 20000")
         bundle = build_context(self._fabric, self.client.agent_id, query, budget=budget,
-                               mode=mode, tenant_id=self.client.tenant_id)
+                               mode=mode, tenant_id=self.client.tenant_id,
+                               disagreement_budget=disagreement_budget)
         r = bundle.receipt
         return {"context": bundle.text, "receipt_id": r["receipt_id"],
                 "tokens_estimated": r["tokens_estimated"], "mode": r["mode"],
-                "excluded": len(r["excluded"])}
+                "excluded": len(r["excluded"]), "uncertainty": r["uncertainty"],
+                "disagreement_tokens_estimated": r["disagreement_tokens_estimated"]}
 
     def _explain_context(self, args: Mapping[str, Any]) -> dict[str, Any]:
         from ..context_receipt import explain_receipt

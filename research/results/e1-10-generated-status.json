@@ -1,0 +1,32 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "E1-10",
+  "commit": "07815be520500783ca188e58ec99af36d957b439",
+  "command": "python unittest: tests.test_status_at_head + tests.test_suite_hygiene + tests.test_capability_registry; count_tests --check; gen_capabilities --check; status_at_head --write/--check",
+  "exit_code": 0,
+  "tests_run": 17,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 45.776,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "README_test_count_from_pytest_collection": "PASS (2541)",
+    "feature_capability_registry_consistency": "PASS",
+    "generated_status_page_current": "PASS",
+    "exact_head_CI_checks": "PASS (CI invokes count and status checks; test suite covers registry consistency)"
+  },
+  "limitations": [
+    "This does not qualify unexecuted GitHub workflow matrix legs; local exact-check tooling and its tests pass."
+  ],
+  "file_sha256": {
+    "tools/count_tests.py": "d35a88dd0f087584868fbf8e0dd7dc48bbfd52270f2838bcaf837bb0f8a7fe58",
+    "tools/status_at_head.py": "2f4d2ee202741545a8bb4313f94db91668f5523d42510b00657af527ebae127b",
+    "tools/gen_capabilities.py": "848c3441f130bbe983f8fbb6c32d9032adb0481ffe8e8790bb6fcc614be4e3c4",
+    "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
+    "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
+    "tests/test_capability_registry.py": "671b0bdd08621ed38850a223c9fe9403b433b8e2f6338d39139be114f92cd46d",
+    ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "74098dd49b0a1e0054a12f91995f7a5649c94dc9f8ff0f77f42ac549f152a5d0"
+  }
+}

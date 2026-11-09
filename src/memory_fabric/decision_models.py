@@ -11,11 +11,34 @@ __stability__ = "experimental"
 
 import math
 from dataclasses import dataclass, field
+from types import MappingProxyType
 from typing import Any, Callable, Mapping, Protocol, Sequence
 
 
 class DecisionModelError(ValueError):
     """A decision model returned a malformed or unsafe proposal."""
+
+
+def _finite_number(value: object) -> bool:
+    try:
+        return math.isfinite(value)  # type: ignore[arg-type]
+    except (OverflowError, TypeError, ValueError):
+        return False
+
+
+def _freeze(value: Any) -> Any:
+    """Copy nested caller data into immutable containers before a model sees it."""
+    if isinstance(value, Mapping):
+        if any(not isinstance(key, str) for key in value):
+            raise DecisionModelError("feature mapping keys must be strings")
+        return MappingProxyType({key: _freeze(item) for key, item in value.items()})
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze(item) for item in value)
+    if isinstance(value, (set, frozenset)):
+        return frozenset(_freeze(item) for item in value)
+    if value is None or isinstance(value, (str, bool, int, float)):
+        return value
+    raise DecisionModelError("features must use immutable scalar or container data")
 
 
 @dataclass(frozen=True)
@@ -24,6 +47,11 @@ class DecisionOption:
     description: str
     action: str | None = None
     parameters: Mapping[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.parameters, Mapping):
+            raise DecisionModelError("option parameters must be a mapping")
+        object.__setattr__(self, "parameters", _freeze(self.parameters))
 
 
 @dataclass(frozen=True)
@@ -39,6 +67,14 @@ class DecisionContext:
         ids = [option.id for option in self.options]
         if len(ids) != len(set(ids)):
             raise DecisionModelError("option ids must be unique")
+        if (any(not isinstance(item, str) or not item for item in self.evidence_ids)
+                or len(self.evidence_ids) != len(set(self.evidence_ids))):
+            raise DecisionModelError("evidence ids must be unique non-empty strings")
+        if not isinstance(self.constraints, Mapping):
+            raise DecisionModelError("decision constraints must be a mapping")
+        object.__setattr__(self, "options", tuple(self.options))
+        object.__setattr__(self, "evidence_ids", tuple(self.evidence_ids))
+        object.__setattr__(self, "constraints", _freeze(self.constraints))
 
 
 @dataclass(frozen=True)
@@ -54,18 +90,30 @@ class DecisionProposal:
 
     def validate(self, context: DecisionContext) -> "DecisionProposal":
         expected = {option.id for option in context.options}
-        if set(self.probabilities) != expected:
+        if not isinstance(self.probabilities, Mapping) or set(self.probabilities) != expected:
             raise DecisionModelError("probabilities must cover every option exactly once")
         values = tuple(self.probabilities.values())
-        if any(not math.isfinite(value) or value < 0.0 or value > 1.0 for value in values):
+        if any(isinstance(value, bool) or not isinstance(value, (int, float))
+               or not _finite_number(value) or value < 0.0 or value > 1.0
+               for value in values):
             raise DecisionModelError("probabilities must be finite values in [0, 1]")
         if not math.isclose(sum(values), 1.0, abs_tol=1e-6):
             raise DecisionModelError("probabilities must sum to 1")
+        if not isinstance(self.abstained, bool):
+            raise DecisionModelError("abstained must be a boolean")
         if self.abstained != (self.selected is None):
             raise DecisionModelError("abstention and selected option disagree")
         if self.selected is not None and self.selected not in expected:
             raise DecisionModelError("selected option is not in the decision context")
-        if not 0.0 <= self.confidence <= 1.0:
+        if (not isinstance(self.evidence_ids, tuple)
+                or any(not isinstance(item, str) or not item for item in self.evidence_ids)
+                or len(self.evidence_ids) != len(set(self.evidence_ids))
+                or not set(self.evidence_ids).issubset(context.evidence_ids)):
+            raise DecisionModelError("proposal evidence ids must be unique members of the supplied context")
+        if (isinstance(self.confidence, bool)
+                or not isinstance(self.confidence, (int, float))
+                or not _finite_number(self.confidence)
+                or not 0.0 <= self.confidence <= 1.0):
             raise DecisionModelError("confidence must be in [0, 1]")
         return self
 

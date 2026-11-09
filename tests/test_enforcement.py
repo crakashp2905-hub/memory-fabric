@@ -19,7 +19,6 @@ from memory_fabric import LifecycleState, MemoryFabric, WithdrawalBasis
 from memory_fabric.enforcement import (
     ACTIVE,
     BLOCKED_LIFECYCLE,
-    CANDIDATE_UNVALIDATED,
     CONTESTED,
     NOT_FOUND,
     TOKEN_EXPIRED,
@@ -159,6 +158,9 @@ class TestTheBoundary(EnforcementCase):
         self.fabric.quarantine(
             self.memory_id, reason="r", actor="x", basis=WithdrawalBasis.CONTRADICTED
         )
+        # Simulate a stale/malicious vector candidate: quarantine normally
+        # removes this memory from retrieval indexes before the query runs.
+        self.fabric.index.add(self.memory_id, "E01 at coastal: swap the cable.")
         raw = self.fabric.index.search("coastal cable", k=5)
         self.assertIn(self.memory_id, [key for key, _ in raw], "index should still match")
         hits = self.fabric.retrieve("ag_a", "coastal cable", k=5)

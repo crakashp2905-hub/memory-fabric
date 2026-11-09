@@ -1,0 +1,424 @@
+{
+  "acceptance_status": "PASS",
+  "agent_count": 50,
+  "arms": [
+    "majority_vote",
+    "minority_source",
+    "memory_fabric",
+    "oracle"
+  ],
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "benchmarks/minority_source.py": "cb723e8e070e279c241fff9d927a7dec0a15e59cdef35ca9da11d0faa187a336",
+    "research/prereg/minority-source-v1.md": "d199c54b6cf7a6a531b08d8bfbcf0e799265b43cab382aa46d0bf3bf747740a4"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Three fixed synthetic scenarios with scripted decisions.",
+    "No model-based majority reasoning or real-world consensus claim."
+  ],
+  "minority_agent": "agent-049",
+  "population": "synthetic_scripted",
+  "repo_commit": "330f53ad628cd9e5a846433d9544f84334a38047",
+  "rows": [
+    {
+      "agent_count": 50,
+      "arms": {
+        "majority_vote": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "memory_fabric": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "minority_source": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        },
+        "oracle": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        }
+      },
+      "blocker_reason": {
+        "memory_fabric": "evidence_not_usable"
+      },
+      "case_id": "minority-source-901",
+      "elapsed_s": 0.050694,
+      "evidence_state": "contested",
+      "minority_agent": "agent-049",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 901,
+      "source_counts": {
+        "majority_independent_roots": 1,
+        "majority_observations": 49,
+        "minority_observations": 1,
+        "total_independent_roots": 2
+      },
+      "truth": "allow"
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "majority_vote": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "memory_fabric": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "minority_source": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        },
+        "oracle": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        }
+      },
+      "blocker_reason": {
+        "memory_fabric": "evidence_not_usable"
+      },
+      "case_id": "minority-source-907",
+      "elapsed_s": 0.035557,
+      "evidence_state": "contested",
+      "minority_agent": "agent-049",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 907,
+      "source_counts": {
+        "majority_independent_roots": 1,
+        "majority_observations": 49,
+        "minority_observations": 1,
+        "total_independent_roots": 2
+      },
+      "truth": "allow"
+    },
+    {
+      "agent_count": 50,
+      "arms": {
+        "majority_vote": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "memory_fabric": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 49,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 1,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 0,
+            "false_refusal_rate": 1.0,
+            "false_refusals": 50,
+            "success_rate": 0.0,
+            "unsafe_actions": 0
+          }
+        },
+        "minority_source": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        },
+        "oracle": {
+          "majority_agent_mean": {
+            "attempted": 49,
+            "correct": 49,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "minority_agent": {
+            "attempted": 1,
+            "correct": 1,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          },
+          "population_mean": {
+            "attempted": 50,
+            "correct": 50,
+            "false_refusal_rate": 0.0,
+            "false_refusals": 0,
+            "success_rate": 1.0,
+            "unsafe_actions": 0
+          }
+        }
+      },
+      "blocker_reason": {
+        "memory_fabric": "evidence_not_usable"
+      },
+      "case_id": "minority-source-911",
+      "elapsed_s": 0.034461,
+      "evidence_state": "contested",
+      "minority_agent": "agent-049",
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 911,
+      "source_counts": {
+        "majority_independent_roots": 1,
+        "majority_observations": 49,
+        "minority_observations": 1,
+        "total_independent_roots": 2
+      },
+      "truth": "allow"
+    }
+  ],
+  "schema": "mf-minority-source/1",
+  "seeds": [
+    901,
+    907,
+    911
+  ]
+}

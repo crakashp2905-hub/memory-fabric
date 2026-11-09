@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.14.0`
+- **Schema version:** `0.19.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -180,6 +180,99 @@ Default rules:
 6. Sensitive-data detector positive → QUARANTINE.
 
 ---
+
+### 0.19.0 — budgeted disagreement context receipts
+
+New `ContextBuilt` events carry receipt schema `memory-fabric-context-receipt/2`.
+In addition to the prior selected/excluded ids and token estimate, the receipt
+records the disagreement token budget and use, selected item kind
+(`disagreement` or `insufficiency`), source-version references, and explicit
+uncertainty status. The renderer includes every distinct relevant alternative
+only when the complete set fits; otherwise it emits an insufficiency marker.
+No conflict is resolved and no action is authorized by context assembly.
+
+Migration is additive: existing 0.13.0 `ContextBuilt` receipts have no `schema`,
+disagreement-budget or uncertainty fields and remain readable as receipt v1.
+`explain_receipt` defaults those absent fields to no recorded disagreement.
+No event-log rewrite is needed because the projection treats receipt payloads as
+opaque data and selection references remain versioned ids. New events are
+stamped with schema version `0.19.0`.
+
+### 0.18.0 — deterministic decision re-evaluation receipts
+
+The ledger projects a machine-readable receipt for each decision affected by an
+exact correction or retraction. It binds the trigger, changed evidence version,
+current replayed status, reliance proof edges, and affected effect edges into a
+canonical JSON representation with a content-derived receipt ID. Receipts are
+advisory: they require re-evaluation and never authorize an action. Generating a
+receipt does not append to the event log.
+
+The static evidence-requirement policy grammar is
+[`memory-fabric-requirement-graph/1`](docs/EVIDENCE_REQUIREMENT_GRAPHS.md).
+Parsing produces a typed, bounded graph and validates named-rule references
+without evaluating evidence or granting authority.
+
+`requirement_atom_keys` names each atomic policy obligation, and
+`minimal_missing_evidence_sets` returns all minimal alternatives remaining for
+the unsatisfied obligations. AND uses cartesian combination, OR uses union,
+and supersets are removed. The API bounds both intermediate candidates and
+result count, and returns an explicit limit error rather than truncating.
+These explanations are advisory and do not validate evidence or authorize
+actions.
+
+Protected tools may attach this graph to a static `ToolRule`. Authorization
+requires a claim-keyed certificate for each mandatory leaf and re-verifies
+those certificates under the rule's evidence checks and provenance threshold.
+Each distinct claim also requires a static typed `ClaimPredicate`; supporting
+memories must carry structured assertions matching the required subject,
+predicate, unit and value constraint. Retrieval similarity alone never
+satisfies an action claim. This structural check does not establish source
+truth, so source authority and corroboration remain policy decisions.
+When separately rooted assertions disagree about whether a required
+proposition holds, the gate reports a disputed claim and all alternative
+values to the caller, refuses the action, and stores evidence references in
+the audit receipt without selecting a winner.
+Missing mandatory evidence fails closed. Exact approvals, grants and execution
+idempotency bind the complete claim-certificate set. `action_time` freshness
+uses certificate issuance time; `decision_time` requirements remain fail-closed
+until an authenticated decision timestamp is part of the API.
+
+Memory revision callers may supply an expected source version. The store reads
+the current projection after taking the durable write transaction; a stale
+expectation raises a typed `RevisionConflictError` and appends no revision.
+
+### 0.17.0 — durable decision status transitions
+
+Adds `DecisionStatusChanged`, which appends one typed legal transition to a
+decision's status history. The ledger validates the current status and
+transition under the event-log write transaction, so competing writers cannot
+append a stale transition. Illegal transitions append nothing; replay rebuilds
+the immutable `DecisionRecord` history. The new event is additive and older
+readers skip it.
+
+### 0.16.0 — append-only alternative assessments
+
+Adds `DecisionOptionAssessed`, recording why a non-selected option lost and
+the exact versions of evidence that supported that rejection. A reassessment
+query preserves every option and its explanation; a correction to a version in
+the rejection basis marks that option `reconsider`, which only means it might
+become viable and does not select or authorize it. Missing assessments remain
+explicitly `unassessed`. Older readers skip the additive event and existing
+decision and memory rows are unchanged.
+
+### 0.15.0 — replayable decision evidence and impact links
+
+Adds the append-only `DecisionRecorded`, `DecisionEdgeRecorded`, and
+`DecisionSeen` event types. A decision record carries its tenant and agent
+identity, decision time, options, selected option, exact evidence versions,
+constraints, and status history. `relied_on` edges require an exact evidence
+version declared by that decision; `authorized` and `executed` edges identify
+governed effect receipts. Exposure observations remain separate from reliance.
+Decision impact queries replay these edges and return only decisions whose
+exact relied-on evidence was corrected or retracted, with proof edges and
+effects attached to those decisions. The schema addition is backward
+compatible: older event types and logs replay unchanged; old readers ignore
+the new event types.
 
 ### 0.14.0 — copy links stay inside a tenant
 

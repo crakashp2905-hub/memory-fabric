@@ -1,0 +1,5 @@
+P2-08 dashboard history and failure-boundary evidence
+
+94 focused UI, API and HTTP integration tests passed on exact source commit ff575ce56fa0bd998ddf4de14611081bad694f0c. Coverage includes 205 additional history records, bounded page windows without overlap, empty filtered results, conflict-aware read models, and a simulated corrupted-read exception whose HTTP response contains only a generic internal error. Ruff and git diff checks passed.
+
+Limitation: offset pagination is not snapshot-isolated, so concurrent inserts can shift page boundaries. Loopback tests required local socket access.

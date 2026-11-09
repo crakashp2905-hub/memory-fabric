@@ -62,6 +62,23 @@ class ControlCenter(unittest.TestCase):
         self.assertEqual([x["claim_id"] for x in d["depended"]], ["open-valve-7"])
         self.assertEqual([x["claim_id"] for x in d["would_stand"]], ["open-valve-7-checked"])
 
+    def test_memory_history_paging_and_empty_filter_are_bounded(self) -> None:
+        for index in range(205):
+            self.f.remember("history", f"History item {index:03d}", scope="team")
+        first = self.get("/api/memories", limit="100", offset="0")
+        second = self.get("/api/memories", limit="100", offset="100")
+        third = self.get("/api/memories", limit="100", offset="200")
+        self.assertEqual([len(first), len(second)], [100, 100])
+        self.assertGreater(len(third), 0)
+        self.assertLess(len(third), 100)
+        self.assertEqual(len(first) + len(second) + len(third), len(self.f.state.memories))
+        self.assertTrue(set(row["id"] for row in first).isdisjoint(row["id"] for row in second))
+        self.assertEqual(self.get("/api/memories", q="no-such-memory-token"), [])
+        self.assertEqual(len(self.get("/api/memories", limit="5001")), len(self.f.state.memories))
+        with self.assertRaises(ApiError) as caught:
+            self.get("/api/memories", offset="-1")
+        self.assertEqual(caught.exception.status.value, 400)
+
     def test_limitations_are_served(self) -> None:
         lims = self.get("/api/limitations")
         self.assertTrue(any("offline peer" in x["limitation"].lower() for x in lims))

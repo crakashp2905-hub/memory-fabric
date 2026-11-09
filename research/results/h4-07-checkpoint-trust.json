@@ -1,0 +1,23 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-07",
+  "source_commit": "cc3332584d0373242cb4d092204b19e3eb7f5cb5",
+  "input_sha256": {
+    "tests/test_checkpoint_rewrite.py": "184c9c8efb8cf251f541be8f6cf5ec34370f61db888aec0cf864ab205778bcee",
+    "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
+    "tests/test_freshness.py": "6883df275a806ca6546d77efc08df0b8757320220d24f9448d4791bea7b588a6"
+  },
+  "checks": {
+    "consistent_rewrite": "detected against independent checkpoint",
+    "chain_tamper": "integrity tests detect rewritten/truncated chain",
+    "lease_replay": "old lease cannot undo withdrawal"
+  },
+  "limitations": [
+    "Local anchor must be stored where the database writer cannot rewrite it."
+  ],
+  "test_summary": {
+    "passed": 36,
+    "subtests_passed": 11,
+    "failed": 0
+  }
+}

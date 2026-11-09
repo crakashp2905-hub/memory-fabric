@@ -23,7 +23,7 @@ class Posture(unittest.TestCase):
         state = lambda f, name: next(c["state"] for c in posture(f)["controls"] if c["name"] == name)
         self.assertEqual(state(reviewed, "new memories wait for review"), "on")
         self.assertEqual(state(auto, "new memories wait for review"), "off")
-        self.assertEqual(state(reviewed, "cross-tenant refusals conceal existence"), "off")
+        self.assertEqual(state(reviewed, "cross-tenant refusals conceal existence"), "on")
         self.assertEqual(state(auto, "cross-tenant refusals conceal existence"), "on")
         # Postgres triggers refuse edits; SQLite cannot. The tests run on
         # either backend (MF_TEST_POSTGRES_URL), and so must the expectation.

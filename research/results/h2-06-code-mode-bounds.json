@@ -1,0 +1,38 @@
+{
+  "acceptance_status": "PASS",
+  "input_sha256": {
+    "docs/DECISION_MODELS_AND_UTCP.md": "0eba2fd7a3c0f92d5f153aa748f5722ca5367c78ca387f4d8f3a971263a2ce60",
+    "src/memory_fabric/tool_protocol.py": "824ef95b8bbfedcc0791e395cc05e9767b3a7fe3ff045a2c9a0784e26f05caea",
+    "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+    "tests/test_code_mode_fuzz.py": "86bd0cb9224693b3edc99555ad8dee82a80a658f089dd8d9da4320982e951180",
+    "tests/test_tool_protocol.py": "f9c8546c7f4d1f50c5dc0bd9efc6f1f121fb89dd557349a9673484c29bf44f83"
+  },
+  "limitations": [
+    "The parser rejects arbitrary code syntax; registered tool handlers may still perform external effects under their own action policies.",
+    "This is a deterministic local corpus, not an exhaustive proof of Python or parser implementation safety."
+  ],
+  "limits": {
+    "argument_bytes": 32768,
+    "argument_depth": 16,
+    "calls": 32,
+    "runtime_dispatch": "registered tools only",
+    "source_bytes": 65536
+  },
+  "schema": "mf-code-mode-bounds-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "ddb23ab7bd70207687cc5fe8ea65681d3d8c3a09",
+  "test_summary": {
+    "command": "python -m pytest tests/test_code_mode_fuzz.py tests/test_tool_protocol.py",
+    "failures": 0,
+    "missing_cases": [],
+    "required_cases_present": true,
+    "total": 16
+  },
+  "verified_before_effect": [
+    "unregistered tool rejected before ActionGate dispatch",
+    "plan exceeding call limit rejected during parsing",
+    "source exceeding byte limit rejected before AST parse",
+    "nested argument exceeding depth rejected before plan creation",
+    "aggregate serialized arguments exceeding byte limit rejected before execution"
+  ]
+}

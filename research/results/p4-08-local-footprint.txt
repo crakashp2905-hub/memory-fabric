@@ -1,0 +1,15 @@
+P4-08 local footprint qualification
+
+Wheel bytes: 655185; installed target: 4393074 bytes.
+Cold CLI --version, n=15: median 2737.8 ms; nearest-rank p95 2939.9 ms. Startup thresholds: median <= 1500 ms; p95 <= 2000 ms. RESULT: FAIL.
+SQLite: 200 records, 323584 bytes, 1617.92 bytes/record (threshold <= 100000): PASS.
+Idle CPU: 1.2% over 30s (threshold <= 5.0%): PASS.
+
+Startup budget failure is retained as a finding. One host only; see docs/LOCAL_FOOTPRINT.md for scope and methodology.
+
+SHA-256 inputs:
+tools/measure_local_footprint.py 36e2bcf8a042e6ee3718cb8a9c401fad00df7d5fc68a62d49da531af4da96100
+tests/test_local_footprint.py ac5a5c052ca5bb7e3e3e40e3ee5342dbae43274cb5c52d84a97e71451ee99027
+docs/LOCAL_FOOTPRINT.md b4e4824ffed401fc8d268be2c5b76095b0bd1d28cbd3ea0754194c3480b87f0a
+docs/README.md b72c5a4231971bf397ae0c4cada076f12362b2efeb6285adeb22461bc7a279d1
+docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md 648f20342b7acb1f39944aa1537ce555a3842f5cec061ea1d77cbeb5984db7e9

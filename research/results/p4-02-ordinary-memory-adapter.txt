@@ -1,0 +1,3 @@
+P4-02 matched ordinary-memory adapter
+
+The complete offline example suite (2 tests) passed on exact commit 126cb2a71b9d0fb64d973933af5d185b0d6e74dc, including a clean no-index install. The reference baseline is a SQLite key/value table with JSON payloads; both arms consume the same two source records and correction workflow. This is a fixed demonstration, not an efficacy benchmark.

@@ -1,0 +1,35 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-10",
+  "commit": "0265ea261dc0cc803ceb89251c54b427a42802a6",
+  "command": "python unittest runner: tests.test_control_center_ui + tests.test_incident; tempfile.tempdir=.task-tmp",
+  "exit_code": 0,
+  "tests_run": 34,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 0.26,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "offline_json_download_ui_contract": "PASS",
+    "selected_action_trace": "PASS",
+    "canonical_report_sha256": "PASS",
+    "synthetic_secret_canary_omitted": "PASS",
+    "raw_memory_content_omitted": "PASS",
+    "malformed_and_missing_actions": "400 and 404",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "SHA-256 detects accidental modification but is not a signature or proof of the source store.",
+    "The report is content-free and identifies agents and memory IDs for the selected decision."
+  ],
+  "file_sha256": {
+    "src/memory_fabric/observability/incident_export.py": "c64bc7739a88f402aff776ab17dbe53454384313642cb49107b519fe719d0c48",
+    "src/memory_fabric/observability/server.py": "dc8e104f8c940e0f6e5c6b2e8cd81ef436fbec362fbdc5b4d72fb0e950022da3",
+    "src/memory_fabric/observability/static/dashboard.html": "6b5987fbc058791074aff57a6f5d0c6764edce38324adec670b37af9348817c2",
+    "tests/test_control_center_ui.py": "73ced434d9c26f4d3fa37e22e8435baf84175f3dc32244c873e0466cd7922903",
+    "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "4e2785d33ae38f5e4f44cad00c9ae5b934b54466f459dad6c13904967b19a986"
+  }
+}

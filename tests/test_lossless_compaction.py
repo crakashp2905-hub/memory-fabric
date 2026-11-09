@@ -4,6 +4,7 @@ import unittest
 from memory_fabric import MemoryFabric
 from memory_fabric.compaction import compact_session
 from memory_fabric.lossless_compaction import encode_records, decode_records, dictionary_summary
+from memory_fabric.summary_dependencies import verify_stored_dependency_map
 
 
 class LosslessCompaction(unittest.TestCase):
@@ -81,6 +82,15 @@ class LosslessCompaction(unittest.TestCase):
                for t in self.texts()]
         report = compact_session(f, episode.id, "writer", summarise=dictionary_summary)
         self.assertEqual(set(report.inputs), set(ids))
+        summary = f.get(report.summary_id)
+        dependencies = verify_stored_dependency_map(
+            summary, [f.get(memory_id) for memory_id in ids]
+        )
+        self.assertTrue(dependencies)
+        self.assertEqual(
+            {tuple(ref) for refs in dependencies.values() for ref in refs},
+            {(memory_id, 1) for memory_id in ids},
+        )
         f.erase_content(ids[0], reason="fixture erasure")
         self.assertIn(report.summary_id, f.state.erased)
 

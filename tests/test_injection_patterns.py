@@ -9,6 +9,8 @@ operator turns off, which is worse than no screen.
 from __future__ import annotations
 
 import unittest
+import json
+from pathlib import Path
 
 from memory_fabric import LifecycleState, MemoryFabric
 from memory_fabric.governance.firewall import Firewall, FirewallDecision
@@ -97,6 +99,21 @@ class TheWritePathActsOnIt(unittest.TestCase):
             with self.subTest(text):
                 mid = self.fabric.remember("ag", text)
                 self.assertIs(self.fabric.lifecycle_of(mid), LifecycleState.CANDIDATE)
+
+    def test_frozen_adversarial_corpus_has_declared_safe_dispositions(self) -> None:
+        corpus_path = Path(__file__).parent / "data" / "prompt_injection_corpus.json"
+        corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
+        self.assertEqual(corpus["schema"], "memory-fabric-prompt-injection-corpus/1")
+        self.assertGreaterEqual(len(corpus["cases"]), 8)
+        self.assertTrue({"role_spoof", "source_laundering", "encoded_payload",
+                         "nested_quotation", "near_miss"}.issubset(
+                             {row["family"] for row in corpus["cases"]}))
+        for row in corpus["cases"]:
+            with self.subTest(case=row["id"]):
+                ruling = Firewall().screen_ingest(row["text"])
+                self.assertEqual(ruling.decision.value, row["expected_decision"])
+                mid = self.fabric.remember("corpus-agent", row["text"])
+                self.assertEqual(self.fabric.lifecycle_of(mid).value, row["expected_lifecycle"])
 
 
 if __name__ == "__main__":

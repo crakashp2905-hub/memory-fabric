@@ -1,0 +1,766 @@
+{
+  "cases": [
+    {
+      "id": "absent-1",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "unrelated",
+          "content": "Actuator QZ-1 has a vibration limit of 3 mm/s.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "No stored record concerns the queried entity or property.",
+      "oracle_aliases": [],
+      "oracle_label": "ABSENT",
+      "query": "What is the torque limit for absent actuator PX-1?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "id": "absent-2",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "unrelated",
+          "content": "Actuator QZ-2 has a vibration limit of 4 mm/s.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "No stored record concerns the queried entity or property.",
+      "oracle_aliases": [],
+      "oracle_label": "ABSENT",
+      "query": "What is the torque limit for absent actuator PX-2?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "id": "absent-3",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "unrelated",
+          "content": "Actuator QZ-3 has a vibration limit of 5 mm/s.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "No stored record concerns the queried entity or property.",
+      "oracle_aliases": [],
+      "oracle_label": "ABSENT",
+      "query": "What is the torque limit for absent actuator PX-3?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "id": "absent-4",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "unrelated",
+          "content": "Actuator QZ-4 has a vibration limit of 6 mm/s.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "No stored record concerns the queried entity or property.",
+      "oracle_aliases": [],
+      "oracle_label": "ABSENT",
+      "query": "What is the torque limit for absent actuator PX-4?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "id": "absent-5",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "unrelated",
+          "content": "Actuator QZ-5 has a vibration limit of 7 mm/s.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "No stored record concerns the queried entity or property.",
+      "oracle_aliases": [],
+      "oracle_label": "ABSENT",
+      "query": "What is the torque limit for absent actuator PX-5?",
+      "query_agent": "reader",
+      "seed": 3105
+    },
+    {
+      "id": "missing-intermediate-1",
+      "mandatory_aliases": [
+        "bridge"
+      ],
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "source",
+          "content": "Sensor S-1 reports reverse flow.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "bridge",
+          "content": "Reverse flow energizes relay R-1.",
+          "parents": [
+            "source"
+          ],
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Relay R-1 requires actuator PX-1 to stop before restart.",
+          "parents": [
+            "bridge"
+          ],
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "A three-node proof has one bridge with no query terms.",
+      "oracle_aliases": [
+        "source",
+        "bridge",
+        "answer"
+      ],
+      "oracle_label": "MISSING_INTERMEDIATE",
+      "query": "Why must actuator PX-1 be stopped before restart?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "id": "missing-intermediate-2",
+      "mandatory_aliases": [
+        "bridge"
+      ],
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "source",
+          "content": "Sensor S-2 reports reverse flow.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "bridge",
+          "content": "Reverse flow energizes relay R-2.",
+          "parents": [
+            "source"
+          ],
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Relay R-2 requires actuator PX-2 to stop before restart.",
+          "parents": [
+            "bridge"
+          ],
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "A three-node proof has one bridge with no query terms.",
+      "oracle_aliases": [
+        "source",
+        "bridge",
+        "answer"
+      ],
+      "oracle_label": "MISSING_INTERMEDIATE",
+      "query": "Why must actuator PX-2 be stopped before restart?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "id": "missing-intermediate-3",
+      "mandatory_aliases": [
+        "bridge"
+      ],
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "source",
+          "content": "Sensor S-3 reports reverse flow.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "bridge",
+          "content": "Reverse flow energizes relay R-3.",
+          "parents": [
+            "source"
+          ],
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Relay R-3 requires actuator PX-3 to stop before restart.",
+          "parents": [
+            "bridge"
+          ],
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "A three-node proof has one bridge with no query terms.",
+      "oracle_aliases": [
+        "source",
+        "bridge",
+        "answer"
+      ],
+      "oracle_label": "MISSING_INTERMEDIATE",
+      "query": "Why must actuator PX-3 be stopped before restart?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "id": "missing-intermediate-4",
+      "mandatory_aliases": [
+        "bridge"
+      ],
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "source",
+          "content": "Sensor S-4 reports reverse flow.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "bridge",
+          "content": "Reverse flow energizes relay R-4.",
+          "parents": [
+            "source"
+          ],
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Relay R-4 requires actuator PX-4 to stop before restart.",
+          "parents": [
+            "bridge"
+          ],
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "A three-node proof has one bridge with no query terms.",
+      "oracle_aliases": [
+        "source",
+        "bridge",
+        "answer"
+      ],
+      "oracle_label": "MISSING_INTERMEDIATE",
+      "query": "Why must actuator PX-4 be stopped before restart?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "id": "missing-intermediate-5",
+      "mandatory_aliases": [
+        "bridge"
+      ],
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "source",
+          "content": "Sensor S-5 reports reverse flow.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "bridge",
+          "content": "Reverse flow energizes relay R-5.",
+          "parents": [
+            "source"
+          ],
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Relay R-5 requires actuator PX-5 to stop before restart.",
+          "parents": [
+            "bridge"
+          ],
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "A three-node proof has one bridge with no query terms.",
+      "oracle_aliases": [
+        "source",
+        "bridge",
+        "answer"
+      ],
+      "oracle_label": "MISSING_INTERMEDIATE",
+      "query": "Why must actuator PX-5 be stopped before restart?",
+      "query_agent": "reader",
+      "seed": 3105
+    },
+    {
+      "forbidden_aliases": [
+        "near"
+      ],
+      "id": "near-miss-1",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Pump PX-1 has a pressure limit of 11 bar.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "near",
+          "content": "Pump QZ-1 has a pressure limit of 11 bar.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One distractor differs only in the entity identifier.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "NEAR_MISS",
+      "query": "What is the pressure limit for pump PX-1?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "forbidden_aliases": [
+        "near"
+      ],
+      "id": "near-miss-2",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Pump PX-2 has a pressure limit of 12 bar.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "near",
+          "content": "Pump QZ-2 has a pressure limit of 12 bar.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One distractor differs only in the entity identifier.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "NEAR_MISS",
+      "query": "What is the pressure limit for pump PX-2?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "forbidden_aliases": [
+        "near"
+      ],
+      "id": "near-miss-3",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Pump PX-3 has a pressure limit of 13 bar.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "near",
+          "content": "Pump QZ-3 has a pressure limit of 13 bar.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One distractor differs only in the entity identifier.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "NEAR_MISS",
+      "query": "What is the pressure limit for pump PX-3?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "forbidden_aliases": [
+        "near"
+      ],
+      "id": "near-miss-4",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Pump PX-4 has a pressure limit of 14 bar.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "near",
+          "content": "Pump QZ-4 has a pressure limit of 14 bar.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One distractor differs only in the entity identifier.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "NEAR_MISS",
+      "query": "What is the pressure limit for pump PX-4?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "forbidden_aliases": [
+        "near"
+      ],
+      "id": "near-miss-5",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Pump PX-5 has a pressure limit of 15 bar.",
+          "scope": "team"
+        },
+        {
+          "agent": "writer",
+          "alias": "near",
+          "content": "Pump QZ-5 has a pressure limit of 15 bar.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One distractor differs only in the entity identifier.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "NEAR_MISS",
+      "query": "What is the pressure limit for pump PX-5?",
+      "query_agent": "reader",
+      "seed": 3105
+    },
+    {
+      "id": "overblocking-1",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Line PX-1 approved restart delay is 6 minutes.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One active in-scope exact answer must not be withheld.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "OVERBLOCKING",
+      "query": "What is the approved restart delay for line PX-1?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "id": "overblocking-2",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Line PX-2 approved restart delay is 7 minutes.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One active in-scope exact answer must not be withheld.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "OVERBLOCKING",
+      "query": "What is the approved restart delay for line PX-2?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "id": "overblocking-3",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Line PX-3 approved restart delay is 8 minutes.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One active in-scope exact answer must not be withheld.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "OVERBLOCKING",
+      "query": "What is the approved restart delay for line PX-3?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "id": "overblocking-4",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Line PX-4 approved restart delay is 9 minutes.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One active in-scope exact answer must not be withheld.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "OVERBLOCKING",
+      "query": "What is the approved restart delay for line PX-4?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "id": "overblocking-5",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Line PX-5 approved restart delay is 10 minutes.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One active in-scope exact answer must not be withheld.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "OVERBLOCKING",
+      "query": "What is the approved restart delay for line PX-5?",
+      "query_agent": "reader",
+      "seed": 3105
+    },
+    {
+      "forbidden_aliases": [
+        "private"
+      ],
+      "id": "wrong-scope-1",
+      "memories": [
+        {
+          "agent": "alice",
+          "alias": "private",
+          "content": "Panel PX-1 private maintenance code is C-3101.",
+          "scope": "private"
+        }
+      ],
+      "minimal_counterexample": "The exact answer exists once but is private to another agent.",
+      "oracle_aliases": [],
+      "oracle_label": "WRONG_SCOPE",
+      "query": "What is technician Alice's private code for panel PX-1?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "forbidden_aliases": [
+        "private"
+      ],
+      "id": "wrong-scope-2",
+      "memories": [
+        {
+          "agent": "alice",
+          "alias": "private",
+          "content": "Panel PX-2 private maintenance code is C-3102.",
+          "scope": "private"
+        }
+      ],
+      "minimal_counterexample": "The exact answer exists once but is private to another agent.",
+      "oracle_aliases": [],
+      "oracle_label": "WRONG_SCOPE",
+      "query": "What is technician Alice's private code for panel PX-2?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "forbidden_aliases": [
+        "private"
+      ],
+      "id": "wrong-scope-3",
+      "memories": [
+        {
+          "agent": "alice",
+          "alias": "private",
+          "content": "Panel PX-3 private maintenance code is C-3103.",
+          "scope": "private"
+        }
+      ],
+      "minimal_counterexample": "The exact answer exists once but is private to another agent.",
+      "oracle_aliases": [],
+      "oracle_label": "WRONG_SCOPE",
+      "query": "What is technician Alice's private code for panel PX-3?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "forbidden_aliases": [
+        "private"
+      ],
+      "id": "wrong-scope-4",
+      "memories": [
+        {
+          "agent": "alice",
+          "alias": "private",
+          "content": "Panel PX-4 private maintenance code is C-3104.",
+          "scope": "private"
+        }
+      ],
+      "minimal_counterexample": "The exact answer exists once but is private to another agent.",
+      "oracle_aliases": [],
+      "oracle_label": "WRONG_SCOPE",
+      "query": "What is technician Alice's private code for panel PX-4?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "forbidden_aliases": [
+        "private"
+      ],
+      "id": "wrong-scope-5",
+      "memories": [
+        {
+          "agent": "alice",
+          "alias": "private",
+          "content": "Panel PX-5 private maintenance code is C-3105.",
+          "scope": "private"
+        }
+      ],
+      "minimal_counterexample": "The exact answer exists once but is private to another agent.",
+      "oracle_aliases": [],
+      "oracle_label": "WRONG_SCOPE",
+      "query": "What is technician Alice's private code for panel PX-5?",
+      "query_agent": "reader",
+      "seed": 3105
+    },
+    {
+      "id": "wrong-version-1",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Valve PX-1 inspection interval is 31 days.",
+          "revision": "Valve PX-1 inspection interval is 11 days.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One record has exactly one superseding correction.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "WRONG_VERSION",
+      "oracle_versions": {
+        "answer": 2
+      },
+      "query": "What is the current inspection interval for valve PX-1?",
+      "query_agent": "reader",
+      "seed": 3101
+    },
+    {
+      "id": "wrong-version-2",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Valve PX-2 inspection interval is 32 days.",
+          "revision": "Valve PX-2 inspection interval is 12 days.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One record has exactly one superseding correction.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "WRONG_VERSION",
+      "oracle_versions": {
+        "answer": 2
+      },
+      "query": "What is the current inspection interval for valve PX-2?",
+      "query_agent": "reader",
+      "seed": 3102
+    },
+    {
+      "id": "wrong-version-3",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Valve PX-3 inspection interval is 33 days.",
+          "revision": "Valve PX-3 inspection interval is 13 days.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One record has exactly one superseding correction.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "WRONG_VERSION",
+      "oracle_versions": {
+        "answer": 2
+      },
+      "query": "What is the current inspection interval for valve PX-3?",
+      "query_agent": "reader",
+      "seed": 3103
+    },
+    {
+      "id": "wrong-version-4",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Valve PX-4 inspection interval is 34 days.",
+          "revision": "Valve PX-4 inspection interval is 14 days.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One record has exactly one superseding correction.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "WRONG_VERSION",
+      "oracle_versions": {
+        "answer": 2
+      },
+      "query": "What is the current inspection interval for valve PX-4?",
+      "query_agent": "reader",
+      "seed": 3104
+    },
+    {
+      "id": "wrong-version-5",
+      "memories": [
+        {
+          "agent": "writer",
+          "alias": "answer",
+          "content": "Valve PX-5 inspection interval is 35 days.",
+          "revision": "Valve PX-5 inspection interval is 15 days.",
+          "scope": "team"
+        }
+      ],
+      "minimal_counterexample": "One record has exactly one superseding correction.",
+      "oracle_aliases": [
+        "answer"
+      ],
+      "oracle_label": "WRONG_VERSION",
+      "oracle_versions": {
+        "answer": 2
+      },
+      "query": "What is the current inspection interval for valve PX-5?",
+      "query_agent": "reader",
+      "seed": 3105
+    }
+  ],
+  "dataset": "retrieval_errors_v1",
+  "oracle_labels": [
+    "ABSENT",
+    "NEAR_MISS",
+    "WRONG_VERSION",
+    "MISSING_INTERMEDIATE",
+    "WRONG_SCOPE",
+    "OVERBLOCKING"
+  ],
+  "schema": "memory-fabric-retrieval-errors/1",
+  "seeds": [
+    3101,
+    3102,
+    3103,
+    3104,
+    3105
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P3-03",
+  "commit": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
+  "command": "python unittest: tests.test_cli_explain + tests.test_reasons + tests.test_troubleshooting + tests.test_reference_docs",
+  "exit_code": 0,
+  "tests_run": 10,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 2.069,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "checks": {
+    "all_consequential_reason_codes_have_explanations": "PASS via tests.test_reasons",
+    "standalone_reason_code_explanation": "PASS",
+    "action_policy_groups_and_evidence_versions": "PASS",
+    "action_report_omits_memory_content_canary": "PASS",
+    "CLI_reference_regenerated": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "Action explanation uses the current read-only action detail projection; it does not authorize or retry the action."
+  ],
+  "file_sha256": {
+    "src/memory_fabric/cli.py": "f2d475b03be06106902409bdb793048627119b7745f967768e70a1b147626d77",
+    "src/memory_fabric/reasons.py": "891f223cfbe692e7c6086aa77c28a1843778f0350d6eb13c643aac1f160c7944",
+    "tests/test_cli_explain.py": "d7c5ea7d604e2b3d22d1c86e542f0d4e29e48d0472809b59e9022d593276df63",
+    "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
+    "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
+    "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
+    "docs/CLI.md": "5a31f4278c6776357bd32db36b7cf4e01a52ca8ead8e63e2cd1e30a9c1edac57",
+    "docs/TROUBLESHOOTING.md": "662f53d3b812a12cda2b4d1bd44cb79607c0a7cb7ab9dfb6e579a9502c2fe2f2",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "87098f62633d202710842248a6e9e5e7b62ede32e7331a69036dc1a4caee4298"
+  }
+}

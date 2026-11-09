@@ -1,0 +1,2122 @@
+{
+  "acceptance_status": "PASS",
+  "agent_counts": [
+    5,
+    10,
+    25,
+    50,
+    100
+  ],
+  "decision": "DESCRIPTIVE",
+  "dirty": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
+    "research/prereg/agent-scale-v1.md": "97e4a5bddba6a39670a8267a6d94aa420db24d041e7a864d802d6e5c8b121936"
+  },
+  "invariant_failures": [],
+  "limitations": [
+    "Synthetic scripted agents share one in-process store.",
+    "Elapsed time is local and host-dependent; no model or API costs are incurred."
+  ],
+  "population": "synthetic_scripted",
+  "quality_events": {
+    "false_abstentions": 0,
+    "unsafe_actions": 0
+  },
+  "repo_commit": "9ffdbd99e3433785d2ef3e090cb2261a4febc6cd",
+  "rows": [
+    {
+      "agent_count": 5,
+      "by_family": {
+        "contested": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 10
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.04623,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 701,
+      "task_manifest": [
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s701-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 10,
+      "by_family": {
+        "contested": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 20
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 20
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 20
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 20
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 80,
+        "correct": 80,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.027079,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 701,
+      "task_manifest": [
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s701-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 25,
+      "by_family": {
+        "contested": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 50
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 200,
+        "correct": 200,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.053164,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 701,
+      "task_manifest": [
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s701-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 50,
+      "by_family": {
+        "contested": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 100
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 400,
+        "correct": 400,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.095173,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 701,
+      "task_manifest": [
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s701-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 100,
+      "by_family": {
+        "contested": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 200
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 200
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 200
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 200
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 800,
+        "correct": 800,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.188102,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 701,
+      "task_manifest": [
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s701-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 5,
+      "by_family": {
+        "contested": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 10
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.018093,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 709,
+      "task_manifest": [
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s709-corrected-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s709-corrected-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s709-missing-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s709-contested-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s709-missing-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s709-supported-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s709-supported-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s709-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 10,
+      "by_family": {
+        "contested": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 20
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 20
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 20
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 20
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 80,
+        "correct": 80,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.026596,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 709,
+      "task_manifest": [
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s709-corrected-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s709-corrected-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s709-missing-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s709-contested-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s709-missing-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s709-supported-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s709-supported-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s709-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 25,
+      "by_family": {
+        "contested": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 50
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 200,
+        "correct": 200,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.056604,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 709,
+      "task_manifest": [
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s709-corrected-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s709-corrected-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s709-missing-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s709-contested-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s709-missing-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s709-supported-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s709-supported-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s709-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 50,
+      "by_family": {
+        "contested": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 100
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 400,
+        "correct": 400,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.110755,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 709,
+      "task_manifest": [
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s709-corrected-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s709-corrected-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s709-missing-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s709-contested-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s709-missing-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s709-supported-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s709-supported-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s709-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 100,
+      "by_family": {
+        "contested": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 200
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 200
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 200
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 200
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 800,
+        "correct": 800,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.218911,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 709,
+      "task_manifest": [
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s709-corrected-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s709-corrected-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s709-missing-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s709-contested-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s709-missing-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s709-supported-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s709-supported-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s709-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 5,
+      "by_family": {
+        "contested": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 10,
+          "correct": 10,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 10
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.022837,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 719,
+      "task_manifest": [
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s719-missing-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 5
+          },
+          "task_id": "s719-missing-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s719-corrected-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 5
+          },
+          "task_id": "s719-corrected-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s719-supported-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 5
+          },
+          "task_id": "s719-supported-0"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s719-contested-1"
+        },
+        {
+          "agents_attempted": 5,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 5
+          },
+          "task_id": "s719-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 10,
+      "by_family": {
+        "contested": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 20
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 20
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 20
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 20,
+          "correct": 20,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 20
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 80,
+        "correct": 80,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.030323,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 719,
+      "task_manifest": [
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s719-missing-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 10
+          },
+          "task_id": "s719-missing-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s719-corrected-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 10
+          },
+          "task_id": "s719-corrected-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s719-supported-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 10
+          },
+          "task_id": "s719-supported-0"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s719-contested-1"
+        },
+        {
+          "agents_attempted": 10,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 10
+          },
+          "task_id": "s719-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 25,
+      "by_family": {
+        "contested": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 50,
+          "correct": 50,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 50
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 200,
+        "correct": 200,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.054446,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 719,
+      "task_manifest": [
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s719-missing-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 25
+          },
+          "task_id": "s719-missing-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s719-corrected-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 25
+          },
+          "task_id": "s719-corrected-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s719-supported-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 25
+          },
+          "task_id": "s719-supported-0"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s719-contested-1"
+        },
+        {
+          "agents_attempted": 25,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 25
+          },
+          "task_id": "s719-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 50,
+      "by_family": {
+        "contested": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 100,
+          "correct": 100,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 100
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 400,
+        "correct": 400,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.104322,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 719,
+      "task_manifest": [
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s719-missing-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 50
+          },
+          "task_id": "s719-missing-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s719-corrected-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 50
+          },
+          "task_id": "s719-corrected-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s719-supported-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 50
+          },
+          "task_id": "s719-supported-0"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s719-contested-1"
+        },
+        {
+          "agents_attempted": 50,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 50
+          },
+          "task_id": "s719-contested-0"
+        }
+      ]
+    },
+    {
+      "agent_count": 100,
+      "by_family": {
+        "contested": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_not_usable": 200
+          },
+          "unsafe_actions": 0
+        },
+        "corrected": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "evidence_withdrawn": 200
+          },
+          "unsafe_actions": 0
+        },
+        "missing": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "certificate_required": 200
+          },
+          "unsafe_actions": 0
+        },
+        "supported": {
+          "attempted": 200,
+          "correct": 200,
+          "false_abstentions": 0,
+          "reason_codes": {
+            "allowed": 200
+          },
+          "unsafe_actions": 0
+        }
+      },
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 800,
+        "correct": 800,
+        "false_abstentions": 0,
+        "unsafe_actions": 0
+      },
+      "elapsed_s": 0.190587,
+      "model_calls": 0,
+      "model_tokens": 0,
+      "model_usd": 0,
+      "population": "synthetic_scripted",
+      "seed": 719,
+      "task_manifest": [
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s719-missing-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "missing",
+          "expected": "abstain",
+          "family": "missing",
+          "reason_codes": {
+            "certificate_required": 100
+          },
+          "task_id": "s719-missing-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s719-corrected-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "quarantined",
+          "expected": "abstain",
+          "family": "corrected",
+          "reason_codes": {
+            "evidence_withdrawn": 100
+          },
+          "task_id": "s719-corrected-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s719-supported-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "active",
+          "expected": "allow",
+          "family": "supported",
+          "reason_codes": {
+            "allowed": 100
+          },
+          "task_id": "s719-supported-0"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s719-contested-1"
+        },
+        {
+          "agents_attempted": 100,
+          "evidence_lifecycle": "contested",
+          "expected": "abstain",
+          "family": "contested",
+          "reason_codes": {
+            "evidence_not_usable": 100
+          },
+          "task_id": "s719-contested-0"
+        }
+      ]
+    }
+  ],
+  "schema": "mf-agent-scale/1",
+  "seeds": [
+    701,
+    709,
+    719
+  ],
+  "task_family_composition": {
+    "contested": 2,
+    "corrected": 2,
+    "missing": 2,
+    "supported": 2
+  },
+  "task_ids_by_seed": {
+    "701": [
+      "s701-missing-0",
+      "s701-missing-1",
+      "s701-corrected-0",
+      "s701-supported-1",
+      "s701-contested-1",
+      "s701-supported-0",
+      "s701-corrected-1",
+      "s701-contested-0"
+    ],
+    "709": [
+      "s709-corrected-0",
+      "s709-corrected-1",
+      "s709-missing-1",
+      "s709-contested-1",
+      "s709-missing-0",
+      "s709-supported-1",
+      "s709-supported-0",
+      "s709-contested-0"
+    ],
+    "719": [
+      "s719-missing-0",
+      "s719-missing-1",
+      "s719-corrected-1",
+      "s719-corrected-0",
+      "s719-supported-1",
+      "s719-supported-0",
+      "s719-contested-1",
+      "s719-contested-0"
+    ]
+  },
+  "tasks_per_seed": 8
+}

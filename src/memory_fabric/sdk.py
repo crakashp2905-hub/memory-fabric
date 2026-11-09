@@ -29,7 +29,8 @@ __stability__ = "stable"
 from dataclasses import dataclass
 from typing import Any, Iterable, Mapping, Sequence
 
-from .enforcement import AccessDecision, EnforcedRead, ExposureToken, RiskLevel
+from .enforcement import (AccessDecision, EnforcedRead, EvidenceOperation, ExposureToken,
+                          RiskLevel, risk_for_operation, risk_is_at_least)
 from .identity import DEFAULT_TENANT, Credential
 from .model import Memory, MemoryType, Scope
 from .protocol import Acknowledgement, Retraction
@@ -40,6 +41,7 @@ __all__ = [
     "SdkError",
     "NotUsable",
     "UsableMemory",
+    "RecallResult",
 ]
 
 
@@ -82,6 +84,14 @@ class UsableMemory:
     @property
     def contested(self) -> bool:
         return bool(self.warnings)
+
+
+class RecallResult(list[UsableMemory]):
+    """List-compatible recall output carrying the shared semantic verdict."""
+
+    def __init__(self, memories: Iterable[UsableMemory], answerability: Any) -> None:
+        super().__init__(memories)
+        self.answerability = answerability
 
 
 class AgentClient:
@@ -128,7 +138,8 @@ class AgentClient:
         include_contested: bool = False,
         episode_id: str | None = None,
         within: Iterable[str] | None = None,
-    ) -> list[UsableMemory]:
+        operation: EvidenceOperation = EvidenceOperation.READ,
+    ) -> RecallResult:
         """Retrieve, enforced, with a token per result.
 
         `within` limits the search to these ids (an opened topic, `navigation.py`).
@@ -139,6 +150,10 @@ class AgentClient:
         show*, enforcement decides *whether it may be acted on*, and the token
         is what makes the second answer checkable later.
         """
+        operation = EvidenceOperation(operation)
+        if operation is EvidenceOperation.EXECUTE:
+            raise ValueError("execution requires an ActionGate authorization and evidence certificate")
+        risk = risk_for_operation(operation)
         hits = self._fabric.retrieve(
             agent_id=self._agent_id,
             query=query,
@@ -164,7 +179,7 @@ class AgentClient:
         reads = self._fabric._use_many(
             [memory.id for memory in hits.exposed],
             self._agent_id,
-            risk=RiskLevel.LOW,
+            risk=risk,
             include_contested=include_contested,
             audit=False,
             tenant_id=self._tenant_id,
@@ -187,10 +202,11 @@ class AgentClient:
                             f"{k} ({v})" for k, v in judged.signals.items()
                             if k in validation.SUSPICIOUS),))
                 out.append(usable)
-        return out
+        return RecallResult(out, hits.answerability(query))
 
     def fetch(
-        self, memory_id: str, risk: RiskLevel = RiskLevel.LOW
+        self, memory_id: str, risk: RiskLevel | None = None,
+        operation: EvidenceOperation = EvidenceOperation.READ,
     ) -> UsableMemory:
         """One memory, by id, enforced. Raises rather than returning None.
 
@@ -198,8 +214,14 @@ class AgentClient:
         withdrawn memory to an operator tool, and an adapter holding that method
         is one autocomplete away from serving retracted knowledge to a model.
         """
+        operation = EvidenceOperation(operation)
+        if operation is EvidenceOperation.EXECUTE:
+            raise ValueError("execution requires an ActionGate authorization and evidence certificate")
+        operation_risk = risk_for_operation(operation)
+        if risk is not None and not risk_is_at_least(risk, operation_risk):
+            raise ValueError("risk cannot be weaker than the evidence operation default")
         read: EnforcedRead = self._fabric.use(
-            memory_id, self._agent_id, risk=risk, tenant_id=self._tenant_id
+            memory_id, self._agent_id, risk=risk or operation_risk, tenant_id=self._tenant_id
         )
         if not read.usable:
             raise NotUsable(read.decision)
@@ -214,7 +236,9 @@ class AgentClient:
         consequential is about to happen. Returns the decision rather than
         raising, because the caller usually wants to degrade rather than crash.
         """
-        return self._fabric.verify_before_action(usable.token, self._agent_id, risk=risk)
+        if risk is not RiskLevel.HIGH:
+            raise ValueError("consequential execution always requires high-risk evidence verification")
+        return self._fabric.verify_before_action(usable.token, self._agent_id, risk=RiskLevel.HIGH)
 
     def require(
         self, usable: UsableMemory, risk: RiskLevel = RiskLevel.HIGH

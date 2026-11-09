@@ -1,0 +1,29 @@
+P2-03 · Evidence and policy block explanations
+Commit: b70573cc637519d85dc6bcb20fcf6b52f2e306be
+Platform: Windows 11 10.0.26200 (Python 3.13.5)
+
+Exact-commit test run:
+  Python unittest loaded tests.test_control_center_ui and tests.test_control_center
+  with tempfile.tempdir set to D:\Memory Fabric\master-checklist\.task-tmp
+  Result: 24 tests passed, 0 failures, 0 errors (6.212 seconds runner time)
+  Process exit code: 0 (6.961 seconds)
+
+Additional checks on the same commit:
+  mypy --follow-imports=silent src/memory_fabric/observability/control.py
+      tests/test_control_center_ui.py — passed
+  ruff check src/memory_fabric/observability/control.py
+      tests/test_control_center_ui.py — passed
+  git diff --check — passed
+
+Verified behaviors:
+  - Action reason codes are classified as evidence/support, authorization/policy,
+    or other gate checks.
+  - The action API returns category labels and human-readable reason/fix messages.
+  - Unsupported support status is explicitly not a truth determination.
+  - Suspicious claim checks are explicitly not a determination of truth or intent.
+  - Missing assessments render as “Not assessed.”
+
+Limitations:
+  - Tests use local deterministic fixtures on Windows 11/Python 3.13.5.
+  - Reason categories organize recorded checks; they do not establish semantic truth.
+  - The configured cross-platform GitHub CI matrix has not run for this branch.

@@ -35,6 +35,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric import MemoryFabric, WithdrawalBasis  # noqa: E402
+from memory_fabric.branching import Branches  # noqa: E402
 from memory_fabric.federation import offer  # noqa: E402
 from memory_fabric.governance.firewall import (  # noqa: E402
     Firewall,
@@ -43,7 +44,6 @@ from memory_fabric.governance.firewall import (  # noqa: E402
     rule_restricted_stays_private,
 )
 from memory_fabric.outbox import now_ms  # noqa: E402
-from memory_fabric.protocol import PropagationState  # noqa: E402
 
 CRASHED = 70
 
@@ -227,6 +227,45 @@ def crash_mid_write(path: str, *_: str) -> int:
     return 0  # pragma: no cover
 
 
+def lifecycle_boundary(path: str, operation: str, phase: str, *_: str) -> int:
+    """Hard-kill before commit or immediately after commit for one lifecycle operation."""
+    fabric = open_store(path)
+    memory_id = next(iter(fabric.state.memories), None)
+    if phase == "before_chain":
+        # EventLog.append_many has inserted event rows in its transaction but
+        # has not yet extended the integrity chain. Hard death here must roll
+        # both back, never expose an unchained committed event.
+        fabric.log.chain.extend = lambda *_args, **_kwargs: die()  # type: ignore[method-assign]
+    elif phase == "inside":
+        open_transaction(fabric)
+    elif phase != "after":
+        print(f"unknown phase: {phase}", file=sys.stderr)
+        return 2
+
+    if operation == "remember":
+        fabric.remember("ag", "new crash-boundary observation")
+    elif operation == "revise" and memory_id:
+        fabric.revise(memory_id, "valve 7 is downstream", agent_id="ag", reason="survey")
+    elif operation == "quarantine" and memory_id:
+        fabric.quarantine(memory_id, reason="survey", actor="ag")
+    elif operation == "erase" and memory_id:
+        fabric.erase_content(memory_id, reason="privacy request", actor="ag")
+    elif operation == "branch":
+        branches = Branches(fabric)
+        branches.create("crash-trial", owner="ag", reviewers=("lead",))
+        with branches.commit("crash-trial", "ag", "crash boundary") as commit:
+            commit.add("branch-only crash observation")
+    elif operation == "merge":
+        branches = Branches(fabric)
+        preview = branches.preview_merge("crash-trial", "lead")
+        branches.apply_merge("crash-trial", "lead", preview.digest, "crash-merge")
+    else:
+        print(f"unsupported operation or missing fixture: {operation}", file=sys.stderr)
+        return 2
+    die()
+    return 0  # pragma: no cover
+
+
 def dispatch_then_crash(path: str, *_: str) -> int:
     """Send a retraction, let the recipient commit it, then die before
     recording the acknowledgement.
@@ -235,7 +274,6 @@ def dispatch_then_crash(path: str, *_: str) -> int:
     outcome. Its outbox row must still be owed, so a restart re-delivers rather
     than assuming the worst or the best.
     """
-    from memory_fabric.dispatcher import Dispatcher
     from memory_fabric.transport import InProcessTransport
 
     fabric = open_store(path)
@@ -261,6 +299,7 @@ SCENARIOS = {
     "crash_after_recipient_applies": crash_after_recipient_applies,
     "crash_mid_forwarding_commit": crash_mid_forwarding_commit,
     "crash_mid_write": crash_mid_write,
+    "lifecycle_boundary": lifecycle_boundary,
     "dispatch_then_crash": dispatch_then_crash,
 }
 
