@@ -7,8 +7,10 @@ from experiments.n5_10_false_consensus_recovery import analyze, fork_seed
 
 class FalseConsensusRecoveryTests(unittest.TestCase):
     def test_counterfactual_arms_share_the_same_checkpoint_and_are_reproducible(self) -> None:
-        first = fork_seed(112)
-        second = fork_seed(112)
+        # Seed 24 is eligible under the supported Python 3.11–3.13 RNGs;
+        # arbitrary seeds may correctly return None.
+        first = fork_seed(24)
+        second = fork_seed(24)
         self.assertIsNotNone(first)
         self.assertEqual(first, second)
         assert first is not None

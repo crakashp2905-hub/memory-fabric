@@ -22,7 +22,7 @@ def digest(path: Path) -> str:
     return h.hexdigest()
 
 
-def main() -> int:
+def main(output: Path | None = None) -> int:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     inventory_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                                       capture_output=True, text=True, check=True).stdout.strip()
@@ -128,7 +128,7 @@ def main() -> int:
                                             if repeatability else None),
         },
     }
-    target = ROOT / "research" / "results" / "h5-01-dependency-provenance.json"
+    target = output or ROOT / "research" / "results" / "h5-01-dependency-provenance.json"
     target.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(target.relative_to(ROOT), len(distributions), "declared distributions")
     return 0

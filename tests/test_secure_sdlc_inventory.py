@@ -29,10 +29,10 @@ def test_check_runner_reports_unavailable_tools_without_green_claim(monkeypatch,
     assert "all checks passed" in output
 
 
-def test_dependency_inventory_records_lock_and_reproducibility(monkeypatch):
-    target = ROOT / "research" / "results" / "h5-01-dependency-provenance.json"
+def test_dependency_inventory_records_lock_and_reproducibility(tmp_path, monkeypatch):
     monkeypatch.setattr(provenance, "ROOT", ROOT)
-    assert provenance.main() == 0
+    target = tmp_path / "h5-01-dependency-provenance.json"
+    assert provenance.main(output=target) == 0
     data = json.loads(target.read_text(encoding="utf-8"))
     assert data["project"]["core_dependencies"] == []
     assert data["project"]["optional_dependencies"]

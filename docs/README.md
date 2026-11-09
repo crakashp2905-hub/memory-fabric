@@ -108,6 +108,15 @@ use the product.
 | [WORKPLAN.md](WORKPLAN.md) | Work in progress, with every result and failure |
 | [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | What is implemented, task by task |
 | [RESEARCH_ROADMAP.md](RESEARCH_ROADMAP.md) | The research agenda |
+| [AUTHORIZATION_PROOF_RECEIPTS.md](AUTHORIZATION_PROOF_RECEIPTS.md) | Receipts that bind authorization decisions to evidence |
+| [COMPONENT_REMOVAL_ABLATIONS.md](COMPONENT_REMOVAL_ABLATIONS.md) | Component removal experiments and their limits |
+| [DECISION_FEATURE_PROVENANCE.md](DECISION_FEATURE_PROVENANCE.md) | Provenance fields available to decision models |
+| [EVIDENCE_REQUIREMENT_GRAPHS.md](EVIDENCE_REQUIREMENT_GRAPHS.md) | Typed evidence requirements for governed actions |
+| [LOCAL_PROTOCOL_EQUIVALENCE.md](LOCAL_PROTOCOL_EQUIVALENCE.md) | Matched MCP, UTCP and Code Mode workflows |
+| [READ_ONLY_ADVISORIES.md](READ_ONLY_ADVISORIES.md) | Non-authoritative risk advisories and escalation |
+| [REPRODUCIBLE_CORE_BUILD.md](REPRODUCIBLE_CORE_BUILD.md) | Reproducing the local core package artifacts |
+| [SYSTEM1_ROUTING.md](SYSTEM1_ROUTING.md) | Calibrated fast-path decision routing |
+| [UTCP_MANUAL_POLICY.md](UTCP_MANUAL_POLICY.md) | UTCP discovery under the existing authorization policy |
 | [AI_SAFETY_CYBER_RESEARCH_IMPLEMENTATION_PLAN.md](AI_SAFETY_CYBER_RESEARCH_IMPLEMENTATION_PLAN.md) | The safety and security implementation plan |
 | [../research/SCORECARD.md](../research/SCORECARD.md) | Every research claim and its outcome |
 | [../RESEARCH.md](../RESEARCH.md), [../EVALUATION.md](../EVALUATION.md) | Research design and evaluation method |

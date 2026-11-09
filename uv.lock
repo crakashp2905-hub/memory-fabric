@@ -1101,6 +1101,7 @@ retrieval-torch = [
 test = [
     { name = "psutil" },
     { name = "pytest" },
+    { name = "setuptools" },
 ]
 
 [package.metadata]
@@ -1115,6 +1116,7 @@ requires-dist = [
     { name = "pypdf", marker = "extra == 'documents'", specifier = ">=6.0,<7" },
     { name = "pytest", marker = "extra == 'test'", specifier = "==9.0.3" },
     { name = "sentence-transformers", marker = "extra == 'retrieval-torch'", specifier = ">=3" },
+    { name = "setuptools", marker = "extra == 'test'", specifier = ">=77" },
 ]
 provides-extras = ["test", "documents", "claude", "postgres", "langchain", "crypto", "oauth", "retrieval", "retrieval-torch"]
 
