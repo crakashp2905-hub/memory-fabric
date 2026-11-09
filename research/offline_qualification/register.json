@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "2a5b1c7981e4bb93294a0ed0e0496a836dd0b511f6428c887ec8c15cca7d58f4",
+    "sha256": "d601fcf86bbe091e3faf15f5077183e802702e2ea656cd157749cea0b52e7ce5",
     "tasks": 260
   },
   "source": {
-    "commit": "04cb89ad8845d0852dd118a05aec4e5342c83476",
+    "commit": "0d8ffa8d0bb384e0424b7f863be186f7ff3ccbdc",
     "dirty": false
   },
   "summary": {
@@ -76,7 +76,7 @@
         "tools/offline_baseline.py": "b6224ffaa13199a2142607128ab57ba7ea244429e824ea3ecc285218f14483dd",
         "tests/test_offline_baseline.py": "485240f6d8d697572eaca669dd86ea044f6a2e8fdb6c56019c16ac61bbb66075",
         "research/offline_qualification/baseline.json": "ba837ef8f89bdf9dbf1f95d6e91109b7a52f984a41e99186343f6c3d3a0d9f0f",
-        "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
+        "research/results/e5-10-portable-paths.xml": "c9903e4a9d079afd55da5ef27b51c1c563907b07baa868f724d43fd470feb7e9"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1432,7 +1432,7 @@
       "task_id": "E5-10",
       "priority": "P1",
       "task": "Test Windows/macOS/Linux path and encoding assumptions using portable local fixtures.",
-      "acceptance": "Text, unicode, separators, line endings and case-collision guards pass across available CI matrix",
+      "acceptance": "Text, unicode, separators, line endings and case-collision guards pass across available CI matrix. Evidence: `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml` (PARTIAL: 40 selected portable-path, freshness and event-log tests plus 15 subtests pass on Windows/Python 3.13.5, covering Unicode paths/content, native separators, LF/CRLF/CR JSONL input, normalized LF output and tracked-path case-fold collisions. CI config covers Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13, but this branch has no results from the other matrix cells; cross-platform acceptance remains unverified.)",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -1446,11 +1446,11 @@
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
         "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "docs/PORTABLE_PATHS.md": "af8edc3a83d786d4d51199a41659cbc45babb56aa908bab6e9b903db2a63e0cb",
-        "research/results/e5-10-portable-paths.xml": "16d2a62a83e60f7c75de629c6139f0690fd9c481bc468b690ec8daa09dbac7dc"
+        "research/results/e5-10-portable-paths.xml": "c9903e4a9d079afd55da5ef27b51c1c563907b07baa868f724d43fd470feb7e9"
       },
       "evidence_issues": {},
       "limitations": [
-        "All 38 selected tests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS matrix has not run for this branch, so cross-platform acceptance is not yet verified."
+        "All 40 selected tests and 15 subtests pass on Windows/Python 3.13.5. The configured Ubuntu/Windows/macOS \u00d7 Python 3.11/3.12/3.13 matrix has not run for this branch, so cross-platform acceptance is not yet verified."
       ]
     },
     {
@@ -7179,7 +7179,7 @@
       ],
       "evidence_digests": {
         "tools/python_compatibility.py": "8ae6daf53315f4da151138464eed2935a54669429f272772253b4ae2317b9134",
-        "research/results/p5-03-python-compatibility.json": "3afca663df45f6868a875bdee1ce9389ed883acd30fafd9eb28bcc89ce45aad5"
+        "research/results/p5-03-python-compatibility.json": "32dc30ecfb8a0aed9d2c562f1e212f2c79be5e4a5d2eba054a4cd80c7d0848e5"
       },
       "evidence_issues": {},
       "limitations": [

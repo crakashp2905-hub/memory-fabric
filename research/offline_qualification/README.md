@@ -4,7 +4,7 @@ Strict completion: **236 / 260 (90.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `545bb15002e12312b25595aad94938b5f95fe5f3602a6575b25b16605f903147`.
+Normalized ledger digest: `f4d2307d1d4544b9847287063e60fa014d29d9ba4bc7af1db6a15a8fbbceaa1c`.
 
 | status | count |
 |---|---:|
