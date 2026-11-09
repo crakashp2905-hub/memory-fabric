@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class UpgradePreview(unittest.TestCase):
     def test_supported_store_preview_preserves_exact_database_bytes(self) -> None:
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             database = Path(directory) / "store.db"
             fabric = MemoryFabric(database, seed=0)
@@ -32,6 +33,7 @@ class UpgradePreview(unittest.TestCase):
             self.assertEqual(report["event_count"], 2)
 
     def test_incompatible_and_malformed_versions_are_enumerated_read_only(self) -> None:
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             database = Path(directory) / "future.db"
             connection = sqlite3.connect(database)
@@ -51,6 +53,7 @@ class UpgradePreview(unittest.TestCase):
             self.assertEqual(database.read_bytes(), before)
 
     def test_cli_uses_global_database_and_exits_nonzero_for_incompatibility(self) -> None:
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             database = Path(directory) / "future.db"
             connection = sqlite3.connect(database)

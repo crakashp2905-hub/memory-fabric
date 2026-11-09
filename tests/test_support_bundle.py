@@ -36,6 +36,7 @@ class SupportBundle(unittest.TestCase):
             fabric.close()
 
     def test_written_bundle_contains_schema_and_aggregate_metrics_only(self) -> None:
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             fabric = MemoryFabric(":memory:", seed=0)
             try:
@@ -50,6 +51,7 @@ class SupportBundle(unittest.TestCase):
                 fabric.close()
 
     def test_cli_command_writes_bundle(self) -> None:
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             output = Path(directory) / "support.json"
             database = Path(directory) / "store.db"

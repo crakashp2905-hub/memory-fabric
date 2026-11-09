@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "7e0f03c7dd8ccab9c4ec42c6929b39ec46d3cf88",
+    "commit": "6448f6cb2232777f3bb4a96dea59b3274c59da81",
     "dirty": true
   },
   "summary": {
@@ -303,7 +303,7 @@
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         "tests/test_capability_registry.py": "671b0bdd08621ed38850a223c9fe9403b433b8e2f6338d39139be114f92cd46d",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         "research/results/e1-10-generated-status.json": "f7e21d2c319d8796da101dc21291dc69ee749f2b83fefa663f9b94fda3201434",
         "research/results/e1-10-generated-status.txt": "0d9fc0283dfbfdf975853265e25bbb615a9cc8b170fb717a4bb978a2c1dcd83b"
       },
@@ -3045,7 +3045,7 @@
         "docs/DECISION_RECORD_SCHEMA.md": "6d4c5a831647f0eeea5dd489a91e5331c612f10a75d2aae2b901ecf3257993cc",
         "tests/test_decision_records.py": "44e36515e4376afa0c19d26d35ead790e4c823e7c7503c38e3194276ac0ebb17",
         "tests/test_protocol_schemas.py": "8926f3ffbae598aecd2ad2920287f5708781cb0c3399ff1193b7966cf56f8e91",
-        "tests/test_support_bundle.py": "7463e79769974be5e69fdea081838301a49d89e695860184bf3fe10bde2799af",
+        "tests/test_support_bundle.py": "e508e82e58526f6c7e496042596f1704e9d868b68af5a95b27286016cd0e9e68",
         "research/results/n1-07-reevaluation-receipt-tests.xml": "a81449e429afc450ae4c13237e07e890a1eb74f5dfad77b16f8aec8ac7dda15b"
       },
       "evidence_issues": {},
@@ -3892,7 +3892,7 @@
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
         "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
-        "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
+        "tests/test_compaction.py": "b9eda2d488d8551f4209e44eedf55ab9b6c2a755b93970acfef737254294fd91",
         "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
         "research/results/n4-01-summary-dependencies.json": "6c8ecf9d0302bb55fc1f42bbea15d19ea8586f0e6b31e7373cd28acaf600fdf1",
         "research/results/n4-01-summary-dependencies.md": "2aa3c5f1839d769918d65998f6cbce50a286d3465e734e2c5a309412b62dea61",
@@ -3936,7 +3936,7 @@
         "src/memory_fabric/_fabric/writes.py": "b4b6a23bf19df859194a5f7b12b986e5a4eca9aed6a12f74002eac0c181c13e9",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
         "tests/test_summary_dependencies.py": "32ca48f050415737440b883eebe282b5c87c48e12c71469dff9c881d3e202d17",
-        "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
+        "tests/test_compaction.py": "b9eda2d488d8551f4209e44eedf55ab9b6c2a755b93970acfef737254294fd91",
         "tests/test_lossless_compaction.py": "c83874282fe82cb50fc28dc01a0a6f9ea641e07bb517c3f6ff010f1557d65520",
         "research/results/n4-02-hierarchical-compaction.json": "55ca2d7550fff640126c8da216918b56b3d92e7daa0dde752108e30db2196955",
         "research/results/n4-02-hierarchical-compaction.md": "42adf3c1b2a19f364e91244bce3348106715e52b19ef5eebb6b7faef2bbc9bb0",
@@ -3973,7 +3973,7 @@
       "evidence_digests": {
         "src/memory_fabric/compaction.py": "fa0228658df997c61e2bac9d095567153a780e64d15ac6779938b57f8ae78272",
         "experiments/n4_03_compaction_size.py": "16e82b1db43f575a8398989e4cf381fc4c88acc166199c7ebd44eaa9f497643e",
-        "tests/test_compaction.py": "6de29700a5e0bb806853b0ad775a3f6bb3ef8a0ab18327ae3e8fc4609819a7a5",
+        "tests/test_compaction.py": "b9eda2d488d8551f4209e44eedf55ab9b6c2a755b93970acfef737254294fd91",
         "tests/test_hierarchical_compaction.py": "de6dbf568fc387fbc4829255cb8460e0daf220b7ed81ef99f3556f4b92982367",
         "research/results/n4-03-compaction-size.json": "bd25043313a0f511fd30f24bcb39faa76c5983609b964e792a338cef7aefac6c",
         "research/results/n4-03-compaction-size.md": "d4ab80ad9c7dcfb2ffe73a197da96dee7649773d59dfcaabe1255b28480da1e5",
@@ -6138,7 +6138,7 @@
       "evidence_digests": {
         "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
         "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
         ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
         "research/results/h5-04-package-asset-audit.json": "c3e3f671b1269a6c83b8eda0110e437c7ce97a6ecad05ee127b47f5e07f79d31",
@@ -6227,7 +6227,7 @@
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
         "tests/test_security_fuzz.py": "6b2defcb703974cbcea1ec88482e840e12910b09918693328594a31d2bde6017",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         "research/results/h5-07-security-fuzz.json": "ea91584af49295e88c2f2d263aac468a37b9e47353022224ec8692facdc39afe",
         "research/results/h5-07-security-fuzz-tests.xml": "b90891d538af5d6f16624a36f79cc721c7350e1ca93c09b25a22a9e787bdac55"
       },
@@ -6258,7 +6258,7 @@
         "src/memory_fabric/limits.py": "e1fe979eec94a8ae10da3d593fdc670e914b9460c138e9b161fcad6c61c3fc5a",
         "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
         "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         "research/results/h5-08-rate-limit-qualification.json": "d7fd1bfbeee4742c4a71faba54c936434f5d3825d2ea193989d949614089d360",
         "research/results/h5-08-rate-limit-tests.xml": "e6cd7fe4bb858f12367d76c59ffadfdcefe3961157061bce8ecc3adb73f31595"
       },
@@ -6286,7 +6286,7 @@
         "tools/audit_production_defaults.py": "48485e4850c517bc9fa4d585ff8121853d569183be084f1a19e7061f4c02cc88",
         "tests/data/default_features.json": "b058343380ee63bef9729e4cef58f578923f708c9178a94d9d76d1f363bf7705",
         "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         "research/results/h5-09-production-defaults.json": "111d68367caa19615ea163dc4948d936e578daeb1aacba419453b751f9aab4ff"
       },
       "evidence_issues": {},
@@ -6534,7 +6534,7 @@
         "tests/test_connect.py": "4a1c32df98eb27f4b34e47c18bdc16d297301a093ca5f14c6f9a6ce38efb0812",
         "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
-        ".github/workflows/ci.yml": "d2e67e66b44d1e74b451a71e87c9455c6763cc36cc1b26e3fd23c759183f2160",
+        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
         "research/results/p1-06-portable-paths.json": "c76e51d00fe306650fdde985b0b84e6538136a3448bb215a1152b17f1f258a6e",
         "research/results/p1-06-portable-paths.txt": "ac97056f61c835ffd2f682535ecab934e8fbf6e5cb3626b8ac71371a6413b75c"
       },
@@ -7096,7 +7096,7 @@
       "evidence_digests": {
         "src/memory_fabric/upgrade_preview.py": "b8b3d4263ebdf349a8b2656c7d496c55ae2798b85dff98789ceb99f89f933b65",
         "src/memory_fabric/cli.py": "86d6bf47a3baf60a58254487a61406c06d7530f690336441c5ab440f420be027",
-        "tests/test_upgrade_preview.py": "d88a0a8aab44be16b498bbfab7d2361ad6c14027b078dd16b8545f8d2eaa52a0",
+        "tests/test_upgrade_preview.py": "90a5d715f66b9a7ec3abf5778815d4077b4582b29c373e6403d15420f2beabfc",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "7e54bb0bca79dfa214a399b29fb12a98f75b5c733fe754fab2b74ed36ae6b93a",
         "docs/README.md": "d16f05948a84d8f1f08f0b01c9608540bfdf43ab6c2610d0e5a1091d796d090a"
@@ -7259,7 +7259,7 @@
       "evidence_digests": {
         "src/memory_fabric/support_bundle.py": "d2f494e8a66e0eb86865bd083de55d036738c51b1e78b18ff7f9e9260392a65c",
         "src/memory_fabric/cli.py": "86d6bf47a3baf60a58254487a61406c06d7530f690336441c5ab440f420be027",
-        "tests/test_support_bundle.py": "7463e79769974be5e69fdea081838301a49d89e695860184bf3fe10bde2799af",
+        "tests/test_support_bundle.py": "e508e82e58526f6c7e496042596f1704e9d868b68af5a95b27286016cd0e9e68",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "7e54bb0bca79dfa214a399b29fb12a98f75b5c733fe754fab2b74ed36ae6b93a",
         "docs/README.md": "d16f05948a84d8f1f08f0b01c9608540bfdf43ab6c2610d0e5a1091d796d090a"
@@ -7559,7 +7559,7 @@
         "product/capability_maturity.json": "a5ef91fa85a86dfe49190a1d8e3e9ebcd2eae05d494c912e8e6c8863f86218c7",
         "product/public_claims.json": "fce241195230ca37ed3eac59feab9faa1f8fed03efae8fdf7609591ac25b9680",
         "tools/check_product_claims.py": "16d48ca1a9804662b85534cb5af505a31256151663bc11071b69ce5c2465dab8",
-        "tests/test_product_claims.py": "c71fe101cd2e535950dd83d653afac50b8ccca1e9dc2fddbaba6d84f3358afd8",
+        "tests/test_product_claims.py": "fdb1be68b2cab4cb2b54614c103096f6ce314031876df1ca3a49c7762a186485",
         "docs/product/CAPABILITY_MATURITY.md": "acd30bbde0b914b64be6b07fbf6d9322ad26e472c39c9e598312aaae99dd7ffe"
       },
       "evidence_issues": {},

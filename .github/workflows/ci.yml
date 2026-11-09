@@ -251,7 +251,8 @@ jobs:
           python-version: "3.13"
       # The bundle runs the whole unit suite in-process; pin the MCP SDK the same
       # way the mcp-contract job does (tests/test_mcp_official.py fails on 2.x).
-      - run: python -m pip install "mcp==1.26.0"
+      # The test extra provides pytest, which the status page uses to count tests.
+      - run: python -m pip install -e ".[test]" "mcp==1.26.0"
       - run: python -m pip install --upgrade build
       - run: python -m build --wheel --outdir dist
       - run: python tools/release_bundle.py --out release-evidence --wheel dist/*.whl --bench full

@@ -33,6 +33,7 @@ class ProductClaims(unittest.TestCase):
                 "qualification": "none",
             }],
         }
+        (ROOT / ".task-tmp").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / ".task-tmp") as directory:
             path = Path(directory) / "claims.json"
             path.write_text(json.dumps(bad), encoding="utf-8")

@@ -96,7 +96,7 @@ class Session(unittest.TestCase):
         f.remember("ops", "Pump P1 purge time is 30 s.", source_episodes=[ep], scope="team")
         f.remember("ops", "Valve V7 opens below 4 bar.", source_episodes=[ep], scope="team")
         drops = lambda mems, disputes: "Pump P1 purge time is 30 s."  # noqa: E731
-        with self.assertRaises(CompactionRefused):
+        with self.assertRaisesRegex(CompactionRefused, "drops values the session recorded"):
             compact_session(f, ep, agent_id="compactor", summarise=drops)
 
     def test_withdrawn_inputs_are_left_out_and_listed(self) -> None:
