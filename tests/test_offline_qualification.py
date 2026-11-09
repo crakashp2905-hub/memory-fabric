@@ -122,7 +122,23 @@ def test_seed_manifest_accepts_exact_outputs_on_disk(tmp_path: Path) -> None:
     assert oq.verify_seed_manifest(path, root=tmp_path) == []
 
 
-def test_full_attestation_is_refused_while_p0_is_open() -> None:
+def test_full_attestation_is_refused_while_p0_is_open(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    scope = tmp_path / "scope.md"
+    lines = oq.SCOPE.read_text(encoding="utf-8").splitlines()
+    for index, line in enumerate(lines):
+        if line.startswith("- [x]") and "· **P0** ·" in line:
+            lines[index] = line.replace("- [x]", "- [ ]", 1)
+            break
+    else:
+        raise AssertionError("fixture scope has no completed P0 task")
+    scope.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    overrides = tmp_path / "evidence.json"
+    overrides.write_text(json.dumps({"tasks": []}), encoding="utf-8")
+    monkeypatch.setattr(oq, "SCOPE", scope)
+    monkeypatch.setattr(oq, "OVERRIDES", overrides)
+
     data = oq.build()
     assert data["summary"]["p0_open"] > 0
     assert data["summary"]["internal_status"] == "BLOCKED"

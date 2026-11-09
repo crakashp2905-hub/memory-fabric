@@ -2,11 +2,11 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "1403397600591e9632e0e121391654aaeeb99f7824a541a5a88cf4e76a3410c7",
+    "sha256": "d9db5e9e1b47a464702128a0f43159a4dd24ef140d65f27221975c7869db7a49",
     "tasks": 260
   },
   "source": {
-    "commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+    "commit": "184114e88642435d68ad59e8ccdb69461bc8d40a",
     "dirty": true
   },
   "summary": {
@@ -220,7 +220,7 @@
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
-        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
+        "tests/test_offline_qualification.py": "5140df9e6e29e87448a46d0832eb4cf0a452ae48e0c162b0fcdeacd926603561",
         "research/results/e1-07-ledger-verification.json": "26250b98e7c9270aa7da572ce61e94960e091fdf1e62870e83fbadeab779e316",
         "research/results/e1-07-ledger-verification.xml": "72bfeda66dfc336756acbb7c974d6d58aaeda766eabadc065665a0d1ec8f3002"
       },
@@ -243,7 +243,7 @@
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
-        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
+        "tests/test_offline_qualification.py": "5140df9e6e29e87448a46d0832eb4cf0a452ae48e0c162b0fcdeacd926603561",
         "research/results/e1-08-negative-control.json": "1c30f67515201cd212066044156cbf0247d247ef3818777873c4c3c96aebb9a3",
         "research/results/e1-08-negative-control.xml": "8b2aa25ab5af069fe85fc86e9572ef71f062aa59f3368cffc63acd6c84bc0baa"
       },
@@ -267,7 +267,7 @@
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
-        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5",
+        "tests/test_offline_qualification.py": "5140df9e6e29e87448a46d0832eb4cf0a452ae48e0c162b0fcdeacd926603561",
         "docs/SEED_MANIFESTS.md": "8db3318b93dcd38f7e5c313bb7c4f19b970ad197c9bb3fd862e528c76678c1eb",
         "research/results/e1-09-seed-manifest.json": "bf51bc46cc560f7c5fe602f5ae67cb0c414cda56c18811e8c26388918e21e8b7",
         "research/results/e1-09-seed-manifest.xml": "3f2b83043d1e4cf5d69c37846b0454774eef8f80b64b52116bf2cff3c7a0e81c"
@@ -1443,7 +1443,10 @@
         "research/results/p5-03-full-suite-matrix.json",
         "research/results/p5-03-python311-tests.xml",
         "research/results/p5-03-python312-tests.xml",
-        "research/results/p5-03-python313-tests.xml"
+        "research/results/p5-03-python313-tests.xml",
+        "research/results/e5-10-portable-paths-py311.xml",
+        "research/results/e5-10-portable-paths-py312.xml",
+        "research/results/e5-10-portable-paths-py313.xml"
       ],
       "evidence_digests": {
         "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
@@ -1453,12 +1456,15 @@
         "research/results/p5-03-full-suite-matrix.json": "ced116e2e4957cd0e526d45639f563c7111411d68ee419960bdd4c8b1d39012e",
         "research/results/p5-03-python311-tests.xml": "3822af770eeb9a472d96273879fc79f67debcf132cc36249740c39b0fd9883e7",
         "research/results/p5-03-python312-tests.xml": "d47f1def4bcad8183c8d62e9ea2fe1be89e1ded9edb1d42e80c33fef9afd7b0c",
-        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384"
+        "research/results/p5-03-python313-tests.xml": "13a1b8f5988541fac93bd16b6ef9a3aa09f79c02e540141cba855d37e1bbb384",
+        "research/results/e5-10-portable-paths-py311.xml": "34ab186f8cfc171bbe114979190a57955e3d681ab2b9c16c0aa1a2a29016a9fb",
+        "research/results/e5-10-portable-paths-py312.xml": "c0988c1cbb2bd9ca13b4c34c6f229d83c50a2884622e731160bf8715b86d4e71",
+        "research/results/e5-10-portable-paths-py313.xml": "0c6c949d1524de2e1671ff3ab46081cabbf00666d6d779f584606a10738dce9b"
       },
       "evidence_issues": {},
       "limitations": [
-        "Selected portable-path tests and all full suites pass on Windows for Python 3.11.15, 3.12.13 and 3.13.5.",
-        "Ubuntu and macOS matrix results are unavailable on this local host; cross-platform acceptance remains unverified."
+        "The selected portable-path suite passed on Windows/Python 3.11.15, 3.12.13 and 3.13.5 (5 tests and 3 subtests per interpreter); the full suite also passed on all three versions.",
+        "Ubuntu and macOS matrix results remain unverified because those operating systems are unavailable on this host."
       ]
     },
     {
@@ -1502,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "eabf057509e9f0abfc1ecdbefa67f0e864e460e603d81993bc41cec71a6f3df6",
-        "research/results/MANIFEST.json": "80439b004a6b30710287c4a96ec8bfc7796d2873f184eafbe11b42f64770ce31",
+        "research/results/MANIFEST.json": "b82c80aeb10b835f38524b41567a765630373ff2cb301a3d241f0350bfaa9c9d",
         "research/results/BENCHMARK_SCOREBOARD.md": "88f0ea8e41cc4adc9b61516c65571bbf26116c940d9a8d30bcf435bfd9b827ee",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -3611,7 +3617,7 @@
       ],
       "evidence_digests": {
         "research/prereg/n3-02-exact-oracle-worlds-v1.md": "bf381ab067ac84f6f2e7c616ea40b0fa66fb75ac71210ed3a5ec5019d74039d6",
-        "benchmarks/n3_02_exact_oracle.py": "61e6a8508ea552c91478649fc98ed9ad8c01fe0db407315f8bf3c2df978e6599",
+        "benchmarks/n3_02_exact_oracle.py": "552526b675e695645fb95f7323c2084fbb6636220ea89eda548e2580ae94166f",
         "tests/test_n3_02_exact_oracle.py": "c443ca151cc978d5f8e5b16f1cd8fb256626840c145b67961b5bbaa7d9f43142",
         "research/results/n3-02-exact-oracle.json": "a2b3222a2e07bbe35880524a67714b214aa8de6f0ed1bf1333d6fbbb95a2f60a",
         "research/results/n3-02-exact-oracle-tests.xml": "ca65d28d8e52c6091a0e2b3bc531b11e8d25c17ac302d9e74c2dfb2776a7cc81"
@@ -3639,7 +3645,7 @@
       ],
       "evidence_digests": {
         "research/prereg/n3-03-estimator-cost-comparison-v1.md": "b7e6ce41cf05bbbd05cc92868ab462794dda918b30e11c1f83023027911b7f75",
-        "benchmarks/n3_03_estimator_comparison.py": "faae2acdc529d65b9d6d4c051d838afecc2d32d0caba420e82a742c319d641ba",
+        "benchmarks/n3_03_estimator_comparison.py": "949f4558a5bf4daecdf77c0292e16ef17f032639288adc43beabe8a465fa65d1",
         "tests/test_n3_03_estimator_comparison.py": "6794974b3b4af2c599445a58499f26d7991d25ca149d9e82b1396d9af452504e",
         "research/results/n3-03-estimator-comparison.json": "12db827e41d7085dbf539950c9e7dcdfddbe8b0837a91419bbc6a16fabb36ed2",
         "research/results/n3-03-estimator-comparison.md": "74c8612c7e7743b0f32f07bb0a14ed3d276b15ab912fdbb33484a207cfb1ff3c",
@@ -3700,7 +3706,7 @@
       "evidence_digests": {
         "research/prereg/n3-05-randomized-intervention-harness-v1.md": "5ed01bba3930b3a8a93a54ca24c5ec1a0f518a8d1adeb8a8b5d702bd0a04fdcf",
         "benchmarks/intervention_harness.py": "9bace4cbdb41bbd878cc74b561cec05e9f8aa3398e6092287050fe9f1ab4857e",
-        "benchmarks/n3_05_intervention_harness.py": "d34a32ba122992d43985bba363584ae92e8315517d87f48a123b2d3b334565b8",
+        "benchmarks/n3_05_intervention_harness.py": "3a34b5f6ed0c9ba66a4c9f1741c274c57191786db8b78d3cd79b48f4f1438115",
         "tests/test_n3_05_intervention_harness.py": "34d90d70c398d58ec7f2bdd2eadc577505531fee37a4c117403a8a119ee9d0b0",
         "research/results/n3-05-intervention-harness.json": "300943bdaf0d73398af97304264b56def61b0d63a92c6507bd126dbcf29cca50",
         "research/results/n3-05-intervention-harness.ndjson": "f9fb0f0a8b491c26f14ad6845a0f408497ad9d9e38db495981bbe2ee1aac873c",
@@ -3730,7 +3736,7 @@
       ],
       "evidence_digests": {
         "research/prereg/n3-06-copy-invariance-v1.md": "7d9ac35f0b3fe24326779d3331023180c71d5d655261f602b7a26c130117af99",
-        "benchmarks/n3_06_copy_invariance.py": "a8c8e883a49f91afe7ceadd94e7dec92fa19110f1b7dd5da8daa68fc5764a4a9",
+        "benchmarks/n3_06_copy_invariance.py": "2fa81d174c7d97bc5620b2a9c43e8d2397ebed548abd5e3bc1eda733523f4807",
         "tests/test_n3_06_copy_invariance.py": "f7ae369e24c015350b97e6ba2669b091a79dbc04ce8eba4e561c95ccc676a499",
         "research/results/n3-06-copy-invariance.json": "c1a39d042463111129bc8b3da171f6e21c5e992a8f35f37b94e9c34f606da03a",
         "research/results/n3-06-copy-invariance.md": "11a8b60443ba73d9bbb433943e7b9dd2e10293b078d75484c29df25a833fcd59",
@@ -3784,7 +3790,7 @@
       ],
       "evidence_digests": {
         "research/prereg/n3-08-heldout-world-family-transfer-v1.md": "dc23acc1c9849da5ef6f4a1bf28a17e776fee10d33168e8738a45137089a582b",
-        "benchmarks/n3_08_ood_retention.py": "c5be4f6cd75a72a5b39d82431c0978aa631a6b9b25e6a99934c899288a395322",
+        "benchmarks/n3_08_ood_retention.py": "022a72672824ac96a9b399e934bd3fb5fbd813dd1b4f705ccb7211474b768e5f",
         "tests/test_n3_08_ood_retention.py": "1e3c23c0f0843d8cc7532c743b3da4c11642459a5eb6f40b552a9bd30a893049",
         "research/results/n3-08-ood-retention.json": "a7dce9f21e41ff91f4733522daacc6d746962bad5f7ff0795559886833159651",
         "research/results/n3-08-ood-retention.md": "41f40fe56762f9efaaca2e2bfaab9ef159fa89cd9b1fd471c63f99c981718e15",
@@ -5562,7 +5568,7 @@
       ],
       "evidence_digests": {
         "tests/test_personal_data_redaction.py": "c3e3bb7f6b5a1693d6825b34ab2a7c92879f792895f45a4b8b12f6b3fbc90560",
-        "tools/scan_secrets.py": "08339220e6279cde7c84e56c55627524363b48478052c353246ec4aca354dca0",
+        "tools/scan_secrets.py": "357bfb05169dfe338bc8a24be5169b95a06066c4ad4bc026a174df235d8501de",
         "research/results/h3-05-personal-data-redaction.json": "b741fbed8be332136fd9b7ea842937549bc4b614ee501638644123e59abb11ff",
         "research/results/h3-05-personal-data-redaction-tests.xml": "55945996c93d0c540dd450fa2e5b6a93a87d3ddbc2083541820865b377967e49"
       },
@@ -6056,7 +6062,7 @@
       "task_id": "H5-02",
       "priority": "P1",
       "task": "Enable static lint/type/security checks already locally available as hard release gates.",
-      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml`, `research/results/p5-02-local-checks.txt` (DONE: Ruff, mypy (176 files/0 issues), secret scan (127 examined/0 unexpected), security AST scan (16 modules/0 findings), internal findings gate, documentation tests and adversarial gate (21/21 families, 279 tests) pass. `pip-audit` and `bandit` are explicitly reported UNAVAILABLE, not counted green)",
+      "acceptance": "Missing executable is shown as UNAVAILABLE rather than silently counted green. Evidence: `tools/check.py`, `tools/adversarial_gate.py`, `tests/test_secure_sdlc_inventory.py`, `research/results/h5-02-adversarial-gate.json`, `research/results/h5-02-static-security-gates.json`, `research/results/h5-01-02-local-tool-inventory-tests.xml`, `research/results/p5-02-local-checks.txt` (DONE: Ruff passes; mypy reports 0 issues in 197 files; secret scan reports 129 high-severity matches and 0 unexpected; security AST scans 16 modules with 0 findings; internal gate has 0 blocking findings; 27 documentation tests and adversarial gate (21/21 families, 260 tests) pass. `pip-audit` and `bandit` are reported UNAVAILABLE and are not counted as green.)",
       "status": "DONE",
       "acceptance_passed": true,
       "evidence_level": "INTERNAL_INTEGRATION",
@@ -6072,8 +6078,8 @@
         "tools/check.py": "b72a1ee62865a37b8d773845b90cd48a6fb0cc19789dd63e836280bd57ed1e94",
         "tools/adversarial_gate.py": "5cca401a1c35659c541379e2738ad16f0ad32cf3c2897c9195e48a453e28fe53",
         "tests/test_secure_sdlc_inventory.py": "2a11c4858561b128ef18b749e7fa3630de42654d9139bd2b402f14e0309acc26",
-        "research/results/h5-02-adversarial-gate.json": "4789aab89557361753f9782887e6dacd220af8b524a596c70a6846db0b9f9bef",
-        "research/results/h5-02-static-security-gates.json": "09e4783869c0b9f5b79542fae10923e627e3b46f739f81b4f937f2118c5f77dd",
+        "research/results/h5-02-adversarial-gate.json": "184332a735641c2f84855cd5852f64c34e3da1d75997b45226f7080115a814b1",
+        "research/results/h5-02-static-security-gates.json": "a7eff1384ac09c76d0a6046811e00f4e926a7da8c792406fc25beb7b9cad0fd7",
         "research/results/h5-01-02-local-tool-inventory-tests.xml": "6d00febbe5ace55a0ab01d0e620fcf29eeec28381b08f9ad6354e993c6ff1b4e"
       },
       "evidence_issues": {},
@@ -7753,7 +7759,7 @@
         "tests/test_offline_qualification.py"
       ],
       "evidence_digests": {
-        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5"
+        "tests/test_offline_qualification.py": "5140df9e6e29e87448a46d0832eb4cf0a452ae48e0c162b0fcdeacd926603561"
       },
       "evidence_issues": {},
       "limitations": []
@@ -7810,7 +7816,7 @@
       ],
       "evidence_digests": {
         "tools/offline_qualification.py": "6f3b47226070a4477f5061f410ad89a5b0ef9f9cf599d86b86c083de40f5ba48",
-        "tests/test_offline_qualification.py": "3e0d95f37d2dc582d57f214c150ccc14419d49f3e6d2b590f556a80b65637dc5"
+        "tests/test_offline_qualification.py": "5140df9e6e29e87448a46d0832eb4cf0a452ae48e0c162b0fcdeacd926603561"
       },
       "evidence_issues": {},
       "limitations": [

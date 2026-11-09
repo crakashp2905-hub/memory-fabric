@@ -4,7 +4,7 @@ Strict completion: **259 / 260 (99.62%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `0d556a634a2bef6f261147da2390e5b1209f6390406000f4d9dccc3cbc97c2ad`.
+Normalized ledger digest: `bd913da76c8fb391235992577a7cd98eb40499d8ac35d68cf077b6a3dc92fc63`.
 
 | status | count |
 |---|---:|
@@ -78,7 +78,7 @@ Normalized ledger digest: `0d556a634a2bef6f261147da2390e5b1209f6390406000f4d9dcc
 | E5-07 | P1 | DONE | INTERNAL_INTEGRATION | `tools/package_parity.py`, `docs/PACKAGE_PARITY.md`, `research/results/e5-07-package-parity.json` |
 | E5-08 | P1 | DONE | INTERNAL_INTEGRATION | `docs/HISTORICAL_COMPATIBILITY_FIXTURES.md`, `tests/data/historical/manifest.json`, `tests/data/historical/v0.11.0.db.gz`, `tests/test_historical_fixtures.py`, `tests/test_version_skew.py`, `tests/test_integrity_chain.py`, `research/results/e5-08-historical-fixtures.json`, `research/results/e5-08-historical-fixtures.xml` |
 | E5-09 | P1 | DONE | INTERNAL_INTEGRATION | `src/memory_fabric/agent_api.py`, `tests/test_agent_api.py`, `tests/data/agent_api_behavior.json`, `tools/agent_api_metrics.py`, `research/results/e5-09-agent-api-before.json`, `research/results/e5-09-agent-api-before.xml`, `research/results/e5-09-agent-api-after.json`, `research/results/e5-09-agent-api-after.xml`, `research/results/e5-09-agent-api-after-core.xml`, `research/results/e5-09-agent-api-refactor.json` |
-| E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml`, `research/results/p5-03-full-suite-matrix.json`, `research/results/p5-03-python311-tests.xml`, `research/results/p5-03-python312-tests.xml`, `research/results/p5-03-python313-tests.xml` |
+| E5-10 | P1 | PARTIAL | INTERNAL_INTEGRATION | `src/memory_fabric/freshness.py`, `tests/test_portable_paths.py`, `docs/PORTABLE_PATHS.md`, `research/results/e5-10-portable-paths.xml`, `research/results/p5-03-full-suite-matrix.json`, `research/results/p5-03-python311-tests.xml`, `research/results/p5-03-python312-tests.xml`, `research/results/p5-03-python313-tests.xml`, `research/results/e5-10-portable-paths-py311.xml`, `research/results/e5-10-portable-paths-py312.xml`, `research/results/e5-10-portable-paths-py313.xml` |
 | R1-01 | P0 | DONE | CONTRACT | `research/prereg/offline-10-families-v1.md` |
 | R1-02 | P0 | DONE | INTERNAL_INTEGRATION | `tools/results_manifest.py`, `benchmarks/scoreboard.py`, `tests/test_status_at_head.py`, `tests/test_benchmarks.py`, `research/results/MANIFEST.json`, `research/results/BENCHMARK_SCOREBOARD.md`, `research/results/r1-population-separation-tests.xml` |
 | R1-03 | P0 | DONE | INTERNAL_INTEGRATION | `benchmarks/offline_research.py`, `tests/test_offline_research.py`, `research/results/r1-offline-synthetic.json`, `research/results/r1-offline-synthetic-tests.xml` |
