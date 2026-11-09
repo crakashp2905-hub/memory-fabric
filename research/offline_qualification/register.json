@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "6448f6cb2232777f3bb4a96dea59b3274c59da81",
+    "commit": "e0049fe131b311018a5cb7a81d97e9e0ae0bcc4d",
     "dirty": true
   },
   "summary": {
@@ -303,7 +303,7 @@
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_suite_hygiene.py": "8489f02d47bc086d6724c9c6ce988c0848f2e327cebb7564e92face675b9354c",
         "tests/test_capability_registry.py": "671b0bdd08621ed38850a223c9fe9403b433b8e2f6338d39139be114f92cd46d",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         "research/results/e1-10-generated-status.json": "f7e21d2c319d8796da101dc21291dc69ee749f2b83fefa663f9b94fda3201434",
         "research/results/e1-10-generated-status.txt": "0d9fc0283dfbfdf975853265e25bbb615a9cc8b170fb717a4bb978a2c1dcd83b"
       },
@@ -2060,7 +2060,7 @@
         "research/results/r3-02-matched-agent-arms.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "benchmarks/agent_scale.py": "d27b8fa010335b6e8ca8dc0a0d5f84a6c8ee4ca3e23a70b74857409f779700d7",
         "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
@@ -2090,7 +2090,7 @@
         "research/results/r3-03-failure-taxonomy.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "research/prereg/failure-taxonomy-v1.md": "1a5ff50933a8179678dca7e5c50f111202b9bdb6b3fc061383905397bbfc2a96",
         "docs/FAILURE_TAXONOMY.md": "1bb27ae902a6fd82f156aa9eefc9937a48bbe284785bba1f7a6a8e67344c40fd",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2292,7 +2292,7 @@
         "research/results/r3-09-10-heldout-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "benchmarks/heldout_agent_qualification.py": "6e8e7201d8bf9d704b69a719d600bff8940e342d2dc468feb5b16fab8fd18e4d",
         "research/prereg/heldout-agent-qualification-v1.md": "7614e987104b193822621b59c5ca76ff2faa429526e65d92cff6091c00673342",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2458,7 +2458,7 @@
         "research/results/r4-05-adversarial-cases.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "tools/r4_06_randomization_qualification.py": "49656c95fdfa68b8590b5b38f4d45cb58cd7f989eee354b1869c6d9c0fa9a686",
         "research/prereg/r4-06-order-randomization-v1.md": "8a62c10d81c7cb277e8a335212b537cb41e9b0640edadb1f06fee566d762095f",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
@@ -2516,7 +2516,7 @@
         "research/results/r5-06-pareto-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",
         "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
@@ -2718,7 +2718,7 @@
         "research/results/r5-06-pareto-qualification.json"
       ],
       "evidence_digests": {
-        "benchmarks/matched_agent_arms.py": "a0562092dc25878999f4dfe5c60c5f8ada41bfea74ce9b94b71431b34bc4ab79",
+        "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
         "research/prereg/r4-08-matched-resource-budget-v1.md": "9c9eda6054a34bfa809a4ea642157b60c88ea818c471e6277d561b6bb2bfb0fa",
         "tests/test_r5_06_pareto_qualification.py": "75491066829a9322a14ad53dd4b5ef090c2f1e6a960fd2b6f2bfc141d21c9210",
         "tools/r5_06_pareto_qualification.py": "62e04c59c9f1e4af66d49d7edefee7473396a110a172200e5925c398d91d9cb9",
@@ -6138,7 +6138,7 @@
       "evidence_digests": {
         "tools/audit_package_assets.py": "b082384ba90153f9ae9526572c26d4b1f8305b56060897318e809f9d06f91a97",
         "tests/test_package_asset_audit.py": "a8315243a35a1a51b7686ba1b6b3ea0e47e83509077079f643de102fd79d3707",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         ".github/workflows/release.yml": "7e4167d2ad8fef457f895e3d1bab33a1cbbdd32b6be5201f9c803b294afbb91c",
         ".github/workflows/publish-pypi.yml": "894dc0df49b44bb4d200968055033e7b92a248794b5b2621871fdacb847ba2c5",
         "research/results/h5-04-package-asset-audit.json": "c3e3f671b1269a6c83b8eda0110e437c7ce97a6ecad05ee127b47f5e07f79d31",
@@ -6227,7 +6227,7 @@
         "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
         "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
         "tests/test_security_fuzz.py": "6b2defcb703974cbcea1ec88482e840e12910b09918693328594a31d2bde6017",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         "research/results/h5-07-security-fuzz.json": "ea91584af49295e88c2f2d263aac468a37b9e47353022224ec8692facdc39afe",
         "research/results/h5-07-security-fuzz-tests.xml": "b90891d538af5d6f16624a36f79cc721c7350e1ca93c09b25a22a9e787bdac55"
       },
@@ -6258,7 +6258,7 @@
         "src/memory_fabric/limits.py": "e1fe979eec94a8ae10da3d593fdc670e914b9460c138e9b161fcad6c61c3fc5a",
         "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
         "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         "research/results/h5-08-rate-limit-qualification.json": "d7fd1bfbeee4742c4a71faba54c936434f5d3825d2ea193989d949614089d360",
         "research/results/h5-08-rate-limit-tests.xml": "e6cd7fe4bb858f12367d76c59ffadfdcefe3961157061bce8ecc3adb73f31595"
       },
@@ -6286,7 +6286,7 @@
         "tools/audit_production_defaults.py": "48485e4850c517bc9fa4d585ff8121853d569183be084f1a19e7061f4c02cc88",
         "tests/data/default_features.json": "b058343380ee63bef9729e4cef58f578923f708c9178a94d9d76d1f363bf7705",
         "tests/test_presets.py": "5e6bdae2d9a000aeb70a262300129b68aebdf34eabab32e69687b26425029ed5",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         "research/results/h5-09-production-defaults.json": "111d68367caa19615ea163dc4948d936e578daeb1aacba419453b751f9aab4ff"
       },
       "evidence_issues": {},
@@ -6534,7 +6534,7 @@
         "tests/test_connect.py": "4a1c32df98eb27f4b34e47c18bdc16d297301a093ca5f14c6f9a6ce38efb0812",
         "tests/test_portable_paths.py": "d4c1927426bac86beb33fd011798d1c9076e988714b482576840a14a7f36b682",
         "tests/test_first_run.py": "192f499741d2590891598dae3f10cfe37f796dae8f8630ccb9555b7f7f0d8c26",
-        ".github/workflows/ci.yml": "702aec6e0df7ef1072057fbbdb2c9eca3ef9399c414e766ce77715113ccea235",
+        ".github/workflows/ci.yml": "8a300086232f3d67f8af716bfed279250e2c41fb9d085404431c3e3dd47d4efa",
         "research/results/p1-06-portable-paths.json": "c76e51d00fe306650fdde985b0b84e6538136a3448bb215a1152b17f1f258a6e",
         "research/results/p1-06-portable-paths.txt": "ac97056f61c835ffd2f682535ecab934e8fbf6e5cb3626b8ac71371a6413b75c"
       },
