@@ -455,7 +455,7 @@
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(target: str, parameters: Mapping[str, Any] = <factory>)",
+      "signature": "(target: str, parameters: Mapping[str, Any] = <factory>, provenance: Mapping[str, str] = <factory>)",
       "symbol": "memory_fabric.actions.ActionRequest",
       "tier": "beta"
     },

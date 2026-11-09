@@ -87,6 +87,18 @@ REASONS: dict[str, tuple[str, str]] = {
     # Certificates and evidence
     "certificate_required": ("Refused: this tool needs an evidence certificate.",
                              "Certify the claim with the memories it rests on."),
+    "requirement_evidence_missing": (
+        "Refused: one or more required evidence conditions are not supported.",
+        "Provide evidence for each missing requirement before authorising the action."),
+    "requirement_explanation_limit": (
+        "Refused: the requirement explanation exceeded its configured safety limit.",
+        "Simplify the requirement graph or raise the reviewed explanation limit."),
+    "claim_evidence_not_supporting": (
+        "Refused: cited evidence does not support the claim required by this action.",
+        "Use evidence that establishes the exact required claim."),
+    "claim_evidence_disputed": (
+        "Refused: evidence for a required claim is disputed.",
+        "Resolve the dispute and certify the claim with current supporting evidence."),
     "certificate_expired": ("Refused: the evidence certificate has expired.",
                             "Certify again with current evidence."),
     "certificate_too_large": ("Refused: the certificate cites too much evidence.",

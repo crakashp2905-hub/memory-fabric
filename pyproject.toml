@@ -35,7 +35,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-test = ["pytest==9.0.3"]
+test = ["pytest==9.0.3", "psutil>=5.9"]
 documents = ["pypdf>=6.0,<7"]
 # Adapters only. `ollama` needs nothing — it speaks HTTP over urllib.
 claude = ["anthropic>=0.40"]

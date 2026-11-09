@@ -15,7 +15,7 @@ the code disagree.
 Promotion needs evidence that the change in default behaviour helps,
 and the owner's decision (AGENTS.md principle 9).
 
-## Stable (57)
+## Stable (58)
 
 - `memory_fabric.__init__`
 - `memory_fabric._fabric.__init__`
@@ -68,6 +68,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.projections`
 - `memory_fabric.protocol`
 - `memory_fabric.relevance`
+- `memory_fabric.requirement_graph`
 - `memory_fabric.sdk`
 - `memory_fabric.service`
 - `memory_fabric.session`
@@ -75,17 +76,19 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (62)
+## Beta (64)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
 - `memory_fabric.adapters.claude`
 - `memory_fabric.adapters.claude_chat`
 - `memory_fabric.adapters.ollama`
+- `memory_fabric.advisory`
 - `memory_fabric.agent_api`
 - `memory_fabric.answerability`
 - `memory_fabric.auditor`
 - `memory_fabric.authority`
+- `memory_fabric.authorization_receipt`
 - `memory_fabric.branching`
 - `memory_fabric.chains`
 - `memory_fabric.conflicts`
@@ -140,7 +143,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.upgrade_preview`
 - `memory_fabric.validation`
 
-## Experimental (25)
+## Experimental (27)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.claimcheck`
@@ -148,6 +151,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.context_map`
 - `memory_fabric.decay`
 - `memory_fabric.decision_models`
+- `memory_fabric.decision_router`
 - `memory_fabric.docsource`
 - `memory_fabric.document_formats`
 - `memory_fabric.evidence_completeness`
@@ -163,6 +167,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.objective_v2`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
+- `memory_fabric.summary_dependencies`
 - `memory_fabric.tombstones`
 - `memory_fabric.tool_protocol`
 - `memory_fabric.trust`

@@ -113,6 +113,10 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `tool_not_granted` | the agent is not granted this tool | add it to `ActionPolicy.grants` |
 | `unprotected_tool` | allowed: the tool needs no evidence | nothing |
 | `certificate_required` | a protected tool was called without a certificate | `fabric.certify(...)` the evidence first |
+| `requirement_evidence_missing` | one or more conditions in the action's requirement graph lack evidence | provide evidence for each missing requirement |
+| `requirement_explanation_limit` | the requirement graph exceeded the configured explanation bound | simplify the graph or deliberately raise the reviewed limit |
+| `claim_evidence_not_supporting` | cited evidence does not establish the required claim | cite evidence that supports the exact claim |
+| `claim_evidence_disputed` | evidence supporting the required claim is disputed | resolve the dispute and re-certify with current evidence |
 | `malformed_certificate`, `unknown_certificate_version`, `certificate_too_large`, `unknown_required_check` | the certificate cannot be read | rebuild it with this version's `certify` |
 | `wrong_store`, `wrong_agent`, `wrong_tenant` | the certificate was issued elsewhere or for someone else | certify in this store, as this agent |
 | `certificate_expired`, `policy_changed` | the certificate is stale | certify again |

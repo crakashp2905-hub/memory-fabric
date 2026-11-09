@@ -245,10 +245,10 @@ All evidence alternatives that disagree about a required proposition.
 ### `actions.ActionRequest` (beta)
 
 ```python
-ActionRequest(target: str, parameters: Mapping[str, Any] = <factory>)
+ActionRequest(target: str, parameters: Mapping[str, Any] = <factory>, provenance: Mapping[str, str] = <factory>)
 ```
 
-The exact action: what it acts on and with which parameters.
+The exact action: target, parameters and optional generation provenance.
 
 ### `actions.ActionDecision` (beta)
 

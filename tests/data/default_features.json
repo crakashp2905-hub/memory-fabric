@@ -32,6 +32,7 @@
   },
   "tool_rules": {
     "personal": {
+      "claim_predicates": {},
       "min_authority": "unverified",
       "min_independent_sources": 1,
       "name": "snapshot-tool",
@@ -48,6 +49,7 @@
       "requires_human_approval": false
     },
     "regulated": {
+      "claim_predicates": {},
       "min_authority": "unverified",
       "min_independent_sources": 2,
       "name": "snapshot-tool",
@@ -64,6 +66,7 @@
       "requires_human_approval": false
     },
     "team": {
+      "claim_predicates": {},
       "min_authority": "unverified",
       "min_independent_sources": 1,
       "name": "snapshot-tool",

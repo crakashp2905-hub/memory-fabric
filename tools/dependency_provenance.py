@@ -79,6 +79,9 @@ def main() -> int:
                                           if line.startswith("Requires-Dist:")],
                     }
                 artifacts.append(item)
+    lock_path = ROOT / "uv.lock"
+    lock = tomllib.loads(lock_path.read_text(encoding="utf-8")) if lock_path.is_file() else None
+    lock_packages = lock.get("package", []) if lock else []
     payload = {
         "schema": "mf-dependency-provenance/1",
         "source": {"inventory_commit": inventory_commit,
@@ -94,21 +97,22 @@ def main() -> int:
         "installed_declared_distributions": installed,
         "artifacts": artifacts,
         "lock_metadata": {
-            "status": "BLOCKED",
-            "lock_file": None,
-            "offline_resolution": {
-                "tool": "uv 0.11.16", "command": "uv lock --offline",
-                "status": "FAILED",
-                "reason": "The local cache lacks pytest==9.0.3 metadata; registry access is unavailable offline.",
-            },
-            "note": "Installed optional packages are inventoried but do not establish a complete transitive lock.",
+            "status": "LOCKED" if lock else "MISSING",
+            "lock_file": lock_path.relative_to(ROOT).as_posix() if lock else None,
+            "lock_sha256": digest(lock_path) if lock else None,
+            "lock_version": lock.get("version") if lock else None,
+            "package_count": len(lock_packages),
+            "packages": [{"name": item["name"], "version": item["version"]}
+                         for item in lock_packages],
+            "note": ("uv.lock records resolved versions and artifacts for every project extra."
+                     if lock else "No uv.lock is committed; optional dependency resolution is incomplete."),
         },
         "build": {
             "instructions": "docs/REPRODUCIBLE_CORE_BUILD.md",
             "repeatability_result": (repeatability_path.relative_to(ROOT).as_posix()
                                      if repeatability else None),
             "repeatability": repeatability,
-            "scope": "Core wheel and normalized sdist only; optional extras are not locked.",
+            "scope": "Core wheel and normalized sdist only; dependency resolution is recorded separately in uv.lock.",
         },
         "inventory_run": {
             "generated_at_commit": inventory_commit,
@@ -119,6 +123,7 @@ def main() -> int:
                 path: digest(ROOT / path)
                 for path in ("pyproject.toml", "README.md", "LICENSE")
             },
+            "lock_sha256": digest(lock_path) if lock else None,
             "build_repeatability_sha256": (digest(repeatability_path)
                                             if repeatability else None),
         },
