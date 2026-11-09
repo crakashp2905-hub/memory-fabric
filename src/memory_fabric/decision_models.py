@@ -18,6 +18,13 @@ class DecisionModelError(ValueError):
     """A decision model returned a malformed or unsafe proposal."""
 
 
+def _finite_number(value: object) -> bool:
+    try:
+        return math.isfinite(value)  # type: ignore[arg-type]
+    except (OverflowError, TypeError, ValueError):
+        return False
+
+
 @dataclass(frozen=True)
 class DecisionOption:
     id: str
@@ -54,18 +61,25 @@ class DecisionProposal:
 
     def validate(self, context: DecisionContext) -> "DecisionProposal":
         expected = {option.id for option in context.options}
-        if set(self.probabilities) != expected:
+        if not isinstance(self.probabilities, Mapping) or set(self.probabilities) != expected:
             raise DecisionModelError("probabilities must cover every option exactly once")
         values = tuple(self.probabilities.values())
-        if any(not math.isfinite(value) or value < 0.0 or value > 1.0 for value in values):
+        if any(isinstance(value, bool) or not isinstance(value, (int, float))
+               or not _finite_number(value) or value < 0.0 or value > 1.0
+               for value in values):
             raise DecisionModelError("probabilities must be finite values in [0, 1]")
         if not math.isclose(sum(values), 1.0, abs_tol=1e-6):
             raise DecisionModelError("probabilities must sum to 1")
+        if not isinstance(self.abstained, bool):
+            raise DecisionModelError("abstained must be a boolean")
         if self.abstained != (self.selected is None):
             raise DecisionModelError("abstention and selected option disagree")
         if self.selected is not None and self.selected not in expected:
             raise DecisionModelError("selected option is not in the decision context")
-        if not 0.0 <= self.confidence <= 1.0:
+        if (isinstance(self.confidence, bool)
+                or not isinstance(self.confidence, (int, float))
+                or not _finite_number(self.confidence)
+                or not 0.0 <= self.confidence <= 1.0):
             raise DecisionModelError("confidence must be in [0, 1]")
         return self
 
