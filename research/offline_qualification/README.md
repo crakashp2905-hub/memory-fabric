@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **240 / 260 (92.31%)**. Internal status: **BLOCKED**.
+Strict completion: **241 / 260 (92.69%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `6891814eed8bb6cf08c1de87b885e9c73ce9a42887a90f890070a42e47566976`.
+Normalized ledger digest: `069db69a3a16e75726833192f4f2c1105ad9c74bc5b2f79660d620f49f67cb2c`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 240 |
+| DONE | 241 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 17 |
+| TODO | 16 |
 
 ## Graduation gates
 
@@ -173,7 +173,7 @@ Normalized ledger digest: `6891814eed8bb6cf08c1de87b885e9c73ce9a42887a90f890070a
 | N5-02 | P2 | DONE | CONTRACT | `tests/test_n5_02_hypothesis_preservation.py`, `experiments/n5_02_hypothesis_preservation.py`, `research/results/n5-02-hypothesis-preservation.json`, `research/results/n5-02-hypothesis-preservation.md`, `research/results/n5-02-hypothesis-tests.xml`, `research/results/n5-02-hypothesis-regression.xml` |
 | N5-03 | P2 | DONE | CONTRACT | `experiments/n5_03_echo_chamber.py`, `tests/test_n5_03_echo_chamber.py`, `research/results/n5-03-echo-chamber.json`, `research/results/n5-03-echo-chamber.md`, `research/results/n5-03-echo-chamber-tests.xml` |
 | N5-04 | P2 | DONE | SIMULATED | `research/prereg/n5-04-aggregation-policies-v1.md`, `experiments/n5_04_aggregation.py`, `tests/test_n5_04_aggregation.py`, `research/results/n5-04-aggregation-tests.xml`, `research/results/n5-04-aggregation-policies.json`, `research/results/n5-04-aggregation-policies.md`, `research/results/n5-04-aggregation-manifest.json` |
-| N5-05 | P2 | TODO | NOT_TESTED | — |
+| N5-05 | P2 | DONE | CONTRACT | `src/memory_fabric/context_map.py`, `src/memory_fabric/context_receipt.py`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/cli.py`, `tests/test_n5_05_disagreement_budget.py`, `experiments/n5_05_disagreement_budget.py`, `research/results/n5-05-disagreement-budget.json`, `research/results/n5-05-disagreement-budget.md`, `research/results/n5-05-disagreement-tests.xml`, `research/results/n5-05-context-regression.xml`, `SPEC.md`, `docs/architecture/ADR-003-context-receipts.md` |
 | N5-06 | P2 | TODO | NOT_TESTED | — |
 | N5-07 | P2 | TODO | NOT_TESTED | — |
 | N5-08 | P2 | TODO | NOT_TESTED | — |

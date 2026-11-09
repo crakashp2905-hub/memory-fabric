@@ -4225,6 +4225,31 @@
         "Source-root deduplication depends on supplied provenance labels; it does not prove actual independence.",
         "Reporter reputation is simulated from a separate calibration split and is not an operational trust score."
       ]
+    },
+    {
+      "task_id": "N5-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/context_map.py",
+        "src/memory_fabric/context_receipt.py",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/cli.py",
+        "tests/test_n5_05_disagreement_budget.py",
+        "experiments/n5_05_disagreement_budget.py",
+        "research/results/n5-05-disagreement-budget.json",
+        "research/results/n5-05-disagreement-budget.md",
+        "research/results/n5-05-disagreement-tests.xml",
+        "research/results/n5-05-context-regression.xml",
+        "SPEC.md",
+        "docs/architecture/ADR-003-context-receipts.md"
+      ],
+      "limitations": [
+        "Query relevance uses identifier and content-token matching; it is not an action classifier and can miss or overinclude a set.",
+        "One representative is rendered per distinct normalized claim text; only selected representatives are linked in the receipt.",
+        "Context assembly exposes uncertainty but does not decide which alternative is true or authorize an action."
+      ]
     }
   ]
 }
