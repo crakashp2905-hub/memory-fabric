@@ -130,7 +130,8 @@ def main(output: Path | None = None) -> int:
     }
     target = output or ROOT / "research" / "results" / "h5-01-dependency-provenance.json"
     target.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    print(target.relative_to(ROOT), len(distributions), "declared distributions")
+    shown = target.relative_to(ROOT) if target.resolve().is_relative_to(ROOT) else target
+    print(shown, len(distributions), "declared distributions")
     return 0
 
 

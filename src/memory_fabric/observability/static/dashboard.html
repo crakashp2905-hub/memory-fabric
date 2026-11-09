@@ -475,6 +475,8 @@ main button:not(.link):not(.copy):hover, .drawer button:not(.link):not(.copy):ho
     <button data-tab="quality" aria-selected="false"><i aria-hidden="true">◈</i>Quality scorecard</button>
     <button data-tab="changes" aria-selected="false"><i aria-hidden="true">⑂</i>Changes<span class="count" id="c-changes"></span></button>
     <button data-tab="capabilities" aria-selected="false"><i aria-hidden="true">ⓘ</i>Capabilities &amp; limits</button>
+    <button data-tab="proof" aria-selected="false"><i aria-hidden="true">✓</i>Proof &amp; benchmarks</button>
+    <button data-tab="howto" aria-selected="false"><i aria-hidden="true">?</i>How to use</button>
   </nav>
   <div class="side-foot"><kbd>?</kbd> shortcuts · read-only</div>
 </aside>
@@ -1660,6 +1662,7 @@ async function loadHowTo() {
     <div class="studio-card"><h3>${esc(title)}</h3><p>${esc(text)}</p>${actionBlock(cmd)}</div></div>`).join("") +
     `<div class="note"><b>Safe operating rule:</b> agents can propose knowledge and request tools, but they cannot validate their own claims,
     grant themselves permissions, or provide their own outcome scores.</div>`;
+}
 
 function supportLabel(value) {
   return ({justified: "A justification survives; this does not authorize action",

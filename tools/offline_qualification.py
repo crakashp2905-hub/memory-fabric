@@ -31,6 +31,11 @@ LEVELS = {"NOT_TESTED", "SIMULATED", "CONTRACT", "INTERNAL_INTEGRATION",
           "EXTERNAL_INDEPENDENT"}
 
 
+def _shown(path: Path) -> str:
+    """Repository-relative when the file is inside the repository, else as given."""
+    return str(path.relative_to(ROOT)) if path.resolve().is_relative_to(ROOT) else str(path)
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -136,7 +141,7 @@ def build() -> dict[str, Any]:
         value == "PASS" for value in gates.values()) else "BLOCKED"
     return {
         "schema": "memory-fabric-offline-qualification/1",
-        "scope": {"path": str(SCOPE.relative_to(ROOT)).replace("\\", "/"),
+        "scope": {"path": _shown(SCOPE).replace("\\", "/"),
                   "sha256": sha256(SCOPE), "tasks": len(rows)},
         "source": {"commit": commit, "dirty": dirty},
         "summary": {"counts": dict(sorted(counts.items())),
