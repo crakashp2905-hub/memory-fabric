@@ -14,7 +14,6 @@ from pathlib import Path
 from statistics import mean
 
 from experiments.n5_04_aggregation import (
-    ARMS,
     POLICIES,
     QUALITY_ORDER,
     QUALITY_RATES,
@@ -354,7 +353,7 @@ def run() -> dict[str, object]:
         "configuration": {"pilot_seed": PILOT_SEED, "pilot_tasks": PILOT_TASKS,
                           "evaluation_seeds": list(EVAL_SEEDS), "tasks_per_seed": TASKS_PER_SEED,
                           "conditions": len(BEHAVIORS) * len(FAULT_FRACTIONS),
-                          "policies": list(POLICIES), "arms": list(ARMS),
+                          "policies": list(POLICIES),
                           "replay_limit": REPLAY_LIMIT},
         "pilot": pilot,
         "held_out": held_out,
@@ -372,7 +371,7 @@ def run() -> dict[str, object]:
     REPORT_PATH.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     markdown = [
         "# N5-06 Byzantine-agent simulation", "",
-        f"Protocol: `{PROTOCOL}`. Synthetic conditional evidence only. Faulty reporters know task truth; realized identity fractions are 0%, 0%, 18.75%, and 37.5% for the requested 0%, 10%, 25%, and 40% levels.", "",
+        f"Protocol: `{PROTOCOL}`. Synthetic conditional evidence only. Faulty reporters know task truth; realized identity fractions are 0%, 6.25%, 25%, and 37.5% for the requested 0%, 10%, 25%, and 40% levels (16 reporter identities, rounded down). Reputation uses a separate fixed 40-case calibration split per seed.", "",
         "## Held-out results", "",
         "Equal-weight means across five seeds; each cell is wrong actions / all tasks (coverage). Paired bootstrap intervals compare against the same behavior's zero-fault condition.", "",
         "| behavior | requested faults | policy | wrong action rate | coverage | paired change (95% CI) |", "|---|---:|---|---:|---:|---:|",
