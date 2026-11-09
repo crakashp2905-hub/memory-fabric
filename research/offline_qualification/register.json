@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "b35f722c7de25f6c439829e33db80a6fb76b1d95fb206bd33a8811bde5473a09",
+    "sha256": "2d2bc44af02c0e03f800e95430fa61c9d27c2b4d081d14685bf0a626624ee0fd",
     "tasks": 260
   },
   "source": {
-    "commit": "0513285dd0af4663b2bf109a19657a78934099d5",
-    "dirty": false
+    "commit": "04f8c97fc11f404c8e46b78f0e05c817f29cddc3",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 239,
+      "DONE": 240,
       "PARTIAL": 3,
-      "TODO": 18
+      "TODO": 17
     },
-    "completed": 239,
+    "completed": 240,
     "total": 260,
-    "percent_complete": 91.92,
+    "percent_complete": 92.31,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4273,14 +4273,34 @@
       "task_id": "N5-04",
       "priority": "P2",
       "task": "Benchmark majority, reputation, independent-root and evidence-quality aggregation policies.",
-      "acceptance": "Measure accuracy, convergence, minority preservation and action errors",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Measure accuracy, convergence, minority preservation and action errors. Evidence: `research/prereg/n5-04-aggregation-policies-v1.md`, `experiments/n5_04_aggregation.py`, `tests/test_n5_04_aggregation.py`, `research/results/n5-04-aggregation-tests.xml`, `research/results/n5-04-aggregation-policies.json`, `research/results/n5-04-aggregation-policies.md`, `research/results/n5-04-aggregation-manifest.json` (DONE: seed-200 pilot passed the pre-registered non-degenerate metric screen; five held-out seeds 201\u2013205 cover 2,500 tasks. All four policies and an explicit oracle share the same reports and action budget. Evidence-quality reaches 0.812 mean utility versus 0.300 for the best simple baseline, with 0.726 mean oracle-headroom share against the 0.250 target, positive paired within-seed 95% CIs on every seed, 235 action errors, 0.462 minority recovery, and 1.49 mean convergence wave. Independent-root gives 0.641 utility with 228 errors and more abstentions; oracle scores 1.000 and zero errors on every seed. Eight focused tests pass. Synthetic source reliability assumptions limit external validity.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-04-aggregation-policies-v1.md",
+        "experiments/n5_04_aggregation.py",
+        "tests/test_n5_04_aggregation.py",
+        "research/results/n5-04-aggregation-tests.xml",
+        "research/results/n5-04-aggregation-policies.json",
+        "research/results/n5-04-aggregation-policies.md",
+        "research/results/n5-04-aggregation-manifest.json"
+      ],
+      "evidence_digests": {
+        "research/prereg/n5-04-aggregation-policies-v1.md": "4550fd2a4768ece563092d913c37ba00a938f1f408139b491b45ba589805fb69",
+        "experiments/n5_04_aggregation.py": "206f1f7fe50635149c2e59f6bd564849ce020175981aa7c2c1bf303a9e6100b0",
+        "tests/test_n5_04_aggregation.py": "bc675647108013d4bfb6152fa2d8230eafb1cce26c930f5d76dd34b4e834005d",
+        "research/results/n5-04-aggregation-tests.xml": "632759847dc4264fcb4eb1db85e7e533abb2b78684a738cec35bab2c2ac40c8e",
+        "research/results/n5-04-aggregation-policies.json": "10dcb56e63fc066c9b8658bf753a05d8a5c4c12726a7aadf53f3f4fa10c27e9c",
+        "research/results/n5-04-aggregation-policies.md": "708415de2935865410e3368094e401f58d3dd13866cce5ed00660f688f182dbe",
+        "research/results/n5-04-aggregation-manifest.json": "712fb2a28721a35f79333ab0324e71d7a5eb294efee7e705f950d44d382dad1b"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The benchmark is synthetic; evidence-quality tier rates are assumptions and do not estimate real source reliability.",
+        "Source-root deduplication depends on supplied provenance labels; it does not prove actual independence.",
+        "Reporter reputation is simulated from a separate calibration split and is not an operational trust score."
+      ]
     },
     {
       "task_id": "N5-05",

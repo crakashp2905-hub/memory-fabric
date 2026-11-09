@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **239 / 260 (91.92%)**. Internal status: **BLOCKED**.
+Strict completion: **240 / 260 (92.31%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5ad6b8e26697a9917619709d84488546b73fc5970475c41a9de0b2df73b29225`.
+Normalized ledger digest: `6891814eed8bb6cf08c1de87b885e9c73ce9a42887a90f890070a42e47566976`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 239 |
+| DONE | 240 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 18 |
+| TODO | 17 |
 
 ## Graduation gates
 
@@ -172,7 +172,7 @@ Normalized ledger digest: `5ad6b8e26697a9917619709d84488546b73fc5970475c41a9de0b
 | N5-01 | P2 | DONE | CONTRACT | `src/memory_fabric/consensus.py`, `tests/test_consensus.py`, `experiments/n5_01_origin_clusters.py`, `docs/API.md`, `research/results/n5-01-origin-clusters.json`, `research/results/n5-01-origin-clusters.md`, `research/results/n5-01-origin-cluster-tests.xml`, `research/results/n5-01-consensus-regression.xml` |
 | N5-02 | P2 | DONE | CONTRACT | `tests/test_n5_02_hypothesis_preservation.py`, `experiments/n5_02_hypothesis_preservation.py`, `research/results/n5-02-hypothesis-preservation.json`, `research/results/n5-02-hypothesis-preservation.md`, `research/results/n5-02-hypothesis-tests.xml`, `research/results/n5-02-hypothesis-regression.xml` |
 | N5-03 | P2 | DONE | CONTRACT | `experiments/n5_03_echo_chamber.py`, `tests/test_n5_03_echo_chamber.py`, `research/results/n5-03-echo-chamber.json`, `research/results/n5-03-echo-chamber.md`, `research/results/n5-03-echo-chamber-tests.xml` |
-| N5-04 | P2 | TODO | NOT_TESTED | — |
+| N5-04 | P2 | DONE | SIMULATED | `research/prereg/n5-04-aggregation-policies-v1.md`, `experiments/n5_04_aggregation.py`, `tests/test_n5_04_aggregation.py`, `research/results/n5-04-aggregation-tests.xml`, `research/results/n5-04-aggregation-policies.json`, `research/results/n5-04-aggregation-policies.md`, `research/results/n5-04-aggregation-manifest.json` |
 | N5-05 | P2 | TODO | NOT_TESTED | — |
 | N5-06 | P2 | TODO | NOT_TESTED | — |
 | N5-07 | P2 | TODO | NOT_TESTED | — |

@@ -4205,6 +4205,26 @@
         "The graph shapes and edge delays are synthetic fixtures, not measurements of real communication networks.",
         "The model assumes every informed agent forwards the rumor over each uninformed neighbor edge."
       ]
+    },
+    {
+      "task_id": "N5-04",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "research/prereg/n5-04-aggregation-policies-v1.md",
+        "experiments/n5_04_aggregation.py",
+        "tests/test_n5_04_aggregation.py",
+        "research/results/n5-04-aggregation-tests.xml",
+        "research/results/n5-04-aggregation-policies.json",
+        "research/results/n5-04-aggregation-policies.md",
+        "research/results/n5-04-aggregation-manifest.json"
+      ],
+      "limitations": [
+        "The benchmark is synthetic; evidence-quality tier rates are assumptions and do not estimate real source reliability.",
+        "Source-root deduplication depends on supplied provenance labels; it does not prove actual independence.",
+        "Reporter reputation is simulated from a separate calibration split and is not an operational trust score."
+      ]
     }
   ]
 }
