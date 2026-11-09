@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "c0f717731fc177271b8371e39e15c01d4e23604c9a2dddcbec9a0c59682d6192",
+    "sha256": "5430c2f9ea2c2627eae312d39a346ca9131ea51a0befca2fea2114df983a197b",
     "tasks": 260
   },
   "source": {
-    "commit": "110d93527412f90a6f91c62070407fba8f629809",
-    "dirty": false
+    "commit": "36e79b717c9027cb376765833bedc6b9c33d88f3",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 250,
+      "DONE": 251,
       "PARTIAL": 3,
-      "TODO": 7
+      "TODO": 6
     },
-    "completed": 250,
+    "completed": 251,
     "total": 260,
-    "percent_complete": 96.15,
+    "percent_complete": 96.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4658,14 +4658,35 @@
       "task_id": "N6-05",
       "priority": "P1",
       "task": "Construct local HTTP/MCP/UTCP equivalent workflows using only loopback mock providers.",
-      "acceptance": "Identical tool semantics, work and permissions; benchmark avoids paid services",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Identical tool semantics, work and permissions; benchmark avoids paid services. Evidence: `experiments/n6_05_protocol_equivalence.py`, `tests/test_n6_05_protocol_equivalence.py`, `research/results/n6-05-protocol-tests.xml`, `research/results/n6-05-protocol-equivalence.json`, `docs/LOCAL_PROTOCOL_EQUIVALENCE.md`, `src/memory_fabric/adapters/mcp.py`, `src/memory_fabric/tool_protocol.py` (DONE: HTTP, the production MCP JSON-RPC dispatcher, and production UTCP manual parser each run the same five dispatches against one 127.0.0.1 mock provider: lookup, idempotent write, replay, read-only write denial, and unauthenticated read denial. Results, permissions and tool-call counts match across protocols; no paid service or external network call. One focused loopback test passes and Ruff passes. UTCP tool transport is mapped by the harness and does not exercise public HTTPS/DNS/TLS; MCP uses a loopback JSON-RPC bridge around the repository's dispatcher.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n6_05_protocol_equivalence.py",
+        "tests/test_n6_05_protocol_equivalence.py",
+        "research/results/n6-05-protocol-tests.xml",
+        "research/results/n6-05-protocol-equivalence.json",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/tool_protocol.py"
+      ],
+      "evidence_digests": {
+        "experiments/n6_05_protocol_equivalence.py": "fdef9751c7eca312e092a7fb28457e89bd3f78676e51483478580a209d4215c7",
+        "tests/test_n6_05_protocol_equivalence.py": "455e8672e7d16179c43d80ecb12392a0482612d12d51d9b9cf863dc9cfe00fe8",
+        "research/results/n6-05-protocol-tests.xml": "09bf6deef21b416829ac526b9daffebe3e45c8d9c0ffd5a8d595f48f1c9ad437",
+        "research/results/n6-05-protocol-equivalence.json": "f6b970b37381225ba094d3561de80524487e0880b6ee276bb1e22e8211c2e61c",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md": "56750e41b4849f6c27f2cf6440efb50405cf17b51957a625620fd996272457e7",
+        "src/memory_fabric/adapters/mcp.py": "3222432632f89de2e2f6044ecc0ecaba8646c33fe6cbd2c298cbe7432030e7da",
+        "src/memory_fabric/tool_protocol.py": "00d796ae50f20c882ce23758106b575c256ce7a1e229367f8a200bc7b586979e"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "All tool invocations go through one loopback mock provider; this is not public production interoperability evidence.",
+        "The MCP workflow uses a loopback bridge around the repository's JSON-RPC dispatcher; the production adapter remains stdio-based.",
+        "UTCP uses the production manual parser, but the harness maps descriptor names to loopback routes and does not exercise public HTTPS, DNS or TLS.",
+        "The workflow is deliberately small and has no latency or paid-model/token-cost claim."
+      ]
     },
     {
       "task_id": "N6-06",

@@ -4437,6 +4437,27 @@
         "The immutable snapshots constrain model-visible typed context and policy mappings; they are not an execution sandbox for arbitrary Python model code.",
         "ActionGate must still be used at the actual tool boundary; the proposal API itself does not execute or authorize effects."
       ]
+    },
+    {
+      "task_id": "N6-05",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "experiments/n6_05_protocol_equivalence.py",
+        "tests/test_n6_05_protocol_equivalence.py",
+        "research/results/n6-05-protocol-tests.xml",
+        "research/results/n6-05-protocol-equivalence.json",
+        "docs/LOCAL_PROTOCOL_EQUIVALENCE.md",
+        "src/memory_fabric/adapters/mcp.py",
+        "src/memory_fabric/tool_protocol.py"
+      ],
+      "limitations": [
+        "All tool invocations go through one loopback mock provider; this is not public production interoperability evidence.",
+        "The MCP workflow uses a loopback bridge around the repository's JSON-RPC dispatcher; the production adapter remains stdio-based.",
+        "UTCP uses the production manual parser, but the harness maps descriptor names to loopback routes and does not exercise public HTTPS, DNS or TLS.",
+        "The workflow is deliberately small and has no latency or paid-model/token-cost claim."
+      ]
     }
   ]
 }

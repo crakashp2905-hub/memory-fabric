@@ -1,0 +1,98 @@
+{
+  "schema": "memory-fabric-n6-05-protocol-equivalence/1",
+  "task_id": "N6-05",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "protocols": {
+    "http": {
+      "lookup": {
+        "content": "coastal pump checklist",
+        "record_id": "seed-1"
+      },
+      "write": {
+        "content": "checked at site",
+        "record_id": "result-1"
+      },
+      "idempotent_replay": {
+        "content": "checked at site",
+        "record_id": "result-1"
+      },
+      "readonly_write": {
+        "error": "permission_denied"
+      },
+      "unauthenticated_read": {
+        "error": "authentication_required"
+      },
+      "record_count": 2,
+      "tool_dispatch_calls": 5
+    },
+    "mcp": {
+      "lookup": {
+        "record_id": "seed-1",
+        "content": "coastal pump checklist"
+      },
+      "write": {
+        "record_id": "result-1",
+        "content": "checked at site"
+      },
+      "idempotent_replay": {
+        "record_id": "result-1",
+        "content": "checked at site"
+      },
+      "readonly_write": {
+        "error": "permission_denied"
+      },
+      "unauthenticated_read": {
+        "error": "authentication_required"
+      },
+      "record_count": 2,
+      "tool_dispatch_calls": 5
+    },
+    "utcp": {
+      "lookup": {
+        "content": "coastal pump checklist",
+        "record_id": "seed-1"
+      },
+      "write": {
+        "content": "checked at site",
+        "record_id": "result-1"
+      },
+      "idempotent_replay": {
+        "content": "checked at site",
+        "record_id": "result-1"
+      },
+      "readonly_write": {
+        "error": "permission_denied"
+      },
+      "unauthenticated_read": {
+        "error": "authentication_required"
+      },
+      "record_count": 2,
+      "tool_dispatch_calls": 5
+    }
+  },
+  "metrics": {
+    "same_semantics": true,
+    "same_tool_work": true,
+    "tool_calls_per_protocol": {
+      "http": 5,
+      "mcp": 5,
+      "utcp": 5
+    },
+    "same_write_permission": true,
+    "same_authentication_requirement": true,
+    "paid_services_used": false,
+    "bind_host": "127.0.0.1"
+  },
+  "limitations": [
+    "All three endpoints are a loopback contract harness over one mock provider; this is not a production protocol interoperability or external UTCP transport test.",
+    "MCP is represented with JSON-RPC tools/list and tools/call messages over the loopback harness; the repository's production MCP adapter remains stdio-based.",
+    "UTCP manual discovery uses the production parser, but tool calls are mapped by the mock harness to loopback routes and do not exercise public HTTPS, DNS, or TLS.",
+    "One lookup, one idempotent write/replay, one read-only denial, and one unauthenticated call are measured; no latency or token-cost claim is made here."
+  ],
+  "source": {
+    "commit": "36e79b717c9027cb376765833bedc6b9c33d88f3",
+    "dirty_before_result_write": false,
+    "experiment_sha256": "fdef9751c7eca312e092a7fb28457e89bd3f78676e51483478580a209d4215c7"
+  }
+}
