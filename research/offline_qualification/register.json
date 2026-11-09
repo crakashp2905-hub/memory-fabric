@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "9df2eb980b0ef996305609d365d404366c4ff510bbd017662063d5baae48c5fb",
+    "sha256": "804a7d8a1efca10d34a2e4c50a765f677fa6f38b0843061bd9cbb336ff1395d2",
     "tasks": 260
   },
   "source": {
-    "commit": "62636535b5041832f25d35598cd933ffa8208cc8",
-    "dirty": false
+    "commit": "252863cd8068f243801bfcf8b9625440ac812cd7",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 248,
+      "DONE": 249,
       "PARTIAL": 3,
-      "TODO": 9
+      "TODO": 8
     },
-    "completed": 248,
+    "completed": 249,
     "total": 260,
-    "percent_complete": 95.38,
+    "percent_complete": 95.77,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4592,14 +4592,29 @@
       "task_id": "N6-03",
       "priority": "P1",
       "task": "Compare deterministic routing to simulated calibrated and miscalibrated probability sources.",
-      "acceptance": "Safety and utility gains survive deliberately overconfident and reordered predictions",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Safety and utility gains survive deliberately overconfident and reordered predictions. Evidence: `experiments/n6_03_router_comparison.py`, `tests/test_n6_03_router_comparison.py`, `research/results/n6-03-router-tests.xml`, `research/results/n6-03-router-comparison.json` (DONE: on 2,000 seeded tasks, local-feature routing matches the idealized calibrated source at 0 unsafe System 1 routes and utility 0.876, remains invariant when options and probability-map insertion order are reversed, and outperforms a deliberately reversed overconfident source (495/495 hazardous tasks sent unsafely to System 1 by that source; utility \u22121.087). Two focused tests pass; Ruff passes. Synthetic hazards derive from the same features available to the deterministic router, so this establishes mechanism behavior only, not real calibration or deployment performance.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/n6_03_router_comparison.py",
+        "tests/test_n6_03_router_comparison.py",
+        "research/results/n6-03-router-tests.xml",
+        "research/results/n6-03-router-comparison.json"
+      ],
+      "evidence_digests": {
+        "experiments/n6_03_router_comparison.py": "2683a0b5115f698d5b48f1b17210e4217518fd2403983a6d679ac0ef18bb9beb",
+        "tests/test_n6_03_router_comparison.py": "57a32915e41d6328f8821bac4a66da5e71a083a837c26e948529b1c50a7cec05",
+        "research/results/n6-03-router-tests.xml": "431e029d470687c29023079ac13ecfb66b31f5cfa53242b3d246a1dd920141b3",
+        "research/results/n6-03-router-comparison.json": "4d1db4947d446c34951aec72ec214c06d706af6498aca61711e1b770e47b199a"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "Synthetic hazard labels and local features are aligned by construction; the experiment does not measure feature extraction mistakes.",
+        "Probability sources are fixed fixtures rather than fitted or independently calibrated real models.",
+        "The reordering condition reverses option order and keyed-map insertion order together; invalid semantic key/value mismatches are rejected by typed contracts rather than scored as valid predictions.",
+        "Utility weights are illustrative synthetic costs and do not estimate operational value."
+      ]
     },
     {
       "task_id": "N6-04",

@@ -1,0 +1,83 @@
+{
+  "schema": "memory-fabric-n6-03-router-comparison/1",
+  "task_id": "N6-03",
+  "evidence_level": "SIMULATED",
+  "acceptance_passed": true,
+  "protocol": {
+    "seed": 60301,
+    "tasks": 2000,
+    "hazard_rate": 0.25,
+    "hazard_definition": "high risk OR evidence gap OR consequential tool",
+    "budget_tokens": 256,
+    "estimated_system2_tokens": 128,
+    "probability_cases": {
+      "calibrated": [
+        0.9,
+        0.1
+      ],
+      "overconfident_reversed": [
+        0.01,
+        0.99
+      ]
+    },
+    "route_thresholds": {
+      "min_confidence": 0.8,
+      "max_entropy": 0.5
+    }
+  },
+  "metrics": {
+    "deterministic_local_features": {
+      "tasks": 2000,
+      "hazard_tasks": 495,
+      "unsafe_system1_count": 0,
+      "unsafe_system1_rate": 0.0,
+      "unnecessary_system2_count": 0,
+      "correct_route_rate": 1.0,
+      "mean_utility": 0.87625
+    },
+    "simulated_calibrated_probabilities": {
+      "tasks": 2000,
+      "hazard_tasks": 495,
+      "unsafe_system1_count": 0,
+      "unsafe_system1_rate": 0.0,
+      "unnecessary_system2_count": 0,
+      "correct_route_rate": 1.0,
+      "mean_utility": 0.87625
+    },
+    "simulated_overconfident_reversed_probabilities": {
+      "tasks": 2000,
+      "hazard_tasks": 495,
+      "unsafe_system1_count": 495,
+      "unsafe_system1_rate": 1.0,
+      "unnecessary_system2_count": 1505,
+      "correct_route_rate": 0.0,
+      "mean_utility": -1.087
+    },
+    "calibrated_probabilities_reordered_mapping": {
+      "tasks": 2000,
+      "hazard_tasks": 495,
+      "unsafe_system1_count": 0,
+      "unsafe_system1_rate": 0.0,
+      "unnecessary_system2_count": 0,
+      "correct_route_rate": 1.0,
+      "mean_utility": 0.87625
+    }
+  },
+  "paired_differences": {
+    "unsafe_avoided_vs_overconfident_reversed": 495,
+    "utility_gain_vs_overconfident_reversed": 1.96325,
+    "calibrated_mapping_order_invariant": true
+  },
+  "source": {
+    "commit": "252863cd8068f243801bfcf8b9625440ac812cd7",
+    "dirty_before_result_write": false,
+    "experiment_sha256": "2683a0b5115f698d5b48f1b17210e4217518fd2403983a6d679ac0ef18bb9beb"
+  },
+  "runtime_seconds": 0.219,
+  "limitations": [
+    "Hazard labels and local features are generated from the same synthetic ground truth, giving the deterministic router an idealized feature signal.",
+    "The calibrated and overconfident sources are fixed probability fixtures, not fitted real-model calibration curves.",
+    "Option tuple and keyed mapping insertion order are reversed together; semantic option/probability misbinding is not treated as a valid typed output.",
+    "Utility weights are declared synthetic costs and do not estimate deployment values or safety risk in a real workflow."
+  ]
+}

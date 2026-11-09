@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **248 / 260 (95.38%)**. Internal status: **BLOCKED**.
+Strict completion: **249 / 260 (95.77%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `5ad1e681df0c1f22ced1d38fd8d61ee522da8322bcd80c8ba0710fc37fee0778`.
+Normalized ledger digest: `116a83e1d5693c17b6fc8afa21e821e1f7f9dfd5eeb49970283e77b55e038890`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 248 |
+| DONE | 249 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 9 |
+| TODO | 8 |
 
 ## Graduation gates
 
@@ -181,7 +181,7 @@ Normalized ledger digest: `5ad1e681df0c1f22ced1d38fd8d61ee522da8322bcd80c8ba0710
 | N5-10 | P2 | DONE | SIMULATED | `research/prereg/h4-topology-and-diversity.md`, `research/results/h4-topology-and-diversity.md`, `research/prereg/n5-10-false-consensus-recovery-v1.md`, `research/prereg/n5-10-followup-false-consensus-recovery-v1.md`, `experiments/n5_10_false_consensus_recovery.py`, `tests/test_n5_10_false_consensus_recovery.py`, `research/results/n5-10-experiment-tests.xml`, `research/results/n5-10-false-consensus-recovery.json`, `research/results/n5-10-false-consensus-recovery.md`, `research/results/n5-10-followup-false-consensus-recovery.json`, `research/results/n5-10-followup-false-consensus-recovery.md` |
 | N6-01 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_models.py`, `research/bench/n6_01_decision_tasks/cases.json`, `experiments/n6_01_typed_decision_tasks.py`, `tests/test_n6_01_decision_contract.py`, `tests/test_decision_models.py`, `research/results/n6-01-decision-tests.xml`, `research/results/n6-01-decision-evaluation.json` |
 | N6-02 | P1 | DONE | CONTRACT | `src/memory_fabric/decision_router.py`, `tests/test_decision_router.py`, `research/results/n6-02-router-tests.xml`, `docs/SYSTEM1_ROUTING.md` |
-| N6-03 | P1 | TODO | NOT_TESTED | — |
+| N6-03 | P1 | DONE | SIMULATED | `experiments/n6_03_router_comparison.py`, `tests/test_n6_03_router_comparison.py`, `research/results/n6-03-router-tests.xml`, `research/results/n6-03-router-comparison.json` |
 | N6-04 | P1 | TODO | NOT_TESTED | — |
 | N6-05 | P1 | TODO | NOT_TESTED | — |
 | N6-06 | P1 | TODO | NOT_TESTED | — |

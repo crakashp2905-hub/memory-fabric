@@ -4397,6 +4397,24 @@
         "Routing uses host-supplied features and fixed rules; feature extraction accuracy and real-agent utility are not evaluated.",
         "The result is an advisory route and never substitutes for ActionGate authorization."
       ]
+    },
+    {
+      "task_id": "N6-03",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "SIMULATED",
+      "evidence_paths": [
+        "experiments/n6_03_router_comparison.py",
+        "tests/test_n6_03_router_comparison.py",
+        "research/results/n6-03-router-tests.xml",
+        "research/results/n6-03-router-comparison.json"
+      ],
+      "limitations": [
+        "Synthetic hazard labels and local features are aligned by construction; the experiment does not measure feature extraction mistakes.",
+        "Probability sources are fixed fixtures rather than fitted or independently calibrated real models.",
+        "The reordering condition reverses option order and keyed-map insertion order together; invalid semantic key/value mismatches are rejected by typed contracts rather than scored as valid predictions.",
+        "Utility weights are illustrative synthetic costs and do not estimate operational value."
+      ]
     }
   ]
 }
