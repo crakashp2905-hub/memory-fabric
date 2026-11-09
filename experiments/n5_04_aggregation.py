@@ -392,6 +392,7 @@ def run() -> dict[str, object]:
             "per_seed_headroom_share": contrast,
             "mean_headroom_share": sum(contrast) / len(contrast) if contrast else None,
             "registered_target": 0.25,
+            "target_met": bool(contrast) and sum(contrast) / len(contrast) >= 0.25,
             "interpretable": bool(held_out) and all(
                 float(max(row["summary"][p]["mean_utility"] for p in ("majority", "reputation"))) < 1.0
                 for row in held_out
@@ -431,21 +432,69 @@ def run() -> dict[str, object]:
     manifest_path.write_bytes(manifest_bytes)
     result["manifest"]["sha256"] = hashlib.sha256(manifest_bytes).hexdigest()
     REPORT_PATH.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    MARKDOWN_PATH.write_text(
+    if held_out:
+        rows = []
+        for policy in (*POLICIES, "oracle"):
+            seed_summaries = [row["summary"][policy] for row in held_out]
+            mean_utility = sum(float(row["mean_utility"]) for row in seed_summaries) / len(seed_summaries)
+            mean_accuracy = sum(float(row["accuracy_decisive"]) for row in seed_summaries) / len(seed_summaries)
+            total_errors = sum(int(row["action_errors"]) for row in seed_summaries)
+            mean_minority = sum(float(row["minority_recovery"]) for row in seed_summaries) / len(seed_summaries)
+            mean_convergence = sum(float(row["mean_convergence_wave"]) for row in seed_summaries) / len(seed_summaries)
+            rows.append(
+                f"| {policy} | {mean_utility:.3f} | {mean_accuracy:.3f} | "
+                f"{total_errors} | {mean_minority:.3f} | {mean_convergence:.2f} |"
+            )
+        confidence_rows = [
+            f"| {row['seed']} | {row['paired_bootstrap']['evidence_quality_minus_best_baseline_95ci'][0]:.3f} "
+            f"to {row['paired_bootstrap']['evidence_quality_minus_best_baseline_95ci'][1]:.3f} | "
+            f"{row['paired_bootstrap']['headroom_share_95ci'][0]:.3f} to "
+            f"{row['paired_bootstrap']['headroom_share_95ci'][1]:.3f} |"
+            for row in held_out
+        ]
+        conclusion = (
+            f"Evidence-quality mean headroom share: **{result['confirmatory_contrast']['mean_headroom_share']:.3f}** "
+            f"(registered target 0.250; target met: **{result['confirmatory_contrast']['target_met']}**)."
+        )
+    else:
+        rows = []
+        confidence_rows = []
+        conclusion = "The seed-200 pilot saturated the registered baseline metric; held-out evaluation was stopped."
+    markdown = (
         "# N5-04 aggregation policy benchmark\n\n"
-        "See the JSON artifact for the preregistered seed-200 pilot, any held-out "
-        "seed summaries, task counts, action errors, minority recovery, convergence, "
-        "headroom contrast, hashes, full input manifest, and stopping status. The frozen protocol is "
-        "`research/prereg/n5-04-aggregation-policies-v1.md`. This is a synthetic "
-        "policy benchmark, not field evidence or an authority to act.\n",
-        encoding="utf-8",
+        "Protocol: `research/prereg/n5-04-aggregation-policies-v1.md`. The pilot used "
+        f"100 tasks; held-out evaluation used {sum(int(row['task_count']) for row in held_out)} "
+        f"tasks across seeds {', '.join(str(seed) for seed in EVAL_SEEDS) if held_out else 'none'}. "
+        f"Pilot degeneracy stop: **{stopped}**.\n\n"
+        f"{conclusion}\n\n"
+        "## Held-out seed means\n\n"
+        "| policy | utility | decisive accuracy | action errors / 2,500 | minority recovery | mean convergence wave |\n"
+        "|---|---:|---:|---:|---:|---:|\n"
+        + "\n".join(rows)
+        + "\n\n## Paired bootstrap intervals\n\n"
+        "Intervals resample tasks within each seed (10,000 replicates). The first interval is "
+        "evidence-quality utility minus the best of majority/reputation; the second is its "
+        "per-seed share of oracle headroom.\n\n"
+        "| seed | utility contrast 95% CI | headroom share 95% CI |\n|---:|---:|---:|\n"
+        + "\n".join(confidence_rows)
+        + "\n\nThe explicit oracle is perfect by construction, as required. The full 15.8 MB input "
+        "manifest is `research/results/n5-04-aggregation-manifest.json`; the JSON result binds "
+        "its SHA-256 and all per-seed counts, errors, minority recovery, convergence, and test status. "
+        "The generator's quality rates are synthetic assumptions, not real-world source reliability "
+        "estimates. This result does not establish field efficacy or action safety.\n"
     )
+    MARKDOWN_PATH.write_text(markdown, encoding="utf-8")
     return result
 
 
 def main() -> int:
     result = run()
-    print(json.dumps({"pilot": result["pilot"], "held_out": result["held_out"]}, indent=2))
+    print(json.dumps({
+        "pilot": result["pilot"]["summary"],
+        "target_met": result["confirmatory_contrast"]["target_met"],
+        "mean_headroom_share": result["confirmatory_contrast"]["mean_headroom_share"],
+        "held_out_seeds": len(result["held_out"]),
+    }, indent=2))
     return 0
 
 
