@@ -4315,6 +4315,28 @@
         "The correlated reports are exact recognized copies; paraphrase laundering and off-store collusion are outside this fixture.",
         "Progressive over-fetch may examine more than the initial 4*k pool when source copies otherwise crowd out distinct roots; search stops when k roots are available or eligible results are exhausted."
       ]
+    },
+    {
+      "task_id": "N5-09",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/federation.py",
+        "experiments/n5_09_partition_freshness.py",
+        "tests/test_n5_09_partition_freshness.py",
+        "tests/test_freshness.py",
+        "research/results/n5-09-partition-tests.xml",
+        "research/results/n5-09-partition-freshness.json",
+        "research/results/n5-09-partition-freshness.md"
+      ],
+      "limitations": [
+        "The experiment uses real in-process lease, action-gate and retraction code with a deterministic clock; it is not a physical network partition or production availability measurement.",
+        "One withdrawn source, one importer, one lease TTL and one-second observation resolution are evaluated; results do not generalize to fleet distributions.",
+        "Lenient actions are an ungated comparison only and are not a recommendation for consequential operations."
+      ]
     }
   ]
 }

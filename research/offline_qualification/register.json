@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "057f53ca3872e5fc7cdcfe8ff52196ad4dce47876abe3815cbbd982265a53aa9",
+    "sha256": "eb642de853a9746f28b19e90291ba4348dc166acd6a4e1ce52819f99208107b1",
     "tasks": 260
   },
   "source": {
-    "commit": "ea7ce9bc75713980857c709d8f61f40910571394",
-    "dirty": false
+    "commit": "f6154e1dc9e2ec791b6fb8dc505b1ecfd44d8db3",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 244,
+      "DONE": 245,
       "PARTIAL": 3,
-      "TODO": 13
+      "TODO": 12
     },
-    "completed": 244,
+    "completed": 245,
     "total": 260,
-    "percent_complete": 93.85,
+    "percent_complete": 94.23,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4455,14 +4455,38 @@
       "task_id": "N5-09",
       "priority": "P2",
       "task": "Measure stale knowledge during partition under lease-validity and reconnection scenarios.",
-      "acceptance": "Reports state consistency/availability tradeoffs rather than promising zero stale knowledge offline",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "Reports state consistency/availability tradeoffs rather than promising zero stale knowledge offline. Evidence: `src/memory_fabric/freshness.py`, `src/memory_fabric/actions.py`, `src/memory_fabric/federation.py`, `experiments/n5_09_partition_freshness.py`, `tests/test_n5_09_partition_freshness.py`, `tests/test_freshness.py`, `research/results/n5-09-partition-tests.xml`, `research/results/n5-09-partition-freshness.json`, `research/results/n5-09-partition-freshness.md` (DONE: four deterministic scenarios with the real lease, action gate and retraction path measure 2\u20136 seconds of active stale knowledge after withdrawal; strict stale-action exposure is bounded to the remaining 2\u20133 seconds of a 5-second lease, then strict action is unavailable. A healthy-origin partition shows four sampled strict denials after expiry. Reconnection accepts a withdrawn lease and quarantines the imported memory. Focused task plus freshness regression: 23 tests and 12 subtests pass, no skips; Ruff passes. Contract simulation only, not a physical network or field availability result.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "src/memory_fabric/freshness.py",
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/federation.py",
+        "experiments/n5_09_partition_freshness.py",
+        "tests/test_n5_09_partition_freshness.py",
+        "tests/test_freshness.py",
+        "research/results/n5-09-partition-tests.xml",
+        "research/results/n5-09-partition-freshness.json",
+        "research/results/n5-09-partition-freshness.md"
+      ],
+      "evidence_digests": {
+        "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+        "src/memory_fabric/actions.py": "47bd994e9e59b24a68ad65ce523db784925888230bd52b198bf40e8c091bd726",
+        "src/memory_fabric/federation.py": "cf32a242ad237940a7c9678732a126c3ddd8a3396eac05eb93e1560cc0d4250f",
+        "experiments/n5_09_partition_freshness.py": "75b6e836f7de063bd6fd518b50f066df453a5b2a27741f2ec0a7e46ac0cc1bd8",
+        "tests/test_n5_09_partition_freshness.py": "1b14e4414ff7e20529298d5af3569d7280af7ef4fec7637a982823c20ffeaab9",
+        "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
+        "research/results/n5-09-partition-tests.xml": "0079079a42fb5c0fa01ac285129b45c98cb221eca937b8e782fd3d3565f684fe",
+        "research/results/n5-09-partition-freshness.json": "a0c37bc9ada49d5a44a7e17b6e79dbe69b19685b9ef8a26ce67ac79b33109704",
+        "research/results/n5-09-partition-freshness.md": "58fb91360456941c08e3fcf757de070dcbefc142e18fada8254396a41116db95"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The experiment uses real in-process lease, action-gate and retraction code with a deterministic clock; it is not a physical network partition or production availability measurement.",
+        "One withdrawn source, one importer, one lease TTL and one-second observation resolution are evaluated; results do not generalize to fleet distributions.",
+        "Lenient actions are an ungated comparison only and are not a recommendation for consequential operations."
+      ]
     },
     {
       "task_id": "N5-10",
