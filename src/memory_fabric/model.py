@@ -17,7 +17,7 @@ from typing import Any, Literal, Mapping
 # `identity` imports only `ids`, so this direction carries no cycle.
 from .identity import DEFAULT_TENANT
 
-SCHEMA_VERSION = "0.18.0"
+SCHEMA_VERSION = "0.19.0"
 
 
 class MemoryType(str, Enum):

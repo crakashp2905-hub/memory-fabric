@@ -148,6 +148,7 @@ Build an agent's context bundle under a token budget and record its receipt (WRI
 - `--agent`: the agent the context is for
 - `--query`: what the agent is working on (stored only as a digest)
 - `--budget`: token budget (estimated as characters / 4)
+- `--disagreement-budget`: estimated-token cap for disagreement alternatives (default 256)
 - `--mode`: auto picks exact for numbers, ids and dates, else balanced
 - `--limit`: how many receipts to list
 - `--node`: a decay-view node LO-HI, for zoom and summarise

@@ -873,10 +873,11 @@ def action_attempted(ts: int, agent_id: str, key: str, tool: str,
 
 
 def context_built(ts: int, agent_id: str, receipt: Mapping[str, Any]) -> Event:
-    """A context bundle was delivered to an agent (0.13.0).
+    """A context bundle was delivered to an agent (0.13.0; receipt v2 in 0.19.0).
 
-    Ids, versions, digests and reason codes only: never the query, never
-    memory or summary content (docs/architecture/ADR-003-context-receipts.md).
+    Receipts carry ids, versions, digests, reason codes and uncertainty status;
+    never the query or memory content.
+    (docs/architecture/ADR-003-context-receipts.md).
     """
     return Event(type=EventType.CONTEXT_BUILT, ts=ts, agent_id=agent_id,
                  payload=dict(receipt))

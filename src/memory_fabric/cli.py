@@ -1591,7 +1591,8 @@ def cmd_context(fabric: MemoryFabric, args: argparse.Namespace) -> int:
             print(f"{C.RED}--agent and --query are required{C.RESET}", file=sys.stderr)
             return 2
         bundle = cr.build_context(fabric, args.agent, args.query, budget=args.budget,
-                                  mode=args.mode, tenant_id=tenant)
+                                  mode=args.mode, tenant_id=tenant,
+                                  disagreement_budget=args.disagreement_budget)
         if args.json:
             print(json.dumps({"text": bundle.text, "receipt": bundle.receipt}, indent=2))
             return 0
@@ -1600,6 +1601,8 @@ def cmd_context(fabric: MemoryFabric, args: argparse.Namespace) -> int:
         print(f"\n{C.DIM}receipt {r['receipt_id']}: {len(r['selected'])} selected, "
               f"{len(r['excluded'])} excluded, ~{r['tokens_estimated']}/{r['token_budget']} "
               f"tokens ({r['mode']}){C.RESET}")
+        if r.get("uncertainty"):
+            print(f"{C.YELLOW}Uncertainty: {json.dumps(r['uncertainty'])}{C.RESET}")
         return 0
     if args.action == "receipts":
         rows = cr.receipts(fabric, tenant_id=tenant, agent_id=args.agent)
@@ -3383,6 +3386,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--agent")
     p.add_argument("--query")
     p.add_argument("--budget", type=int, default=2000)
+    p.add_argument("--disagreement-budget", type=int, default=256,
+                   help="estimated-token cap for disagreement alternatives (default 256)")
     p.add_argument("--mode", default="auto",
                    choices=["auto", "compact", "balanced", "evidence-first", "exact"])
     p.add_argument("--limit", type=int, default=50)

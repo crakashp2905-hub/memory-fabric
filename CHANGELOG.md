@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added (schema 0.19.0): budgeted disagreement context receipts
+- Record an explicit receipt schema for new context bundles, a separate disagreement-token budget, selected source references and uncertainty status; old context receipts remain readable unchanged.
+- Keep a relevant open hypothesis set atomic in context: include one permitted representative per distinct alternative when it fits, otherwise return an insufficiency marker without selecting a winner.
+- Expose the disagreement budget in Python, CLI and MCP context assembly and keep the uncertainty status visible to callers.
+
 ### Added: policy-controlled read-only advisories
 - Add a host policy and assessment API that can present insufficient evidence only as an explicitly disclosed read-only advisory; advisory results always report that they do not authorize action.
 - Keep protected execution on the independent action-gate path, with regression coverage proving an advisory opt-in cannot cause protected side effects.

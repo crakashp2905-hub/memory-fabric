@@ -1,6 +1,6 @@
 # SPEC.md — Memory Fabric Specification v0
 
-- **Schema version:** `0.18.0`
+- **Schema version:** `0.19.0`
 - **Status:** implemented. Where this document and `memory-fabric/` disagree,
   the code is authoritative and the disagreement is a bug in this file.
 
@@ -223,6 +223,23 @@ until an authenticated decision timestamp is part of the API.
 Memory revision callers may supply an expected source version. The store reads
 the current projection after taking the durable write transaction; a stale
 expectation raises a typed `RevisionConflictError` and appends no revision.
+
+### 0.19.0 — budgeted disagreement context receipts
+
+New `ContextBuilt` events carry receipt schema `memory-fabric-context-receipt/2`.
+In addition to the prior selected/excluded ids and token estimate, the receipt
+records the disagreement token budget and use, selected item kind
+(`disagreement` or `insufficiency`), source-version references, and explicit
+uncertainty status. The renderer includes every distinct relevant alternative
+only when the complete set fits; otherwise it emits an insufficiency marker.
+No conflict is resolved and no action is authorized by context assembly.
+
+Migration is additive: existing 0.13.0 `ContextBuilt` receipts have no `schema`,
+disagreement-budget or uncertainty fields and remain readable as receipt v1.
+`explain_receipt` defaults those absent fields to no recorded disagreement.
+No event-log rewrite is needed because the projection treats receipt payloads as
+opaque data and selection references remain versioned ids. New events are
+stamped with schema version `0.19.0`.
 
 ### 0.17.0 — durable decision status transitions
 
