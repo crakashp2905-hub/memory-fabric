@@ -4,8 +4,8 @@
   "acceptance_passed": true,
   "evidence_level": "SIMULATED",
   "source": {
-    "commit": "89c6628b5c71b3046daea52c63f93898cde905c2",
-    "dirty_before_result_write": true,
+    "commit": "cfaabfb1e688369aef709340bfdbd09180c374b0",
+    "dirty_before_result_write": false,
     "script_sha256": "206f1f7fe50635149c2e59f6bd564849ce020175981aa7c2c1bf303a9e6100b0"
   },
   "protocol": "research/prereg/n5-04-aggregation-policies-v1.md",
