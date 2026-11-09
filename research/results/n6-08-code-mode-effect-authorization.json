@@ -1,0 +1,36 @@
+{
+  "schema": "memory-fabric-n6-08-code-mode-effect-authorization/1",
+  "task_id": "N6-08",
+  "acceptance_passed": true,
+  "evidence_level": "INTERNAL_INTEGRATION",
+  "retry_after_evidence_change": {
+    "first_outcome": "failed",
+    "retry_outcome": "refused",
+    "retry_reason_codes": [
+      "evidence_withdrawn"
+    ],
+    "effects": 1,
+    "same_key": true
+  },
+  "injected_argument_binding": {
+    "first_outcome": "executed",
+    "identical_replay_outcome": "already_executed",
+    "injected_argument_outcome": "refused",
+    "injected_argument_error": "idempotency_key_payload_mismatch",
+    "effects": [
+      {
+        "target": "pump-7",
+        "setpoint": 40
+      }
+    ]
+  },
+  "source": {
+    "commit": "a9519749e21f19ae12385703f48a4a8f1f77c55f",
+    "experiment_sha256": "6dc23917498d2513591a13c681e987994d88fd4e3d906daf619d8e1dbb65fdfa"
+  },
+  "limitations": [
+    "External effects are represented by deterministic in-memory handlers; no production service is called.",
+    "A failed handler has an uncertain external outcome; retry safety still depends on the external system honoring the idempotency key.",
+    "An already executed identical replay is suppressed as ALREADY_EXECUTED and does not execute a second effect."
+  ]
+}

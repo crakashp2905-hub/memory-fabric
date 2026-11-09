@@ -90,6 +90,15 @@ call, oversized source or arguments, and excessive argument nesting fail
 closed. Bounded branching remains disabled. See
 `research/results/n6-07-code-mode-static-bounds.json` and its test result.
 
+Each planned effect becomes a fresh `ActionRequest` from its parsed tool name
+and arguments. N6-08 integration evidence exercises an uncertain failed
+attempt, withdraws its evidence, then retries with the same per-effect key;
+the gate refuses without invoking the handler again. It also replays an
+already executed plan and injects altered arguments with the original key; the
+replay is suppressed and the changed payload is refused as an idempotency
+conflict. External handlers still need to deduplicate the key if a prior
+external effect succeeded but its response was lost.
+
 Offline smoke tests can install `tools.offline_network_guard` in an isolated
 Python process. It denies non-loopback DNS and socket connection attempts with
 an explicit `PermissionError`, while allowing loopback destinations for mock

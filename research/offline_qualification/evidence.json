@@ -4498,6 +4498,27 @@
         "Qualification covers parser structure and source/plan/argument bounds; it does not sandbox registered handlers.",
         "The grammar has no loop or recursion construct, so bounded branching remains disabled; untrusted handlers still need host authorization and an OS-level sandbox."
       ]
+    },
+    {
+      "task_id": "N6-08",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "INTERNAL_INTEGRATION",
+      "evidence_paths": [
+        "src/memory_fabric/tool_protocol.py",
+        "src/memory_fabric/actions.py",
+        "tests/test_n6_08_code_mode_effect_authorization.py",
+        "tests/test_action_fence.py",
+        "tests/test_action_crash.py",
+        "tests/test_credential_rotation_actions.py",
+        "research/results/n6-08-code-mode-effect-authorization-tests.xml",
+        "research/results/n6-08-code-mode-effect-authorization.json",
+        "docs/DECISION_MODELS_AND_UTCP.md"
+      ],
+      "limitations": [
+        "External effects are represented by deterministic in-memory handlers; no production service is called.",
+        "Exactly-once external effects depend on the external system honoring the idempotency key."
+      ]
     }
   ]
 }
