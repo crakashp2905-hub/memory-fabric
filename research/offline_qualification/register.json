@@ -2,12 +2,12 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "3e87f85b2df80db4c69966ae96cfe46a7810be123301811b6022902e74dd59b4",
+    "sha256": "0764476e60141c5c0f2c394fa1d232db92169e541e4806a67039dd0e8c02fcf3",
     "tasks": 260
   },
   "source": {
-    "commit": "92eef65a66970329a263eb4497c0e7dd7824b31e",
-    "dirty": false
+    "commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+    "dirty": true
   },
   "summary": {
     "counts": {
@@ -6011,23 +6011,29 @@
       "task_id": "H5-01",
       "priority": "P1",
       "task": "Generate dependency and build provenance inventory for core and optional extras from local lock metadata.",
-      "acceptance": "Every released artifact has package list, source SHA and reproducible build instructions. Evidence: `pyproject.toml`, `tools/dependency_provenance.py`, `research/results/h5-01-dependency-provenance.json` (PARTIAL: project and installed package inventory exists; no lock metadata or reproducible artifact build is available)",
+      "acceptance": "Every released artifact has package list, source SHA and reproducible build instructions. Evidence: `pyproject.toml`, `tools/dependency_provenance.py`, `docs/REPRODUCIBLE_CORE_BUILD.md`, `research/results/h5-01-core-build-repeatability.json`, `research/results/h5-01-dependency-provenance.json` (PARTIAL: a core wheel built from `d9eeb31` is byte-identical across two fixed-epoch local builds, has its package manifest/hash and installed in a fresh no-index venv. The sdist did not reproduce because tar directory timestamps differed. `uv lock --offline` failed because `pytest==9.0.3` metadata is absent from cache, leaving all optional-extra transitive locks unresolved. No package was published; installed versions do not substitute for lock metadata.)",
       "status": "PARTIAL",
       "acceptance_passed": false,
       "evidence_level": "CONTRACT",
       "evidence_paths": [
         "pyproject.toml",
         "tools/dependency_provenance.py",
+        "docs/REPRODUCIBLE_CORE_BUILD.md",
+        "research/results/h5-01-core-build-repeatability.json",
         "research/results/h5-01-dependency-provenance.json"
       ],
       "evidence_digests": {
         "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
-        "tools/dependency_provenance.py": "ba3680568289ddbbf46c2e4907ae74e740320f5b12efb1f2f01775734b7ba719",
-        "research/results/h5-01-dependency-provenance.json": "c544b1a8b6e3e58a9b6e1d00d837fc5eb62cd1fccba2ffe4c5fc57973922e66c"
+        "tools/dependency_provenance.py": "7bdd13091a61fa5fe17b017bd7f2bfc7d1fc680384dfd849f4a93ec4695f6177",
+        "docs/REPRODUCIBLE_CORE_BUILD.md": "90068a2c157de121116092614e3421b0a06b30edb6f78bf80df3a0f5229e3e5b",
+        "research/results/h5-01-core-build-repeatability.json": "093e33c0d7266cce772ef13e49e14b8d8919bd065c74471932bd068476109a45",
+        "research/results/h5-01-dependency-provenance.json": "2cf0cf54aba98a4b45a9be12a68535124d184aa00eacead73d397da27cf9d9c2"
       },
       "evidence_issues": {},
       "limitations": [
-        "Core and optional extras are inventoried from project metadata and installed versions are recorded. No committed lock metadata exists; artifact build hashes and reproducible build instructions are not yet established."
+        "The local zero-dependency core wheel reproduced byte-for-byte twice and installed in a fresh no-index virtual environment; the sdist differed due archive directory timestamps.",
+        "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
+        "The wheel is a local candidate, not a release, and no package was published."
       ]
     },
     {

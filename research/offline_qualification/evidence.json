@@ -2067,10 +2067,14 @@
       "evidence_paths": [
         "pyproject.toml",
         "tools/dependency_provenance.py",
+        "docs/REPRODUCIBLE_CORE_BUILD.md",
+        "research/results/h5-01-core-build-repeatability.json",
         "research/results/h5-01-dependency-provenance.json"
       ],
       "limitations": [
-        "Core and optional extras are inventoried from project metadata and installed versions are recorded. No committed lock metadata exists; artifact build hashes and reproducible build instructions are not yet established."
+        "The local zero-dependency core wheel reproduced byte-for-byte twice and installed in a fresh no-index virtual environment; the sdist differed due archive directory timestamps.",
+        "No committed lock file exists. Offline uv resolution failed because pytest==9.0.3 metadata is absent from the local cache; optional extras remain unresolved.",
+        "The wheel is a local candidate, not a release, and no package was published."
       ]
     },
     {

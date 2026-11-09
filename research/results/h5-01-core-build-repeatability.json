@@ -1,0 +1,47 @@
+{
+  "schema": "memory-fabric-h5-01-core-build-repeatability/1",
+  "task_id": "H5-01",
+  "source_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+  "python": "3.13.5",
+  "command": "python -m build --no-isolation --sdist --wheel with SOURCE_DATE_EPOCH=0; repeated into independent output directories",
+  "build_frontend": "build 1.6.1",
+  "backend": "setuptools 80.9.0",
+  "wheel": {
+    "run_1": {
+      "name": "memory_fabric-0.19.0-py3-none-any.whl",
+      "bytes": 718537,
+      "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
+    },
+    "run_2": {
+      "name": "memory_fabric-0.19.0-py3-none-any.whl",
+      "bytes": 718537,
+      "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
+    },
+    "byte_identical": true
+  },
+  "sdist": {
+    "run_1": {
+      "name": "memory_fabric-0.19.0.tar.gz",
+      "bytes": 641458,
+      "sha256": "124077df2ffaf105034089bb1a94ee4601d794e049bf0d01a0759d6bfdb78054"
+    },
+    "run_2": {
+      "name": "memory_fabric-0.19.0.tar.gz",
+      "bytes": 641445,
+      "sha256": "dfe9de9c09846cd05730909a1c63cc57dfeaf7227b2b20114683f7134b3b6f8e"
+    },
+    "byte_identical": false
+  },
+  "limitations": [
+    "Core wheel builds are byte-identical under the recorded local toolchain and fixed epoch.",
+    "The sdist differs between runs because tar member directory timestamps remain wall-clock values.",
+    "This does not lock or validate optional extras, which need registry metadata unavailable offline."
+  ],
+  "source_tree_clean_at_build_start": true,
+  "fresh_venv_install": {
+    "status": "PASSED",
+    "command": "python -m pip install --no-index --no-deps dist/memory_fabric-0.19.0-py3-none-any.whl",
+    "installed_version": "0.19.0",
+    "runtime_dependencies": []
+  }
+}

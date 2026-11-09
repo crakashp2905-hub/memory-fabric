@@ -1,13 +1,15 @@
 {
   "schema": "mf-dependency-provenance/1",
   "source": {
-    "commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
-    "dirty": true
+    "inventory_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+    "build_source_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+    "worktree_dirty": true,
+    "package_inputs_dirty": false
   },
   "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
   "project": {
     "name": "memory-fabric",
-    "version": "0.14.0",
+    "version": "0.19.0",
     "requires_python": ">=3.11",
     "core_dependencies": [],
     "optional_dependencies": {
@@ -59,15 +61,101 @@
     "pypdf": "6.19.0",
     "pytest": "9.0.3"
   },
-  "artifacts": [],
-  "lock_metadata": "UNAVAILABLE: no committed dependency lock file",
-  "reproducible_build": "NOT_ESTABLISHED: local installed versions and artifact hashes are inventory only",
-  "inventory_run": {
-    "source_commit": "0646d387172496c7ef32d9fbd4833b42da7658d8",
-    "input_sha256": {
-      "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
-      "tools/dependency_provenance.py": "ba3680568289ddbbf46c2e4907ae74e740320f5b12efb1f2f01775734b7ba719"
+  "artifacts": [
+    {
+      "path": "dist/memory_fabric-0.19.0-py3-none-any.whl",
+      "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090",
+      "bytes": 718537,
+      "source_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+      "package_manifest": {
+        "file_count": 161,
+        "requires_dist": [
+          "pytest==9.0.3; extra == \"test\"",
+          "pypdf<7,>=6.0; extra == \"documents\"",
+          "anthropic>=0.40; extra == \"claude\"",
+          "psycopg>=3.1; extra == \"postgres\"",
+          "langchain-core>=0.3; extra == \"langchain\"",
+          "cryptography>=42; extra == \"crypto\"",
+          "PyJWT[crypto]<3,>=2.10; extra == \"oauth\"",
+          "fastembed>=0.5; extra == \"retrieval\"",
+          "sentence-transformers>=3; extra == \"retrieval-torch\""
+        ]
+      }
+    }
+  ],
+  "lock_metadata": {
+    "status": "BLOCKED",
+    "lock_file": null,
+    "offline_resolution": {
+      "tool": "uv 0.11.16",
+      "command": "uv lock --offline",
+      "status": "FAILED",
+      "reason": "The local cache lacks pytest==9.0.3 metadata; registry access is unavailable offline."
     },
-    "inventory_sha256": "8547f41c26e923d934f8a3975511ece343879e3378ccb3a2e85773432f126717"
+    "note": "Installed optional packages are inventoried but do not establish a complete transitive lock."
+  },
+  "build": {
+    "instructions": "docs/REPRODUCIBLE_CORE_BUILD.md",
+    "repeatability_result": "research/results/h5-01-core-build-repeatability.json",
+    "repeatability": {
+      "schema": "memory-fabric-h5-01-core-build-repeatability/1",
+      "task_id": "H5-01",
+      "source_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+      "python": "3.13.5",
+      "command": "python -m build --no-isolation --sdist --wheel with SOURCE_DATE_EPOCH=0; repeated into independent output directories",
+      "build_frontend": "build 1.6.1",
+      "backend": "setuptools 80.9.0",
+      "wheel": {
+        "run_1": {
+          "name": "memory_fabric-0.19.0-py3-none-any.whl",
+          "bytes": 718537,
+          "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
+        },
+        "run_2": {
+          "name": "memory_fabric-0.19.0-py3-none-any.whl",
+          "bytes": 718537,
+          "sha256": "14c9fe02fc03adfdfb6e5e747950647af9384e529fbae08d8445cfa72fd0c090"
+        },
+        "byte_identical": true
+      },
+      "sdist": {
+        "run_1": {
+          "name": "memory_fabric-0.19.0.tar.gz",
+          "bytes": 641458,
+          "sha256": "124077df2ffaf105034089bb1a94ee4601d794e049bf0d01a0759d6bfdb78054"
+        },
+        "run_2": {
+          "name": "memory_fabric-0.19.0.tar.gz",
+          "bytes": 641445,
+          "sha256": "dfe9de9c09846cd05730909a1c63cc57dfeaf7227b2b20114683f7134b3b6f8e"
+        },
+        "byte_identical": false
+      },
+      "limitations": [
+        "Core wheel builds are byte-identical under the recorded local toolchain and fixed epoch.",
+        "The sdist differs between runs because tar member directory timestamps remain wall-clock values.",
+        "This does not lock or validate optional extras, which need registry metadata unavailable offline."
+      ],
+      "source_tree_clean_at_build_start": true,
+      "fresh_venv_install": {
+        "status": "PASSED",
+        "command": "python -m pip install --no-index --no-deps dist/memory_fabric-0.19.0-py3-none-any.whl",
+        "installed_version": "0.19.0",
+        "runtime_dependencies": []
+      }
+    },
+    "scope": "Core wheel only; optional extras are not locked and the sdist repeatability check failed."
+  },
+  "inventory_run": {
+    "generated_at_commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+    "worktree_dirty": true,
+    "package_inputs_dirty": false,
+    "generator_sha256": "7bdd13091a61fa5fe17b017bd7f2bfc7d1fc680384dfd849f4a93ec4695f6177",
+    "input_sha256": {
+      "pyproject.toml": "36fd46ff288e396be31e38bc0f19f746412058d29f3fd9ea9d3c510a61d9c544",
+      "README.md": "29ddd94313d5c132115c08988bff6f43d071bb0055561c2991feedc1d3129370",
+      "LICENSE": "adee161373102cdbd16f36e8403fafd4291b62377c7b7c3eb0ee72c7d2cc5176"
+    },
+    "build_repeatability_sha256": "093e33c0d7266cce772ef13e49e14b8d8919bd065c74471932bd068476109a45"
   }
 }

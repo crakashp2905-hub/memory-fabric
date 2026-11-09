@@ -8,7 +8,6 @@ from __future__ import annotations
 import hashlib
 import json
 import random
-import re
 import subprocess
 import sys
 import time
