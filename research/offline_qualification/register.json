@@ -2,22 +2,22 @@
   "schema": "memory-fabric-offline-qualification/1",
   "scope": {
     "path": "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md",
-    "sha256": "e1e9b47bffa26ed6adc11b70ebb454e2fa4162a335b17e1f2249797a837ba718",
+    "sha256": "bb97eeee71e53be3dbbf921208f6b5a4b3084daa5dbf338358a03c92ec0fe195",
     "tasks": 260
   },
   "source": {
-    "commit": "e0b07c2a5658d587da5c1be4f57774d1dc08af3d",
-    "dirty": false
+    "commit": "b69e0db4e2b4b4266f8153d27286f345e3e8f2b9",
+    "dirty": true
   },
   "summary": {
     "counts": {
-      "DONE": 237,
+      "DONE": 238,
       "PARTIAL": 3,
-      "TODO": 20
+      "TODO": 19
     },
-    "completed": 237,
+    "completed": 238,
     "total": 260,
-    "percent_complete": 91.15,
+    "percent_complete": 91.54,
     "p0_open": 1,
     "internal_status": "BLOCKED"
   },
@@ -4214,14 +4214,32 @@
       "task_id": "N5-02",
       "priority": "P2",
       "task": "Preserve incompatible plausible claims as competing hypotheses with independent provenance.",
-      "acceptance": "No automatic majority vote converts disagreement into authenticated fact",
-      "status": "TODO",
-      "acceptance_passed": false,
-      "evidence_level": "NOT_TESTED",
-      "evidence_paths": [],
-      "evidence_digests": {},
+      "acceptance": "No automatic majority vote converts disagreement into authenticated fact. Evidence: `tests/test_n5_02_hypothesis_preservation.py`, `experiments/n5_02_hypothesis_preservation.py`, `research/results/n5-02-hypothesis-preservation.json`, `research/results/n5-02-hypothesis-preservation.md`, `research/results/n5-02-hypothesis-tests.xml`, `research/results/n5-02-hypothesis-regression.xml` (DONE: ten repeated 6-bar reports form one source cluster, while two independent 9-bar reports form two roots. Challenge retains all twelve memory IDs in one unresolved hypothesis set, marks every member contested, and leaves both values and source roots intact. The support ranking is not an authentication result; no resolution/experiment event is created automatically. Four focused tests and 63 consensus/hypothesis tests pass. This fixture does not adjudicate which pressure report is true.)",
+      "status": "DONE",
+      "acceptance_passed": true,
+      "evidence_level": "CONTRACT",
+      "evidence_paths": [
+        "tests/test_n5_02_hypothesis_preservation.py",
+        "experiments/n5_02_hypothesis_preservation.py",
+        "research/results/n5-02-hypothesis-preservation.json",
+        "research/results/n5-02-hypothesis-preservation.md",
+        "research/results/n5-02-hypothesis-tests.xml",
+        "research/results/n5-02-hypothesis-regression.xml"
+      ],
+      "evidence_digests": {
+        "tests/test_n5_02_hypothesis_preservation.py": "eb0b1bf0321c2e0f2a0b08a90dfbba9725f35ff6e0d106d4f411e834ec76cb0d",
+        "experiments/n5_02_hypothesis_preservation.py": "7844873b0ec0658dd1a6a54db02db42214257891847eece87c316bc57699a04e",
+        "research/results/n5-02-hypothesis-preservation.json": "3271d7f242e3e9ccaa88b5549cab128f5978d84f20bb89e8d8dc94ab98108707",
+        "research/results/n5-02-hypothesis-preservation.md": "0d22585d35691fe312d8f1ae43157dd2d54d7192c90a805e07c8ffc604256b7a",
+        "research/results/n5-02-hypothesis-tests.xml": "771619911a000da8979a5c522e0794f2064372ae284afa05789c1f47c70565d3",
+        "research/results/n5-02-hypothesis-regression.xml": "6e9c5dababd5b1d36453db74be4a423e4ed6b585a1f767032c241793c6158bc1"
+      },
       "evidence_issues": {},
-      "limitations": []
+      "limitations": [
+        "The fixture proves disagreement remains represented and unresolved; it does not determine which claim is true.",
+        "Source-root counts inherit recognized-copy limitations and are not authenticity proofs.",
+        "A support ranking alone does not authorize an action or resolve a hypothesis set."
+      ]
     },
     {
       "task_id": "N5-03",

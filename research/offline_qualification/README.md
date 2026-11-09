@@ -1,19 +1,19 @@
 # Offline 10/10 qualification ledger
 
-Strict completion: **237 / 260 (91.15%)**. Internal status: **BLOCKED**.
+Strict completion: **238 / 260 (91.54%)**. Internal status: **BLOCKED**.
 
 A task is counted only when its exact acceptance condition has evidence. Every artifact is SHA-256 bound; malformed or missing evidence is INCOMPLETE. Existing code without acceptance evidence is PARTIAL or TODO, never DONE.
 
-Normalized ledger digest: `1ad87d5b150858b785ca6b862b7eabe20d228af5b8b55e43dc428fe0f4afa75c`.
+Normalized ledger digest: `7eee7940c91baf6ae432e7a2390ee838c72f52e180334bc0cbd516bd85003a2d`.
 
 | status | count |
 |---|---:|
 | BLOCKED | 0 |
-| DONE | 237 |
+| DONE | 238 |
 | INCOMPLETE | 0 |
 | NOT_TESTED | 0 |
 | PARTIAL | 3 |
-| TODO | 20 |
+| TODO | 19 |
 
 ## Graduation gates
 
@@ -170,7 +170,7 @@ Normalized ledger digest: `1ad87d5b150858b785ca6b862b7eabe20d228af5b8b55e43dc428
 | N4-09 | P1 | DONE | CONTRACT | `research/prereg/n4-09-summary-refresh-v1.md`, `src/memory_fabric/compaction.py`, `experiments/n4_09_summary_refresh.py`, `tests/test_n4_09_summary_refresh.py`, `research/results/n4-09-summary-refresh.json`, `research/results/n4-09-summary-refresh.md`, `research/results/n4-09-summary-refresh-tests.xml`, `research/results/n4-09-compaction-regression.xml` |
 | N4-10 | P1 | DONE | CONTRACT | `research/prereg/n4-10-provenance-compression-hypothesis-v1.md`, `tests/test_n4_10_compaction_preregistration.py`, `research/results/n4-10-preregistration-tests.xml` |
 | N5-01 | P2 | DONE | CONTRACT | `src/memory_fabric/consensus.py`, `tests/test_consensus.py`, `experiments/n5_01_origin_clusters.py`, `docs/API.md`, `research/results/n5-01-origin-clusters.json`, `research/results/n5-01-origin-clusters.md`, `research/results/n5-01-origin-cluster-tests.xml`, `research/results/n5-01-consensus-regression.xml` |
-| N5-02 | P2 | TODO | NOT_TESTED | — |
+| N5-02 | P2 | DONE | CONTRACT | `tests/test_n5_02_hypothesis_preservation.py`, `experiments/n5_02_hypothesis_preservation.py`, `research/results/n5-02-hypothesis-preservation.json`, `research/results/n5-02-hypothesis-preservation.md`, `research/results/n5-02-hypothesis-tests.xml`, `research/results/n5-02-hypothesis-regression.xml` |
 | N5-03 | P2 | TODO | NOT_TESTED | — |
 | N5-04 | P2 | TODO | NOT_TESTED | — |
 | N5-05 | P2 | TODO | NOT_TESTED | — |

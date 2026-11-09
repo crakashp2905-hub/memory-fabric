@@ -4,24 +4,24 @@
   "acceptance_passed": true,
   "evidence_level": "CONTRACT",
   "source": {
-    "commit": "d937c08e04150e17454cf4d8d5a416dd2d5a6f8e",
-    "dirty_before_result_write": true,
+    "commit": "b69e0db4e2b4b4266f8153d27286f345e3e8f2b9",
+    "dirty_before_result_write": false,
     "script_sha256": "7844873b0ec0658dd1a6a54db02db42214257891847eece87c316bc57699a04e"
   },
   "fixture": {
     "six_bar": {
       "value": "6",
       "memories": [
-        "01M6YW86FXFNWZ56K61TTHD62R",
-        "01M6YW86HDE4YQHTTKNJP5K40V",
-        "01M6YW86HDE4YQHTTKNJP5K40Y",
-        "01M6YW86HE5V6RGB82JC0NWSCK",
-        "01M6YW86HE5V6RGB82JC0NWSCP",
-        "01M6YW86HE5V6RGB82JC0NWSCS",
-        "01M6YW86HFFKFFSSPG17R7GK6R",
-        "01M6YW86HFFKFFSSPG17R7GK6V",
-        "01M6YW86HG80HE6VHANCAZ7W6A",
-        "01M6YW86HG80HE6VHANCAZ7W6D"
+        "01M6YW8KKDAY92ATPC3H9W4CNK",
+        "01M6YW8KN37H3P1BMH0QDY10NC",
+        "01M6YW8KN4BG1Y6XWW5AMYZ3SV",
+        "01M6YW8KN4BG1Y6XWW5AMYZ3SY",
+        "01M6YW8KN5D4GDZVFRVF8K40VR",
+        "01M6YW8KN5D4GDZVFRVF8K40VV",
+        "01M6YW8KN5D4GDZVFRVF8K40VY",
+        "01M6YW8KN60CW4CPQXHA56P2B2",
+        "01M6YW8KN60CW4CPQXHA56P2B5",
+        "01M6YW8KN74S57BNPD1JYPMVYE"
       ],
       "agents": [
         "repeat_0",
@@ -39,18 +39,18 @@
       "artificial": true,
       "origin_clusters": [
         {
-          "root_id": "01M6YW86FXFNWZ56K61TTHD62R",
+          "root_id": "01M6YW8KKDAY92ATPC3H9W4CNK",
           "memories": [
-            "01M6YW86FXFNWZ56K61TTHD62R",
-            "01M6YW86HDE4YQHTTKNJP5K40V",
-            "01M6YW86HDE4YQHTTKNJP5K40Y",
-            "01M6YW86HE5V6RGB82JC0NWSCK",
-            "01M6YW86HE5V6RGB82JC0NWSCP",
-            "01M6YW86HE5V6RGB82JC0NWSCS",
-            "01M6YW86HFFKFFSSPG17R7GK6R",
-            "01M6YW86HFFKFFSSPG17R7GK6V",
-            "01M6YW86HG80HE6VHANCAZ7W6A",
-            "01M6YW86HG80HE6VHANCAZ7W6D"
+            "01M6YW8KKDAY92ATPC3H9W4CNK",
+            "01M6YW8KN37H3P1BMH0QDY10NC",
+            "01M6YW8KN4BG1Y6XWW5AMYZ3SV",
+            "01M6YW8KN4BG1Y6XWW5AMYZ3SY",
+            "01M6YW8KN5D4GDZVFRVF8K40VR",
+            "01M6YW8KN5D4GDZVFRVF8K40VV",
+            "01M6YW8KN5D4GDZVFRVF8K40VY",
+            "01M6YW8KN60CW4CPQXHA56P2B2",
+            "01M6YW8KN60CW4CPQXHA56P2B5",
+            "01M6YW8KN74S57BNPD1JYPMVYE"
           ],
           "agents": [
             "repeat_0",
@@ -70,8 +70,8 @@
     "nine_bar": {
       "value": "9",
       "memories": [
-        "01M6YW86HG80HE6VHANCAZ7W6G",
-        "01M6YW86HHMTGWKQ6A7CR7X3DC"
+        "01M6YW8KN74S57BNPD1JYPMVYH",
+        "01M6YW8KN74S57BNPD1JYPMVYK"
       ],
       "agents": [
         "inspector_a",
@@ -81,18 +81,18 @@
       "artificial": false,
       "origin_clusters": [
         {
-          "root_id": "01M6YW86HG80HE6VHANCAZ7W6G",
+          "root_id": "01M6YW8KN74S57BNPD1JYPMVYH",
           "memories": [
-            "01M6YW86HG80HE6VHANCAZ7W6G"
+            "01M6YW8KN74S57BNPD1JYPMVYH"
           ],
           "agents": [
             "inspector_a"
           ]
         },
         {
-          "root_id": "01M6YW86HHMTGWKQ6A7CR7X3DC",
+          "root_id": "01M6YW8KN74S57BNPD1JYPMVYK",
           "memories": [
-            "01M6YW86HHMTGWKQ6A7CR7X3DC"
+            "01M6YW8KN74S57BNPD1JYPMVYK"
           ],
           "agents": [
             "inspector_b"
@@ -101,16 +101,16 @@
       ]
     },
     "claim_support_leading_before_challenge": "9",
-    "hypothesis_set_id": "hset_01M6YW86HHMTGWKQ6A7CR7X3DE",
+    "hypothesis_set_id": "hset_01M6YW8KN813ZCA6H7R5A4MDK2",
     "hypothesis_set_resolved": false,
     "hypothesis_set_member_count": 12,
     "hypothesis_source_roots": {
       "6": [
-        "01M6YW86FXFNWZ56K61TTHD62R"
+        "01M6YW8KKDAY92ATPC3H9W4CNK"
       ],
       "9": [
-        "01M6YW86HG80HE6VHANCAZ7W6G",
-        "01M6YW86HHMTGWKQ6A7CR7X3DC"
+        "01M6YW8KN74S57BNPD1JYPMVYH",
+        "01M6YW8KN74S57BNPD1JYPMVYK"
       ]
     },
     "all_members_contested": true,
