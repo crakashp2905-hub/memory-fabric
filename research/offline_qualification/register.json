@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "d9eeb31a44cfaa45d4a55cc22b543ccb86ccce7f",
+    "commit": "78b58b1c281ee3bfa88cd52a4fd43f9a9b23c6fd",
     "dirty": true
   },
   "summary": {
@@ -2622,10 +2622,10 @@
         "docs/COMPONENT_REMOVAL_ABLATIONS.md"
       ],
       "evidence_digests": {
-        "experiments/r5_03_component_removal.py": "86e45d353da670c56a67cc18242df29ab11b9b0de652d8b7ba5c0408918e4763",
+        "experiments/r5_03_component_removal.py": "60fe77baeb0bbdfb8cec32504250462175a1500866ee859154017a13484eb6cc",
         "tests/test_r5_03_component_removal.py": "325c751aa21f070a7d459f6d21b15762de0bcfe437a7610795fac84a90ff6947",
-        "research/results/r5-03-component-removal-tests.xml": "26950980ea2b4f5a01d3df0993bb47d81771b95fdca458a4885de7001bd7802c",
-        "research/results/r5-03-component-removal.json": "fee5be9b34b376f53f3eb8234bac88d138eea187940317394bcb6a0736190bb6",
+        "research/results/r5-03-component-removal-tests.xml": "bdd192aa73da43130d585bc1b1b56fb599d7e75175b1cd89158b705d5cb2f19f",
+        "research/results/r5-03-component-removal.json": "dbae56b755cdcb4f519ed07a4f62c0c80bcf2b10b0f5fea196c3a88bb4ba742c",
         "experiments/n4_07_compaction_comparison.py": "5fa3e66fd718b3ba1038fcfce7e03c44582180bc4b65fcad0907307f40009dbf",
         "experiments/n6_03_router_comparison.py": "2683a0b5115f698d5b48f1b17210e4217518fd2403983a6d679ac0ef18bb9beb",
         "src/memory_fabric/summary_dependencies.py": "fa8c1238d86f6f6524666737f9cdc15ca2d32827d41bd0530d88ed6e6a42ce97",
