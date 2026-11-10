@@ -94,7 +94,8 @@ def _same_claim(a: tuple, b: tuple, *, restating: bool = False) -> bool:
     if len(words_a & words_b) < max(1, need):
         return False
     if restating:
-        places_a, places_b = getattr(a, "places", frozenset()), getattr(b, "places", frozenset())
+        places_a: frozenset[str] = getattr(a, "places", frozenset())
+        places_b: frozenset[str] = getattr(b, "places", frozenset())
         return not (places_a and places_b and places_a != places_b)
     # A word each side has and the other lacks names a different context:
     # "tug-1 requires 2.4 m at the coastal site" and "... at the inland site"

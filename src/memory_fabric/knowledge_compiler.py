@@ -332,9 +332,12 @@ def compile_pdf(data: bytes, *, doc_id: str, version: str, uri: str = "") -> dic
                 walk(item, level + 1)
                 continue
             try:
-                page = reader.get_destination_page_number(item) + 1
+                number = reader.get_destination_page_number(item)
             except Exception:  # noqa: BLE001 - an outline entry without a page is skipped
                 continue
+            if number is None:  # no page for this entry: skipped, as before
+                continue
+            page = number + 1
             starts.append((page, level, str(getattr(item, "title", "") or "").strip()))
 
     try:
