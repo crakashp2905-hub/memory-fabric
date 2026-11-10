@@ -13,7 +13,7 @@ The best attacker's advantage is accuracy minus the guess-the-commonest
 baseline, or R² for activity, leave-one-out over 150 recipients. Its
 best-scoring feature is in parentheses.
 
-| attribute | `ack` (today) | `receipt` (S5) | replication, `receipt` |
+| attribute | `ack` (at this commit) | `receipt` (S5) | replication, `receipt` |
 |---|---|---|---|
 | activity between retractions | **0.994** (`state_revision` delta) | 0.000 | 0.000 |
 | copies held | **0.640** (`detail`) | **0.113** (commitment's first byte) | 0.053 (tag's first byte) |
@@ -72,13 +72,13 @@ exploratory:
 
 ## What changed
 
-- **A measured leak in today's protocol.** Every acknowledgement tells the
+- **A measured leak in the protocol at this commit.** Every acknowledgement tells the
   origin how much the recipient did between two retractions (its log head),
   how many copies it held, and how many stores it re-shared to. Recorded as
   finding F13 in the security review: medium, fixed in `ab3861a` with no
   wire change.
 - **F13 is now fixed and re-measured.** The same harness, seeds 0–4, ran at
-  `ab3861a`. Today's acknowledgement now scores **0.000 on activity, copies,
+  `ab3861a`. The acknowledgement at this commit scores **0.000 on activity, copies,
   peers and dependents** ([s5-receipt-leakage-after-f13.json](s5-receipt-leakage-after-f13.json)).
   `state_revision` counts the origin's own retractions, and `detail` says only
   "withdrawn".

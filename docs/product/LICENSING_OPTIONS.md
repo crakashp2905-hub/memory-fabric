@@ -1,6 +1,6 @@
 # Licensing options (for the owner's decision)
 
-The code is proprietary today ("All rights reserved"). That blocks outside
+The code is proprietary as of 2026-10-26 ("All rights reserved"). That blocks outside
 contributors and reviewers, and makes a pilot a legal question for most
 companies. This page lays out the usual options; it decides nothing.
 

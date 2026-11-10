@@ -84,7 +84,7 @@ class TestSchemaMatchesTheCode(unittest.TestCase):
 
     def test_the_retraction_targets_an_exact_version(self) -> None:
         """The single most important difference between the specification and
-        today's code: `propagate_retraction` matches on memory id alone, so a
+        the code as written: `propagate_retraction` matches on memory id alone, so a
         retraction of v1 would withdraw an import of v3. The schema makes the
         version mandatory, and this test is what stops it being dropped as an
         inconvenience during implementation."""
@@ -95,7 +95,7 @@ class TestSchemaMatchesTheCode(unittest.TestCase):
         )
 
     def test_the_store_id_cannot_be_a_path(self) -> None:
-        """Today's origin record uses `source.log.path`. The pattern is the
+        """The origin record in this code uses `source.log.path`. The pattern is the
         guard against that returning."""
         schema = load("retraction-v1.schema.json")
         pattern = schema["$defs"]["store_id"]["pattern"]

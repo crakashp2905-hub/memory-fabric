@@ -28,7 +28,7 @@ provenance match.
 |---|---|---|---|
 | `store_id` | `st_` + 26-char ULID | the store, once, at creation | Written into the event log as a `StoreIdentified` event so it is recoverable by replay. Never derived from a path, hostname or port. |
 | `tenant_id` | `tn_` + 26-char ULID | the operator | Every memory carries one (0.5.0), defaulting to `tn_default`. **Local to a store**: nothing here makes `tn_acme` at two stores the same customer, so `offer` takes the recipient's tenant explicitly rather than copying the sender's. |
-| `agent_id` | `ag_` + 26-char ULID | the operator | Today a free-form string. Must be bound to a credential to be authorisable. |
+| `agent_id` | `ag_` + 26-char ULID | the operator | At 0.14.0 it is a free-form string. Must be bound to a credential to be authorisable. |
 | `memory_id` | 26-char ULID | the store | **Local to a store.** Never globally unique. A cross-store reference is always the pair `(origin_store_id, origin_memory_id)`. |
 | `memory_version` | monotonically increasing `int` from 1 | the store | Already exists on `Memory`. |
 | `retraction_id` | `rt_` + 26-char ULID | the origin store | Stable across retries. The deduplication key, with `origin_store_id`. |
@@ -60,7 +60,7 @@ Precedence rule, from invariant 7:
 
 That is what "delayed older corrections cannot blindly invalidate newer
 independently validated versions" requires, and it is why the retraction event
-must name a version at all — which today it does not.
+must name a version at all — which 0.14.0 does not.
 
 ## 3. The retraction event
 
@@ -99,13 +99,13 @@ must name a version at all — which today it does not.
 A memory may be retracted at its origin while one recipient has enforced it and
 another is offline. One boolean cannot express that, which is invariant 5.
 
-**Lifecycle** — a property of a memory in one store. Exists today:
+**Lifecycle** — a property of a memory in one store. Exists at 0.14.0:
 `candidate → active → contested → quarantined → deprecated → deleted`,
 with `release` returning a quarantined memory to `candidate` rather than to
 `active`, so trust is re-earned deliberately.
 
 **Propagation** — a property of one `(retraction, recipient)` pair. Does not
-exist today:
+exist at 0.14.0:
 
 ```
 requested ─> queued ─> delivered ─> persisted ─> enforced ─> verified

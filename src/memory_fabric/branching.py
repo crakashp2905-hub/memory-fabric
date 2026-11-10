@@ -415,7 +415,7 @@ class Branches:
                                                 in EXPOSABLE_STATES) for i in ids}})
         return {"branch": name, "commit_id": commit_id, "base_seq": branch.base_seq,
                 "recorded": rows,
-                "note": "recorded history; admissible_now is today's governance, not the "
+                "note": "recorded history; admissible_now is the current governance, not the "
                         "commit's"}
 
     # --- merging --------------------------------------------------------

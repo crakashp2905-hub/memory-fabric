@@ -44,7 +44,7 @@ Chaining starts when this table first appears, so a store written before it
 has unchained events. `coverage()` reports the range, and verification is
 honest about the gap rather than reporting "verified" for events nothing
 covers. Backfilling would be worse than the gap: computing hashes now over
-events nobody hashed then proves only that they are self-consistent today.
+events nobody hashed then proves only that they are self-consistent.
 """
 
 from __future__ import annotations

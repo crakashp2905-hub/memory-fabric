@@ -69,7 +69,7 @@ scorer above.
 **`fabric` reaches the oracle: 1.000 success, 0.000 harmful, on fresh seeds
 6–10.** In the original D1 run its whole residual was `poison_undetected`
 (15 of 15 harmed) plus one paraphrased injection. Both are now 1.00 / 0.00.
-Two changes made today did this, and both were checked before this run:
+Two changes made before this run did this, and both were checked before it:
 
 - **The claim parser** reads equipment codes written with a separator
   (`H-14`). Before, such a claim had no identifier, so the contradiction check

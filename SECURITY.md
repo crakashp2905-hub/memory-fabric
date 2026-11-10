@@ -146,7 +146,7 @@ before parsing. Both sentences predated the mechanism they named.
 
 - **A chain is tamper-evident, not tamper-proof.** Anyone who can write both the log and the chain can rewrite both consistently, and `verify` cannot tell. A test drives exactly that attack.
 - **The defence is a checkpoint kept elsewhere.** `memory-fabric checkpoint` prints `(seq, chain_digest)`: small enough to commit to another repository, write to append-only storage, paste into a ticket or read aloud. Stored beside the database it buys nothing. `--verify FILE` compares one back.
-- **Coverage is explicit.** Chaining starts when the table first appears, so a store written earlier has an unchained prefix, reported as `unchained_before` rather than counted as verified. There is deliberately no backfill: hashing old events today proves only that they agree with themselves.
+- **Coverage is explicit.** Chaining starts when the table first appears, so a store written earlier has an unchained prefix, reported as `unchained_before` rather than counted as verified. There is deliberately no backfill: hashing old events after the fact proves only that they agree with themselves.
 - **The chain's own table is append-only too**, by trigger — without that, a tamper could edit an event and fix its link in one transaction, which is the whole attack.
 
 ## Known gaps

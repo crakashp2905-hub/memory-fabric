@@ -2543,7 +2543,7 @@ def _check_event_chain(fabric: MemoryFabric) -> Finding:
             "verifiable beyond the append-only triggers",
             "A store written before chaining existed. New events are chained "
             "from now on; there is deliberately no backfill, because hashing "
-            "old events today proves only that they agree with themselves.",
+            "old events after the fact proves only that they agree with themselves.",
         )
     checkpoint = chain.checkpoint()
     detail = (
@@ -2556,7 +2556,7 @@ def _check_event_chain(fabric: MemoryFabric) -> Finding:
             f"{detail}; {result.unchained_before} event(s) predate the chain "
             "and are not covered",
             "A store that adopted chaining late. There is deliberately no "
-            "backfill: hashing old events today proves only that they agree "
+            "backfill: hashing old events after the fact proves only that they agree "
             "with themselves.",
         )
     return Finding("ok", "event chain", detail)
