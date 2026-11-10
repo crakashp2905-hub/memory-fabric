@@ -28,13 +28,13 @@ class TestRelativeDates(unittest.TestCase):
         offenders = []
         # A quotation that breaks across lines is not seen by the per-line check:
         # this one is an example question, not narration.
-        exempt = {"SPEC.md:394"}
+        exempt_text = {"what did we believe it was last year?"}
         for path in ROOT.rglob("*.md"):
             relative = path.relative_to(ROOT)
             if SKIP.intersection(relative.parts):
                 continue
             for number, text in narrative_lines(path):
-                if RELATIVE.search(text) and f"{relative.as_posix()}:{number}" not in exempt:
+                if RELATIVE.search(text) and not any(t in text for t in exempt_text):
                     offenders.append(f"{relative.as_posix()}:{number}: {text.strip()[:100]}")
         self.assertEqual(offenders, [], "use an absolute date, a version or 'at this commit'")
 
