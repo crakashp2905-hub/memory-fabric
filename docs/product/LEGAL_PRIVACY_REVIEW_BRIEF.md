@@ -2,7 +2,7 @@
 
 For counsel reviewing Memory Fabric before any compliance claim is made. It
 states what the software does, with the code that does it, and the questions
-that need a legal answer. **No compliance claim is made today**, and the
+that need a legal answer. **No compliance claim is made as of 2026-10-24**, and the
 product says so (`docs/LIMITATIONS.md`; capability `compliance.certification`
 is listed as unsupported).
 

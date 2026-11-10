@@ -18,7 +18,7 @@ So the guarantee is placed where the irreversible damage is:
 > the same major series.**
 
 `SCHEMA_VERSION` in `memory-fabric/model.py` is the authority on the schema;
-the version in `pyproject.toml` is what `pip` sees. They are equal today, at
+the version in `pyproject.toml` is what `pip` sees. They are equal at
 `0.14.0`, and the invariant that is actually tested
 (`test_package_version_is_not_behind_the_schema`) is the weaker one:
 
@@ -56,7 +56,7 @@ the ones that would be lost.
 
 What 1.0 will mean: the API surface in SPEC.md §API v0 settles, and the estimator
 whose output drives retention and federation decisions has been validated against
-live agents rather than only RuleWorld. Neither is true today.
+live agents rather than only RuleWorld. Neither is true at 0.14.0.
 
 ## Supported versions
 

@@ -16,7 +16,7 @@ Counting what the fabric actually spends on memory management, over 300 episodes
 | Time per episode | **0.26 ms** |
 | LLM calls in the memory path | **0** |
 
-Every memory-management decision the fabric makes today is a rule evaluation or an index lookup:
+Every memory-management decision the fabric makes, as of this decision, is a rule evaluation or an index lookup:
 
 | decision | cost |
 |---|---|
