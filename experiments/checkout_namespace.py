@@ -32,7 +32,18 @@ def load_from_checkout(checkout: Path, suffix: str) -> ModuleType:
     namespace, source = layout_at(checkout)
     if str(source) not in sys.path:
         sys.path.insert(0, str(source))
-    module = importlib.import_module(namespace + "." + suffix)
+    # The package this process already imported (the current checkout) would
+    # satisfy the import from its cache. Move its entries aside for the import
+    # and put them back, so the baseline is loaded from its own files.
+    def owned(name: str) -> bool:
+        return name == namespace or name.startswith(namespace + ".")
+    saved = {name: sys.modules.pop(name) for name in list(sys.modules) if owned(name)}
+    try:
+        module = importlib.import_module(namespace + "." + suffix)
+    finally:
+        for name in [name for name in sys.modules if owned(name)]:
+            del sys.modules[name]
+        sys.modules.update(saved)
     if not module.__file__ or not Path(module.__file__).resolve().is_relative_to(checkout):
         raise RuntimeError("historical baseline resolved outside the selected checkout")
     return module
