@@ -32,8 +32,12 @@ def _tree(raw: bytes, doc_id: str, version: str, uri: str,
 
 
 def compile_csv(text: str, *, doc_id: str, version: str, uri: str = "",
-                delimiter: str = ",") -> dict[str, Any]:
+                delimiter: str = ",", key: str | None = None) -> dict[str, Any]:
     """Compile a header and each data row with exact physical-line/UTF-8 spans.
+
+`key` names the column that identifies a row, so a re-import matches rows by
+that value (a moved row keeps its section path); without it the path is the
+physical line. Duplicate keys are refused rather than merged.
 
 Duplicate/empty column names and ragged rows are refused rather than silently
 discarding cells. Row positions are citation anchors, not semantic primary keys.
@@ -46,6 +50,7 @@ discarding cells. Row positions are citation anchors, not semantic primary keys.
     reader = csv.reader(io.StringIO(text, newline=""), delimiter=delimiter, strict=True)
     sections = tree["sections"]
     header: list[str] | None = None
+    seen_keys: set[str] = set()
     previous = 0
     try:
         for row in reader:
@@ -57,13 +62,21 @@ discarding cells. Row positions are citation anchors, not semantic primary keys.
                 header = row
                 if any(not name.strip() for name in header) or len(set(header)) != len(header):
                     raise ValueError("CSV headers must be non-empty and unique")
+                if key is not None and key not in header:
+                    raise ValueError(f"key column {key!r} is not in the header")
                 content: Any = {"columns": header}
                 anchor = "header"
             else:
                 if len(row) != len(header):
                     raise ValueError(f"CSV line {start}: expected {len(header)} cells, got {len(row)}")
                 content = dict(zip(header, row))
-                anchor = f"row/{start}"
+                if key is None:
+                    anchor = f"row/{start}"
+                else:
+                    anchor = f"row:{row[header.index(key)]}"
+                    if anchor in seen_keys:
+                        raise ValueError(f"duplicate key {key!r} at CSV line {start}")
+                    seen_keys.add(anchor)
             sections.append({"path": anchor, "text": json.dumps(content, ensure_ascii=False),
                              "line_start": start, "line_end": end,
                              "byte_start": offsets[start - 1], "byte_end": offsets[end]})
@@ -122,7 +135,7 @@ The byte span cites the original markup rather than invented text offsets.
 
 
 def compile_file(path: str | Path, *, format: str, doc_id: str, version: str,
-                 uri: str = "") -> dict[str, Any]:
+                 uri: str = "", key: str | None = None) -> dict[str, Any]:
     """Read a bounded local UTF-8 source; preserve CRLF for citation offsets."""
     if format not in {"markdown", "csv", "html", "docx", "pdf"}:
         raise ValueError(f"unsupported document format: {format}")
@@ -139,6 +152,8 @@ def compile_file(path: str | Path, *, format: str, doc_id: str, version: str,
     except UnicodeDecodeError as exc:
         raise ValueError("document must be UTF-8") from exc
     compiler = {"markdown": compile_markdown, "csv": compile_csv, "html": compile_html}[format]
+    if format == "csv":
+        return compile_csv(text, doc_id=doc_id, version=version, uri=uri, key=key)
     return compiler(text, doc_id=doc_id, version=version, uri=uri)
 
 

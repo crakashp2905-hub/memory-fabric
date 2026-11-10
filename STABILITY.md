@@ -144,7 +144,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (48)
+## Experimental (51)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.causal_replay.__init__`
@@ -178,6 +178,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.document_formats`
 - `memory_fabric.evidence_completeness`
 - `memory_fabric.governance.model_screen`
+- `memory_fabric.history`
 - `memory_fabric.history_query`
 - `memory_fabric.import_preview`
 - `memory_fabric.independence`
@@ -187,8 +188,10 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.navigation`
 - `memory_fabric.objective`
 - `memory_fabric.objective_v2`
+- `memory_fabric.portable`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
+- `memory_fabric.skills`
 - `memory_fabric.summary_dependencies`
 - `memory_fabric.tombstones`
 - `memory_fabric.tool_protocol`

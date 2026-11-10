@@ -222,6 +222,12 @@ Export content-free erasure ids for safe reconciliation of older backups
 
 - `path`: where to write the protected ledger
 
+### `export-events`
+
+Write every event, withdrawals and erasures included, to a portable file with a verifying manifest (move a store between machines or backends)
+
+- `--out`: file to write (JSON lines plus a manifest line)
+
 ### `federate`
 
 WRITES: receive signed retractions and notices from peers over HTTP, and deliver this store's to them (the background manager)
@@ -261,6 +267,7 @@ WRITES: import a compiled document (JSON: doc_id, version, sections with path an
 - `--format`: source format: JSON, Markdown, CSV, HTML, DOCX, or PDF
 - `--doc-id`: stable document identity for local formats
 - `--source-version`: explicit source revision for local formats
+- `--key`: CSV only: the column that identifies a row across versions
 - `--source-uri`: optional source citation URI; never fetched
 - `--batch`: read a JSON list of compiled documents; commit atomically
 - `--dry-run`: preview source revisions and potential dependencies without writing
@@ -268,6 +275,12 @@ WRITES: import a compiled document (JSON: doc_id, version, sections with path an
 - `--expected-plan`: refuse import if compiled inputs differ from this preview SHA-256
 - `--activate`: sections are active at once (the document is the authority)
 - `--tenant`: tenant id to act within
+
+### `import-events`
+
+WRITES: load an export-events file into an empty store and replay it
+
+- `file`: a file written by export-events
 
 ### `incident`
 

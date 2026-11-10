@@ -30,8 +30,12 @@ def namespace_at(checkout: Path) -> str:
 def load_from_checkout(checkout: Path, suffix: str) -> ModuleType:
     checkout = checkout.resolve()
     namespace, source = layout_at(checkout)
-    if str(source) not in sys.path:
-        sys.path.insert(0, str(source))
+    # The requested checkout must come first: a copy already on sys.path (the
+    # current tree's src, or this checkout named in PYTHONPATH after it) would
+    # otherwise supply the package, and the check below would refuse it.
+    while str(source) in sys.path:
+        sys.path.remove(str(source))
+    sys.path.insert(0, str(source))
     # The package this process already imported (the current checkout) would
     # satisfy the import from its cache. Move its entries aside for the import
     # and put them back, so the baseline is loaded from its own files.

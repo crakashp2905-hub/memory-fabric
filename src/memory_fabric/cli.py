@@ -1297,7 +1297,7 @@ def cmd_import_docs(fabric: MemoryFabric, args: argparse.Namespace) -> int:
                 raise ValueError("Document formats require --doc-id and --source-version")
             tree = compile_file(args.file, format=args.format,
                                     doc_id=args.doc_id, version=args.source_version,
-                                    uri=args.source_uri or "")
+                                    uri=args.source_uri or "", key=args.key)
         else:
             tree = read_document(args.file)
         if args.batch or args.dry_run or args.expected_head is not None or args.expected_plan:
@@ -1326,6 +1326,31 @@ def cmd_import_docs(fabric: MemoryFabric, args: argparse.Namespace) -> int:
     print(f"{report.doc_id} {report.version}: {len(report.added)} sections added, "
           f"{len(report.unchanged)} unchanged, {len(report.withdrawn)} withdrawn "
           f"(source document changed), {len(report.contested)} conclusions contested")
+    return 0
+
+
+def cmd_export_events(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Write the whole event log, with a verifying manifest. See `portable.py`."""
+    from .portable import export_events
+
+    manifest = export_events(fabric, args.out)
+    print(json.dumps(manifest) if args.json else
+          f"exported {manifest['events']} events to {args.out} (sha256 {manifest['sha256'][:16]}…); "
+          "encrypted content stays encrypted: move its keys separately")
+    return 0
+
+
+def cmd_import_events(fabric: MemoryFabric, args: argparse.Namespace) -> int:
+    """Load an `export-events` file into an empty store and replay it."""
+    from .portable import import_events
+
+    try:
+        result = import_events(fabric, args.file)
+    except (OSError, ValueError) as exc:
+        print(f"{C.RED}{exc}{C.RESET}", file=sys.stderr)
+        return 4
+    print(json.dumps(result) if args.json else
+          f"imported {result['imported']} events from store {result['imported_from']}; replayed")
     return 0
 
 
@@ -3380,6 +3405,7 @@ def build_parser() -> argparse.ArgumentParser:
                    default="json", help="source format: JSON, Markdown, CSV, HTML, DOCX, or PDF")
     p.add_argument("--doc-id", help="stable document identity for local formats")
     p.add_argument("--source-version", help="explicit source revision for local formats")
+    p.add_argument("--key", help="CSV only: the column that identifies a row across versions")
     p.add_argument("--source-uri", help="optional source citation URI; never fetched")
     p.add_argument("--batch", action="store_true", help="read a JSON list of compiled documents; commit atomically")
     p.add_argument("--dry-run", action="store_true", help="preview source revisions and potential dependencies without writing")
@@ -3388,6 +3414,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--activate", action="store_true",
                    help="sections are active at once (the document is the authority)")
     p.add_argument("--tenant")
+
+    p = add("export-events", cmd_export_events,
+            "Write every event, withdrawals and erasures included, to a portable file "
+            "with a verifying manifest (move a store between machines or backends)")
+    p.add_argument("--out", required=True)
+
+    p = add("import-events", cmd_import_events,
+            "WRITES: load an export-events file into an empty store and replay it")
+    p.add_argument("file")
 
     p = add("collection", cmd_collection,
             "Collections: named sets of memories agents can be attached to. list, or WRITES: "
@@ -3590,6 +3625,8 @@ HELP: dict[tuple[str | None, str], str] = {
     ("audit-export", "--since-seq"): "only events after this log sequence",
     ("import", "file"): "a text, Markdown or JSONL file to import as memories",
     ("import-docs", "file"): "the document tree as JSON",
+    ("export-events", "--out"): "file to write (JSON lines plus a manifest line)",
+    ("import-events", "file"): "a file written by export-events",
     ("collection", "action"): "what to do with the collection",
     ("collection", "name"): "the collection's name", ("collection", "--memory"): "memory id to add or remove",
     ("collection", "--agent"): "agent to grant or revoke",
