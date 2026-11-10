@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "4315997d066a261aa674559fc89d73d0c407d16b",
+    "commit": "ec54a261641e8d6061622f71dae4577508648d22",
     "dirty": true
   },
   "summary": {
@@ -1508,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "83a2538d988fec3cf5d6d3da4121c1e6f5c0798564e538b13215c22756a6170e",
-        "research/results/MANIFEST.json": "7b9e5436c282ab95059e77a15e786f0e835639a334dacb1caa579fd70e3eca64",
+        "research/results/MANIFEST.json": "764e94401ac2841da9bc6795d5476767bb735dfb09ca2edea4b74438d286b3c3",
         "research/results/BENCHMARK_SCOREBOARD.md": "ff33eb9d5cd1911611664ba8c272872796ecc9df5d0b2fbb7d9e27f3c52f473e",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1758,7 +1758,7 @@
         "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
         "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
         "benchmarks/false_withholding.py": "5406165807a3d935bebd94ac5546c928b7fb2b38ba6b600ba621fbdab85af9ef",
-        "research/results/r2-false-withholding-ablation.json": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4",
+        "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24",
         "benchmarks/pr30_case_extractor.py": "14d53cef6c372e62ea4b711821223c5c668d002eb733d656914deda1b6c0a3a3",
         "tests/test_pr30_withheld_cases.py": "c20a1608208f29028048cd956cb4b638652e14de720ba92415d92f468a9dffa1",
         "docs/PR30_WITHHELD_CASES.md": "ed7f7f7e1f7076b53eb54af4a2e4c1bc99055108c669d69dcfe78a69d5dfc259",
@@ -1788,9 +1788,9 @@
       "evidence_digests": {
         "benchmarks/false_withholding.py": "5406165807a3d935bebd94ac5546c928b7fb2b38ba6b600ba621fbdab85af9ef",
         "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
-        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "tests/test_false_withholding.py": "dd66bd5fcbe419f19d54b73d60b304b8af3081c1e76e71be1790a272d2869663",
         "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
-        "research/results/r2-false-withholding-ablation.json": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4"
+        "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1813,9 +1813,9 @@
       ],
       "evidence_digests": {
         "benchmarks/false_withholding.py": "5406165807a3d935bebd94ac5546c928b7fb2b38ba6b600ba621fbdab85af9ef",
-        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "tests/test_false_withholding.py": "dd66bd5fcbe419f19d54b73d60b304b8af3081c1e76e71be1790a272d2869663",
         "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
-        "research/results/r2-false-withholding-ablation.json": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4"
+        "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24"
       },
       "evidence_issues": {},
       "limitations": [
@@ -1840,9 +1840,9 @@
       "evidence_digests": {
         "benchmarks/false_withholding.py": "5406165807a3d935bebd94ac5546c928b7fb2b38ba6b600ba621fbdab85af9ef",
         "research/prereg/r2-false-withholding-v1.md": "b537137c253f5fcd5c365771cf04dc655f42acbf3e4a2f86f835de64e7e39ff9",
-        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "tests/test_false_withholding.py": "dd66bd5fcbe419f19d54b73d60b304b8af3081c1e76e71be1790a272d2869663",
         "research/results/r2-false-withholding-tests.xml": "2e86a58e3af0f9f4fa1ebad05b02a4b973b3853ba5606a882e9a447df506d833",
-        "research/results/r2-false-withholding-ablation.json": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4"
+        "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24"
       },
       "evidence_issues": {},
       "limitations": [
@@ -6804,10 +6804,10 @@
       "evidence_digests": {
         "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
-        "src/memory_fabric/observability/static/withholding-benchmark.json": "0914bb7baa6f4dec339fa645836e573350ce5a14429a824edafeba6dcca5a3d4",
-        "research/results/r2-false-withholding-ablation.json": "98384f85cbeef8821fbda65f12e234a4f58b9f244e852cb9f3f146b75f7165e4",
+        "src/memory_fabric/observability/static/withholding-benchmark.json": "2f9db9a22238dafc0ba0740438ec1e53f095d559eabe92f25a6cf43e85d40d0d",
+        "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
-        "tests/test_false_withholding.py": "42f0b2fff5b8fb4d6a26bdf18f89ea0119b16ddf1a9e75650b8945b3e9ae6c62",
+        "tests/test_false_withholding.py": "dd66bd5fcbe419f19d54b73d60b304b8af3081c1e76e71be1790a272d2869663",
         "research/results/p2-05-withholding-scorecard.json": "083ab836d81f215552a4e456befbeb2e339fbe637c044dee467e34482b0ec602",
         "research/results/p2-05-withholding-scorecard.txt": "cbe371cbb50ed8f044516444bb8a4effc1a783646177d88022e3ef3b3680b6c6"
       },

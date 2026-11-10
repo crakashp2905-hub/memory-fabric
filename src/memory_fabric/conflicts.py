@@ -71,6 +71,40 @@ _NAME = re.compile(r"(?<![a-z0-9\-_])([a-z][a-z0-9]*(?:[-_][a-z][a-z0-9]*)+)(?![
 _PLACE = re.compile(r"\b(?:at|in|on|near|from|inside|outside|within)(?:\s+the)?\s+$", re.I)
 
 
+_PLACE_NAME = re.compile(r"\b(?:at|in|on|near|from|inside|outside|within)\s+(?:the\s+)?([a-z][a-z-]*)", re.I)
+
+
+_TIME_WORDS = frozenset({"day", "days", "night", "shift", "morning", "afternoon", "evening", "week",
+                         "weeks", "month", "months", "year", "years", "today", "tomorrow",
+                         "yesterday", "time", "times", "hour", "hours", "minute", "minutes"})
+
+
+def places(content: str) -> frozenset[str]:
+    """The place words a text names ("at the coastal site" -> {"coastal"}).
+
+    A time expression is not a place ("on the night shift"), so those words are
+    left out.
+    """
+    return frozenset(name for name in (m.group(1).lower() for m in _PLACE_NAME.finditer(content))
+                     if name not in _TIME_WORDS)
+
+
+class Claim(tuple):
+    """(identifiers, content words, numeric values) that also carries the places named.
+
+    It unpacks exactly as the plain tuple did; `places` is the extra context that
+    decides whether two claims about one unit are about the same place.
+    """
+
+    places: frozenset[str]
+
+    def __new__(cls, identifiers: frozenset[str], words: frozenset[str], values: frozenset[str],
+                place_names: frozenset[str]) -> "Claim":
+        made = super().__new__(cls, (identifiers, words, values))
+        made.places = place_names
+        return made
+
+
 def claim(content: str) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
     """(identifiers, content words, numeric values) of a memory's text.
 
@@ -140,7 +174,7 @@ def claim(content: str) -> tuple[frozenset[str], frozenset[str], frozenset[str]]
             values.add(token)
         elif token not in _STOPWORDS and len(token) > 1:
             words.add(token)
-    return frozenset(identifiers), frozenset(words), frozenset(values)
+    return Claim(frozenset(identifiers), frozenset(words), frozenset(values), places(content))
 
 
 def contradicts(left: str, right: str) -> bool:

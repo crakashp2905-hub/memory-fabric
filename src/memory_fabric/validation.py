@@ -76,8 +76,16 @@ def _number(values: frozenset[str]) -> float | None:
     return nums[0] if len(nums) == 1 else None
 
 
-def _same_claim(a: tuple, b: tuple) -> bool:
-    """Same identifiers and at least two shared content words (or all, if fewer)."""
+def _same_claim(a: tuple, b: tuple, *, restating: bool = False) -> bool:
+    """Same identifiers and at least two shared content words (or all, if fewer).
+
+    Strict (the default, for conflicts): one side's words must contain the
+    other's, so "tug-1 requires 2.4 m at the coastal site" and "... at the inland
+    site" are two facts, not one fact with two values (P3b). A restatement
+    (`restating=True`) is a note that repeats a fact's value in its own words;
+    it need not contain every word of the fact, and it matches unless both
+    sides name a different place.
+    """
     ids_a, words_a, _ = a
     ids_b, words_b, _ = b
     if not ids_a or ids_a != ids_b:
@@ -85,6 +93,9 @@ def _same_claim(a: tuple, b: tuple) -> bool:
     need = min(2, len(words_a), len(words_b))
     if len(words_a & words_b) < max(1, need):
         return False
+    if restating:
+        places_a, places_b = getattr(a, "places", frozenset()), getattr(b, "places", frozenset())
+        return not (places_a and places_b and places_a != places_b)
     # A word each side has and the other lacks names a different context:
     # "tug-1 requires 2.4 m at the coastal site" and "... at the inland site"
     # are two facts, not one fact with two values. One side may add detail
@@ -132,7 +143,7 @@ def restatements(fabric: "MemoryFabric", memory: Any) -> list[str]:
                 or other.lifecycle_state not in EXPOSABLE_STATES):
             continue
         theirs = index.claim_of(oid)
-        if theirs[2] == values and _same_claim(mine, theirs):
+        if theirs[2] == values and _same_claim(mine, theirs, restating=True):
             out.append(oid)
     return out
 

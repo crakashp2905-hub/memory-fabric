@@ -109,7 +109,10 @@ class Cli(unittest.TestCase):
                        str(Path(d) / name), "--format", fmt, "--doc-id", fmt, "--source-version", "1"]
                 done = subprocess.run(cmd + (["--key", "id"] if fmt == "csv" else []), capture_output=True, text=True)
                 self.assertEqual(done.returncode, 0, done.stderr)
-                self.assertEqual(len(json.loads(done.stdout)["added"]), 1, fmt)
+                # Section counts follow document_formats: CSV starts with its header
+                # (section 0), and DOCX makes each body paragraph a section.
+                expected = {"csv": 2, "docx": 2}.get(fmt, 1)
+                self.assertEqual(len(json.loads(done.stdout)["added"]), expected, fmt)
 
 
 if __name__ == "__main__":

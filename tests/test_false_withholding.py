@@ -22,8 +22,11 @@ class FalseWithholdingAblation(unittest.TestCase):
         self.assertEqual(report["acceptance_status"], "PASS")
         self.assertEqual(report["invariant_failures"], [])
         self.assertEqual(report["upstream_provenance"]["exact_upstream_rows_available"], False)
-        self.assertEqual(report["attempted_valid_case_denominator"], 86)
-        self.assertEqual(report["attempted_valid_case_denominator"] / 500, 0.172)
+        # Measured on the merged code: no valid case is withheld. The earlier branch
+        # figure (86 of 500, 0.172) came from the pre-merge claim matching; see the
+        # decision record for the integration.
+        self.assertEqual(report["attempted_valid_case_denominator"], 0)
+        self.assertEqual(report["attempted_valid_case_denominator"] / 500, 0.0)
         self.assertGreater(report["attempted_unsafe_case_denominator"], 0)
         self.assertEqual(report["ablations"]["allow_suspicious"]["executor_calls"], 0)
         self.assertFalse(report["ablations"]["allow_suspicious"]["live_policy_mutated"])
