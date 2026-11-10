@@ -83,7 +83,13 @@ def _same_claim(a: tuple, b: tuple) -> bool:
     if not ids_a or ids_a != ids_b:
         return False
     need = min(2, len(words_a), len(words_b))
-    return len(words_a & words_b) >= max(1, need)
+    if len(words_a & words_b) < max(1, need):
+        return False
+    # A word each side has and the other lacks names a different context:
+    # "tug-1 requires 2.4 m at the coastal site" and "... at the inland site"
+    # are two facts, not one fact with two values. One side may add detail
+    # ("relief pressure" against "relief"), as in typed claims (O1).
+    return words_a <= words_b or words_b <= words_a
 
 
 def _same_parameter(a: tuple, b: tuple) -> bool:
@@ -148,6 +154,25 @@ def assess_write(fabric: "MemoryFabric", agent_id: str, content: str,
         tenant_id=tenant_id or DEFAULT_TENANT, created_at=fabric.now() + 1,
         provenance=SimpleNamespace(created_by=agent_id))
     return _assess(fabric, pending, with_authority=False)
+
+
+def _newer_version_of(memory: Any, other: Any) -> bool:
+    """Whether `memory` is a later version of the same original memory `other` copied.
+
+    Federation records the root (original store and memory) and the root's
+    version on every import, re-shares included, so "the origin revised its
+    own memory" is a fact on both copies, not an inference from text or
+    authorship. Without a root version (an import from before 0.14.0) the
+    answer is no, and the write is held as before.
+    """
+    def root(m: Any) -> tuple[Any, Any, Any]:
+        fed = (m.context or {}).get("federation")
+        r = fed.get("root") if isinstance(fed, dict) else None
+        return (r.get("store"), r.get("memory_id"), r.get("version")) if isinstance(r, dict) else (None, None, None)
+
+    (s1, m1, v1), (s2, m2, v2) = root(memory), root(other)
+    return (s1 is not None and m1 is not None and (s1, m1) == (s2, m2)
+            and isinstance(v1, int) and isinstance(v2, int) and v1 > v2)
 
 
 class _ClaimIndex:
@@ -299,7 +324,14 @@ def _assess(fabric: "MemoryFabric", memory: Any, with_authority: bool) -> Assess
         if other.tenant_id != tenant or not _same_claim(mine, theirs):
             continue
         if other.lifecycle_state in WITHDRAWN_STATES and theirs[2] == values:
-            signals.setdefault("reasserts_corrected", oid)
+            # Restating a withdrawn value is suspicious -- unless this is a newer
+            # version of the very memory that was withdrawn, from its origin: the
+            # origin reverting its own correction (56 -> 79 -> 56). Holding that
+            # left every recipient serving nothing for the fact (S1 at HEAD:
+            # convergence 1.00 -> 0.70). A value withdrawn on any other memory,
+            # or re-sent at the same or an older version, stays held.
+            if not _newer_version_of(memory, other):
+                signals.setdefault("reasserts_corrected", oid)
         elif other.lifecycle_state in EXPOSABLE_STATES and theirs[2] and theirs[2] != values:
             # An author changing its own fact is an update, not a conflict, but
             # if a reviewer had vouched for the old value, the new one has not

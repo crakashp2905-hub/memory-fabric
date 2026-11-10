@@ -49,6 +49,8 @@ langchain = ["langchain-core>=0.3"]
 crypto = ["cryptography>=42"]
 # Standards-based OAuth 2.0 JWT access-token validation for agent-api.
 oauth = ["PyJWT[crypto]>=2.10,<3"]
+# PDF import (knowledge_compiler.compile_pdf): the text layer, no OCR.
+pdf = ["pypdf>=4"]
 # Trained retrieval (memory_fabric.retrievers): ONNX models on CPU, no PyTorch.
 retrieval = ["fastembed>=0.5"]
 # The same with sentence-transformers, for teams already on PyTorch or a GPU.

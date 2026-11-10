@@ -207,3 +207,32 @@ class Scoreboard(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PersonaMemHelpers(unittest.TestCase):
+    def test_parsing_and_budget(self) -> None:
+        from benchmarks import personamem as pm
+
+        self.assertEqual(pm.options_of("['(a) tea', '(b) coffee']"), ["(a) tea", "(b) coffee"])
+        self.assertEqual(pm.letter("The answer is (B)."), "b")
+        self.assertIsNone(pm.letter("no idea"))
+        self.assertEqual(len(pm.fit(["one two three", "four five"], 4).split()), 4)
+        rows = [{"question_type": t, "i": str(i)} for t in "xyz" for i in range(10)]
+        picked = pm.sample(rows, 6)
+        self.assertEqual(len(picked), 6)
+        self.assertEqual(sorted({r["question_type"] for r in picked}), ["x", "y", "z"])
+        self.assertEqual(pm.sample(rows, 6), picked)   # seeded
+
+
+class BrightScoring(unittest.TestCase):
+    def test_bm25_ndcg_recall(self) -> None:
+        from benchmarks.bright_pro import BM25, ndcg, recall
+
+        docs = {"a": "the heart pumps blood through arteries", "b": "plants make sugar from light",
+                "c": "blood pressure and the heart rate", "d": "rocks erode over time"}
+        ranked = BM25(docs).search("heart blood", 4)
+        self.assertEqual(set(ranked[:2]), {"a", "c"})
+        self.assertNotIn("d", ranked)
+        self.assertAlmostEqual(ndcg(["a", "c"], {"a", "c"}), 1.0)
+        self.assertAlmostEqual(ndcg(["x", "a"], {"a"}), 1 / __import__("math").log2(3))
+        self.assertEqual(recall(["a", "x"], {"a", "c"}, 10), 0.5)

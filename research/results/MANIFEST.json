@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 310,
+ "results": 311,
  "missing_field_counts": {
   "git_sha": 174,
-  "prereg": 109,
-  "dataset_digest": 306,
-  "model_id": 274,
-  "prompt_hash": 310,
-  "seed": 221,
-  "cost": 287,
-  "verdict": 231
+  "prereg": 110,
+  "dataset_digest": 307,
+  "model_id": 275,
+  "prompt_hash": 311,
+  "seed": 222,
+  "cost": 288,
+  "verdict": 232
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 295
+  "unclassified": 296
  },
  "rows": [
   {
@@ -24,6 +24,24 @@
    "prereg": null,
    "git_sha": null,
    "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "REVERIFY",
+   "file": "research/results/REVERIFY.json",
+   "file_sha256": "9e580aeb3d6c1d2571aed425b80b35ad6da33c2050ae784a36d19f27764ba930",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "55b79c3",
+   "git_sha_source": "json",
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",
