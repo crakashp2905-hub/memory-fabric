@@ -8,6 +8,10 @@ from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
     build_irrecoverable_worlds,
     IncidentPlan,
+    MockActionRule,
+    MockEffectExecutor,
+    MockEffectRequest,
+    MockEffectStatus,
     ScheduledWorldEvent,
     build_battery_diagnosis_world,
     build_federated_evidence_world,
@@ -112,6 +116,61 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
                 ScheduledWorldEvent("event-same", 0, "reading", {}),
                 ScheduledWorldEvent("event-same", 1, "correction", {}),
             ))
+
+    def test_mock_effects_change_only_hidden_state_and_are_idempotently_replayable(self) -> None:
+        spec = DeterministicWorldSpec(
+            "mock-effect-world", 52, {"target": 4}, ("set_target",),
+        )
+        initial = replay_world(spec)
+        executor = MockEffectExecutor(initial, (
+            MockActionRule("set_target", "target", "value", (4, 6)),
+        ))
+        request = MockEffectRequest(
+            "effect-set-1", "retry-key-1", "set_target", 0, {"value": 6},
+        )
+
+        first = executor.execute(request)
+        retry = executor.execute(request)
+        self.assertEqual(first.status, MockEffectStatus.APPLIED)
+        self.assertEqual(retry.status, MockEffectStatus.APPLIED)
+        self.assertTrue(retry.idempotent_replay)
+        self.assertEqual(executor.applied_count, 1)
+        self.assertEqual(executor.snapshot().hidden_truth["target"], 6)
+        self.assertEqual(executor.snapshot().revision_epoch, 1)
+
+        public_result = first.actor_event()
+        actor_observation = AgentObservation(
+            initial.task_id, "Set the verified target.", (public_result,),
+            ("set_target",), {"steps": 1},
+        )
+        self.assertNotIn('"target":', actor_observation.canonical_json())
+        self.assertNotIn("hidden_truth", actor_observation.canonical_json())
+        self.assertNotIn('"value":6', actor_observation.canonical_json())
+        with self.assertRaisesRegex(ValueError, "evaluator"):
+            AgentObservation(
+                initial.task_id, "Set the target.", ({"executor": executor},), (), {},
+            )
+
+        conflict = executor.execute(MockEffectRequest(
+            "effect-set-conflict", "retry-key-1", "set_target", 0, {"value": 4},
+        ))
+        stale = executor.execute(MockEffectRequest(
+            "effect-set-stale", "retry-key-2", "set_target", 0, {"value": 4},
+        ))
+        invalid_value = executor.execute(MockEffectRequest(
+            "effect-set-invalid", "retry-key-3", "set_target", 1, {"value": 99},
+        ))
+        self.assertEqual(conflict.status, MockEffectStatus.IDEMPOTENCY_CONFLICT)
+        self.assertEqual(stale.status, MockEffectStatus.STALE)
+        self.assertEqual(invalid_value.status, MockEffectStatus.REFUSED)
+        self.assertEqual(executor.applied_count, 1)
+        self.assertEqual(executor.snapshot().hidden_truth["target"], 6)
+
+        replay = executor.replay()
+        self.assertEqual(replay.final_snapshot.canonical_state_bytes(),
+                         executor.snapshot().canonical_state_bytes())
+        self.assertEqual(replay.receipts, executor.receipts)
+        self.assertEqual(len(replay.transcript_sha256), 64)
 
     def test_correction_after_plan_blocks_stale_effect_and_completes_replan(self) -> None:
         result = run_correction_after_plan_scenario(42)

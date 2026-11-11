@@ -17,7 +17,8 @@ import itertools
 import json
 import math
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
+from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, ClassVar, Mapping, Sequence
 
@@ -352,6 +353,248 @@ def replay_world(spec: DeterministicWorldSpec, *, through_tick: int | None = Non
         legal_effects=legal_effects,
         schema_id=spec.schema_id,
     )
+
+
+_MOCK_EFFECT_SCHEMA_ID = "memory-fabric.mock-outcome-effect.v1"
+_MAX_MOCK_EFFECTS = 128
+
+
+class MockEffectStatus(StrEnum):
+    APPLIED = "APPLIED"
+    REFUSED = "REFUSED"
+    STALE = "STALE"
+    IDEMPOTENCY_CONFLICT = "IDEMPOTENCY_CONFLICT"
+
+
+@dataclass(frozen=True)
+class MockActionRule:
+    """Host-owned scalar transition; it cannot call a real device or service."""
+
+    action: str
+    state_field: str
+    argument_field: str
+    allowed_values: tuple[str | int | float | bool, ...] | None = None
+
+    def __post_init__(self) -> None:
+        _identifier(self.action, field="mock action")
+        _identifier(self.state_field, field="mock state field")
+        _identifier(self.argument_field, field="mock argument field")
+        if self.allowed_values is not None:
+            if not isinstance(self.allowed_values, (tuple, list)) or not self.allowed_values:
+                raise ValueError("allowed_values must be a non-empty scalar sequence")
+            values = tuple(self.allowed_values)
+            if any(not isinstance(value, (str, int, float, bool))
+                   or (isinstance(value, float) and not math.isfinite(value))
+                   for value in values):
+                raise ValueError("mock action values must be finite JSON scalars")
+            if len(set(_canonical_bytes(value) for value in values)) != len(values):
+                raise ValueError("mock action allowed values must be unique")
+            object.__setattr__(self, "allowed_values", values)
+
+
+@dataclass(frozen=True)
+class MockEffectRequest:
+    """Stable request for a simulated action, scoped to one public revision."""
+
+    effect_id: str
+    idempotency_key: str
+    action: str
+    expected_revision_epoch: int
+    arguments: Mapping[str, Any]
+    schema_id: str = _MOCK_EFFECT_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _identifier(self.effect_id, field="effect id")
+        _identifier(self.idempotency_key, field="effect idempotency key")
+        _identifier(self.action, field="mock action")
+        if (not isinstance(self.expected_revision_epoch, int)
+                or isinstance(self.expected_revision_epoch, bool)
+                or self.expected_revision_epoch < 0 or self.schema_id != _MOCK_EFFECT_SCHEMA_ID):
+            raise ValueError("unsupported mock request schema or revision")
+        arguments = _copy_json_object(self.arguments, label="mock effect arguments")
+        object.__setattr__(self, "arguments", _freeze_json(arguments))
+        _world_canonical_bytes(self.to_dict())
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"schema_id": self.schema_id, "effect_id": self.effect_id,
+                "idempotency_key": self.idempotency_key, "action": self.action,
+                "expected_revision_epoch": self.expected_revision_epoch,
+                "arguments": _thaw_json(self.arguments)}
+
+    def digest(self) -> str:
+        return _sha256(_world_canonical_bytes(self.to_dict()))
+
+
+@dataclass(frozen=True)
+class MockEffectReceipt:
+    """Content-free result that an actor may observe after a simulated action."""
+
+    effect_id: str
+    action: str
+    status: MockEffectStatus
+    revision_epoch: int
+    idempotent_replay: bool = False
+
+    def __post_init__(self) -> None:
+        _identifier(self.effect_id, field="effect id")
+        _identifier(self.action, field="mock action")
+        if (not isinstance(self.revision_epoch, int) or isinstance(self.revision_epoch, bool)
+                or self.revision_epoch < 0):
+            raise ValueError("receipt revision must be non-negative")
+        object.__setattr__(self, "status", MockEffectStatus(self.status))
+        if not isinstance(self.idempotent_replay, bool):
+            raise ValueError("idempotent_replay must be boolean")
+
+    def actor_event(self) -> dict[str, Any]:
+        """Return a safe runtime event without hidden simulated state."""
+        return {"source": "mock_effect", "effect_id": self.effect_id,
+                "action": self.action, "status": self.status.value,
+                "revision_epoch": self.revision_epoch,
+                "idempotent_replay": self.idempotent_replay}
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"effect_id": self.effect_id, "action": self.action,
+                "status": self.status.value, "revision_epoch": self.revision_epoch,
+                "idempotent_replay": self.idempotent_replay}
+
+
+@dataclass(frozen=True)
+class MockEffectReplay:
+    """Evaluator-only result of replaying a mock effect request transcript."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    initial_snapshot_digest: str
+    requests: tuple[MockEffectRequest, ...]
+    receipts: tuple[MockEffectReceipt, ...]
+    final_snapshot: WorldSnapshot
+    transcript_sha256: str
+
+
+class MockEffectExecutor:
+    """In-memory-only effect executor over hidden world state.
+
+    Rules are host data transitions over one scalar field. The executor has no
+    callback, network, process, device, or vendor interface. Stable idempotency
+    keys make retries return their original result without applying a second
+    state change; a changed payload under a used key is refused.
+    """
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    def __init__(self, initial: WorldSnapshot, rules: Sequence[MockActionRule]) -> None:
+        if not isinstance(initial, WorldSnapshot):
+            raise ValueError("initial must be an evaluator WorldSnapshot")
+        if (not isinstance(rules, (tuple, list)) or len(rules) > 128
+                or not all(isinstance(rule, MockActionRule) for rule in rules)):
+            raise ValueError("mock rules must be a bounded sequence of host declarations")
+        rule_map = {rule.action: rule for rule in rules}
+        if len(rule_map) != len(rules):
+            raise ValueError("mock action rules must be unique")
+        if any(rule.action not in initial.legal_effects for rule in rules):
+            raise ValueError("mock rules may only name initially legal world effects")
+        self._initial = initial
+        self._rules = tuple(sorted(rules, key=lambda rule: rule.action))
+        self._rule_map = rule_map
+        self._hidden_truth = _thaw_json(initial.hidden_truth)
+        self._revision_epoch = initial.revision_epoch
+        self._legal_effects = initial.legal_effects
+        self._request_log: list[MockEffectRequest] = []
+        self._receipt_log: list[MockEffectReceipt] = []
+        self._idempotency: dict[str, tuple[str, MockEffectReceipt]] = {}
+        self._applied_count = 0
+
+    @property
+    def applied_count(self) -> int:
+        """Evaluator-only count of state transitions actually applied."""
+        return self._applied_count
+
+    @property
+    def requests(self) -> tuple[MockEffectRequest, ...]:
+        return tuple(self._request_log)
+
+    @property
+    def receipts(self) -> tuple[MockEffectReceipt, ...]:
+        return tuple(self._receipt_log)
+
+    def snapshot(self) -> WorldSnapshot:
+        """Return evaluator state; WorldSnapshot is blocked from actor contracts."""
+        return WorldSnapshot(
+            task_id=self._initial.task_id, seed=self._initial.seed,
+            tick=self._initial.tick, revision_epoch=self._revision_epoch,
+            observations=self._initial.observations, hidden_truth=self._hidden_truth,
+            legal_effects=self._legal_effects, schema_id=self._initial.schema_id,
+        )
+
+    def execute(self, request: MockEffectRequest) -> MockEffectReceipt:
+        """Apply one host-declared transition inside the hidden simulated world."""
+        if not isinstance(request, MockEffectRequest):
+            raise ValueError("request must be a MockEffectRequest")
+        if len(self._request_log) >= _MAX_MOCK_EFFECTS:
+            raise ValueError("mock effect attempt limit exceeded")
+        digest = request.digest()
+        prior = self._idempotency.get(request.idempotency_key)
+        if prior is not None:
+            self._request_log.append(request)
+            if prior[0] == digest:
+                receipt = replace(prior[1], idempotent_replay=True)
+            else:
+                receipt = MockEffectReceipt(
+                    request.effect_id, request.action, MockEffectStatus.IDEMPOTENCY_CONFLICT,
+                    self._revision_epoch,
+                )
+            self._receipt_log.append(receipt)
+            return receipt
+
+        if request.expected_revision_epoch != self._revision_epoch:
+            status = MockEffectStatus.STALE
+        else:
+            rule = self._rule_map.get(request.action)
+            if request.action not in self._legal_effects or rule is None:
+                status = MockEffectStatus.REFUSED
+            elif (set(request.arguments) != {rule.argument_field}
+                    or rule.state_field not in self._hidden_truth):
+                status = MockEffectStatus.REFUSED
+            else:
+                value = request.arguments[rule.argument_field]
+                scalar = isinstance(value, (str, int, float, bool)) and not (
+                    isinstance(value, float) and not math.isfinite(value))
+                allowed = (rule.allowed_values is None or any(
+                    _canonical_bytes(value) == _canonical_bytes(candidate)
+                    for candidate in rule.allowed_values))
+                if not scalar or not allowed:
+                    status = MockEffectStatus.REFUSED
+                else:
+                    self._hidden_truth[rule.state_field] = value
+                    self._revision_epoch += 1
+                    self._applied_count += 1
+                    status = MockEffectStatus.APPLIED
+
+        receipt = MockEffectReceipt(
+            request.effect_id, request.action, status, self._revision_epoch,
+        )
+        self._request_log.append(request)
+        self._receipt_log.append(receipt)
+        self._idempotency[request.idempotency_key] = (digest, receipt)
+        return receipt
+
+    def replay(self) -> MockEffectReplay:
+        """Replay this exact request log from the initial hidden snapshot."""
+        executor = MockEffectExecutor(self._initial, self._rules)
+        receipts = tuple(executor.execute(request) for request in self._request_log)
+        requests = tuple(self._request_log)
+        transcript = {
+            "schema_id": _MOCK_EFFECT_SCHEMA_ID,
+            "initial_snapshot_digest": self._initial.outcome_digest,
+            "requests": [request.to_dict() for request in requests],
+            "receipts": [receipt.to_dict() for receipt in receipts],
+            "final_snapshot_digest": executor.snapshot().outcome_digest,
+        }
+        return MockEffectReplay(
+            initial_snapshot_digest=self._initial.outcome_digest,
+            requests=requests, receipts=receipts, final_snapshot=executor.snapshot(),
+            transcript_sha256=_sha256(_world_canonical_bytes(transcript)),
+        )
 
 
 @dataclass(frozen=True)

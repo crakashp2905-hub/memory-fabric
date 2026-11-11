@@ -61,6 +61,12 @@ digest are stable for a fixed seed and spec. `WorldSnapshot.public_view()`
 returns scheduled observations and the public epoch without hidden truth or
 evaluator legal-effect data.
 
+`MockEffectExecutor` applies only host-declared scalar transitions to a hidden
+`WorldSnapshot`. It has no callback or device/network interface. Requests bind
+to a world revision and idempotency key; retries return the original receipt,
+conflicting payloads are refused, and its request log replays to the same final
+snapshot. Actor-facing receipts contain only the simulated action result.
+
 `run_correction_after_plan_scenario(seed)` in the same module exercises a
 correction that arrives after an action was planned. It quarantines the old
 evidence, confirms that the stale request is refused by `ActionGate` without a
@@ -189,7 +195,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v25.json`. Run it with
+`tools/agent_outcome_gate_manifest.v26.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
