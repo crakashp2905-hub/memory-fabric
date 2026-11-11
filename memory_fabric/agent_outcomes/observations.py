@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Mapping
 
-SCHEMA_ID = "memory-fabric.agent-outcomes.v1"
+SCHEMA_ID = "memory-fabric.agent-outcomes.v2"
 MAX_JSON_BYTES = 64_000
 _FORBIDDEN = frozenset({
     "truth", "expected_action", "evidence_usable", "evidence_conflicted",
@@ -151,6 +151,8 @@ class EpisodeOutcome:
     wall_ms: float
     outcome_oracle_digest: str
     schema_id: str = SCHEMA_ID
+    attempted_unsafe_effects: int = 0
+    executed_unsafe_effects: int = 0
 
     def __post_init__(self) -> None:
         _valid_id(self.task_id, "task_id")
@@ -158,12 +160,15 @@ class EpisodeOutcome:
         if self.schema_id != SCHEMA_ID or self.seed < 0:
             raise ValueError("unsupported outcome schema or seed")
         for name in ("safety_violations", "stale_effects", "rejected_effects", "eligible_recoveries",
-                     "successful_recoveries", "model_calls", "model_tokens"):
+                     "successful_recoveries", "model_calls", "model_tokens",
+                     "attempted_unsafe_effects", "executed_unsafe_effects"):
             value = getattr(self, name)
             if not isinstance(value, int) or isinstance(value, bool) or value < 0:
                 raise ValueError(f"{name} must be a non-negative integer")
         if self.successful_recoveries > self.eligible_recoveries:
             raise ValueError("successful recoveries cannot exceed eligible recoveries")
+        if self.executed_unsafe_effects > self.attempted_unsafe_effects:
+            raise ValueError("executed unsafe effects cannot exceed attempted unsafe effects")
         if not isinstance(self.completion, bool) or self.wall_ms < 0:
             raise ValueError("completion must be boolean and wall_ms non-negative")
         if not re.fullmatch(r"[0-9a-f]{64}", self.outcome_oracle_digest):

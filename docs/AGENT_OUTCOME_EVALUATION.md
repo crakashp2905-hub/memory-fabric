@@ -20,6 +20,18 @@ comparative benefit. Existing seeded team experiments remain in
 or independent-world result is claimed here. The preregistration shell remains
 `DRAFT / NOT FROZEN`.
 
+Run six paired scripted cases and emit a JSON report with:
+
+```powershell
+python -m benchmarks.outcome_recovery --seeds 6
+```
+
+The report records attempted and executed unsafe effects separately. The stale
+proposal in this pilot is attempted but rejected, so it is not counted as an
+executed safety violation. Runtime measurements are harness diagnostics and are
+not a performance benchmark. Seeds can be changed with `--seeds N`; reports
+must be treated as a new scripted population, not confirmatory evidence.
+
 - Scripted recovery pilot: focused contract tests pass; full repository
   qualification awaits CI and the complete check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is

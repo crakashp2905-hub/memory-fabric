@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import hashlib
-
+import io
+import json
 import unittest
+from contextlib import redirect_stdout
 
 from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
-from benchmarks.outcome_recovery import run_episode, run_paired, visible_observation
+from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
 )
@@ -20,6 +22,7 @@ class TestOutcomeContracts(unittest.TestCase):
                                        ("retrieve", "inspect"), {"steps": 4})
         restored = AgentObservation.from_json(observation.canonical_json())
         self.assertEqual(restored, observation)
+        self.assertEqual(restored.schema_id, "memory-fabric.agent-outcomes.v2")
         self.assertEqual(restored.request_digest(), observation.request_digest())
         self.assertEqual(len(observation.request_digest()), 64)
 
@@ -31,7 +34,7 @@ class TestOutcomeContracts(unittest.TestCase):
 
     def test_contracts_reject_unknown_fields_and_unbounded_payloads(self) -> None:
         with self.assertRaisesRegex(ValueError, "fields do not match"):
-            AgentObservation.from_json('{"schema_id":"memory-fabric.agent-outcomes.v1",'
+            AgentObservation.from_json('{"schema_id":"memory-fabric.agent-outcomes.v2",'
                                        '"task_id":"x","instruction":"x","visible_events":[],'
                                        '"permitted_tools":[],"budget":{},"truth":1}')
         with self.assertRaisesRegex(ValueError, "size limit"):
@@ -46,9 +49,15 @@ class TestOutcomeContracts(unittest.TestCase):
     def test_episode_outcome_requires_opaque_oracle_digest(self) -> None:
         good = EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 1, 1, 0, 0, 0, 1.0,
                               hashlib.sha256(b"sealed outcome").hexdigest())
-        self.assertIn('"population":"SCRIPTED_AGENT"', canonical_report([good]))
+        report = canonical_report([good])
+        self.assertIn('"population":"SCRIPTED_AGENT"', report)
+        self.assertIn('"schema_id":"memory-fabric.outcome-report.v2"', report)
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             EpisodeOutcome("task-1", "A5", 1, True, 0, 0, 0, 0, 0, 0, 0, 1.0, "truth")
+        with self.assertRaisesRegex(ValueError, "cannot exceed attempted"):
+            EpisodeOutcome("task-1", "A5", 1, True, 1, 0, 0, 1, 0, 0, 0, 1.0,
+                           hashlib.sha256(b"case").hexdigest(),
+                           attempted_unsafe_effects=0, executed_unsafe_effects=1)
 
     def test_recovery_episode_is_bounded_and_terminal(self) -> None:
         episode = RecoveryEpisode("task-1")
@@ -71,8 +80,12 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertTrue(recovered.completion)
         self.assertEqual(recovered.successful_recoveries, 1)
         self.assertEqual(recovered.rejected_effects, 1)
+        self.assertEqual(recovered.attempted_unsafe_effects, 1)
+        self.assertEqual(recovered.executed_unsafe_effects, 0)
+        self.assertEqual(recovered.safety_violations, 0)
         self.assertFalse(abstained.completion)
         self.assertEqual(abstained.successful_recoveries, 0)
+        self.assertEqual(abstained.attempted_unsafe_effects, 0)
         self.assertEqual(abstained.outcome_oracle_digest, recovered.outcome_oracle_digest)
 
     def test_unresolved_case_abstains_and_observation_has_no_truth(self) -> None:
@@ -83,3 +96,16 @@ class TestOutcomeContracts(unittest.TestCase):
         rows = run_paired((0, 1))
         self.assertEqual([(row.seed, row.arm) for row in rows],
                          [(0, "A0"), (0, "A5"), (1, "A0"), (1, "A5")])
+
+    def test_paired_runner_rejects_duplicate_seeds_and_cli_emits_json(self) -> None:
+        with self.assertRaisesRegex(ValueError, "non-empty and unique"):
+            run_paired((1, 1))
+        output = io.StringIO()
+        with redirect_stdout(output):
+            self.assertEqual(main(["--seeds", "1"]), 0)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report["population"], "SCRIPTED_AGENT")
+        self.assertEqual(len(report["rows"]), 2)
+        self.assertTrue(all("executed_unsafe_effects" in row for row in report["rows"]))
+        with self.assertRaisesRegex(ValueError, "arm must be"):
+            run_episode(0, arm="invalid")

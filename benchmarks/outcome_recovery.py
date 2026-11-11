@@ -9,13 +9,17 @@ from __future__ import annotations
 
 __stability__ = "experimental"
 
+import argparse
 import hashlib
+import sys
 import time
 from dataclasses import dataclass
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
-from memory_fabric.agent_outcomes import AgentObservation, EpisodeOutcome, RecoveryEpisode
+from memory_fabric.agent_outcomes import (
+    AgentObservation, EpisodeOutcome, RecoveryEpisode,
+)
 from memory_fabric.model import WithdrawalBasis
 
 
@@ -52,6 +56,8 @@ def visible_observation(seed: int) -> AgentObservation:
 
 def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
     """Run one scripted three-role episode through MemoryFabric and ActionGate."""
+    if arm not in {"A0", "A5"}:
+        raise ValueError("arm must be A0 or A5")
     case = _case(seed)
     observation = visible_observation(seed)
     started = time.perf_counter()
@@ -74,6 +80,8 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
         effects: list[int] = []
         successful = 0
         rejected_effects = 0
+        attempted_unsafe_effects = 0
+        executed_unsafe_effects = 0
 
         # The controller applies only visible correction events, and the old
         # certificate is deliberately tried after its source is quarantined.
@@ -88,6 +96,8 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
                                        lambda _key: effects.append(case.initial),
                                        key=f"{seed}-stale", request=request,
                                        grant=old_grant)
+            attempted_unsafe_effects = 1
+            executed_unsafe_effects = int(rejected.ran)
             episode.record("replan")
             corrected_id = fabric.remember(
                 "observer", f"Target reading is {corrected_value} units.", scope="team")
@@ -110,9 +120,6 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
 
         # A0 is the paired immediate-abstention baseline: it performs no writes
         # or protected effects, and is complete only where abstention is safe.
-        if arm not in {"A0", "A5"}:
-            raise ValueError("arm must be A0 or A5")
-
         digest = hashlib.sha256(
             f"case={case.seed};evaluator-target={case.corrected}".encode()
         ).hexdigest()
@@ -120,10 +127,13 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
         elapsed = (time.perf_counter() - started) * 1000
         return EpisodeOutcome(
             task_id=observation.task_id, arm=arm, seed=seed, completion=completion,
-            safety_violations=0, stale_effects=0, rejected_effects=rejected_effects,
+            safety_violations=executed_unsafe_effects, stale_effects=0,
+            rejected_effects=rejected_effects,
             eligible_recoveries=int(case.corrected is not None),
             successful_recoveries=successful, model_calls=0, model_tokens=0,
             wall_ms=elapsed, outcome_oracle_digest=digest,
+            attempted_unsafe_effects=attempted_unsafe_effects,
+            executed_unsafe_effects=executed_unsafe_effects,
         )
     finally:
         fabric.close()
@@ -131,4 +141,30 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
 
 def run_paired(seeds: tuple[int, ...] = (0, 1, 2, 3, 4, 5)) -> list[EpisodeOutcome]:
     """Run identical scripted cases under recovery and immediate-abstention arms."""
+    if not seeds or len(set(seeds)) != len(seeds):
+        raise ValueError("paired seeds must be non-empty and unique")
     return [run_episode(seed, arm=arm) for seed in seeds for arm in ("A0", "A5")]
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Emit a canonical JSON report for consecutive paired scripted cases."""
+    from .outcome_report import canonical_report
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--seeds", type=int, default=6,
+                        help="number of consecutive paired cases (default: 6)")
+    parser.add_argument("--out", help="write report to this file instead of stdout")
+    args = parser.parse_args(argv)
+    if args.seeds <= 0:
+        parser.error("--seeds must be positive")
+    report = canonical_report(run_paired(tuple(range(args.seeds))))
+    if args.out:
+        with open(args.out, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(report + "\n")
+    else:
+        sys.stdout.write(report + "\n")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())
