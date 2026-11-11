@@ -21,6 +21,12 @@ roles over separate authenticated sessions. Each role has a closed tool
 declaration and emits typed `AgentStep` records; action execution remains behind
 the host's current evidence checks and exact-action grant.
 
+`memory_fabric.agent_outcomes.runtime.run_agent_loop` implements bounded
+observe-decide-call-observe transitions. The decision callback receives only a
+public `AgentObservation`; a validated host tool result becomes the next
+observation before another decision. Unknown tools, malformed arguments,
+evaluator-marked outputs, and exhausted step budgets fail closed.
+
 Integrations start a recovery episode through `RecoveryFeatureFlag`; it is
 disabled by default. The disabled flag creates no episode and does not wrap or
 change legacy `MemoryFabric`, `Session`, or `ActionGate` calls. Scripted
@@ -163,7 +169,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v21.json`. Run it with
+`tools/agent_outcome_gate_manifest.v22.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
