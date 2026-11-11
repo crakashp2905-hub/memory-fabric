@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+FROZEN_PREFIXES = ("research/results/no-budget-replication/",)
 
 
 def main() -> int:
@@ -15,6 +16,10 @@ def main() -> int:
     violations = []
     for name in names:
         if not name:
+            continue
+        # Frozen publication: its hashes are pinned by tests/test_replication_artifacts.py,
+        # and its recorded branding log quotes the retired name from the run it came from.
+        if name.startswith(FROZEN_PREFIXES):
             continue
         path = ROOT / name
         if not path.is_file():
