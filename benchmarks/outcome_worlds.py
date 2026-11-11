@@ -768,6 +768,195 @@ def run_maintenance_actions(
 
 
 @dataclass(frozen=True)
+class IncidentPlan:
+    """Actor plan bound to the dependency set and revision it inspected."""
+
+    revision_epoch: int
+    dependency_ids: tuple[str, ...]
+    actions: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if (not isinstance(self.revision_epoch, int) or isinstance(self.revision_epoch, bool)
+                or self.revision_epoch < 0):
+            raise ValueError("incident plan revision must be a non-negative integer")
+        if not isinstance(self.dependency_ids, (tuple, list)) or not self.dependency_ids:
+            raise ValueError("incident plan needs affected dependency identifiers")
+        dependencies = tuple(sorted(_identifier(item, field="dependency id")
+                                    for item in self.dependency_ids))
+        if len(set(dependencies)) != len(dependencies):
+            raise ValueError("incident plan dependencies must be unique")
+        if not isinstance(self.actions, (tuple, list)) or not self.actions:
+            raise ValueError("incident plan needs at least one action")
+        actions = tuple(_identifier(item, field="incident action") for item in self.actions)
+        object.__setattr__(self, "dependency_ids", dependencies)
+        object.__setattr__(self, "actions", actions)
+
+
+@dataclass(frozen=True)
+class IncidentTriageOutcome:
+    """Evaluator summary of rollback, replanning, and dependency coverage."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    stale_plan_detected: bool
+    rollback_executed: bool
+    replan_revision_epoch: int
+    current_revision_epoch: int
+    current_dependencies: tuple[str, ...]
+    contained_dependencies: tuple[str, ...]
+    completed: bool
+    blocked_action: str | None
+    failure_reason: str | None
+
+
+def build_incident_triage_world(seed: int) -> DeterministicWorldSpec:
+    """Create an incident where a second alert adds a dependency after planning."""
+    if (not isinstance(seed, int) or isinstance(seed, bool)
+            or not 0 <= seed <= 0xffffffff):
+        raise ValueError("incident seed must be a 32-bit non-negative integer")
+    effects = ("restart_cache", "rollback_restart_cache", "contain_current_dependencies",
+               "verify_current_dependencies", "close_incident")
+    return DeterministicWorldSpec(
+        task_id=f"incident-triage-{seed}",
+        seed=seed,
+        initial_truth={"active_dependencies": ["cache"], "incident_open": True},
+        initial_legal_effects=effects,
+        events=(
+            ScheduledWorldEvent(
+                "alert-initial", 0, "incident_alert",
+                {"alert_id": f"alert-cache-{seed}", "source": "cache-monitor",
+                 "affected_dependencies": ["cache"], "severity": "high"},
+            ),
+            ScheduledWorldEvent(
+                "alert-dependency-change", 2, "incident_alert",
+                {"alert_id": f"alert-queue-{seed}", "source": "queue-monitor",
+                 "affected_dependencies": ["cache", "queue"],
+                 "dependency_update": "queue-now-depends-on-cache", "severity": "critical"},
+                truth_updates={"active_dependencies": ["cache", "queue"]},
+            ),
+        ),
+    )
+
+
+def run_incident_triage_actions(
+    snapshot: WorldSnapshot,
+    *,
+    prior_plan: IncidentPlan,
+    replan: IncidentPlan,
+    prior_remediation_applied: bool,
+    actions: Sequence[str],
+) -> IncidentTriageOutcome:
+    """Require rollback of a stale remediation and complete current alert coverage."""
+    if not isinstance(snapshot, WorldSnapshot) or not snapshot.task_id.startswith("incident-triage-"):
+        raise ValueError("snapshot must come from an incident triage world")
+    if not isinstance(prior_plan, IncidentPlan) or not isinstance(replan, IncidentPlan):
+        raise ValueError("incident triage requires typed prior and revised plans")
+    if not isinstance(prior_remediation_applied, bool):
+        raise ValueError("prior_remediation_applied must be boolean")
+    if not isinstance(actions, (tuple, list)) or len(actions) > 16:
+        raise ValueError("incident actions must be a bounded sequence")
+    for action in actions:
+        _identifier(action, field="incident action")
+
+    latest_dependencies: tuple[str, ...] | None = None
+    for event in snapshot.observations:
+        if event.get("kind") == "incident_alert" and isinstance(event.get("data"), Mapping):
+            values = event["data"].get("affected_dependencies")
+            if not isinstance(values, (tuple, list)):
+                raise ValueError("incident alert must list affected dependencies")
+            latest_dependencies = tuple(sorted(
+                _identifier(value, field="affected dependency") for value in values))
+    if not latest_dependencies:
+        raise ValueError("incident world has no public alert dependencies")
+
+    stale = (prior_plan.revision_epoch != snapshot.revision_epoch
+             or prior_plan.dependency_ids != latest_dependencies)
+    if not stale:
+        return IncidentTriageOutcome(
+            stale_plan_detected=False, rollback_executed=False,
+            replan_revision_epoch=replan.revision_epoch,
+            current_revision_epoch=snapshot.revision_epoch,
+            current_dependencies=latest_dependencies, contained_dependencies=(),
+            completed=False, blocked_action=None, failure_reason="no_new_dependency_revision",
+        )
+    if (replan.revision_epoch != snapshot.revision_epoch
+            or replan.dependency_ids != latest_dependencies
+            or replan.actions != ("contain_current_dependencies",)):
+        return IncidentTriageOutcome(
+            stale_plan_detected=True, rollback_executed=False,
+            replan_revision_epoch=replan.revision_epoch,
+            current_revision_epoch=snapshot.revision_epoch,
+            current_dependencies=latest_dependencies, contained_dependencies=(),
+            completed=False, blocked_action=None, failure_reason="replan_required",
+        )
+
+    expected_actions = (("rollback_restart_cache",) if prior_remediation_applied else ()) + (
+        "contain_current_dependencies", "verify_current_dependencies", "close_incident",
+    )
+    legal_effects = set(snapshot.legal_effects)
+    executed: list[str] = []
+    contained: tuple[str, ...] = ()
+    rollback_done = not prior_remediation_applied
+    verified = False
+    for action in actions:
+        if action not in legal_effects:
+            return IncidentTriageOutcome(
+                True, rollback_done and prior_remediation_applied, replan.revision_epoch,
+                snapshot.revision_epoch, latest_dependencies, contained, False,
+                action, "effect_not_legal",
+            )
+        expected_index = len(executed)
+        if expected_index >= len(expected_actions) or action != expected_actions[expected_index]:
+            reason = ("rollback_required" if prior_remediation_applied and not rollback_done
+                      else "replan_action_order_invalid")
+            return IncidentTriageOutcome(
+                True, rollback_done and prior_remediation_applied, replan.revision_epoch,
+                snapshot.revision_epoch, latest_dependencies, contained, False,
+                action, reason,
+            )
+        executed.append(action)
+        if action == "rollback_restart_cache":
+            rollback_done = True
+        elif action == "contain_current_dependencies":
+            if not rollback_done:
+                return IncidentTriageOutcome(
+                    True, False, replan.revision_epoch, snapshot.revision_epoch,
+                    latest_dependencies, (), False, action, "rollback_required",
+                )
+            contained = latest_dependencies
+        elif action == "verify_current_dependencies":
+            verified = contained == latest_dependencies
+            if not verified:
+                return IncidentTriageOutcome(
+                    True, rollback_done and prior_remediation_applied,
+                    replan.revision_epoch, snapshot.revision_epoch,
+                    latest_dependencies, contained, False, action,
+                    "dependency_verification_failed",
+                )
+        elif action == "close_incident" and not (
+                rollback_done and contained == latest_dependencies and verified):
+            return IncidentTriageOutcome(
+                True, rollback_done and prior_remediation_applied, replan.revision_epoch,
+                snapshot.revision_epoch, latest_dependencies, contained, False,
+                action, "incident_prerequisites_missing",
+            )
+
+    complete = tuple(executed) == expected_actions
+    failure_reason = None if complete else "incident_prerequisites_missing"
+    return IncidentTriageOutcome(
+        stale_plan_detected=True,
+        rollback_executed=rollback_done and prior_remediation_applied,
+        replan_revision_epoch=replan.revision_epoch,
+        current_revision_epoch=snapshot.revision_epoch,
+        current_dependencies=latest_dependencies,
+        contained_dependencies=contained,
+        completed=complete,
+        blocked_action=None if complete else None,
+        failure_reason=failure_reason,
+    )
+
+
+@dataclass(frozen=True)
 class TransitionSkeleton:
     """Surface-free transition shape used to keep structurally equal worlds together.
 

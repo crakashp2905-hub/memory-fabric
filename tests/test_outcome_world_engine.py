@@ -6,13 +6,16 @@ import unittest
 
 from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
+    IncidentPlan,
     ScheduledWorldEvent,
     build_battery_diagnosis_world,
+    build_incident_triage_world,
     build_maintenance_world,
     diagnose_battery,
     replay_world,
     run_maintenance_actions,
     run_correction_after_plan_scenario,
+    run_incident_triage_actions,
 )
 from memory_fabric.agent_outcomes import AgentObservation
 
@@ -171,6 +174,52 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         self.assertFalse(wrong_order.completed)
         self.assertEqual(wrong_order.executed_actions, ())
         self.assertEqual(wrong_order.failure_reason, "prerequisite_dependency_missing")
+
+    def test_new_incident_alert_requires_rollback_and_revision_bound_replan(self) -> None:
+        spec = build_incident_triage_world(9)
+        planned_world = replay_world(spec, through_tick=0)
+        current_world = replay_world(spec, through_tick=2)
+        old_plan = IncidentPlan(
+            planned_world.revision_epoch, ("cache",), ("restart_cache",),
+        )
+        current_plan = IncidentPlan(
+            current_world.revision_epoch, ("cache", "queue"),
+            ("contain_current_dependencies",),
+        )
+
+        outcome = run_incident_triage_actions(
+            current_world, prior_plan=old_plan, replan=current_plan,
+            prior_remediation_applied=True,
+            actions=("rollback_restart_cache", "contain_current_dependencies",
+                     "verify_current_dependencies", "close_incident"),
+        )
+        self.assertTrue(outcome.stale_plan_detected)
+        self.assertTrue(outcome.rollback_executed)
+        self.assertEqual(outcome.current_revision_epoch, current_plan.revision_epoch)
+        self.assertEqual(outcome.contained_dependencies, ("cache", "queue"))
+        self.assertTrue(outcome.completed)
+
+        without_rollback = run_incident_triage_actions(
+            current_world, prior_plan=old_plan, replan=current_plan,
+            prior_remediation_applied=True,
+            actions=("contain_current_dependencies", "verify_current_dependencies",
+                     "close_incident"),
+        )
+        self.assertFalse(without_rollback.completed)
+        self.assertEqual(without_rollback.failure_reason, "rollback_required")
+
+        stale_replan = IncidentPlan(
+            old_plan.revision_epoch, old_plan.dependency_ids,
+            ("contain_current_dependencies",),
+        )
+        rejected_replan = run_incident_triage_actions(
+            current_world, prior_plan=old_plan, replan=stale_replan,
+            prior_remediation_applied=True,
+            actions=("rollback_restart_cache", "contain_current_dependencies",
+                     "verify_current_dependencies", "close_incident"),
+        )
+        self.assertFalse(rejected_replan.completed)
+        self.assertEqual(rejected_replan.failure_reason, "replan_required")
 
 
 if __name__ == "__main__":  # pragma: no cover

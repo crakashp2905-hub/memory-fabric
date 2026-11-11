@@ -45,6 +45,12 @@ has two safe action choices, dependencies constrain their order, and the final
 release action is blocked until every prerequisite is satisfied. This is a
 contract simulation; it does not invoke physical equipment.
 
+`build_incident_triage_world(seed)` adds a second alert that expands the affected
+dependency set. `run_incident_triage_actions` binds the revised plan to the
+current revision, requires rollback of an already-applied stale remediation,
+and checks containment and verification across every current dependency before
+closing the incident.
+
 The recovery episode has a read-only typed recovery catalog, bounded steps/event
 size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
@@ -124,7 +130,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v9.json`. Run it with
+`tools/agent_outcome_gate_manifest.v10.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
