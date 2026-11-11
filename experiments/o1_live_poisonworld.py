@@ -119,9 +119,12 @@ class LivePlain(pw.PlainArm):
 
 
 class LiveFabric(pw.FabricArm):
-    def __init__(self, decider: Decider) -> None:
+    def __init__(self, decider: Decider, withhold_hostile_sources: bool = True) -> None:
         super().__init__("selective")
         self.decider = decider
+        # Exploratory arm `fabric_nowithhold` (not registered): added after the
+        # registered run traced fabric's misreads to source withholding.
+        self.fabric.withhold_hostile_sources = withhold_hostile_sources
         self.last_top: list[str] = []
 
     def plan(self, agent, pair, round_, high):
@@ -146,6 +149,8 @@ def run_one(arm: str, seed: int, decider: Decider | None, max_tasks: int | None 
         store = LivePlain(arm, decider)
     elif arm == "fabric":
         store = LiveFabric(decider)
+    elif arm == "fabric_nowithhold":
+        store = LiveFabric(decider, withhold_hostile_sources=False)
     index: dict[int, int] = {}
     writes_by_round: dict[int, list] = {}
     for w in world.writes:
@@ -305,7 +310,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             if any(r["arm"] == arm and r["seed"] == seed for r in raw["runs"]):
                 continue
             c0, t0 = len(decider.client.calls), time.time()
-            row = run_one(arm, seed, decider if arm in ("shared", "provenance_blanket", "fabric") else None)
+            row = run_one(arm, seed, decider if arm in ("shared", "provenance_blanket", "fabric", "fabric_nowithhold") else None)
             calls = decider.client.calls[c0:]
             raw["runs"].append(row)
             raw["cost"].append({"arm": arm, "seed": seed, "calls": len(calls),

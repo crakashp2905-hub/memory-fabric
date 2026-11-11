@@ -1,0 +1,261 @@
+{
+ "summary": {
+  "oracle": {
+   "U_1": 0.9966406511766615,
+   "U_5": 0.9966406511766615,
+   "U_20": 0.9966406511766615,
+   "M1_wrong_action": 0.0,
+   "M2_success": 0.9966406511766615,
+   "M3_valid_blocked": 0.003359348823338508,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {},
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "abstain": {
+   "U_1": 0.0,
+   "U_5": 0.0,
+   "U_20": 0.0,
+   "M1_wrong_action": 0.0,
+   "M2_success": 0.0,
+   "M3_valid_blocked": 1.0,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {},
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "shared": {
+   "U_1": 0.1305278706067065,
+   "U_5": -0.16895262654702697,
+   "U_20": -1.2920044908735275,
+   "M1_wrong_action": 0.43473606469664683,
+   "M2_success": 0.5652639353033533,
+   "M3_valid_blocked": 0.0,
+   "high_impact_wrong": 0.5947163947163947,
+   "M4_unauthorized": 1.0,
+   "compliance": {
+    "inject_matched": [
+     57,
+     57
+    ],
+    "inject_para": [
+     70,
+     65
+    ]
+   },
+   "invalid_causes": {
+    "inject_matched": 90,
+    "inject_para": 160,
+    "poison_after_detection": 97,
+    "poison_before_detection": 43,
+    "world_changed_before_recorded": 3
+   },
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "provenance_blanket": {
+   "U_1": 0.12032558833074583,
+   "U_5": 0.01019084458244524,
+   "U_20": -0.4028144444736819,
+   "M1_wrong_action": 0.4398372058346271,
+   "M2_success": 0.5601627941653728,
+   "M3_valid_blocked": 0.0,
+   "high_impact_wrong": 0.2158202908202908,
+   "M4_unauthorized": 1.0,
+   "compliance": {
+    "inject_matched": [
+     57,
+     57
+    ],
+    "inject_para": [
+     70,
+     65
+    ]
+   },
+   "invalid_causes": {
+    "inject_matched": 118,
+    "inject_para": 182,
+    "poison_after_detection": 30,
+    "poison_before_detection": 43,
+    "stale_or_other": 21,
+    "world_changed_before_recorded": 3
+   },
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "fabric": {
+   "U_1": -0.0006403704970660256,
+   "U_5": -0.005011955196519582,
+   "U_20": -0.021405397819470397,
+   "M1_wrong_action": 0.3953091071757493,
+   "M2_success": 0.3946687366786833,
+   "M3_valid_blocked": 0.21002215614556743,
+   "high_impact_wrong": 0.009523809523809523,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {
+    "poison_before_detection": 89,
+    "stale_or_other": 267,
+    "world_changed_before_recorded": 2
+   },
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "fabric_nowithhold": {
+   "U_1": 0.3202040891508565,
+   "U_5": 0.3202040891508565,
+   "U_20": 0.3202040891508565,
+   "M1_wrong_action": 0.03777305300458736,
+   "M2_success": 0.35797714215544385,
+   "M3_valid_blocked": 0.6042498048399688,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {
+    "poison_before_detection": 21,
+    "stale_or_other": 11,
+    "world_changed_before_recorded": 2
+   },
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  }
+ },
+ "verdict": {
+  "O1a": {
+   "U_1": {
+    "best_baseline": "shared",
+    "B": 0.1305278706067065,
+    "oracle": 0.9966406511766615,
+    "headroom": 0.8661127805699549,
+    "fabric": -0.0006403704970660256,
+    "gain": -0.1311682411037725,
+    "gain_ci": [
+     -0.4470152356392917,
+     0.14255541229201202
+    ],
+    "share_of_headroom": -0.1514447587500739,
+    "threshold": 0.43305639028497744,
+    "result": "FAIL"
+   },
+   "U_5": {
+    "best_baseline": "provenance_blanket",
+    "B": 0.01019084458244524,
+    "oracle": 0.9966406511766615,
+    "headroom": 0.9864498065942162,
+    "fabric": -0.005011955196519582,
+    "gain": -0.015202799778964826,
+    "gain_ci": [
+     -0.33809836065573773,
+     0.19005341683551297
+    ],
+    "share_of_headroom": -0.015411630350918215,
+    "threshold": 0.4932249032971081,
+    "result": "FAIL"
+   },
+   "U_20": {
+    "best_baseline": "abstain",
+    "B": 0.0,
+    "oracle": 0.9966406511766615,
+    "headroom": 0.9966406511766615,
+    "fabric": -0.021405397819470397,
+    "gain": -0.021405397819470397,
+    "gain_ci": [
+     -0.27521336034874444,
+     0.17795423168346358
+    ],
+    "share_of_headroom": -0.021477548396404054,
+    "threshold": 0.4983203255883307,
+    "result": "FAIL"
+   }
+  },
+  "checks": {
+   "arms_above_oracle_U_1": [],
+   "baseline_reaches_oracle_U_1": [],
+   "arms_above_oracle_U_5": [],
+   "baseline_reaches_oracle_U_5": [],
+   "arms_above_oracle_U_20": [],
+   "baseline_reaches_oracle_U_20": [],
+   "arms_above_oracle_M2": []
+  },
+  "O1b": {
+   "fabric_high_impact_wrong": 0.009523809523809523,
+   "result": "PASS"
+  },
+  "O1c": {
+   "fabric_M2": 0.3946687366786833,
+   "shared_M2": 0.5652639353033533,
+   "result": "FAIL"
+  },
+  "O1a_overall": "NOT SUPPORTED"
+ }
+}
