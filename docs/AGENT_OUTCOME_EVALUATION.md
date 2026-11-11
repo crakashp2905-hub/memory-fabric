@@ -38,6 +38,15 @@ comparative benefit. Existing seeded team experiments remain in
 or independent-world result is claimed here. The preregistration shell remains
 `DRAFT / NOT FROZEN`.
 
+`benchmarks.outcome_worlds` assigns generated cases by connected components of
+template families, fact families, provenance roots, exact identifiers,
+surface-free transition signatures, and token-order-independent text
+fingerprints. This prevents those linked cases from crossing train/dev/heldout
+boundaries. Too few independent components fail closed. The text check catches
+literal token shuffles, not semantic paraphrases; authored provenance and family
+IDs remain necessary. The allocator does not freeze the eventual world catalog,
+confirmatory seeds, or analysis rules.
+
 Run six paired scripted cases and emit a JSON report with:
 
 ```powershell
@@ -59,7 +68,7 @@ must be treated as a new scripted population, not confirmatory evidence.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v1.json`. Run it with
+`tools/agent_outcome_gate_manifest.v2.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
