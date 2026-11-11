@@ -2,12 +2,19 @@
 
 from __future__ import annotations
 
+import secrets
 import unittest
+from dataclasses import replace
 
 from memory_fabric import MemoryFabric
-from memory_fabric.actions import REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule
-from memory_fabric.agent_outcomes import RecoveryAction, RecoveryEpisode
+from memory_fabric.actions import (
+    GRANT_MISMATCH, REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+)
+from memory_fabric.agent_outcomes import AgentObservation, RecoveryAction, RecoveryEpisode
+from memory_fabric.certificates import EVIDENCE_VERSION_MOVED
+from memory_fabric.identity import ROLE_AGENT
 from memory_fabric.service import MemoryService
+from benchmarks.outcome_agents import ExecutorActor, ObserverActor, PlannerActor
 
 
 class TestOutcomeAuthorization(unittest.TestCase):
@@ -116,6 +123,76 @@ class TestOutcomeAuthorization(unittest.TestCase):
         self.assertEqual(effects, [])
         self.assertIsNotNone(result.decision)
         self.assertIn("credential_invalid", result.decision.reason_codes)
+
+
+class TestTypedPlanAuthorization(unittest.TestCase):
+    def _prepared_plan(self):
+        service = MemoryService(MemoryFabric(":memory:", auto_activate=True))
+        self.addCleanup(service.close)
+        for agent in ("observer", "planner", "executor"):
+            service.register_agent(agent, key=secrets.token_bytes(32),
+                                   tenant_id="tenant-plan-binding", roles=(ROLE_AGENT,))
+        observation = AgentObservation(
+            task_id="typed-plan-binding", instruction="Set the current observed target.",
+            visible_events=(),
+            permitted_tools=("remember_evidence", "retrieve_evidence", "propose_action",
+                             "certify_evidence", "set_target"),
+            budget={"steps": 10},
+        )
+        observer = ObserverActor(service.session(service.issue("observer")), observation)
+        planner = PlannerActor(service.session(service.issue("planner")), observation)
+        executor = ExecutorActor(service.session(service.issue("executor")), observation)
+        observer.remember("Pump beta target setting is 6.")
+        observer.remember("Independent instrument confirms pump beta target 6.")
+        evidence, _ = planner.retrieve("pump beta target 6", k=3)
+        plan = planner.propose(
+            "set_target", {"value": 6}, evidence,
+            claim="Pump beta should use its current target of 6.",
+        )
+        gate = ActionGate(service._fabric, ActionPolicy(
+            tools={"set_target": ToolRule(
+                "set_target", requires_grant=True, min_independent_sources=2)},
+            grants={"executor": frozenset({"set_target"})},
+        ))
+        certificate = executor.certify(plan)
+        request = ActionRequest(plan.tool, plan.parameters)
+        grant = gate.issue_grant(
+            plan.tool, executor.actor_id, issuer="host", certificate=certificate,
+            request=request, tenant_id=executor.tenant_id,
+        )
+        return service, executor, gate, plan, certificate, grant
+
+    def test_revision_after_plan_certificate_and_grant_is_refused_by_gate(self) -> None:
+        service, executor, gate, plan, certificate, grant = self._prepared_plan()
+        memory_id = plan.evidence_versions[0][0]
+        service._fabric.revise(
+            memory_id, "Pump beta target setting is 9.", "observer", "new instrument result",
+        )
+        effects: list[int] = []
+
+        execution = executor.execute(
+            plan, certificate, gate, grant,
+            lambda _key: effects.append(plan.parameters["value"]),
+            key="typed-plan-stale-evidence",
+        )
+
+        self.assertEqual(execution.outcome, REFUSED)
+        self.assertIn(EVIDENCE_VERSION_MOVED, execution.decision.reason_codes)
+        self.assertEqual(effects, [])
+
+    def test_changed_action_cannot_reuse_the_original_exact_action_grant(self) -> None:
+        _, executor, gate, plan, certificate, grant = self._prepared_plan()
+        changed = replace(plan, parameters={"value": 99})
+        effects: list[int] = []
+
+        execution = executor.execute(
+            changed, certificate, gate, grant,
+            lambda _key: effects.append(99), key="typed-plan-changed-request",
+        )
+
+        self.assertEqual(execution.outcome, REFUSED)
+        self.assertIn(GRANT_MISMATCH, execution.decision.reason_codes)
+        self.assertEqual(effects, [])
 
 
 if __name__ == "__main__":  # pragma: no cover
