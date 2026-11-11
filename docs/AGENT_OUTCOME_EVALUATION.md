@@ -59,6 +59,16 @@ executed safety violation. Runtime measurements are harness diagnostics and are
 not a performance benchmark. Seeds can be changed with `--seeds N`; reports
 must be treated as a new scripted population, not confirmatory evidence.
 
+The [preregistration shell](../research/prereg/agent-outcome-v1.md#outcome-labels-and-exact-denominators)
+defines completion, legitimate abstention, false withholding, recovery, and
+safety numerators and denominators. The task population is unique matched case
+IDs, never the number of agents or steps. `paired_completion_analysis` emits
+schema v2 with every estimate under `metrics`, carrying its numerator,
+denominator, and named population alongside the value. The current pilot does
+not record evaluator-labeled abstention or evidence-availability opportunities,
+so those rates remain `NOT_MEASURED`; absence of those fields is not reported as
+zero.
+
 - Scripted recovery pilot: focused contract tests pass; full repository
   qualification awaits CI and the complete check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is

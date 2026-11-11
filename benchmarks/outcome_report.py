@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from dataclasses import asdict
@@ -116,21 +117,88 @@ def paired_completion_analysis(
     bootstrap = paired_bootstrap(baseline_values, treatment_values, seed=seed,
                                  resamples=resamples, clusters=clusters, level=confidence)
     cluster_means = [sum(values) / len(values) for values in cluster_diffs.values()]
+    baseline_completions = sum(row.completion for row in baseline.values())
+    treatment_completions = sum(row.completion for row in treatment.values())
+    positive_clusters = sum(value > 0 for value in cluster_means)
+    negative_clusters = sum(value < 0 for value in cluster_means)
+    tied_clusters = len(cluster_means) - positive_clusters - negative_clusters
+    bootstrap_positive_resamples = int(round(bootstrap["positive_share"] * resamples))
+    task_population = "paired_common_task_cases"
+    task_id_set_digest = hashlib.sha256("\n".join(task_ids).encode("utf-8")).hexdigest()
     return {
-        "schema_id": "memory-fabric.paired-completion-analysis.v1",
+        "schema_id": "memory-fabric.paired-completion-analysis.v2",
         "baseline_arm": baseline_arm,
         "treatment_arm": treatment_arm,
         "negative_control": baseline_arm == treatment_arm,
         "n_cases": len(task_ids),
         "n_independent_clusters": len(cluster_diffs),
         "minimum_cluster_floor_met": len(cluster_diffs) >= 5,
-        "baseline_completion_rate": sum(baseline_values) / len(baseline_values),
-        "treatment_completion_rate": sum(treatment_values) / len(treatment_values),
-        "mean_paired_difference": sum(diffs) / len(diffs),
-        "cluster_bootstrap_ci": {"low": bootstrap["lo"], "high": bootstrap["hi"],
-                                 "positive_share": bootstrap["positive_share"]},
-        "cluster_exact_sign_test_p": sign_test_p(cluster_means),
-        "pair_counts": {"treatment_wins": wins, "baseline_wins": losses, "ties": ties},
+        "task_population": {
+            "name": task_population,
+            "denominator": len(task_ids),
+            "unit": "unique paired task IDs",
+            "independent_clusters": len(cluster_diffs),
+            "cluster_unit": "world_seed",
+            "task_id_set_sha256": task_id_set_digest,
+        },
+        "metrics": {
+            "baseline_completion_rate": {
+                "value": baseline_completions / len(task_ids),
+                "numerator": baseline_completions,
+                "denominator": len(task_ids),
+                "population": task_population,
+            },
+            "treatment_completion_rate": {
+                "value": treatment_completions / len(task_ids),
+                "numerator": treatment_completions,
+                "denominator": len(task_ids),
+                "population": task_population,
+            },
+            "mean_paired_difference": {
+                "value": sum(diffs) / len(diffs),
+                "numerator": sum(diffs),
+                "denominator": len(task_ids),
+                "population": task_population,
+            },
+            "pair_counts": {
+                "treatment_wins": {
+                    "value": wins, "numerator": wins, "denominator": len(task_ids),
+                    "population": task_population,
+                },
+                "baseline_wins": {
+                    "value": losses, "numerator": losses, "denominator": len(task_ids),
+                    "population": task_population,
+                },
+                "ties": {
+                    "value": ties, "numerator": ties, "denominator": len(task_ids),
+                    "population": task_population,
+                },
+            },
+            "cluster_bootstrap_ci": {
+                "value": {"low": bootstrap["lo"], "high": bootstrap["hi"],
+                          "positive_share": bootstrap["positive_share"]},
+                "numerator": sum(diffs),
+                "denominator": len(task_ids),
+                "population": "paired_common_task_cases_clustered_by_world_seed",
+                "independent_clusters": len(cluster_diffs),
+                "bootstrap_resamples": resamples,
+                "positive_share": {
+                    "value": bootstrap["positive_share"],
+                    "numerator": bootstrap_positive_resamples,
+                    "denominator": resamples,
+                    "population": "bootstrap resamples of world-seed clusters",
+                },
+            },
+            "cluster_exact_sign_test_p": {
+                "value": sign_test_p(cluster_means),
+                "numerator": positive_clusters,
+                "denominator": positive_clusters + negative_clusters,
+                "population": "non-tied paired world-seed mean differences",
+                "positive_clusters": positive_clusters,
+                "negative_clusters": negative_clusters,
+                "tied_clusters_excluded": tied_clusters,
+            },
+        },
         "bootstrap_seed": seed,
         "bootstrap_resamples": resamples,
         "confidence_level": confidence,

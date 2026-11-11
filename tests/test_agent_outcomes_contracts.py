@@ -272,12 +272,41 @@ class TestOutcomeContracts(unittest.TestCase):
                              row(task, "A5", seed, candidate_result)))
         analysis = paired_completion_analysis(outcomes, "A0", "A5", seed=7,
                                               resamples=500)
-        self.assertEqual(analysis["mean_paired_difference"], 0.4)
+        self.assertEqual(analysis["schema_id"],
+                         "memory-fabric.paired-completion-analysis.v2")
+        metrics = analysis["metrics"]
+        for name in ("baseline_completion_rate", "treatment_completion_rate",
+                     "mean_paired_difference", "cluster_bootstrap_ci",
+                     "cluster_exact_sign_test_p"):
+            self.assertTrue({"value", "numerator", "denominator", "population"}
+                            <= metrics[name].keys())
+        for item in metrics["pair_counts"].values():
+            self.assertTrue({"value", "numerator", "denominator", "population"}
+                            <= item.keys())
+        self.assertEqual(metrics["mean_paired_difference"]["value"], 0.4)
         self.assertEqual(analysis["n_independent_clusters"], 5)
-        self.assertEqual(analysis["pair_counts"],
+        self.assertEqual({key: item["value"] for key, item in metrics["pair_counts"].items()},
                          {"treatment_wins": 2, "baseline_wins": 0, "ties": 3})
-        self.assertEqual(analysis["cluster_exact_sign_test_p"], 0.5)
+        self.assertEqual(metrics["cluster_exact_sign_test_p"]["value"], 0.5)
         self.assertTrue(analysis["minimum_cluster_floor_met"])
+        self.assertEqual(analysis["task_population"]["denominator"], 5)
+        self.assertEqual(len(analysis["task_population"]["task_id_set_sha256"]), 64)
+        self.assertEqual(metrics["baseline_completion_rate"], {
+            "value": 0.4,
+            "numerator": 2, "denominator": 5, "population": "paired_common_task_cases",
+        })
+        self.assertEqual(metrics["treatment_completion_rate"], {
+            "value": 0.8,
+            "numerator": 4, "denominator": 5, "population": "paired_common_task_cases",
+        })
+        self.assertEqual(metrics["pair_counts"]["treatment_wins"], {
+            "value": 2,
+            "numerator": 2, "denominator": 5, "population": "paired_common_task_cases",
+        })
+        self.assertEqual(metrics["cluster_exact_sign_test_p"]["denominator"], 2)
+        self.assertEqual(metrics["cluster_exact_sign_test_p"]["tied_clusters_excluded"], 3)
+        self.assertEqual(metrics["cluster_bootstrap_ci"]["bootstrap_resamples"], 500)
+        self.assertEqual(metrics["cluster_bootstrap_ci"]["positive_share"]["denominator"], 500)
         self.assertEqual(analysis, paired_completion_analysis(
             outcomes, "A0", "A5", seed=7, resamples=500))
 
@@ -285,8 +314,9 @@ class TestOutcomeContracts(unittest.TestCase):
                                                       resamples=500)
         self.assertTrue(negative_control["negative_control"])
         self.assertTrue(negative_control["minimum_cluster_floor_met"])
-        self.assertEqual(negative_control["mean_paired_difference"], 0.0)
-        self.assertEqual(negative_control["cluster_exact_sign_test_p"], 1.0)
+        self.assertEqual(negative_control["metrics"]["mean_paired_difference"]["value"], 0.0)
+        self.assertEqual(
+            negative_control["metrics"]["cluster_exact_sign_test_p"]["value"], 1.0)
 
     def test_scripted_recovery_uses_gate_and_paired_abstention(self) -> None:
         recovered = run_episode(0)
