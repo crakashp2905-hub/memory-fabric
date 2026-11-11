@@ -16,7 +16,7 @@ billing; see [WORKPLAN.md](WORKPLAN.md), X-CI).
 
 | Check | Command | Result |
 |---|---|---|
-| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2271 tests** in the current tree. The last complete pass was the 2247-test baseline above; a 2026-11-12 full run was interrupted after loopback integration tests hit sandbox `WinError 10013`. AO-028 audit, terminal outcome, and runtime tests pass; curated contract, lint, and type checks pass. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
+| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2272 tests** in the current tree. The last complete pass was the 2247-test baseline above; a 2026-11-12 full run was interrupted after loopback integration tests hit sandbox `WinError 10013`. AO-029 JSON runtime, audit, and terminal outcome tests pass; curated contract, lint, and type checks pass. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
 | Fault matrix | `python -m experiments.faultsim` | **17/17** |
 | Secret scan | `python tools/scan_secrets.py` | 103 high-severity findings, **0 unexpected** |
 | Compile | `python -m compileall -q memory_fabric experiments tests examples tools` | clean |

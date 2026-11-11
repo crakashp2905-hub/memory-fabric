@@ -7,7 +7,10 @@ state and grading remain in the benchmark world, outside these contracts.
 __stability__ = "experimental"
 
 from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
-from .runtime import RuntimeResult, RuntimeStatus, RuntimeTool, ToolCallRecord, run_agent_loop
+from .runtime import (
+    RuntimeResult, RuntimeStatus, RuntimeTool, ToolCallRecord,
+    run_agent_json_loop, run_agent_loop,
+)
 from .recovery import (
     RECOVERY_ACTIONS, RecoveryAction, RecoveryCause, RecoveryEpisode, RecoveryGuidance,
     RecoveryFailureClass, RecoveryFeatureFlag, RecoveryLimits, RecoveryNextAction,
@@ -26,7 +29,7 @@ from .outcomes import (
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RuntimeResult", "RuntimeStatus", "RuntimeTool", "ToolCallRecord",
-           "run_agent_loop",
+           "run_agent_json_loop", "run_agent_loop",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
            "RecoveryCause", "RecoveryGuidance", "RecoveryNextAction",
            "RecoveryFailureClass", "RecoveryFeatureFlag", "RecoveryResolution",

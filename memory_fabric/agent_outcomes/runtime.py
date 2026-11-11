@@ -67,6 +67,11 @@ class RuntimeResult:
 
 
 DecisionFunction = Callable[[AgentObservation], AgentStep]
+JsonDecisionFunction = Callable[[AgentObservation], str]
+
+
+class _InvalidAgentJson(Exception):
+    """Marks an invalid actor response separately from a failed decision callback."""
 
 
 def _canonical_object(value: Any, *, max_bytes: int, label: str) -> dict[str, Any]:
@@ -128,6 +133,9 @@ def run_agent_loop(
     for call_index in range(step_limit):
         try:
             step = decide(observation)
+        except _InvalidAgentJson:
+            return RuntimeResult(RuntimeStatus.FAILED, tuple(steps), tuple(calls),
+                                 tuple(observations), "invalid_agent_json")
         except Exception:
             return RuntimeResult(RuntimeStatus.FAILED, tuple(steps), tuple(calls),
                                  tuple(observations), "decision_failed")
@@ -193,3 +201,29 @@ def run_agent_loop(
 
     return RuntimeResult(RuntimeStatus.BUDGET_EXHAUSTED, tuple(steps), tuple(calls),
                          tuple(observations), "step_budget_exhausted")
+
+
+def run_agent_json_loop(
+    initial: AgentObservation,
+    actor_id: str,
+    decide_json: JsonDecisionFunction,
+    tools: Mapping[str, RuntimeTool],
+    *,
+    max_steps: int | None = None,
+) -> RuntimeResult:
+    """Parse actor responses against AgentStep's strict schema before dispatch.
+
+    Malformed, ambiguous, oversized, or schema-unknown JSON stops the loop
+    before tool dispatch. Valid ``abstain`` steps retain explicit abstention.
+    """
+    if not callable(decide_json):
+        raise ValueError("decide_json must be callable")
+
+    def parse_decision(observation: AgentObservation) -> AgentStep:
+        raw = decide_json(observation)
+        try:
+            return AgentStep.from_json(raw)
+        except (TypeError, ValueError, UnicodeError) as exc:
+            raise _InvalidAgentJson from exc
+
+    return run_agent_loop(initial, actor_id, parse_decision, tools, max_steps=max_steps)

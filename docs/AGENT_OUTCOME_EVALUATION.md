@@ -26,6 +26,10 @@ observe-decide-call-observe transitions. The decision callback receives only a
 public `AgentObservation`; a validated host tool result becomes the next
 observation before another decision. Unknown tools, malformed arguments,
 evaluator-marked outputs, and exhausted step budgets fail closed.
+`run_agent_json_loop` parses actor responses through the strict `AgentStep`
+schema before dispatch. Duplicate keys, unknown fields, oversized requests,
+unpermitted or undeclared tools, and arguments beyond the tool limit stop before
+the handler runs. A valid `abstain` step ends the loop explicitly.
 
 Typed `PlannedAction` values bind the proposal to the exact evidence IDs and
 versions observed during retrieval. The executor rechecks current evidence
@@ -185,7 +189,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v24.json`. Run it with
+`tools/agent_outcome_gate_manifest.v25.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

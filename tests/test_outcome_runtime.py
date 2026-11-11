@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from collections.abc import Mapping
 
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, RuntimeStatus, RuntimeTool, run_agent_loop,
+    AgentObservation, AgentStep, RuntimeStatus, RuntimeTool,
+    run_agent_json_loop, run_agent_loop,
 )
 
 
@@ -117,6 +119,57 @@ class TestOutcomeRuntime(unittest.TestCase):
         self.assertEqual(hidden.status, RuntimeStatus.FAILED)
         self.assertEqual(hidden.failure_code, "tool_output_not_actor_visible")
         self.assertEqual(hidden.calls, ())
+
+    def test_json_requests_fail_closed_for_bad_schema_tools_and_limits_and_can_abstain(self) -> None:
+        initial = AgentObservation(
+            task_id="runtime-json-task", instruction="Inspect the public sensor.",
+            visible_events=(), permitted_tools=("read_sensor", "unbound_tool"),
+            budget={"steps": 2},
+        )
+        invoked: list[dict[str, object]] = []
+        tools = {"read_sensor": RuntimeTool(
+            "read_sensor", lambda args: invoked.append(dict(args)) or {"value": 1},
+            required_fields=frozenset({"payload"}),
+        )}
+        valid_step = AgentStep(
+            initial.task_id, "observer", "json-step-1", "inspect",
+            {"tool": "read_sensor", "payload": "small"},
+        )
+        malformed = [
+            "not-json",
+            '{"schema_id":"memory-fabric.agent-outcomes.v3",'
+            '"schema_id":"memory-fabric.agent-outcomes.v3"}',
+            json.dumps({**valid_step.to_dict(), "extra": True}),
+            " " * 65_537 + valid_step.canonical_json(),
+        ]
+        oversized_args = AgentStep(
+            initial.task_id, "observer", "json-step-oversized", "inspect",
+            {"tool": "read_sensor", "payload": "x" * 17_000},
+        ).canonical_json()
+        for raw in (*malformed, oversized_args):
+            with self.subTest(length=len(raw)):
+                result = run_agent_json_loop(initial, "observer", lambda _obs: raw, tools)
+                self.assertEqual(result.status, RuntimeStatus.FAILED)
+                self.assertIn(result.failure_code, {"invalid_agent_json", "invalid_tool_arguments"})
+                self.assertEqual(invoked, [])
+
+        unknown = AgentStep(
+            initial.task_id, "observer", "json-step-unknown", "inspect",
+            {"tool": "unbound_tool"},
+        ).canonical_json()
+        denied = run_agent_json_loop(initial, "observer", lambda _obs: unknown, tools)
+        self.assertEqual(denied.status, RuntimeStatus.FAILED)
+        self.assertEqual(denied.failure_code, "tool_not_declared")
+        self.assertEqual(invoked, [])
+
+        abstain = AgentStep(
+            initial.task_id, "observer", "json-step-abstain", "abstain",
+            {"reason": "insufficient evidence"},
+        ).canonical_json()
+        stopped = run_agent_json_loop(initial, "observer", lambda _obs: abstain, tools)
+        self.assertEqual(stopped.status, RuntimeStatus.ABSTAINED)
+        self.assertEqual(len(stopped.steps), 1)
+        self.assertEqual(invoked, [])
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -802,6 +802,7 @@ class EpisodeAudit:
             mapping = {
                 "decision_failed": (OutcomeStage.DECISION, FailureCode.PLANNING_ERROR),
                 "invalid_agent_step": (OutcomeStage.DECISION, FailureCode.PLANNING_ERROR),
+                "invalid_agent_json": (OutcomeStage.DECISION, FailureCode.PLANNING_ERROR),
                 "tool_not_permitted": (OutcomeStage.AUTHORIZATION,
                                         FailureCode.AUTHORIZATION_DENIAL),
                 "tool_not_declared": (OutcomeStage.TOOL, FailureCode.TOOL_ERROR),
@@ -814,7 +815,7 @@ class EpisodeAudit:
             stage, code = mapping.get(
                 failure_code, (OutcomeStage.RUNTIME, FailureCode.TOOL_ERROR))
             last_step_id = (result.steps[-1].step_id if result.steps and failure_code not in {
-                "decision_failed", "invalid_agent_step",
+                "decision_failed", "invalid_agent_json", "invalid_agent_step",
             } else None)
             audit = audit.record_failure(stage, code, step_id=last_step_id)
         audit = audit._append(
