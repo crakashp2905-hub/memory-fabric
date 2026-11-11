@@ -8,6 +8,7 @@ from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
     ScheduledWorldEvent,
     replay_world,
+    run_correction_after_plan_scenario,
 )
 from memory_fabric.agent_outcomes import AgentObservation
 
@@ -99,6 +100,25 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
                 ScheduledWorldEvent("event-same", 0, "reading", {}),
                 ScheduledWorldEvent("event-same", 1, "correction", {}),
             ))
+
+    def test_correction_after_plan_blocks_stale_effect_and_completes_replan(self) -> None:
+        result = run_correction_after_plan_scenario(42)
+        self.assertGreater(result.correction_revision_epoch,
+                           result.planned_revision_epoch)
+        self.assertEqual(result.stale_outcome, "refused")
+        self.assertEqual(result.stale_side_effect_count, 0)
+        self.assertEqual(result.stale_reason_codes, ("evidence_withdrawn",))
+        self.assertEqual(result.replanned_revision_epoch,
+                         result.correction_revision_epoch)
+        self.assertEqual(result.final_value, result.replanned_value)
+        self.assertEqual(result.terminal_status, "COMPLETE")
+        self.assertEqual(result.terminal_reason, "complete")
+
+    def test_correction_scenario_digest_is_repeatable(self) -> None:
+        first = run_correction_after_plan_scenario(8)
+        second = run_correction_after_plan_scenario(8)
+        self.assertEqual(first, second)
+        self.assertEqual(len(first.world_outcome_digest), 64)
 
 
 if __name__ == "__main__":  # pragma: no cover

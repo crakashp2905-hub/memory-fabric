@@ -24,6 +24,14 @@ digest are stable for a fixed seed and spec. `WorldSnapshot.public_view()`
 returns scheduled observations and the public epoch without hidden truth or
 evaluator legal-effect data.
 
+`run_correction_after_plan_scenario(seed)` in the same module exercises a
+correction that arrives after an action was planned. It quarantines the old
+evidence, confirms that the stale request is refused by `ActionGate` without a
+side effect, then creates a fresh certificate and exact-action grant from the
+delivered correction. The terminal grader completes only after the re-evaluated
+legal action executes. This remains a local scripted simulation with no
+external physical effect.
+
 The recovery episode has a read-only typed recovery catalog, bounded steps/event
 size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
@@ -103,7 +111,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v6.json`. Run it with
+`tools/agent_outcome_gate_manifest.v7.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

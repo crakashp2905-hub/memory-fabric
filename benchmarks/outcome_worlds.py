@@ -353,6 +353,185 @@ def replay_world(spec: DeterministicWorldSpec, *, through_tick: int | None = Non
 
 
 @dataclass(frozen=True)
+class CorrectionScenarioResult:
+    """Evaluator summary of one correction-after-plan-before-execute replay."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    seed: int
+    task_id: str
+    planned_revision_epoch: int
+    correction_revision_epoch: int
+    stale_outcome: str
+    stale_reason_codes: tuple[str, ...]
+    stale_side_effect_count: int
+    replanned_revision_epoch: int
+    replanned_value: int
+    final_value: int
+    terminal_status: str
+    terminal_reason: str
+    world_outcome_digest: str
+
+
+def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
+    """Plan against old evidence, deliver a correction, and require gated replanning.
+
+    The old certificate is revoked when the correction arrives, so its exact
+    request is refused by the repository's real ``ActionGate``. The corrected
+    observation drives a new request, certificate, and exact-action grant.
+    """
+    if (not isinstance(seed, int) or isinstance(seed, bool)
+            or not 0 <= seed <= 0xffffffff):
+        raise ValueError("correction scenario seed must be a 32-bit non-negative integer")
+
+    from memory_fabric import MemoryFabric
+    from memory_fabric.actions import (
+        REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+    )
+    from memory_fabric.agent_outcomes import AgentObservation
+    from memory_fabric.agent_outcomes.observations import OracleTask
+    from memory_fabric.agent_outcomes.outcomes import (
+        EffectRecord, TerminalObjective, TerminalSnapshot,
+        canonical_step_id, canonical_task_id, grade_terminal,
+    )
+    from memory_fabric.model import WithdrawalBasis
+
+    task_id = canonical_task_id("correction_replan", seed, 0)
+    initial_value = 10 + seed % 5
+    corrected_value = initial_value + 5
+    spec = DeterministicWorldSpec(
+        task_id=task_id,
+        seed=seed,
+        initial_truth={"target": initial_value},
+        initial_legal_effects=("set_target",),
+        events=(
+            ScheduledWorldEvent(
+                "reading-initial", 0, "observation",
+                {"source": "instrument-A", "status": "initial",
+                 "value": initial_value},
+            ),
+            ScheduledWorldEvent(
+                "reading-correction", 2, "correction",
+                {"source": "instrument-A", "status": "correction",
+                 "value": corrected_value},
+                truth_updates={"target": corrected_value},
+                legal_effects=("set_target",),
+            ),
+        ),
+    )
+    initial_snapshot = replay_world(spec, through_tick=0)
+    initial_view = initial_snapshot.public_view()
+    initial_data = initial_view["observations"][0]["data"]
+    planned_revision = initial_snapshot.revision_epoch
+    planned_value = initial_data["value"]
+    if not isinstance(planned_value, int):
+        raise ValueError("initial observation did not contain an integer target")
+    actor_observation = AgentObservation(
+        task_id, "Set the target to the latest instrument reading.",
+        tuple(initial_view["observations"]), ("set_target",), {"steps": 4},
+    )
+
+    fabric = MemoryFabric(":memory:", auto_activate=True)
+    try:
+        old_evidence_id = fabric.remember(
+            "observer", f"Instrument-A target reading is {planned_value} units.", scope="team")
+        old_certificate = fabric.certify(
+            "Set target to the latest instrument reading.", [old_evidence_id], "executor")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"set_target": ToolRule("set_target", requires_grant=True)},
+            grants={"executor": frozenset({"set_target"})},
+        ))
+        old_request = ActionRequest("target", {"value": planned_value})
+        old_grant = gate.issue_grant(
+            "set_target", "executor", issuer="host", certificate=old_certificate,
+            request=old_request)
+
+        current_snapshot = replay_world(spec, through_tick=2)
+        current_view = current_snapshot.public_view()
+        updated_observation = AgentObservation(
+            task_id, actor_observation.instruction,
+            tuple(current_view["observations"]), actor_observation.permitted_tools,
+            actor_observation.budget,
+        )
+        correction_event = next((event for event in updated_observation.visible_events
+                                 if event.get("kind") == "correction"), None)
+        correction_data = (correction_event.get("data")
+                           if correction_event is not None else None)
+        if not isinstance(correction_data, Mapping):
+            raise ValueError("re-evaluation observation has no public correction event")
+        current_value = correction_data["value"]
+        if (not isinstance(current_value, int)
+                or current_snapshot.revision_epoch <= planned_revision):
+            raise ValueError("correction did not advance the public world revision")
+
+        fabric.quarantine(old_evidence_id, "instrument reading corrected",
+                          actor="controller", basis=WithdrawalBasis.CONTRADICTED)
+        stale_effects: list[int] = []
+        stale_execution = gate.execute(
+            "set_target", "executor", lambda _key: stale_effects.append(planned_value),
+            old_certificate, key=f"{task_id}-stale", request=old_request, grant=old_grant,
+        )
+        if stale_execution.outcome != REFUSED or stale_effects:
+            raise RuntimeError("stale pre-correction action was not safely refused")
+
+        replan_revision = current_snapshot.revision_epoch
+        replan_is_current = (replan_revision > planned_revision
+                             and replan_revision == current_snapshot.revision_epoch)
+        replan_is_legal = "set_target" in current_snapshot.legal_effects
+        if not replan_is_current or not replan_is_legal:
+            raise RuntimeError("re-evaluated action is stale or not a legal effect")
+        new_evidence_id = fabric.remember(
+            "observer", f"Instrument-A corrected target is {current_value} units.",
+            scope="team")
+        new_certificate = fabric.certify(
+            "Set target to the latest instrument reading.", [new_evidence_id], "executor")
+        new_request = ActionRequest("target", {"value": current_value})
+        new_grant = gate.issue_grant(
+            "set_target", "executor", issuer="host", certificate=new_certificate,
+            request=new_request)
+        completed_values: list[int] = []
+        current_execution = gate.execute(
+            "set_target", "executor", lambda _key: completed_values.append(current_value),
+            new_certificate, key=f"{task_id}-replanned", request=new_request,
+            grant=new_grant,
+        )
+        final_value = completed_values[-1] if completed_values else planned_value
+        _, capability = OracleTask.seal_for_evaluator(task_id, {
+            "truth": {"target": current_snapshot.hidden_truth["target"]},
+            "eligibility": {"legal_effects": current_snapshot.legal_effects},
+            "reward": {"complete": 1},
+        })
+        objective = TerminalObjective(task_id, {"target": current_value},
+                                      "set_target", new_request)
+        effects = [
+            EffectRecord(task_id, canonical_step_id(task_id, 0), "set_target", "executor",
+                         old_request, stale_execution),
+            EffectRecord(task_id, canonical_step_id(task_id, 1), "set_target", "executor",
+                         new_request, current_execution),
+        ]
+        terminal = TerminalSnapshot(task_id, {"target": final_value})
+        grade = grade_terminal(objective, effects, [terminal], capability=capability)
+        return CorrectionScenarioResult(
+            seed=seed,
+            task_id=task_id,
+            planned_revision_epoch=planned_revision,
+            correction_revision_epoch=current_snapshot.revision_epoch,
+            stale_outcome=stale_execution.outcome,
+            stale_reason_codes=(stale_execution.decision.reason_codes
+                                if stale_execution.decision is not None else ()),
+            stale_side_effect_count=len(stale_effects),
+            replanned_revision_epoch=replan_revision,
+            replanned_value=current_value,
+            final_value=final_value,
+            terminal_status=grade.status.value,
+            terminal_reason=grade.reason.value,
+            world_outcome_digest=current_snapshot.outcome_digest,
+        )
+    finally:
+        fabric.close()
+
+
+@dataclass(frozen=True)
 class TransitionSkeleton:
     """Surface-free transition shape used to keep structurally equal worlds together.
 
