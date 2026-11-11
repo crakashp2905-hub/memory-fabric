@@ -59,7 +59,7 @@ Single-process memory fabric with a governed write and share path.
   Lift a memory version's *soft* authority reasons, after review.
 - **`MemoryFabric.sweep_retention(apply: bool = False, actor: str = 'retention', actions: Iterable[str] | None = None) -> list[RetentionDecision]`**
   The retention policy's decisions; with `apply`, carry them out.
-- **`MemoryFabric.certify(claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None = None, required_checks: Sequence[str] = (), min_independent_sources: int = 1, ttl_ms: int | None = 300000) -> EvidenceCertificate`**
+- **`MemoryFabric.certify(claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None = None, required_checks: Sequence[str] = (), min_independent_sources: int = 1, ttl_ms: int | None = 300000, about: Sequence[str] = ()) -> EvidenceCertificate`**
   Record the evidence a decision rests on, for re-checking at action time (`certificates.py`). Issuing checks nothing; `verify_certificate` does, against the store as it is then.
 - **`MemoryFabric.verify_certificate(certificate: Any, agent_id: str, tenant_id: str | None = None, risk: RiskLevel = RiskLevel.HIGH, mode: str = 'selective') -> CertificateVerification`**
   Re-check every piece of evidence in a certificate, now. Fails closed.

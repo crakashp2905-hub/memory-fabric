@@ -244,7 +244,7 @@ class TestMalformed(Fixture):
     def test_specific_malformations_have_specific_codes(self) -> None:
         valid = self.certify(self.a).to_json()
         cases = {
-            C.UNKNOWN_VERSION: {**valid, "certificate_version": 2},
+            C.UNKNOWN_VERSION: {**valid, "certificate_version": 3},
             C.MALFORMED: {k: v for k, v in valid.items() if k != "certificate_version"},
             C.TOO_LARGE: {**valid, "evidence": [{"memory_id": "m", "version": 1}] * 65},
             C.UNKNOWN_CHECK: {**valid, "required_checks": ["llm_says_ok"]},

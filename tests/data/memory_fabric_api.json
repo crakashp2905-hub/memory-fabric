@@ -5,7 +5,7 @@
   "as_principal": "self, credential: Credential",
   "audit_trail": "self, memory_id: str",
   "authority": "self, memory_id: str",
-  "certify": "self, claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None=None, required_checks: Sequence[str]=(), min_independent_sources: int=1, ttl_ms: int | None=300000",
+  "certify": "self, claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None=None, required_checks: Sequence[str]=(), min_independent_sources: int=1, ttl_ms: int | None=300000, about: Sequence[str]=()",
   "challenge": "self, memory_ids: Sequence[str], evidence: str, detector_id: str='manual', confidence: float=1.0, hypothesis_set: str | None=None, actor: str='operator'",
   "cite": "self, agent_id: str, episode_id: str, memory_id: str, step: int=0",
   "close": "self",

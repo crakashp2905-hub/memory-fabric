@@ -197,6 +197,7 @@ class MemoryManager:
         punishes honest authors. A notice that cannot be delivered now is sent
         again next cycle: sending is idempotent at the recipient.
         """
+        from .hindsight import INGESTED_FROM
         from .model import WithdrawalBasis
 
         caught: set[str] = set()
@@ -206,6 +207,11 @@ class MemoryManager:
                 continue
             reason = self._withdrawal_reason(memory_id)
             if "injection" in reason and not isinstance(memory.context.get("federation"), dict):
+                # Content the writer declared it ingested from elsewhere
+                # discredits that origin (`hindsight.source_ref`), not the
+                # writer, so no author-level notice is issued for it (O1).
+                if memory.context.get(INGESTED_FROM):
+                    continue
                 caught.add(memory.provenance.created_by)
         sent, failed = 0, []
         for author in sorted(caught):

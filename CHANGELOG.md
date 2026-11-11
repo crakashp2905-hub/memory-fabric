@@ -5,6 +5,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Changed: hostile findings discredit the declared origin; certificates can name their target (O1)
+
+- **`context["ingested_from"]`** (`hindsight.INGESTED_FROM`): when a writer
+  declares where content came from, a memory withdrawn as hostile or false
+  discredits that origin (`ingested:<origin>`) rather than the agent that
+  stored it, and the manager issues no author-level notice for it. Without the
+  key, behaviour is unchanged. O1 found the old rule withheld 65 true notes by
+  six honest agents that had saved one poisoned page each.
+- **`certify(..., about=[...])`** adds the check `about_target`: some usable
+  supporting memory must mention every term, otherwise
+  `evidence_off_target`. A certificate with `about` is `certificate_version`
+  2; one without stays version 1, byte-identical, so existing digests do not
+  move. A pre-O1 verifier refuses a v2 certificate as an unknown version.
+- `research/results/o1-live-poisonworld.md`: the registered run that found both.
+
 ### Added: staging run, real-model summaries, related work, review kits
 
 - `experiments/staging_run.py`: the production deployment end to end on

@@ -173,16 +173,23 @@ class AccessMixin(FabricCore):
         required_checks: Sequence[str] = (),
         min_independent_sources: int = 1,
         ttl_ms: int | None = 300_000,
+        about: Sequence[str] = (),
     ) -> "EvidenceCertificate":
         """Record the evidence a decision rests on, for re-checking at action
         time (`certificates.py`). Issuing checks nothing; `verify_certificate`
-        does, against the store as it is then."""
+        does, against the store as it is then.
+
+        `about` names the action's target (for example a unit and a site).
+        When given, verification also requires that some usable supporting
+        memory mentions every term, so evidence about a different target is
+        refused (`evidence_off_target`)."""
         from ..certificates import ALWAYS, CertificateVerifier
 
         return CertificateVerifier(self).issue(
             claim_id, evidence, agent_id, tenant_id=tenant_id,
             required_checks=tuple(required_checks) or ALWAYS,
             min_independent_sources=min_independent_sources, ttl_ms=ttl_ms,
+            about=about,
         )
 
     @_fresh

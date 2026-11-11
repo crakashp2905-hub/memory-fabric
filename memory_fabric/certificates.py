@@ -42,6 +42,7 @@ __stability__ = "stable"
 
 import hashlib
 import json
+import re
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Mapping, Sequence
 
@@ -49,7 +50,12 @@ from .enforcement import RiskLevel, Verdict
 from .model import BLOCKED_STATES
 
 CERTIFICATE_VERSION = 1
-SUPPORTED_VERSIONS = frozenset({1})
+SUPPORTED_VERSIONS = frozenset({1, 2})
+ABOUT_VERSION = 2
+"""A certificate that names its target (`about`) is version 2, so a verifier
+that predates the field refuses it as an unknown version rather than
+dropping a check it cannot see. Certificates without `about` stay version 1
+and byte-identical."""
 
 MAX_EVIDENCE = 64
 """Bounds the work one verification can demand (S9)."""
@@ -69,13 +75,19 @@ CHECK_INDEPENDENT_SUPPORT = "independent_support"
 CHECK_AUTHORIZED = "authorized_for_caller"
 CHECK_POLICY = "policy_current"
 CHECK_STRICT_INDEPENDENCE = "independent_support_strict"
+CHECK_ABOUT_TARGET = "about_target"
+"""At least one usable supporting memory mentions every term in the
+certificate's `about` (the action's target, e.g. unit and site). Runs whenever
+`about` is set. Found by O1: a model given only notes about *other* units
+picked one of their values, and a certificate that checked only currency
+admitted it (research/results/o1-live-poisonworld.md)."""
 """Like `independent_support`, but sources whose texts are near-copies count
 as one. Opt-in: the near-copy threshold is not measured against a frozen
 benchmark, so it does not change any default (plan Task 6)."""
 
 KNOWN_CHECKS = frozenset({
     CHECK_EVIDENCE_CURRENT, CHECK_DEPENDENCIES_CURRENT, CHECK_INDEPENDENT_SUPPORT,
-    CHECK_AUTHORIZED, CHECK_POLICY, CHECK_STRICT_INDEPENDENCE,
+    CHECK_AUTHORIZED, CHECK_POLICY, CHECK_STRICT_INDEPENDENCE, CHECK_ABOUT_TARGET,
 })
 
 NEAR_COPY_CONTAINMENT = 0.8
@@ -104,6 +116,7 @@ DEPENDENCY_WITHDRAWN = "dependency_withdrawn"
 DEPENDENCY_VERSION_MOVED = "dependency_version_moved"
 DEPENDENCY_NOT_FOUND = "dependency_not_found"
 INSUFFICIENT_INDEPENDENT_SUPPORT = "insufficient_independent_support"
+EVIDENCE_OFF_TARGET = "evidence_off_target"
 STATE_UNAVAILABLE = "state_unavailable"
 
 
@@ -153,6 +166,7 @@ class EvidenceCertificate:
     min_independent_sources: int = 1
     expires_at_ms: int | None = None
     certificate_version: int = CERTIFICATE_VERSION
+    about: tuple[str, ...] = ()
 
     @property
     def supporting(self) -> tuple[EvidenceRef, ...]:
@@ -174,6 +188,7 @@ class EvidenceCertificate:
             "expires_at_ms": self.expires_at_ms,
             "required_checks": list(self.required_checks),
             "min_independent_sources": self.min_independent_sources,
+            **({"about": list(self.about)} if self.about else {}),
         }
 
     def digest(self) -> str:
@@ -193,7 +208,7 @@ _FIELDS = frozenset({
     "certificate_version", "claim_id", "agent_id", "store_id", "tenant_id",
     "evidence", "dependencies", "source_roots", "policy_id",
     "snapshot_watermark", "issued_at_ms", "expires_at_ms", "required_checks",
-    "min_independent_sources",
+    "min_independent_sources", "about",
 })
 _REQUIRED = frozenset({
     "certificate_version", "claim_id", "agent_id", "store_id", "evidence",
@@ -272,6 +287,9 @@ def _parse(data: Any) -> EvidenceCertificate:
         # A check this verifier cannot run is a check that did not pass.
         raise CertificateError(UNKNOWN_CHECK, f"cannot run {sorted(unknown_checks)}")
 
+    about = tuple(_ident(t, "about[]") for t in _list(data.get("about", []), "about", 16))
+    if about and version < ABOUT_VERSION:
+        raise CertificateError(MALFORMED, "about requires certificate_version 2")
     tenant = data.get("tenant_id")
     expires = data.get("expires_at_ms")
     return EvidenceCertificate(
@@ -290,6 +308,7 @@ def _parse(data: Any) -> EvidenceCertificate:
         required_checks=checks,
         min_independent_sources=_int(data.get("min_independent_sources", 1),
                                      "min_independent_sources", 0),
+        about=about,
     )
 
 
@@ -405,6 +424,13 @@ def _merge(roots: set[str], pairs: Sequence[tuple[str, str]], root_of: Mapping[s
     return len({find(r) for r in roots})
 
 
+def _mentions(text: str, terms: Sequence[str]) -> bool:
+    """Every term appears as a whole token (case-insensitive). `tug1` does not
+    match `tug10`; a multi-word term must appear as that phrase."""
+    tokens = " " + " ".join(re.findall(r"[a-z0-9._-]+", text.lower())) + " "
+    return all(f" {' '.join(re.findall(r'[a-z0-9._-]+', t))} " in tokens for t in terms)
+
+
 class CertificateVerifier:
     """Recomputes every check from the store. Deterministic for a given log."""
 
@@ -425,6 +451,7 @@ class CertificateVerifier:
         required_checks: Sequence[str] = ALWAYS,
         min_independent_sources: int = 1,
         ttl_ms: int | None = 300_000,
+        about: Sequence[str] = (),
     ) -> EvidenceCertificate:
         """Record the evidence as it stands now. Does not check it: issuing an
         unusable certificate is allowed, and `verify` is where it is refused."""
@@ -451,7 +478,9 @@ class CertificateVerifier:
                 deps.setdefault(pid, pver)
             if ref.role == "supports":
                 roots.add(fabric.source_root(ref.memory_id))
-        checks = tuple(dict.fromkeys([*ALWAYS, *required_checks]))
+        about_terms = tuple(dict.fromkeys(str(t).strip().lower() for t in about if str(t).strip()))
+        checks = tuple(dict.fromkeys(
+            [*ALWAYS, *required_checks, *((CHECK_ABOUT_TARGET,) if about_terms else ())]))
         now = fabric.now()
         return EvidenceCertificate(
             claim_id=claim_id,
@@ -467,6 +496,8 @@ class CertificateVerifier:
             expires_at_ms=None if ttl_ms is None else now + ttl_ms,
             required_checks=checks,
             min_independent_sources=min_independent_sources,
+            about=about_terms,
+            certificate_version=ABOUT_VERSION if about_terms else CERTIFICATE_VERSION,
         )
 
     # --- verifying -------------------------------------------------------
@@ -612,6 +643,16 @@ class CertificateVerifier:
             checks[CHECK_STRICT_INDEPENDENCE] = strict_ok
             if not strict_ok and INSUFFICIENT_INDEPENDENT_SUPPORT not in reasons:
                 reasons.append(INSUFFICIENT_INDEPENDENT_SUPPORT)
+
+        if CHECK_ABOUT_TARGET in cert.required_checks:
+            if not cert.about:
+                about_ok = False
+            else:
+                about_ok = any(_mentions(fabric.state.memories[mid].content, cert.about)
+                               for mid in usable_ids)
+            checks[CHECK_ABOUT_TARGET] = about_ok
+            if not about_ok:
+                reasons.append(EVIDENCE_OFF_TARGET)
 
         if watermark != cert.snapshot_watermark:
             notes.append(f"log moved from {cert.snapshot_watermark} to {watermark}; rechecked")

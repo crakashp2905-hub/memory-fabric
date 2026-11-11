@@ -319,8 +319,17 @@ and a digest only, never content. It is the first record linking a memory to
 an action, which incident reconstruction needs.
 
 Evidence certificates (`certificates.py`) are not stored in the log. They are
-a versioned JSON document with `certificate_version` 1. A verifier refuses any
-other version, any unknown field and any check it cannot run.
+a versioned JSON document. Version 1 is unchanged. Version 2 adds the optional
+field `about` (target terms, at most 16) and the check `about_target`, and is
+issued only when `about` is given; a version-1 document carrying `about` is
+malformed. A verifier refuses any version it does not support, any unknown
+field and any check it cannot run.
+
+The context key `ingested_from` (a string) declares where a memory's content
+came from. A withdrawal on a hostile or falsity basis then discredits
+`ingested:<value>` instead of the author. This is a reading of existing
+context, not a format change: logs replay to the same state, and only
+`hostile_authors` and withholding read it.
 
 `derive` takes an optional `security_class` and writes the strictest of it,
 `internal` and every premise's class, so a conclusion is never less restricted

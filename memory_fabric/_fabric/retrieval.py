@@ -997,8 +997,8 @@ class RetrievalMixin(FabricCore):
         bad = self.hostile_authors()
         if not bad:
             return eligible
-        from ..hindsight import author
+        from ..hindsight import discredited
 
         if isinstance(eligible, Eligible):
-            return eligible.narrow(lambda m: author(m) not in bad)
-        return {m for m in eligible if author(self.state.memories[m]) not in bad}
+            return eligible.narrow(lambda m: not discredited(m, bad))
+        return {m for m in eligible if not discredited(self.state.memories[m], bad)}

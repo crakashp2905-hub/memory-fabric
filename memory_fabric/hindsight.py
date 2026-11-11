@@ -41,6 +41,33 @@ if TYPE_CHECKING:  # pragma: no cover
 FALSITY = ("contradicted", "detected as false", "wrong", "poison", "prompt injection")
 HOSTILE = ("prompt injection", "hostile")
 """Signals no honest author produces. A contradicted withdrawal can be an honest mistake."""
+INGESTED_FROM = "ingested_from"
+"""Context key naming where an agent got the content it stored (a URL, a
+document id, a tool). When present, a memory withdrawn as hostile or false
+discredits *that origin*, not the agent that stored it: an honest agent that
+saved a poisoned page has not become hostile. Found by O1, where discrediting
+the storing agent withheld 65 true notes by six honest agents
+(research/results/o1-live-poisonworld.md)."""
+
+
+def source_ref(memory: "Memory") -> str:
+    """The source a withdrawal of this memory reflects on.
+
+    `ingested:<origin>` when the writer declared where the content came from,
+    otherwise the author (`conflicts.author`), which is the pre-O1 behaviour.
+    """
+    origin = memory.context.get(INGESTED_FROM)
+    if isinstance(origin, str) and origin.strip():
+        return f"ingested:{origin.strip()}"
+    return author(memory)
+
+
+def discredited(memory: "Memory", bad: "set[str] | frozenset[str]") -> bool:
+    """Whether a memory falls under a discredited source: its declared origin,
+    or its author (an explicit notice about the author still applies)."""
+    return author(memory) in bad or source_ref(memory) in bad
+
+
 SUSPECT = "[SOURCE WAS WRONG BEFORE: another note by this author was withdrawn as false]"
 
 
@@ -78,7 +105,7 @@ def discredited_authors(fabric: "MemoryFabric", signals: Sequence[str] = FALSITY
             continue
         memory = fabric.state.memories.get(payload.get("memory_id", ""))
         if memory is not None:
-            out.add(author(memory))
+            out.add(source_ref(memory))
     return out
 
 
@@ -88,7 +115,7 @@ def suspects(fabric: "MemoryFabric", memories: Iterable["Memory"] | None = None,
     bad = discredited_authors(fabric, signals, federated)
     pool = fabric.state.memories.values() if memories is None else memories
     return {m.id for m in pool
-            if m.lifecycle_state is LifecycleState.ACTIVE and author(m) in bad}
+            if m.lifecycle_state is LifecycleState.ACTIVE and discredited(m, bad)}
 
 
 def annotate(fabric: "MemoryFabric", memories: Sequence["Memory"]) -> list[str]:
