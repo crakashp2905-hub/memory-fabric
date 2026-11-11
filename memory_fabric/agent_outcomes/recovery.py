@@ -269,6 +269,7 @@ class RecoveryEpisode:
         request: ActionRequest | None = None,
         tenant_id: str | None = None,
         grant: Grant | str | None = None,
+        session: Any = None,
     ) -> ActionExecution:
         """Reauthorize at effect time via the existing gate, then record only its verdict."""
         if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.FAILED, RecoveryStatus.COMPLETE):
@@ -276,7 +277,7 @@ class RecoveryEpisode:
         if not self.record("propose", {"tool": tool, "key": key}):
             raise RuntimeError("episode step budget exhausted")
         execution = gate.execute(tool, actor_id, run, certificate, key=key, request=request,
-                                 tenant_id=tenant_id, grant=grant)
+                                 tenant_id=tenant_id, grant=grant, session=session)
         recorded = self.record("action_gate", {"outcome": execution.outcome,
                                "reason_codes": list(execution.decision.reason_codes)
                                if execution.decision else []})

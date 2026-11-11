@@ -145,6 +145,7 @@ _CERTIFICATE_FAILURES: dict[str, EvidenceFailureCode] = {
     certificate_codes.POLICY_CHANGED: EvidenceFailureCode.STALE,
     certificate_codes.NO_SUPPORTING_EVIDENCE: EvidenceFailureCode.INSUFFICIENT,
     certificate_codes.EVIDENCE_NOT_FOUND: EvidenceFailureCode.MISSING,
+    certificate_codes.EVIDENCE_ERASED: EvidenceFailureCode.ERASED,
     certificate_codes.DEPENDENCY_NOT_FOUND: EvidenceFailureCode.MISSING,
     certificate_codes.EVIDENCE_WITHDRAWN: EvidenceFailureCode.WITHHELD,
     certificate_codes.DEPENDENCY_WITHDRAWN: EvidenceFailureCode.WITHHELD,
