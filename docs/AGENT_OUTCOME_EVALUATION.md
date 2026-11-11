@@ -69,10 +69,11 @@ an inaccessible source, and no legal replacement. Its scripted responder
 reports the blocker, records an explicit abstention, and refuses privileged
 override paths without executing an effect.
 
-The recovery episode has a read-only typed recovery catalog, bounded steps/event
-size/deadline, rejects repeated public state fingerprints as no progress, and
-routes each proposed effect through `ActionGate.execute`, which rechecks current
-evidence and authorization.
+The recovery episode has a closed typed catalog of read-only actions. Catalog
+entries reject any non-read-only setting, and the enum cannot represent effect
+operations. The episode also bounds steps, event size, and deadline, rejects
+repeated public state fingerprints as no progress, and routes proposed effects
+through `ActionGate.execute`, which rechecks current evidence and authorization.
 
 The experimental `agent_outcomes.outcomes` grader accepts only host-supplied
 `ActionExecution` records paired with canonical task/step IDs and one
@@ -148,7 +149,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v13.json`. Run it with
+`tools/agent_outcome_gate_manifest.v14.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

@@ -17,8 +17,8 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v13.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v13"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v14.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v14"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -26,7 +26,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 13
+            or manifest.get("manifest_version") != 14
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]

@@ -37,10 +37,27 @@ class RecoveryAction(StrEnum):
     REPLAN = "replan"
 
 
+_PERMITTED_READ_ONLY_ACTIONS = frozenset({
+    RecoveryAction.REFRESH,
+    RecoveryAction.RE_RETRIEVE,
+    RecoveryAction.INSPECT_PROVENANCE,
+    RecoveryAction.REQUEST_OBSERVATION,
+    RecoveryAction.ASK_CLARIFICATION,
+    RecoveryAction.REPLAN,
+})
+
+
 @dataclass(frozen=True)
 class RecoveryActionSpec:
     action: RecoveryAction
     read_only: bool = True
+
+    def __post_init__(self) -> None:
+        if (not isinstance(self.action, RecoveryAction)
+                or self.action not in _PERMITTED_READ_ONLY_ACTIONS):
+            raise ValueError("recovery action is outside the read-only catalog")
+        if self.read_only is not True:
+            raise ValueError("recovery catalog actions must remain read-only")
 
 
 RECOVERY_ACTIONS: Mapping[RecoveryAction, RecoveryActionSpec] = MappingProxyType({
@@ -125,7 +142,7 @@ class RecoveryEpisode:
         detail: Mapping[str, Any] | None = None,
     ) -> bool:
         """Begin a catalogued read-only step against a fingerprinted public state."""
-        if not isinstance(action, RecoveryAction):
+        if not isinstance(action, RecoveryAction) or action not in RECOVERY_ACTIONS:
             raise ValueError("recovery action must be selected from the read-only catalog")
         if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.COMPLETE, RecoveryStatus.FAILED):
             return False

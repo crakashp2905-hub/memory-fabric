@@ -227,8 +227,18 @@ class TestOutcomeContracts(unittest.TestCase):
             RecoveryEpisode("task-2").record("replan")
 
     def test_recovery_catalog_is_read_only_and_rejects_no_progress_cycles(self) -> None:
+        from memory_fabric.agent_outcomes.recovery import RecoveryActionSpec
+
         self.assertTrue(RECOVERY_ACTIONS)
         self.assertTrue(all(spec.read_only for spec in RECOVERY_ACTIONS.values()))
+        self.assertEqual(set(RECOVERY_ACTIONS), set(RecoveryAction))
+        with self.assertRaises(TypeError):
+            RECOVERY_ACTIONS[RecoveryAction.REPLAN] = RecoveryActionSpec(  # type: ignore[index]
+                RecoveryAction.REPLAN)
+        with self.assertRaisesRegex(ValueError, "must remain read-only"):
+            RecoveryActionSpec(RecoveryAction.REPLAN, read_only=False)
+        with self.assertRaisesRegex(ValueError, "outside the read-only catalog"):
+            RecoveryActionSpec("execute", read_only=True)  # type: ignore[arg-type]
         with self.assertRaises(ValueError):
             RecoveryAction("set_target")
 
