@@ -8,8 +8,10 @@ from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
     ScheduledWorldEvent,
     build_battery_diagnosis_world,
+    build_maintenance_world,
     diagnose_battery,
     replay_world,
+    run_maintenance_actions,
     run_correction_after_plan_scenario,
 )
 from memory_fabric.agent_outcomes import AgentObservation
@@ -142,6 +144,33 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         public = snapshot.public_view()
         self.assertNotIn("pack_sensor_fault", repr(public))
         self.assertNotIn("pack_sensor_offset_c", repr(public))
+
+    def test_maintenance_requires_all_dependent_prerequisites_and_allows_safe_alternatives(self) -> None:
+        snapshot = replay_world(build_maintenance_world(7))
+        single_answer = run_maintenance_actions(snapshot, ("release_to_service",))
+        self.assertFalse(single_answer.completed)
+        self.assertEqual(single_answer.executed_actions, ())
+        self.assertEqual(single_answer.failure_reason, "mandatory_prerequisites_missing")
+        self.assertEqual(single_answer.missing_prerequisites, (
+            "cooling_restored", "isolation", "temperature_verified",
+        ))
+
+        primary_path = run_maintenance_actions(snapshot, (
+            "lockout_primary", "replace_filter", "calibrate_probe", "release_to_service",
+        ))
+        alternate_path = run_maintenance_actions(snapshot, (
+            "lockout_backup", "clear_intake", "crosscheck_probe", "release_to_service",
+        ))
+        for outcome in (primary_path, alternate_path):
+            with self.subTest(path=outcome.executed_actions):
+                self.assertTrue(outcome.completed)
+                self.assertEqual(outcome.missing_prerequisites, ())
+                self.assertEqual(len(outcome.satisfied_prerequisites), 3)
+
+        wrong_order = run_maintenance_actions(snapshot, ("clear_intake", "lockout_primary"))
+        self.assertFalse(wrong_order.completed)
+        self.assertEqual(wrong_order.executed_actions, ())
+        self.assertEqual(wrong_order.failure_reason, "prerequisite_dependency_missing")
 
 
 if __name__ == "__main__":  # pragma: no cover

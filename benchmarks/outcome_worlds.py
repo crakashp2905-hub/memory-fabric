@@ -640,6 +640,133 @@ def diagnose_battery(public_view: Mapping[str, Any]) -> BatteryDiagnosis:
     return BatteryDiagnosis(normalized, root_cause, roots)
 
 
+_MAINTENANCE_ALTERNATIVES: Mapping[str, tuple[str, ...]] = MappingProxyType({
+    "isolation": ("lockout_primary", "lockout_backup"),
+    "cooling_restored": ("replace_filter", "clear_intake"),
+    "temperature_verified": ("calibrate_probe", "crosscheck_probe"),
+})
+_MAINTENANCE_DEPENDENCIES: Mapping[str, tuple[str, ...]] = MappingProxyType({
+    "isolation": (),
+    "cooling_restored": ("isolation",),
+    "temperature_verified": ("isolation", "cooling_restored"),
+})
+_MAINTENANCE_FINAL_ACTION = "release_to_service"
+
+
+@dataclass(frozen=True)
+class MaintenanceOutcome:
+    """Evaluator result for a coupled prerequisite maintenance workflow."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    completed: bool
+    executed_actions: tuple[str, ...]
+    satisfied_prerequisites: tuple[str, ...]
+    missing_prerequisites: tuple[str, ...]
+    blocked_action: str | None
+    failure_reason: str | None
+
+
+def build_maintenance_world(seed: int) -> DeterministicWorldSpec:
+    """Create a maintenance ticket with dependent prerequisites and safe choices."""
+    if (not isinstance(seed, int) or isinstance(seed, bool)
+            or not 0 <= seed <= 0xffffffff):
+        raise ValueError("maintenance seed must be a 32-bit non-negative integer")
+    legal_effects = tuple(sorted(
+        action for alternatives in _MAINTENANCE_ALTERNATIVES.values()
+        for action in alternatives
+    )) + (_MAINTENANCE_FINAL_ACTION,)
+    alternatives = {key: list(values) for key, values in _MAINTENANCE_ALTERNATIVES.items()}
+    return DeterministicWorldSpec(
+        task_id=f"maintenance-{seed}",
+        seed=seed,
+        initial_truth={
+            "mandatory_prerequisites": list(_MAINTENANCE_ALTERNATIVES),
+            "satisfied_prerequisites": [],
+            "service_released": False,
+        },
+        initial_legal_effects=legal_effects,
+        events=(ScheduledWorldEvent(
+            "maintenance-ticket", 0, "work_order",
+            {
+                "unit": f"cooling-loop-{seed}",
+                "mandatory_prerequisites": list(_MAINTENANCE_ALTERNATIVES),
+                "action_alternatives": alternatives,
+                "dependencies": {key: list(value)
+                                 for key, value in _MAINTENANCE_DEPENDENCIES.items()},
+                "final_action": _MAINTENANCE_FINAL_ACTION,
+            },
+        ),),
+    )
+
+
+def run_maintenance_actions(
+    snapshot: WorldSnapshot, actions: Sequence[str],
+) -> MaintenanceOutcome:
+    """Apply bounded mock actions; closeout requires every dependent prerequisite."""
+    if not isinstance(snapshot, WorldSnapshot) or not snapshot.task_id.startswith("maintenance-"):
+        raise ValueError("snapshot must come from a maintenance world")
+    prerequisites = snapshot.hidden_truth.get("mandatory_prerequisites")
+    if (not isinstance(prerequisites, tuple)
+            or set(prerequisites) != set(_MAINTENANCE_ALTERNATIVES)):
+        raise ValueError("snapshot does not contain the supported maintenance prerequisites")
+    if not isinstance(actions, (tuple, list)) or len(actions) > 16:
+        raise ValueError("maintenance actions must be a bounded sequence")
+    if any(not isinstance(action, str) for action in actions):
+        raise ValueError("maintenance actions must be stable identifiers")
+    for action in actions:
+        _identifier(action, field="maintenance action")
+
+    satisfied: set[str] = set()
+    executed: list[str] = []
+    blocked_action: str | None = None
+    failure_reason: str | None = None
+    complete = False
+    legal_effects = set(snapshot.legal_effects)
+    for index, action in enumerate(actions):
+        if action not in legal_effects:
+            blocked_action, failure_reason = action, "effect_not_legal"
+            break
+        if action == _MAINTENANCE_FINAL_ACTION:
+            missing_for_closeout = set(_MAINTENANCE_ALTERNATIVES) - satisfied
+            if missing_for_closeout:
+                blocked_action, failure_reason = action, "mandatory_prerequisites_missing"
+                break
+            if index != len(actions) - 1:
+                blocked_action, failure_reason = action, "closeout_must_be_final"
+                break
+            executed.append(action)
+            complete = True
+            break
+
+        prerequisite = next((name for name, options in _MAINTENANCE_ALTERNATIVES.items()
+                             if action in options), None)
+        if prerequisite is None:
+            blocked_action, failure_reason = action, "effect_not_legal"
+            break
+        if prerequisite in satisfied:
+            blocked_action, failure_reason = action, "prerequisite_already_satisfied"
+            break
+        if not set(_MAINTENANCE_DEPENDENCIES[prerequisite]) <= satisfied:
+            blocked_action, failure_reason = action, "prerequisite_dependency_missing"
+            break
+        satisfied.add(prerequisite)
+        executed.append(action)
+
+    missing_prerequisites = tuple(sorted(set(_MAINTENANCE_ALTERNATIVES) - satisfied))
+    if not complete and blocked_action is None:
+        failure_reason = ("mandatory_prerequisites_missing" if missing_prerequisites
+                          else "closeout_missing")
+    return MaintenanceOutcome(
+        completed=complete,
+        executed_actions=tuple(executed),
+        satisfied_prerequisites=tuple(sorted(satisfied)),
+        missing_prerequisites=missing_prerequisites,
+        blocked_action=blocked_action,
+        failure_reason=failure_reason,
+    )
+
+
 @dataclass(frozen=True)
 class TransitionSkeleton:
     """Surface-free transition shape used to keep structurally equal worlds together.
