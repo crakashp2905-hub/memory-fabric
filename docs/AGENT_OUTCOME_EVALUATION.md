@@ -126,8 +126,13 @@ The experimental `agent_outcomes.outcomes` grader accepts only host-supplied
 authoritative terminal snapshot. A proposal or actor completion sentence cannot
 count as success. Refused effects do not block a later authorized recovery;
 unfenced or unauthorized executions fail, while uncertain or conflicting
-terminal results stay undecidable. The host remains responsible for preserving
-the authenticity of the execution and world-state receipts it supplies.
+terminal results stay undecidable. Each execution carries a process-local,
+tamper-evident gate receipt bound to its exact tool, actor, request, and step
+context. Hand-built, edited, or replayed receipts cannot authorize completion
+or change the grade's executed/refused counts. This receipt is an in-process
+integrity check, not a portable cryptographic signature or a sandbox against
+reflective code with module access. The host remains responsible for supplying
+the authoritative world-state snapshot.
 
 ## Evidence status
 

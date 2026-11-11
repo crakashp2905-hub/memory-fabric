@@ -2,8 +2,9 @@
 
 The host supplies actual ActionGate executions and one authoritative terminal
 world snapshot. Actor text and proposed actions are never completion evidence.
-Authenticity of host receipts is the caller's responsibility; this module
-checks their structure and meaning, not their origin.
+ActionExecution values must carry a valid ActionGate receipt bound to the exact
+tool, actor, and request; forged or modified values cannot authorize a grade.
+The host remains responsible for supplying the authoritative world snapshot.
 """
 
 from __future__ import annotations
@@ -256,8 +257,25 @@ def grade_terminal(
     if not all(isinstance(s, TerminalSnapshot) for s in terminal_snapshots):
         raise ValueError("terminal_snapshots must be evaluator observations")
     digest = objective.digest()
-    executed = sum(e.execution.outcome == EXECUTED for e in effects)
-    refused = sum(e.execution.outcome == REFUSED for e in effects)
+    supported_outcomes = {
+        ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT, UNCERTAIN,
+    }
+    if any(e.execution.outcome not in supported_outcomes for e in effects):
+        return TerminalGrade(
+            objective.task_id, GradeStatus.UNDECIDABLE,
+            GradeReason.AMBIGUOUS_EFFECT_OUTCOME, digest, 0, 0,
+            _capability_seal_sha256=capability._seal_sha256,
+        )
+    authentic = [
+        e.execution._is_gate_issued_for(
+            e.tool, e.actor_id, e.request, receipt_context=e.step_id,
+        )
+        for e in effects
+    ]
+    executed = sum(valid and e.execution.outcome == EXECUTED
+                   for e, valid in zip(effects, authentic))
+    refused = sum(valid and e.execution.outcome == REFUSED
+                  for e, valid in zip(effects, authentic))
 
     def result(status: GradeStatus, reason: GradeReason) -> TerminalGrade:
         return TerminalGrade(objective.task_id, status, reason, digest, executed, refused,
@@ -268,6 +286,8 @@ def grade_terminal(
             or len(set(steps)) != len(steps) or steps != sorted(steps)
             or any(s.task_id != objective.task_id for s in terminal_snapshots)):
         return result(GradeStatus.UNDECIDABLE, GradeReason.TRACE_MISMATCH)
+    if not all(authentic):
+        return result(GradeStatus.INCOMPLETE, GradeReason.UNAUTHORIZED_EFFECT)
     if not terminal_snapshots:
         return result(GradeStatus.UNDECIDABLE, GradeReason.NO_TERMINAL_STATE)
     if len(terminal_snapshots) != 1:
@@ -276,10 +296,6 @@ def grade_terminal(
     for effect in effects:
         execution = effect.execution
         decision = execution.decision
-        if execution.outcome not in {
-            ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT, UNCERTAIN,
-        }:
-            return result(GradeStatus.UNDECIDABLE, GradeReason.AMBIGUOUS_EFFECT_OUTCOME)
         if execution.outcome == EXECUTED and (
                 not execution.fenced or decision is None or not decision.allowed
                 or decision.tool != effect.tool or decision.agent_id != effect.actor_id):

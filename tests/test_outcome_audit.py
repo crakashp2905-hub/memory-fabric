@@ -5,7 +5,8 @@ from __future__ import annotations
 import json
 import unittest
 
-from memory_fabric.actions import EXECUTED, ActionDecision, ActionExecution, ActionRequest
+from memory_fabric import MemoryFabric
+from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, EffectRecord, EpisodeAudit, FailureCode,
     OutcomeAuditKind, OutcomeStage, TerminalObjective, TerminalSnapshot,
@@ -27,10 +28,23 @@ class TestEpisodeAudit(unittest.TestCase):
         })
         request = ActionRequest("pump-beta", {"value": 6})
         objective = TerminalObjective(task_id, {"target": 6}, "set_target", request)
-        decision = ActionDecision(True, "set_target", "executor", ("allowed",))
+        effect_step_id = canonical_step_id(task_id, 0)
+        fabric = MemoryFabric(":memory:")
+        try:
+            gate = ActionGate(fabric, ActionPolicy(
+                tools={"set_target": ToolRule("set_target", protected=False)},
+                grants={"executor": frozenset({"set_target"})},
+            ))
+            execution = gate.execute(
+                "set_target", "executor", lambda _key: None,
+                key="effect-audit-1", request=request,
+                receipt_context=effect_step_id,
+            )
+        finally:
+            fabric.close()
         effect = EffectRecord(
-            task_id, canonical_step_id(task_id, 0), "set_target", "executor", request,
-            ActionExecution(EXECUTED, decision, "effect-audit-1"),
+            task_id, effect_step_id, "set_target", "executor", request,
+            execution,
         )
         snapshot = TerminalSnapshot(task_id, {"target": 6})
         grade = grade_terminal(objective, [effect], [snapshot], capability=capability)

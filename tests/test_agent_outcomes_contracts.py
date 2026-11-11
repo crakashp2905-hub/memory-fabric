@@ -386,7 +386,8 @@ class TestOutcomeContracts(unittest.TestCase):
 class TestTerminalOutcomeProtocol(unittest.TestCase):
     @staticmethod
     def _case():
-        from memory_fabric.actions import ActionDecision, ActionExecution, ActionRequest
+        from memory_fabric import MemoryFabric
+        from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
         from memory_fabric.agent_outcomes import outcomes as protocol
 
         task_id = protocol.canonical_task_id("battery", 7, 3)
@@ -399,16 +400,43 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
         objective = protocol.TerminalObjective(
             task_id, {"target": "private-target-canary"}, "set_target", request,
         )
-        allowed = ActionDecision(True, "set_target", "executor", ("allowed",))
+        fabric = MemoryFabric(":memory:")
+        try:
+            gate = ActionGate(fabric, ActionPolicy(
+                tools={"set_target": ToolRule("set_target", protected=False)},
+                grants={"executor": frozenset({"set_target"})},
+            ))
+            first_step = protocol.canonical_step_id(task_id, 0)
+            recovery_step = protocol.canonical_step_id(task_id, 1)
+            execution = gate.execute(
+                "set_target", "executor", lambda _key: None, key="effect-1",
+                request=request, receipt_context=first_step,
+            )
+            refused_execution = gate.execute(
+                "set_target", "unauthorized-actor", lambda _key: None,
+                key="effect-refused-1", request=request, receipt_context=first_step,
+            )
+            recovery_execution = gate.execute(
+                "set_target", "executor", lambda _key: None,
+                key="effect-recovery-1", request=request,
+                receipt_context=recovery_step,
+            )
+        finally:
+            fabric.close()
         effect = protocol.EffectRecord(
             task_id, protocol.canonical_step_id(task_id, 0), "set_target", "executor",
-            request, ActionExecution("executed", allowed, "effect-1"),
+            request, execution,
         )
         terminal = protocol.TerminalSnapshot(task_id, {"target": "private-target-canary"})
-        return protocol, task_id, request, objective, effect, terminal, capability
+        refused_effect = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 0), "set_target",
+            "unauthorized-actor", request, refused_execution,
+        )
+        return (protocol, task_id, request, objective, effect, terminal, capability,
+                refused_effect, recovery_execution)
 
     def test_canonical_task_and_step_ids_are_deterministic_and_disjoint(self) -> None:
-        protocol, task_id, _, _, _, _, _ = self._case()
+        protocol, task_id, *_ = self._case()
         self.assertEqual(task_id, "ao:battery:s00000007:c00000003")
         self.assertEqual(protocol.canonical_step_id(task_id, 12),
                          "ao:battery:s00000007:c00000003:step:000012")
@@ -423,9 +451,8 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
             protocol.canonical_step_id("battery-7-3", 0)
 
     def test_terminal_grade_requires_actual_authorized_effect_and_snapshot(self) -> None:
-        from memory_fabric.actions import ActionDecision, ActionExecution
-
-        protocol, task_id, request, objective, effect, terminal, capability = self._case()
+        protocol, task_id, request, objective, effect, terminal, capability, refused, recovery = (
+            self._case())
 
         def grade(*args):
             return protocol.grade_terminal(*args, capability=capability)
@@ -446,18 +473,12 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
                                                   capability=capability).reason,
                          protocol.GradeReason.NO_AUTHORIZED_EFFECT)
 
-        refused_decision = ActionDecision(False, "set_target", "executor",
-                                          ("evidence_withdrawn",))
-        refused = protocol.EffectRecord(
-            task_id, protocol.canonical_step_id(task_id, 0), "set_target", "executor",
-            request, ActionExecution("refused", refused_decision, "effect-2"),
-        )
         self.assertEqual(protocol.grade_terminal(objective, [refused], [terminal],
                                                   capability=capability).reason,
                          protocol.GradeReason.NO_AUTHORIZED_EFFECT)
         recovered_effect = protocol.EffectRecord(
             task_id, protocol.canonical_step_id(task_id, 1), "set_target", "executor",
-            request, effect.execution,
+            request, recovery,
         )
         recovered = protocol.grade_terminal(objective, [refused, recovered_effect], [terminal],
                                              capability=capability)
@@ -467,7 +488,7 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
     def test_terminal_grade_rejects_ambiguous_wrong_and_unauthorized_results(self) -> None:
         from memory_fabric.actions import ActionDecision, ActionExecution, ActionRequest
 
-        protocol, task_id, request, objective, effect, terminal, capability = self._case()
+        protocol, task_id, request, objective, effect, terminal, capability, _, _ = self._case()
         ambiguous = protocol.grade_terminal(objective, [effect], [terminal, terminal],
                                              capability=capability)
         self.assertEqual(ambiguous.status, protocol.GradeStatus.UNDECIDABLE)
@@ -503,7 +524,10 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
         )
         self.assertEqual(protocol.grade_terminal(objective, [effect, uncertain],
                                                   [terminal], capability=capability).status,
-                         protocol.GradeStatus.UNDECIDABLE)
+                         protocol.GradeStatus.INCOMPLETE)
+        self.assertEqual(protocol.grade_terminal(objective, [effect, uncertain],
+                                                  [terminal], capability=capability).reason,
+                         protocol.GradeReason.UNAUTHORIZED_EFFECT)
         unsupported_outcome = protocol.EffectRecord(
             task_id, protocol.canonical_step_id(task_id, 5), "set_target", "executor",
             request, ActionExecution("future_outcome", effect.execution.decision, "effect-5"),
@@ -518,7 +542,7 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
         )
         self.assertEqual(protocol.grade_terminal(objective, [different_request],
                                                   [terminal], capability=capability).reason,
-                         protocol.GradeReason.NO_AUTHORIZED_EFFECT)
+                         protocol.GradeReason.UNAUTHORIZED_EFFECT)
         with self.assertRaisesRegex(ValueError, "finite JSON scalars"):
             protocol.TerminalSnapshot(task_id, {"target": ["a", "b"]})
         with self.assertRaisesRegex(ValueError, "host-recorded"):
@@ -528,7 +552,7 @@ class TestTerminalOutcomeProtocol(unittest.TestCase):
     def test_terminal_objective_request_snapshot_resists_mutation(self) -> None:
         from memory_fabric.actions import ActionRequest
 
-        protocol, task_id, _, _, _, _, _ = self._case()
+        protocol, task_id, *_ = self._case()
         request = ActionRequest("target", {"config": {"value": "original"}})
         objective = protocol.TerminalObjective(task_id, {"target": "original"},
                                                "set_target", request)

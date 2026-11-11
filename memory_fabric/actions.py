@@ -65,6 +65,10 @@ from __future__ import annotations
 
 __stability__ = "beta"
 
+import hashlib
+import hmac
+import json
+import secrets
 import threading
 import time
 from dataclasses import dataclass, field, replace
@@ -82,6 +86,36 @@ from .certificates import (
 from .enforcement import RiskLevel
 
 ACTION_POLICY_VERSION = "action-policy-v1"
+_ACTION_RECEIPT_KEY = secrets.token_bytes(32)
+
+
+def _action_execution_binding(tool: str, agent_id: str,
+                              request: ActionRequest | None,
+                              receipt_context: str | None) -> str | None:
+    if request is None and receipt_context is None:
+        return None
+    body = {"tool": tool, "agent": agent_id,
+            "target": request.target if request is not None else None,
+            "parameters": dict(request.parameters) if request is not None else None,
+            "receipt_context": receipt_context}
+    encoded = json.dumps(body, sort_keys=True, default=str,
+                         separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _action_execution_receipt(execution: ActionExecution, binding: str | None,
+                              receipt_context: str | None) -> bytes:
+    decision = execution.decision
+    decision_data = None if decision is None else {
+        "allowed": decision.allowed, "tool": decision.tool,
+        "agent_id": decision.agent_id, "reason_codes": list(decision.reason_codes),
+    }
+    body = {"outcome": execution.outcome, "decision": decision_data,
+            "key": execution.key, "error": execution.error,
+            "fenced": execution.fenced, "binding": binding,
+            "receipt_context": receipt_context}
+    encoded = json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
+    return hmac.new(_ACTION_RECEIPT_KEY, encoded, hashlib.sha256).digest()
 
 # Reason codes.
 ALLOWED = "allowed"
@@ -226,7 +260,7 @@ class ActionDecision:
 
 @dataclass(frozen=True)
 class ActionExecution:
-    """What `ActionGate.execute` did."""
+    """Execution result; only a gate-issued receipt can authenticate its fields."""
 
     outcome: str
     decision: ActionDecision | None
@@ -234,10 +268,31 @@ class ActionExecution:
     result: Any = None
     error: str | None = None
     fenced: bool = True
+    _gate_binding: str | None = field(default=None, init=False, repr=False, compare=False)
+    _gate_receipt: bytes = field(default=b"", init=False, repr=False, compare=False)
+    _gate_receipt_context: str | None = field(default=None, init=False,
+                                             repr=False, compare=False)
 
     @property
     def ran(self) -> bool:
         return self.outcome in (EXECUTED, FAILED, TIMED_OUT)
+
+    def _is_gate_issued_for(self, tool: str, agent_id: str,
+                            request: ActionRequest,
+                            receipt_context: str | None) -> bool:
+        """Verify the gate receipt and the exact request it covered."""
+        try:
+            binding = _action_execution_binding(tool, agent_id, request, receipt_context)
+            if binding is None or not hmac.compare_digest(self._gate_binding or "", binding):
+                return False
+            if self._gate_receipt_context != receipt_context:
+                return False
+            expected = _action_execution_receipt(
+                self, self._gate_binding, self._gate_receipt_context,
+            )
+            return hmac.compare_digest(self._gate_receipt, expected)
+        except (AttributeError, TypeError, ValueError):
+            return False
 
 
 class ActionGate:
@@ -457,21 +512,45 @@ class ActionGate:
         retry: bool = False,
         request: ActionRequest | None = None,
         grant: Grant | str | None = None,
+        receipt_context: str | None = None,
     ) -> ActionExecution:
         """Authorize and run `run(key)` with no window between them (module docstring).
 
         `run` is the tool's side effect. It receives `key` so it can
         deduplicate. It must not call this store.
+
+        Hosts may set `receipt_context` to an opaque step identifier. The
+        authenticated result is then bound to that context as well as the exact
+        tool, actor, and request.
         """
         if not 0 < lease_s < MAX_LEASE_S:
             raise ValueError(f"lease_s must be in (0, {MAX_LEASE_S}); writers in other "
                              "processes give up after the store's busy timeout")
+        if (receipt_context is not None
+                and (not isinstance(receipt_context, str)
+                     or not receipt_context or len(receipt_context) > 256)):
+            raise ValueError("receipt_context must be a non-empty string of at most 256 characters")
+        request_binding = _action_execution_binding(tool, agent_id, request, receipt_context)
+
+        def issued_execution(outcome: str, decision: ActionDecision | None, *,
+                             result: Any = None, error: str | None = None,
+                             fenced: bool = True) -> ActionExecution:
+            execution = ActionExecution(outcome, decision, key, result=result,
+                                        error=error, fenced=fenced)
+            object.__setattr__(execution, "_gate_binding", request_binding)
+            object.__setattr__(execution, "_gate_receipt_context", receipt_context)
+            object.__setattr__(execution, "_gate_receipt",
+                               _action_execution_receipt(
+                                   execution, request_binding, receipt_context,
+                               ))
+            return execution
+
         prior = self._last_execution(key)
         if prior is not None:
             if prior["outcome"] == EXECUTED:
-                return ActionExecution(ALREADY_EXECUTED, None, key)
+                return issued_execution(ALREADY_EXECUTED, None)
             if not retry:
-                return ActionExecution(REFUSED, None, key, error=(
+                return issued_execution(REFUSED, None, error=(
                     f"{RETRY_REQUIRED}: the last attempt {prior['outcome']} with an unknown "
                     "effect; pass retry=True to re-verify and run again"))
         fabric = self.fabric
@@ -498,7 +577,7 @@ class ActionGate:
                     outcome=REFUSED, fenced=True, watermark=None,
                     lease_ms=int(lease_s * 1000), elapsed_ms=0, evidence=[],
                     tenant_id=tenant_id))
-                return ActionExecution(REFUSED, decision, key)
+                return issued_execution(REFUSED, decision)
             box: dict[str, Any] = {}
 
             def work() -> None:
@@ -527,8 +606,8 @@ class ActionGate:
                 watermark=verification.verified_at_watermark if verification else None,
                 lease_ms=int(lease_s * 1000), elapsed_ms=elapsed_ms, evidence=evidence,
                 tenant_id=tenant_id))
-        return ActionExecution(outcome, decision, key, result=box.get("result"),
-                               error=box.get("error"), fenced=fenced)
+        return issued_execution(outcome, decision, result=box.get("result"),
+                                error=box.get("error"), fenced=fenced)
 
     def _last_execution(self, key: str) -> Mapping[str, Any] | None:
         """The last settled outcome for this key; `uncertain` if an attempt has none.

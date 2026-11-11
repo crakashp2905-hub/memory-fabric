@@ -715,6 +715,7 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
         stale_execution = gate.execute(
             "set_target", "executor", lambda _key: stale_effects.append(planned_value),
             old_certificate, key=f"{task_id}-stale", request=old_request, grant=old_grant,
+            receipt_context=canonical_step_id(task_id, 0),
         )
         if stale_execution.outcome != REFUSED or stale_effects:
             raise RuntimeError("stale pre-correction action was not safely refused")
@@ -738,7 +739,7 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
         current_execution = gate.execute(
             "set_target", "executor", lambda _key: completed_values.append(current_value),
             new_certificate, key=f"{task_id}-replanned", request=new_request,
-            grant=new_grant,
+            grant=new_grant, receipt_context=canonical_step_id(task_id, 1),
         )
         final_value = completed_values[-1] if completed_values else planned_value
         _, capability = OracleTask.seal_for_evaluator(task_id, {

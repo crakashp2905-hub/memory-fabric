@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import pickle
 import unittest
 
-from memory_fabric.actions import ActionDecision, ActionExecution, ActionRequest
+from memory_fabric import MemoryFabric
+from memory_fabric.actions import (
+    ActionDecision, ActionExecution, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+)
 from memory_fabric.agent_outcomes.observations import (
     AgentObservation,
     AgentStep,
@@ -29,10 +33,23 @@ def _bundle():
     objective = TerminalObjective(
         task_id, {"target": "sealed-value-42"}, "set_target", request,
     )
-    decision = ActionDecision(True, "set_target", "executor", ("allowed",))
+    world = {"target": "before"}
+    fabric = MemoryFabric(":memory:")
+    try:
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"set_target": ToolRule("set_target", protected=False)},
+            grants={"executor": frozenset({"set_target"})},
+        ))
+        execution = gate.execute(
+            "set_target", "executor", lambda _key: world.update(request.parameters),
+            key="effect-isolation-1", request=request,
+            receipt_context=canonical_step_id(task_id, 0),
+        )
+    finally:
+        fabric.close()
     effect = EffectRecord(
         task_id, canonical_step_id(task_id, 0), "set_target", "executor", request,
-        ActionExecution("executed", decision, "effect-isolation-1"),
+        execution,
     )
     snapshot = TerminalSnapshot(task_id, {"target": "sealed-value-42"})
     oracle, capability = OracleTask.seal_for_evaluator(task_id, {
@@ -82,6 +99,65 @@ class TestOutcomeOracleIsolation(unittest.TestCase):
             AgentStep(task_id, "planner", "step-3", "propose", {"callback": lambda: grade})
         with self.assertRaisesRegex(ValueError, "evaluator handle"):
             AgentObservation(task_id, "Do the task", ({"handle": oracle},), (), {})
+
+    def test_adversarial_evaluator_cannot_forge_a_gate_outcome_or_mutate_episode_state(self) -> None:
+        task_id, _, capability, objective, effect, snapshot = _bundle()
+        actor_step = AgentStep(task_id, "planner", canonical_step_id(task_id, 0),
+                               "propose", {"tool": "set_target"})
+        state_before = dict(snapshot.state)
+
+        def adversarial_evaluator(step, terminal):
+            with self.assertRaises(AttributeError):
+                step.kind = "approve"  # type: ignore[misc]
+            with self.assertRaises(TypeError):
+                terminal.state["target"] = "attacker-controlled"  # type: ignore[index]
+            forged_decision = ActionDecision(
+                True, "set_target", "executor", ("allowed",),
+            )
+            forged_execution = ActionExecution(
+                "executed", forged_decision, "evaluator-minted-effect",
+            )
+            return EffectRecord(
+                task_id, canonical_step_id(task_id, 0), "set_target", "executor",
+                effect.request, forged_execution,
+            )
+
+        forged = adversarial_evaluator(actor_step, snapshot)
+        grade = grade_terminal(objective, [forged], [snapshot], capability=capability)
+        self.assertEqual(grade.status.value, "INCOMPLETE")
+        self.assertEqual(grade.reason.value, "unauthorized_effect")
+        self.assertEqual(grade.executed_effects, 0)
+        self.assertEqual(dict(snapshot.state), state_before)
+
+    def test_gate_receipt_cannot_be_replayed_for_another_request_or_edited(self) -> None:
+        task_id, _, capability, objective, effect, snapshot = _bundle()
+        other_request = ActionRequest("different-target", {"value": "sealed-value-42"})
+        replayed = EffectRecord(
+            task_id, effect.step_id, effect.tool, effect.actor_id, other_request,
+            effect.execution,
+        )
+        replay_grade = grade_terminal(objective, [replayed], [snapshot], capability=capability)
+        self.assertEqual(replay_grade.reason.value, "unauthorized_effect")
+        self.assertEqual(replay_grade.executed_effects, 0)
+
+        relabeled = EffectRecord(
+            task_id, canonical_step_id(task_id, 1), effect.tool, effect.actor_id,
+            effect.request, effect.execution,
+        )
+        relabeled_grade = grade_terminal(objective, [relabeled], [snapshot],
+                                         capability=capability)
+        self.assertEqual(relabeled_grade.reason.value, "unauthorized_effect")
+        self.assertEqual(relabeled_grade.executed_effects, 0)
+
+        edited_execution = copy.copy(effect.execution)
+        object.__setattr__(edited_execution, "outcome", "refused")
+        edited = EffectRecord(
+            task_id, effect.step_id, effect.tool, effect.actor_id, effect.request,
+            edited_execution,
+        )
+        edited_grade = grade_terminal(objective, [edited], [snapshot], capability=capability)
+        self.assertEqual(edited_grade.reason.value, "unauthorized_effect")
+        self.assertEqual(edited_grade.refused_effects, 0)
 
     def test_capability_is_task_bound_opaque_and_not_serializable(self) -> None:
         task_id, oracle, capability, *_ = _bundle()
