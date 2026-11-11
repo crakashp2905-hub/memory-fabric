@@ -74,6 +74,9 @@ entries reject any non-read-only setting, and the enum cannot represent effect
 operations. The episode also bounds steps, event size, and deadline, rejects
 repeated public state fingerprints as no progress, and routes proposed effects
 through `ActionGate.execute`, which rechecks current evidence and authorization.
+Recovery limits have hard ceilings, and the canonical `recovery-audit.v1`
+record includes configured limits, consumed attempts, terminal status, and a
+stable failure reason such as `no_monotonic_progress` or `deadline_exceeded`.
 
 The experimental `agent_outcomes.outcomes` grader accepts only host-supplied
 `ActionExecution` records paired with canonical task/step IDs and one
@@ -149,7 +152,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v14.json`. Run it with
+`tools/agent_outcome_gate_manifest.v15.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

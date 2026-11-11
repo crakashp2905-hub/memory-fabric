@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import unittest
 
-from memory_fabric.agent_outcomes import AgentObservation, AgentStep, RecoveryAction, RecoveryEpisode
+from memory_fabric.agent_outcomes import (
+    AgentObservation, AgentStep, RecoveryAction, RecoveryEpisode, RecoveryLimits,
+)
 
 
 class TestVersionedOutcomeRequests(unittest.TestCase):
@@ -114,6 +117,52 @@ class TestRecoveryRequestDigest(unittest.TestCase):
         self.assertNotIn(before, serialized_trace)
         self.assertNotIn(after, serialized_trace)
         self.assertEqual(len(episode.trace[1]["after_token_digest"]), 64)
+
+
+class TestRecoveryBudgets(unittest.TestCase):
+    @staticmethod
+    def _oscillating_audit() -> str:
+        episode = RecoveryEpisode("audit-task", RecoveryLimits(max_steps=8,
+                                                                  max_recoveries=3))
+        episode.request_recovery(RecoveryAction.RE_RETRIEVE, before_token="state-A")
+        episode.resolve_recovery(RecoveryAction.RE_RETRIEVE, after_token="state-B")
+        episode.request_recovery(RecoveryAction.REPLAN, before_token="state-B")
+        episode.resolve_recovery(RecoveryAction.REPLAN, after_token="state-A")
+        return episode.canonical_audit_json()
+
+    def test_budget_audit_is_deterministic_and_records_no_progress_failure(self) -> None:
+        first = self._oscillating_audit()
+        second = self._oscillating_audit()
+        self.assertEqual(first, second)
+        audit = json.loads(first)
+        self.assertEqual(audit["schema_id"], "memory-fabric.recovery-audit.v1")
+        self.assertEqual(audit["status"], "FAILED")
+        self.assertEqual(audit["failure_reason"], "no_monotonic_progress")
+        self.assertEqual(audit["budget"], {
+            "max_steps": 8, "max_recoveries": 3, "max_event_bytes": 16_000,
+            "deadline_s": 30.0,
+        })
+        self.assertEqual(audit["used"], {"steps": 4, "recoveries": 2})
+
+    def test_recovery_limits_and_step_exhaustion_fail_closed(self) -> None:
+        for limits in (
+            {"max_steps": True},
+            {"max_steps": 1025},
+            {"max_recoveries": 129},
+            {"max_event_bytes": 64_001},
+            {"deadline_s": math.nan},
+            {"deadline_s": True},
+            {"deadline_s": 3601.0},
+        ):
+            with self.subTest(limits=limits), self.assertRaises(ValueError):
+                RecoveryLimits(**limits)
+
+        episode = RecoveryEpisode("zero-budget", RecoveryLimits(max_steps=0))
+        self.assertFalse(episode.record("inspect"))
+        self.assertEqual(episode.failure_reason, "step_budget_exhausted")
+        audit = episode.audit_record()
+        self.assertEqual(audit["budget"]["max_steps"], 0)
+        self.assertEqual(audit["used"]["steps"], 0)
 
 
 if __name__ == "__main__":  # pragma: no cover
