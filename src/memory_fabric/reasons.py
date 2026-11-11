@@ -35,6 +35,9 @@ if TYPE_CHECKING:  # pragma: no cover
 # code -> (what happened, what to do)
 REASONS: dict[str, tuple[str, str]] = {
     # Gate outcomes
+    "evidence_off_target": (
+        "Refused: no supporting memory mentions the target this certificate names.",
+        "Cite evidence about this exact target, not a neighbouring one."),
     "allowed": ("Allowed: the evidence holds and the agent may use this tool.", ""),
     "unprotected_tool": ("Allowed: this tool needs no evidence.", ""),
     "executed": ("Done: the action ran once, with its evidence re-checked at the moment it ran.", ""),

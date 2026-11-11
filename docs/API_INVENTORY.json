@@ -149,7 +149,7 @@
     },
     {
       "module": "memory_fabric.fabric",
-      "signature": "(claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None = None, required_checks: Sequence[str] = (), min_independent_sources: int = 1, ttl_ms: int | None = 300000) -> EvidenceCertificate",
+      "signature": "(claim_id: str, evidence: Sequence[Any], agent_id: str, tenant_id: str | None = None, required_checks: Sequence[str] = (), min_independent_sources: int = 1, ttl_ms: int | None = 300000, about: Sequence[str] = ()) -> EvidenceCertificate",
       "symbol": "memory_fabric.fabric.MemoryFabric.certify",
       "tier": "stable"
     },
