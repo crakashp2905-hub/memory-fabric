@@ -14,7 +14,7 @@ import hashlib
 import json
 import math
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, ClassVar, Mapping, Sequence, TypeAlias
@@ -23,7 +23,8 @@ from ..actions import (
     ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT, UNCERTAIN,
     ActionExecution, ActionRequest,
 )
-from .observations import EvaluatorCapability
+from .observations import AgentObservation, AgentStep, EvaluatorCapability, FailureCode
+from .runtime import RuntimeResult, RuntimeStatus, ToolCallRecord
 
 SCHEMA_ID = "memory-fabric.terminal-outcome.v1"
 MAX_JSON_BYTES = 16_000
@@ -305,3 +306,598 @@ def grade_terminal(
         if _canonical(state[key]) != _canonical(expected):
             return result(GradeStatus.INCOMPLETE, GradeReason.WRONG_TERMINAL_STATE)
     return result(GradeStatus.COMPLETE, GradeReason.COMPLETE)
+
+
+OUTCOME_AUDIT_SCHEMA_ID = "memory-fabric.agent-outcome-audit.v1"
+MAX_AUDIT_BYTES = 1_000_000
+MAX_AUDIT_EVENTS = 1_024
+MAX_AUDIT_EVENT_BYTES = 70_000
+MAX_MEMORY_REFS_PER_EVENT = 256
+
+
+class OutcomeStage(StrEnum):
+    """Stable stages used to locate where an episode decision failed."""
+
+    OBSERVATION = "observation"
+    DECISION = "decision"
+    MEMORY = "memory"
+    RETRIEVAL = "retrieval"
+    PLANNING = "planning"
+    TOOL = "tool"
+    AUTHORIZATION = "authorization"
+    EXECUTION = "execution"
+    RUNTIME = "runtime"
+    TERMINAL = "terminal"
+
+
+class OutcomeAuditKind(StrEnum):
+    OBSERVATION = "observation"
+    DECISION = "decision"
+    MEMORY_USE = "memory_use"
+    TOOL_CALL = "tool_call"
+    FAILURE = "failure"
+    EFFECT = "effect"
+    RUNTIME_END = "runtime_end"
+    TERMINAL_RESULT = "terminal_result"
+
+
+_FIXED_AUDIT_STAGES: dict[OutcomeAuditKind, OutcomeStage] = {
+    OutcomeAuditKind.OBSERVATION: OutcomeStage.OBSERVATION,
+    OutcomeAuditKind.DECISION: OutcomeStage.DECISION,
+    OutcomeAuditKind.MEMORY_USE: OutcomeStage.MEMORY,
+    OutcomeAuditKind.TOOL_CALL: OutcomeStage.TOOL,
+    OutcomeAuditKind.EFFECT: OutcomeStage.EXECUTION,
+    OutcomeAuditKind.RUNTIME_END: OutcomeStage.RUNTIME,
+    OutcomeAuditKind.TERMINAL_RESULT: OutcomeStage.TERMINAL,
+}
+_AUDIT_EFFECT_OUTCOMES = frozenset({
+    ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT, UNCERTAIN,
+})
+_AUDIT_USE_KINDS = frozenset({"exposed", "relied_on"})
+_GRADE_FAILURES: dict[GradeReason, tuple[OutcomeStage, FailureCode]] = {
+    GradeReason.NO_TERMINAL_STATE: (OutcomeStage.TERMINAL, FailureCode.MISSING_OBSERVATION),
+    GradeReason.AMBIGUOUS_TERMINAL_STATE: (
+        OutcomeStage.TERMINAL, FailureCode.MISSING_OBSERVATION),
+    GradeReason.TRACE_MISMATCH: (OutcomeStage.RUNTIME, FailureCode.COORDINATION_ERROR),
+    GradeReason.AMBIGUOUS_EFFECT_OUTCOME: (OutcomeStage.EXECUTION, FailureCode.TOOL_ERROR),
+    GradeReason.UNAUTHORIZED_EFFECT: (
+        OutcomeStage.AUTHORIZATION, FailureCode.AUTHORIZATION_DENIAL),
+    GradeReason.NO_AUTHORIZED_EFFECT: (
+        OutcomeStage.AUTHORIZATION, FailureCode.AUTHORIZATION_DENIAL),
+    GradeReason.WRONG_TERMINAL_STATE: (OutcomeStage.TERMINAL, FailureCode.TOOL_ERROR),
+}
+
+
+def _audit_encode(value: Any, *, limit: int = MAX_AUDIT_BYTES) -> bytes:
+    try:
+        encoded = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                             ensure_ascii=False, allow_nan=False).encode("utf-8")
+    except (RecursionError, TypeError, UnicodeEncodeError, ValueError) as exc:
+        raise ValueError("audit data must be finite canonical JSON") from exc
+    if len(encoded) > limit:
+        raise ValueError("audit data exceeds the size limit")
+    return encoded
+
+
+def _freeze_audit(value: Any) -> Any:
+    if isinstance(value, dict):
+        return MappingProxyType({key: _freeze_audit(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze_audit(item) for item in value)
+    return value
+
+
+def _thaw_audit(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {key: _thaw_audit(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [_thaw_audit(item) for item in value]
+    return value
+
+
+def _load_audit_json(value: str) -> Any:
+    if not isinstance(value, str):
+        raise ValueError("audit must be JSON text")
+    try:
+        encoded = value.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise ValueError("audit must be valid UTF-8 JSON") from exc
+    if len(encoded) > MAX_AUDIT_BYTES:
+        raise ValueError("audit data exceeds the size limit")
+
+    def object_from_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, item in pairs:
+            if key in result:
+                raise ValueError(f"duplicate audit field {key!r} is ambiguous")
+            result[key] = item
+        return result
+
+    def reject_constant(constant: str) -> None:
+        raise ValueError(f"non-finite audit constant {constant!r} is forbidden")
+
+    try:
+        return json.loads(value, object_pairs_hook=object_from_pairs,
+                          parse_constant=reject_constant)
+    except (json.JSONDecodeError, RecursionError) as exc:
+        raise ValueError("audit JSON is malformed") from exc
+
+
+@dataclass(frozen=True)
+class OutcomeAuditEvent:
+    """One immutable, bounded event in a reconstructable episode audit."""
+
+    sequence: int
+    kind: OutcomeAuditKind
+    stage: OutcomeStage
+    step_id: str | None
+    data: Mapping[str, Any] = field(repr=False)
+
+    def __post_init__(self) -> None:
+        if (not isinstance(self.sequence, int) or isinstance(self.sequence, bool)
+                or self.sequence < 0):
+            raise ValueError("audit event sequence must be a non-negative integer")
+        try:
+            kind = OutcomeAuditKind(self.kind)
+            stage = OutcomeStage(self.stage)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("unsupported audit event kind or stage") from exc
+        fixed_stage = _FIXED_AUDIT_STAGES.get(kind)
+        if fixed_stage is not None and stage is not fixed_stage:
+            raise ValueError("audit event kind does not match its stage")
+        if self.step_id is not None and (
+                not isinstance(self.step_id, str) or _FIELD.fullmatch(self.step_id) is None):
+            raise ValueError("audit step_id must be a stable identifier")
+        if not isinstance(self.data, Mapping):
+            raise ValueError("audit event data must be an object")
+        copied = json.loads(_audit_encode(_thaw_audit(self.data), limit=MAX_AUDIT_EVENT_BYTES))
+        object.__setattr__(self, "kind", kind)
+        object.__setattr__(self, "stage", stage)
+        object.__setattr__(self, "data", _freeze_audit(copied))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"sequence": self.sequence, "kind": self.kind.value,
+                "stage": self.stage.value, "step_id": self.step_id,
+                "data": _thaw_audit(self.data)}
+
+
+@dataclass(frozen=True)
+class EpisodeAudit:
+    """Evaluator-side, append-only snapshot of one public episode and its result.
+
+    Observations and decisions retain exactly what the actors saw and returned.
+    Memory references, failures, tool calls and gated effects are separate
+    sequenced events. The final event may contain the actual terminal snapshot
+    and capability-authorized grade; this class must never be passed to an actor.
+    """
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    task_id: str
+    arm: str
+    seed: int
+    events: tuple[OutcomeAuditEvent, ...] = ()
+    schema_id: str = OUTCOME_AUDIT_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _check_task_id(self.task_id)
+        if (not isinstance(self.arm, str) or _FIELD.fullmatch(self.arm) is None
+                or not isinstance(self.seed, int) or isinstance(self.seed, bool)
+                or not 0 <= self.seed <= 0xffffffff
+                or self.schema_id != OUTCOME_AUDIT_SCHEMA_ID):
+            raise ValueError("unsupported audit schema, arm, or seed")
+        if not isinstance(self.events, (tuple, list)) or len(self.events) > MAX_AUDIT_EVENTS:
+            raise ValueError("audit events must be a bounded sequence")
+        events = tuple(self.events)
+        object.__setattr__(self, "events", events)
+        self._validate_events()
+        _audit_encode(self.to_dict())
+
+    def _validate_events(self) -> None:
+        step_actors: dict[str, str] = {}
+        step_evidence: dict[str, list[list[str | int]]] = {}
+        terminal_seen = False
+        for index, event in enumerate(self.events):
+            if not isinstance(event, OutcomeAuditEvent) or event.sequence != index:
+                raise ValueError("audit event sequence must be contiguous from zero")
+            if terminal_seen:
+                raise ValueError("terminal result must be the final audit event")
+            data = _thaw_audit(event.data)
+            if event.kind is OutcomeAuditKind.OBSERVATION:
+                if event.step_id is not None or set(data) != {"observation"}:
+                    raise ValueError("malformed observation audit event")
+                observation = AgentObservation.from_json(
+                    _audit_encode(data["observation"], limit=MAX_AUDIT_EVENT_BYTES).decode("utf-8"))
+                if observation.task_id != self.task_id:
+                    raise ValueError("audit observation belongs to another task")
+            elif event.kind is OutcomeAuditKind.DECISION:
+                if set(data) != {"step"}:
+                    raise ValueError("malformed decision audit event")
+                step = AgentStep.from_json(
+                    _audit_encode(data["step"], limit=MAX_AUDIT_EVENT_BYTES).decode("utf-8"))
+                if (step.task_id != self.task_id or event.step_id != step.step_id
+                        or step.step_id in step_actors):
+                    raise ValueError("audit decision has a duplicate or mismatched step")
+                step_actors[step.step_id] = step.actor_id
+                step_evidence[step.step_id] = [list(pair) for pair in step.evidence_versions]
+            elif event.kind is OutcomeAuditKind.MEMORY_USE:
+                if set(data) != {"actor_id", "use", "evidence_versions"}:
+                    raise ValueError("malformed memory-use audit event")
+                actor_id, use, refs = data["actor_id"], data["use"], data["evidence_versions"]
+                if (not isinstance(actor_id, str) or _FIELD.fullmatch(actor_id) is None
+                        or not isinstance(use, str) or use not in _AUDIT_USE_KINDS
+                        or not isinstance(refs, list)
+                        or not 1 <= len(refs) <= MAX_MEMORY_REFS_PER_EVENT):
+                    raise ValueError("invalid memory-use audit metadata")
+                if event.step_id is not None and step_actors.get(event.step_id) != actor_id:
+                    raise ValueError("memory use must reference a prior decision by that actor")
+                if use == "relied_on" and (
+                        event.step_id is None or step_evidence.get(event.step_id) != refs):
+                    raise ValueError("relied-on memories must match the decision evidence versions")
+                seen_refs: set[tuple[str, int]] = set()
+                for pair in refs:
+                    if (not isinstance(pair, list) or len(pair) != 2
+                            or not isinstance(pair[0], str) or _FIELD.fullmatch(pair[0]) is None
+                            or not isinstance(pair[1], int) or isinstance(pair[1], bool)
+                            or pair[1] < 0):
+                        raise ValueError("memory-use references must be stable ID/version pairs")
+                    ref = (pair[0], pair[1])
+                    if ref in seen_refs:
+                        raise ValueError("duplicate memory reference in one use event")
+                    seen_refs.add(ref)
+            elif event.kind is OutcomeAuditKind.TOOL_CALL:
+                if event.step_id not in step_actors or set(data) != {
+                        "tool", "status", "output_sha256"}:
+                    raise ValueError("malformed or unbound tool-call audit event")
+                if (not isinstance(data["tool"], str) or _FIELD.fullmatch(data["tool"]) is None
+                        or not isinstance(data["status"], str)
+                        or data["status"] not in {"ok", "failed"}
+                        or not isinstance(data["output_sha256"], str)
+                        or not re.fullmatch(r"[0-9a-f]{64}", data["output_sha256"])):
+                    raise ValueError("invalid tool-call audit data")
+                raw_step = next(item.data["step"] for item in self.events[:index]
+                                if item.kind is OutcomeAuditKind.DECISION
+                                and item.step_id == event.step_id)
+                if raw_step["arguments"].get("tool") != data["tool"]:
+                    raise ValueError("tool call does not match its agent decision")
+                if (index + 1 >= len(self.events)
+                        or self.events[index + 1].kind is not OutcomeAuditKind.OBSERVATION):
+                    raise ValueError("tool calls must be followed by their actor-visible output")
+                next_observation = _thaw_audit(self.events[index + 1].data)["observation"]
+                visible_events = next_observation["visible_events"]
+                if not visible_events:
+                    raise ValueError("tool output observation is missing its visible event")
+                visible_output = visible_events[-1]
+                if (not isinstance(visible_output, dict)
+                        or visible_output.get("source") != "tool"
+                        or visible_output.get("tool") != data["tool"]
+                        or not isinstance(visible_output.get("output"), dict)):
+                    raise ValueError("tool-call record does not match the next observation")
+                output_digest = hashlib.sha256(_audit_encode(
+                    visible_output["output"], limit=MAX_AUDIT_EVENT_BYTES)).hexdigest()
+                if output_digest != data["output_sha256"]:
+                    raise ValueError("tool-call output digest does not match the observation")
+            elif event.kind is OutcomeAuditKind.FAILURE:
+                if set(data) != {"code", "detail_sha256"}:
+                    raise ValueError("malformed failure audit event")
+                try:
+                    FailureCode(data["code"])
+                except (TypeError, ValueError) as exc:
+                    raise ValueError("unsupported failure code in audit") from exc
+                digest = data["detail_sha256"]
+                if digest is not None and (
+                        not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)):
+                    raise ValueError("failure detail must be represented by a SHA-256 digest")
+                if event.step_id is not None and event.step_id not in step_actors:
+                    raise ValueError("failure must reference a prior decision")
+            elif event.kind is OutcomeAuditKind.EFFECT:
+                expected = {"tool", "actor_id", "request_sha256", "outcome", "ran",
+                            "fenced", "allowed", "reason_codes"}
+                if (event.step_id not in step_actors or set(data) != expected
+                        or step_actors[event.step_id] != data["actor_id"]):
+                    raise ValueError("malformed or unbound effect audit event")
+                if (not isinstance(data["tool"], str) or _FIELD.fullmatch(data["tool"]) is None
+                        or not isinstance(data["actor_id"], str)
+                        or _FIELD.fullmatch(data["actor_id"]) is None
+                        or not isinstance(data["request_sha256"], str)
+                        or not re.fullmatch(r"[0-9a-f]{64}", data["request_sha256"])
+                        or not isinstance(data["outcome"], str)
+                        or data["outcome"] not in _AUDIT_EFFECT_OUTCOMES
+                        or not isinstance(data["ran"], bool)
+                        or not isinstance(data["fenced"], bool)
+                        or (data["allowed"] is not None
+                            and not isinstance(data["allowed"], bool))
+                        or not isinstance(data["reason_codes"], list)
+                        or any(not isinstance(code, str) for code in data["reason_codes"])):
+                    raise ValueError("invalid effect audit data")
+            elif event.kind is OutcomeAuditKind.RUNTIME_END:
+                if event.step_id is not None or set(data) != {"status", "failure_code"}:
+                    raise ValueError("malformed runtime-end audit event")
+                try:
+                    RuntimeStatus(data["status"])
+                except (TypeError, ValueError) as exc:
+                    raise ValueError("unsupported runtime status in audit") from exc
+                if data["failure_code"] is not None and (
+                        not isinstance(data["failure_code"], str)
+                        or _FIELD.fullmatch(data["failure_code"]) is None):
+                    raise ValueError("runtime failure code must be a stable identifier")
+            elif event.kind is OutcomeAuditKind.TERMINAL_RESULT:
+                if event.step_id is not None or set(data) != {"grade", "terminal_snapshots"}:
+                    raise ValueError("malformed terminal-result audit event")
+                self._validate_terminal_data(data)
+                terminal_seen = True
+
+    def _validate_terminal_data(self, data: Mapping[str, Any]) -> None:
+        grade = data["grade"]
+        expected_grade_fields = {
+            "schema_id", "task_id", "status", "reason", "completion",
+            "objective_digest", "executed_effects", "refused_effects",
+        }
+        if (not isinstance(grade, Mapping) or set(grade) != expected_grade_fields
+                or grade["schema_id"] != SCHEMA_ID or grade["task_id"] != self.task_id
+                or not isinstance(grade["completion"], bool)
+                or not isinstance(grade["objective_digest"], str)
+                or not re.fullmatch(r"[0-9a-f]{64}", grade["objective_digest"])):
+            raise ValueError("terminal grade does not match the audit schema or task")
+        try:
+            status = GradeStatus(grade["status"])
+            reason = GradeReason(grade["reason"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError("unsupported terminal grade status or reason") from exc
+        if grade["completion"] != (status is GradeStatus.COMPLETE):
+            raise ValueError("terminal grade completion conflicts with its status")
+        expected_status = (GradeStatus.COMPLETE if reason is GradeReason.COMPLETE else
+                           GradeStatus.UNDECIDABLE if reason in {
+                               GradeReason.NO_TERMINAL_STATE,
+                               GradeReason.AMBIGUOUS_TERMINAL_STATE,
+                               GradeReason.TRACE_MISMATCH,
+                               GradeReason.AMBIGUOUS_EFFECT_OUTCOME,
+                           } else GradeStatus.INCOMPLETE)
+        if status is not expected_status:
+            raise ValueError("terminal grade status conflicts with its reason")
+        for key in ("executed_effects", "refused_effects"):
+            if (not isinstance(grade[key], int) or isinstance(grade[key], bool)
+                    or grade[key] < 0):
+                raise ValueError("terminal grade effect counts must be non-negative integers")
+        snapshots = data["terminal_snapshots"]
+        if (not isinstance(snapshots, list) or len(snapshots) > MAX_TERMINAL_SNAPSHOTS
+                or any(not isinstance(item, Mapping) or set(item) != {"state"}
+                       for item in snapshots)):
+            raise ValueError("terminal snapshots must be a bounded state sequence")
+        for snapshot in snapshots:
+            _state(snapshot["state"], label="audited terminal state")
+
+    def _append(self, kind: OutcomeAuditKind, stage: OutcomeStage,
+                step_id: str | None, data: Mapping[str, Any]) -> EpisodeAudit:
+        if self.terminal_result is not None:
+            raise ValueError("cannot append events after the terminal result")
+        if len(self.events) >= MAX_AUDIT_EVENTS:
+            raise ValueError("audit event limit exceeded")
+        event = OutcomeAuditEvent(len(self.events), kind, stage, step_id, data)
+        result = replace(self, events=(*self.events, event))
+        return result
+
+    def record_observation(self, observation: AgentObservation) -> EpisodeAudit:
+        if not isinstance(observation, AgentObservation) or observation.task_id != self.task_id:
+            raise ValueError("audit observation must belong to this task")
+        return self._append(OutcomeAuditKind.OBSERVATION, OutcomeStage.OBSERVATION,
+                            None, {"observation": observation.to_dict()})
+
+    def record_decision(self, step: AgentStep) -> EpisodeAudit:
+        if not isinstance(step, AgentStep) or step.task_id != self.task_id:
+            raise ValueError("audit decision must belong to this task")
+        result = self._append(OutcomeAuditKind.DECISION, OutcomeStage.DECISION,
+                              step.step_id, {"step": step.to_dict()})
+        if step.evidence_versions:
+            result = result.record_memory_use(
+                step.actor_id, step.step_id, step.evidence_versions, use="relied_on")
+        return result
+
+    def record_memory_use(
+        self,
+        actor_id: str,
+        step_id: str | None,
+        evidence_versions: Sequence[tuple[str, int]],
+        *,
+        use: str = "exposed",
+    ) -> EpisodeAudit:
+        if (not isinstance(actor_id, str) or _FIELD.fullmatch(actor_id) is None
+                or not isinstance(use, str) or use not in _AUDIT_USE_KINDS
+                or not isinstance(evidence_versions, Sequence)
+                or isinstance(evidence_versions, (str, bytes))
+                or not 1 <= len(evidence_versions) <= MAX_MEMORY_REFS_PER_EVENT):
+            raise ValueError("memory use needs an actor, supported use, and bounded references")
+        refs = [[memory_id, version] for memory_id, version in evidence_versions]
+        return self._append(
+            OutcomeAuditKind.MEMORY_USE, OutcomeStage.MEMORY, step_id,
+            {"actor_id": actor_id, "use": use, "evidence_versions": refs},
+        )
+
+    def record_failure(
+        self,
+        stage: OutcomeStage,
+        code: FailureCode,
+        *,
+        step_id: str | None = None,
+        detail_sha256: str | None = None,
+    ) -> EpisodeAudit:
+        try:
+            stage = OutcomeStage(stage)
+            code = FailureCode(code)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("failure needs a supported stage and code") from exc
+        if detail_sha256 is not None and (
+                not isinstance(detail_sha256, str)
+                or not re.fullmatch(r"[0-9a-f]{64}", detail_sha256)):
+            raise ValueError("failure details must be represented by a SHA-256 digest")
+        return self._append(
+            OutcomeAuditKind.FAILURE, stage, step_id,
+            {"code": code.value, "detail_sha256": detail_sha256},
+        )
+
+    def record_tool_call(
+        self, call: ToolCallRecord, observation: AgentObservation,
+    ) -> EpisodeAudit:
+        """Atomically append a call and the exact observation returned to its actor."""
+        if (not isinstance(call, ToolCallRecord)
+                or not isinstance(observation, AgentObservation)
+                or observation.task_id != self.task_id):
+            raise ValueError("tool-call audit needs its actor-visible observation")
+        if len(self.events) + 2 > MAX_AUDIT_EVENTS:
+            raise ValueError("audit event limit exceeded")
+        call_event = OutcomeAuditEvent(
+            len(self.events), OutcomeAuditKind.TOOL_CALL, OutcomeStage.TOOL,
+            call.step_id, {"tool": call.tool, "status": call.status,
+                           "output_sha256": call.output_sha256},
+        )
+        observation_event = OutcomeAuditEvent(
+            len(self.events) + 1, OutcomeAuditKind.OBSERVATION, OutcomeStage.OBSERVATION,
+            None, {"observation": observation.to_dict()},
+        )
+        return replace(self, events=(*self.events, call_event, observation_event))
+
+    def record_effect(self, effect: EffectRecord) -> EpisodeAudit:
+        if not isinstance(effect, EffectRecord) or effect.task_id != self.task_id:
+            raise ValueError("effect audit needs a host record for this task")
+        decision = effect.execution.decision
+        return self._append(
+            OutcomeAuditKind.EFFECT, OutcomeStage.EXECUTION, effect.step_id,
+            {"tool": effect.tool, "actor_id": effect.actor_id,
+             "request_sha256": hashlib.sha256(effect._request_snapshot).hexdigest(),
+             "outcome": effect.execution.outcome, "ran": effect.execution.ran,
+             "fenced": effect.execution.fenced,
+             "allowed": decision.allowed if decision is not None else None,
+             "reason_codes": list(decision.reason_codes) if decision is not None else []},
+        )
+
+    def record_runtime_result(self, result: RuntimeResult) -> EpisodeAudit:
+        """Append an ordered actor/tool trace and classify runtime failures by stage."""
+        if (not isinstance(result, RuntimeResult) or not result.observations
+                or not isinstance(result.status, RuntimeStatus)):
+            raise ValueError("runtime audit needs a result with its initial observation")
+        if any(not isinstance(obs, AgentObservation) or obs.task_id != self.task_id
+               for obs in result.observations):
+            raise ValueError("runtime observations must belong to this audit task")
+        if any(not isinstance(step, AgentStep) or step.task_id != self.task_id
+               for step in result.steps):
+            raise ValueError("runtime decisions must belong to this audit task")
+        if len(result.observations) != len(result.calls) + 1:
+            raise ValueError("runtime observations and tool calls do not form a complete trace")
+        calls = {call.step_id: call for call in result.calls}
+        if len(calls) != len(result.calls):
+            raise ValueError("runtime trace contains duplicate tool-call step IDs")
+        audit = self.record_observation(result.observations[0])
+        observation_index = 1
+        for step in result.steps:
+            audit = audit.record_decision(step)
+            call = calls.pop(step.step_id, None)
+            if call is not None:
+                audit = audit.record_tool_call(call, result.observations[observation_index])
+                observation_index += 1
+        if calls or observation_index != len(result.observations):
+            raise ValueError("runtime calls are not bound to decisions and observations")
+
+        failure_code = result.failure_code
+        if failure_code is not None:
+            mapping = {
+                "decision_failed": (OutcomeStage.DECISION, FailureCode.PLANNING_ERROR),
+                "invalid_agent_step": (OutcomeStage.DECISION, FailureCode.PLANNING_ERROR),
+                "tool_not_permitted": (OutcomeStage.AUTHORIZATION,
+                                        FailureCode.AUTHORIZATION_DENIAL),
+                "tool_not_declared": (OutcomeStage.TOOL, FailureCode.TOOL_ERROR),
+                "invalid_tool_arguments": (OutcomeStage.TOOL, FailureCode.TOOL_ERROR),
+                "tool_output_not_actor_visible": (OutcomeStage.TOOL, FailureCode.TOOL_ERROR),
+                "step_budget_exhausted": (OutcomeStage.RUNTIME, FailureCode.PLANNING_ERROR),
+            }
+            if not isinstance(failure_code, str):
+                raise ValueError("runtime failure code must be stable text")
+            stage, code = mapping.get(
+                failure_code, (OutcomeStage.RUNTIME, FailureCode.TOOL_ERROR))
+            last_step_id = (result.steps[-1].step_id if result.steps and failure_code not in {
+                "decision_failed", "invalid_agent_step",
+            } else None)
+            audit = audit.record_failure(stage, code, step_id=last_step_id)
+        audit = audit._append(
+            OutcomeAuditKind.RUNTIME_END, OutcomeStage.RUNTIME, None,
+            {"status": result.status.value, "failure_code": failure_code},
+        )
+        return audit
+
+    def record_terminal(
+        self,
+        grade: TerminalGrade,
+        snapshots: Sequence[TerminalSnapshot],
+        *,
+        capability: EvaluatorCapability,
+    ) -> EpisodeAudit:
+        """Finalize with the capability-authorized grade and actual terminal states."""
+        if not isinstance(grade, TerminalGrade) or grade.task_id != self.task_id:
+            raise ValueError("terminal grade must belong to this audit task")
+        if (not isinstance(snapshots, Sequence) or isinstance(snapshots, (str, bytes))
+                or len(snapshots) > MAX_TERMINAL_SNAPSHOTS
+                or any(not isinstance(snapshot, TerminalSnapshot)
+                       or snapshot.task_id != self.task_id for snapshot in snapshots)):
+            raise ValueError("terminal snapshots must be a bounded sequence for this task")
+        try:
+            grade_status = GradeStatus(grade.status)
+            grade_reason = GradeReason(grade.reason)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("terminal grade has an unsupported status or reason") from exc
+        if (grade_status is GradeStatus.COMPLETE) != (grade_reason is GradeReason.COMPLETE):
+            raise ValueError("terminal grade status conflicts with its reason")
+        grade_data = grade.to_json(capability)
+        audit = self
+        if grade_reason is not GradeReason.COMPLETE:
+            failure = _GRADE_FAILURES.get(grade_reason)
+            if failure is None:
+                raise ValueError("terminal grade reason has no failure-stage mapping")
+            stage, code = failure
+            audit = audit.record_failure(stage, code)
+        return audit._append(
+            OutcomeAuditKind.TERMINAL_RESULT, OutcomeStage.TERMINAL, None,
+            {"grade": grade_data,
+             "terminal_snapshots": [
+                 {"state": dict(snapshot.state)} for snapshot in snapshots]},
+        )
+
+    @property
+    def terminal_result(self) -> Mapping[str, Any] | None:
+        if self.events and self.events[-1].kind is OutcomeAuditKind.TERMINAL_RESULT:
+            return self.events[-1].data
+        return None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"schema_id": self.schema_id, "task_id": self.task_id,
+                "arm": self.arm, "seed": self.seed,
+                "events": [event.to_dict() for event in self.events]}
+
+    def canonical_json(self) -> str:
+        """Serialize the full evaluator audit deterministically within its hard cap."""
+        return _audit_encode(self.to_dict()).decode("utf-8")
+
+    def reconstruct(self) -> tuple[dict[str, Any], ...]:
+        """Return detached ordered event data for review after the episode ends."""
+        return tuple(event.to_dict() for event in self.events)
+
+    @classmethod
+    def from_json(cls, value: str) -> EpisodeAudit:
+        """Parse a complete audit, rejecting unknown fields and invalid event links."""
+        raw = _load_audit_json(value)
+        if (not isinstance(raw, dict)
+                or set(raw) != {"schema_id", "task_id", "arm", "seed", "events"}
+                or not isinstance(raw["events"], list)):
+            raise ValueError("audit fields do not match schema v1")
+        if len(raw["events"]) > MAX_AUDIT_EVENTS:
+            raise ValueError("audit event limit exceeded")
+        events: list[OutcomeAuditEvent] = []
+        expected_event_fields = {"sequence", "kind", "stage", "step_id", "data"}
+        for item in raw["events"]:
+            if not isinstance(item, dict) or set(item) != expected_event_fields:
+                raise ValueError("audit event fields do not match schema v1")
+            events.append(OutcomeAuditEvent(
+                item["sequence"], item["kind"], item["stage"], item["step_id"], item["data"],
+            ))
+        audit = cls(raw["task_id"], raw["arm"], raw["seed"], tuple(events), raw["schema_id"])
+        if audit.canonical_json() != value:
+            raise ValueError("audit JSON must use canonical encoding")
+        return audit

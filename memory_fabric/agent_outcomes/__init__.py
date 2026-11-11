@@ -18,6 +18,11 @@ from .eligibility import (
     diagnose_answerability, diagnose_certificate, diagnose_relevance,
     find_alternate_sources,
 )
+from .outcomes import (
+    EffectRecord, EpisodeAudit, GradeReason, GradeStatus, OutcomeAuditEvent,
+    OutcomeAuditKind, OutcomeStage, TerminalGrade, TerminalObjective, TerminalSnapshot,
+    canonical_step_id, canonical_task_id, grade_terminal,
+)
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RuntimeResult", "RuntimeStatus", "RuntimeTool", "ToolCallRecord",
@@ -28,4 +33,8 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RecoveryStatus",
            "DiagnosisSource", "EvidenceDiagnosis",
            "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
-           "diagnose_certificate", "diagnose_relevance", "find_alternate_sources"]
+           "diagnose_certificate", "diagnose_relevance", "find_alternate_sources",
+           "EffectRecord", "EpisodeAudit", "GradeReason", "GradeStatus",
+           "OutcomeAuditEvent", "OutcomeAuditKind", "OutcomeStage", "TerminalGrade",
+           "TerminalObjective", "TerminalSnapshot", "canonical_step_id",
+           "canonical_task_id", "grade_terminal"]

@@ -41,6 +41,7 @@ class FailureCode(StrEnum):
     MISSING_OBSERVATION = "missing_observation"
     UNSUPPORTED_CLAIM = "unsupported_claim"
     FALSE_POLICY_DENIAL = "false_policy_denial"
+    AUTHORIZATION_DENIAL = "authorization_denial"
     PLANNING_ERROR = "planning_error"
     TOOL_ERROR = "tool_error"
     COORDINATION_ERROR = "coordination_error"

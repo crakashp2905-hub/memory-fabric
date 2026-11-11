@@ -34,6 +34,15 @@ revalidates evidence and the exact request against the current grant at
 execution. A revision after planning or a changed parameter set is refused
 without invoking the effect callback.
 
+`memory_fabric.agent_outcomes.outcomes.EpisodeAudit` stores a bounded,
+canonical sequence of actor-visible observations, typed decisions, evidence
+IDs and versions used, tool calls, staged failures, and gated effect verdicts.
+The evaluator appends the capability-authorized terminal grade and the actual
+terminal snapshot only after the episode ends. Audits round-trip through strict
+JSON validation, reject edits after finalization, and are evaluator-only because
+they contain the terminal world state. The JSON record is not a signed
+attestation; callers remain responsible for preserving its origin and integrity.
+
 Integrations start a recovery episode through `RecoveryFeatureFlag`; it is
 disabled by default. The disabled flag creates no episode and does not wrap or
 change legacy `MemoryFabric`, `Session`, or `ActionGate` calls. Scripted
@@ -176,7 +185,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v23.json`. Run it with
+`tools/agent_outcome_gate_manifest.v24.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -196,8 +205,8 @@ synthetic results are distinct experiments and are not pooled with future runs.
 Outcome report v3 requires each incomplete task row to carry one or more
 supported terminal failure codes. Mixed causes are retained as a list. The
 taxonomy covers retrieval misses, missing observations, unsupported claims,
-false policy denials, planning and tool errors, coordination errors, stale
-data, and abstention opportunity cost. Successful episodes carry no terminal
+false policy denials, authorization denials, planning and tool errors,
+coordination errors, stale data, and abstention opportunity cost. Successful episodes carry no terminal
 failure code; recovered intermediate refusals remain in the separate safety
 attempt counters.
 
