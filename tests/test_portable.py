@@ -65,9 +65,11 @@ class Portable(unittest.TestCase):
     def test_the_export_carries_no_plaintext_when_content_is_encrypted(self) -> None:
         enc = MemoryFabric(":memory:")
         self.addCleanup(enc.close)
-        enc.remember("a", "Vault combination is 7731.")
+        # A canary no identifier or timestamp can contain by chance (a bare number can:
+        # ULIDs and timestamps are digits and uppercase letters).
+        enc.remember("a", "Vault combination is zqxv-7731-plaintext.")
         export_events(enc, self.path)
-        self.assertNotIn("7731", self.path.read_text(encoding="utf-8"))
+        self.assertNotIn("zqxv-7731-plaintext", self.path.read_text(encoding="utf-8"))
         self.assertEqual(json.loads(self.path.read_text(encoding="utf-8").splitlines()[-1])["manifest"]["events"],
                          enc.log.head_seq)
         dst = MemoryFabric(":memory:")

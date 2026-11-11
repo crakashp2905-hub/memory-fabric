@@ -144,9 +144,12 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (51)
+## Experimental (54)
 
 - `memory_fabric.adapters.systemone`
+- `memory_fabric.agent_outcomes.__init__`
+- `memory_fabric.agent_outcomes.observations`
+- `memory_fabric.agent_outcomes.recovery`
 - `memory_fabric.causal_replay.__init__`
 - `memory_fabric.causal_replay.api`
 - `memory_fabric.causal_replay.attribution`
