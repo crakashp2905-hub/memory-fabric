@@ -8,7 +8,9 @@ import math
 import unittest
 
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, RecoveryAction, RecoveryEpisode, RecoveryLimits,
+    AgentObservation, AgentStep, RECOVERY_ACTIONS, RecoveryAction, RecoveryCause,
+    RecoveryEpisode, RecoveryLimits, RecoveryNextAction, RecoveryResolution,
+    RecoveryStatus,
 )
 
 
@@ -135,7 +137,7 @@ class TestRecoveryBudgets(unittest.TestCase):
         second = self._oscillating_audit()
         self.assertEqual(first, second)
         audit = json.loads(first)
-        self.assertEqual(audit["schema_id"], "memory-fabric.recovery-audit.v1")
+        self.assertEqual(audit["schema_id"], "memory-fabric.recovery-audit.v2")
         self.assertEqual(audit["status"], "FAILED")
         self.assertEqual(audit["failure_reason"], "no_monotonic_progress")
         self.assertEqual(audit["budget"], {
@@ -143,6 +145,57 @@ class TestRecoveryBudgets(unittest.TestCase):
             "deadline_s": 30.0,
         })
         self.assertEqual(audit["used"], {"steps": 4, "recoveries": 2})
+
+
+class TestRecoveryGuidance(unittest.TestCase):
+    def test_fallback_is_structured_and_selects_only_a_read_only_action(self) -> None:
+        episode = RecoveryEpisode("fallback-guidance")
+        self.assertTrue(episode.record("evidence_blocked", {"reason": "stale"}))
+
+        guidance = episode.handle_failure(RecoveryCause.STALE)
+
+        self.assertEqual(guidance.resolution, RecoveryResolution.FALLBACK)
+        self.assertEqual(guidance.next_action, RecoveryNextAction.REFRESH)
+        action = RecoveryAction(guidance.next_action.value)
+        self.assertTrue(RECOVERY_ACTIONS[action].read_only)
+        self.assertEqual(episode.status, RecoveryStatus.BLOCKED)
+        self.assertEqual(episode.audit_record()["guidance"], guidance.to_json())
+        self.assertTrue(episode.request_recovery(action, before_token="old-evidence"))
+        self.assertTrue(episode.resolve_recovery(action, after_token="current-evidence"))
+
+    def test_authorization_failure_escalates_without_changing_grants(self) -> None:
+        for cause in (RecoveryCause.UNAUTHORIZED, RecoveryCause.ERASED,
+                      RecoveryCause.NO_INDEPENDENT_SOURCE):
+            with self.subTest(cause=cause):
+                episode = RecoveryEpisode(f"owner-escalation-{cause.value}")
+                self.assertTrue(episode.record("evidence_blocked", {"reason": cause.value}))
+
+                guidance = episode.handle_failure(cause)
+
+                self.assertEqual(guidance.resolution, RecoveryResolution.ESCALATE)
+                self.assertEqual(guidance.next_action,
+                                 RecoveryNextAction.REQUEST_OWNER_REVIEW)
+                self.assertTrue(guidance.requires_human)
+                self.assertEqual(episode.status, RecoveryStatus.ESCALATED)
+                self.assertFalse(episode.request_recovery(
+                    RecoveryAction.REFRESH, before_token="try-to-override"))
+                self.assertEqual(episode.audit_record()["guidance"]["cause"], cause.value)
+
+    def test_unknown_failure_abstains_and_no_progress_escalates(self) -> None:
+        unknown = RecoveryEpisode("unknown-stop")
+        guidance = unknown.handle_failure(RecoveryCause.UNKNOWN)
+        self.assertEqual(guidance.resolution, RecoveryResolution.ABSTAIN)
+        self.assertEqual(guidance.next_action, RecoveryNextAction.ABSTAIN)
+        self.assertEqual(unknown.status, RecoveryStatus.ABSTAINED)
+
+        stalled = RecoveryEpisode("stalled-escalation", RecoveryLimits(max_recoveries=2))
+        stalled.request_recovery(RecoveryAction.RE_RETRIEVE, before_token="state-A")
+        self.assertFalse(stalled.resolve_recovery(
+            RecoveryAction.RE_RETRIEVE, after_token="state-A"))
+        progress_guidance = stalled.handle_failure(RecoveryCause.NO_MONOTONIC_PROGRESS)
+        self.assertEqual(progress_guidance.resolution, RecoveryResolution.ESCALATE)
+        self.assertEqual(stalled.status, RecoveryStatus.ESCALATED)
+        self.assertEqual(stalled.audit_record()["failure_reason"], "no_monotonic_progress")
 
     def test_recovery_limits_and_step_exhaustion_fail_closed(self) -> None:
         for limits in (

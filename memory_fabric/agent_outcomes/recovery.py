@@ -21,13 +21,14 @@ MAX_RECOVERY_ATTEMPTS = 128
 MAX_RECOVERY_EVENT_BYTES = 64_000
 MAX_RECOVERY_DEADLINE_S = 3_600.0
 MAX_RECOVERY_AUDIT_BYTES = 1_000_000
-RECOVERY_AUDIT_SCHEMA_ID = "memory-fabric.recovery-audit.v1"
+RECOVERY_AUDIT_SCHEMA_ID = "memory-fabric.recovery-audit.v2"
 
 
 class RecoveryStatus(StrEnum):
     READY = "READY"
     BLOCKED = "BLOCKED"
     RECOVERED = "RECOVERED"
+    ESCALATED = "ESCALATED"
     ABSTAINED = "ABSTAINED"
     COMPLETE = "COMPLETE"
     FAILED = "FAILED"
@@ -42,6 +43,136 @@ class RecoveryAction(StrEnum):
     REQUEST_OBSERVATION = "request_observation"
     ASK_CLARIFICATION = "ask_clarification"
     REPLAN = "replan"
+
+
+class RecoveryCause(StrEnum):
+    """Closed causes for selecting a safe fallback, escalation, or abstention."""
+
+    MISSING = "missing"
+    WITHHELD = "withheld"
+    IRRELEVANT = "irrelevant"
+    STALE = "stale"
+    CONTESTED = "contested"
+    UNAUTHORIZED = "unauthorized"
+    ERASED = "erased"
+    DUPLICATE = "duplicate"
+    INSUFFICIENT = "insufficient"
+    NO_INDEPENDENT_SOURCE = "no_independent_source"
+    RECOVERY_BUDGET_EXHAUSTED = "recovery_budget_exhausted"
+    NO_MONOTONIC_PROGRESS = "no_monotonic_progress"
+    UNKNOWN = "unknown"
+
+
+class RecoveryResolution(StrEnum):
+    FALLBACK = "fallback"
+    ESCALATE = "escalate"
+    ABSTAIN = "abstain"
+
+
+class RecoveryNextAction(StrEnum):
+    """Typed guidance; only read-only catalog values can be recovery steps."""
+
+    RE_RETRIEVE = "re_retrieve"
+    REFRESH = "refresh"
+    INSPECT_PROVENANCE = "inspect_provenance"
+    REQUEST_OBSERVATION = "request_observation"
+    ASK_CLARIFICATION = "ask_clarification"
+    REQUEST_OWNER_REVIEW = "request_owner_review"
+    REQUEST_OPERATOR_REVIEW = "request_operator_review"
+    ABSTAIN = "abstain"
+
+
+@dataclass(frozen=True)
+class RecoveryGuidance:
+    """Content-free, closed guidance that cannot grant or perform an effect."""
+
+    SCHEMA_ID = "memory-fabric.recovery-guidance.v1"
+
+    cause: RecoveryCause
+    resolution: RecoveryResolution
+    next_action: RecoveryNextAction
+    requires_human: bool
+
+    def __post_init__(self) -> None:
+        if (not isinstance(self.cause, RecoveryCause)
+                or not isinstance(self.resolution, RecoveryResolution)
+                or not isinstance(self.next_action, RecoveryNextAction)):
+            raise ValueError("recovery guidance fields must use the closed enums")
+        if not isinstance(self.requires_human, bool):
+            raise ValueError("requires_human must be a boolean")
+        if self.resolution is RecoveryResolution.FALLBACK:
+            if self.next_action.value not in {action.value for action in RecoveryAction}:
+                raise ValueError("fallback guidance must name a read-only recovery action")
+            if self.requires_human:
+                raise ValueError("read-only fallback guidance cannot require escalation")
+        elif self.resolution is RecoveryResolution.ESCALATE:
+            if self.next_action not in {
+                RecoveryNextAction.REQUEST_OWNER_REVIEW,
+                RecoveryNextAction.REQUEST_OPERATOR_REVIEW,
+            } or not self.requires_human:
+                raise ValueError("escalation must request human owner or operator review")
+        elif (self.next_action is not RecoveryNextAction.ABSTAIN
+              or self.requires_human):
+            raise ValueError("abstention guidance must stop without an automatic override")
+
+    def to_json(self) -> dict[str, str | bool]:
+        return {
+            "schema_id": self.SCHEMA_ID,
+            "cause": self.cause.value,
+            "resolution": self.resolution.value,
+            "next_action": self.next_action.value,
+            "requires_human": self.requires_human,
+        }
+
+
+_RECOVERY_GUIDANCE: Mapping[RecoveryCause, RecoveryGuidance] = MappingProxyType({
+    RecoveryCause.MISSING: RecoveryGuidance(
+        RecoveryCause.MISSING, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.RE_RETRIEVE, False),
+    RecoveryCause.WITHHELD: RecoveryGuidance(
+        RecoveryCause.WITHHELD, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OWNER_REVIEW, True),
+    RecoveryCause.IRRELEVANT: RecoveryGuidance(
+        RecoveryCause.IRRELEVANT, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.RE_RETRIEVE, False),
+    RecoveryCause.STALE: RecoveryGuidance(
+        RecoveryCause.STALE, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.REFRESH, False),
+    RecoveryCause.CONTESTED: RecoveryGuidance(
+        RecoveryCause.CONTESTED, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.INSPECT_PROVENANCE, False),
+    RecoveryCause.UNAUTHORIZED: RecoveryGuidance(
+        RecoveryCause.UNAUTHORIZED, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OWNER_REVIEW, True),
+    RecoveryCause.ERASED: RecoveryGuidance(
+        RecoveryCause.ERASED, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OWNER_REVIEW, True),
+    RecoveryCause.DUPLICATE: RecoveryGuidance(
+        RecoveryCause.DUPLICATE, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.RE_RETRIEVE, False),
+    RecoveryCause.INSUFFICIENT: RecoveryGuidance(
+        RecoveryCause.INSUFFICIENT, RecoveryResolution.FALLBACK,
+        RecoveryNextAction.REQUEST_OBSERVATION, False),
+    RecoveryCause.NO_INDEPENDENT_SOURCE: RecoveryGuidance(
+        RecoveryCause.NO_INDEPENDENT_SOURCE, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OWNER_REVIEW, True),
+    RecoveryCause.RECOVERY_BUDGET_EXHAUSTED: RecoveryGuidance(
+        RecoveryCause.RECOVERY_BUDGET_EXHAUSTED, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OPERATOR_REVIEW, True),
+    RecoveryCause.NO_MONOTONIC_PROGRESS: RecoveryGuidance(
+        RecoveryCause.NO_MONOTONIC_PROGRESS, RecoveryResolution.ESCALATE,
+        RecoveryNextAction.REQUEST_OPERATOR_REVIEW, True),
+    RecoveryCause.UNKNOWN: RecoveryGuidance(
+        RecoveryCause.UNKNOWN, RecoveryResolution.ABSTAIN,
+        RecoveryNextAction.ABSTAIN, False),
+})
+
+_TERMINAL_RECOVERY_STATUSES = frozenset({
+    RecoveryStatus.ESCALATED,
+    RecoveryStatus.ABSTAINED,
+    RecoveryStatus.COMPLETE,
+    RecoveryStatus.FAILED,
+})
 
 
 _PERMITTED_READ_ONLY_ACTIONS = frozenset({
@@ -111,6 +242,7 @@ class RecoveryEpisode:
     _pending_action: RecoveryAction | None = field(default=None, init=False, repr=False)
     _before_token: str | None = field(default=None, init=False, repr=False)
     _failure_reason: str | None = field(default=None, init=False, repr=False)
+    _guidance: RecoveryGuidance | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self) -> None:
         self._started_at = time.monotonic()
@@ -150,6 +282,7 @@ class RecoveryEpisode:
             "task_id": self.task_id,
             "status": self.status.value,
             "failure_reason": self._failure_reason,
+            "guidance": self._guidance.to_json() if self._guidance else None,
             "budget": {
                 "max_steps": self.limits.max_steps,
                 "max_recoveries": self.limits.max_recoveries,
@@ -175,7 +308,7 @@ class RecoveryEpisode:
 
     def record(self, kind: str, detail: Mapping[str, Any] | None = None) -> bool:
         """Append bounded, public trace metadata; return False when the step budget ends."""
-        if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.COMPLETE, RecoveryStatus.FAILED):
+        if self.status in _TERMINAL_RECOVERY_STATUSES:
             return False
         if kind in {action.value for action in RecoveryAction}:
             raise ValueError("use request_recovery/resolve_recovery for typed recovery actions")
@@ -200,7 +333,7 @@ class RecoveryEpisode:
         """Begin a catalogued read-only step against a fingerprinted public state."""
         if not isinstance(action, RecoveryAction) or action not in RECOVERY_ACTIONS:
             raise ValueError("recovery action must be selected from the read-only catalog")
-        if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.COMPLETE, RecoveryStatus.FAILED):
+        if self.status in _TERMINAL_RECOVERY_STATUSES:
             return False
         if self._pending_action is not None or self.recoveries >= self.limits.max_recoveries:
             self._fail("recovery_attempt_budget_exhausted"
@@ -248,6 +381,37 @@ class RecoveryEpisode:
         self.status = RecoveryStatus.RECOVERED
         return True
 
+    def handle_failure(self, cause: RecoveryCause) -> RecoveryGuidance:
+        """Record closed guidance and end in a safe fallback, escalation, or stop.
+
+        Fallback guidance only selects a member of the read-only catalog; the
+        caller must separately request that step. Escalation never changes a
+        grant or performs an effect. A prior hard failure remains terminal.
+        """
+        if not isinstance(cause, RecoveryCause):
+            raise ValueError("cause must be selected from the closed recovery taxonomy")
+        if self.status in {RecoveryStatus.COMPLETE, RecoveryStatus.ABSTAINED,
+                           RecoveryStatus.ESCALATED} or self._guidance is not None:
+            raise RuntimeError("episode already has a terminal result or failure guidance")
+        guidance = _RECOVERY_GUIDANCE[cause]
+        self._guidance = guidance
+        if self.status is not RecoveryStatus.FAILED:
+            if not self.record("failure_guidance", {
+                "cause": guidance.cause.value,
+                "resolution": guidance.resolution.value,
+                "next_action": guidance.next_action.value,
+            }):
+                return guidance
+
+        if guidance.resolution is RecoveryResolution.FALLBACK:
+            if self.status is not RecoveryStatus.FAILED:
+                self.status = RecoveryStatus.BLOCKED
+        elif guidance.resolution is RecoveryResolution.ESCALATE:
+            self.status = RecoveryStatus.ESCALATED
+        else:
+            self.status = RecoveryStatus.ABSTAINED
+        return guidance
+
     @staticmethod
     def _valid_progress_token(value: Any) -> bool:
         if not isinstance(value, str) or not value:
@@ -272,7 +436,7 @@ class RecoveryEpisode:
         session: Any = None,
     ) -> ActionExecution:
         """Reauthorize at effect time via the existing gate, then record only its verdict."""
-        if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.FAILED, RecoveryStatus.COMPLETE):
+        if self.status in _TERMINAL_RECOVERY_STATUSES:
             raise RuntimeError(f"episode is terminal: {self.status}")
         if not self.record("propose", {"tool": tool, "key": key}):
             raise RuntimeError("episode step budget exhausted")
