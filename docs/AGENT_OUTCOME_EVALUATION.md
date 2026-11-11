@@ -4,8 +4,10 @@ The experimental runtime contracts live in `memory_fabric.agent_outcomes`.
 They are opt-in and do not replace Memory Fabric's identity, evidence
 verification, or `ActionGate`. `AgentObservation` rejects evaluator-only fields
 recursively and has a stable canonical encoding and request digest. The
-recovery episode is bounded and routes each proposed effect through
-`ActionGate.execute`, which rechecks current evidence and authorization.
+recovery episode has a read-only typed recovery catalog, bounded steps/event
+size/deadline, rejects repeated public state fingerprints as no progress, and
+routes each proposed effect through `ActionGate.execute`, which rechecks current
+evidence and authorization.
 
 ## Evidence status
 

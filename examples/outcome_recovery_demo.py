@@ -7,10 +7,12 @@ to an in-memory Memory Fabric store and a local simulated target.
 from __future__ import annotations
 
 import json
+import hashlib
+from dataclasses import replace
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
-from memory_fabric.agent_outcomes import AgentObservation, RecoveryEpisode
+from memory_fabric.agent_outcomes import AgentObservation, RecoveryAction, RecoveryEpisode
 from memory_fabric.model import WithdrawalBasis
 
 
@@ -58,11 +60,25 @@ def run_demo() -> dict[str, object]:
         actor_trace.append({"kind": "action_refused", "reason_codes": list(
             blocked.decision.reason_codes if blocked.decision else ())})
 
-        recovery.record("replan")
+        public_correction = {"source": "instrument-A", "value": corrected,
+                             "status": "correction"}
+        updated_observation = replace(
+            observation, visible_events=(*observation.visible_events, public_correction))
+        recovery_action = RecoveryAction.RE_RETRIEVE
+        before_token = observation.request_digest()
+        if not recovery.request_recovery(recovery_action, before_token=before_token):
+            raise RuntimeError("recovery budget unavailable")
         corrected_id = fabric.remember(
             "observer", f"Target reading is {corrected} units.", scope="team")
         refreshed = planner.recall("target reading", k=3).exposed
         fresh_ids = [memory.id for memory in refreshed if memory.id == corrected_id]
+        if not fresh_ids:
+            raise RuntimeError("corrected reading was not retrieved")
+        after_token = hashlib.sha256(
+            f"{updated_observation.request_digest()}:{corrected_id}".encode("utf-8")
+        ).hexdigest()
+        if not recovery.resolve_recovery(recovery_action, after_token=after_token):
+            raise RuntimeError("recovery made no progress")
         fresh_cert = fabric.certify(f"Target reading is {corrected} units.", fresh_ids, "executor")
         request = ActionRequest("target", {"value": corrected})
         grant = gate.issue_grant("set_target", "executor", issuer="host",

@@ -7,7 +7,10 @@ state and grading remain in the benchmark world, outside these contracts.
 __stability__ = "experimental"
 
 from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
-from .recovery import RecoveryEpisode, RecoveryLimits, RecoveryStatus
+from .recovery import (
+    RECOVERY_ACTIONS, RecoveryAction, RecoveryEpisode, RecoveryLimits, RecoveryStatus,
+)
 
-__all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode", "RecoveryEpisode",
-           "RecoveryLimits", "RecoveryStatus"]
+__all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
+           "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
+           "RecoveryStatus"]

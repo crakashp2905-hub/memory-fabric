@@ -7,6 +7,7 @@ import io
 import json
 import unittest
 from contextlib import redirect_stdout
+from unittest.mock import patch
 
 from benchmarks.outcome_report import (
     canonical_report, paired_completion_analysis, zero_event_upper_bound,
@@ -14,7 +15,8 @@ from benchmarks.outcome_report import (
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, EpisodeOutcome, FailureCode, RecoveryEpisode, RecoveryStatus,
+    AgentObservation, AgentStep, EpisodeOutcome, FailureCode, RECOVERY_ACTIONS,
+    RecoveryAction, RecoveryEpisode, RecoveryLimits, RecoveryStatus,
 )
 
 
@@ -76,11 +78,40 @@ class TestOutcomeContracts(unittest.TestCase):
         episode = RecoveryEpisode("task-1")
         self.assertTrue(episode.record("evidence_blocked", {"reason": "stale"}))
         self.assertIs(episode.status, RecoveryStatus.BLOCKED)
-        self.assertTrue(episode.record("replan"))
+        self.assertTrue(episode.request_recovery(RecoveryAction.REPLAN,
+                                                 before_token="state-0"))
+        self.assertTrue(episode.resolve_recovery(RecoveryAction.REPLAN,
+                                                 after_token="state-1"))
         self.assertEqual(episode.recoveries, 1)
         self.assertTrue(episode.record("abstain"))
         self.assertIs(episode.status, RecoveryStatus.ABSTAINED)
         self.assertFalse(episode.record("replan"))
+        with self.assertRaisesRegex(ValueError, "request_recovery"):
+            RecoveryEpisode("task-2").record("replan")
+
+    def test_recovery_catalog_is_read_only_and_rejects_no_progress_cycles(self) -> None:
+        self.assertTrue(RECOVERY_ACTIONS)
+        self.assertTrue(all(spec.read_only for spec in RECOVERY_ACTIONS.values()))
+        with self.assertRaises(ValueError):
+            RecoveryAction("set_target")
+
+        episode = RecoveryEpisode("task-1", RecoveryLimits(max_recoveries=3))
+        self.assertTrue(episode.request_recovery(RecoveryAction.RE_RETRIEVE,
+                                                 before_token="state-A"))
+        self.assertTrue(episode.resolve_recovery(RecoveryAction.RE_RETRIEVE,
+                                                 after_token="state-B"))
+        self.assertTrue(episode.request_recovery(RecoveryAction.REPLAN,
+                                                 before_token="state-B"))
+        self.assertFalse(episode.resolve_recovery(RecoveryAction.REPLAN,
+                                                  after_token="state-A"))
+        self.assertIs(episode.status, RecoveryStatus.FAILED)
+
+    def test_recovery_deadline_fails_closed(self) -> None:
+        with patch("memory_fabric.agent_outcomes.recovery.time.monotonic",
+                   side_effect=[10.0, 12.0]):
+            episode = RecoveryEpisode("task-1", RecoveryLimits(deadline_s=1.0))
+            self.assertFalse(episode.record("inspect"))
+            self.assertIs(episode.status, RecoveryStatus.FAILED)
 
     def test_zero_event_bound_is_not_zero_risk(self) -> None:
         bound = zero_event_upper_bound(0, 20)

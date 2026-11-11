@@ -18,7 +18,9 @@ from dataclasses import dataclass, replace
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
-from memory_fabric.agent_outcomes import AgentObservation, EpisodeOutcome, RecoveryEpisode
+from memory_fabric.agent_outcomes import (
+    AgentObservation, EpisodeOutcome, RecoveryAction, RecoveryEpisode,
+)
 from memory_fabric.model import WithdrawalBasis
 
 
@@ -150,14 +152,21 @@ def _run_actor(
         rejected = int(stale_execution.outcome == "refused")
         attempted = 1
         executed = int(stale_execution.ran)
-        episode.record("replan")
+        recovery_action = RecoveryAction.RE_RETRIEVE
+        before_recovery = initial_observation.request_digest()
+        if not episode.request_recovery(
+                recovery_action, before_token=before_recovery,
+                detail={"reason": "corrected source available"}):
+            return _ActorResult(None, False, rejected, attempted, executed,
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("planning_error",))
 
         corrected_id = fabric.remember(
             "observer", f"Target reading is {correction_value} units.", scope="team")
         refreshed = planner.recall("target reading", k=3).exposed
         fresh_ids = [item.id for item in refreshed if item.id == corrected_id]
         if not fresh_ids:
-            episode.record("abstain", {"reason": "corrected evidence not retrieved"})
+            episode.resolve_recovery(recovery_action, after_token=before_recovery)
             return _ActorResult(None, False, rejected, attempted, executed,
                                 (time.perf_counter() - started) * 1000,
                                 failure_codes=("stale_data", "retrieval_miss"))
@@ -168,10 +177,17 @@ def _run_actor(
             event.get("status") == "correction" and event.get("value") == correction_value
             for event in updated_observation.visible_events)
         if not correction_visible:
-            episode.record("abstain", {"reason": "correction absent from observation"})
+            episode.resolve_recovery(recovery_action, after_token=before_recovery)
             return _ActorResult(None, False, rejected, attempted, executed,
                                 (time.perf_counter() - started) * 1000,
                                 failure_codes=("missing_observation",))
+        after_recovery = hashlib.sha256(
+            f"{updated_observation.request_digest()}:{corrected_id}".encode("utf-8")
+        ).hexdigest()
+        if not episode.resolve_recovery(recovery_action, after_token=after_recovery):
+            return _ActorResult(None, False, rejected, attempted, executed,
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("planning_error",))
         fresh_certificate = fabric.certify(
             f"Target reading is {correction_value} units.", fresh_ids, "executor")
         fresh_request = ActionRequest("target", {"value": correction_value})
