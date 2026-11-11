@@ -10,8 +10,8 @@ from tools.agent_outcome_gate import MANIFEST_PATH, overall_status, read_manifes
 class TestAgentOutcomeGate(unittest.TestCase):
     def test_manifest_is_versioned_and_content_addressed(self) -> None:
         manifest, digest = read_manifest(MANIFEST_PATH)
-        self.assertEqual(manifest["manifest_version"], 19)
-        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v19")
+        self.assertEqual(manifest["manifest_version"], 20)
+        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v20")
         self.assertEqual(len(digest), 64)
         self.assertIn("full_repository", [item["id"] for item in manifest["checks"]])
 

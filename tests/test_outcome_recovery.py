@@ -7,11 +7,13 @@ import json
 import math
 import unittest
 
+from memory_fabric import MemoryFabric
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RECOVERY_ACTIONS, RecoveryAction, RecoveryCause,
-    RecoveryEpisode, RecoveryFailureClass, RecoveryLimits, RecoveryNextAction,
-    RecoveryResolution, RecoveryStatus,
+    RecoveryEpisode, RecoveryFailureClass, RecoveryFeatureFlag, RecoveryLimits,
+    RecoveryNextAction, RecoveryResolution, RecoveryStatus,
 )
+from memory_fabric.service import MemoryService
 
 
 class TestVersionedOutcomeRequests(unittest.TestCase):
@@ -242,6 +244,37 @@ class TestRecoveryGuidance(unittest.TestCase):
         self.assertEqual(progress_guidance.resolution, RecoveryResolution.ESCALATE)
         self.assertEqual(stalled.status, RecoveryStatus.ESCALATED)
         self.assertEqual(stalled.audit_record()["failure_reason"], "no_monotonic_progress")
+
+
+class TestRecoveryFeatureFlag(unittest.TestCase):
+    def test_recovery_is_disabled_by_default_and_legacy_session_reads_still_work(self) -> None:
+        service = MemoryService(MemoryFabric(":memory:", auto_activate=True))
+        self.addCleanup(service.close)
+        for agent in ("writer", "reader"):
+            service.register_agent(agent, key=(agent * 8).encode("utf-8"),
+                                   tenant_id="tenant-flag")
+        writer = service.session(service.issue("writer"))
+        reader = service.session(service.issue("reader"))
+        memory_id = writer.remember("Pump pressure is currently four bar.", scope="team")
+        feature = RecoveryFeatureFlag()
+
+        self.assertFalse(feature.enabled)
+        self.assertIsNone(feature.start_episode("legacy-task"))
+        self.assertEqual([memory.id for memory in reader.retrieve("pump pressure").exposed],
+                         [memory_id])
+
+    def test_explicit_enablement_and_rollback_are_isolated_per_factory(self) -> None:
+        enabled = RecoveryFeatureFlag(enabled=True, limits=RecoveryLimits(max_steps=4))
+        episode = enabled.start_episode("opt-in-task")
+        self.assertIsNotNone(episode)
+        self.assertEqual(episode.limits.max_steps, 4)
+        self.assertEqual(episode.status, RecoveryStatus.READY)
+
+        disabled = RecoveryFeatureFlag()
+        self.assertIsNone(disabled.start_episode("after-rollback"))
+        self.assertEqual(episode.status, RecoveryStatus.READY)
+        with self.assertRaises(ValueError):
+            RecoveryFeatureFlag(enabled=1)
 
     def test_recovery_limits_and_step_exhaustion_fail_closed(self) -> None:
         for limits in (

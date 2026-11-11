@@ -1498,9 +1498,10 @@ def respond_to_irrecoverable_case(
         else:
             refused.append("unsupported_action")
 
-    from memory_fabric.agent_outcomes.recovery import RecoveryEpisode, RecoveryStatus
+    from memory_fabric.agent_outcomes.recovery import RecoveryFeatureFlag, RecoveryStatus
 
-    episode = RecoveryEpisode(snapshot.task_id)
+    episode = RecoveryFeatureFlag(enabled=True).start_episode(snapshot.task_id)
+    assert episode is not None
     episode.record("evidence_blocked", {"reason": reason_code})
     episode.record("abstain", {"reason": reason_code})
     if episode.status is not RecoveryStatus.ABSTAINED:

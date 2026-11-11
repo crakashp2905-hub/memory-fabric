@@ -12,7 +12,9 @@ from dataclasses import replace
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
-from memory_fabric.agent_outcomes import AgentObservation, RecoveryAction, RecoveryEpisode
+from memory_fabric.agent_outcomes import (
+    AgentObservation, RecoveryAction, RecoveryFeatureFlag,
+)
 from memory_fabric.model import WithdrawalBasis
 
 
@@ -44,7 +46,8 @@ def run_demo() -> dict[str, object]:
         ))
         old_grant = gate.issue_grant("set_target", "executor", issuer="host",
                                       certificate=old_cert, request=old_request)
-        recovery = RecoveryEpisode(observation.task_id)
+        recovery = RecoveryFeatureFlag(enabled=True).start_episode(observation.task_id)
+        assert recovery is not None
 
         actor_trace.append({"kind": "retrieve", "evidence_versions": [
             [memory.id, memory.version] for memory in first_read]})

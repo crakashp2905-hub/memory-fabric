@@ -505,3 +505,27 @@ class RecoveryEpisode:
         elif recorded:
             self.status = RecoveryStatus.BLOCKED
         return execution
+
+
+@dataclass(frozen=True)
+class RecoveryFeatureFlag:
+    """Explicit opt-in for integrations that want to create recovery episodes.
+
+    The default is disabled. A disabled flag creates no state and does not
+    wrap or alter legacy MemoryFabric, Session, or ActionGate calls.
+    """
+
+    enabled: bool = False
+    limits: RecoveryLimits = field(default_factory=RecoveryLimits)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.enabled, bool):
+            raise ValueError("enabled must be a boolean")
+        if not isinstance(self.limits, RecoveryLimits):
+            raise ValueError("limits must be RecoveryLimits")
+
+    def start_episode(self, task_id: str) -> RecoveryEpisode | None:
+        """Create a bounded recovery episode only after explicit enablement."""
+        if not self.enabled:
+            return None
+        return RecoveryEpisode(task_id, self.limits)

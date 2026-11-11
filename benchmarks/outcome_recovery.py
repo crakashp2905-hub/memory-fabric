@@ -19,7 +19,7 @@ from dataclasses import dataclass, replace
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
 from memory_fabric.agent_outcomes import (
-    AgentObservation, EpisodeOutcome, RecoveryAction, RecoveryEpisode,
+    AgentObservation, EpisodeOutcome, RecoveryAction, RecoveryFeatureFlag,
 )
 from memory_fabric.model import WithdrawalBasis
 
@@ -111,7 +111,9 @@ def _run_actor(
         ))
         old_grant = gate.issue_grant("set_target", "executor", issuer="host",
                                       certificate=old_certificate, request=old_request)
-        episode = RecoveryEpisode(initial_observation.task_id)
+        episode = RecoveryFeatureFlag(enabled=True).start_episode(
+            initial_observation.task_id)
+        assert episode is not None
 
         if public_correction is None:
             current_effect: list[int] = []
