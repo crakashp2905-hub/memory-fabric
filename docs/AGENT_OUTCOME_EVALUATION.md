@@ -16,6 +16,14 @@ grade, and capability objects. This is an in-process API boundary, not a Python
 sandbox against reflection or hostile code with module access. Actor calls still
 receive only `AgentObservation`.
 
+In-house worlds use `DeterministicWorldSpec` and `ScheduledWorldEvent` from
+`benchmarks.outcome_worlds`. Replay sorts scheduled events by tick and ID,
+tracks truth and legal effects in the evaluator snapshot, and increments the
+revision epoch when either changes. Its canonical state bytes and outcome
+digest are stable for a fixed seed and spec. `WorldSnapshot.public_view()`
+returns scheduled observations and the public epoch without hidden truth or
+evaluator legal-effect data.
+
 The recovery episode has a read-only typed recovery catalog, bounded steps/event
 size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
@@ -95,7 +103,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v5.json`. Run it with
+`tools/agent_outcome_gate_manifest.v6.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

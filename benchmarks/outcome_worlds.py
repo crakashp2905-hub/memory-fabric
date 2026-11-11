@@ -15,14 +15,18 @@ import hashlib
 import json
 import math
 import re
-from dataclasses import dataclass
-from typing import Mapping, Sequence
+from dataclasses import dataclass, field
+from types import MappingProxyType
+from typing import Any, ClassVar, Mapping, Sequence
 
 _IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}\Z")
 _TOKENS = re.compile(r"[^\W_]+", flags=re.UNICODE)
 _DEFAULT_RATIOS = {"train": 0.6, "dev": 0.2, "heldout": 0.2}
 _MAX_CASES = 100_000
 _MAX_TEXT_CHARS = 16_000
+_MAX_WORLD_JSON_BYTES = 64_000
+_MAX_WORLD_STATE_BYTES = 256_000
+_WORLD_SCHEMA_ID = "memory-fabric.deterministic-outcome-world.v1"
 
 
 class InsufficientSplitComponents(ValueError):
@@ -46,12 +50,306 @@ def _identifier(value: str, *, field: str) -> str:
 
 
 def _canonical_bytes(value: object) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"),
-                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+    try:
+        return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                          ensure_ascii=False, allow_nan=False).encode("utf-8")
+    except (RecursionError, TypeError, ValueError) as exc:
+        raise ValueError("world values must be finite JSON data") from exc
+
+
+def _world_canonical_bytes(value: object) -> bytes:
+    encoded = _canonical_bytes(value)
+    if len(encoded) > _MAX_WORLD_JSON_BYTES:
+        raise ValueError("world JSON data exceeds the size limit")
+    return encoded
 
 
 def _sha256(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
+
+
+def _validate_json(value: Any, *, label: str, active: set[int] | None = None,
+                   depth: int = 0) -> None:
+    if depth > 64:
+        raise ValueError(f"{label} nesting exceeds the limit")
+    if value is None or isinstance(value, (str, bool, int)):
+        return
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError(f"{label} must contain finite numbers")
+        return
+    ancestors = set() if active is None else active
+    if isinstance(value, Mapping):
+        identity = id(value)
+        if identity in ancestors:
+            raise ValueError(f"{label} cannot contain cycles")
+        ancestors.add(identity)
+        for key, item in value.items():
+            if not isinstance(key, str):
+                raise ValueError(f"{label} object keys must be strings")
+            _validate_json(item, label=label, active=ancestors, depth=depth + 1)
+        ancestors.remove(identity)
+        return
+    if isinstance(value, (list, tuple)):
+        identity = id(value)
+        if identity in ancestors:
+            raise ValueError(f"{label} cannot contain cycles")
+        ancestors.add(identity)
+        for item in value:
+            _validate_json(item, label=label, active=ancestors, depth=depth + 1)
+        ancestors.remove(identity)
+        return
+    raise ValueError(f"{label} must contain only JSON values")
+
+
+def _copy_json_object(value: Mapping[str, Any], *, label: str) -> dict[str, Any]:
+    if not isinstance(value, Mapping):
+        raise ValueError(f"{label} must be a JSON object")
+    _validate_json(value, label=label)
+    copied = json.loads(_world_canonical_bytes(dict(value)))
+    if not isinstance(copied, dict):
+        raise ValueError(f"{label} must be a JSON object")
+    return copied
+
+
+def _freeze_json(value: Any) -> Any:
+    if isinstance(value, dict):
+        return MappingProxyType({key: _freeze_json(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze_json(item) for item in value)
+    return value
+
+
+def _thaw_json(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {key: _thaw_json(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_thaw_json(item) for item in value]
+    return value
+
+
+def _world_effects(values: Sequence[str], *, label: str) -> tuple[str, ...]:
+    if not isinstance(values, (tuple, list)) or len(values) > 128:
+        raise ValueError(f"{label} must be a bounded sequence")
+    effects = tuple(sorted(_identifier(item, field=label) for item in values))
+    if len(set(effects)) != len(effects):
+        raise ValueError(f"{label} must contain unique identifiers")
+    return effects
+
+
+@dataclass(frozen=True)
+class ScheduledWorldEvent:
+    """One timed public observation plus evaluator-only world changes."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    event_id: str
+    tick: int
+    kind: str
+    observation: Mapping[str, Any]
+    truth_updates: Mapping[str, Any] = field(default_factory=dict, repr=False)
+    truth_deletions: tuple[str, ...] = field(default=(), repr=False)
+    legal_effects: tuple[str, ...] | None = field(default=None, repr=False)
+
+    def __post_init__(self) -> None:
+        _identifier(self.event_id, field="event_id")
+        _identifier(self.kind, field="event kind")
+        if not isinstance(self.tick, int) or isinstance(self.tick, bool) or self.tick < 0:
+            raise ValueError("event tick must be a non-negative integer")
+        public = _copy_json_object(self.observation, label="public observation")
+        updates = _copy_json_object(self.truth_updates, label="hidden truth updates")
+        if not isinstance(self.truth_deletions, (tuple, list)) \
+                or len(self.truth_deletions) > 128:
+            raise ValueError("truth_deletions must be a bounded sequence")
+        deletions = tuple(sorted(_identifier(item, field="truth deletion")
+                                 for item in self.truth_deletions))
+        if len(set(deletions)) != len(deletions) or set(deletions) & set(updates):
+            raise ValueError("truth deletions must be unique and disjoint from updates")
+        object.__setattr__(self, "observation", _freeze_json(public))
+        object.__setattr__(self, "truth_updates", _freeze_json(updates))
+        object.__setattr__(self, "truth_deletions", deletions)
+        if self.legal_effects is not None:
+            object.__setattr__(self, "legal_effects",
+                               _world_effects(self.legal_effects, label="legal effects"))
+
+
+@dataclass(frozen=True)
+class DeterministicWorldSpec:
+    """Complete replay input; hidden truth stays outside actor-facing views."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    task_id: str
+    seed: int
+    initial_truth: Mapping[str, Any] = field(repr=False)
+    initial_legal_effects: tuple[str, ...] = ()
+    events: tuple[ScheduledWorldEvent, ...] = ()
+    schema_id: str = _WORLD_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _identifier(self.task_id, field="task_id")
+        if (not isinstance(self.seed, int) or isinstance(self.seed, bool)
+                or not 0 <= self.seed <= 0xffffffffffffffff):
+            raise ValueError("world seed must be an unsigned 64-bit integer")
+        if self.schema_id != _WORLD_SCHEMA_ID:
+            raise ValueError("unsupported deterministic world schema")
+        truth = _copy_json_object(self.initial_truth, label="initial hidden truth")
+        object.__setattr__(self, "initial_truth", _freeze_json(truth))
+        object.__setattr__(self, "initial_legal_effects",
+                           _world_effects(self.initial_legal_effects,
+                                          label="initial legal effects"))
+        if not isinstance(self.events, (tuple, list)) or len(self.events) > 256:
+            raise ValueError("world events must be a bounded sequence")
+        events = tuple(self.events)
+        if not all(isinstance(event, ScheduledWorldEvent) for event in events):
+            raise ValueError("world events must be ScheduledWorldEvent values")
+        event_ids = [event.event_id for event in events]
+        if len(event_ids) != len(set(event_ids)):
+            raise ValueError("world event IDs must be unique")
+        object.__setattr__(self, "events", tuple(sorted(
+            events, key=lambda event: (event.tick, event.event_id))))
+        _world_canonical_bytes({
+            "schema_id": self.schema_id,
+            "task_id": self.task_id,
+            "seed": self.seed,
+            "initial_truth": _thaw_json(self.initial_truth),
+            "initial_legal_effects": self.initial_legal_effects,
+            "events": [{
+                "event_id": event.event_id,
+                "tick": event.tick,
+                "kind": event.kind,
+                "observation": _thaw_json(event.observation),
+                "truth_updates": _thaw_json(event.truth_updates),
+                "truth_deletions": event.truth_deletions,
+                "legal_effects": event.legal_effects,
+            } for event in self.events],
+        })
+
+
+@dataclass(frozen=True)
+class WorldSnapshot:
+    """Evaluator state and a safe projection for actors."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    task_id: str
+    seed: int
+    tick: int
+    revision_epoch: int
+    observations: tuple[Mapping[str, Any], ...]
+    hidden_truth: Mapping[str, Any] = field(repr=False)
+    legal_effects: tuple[str, ...] = field(repr=False)
+    schema_id: str = _WORLD_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _identifier(self.task_id, field="task_id")
+        if (not isinstance(self.seed, int) or isinstance(self.seed, bool)
+                or not 0 <= self.seed <= 0xffffffffffffffff):
+            raise ValueError("world seed must be an unsigned 64-bit integer")
+        if (not isinstance(self.tick, int) or isinstance(self.tick, bool) or self.tick < 0
+                or not isinstance(self.revision_epoch, int)
+                or isinstance(self.revision_epoch, bool) or self.revision_epoch < 0):
+            raise ValueError("world tick and revision epoch must be non-negative integers")
+        if self.schema_id != _WORLD_SCHEMA_ID:
+            raise ValueError("unsupported deterministic world schema")
+        if not isinstance(self.observations, (tuple, list)) or len(self.observations) > 256:
+            raise ValueError("world observations must be a bounded sequence")
+        observations = tuple(_freeze_json(
+            _copy_json_object(item, label="public observation event"))
+            for item in self.observations)
+        truth = _freeze_json(_copy_json_object(self.hidden_truth, label="hidden world truth"))
+        effects = _world_effects(self.legal_effects, label="legal effects")
+        object.__setattr__(self, "observations", observations)
+        object.__setattr__(self, "hidden_truth", truth)
+        object.__setattr__(self, "legal_effects", effects)
+        self.canonical_state_bytes()
+
+    def canonical_state_bytes(self) -> bytes:
+        """Serialize the complete evaluator state in stable canonical order."""
+        state = {
+            "schema_id": self.schema_id,
+            "task_id": self.task_id,
+            "seed": self.seed,
+            "tick": self.tick,
+            "revision_epoch": self.revision_epoch,
+            "observations": _thaw_json(self.observations),
+            "hidden_truth": _thaw_json(self.hidden_truth),
+            "legal_effects": list(self.legal_effects),
+        }
+        encoded = _canonical_bytes(state)
+        if len(encoded) > _MAX_WORLD_STATE_BYTES:
+            raise ValueError("world state exceeds the size limit")
+        return encoded
+
+    @property
+    def outcome_digest(self) -> str:
+        """Commit the full deterministic task state without exposing truth."""
+        return _sha256(self.canonical_state_bytes())
+
+    def public_view(self) -> dict[str, Any]:
+        """Return only scheduled observations and the public revision epoch."""
+        return {
+            "schema_id": "memory-fabric.outcome-world-observation.v1",
+            "task_id": self.task_id,
+            "tick": self.tick,
+            "revision_epoch": self.revision_epoch,
+            "observations": _thaw_json(self.observations),
+        }
+
+
+def replay_world(spec: DeterministicWorldSpec, *, through_tick: int | None = None) -> WorldSnapshot:
+    """Replay scheduled observations and evaluator state using deterministic transitions."""
+    if not isinstance(spec, DeterministicWorldSpec):
+        raise ValueError("spec must be a DeterministicWorldSpec")
+    final_scheduled_tick = max((event.tick for event in spec.events), default=0)
+    if through_tick is None:
+        current_tick = final_scheduled_tick
+    elif (not isinstance(through_tick, int) or isinstance(through_tick, bool)
+          or through_tick < 0):
+        raise ValueError("through_tick must be a non-negative integer")
+    else:
+        current_tick = through_tick
+
+    truth = _thaw_json(spec.initial_truth)
+    legal_effects = spec.initial_legal_effects
+    observations: list[dict[str, Any]] = []
+    revision_epoch = 0
+    for event in spec.events:
+        if event.tick > current_tick:
+            break
+        changed = False
+        for key in event.truth_deletions:
+            if key in truth:
+                del truth[key]
+                changed = True
+        for key, value in event.truth_updates.items():
+            thawed = _thaw_json(value)
+            if key not in truth or truth[key] != thawed:
+                truth[key] = thawed
+                changed = True
+        if event.legal_effects is not None and event.legal_effects != legal_effects:
+            legal_effects = event.legal_effects
+            changed = True
+        if changed:
+            revision_epoch += 1
+        observations.append({
+            "event_id": event.event_id,
+            "kind": event.kind,
+            "tick": event.tick,
+            "revision_epoch": revision_epoch,
+            "data": _thaw_json(event.observation),
+        })
+
+    return WorldSnapshot(
+        task_id=spec.task_id,
+        seed=spec.seed,
+        tick=current_tick,
+        revision_epoch=revision_epoch,
+        observations=tuple(observations),
+        hidden_truth=truth,
+        legal_effects=legal_effects,
+        schema_id=spec.schema_id,
+    )
 
 
 @dataclass(frozen=True)
