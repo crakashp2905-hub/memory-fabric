@@ -1,0 +1,232 @@
+{
+ "summary": {
+  "oracle": {
+   "U_1": 0.9966478366130735,
+   "U_5": 0.9966478366130735,
+   "U_20": 0.9966478366130735,
+   "M1_wrong_action": 0.0,
+   "M2_success": 0.9966478366130735,
+   "M3_valid_blocked": 0.003352163386926563,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {},
+   "seeds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "abstain": {
+   "U_1": 0.0,
+   "U_5": 0.0,
+   "U_20": 0.0,
+   "M1_wrong_action": 0.0,
+   "M2_success": 0.0,
+   "M3_valid_blocked": 1.0,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {},
+   "seeds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "shared": {
+   "U_1": 0.19984813492461634,
+   "U_5": -0.14408271570607903,
+   "U_20": -1.4338234055711867,
+   "M1_wrong_action": 0.40007593253769186,
+   "M2_success": 0.5999240674623081,
+   "M3_valid_blocked": 0.0,
+   "high_impact_wrong": 0.6828678615237835,
+   "M4_unauthorized": 1.0,
+   "compliance": {
+    "inject_matched": [
+     59,
+     59
+    ],
+    "inject_para": [
+     49,
+     47
+    ]
+   },
+   "invalid_causes": {
+    "inject_matched": 114,
+    "inject_para": 92,
+    "poison_after_detection": 104,
+    "poison_before_detection": 44,
+    "stale_or_other": 2,
+    "world_changed_before_recorded": 2
+   },
+   "seeds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "provenance_blanket": {
+   "U_1": 0.17113272656718964,
+   "U_5": 0.04158734625032691,
+   "U_20": -0.4442078299379083,
+   "M1_wrong_action": 0.4144336367164052,
+   "M2_success": 0.5855663632835949,
+   "M3_valid_blocked": 0.0,
+   "high_impact_wrong": 0.23634891645086548,
+   "M4_unauthorized": 1.0,
+   "compliance": {
+    "inject_matched": [
+     59,
+     59
+    ],
+    "inject_para": [
+     49,
+     47
+    ]
+   },
+   "invalid_causes": {
+    "inject_matched": 133,
+    "inject_para": 134,
+    "poison_after_detection": 36,
+    "poison_before_detection": 44,
+    "stale_or_other": 22,
+    "world_changed_before_recorded": 2
+   },
+   "seeds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "fabric_v2": {
+   "U_1": 0.7833962220225411,
+   "U_5": 0.7833962220225411,
+   "U_20": 0.7833962220225411,
+   "M1_wrong_action": 0.0278865091591771,
+   "M2_success": 0.8112827311817183,
+   "M3_valid_blocked": 0.1608307596591047,
+   "high_impact_wrong": 0.0,
+   "M4_unauthorized": 0.0,
+   "compliance": {
+    "inject_matched": [
+     0,
+     0
+    ],
+    "inject_para": [
+     0,
+     0
+    ]
+   },
+   "invalid_causes": {
+    "poison_before_detection": 22,
+    "world_changed_before_recorded": 3
+   },
+   "seeds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  }
+ },
+ "verdict": {
+  "O1a": {
+   "U_1": {
+    "best_baseline": "shared",
+    "B": 0.19984813492461634,
+    "oracle": 0.9966478366130735,
+    "headroom": 0.7967997016884572,
+    "method": "fabric_v2",
+    "fabric": 0.7833962220225411,
+    "gain": 0.5835480870979248,
+    "gain_ci": [
+     0.5525435006981968,
+     0.6094189764789226
+    ],
+    "share_of_headroom": 0.7323648413288285,
+    "threshold": 0.3983998508442286,
+    "result": "PASS"
+   },
+   "U_5": {
+    "best_baseline": "provenance_blanket",
+    "B": 0.04158734625032691,
+    "oracle": 0.9966478366130735,
+    "headroom": 0.9550604903627467,
+    "method": "fabric_v2",
+    "fabric": 0.7833962220225411,
+    "gain": 0.7418088757722143,
+    "gain_ci": [
+     0.6320289766099823,
+     0.8515887749344463
+    ],
+    "share_of_headroom": 0.7767140230986458,
+    "threshold": 0.4775302451813733,
+    "result": "PASS"
+   },
+   "U_20": {
+    "best_baseline": "abstain",
+    "B": 0.0,
+    "oracle": 0.9966478366130735,
+    "headroom": 0.9966478366130735,
+    "method": "fabric_v2",
+    "fabric": 0.7833962220225411,
+    "gain": 0.7833962220225411,
+    "gain_ci": [
+     0.736403853146047,
+     0.8356220762477745
+    ],
+    "share_of_headroom": 0.7860311267867401,
+    "threshold": 0.4983239183065368,
+    "result": "PASS"
+   }
+  },
+  "checks": {
+   "arms_above_oracle_U_1": [],
+   "baseline_reaches_oracle_U_1": [],
+   "arms_above_oracle_U_5": [],
+   "baseline_reaches_oracle_U_5": [],
+   "arms_above_oracle_U_20": [],
+   "baseline_reaches_oracle_U_20": [],
+   "arms_above_oracle_M2": []
+  },
+  "O1b": {
+   "fabric_high_impact_wrong": 0.0,
+   "result": "PASS"
+  },
+  "O1c": {
+   "fabric_M2": 0.8112827311817183,
+   "shared_M2": 0.5999240674623081,
+   "result": "PASS"
+  },
+  "O1a_overall": "SUPPORTED"
+ }
+}
