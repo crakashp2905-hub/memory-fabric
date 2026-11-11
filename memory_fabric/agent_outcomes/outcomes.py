@@ -17,12 +17,13 @@ import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import MappingProxyType
-from typing import Any, Mapping, Sequence, TypeAlias
+from typing import Any, ClassVar, Mapping, Sequence, TypeAlias
 
 from ..actions import (
     ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT, UNCERTAIN,
     ActionExecution, ActionRequest,
 )
+from .observations import EvaluatorCapability
 
 SCHEMA_ID = "memory-fabric.terminal-outcome.v1"
 MAX_JSON_BYTES = 16_000
@@ -108,6 +109,8 @@ def _request_bytes(request: ActionRequest) -> bytes:
 class TerminalObjective:
     """Evaluator-only expected world state and exact protected effect."""
 
+    __evaluator_only__: ClassVar[bool] = True
+
     task_id: str
     expected_state: Mapping[str, StateValue] = field(repr=False)
     tool: str
@@ -137,6 +140,8 @@ class TerminalObjective:
 class EffectRecord:
     """Host-recorded request paired with one ActionGate execution result."""
 
+    __evaluator_only__: ClassVar[bool] = True
+
     task_id: str
     step_id: str
     tool: str
@@ -161,6 +166,8 @@ class EffectRecord:
 @dataclass(frozen=True)
 class TerminalSnapshot:
     """One evaluator observation of a task's actual final world state."""
+
+    __evaluator_only__: ClassVar[bool] = True
 
     task_id: str
     state: Mapping[str, StateValue] = field(repr=False)
@@ -191,6 +198,8 @@ class GradeReason(StrEnum):
 class TerminalGrade:
     """Content-free result; private objective and observed state stay with evaluator."""
 
+    __evaluator_only__: ClassVar[bool] = True
+
     task_id: str
     status: GradeStatus
     reason: GradeReason
@@ -198,23 +207,33 @@ class TerminalGrade:
     executed_effects: int
     refused_effects: int
     schema_id: str = SCHEMA_ID
+    _capability_seal_sha256: str = field(repr=False, compare=False, default="")
 
     @property
     def completion(self) -> bool:
         return self.status is GradeStatus.COMPLETE
 
-    def to_json(self) -> dict[str, str | int | bool]:
+    def to_json(self, capability: EvaluatorCapability) -> dict[str, str | int | bool]:
+        if (not isinstance(capability, EvaluatorCapability)
+                or not capability._authorizes(
+                    self.task_id, seal_sha256=self._capability_seal_sha256)):
+            raise PermissionError("evaluator capability required to serialize terminal grade")
         return {"schema_id": self.schema_id, "task_id": self.task_id,
                 "status": self.status.value, "reason": self.reason.value,
                 "completion": self.completion, "objective_digest": self.objective_digest,
                 "executed_effects": self.executed_effects,
                 "refused_effects": self.refused_effects}
 
+    def __repr__(self) -> str:
+        return "TerminalGrade(<protected evaluator output>)"
+
 
 def grade_terminal(
     objective: TerminalObjective,
     effects: Sequence[EffectRecord],
     terminal_snapshots: Sequence[TerminalSnapshot],
+    *,
+    capability: EvaluatorCapability,
 ) -> TerminalGrade:
     """Complete only for one unambiguous state and a matching gated effect.
 
@@ -223,6 +242,9 @@ def grade_terminal(
     """
     if not isinstance(objective, TerminalObjective):
         raise ValueError("objective must be an evaluator terminal objective")
+    if (not isinstance(capability, EvaluatorCapability)
+            or not capability._authorizes(objective.task_id)):
+        raise PermissionError("evaluator capability required to grade terminal outcomes")
     if not isinstance(effects, Sequence) or len(effects) > MAX_EFFECTS:
         raise ValueError("effects must be a bounded host-recorded sequence")
     if not all(isinstance(e, EffectRecord) for e in effects):
@@ -237,7 +259,8 @@ def grade_terminal(
     refused = sum(e.execution.outcome == REFUSED for e in effects)
 
     def result(status: GradeStatus, reason: GradeReason) -> TerminalGrade:
-        return TerminalGrade(objective.task_id, status, reason, digest, executed, refused)
+        return TerminalGrade(objective.task_id, status, reason, digest, executed, refused,
+                             _capability_seal_sha256=capability._seal_sha256)
 
     steps = [e.step_id for e in effects]
     if (any(e.task_id != objective.task_id for e in effects)
