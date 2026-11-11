@@ -13,10 +13,11 @@ from .recovery import (
 from .eligibility import (
     DiagnosisSource, EvidenceDiagnosis, EvidenceFailureCode, diagnose_access,
     diagnose_answerability, diagnose_certificate, diagnose_relevance,
+    find_alternate_sources,
 )
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
            "RecoveryStatus", "DiagnosisSource", "EvidenceDiagnosis",
            "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
-           "diagnose_certificate", "diagnose_relevance"]
+           "diagnose_certificate", "diagnose_relevance", "find_alternate_sources"]

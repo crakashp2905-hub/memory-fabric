@@ -11,14 +11,14 @@ __stability__ = "experimental"
 
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import ClassVar
+from typing import Any, ClassVar, Sequence
 
 from .. import answerability as answerability_codes
 from .. import certificates as certificate_codes
 from .. import enforcement as access_codes
 from ..answerability import Answerability
-from ..certificates import CertificateVerification
-from ..enforcement import AccessDecision, Verdict
+from ..certificates import CertificateVerification, EvidenceRef
+from ..enforcement import AccessDecision, RiskLevel, Verdict
 from ..relevance import ReasonCode
 from .recovery import RecoveryAction
 
@@ -216,6 +216,70 @@ _RELEVANCE_SUCCESS = frozenset({
     ReasonCode.DEPENDENCY_REQUIRED,
     ReasonCode.CRITICAL_FACT,
 })
+
+MAX_ALTERNATE_SOURCE_RESULTS = 32
+MAX_ALTERNATE_SOURCE_CANDIDATES = 128
+MAX_ALTERNATE_SOURCE_BASES = 64
+MAX_ALTERNATE_SOURCE_QUERY_CHARS = 4096
+
+
+def find_alternate_sources(
+    session: Any,
+    query: str,
+    existing_evidence: Sequence[EvidenceRef] = (),
+    *,
+    limit: int = 5,
+) -> tuple[EvidenceRef, ...]:
+    """Find current, authorized evidence from roots absent in the given basis.
+
+    A live ``service.Session`` is required so retrieval and the follow-up read
+    both recheck the caller's credential, tenant, scope, and collection grants.
+    Same-root candidates are filtered internally and never returned as new
+    support. This is a bounded read-only helper; the caller must still certify
+    its chosen evidence and use ActionGate for any protected effect.
+    """
+    if (not isinstance(query, str) or not query.strip()
+            or len(query) > MAX_ALTERNATE_SOURCE_QUERY_CHARS):
+        raise ValueError("query must be non-empty and within the alternate-search limit")
+    if (isinstance(limit, bool) or not isinstance(limit, int)
+            or not 1 <= limit <= MAX_ALTERNATE_SOURCE_RESULTS):
+        raise ValueError(f"limit must be between 1 and {MAX_ALTERNATE_SOURCE_RESULTS}")
+    if (not isinstance(existing_evidence, Sequence)
+            or len(existing_evidence) > MAX_ALTERNATE_SOURCE_BASES
+            or any(not isinstance(ref, EvidenceRef) for ref in existing_evidence)):
+        raise ValueError("existing_evidence must contain at most 64 typed evidence references")
+
+    principal = session.principal()
+    retrieved = session.retrieve(
+        query, k=min(MAX_ALTERNATE_SOURCE_CANDIDATES,
+                     limit + len(existing_evidence)),
+        group_by_source_root=True,
+    )
+    fabric = session.service._fabric
+    roots = {
+        fabric.source_root(ref.memory_id)
+        for ref in existing_evidence
+        if (memory := fabric.state.memories.get(ref.memory_id)) is not None
+        and memory.tenant_id == principal.tenant_id
+    }
+
+    alternates: list[EvidenceRef] = []
+    for candidate in retrieved.exposed:
+        if candidate.id in fabric.state.erased:
+            continue
+        current = session.use(candidate.id, risk=RiskLevel.HIGH)
+        if not current.usable or current.memory is None:
+            continue
+        if current.memory.version != candidate.version:
+            continue
+        root = fabric.source_root(candidate.id)
+        if root in roots:
+            continue
+        roots.add(root)
+        alternates.append(EvidenceRef(candidate.id, current.memory.version))
+        if len(alternates) >= limit:
+            break
+    return tuple(alternates)
 
 
 def diagnose_relevance(reason: ReasonCode | str) -> EvidenceDiagnosis:
