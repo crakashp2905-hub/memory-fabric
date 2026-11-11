@@ -1185,6 +1185,243 @@ def create_coding_repair_session(seed: int) -> CodingRepairSession:
 
 
 @dataclass(frozen=True)
+class FederatedEvidenceAssessment:
+    """Current claim per provenance root; copies do not add independent roots."""
+
+    status: str
+    record_count: int
+    copy_count: int
+    independent_source_count: int
+    claims_by_root: Mapping[str, Any]
+
+    def __post_init__(self) -> None:
+        if (self.status not in {"SINGLE_SOURCE", "CONTRADICTORY", "CORROBORATED"}
+                or min(self.record_count, self.copy_count,
+                       self.independent_source_count) < 0):
+            raise ValueError("federated assessment metadata is invalid")
+        if self.copy_count > self.record_count:
+            raise ValueError("copy_count cannot exceed record_count")
+        claims = dict(self.claims_by_root)
+        if len(claims) != self.independent_source_count:
+            raise ValueError("independent_source_count must match provenance roots")
+        for root, value in claims.items():
+            _identifier(root, field="source root")
+            _validate_json(value, label="federated claim")
+        object.__setattr__(self, "claims_by_root", MappingProxyType(claims))
+
+
+def assess_federated_claims(public_view: Mapping[str, Any]) -> FederatedEvidenceAssessment:
+    """Collapse correlated copies by root and detect current cross-root conflict."""
+    if not isinstance(public_view, Mapping) or not isinstance(
+            public_view.get("observations"), (tuple, list)):
+        raise ValueError("federated assessment requires a public world observation")
+    latest_by_root: dict[str, tuple[int, str, Any]] = {}
+    record_count = copy_count = 0
+    for event in public_view["observations"]:
+        if not isinstance(event, Mapping) or not isinstance(event.get("data"), Mapping):
+            raise ValueError("federated observations must contain public event data")
+        kind, data = event.get("kind"), event["data"]
+        if kind not in {"credible_source_claim", "federation_copy", "federation_notice"}:
+            continue
+        root = data.get("source_root_id")
+        revision = data.get("source_revision")
+        claim = data.get("claim")
+        if (not isinstance(root, str) or not isinstance(revision, int)
+                or isinstance(revision, bool) or revision < 0
+                or not isinstance(claim, str) or "value" not in data):
+            raise ValueError("federated claim is missing its root, revision, or value")
+        _identifier(root, field="source root")
+        _validate_json(data["value"], label="federated claim value")
+        record_count += 1
+        copy_count += kind == "federation_copy"
+        prior = latest_by_root.get(root)
+        if prior is None or revision > prior[0]:
+            latest_by_root[root] = (revision, claim, data["value"])
+        elif revision == prior[0] and (claim, data["value"]) != (prior[1], prior[2]):
+            raise ValueError("same-root federated copies disagree at the same revision")
+
+    claims: dict[str, Any] = {}
+    for root, (_, claim, value) in latest_by_root.items():
+        if claim in claims and claims[claim] != value:
+            status = "CONTRADICTORY"
+            break
+        claims[claim] = value
+    else:
+        status = "SINGLE_SOURCE" if len(latest_by_root) < 2 else "CORROBORATED"
+    # Expose the source-root map, not only value groups, so correlated copies
+    # remain auditable without gaining weight in the independent-source count.
+    claims_by_root = {root: latest[2] for root, latest in latest_by_root.items()}
+    return FederatedEvidenceAssessment(
+        status=status,
+        record_count=record_count,
+        copy_count=copy_count,
+        independent_source_count=len(latest_by_root),
+        claims_by_root=claims_by_root,
+    )
+
+
+@dataclass(frozen=True)
+class FederatedEffectRecord:
+    """A mock effect tied to the public world revision and evidence roots."""
+
+    effect_id: str
+    action: str
+    revision_epoch: int
+    evidence_source_roots: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        _identifier(self.effect_id, field="effect id")
+        _identifier(self.action, field="effect action")
+        if (not isinstance(self.revision_epoch, int) or isinstance(self.revision_epoch, bool)
+                or self.revision_epoch < 0):
+            raise ValueError("effect revision must be a non-negative integer")
+        if not isinstance(self.evidence_source_roots, (tuple, list)):
+            raise ValueError("effect evidence roots must be a sequence")
+        roots = tuple(sorted(_identifier(root, field="source root")
+                             for root in self.evidence_source_roots))
+        if not roots or len(set(roots)) != len(roots):
+            raise ValueError("effect evidence roots must be non-empty and unique")
+        object.__setattr__(self, "evidence_source_roots", roots)
+
+
+@dataclass(frozen=True)
+class StaleFederatedEffectLog:
+    """Content-free record that a prior effect predates a relevant notice."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    effect_id: str
+    original_revision_epoch: int
+    current_revision_epoch: int
+    reason: str
+    invalidating_event_ids: tuple[str, ...]
+
+
+def log_stale_federated_effects(
+    snapshot: WorldSnapshot,
+    effects: Sequence[FederatedEffectRecord],
+) -> tuple[StaleFederatedEffectLog, ...]:
+    """Log effects whose source-root evidence was revised after they were recorded."""
+    if not isinstance(snapshot, WorldSnapshot) \
+            or not snapshot.task_id.startswith("federation-evidence-"):
+        raise ValueError("snapshot must come from a federated evidence world")
+    if not isinstance(effects, (tuple, list)) or len(effects) > 128 \
+            or not all(isinstance(effect, FederatedEffectRecord) for effect in effects):
+        raise ValueError("effects must be a bounded sequence of federated effect records")
+    logs: list[StaleFederatedEffectLog] = []
+    for effect in effects:
+        if effect.revision_epoch > snapshot.revision_epoch:
+            raise ValueError("effect revision cannot be newer than the world snapshot")
+        invalidating: list[str] = []
+        delayed_notice = False
+        for event in snapshot.observations:
+            if event.get("revision_epoch", 0) <= effect.revision_epoch:
+                continue
+            data = event.get("data")
+            if not isinstance(data, Mapping):
+                continue
+            root = data.get("source_root_id")
+            if (event.get("kind") == "federation_notice"
+                    and root in effect.evidence_source_roots):
+                invalidating.append(str(event.get("event_id", "unknown")))
+                delayed_notice = True
+            elif event.get("kind") == "credible_source_claim":
+                invalidating.append(str(event.get("event_id", "unknown")))
+        if invalidating:
+            logs.append(StaleFederatedEffectLog(
+                effect_id=effect.effect_id,
+                original_revision_epoch=effect.revision_epoch,
+                current_revision_epoch=snapshot.revision_epoch,
+                reason="delayed_federation_notice" if delayed_notice
+                else "credible_source_conflict",
+                invalidating_event_ids=tuple(sorted(set(invalidating))),
+            ))
+    return tuple(logs)
+
+
+@dataclass(frozen=True)
+class FederatedEvidenceScenarioResult:
+    """Evaluator summary of correlated copies, contradiction, and delayed notice."""
+
+    __evaluator_only__: ClassVar[bool] = True
+
+    early_assessment: FederatedEvidenceAssessment
+    contradictory_assessment: FederatedEvidenceAssessment
+    final_assessment: FederatedEvidenceAssessment
+    stale_effect_logs: tuple[StaleFederatedEffectLog, ...]
+    outcome_digest: str
+
+
+def build_federated_evidence_world(seed: int) -> DeterministicWorldSpec:
+    """Build a wrong-copy, credible-conflict, delayed-notice federation case."""
+    if (not isinstance(seed, int) or isinstance(seed, bool)
+            or not 0 <= seed <= 0xffffffff):
+        raise ValueError("federation seed must be a 32-bit non-negative integer")
+    safe_limit = 4 + seed % 2
+    wrong_limit = safe_limit + 2
+    root_a, root_b = f"root-source-A-{seed}", f"root-source-B-{seed}"
+    return DeterministicWorldSpec(
+        task_id=f"federation-evidence-{seed}",
+        seed=seed,
+        initial_truth={"safe_limit": safe_limit, "active_source_roots": [root_a]},
+        initial_legal_effects=("set_limit", "rollback_limit"),
+        events=(
+            ScheduledWorldEvent(
+                "source-a-claim", 0, "credible_source_claim",
+                {"source_root_id": root_a, "source_revision": 0,
+                 "claim": "safe_limit", "value": wrong_limit, "credibility": "credible"},
+            ),
+            ScheduledWorldEvent(
+                "federation-copy-one", 1, "federation_copy",
+                {"source_root_id": root_a, "source_revision": 0,
+                 "copy_id": f"copy-one-{seed}", "claim": "safe_limit",
+                 "value": wrong_limit, "credibility": "credible"},
+            ),
+            ScheduledWorldEvent(
+                "federation-copy-two", 2, "federation_copy",
+                {"source_root_id": root_a, "source_revision": 0,
+                 "copy_id": f"copy-two-{seed}", "claim": "safe_limit",
+                 "value": wrong_limit, "credibility": "credible"},
+            ),
+            ScheduledWorldEvent(
+                "credible-source-b", 3, "credible_source_claim",
+                {"source_root_id": root_b, "source_revision": 0,
+                 "claim": "safe_limit", "value": safe_limit, "credibility": "credible"},
+                truth_updates={"active_source_roots": [root_a, root_b]},
+            ),
+            ScheduledWorldEvent(
+                "delayed-notice-a", 5, "federation_notice",
+                {"source_root_id": root_a, "source_revision": 1,
+                 "claim": "safe_limit", "value": safe_limit,
+                 "notice": "origin correction received after relay delay"},
+                truth_updates={"source_a_revision": 1},
+            ),
+        ),
+    )
+
+
+def run_federated_evidence_scenario(seed: int) -> FederatedEvidenceScenarioResult:
+    """Replay correlated wrong copies, cross-source conflict, and late correction."""
+    spec = build_federated_evidence_world(seed)
+    copies = replay_world(spec, through_tick=2)
+    conflict = replay_world(spec, through_tick=3)
+    final = replay_world(spec, through_tick=5)
+    early_assessment = assess_federated_claims(copies.public_view())
+    effect = FederatedEffectRecord(
+        effect_id=f"limit-change-{seed}", action="set_limit",
+        revision_epoch=copies.revision_epoch,
+        evidence_source_roots=(f"root-source-A-{seed}",),
+    )
+    return FederatedEvidenceScenarioResult(
+        early_assessment=early_assessment,
+        contradictory_assessment=assess_federated_claims(conflict.public_view()),
+        final_assessment=assess_federated_claims(final.public_view()),
+        stale_effect_logs=log_stale_federated_effects(final, (effect,)),
+        outcome_digest=final.outcome_digest,
+    )
+
+
+@dataclass(frozen=True)
 class TransitionSkeleton:
     """Surface-free transition shape used to keep structurally equal worlds together.
 

@@ -58,6 +58,12 @@ AST interpreter that rejects calls and other executable constructs, so patches
 never run arbitrary Python. This is a scripted tool-surface contract, not a
 process sandbox against hostile Python with direct module access.
 
+`build_federated_evidence_world(seed)` and `run_federated_evidence_scenario`
+cover a wrong source claim copied through two relays, a contradictory credible
+source, and a delayed correction from the original source. Claims are counted
+by provenance root rather than copy ID. Effects recorded against older world
+revisions receive a content-free stale log naming the invalidating events.
+
 The recovery episode has a read-only typed recovery catalog, bounded steps/event
 size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
@@ -137,7 +143,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v11.json`. Run it with
+`tools/agent_outcome_gate_manifest.v12.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

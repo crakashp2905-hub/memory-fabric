@@ -9,12 +9,14 @@ from benchmarks.outcome_worlds import (
     IncidentPlan,
     ScheduledWorldEvent,
     build_battery_diagnosis_world,
+    build_federated_evidence_world,
     build_incident_triage_world,
     build_maintenance_world,
     create_coding_repair_session,
     diagnose_battery,
     replay_world,
     run_maintenance_actions,
+    run_federated_evidence_scenario,
     run_correction_after_plan_scenario,
     run_incident_triage_actions,
 )
@@ -259,6 +261,31 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         session.apply_patch("src/dependency_compat.py", broken, unsafe)
         self.assertEqual(session.run_public_tests()["status"], "FAIL")
         self.assertEqual(session.submit(), {"status": "FAIL"})
+
+    def test_federation_copies_do_not_count_as_independent_and_late_effect_is_logged(self) -> None:
+        result = run_federated_evidence_scenario(31)
+        self.assertEqual(result.early_assessment.status, "SINGLE_SOURCE")
+        self.assertEqual(result.early_assessment.record_count, 3)
+        self.assertEqual(result.early_assessment.copy_count, 2)
+        self.assertEqual(result.early_assessment.independent_source_count, 1)
+        root_a = "root-source-A-31"
+        self.assertEqual(result.early_assessment.claims_by_root[root_a], 7)
+
+        self.assertEqual(result.contradictory_assessment.status, "CONTRADICTORY")
+        self.assertEqual(result.contradictory_assessment.independent_source_count, 2)
+        self.assertEqual(result.final_assessment.status, "CORROBORATED")
+        self.assertEqual(set(result.final_assessment.claims_by_root.values()), {5})
+        self.assertEqual(len(result.stale_effect_logs), 1)
+        log = result.stale_effect_logs[0]
+        self.assertEqual(log.reason, "delayed_federation_notice")
+        self.assertEqual(log.original_revision_epoch, 0)
+        self.assertGreater(log.current_revision_epoch, log.original_revision_epoch)
+        self.assertEqual(set(log.invalidating_event_ids), {
+            "credible-source-b", "delayed-notice-a",
+        })
+        snapshot = replay_world(build_federated_evidence_world(31), through_tick=2)
+        self.assertEqual(len(snapshot.observations), 3)
+        self.assertNotIn("delayed-notice-a", repr(snapshot.public_view()))
 
 
 if __name__ == "__main__":  # pragma: no cover
