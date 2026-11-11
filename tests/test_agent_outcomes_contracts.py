@@ -15,12 +15,93 @@ from benchmarks.outcome_report import (
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, EpisodeOutcome, FailureCode, RECOVERY_ACTIONS,
-    RecoveryAction, RecoveryEpisode, RecoveryLimits, RecoveryStatus,
+    AgentObservation, AgentStep, DiagnosisSource, EpisodeOutcome, EvidenceFailureCode,
+    FailureCode, RECOVERY_ACTIONS, RecoveryAction, RecoveryEpisode, RecoveryLimits,
+    RecoveryStatus, diagnose_access, diagnose_answerability, diagnose_certificate,
+    diagnose_relevance,
 )
+from memory_fabric.answerability import Answerability
+from memory_fabric.certificates import CertificateVerification
+from memory_fabric.enforcement import AccessDecision, RiskLevel, Verdict
+from memory_fabric.relevance import ReasonCode
 
 
 class TestOutcomeContracts(unittest.TestCase):
+    def test_evidence_diagnosis_classifies_access_without_leaking_details(self) -> None:
+        denied = AccessDecision("private-memory", 0, Verdict.DENY, "not_visible",
+                                detail="secret memory contents")
+        diagnosis = diagnose_access(denied)
+        self.assertEqual(diagnosis.source, DiagnosisSource.ACCESS)
+        self.assertEqual(diagnosis.failure_codes, (EvidenceFailureCode.UNAUTHORIZED,))
+        self.assertEqual(diagnosis.suggested_actions, ())
+        serialized = json.dumps(diagnosis.to_json())
+        self.assertNotIn("private-memory", serialized)
+        self.assertNotIn("secret memory contents", serialized)
+
+        expected = {
+            "not_found": EvidenceFailureCode.MISSING,
+            "candidate_unvalidated": EvidenceFailureCode.WITHHELD,
+            "contested": EvidenceFailureCode.CONTESTED,
+            "version_moved": EvidenceFailureCode.STALE,
+            "made_up_code": EvidenceFailureCode.UNKNOWN,
+        }
+        for reason, failure in expected.items():
+            with self.subTest(reason=reason):
+                row = AccessDecision("opaque", 1, Verdict.DENY, reason,
+                                     risk=RiskLevel.HIGH)
+                self.assertEqual(diagnose_access(row).failure_codes, (failure,))
+
+        deleted = AccessDecision("opaque", 1, Verdict.DENY, "blocked_lifecycle",
+                                 lifecycle_state="deleted")
+        self.assertEqual(diagnose_access(deleted).failure_codes,
+                         (EvidenceFailureCode.ERASED,))
+        active = AccessDecision("opaque", 1, Verdict.USABLE, "active")
+        self.assertEqual(diagnose_access(active).failure_codes, ())
+
+    def test_evidence_diagnosis_maps_certificates_and_unknown_reasons_fail_closed(self) -> None:
+        verified = CertificateVerification(True, ("ok",), {})
+        self.assertEqual(diagnose_certificate(verified).failure_codes, ())
+
+        refused = CertificateVerification(
+            False, ("evidence_version_moved", "future_reason"), {},
+            notes=("private text must not be copied",),
+        )
+        diagnosis = diagnose_certificate(refused)
+        self.assertEqual(diagnosis.failure_codes,
+                         (EvidenceFailureCode.STALE, EvidenceFailureCode.UNKNOWN))
+        self.assertEqual(diagnosis.suggested_actions,
+                         (RecoveryAction.REFRESH, RecoveryAction.RE_RETRIEVE))
+        self.assertNotIn("private text", json.dumps(diagnosis.to_json()))
+
+        unauthorized = CertificateVerification(False, ("wrong_tenant",), {})
+        self.assertEqual(diagnose_certificate(unauthorized).failure_codes,
+                         (EvidenceFailureCode.UNAUTHORIZED,))
+        empty = CertificateVerification(False, (), {})
+        self.assertEqual(diagnose_certificate(empty).failure_codes,
+                         (EvidenceFailureCode.UNKNOWN,))
+
+    def test_evidence_diagnosis_uses_answerability_verdict_and_exposure_count(self) -> None:
+        insufficient = Answerability("insufficient", reasons=("private claim text",))
+        retrieved_but_irrelevant = diagnose_answerability(insufficient, exposed_count=2)
+        self.assertEqual(retrieved_but_irrelevant.failure_codes,
+                         (EvidenceFailureCode.IRRELEVANT,))
+        self.assertNotIn("private claim text", json.dumps(retrieved_but_irrelevant.to_json()))
+        no_exposure = diagnose_answerability(insufficient, exposed_count=0)
+        self.assertEqual(no_exposure.failure_codes, (EvidenceFailureCode.INSUFFICIENT,))
+        contested = diagnose_answerability(Answerability("conflicting"), exposed_count=2)
+        self.assertEqual(contested.failure_codes, (EvidenceFailureCode.CONTESTED,))
+        unknown = diagnose_answerability(Answerability("future_verdict"), exposed_count=0)
+        self.assertEqual(unknown.failure_codes, (EvidenceFailureCode.UNKNOWN,))
+        with self.assertRaisesRegex(ValueError, "cannot be negative"):
+            diagnose_answerability(insufficient, exposed_count=-1)
+
+    def test_evidence_diagnosis_classifies_duplicate_relevance_and_unknown_input(self) -> None:
+        duplicate = diagnose_relevance(ReasonCode.DUPLICATE_OR_REDUNDANT)
+        self.assertEqual(duplicate.failure_codes, (EvidenceFailureCode.DUPLICATE,))
+        unknown = diagnose_relevance("not_a_reason_code")
+        self.assertEqual(unknown.failure_codes, (EvidenceFailureCode.UNKNOWN,))
+        self.assertEqual(unknown.suggested_actions, ())
+
     def test_observation_canonical_roundtrip_and_digest(self) -> None:
         observation = AgentObservation("task-1", "Check the current reading.",
                                        ({"source": "sensor", "value": "normal"},),

@@ -10,7 +10,13 @@ from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCo
 from .recovery import (
     RECOVERY_ACTIONS, RecoveryAction, RecoveryEpisode, RecoveryLimits, RecoveryStatus,
 )
+from .eligibility import (
+    DiagnosisSource, EvidenceDiagnosis, EvidenceFailureCode, diagnose_access,
+    diagnose_answerability, diagnose_certificate, diagnose_relevance,
+)
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
-           "RecoveryStatus"]
+           "RecoveryStatus", "DiagnosisSource", "EvidenceDiagnosis",
+           "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
+           "diagnose_certificate", "diagnose_relevance"]

@@ -71,6 +71,17 @@ data, and abstention opportunity cost. Successful episodes carry no terminal
 failure code; recovered intermediate refusals remain in the separate safety
 attempt counters.
 
+`memory_fabric.agent_outcomes.eligibility` separately classifies evidence
+refusals as missing, withheld, irrelevant, stale, contested, unauthorized,
+erased, duplicate, insufficient, or unknown. It accepts typed access,
+certificate, answerability, and relevance signals. Unknown reason codes map to
+`unknown`; answerability diagnosis uses the verdict and exposed-item count, not
+the question or memory text. The serialized diagnosis contains only these
+closed codes and read-only recovery suggestions. `not_found` stays
+`missing` even when the host intentionally conceals whether an identifier is
+cross-tenant. Suggestions are advisory; the actor must still pass any effect
+through `ActionGate`.
+
 `benchmarks.outcome_report.paired_completion_analysis` computes matched
 completion rates, treatment-minus-baseline effects, a seed-cluster bootstrap
 interval, and an exact sign test over cluster means. It rejects unmatched task
