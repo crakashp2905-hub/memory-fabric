@@ -7,15 +7,18 @@ __stability__ = "experimental"
 import hashlib
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dataclass_field
 from enum import StrEnum
 from typing import Any, Mapping
 
 SCHEMA_ID = "memory-fabric.agent-outcomes.v3"
+ORACLE_SCHEMA_ID = "memory-fabric.oracle-task.v1"
 MAX_JSON_BYTES = 64_000
 _FORBIDDEN = frozenset({
     "truth", "expected_action", "evidence_usable", "evidence_conflicted",
-    "reward", "correct_answer", "answer_key", "eligibility_oracle",
+    "reward", "correct_answer", "answer_key", "eligibility_oracle", "oracle",
+    "oracle_task", "oracle_sha256", "hidden_answer", "ground_truth", "eligibility",
+    "eligible", "eligible_effects", "grading", "grader_output",
 })
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _INTENTS = frozenset({"retrieve", "inspect", "request_refresh", "ask", "propose", "abstain"})
@@ -120,6 +123,71 @@ class AgentObservation:
                    visible_events=tuple(raw["visible_events"]),
                    permitted_tools=tuple(raw["permitted_tools"]), budget=raw["budget"],
                    schema_id=raw["schema_id"])
+
+
+@dataclass(frozen=True, repr=False)
+class OracleTask:
+    """Evaluator-side truth envelope, stored separately from agent observations.
+
+    The canonical payload remains private and is committed by a SHA-256 seal.
+    This is an integrity boundary, not an in-process secrecy mechanism; callers
+    must keep the object out of actor arguments and actor-visible event data.
+    """
+
+    task_id: str
+    _sealed_payload: bytes = dataclass_field(repr=False)
+    seal_sha256: str
+    schema_id: str = ORACLE_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _valid_id(self.task_id, "task_id")
+        if self.schema_id != ORACLE_SCHEMA_ID:
+            raise ValueError("unsupported oracle task schema")
+        if not isinstance(self._sealed_payload, bytes) or len(self._sealed_payload) > MAX_JSON_BYTES:
+            raise ValueError("sealed oracle payload must be bounded canonical bytes")
+        if not isinstance(self.seal_sha256, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", self.seal_sha256
+        ):
+            raise ValueError("oracle seal must be a SHA-256 hex digest")
+        if not self.verify_seal():
+            raise ValueError("oracle payload does not match its seal")
+
+    @classmethod
+    def seal(cls, task_id: str, oracle_payload: Mapping[str, Any]) -> "OracleTask":
+        """Seal a world-specific oracle payload with required hidden labels."""
+        if not isinstance(oracle_payload, Mapping):
+            raise ValueError("oracle_payload must be a JSON object")
+        payload = dict(oracle_payload)
+        missing = {"truth", "eligibility", "reward"} - payload.keys()
+        if missing:
+            raise ValueError(f"oracle payload is missing required fields: {sorted(missing)}")
+        encoded = _canonical({"schema_id": ORACLE_SCHEMA_ID, "task_id": task_id,
+                              "oracle_payload": payload})
+        return cls(task_id, encoded, hashlib.sha256(encoded).hexdigest())
+
+    def verify_seal(self) -> bool:
+        """Check digest and envelope identity without returning hidden labels."""
+        if hashlib.sha256(self._sealed_payload).hexdigest() != self.seal_sha256:
+            return False
+        try:
+            envelope = json.loads(self._sealed_payload)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        if (not isinstance(envelope, dict)
+                or set(envelope) != {"schema_id", "task_id", "oracle_payload"}
+                or envelope["schema_id"] != self.schema_id
+                or envelope["task_id"] != self.task_id
+                or not isinstance(envelope["oracle_payload"], dict)
+                or not {"truth", "eligibility", "reward"} <= envelope["oracle_payload"].keys()):
+            return False
+        try:
+            return _canonical(envelope) == self._sealed_payload
+        except ValueError:
+            return False
+
+    def __repr__(self) -> str:
+        return (f"OracleTask(task_id={self.task_id!r}, schema_id={self.schema_id!r}, "
+                f"seal_sha256={self.seal_sha256!r})")
 
 
 @dataclass(frozen=True)

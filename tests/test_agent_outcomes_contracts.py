@@ -7,6 +7,7 @@ import io
 import json
 import unittest
 from contextlib import redirect_stdout
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from benchmarks.outcome_report import (
@@ -22,6 +23,7 @@ from memory_fabric.agent_outcomes import (
 )
 from memory_fabric.answerability import Answerability
 from memory_fabric.certificates import CertificateVerification
+from memory_fabric.agent_outcomes.observations import OracleTask
 from memory_fabric.enforcement import AccessDecision, RiskLevel, Verdict
 from memory_fabric.relevance import ReasonCode
 
@@ -113,10 +115,63 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(len(observation.request_digest()), 64)
 
     def test_observation_rejects_oracle_fields_recursively(self) -> None:
-        for field in ("truth", "expected_action", "evidence_usable", "reward"):
+        for field in ("truth", "expected_action", "evidence_usable", "reward",
+                      "hidden_answer", "eligibility", "oracle_task"):
             with self.subTest(field=field):
                 with self.assertRaisesRegex(ValueError, "evaluator-only"):
                     AgentObservation("task-1", "Do task", ({"metadata": {field: True}},), (), {})
+
+    def test_oracle_task_is_sealed_and_cannot_enter_the_agent_payload(self) -> None:
+        hidden_answer = "answer-canary-7f4c"
+        hidden_reward = "reward-canary-a912"
+        oracle = OracleTask.seal("task-sealed", {
+            "truth": {"answer": hidden_answer},
+            "eligibility": {"safe_action": True},
+            "reward": {"completion": hidden_reward},
+        })
+        self.assertTrue(oracle.verify_seal())
+        self.assertEqual(oracle.schema_id, "memory-fabric.oracle-task.v1")
+        self.assertNotIn(hidden_answer, repr(oracle))
+        self.assertNotIn(hidden_reward, repr(oracle))
+        self.assertIn(hidden_answer, oracle._sealed_payload.decode("utf-8"))
+
+        observation_fields = set(AgentObservation.__dataclass_fields__)
+        self.assertEqual(observation_fields, {
+            "task_id", "instruction", "visible_events", "permitted_tools", "budget",
+            "schema_id",
+        })
+        observation = AgentObservation(
+            "task-sealed", "Observe the public status.", ({"status": "normal"},), (), {},
+        )
+        visible = observation.canonical_json()
+        self.assertNotIn(hidden_answer, visible)
+        self.assertNotIn(hidden_reward, visible)
+
+        # Exercise the actual benchmark observation builder with a hidden
+        # terminal target that differs from the public initial reading.
+        with patch("benchmarks.outcome_recovery._world_case", return_value=SimpleNamespace(
+            initial_value=10, correction_value=997139, terminal_target=997139,
+        )):
+            actor_payload = visible_observation(0).canonical_json()
+        self.assertNotIn("997139", actor_payload)
+
+        for payload in (
+            {"hidden_answer": hidden_answer},
+            {"eligibility": {"safe_action": True}},
+            {"reward": hidden_reward},
+        ):
+            with self.subTest(payload=payload):
+                with self.assertRaisesRegex(ValueError, "evaluator-only"):
+                    AgentObservation("task-sealed", "Do task", (payload,), (), {})
+
+        with self.assertRaisesRegex(ValueError, "does not match its seal"):
+            OracleTask(oracle.task_id, oracle._sealed_payload + b" ", oracle.seal_sha256)
+
+    def test_oracle_task_requires_truth_eligibility_and_reward_fields(self) -> None:
+        for payload in ({}, {"truth": {}}, {"truth": {}, "eligibility": {}}):
+            with self.subTest(payload=payload):
+                with self.assertRaisesRegex(ValueError, "missing required fields"):
+                    OracleTask.seal("task-sealed", payload)
 
     def test_contracts_reject_unknown_fields_and_unbounded_payloads(self) -> None:
         with self.assertRaisesRegex(ValueError, "fields do not match"):
