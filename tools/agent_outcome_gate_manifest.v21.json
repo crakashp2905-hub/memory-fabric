@@ -1,0 +1,99 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-gate.v21",
+  "manifest_version": 21,
+  "checks": [
+    {
+      "id": "scripted_contracts",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "tests.test_agent_outcomes_contracts",
+        "tests.test_agent_outcome_gate",
+        "tests.test_outcome_world_splits",
+        "tests.test_outcome_matched_arms",
+        "tests.test_outcome_oracle_isolation",
+        "tests.test_outcome_recovery",
+        "tests.test_outcome_authorization",
+        "tests.test_outcome_eligibility",
+        "tests.test_outcome_agents",
+        "tests.test_outcome_world_engine",
+        "tests.test_action_fence",
+        "tests.test_stability",
+        "tests.test_suite_hygiene"
+      ]
+    },
+    {
+      "id": "lint",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "memory_fabric/agent_outcomes",
+        "benchmarks/outcome_report.py",
+        "benchmarks/outcome_recovery.py",
+        "benchmarks/outcome_worlds.py",
+        "examples/outcome_recovery_demo.py",
+        "tools/agent_outcome_gate.py",
+        "tests/test_agent_outcomes_contracts.py",
+        "tests/test_agent_outcome_gate.py",
+        "tests/test_outcome_world_splits.py",
+        "tests/test_outcome_matched_arms.py",
+        "tests/test_outcome_oracle_isolation.py",
+        "tests/test_outcome_recovery.py",
+        "tests/test_outcome_world_engine.py",
+        "memory_fabric/certificates.py",
+        "tests/test_outcome_authorization.py",
+        "tests/test_outcome_eligibility.py",
+        "benchmarks/outcome_agents.py",
+        "tests/test_outcome_agents.py"
+      ]
+    },
+    {
+      "id": "types",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "mypy",
+        "memory_fabric/agent_outcomes",
+        "benchmarks/outcome_report.py",
+        "benchmarks/outcome_recovery.py",
+        "benchmarks/outcome_worlds.py",
+        "examples/outcome_recovery_demo.py",
+        "tools/agent_outcome_gate.py",
+        "memory_fabric/certificates.py",
+        "benchmarks/outcome_agents.py"
+      ]
+    },
+    {
+      "id": "full_repository",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-t",
+        "."
+      ]
+    },
+    {
+      "id": "local_model",
+      "required_for_scripted_qualification": false,
+      "evidence_level": "local_model_tested",
+      "command": null
+    },
+    {
+      "id": "deployment_review",
+      "required_for_scripted_qualification": false,
+      "evidence_level": "deployment_validated",
+      "command": null
+    }
+  ]
+}

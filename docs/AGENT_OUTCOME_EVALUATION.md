@@ -16,6 +16,11 @@ grade, and capability objects. This is an in-process API boundary, not a Python
 sandbox against reflection or hostile code with module access. Actor calls still
 receive only `AgentObservation`.
 
+`benchmarks.outcome_agents` supplies scripted Observer, Planner, and Executor
+roles over separate authenticated sessions. Each role has a closed tool
+declaration and emits typed `AgentStep` records; action execution remains behind
+the host's current evidence checks and exact-action grant.
+
 Integrations start a recovery episode through `RecoveryFeatureFlag`; it is
 disabled by default. The disabled flag creates no episode and does not wrap or
 change legacy `MemoryFabric`, `Session`, or `ActionGate` calls. Scripted
@@ -158,7 +163,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v20.json`. Run it with
+`tools/agent_outcome_gate_manifest.v21.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
