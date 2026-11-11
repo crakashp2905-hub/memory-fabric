@@ -40,6 +40,14 @@ must be treated as a new scripted population, not confirmatory evidence.
 - Policy release: `NOT_READY`; candidate recovery/CDM behavior must remain off
   by default until frozen matched gates support promotion.
 
+The versioned offline gate is defined by
+`tools/agent_outcome_gate_manifest.v1.json`. Run it with
+`python tools/agent_outcome_gate.py`; it executes the full repository suite by
+default and emits a content-safe JSON manifest with the candidate Git SHA and
+whether the worktree was dirty. `--skip-full` is useful for quick iteration,
+but intentionally yields `NOT_RUN`, never `SCRIPTED_QUALIFIED`. Local-model
+and deployment evidence remain separate `NOT_RUN` entries until performed.
+
 Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
