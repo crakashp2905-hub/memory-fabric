@@ -69,6 +69,16 @@ not record evaluator-labeled abstention or evidence-availability opportunities,
 so those rates remain `NOT_MEASURED`; absence of those fields is not reported as
 zero.
 
+The negative-control contract fixes eight answerable and four unanswerable
+case IDs in `tests.test_outcome_matched_arms`. Its perfect-information oracle
+scores 12/12 on disposition, compared with 8/12 for always-act and 4/12 for
+always-abstain. Completion remains separate: the control illustrates why a safe
+abstention can be correct behavior without counting as a completed task. The
+always-act arm records attempted unsafe actions, not executed effects. The
+test scorer synthesizes a terminal value only for exact requests on evaluator-
+authorized cases; it does not call `ActionGate` or a physical-effect executor.
+This fixture is not a benchmark result.
+
 - Scripted recovery pilot: focused contract tests pass; full repository
   qualification awaits CI and the complete check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is
@@ -78,7 +88,7 @@ zero.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v2.json`. Run it with
+`tools/agent_outcome_gate_manifest.v3.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
