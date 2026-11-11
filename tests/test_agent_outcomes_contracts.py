@@ -7,6 +7,7 @@ import hashlib
 import unittest
 
 from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
+from benchmarks.outcome_recovery import run_episode, run_paired, visible_observation
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
 )
@@ -63,3 +64,22 @@ class TestOutcomeContracts(unittest.TestCase):
         bound = zero_event_upper_bound(0, 20)
         self.assertAlmostEqual(bound, 0.139108, delta=1e-6)
         self.assertAlmostEqual(zero_event_upper_bound(1, 20), 0.216106, delta=1e-6)
+
+    def test_scripted_recovery_uses_gate_and_paired_abstention(self) -> None:
+        recovered = run_episode(0)
+        abstained = run_episode(0, arm="A0")
+        self.assertTrue(recovered.completion)
+        self.assertEqual(recovered.successful_recoveries, 1)
+        self.assertEqual(recovered.rejected_effects, 1)
+        self.assertFalse(abstained.completion)
+        self.assertEqual(abstained.successful_recoveries, 0)
+        self.assertEqual(abstained.outcome_oracle_digest, recovered.outcome_oracle_digest)
+
+    def test_unresolved_case_abstains_and_observation_has_no_truth(self) -> None:
+        outcome = run_episode(1)
+        self.assertFalse(outcome.completion)
+        self.assertEqual(outcome.successful_recoveries, 0)
+        self.assertNotIn("truth", visible_observation(1).canonical_json())
+        rows = run_paired((0, 1))
+        self.assertEqual([(row.seed, row.arm) for row in rows],
+                         [(0, "A0"), (0, "A5"), (1, "A0"), (1, "A5")])
