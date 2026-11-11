@@ -7,6 +7,8 @@ import unittest
 from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
     ScheduledWorldEvent,
+    build_battery_diagnosis_world,
+    diagnose_battery,
     replay_world,
     run_correction_after_plan_scenario,
 )
@@ -119,6 +121,27 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         second = run_correction_after_plan_scenario(8)
         self.assertEqual(first, second)
         self.assertEqual(len(first.world_outcome_digest), 64)
+
+    def test_battery_diagnosis_keeps_sensor_fault_and_overheating_nonexclusive(self) -> None:
+        spec = build_battery_diagnosis_world(23)
+        snapshot = replay_world(spec)
+        diagnosis = diagnose_battery(snapshot.public_view())
+        self.assertEqual(diagnosis.conditions, ("overheating", "sensor_fault"))
+        self.assertIsNone(diagnosis.root_cause)
+        self.assertEqual(
+            set(diagnosis.supporting_source_roots), {"overheating", "sensor_fault"})
+        condition_roots = {
+            root for roots in diagnosis.supporting_source_roots.values() for root in roots
+        }
+        self.assertEqual(len(condition_roots), 2)
+        observation_kinds = {event["kind"] for event in snapshot.observations}
+        self.assertEqual(observation_kinds, {
+            "sensor_reading", "independent_probe_reading", "calibration_record",
+        })
+        self.assertTrue(snapshot.hidden_truth["pack_sensor_fault"])
+        public = snapshot.public_view()
+        self.assertNotIn("pack_sensor_fault", repr(public))
+        self.assertNotIn("pack_sensor_offset_c", repr(public))
 
 
 if __name__ == "__main__":  # pragma: no cover

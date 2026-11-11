@@ -532,6 +532,115 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
 
 
 @dataclass(frozen=True)
+class BatteryDiagnosis:
+    """Multi-label public diagnosis; findings are not mutually exclusive."""
+
+    conditions: tuple[str, ...]
+    root_cause: str | None
+    supporting_source_roots: Mapping[str, tuple[str, ...]]
+
+    def __post_init__(self) -> None:
+        allowed = {"overheating", "sensor_fault"}
+        conditions = tuple(sorted(self.conditions))
+        if len(set(conditions)) != len(conditions) or not set(conditions) <= allowed:
+            raise ValueError("battery conditions must be unique supported labels")
+        if self.root_cause is not None and self.root_cause not in conditions:
+            raise ValueError("root_cause must be one of the supported conditions")
+        roots: dict[str, tuple[str, ...]] = {}
+        if not isinstance(self.supporting_source_roots, Mapping):
+            raise ValueError("supporting_source_roots must be a mapping")
+        for condition, values in self.supporting_source_roots.items():
+            if condition not in conditions or not isinstance(values, (tuple, list)):
+                raise ValueError("source roots must belong to diagnosed conditions")
+            checked = tuple(sorted(_identifier(value, field="source root")
+                                   for value in values))
+            if not checked or len(set(checked)) != len(checked):
+                raise ValueError("each diagnosed condition needs unique source roots")
+            roots[condition] = checked
+        if set(roots) != set(conditions):
+            raise ValueError("each diagnosed condition needs independent evidence roots")
+        object.__setattr__(self, "conditions", conditions)
+        object.__setattr__(self, "supporting_source_roots", MappingProxyType(roots))
+
+
+def build_battery_diagnosis_world(seed: int) -> DeterministicWorldSpec:
+    """Build a seeded case where a drifting pack sensor coexists with heat."""
+    if (not isinstance(seed, int) or isinstance(seed, bool)
+            or not 0 <= seed <= 0xffffffff):
+        raise ValueError("battery diagnosis seed must be a 32-bit non-negative integer")
+    task_id = f"battery-diagnosis-{seed}"
+    actual_temperature = 76 + seed % 5
+    sensor_offset = 12 + seed % 4
+    return DeterministicWorldSpec(
+        task_id=task_id,
+        seed=seed,
+        initial_truth={
+            "actual_temperature_c": actual_temperature,
+            "pack_sensor_fault": True,
+            "pack_sensor_offset_c": sensor_offset,
+        },
+        initial_legal_effects=("reduce_load", "replace_pack_sensor"),
+        events=(
+            ScheduledWorldEvent(
+                "calibration-lab", 2, "calibration_record",
+                {"source": "calibration-lab",
+                 "source_root_id": f"root-calibration-lab-{seed}",
+                 "subject": "pack-sensor", "status": "out_of_calibration"},
+            ),
+            ScheduledWorldEvent(
+                "independent-probe", 1, "independent_probe_reading",
+                {"source": "thermal-probe-B", "source_root_id": f"root-probe-B-{seed}",
+                 "temperature_c": actual_temperature},
+            ),
+            ScheduledWorldEvent(
+                "pack-sensor", 0, "sensor_reading",
+                {"source": "pack-sensor-A",
+                 "source_root_id": f"root-pack-sensor-A-{seed}",
+                 "temperature_c": actual_temperature + sensor_offset},
+            ),
+        ),
+    )
+
+
+def diagnose_battery(public_view: Mapping[str, Any]) -> BatteryDiagnosis:
+    """Diagnose coexisting heat and instrument-fault findings from public events."""
+    if not isinstance(public_view, Mapping) or not isinstance(
+            public_view.get("observations"), (tuple, list)):
+        raise ValueError("battery diagnosis requires a public world observation")
+    probe: Mapping[str, Any] | None = None
+    calibration: Mapping[str, Any] | None = None
+    for event in public_view["observations"]:
+        if not isinstance(event, Mapping) or not isinstance(event.get("data"), Mapping):
+            raise ValueError("battery observations must contain public event data")
+        data = event["data"]
+        if event.get("kind") == "independent_probe_reading":
+            probe = data
+        elif event.get("kind") == "calibration_record":
+            calibration = data
+
+    conditions: list[str] = []
+    roots: dict[str, tuple[str, ...]] = {}
+    if (probe is not None and probe.get("source") == "thermal-probe-B"
+            and isinstance(probe.get("temperature_c"), (int, float))
+            and not isinstance(probe.get("temperature_c"), bool)
+            and probe["temperature_c"] >= 70):
+        root = probe.get("source_root_id")
+        if isinstance(root, str):
+            conditions.append("overheating")
+            roots["overheating"] = (_identifier(root, field="source root"),)
+    if (calibration is not None and calibration.get("source") == "calibration-lab"
+            and calibration.get("subject") == "pack-sensor"
+            and calibration.get("status") == "out_of_calibration"):
+        root = calibration.get("source_root_id")
+        if isinstance(root, str):
+            conditions.append("sensor_fault")
+            roots["sensor_fault"] = (_identifier(root, field="source root"),)
+    normalized = tuple(sorted(conditions))
+    root_cause = normalized[0] if len(normalized) == 1 else None
+    return BatteryDiagnosis(normalized, root_cause, roots)
+
+
+@dataclass(frozen=True)
 class TransitionSkeleton:
     """Surface-free transition shape used to keep structurally equal worlds together.
 

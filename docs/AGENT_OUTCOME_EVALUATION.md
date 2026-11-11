@@ -32,6 +32,13 @@ delivered correction. The terminal grader completes only after the re-evaluated
 legal action executes. This remains a local scripted simulation with no
 external physical effect.
 
+`build_battery_diagnosis_world(seed)` supplies a pack-sensor reading, an
+independent thermal-probe reading, and a calibration-lab record with distinct
+source roots. `diagnose_battery(public_view)` returns a set of coexisting
+conditions; a drifting pack sensor and actual overheating can both be present,
+and the diagnosis leaves the single root cause unresolved when both findings
+are supported.
+
 The recovery episode has a read-only typed recovery catalog, bounded steps/event
 size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
@@ -111,7 +118,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v7.json`. Run it with
+`tools/agent_outcome_gate_manifest.v8.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
