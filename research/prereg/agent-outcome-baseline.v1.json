@@ -1,0 +1,539 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-baseline.v1",
+  "manifest_version": 1,
+  "frozen_on": "2026-11-11",
+  "artifact_hash_algorithm": "sha256",
+  "artifact_hash_basis": "SHA-256 covers canonical Git blob bytes read with git show <commit>:<path>; the new P3b replay names its committed blob representation explicitly.",
+  "parameter_scope": "Inline values are an index; hashed registration and harness artifacts pin the full available parameter definitions.",
+  "available_checkout_sha": "78c1586214a4bd2424c18ce26c141ea093136fc4",
+  "supplied_master_plan": {
+    "filename": "MEMORY_FABRIC_AGENT_OUTCOMES_IN_HOUSE_MASTERPLAN.md",
+    "sha256": "11e4d5aea0723038855134f9efe846395c57b6973268895a64b883b39c8dff1d",
+    "reviewed_source_sha": "4315997d066a261aa674559fc89d73d0c407d16b",
+    "source_status": "SOURCE_UNAVAILABLE",
+    "reason": "The reviewed commit object is absent from this repository checkout; git cat-file cannot resolve it."
+  },
+  "status_definitions": {
+    "UNVERIFIABLE_REFERENCE": "A proposal claim has no matching result or raw artifact identified in the available checkout or fetched evidence branch.",
+    "RECORDED_NOT_REPRODUCED": "Checked-in registration, result and raw artifacts exist, but this manifest did not rerun the experiment.",
+    "EXPLORATORY_RECORDED_NOT_REPRODUCED": "Exploratory result and raw artifacts exist, but its registered gate did not pass and no replay was run.",
+    "BRANCH_ARTIFACT_RECORDED_NOT_REPRODUCED": "A result and source artifacts exist only on a separately fetched repository branch; this manifest pins that branch commit and hashes but did not replay the run.",
+    "REPLAYED_WITH_DOCUMENT_CONFLICT": "An exact historical deterministic replay reproduced a summary metric, while the original detailed table still disagrees."
+  },
+  "references": [
+    {
+      "id": "grand_50_agent_synthetic",
+      "population": "Grand 50-agent TeamWorld confirmation; five unseen seeds 101–105 and 500 answerable task opportunities.",
+      "status": "BRANCH_ARTIFACT_RECORDED_NOT_REPRODUCED",
+      "reported_claims": {
+        "task_success_rate": 0.584,
+        "valid_evidence_withheld_rate": 0.168
+      },
+      "run_commit": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+      "recorded_command": null,
+      "parameters": {
+        "teamworld": {
+          "seeds": [101, 102, 103, 104, 105],
+          "agents": 50,
+          "rounds": 60,
+          "tasks_per_seed": 100,
+          "registered_headroom_share": 0.4,
+          "withholding_limit": 0.05,
+          "arms": ["isolated", "plain_shared", "blanket_invalidation", "fabric", "oracle"]
+        },
+        "http_load": {
+          "agents": 50,
+          "operations_per_agent": 20,
+          "seed_memories": 200,
+          "store": "sqlite",
+          "recorded_operation_mix": {"remember": 306, "recall": 496, "fetch_verify": 198}
+        },
+        "longmemeval_full_history": {
+          "split": "s",
+          "stratified_instances": 100,
+          "retrieval_k": 10,
+          "dataset_sha256": "d6f21ea9d60a0d56f34a05b609c79c88a451d2ae03597821ea3d5a9678c3a442"
+        },
+        "longmemeval_compact_exploratory": {
+          "instances": 500,
+          "dataset_sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c"
+        }
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/grand-50-agent-suite-v1.md",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "c8144a86adcd4782aa46bc75c66164de419ae00eb0a15186b7c114ff72186ebd",
+          "bytes": 2634
+        },
+        "result": {
+          "path": "research/results/grand-50-agent-suite-v1.md",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "8240afbf28d3e2f73700a065dd9cd12f3da1bb29233b35020bfa878819ff4d0d",
+          "bytes": 2590
+        },
+        "summary_json": {
+          "path": "research/results/grand-50-agent-suite-v1.json",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "3fc05793e8e9da991dd2c9a797a496683e3141a4f33ad61d6065b05992d435d8",
+          "bytes": 3044
+        },
+        "world": {
+          "path": "experiments/teamworld.py",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "4f2a69d001368834404ff937f8ce50a75bacc53eda3bc5b37076e23b580c4ad4",
+          "bytes": 24044
+        }
+      },
+      "gaps": [
+        "These artifacts are present on a separately fetched feature branch, not the current checkout or main.",
+        "The run report says its worktree was dirty; the summary JSON has aggregate results rather than per-task raw rows.",
+        "The exact original CLI invocation is not recorded; no replay was performed for this manifest.",
+        "The external LongMemEval dataset files are not present in this checkout; only their recorded digests are available.",
+        "The proposal's reviewed source commit remains unavailable."
+      ],
+      "reported_verdict": "FAIL: fabric task success 0.584 versus shared baseline 0.782; valid evidence withheld 0.168 exceeded the registered 0.050 limit. Stale actions were zero.",
+      "result_branch_snapshot_commit": "8d19373113c85c592f786f915dd97dd44320f715"
+    },
+    {
+      "id": "withholding_ablation_17_2",
+      "population": "Separate deterministic ablation, distinct from the 50-agent synthetic population.",
+      "status": "UNVERIFIABLE_REFERENCE",
+      "reported_claims": {
+        "valid_evidence_withheld_rate": 0.172,
+        "promotion_gate": "no candidate passed"
+      },
+      "run_commit": null,
+      "recorded_command": null,
+      "parameters": null,
+      "artifacts": {},
+      "gaps": [
+        "No matching ablation result, raw rows, exact seeds, harness, or command was found in this checkout.",
+        "Do not pool this percentage with the 50-agent claim."
+      ]
+    },
+    {
+      "id": "cdm_heldout_utility_and_architecture",
+      "population": "Separate finite synthetic CDM held-out selector and architecture comparisons; no real-world validation.",
+      "status": "BRANCH_ARTIFACT_RECORDED_NOT_REPRODUCED",
+      "reported_claims": {
+        "downstream_improvement_established": false
+      },
+      "run_commit": null,
+      "recorded_command": null,
+      "parameters": {
+        "heldout_v2_seeds": 10,
+        "heldout_v2_arms": 7,
+        "heldout_v2_paired_rows": 70,
+        "architecture_r5v3_seeds": 20
+      },
+      "artifacts": {
+        "findings_index": {
+          "path": "docs/CDM_KNOWN_FINDINGS.md",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "d494436e232fee7d1ba7709b4d0c7feae718f5256475621f37860854eb4c28d1",
+          "bytes": 4699
+        },
+        "heldout_v2_readme": {
+          "path": "research/results/cdm/heldout-v2/README.md",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "e66315a2ef0dcf0b6be9da5ed96137147cf309badbeadea87f5001db22332f03",
+          "bytes": 681
+        },
+        "heldout_v2_manifest": {
+          "path": "research/results/cdm/heldout-v2/manifest.json",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "8f279ef80565d45306cbbafc1f832746f2e5e96fe933ee7c896cd8de21f5efef",
+          "bytes": 2626
+        },
+        "heldout_v2_raw_json": {
+          "path": "research/results/cdm/heldout-v2/paired-cases.json",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "4b52c4194bd25d7795fbc8369279ee5a542a52fa1cf65d5652676162c691d6a7",
+          "bytes": 42059
+        },
+        "heldout_v2_raw_csv": {
+          "path": "research/results/cdm/heldout-v2/paired-cases.csv",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "2ed6b9ed3b036f954d852b3a50370ded09d2b08fba9c94059e119b38802cbc48",
+          "bytes": 11043
+        },
+        "architecture_r5v3_report": {
+          "path": "research/results/cdm/architecture-superiority-r5v3/confirmatory/report.md",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "ea0fa1bf4adf05bab421d3b1dbeaafc282cea5d35bf18709ffef105b7142b4d4",
+          "bytes": 1508
+        },
+        "architecture_r5v3_report_json": {
+          "path": "research/results/cdm/architecture-superiority-r5v3/confirmatory/report.json",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "99dd4845b625199b0381a891a1708447d21356a1799396ab8319d058398a907c",
+          "bytes": 89207
+        },
+        "architecture_r5v3_manifest": {
+          "path": "research/results/cdm/architecture-superiority-r5v3/confirmatory/manifest.json",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "56ba1c238598f67131ef02879a24c7928a31a6fb1cb61713605a05379ad65165",
+          "bytes": 4389
+        },
+        "architecture_r5v3_raw_cases": {
+          "path": "research/results/cdm/architecture-superiority-r5v3/confirmatory/cases.csv",
+          "git_commit": "8d19373113c85c592f786f915dd97dd44320f715",
+          "sha256": "d33be3ec14e252daf8a70136f35325528bf1e2b9e28be16d192e450a5d743207",
+          "bytes": 15948
+        }
+      },
+      "gaps": [
+        "These artifacts are present on a separately fetched feature branch, not the current checkout or main.",
+        "The two studies are separate populations and cannot be pooled with agent outcomes.",
+        "The manifest pins their checked-in branch artifacts but did not replay their generators."
+      ],
+      "reported_verdict": "Corrected held-out selector comparison has no positive paired utility result; R5 v3 confirmatory architecture comparison does not support its registered superiority hypothesis.",
+      "result_branch_snapshot_commit": "8d19373113c85c592f786f915dd97dd44320f715"
+    },
+    {
+      "id": "phase_a_real_agent",
+      "population": "DepotWorld local-model agent; five seeds and 24 evaluation episodes per seed, paired by case.",
+      "status": "RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "KILLED; governed fabric lost to the strongest ungoverned arm. The registered oracle was mis-specified, so its headroom shares are not reusable.",
+      "run_commit": "c7697580f6a495f1ad4813a866fa5f0585fb911f",
+      "result_document_commit": "0b02d9e84c6ce6044c03f477a171c40aeb720801",
+      "recorded_command": "python -m experiments.phase_a --seeds 5 --episodes 24",
+      "parameters": {
+        "seeds": 5,
+        "evaluation_episodes_per_seed": 24,
+        "learning_episodes_per_seed": 18,
+        "retrieval_k": 3,
+        "model_tag": "qwen2.5:3b",
+        "embedding_tag": "nomic-embed-text"
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/phase-a-real-agent-benchmark.md",
+          "sha256": "6a4e2554f1ee5c6746c826dcdfe48978df488fc950b3c945bf6f43f9c43b67cb"
+        },
+        "result": {
+          "path": "research/results/phase-a-real-agent-benchmark.md",
+          "sha256": "084fd81b7a0ba71f287c43e632328c8e503ab4c3d398e56fe30a69ae46e9769c"
+        },
+        "run_log": {
+          "path": "research/results/phase-a-run.txt",
+          "sha256": "3bd9bdf6a03cd5b9210e0447638cd73da0e9c1370db9552cfe561f702095cf3c"
+        },
+        "raw_decisions": {
+          "path": "research/results/phase-a-decisions.json",
+          "sha256": "0ef98a8374ce24cae8e6cbdf38fc456a173fcc32dfd424eff02934f85ca360fb"
+        },
+        "harness": {
+          "path": "experiments/phase_a.py",
+          "sha256": "c8f6e37531dd0c8f7e4f2cf2e3270a8811a0d5a7a7ca297ec6b09fad1ff87080"
+        },
+        "world": {
+          "path": "experiments/depotworld.py",
+          "sha256": "6482b9bc91107c4085de17cac1a40b2e98c5077cc33d3681a0dd842aded68870"
+        }
+      },
+      "gaps": [
+        "No pinned local model or embedding binary digest is recorded; exact model replay is unavailable.",
+        "This manifest verifies checked-in artifact hashes, not the reported numerical result."
+      ]
+    },
+    {
+      "id": "phase_a_prime_attribution",
+      "population": "DepotWorld local-model agent; five seeds and 24 evaluation episodes per seed, paired by case.",
+      "status": "RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "PA′1 KILLED; the best withdrawal arm remained below shared memory. The corrected oracle exposed only five points of selection headroom.",
+      "run_commit": "7d71095e6548a2c17fb3f9a5dadf66ad38e02ed4",
+      "result_document_commit": "3b2de4860d75444429ae58303f4f0bf341005ec6",
+      "recorded_command": "python -m experiments.phase_a_prime --seeds 5 --episodes 24",
+      "parameters": {
+        "seeds": 5,
+        "evaluation_episodes_per_seed": 24,
+        "retrieval_k": 3,
+        "model_tag": "qwen2.5:3b",
+        "embedding_tag": "nomic-embed-text"
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/phase-a-prime-attribution.md",
+          "sha256": "a6d303135700f455bd991dda7fc9775ae661e82dc55e0900cf135e36c70cf34a"
+        },
+        "result": {
+          "path": "research/results/phase-a-prime-attribution.md",
+          "sha256": "dacbe8baff594cec7aa7b2bb889405d55a5f3df44661427849d6bbb510930e11"
+        },
+        "run_log": {
+          "path": "research/results/phase-a-prime-run.txt",
+          "sha256": "ff17305a4f1e34801de2f5d7200943cb35e6a075e51ea45729f1e7573c5cb053"
+        },
+        "raw_decisions": {
+          "path": "research/results/phase-a-prime-decisions.json",
+          "sha256": "a393021fc29153d09b8c988d87c264ca5acd21b77effbc14b6ffc8a14241af39"
+        },
+        "harness": {
+          "path": "experiments/phase_a_prime.py",
+          "sha256": "c0b335bab37371cec9d121b05c2ef2b15f2de44899d092ff55ac2f6813cd14a0"
+        },
+        "world": {
+          "path": "experiments/depotworld.py",
+          "sha256": "6482b9bc91107c4085de17cac1a40b2e98c5077cc33d3681a0dd842aded68870"
+        }
+      },
+      "gaps": [
+        "No pinned local model or embedding binary digest is recorded; exact model replay is unavailable.",
+        "This manifest verifies checked-in artifact hashes, not the reported numerical result."
+      ]
+    },
+    {
+      "id": "phase_b_federated_agents",
+      "population": "Four local-model agents in one process; five seeds, 12 rounds, 240 decisions per arm.",
+      "status": "RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "PB1 KILLED; PB2 SUPPORTED only for in-process lifecycle propagation; PB3 INCONCLUSIVE. The oracle was beaten, so success headroom is invalid.",
+      "run_commit": "bb617e65dc99751194c82d1a2565ade307cd9d4f",
+      "result_document_commit": "da8e44dc2a722a27e837d78c439bef09265f2e81",
+      "recorded_command": "python -m experiments.phase_b --seeds 5 --rounds 12",
+      "parameters": {
+        "seeds": 5,
+        "rounds_per_agent": 12,
+        "agents": 4,
+        "decisions_per_arm": 240
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/phase-b-federated-agents.md",
+          "sha256": "4a295a1c64dda0bc7d9b102e57dbc895852550ff4780c79027008ce3495e2522"
+        },
+        "result": {
+          "path": "research/results/phase-b-federated-agents.md",
+          "sha256": "04e80f3278aee9146efc40f3ceb1e13759cd90d279281e968e0f5a9b7adaef55"
+        },
+        "run_log": {
+          "path": "research/results/phase-b-run.txt",
+          "sha256": "b5346f2abb1515a3f6b540d08b147acb419209c28655346a25ae6a1ce6d7e312"
+        },
+        "raw_decisions": {
+          "path": "research/results/phase-b-decisions.json",
+          "sha256": "9e2a96f8f4dbe6d655c1dc3ce63c1656806c0338a23659cce99f7168af1cb036"
+        },
+        "harness": {
+          "path": "experiments/phase_b.py",
+          "sha256": "a5453bedf68633db17f47022589b395df7ee8997aa5e388849215088fbc86ee5"
+        }
+      },
+      "gaps": [
+        "No pinned local model binary digest is recorded; exact model replay is unavailable.",
+        "The reported propagation did not cross a durable network boundary."
+      ]
+    },
+    {
+      "id": "phase_c_memory_ecology",
+      "population": "Exploratory eight-agent local-model world; three seeds and 16 rounds.",
+      "status": "EXPLORATORY_RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "No registered supported/killed verdict because the Phase B prerequisite failed; the outcome feedback channel was reported harmful in the exploratory rows.",
+      "run_commit": null,
+      "result_document_commit": "0d0bb2fbd4d4769fa13c0917cf2e98f250314059",
+      "recorded_command": "python -m experiments.phase_c --seeds 3 --rounds 16 --best-fixed share_overlap",
+      "parameters": {
+        "seeds": 3,
+        "rounds_per_agent": 16,
+        "agents": 8,
+        "best_fixed": "share_overlap",
+        "decisions_per_arm": 384
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/phase-c-memory-ecology.md",
+          "sha256": "0c59cba8071fd72fcae82ea38f0aeb66c59f73e8b2b2549e029036f325f2b3f6"
+        },
+        "result": {
+          "path": "research/results/phase-c-memory-ecology.md",
+          "sha256": "f322a93762c494b250847f60098f1ce6be9cd3c8516cac6a118259a9d688aa62"
+        },
+        "run_log": {
+          "path": "research/results/phase-c-run.txt",
+          "sha256": "1b637340e97a3184d967848ef93e33f95118ea702bbdfcf6ab07aa58533c4b9f"
+        },
+        "raw_decisions": {
+          "path": "research/results/phase-c-decisions.json",
+          "sha256": "f6438919557b4509322fdb101870a2cd8a8c74be061ced9e47a1cd48de619762"
+        },
+        "harness": {
+          "path": "experiments/phase_c.py",
+          "sha256": "43baf12f51021ccc26ec589b6159097b1403de6fb72540c50e3c7d6604e4f270"
+        }
+      },
+      "gaps": [
+        "The result document does not identify a run commit or pinned local model binary digest.",
+        "The registered gate did not pass; this result is exploratory and cannot be pooled with confirmatory evidence."
+      ]
+    },
+    {
+      "id": "p3b_deterministic_agent_teams",
+      "population": "Deterministic scripted team; five seeds, 10 agents, 60 rounds, five matched arms.",
+      "status": "REPLAYED_WITH_DOCUMENT_CONFLICT",
+      "reported_verdict": "Historical deterministic replay at f22fca4 reproduced fabric task success 0.970 and the report summary's SUPPORTED verdict; the original detailed 10-agent table still says 0.960.",
+      "run_commit": null,
+      "result_document_commit": "f22fca4bf91e058ed80b7bed2449bd876f7acfeb",
+      "recorded_command": null,
+      "replay_command_from_checked_in_defaults": "python -m experiments.p3b_teams --agents 10 --rounds 60 --seeds 1 2 3 4 5 --json",
+      "parameters": {
+        "seeds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "agents": 10,
+        "rounds": 60,
+        "retrieval_k": 5,
+        "headroom_share_threshold": 0.4,
+        "abandon_if_headroom_at_or_below": 0.05,
+        "arms": [
+          "local",
+          "shared",
+          "shared_blanket",
+          "fabric",
+          "oracle"
+        ]
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/p3b-agent-teams.md",
+          "sha256": "4e47babebe4a17a27ed3e5f28bb45e6d70f31f76332b35bc1c27484be321d5eb"
+        },
+        "result": {
+          "path": "research/results/p3b-agent-teams.md",
+          "sha256": "5b43adc043e8bcfedf11ffb63c21e0ef6d7b92fb0f38a42945b0d0212ac72d50"
+        },
+        "harness": {
+          "path": "experiments/p3b_teams.py",
+          "sha256": "9615d30523e016bb4d86f5fc992f991d9b3559ca3792748587a00e6eb7f3ef8a"
+        },
+        "world": {
+          "path": "experiments/teamworld.py",
+          "sha256": "e442078b79618aba5734e79fef2c2ae2d5bd8d88d4206cd224b67c4a3e888906"
+        }
+      },
+      "gaps": [
+        "The original exact CLI invocation and raw per-seed rows were not checked in.",
+        "The newly generated replay artifact contains aggregate arm metrics, not per-seed rows.",
+        "The original detailed 10-agent table's fabric value 0.960 conflicts with the reproducible summary value 0.970."
+      ],
+      "replay": {
+        "source_commit": "f22fca4bf91e058ed80b7bed2449bd876f7acfeb",
+        "command": "python -m experiments.p3b_teams --agents 10 --rounds 60 --seeds 1 2 3 4 5 --json",
+        "artifact": {
+          "path": "research/results/p3b-agent-teams-replay-f22fca4.json",
+        "sha256": "033814eb8b1bed4de011791320eeb1ff1c2fcf6f154bd245801dbdbf6a897ea2",
+        "bytes": 9637,
+        "hash_basis": "committed Git blob bytes with LF line endings"
+        },
+        "measured_task_success": {
+          "local": 0.06,
+          "shared": 0.78,
+          "shared_blanket": 0.72,
+          "fabric": 0.97,
+          "oracle": 1
+        },
+        "registered_threshold": 0.868,
+        "reported_verdict": "SUPPORTED",
+        "raw_per_seed_rows_present": false
+      }
+    },
+    {
+      "id": "r6_downstream_retrieval",
+      "population": "Local-model retrieval comparison; dev and frozen test splits, each repeated over three seeds.",
+      "status": "RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "Dev finding did not replicate; frozen test comparison ABANDONED because the strongest baseline and oracle both scored 0.792.",
+      "run_commit": null,
+      "result_document_commit": "06b339863343de9830fd12c17e70fd34dc137e07",
+      "recorded_command": null,
+      "replay_command_from_reported_parameters": "python -m experiments.r6_downstream --split test --model qwen2.5:7b --seeds 3 --k 3",
+      "parameters": {
+        "seeds": 3,
+        "retrieval_k": 3,
+        "model_tag": "qwen2.5:7b",
+        "temperature": 0,
+        "dev_cases": 30,
+        "dev_graded_cases": 22,
+        "test_cases": 20,
+        "test_graded_cases": 16
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/r6-downstream-retrieval.md",
+          "sha256": "d79a252c30134849b767f172ddc7996b7db670e7cd0d025d266d013500ad1b4e"
+        },
+        "result": {
+          "path": "research/results/r6-downstream.md",
+          "sha256": "88437b33ba111518f5fcbb6a30441c043993d328665db4ddd381fe036eca8528"
+        },
+        "raw_dev": {
+          "path": "research/results/r6-dev-raw.json",
+          "sha256": "31c068e0125870772da894b40708717b14463f4c023632efc85b8adb9d4916a6"
+        },
+        "raw_test": {
+          "path": "research/results/r6-test-raw.json",
+          "sha256": "e7b18aae64039a92e72ec66eace9c2a7612e06db4ebac63bcff4851d4b9eec8d"
+        },
+        "harness": {
+          "path": "experiments/r6_downstream.py",
+          "sha256": "fc5e4d1070329fdb6f93d7f07759a83eb11d34d314b1af6fcec848a7fcdc9b9d"
+        }
+      },
+      "gaps": [
+        "The exact original CLI invocation and local model binary digest are not recorded.",
+        "The test had no measured retrieval headroom; it cannot provide a positive baseline margin."
+      ]
+    },
+    {
+      "id": "x4_governed_vs_pooled",
+      "population": "Local-model DepotWorld correction-rate comparison; five seeds, 24 episodes and three correction rates.",
+      "status": "RECORDED_NOT_REPRODUCED",
+      "reported_verdict": "All three registered correction-rate comparisons ABANDONED because measured oracle headroom was at or below 0.05.",
+      "run_commit": null,
+      "result_document_commit": "a04e087c1c2475f549bb637e6019bc72aee6dd28",
+      "recorded_command": null,
+      "replay_command_from_checked_in_defaults": "python -m experiments.x4_governed_vs_pooled --seeds 5 --episodes 24 --rates 0 0.5 1 --model qwen2.5:3b --json",
+      "parameters": {
+        "seeds": 5,
+        "evaluation_episodes_per_seed": 24,
+        "correction_rates": [
+          0,
+          0.5,
+          1
+        ],
+        "model_tag": "qwen2.5:3b",
+        "embedding_tag": "nomic-embed-text"
+      },
+      "artifacts": {
+        "registration": {
+          "path": "research/prereg/x4-governed-vs-pooled.md",
+          "sha256": "21ad546697faa37a932c785b72a30a80f2bbf447df44297a89985006fa2452ab"
+        },
+        "result": {
+          "path": "research/results/x4-governed-vs-pooled.md",
+          "sha256": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32"
+        },
+        "raw_run": {
+          "path": "research/results/x4-run.json",
+          "sha256": "05509a736123216bb1f1f0d3cbde4c6039f5de5b2243974901e32713fc5a636e"
+        },
+        "harness": {
+          "path": "experiments/x4_governed_vs_pooled.py",
+          "sha256": "022ebe2563113696c1b6ae1ed585c3bf55bae64e1041d84f87a1b10a50a866fa"
+        },
+        "world": {
+          "path": "experiments/depotworld.py",
+          "sha256": "6482b9bc91107c4085de17cac1a40b2e98c5077cc33d3681a0dd842aded68870"
+        }
+      },
+      "gaps": [
+        "The exact original CLI invocation and pinned local model or embedding binary digests are not recorded.",
+        "This manifest verifies checked-in artifact hashes, not the reported numerical result."
+      ]
+    }
+  ],
+  "artifact_scope": "Local artifact hashes use the available checkout SHA; branch-only artifacts use their pinned git_commit. The P3b replay artifact was newly generated for this manifest."
+}
