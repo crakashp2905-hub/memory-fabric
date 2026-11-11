@@ -68,3 +68,12 @@ false policy denials, planning and tool errors, coordination errors, stale
 data, and abstention opportunity cost. Successful episodes carry no terminal
 failure code; recovered intermediate refusals remain in the separate safety
 attempt counters.
+
+`benchmarks.outcome_report.paired_completion_analysis` computes matched
+completion rates, treatment-minus-baseline effects, a seed-cluster bootstrap
+interval, and an exact sign test over cluster means. It rejects unmatched task
+IDs and reports whether the five-independent-seed count floor is met. This is a
+count check only; passing it does not establish research eligibility. An arm
+compared with itself is a zero-effect negative
+control. These summaries do not freeze a confirmatory threshold or turn the
+current scripted pilot into a research result.

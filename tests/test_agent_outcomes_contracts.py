@@ -8,7 +8,9 @@ import json
 import unittest
 from contextlib import redirect_stdout
 
-from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
+from benchmarks.outcome_report import (
+    canonical_report, paired_completion_analysis, zero_event_upper_bound,
+)
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
@@ -84,6 +86,40 @@ class TestOutcomeContracts(unittest.TestCase):
         bound = zero_event_upper_bound(0, 20)
         self.assertAlmostEqual(bound, 0.139108, delta=1e-6)
         self.assertAlmostEqual(zero_event_upper_bound(1, 20), 0.216106, delta=1e-6)
+
+    def test_paired_analysis_is_clustered_deterministic_and_checks_negative_control(self) -> None:
+        digest = hashlib.sha256(b"sealed case").hexdigest()
+
+        def row(task: str, arm: str, seed: int, complete: bool) -> EpisodeOutcome:
+            return EpisodeOutcome(
+                task, arm, seed, complete, 0, 0, 0, 0, 0, 0, 0, 1.0, digest,
+                terminal_failure_codes=() if complete else ("planning_error",),
+            )
+
+        outcomes = []
+        base = (False, False, True, True, False)
+        candidate = (True, True, True, True, False)
+        for seed, (base_result, candidate_result) in enumerate(zip(base, candidate)):
+            task = f"case-{seed}"
+            outcomes.extend((row(task, "A0", seed, base_result),
+                             row(task, "A5", seed, candidate_result)))
+        analysis = paired_completion_analysis(outcomes, "A0", "A5", seed=7,
+                                              resamples=500)
+        self.assertEqual(analysis["mean_paired_difference"], 0.4)
+        self.assertEqual(analysis["n_independent_clusters"], 5)
+        self.assertEqual(analysis["pair_counts"],
+                         {"treatment_wins": 2, "baseline_wins": 0, "ties": 3})
+        self.assertEqual(analysis["cluster_exact_sign_test_p"], 0.5)
+        self.assertTrue(analysis["minimum_cluster_floor_met"])
+        self.assertEqual(analysis, paired_completion_analysis(
+            outcomes, "A0", "A5", seed=7, resamples=500))
+
+        negative_control = paired_completion_analysis(outcomes, "A0", "A0", seed=7,
+                                                      resamples=500)
+        self.assertTrue(negative_control["negative_control"])
+        self.assertTrue(negative_control["minimum_cluster_floor_met"])
+        self.assertEqual(negative_control["mean_paired_difference"], 0.0)
+        self.assertEqual(negative_control["cluster_exact_sign_test_p"], 1.0)
 
     def test_scripted_recovery_uses_gate_and_paired_abstention(self) -> None:
         recovered = run_episode(0)
