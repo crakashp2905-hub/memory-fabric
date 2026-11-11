@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "60b73ef9d62fa09117f64d5f5b4d3498e1b02db9",
+    "commit": "49e6240a8b386ea615a0cb3bdbd644b9f9cb6df4",
     "dirty": true
   },
   "summary": {
@@ -1508,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "6a110e3738ff01d2dfc3cff5fcdf3a3137c95b3bc45401e06ae782b30034ea69",
         "tests/test_benchmarks.py": "83a2538d988fec3cf5d6d3da4121c1e6f5c0798564e538b13215c22756a6170e",
-        "research/results/MANIFEST.json": "764e94401ac2841da9bc6795d5476767bb735dfb09ca2edea4b74438d286b3c3",
+        "research/results/MANIFEST.json": "94cea9643c63097f315b8ab520f81178e03c52f9e82d0a8f043d004d27731ea3",
         "research/results/BENCHMARK_SCOREBOARD.md": "ff33eb9d5cd1911611664ba8c272872796ecc9df5d0b2fbb7d9e27f3c52f473e",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -7031,7 +7031,7 @@
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "b9c010594e84ba9d5a0f2e14b04b2fd9f685284d06c34f5a9b0d3a80f82f8f1d",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227"
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7099,7 +7099,7 @@
         "tests/test_upgrade_preview.py": "90a5d715f66b9a7ec3abf5778815d4077b4582b29c373e6403d15420f2beabfc",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "06787b395b6ff28a42436197f58e3a13b8f0f82ab0355f3445162cf0e44e52fb",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227"
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7167,7 +7167,7 @@
         "tests/test_incident_replay.py": "bab1345b0fdf9590ba93ef84c8bab6510dd773cfde6c9cde7011bf813c6fa7a3",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
         "docs/INCIDENT_REPLAY.md": "964cb74bb4cf96398a27163862cbba5fc6a55920300227b7e1c50d8588664e49",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227",
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98",
         "research/results/p3-06-incident-replay.json": "116e29d6521e14c5b0513e3d3ba888f2ae412a81dc615e6034af6962c59f934e"
       },
       "evidence_issues": {},
@@ -7207,7 +7207,7 @@
         "tools/resource_budget_smoke.py": "9266a01470812752947a3331b598f7e8f873a5c36934b0e80cbb89128f4522ce",
         "research/results/p3-07-resource-budgets.json": "a37a9bb3721bf938403de11a922cce74314501e79c9f87919821932dd1ca33fa",
         "docs/RESOURCE_BUDGETS.md": "ae68b51b7959e4cbc34efa226e137b7f49a85c00fe00ae4da3b407c2561042fe",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227"
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7262,7 +7262,7 @@
         "tests/test_support_bundle.py": "e508e82e58526f6c7e496042596f1704e9d868b68af5a95b27286016cd0e9e68",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "06787b395b6ff28a42436197f58e3a13b8f0f82ab0355f3445162cf0e44e52fb",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227"
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7319,7 +7319,7 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "8cda9f6876f7c461ae8efd7b5739fe6f2870c9fe4e56ce20a9ca198bfdb1d39c",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227",
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98",
         "tests/test_product_jobs.py": "efed95c4c439b12e335b8619817caf4d878a49ab8a27ffc54815938893b74082",
         "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
@@ -7494,7 +7494,7 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "52b40bf3f7f5ce1212f5aef8087f16eb01600d4417e0a560b6aa6aa707975de7",
-        "docs/README.md": "13a24f6526a01ea53f2220b308cc514538800aa1a280d20c632dc8273f932227",
+        "docs/README.md": "3edd18770ab38ddc7e9de6adba75f4db5da61590c6c463aa6755310f63720a98",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "a768a0b8b78b105af40639201dc9f716d6f7d8f3ba17f4880df53dce13f845d7",
@@ -7792,7 +7792,7 @@
       ],
       "evidence_digests": {
         "docs/LIMITATIONS.md": "fef90f9608f107263836161bdea1d9be94a1659dad691f68488e236843fd226f",
-        "docs/PRODUCT_READINESS.md": "2735c4115f80b629e798b53656924f67884d8464ce724c81ff243c350384c7f1"
+        "docs/PRODUCT_READINESS.md": "2eeba450206168f4ec1fcb2b33d792bf262c4370d66589e4072ddde4baa8ecab"
       },
       "evidence_issues": {},
       "limitations": []

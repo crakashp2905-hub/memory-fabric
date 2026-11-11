@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 311,
+ "results": 313,
  "missing_field_counts": {
   "git_sha": 174,
-  "prereg": 110,
-  "dataset_digest": 307,
-  "model_id": 275,
-  "prompt_hash": 311,
-  "seed": 222,
-  "cost": 288,
-  "verdict": 232
+  "prereg": 112,
+  "dataset_digest": 309,
+  "model_id": 276,
+  "prompt_hash": 313,
+  "seed": 223,
+  "cost": 289,
+  "verdict": 233
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 296
+  "unclassified": 298
  },
  "rows": [
   {
@@ -643787,6 +643787,54 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "no-budget-local-model",
+   "file": "research/results/no-budget-local-model.json",
+   "file_sha256": "e035f37f3447e7efd9e2ab62a4b195f7fd883f84f573750a282ca1b8d4e41056",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "ecb3f6bde072e1a09ef2b221504e6113cffe0119",
+   "git_sha_source": "md",
+   "dataset_digest": null,
+   "model_id": "qwen2.5:1.5b",
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": [
+    601,
+    607,
+    613,
+    617,
+    619
+   ],
+   "config": null,
+   "cost": {
+    "calls": 20.0,
+    "prompt_tokens": 2010.0,
+    "completion_tokens": 180.0,
+    "tokens": 2190.0,
+    "seconds": 50.21834530017804
+   },
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "no-budget-replication",
+   "file": "research/results/no-budget-replication.json",
+   "file_sha256": "98a314403c88cb985475a99e290e2299b9d2b4904d2199f730d5976ec71fa632",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": "8e9a52079259b4f48f739af18d27e8b9a5aa214f",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "INCONCLUSIVE",
    "parsable": true
   },
   {
