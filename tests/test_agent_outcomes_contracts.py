@@ -340,3 +340,140 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertTrue(all("completion" not in step for step in actor))
         self.assertTrue(evaluator["completion"])
         self.assertEqual(evaluator["unsafe_effects_executed"], 0)
+
+
+class TestTerminalOutcomeProtocol(unittest.TestCase):
+    @staticmethod
+    def _case():
+        from memory_fabric.actions import ActionDecision, ActionExecution, ActionRequest
+        from memory_fabric.agent_outcomes import outcomes as protocol
+
+        task_id = protocol.canonical_task_id("battery", 7, 3)
+        request = ActionRequest("target", {"value": "private-target-canary"})
+        objective = protocol.TerminalObjective(
+            task_id, {"target": "private-target-canary"}, "set_target", request,
+        )
+        allowed = ActionDecision(True, "set_target", "executor", ("allowed",))
+        effect = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 0), "set_target", "executor",
+            request, ActionExecution("executed", allowed, "effect-1"),
+        )
+        terminal = protocol.TerminalSnapshot(task_id, {"target": "private-target-canary"})
+        return protocol, task_id, request, objective, effect, terminal
+
+    def test_canonical_task_and_step_ids_are_deterministic_and_disjoint(self) -> None:
+        protocol, task_id, _, _, _, _ = self._case()
+        self.assertEqual(task_id, "ao:battery:s00000007:c00000003")
+        self.assertEqual(protocol.canonical_step_id(task_id, 12),
+                         "ao:battery:s00000007:c00000003:step:000012")
+        self.assertEqual(len({task_id, protocol.canonical_task_id("battery", 8, 3),
+                              protocol.canonical_task_id("battery", 7, 4),
+                              protocol.canonical_task_id("maintenance", 7, 3)}), 4)
+        with self.assertRaisesRegex(ValueError, "template"):
+            protocol.canonical_task_id("Bad template", 7, 3)
+        with self.assertRaisesRegex(ValueError, "seed"):
+            protocol.canonical_task_id("battery", True, 3)
+        with self.assertRaisesRegex(ValueError, "canonical outcome task"):
+            protocol.canonical_step_id("battery-7-3", 0)
+
+    def test_terminal_grade_requires_actual_authorized_effect_and_snapshot(self) -> None:
+        from memory_fabric.actions import ActionDecision, ActionExecution
+
+        protocol, task_id, request, objective, effect, terminal = self._case()
+        grade = protocol.grade_terminal(objective, [effect], [terminal])
+        self.assertEqual(grade.status, protocol.GradeStatus.COMPLETE)
+        self.assertEqual(grade.reason, protocol.GradeReason.COMPLETE)
+        self.assertTrue(grade.completion)
+        self.assertNotIn("private-target-canary", json.dumps(grade.to_json()))
+
+        text_only = protocol.grade_terminal(objective, [], [])
+        self.assertFalse(text_only.completion)
+        self.assertEqual(text_only.reason, protocol.GradeReason.NO_TERMINAL_STATE)
+        self.assertEqual(protocol.grade_terminal(objective, [], [terminal]).reason,
+                         protocol.GradeReason.NO_AUTHORIZED_EFFECT)
+
+        refused_decision = ActionDecision(False, "set_target", "executor",
+                                          ("evidence_withdrawn",))
+        refused = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 0), "set_target", "executor",
+            request, ActionExecution("refused", refused_decision, "effect-2"),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [refused], [terminal]).reason,
+                         protocol.GradeReason.NO_AUTHORIZED_EFFECT)
+        recovered_effect = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 1), "set_target", "executor",
+            request, effect.execution,
+        )
+        recovered = protocol.grade_terminal(objective, [refused, recovered_effect], [terminal])
+        self.assertTrue(recovered.completion)
+        self.assertEqual(recovered.refused_effects, 1)
+
+    def test_terminal_grade_rejects_ambiguous_wrong_and_unauthorized_results(self) -> None:
+        from memory_fabric.actions import ActionDecision, ActionExecution, ActionRequest
+
+        protocol, task_id, request, objective, effect, terminal = self._case()
+        ambiguous = protocol.grade_terminal(objective, [effect], [terminal, terminal])
+        self.assertEqual(ambiguous.status, protocol.GradeStatus.UNDECIDABLE)
+        self.assertEqual(ambiguous.reason, protocol.GradeReason.AMBIGUOUS_TERMINAL_STATE)
+        wrong = protocol.TerminalSnapshot(task_id, {"target": "wrong-value"})
+        self.assertEqual(protocol.grade_terminal(objective, [effect], [wrong]).reason,
+                         protocol.GradeReason.WRONG_TERMINAL_STATE)
+        missing_field = protocol.TerminalSnapshot(task_id, {"other": "value"})
+        self.assertEqual(protocol.grade_terminal(objective, [effect], [missing_field]).status,
+                         protocol.GradeStatus.UNDECIDABLE)
+
+        denied = ActionDecision(False, "set_target", "executor", ("tool_not_granted",))
+        unauthorized = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 1), "set_target", "executor",
+            request, ActionExecution("executed", denied, "effect-2"),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [effect, unauthorized],
+                                                  [terminal]).reason,
+                         protocol.GradeReason.UNAUTHORIZED_EFFECT)
+        unfenced = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 2), "set_target", "executor",
+            request, ActionExecution("executed", effect.execution.decision,
+                                     "effect-3", fenced=False),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [effect, unfenced],
+                                                  [terminal]).reason,
+                         protocol.GradeReason.UNAUTHORIZED_EFFECT)
+        uncertain = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 2), "set_target", "executor",
+            request, ActionExecution("uncertain", effect.execution.decision, "effect-3"),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [effect, uncertain],
+                                                  [terminal]).status,
+                         protocol.GradeStatus.UNDECIDABLE)
+        unsupported_outcome = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 5), "set_target", "executor",
+            request, ActionExecution("future_outcome", effect.execution.decision, "effect-5"),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [unsupported_outcome],
+                                                  [terminal]).reason,
+                         protocol.GradeReason.AMBIGUOUS_EFFECT_OUTCOME)
+        different_request = protocol.EffectRecord(
+            task_id, protocol.canonical_step_id(task_id, 3), "set_target", "executor",
+            ActionRequest("target", {"value": "other"}),
+            ActionExecution("executed", effect.execution.decision, "effect-4"),
+        )
+        self.assertEqual(protocol.grade_terminal(objective, [different_request],
+                                                  [terminal]).reason,
+                         protocol.GradeReason.NO_AUTHORIZED_EFFECT)
+        with self.assertRaisesRegex(ValueError, "finite JSON scalars"):
+            protocol.TerminalSnapshot(task_id, {"target": ["a", "b"]})
+        with self.assertRaisesRegex(ValueError, "host-recorded"):
+            protocol.grade_terminal(objective, ["I completed it"], [terminal])
+
+    def test_terminal_objective_request_snapshot_resists_mutation(self) -> None:
+        from memory_fabric.actions import ActionRequest
+
+        protocol, task_id, _, _, _, _ = self._case()
+        request = ActionRequest("target", {"config": {"value": "original"}})
+        objective = protocol.TerminalObjective(task_id, {"target": "original"},
+                                               "set_target", request)
+        digest = objective.digest()
+        request.parameters["config"]["value"] = "changed"
+        self.assertEqual(objective.digest(), digest)
+        objective.request.parameters["config"]["value"] = "changed again"
+        self.assertEqual(objective.digest(), digest)

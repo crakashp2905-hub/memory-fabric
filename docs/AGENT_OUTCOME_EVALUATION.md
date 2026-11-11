@@ -14,6 +14,14 @@ size/deadline, rejects repeated public state fingerprints as no progress, and
 routes each proposed effect through `ActionGate.execute`, which rechecks current
 evidence and authorization.
 
+The experimental `agent_outcomes.outcomes` grader accepts only host-supplied
+`ActionExecution` records paired with canonical task/step IDs and one
+authoritative terminal snapshot. A proposal or actor completion sentence cannot
+count as success. Refused effects do not block a later authorized recovery;
+unfenced or unauthorized executions fail, while uncertain or conflicting
+terminal results stay undecidable. The host remains responsible for preserving
+the authenticity of the execution and world-state receipts it supplies.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
