@@ -11,6 +11,7 @@ from benchmarks.outcome_worlds import (
     build_battery_diagnosis_world,
     build_incident_triage_world,
     build_maintenance_world,
+    create_coding_repair_session,
     diagnose_battery,
     replay_world,
     run_maintenance_actions,
@@ -220,6 +221,44 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         )
         self.assertFalse(rejected_replan.completed)
         self.assertEqual(rejected_replan.failure_reason, "replan_required")
+
+    def test_coding_repair_hides_oracle_cases_and_bounds_tool_calls(self) -> None:
+        session = create_coding_repair_session(12)
+        self.assertEqual(session.visible_files, (
+            "src/dependency_compat.py", "tests/public_contract.py",
+        ))
+        with self.assertRaises(PermissionError):
+            session.read_file("tests/hidden_oracle.py")
+        source = session.read_file("src/dependency_compat.py")
+        broken = (
+            "    return (installed[0] == required[0]\n"
+            "            and installed[1] >= required[1]\n"
+            "            and installed[2] >= required[2])"
+        )
+        naive = "    return installed[0] >= required[0]"
+        correct = "    return installed[0] == required[0] and installed >= required"
+        self.assertIn(broken, source)
+        session.apply_patch("src/dependency_compat.py", broken, naive)
+        self.assertEqual(session.run_public_tests()["status"], "PASS")
+        self.assertEqual(session.submit(), {"status": "FAIL"})
+
+        session.apply_patch("src/dependency_compat.py", naive, correct)
+        self.assertEqual(session.run_public_tests()["status"], "PASS")
+        self.assertEqual(session.submit(), {"status": "PASS"})
+        self.assertEqual(session.tool_calls_used, 8)
+
+    def test_coding_patch_interpreter_never_executes_submitted_calls(self) -> None:
+        session = create_coding_repair_session(13)
+        session.read_file("src/dependency_compat.py")
+        broken = (
+            "    return (installed[0] == required[0]\n"
+            "            and installed[1] >= required[1]\n"
+            "            and installed[2] >= required[2])"
+        )
+        unsafe = "    return __import__('os').system('echo must-not-run')"
+        session.apply_patch("src/dependency_compat.py", broken, unsafe)
+        self.assertEqual(session.run_public_tests()["status"], "FAIL")
+        self.assertEqual(session.submit(), {"status": "FAIL"})
 
 
 if __name__ == "__main__":  # pragma: no cover

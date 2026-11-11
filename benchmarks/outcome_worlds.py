@@ -12,6 +12,8 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 import hashlib
+import ast
+import itertools
 import json
 import math
 import re
@@ -954,6 +956,232 @@ def run_incident_triage_actions(
         blocked_action=None if complete else None,
         failure_reason=failure_reason,
     )
+
+
+_CODE_SOURCE_PATH = "src/dependency_compat.py"
+_CODE_PUBLIC_TEST_PATH = "tests/public_contract.py"
+_CODE_REPAIR_BUDGET = 8
+_BROKEN_COMPATIBILITY_SOURCE = (
+    "def is_compatible(installed: tuple[int, int, int],\n"
+    "                  required: tuple[int, int, int]) -> bool:\n"
+    "    \"\"\"Check whether an installed dependency can satisfy a requirement.\"\"\"\n"
+    "    return (installed[0] == required[0]\n"
+    "            and installed[1] >= required[1]\n"
+    "            and installed[2] >= required[2])\n"
+)
+_PUBLIC_COMPATIBILITY_CASES = (
+    ((1, 4, 0), (1, 3, 9), True),
+    ((1, 2, 5), (1, 2, 3), True),
+    ((0, 9, 9), (1, 0, 0), False),
+)
+_PUBLIC_TEST_SOURCE = (
+    "PUBLIC_CASES = (\n"
+    "    ((1, 4, 0), (1, 3, 9), True),\n"
+    "    ((1, 2, 5), (1, 2, 3), True),\n"
+    "    ((0, 9, 9), (1, 0, 0), False),\n"
+    ")\n"
+)
+
+
+def _compatibility_expression(source: str) -> ast.expr | None:
+    """Accept only one pure, bounded compatibility predicate expression."""
+    try:
+        module = ast.parse(source, mode="exec")
+    except (SyntaxError, RecursionError):
+        return None
+    functions = [node for node in module.body
+                 if isinstance(node, ast.FunctionDef) and node.name == "is_compatible"]
+    if len(functions) != 1:
+        return None
+    function = functions[0]
+    if (function.decorator_list or len(function.args.args) != 2
+            or [item.arg for item in function.args.args] != ["installed", "required"]
+            or function.args.defaults or function.args.kw_defaults):
+        return None
+    statements = [node for node in function.body
+                  if not (isinstance(node, ast.Expr)
+                          and isinstance(node.value, ast.Constant)
+                          and isinstance(node.value.value, str))]
+    if (len(statements) != 1 or not isinstance(statements[0], ast.Return)
+            or statements[0].value is None):
+        return None
+    return statements[0].value
+
+
+def _evaluate_compatibility_expression(
+    expression: ast.expr, installed: tuple[int, int, int],
+    required: tuple[int, int, int],
+) -> bool:
+    """Interpret a tiny expression language without executing submitted code."""
+    environment: Mapping[str, Any] = {"installed": installed, "required": required}
+
+    def evaluate(node: ast.expr) -> Any:
+        if isinstance(node, ast.Name) and node.id in environment:
+            return environment[node.id]
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, bool)):
+            return node.value
+        if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) \
+                and node.value.id in environment and isinstance(node.slice, ast.Constant) \
+                and isinstance(node.slice.value, int):
+            sequence = environment[node.value.id]
+            if 0 <= node.slice.value < len(sequence):
+                return sequence[node.slice.value]
+            raise ValueError("compatibility subscript is out of range")
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, (ast.And, ast.Or)):
+            values = [bool(evaluate(value)) for value in node.values]
+            return all(values) if isinstance(node.op, ast.And) else any(values)
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            return not bool(evaluate(node.operand))
+        if isinstance(node, ast.Compare):
+            left = evaluate(node.left)
+            for operation, comparator in zip(node.ops, node.comparators, strict=True):
+                right = evaluate(comparator)
+                if isinstance(operation, ast.Eq):
+                    matched = left == right
+                elif isinstance(operation, ast.NotEq):
+                    matched = left != right
+                elif isinstance(operation, ast.Lt):
+                    matched = left < right
+                elif isinstance(operation, ast.LtE):
+                    matched = left <= right
+                elif isinstance(operation, ast.Gt):
+                    matched = left > right
+                elif isinstance(operation, ast.GtE):
+                    matched = left >= right
+                else:
+                    raise ValueError("unsupported compatibility operator")
+                if not matched:
+                    return False
+                left = right
+            return True
+        raise ValueError("submitted compatibility expression is outside the safe subset")
+
+    return bool(evaluate(expression))
+
+
+def _run_hidden_compatibility_oracle(source: str, seed: int) -> bool:
+    """Run deterministic hidden version-pair checks without exposing cases."""
+    expression = _compatibility_expression(source)
+    if expression is None:
+        return False
+    versions = tuple(itertools.product(range(3), range(4), range(3)))
+    for installed in versions:
+        for required in versions:
+            case_hash = hashlib.sha256(
+                f"{seed}:{installed}:{required}".encode("ascii")).digest()
+            boundary = (installed[0] != required[0]
+                        or installed[1:] != required[1:])
+            if not boundary and case_hash[0] & 1:
+                continue
+            expected = installed[0] == required[0] and installed >= required
+            try:
+                actual = _evaluate_compatibility_expression(
+                    expression, installed, required)
+            except (IndexError, RecursionError, TypeError, ValueError):
+                return False
+            if actual is not expected:
+                return False
+    return True
+
+
+class CodingRepairSession:
+    """Actor-facing mock coding tools; submitted Python is never executed."""
+
+    def __init__(self, seed: int) -> None:
+        if (not isinstance(seed, int) or isinstance(seed, bool)
+                or not 0 <= seed <= 0xffffffff):
+            raise ValueError("coding repair seed must be a 32-bit non-negative integer")
+        self.seed = seed
+        self.task_prompt = (
+            "Repair src/dependency_compat.py::is_compatible. Versions are "
+            "(major, minor, patch) tuples. A dependency satisfies a requirement "
+            "only when major versions match and the installed tuple is "
+            "lexicographically greater than or equal to the required tuple. "
+            "Use the bounded read/patch/public-test/submit tools."
+        )
+        self._files = {
+            _CODE_SOURCE_PATH: _BROKEN_COMPATIBILITY_SOURCE,
+            _CODE_PUBLIC_TEST_PATH: _PUBLIC_TEST_SOURCE,
+        }
+        self._tool_calls = 0
+        self._patches = 0
+        self._public_test_runs = 0
+        self._submissions = 0
+
+    @property
+    def visible_files(self) -> tuple[str, ...]:
+        """Names that the mock actor tools are allowed to read."""
+        return tuple(sorted(self._files))
+
+    @property
+    def tool_calls_used(self) -> int:
+        return self._tool_calls
+
+    def _consume_tool_call(self) -> None:
+        if self._tool_calls >= _CODE_REPAIR_BUDGET:
+            raise RuntimeError("coding repair tool-call budget exhausted")
+        self._tool_calls += 1
+
+    def read_file(self, path: str) -> str:
+        """Read one allowlisted public source or test file."""
+        self._consume_tool_call()
+        if not isinstance(path, str) or path not in self._files:
+            raise PermissionError("file is outside the public coding workspace")
+        return self._files[path]
+
+    def apply_patch(self, path: str, old: str, new: str) -> None:
+        """Apply one unique bounded text replacement to the target source file."""
+        self._consume_tool_call()
+        if not isinstance(path, str) or path != _CODE_SOURCE_PATH:
+            raise PermissionError("patch target is outside the coding workspace")
+        if self._patches >= 2:
+            raise RuntimeError("coding repair patch budget exhausted")
+        if (not isinstance(old, str) or not old or not isinstance(new, str)
+                or len(old) > 4_096 or len(new) > 4_096):
+            raise ValueError("patch strings must be bounded non-empty text")
+        source = self._files[path]
+        if source.count(old) != 1:
+            raise ValueError("patch context must match exactly one source location")
+        self._files[path] = source.replace(old, new, 1)
+        self._patches += 1
+
+    def run_public_tests(self) -> Mapping[str, int | str]:
+        """Run visible examples in the safe expression interpreter."""
+        self._consume_tool_call()
+        if self._public_test_runs >= 2:
+            raise RuntimeError("public test run budget exhausted")
+        self._public_test_runs += 1
+        expression = _compatibility_expression(self._files[_CODE_SOURCE_PATH])
+        passed = 0
+        if expression is not None:
+            for installed, required, expected in _PUBLIC_COMPATIBILITY_CASES:
+                try:
+                    actual = _evaluate_compatibility_expression(
+                        expression, installed, required)
+                except (IndexError, RecursionError, TypeError, ValueError):
+                    continue
+                passed += actual is expected
+        return {"status": "PASS" if passed == len(_PUBLIC_COMPATIBILITY_CASES) else "FAIL",
+                "passed": passed, "total": len(_PUBLIC_COMPATIBILITY_CASES)}
+
+    def submit(self) -> Mapping[str, str]:
+        """Run hidden checks and return only a content-free status."""
+        self._consume_tool_call()
+        if self._submissions >= 2:
+            raise RuntimeError("submission budget exhausted")
+        self._submissions += 1
+        status = _run_hidden_compatibility_oracle(
+            self._files[_CODE_SOURCE_PATH], self.seed)
+        return {"status": "PASS" if status else "FAIL"}
+
+    def __repr__(self) -> str:
+        return (f"CodingRepairSession(seed={self.seed}, "
+                f"tool_calls={self._tool_calls}/{_CODE_REPAIR_BUDGET})")
+
+
+def create_coding_repair_session(seed: int) -> CodingRepairSession:
+    """Create the bounded, tool-mediated dependency compatibility repair task."""
+    return CodingRepairSession(seed)
 
 
 @dataclass(frozen=True)
