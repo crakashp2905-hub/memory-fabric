@@ -9,7 +9,8 @@ __stability__ = "experimental"
 from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
 from .recovery import (
     RECOVERY_ACTIONS, RecoveryAction, RecoveryCause, RecoveryEpisode, RecoveryGuidance,
-    RecoveryLimits, RecoveryNextAction, RecoveryResolution, RecoveryStatus,
+    RecoveryFailureClass, RecoveryLimits, RecoveryNextAction, RecoveryResolution,
+    RecoveryStatus,
 )
 from .eligibility import (
     DiagnosisSource, EvidenceDiagnosis, EvidenceFailureCode, diagnose_access,
@@ -20,6 +21,7 @@ from .eligibility import (
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
            "RecoveryCause", "RecoveryGuidance", "RecoveryNextAction",
-           "RecoveryResolution", "RecoveryStatus", "DiagnosisSource", "EvidenceDiagnosis",
+           "RecoveryFailureClass", "RecoveryResolution", "RecoveryStatus",
+           "DiagnosisSource", "EvidenceDiagnosis",
            "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
            "diagnose_certificate", "diagnose_relevance", "find_alternate_sources"]

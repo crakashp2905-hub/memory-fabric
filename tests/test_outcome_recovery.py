@@ -9,8 +9,8 @@ import unittest
 
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RECOVERY_ACTIONS, RecoveryAction, RecoveryCause,
-    RecoveryEpisode, RecoveryLimits, RecoveryNextAction, RecoveryResolution,
-    RecoveryStatus,
+    RecoveryEpisode, RecoveryFailureClass, RecoveryLimits, RecoveryNextAction,
+    RecoveryResolution, RecoveryStatus,
 )
 
 
@@ -137,7 +137,7 @@ class TestRecoveryBudgets(unittest.TestCase):
         second = self._oscillating_audit()
         self.assertEqual(first, second)
         audit = json.loads(first)
-        self.assertEqual(audit["schema_id"], "memory-fabric.recovery-audit.v2")
+        self.assertEqual(audit["schema_id"], "memory-fabric.recovery-audit.v3")
         self.assertEqual(audit["status"], "FAILED")
         self.assertEqual(audit["failure_reason"], "no_monotonic_progress")
         self.assertEqual(audit["budget"], {
@@ -145,9 +145,55 @@ class TestRecoveryBudgets(unittest.TestCase):
             "deadline_s": 30.0,
         })
         self.assertEqual(audit["used"], {"steps": 4, "recoveries": 2})
+        self.assertEqual(audit["telemetry"]["recovery_actions"]["re_retrieve"], 1)
+        self.assertEqual(audit["telemetry"]["recovery_actions"]["replan"], 1)
 
 
 class TestRecoveryGuidance(unittest.TestCase):
+    def test_retrieval_failure_is_counted_and_uses_one_bounded_retry(self) -> None:
+        episode = RecoveryEpisode("retrieval-telemetry")
+        episode.record("evidence_blocked")
+
+        guidance = episode.handle_failure(RecoveryCause.MISSING)
+        self.assertEqual(guidance.next_action, RecoveryNextAction.RE_RETRIEVE)
+        self.assertTrue(episode.request_recovery(
+            RecoveryAction.RE_RETRIEVE, before_token="empty-result"))
+
+        telemetry = episode.audit_record()["telemetry"]
+        self.assertEqual(
+            telemetry["failure_classes"][RecoveryFailureClass.RETRIEVAL.value], 1)
+        self.assertEqual(
+            telemetry["failure_classes"][RecoveryFailureClass.AUTHORIZATION.value], 0)
+        self.assertEqual(telemetry["recovery_actions"][RecoveryAction.RE_RETRIEVE.value], 1)
+        self.assertEqual(telemetry["requeries_avoided"], 0)
+        self.assertTrue(episode.resolve_recovery(
+            RecoveryAction.RE_RETRIEVE, after_token="one-result-returned"))
+        self.assertEqual(
+            episode.handle_failure(RecoveryCause.STALE).next_action,
+            RecoveryNextAction.REFRESH,
+        )
+        repeated_telemetry = episode.audit_record()["telemetry"]
+        self.assertEqual(
+            repeated_telemetry["failure_classes"][RecoveryFailureClass.RETRIEVAL.value], 1)
+        self.assertEqual(
+            repeated_telemetry["failure_classes"][
+                RecoveryFailureClass.EVIDENCE_VALIDITY.value], 1)
+
+    def test_authorization_failure_blocks_and_counts_pointless_retrieval(self) -> None:
+        episode = RecoveryEpisode("authorization-telemetry")
+        episode.record("evidence_blocked")
+        episode.handle_failure(RecoveryCause.UNAUTHORIZED)
+
+        self.assertFalse(episode.request_recovery(
+            RecoveryAction.RE_RETRIEVE, before_token="revoked-source"))
+        telemetry = episode.audit_record()["telemetry"]
+        self.assertEqual(
+            telemetry["failure_classes"][RecoveryFailureClass.AUTHORIZATION.value], 1)
+        self.assertEqual(
+            telemetry["failure_classes"][RecoveryFailureClass.RETRIEVAL.value], 0)
+        self.assertEqual(telemetry["recovery_actions"][RecoveryAction.RE_RETRIEVE.value], 0)
+        self.assertEqual(telemetry["requeries_avoided"], 1)
+
     def test_fallback_is_structured_and_selects_only_a_read_only_action(self) -> None:
         episode = RecoveryEpisode("fallback-guidance")
         self.assertTrue(episode.record("evidence_blocked", {"reason": "stale"}))

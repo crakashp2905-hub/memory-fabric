@@ -21,7 +21,7 @@ MAX_RECOVERY_ATTEMPTS = 128
 MAX_RECOVERY_EVENT_BYTES = 64_000
 MAX_RECOVERY_DEADLINE_S = 3_600.0
 MAX_RECOVERY_AUDIT_BYTES = 1_000_000
-RECOVERY_AUDIT_SCHEMA_ID = "memory-fabric.recovery-audit.v2"
+RECOVERY_AUDIT_SCHEMA_ID = "memory-fabric.recovery-audit.v3"
 
 
 class RecoveryStatus(StrEnum):
@@ -60,6 +60,14 @@ class RecoveryCause(StrEnum):
     NO_INDEPENDENT_SOURCE = "no_independent_source"
     RECOVERY_BUDGET_EXHAUSTED = "recovery_budget_exhausted"
     NO_MONOTONIC_PROGRESS = "no_monotonic_progress"
+    UNKNOWN = "unknown"
+
+
+class RecoveryFailureClass(StrEnum):
+    RETRIEVAL = "retrieval"
+    AUTHORIZATION = "authorization"
+    EVIDENCE_VALIDITY = "evidence_validity"
+    RECOVERY_CONTROL = "recovery_control"
     UNKNOWN = "unknown"
 
 
@@ -167,6 +175,22 @@ _RECOVERY_GUIDANCE: Mapping[RecoveryCause, RecoveryGuidance] = MappingProxyType(
         RecoveryNextAction.ABSTAIN, False),
 })
 
+_RECOVERY_FAILURE_CLASSES: Mapping[RecoveryCause, RecoveryFailureClass] = MappingProxyType({
+    RecoveryCause.MISSING: RecoveryFailureClass.RETRIEVAL,
+    RecoveryCause.IRRELEVANT: RecoveryFailureClass.RETRIEVAL,
+    RecoveryCause.DUPLICATE: RecoveryFailureClass.RETRIEVAL,
+    RecoveryCause.INSUFFICIENT: RecoveryFailureClass.RETRIEVAL,
+    RecoveryCause.NO_INDEPENDENT_SOURCE: RecoveryFailureClass.RETRIEVAL,
+    RecoveryCause.WITHHELD: RecoveryFailureClass.AUTHORIZATION,
+    RecoveryCause.UNAUTHORIZED: RecoveryFailureClass.AUTHORIZATION,
+    RecoveryCause.STALE: RecoveryFailureClass.EVIDENCE_VALIDITY,
+    RecoveryCause.CONTESTED: RecoveryFailureClass.EVIDENCE_VALIDITY,
+    RecoveryCause.ERASED: RecoveryFailureClass.EVIDENCE_VALIDITY,
+    RecoveryCause.RECOVERY_BUDGET_EXHAUSTED: RecoveryFailureClass.RECOVERY_CONTROL,
+    RecoveryCause.NO_MONOTONIC_PROGRESS: RecoveryFailureClass.RECOVERY_CONTROL,
+    RecoveryCause.UNKNOWN: RecoveryFailureClass.UNKNOWN,
+})
+
 _TERMINAL_RECOVERY_STATUSES = frozenset({
     RecoveryStatus.ESCALATED,
     RecoveryStatus.ABSTAINED,
@@ -243,6 +267,15 @@ class RecoveryEpisode:
     _before_token: str | None = field(default=None, init=False, repr=False)
     _failure_reason: str | None = field(default=None, init=False, repr=False)
     _guidance: RecoveryGuidance | None = field(default=None, init=False, repr=False)
+    _failure_counts: dict[RecoveryFailureClass, int] = field(
+        default_factory=lambda: {kind: 0 for kind in RecoveryFailureClass},
+        init=False, repr=False,
+    )
+    _action_counts: dict[RecoveryAction, int] = field(
+        default_factory=lambda: {action: 0 for action in RecoveryAction},
+        init=False, repr=False,
+    )
+    _requeries_avoided: int = field(default=0, init=False, repr=False)
 
     def __post_init__(self) -> None:
         self._started_at = time.monotonic()
@@ -290,6 +323,17 @@ class RecoveryEpisode:
                 "deadline_s": self.limits.deadline_s,
             },
             "used": {"steps": self.steps, "recoveries": self.recoveries},
+            "telemetry": {
+                "failure_classes": {
+                    kind.value: self._failure_counts[kind]
+                    for kind in RecoveryFailureClass
+                },
+                "recovery_actions": {
+                    action.value: self._action_counts[action]
+                    for action in RecoveryAction
+                },
+                "requeries_avoided": self._requeries_avoided,
+            },
             "trace": self.trace,
         }
         try:
@@ -334,6 +378,11 @@ class RecoveryEpisode:
         if not isinstance(action, RecoveryAction) or action not in RECOVERY_ACTIONS:
             raise ValueError("recovery action must be selected from the read-only catalog")
         if self.status in _TERMINAL_RECOVERY_STATUSES:
+            if (action is RecoveryAction.RE_RETRIEVE and self._guidance is not None
+                    and self._guidance.resolution in {
+                        RecoveryResolution.ESCALATE, RecoveryResolution.ABSTAIN}):
+                self._requeries_avoided = min(
+                    self._requeries_avoided + 1, MAX_RECOVERY_STEPS)
             return False
         if self._pending_action is not None or self.recoveries >= self.limits.max_recoveries:
             self._fail("recovery_attempt_budget_exhausted"
@@ -349,6 +398,7 @@ class RecoveryEpisode:
         if not self._append_event(event):
             return False
         self.recoveries += 1
+        self._action_counts[action] += 1
         self._pending_action = action
         self._before_token = before_token
         self._seen_progress.add(before_token)
@@ -390,10 +440,15 @@ class RecoveryEpisode:
         """
         if not isinstance(cause, RecoveryCause):
             raise ValueError("cause must be selected from the closed recovery taxonomy")
-        if self.status in {RecoveryStatus.COMPLETE, RecoveryStatus.ABSTAINED,
-                           RecoveryStatus.ESCALATED} or self._guidance is not None:
-            raise RuntimeError("episode already has a terminal result or failure guidance")
+        if (self.status in {RecoveryStatus.COMPLETE, RecoveryStatus.ABSTAINED,
+                            RecoveryStatus.ESCALATED}
+                or self._pending_action is not None
+                or (self._guidance is not None
+                    and self._guidance.resolution is not RecoveryResolution.FALLBACK)):
+            raise RuntimeError("episode already has a terminal result or pending recovery")
         guidance = _RECOVERY_GUIDANCE[cause]
+        failure_class = _RECOVERY_FAILURE_CLASSES[cause]
+        self._failure_counts[failure_class] += 1
         self._guidance = guidance
         if self.status is not RecoveryStatus.FAILED:
             if not self.record("failure_guidance", {
