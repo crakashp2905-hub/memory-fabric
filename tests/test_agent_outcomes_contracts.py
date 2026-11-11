@@ -12,7 +12,7 @@ from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
+    AgentObservation, AgentStep, EpisodeOutcome, FailureCode, RecoveryEpisode, RecoveryStatus,
 )
 
 
@@ -23,7 +23,7 @@ class TestOutcomeContracts(unittest.TestCase):
                                        ("retrieve", "inspect"), {"steps": 4})
         restored = AgentObservation.from_json(observation.canonical_json())
         self.assertEqual(restored, observation)
-        self.assertEqual(restored.schema_id, "memory-fabric.agent-outcomes.v2")
+        self.assertEqual(restored.schema_id, "memory-fabric.agent-outcomes.v3")
         self.assertEqual(restored.request_digest(), observation.request_digest())
         self.assertEqual(len(observation.request_digest()), 64)
 
@@ -35,7 +35,7 @@ class TestOutcomeContracts(unittest.TestCase):
 
     def test_contracts_reject_unknown_fields_and_unbounded_payloads(self) -> None:
         with self.assertRaisesRegex(ValueError, "fields do not match"):
-            AgentObservation.from_json('{"schema_id":"memory-fabric.agent-outcomes.v2",'
+            AgentObservation.from_json('{"schema_id":"memory-fabric.agent-outcomes.v3",'
                                        '"task_id":"x","instruction":"x","visible_events":[],'
                                        '"permitted_tools":[],"budget":{},"truth":1}')
         with self.assertRaisesRegex(ValueError, "size limit"):
@@ -49,16 +49,26 @@ class TestOutcomeContracts(unittest.TestCase):
 
     def test_episode_outcome_requires_opaque_oracle_digest(self) -> None:
         good = EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 1, 1, 0, 0, 0, 1.0,
-                              hashlib.sha256(b"sealed outcome").hexdigest())
+                              hashlib.sha256(b"sealed outcome").hexdigest(),
+                              terminal_failure_codes=(FailureCode.STALE_DATA.value,
+                                                      FailureCode.RETRIEVAL_MISS.value))
         report = canonical_report([good])
         self.assertIn('"population":"SCRIPTED_AGENT"', report)
-        self.assertIn('"schema_id":"memory-fabric.outcome-report.v2"', report)
+        self.assertIn('"schema_id":"memory-fabric.outcome-report.v3"', report)
+        self.assertIn('"terminal_failure_codes":["stale_data","retrieval_miss"]', report)
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             EpisodeOutcome("task-1", "A5", 1, True, 0, 0, 0, 0, 0, 0, 0, 1.0, "truth")
         with self.assertRaisesRegex(ValueError, "cannot exceed attempted"):
             EpisodeOutcome("task-1", "A5", 1, True, 1, 0, 0, 1, 0, 0, 0, 1.0,
                            hashlib.sha256(b"case").hexdigest(),
                            attempted_unsafe_effects=0, executed_unsafe_effects=1)
+        with self.assertRaisesRegex(ValueError, "require at least one"):
+            EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 0, 0, 0, 0, 0, 1.0,
+                           hashlib.sha256(b"case").hexdigest())
+        with self.assertRaisesRegex(ValueError, "unsupported terminal failure"):
+            EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 0, 0, 0, 0, 0, 1.0,
+                           hashlib.sha256(b"case").hexdigest(),
+                           terminal_failure_codes=("made_up_failure",))
 
     def test_recovery_episode_is_bounded_and_terminal(self) -> None:
         episode = RecoveryEpisode("task-1")
@@ -87,6 +97,7 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertFalse(abstained.completion)
         self.assertEqual(abstained.successful_recoveries, 0)
         self.assertEqual(abstained.attempted_unsafe_effects, 0)
+        self.assertEqual(abstained.terminal_failure_codes, ("abstention_cost",))
         self.assertEqual(abstained.outcome_oracle_digest, recovered.outcome_oracle_digest)
 
     def test_no_correction_uses_current_evidence_without_oracle_access(self) -> None:

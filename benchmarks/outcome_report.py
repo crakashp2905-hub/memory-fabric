@@ -42,6 +42,6 @@ def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
 
 
 def canonical_report(outcomes: Iterable[EpisodeOutcome]) -> str:
-    return json.dumps({"schema_id": "memory-fabric.outcome-report.v2",
+    return json.dumps({"schema_id": "memory-fabric.outcome-report.v3",
                        "population": "SCRIPTED_AGENT", "rows": report_rows(outcomes)},
                       sort_keys=True, separators=(",", ":"), allow_nan=False)

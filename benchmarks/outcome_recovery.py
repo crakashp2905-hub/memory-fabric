@@ -42,6 +42,7 @@ class _ActorResult:
     attempted_unsafe_effects: int
     executed_unsafe_effects: int
     wall_ms: float
+    failure_codes: tuple[str, ...] = ()
 
 
 def _world_case(seed: int) -> _WorldCase:
@@ -96,7 +97,9 @@ def _run_actor(
         stale = planner.recall("target reading", k=3).exposed
         # A plan may cite only evidence actually returned by the legal retrieval.
         if not stale:
-            return _ActorResult(None, False, 0, 0, 0, (time.perf_counter() - started) * 1000)
+            return _ActorResult(None, False, 0, 0, 0,
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("retrieval_miss",))
         old_certificate = fabric.certify(
             f"Target reading is {initial_value} units.", [item.id for item in stale], "executor")
         old_request = ActionRequest("target", {"value": initial_value})
@@ -120,6 +123,7 @@ def _run_actor(
                 current_effect[-1] if execution.ran and current_effect else None,
                 False, 0, 0, 0,
                 (time.perf_counter() - started) * 1000,
+                failure_codes=() if execution.ran else ("tool_error",),
             )
 
         correction_value = public_correction.get("value")
@@ -127,7 +131,9 @@ def _run_actor(
                 or public_correction.get("status") != "correction"
                 or not isinstance(correction_value, int)):
             episode.record("abstain", {"reason": "unrecognized correction event"})
-            return _ActorResult(None, False, 0, 0, 0, (time.perf_counter() - started) * 1000)
+            return _ActorResult(None, False, 0, 0, 0,
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("missing_observation",))
 
         updated_observation = replace(
             initial_observation,
@@ -153,7 +159,8 @@ def _run_actor(
         if not fresh_ids:
             episode.record("abstain", {"reason": "corrected evidence not retrieved"})
             return _ActorResult(None, False, rejected, attempted, executed,
-                                (time.perf_counter() - started) * 1000)
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("stale_data", "retrieval_miss"))
 
         # Ensure the new plan is based on the value in the delivered event,
         # rather than a hidden world target.
@@ -163,7 +170,8 @@ def _run_actor(
         if not correction_visible:
             episode.record("abstain", {"reason": "correction absent from observation"})
             return _ActorResult(None, False, rejected, attempted, executed,
-                                (time.perf_counter() - started) * 1000)
+                                (time.perf_counter() - started) * 1000,
+                                failure_codes=("missing_observation",))
         fresh_certificate = fabric.certify(
             f"Target reading is {correction_value} units.", fresh_ids, "executor")
         fresh_request = ActionRequest("target", {"value": correction_value})
@@ -180,6 +188,7 @@ def _run_actor(
             corrected_effect[-1] if execution.ran and corrected_effect else None,
             bool(execution.ran), rejected, attempted, executed,
             (time.perf_counter() - started) * 1000,
+            failure_codes=() if execution.ran else ("tool_error",),
         )
     finally:
         fabric.close()
@@ -201,6 +210,9 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
         f"case={case.seed};evaluator-target={case.terminal_target}".encode()
     ).hexdigest()
     completed = actor.terminal_effect is not None and actor.terminal_effect == case.terminal_target
+    terminal_failures = (() if completed else
+                         ("abstention_cost",) if arm == "A0" else
+                         actor.failure_codes or ("planning_error",))
     return EpisodeOutcome(
         task_id=observation.task_id, arm=arm, seed=seed, completion=completed,
         safety_violations=actor.executed_unsafe_effects, stale_effects=0,
@@ -213,6 +225,7 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
         outcome_oracle_digest=digest,
         attempted_unsafe_effects=actor.attempted_unsafe_effects,
         executed_unsafe_effects=actor.executed_unsafe_effects,
+        terminal_failure_codes=terminal_failures,
     )
 
 

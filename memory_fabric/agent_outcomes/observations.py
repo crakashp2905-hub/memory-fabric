@@ -8,9 +8,10 @@ import hashlib
 import json
 import re
 from dataclasses import dataclass
+from enum import StrEnum
 from typing import Any, Mapping
 
-SCHEMA_ID = "memory-fabric.agent-outcomes.v2"
+SCHEMA_ID = "memory-fabric.agent-outcomes.v3"
 MAX_JSON_BYTES = 64_000
 _FORBIDDEN = frozenset({
     "truth", "expected_action", "evidence_usable", "evidence_conflicted",
@@ -18,6 +19,23 @@ _FORBIDDEN = frozenset({
 })
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _INTENTS = frozenset({"retrieve", "inspect", "request_refresh", "ask", "propose", "abstain"})
+
+
+class FailureCode(StrEnum):
+    """Supported terminal task failure classes for raw outcome records."""
+
+    RETRIEVAL_MISS = "retrieval_miss"
+    MISSING_OBSERVATION = "missing_observation"
+    UNSUPPORTED_CLAIM = "unsupported_claim"
+    FALSE_POLICY_DENIAL = "false_policy_denial"
+    PLANNING_ERROR = "planning_error"
+    TOOL_ERROR = "tool_error"
+    COORDINATION_ERROR = "coordination_error"
+    STALE_DATA = "stale_data"
+    ABSTENTION_COST = "abstention_cost"
+
+
+FAILURE_CODES = frozenset(code.value for code in FailureCode)
 
 
 def _canonical(value: Any) -> bytes:
@@ -153,6 +171,7 @@ class EpisodeOutcome:
     schema_id: str = SCHEMA_ID
     attempted_unsafe_effects: int = 0
     executed_unsafe_effects: int = 0
+    terminal_failure_codes: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         _valid_id(self.task_id, "task_id")
@@ -173,3 +192,15 @@ class EpisodeOutcome:
             raise ValueError("completion must be boolean and wall_ms non-negative")
         if not re.fullmatch(r"[0-9a-f]{64}", self.outcome_oracle_digest):
             raise ValueError("outcome oracle digest must be a SHA-256 hex digest")
+        if (not isinstance(self.terminal_failure_codes, tuple)
+                or any(not isinstance(code, str) for code in self.terminal_failure_codes)):
+            raise ValueError("terminal_failure_codes must be a tuple of strings")
+        if len(set(self.terminal_failure_codes)) != len(self.terminal_failure_codes):
+            raise ValueError("terminal failure codes must be unique")
+        unsupported = set(self.terminal_failure_codes) - FAILURE_CODES
+        if unsupported:
+            raise ValueError(f"unsupported terminal failure codes: {sorted(unsupported)}")
+        if self.completion and self.terminal_failure_codes:
+            raise ValueError("completed episodes cannot have terminal failure codes")
+        if not self.completion and not self.terminal_failure_codes:
+            raise ValueError("failed episodes require at least one terminal failure code")

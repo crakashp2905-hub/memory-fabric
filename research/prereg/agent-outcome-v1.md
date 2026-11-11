@@ -16,7 +16,10 @@ made by creating this document.
   `experiments/p3b_teams.py`. New work must reuse it where the treatment and
   outcome definitions match; a new world requires a written reason.
 - Evidence classes are `contract_tested`, `local_model_tested`, and
-  `deployment_validated`. This checkout currently has no outcome-stage result.
+  `deployment_validated`. A deterministic scripted recovery pilot now exercises
+  a correction and a paired immediate-abstention arm. This is contract evidence
+  only; no real-model or confirmatory outcome-stage result exists, and the
+  protocol remains unfrozen.
 
 ## Primary estimand and frozen design
 

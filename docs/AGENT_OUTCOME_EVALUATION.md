@@ -60,3 +60,11 @@ Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
 synthetic results are distinct experiments and are not pooled with future runs.
+
+Outcome report v3 requires each incomplete task row to carry one or more
+supported terminal failure codes. Mixed causes are retained as a list. The
+taxonomy covers retrieval misses, missing observations, unsupported claims,
+false policy denials, planning and tool errors, coordination errors, stale
+data, and abstention opportunity cost. Successful episodes carry no terminal
+failure code; recovered intermediate refusals remain in the separate safety
+attempt counters.
