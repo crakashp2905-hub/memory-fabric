@@ -14,6 +14,9 @@ already completed. This implementation now includes a deterministic, scripted
 correction case in `benchmarks.outcome_recovery`. It exercises an observer
 write, planner retrieval and replanning, executor authorization through
 `ActionGate`, stale certificate refusal, and an immediate-abstention A0 pair.
+The actor runner receives only its initial `AgentObservation` and a later public
+correction event; the private terminal target is used only by the evaluator
+after the actor returns.
 This is integration coverage only: it is not an LLM agent run or evidence of
 comparative benefit. Existing seeded team experiments remain in
 `experiments/teamworld.py`; no full A0–A7 matched harness, confirmatory analysis,

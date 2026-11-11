@@ -89,11 +89,15 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(abstained.attempted_unsafe_effects, 0)
         self.assertEqual(abstained.outcome_oracle_digest, recovered.outcome_oracle_digest)
 
-    def test_unresolved_case_abstains_and_observation_has_no_truth(self) -> None:
+    def test_no_correction_uses_current_evidence_without_oracle_access(self) -> None:
         outcome = run_episode(1)
-        self.assertFalse(outcome.completion)
+        self.assertTrue(outcome.completion)
+        self.assertEqual(outcome.eligible_recoveries, 0)
         self.assertEqual(outcome.successful_recoveries, 0)
-        self.assertNotIn("truth", visible_observation(1).canonical_json())
+        observation = visible_observation(1)
+        self.assertNotIn("truth", observation.canonical_json())
+        self.assertFalse(any(event.get("status") == "correction"
+                             for event in observation.visible_events))
         rows = run_paired((0, 1))
         self.assertEqual([(row.seed, row.arm) for row in rows],
                          [(0, "A0"), (0, "A5"), (1, "A0"), (1, "A5")])
