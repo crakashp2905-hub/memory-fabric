@@ -4,8 +4,12 @@ The experimental runtime contracts live in `memory_fabric.agent_outcomes`.
 They are opt-in and do not replace Memory Fabric's identity, evidence
 verification, or `ActionGate`. `AgentObservation` rejects evaluator-only fields
 recursively, rejects evaluator handles and callables, and deep-freezes nested
-data before producing a stable canonical encoding and request digest. The
-separate `OracleTask` schema seals hidden truth, eligibility, and reward in an
+data before producing a stable canonical encoding and request digest. Actor
+observations and steps carry schema v3 and support strict JSON roundtrips;
+unknown fields, duplicate JSON keys, non-finite values, and unrecognized
+security metadata fail closed. Recovery progress records hash state tokens
+instead of retaining them in its public trace. The separate `OracleTask` schema
+seals hidden truth, eligibility, and reward in an
 evaluator-side canonical payload. Opening it and serializing terminal grades
 require a task-bound `EvaluatorCapability`; actor contracts reject oracle,
 grade, and capability objects. This is an in-process API boundary, not a Python
@@ -91,7 +95,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v4.json`. Run it with
+`tools/agent_outcome_gate_manifest.v5.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

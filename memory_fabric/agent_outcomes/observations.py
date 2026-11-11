@@ -62,6 +62,35 @@ def _canonical(value: Any) -> bytes:
     return encoded
 
 
+def _load_contract_json(value: str, *, label: str) -> Any:
+    """Decode bounded JSON while rejecting ambiguous duplicate keys and constants."""
+    if not isinstance(value, str):
+        raise ValueError(f"{label} must be JSON text")
+    try:
+        encoded = value.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise ValueError(f"{label} must be valid UTF-8 JSON") from exc
+    if len(encoded) > MAX_JSON_BYTES:
+        raise ValueError("contract payload exceeds the size limit")
+
+    def object_from_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, item in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON field {key!r} is ambiguous")
+            result[key] = item
+        return result
+
+    def reject_constant(constant: str) -> None:
+        raise ValueError(f"non-finite JSON constant {constant!r} is forbidden")
+
+    try:
+        return json.loads(value, object_pairs_hook=object_from_pairs,
+                          parse_constant=reject_constant)
+    except (json.JSONDecodeError, RecursionError) as exc:
+        raise ValueError(f"{label} is malformed JSON") from exc
+
+
 def _no_oracle_fields(value: Any, path: str = "$", *,
                       _active: set[int] | None = None, _depth: int = 0) -> None:
     if _depth > 64:
@@ -223,12 +252,10 @@ class AgentObservation:
 
     @classmethod
     def from_json(cls, value: str) -> "AgentObservation":
-        if len(value.encode("utf-8")) > MAX_JSON_BYTES:
-            raise ValueError("contract payload exceeds the size limit")
-        raw = json.loads(value)
+        raw = _load_contract_json(value, label="observation")
         expected = {"schema_id", "task_id", "instruction", "visible_events", "permitted_tools", "budget"}
         if not isinstance(raw, dict) or set(raw) != expected:
-            raise ValueError("observation fields do not match schema v1")
+            raise ValueError("observation fields do not match schema v3")
         return cls(task_id=raw["task_id"], instruction=raw["instruction"],
                    visible_events=tuple(raw["visible_events"]),
                    permitted_tools=tuple(raw["permitted_tools"]), budget=raw["budget"],
@@ -356,7 +383,8 @@ class AgentStep:
         for field, value in (("task_id", self.task_id), ("actor_id", self.actor_id),
                              ("step_id", self.step_id)):
             _valid_id(value, field)
-        if self.schema_id != SCHEMA_ID or self.intent not in _INTENTS:
+        if (self.schema_id != SCHEMA_ID or not isinstance(self.intent, str)
+                or self.intent not in _INTENTS):
             raise ValueError("unsupported step schema or intent")
         if not isinstance(self.arguments, Mapping):
             raise ValueError("arguments must be a JSON object")
@@ -379,6 +407,34 @@ class AgentStep:
                  "evidence_versions": [list(pair) for pair in self.evidence_versions]}
         _no_oracle_fields(value)
         return value
+
+    def canonical_json(self) -> str:
+        """Return stable JSON for this actor request without hidden metadata."""
+        return _canonical(self.to_dict()).decode("utf-8")
+
+    def request_digest(self) -> str:
+        """Hash the exact canonical step request for safe correlation in logs."""
+        return hashlib.sha256(self.canonical_json().encode("utf-8")).hexdigest()
+
+    @classmethod
+    def from_json(cls, value: str) -> "AgentStep":
+        raw = _load_contract_json(value, label="agent step")
+        expected = {"schema_id", "task_id", "actor_id", "step_id", "intent",
+                    "arguments", "evidence_versions"}
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("agent step fields do not match schema v3")
+        versions = raw["evidence_versions"]
+        if not isinstance(versions, list):
+            raise ValueError("agent step evidence_versions must be a JSON array")
+        pairs: list[tuple[str, int]] = []
+        for item in versions:
+            if not isinstance(item, list) or len(item) != 2:
+                raise ValueError("agent step evidence_versions must contain pairs")
+            pairs.append((item[0], item[1]))
+        return cls(task_id=raw["task_id"], actor_id=raw["actor_id"],
+                   step_id=raw["step_id"], intent=raw["intent"],
+                   arguments=raw["arguments"], evidence_versions=tuple(pairs),
+                   schema_id=raw["schema_id"])
 
 
 @dataclass(frozen=True)
