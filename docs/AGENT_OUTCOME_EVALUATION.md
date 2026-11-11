@@ -48,6 +48,11 @@ whether the worktree was dirty. `--skip-full` is useful for quick iteration,
 but intentionally yields `NOT_RUN`, never `SCRIPTED_QUALIFIED`. Local-model
 and deployment evidence remain separate `NOT_RUN` entries until performed.
 
+The short simulated incident is available with
+`python -m examples.outcome_recovery_demo`. Its actor trace shows the observed
+correction, refusal of stale evidence, refreshed evidence, and authorized
+effect. The evaluator view appears only after the episode ends.
+
 Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical

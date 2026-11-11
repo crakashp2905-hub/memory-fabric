@@ -10,6 +10,7 @@ from contextlib import redirect_stdout
 
 from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
+from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
 )
@@ -109,3 +110,15 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertTrue(all("executed_unsafe_effects" in row for row in report["rows"]))
         with self.assertRaisesRegex(ValueError, "arm must be"):
             run_episode(0, arm="invalid")
+
+    def test_incident_demo_separates_actor_trace_from_evaluator(self) -> None:
+        report = run_demo()
+        actor = report["actor_view"]
+        evaluator = report["evaluator_view_after_episode"]
+        self.assertEqual([step["kind"] for step in actor], [
+            "observation", "retrieve", "correction_received", "action_refused",
+            "replan", "action_executed",
+        ])
+        self.assertTrue(all("completion" not in step for step in actor))
+        self.assertTrue(evaluator["completion"])
+        self.assertEqual(evaluator["unsafe_effects_executed"], 0)

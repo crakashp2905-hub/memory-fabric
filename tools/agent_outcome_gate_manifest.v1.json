@@ -10,12 +10,12 @@
     {
       "id": "lint",
       "required_for_scripted_qualification": true,
-      "command": ["python", "-m", "ruff", "check", "memory_fabric/agent_outcomes", "benchmarks/outcome_report.py", "benchmarks/outcome_recovery.py", "tools/agent_outcome_gate.py", "tests/test_agent_outcomes_contracts.py", "tests/test_agent_outcome_gate.py"]
+      "command": ["python", "-m", "ruff", "check", "memory_fabric/agent_outcomes", "benchmarks/outcome_report.py", "benchmarks/outcome_recovery.py", "examples/outcome_recovery_demo.py", "tools/agent_outcome_gate.py", "tests/test_agent_outcomes_contracts.py", "tests/test_agent_outcome_gate.py"]
     },
     {
       "id": "types",
       "required_for_scripted_qualification": true,
-      "command": ["python", "-m", "mypy", "memory_fabric/agent_outcomes", "benchmarks/outcome_report.py", "benchmarks/outcome_recovery.py", "tools/agent_outcome_gate.py"]
+      "command": ["python", "-m", "mypy", "memory_fabric/agent_outcomes", "benchmarks/outcome_report.py", "benchmarks/outcome_recovery.py", "examples/outcome_recovery_demo.py", "tools/agent_outcome_gate.py"]
     },
     {
       "id": "full_repository",
