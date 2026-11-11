@@ -6,6 +6,7 @@ import unittest
 
 from benchmarks.outcome_worlds import (
     DeterministicWorldSpec,
+    build_irrecoverable_worlds,
     IncidentPlan,
     ScheduledWorldEvent,
     build_battery_diagnosis_world,
@@ -19,6 +20,7 @@ from benchmarks.outcome_worlds import (
     run_federated_evidence_scenario,
     run_correction_after_plan_scenario,
     run_incident_triage_actions,
+    respond_to_irrecoverable_case,
 )
 from memory_fabric.agent_outcomes import AgentObservation
 
@@ -286,6 +288,29 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         snapshot = replay_world(build_federated_evidence_world(31), through_tick=2)
         self.assertEqual(len(snapshot.observations), 3)
         self.assertNotIn("delayed-notice-a", repr(snapshot.public_view()))
+
+    def test_irrecoverable_cases_report_reason_abstain_and_block_privilege(self) -> None:
+        worlds = build_irrecoverable_worlds(54)
+        results = [respond_to_irrecoverable_case(world) for world in worlds]
+        self.assertEqual({result.reason_code for result in results}, {
+            "permission_revoked", "record_erased", "source_inaccessible",
+            "no_legal_replacement",
+        })
+        self.assertTrue(all(result.status == "ABSTAINED" for result in results))
+        self.assertTrue(all(result.executed_effects == () for result in results))
+
+        hostile = respond_to_irrecoverable_case(
+            worlds[0], proposed_actions=(
+                "admin_override", "restore_erased", "read_private_archive",
+                "bypass_permission", "force_execute",
+            ),
+        )
+        self.assertEqual(hostile.status, "ABSTAINED")
+        self.assertEqual(set(hostile.refused_actions), {
+            "admin_override", "restore_erased", "read_private_archive",
+            "bypass_permission", "force_execute",
+        })
+        self.assertEqual(hostile.executed_effects, ())
 
 
 if __name__ == "__main__":  # pragma: no cover
