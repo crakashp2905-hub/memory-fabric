@@ -1,0 +1,193 @@
+{
+  "assignment_propensity": 0.5,
+  "estimand": "finite-world average paired inclusion effect over uniform backgrounds",
+  "experiment": "uniform exhaustive subset inclusion",
+  "limitations": [
+    "Deterministic synthetic worlds validate implementation against the registered estimand only.",
+    "Uniform-background inclusion effects are not Shapley values or context-free memory value.",
+    "No claim is made about real-world confounding, stochasticity, or agent adaptation."
+  ],
+  "passed": true,
+  "schema": "memory-fabric-n3-02-exact-oracle/1",
+  "tolerance": 1e-12,
+  "total_enumerated_subsets": 64,
+  "world_count": 4,
+  "worlds": [
+    {
+      "effects": [
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.5,
+          "memory_id": "a",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.5,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.5,
+          "memory_id": "b",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.5,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "x",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "y",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        }
+      ],
+      "enumerated_subsets": 16,
+      "memory_count": 4,
+      "passed": true,
+      "world": "complementary"
+    },
+    {
+      "effects": [
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.5,
+          "memory_id": "a",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.5,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.5,
+          "memory_id": "b",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.5,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "x",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "y",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        }
+      ],
+      "enumerated_subsets": 16,
+      "memory_count": 4,
+      "passed": true,
+      "world": "redundant"
+    },
+    {
+      "effects": [
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": -1.0,
+          "memory_id": "harmful",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": -1.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "x",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "y",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "z",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        }
+      ],
+      "enumerated_subsets": 16,
+      "memory_count": 4,
+      "passed": true,
+      "world": "harmful"
+    },
+    {
+      "effects": [
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 1.0,
+          "memory_id": "useful",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 1.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "irrelevant",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "x",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        },
+        {
+          "absolute_error": 0.0,
+          "contrastive": true,
+          "ips_estimate": 0.0,
+          "memory_id": "y",
+          "n_eff": 8.0,
+          "oracle_average_inclusion_effect": 0.0,
+          "passed": true
+        }
+      ],
+      "enumerated_subsets": 16,
+      "memory_count": 4,
+      "passed": true,
+      "world": "irrelevant"
+    }
+  ]
+}

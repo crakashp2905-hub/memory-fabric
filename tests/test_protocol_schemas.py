@@ -84,7 +84,7 @@ class TestSchemaMatchesTheCode(unittest.TestCase):
 
     def test_the_retraction_targets_an_exact_version(self) -> None:
         """The single most important difference between the specification and
-        today's code: `propagate_retraction` matches on memory id alone, so a
+        the code as written: `propagate_retraction` matches on memory id alone, so a
         retraction of v1 would withdraw an import of v3. The schema makes the
         version mandatory, and this test is what stops it being dropped as an
         inconvenience during implementation."""
@@ -95,7 +95,7 @@ class TestSchemaMatchesTheCode(unittest.TestCase):
         )
 
     def test_the_store_id_cannot_be_a_path(self) -> None:
-        """Today's origin record uses `source.log.path`. The pattern is the
+        """The origin record in this code uses `source.log.path`. The pattern is the
         guard against that returning."""
         schema = load("retraction-v1.schema.json")
         pattern = schema["$defs"]["store_id"]["pattern"]
@@ -152,11 +152,14 @@ class TestSchemaMatchesTheCode(unittest.TestCase):
         # Pinned, and bumped deliberately: 0.8.0 added copy recognition and
         # 0.9.0 added `ActionGated`, 0.10.0 `CollectionChanged`, 0.11.0
         # `ActionExecuted`, 0.12.0 the manager's lease and cycle events and 0.13.0
-        # context receipts and branches, each
+        # context receipts and branches, 0.14.0 tenant-scoped copy links and
+        # 0.15.0 decision evidence links, 0.16.0 alternatives, 0.17.0 status events,
+        # and 0.18.0 deterministic re-evaluation receipts, and 0.19.0
+        # budgeted disagreement context receipts
         # additive. The protocol
         # version did not move, which is the point this test makes -- an
         # additive log change must not force a wire break.
-        self.assertEqual(SCHEMA_VERSION, "0.13.0")
+        self.assertEqual(SCHEMA_VERSION, "0.19.0")
         self.assertEqual(
             load("retraction-v1.schema.json")["properties"]["protocol_version"]["const"], 1
         )

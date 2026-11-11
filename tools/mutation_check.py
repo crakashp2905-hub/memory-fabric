@@ -18,6 +18,8 @@ removal is a security bug.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import subprocess
 import sys
 import time
@@ -37,72 +39,75 @@ class Mutant:
 
 
 MUTANTS = [
-    Mutant("action-time check ignores visibility (F15)", "memory_fabric/enforcement.py",
+    Mutant("action-time check ignores visibility (F15)", "src/memory_fabric/enforcement.py",
            "        decision = self.check(token.memory_id, risk=risk, tenant_id=token.tenant_id,\n"
            "                              agent_id=agent_id)",
            "        decision = self.check(token.memory_id, risk=risk, tenant_id=token.tenant_id)",
            ("tests.test_visibility_at_action", "tests.test_access_matrix")),
-    Mutant("a token works for any agent", "memory_fabric/enforcement.py",
+    Mutant("a token works for any agent", "src/memory_fabric/enforcement.py",
            "        if token.agent_id != agent_id:", "        if False:",
            ("tests.test_enforcement",)),
-    Mutant("an expired token is accepted", "memory_fabric/enforcement.py",
+    Mutant("an expired token is accepted", "src/memory_fabric/enforcement.py",
            "        if token.expired(self.fabric.now()):", "        if False:",
            ("tests.test_enforcement",)),
-    Mutant("the enforced read ignores the tenant", "memory_fabric/enforcement.py",
+    Mutant("the enforced read ignores the tenant", "src/memory_fabric/enforcement.py",
            "        if tenant_id is not None and memory.tenant_id != tenant_id:\n",
            "        if False:\n",
-           ("tests.test_access_matrix", "tests.test_identity")),
-    Mutant("private memories visible to everyone", "memory_fabric/model.py",
+           ("tests.test_enforcement_tenant",)),
+    Mutant("private memories visible to everyone", "src/memory_fabric/model.py",
            "    if memory.provenance.created_by == agent_id:", "    if True:",
            ("tests.test_scope_visibility", "tests.test_access_matrix")),
-    Mutant("an ungranted agent may call a protected tool", "memory_fabric/actions.py",
+    Mutant("an ungranted agent may call a protected tool", "src/memory_fabric/actions.py",
            "        if tool not in self.policy.grants.get(agent_id, frozenset()):\n"
            "            # Before any memory is consulted.",
            "        if False:\n            # Before any memory is consulted.",
            ("tests.test_action_fence", "tests.test_authority")),
-    Mutant("an expired grant is accepted", "memory_fabric/actions.py",
+    Mutant("an expired grant is accepted", "src/memory_fabric/actions.py",
            '        if self.fabric.now() >= int(issued["expires_ms"]):',
            "        if False:", ("tests.test_authority",)),
-    Mutant("a used grant can be replayed", "memory_fabric/actions.py",
+    Mutant("a used grant can be replayed", "src/memory_fabric/actions.py",
            "                return GRANT_REPLAYED", "                pass", ("tests.test_authority",)),
-    Mutant("a grant covers a different action", "memory_fabric/actions.py",
+    Mutant("a grant covers a different action", "src/memory_fabric/actions.py",
            "            return GRANT_MISMATCH", "            pass", ("tests.test_authority",)),
-    Mutant("a crash mid-action is treated as never attempted", "memory_fabric/actions.py",
-           '                last = {"outcome": UNCERTAIN}', "                last = None",
+    Mutant("a crash mid-action is treated as never attempted", "src/memory_fabric/actions.py",
+           '                last = {"outcome": UNCERTAIN, "binding": event.payload.get("binding")}',
+           "                last = None",
            ("tests.test_action_crash",)),
     Mutant("a forwarded retraction is verified with the origin's key (F16)",
-           "memory_fabric/transport.py",
-           "            sender = retraction.forwarded_by or retraction.origin_store_id\n"
-           "            key = registry.key_for(sender,",
-           "            sender = retraction.origin_store_id\n"
-           "            key = registry.key_for(sender,", ("tests.test_multihop_http",)),
-    Mutant("a retraction's signature is not checked", "memory_fabric/transport.py",
-           "            if key is None or not retraction.verify(signature, key):",
-           "            if key is None:", ("tests.test_federation_transport",)),
-    Mutant("copies may outrun their retraction (no hop limit)", "memory_fabric/federation.py",
+           "src/memory_fabric/transport.py",
+           "    return retraction.forwarded_by or retraction.origin_store_id",
+           "    return retraction.origin_store_id", ("tests.test_transport_auth",)),
+    Mutant("a retraction's signature is not checked", "src/memory_fabric/transport.py",
+           "    return key is not None and retraction.verify(signature, key)",
+           "    return key is not None", ("tests.test_transport_auth",)),
+    Mutant("copies may outrun their retraction (no hop limit)", "src/memory_fabric/federation.py",
            "    if len(chain) >= MAX_HOPS:", "    if False:", ("tests.test_federation_reach",)),
-    Mutant("a corrected value restated is not flagged", "memory_fabric/validation.py",
+    Mutant("a corrected value restated is not flagged", "src/memory_fabric/validation.py",
            '            signals.setdefault("reasserts_corrected", oid)', "            pass",
            ("tests.test_validation",)),
-    Mutant("authority is not inherited from sources", "memory_fabric/authority.py",
+    Mutant("authority is not inherited from sources", "src/memory_fabric/authority.py",
            "        stack.extend(parents)", "        pass", ("tests.test_authority",)),
-    Mutant("an author may elevate its own memory", "memory_fabric/_fabric/lifecycle.py",
+    Mutant("an author may elevate its own memory", "src/memory_fabric/_fabric/lifecycle.py",
            "            if approver == memory.provenance.created_by or approver in current.origins:",
            "            if False:", ("tests.test_authority",)),
-    Mutant("no payload limit", "memory_fabric/limits.py",
+    Mutant("no payload limit", "src/memory_fabric/limits.py",
            "        if size > self.limits.max_content_bytes:", "        if False:",
            ("tests.test_limits",)),
-    Mutant("permissions are not enforced", "memory_fabric/identity.py",
+    Mutant("permissions are not enforced", "src/memory_fabric/identity.py",
            "    def require_permission(self, permission: str) -> None:\n"
            "        if not self.can(permission):",
            "    def require_permission(self, permission: str) -> None:\n        if False:",
            ("tests.test_permissions",)),
-    Mutant("a summary may drop recorded values", "memory_fabric/compaction.py",
+    Mutant("erasure leaves the content key usable", "src/memory_fabric/governance/erasure.py",
+           "        destroyed = self.keys.destroy(memory_id)",
+           "        destroyed = False",
+           ("tests.test_erasure_key_destroy",)),
+    Mutant("a summary may drop recorded values", "src/memory_fabric/compaction.py",
            "    if missing:\n        raise CompactionRefused", "    if False:\n        raise CompactionRefused",
            ("tests.test_compaction",)),
-    Mutant("a hostile source is not withheld", "memory_fabric/_fabric/retrieval.py",
+    Mutant("a hostile source is not withheld", "src/memory_fabric/_fabric/retrieval.py",
            "        if not self.withhold_hostile_sources:\n            return eligible",
-           "        return eligible", ("tests.test_source_notice",)),
+           "        return eligible", ("tests.test_source_notice.InProcess",)),
 ]
 
 
@@ -137,6 +142,8 @@ def run(mutant: Mutant) -> tuple[bool, float]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--list", action="store_true")
+    parser.add_argument("--json-output", type=Path,
+                        help="write per-mutant results and the prioritized survivor backlog")
     args = parser.parse_args(argv)
     if args.list:
         for m in MUTANTS:
@@ -147,15 +154,38 @@ def main(argv: list[str] | None = None) -> int:
     for modules in sorted({m.tests for m in MUTANTS}):
         if not tests_pass(modules):
             raise SystemExit(f"baseline failed: {' '.join(modules)} does not pass unmutated")
-    survivors = []
+    survivors: list[str] = []
+    results: list[dict[str, object]] = []
     for m in MUTANTS:
         killed, seconds = run(m)
         print(f"{'killed  ' if killed else 'SURVIVED'} {m.name}  ({seconds:.1f}s)", flush=True)
+        results.append({"name": m.name, "path": m.path, "tests": list(m.tests),
+                        "status": "KILLED" if killed else "SURVIVED",
+                        "severity": "CRITICAL", "elapsed_seconds": round(seconds, 3)})
         if not killed:
             survivors.append(m.name)
     print(f"\n{len(MUTANTS) - len(survivors)}/{len(MUTANTS)} mutants killed")
     if survivors:
         print("untested guards: " + "; ".join(survivors))
+    if args.json_output:
+        source_paths = sorted({m.path for m in MUTANTS})
+        source_hashes = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                         for name in source_paths}
+        source_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                                       capture_output=True, text=True, check=True).stdout.strip()
+        source_dirty = bool(subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                                           capture_output=True, text=True, check=True).stdout.strip())
+        report = {"schema": "memory-fabric-mutation-qualification/1",
+                  "source_commit": source_commit, "source_worktree_dirty": source_dirty,
+                  "source_files_sha256": source_hashes,
+                  "mutants_total": len(results), "mutants_killed": len(results) - len(survivors),
+                  "survivors": len(survivors), "results": results,
+                  "prioritized_backlog": [
+                      {"priority": "P0", "severity": "CRITICAL", "mutation": item["name"],
+                       "path": item["path"], "tests": item["tests"]}
+                      for item in results if item["status"] == "SURVIVED"]}
+        args.json_output.parent.mkdir(parents=True, exist_ok=True)
+        args.json_output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return 1 if survivors else 0
 
 

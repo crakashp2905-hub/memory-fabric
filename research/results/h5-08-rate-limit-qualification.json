@@ -1,0 +1,36 @@
+{
+  "input_sha256": {
+    "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
+    "src/memory_fabric/limits.py": "854a798ecb6b025104510f660b1f06c393a3b723b25a3d35e3ea88eb818a889d",
+    "tests/test_agent_api_rate_limit.py": "8bb625164847d1cedbc0db09d48faba29944ce74c6d3dfef5e0ddc9852e6fc7f",
+    "tools/rate_limit_qualification.py": "0cefa6dee233086c9234b9dc1164f44693819e28a1e3cc41e3f6778b1d9ee110"
+  },
+  "passed": true,
+  "scenarios": {
+    "address_bucket_bound": {
+      "bucket_count": 16,
+      "bucket_max_keys": 16,
+      "cycled_addresses": 500,
+      "rejections_changed_store": false
+    },
+    "credential_rate_limit": {
+      "accepted_writes": 2,
+      "agent_bucket_count": 1,
+      "credentials": 128,
+      "rejected_requests": 126,
+      "rejections_changed_store": false
+    },
+    "store_write_quota": {
+      "accepted_writes": 2,
+      "credentials": 32,
+      "quota_counter_agents": 1,
+      "quota_rejections": 30,
+      "rejections_changed_store": false
+    }
+  },
+  "schema": "memory-fabric-agent-api-rate-limit-qualification/1",
+  "source_commit": "22aa651991612ee76dff322a926a0800553a39b3",
+  "source_worktree_dirty": true,
+  "tests_passed": true,
+  "tests_run": 3
+}

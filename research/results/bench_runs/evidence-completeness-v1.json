@@ -1,0 +1,155 @@
+{
+ "arm": "all",
+ "budget": {
+  "content_reads_per_query": 12,
+  "model_calls": 0
+ },
+ "cost": {
+  "hardware_usd": null,
+  "model_calls": 0,
+  "model_usd": 0,
+  "note": "reads and latency measured; local hardware cost unpriced"
+ },
+ "counts": {
+  "attempted": 10,
+  "completed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "solved": 2
+ },
+ "dataset": {
+  "generator": "benchmarks/evidence_completeness.py",
+  "sha256": "79efb4a14720ea1840e2ca0acadb4cb53b9be5f808f738c51c75bfdad14186de",
+  "split": "test"
+ },
+ "decision": "INCONCLUSIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/evidence_completeness.py": "72405347e6c454dcab58d05f6ef02b8da626eee776c4bf9d1551df3ae85f743d"
+ },
+ "model": {
+  "id": null,
+  "provider": null
+ },
+ "prereg": "research/prereg/ecv1-design.md",
+ "reason": "development lexical baseline saturates oracle; no attainable threshold registered",
+ "repo_commit": "9260e482e05831db72afdada5820220448c15003",
+ "results": {
+  "summary": {
+   "lexical": {
+    "complete": 0.0,
+    "coverage": 0.25,
+    "exact": 0.9,
+    "false_complete": 0.0,
+    "latency_ms": 2.2587,
+    "per_seed_exact": {
+     "101": 1.0,
+     "127": 1.0,
+     "149": 0.5,
+     "163": 1.0,
+     "181": 1.0
+    },
+    "precision": 1.0,
+    "reads": 12.0,
+    "recall": 0.98
+   },
+   "oracle": {
+    "complete": 0.0,
+    "coverage": 0.7833,
+    "exact": 1.0,
+    "false_complete": 0.0,
+    "latency_ms": 2.7981,
+    "per_seed_exact": {
+     "101": 1.0,
+     "127": 1.0,
+     "149": 1.0,
+     "163": 1.0,
+     "181": 1.0
+    },
+    "precision": 1.0,
+    "reads": 12.0,
+    "recall": 1.0
+   },
+   "selective": {
+    "complete": 0.0,
+    "coverage": 0.7833,
+    "exact": 0.2,
+    "false_complete": 0.0,
+    "latency_ms": 3.4359,
+    "per_seed_exact": {
+     "101": 0.0,
+     "127": 0.5,
+     "149": 0.5,
+     "163": 0.0,
+     "181": 0.0
+    },
+    "precision": 1.0,
+    "reads": 12.0,
+    "recall": 0.73
+   },
+   "typed": {
+    "complete": 0.0,
+    "coverage": 0.5333,
+    "exact": 0.0,
+    "false_complete": 0.0,
+    "latency_ms": 0.364,
+    "per_seed_exact": {
+     "101": 0.0,
+     "127": 0.0,
+     "149": 0.0,
+     "163": 0.0,
+     "181": 0.0
+    },
+    "precision": 0.9,
+    "reads": 0.0,
+    "recall": 0.2017
+   },
+   "typed+fallback": {
+    "complete": 0.0,
+    "coverage": 0.7833,
+    "exact": 0.2,
+    "false_complete": 0.0,
+    "latency_ms": 2.7303,
+    "per_seed_exact": {
+     "101": 0.0,
+     "127": 0.5,
+     "149": 0.5,
+     "163": 0.0,
+     "181": 0.0
+    },
+    "precision": 1.0,
+    "reads": 12.0,
+    "recall": 0.73
+   }
+  },
+  "threshold": null
+ },
+ "run_id": "evidence-completeness-v1",
+ "schema": "mf-run-manifest/1",
+ "seeds": [
+  101,
+  127,
+  149,
+  163,
+  181
+ ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
+ "suite": "INT-03",
+ "verification": {
+  "baseline_registered": true,
+  "holdout_frozen": true,
+  "independent_replicated": false,
+  "oracle_sanity_passed": true
+ }
+}

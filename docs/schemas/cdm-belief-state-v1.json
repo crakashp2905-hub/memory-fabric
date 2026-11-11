@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "fields": {
+    "conflict_variables": {
+      "items": "string",
+      "type": "array"
+    },
+    "evidence_refs": {
+      "items": "BeliefReference",
+      "type": "array"
+    },
+    "fingerprint": {
+      "format": "sha256",
+      "type": "string"
+    },
+    "observations": {
+      "items": "Observation",
+      "type": "array"
+    },
+    "policy_id": {
+      "nonempty": true,
+      "type": "string"
+    },
+    "posterior": {
+      "type": "object",
+      "values": "finite-number-in-[0,1]"
+    },
+    "schema": {
+      "const": "memory-fabric-cdm-v1",
+      "type": "string"
+    },
+    "uncertainty": {
+      "type": "object",
+      "values": "finite-number-in-[0,0.5]"
+    },
+    "update_policy_digest": {
+      "format": "sha256",
+      "type": "string"
+    },
+    "updater_id": {
+      "nonempty": true,
+      "type": "string"
+    },
+    "variables": {
+      "items": "string",
+      "type": "array",
+      "unique": true
+    }
+  },
+  "record_schema": "memory-fabric-cdm-v1",
+  "required": [
+    "schema",
+    "updater_id",
+    "update_policy_digest",
+    "policy_id",
+    "variables",
+    "posterior",
+    "uncertainty",
+    "observations",
+    "evidence_refs",
+    "conflict_variables",
+    "fingerprint"
+  ],
+  "schema": "memory-fabric-cdm-v1.belief-state",
+  "type": "object"
+}

@@ -1,0 +1,9 @@
+P5-02 local qualification checks — 2026-11-08
+
+Socket-enabled command: python tools/check.py
+Result: PASS (exit code 0) on the pre-evidence-update worktree based on source commit b0540000c0721f70ec35cbaacb46b6bcaf823261. Generated documents and test counts, version consistency, canonical branding, Ruff, mypy (176 source files/0 issues), secret scan (127 examined/0 unexpected), security AST scan (16 modules/0 findings), internal findings gate (0 local blockers; external O7 remains), 26 documentation tests, and adversarial gate (21/21 families, 279 tests) all passed.
+
+Full suite: python -m unittest discover -v -s tests -t . — PASS, 2,458 tests, 0 failures/errors, 17 disclosed capability/platform skips; 1,090.736 seconds. Transcript: research/results/p5-02-full-unit-tests.txt.
+Skip breakdown: Anthropic SDK missing (5), PostgreSQL service not configured (7), Agents SDK framework runtime missing (1), POSIX-only tests on Windows (4).
+
+Optional tools: pip-audit UNAVAILABLE; bandit UNAVAILABLE. External independent security review remains open and is not replaced by local checks.

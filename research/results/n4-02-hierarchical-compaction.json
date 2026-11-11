@@ -1,0 +1,43 @@
+{
+  "schema": "memory-fabric-n4-02-hierarchical-compaction/1",
+  "task_id": "N4-02",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "design": {
+    "partition": "stable created_at, memory_id, version order; fixed leaf size",
+    "levels": 2,
+    "edge_certificates": "SHA-256 over summary content, exact parent versions, fact dependency map, and child certificate edges",
+    "root_lineage": "direct links to leaf summaries and original source versions"
+  },
+  "oracle_cases": [
+    "10 source memories at leaf_size=4 produce stable 4/4/2 grouping and identical root content on repeat",
+    "root and every leaf certificate verify against fact maps and exact versioned parents",
+    "revising one source version contests only its leaf and root; sibling leaf summaries remain active",
+    "stale root certificate verification is refused after parent revision",
+    "histories too short for at least two leaves are refused rather than labelled hierarchical"
+  ],
+  "tests": {
+    "hierarchy_suite": {
+      "paths": ["tests/test_hierarchical_compaction.py", "tests/test_summary_dependencies.py", "tests/test_compaction.py", "tests/test_lossless_compaction.py", "tests/test_action_race_barriers.py"],
+      "passed": 27,
+      "skipped": 0,
+      "junit": "research/results/n4-02-hierarchy-tests.xml"
+    },
+    "revision_compatibility_suite": {
+      "paths": ["tests/test_branching.py", "tests/test_authority.py", "tests/test_correction.py", "tests/test_revision_conflicts.py", "tests/test_revises_validated.py"],
+      "passed": 77,
+      "subtests_passed": 53,
+      "skipped": 0,
+      "junit": "research/results/n4-02-revision-compat-tests.xml"
+    }
+  },
+  "lint": {
+    "command": "python -m ruff check src/memory_fabric/compaction.py src/memory_fabric/summary_dependencies.py src/memory_fabric/_fabric/writes.py tests/test_hierarchical_compaction.py tests/test_summary_dependencies.py tests/test_lossless_compaction.py",
+    "passed": true
+  },
+  "limitations": [
+    "The implementation is a deterministic two-level hierarchy; deeper recursive trees are not qualified.",
+    "SHA-256 certificates detect mismatched content/edges but are not signatures or proof against an authorized writer changing both data and digest.",
+    "Hierarchy was tested on synthetic local histories, not distributed stores or external model summaries."
+  ]
+}

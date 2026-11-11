@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "finite_defaults": true,
+    "invalid_settings_rejected": true,
+    "memory_cap_refuses_without_partial_write": true,
+    "request_and_worker_caps_refuse_over_budget": true,
+    "retention_cap_is_bounded_and_nonterminal_first": true
+  },
+  "limitations": [
+    "Worker saturation is tested through the same nonblocking budget primitive; no socket load test is claimed.",
+    "Memory and retention caps are exercised on in-memory SQLite fixtures."
+  ],
+  "passed": true,
+  "schema": "memory-fabric-resource-budget-smoke/1",
+  "scope": "local deterministic fixtures"
+}

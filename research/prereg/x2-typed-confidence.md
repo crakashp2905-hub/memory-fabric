@@ -6,7 +6,7 @@ registration quoted a baseline from another document's table and the primary
 was invalid before any arm ran ([principle 8d](../../AGENTS.md)). Here the
 baselines are re-measured in the same run, on the same metric, at the same
 budget, and the numbers below were produced by `x1_abstention_premise.py`
-yesterday rather than copied from prose.
+in the same run rather than copied from prose.
 
 ## 1. Why this, and why abstention rather than the other two candidates
 
@@ -24,7 +24,7 @@ Three measured gaps in this project are closed option sets:
 | exposure propensity | a distribution to log per decision (principles 4 and 5) | no baseline, and no decision rule to compare against |
 
 **Abstention is first because it is the only one where a registration can be
-honest today.** The baseline is measured on the exact metric, the population is
+honest.** The baseline is measured on the exact metric, the population is
 third-party (LongMemEval), the harness exists, and the output is a **report**
 rather than an action.
 

@@ -1,0 +1,24 @@
+{
+  "schema": "memory-fabric-package-asset-audit/1",
+  "source_commit": "3bf6613914ce2aa89f48c5d842d38b46e70cc783",
+  "build_command": "python -m build --no-isolation",
+  "artifacts": [
+    {
+      "artifact": "memory_fabric-0.14.0-py3-none-any.whl",
+      "kind": "wheel",
+      "sha256": "ba05d06f89bd438a331bbb17b01e4149ff2c3c530f0f7f15bc93f87ec302b08d",
+      "member_count": 149,
+      "issue_count": 0,
+      "issues": []
+    },
+    {
+      "artifact": "memory_fabric-0.14.0.tar.gz",
+      "kind": "sdist",
+      "sha256": "2bb3b79d685b772660a2ba07a934df8f730401f6b5f36e679f3c50062f6108bd",
+      "member_count": 155,
+      "issue_count": 0,
+      "issues": []
+    }
+  ],
+  "passed": true
+}

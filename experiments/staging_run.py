@@ -9,7 +9,7 @@ production one:
 
 - **Store:** PostgreSQL when `MF_STAGING_POSTGRES_URL` is set (a fresh
   database per run), else a SQLite file.
-- **Agents talk to `memory-fabric agent-api`** in its own process, over HTTP,
+- **Agents talk to `memory_fabric agent-api`** in its own process, over HTTP,
   each with its own signed credential and the **default rate limits**.
 - **Operators** act on the same store from this process with the SDK, as a
   reviewer at a terminal would: they review what agents wrote (approving only

@@ -180,7 +180,7 @@ class NaiveArm:
 
 
 class FabricArm:
-    """Memory Fabric per site: governed writes, screens, offer, retraction, dispatch."""
+    """MemoryFabric per site: governed writes, screens, offer, retraction, dispatch."""
 
     def __init__(self) -> None:
         from memory_fabric import MemoryFabric

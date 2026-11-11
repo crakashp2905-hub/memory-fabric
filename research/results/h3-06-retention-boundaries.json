@@ -1,0 +1,30 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H3-06-06",
+  "source_commit": "5be3746ee89878ea945fff4ac316af516495c901",
+  "source_clean_before_run": false,
+  "machine": "Windows local checkout; synthetic/in-process tests",
+  "test_summary": {
+    "passed": 49,
+    "failed": 0,
+    "subtests_passed": 41,
+    "deselected": 1
+  },
+  "input_sha256": {
+    "tests/test_retention_boundaries.py": "6f2afce65a25862881fc6b01475a76a8529aad76d2e9d456e78c594d5301b78f",
+    "src/memory_fabric/governance/retention.py": "352f68fc6c5f9e5b38150ebc4b96e3822b97fc59655fa67c2a844707f6a3b558",
+    "docs/RETENTION_AND_AUDIT_PRESERVATION.md": "d4700bc59e698f2fda169dfaed1c76768578c71fb3efb878a27b0285dfc6fba6"
+  },
+  "checks": {
+    "cases": [
+      "zero grace at eligibility timestamp",
+      "one millisecond before zero-grace eligibility",
+      "very large grace remains retained",
+      "very large grace exact boundary expires"
+    ]
+  },
+  "limitations": [
+    "Deterministic boundary tests are not exhaustive fuzzing over all values.",
+    "Append-only event/audit preservation and backup deletion are explicitly separate from memory content retention."
+  ]
+}

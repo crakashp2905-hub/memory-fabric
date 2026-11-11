@@ -7,7 +7,7 @@ that make the comparison measurable.
 
 ## The agent is deterministic, and that is the design
 
-"Does a team do better with Memory Fabric" is two questions: does the right
+"Does a team do better with MemoryFabric" is two questions: does the right
 evidence reach the agent, and does the agent use it. [R6](../research/results/r6-downstream.md)
 measured the second and **its dev finding did not replicate** — on a corpus a
 model could simply read, perfect selection was worth +0.000.
@@ -33,9 +33,8 @@ arms would make memory and coordination inseparable.
 from __future__ import annotations
 
 import random
-import time
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Protocol, Sequence
+from typing import Protocol, Sequence
 
 # Wide enough that 100 agents still get a fact each. At 8 units x 6 sites the
 # pair space capped at 48, so the 50- and 100-agent runs covered an identical
@@ -240,9 +239,9 @@ def build_world(seed: int, agents: int = 10, rounds: int = 60) -> World:
 class Memory(Protocol):
     """What an agent can do with memory. Four implementations, one protocol."""
 
-    def write(self, agent: str, content: str, fact_key: tuple[str, str]) -> str: ...
+    def write(self, agent: str, content: str, fact_key: tuple[str, str, str]) -> str: ...
 
-    def withdraw(self, agent: str, fact_key: tuple[str, str], reason: str) -> None: ...
+    def withdraw(self, agent: str, fact_key: tuple[str, str, str], reason: str) -> None: ...
 
     def read(self, agent: str, query: str, k: int = 5) -> list[tuple[str, str]]:
         """(memory_id, content), best first, already filtered by the backend."""
@@ -258,6 +257,19 @@ class Memory(Protocol):
         had it invalidated, it simply never had it. Isolation and wrongful
         suppression are different failures and were being added together.
         """
+        ...
+
+    def miss_reason(self, agent: str, statement: str,
+                    returned: Sequence[tuple[str, str]]) -> str:
+        """Why an exact current statement was not returned."""
+        ...
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        """Record independent verification when the world supplies it."""
+        ...
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        """Replace one typed claim and return the replacement memory id."""
         ...
 
     def close(self) -> None: ...
@@ -306,6 +318,17 @@ class LocalMemory:
 
     def holds(self, agent: str, needle: str) -> bool:
         return any(needle in c for _, c in self.stores.get(agent, []))
+
+    def miss_reason(self, agent: str, statement: str, returned) -> str:
+        known = any(c == statement for _, c in self.stores.get(agent, []))
+        return "ranking_miss" if known else "not_available_to_agent"
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        pass
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        self.withdraw(agent, fact.key, reason)
+        return self.write(agent, fact.statement(), fact.key)
 
     def close(self) -> None:
         pass
@@ -359,12 +382,27 @@ class SharedMemory:
         # has it, not whether the store is currently willing to show it.
         return any(needle in c for _, c in self.rows)
 
+    def miss_reason(self, agent: str, statement: str, returned) -> str:
+        exact = [mid for mid, content in self.rows if content == statement]
+        if not exact:
+            return "not_in_store"
+        if all(mid in self.suppressed for mid in exact):
+            return "blanket_invalidation"
+        return "ranking_miss"
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        pass
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        self.withdraw(agent, fact.key, reason)
+        return self.write(agent, fact.statement(), fact.key)
+
     def close(self) -> None:
         pass
 
 
 class FabricMemory:
-    """Memory Fabric at its defaults."""
+    """MemoryFabric at its defaults."""
 
     def __init__(self) -> None:
         from memory_fabric import MemoryFabric
@@ -373,7 +411,7 @@ class FabricMemory:
             ":memory:", auto_activate=True, encrypt_content=False,
             retrieval="lexical",
         )
-        self.by_key: dict[tuple[str, str], list[str]] = {}
+        self.by_key: dict[tuple[str, str, str], list[str]] = {}
 
     def write(self, agent: str, content: str, fact_key) -> str:
         mid = self.fabric.remember(agent_id=agent, content=content, scope="team")
@@ -405,8 +443,103 @@ class FabricMemory:
         return any(needle in m.content
                    for m in self.fabric.state.memories.values())
 
+    def miss_reason(self, agent: str, statement: str, returned) -> str:
+        from memory_fabric.model import LifecycleState, visible_to
+
+        exact = [m for m in self.fabric.state.memories.values()
+                 if m.content == statement]
+        if not exact:
+            return "not_in_store"
+        visible = [m for m in exact if visible_to(m, agent, self.fabric.state)]
+        if not visible:
+            return "not_visible"
+        states = {m.lifecycle_state for m in visible}
+        if LifecycleState.ACTIVE in states:
+            return "ranking_miss"
+        if LifecycleState.CONTESTED in states:
+            return "unresolved_conflict"
+        if LifecycleState.CANDIDATE in states:
+            return "unvalidated_claim"
+        if LifecycleState.QUARANTINED in states:
+            return "withdrawn_or_correction_fallout"
+        return "blocked_lifecycle"
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        # The preregistered v1 arm intentionally did not transmit an authority
+        # signal.  Kept as its historical behaviour; ``fabric_authority`` is
+        # the explicit provenance-conditioned arm.
+        pass
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        self.withdraw(agent, fact.key, reason)
+        return self.write(agent, fact.statement(), fact.key)
+
     def close(self) -> None:
         self.fabric.close()
+
+
+class AuthorityFabricMemory(FabricMemory):
+    """Fabric with independent verification attached to world-verified corrections."""
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        memory = self.fabric.state.memories[memory_id]
+        from memory_fabric.model import LifecycleState
+
+        was_contested = memory.lifecycle_state is LifecycleState.CONTESTED
+        if memory.lifecycle_state in {
+                LifecycleState.CANDIDATE, LifecycleState.CONTESTED}:
+            self.fabric.validate(memory_id, actor="world-verifier", reason=reason)
+        # A validated observation becomes usable, but copied provenance can
+        # retain a hard contested-ancestor reason even when the observation's
+        # own lifecycle was merely candidate. Do not bypass that invariant.
+        if was_contested or self.fabric.authority(memory_id).hard:
+            return
+        self.fabric.elevate(
+            memory_id, approver="world-verifier", reason=reason)
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        """Version the canonical observation instead of appending a lookalike.
+
+        A separately appended correction can textually match an old disputed
+        note and correctly inherit its hard copy ancestry.  Revising the
+        canonical observation says what actually happened: the same typed
+        claim was re-measured at a later revision.
+        """
+        ids = list(self.by_key.get(fact.key, ()))
+        if not ids:
+            return self.write(agent, fact.statement(), fact.key)
+        canonical = ids[0]
+        from memory_fabric.model import LifecycleState
+
+        for mid in ids[1:]:
+            memory = self.fabric.state.memories.get(mid)
+            if (memory is not None
+                    and memory.lifecycle_state is not LifecycleState.QUARANTINED):
+                self.fabric.quarantine(
+                    mid, reason=reason, actor=agent, basis="contradicted")
+        canonical_memory = self.fabric.state.memories[canonical]
+        if canonical_memory.lifecycle_state is LifecycleState.CONTESTED:
+            self.fabric.validate(
+                canonical, actor="world-verifier",
+                reason="independent remeasurement resolved the conflict",
+            )
+        self.fabric.revise(
+            canonical, content=fact.statement(), agent_id=agent, reason=reason)
+        return canonical
+
+
+class VerifiedObservationFabricMemory(AuthorityFabricMemory):
+    """Authority arm whose direct sensor observations carry verification.
+
+    TeamWorld calls ``write`` only for facts produced by its measurement event.
+    Derived text and retrieval output never pass through this boundary, so they
+    cannot manufacture the verifier identity.
+    """
+
+    def write(self, agent: str, content: str, fact_key) -> str:
+        memory_id = super().write(agent, content, fact_key)
+        self.confirm(memory_id, "direct observation from trusted world sensor")
+        return memory_id
 
 
 @dataclass
@@ -430,11 +563,21 @@ class OracleMemory:
     def holds(self, agent: str, needle: str) -> bool:
         return any(needle in f.statement() for f in self.world.current.values())
 
+    def miss_reason(self, agent: str, statement: str, returned) -> str:
+        return "oracle_miss"
+
+    def confirm(self, memory_id: str, reason: str) -> None:
+        pass
+
+    def correct(self, agent: str, fact: Fact, reason: str) -> str:
+        return "oracle"
+
     def close(self) -> None:
         pass
 
 
 BACKENDS = ("local", "shared", "shared_blanket", "fabric", "oracle")
+EXPERIMENTAL_BACKENDS = ("fabric_authority", "fabric_verified")
 
 
 def build_memory(arm: str, world: World) -> Memory:
@@ -446,6 +589,10 @@ def build_memory(arm: str, world: World) -> Memory:
         return SharedMemory(blanket=True)
     if arm == "fabric":
         return FabricMemory()
+    if arm == "fabric_authority":
+        return AuthorityFabricMemory()
+    if arm == "fabric_verified":
+        return VerifiedObservationFabricMemory()
     if arm == "oracle":
         return OracleMemory(world=world)
     raise ValueError(arm)

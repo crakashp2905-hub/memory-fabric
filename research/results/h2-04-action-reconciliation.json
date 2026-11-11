@@ -1,0 +1,30 @@
+{
+  "acceptance_status": "PASS",
+  "input_sha256": {
+    "docs/ACTION_RECONCILIATION.md": "8caf398788fa8fbfaa6f08b6c2afbdaecf02d5e18b16c34e9684bc945486bb06",
+    "src/memory_fabric/actions.py": "e3d1a98404181998752cbb00c116bbf26b1374c4933beb66f8046aa669ddac48",
+    "tests/test_action_crash.py": "187a41e567f11fa4f49f0628bb1df6df30a3d71ce13b877dd1a0ea91c5b5cca1",
+    "tests/test_action_reconciliation.py": "bf181279af3a889f91351adeda6d1aa7d67985e2d063e163b5cfec4f058af1ca"
+  },
+  "limitations": [
+    "The ledger classifies local receipts only; it cannot inspect a remote side effect.",
+    "No atomic transaction or exactly-once guarantee is claimed across external systems."
+  ],
+  "population": "local_mock_side_effect",
+  "schema": "mf-action-reconciliation-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "a01e948e0d4b8b8f939692ebeef5c7996d4af5a9",
+  "state_contract": {
+    "attempt_without_receipt_callback_error_or_timeout": "unknown",
+    "authorization_refusal": "definitely_unexecuted",
+    "fenced_success": "completed",
+    "unknown_requires_external_reconciliation": true
+  },
+  "tests": {
+    "command": "python -m pytest tests/test_action_reconciliation.py tests/test_action_crash.py",
+    "failures": 0,
+    "missing_cases": [],
+    "required_cases_present": true,
+    "total": 2
+  }
+}

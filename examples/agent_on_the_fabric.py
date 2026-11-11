@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 # Windows consoles default to a legacy code page that cannot encode the
 # punctuation below; this reconfigures stdout the way the CLI does.
@@ -79,6 +79,7 @@ def rule(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: scripted model response; deterministic fixture; not a live-model evaluation.")
     fabric = MemoryFabric(seed=0)  # candidates stay candidates until reviewed
 
     rule("1. Seed the store from an existing transcript")
@@ -169,7 +170,7 @@ def main() -> None:
     health = fabric.health()
     print(f"  memories {health.total}  by state {health.by_state}")
     print(f"  episodes {health.episodes} ({health.episodes_with_outcome} with a verified outcome)")
-    print(f"\n  memory-fabric --db <path> attention   # to review the candidate")
+    print(f"\n  memory_fabric --db <path> attention   # to review the candidate")
 
     fabric.close()
     print()

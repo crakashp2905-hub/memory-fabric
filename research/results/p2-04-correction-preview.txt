@@ -1,0 +1,32 @@
+P2-04 · Refreshable correction impact preview
+Commit: db7d101e67a4128ced3b6b34b46c33b37bd0919d
+Platform: Windows 11 10.0.26200 (Python 3.13.5)
+
+Exact-commit test run:
+  Python unittest loaded tests.test_control_center_ui, tests.test_control_center,
+  and tests.test_correction with tempfile.tempdir set to
+  D:\Memory Fabric\master-checklist\.task-tmp
+  Result: 36 tests passed, 0 failures, 0 errors (8.665 seconds runner time)
+  Process exit code: 0 (9.446 seconds)
+
+Additional checks on the same commit:
+  mypy --follow-imports=silent src/memory_fabric/observability/control.py
+      tests/test_control_center_ui.py — passed
+  ruff check src/memory_fabric/observability/control.py
+      tests/test_control_center_ui.py — passed
+  git diff --check — passed
+
+Verified behaviors:
+  - The correction preview endpoint reports the current impact and digest.
+  - Adding a dependent memory changes the digest and the displayed impact.
+  - Applying with the previous digest raises StalePreview and does not withdraw
+    or modify the source memory.
+  - The drawer refresh compares the previously shown impact with the fresh
+    impact and warns that the prior digest is rejected.
+  - The command shown after refresh carries the current digest.
+
+Limitations:
+  - UI and API tests use local deterministic fixtures on Windows 11/Python 3.13.5.
+  - The dashboard remains read-only; the shown command performs the mutation
+    through the existing CLI, whose apply path rechecks the digest atomically.
+  - The configured cross-platform GitHub CI matrix has not run for this branch.

@@ -276,6 +276,20 @@ databases is the real constraint. `memory-fabric tenants` says which
 arrangement a store is actually in, and `doctor` reports a multi-tenant store
 as a warning rather than as a clean bill of health.
 
+**Tenant isolation patterns.** Choose by what the isolation has to survive:
+
+| pattern | how | survives | does not survive | cost |
+|---|---|---|---|---|
+| **A. Shared store** | one store; principals carry a tenant (`agent-api` agents file `agent:tenant:key`) | a bug in ranking, an index query or an import (authorisation on every read path) | anyone who can read the database file or the process | one database |
+| **B. Store per tenant, one process** | `tenancy.TenantRouter`: one store and one key directory per tenant, routed by the verified principal | a mis-scoped query or backup of another tenant's file; erasure stays per tenant | a compromised server process, which holds every tenant's handle | N databases, one process |
+| **C. Process per tenant** | one `agent-api` per tenant, each with its own `--db`, `--keys`, agents file and port; anchors per store (`anchor --to`) | a compromised process for one tenant; per-tenant rate limits and restarts | a compromised host | N processes |
+| **D. Host or container per tenant** | pattern C in separate containers or VMs (`deploy/multihost/docker-compose.yml` is the template), with keys on separate volumes | a compromised host for one tenant | shared infrastructure underneath | N hosts |
+
+Whatever the pattern, anchor each store's checkpoint somewhere its own host
+cannot rewrite (`memory-fabric anchor --to git:...`), and give each tenant its
+own operator tokens. `memory-fabric tenants` and `doctor` report which pattern a
+store is actually in.
+
 **Content is encrypted; the database is not.** Memory content is sealed per
 memory and `memory-fabric` can destroy a single memory's key, which makes that
 content unrecoverable while leaving the audit trail intact — see
@@ -306,3 +320,20 @@ Ranking exposure on estimated value is available and is not recommended.
 **Do not withdraw memories because they were in context when something failed.**
 This is the one deployment rule that comes from a measurement rather than from
 caution, and §5 says what to do instead.
+
+## Kubernetes (Helm)
+
+`deploy/helm/memory-fabric` runs the dashboard, and optionally the agent HTTP
+API, on one pod with the store and its keys on separate volumes:
+
+```bash
+kubectl create secret generic mf-agents --from-file=agents.txt
+helm install mf deploy/helm/memory-fabric \
+  --set dashboard.token=$(openssl rand -hex 24) \
+  --set mode=team --set agentApi.enabled=true --set agentApi.agentsSecret=mf-agents
+```
+
+One replica, because a SQLite store has one writer host; for writers on
+several hosts open the store on PostgreSQL. Model and embedder keys go in a
+Secret referenced by `extraEnvFrom`, never in values. CI lints and renders the
+chart on every change.

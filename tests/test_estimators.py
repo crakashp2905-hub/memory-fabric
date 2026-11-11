@@ -263,7 +263,25 @@ class TestDoublyRobust(unittest.TestCase):
             record.exposed = True  # one arm only
         dr = DoublyRobustEstimator()
         dr.fit(projection.state)
-        self.assertEqual(dr.estimate("M").estimator, "none")
+        estimate = dr.estimate("M")
+        self.assertEqual(estimate.estimator, "none")
+        self.assertEqual(estimate.identification_status, "NON_IDENTIFIABLE")
+        self.assertEqual(estimate.n_eff, 0.0)
+        self.assertEqual(estimate.ci_low, float("-inf"))
+        self.assertEqual(estimate.ci_high, float("inf"))
+        self.assertIsNone(estimate.confidence_interval)
+        self.assertIsNone(estimate.to_json()["confidence_interval"])
+        self.assertEqual(
+            type(estimate).from_json(estimate.to_json()).identification_status,
+            "NON_IDENTIFIABLE",
+        )
+        legacy = estimate.to_json()
+        legacy.pop("identification_status")
+        legacy.pop("confidence_interval")
+        self.assertEqual(
+            type(estimate).from_json(legacy).identification_status,
+            "NON_IDENTIFIABLE",
+        )
 
 
 class TestAmortized(unittest.TestCase):
@@ -363,6 +381,8 @@ class TestEstimatorContracts(unittest.TestCase):
 
         self.assertFalse(naive.estimate("M").contrastive)
         self.assertTrue(ips.estimate("M").contrastive)
+        self.assertEqual(ips.estimate("M").identification_status, "IDENTIFIED")
+        self.assertIsNotNone(ips.estimate("M").confidence_interval)
 
         # A non-contrastive estimate can never claim benefit, whatever its mean.
         self.assertFalse(naive.estimate("M").shows_benefit)
@@ -411,7 +431,37 @@ class TestEstimatorContracts(unittest.TestCase):
         estimate = ips.estimate("M")
         self.assertEqual(estimate.n_eff, 0.0)
         self.assertEqual(estimate.estimator, "none")
+        self.assertEqual(estimate.identification_status, "NON_IDENTIFIABLE")
+        self.assertEqual(estimate.ci_low, float("-inf"))
+        self.assertEqual(estimate.ci_high, float("inf"))
+        self.assertIsNone(estimate.confidence_interval)
         log.close()
+
+    def test_ips_and_dr_refuse_near_deterministic_action_probabilities(self) -> None:
+        """Weight clipping cannot manufacture overlap below the support floor."""
+        for estimator_type in (IPSEstimator, DoublyRobustEstimator):
+            projection = build_confounded_world(n_episodes=400)
+            projection.state.exposures[0].propensity = 0.999
+            estimator = estimator_type()
+            estimator.fit(projection.state)
+            estimate = estimator.estimate("M")
+            self.assertEqual(estimate.identification_status, "NON_IDENTIFIABLE")
+            self.assertIsNone(estimate.confidence_interval)
+
+    def test_ips_and_dr_require_overlap_within_each_context(self) -> None:
+        """Marginal treatment and control counts cannot hide an unsupported stratum."""
+        for estimator_type in (IPSEstimator, DoublyRobustEstimator):
+            projection = build_confounded_world(n_episodes=400)
+            estimator = estimator_type()
+            estimator.fit(projection.state)
+            rows = estimator._index["M"]
+            unsupported_context = rows[0][2]
+            for record, _, context in rows:
+                if context == unsupported_context:
+                    record.exposed = True
+            estimate = estimator.estimate("M")
+            self.assertEqual(estimate.identification_status, "NON_IDENTIFIABLE")
+            self.assertIsNone(estimate.confidence_interval)
 
     def test_episodes_without_verified_outcomes_are_excluded(self) -> None:
         log = EventLog(":memory:")

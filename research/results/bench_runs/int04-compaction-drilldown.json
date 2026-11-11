@@ -1,0 +1,87 @@
+{
+ "arm": "all",
+ "budget": {},
+ "cost": {
+  "model_calls": 0,
+  "model_usd": 0.0
+ },
+ "counts": {
+  "attempted": 0,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "solved": 0
+ },
+ "dataset": {
+  "generator": "benchmarks/compaction.py",
+  "name": "generated"
+ },
+ "decision": "DESCRIPTIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/compaction.py": "ad656bbe78a3d799e5318e9b19f2b972bb4e15391ee9aca92c5ae0a8f9b3e18c"
+ },
+ "model": {
+  "id": null,
+  "provider": null
+ },
+ "prereg": null,
+ "reason": "descriptive: no improvement claim registered",
+ "repo_commit": "9260e482e058",
+ "results": {
+  "invariants": {
+   "checks": 120,
+   "erased_returned_text": 0,
+   "summary_still_exposable": 0,
+   "withdrawn_resurrected": 0
+  },
+  "recovered_by_budget": {
+   "160": {
+    "oracle": 1.0,
+    "raw": 1.0,
+    "summary": 0.661,
+    "summary+drill": 1.0
+   },
+   "40": {
+    "oracle": 1.0,
+    "raw": 1.0,
+    "summary": 0.329,
+    "summary+drill": 1.0
+   },
+   "80": {
+    "oracle": 1.0,
+    "raw": 1.0,
+    "summary": 0.485,
+    "summary+drill": 1.0
+   }
+  }
+ },
+ "run_id": "int04-compaction-drilldown",
+ "schema": "mf-run-manifest/1",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
+ "suite": "INT-04",
+ "verification": {
+  "baseline_registered": true,
+  "holdout_frozen": false,
+  "independent_replicated": false,
+  "oracle_sanity_passed": true
+ }
+}

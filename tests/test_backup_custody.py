@@ -31,10 +31,15 @@ class Custody(unittest.TestCase):
         self.assertEqual(quiet("--db", str(self.db), "--keys", str(self.keys), "backup",
                                str(self.backup), "--with-keys", "--include",
                                str(self.tmp / "memory" / "agents.txt")), 0)
+        self.ledger = self.tmp / "current-erasures.json"
+        self.assertEqual(quiet("--db", str(self.db), "--keys", str(self.keys),
+                               "export-erasure-ledger",
+                               str(self.ledger)), 0)
 
     def test_restore_brings_back_readable_content_keys_and_config(self) -> None:
         dest = self.tmp / "restored"
-        self.assertEqual(quiet("restore", str(self.backup), str(dest)), 0)
+        self.assertEqual(quiet("restore", str(self.backup), str(dest),
+                               "--erasure-ledger", str(self.ledger)), 0)
         self.assertTrue((dest / "config" / "agents.txt").is_file())
         f = MemoryFabric(str(dest / "store.db"),
                          key_provider=DirectoryKeyProvider(str(dest / "keys")))
@@ -48,12 +53,14 @@ class Custody(unittest.TestCase):
         with open(self.backup, "r+b") as handle:
             handle.seek(200)
             handle.write(b"\x00tampered\x00")
-        self.assertEqual(quiet("restore", str(self.backup), str(self.tmp / "r2")), 5)
+        self.assertEqual(quiet("restore", str(self.backup), str(self.tmp / "r2"),
+                               "--erasure-ledger", str(self.ledger)), 5)
         self.assertFalse((self.tmp / "r2").exists())
 
     def test_restore_never_overwrites(self) -> None:
         (self.tmp / "taken").mkdir()
-        self.assertEqual(quiet("restore", str(self.backup), str(self.tmp / "taken")), 4)
+        self.assertEqual(quiet("restore", str(self.backup), str(self.tmp / "taken"),
+                               "--erasure-ledger", str(self.ledger)), 4)
 
 
 if __name__ == "__main__":  # pragma: no cover

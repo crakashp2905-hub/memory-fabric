@@ -1,0 +1,23 @@
+{
+  "schema": "memory-fabric-decision-index-qualification/1",
+  "seed": 20261108,
+  "decisions": 10000,
+  "base_event_count": 21001,
+  "dataset_sha256": "cc813861d809241b144c6e2706cf216ee87711892b3f5bc1224b1c26676a7cf9",
+  "target_evidence": {
+    "memory_id": "mem-023",
+    "version": 1
+  },
+  "initial_impacts": 49,
+  "full_scan_impacts": 49,
+  "initial_sets_equal": true,
+  "initial_events_scanned": 21001,
+  "incremental_events_added": 2,
+  "incremental_events_scanned": 2,
+  "incremental_sets_equal": true,
+  "updated_impacts": 50,
+  "indexed_through_seq": 21003,
+  "indexed_query_seconds": 0.652889,
+  "python": "3.13.5",
+  "platform": "Windows-11-10.0.26200-SP0"
+}

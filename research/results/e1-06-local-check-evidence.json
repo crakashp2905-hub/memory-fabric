@@ -1,0 +1,30 @@
+{
+  "schema": "memory-fabric-e1-06/1",
+  "commit": "8e5af2fe094dfcba918302930be8f549b6e69847",
+  "dirty_at_test": false,
+  "test_command": "python -m pytest tests/test_local_check_report.py -q --junitxml=.test-tmp/e1-06-local-check-report.xml",
+  "test_cases": {
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0
+  },
+  "report_sha256": "d9bbe756676abf9d9635e801d018e2c103108c074ac31dc24ca2e8692f9f6d85",
+  "junit_sha256": "e3e3fa2ebc9c9ea539993c25a6c57a8041d2293556a7e28b13ad9d4a6cc14c61",
+  "package_count": 441,
+  "optional_unavailable": [
+    {
+      "impact": "claude acceptance arms remain NOT_TESTED",
+      "module": "anthropic",
+      "name": "claude",
+      "reason": "optional dependency is not installed"
+    },
+    {
+      "impact": "retrieval acceptance arms remain NOT_TESTED",
+      "module": "fastembed",
+      "name": "retrieval",
+      "reason": "optional dependency is not installed"
+    }
+  ],
+  "verdict": "PASS",
+  "limitation": "Inventory describes Windows/Python 3.13.5 only; it does not establish the supported platform/interpreter matrix."
+}

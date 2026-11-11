@@ -30,7 +30,7 @@ Arms (blueprint labels):
 |---|---|
 | A | no memory |
 | B | conventional retrieval: every text ever written, ranked lexically, no governance |
-| C | Memory Fabric governance, canonical records, no compression |
+| C | MemoryFabric governance, canonical records, no compression |
 | D | compression without governance: summaries of every text ever written |
 | E | Governed Context Map (compact mode) |
 | F | branch merged naively: every proposal applied, then governed retrieval |

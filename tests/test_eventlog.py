@@ -62,6 +62,20 @@ class TestEventLog(unittest.TestCase):
         self.log.append_many([self._event(k) for k in "ABC"])
         self.assertEqual([e.type for e in self.log.read(since_seq=1)], ["B", "C"])
 
+    def test_bounded_keyset_pages_cover_the_log_once(self) -> None:
+        self.log.append_many([self._event(str(k)) for k in range(13)])
+        cursor = 0
+        sequences = []
+        while True:
+            page = list(self.log.read(since_seq=cursor, limit=5))
+            self.assertLessEqual(len(page), 5)
+            if not page:
+                break
+            self.assertEqual(page[0].seq, cursor + 1)
+            sequences.extend(event.seq for event in page)
+            cursor = int(page[-1].seq or 0)
+        self.assertEqual(sequences, list(range(1, 14)))
+
     def test_updates_are_rejected(self) -> None:
         self.log.append(self._event("A"))
         with self.assertRaises(sqlite3.IntegrityError):

@@ -1,4 +1,4 @@
-"""`memory-fabric doctor` — and whether it can tell a broken store from a sound one.
+"""`memory_fabric doctor` — and whether it can tell a broken store from a sound one.
 
 A health check that only ever reports health is worse than no health check,
 because it is read as evidence. So every test here breaks something specific
@@ -21,7 +21,7 @@ import unittest
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from memory_fabric import MemoryFabric
 from memory_fabric.cli import main
@@ -63,6 +63,12 @@ class DoctorTests(unittest.TestCase):
             code = main(["--json", "--db", str(self.path), "doctor"])
         return code, json.loads(buffer.getvalue())
 
+    def _run_with(self, *options: str) -> tuple[int, dict]:
+        buffer = StringIO()
+        with patch("sys.stdout", buffer):
+            code = main(["--json", "--db", str(self.path), "doctor", *options])
+        return code, json.loads(buffer.getvalue())
+
     def _events(self) -> list[tuple]:
         # Closed explicitly: an open handle keeps a Windows file locked and the
         # temporary directory then fails to clean up, which reads as a test
@@ -80,6 +86,49 @@ class DoctorTests(unittest.TestCase):
             if finding["name"] == name:
                 return finding["status"]
         raise AssertionError(f"no check named {name!r}")
+
+    def _finding(self, report: dict, name: str) -> dict:
+        for finding in report["findings"]:
+            if finding["name"] == name:
+                return finding
+        raise AssertionError(f"no check named {name!r}")
+
+    def test_an_occupied_setup_port_names_a_repair_and_does_not_change_the_store(self) -> None:
+        before = self._events()
+        probe = MagicMock()
+        probe.__enter__.return_value = probe
+        probe.bind.side_effect = OSError("address already in use")
+        with patch("socket.socket", return_value=probe):
+            _, report = self._run_with("--host", "127.0.0.1", "--port", "8765")
+        finding = self._finding(report, "setup port")
+        self.assertEqual(finding["status"], "fail")
+        self.assertIn("serve --port <free-port>", finding["fix"])
+        self.assertEqual(before, self._events())
+
+    def test_disk_floor_reports_a_verified_backup_repair_without_writing(self) -> None:
+        from types import SimpleNamespace
+
+        before = self._events()
+        usage = SimpleNamespace(free=8 * 1024 * 1024)
+        with patch("memory_fabric.cli.shutil.disk_usage", return_value=usage):
+            _, report = self._run_with("--min-free-mb", "64")
+        finding = self._finding(report, "disk capacity")
+        self.assertEqual(finding["status"], "fail")
+        self.assertIn("backup <backup>", finding["fix"])
+        self.assertIn("no store changes", finding["fix"])
+        self.assertEqual(before, self._events())
+
+    def test_available_setup_port_and_disk_floor_pass(self) -> None:
+        from types import SimpleNamespace
+
+        probe = MagicMock()
+        probe.__enter__.return_value = probe
+        with patch("socket.socket", return_value=probe), \
+                patch("memory_fabric.cli.shutil.disk_usage",
+                      return_value=SimpleNamespace(free=256 * 1024 * 1024)):
+            _, report = self._run_with("--port", "8765", "--min-free-mb", "64")
+        self.assertEqual(self._status(report, "setup port"), "ok")
+        self.assertEqual(self._status(report, "disk capacity"), "ok")
 
     # --- the sound case --------------------------------------------------
 

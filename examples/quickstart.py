@@ -13,13 +13,20 @@ import sys
 import tempfile
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric import MemoryFabric, correction, influence  # noqa: E402
+from memory_fabric.offline import offline_mode  # noqa: E402
 from memory_fabric.response import verify_recovery  # noqa: E402
 
 
 def main(path: str) -> dict[str, object]:
+    with offline_mode():
+        return _run_quickstart(path)
+
+
+def _run_quickstart(path: str) -> dict[str, object]:
+    print("DEMO ONLY: deterministic fixture; no hosted model or product validation.")
     fabric = MemoryFabric(path, auto_activate=True)
     try:
         # 1. Store. Each memory records who wrote it and how.

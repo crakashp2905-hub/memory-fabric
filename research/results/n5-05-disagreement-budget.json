@@ -1,0 +1,59 @@
+{
+  "schema": "memory-fabric-n5-05-disagreement-budget/1",
+  "task_id": "N5-05",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "711ec241c15203a87452e7c08d3caf94b29a8298",
+    "dirty_before_result_write": false,
+    "script_sha256": "1e18f56a07c1adaebd8a299ed72b12d4e4495c0b59262e27fd6030d19d79a32f"
+  },
+  "fixtures": {
+    "relevant_complete_set": {
+      "hypothesis_set": "hset_01M6YZ35WMSVQJJM3REBNMAB8G",
+      "selected_kind": "disagreement",
+      "status": "PRESERVED",
+      "alternatives_rendered": 2,
+      "both_values_present": true,
+      "budget_used": 78,
+      "budget": 200
+    },
+    "over_budget_set": {
+      "hypothesis_set": "hset_01M6YZ35WW0QSXS0BM54XJSWA1",
+      "selected_kind": "insufficiency",
+      "status": "INSUFFICIENT_DISAGREEMENT_BUDGET",
+      "marker_rendered": true,
+      "partial_values_rendered": false,
+      "budget_used": 37,
+      "budget": 50
+    },
+    "inaccessible_alternative": {
+      "hypothesis_set": "hset_01M6YZ35X17MTRGSFH53KPBVPF",
+      "selected_kind": "insufficiency",
+      "status": "INSUFFICIENT",
+      "marker_rendered": true,
+      "private_content_leaked": false
+    },
+    "unrelated_set": {
+      "uncertainty_count": 0,
+      "disagreement_items": 0
+    },
+    "marker_cannot_fit": {
+      "selected_count": 0,
+      "status": "INSUFFICIENT_MARKER_NOT_FIT",
+      "alternatives_selected": false
+    }
+  },
+  "tests": {
+    "junit": "research/results/n5-05-disagreement-tests.xml",
+    "reported_test_cases": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "Query-identifier and content-token matching is a relevance heuristic; it is not an action classifier.",
+    "One representative is rendered per normalized alternative; independent provenance remains linked in the receipt only for selected representatives.",
+    "Context assembly reports uncertainty but does not resolve a hypothesis or authorize an action."
+  ]
+}

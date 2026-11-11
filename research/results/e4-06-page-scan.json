@@ -1,0 +1,414 @@
+{
+  "schema": "memory-fabric-e4-06-page-scan/1",
+  "commit": "69bf463de2f4e7a6c637e59c555e320a5e1bcb1d",
+  "machine": "Windows AMD64, 8 CPUs, Python 3.13.5",
+  "configuration": {
+    "memory_counts": [
+      1000,
+      10000,
+      100000
+    ],
+    "page_sizes": [
+      100,
+      500,
+      1000
+    ],
+    "repeats": 3,
+    "seed_transaction_events": 500,
+    "cursor": "seq > last_seen_seq ORDER BY seq LIMIT page_size"
+  },
+  "datasets": [
+    {
+      "memories": 1000,
+      "seed_seconds": 0.10029189998749644,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "integrity_chain_ok": true,
+      "verified_events": 1000,
+      "database_bytes": 933888
+    },
+    {
+      "memories": 10000,
+      "seed_seconds": 1.4556658999645151,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "integrity_chain_ok": true,
+      "verified_events": 10000,
+      "database_bytes": 9109504
+    },
+    {
+      "memories": 100000,
+      "seed_seconds": 19.312135400017723,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "integrity_chain_ok": true,
+      "verified_events": 100000,
+      "database_bytes": 91136000
+    }
+  ],
+  "results": [
+    {
+      "memories": 1000,
+      "database_bytes": 933888,
+      "page_size": 100,
+      "repeats": 3,
+      "seed_seconds": 0.10029189998749644,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 1000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 0.04736113334850719,
+      "scan_seconds_trials": [
+        0.0463418000144884,
+        0.051142600015737116,
+        0.04459900001529604
+      ],
+      "python_peak_bytes_mean": 660009.6666666666,
+      "python_peak_bytes_trials": [
+        660167,
+        659899,
+        659963
+      ],
+      "pages": 10,
+      "max_page_records": 100,
+      "page_latency_ms_mean": 4.211179997461538,
+      "page_latency_ms_p95_max": 6.130299996584654,
+      "memory_id_sha256": "9135f4ec31ff2f0df02b90e9aeceb4bf67eb0c94a7be45a99468c60b8b49f1dd",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 1000,
+      "database_bytes": 933888,
+      "page_size": 500,
+      "repeats": 3,
+      "seed_seconds": 0.10029189998749644,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 1000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 0.05434299997674922,
+      "scan_seconds_trials": [
+        0.057796399982180446,
+        0.05358379997778684,
+        0.05164879997028038
+      ],
+      "python_peak_bytes_mean": 3254036.3333333335,
+      "python_peak_bytes_trials": [
+        3254191,
+        3253959,
+        3253959
+      ],
+      "pages": 2,
+      "max_page_records": 500,
+      "page_latency_ms_mean": 23.14840001054108,
+      "page_latency_ms_p95_max": 25.4111000103876,
+      "memory_id_sha256": "9135f4ec31ff2f0df02b90e9aeceb4bf67eb0c94a7be45a99468c60b8b49f1dd",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 1000,
+      "database_bytes": 933888,
+      "page_size": 1000,
+      "repeats": 3,
+      "seed_seconds": 0.10029189998749644,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 1000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 0.05437603332878401,
+      "scan_seconds_trials": [
+        0.052976999955717474,
+        0.05497019999893382,
+        0.05518090003170073
+      ],
+      "python_peak_bytes_mean": 3254256.3333333335,
+      "python_peak_bytes_trials": [
+        3254411,
+        3254179,
+        3254179
+      ],
+      "pages": 1,
+      "max_page_records": 1000,
+      "page_latency_ms_mean": 42.75833332212642,
+      "page_latency_ms_p95_max": 43.78770000766963,
+      "memory_id_sha256": "9135f4ec31ff2f0df02b90e9aeceb4bf67eb0c94a7be45a99468c60b8b49f1dd",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 10000,
+      "database_bytes": 9109504,
+      "page_size": 100,
+      "repeats": 3,
+      "seed_seconds": 1.4556658999645151,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 10000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 1.1585720333581169,
+      "scan_seconds_trials": [
+        1.1002680000383407,
+        1.2177505000145175,
+        1.1576976000214927
+      ],
+      "python_peak_bytes_mean": 669584.6666666666,
+      "python_peak_bytes_trials": [
+        671169,
+        668900,
+        668685
+      ],
+      "pages": 100,
+      "max_page_records": 100,
+      "page_latency_ms_mean": 10.415819332314035,
+      "page_latency_ms_p95_max": 23.01649999571964,
+      "memory_id_sha256": "b5f105d458f834e89028027008e416be5ea319f40ed9ffc03d73f4b65825ba43",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 10000,
+      "database_bytes": 9109504,
+      "page_size": 500,
+      "repeats": 3,
+      "seed_seconds": 1.4556658999645151,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 10000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 1.2838475666746187,
+      "scan_seconds_trials": [
+        1.2295978000038303,
+        1.244233300036285,
+        1.3777115999837406
+      ],
+      "python_peak_bytes_mean": 3285027.3333333335,
+      "python_peak_bytes_trials": [
+        3285062,
+        3285982,
+        3284038
+      ],
+      "pages": 20,
+      "max_page_records": 500,
+      "page_latency_ms_mean": 57.770846662848875,
+      "page_latency_ms_p95_max": 106.16429999936372,
+      "memory_id_sha256": "b5f105d458f834e89028027008e416be5ea319f40ed9ffc03d73f4b65825ba43",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 10000,
+      "database_bytes": 9109504,
+      "page_size": 1000,
+      "repeats": 3,
+      "seed_seconds": 1.4556658999645151,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 10000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 1.3201637666788884,
+      "scan_seconds_trials": [
+        1.3615741999819875,
+        1.1599043000023812,
+        1.4390128000522964
+      ],
+      "python_peak_bytes_mean": 6564431.333333333,
+      "python_peak_bytes_trials": [
+        6564954,
+        6563354,
+        6564986
+      ],
+      "pages": 10,
+      "max_page_records": 1000,
+      "page_latency_ms_mean": 118.3969499989568,
+      "page_latency_ms_p95_max": 165.13390000909567,
+      "memory_id_sha256": "b5f105d458f834e89028027008e416be5ea319f40ed9ffc03d73f4b65825ba43",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 100000,
+      "database_bytes": 91136000,
+      "page_size": 100,
+      "repeats": 3,
+      "seed_seconds": 19.312135400017723,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 100000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 12.874963199991422,
+      "scan_seconds_trials": [
+        11.692264200013597,
+        11.373789899982512,
+        15.558835499978159
+      ],
+      "python_peak_bytes_mean": 707979.6666666666,
+      "python_peak_bytes_trials": [
+        710073,
+        707093,
+        706773
+      ],
+      "pages": 1000,
+      "max_page_records": 100,
+      "page_latency_ms_mean": 11.604940533152936,
+      "page_latency_ms_p95_max": 26.929299987386912,
+      "memory_id_sha256": "c305197514fdd2909419e012636fdef7f3a02ccf94bdbcc542c3462b774b55c8",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 100000,
+      "database_bytes": 91136000,
+      "page_size": 500,
+      "repeats": 3,
+      "seed_seconds": 19.312135400017723,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 100000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 14.172417799981,
+      "scan_seconds_trials": [
+        21.831895100011025,
+        10.324536399974022,
+        10.360821899957955
+      ],
+      "python_peak_bytes_mean": 3305635.6666666665,
+      "python_peak_bytes_trials": [
+        3305025,
+        3306785,
+        3305097
+      ],
+      "pages": 200,
+      "max_page_records": 500,
+      "page_latency_ms_mean": 64.67171400174266,
+      "page_latency_ms_p95_max": 158.08360005030409,
+      "memory_id_sha256": "c305197514fdd2909419e012636fdef7f3a02ccf94bdbcc542c3462b774b55c8",
+      "scan_hashes_match": true
+    },
+    {
+      "memories": 100000,
+      "database_bytes": 91136000,
+      "page_size": 1000,
+      "repeats": 3,
+      "seed_seconds": 19.312135400017723,
+      "seed_integrity_chain_ok": true,
+      "verified_events": 100000,
+      "checkpoint": [
+        0,
+        0,
+        0
+      ],
+      "sqlite_settings": {
+        "journal_mode": "wal",
+        "busy_timeout_ms": 5000,
+        "wal_autocheckpoint_pages": 1000
+      },
+      "scan_seconds_mean": 9.07850370001203,
+      "scan_seconds_trials": [
+        8.089304300025105,
+        8.658358599990606,
+        10.48784820002038
+      ],
+      "python_peak_bytes_mean": 6576357.0,
+      "python_peak_bytes_trials": [
+        6576325,
+        6576845,
+        6575901
+      ],
+      "pages": 100,
+      "max_page_records": 1000,
+      "page_latency_ms_mean": 82.88729733360621,
+      "page_latency_ms_p95_max": 169.76910002995282,
+      "memory_id_sha256": "c305197514fdd2909419e012636fdef7f3a02ccf94bdbcc542c3462b774b55c8",
+      "scan_hashes_match": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Synthetic one-MemoryCreated-event-per-memory fixtures; not an external production corpus.",
+    "Benchmarks EventLog keyset scans, not the in-memory operator list, which currently materializes and sorts before applying limit.",
+    "Warm local SQLite page cache; not a cold-storage or remote-disk benchmark."
+  ]
+}

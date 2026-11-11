@@ -1,0 +1,46 @@
+{
+  "schema": "memory-fabric-runbook-drill/1",
+  "scope": "local deterministic drills",
+  "results": [
+    {
+      "name": "outage",
+      "selector": "tests.test_federation_transport.TestOfflineRecipient.test_an_offline_recipient_stays_pending_and_visible",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "passed": true,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 2.664s\n\nOK\n"
+    },
+    {
+      "name": "key-loss",
+      "selector": "tests.test_cipher.KeyCustody.test_a_lost_key_store_is_an_error_not_an_erasure",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "passed": true,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.698s\n\nOK\n"
+    },
+    {
+      "name": "corrupt-db",
+      "selector": "tests.test_doctor.DoctorTests.test_the_event_chain_detects_a_tamper",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "passed": true,
+      "output": "----------------------------------------------------------------------\nRan 1 test in 0.958s\n\nOK\n"
+    },
+    {
+      "name": "mass-retraction",
+      "descendants_created": 100,
+      "descendants_contested": 100,
+      "unrelated_effects": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Outage uses an in-process simulated offline peer, not a real network partition.",
+    "Database corruption is a local chain-tampering fixture, not arbitrary disk damage.",
+    "Mass retraction uses an in-memory 100-descendant fixture; no remote stores are contacted."
+  ]
+}

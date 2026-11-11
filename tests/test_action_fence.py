@@ -12,8 +12,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from memory_fabric import MemoryFabric
-from memory_fabric.actions import (ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT,
-                                   ActionGate, ActionPolicy, ToolRule, unfenced_changes)
+from memory_fabric.actions import (ALREADY_EXECUTED, EXECUTED, FAILED,
+                                   IDEMPOTENCY_CONFLICT, REFUSED, TIMED_OUT,
+                                   ActionGate, ActionPolicy, ActionRequest, ToolRule,
+                                   unfenced_changes)
 from memory_fabric.events import EventType
 from memory_fabric.model import LifecycleState
 
@@ -39,11 +41,47 @@ class Fence(unittest.TestCase):
         return "opened"
 
     def test_it_runs_once_and_records_the_run(self) -> None:
-        first = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="k1")
+        request = ActionRequest("valve/7", {"position": "open"})
+        first = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="k1",
+                                  request=request)
         self.assertEqual((first.outcome, first.result, first.fenced), (EXECUTED, "opened", True))
-        again = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="k1")
+        again = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="k1",
+                                  request=request)
         self.assertEqual(again.outcome, ALREADY_EXECUTED)
         self.assertEqual(self.effects, ["k1"])
+
+    def test_reusing_a_key_for_a_different_payload_is_rejected(self) -> None:
+        first = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="bound-key",
+                                  request=ActionRequest("valve/7", {"position": "open"}))
+        changed = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="bound-key",
+                                    request=ActionRequest("valve/8", {"position": "close"}))
+        self.assertEqual(first.outcome, EXECUTED)
+        self.assertEqual(changed.outcome, REFUSED)
+        self.assertEqual(changed.error, IDEMPOTENCY_CONFLICT)
+        self.assertEqual(self.effects, ["bound-key"])
+
+    def test_retry_after_lost_response_deduplicates_at_the_mock_effect(self) -> None:
+        applied: set[str] = set()
+
+        def effect_then_lose_response(key: str) -> None:
+            applied.add(key)
+            raise RuntimeError("response lost after effect")
+
+        first = self.gate.execute("open_valve", "ops", effect_then_lose_response,
+                                  self.cert, key="lost-response")
+        self.assertEqual(first.outcome, FAILED)
+
+        def idempotent_mock(key: str) -> str:
+            applied.add(key)
+            return "already applied" if key == "lost-response" else "unexpected"
+
+        retry = self.gate.execute("open_valve", "ops", idempotent_mock, self.cert,
+                                  key="lost-response", retry=True)
+        replay = self.gate.execute("open_valve", "ops", idempotent_mock, self.cert,
+                                   key="lost-response")
+        self.assertEqual(retry.outcome, EXECUTED)
+        self.assertEqual(replay.outcome, ALREADY_EXECUTED)
+        self.assertEqual(applied, {"lost-response"})
 
     def test_withdrawn_evidence_stops_it_before_the_side_effect(self) -> None:
         self.f.quarantine(self.m, reason="wrong", actor="op")

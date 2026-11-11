@@ -1,0 +1,33 @@
+{
+  "schema": "memory-fabric-n4-08-lossy-compaction/1",
+  "task_id": "N4-08",
+  "acceptance_passed": true,
+  "evidence_level": "CONTRACT",
+  "source": {
+    "commit": "2d9b932816badaae2ffd31c42e722ecf3b3e07df",
+    "dirty_before_result_write": false,
+    "script_sha256": "1bc011d28720008778400ec7e365fd41c2315363c779ed851f85c4ec3038c7ce"
+  },
+  "lossy_nonconsequential_case": {
+    "nonconsequential_chatter_removed": true,
+    "source_versions_still_bound": true,
+    "consequential_fact_edge_preserved": true,
+    "certificate": "09adbf4e0f56d11b1559f40344af0143f1ab7100d9ac9428bdd8bcdabbda8699"
+  },
+  "strict_missing_edge_case": {
+    "dropped_fact_refused": true,
+    "store_unchanged": true,
+    "reason": "the summary drops values the session recorded: ['4']"
+  },
+  "tests": {
+    "junit": "research/results/n4-08-lossy-compaction-tests.xml",
+    "reported_test_cases": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "The non-consequential classification is the repository's current fact-signature contract, not a universal semantic classifier.",
+    "Certificate verification is local to the current in-memory store and does not claim distributed trust or external audit."
+  ]
+}

@@ -5,7 +5,7 @@ API key. An integration that is not listed here is not supported.
 
 | surface | how | install | tested by | stability |
 |---|---|---|---|---|
-| Python library | `MemoryFabric`, `sdk.operator` / `sdk.agent` | `pip install .` | the whole suite; `tests/test_sdk.py` | stable |
+| Python library | `Memory Fabric`, `sdk.operator` / `sdk.agent` | `pip install .` | the whole suite; `tests/test_sdk.py` | stable |
 | CLI | `memory-fabric …` | `pip install .` | `tests/test_first_run.py`, `tests/test_doctor.py`, `tests/test_backup.py` | stable |
 | MCP server (stdio) | `memory-fabric mcp --agent <id>` for Claude Code, Claude Desktop and IDE assistants | `pip install .` | `tests/test_mcp.py`, `tests/test_lifecycle_through_mcp.py` | stable |
 | Agent HTTP API | `memory-fabric agent-api`, bearer tokens per agent, rate limits | `pip install .` | `tests/test_agent_api.py`, `experiments/e2e_validation.py` | stable |

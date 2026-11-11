@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://memory-fabric.dev/protocol/retraction-v1.schema.json",
+  "$id": "https://memory_fabric.dev/protocol/retraction-v1.schema.json",
   "title": "Memory Fabric retraction event, protocol v1",
   "description": "A retraction issued by an origin store for one exact memory version. Specification only; no implementation exists as of commit 597bdcb. See docs/PROTOCOL.md and docs/AUDIT.md.",
   "type": "object",

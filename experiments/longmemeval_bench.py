@@ -42,15 +42,20 @@ is the first look.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import pathlib
+import platform
+import random
 import re
 import statistics
+import subprocess
 import sys
 import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Mapping, Sequence
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
@@ -241,7 +246,8 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
                      "hybrid_replace": "hybrid",
                      "lexical_tiebreak": "lexical",
                      "lexical_replace": "lexical",
-                     "oracle": "lexical"}[arm]
+                     "oracle": "lexical", "broken_retrieval": "lexical",
+                     "random_evidence": "lexical"}[arm]
         kwargs: dict[str, Any] = {}
         if arm.endswith("_tiebreak"):
             kwargs["rerank"] = "tiebreak"
@@ -295,6 +301,11 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
                     mid for mid, (sid, pos) in mapping.items()
                     if (sid, pos) in gold_turns
                 ][:k]
+            elif arm == "broken_retrieval":
+                returned = []
+            elif arm == "random_evidence":
+                rng = random.Random(f"longmemeval-random-v1:{instance['question_id']}")
+                returned = rng.sample(sorted(mapping), min(max(k, 0), len(mapping)))
             elif arm == "chain":
                 chain = fabric.reconstruct(
                     agent_id="lme", query=instance["question"], k=k, **bounds)
@@ -331,6 +342,7 @@ def run_arm(arm: str, instances: Sequence[Mapping[str, Any]], k: int,
 ARMS = ("lexical", "vector", "hybrid", "hybrid_tiebreak", "hybrid_replace",
         "lexical_tiebreak", "lexical_replace", "chain", "real_vector",
         "real_hybrid", "oracle")
+CONTROL_ARMS = ("broken_retrieval", "random_evidence")
 
 
 def real_embedder():
@@ -400,6 +412,16 @@ def to_markdown(result: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def write_result(path: pathlib.Path, result: Mapping[str, Any]) -> tuple[pathlib.Path, pathlib.Path]:
+    """Write machine JSON plus a Markdown companion, regardless of CLI display mode."""
+
+    json_path = path if path.suffix.lower() == ".json" else path.with_suffix(".json")
+    md_path = json_path.with_suffix(".md")
+    json_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    md_path.write_text(to_markdown(result) + "\n", encoding="utf-8")
+    return json_path, md_path
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--split", default="oracle", choices=sorted(SPLITS))
@@ -429,9 +451,26 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     turns = [sum(len(s) for s in i["haystack_sessions"]) for i in instances]
     result = {
+        "schema": "memory-fabric-longmemeval/2",
         "benchmark": "longmemeval",
+        "commit": subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"], capture_output=True,
+            text=True, cwd=DATA.parents[2]).stdout.strip(),
         "split": args.split,
+        "dataset": {
+            "file": SPLITS[args.split],
+            "bytes": (DATA / SPLITS[args.split]).stat().st_size,
+            "sha256": hashlib.sha256(
+                (DATA / SPLITS[args.split]).read_bytes()).hexdigest(),
+        },
+        "environment": {
+            "platform": platform.platform(),
+            "machine": platform.machine(),
+            "python": platform.python_version(),
+            "cpus": os.cpu_count(),
+        },
         "k": args.k,
+        "selection": {"method": "stratified-round-robin", "limit": args.limit},
         "temporal": args.temporal,
         "instances": len(instances),
         "abstention": sum(1 for i in instances
@@ -445,8 +484,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     text = json.dumps(result, indent=2) if args.as_json else to_markdown(result)
     print(text)
     if args.out:
-        pathlib.Path(args.out).write_text(
-            to_markdown(result) + "\n", encoding="utf-8")
+        write_result(pathlib.Path(args.out), result)
     return 0
 
 

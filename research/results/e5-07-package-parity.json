@@ -1,0 +1,232 @@
+{
+  "schema": "memory-fabric-package-parity/1",
+  "source_commit": "029df73f84781773892f1965ef7e287952c53294",
+  "source_dirty_at_start": false,
+  "recorded_at_utc": "2026-11-07T19:12:00Z",
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "platform": "win32",
+  "artifacts": {
+    "wheel": {
+      "filename": "memory_fabric-0.14.0-py3-none-any.whl",
+      "sha256": "8176e7ce40bb9ecb7668415b72927e74fcfd853bdcfc33f19694ac1193e3abb4",
+      "version": "0.14.0",
+      "module_path": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Lib\\site-packages\\memory_fabric\\__init__.py",
+      "checks": {
+        "import_outside_source_tree": true,
+        "cli_help": true,
+        "quickstart": true,
+        "reference_agent": true,
+        "init": true,
+        "doctor": true
+      }
+    },
+    "sdist": {
+      "filename": "memory_fabric-0.14.0.tar.gz",
+      "sha256": "8ef86593986e5478e473369fa582210caad08fd987aacd599e9cd1e80e6980fc",
+      "version": "0.14.0",
+      "module_path": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Lib\\site-packages\\memory_fabric\\__init__.py",
+      "checks": {
+        "import_outside_source_tree": true,
+        "cli_help": true,
+        "quickstart": true,
+        "reference_agent": true,
+        "init": true,
+        "doctor": true
+      }
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\CR Ramesh\\python.exe",
+        "-m",
+        "build",
+        "--sdist",
+        "--wheel",
+        "--no-isolation",
+        "--outdir",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\dist"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist",
+      "exit_code": 0,
+      "output_tail": "fabric/limits.py'\nadding 'memory_fabric/lineage.py'\nadding 'memory_fabric/lossless_compaction.py'\nadding 'memory_fabric/manager.py'\nadding 'memory_fabric/mental_models.py'\nadding 'memory_fabric/migrate.py'\nadding 'memory_fabric/model.py'\nadding 'memory_fabric/models.py'\nadding 'memory_fabric/navigation.py'\nadding 'memory_fabric/objective.py'\nadding 'memory_fabric/objective_v2.py'\nadding 'memory_fabric/oidc.py'\nadding 'memory_fabric/outbox.py'\nadding 'memory_fabric/pgcompat.py'\nadding 'memory_fabric/pilot.py'\nadding 'memory_fabric/posture.py'\nadding 'memory_fabric/presets.py'\nadding 'memory_fabric/projections.py'\nadding 'memory_fabric/protocol.py'\nadding 'memory_fabric/py.typed'\nadding 'memory_fabric/reach.py'\nadding 'memory_fabric/reasons.py'\nadding 'memory_fabric/receipts.py'\nadding 'memory_fabric/relations.py'\nadding 'memory_fabric/relevance.py'\nadding 'memory_fabric/rerank.py'\nadding 'memory_fabric/response.py'\nadding 'memory_fabric/retrieval_profiles.py'\nadding 'memory_fabric/retrieval_routing.py'\nadding 'memory_fabric/retrievers.py'\nadding 'memory_fabric/review.py'\nadding 'memory_fabric/rulebook.py'\nadding 'memory_fabric/sdk.py'\nadding 'memory_fabric/service.py'\nadding 'memory_fabric/session.py'\nadding 'memory_fabric/stage_trace.py'\nadding 'memory_fabric/status.py'\nadding 'memory_fabric/tenancy.py'\nadding 'memory_fabric/tombstones.py'\nadding 'memory_fabric/tool_protocol.py'\nadding 'memory_fabric/tour.py'\nadding 'memory_fabric/transport.py'\nadding 'memory_fabric/trust.py'\nadding 'memory_fabric/txn.py'\nadding 'memory_fabric/typed_query.py'\nadding 'memory_fabric/typedclaims.py'\nadding 'memory_fabric/validation.py'\nadding 'memory_fabric/vectors.py'\nadding 'memory_fabric/_fabric/__init__.py'\nadding 'memory_fabric/_fabric/access.py'\nadding 'memory_fabric/_fabric/common.py'\nadding 'memory_fabric/_fabric/core.py'\nadding 'memory_fabric/_fabric/federation.py'\nadding 'memory_fabric/_fabric/lifecycle.py'\nadding 'memory_fabric/_fabric/retrieval.py'\nadding 'memory_fabric/_fabric/sealing.py'\nadding 'memory_fabric/_fabric/sharing.py'\nadding 'memory_fabric/_fabric/writes.py'\nadding 'memory_fabric/adapters/__init__.py'\nadding 'memory_fabric/adapters/claude.py'\nadding 'memory_fabric/adapters/claude_chat.py'\nadding 'memory_fabric/adapters/context.py'\nadding 'memory_fabric/adapters/mcp.py'\nadding 'memory_fabric/adapters/ollama.py'\nadding 'memory_fabric/adapters/systemone.py'\nadding 'memory_fabric/adapters/tracing.py'\nadding 'memory_fabric/adapters/transcripts.py'\nadding 'memory_fabric/governance/__init__.py'\nadding 'memory_fabric/governance/cipher.py'\nadding 'memory_fabric/governance/directive.py'\nadding 'memory_fabric/governance/erasure.py'\nadding 'memory_fabric/governance/firewall.py'\nadding 'memory_fabric/governance/injection.py'\nadding 'memory_fabric/governance/model_screen.py'\nadding 'memory_fabric/governance/retention.py'\nadding 'memory_fabric/governance/sensitive.py'\nadding 'memory_fabric/integrations/__init__.py'\nadding 'memory_fabric/integrations/langchain.py'\nadding 'memory_fabric/integrations/tools.py'\nadding 'memory_fabric/observability/__init__.py'\nadding 'memory_fabric/observability/auth.py'\nadding 'memory_fabric/observability/control.py'\nadding 'memory_fabric/observability/logs.py'\nadding 'memory_fabric/observability/metrics.py'\nadding 'memory_fabric/observability/report.py'\nadding 'memory_fabric/observability/server.py'\nadding 'memory_fabric/observability/static/capabilities.json'\nadding 'memory_fabric/observability/static/dashboard.html'\nadding 'memory_fabric/observability/static/limitations.json'\nadding 'memory_fabric-0.14.0.dist-info/licenses/LICENSE'\nadding 'memory_fabric-0.14.0.dist-info/METADATA'\nadding 'memory_fabric-0.14.0.dist-info/WHEEL'\nadding 'memory_fabric-0.14.0.dist-info/entry_points.txt'\nadding 'memory_fabric-0.14.0.dist-info/top_level.txt'\nadding 'memory_fabric-0.14.0.dist-info/RECORD'\nremoving build\\bdist.win-amd64\\wheel\nSuccessfully built memory_fabric-0.14.0.tar.gz and memory_fabric-0.14.0-py3-none-any.whl\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--quiet",
+        "--no-deps",
+        "--no-build-isolation",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\dist\\memory_fabric-0.14.0-py3-none-any.whl"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": ""
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\python.exe",
+        "-c",
+        "import importlib.metadata,json,memory_fabric,pathlib; print(json.dumps({'version':importlib.metadata.version('memory-fabric'),'module':str(pathlib.Path(memory_fabric.__file__).resolve())}))"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "{\"version\": \"0.14.0\", \"module\": \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\wheel\\\\venv\\\\Lib\\\\site-packages\\\\memory_fabric\\\\__init__.py\"}\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\python.exe",
+        "-c",
+        "import sysconfig; print(sysconfig.get_path('purelib'))"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Lib\\site-packages\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\memory-fabric.exe",
+        "--help"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "    (needs the preview's digest and an idempotency key),\n                        or revert a merge\n    context             Build an agent's context bundle under a token budget\n                        and record its receipt (WRITES the receipt), list\n                        receipts, or explain one\n    correct             Preview what withdrawing a memory would touch; with\n                        --apply, WRITES it and owes the retraction to every\n                        store that received it\n    suspicious          Memories whose claim contradicts what the store knows:\n                        a corrected value restated, a value far out of range,\n                        or a contradiction of an established fact\n    review              The review queue. With an id and a decision, WRITES\n                        it: approve (usable by the team), limit (usable by its\n                        author only), correct, or reject\n    share               WRITES: widen who may read a memory (private -> team\n                        -> federated), through the firewall, logged\n    agent-api-revoke    WRITES: revoke a leaked credential, or all of one\n                        agent's; a running agent-api on this store refuses it\n                        on the next request\n    migrate-keys        WRITES: move content keys out of the database into a\n                        directory, verified by replay before anything is\n                        removed\n    backup              Consistent snapshot of the event log, verified by\n                        replaying it\n    restore             WRITES: restore a backup made with `backup`, after\n                        checking its manifest\n    demo                WRITES: seed a demonstration store\n    sandbox             A throwaway store with deliberately wrong memories,\n                        opened in the dashboard\n    pilot-report        Outcome numbers for a pilot, from the log: no content,\n                        agents pseudonymised\n    connect             Set up an agent tool: connect <tool> --agent <id>\n                        [--write]; connect --list\n    models              Which model providers are ready here, and test one:\n                        models [--test provider:model]\n    tour                The whole idea in sixty seconds: one fact, four\n                        agents, one correction\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --db DB               path to the store (default: memory.db)\n  --estimator ESTIMATOR\n                        value estimator for display: naive_usage (default) or\n                        ips\n  --json                emit JSON instead of tables\n  --share-policy {value,reviewed}\n                        when a memory may leave this store: value (needs value\n                        evidence from verified outcomes; the default) or\n                        reviewed (once validated and active). Restricted\n                        memories never leave either way (default:\n                        $MEMORY_FABRIC_SHARE_POLICY or value)\n  --log-format {text,json}\n                        diagnostic log format on stderr; json is one object\n                        per line (default: $MEMORY_FABRIC_LOG_FORMAT or text)\n  --log-level LOG_LEVEL\n                        diagnostic log level (default:\n                        $MEMORY_FABRIC_LOG_LEVEL or WARNING)\n  --keys DIR            directory holding this store's content keys, when they\n                        are kept outside the database (default:\n                        $MEMORY_FABRIC_KEYS). Without it a store whose keys\n                        are external cannot be opened at all \u00e2\u20ac\u201d which is the\n                        correct refusal, not a bug. `migrate-keys` moves an\n                        existing store's keys out.\n  --create              create the store if it does not exist (otherwise a\n                        missing path is an error)\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\python.exe",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\quickstart.py",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\quickstart.db"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "shown before the correction:\n  Pump P1 purge time is 10 seconds.\n  Pump P1 requires a 30 second purge.\n  Schedule P1 restarts with a 10 s purge.\n\nwhy is the plan remembered?\n  Memory 01M6VPTRRGC1760F92QTZ20ZWM (v1, semantic)\n  \"Schedule P1 restarts with a 10 s purge.\"\n\n  State:      active / scope team / internal\n  Created by: planner (consolidated)\n  Derived from:  01M6VPTRJXK3CFXQPV9GVZJXET\n  Traces back to: 01M6VPTRJXK3CFXQPV9GVZJXET\n\n  Exposed 1x, withheld 0x, cited 0x, 1 version(s)\n  Value: not yet estimated\n\n  Caveats:\n    - No value evidence: this memory has never been evaluated against outcomes.\n    - Exposure policy 'top_k:relevance' is deterministic, so value figures are observational: they cannot separate this memory helping from it being retrieved on easier tasks.\n\n  History:\n    created: by planner\nauthority of the plan: unverified | sources: ('field-tech',)\n\ncorrecting it would contest: ['01M6VPTRRGC1760F92QTZ20ZWM']\n\nshown after: ['Pump P1 requires a 30 second purge.']\nrecovery: contained / quarantined\ndownstream of the wrong memory: ['01M6VPTRRGC1760F92QTZ20ZWM']\n\nquickstart complete; the store is at D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\quickstart.db\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\python.exe",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\reference_agent.py"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "P1: verified 30\nP2: refused 5 authority_insufficient\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\memory-fabric.exe",
+        "init",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "created store st_01M6VPTTYY8PH5MZPBVGVVH9YY\n  store       D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db\n  keys        D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys   (outside the database; back it up separately)\n  agents      D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\agents.txt   (holds a signing key; keep it on the server)\n  mode        team   (memory_fabric.presets: open_store(path, 'team'))\n\nConnect an MCP client (Claude Code, Claude Desktop, an IDE) with:\n{\n  \"mcpServers\": {\n    \"memory-fabric\": {\n      \"command\": \"memory-fabric\",\n      \"args\": [\n        \"--db\",\n        \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\wheel\\\\initialized-store\\\\store.db\",\n        \"--keys\",\n        \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\wheel\\\\initialized-store\\\\keys\",\n        \"mcp\",\n        \"--agent\",\n        \"my-assistant\"\n      ]\n    }\n  }\n}\n\nNext:\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys review      # what agents wrote, waiting for you\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys serve       # the dashboard\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys connect --list   # set up another agent tool\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys agent-api --agents-file D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\agents.txt\n\n\nDoctor\n\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\n  D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db  \u00c2\u00b7  st_01M6VPTTYY8PH5MZPBVGVVH9YY  \u00c2\u00b7  schema 0.14.0  \u00c2\u00b7  Python 3.13.5\n\n  [ok  ] background manager\n         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`\n  [ok  ] append-only enforcement\n         both triggers present and refusing writes\n  [ok  ] event chain\n         1 event(s) verified; checkpoint seq 1 80fafb03b4007044\u00e2\u20ac\u00a6\n  [ok  ] replay from the log\n         1 event(s) replay to the same 0 memory/ies\n  [ok  ] schema version\n         0.14.0 throughout\n  [ok  ] retraction delivery\n         nothing outstanding\n  [ok  ] withdrawal evidence\n         no memory is withdrawn on a weak basis\n  [ok  ] content keys\n         all content readable\n  [ok  ] content cipher\n         no content yet; keys externally (DirectoryKeyProvider)\n  [ok  ] withdrawn knowledge is not exposed\n         0 blocked memory/ies, none of them usable\n  [ok  ] tenant isolation\n         single-tenant store (tn_default); nothing to cross\n  [ok  ] dashboard asset\n         present (99413 bytes)\n\n  Sound. Every check verified, none skipped.\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\venv\\Scripts\\memory-fabric.exe",
+        "--db",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db",
+        "--keys",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\keys",
+        "doctor"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel",
+      "exit_code": 0,
+      "output_tail": "\nDoctor\n\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\n  D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\wheel\\initialized-store\\store.db  \u00c2\u00b7  st_01M6VPTTYY8PH5MZPBVGVVH9YY  \u00c2\u00b7  schema 0.14.0  \u00c2\u00b7  Python 3.13.5\n\n  [ok  ] background manager\n         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`\n  [ok  ] append-only enforcement\n         both triggers present and refusing writes\n  [ok  ] event chain\n         1 event(s) verified; checkpoint seq 1 80fafb03b4007044\u00e2\u20ac\u00a6\n  [ok  ] replay from the log\n         1 event(s) replay to the same 0 memory/ies\n  [ok  ] schema version\n         0.14.0 throughout\n  [ok  ] retraction delivery\n         nothing outstanding\n  [ok  ] withdrawal evidence\n         no memory is withdrawn on a weak basis\n  [ok  ] content keys\n         all content readable\n  [ok  ] content cipher\n         no content yet; keys externally (DirectoryKeyProvider)\n  [ok  ] withdrawn knowledge is not exposed\n         0 blocked memory/ies, none of them usable\n  [ok  ] tenant isolation\n         single-tenant store (tn_default); nothing to cross\n  [ok  ] dashboard asset\n         present (99413 bytes)\n\n  Sound. Every check verified, none skipped.\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--quiet",
+        "--no-deps",
+        "--no-build-isolation",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\dist\\memory_fabric-0.14.0.tar.gz"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": ""
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\python.exe",
+        "-c",
+        "import importlib.metadata,json,memory_fabric,pathlib; print(json.dumps({'version':importlib.metadata.version('memory-fabric'),'module':str(pathlib.Path(memory_fabric.__file__).resolve())}))"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "{\"version\": \"0.14.0\", \"module\": \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\sdist\\\\venv\\\\Lib\\\\site-packages\\\\memory_fabric\\\\__init__.py\"}\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\python.exe",
+        "-c",
+        "import sysconfig; print(sysconfig.get_path('purelib'))"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Lib\\site-packages\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\memory-fabric.exe",
+        "--help"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "    (needs the preview's digest and an idempotency key),\n                        or revert a merge\n    context             Build an agent's context bundle under a token budget\n                        and record its receipt (WRITES the receipt), list\n                        receipts, or explain one\n    correct             Preview what withdrawing a memory would touch; with\n                        --apply, WRITES it and owes the retraction to every\n                        store that received it\n    suspicious          Memories whose claim contradicts what the store knows:\n                        a corrected value restated, a value far out of range,\n                        or a contradiction of an established fact\n    review              The review queue. With an id and a decision, WRITES\n                        it: approve (usable by the team), limit (usable by its\n                        author only), correct, or reject\n    share               WRITES: widen who may read a memory (private -> team\n                        -> federated), through the firewall, logged\n    agent-api-revoke    WRITES: revoke a leaked credential, or all of one\n                        agent's; a running agent-api on this store refuses it\n                        on the next request\n    migrate-keys        WRITES: move content keys out of the database into a\n                        directory, verified by replay before anything is\n                        removed\n    backup              Consistent snapshot of the event log, verified by\n                        replaying it\n    restore             WRITES: restore a backup made with `backup`, after\n                        checking its manifest\n    demo                WRITES: seed a demonstration store\n    sandbox             A throwaway store with deliberately wrong memories,\n                        opened in the dashboard\n    pilot-report        Outcome numbers for a pilot, from the log: no content,\n                        agents pseudonymised\n    connect             Set up an agent tool: connect <tool> --agent <id>\n                        [--write]; connect --list\n    models              Which model providers are ready here, and test one:\n                        models [--test provider:model]\n    tour                The whole idea in sixty seconds: one fact, four\n                        agents, one correction\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --db DB               path to the store (default: memory.db)\n  --estimator ESTIMATOR\n                        value estimator for display: naive_usage (default) or\n                        ips\n  --json                emit JSON instead of tables\n  --share-policy {value,reviewed}\n                        when a memory may leave this store: value (needs value\n                        evidence from verified outcomes; the default) or\n                        reviewed (once validated and active). Restricted\n                        memories never leave either way (default:\n                        $MEMORY_FABRIC_SHARE_POLICY or value)\n  --log-format {text,json}\n                        diagnostic log format on stderr; json is one object\n                        per line (default: $MEMORY_FABRIC_LOG_FORMAT or text)\n  --log-level LOG_LEVEL\n                        diagnostic log level (default:\n                        $MEMORY_FABRIC_LOG_LEVEL or WARNING)\n  --keys DIR            directory holding this store's content keys, when they\n                        are kept outside the database (default:\n                        $MEMORY_FABRIC_KEYS). Without it a store whose keys\n                        are external cannot be opened at all \u00e2\u20ac\u201d which is the\n                        correct refusal, not a bug. `migrate-keys` moves an\n                        existing store's keys out.\n  --create              create the store if it does not exist (otherwise a\n                        missing path is an error)\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\python.exe",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\quickstart.py",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\quickstart.db"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "shown before the correction:\n  Pump P1 purge time is 10 seconds.\n  Pump P1 requires a 30 second purge.\n  Schedule P1 restarts with a 10 s purge.\n\nwhy is the plan remembered?\n  Memory 01M6VPVT1EFY3SWHFEKXZ24ZPD (v1, semantic)\n  \"Schedule P1 restarts with a 10 s purge.\"\n\n  State:      active / scope team / internal\n  Created by: planner (consolidated)\n  Derived from:  01M6VPVSVVN20DHD8RTAGQXKTW\n  Traces back to: 01M6VPVSVVN20DHD8RTAGQXKTW\n\n  Exposed 1x, withheld 0x, cited 0x, 1 version(s)\n  Value: not yet estimated\n\n  Caveats:\n    - No value evidence: this memory has never been evaluated against outcomes.\n    - Exposure policy 'top_k:relevance' is deterministic, so value figures are observational: they cannot separate this memory helping from it being retrieved on easier tasks.\n\n  History:\n    created: by planner\nauthority of the plan: unverified | sources: ('field-tech',)\n\ncorrecting it would contest: ['01M6VPVT1EFY3SWHFEKXZ24ZPD']\n\nshown after: ['Pump P1 requires a 30 second purge.']\nrecovery: contained / quarantined\ndownstream of the wrong memory: ['01M6VPVT1EFY3SWHFEKXZ24ZPD']\n\nquickstart complete; the store is at D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\quickstart.db\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\python.exe",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\reference_agent.py"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "P1: verified 30\nP2: refused 5 authority_insufficient\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\memory-fabric.exe",
+        "init",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "created store st_01M6VPVWB0S1MGEVDCD3M2ZRNK\n  store       D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db\n  keys        D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys   (outside the database; back it up separately)\n  agents      D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\agents.txt   (holds a signing key; keep it on the server)\n  mode        team   (memory_fabric.presets: open_store(path, 'team'))\n\nConnect an MCP client (Claude Code, Claude Desktop, an IDE) with:\n{\n  \"mcpServers\": {\n    \"memory-fabric\": {\n      \"command\": \"memory-fabric\",\n      \"args\": [\n        \"--db\",\n        \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\sdist\\\\initialized-store\\\\store.db\",\n        \"--keys\",\n        \"D:\\\\Memory Fabric\\\\master-checklist\\\\.test-tmp\\\\mf-package-parity-y3y4c3uj\\\\sdist\\\\initialized-store\\\\keys\",\n        \"mcp\",\n        \"--agent\",\n        \"my-assistant\"\n      ]\n    }\n  }\n}\n\nNext:\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys review      # what agents wrote, waiting for you\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys serve       # the dashboard\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys connect --list   # set up another agent tool\n  memory-fabric --db D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db --keys D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys agent-api --agents-file D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\agents.txt\n\n\nDoctor\n\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\n  D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db  \u00c2\u00b7  st_01M6VPVWB0S1MGEVDCD3M2ZRNK  \u00c2\u00b7  schema 0.14.0  \u00c2\u00b7  Python 3.13.5\n\n  [ok  ] background manager\n         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`\n  [ok  ] append-only enforcement\n         both triggers present and refusing writes\n  [ok  ] event chain\n         1 event(s) verified; checkpoint seq 1 79c9082fcc582e06\u00e2\u20ac\u00a6\n  [ok  ] replay from the log\n         1 event(s) replay to the same 0 memory/ies\n  [ok  ] schema version\n         0.14.0 throughout\n  [ok  ] retraction delivery\n         nothing outstanding\n  [ok  ] withdrawal evidence\n         no memory is withdrawn on a weak basis\n  [ok  ] content keys\n         all content readable\n  [ok  ] content cipher\n         no content yet; keys externally (DirectoryKeyProvider)\n  [ok  ] withdrawn knowledge is not exposed\n         0 blocked memory/ies, none of them usable\n  [ok  ] tenant isolation\n         single-tenant store (tn_default); nothing to cross\n  [ok  ] dashboard asset\n         present (99413 bytes)\n\n  Sound. Every check verified, none skipped.\n"
+    },
+    {
+      "command": [
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\venv\\Scripts\\memory-fabric.exe",
+        "--db",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db",
+        "--keys",
+        "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\keys",
+        "doctor"
+      ],
+      "cwd": "D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist",
+      "exit_code": 0,
+      "output_tail": "\nDoctor\n\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\u00e2\u201d\u20ac\n  D:\\Memory Fabric\\master-checklist\\.test-tmp\\mf-package-parity-y3y4c3uj\\sdist\\initialized-store\\store.db  \u00c2\u00b7  st_01M6VPVWB0S1MGEVDCD3M2ZRNK  \u00c2\u00b7  schema 0.14.0  \u00c2\u00b7  Python 3.13.5\n\n  [ok  ] background manager\n         never run on this store: maintenance is manual. `serve`, `agent-api` and `mcp` start it; so does `memory-fabric maintain`\n  [ok  ] append-only enforcement\n         both triggers present and refusing writes\n  [ok  ] event chain\n         1 event(s) verified; checkpoint seq 1 79c9082fcc582e06\u00e2\u20ac\u00a6\n  [ok  ] replay from the log\n         1 event(s) replay to the same 0 memory/ies\n  [ok  ] schema version\n         0.14.0 throughout\n  [ok  ] retraction delivery\n         nothing outstanding\n  [ok  ] withdrawal evidence\n         no memory is withdrawn on a weak basis\n  [ok  ] content keys\n         all content readable\n  [ok  ] content cipher\n         no content yet; keys externally (DirectoryKeyProvider)\n  [ok  ] withdrawn knowledge is not exposed\n         0 blocked memory/ies, none of them usable\n  [ok  ] tenant isolation\n         single-tenant store (tn_default); nothing to cross\n  [ok  ] dashboard asset\n         present (99413 bytes)\n\n  Sound. Every check verified, none skipped.\n"
+    }
+  ],
+  "passed": true,
+  "parity": {
+    "same_version": true,
+    "same_smoke_checks": true
+  }
+}

@@ -16,7 +16,7 @@ from memory_fabric import auditor as A
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.certificates import CHECK_INDEPENDENT_SUPPORT
 
-ROOT = Path(__file__).resolve().parent.parent / "memory_fabric"
+ROOT = Path(__file__).resolve().parent.parent / "src" / "memory_fabric"
 MUTATORS = {"quarantine", "forget", "release", "validate", "erase_content", "revise",
             "remember", "derive", "share", "request_retraction", "receive_retraction",
             "_emit", "append_many", "record_attempt", "advance", "challenge",

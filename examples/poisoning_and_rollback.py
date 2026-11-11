@@ -18,7 +18,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 # Windows consoles default to a legacy code page that cannot encode the
 # punctuation below; this reconfigures stdout the way the CLI does.
@@ -34,6 +34,7 @@ def rule(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: scripted agents; deterministic fixture; not a compliance evaluation.")
     fabric = MemoryFabric(auto_activate=True, seed=0)
 
     rule("1. An agent learns something from an episode")

@@ -1,0 +1,63 @@
+{
+ "arm": "chain/star",
+ "budget": {},
+ "cost": {
+  "model_calls": 0,
+  "model_usd": 0.0
+ },
+ "counts": {
+  "attempted": 10,
+  "completed": 10,
+  "failed": 0
+ },
+ "dataset": {
+  "generator": "benchmarks/federation_world.py",
+  "topologies": [
+   "chain",
+   "star"
+  ]
+ },
+ "decision": "DESCRIPTIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/federation_world.py": "fc200040613ca742ddf1cae187da07c236089a15c1f495af390e3ddbe8a8de96"
+ },
+ "model": {
+  "id": null,
+  "provider": null
+ },
+ "prereg": null,
+ "reason": "functional regression world; no superiority hypothesis",
+ "repo_commit": "9260e482e05831db72afdada5820220448c15003",
+ "results": {
+  "invariant_violations": 0
+ },
+ "run_id": "int02-federation-world",
+ "schema": "mf-run-manifest/1",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
+ "suite": "INT-02",
+ "verification": {
+  "baseline_registered": false,
+  "holdout_frozen": false,
+  "independent_replicated": false,
+  "oracle_sanity_passed": false
+ }
+}

@@ -2,7 +2,7 @@
 
 The second live integration. The first (`live_claude_mcp.py`) gave the model
 the fabric's MCP tools. This one gives it nothing but `curl` and the
-documented HTTP API of a separately launched `memory-fabric agent-api`
+documented HTTP API of a separately launched `memory_fabric agent-api`
 process, which is the deployment for agents in another language or on another
 machine. The credential reaches the model's shell through an environment
 variable, never through the prompt text.
@@ -82,7 +82,7 @@ def run_trial(arm: str, n: int, model: str | None, workdir: str) -> base.Trial:
     agents = os.path.join(workdir, "agents")
     Path(agents).write_text(f"{AGENT_ID}:tn_default:{KEY}\n")
     port = free_port()
-    env = {**os.environ, "PYTHONPATH": str(ROOT)}
+    env = {**os.environ, "PYTHONPATH": os.pathsep.join((str(ROOT / "src"), str(ROOT)))}
     server = subprocess.Popen(
         [sys.executable, "-m", "memory_fabric", "--db", db, "agent-api",
          "--agents-file", agents, "--port", str(port)],

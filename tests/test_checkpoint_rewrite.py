@@ -4,7 +4,7 @@ End to end, as an operator would run it: the background manager writes a
 checkpoint per cycle to a directory off the store's disk; someone with write
 access to the database then edits an event, drops the append-only triggers
 and recomputes every chain link, so the store verifies against itself; and
-`memory-fabric checkpoint --verify` against the independent file fails.
+`memory_fabric checkpoint --verify` against the independent file fails.
 """
 
 from __future__ import annotations

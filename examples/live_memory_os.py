@@ -29,7 +29,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric import (
     EpsilonGreedyPolicy,
@@ -83,6 +83,7 @@ def federating_firewall() -> Firewall:
 
 
 def main() -> int:
+    print("DEMO ONLY: real local Ollama model; scripted scenario; not independent validation or certification.")
     client = OllamaClient()
     try:
         available = client.available()
@@ -312,7 +313,7 @@ def main() -> int:
             # an explanation instead.
             #
             # The lesson the example should teach: **replaying events into
-            # another store is not a backup.** `memory-fabric backup` copies
+            # another store is not a backup.** `memory_fabric backup` copies
             # the file, and therefore the identity and the keys with it.
             on_disk_path = str(Path(tmp) / "depot-on-disk.db")
             on_disk = MemoryFabric(on_disk_path)

@@ -13,9 +13,9 @@
       "status": "available",
       "user_problem": "I need memories stored with provenance, and secrets or injections kept out.",
       "modules": [
-        "memory_fabric/_fabric/writes.py",
-        "memory_fabric/governance/firewall.py",
-        "memory_fabric/governance/sensitive.py"
+        "src/memory_fabric/_fabric/writes.py",
+        "src/memory_fabric/governance/firewall.py",
+        "src/memory_fabric/governance/sensitive.py"
       ],
       "tests": [
         "tests/test_fabric.py",
@@ -39,8 +39,8 @@
       "status": "available",
       "user_problem": "An agent must only see memories it may use now.",
       "modules": [
-        "memory_fabric/_fabric/retrieval.py",
-        "memory_fabric/model.py"
+        "src/memory_fabric/_fabric/retrieval.py",
+        "src/memory_fabric/model.py"
       ],
       "tests": [
         "tests/test_scope_visibility.py",
@@ -63,8 +63,8 @@
       "status": "available",
       "user_problem": "I need to know why the system remembers this.",
       "modules": [
-        "memory_fabric/explain.py",
-        "memory_fabric/lineage.py"
+        "src/memory_fabric/explain.py",
+        "src/memory_fabric/lineage.py"
       ],
       "tests": [
         "tests/test_observability.py",
@@ -86,8 +86,8 @@
       "status": "available",
       "user_problem": "I need to see what was derived from a memory.",
       "modules": [
-        "memory_fabric/lineage.py",
-        "memory_fabric/observability/report.py"
+        "src/memory_fabric/lineage.py",
+        "src/memory_fabric/observability/report.py"
       ],
       "tests": [
         "tests/test_observability.py"
@@ -108,8 +108,8 @@
       "status": "available",
       "user_problem": "I need to see how a memory changed and who changed it.",
       "modules": [
-        "memory_fabric/observability/report.py",
-        "memory_fabric/eventlog.py"
+        "src/memory_fabric/observability/report.py",
+        "src/memory_fabric/eventlog.py"
       ],
       "tests": [
         "tests/test_observability.py",
@@ -129,8 +129,8 @@
       "status": "available",
       "user_problem": "Before withdrawing a memory I need to see what it touches, and the preview must still hold when applied.",
       "modules": [
-        "memory_fabric/correction.py",
-        "memory_fabric/incident.py"
+        "src/memory_fabric/correction.py",
+        "src/memory_fabric/incident.py"
       ],
       "tests": [
         "tests/test_correction.py"
@@ -151,10 +151,10 @@
       "status": "available",
       "user_problem": "A withdrawn memory must not survive in copies or conclusions.",
       "modules": [
-        "memory_fabric/lineage.py",
-        "memory_fabric/justification.py",
-        "memory_fabric/outbox.py",
-        "memory_fabric/transport.py"
+        "src/memory_fabric/lineage.py",
+        "src/memory_fabric/justification.py",
+        "src/memory_fabric/outbox.py",
+        "src/memory_fabric/transport.py"
       ],
       "tests": [
         "tests/test_retraction.py",
@@ -180,7 +180,7 @@
       "status": "available",
       "user_problem": "I need to know what the store has and has not established about a memory.",
       "modules": [
-        "memory_fabric/status.py"
+        "src/memory_fabric/status.py"
       ],
       "tests": [
         "tests/test_status.py"
@@ -201,8 +201,8 @@
       "status": "available",
       "user_problem": "When sources disagree I need both claims, not a silent overwrite.",
       "modules": [
-        "memory_fabric/conflicts.py",
-        "memory_fabric/adapters/context.py"
+        "src/memory_fabric/conflicts.py",
+        "src/memory_fabric/adapters/context.py"
       ],
       "tests": [
         "tests/test_conflicts.py"
@@ -223,9 +223,9 @@
       "status": "available",
       "user_problem": "A memory withdrawn after it was read must not drive an action.",
       "modules": [
-        "memory_fabric/actions.py",
-        "memory_fabric/enforcement.py",
-        "memory_fabric/certificates.py"
+        "src/memory_fabric/actions.py",
+        "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/certificates.py"
       ],
       "tests": [
         "tests/test_action_fence.py",
@@ -248,8 +248,8 @@
       "status": "available",
       "user_problem": "One tenant must never read or infer another's memories.",
       "modules": [
-        "memory_fabric/tenancy.py",
-        "memory_fabric/identity.py"
+        "src/memory_fabric/tenancy.py",
+        "src/memory_fabric/identity.py"
       ],
       "tests": [
         "tests/test_tenancy.py",
@@ -272,7 +272,7 @@
       "status": "experimental",
       "user_problem": "A later session cannot read every turn of an earlier one.",
       "modules": [
-        "memory_fabric/compaction.py"
+        "src/memory_fabric/compaction.py"
       ],
       "tests": [
         "tests/test_compaction.py",
@@ -294,7 +294,7 @@
       "status": "available",
       "user_problem": "I need to reproduce and explain exactly what context an agent received.",
       "modules": [
-        "memory_fabric/context_receipt.py"
+        "src/memory_fabric/context_receipt.py"
       ],
       "tests": [
         "tests/test_cli_versioning.py",
@@ -319,7 +319,7 @@
       "status": "experimental",
       "user_problem": "Long histories must fit a token budget without losing their sources or using stale summaries.",
       "modules": [
-        "memory_fabric/context_map.py"
+        "src/memory_fabric/context_map.py"
       ],
       "tests": [
         "tests/test_context_map.py"
@@ -341,7 +341,7 @@
       "status": "experimental",
       "user_problem": "A session needs what is currently known within a fixed budget, without withdrawn or superseded values.",
       "modules": [
-        "memory_fabric/decay.py"
+        "src/memory_fabric/decay.py"
       ],
       "tests": [
         "tests/test_decay.py",
@@ -366,7 +366,7 @@
       "status": "available",
       "user_problem": "I need to try memory changes in isolation and merge them with conflicts surfaced.",
       "modules": [
-        "memory_fabric/branching.py"
+        "src/memory_fabric/branching.py"
       ],
       "tests": [
         "tests/test_branching.py",
@@ -391,9 +391,9 @@
       "status": "available",
       "user_problem": "Stores on different machines must share validated memories and retractions safely.",
       "modules": [
-        "memory_fabric/federation.py",
-        "memory_fabric/transport.py",
-        "memory_fabric/protocol.py"
+        "src/memory_fabric/federation.py",
+        "src/memory_fabric/transport.py",
+        "src/memory_fabric/protocol.py"
       ],
       "tests": [
         "tests/test_federation.py",
@@ -417,8 +417,8 @@
       "status": "available",
       "user_problem": "Deleted personal data must not be recoverable from history.",
       "modules": [
-        "memory_fabric/governance/erasure.py",
-        "memory_fabric/governance/cipher.py"
+        "src/memory_fabric/governance/erasure.py",
+        "src/memory_fabric/governance/cipher.py"
       ],
       "tests": [
         "tests/test_erasure.py",
@@ -440,8 +440,8 @@
       "status": "available",
       "user_problem": "I need to detect a rewritten or truncated history.",
       "modules": [
-        "memory_fabric/integrity.py",
-        "memory_fabric/eventlog.py"
+        "src/memory_fabric/integrity.py",
+        "src/memory_fabric/eventlog.py"
       ],
       "tests": [
         "tests/test_integrity_chain.py",
@@ -463,8 +463,8 @@
       "status": "available",
       "user_problem": "An operator needs to see the store without changing it.",
       "modules": [
-        "memory_fabric/observability/server.py",
-        "memory_fabric/observability/report.py"
+        "src/memory_fabric/observability/server.py",
+        "src/memory_fabric/observability/report.py"
       ],
       "tests": [
         "tests/test_observability.py",

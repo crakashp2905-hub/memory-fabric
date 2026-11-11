@@ -1,0 +1,23 @@
+{
+  "unauthenticated": {
+    "status": 401,
+    "body": {"error": "authentication required"}
+  },
+  "invalid_recall_limit": {
+    "status": 400,
+    "body": {"error": "k must be an integer from 1 to 20"}
+  },
+  "unknown_operation": {
+    "status": 404,
+    "body": {"error": "unknown operation"}
+  },
+  "recall": {
+    "status": 200,
+    "top_level_keys": ["answerability", "disagreements", "memories"],
+    "memory_keys": ["content", "memory_id", "trust", "type", "version"],
+    "memory_content": "E01 at coastal sites: swap the pilot cable.",
+    "answerability_keys": ["covering", "judged", "reason_code", "reasons",
+                           "retrieval_confidence", "values", "verdict"],
+    "disagreements_type": "list"
+  }
+}

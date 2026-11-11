@@ -1,0 +1,22 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P2-04",
+  "commit": "db7d101e67a4128ced3b6b34b46c33b37bd0919d",
+  "command": "python -c unittest runner loading tests.test_control_center_ui, tests.test_control_center, and tests.test_correction; tempfile.tempdir=.task-tmp",
+  "exit_code": 0,
+  "tests_run": 36,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 8.665,
+  "process_elapsed_seconds": 9.446,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "tests/test_control_center_ui.py": "8318df49008eed31edf4bfef8def73468d958e1c4c85a5055be92ab268302ece",
+    "tests/test_control_center.py": "5fe1f2b9a6d3906dff0765a34a42278567637f3324566b89c2dd6cbe9eea9098",
+    "tests/test_correction.py": "5dbd32c5d2ea46e1ed300a37a3353ce6b632bb8b973167b9337085a2e4e111c8",
+    "src/memory_fabric/observability/static/dashboard.html": "ccb4529e00b389a304dc0aebc9feaa2be11bdf91a42a0223ec71f58f2ab530e1",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "a614d3e7c52851539264d35b0977b7a9b5be83c9950def5da9071f282a4a0322"
+  },
+  "result_text_sha256": "5caec3d9bfaad2d07cdc82fe53d68356d536a9a043097f544898f0b0a9668221"
+}

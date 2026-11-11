@@ -1,0 +1,62 @@
+{
+  "schema": "mf-qualification/1",
+  "task_id": "H4-04",
+  "source_commit": "39e5620",
+  "source_dirty_at_test_start": false,
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "input_sha256": {
+    "tests/test_freshness.py": "0fa5d73f7eec7e1eabdf68bbf66d776d911f8ce455441eac8c1a10a88d9334c4",
+    "src/memory_fabric/freshness.py": "4d8789d47afd6632b7fb5546d3e552ce2d25d64fdbade2c92932706e169b5211",
+    "src/memory_fabric/_fabric/federation.py": "ae5e9854afe3968a1778f3819e488ad264db84c0199304b2a6d8caf69432fa53",
+    "tests/test_tombstone_exchange.py": "7d196dd78ef2be365bf27d6e7b60bece46de6c46ca6764ff5ea91783f1a52434",
+    "src/memory_fabric/outbox.py": "b2d45a377c1f251befecc786b5391f379d694f47c871c9514693602e769ba850",
+    "src/memory_fabric/actions.py": "eb86e0d41c6fb7bbad283552ba740115653af2294f3af015fec7adbcc85efc48",
+    "docs/FRESHNESS_LEASES.md": "59218ac7de42fd7d91b98337b337d2761a04dcd5d4aac656428f2ef4407f94b7"
+  },
+  "scenario": {
+    "type": "scheduled in-process partition",
+    "lease_ttl_ms": 10000,
+    "origin_correction": "revision to v2 with exact v1 supersession queued to recipient",
+    "delivery_during_measurement": "none",
+    "old_peer_memory_retained": true
+  },
+  "observations": [
+    {
+      "elapsed_ms": "immediate",
+      "protected_action_allowed": true
+    },
+    {
+      "elapsed_ms": 9999,
+      "protected_action_allowed": true
+    },
+    {
+      "elapsed_ms": 10000,
+      "protected_action_allowed": false,
+      "reason": "evidence_not_fresh"
+    }
+  ],
+  "checks": {
+    "retraction_remains_queued": true,
+    "recipient_remains_on_old_version": true,
+    "safe_local_read_after_expiry": true,
+    "stale_action_window_ms": 10000
+  },
+  "test_command": "python -m pytest tests/test_freshness.py tests/test_tombstone_exchange.py -q --junitxml=research/results/h4-04-partition-lease-timing-tests.xml",
+  "tests_passed": 26,
+  "subtests_passed": 12,
+  "tests_failed": 0,
+  "tests_errors": 0,
+  "junit_sha256": "26925d063a02ff0fab6afa8cbc67ce23166aaa76240ea2281b345afcbfed25cf",
+  "acceptance_passed": true,
+  "limitations": [
+    "This deterministic in-process partition model does not measure physical network impairment, multi-host clock accuracy, or production latency. The stale-action bound is the configured lease lifetime."
+  ],
+  "verdict": "PASS"
+}

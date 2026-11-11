@@ -141,13 +141,15 @@ class TestTenantIsolation(ServiceFixture):
         self.assertNotIn(self.fact, self.bob.memory_ids())
         decision = self.bob.use(self.fact, risk=RiskLevel.LOW).decision
         self.assertIs(decision.verdict, Verdict.DENY)
-        self.assertEqual(decision.reason_code, "wrong_tenant")
+        self.assertEqual(decision.reason_code, "not_found")
         # The refusal reveals neither the version nor the lifecycle.
         self.assertEqual((decision.version, decision.lifecycle_state, decision.detail),
                          (0, "", ""))
 
     def test_a_conclusion_cannot_be_derived_from_another_tenants_memory(self) -> None:
-        with self.assertRaises(IdentityError):
+        from memory_fabric.fabric import NotFound
+
+        with self.assertRaises(NotFound):
             self.bob.derive("pump 3 is fine", parents=[self.fact])
 
     def test_another_agents_token_does_not_verify(self) -> None:

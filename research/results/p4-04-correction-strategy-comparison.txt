@@ -1,0 +1,11 @@
+P4-04 correction strategy comparison
+
+Command: python examples/correction_strategy_comparison.py
+Result: PASS (exit 0); Ruff: PASS; offline examples integration suite: 2 tests, 0 failures/errors.
+
+arm             stale action   unrelated action   stale actions   false blocks
+naive delete    WOULD RUN     allowed          1              0
+blanket         blocked       blocked          0              1
+selective gate  blocked       allowed          0              0
+
+The naive deletion and blanket arms are scripted local comparators. The selective arm is authorized through Memory Fabric after a source correction/quarantine. This one-case demo reports costs; it is not a benchmark and invokes no real external tool.

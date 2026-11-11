@@ -26,8 +26,9 @@ from typing import Any, Mapping, Sequence
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
 from experiments.teamworld import (  # noqa: E402
-    BACKENDS, Fact, World, build_memory, build_world,
+    BACKENDS, Fact, build_memory, build_world,
 )
+from experiments.stats import bootstrap_ci  # noqa: E402
 
 SEEDS = (1, 2, 3, 4, 5)
 BASELINES = ("local", "shared", "shared_blanket")
@@ -81,6 +82,7 @@ class TaskOutcome:
     had_correct_evidence: bool
     acted_on_withdrawn: bool
     valid_evidence_withheld: bool
+    evidence_miss_reason: str | None
     context_tokens: int
     latency_ms: float
 
@@ -100,6 +102,11 @@ class RunResult:
         n = len(self.tasks)
         mean = lambda xs: (sum(xs) / len(xs)) if xs else 0.0  # noqa: E731
         answerable = [t for t in self.tasks if t.correct_value is not None]
+        miss_reasons: dict[str, int] = {}
+        for task in self.tasks:
+            if task.evidence_miss_reason:
+                miss_reasons[task.evidence_miss_reason] = (
+                    miss_reasons.get(task.evidence_miss_reason, 0) + 1)
         return {
             "tasks": n,
             "task_success": round(mean([float(t.correct) for t in answerable]), 4),
@@ -109,6 +116,7 @@ class RunResult:
                 mean([float(t.acted_on_withdrawn) for t in self.tasks]), 4),
             "wrong_invalidation_rate": round(
                 mean([float(t.valid_evidence_withheld) for t in self.tasks]), 4),
+            "evidence_miss_reasons": dict(sorted(miss_reasons.items())),
             "abstention_rate": round(
                 mean([float(t.abstained) for t in self.tasks]), 4),
             "rediscovery_rate": round(
@@ -156,10 +164,12 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
                 old = world.current.get(event.fact.key)
                 if old is not None:
                     superseded[event.fact.key] = old.value
-                memory.withdraw(
-                    event.agent, event.fact.key, "re-measured after the move")
-                # The corrected value is then written as a new discovery.
-                memory.write(event.agent, event.fact.statement(), event.fact.key)
+                corrected_id = memory.correct(
+                    event.agent, event.fact, "re-measured after the move")
+                memory.confirm(
+                    corrected_id,
+                    "independently re-measured after the gantry moved",
+                )
                 world.current[event.fact.key] = event.fact
 
             elif event.kind == "task":
@@ -226,6 +236,10 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
                     valid_evidence_withheld=bool(
                         truth and not had_correct
                         and memory.holds(event.agent, truth.value)),
+                    evidence_miss_reason=(
+                        memory.miss_reason(event.agent, truth.statement(), rows)
+                        if truth and not had_correct else None
+                    ),
                     context_tokens=sum(len(c.split()) for c in contents),
                     latency_ms=elapsed,
                 ))
@@ -238,26 +252,84 @@ def run_one(arm: str, seed: int, agents: int, rounds: int) -> RunResult:
 def run(arms: Sequence[str] = BACKENDS, seeds: Sequence[int] = SEEDS,
         agents: int = 10, rounds: int = 60) -> dict[str, Any]:
     per_arm: dict[str, list[dict[str, Any]]] = {}
+    raw: dict[str, list[RunResult]] = {}
     for arm in arms:
-        per_arm[arm] = [
-            run_one(arm, seed, agents, rounds).summary() for seed in seeds
-        ]
+        raw[arm] = [run_one(arm, seed, agents, rounds) for seed in seeds]
+        per_arm[arm] = [result.summary() for result in raw[arm]]
 
     def agg(arm: str, metric: str) -> dict[str, float]:
         values = [row[metric] for row in per_arm[arm]]
+        low, high = ((values[0], values[0]) if len(values) == 1
+                     else bootstrap_ci(values, seed=20261101))
         return {
             "mean": round(statistics.fmean(values), 4),
             "min": round(min(values), 4),
             "max": round(max(values), 4),
             "sd": round(statistics.pstdev(values), 4) if len(values) > 1 else 0.0,
+            "ci95_low": round(low, 4),
+            "ci95_high": round(high, 4),
         }
 
-    metrics = [m for m in per_arm[arms[0]][0] if m != "tasks"]
+    metrics = [m for m, value in per_arm[arms[0]][0].items()
+               if m != "tasks" and isinstance(value, (int, float))]
+    reasons: dict[str, dict[str, int]] = {}
+    for arm in arms:
+        combined: dict[str, int] = {}
+        for row in per_arm[arm]:
+            for reason, count in row["evidence_miss_reasons"].items():
+                combined[reason] = combined.get(reason, 0) + int(count)
+        reasons[arm] = dict(sorted(combined.items()))
+    failures: dict[str, list[dict[str, Any]]] = {}
+    for arm in arms:
+        examples: list[dict[str, Any]] = []
+        for seed, result in zip(seeds, raw[arm]):
+            for task_index, task in enumerate(result.tasks):
+                if task.correct:
+                    continue
+                examples.append({
+                    "seed": seed,
+                    "task_index": task_index,
+                    "agent": task.agent,
+                    "key": list(task.key),
+                    "answered": task.answered,
+                    "correct_value": task.correct_value,
+                    "abstained": task.abstained,
+                    "rediscovered": task.rediscovered,
+                    "acted_on_withdrawn": task.acted_on_withdrawn,
+                    "valid_evidence_withheld": task.valid_evidence_withheld,
+                    "evidence_miss_reason": task.evidence_miss_reason,
+                })
+                if len(examples) == 10:
+                    break
+            if len(examples) == 10:
+                break
+        failures[arm] = examples
     return {
         "experiment": "p3b-agent-teams",
         "agents": agents, "rounds": rounds, "seeds": list(seeds),
         "tasks_per_seed": per_arm[arms[0]][0]["tasks"],
-        "arms": {arm: {m: agg(arm, m) for m in metrics} for arm in arms},
+        "metric_denominators": {
+            "task_success": "answerable tasks",
+            "correct_evidence_rate": "answerable tasks",
+            "stale_action_rate": "all task decisions",
+            "wrong_invalidation_rate": "all task decisions",
+            "abstention_rate": "all task decisions",
+        },
+        "per_seed": {
+            arm: [
+                {"seed": seed, **summary}
+                for seed, summary in zip(seeds, per_arm[arm])
+            ]
+            for arm in arms
+        },
+        "failure_examples": failures,
+        "arms": {
+            arm: {
+                **{m: agg(arm, m) for m in metrics},
+                "evidence_miss_reasons": reasons[arm],
+            }
+            for arm in arms
+        },
     }
 
 

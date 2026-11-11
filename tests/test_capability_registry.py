@@ -19,9 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "product" / "capabilities.json").read_text(encoding="utf-8"))
-CLI = (ROOT / "memory_fabric" / "cli.py").read_text(encoding="utf-8")
-MCP = (ROOT / "memory_fabric" / "adapters" / "mcp.py").read_text(encoding="utf-8")
-SERVER = (ROOT / "memory_fabric" / "observability" / "server.py").read_text(encoding="utf-8")
+CLI = (ROOT / "src" / "memory_fabric" / "cli.py").read_text(encoding="utf-8")
+MCP = (ROOT / "src" / "memory_fabric" / "adapters" / "mcp.py").read_text(encoding="utf-8")
+SERVER = (ROOT / "src" / "memory_fabric" / "observability" / "server.py").read_text(encoding="utf-8")
 
 
 def _resolve_sdk(name: str) -> object:

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "memory-fabric"
-version = "0.13.0"
-description = "Memory for AI agents that you can audit, correct and trust: provenance, cross-store retraction, and evidence-gated actions."
+version = "0.19.0"
+description = "Trust infrastructure for collective intelligence."
 readme = "README.md"
 requires-python = ">=3.11"
 # PEP 639: an SPDX expression and the file, so `License:` is a short
@@ -35,6 +35,8 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+test = ["pytest==9.0.3", "psutil>=5.9", "setuptools>=77"]
+documents = ["pypdf>=6.0,<7"]
 # Adapters only. `ollama` needs nothing — it speaks HTTP over urllib.
 claude = ["anthropic>=0.40"]
 # Optional storage backend for writers on more than one machine. The core and
@@ -45,6 +47,14 @@ langchain = ["langchain-core>=0.3"]
 # AES-256-GCM from a maintained library; required by the production crypto
 # profile (MEMORY_FABRIC_CRYPTO_PROFILE=production).
 crypto = ["cryptography>=42"]
+# Standards-based OAuth 2.0 JWT access-token validation for agent-api.
+oauth = ["PyJWT[crypto]>=2.10,<3"]
+# PDF import (knowledge_compiler.compile_pdf): the text layer, no OCR.
+pdf = ["pypdf>=4"]
+# Trained retrieval (memory_fabric.retrievers): ONNX models on CPU, no PyTorch.
+retrieval = ["fastembed>=0.5"]
+# The same with sentence-transformers, for teams already on PyTorch or a GPU.
+retrieval-torch = ["sentence-transformers>=3"]
 
 [project.scripts]
 memory-fabric = "memory_fabric.cli:main"
@@ -56,7 +66,11 @@ Changelog = "https://github.com/crakashp2905-hub/memory-fabric/blob/main/CHANGEL
 Issues = "https://github.com/crakashp2905-hub/memory-fabric/issues"
 Security = "https://github.com/crakashp2905-hub/memory-fabric/blob/main/SECURITY.md"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
+where = ["src"]
 include = ["memory_fabric*"]
 
 [tool.setuptools.package-data]
@@ -76,14 +90,15 @@ include = ["memory_fabric*"]
 # code is written to.
 [tool.ruff]
 line-length = 100
-include = ["memory_fabric/**/*.py", "memeval/**/*.py"]
+include = ["src/memory_fabric/**/*.py", "memeval/**/*.py"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["memory_fabric", "memeval"]
+files = ["src/memory_fabric", "memeval", "benchmarks"]
+mypy_path = "src"
 # psycopg, anthropic and cryptography are optional; their absence must not
 # fail a check of the zero-dependency core.
 ignore_missing_imports = true

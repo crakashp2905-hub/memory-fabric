@@ -1,13 +1,10 @@
-"""Count the test suite the way CI runs it, and keep the documents in step.
+"""Count the complete pytest collection used by CI, and keep documents in step.
 
     python tools/count_tests.py           # print the count
     python tools/count_tests.py --write   # also rewrite the cited numbers
 
-CI runs `python -m unittest discover -s tests -t .` with nothing installed, so
-that command's collection is the count. pytest collects more -- plain
-`def test_` functions, which unittest never sees -- and a file written that way
-is silently skipped in CI. `tests/test_suite_hygiene.py` forbids such files,
-which keeps the two counts equal.
+CI runs the full pytest collection. This includes unittest TestCase classes
+and pytest-style functions, so the count reflects every executed test.
 
 The documents that state a current count cite this number:
 `docs/VALIDATION.md`'s current-baseline row and the README, which defers to
@@ -21,7 +18,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-import unittest
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,9 +31,14 @@ CURRENT = (
 
 
 def count() -> int:
-    sys.path.insert(0, str(ROOT))
-    suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"), top_level_dir=str(ROOT))
-    return suite.countTestCases()
+    done = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-qq", "tests"],
+                          cwd=ROOT, capture_output=True, text=True)
+    if done.returncode:
+        raise RuntimeError(f"pytest collection failed:\n{done.stdout}\n{done.stderr}")
+    counts = [int(value) for value in re.findall(r"(?m)^.+\.py:\s+(\d+)\s*$", done.stdout)]
+    if not counts:
+        raise RuntimeError("pytest collection produced no per-file counts")
+    return sum(counts)
 
 
 def cited() -> dict[str, int | None]:
@@ -65,12 +67,19 @@ def write(n: int) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--write", action="store_true")
+    parser.add_argument("--check", action="store_true", help="fail if cited counts differ from source")
     args = parser.parse_args(argv)
     n = count()
     print(n)
     if args.write:
         for doc in write(n):
             print(f"updated {doc}", file=sys.stderr)
+    if args.check:
+        stale = {doc: value for doc, value in cited().items() if value != n}
+        for doc, value in stale.items():
+            print(f"{doc}: cites {value}, source suite has {n}; run tools/count_tests.py --write",
+                  file=sys.stderr)
+        return 1 if stale else 0
     return 0
 
 

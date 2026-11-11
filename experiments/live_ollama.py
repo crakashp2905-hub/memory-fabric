@@ -1,4 +1,4 @@
-"""Live run: does the memory fabric actually change a real model's answers?
+"""Live run: does the memory_fabric actually change a real model's answers?
 
 Every result in `research/` was produced with a scripted agent. That made
 effects attributable and cheap, and it left one question open: whether a

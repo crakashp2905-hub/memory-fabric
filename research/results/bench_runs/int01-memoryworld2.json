@@ -1,0 +1,71 @@
+{
+ "arm": "all",
+ "budget": {},
+ "cost": {
+  "model_calls": 0,
+  "model_usd": 0.0
+ },
+ "counts": {
+  "attempted": 0,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "solved": 0
+ },
+ "dataset": {
+  "generator": "benchmarks/memoryworld2.py",
+  "name": "generated"
+ },
+ "decision": "DESCRIPTIVE",
+ "environment": {
+  "logical_cpus": 8,
+  "os": "Windows-11-10.0.26200-SP0",
+  "process_count": 1,
+  "python": "3.13.5",
+  "sqlite": "3.49.1",
+  "thread_count": 1
+ },
+ "input_digests": {
+  "benchmarks/memoryworld2.py": "8322144e58edf57940119d20cec0be7c34c8b110788cc0691dcd7c2ffcc9311c"
+ },
+ "model": {
+  "id": null,
+  "provider": null
+ },
+ "prereg": null,
+ "reason": "descriptive: functional check of bitemporal answers, no improvement claim",
+ "repo_commit": "9260e482e058",
+ "results": {
+  "accuracy": {
+   "believed:bitemporal": 1.0,
+   "believed:oracle": 1.0,
+   "believed:overwrite": 0.113,
+   "believed:valid_time": 0.513,
+   "valid:bitemporal": 1.0,
+   "valid:oracle": 1.0,
+   "valid:overwrite": 0.313,
+   "valid:valid_time": 1.0
+  }
+ },
+ "run_id": "int01-memoryworld2",
+ "schema": "mf-run-manifest/1",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "source": {
+  "classification": "QUALIFIED",
+  "commit": "9260e482e05831db72afdada5820220448c15003",
+  "dirty": false
+ },
+ "suite": "INT-01",
+ "verification": {
+  "baseline_registered": true,
+  "holdout_frozen": false,
+  "independent_replicated": false,
+  "oracle_sanity_passed": true
+ }
+}

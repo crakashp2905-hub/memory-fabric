@@ -2,7 +2,7 @@
 
 Each `MemoryFabric` folds its own writes into an in-memory projection. Before
 this was fixed, nothing folded anyone else's: an operator ran
-`memory-fabric quarantine` from a terminal while an MCP server, an app or the
+`memory_fabric quarantine` from a terminal while an MCP server, an app or the
 dashboard was running, and the running process went on recalling the withdrawn
 memory until it restarted. A fresh process said `quarantined`; the live one
 served it. That breaks the guarantee the project is built on -- a known-invalid

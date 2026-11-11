@@ -1,6 +1,10 @@
 # ADR-003: Context receipts
 
-**Status:** accepted, implemented in `memory_fabric/context_receipt.py`.
+**Status:** accepted, implemented in `memory-fabric/context_receipt.py`.
+
+New receipts use `memory-fabric-context-receipt/2` (store schema 0.19.0).
+Receipts written before that version have no schema field and are treated as
+version 1; the reader keeps accepting them without rewriting the event log.
 
 ## Context
 
@@ -20,6 +24,12 @@ and summaries are invisible.
   use, mode, `policy_id`, `retrieval_config` digest, the log head it was
   built at, and the remaining nondeterminism (none for lexical retrieval;
   named when a model reranks).
+- Open disagreement is part of that receipt: its separate estimated-token
+  budget, actual token use, status (`PRESERVED` or an `INSUFFICIENT` reason),
+  selected alternative source refs, and omitted alternatives are explicit.
+  Selected item kinds include `disagreement` (complete alternatives) and
+  `insufficiency` (no winner was included). A contested set is never reduced
+  to a single selected value without a marker.
 - Recorded as a `ContextBuilt` event, so receipts are part of the log,
   survive restarts and are covered by the hash chain. No content, no query.
 - Reason codes: `NOT_VISIBLE`, `SOURCE_WITHDRAWN`, `CONTESTED`,

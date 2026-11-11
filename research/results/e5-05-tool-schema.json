@@ -1,0 +1,30 @@
+{
+  "schema": "memory-fabric-e5-05-tool-schema/1",
+  "tested_commit": "aa4eb6421429db6c39e79a6ae3c3e6073806171c",
+  "recorded_at_utc": "2026-11-07T18:58:28.8353681Z",
+  "machine": {
+    "platform": "Microsoft Windows 10.0.26200",
+    "python": "Python 3.13.5"
+  },
+  "command": "python -m pytest tests/test_tool_protocol.py tests/test_reference_docs.py tests/test_stability.py --junitxml=research/results/e5-05-tool-schema.xml",
+  "result": {
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "junit": {
+    "path": "research/results/e5-05-tool-schema.xml",
+    "sha256": "57da7a8cc5ea4e56570b89895d36be781d9d9e5da08d058196a5651f2d0950b6"
+  },
+  "coverage": [
+    "UTCP supported-field round trip",
+    "MCP supported-field round trip including all 16 repository descriptors",
+    "Cross-protocol rejection when transport or annotations cannot be preserved",
+    "Unknown UTCP/MCP security fields and unknown annotations rejected"
+  ],
+  "limitations": [
+    "Only the documented UTCP 1.0 subset and supported MCP Tool fields are converted; unsupported protocol fields fail closed. Conversion does not grant authorization."
+  ]
+}

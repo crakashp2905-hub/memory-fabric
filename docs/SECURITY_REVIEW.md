@@ -25,7 +25,7 @@ release work. Reviewed:
 - **The paths changed in this release cycle:** cross-process refresh, the
   fabric lock, authentication ordering, erasure, the copy index, the CLI's new
   revocation and agent filter.
-- **A pattern sweep of `memory_fabric/`** for the shapes that produce critical
+- **A pattern sweep of `memory-fabric/`** for the shapes that produce critical
   bugs: SQL built from strings; secret comparisons that are not constant-time;
   non-cryptographic randomness for tokens; shell, `eval`, `exec`, `pickle`,
   `yaml.load`, `marshal`; file paths taken from requests; outbound requests to

@@ -1,0 +1,15 @@
+{
+  "schema": "memory-fabric-e1-07/1",
+  "commit": "f97947f7777d70aa6093226ffe7f9ea9c32fec1b",
+  "dirty_at_test": false,
+  "test_command": "python -m pytest tests/test_offline_qualification.py -q --junitxml=.test-tmp/e1-07-ledger-verification.xml",
+  "tests_passed": 9,
+  "tests_failed": 0,
+  "junit_sha256": "72bfeda66dfc336756acbb7c974d6d58aaeda766eabadc065665a0d1ec8f3002",
+  "negative_controls": [
+    "missing path -> INCOMPLETE",
+    "malformed JSON -> INCOMPLETE",
+    "evidence SHA-256 matches bytes on disk"
+  ],
+  "verdict": "PASS"
+}

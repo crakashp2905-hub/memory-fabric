@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-root = ROOT / "memory_fabric"
+root = ROOT / "src" / "memory_fabric"
 tiers = {"stable": [], "beta": [], "experimental": []}
 for path in sorted(root.rglob("*.py")):
     m = re.search(r'^__stability__ = "(\w+)"', path.read_text(encoding="utf-8"), re.M)
@@ -29,7 +29,7 @@ the code disagree.
 
 | tier | promise | may change |
 |---|---|---|
-| **stable** | Public functions, classes and CLI commands keep their names and meaning within a minor series. Removals are deprecated for one minor version first and noted in the CHANGELOG. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). | Internals, private names (`_x`), wording of messages |
+| **stable** | Public functions, classes, CLI commands, signatures and meanings stay compatible within a minor series. Incompatible changes require deprecation plus a CHANGELOG migration note. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). The canonical symbols and signatures are in [API_INVENTORY.json](docs/API_INVENTORY.json). | Internals, private names (`_x`), wording of messages |
 | **beta** | Used in production paths and tested, but new. Names may change in a minor version, always with a CHANGELOG entry. Events they write are covered by the replay guarantee like any other. | Signatures, defaults, output shapes |
 | **experimental** | New mechanisms. **All opt-in**: nothing in the default path calls them unless you turn it on. | Anything, or removal |
 

@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric import MemoryFabric  # noqa: E402
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule  # noqa: E402
@@ -87,6 +87,7 @@ class ReferenceAgent:
 
 
 def main(path: str = ":memory:") -> list[Report]:
+    print("DEMO ONLY: deterministic scripted agent; no hosted model or independent evaluation.")
     fabric = MemoryFabric(path, auto_activate=True)
     try:
         fabric.remember("plant-manual", "Pump P1 requires a 30 second purge.", scope="team")

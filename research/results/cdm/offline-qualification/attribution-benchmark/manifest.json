@@ -1,0 +1,102 @@
+{
+  "arms": {
+    "car_full_suffix": {
+      "decision_flips": 8,
+      "mean_paired_utility_difference": -0.355,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ]
+    },
+    "exact_shapley": {
+      "decision_flips": 7,
+      "mean_paired_utility_difference": -0.32999999999999996,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.6158404560516048,
+        -0.044159543948395164
+      ]
+    },
+    "exact_subset_oracle": {
+      "decision_flips": 8,
+      "mean_paired_utility_difference": -0.355,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ]
+    },
+    "leave_one_out": {
+      "decision_flips": 8,
+      "mean_paired_utility_difference": -0.355,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ]
+    },
+    "random": {
+      "decision_flips": 5,
+      "mean_paired_utility_difference": -0.205,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.3976050718029266,
+        -0.012394928197073357
+      ]
+    },
+    "recency": {
+      "decision_flips": 4,
+      "mean_paired_utility_difference": -0.125,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.29732695362991945,
+        0.04732695362991948
+      ]
+    },
+    "sampled_shapley": {
+      "decision_flips": 8,
+      "mean_paired_utility_difference": -0.305,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.5543355338114739,
+        -0.05566446618852611
+      ]
+    }
+  },
+  "csv_sha256": "ac9d5543673d93d7956e9372eb12f8cd864c4ff9ee49ab46ab60b1b7ead58ee6",
+  "generator_sha256": "83dd3625f7c903a5a5ed018dda9d3961442f2e4024ae0a55d66a097d179dca76",
+  "known_limitations": [
+    "synthetic worlds only",
+    "normal-approximation intervals",
+    "exact subset and CAR arms share the exhaustive candidate selector",
+    "not evidence of deployment efficacy"
+  ],
+  "preregistration": "research/prereg/cdm-r7-attribution-architecture.md",
+  "preregistration_sha256": "7048b516819646462a7f6caa0d28ede6a01baae5393c0d6b6f9970ab384d3c3e",
+  "report_sha256": "8dad57f2576c4f45a99107b417bf1d13cb363e1a6bc4f586bd9cb1ad113478da",
+  "schema": "cdm-attribution-benchmark-v1",
+  "scope": "matched synthetic binary sensor worlds; proposal-score attribution; outcome utility evaluator-only",
+  "seeds": [
+    20261321,
+    20261322,
+    20261323,
+    20261324,
+    20261325,
+    20261326,
+    20261327,
+    20261328,
+    20261329,
+    20261330,
+    20261331,
+    20261332,
+    20261333,
+    20261334,
+    20261335,
+    20261336,
+    20261337,
+    20261338,
+    20261339,
+    20261340
+  ]
+}

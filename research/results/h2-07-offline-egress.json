@@ -1,0 +1,28 @@
+{
+  "acceptance_status": "PASS",
+  "checks": {
+    "host_file_access_after_denial": 0,
+    "loopback_policy": "allowed",
+    "loopback_resolution": "allowed",
+    "non_loopback_attempt": "denied before socket use with explicit message"
+  },
+  "input_sha256": {
+    "docs/DECISION_MODELS_AND_UTCP.md": "1307743147dc7b170aa5b6beb33c69980a0b3d9de681f35a56533e8eb09c8838",
+    "tests/test_offline_network_guard.py": "f3c1c4cb8ec6e84b11c27a77ba46e6ac9ddacbd2e8499152939b10c0a42e8887",
+    "tools/offline_network_guard.py": "d1bd692ea741f909599cfb9e9d31ff6b8e99b9f33c1f7cf1daada65f45db5b4b"
+  },
+  "junit": "research/results/h2-07-offline-egress-tests.xml",
+  "limitations": [
+    "Process-local Python guard is smoke-test defense in depth, not an OS sandbox; native code and direct system calls may bypass it.",
+    "This runner blocks loopback TCP connect, so the test verifies loopback allow policy and resolution, not an actual loopback HTTP exchange."
+  ],
+  "schema": "mf-offline-network-guard-qualification/1",
+  "source_clean_before_run": true,
+  "source_commit": "2fb4ebe143100289428c9b9bbab841d8a417072c",
+  "test_summary": {
+    "command": "python -m pytest tests/test_offline_network_guard.py -q",
+    "failed": 0,
+    "passed": 1,
+    "total": 1
+  }
+}

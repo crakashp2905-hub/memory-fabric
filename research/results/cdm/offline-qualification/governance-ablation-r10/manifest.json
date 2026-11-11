@@ -1,0 +1,21 @@
+{
+  "metrics": {
+    "governed_unauthorized_accepts": 0,
+    "governed_unauthorized_metadata_exposures": 0,
+    "valid_case_false_blocks": 0,
+    "weak_stale_evidence_accepts": 2,
+    "weak_unauthorized_accepts": 3,
+    "weak_unauthorized_metadata_exposures": 3
+  },
+  "protocol": "research/prereg/cdm-r10-governance-ablation.md",
+  "protocol_sha256": "ca543d7efb4696a179491aba21781d56f0237d57182085012fa6d66636815640",
+  "report_sha256": "8a32236167f5d7f66ef5b985b117b13c1c7e622fe40c154450c29371bdd7ef24",
+  "safety": {
+    "authority_changes": 0,
+    "network_calls": 0,
+    "plaintext_reported": false,
+    "tool_calls": 0
+  },
+  "schema": "cdm-governance-ablation-manifest-v1",
+  "source_sha256": "88425c8873d4b32d64ec8456240f2e8b8087af6aa8372d223d9befdc1c9c93ac"
+}

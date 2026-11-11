@@ -1,0 +1,656 @@
+{
+  "schema": "mf-dependency-provenance/1",
+  "source": {
+    "inventory_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+    "build_source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+    "worktree_dirty": true,
+    "package_inputs_dirty": false
+  },
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "project": {
+    "name": "memory-fabric",
+    "version": "0.19.0",
+    "requires_python": ">=3.11",
+    "core_dependencies": [],
+    "optional_dependencies": {
+      "test": [
+        "pytest==9.0.3",
+        "psutil>=5.9",
+        "setuptools>=77"
+      ],
+      "documents": [
+        "pypdf>=6.0,<7"
+      ],
+      "claude": [
+        "anthropic>=0.40"
+      ],
+      "postgres": [
+        "psycopg>=3.1"
+      ],
+      "langchain": [
+        "langchain-core>=0.3"
+      ],
+      "crypto": [
+        "cryptography>=42"
+      ],
+      "oauth": [
+        "PyJWT[crypto]>=2.10,<3"
+      ],
+      "retrieval": [
+        "fastembed>=0.5"
+      ],
+      "retrieval-torch": [
+        "sentence-transformers>=3"
+      ]
+    }
+  },
+  "declared_distributions": [
+    "anthropic",
+    "cryptography",
+    "fastembed",
+    "langchain-core",
+    "psutil",
+    "psycopg",
+    "pyjwt",
+    "pypdf",
+    "pytest",
+    "sentence-transformers",
+    "setuptools"
+  ],
+  "installed_declared_distributions": {
+    "cryptography": "45.0.4",
+    "langchain-core": "1.6.2",
+    "psutil": "7.0.0",
+    "psycopg": "3.3.6",
+    "pyjwt": "2.10.1",
+    "pypdf": "6.19.0",
+    "pytest": "9.0.3",
+    "setuptools": "80.9.0"
+  },
+  "artifacts": [
+    {
+      "path": "dist/memory_fabric-0.19.0-py3-none-any.whl",
+      "sha256": "94779a507a712f02b5f398e2e4eaa1836c0fea50a32f6f3455d61f1e4594d487",
+      "bytes": 718766,
+      "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+      "package_manifest": {
+        "file_count": 161,
+        "requires_dist": [
+          "pytest==9.0.3; extra == \"test\"",
+          "psutil>=5.9; extra == \"test\"",
+          "setuptools>=77; extra == \"test\"",
+          "pypdf<7,>=6.0; extra == \"documents\"",
+          "anthropic>=0.40; extra == \"claude\"",
+          "psycopg>=3.1; extra == \"postgres\"",
+          "langchain-core>=0.3; extra == \"langchain\"",
+          "cryptography>=42; extra == \"crypto\"",
+          "PyJWT[crypto]<3,>=2.10; extra == \"oauth\"",
+          "fastembed>=0.5; extra == \"retrieval\"",
+          "sentence-transformers>=3; extra == \"retrieval-torch\""
+        ]
+      }
+    },
+    {
+      "path": "dist/memory_fabric-0.19.0.tar.gz",
+      "sha256": "e5fae5740807235579310a2bd81de818706ab9ea54c2b059e4ae061db3ad2527",
+      "bytes": 626631,
+      "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+      "package_manifest": {
+        "file_count": 167,
+        "requires_dist": [
+          "pytest==9.0.3; extra == \"test\"",
+          "psutil>=5.9; extra == \"test\"",
+          "setuptools>=77; extra == \"test\"",
+          "pypdf<7,>=6.0; extra == \"documents\"",
+          "anthropic>=0.40; extra == \"claude\"",
+          "psycopg>=3.1; extra == \"postgres\"",
+          "langchain-core>=0.3; extra == \"langchain\"",
+          "cryptography>=42; extra == \"crypto\"",
+          "PyJWT[crypto]<3,>=2.10; extra == \"oauth\"",
+          "fastembed>=0.5; extra == \"retrieval\"",
+          "sentence-transformers>=3; extra == \"retrieval-torch\""
+        ]
+      }
+    }
+  ],
+  "lock_metadata": {
+    "status": "LOCKED",
+    "lock_file": "uv.lock",
+    "lock_sha256": "087b8c0bdf9f34c1c2796f1f28e90ca12c49114c0a109dad94976cfbdb891df2",
+    "lock_version": 1,
+    "package_count": 114,
+    "packages": [
+      {
+        "name": "annotated-doc",
+        "version": "0.0.5"
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.8.0"
+      },
+      {
+        "name": "anthropic",
+        "version": "2.6.0"
+      },
+      {
+        "name": "anyio",
+        "version": "4.16.0"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.10.23"
+      },
+      {
+        "name": "cffi",
+        "version": "2.1.1"
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.5.2"
+      },
+      {
+        "name": "click",
+        "version": "8.5.1"
+      },
+      {
+        "name": "cloudpickle",
+        "version": "3.1.2"
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6"
+      },
+      {
+        "name": "cryptography",
+        "version": "50.0.2"
+      },
+      {
+        "name": "cuda-bindings",
+        "version": "13.5.0"
+      },
+      {
+        "name": "cuda-pathfinder",
+        "version": "1.8.6"
+      },
+      {
+        "name": "cuda-toolkit",
+        "version": "13.2.2"
+      },
+      {
+        "name": "distro",
+        "version": "1.9.0"
+      },
+      {
+        "name": "docstring-parser",
+        "version": "0.18.0"
+      },
+      {
+        "name": "fastembed",
+        "version": "0.9.1"
+      },
+      {
+        "name": "filelock",
+        "version": "4.2.9"
+      },
+      {
+        "name": "flatbuffers",
+        "version": "25.12.19"
+      },
+      {
+        "name": "fsspec",
+        "version": "2026.9.0"
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0"
+      },
+      {
+        "name": "hf-xet",
+        "version": "1.8.0"
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9"
+      },
+      {
+        "name": "httpcore2",
+        "version": "2.16.0"
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1"
+      },
+      {
+        "name": "httpx2",
+        "version": "2.16.0"
+      },
+      {
+        "name": "httpx2-jsfetch",
+        "version": "1.0"
+      },
+      {
+        "name": "huggingface-hub",
+        "version": "1.33.0"
+      },
+      {
+        "name": "idna",
+        "version": "3.20"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.1"
+      },
+      {
+        "name": "jinja2",
+        "version": "3.1.6"
+      },
+      {
+        "name": "jiter",
+        "version": "0.19.0"
+      },
+      {
+        "name": "joblib",
+        "version": "1.6.0"
+      },
+      {
+        "name": "jsonpatch",
+        "version": "1.44"
+      },
+      {
+        "name": "jsonpointer",
+        "version": "3.10"
+      },
+      {
+        "name": "langchain-core",
+        "version": "1.7.6"
+      },
+      {
+        "name": "langchain-protocol",
+        "version": "0.0.21"
+      },
+      {
+        "name": "langsmith",
+        "version": "0.14.17"
+      },
+      {
+        "name": "loguru",
+        "version": "0.7.3"
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0"
+      },
+      {
+        "name": "markupsafe",
+        "version": "3.0.4"
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2"
+      },
+      {
+        "name": "memory-fabric",
+        "version": "0.19.0"
+      },
+      {
+        "name": "mmh3",
+        "version": "5.3.1"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      },
+      {
+        "name": "narwhals",
+        "version": "2.28.0"
+      },
+      {
+        "name": "networkx",
+        "version": "3.6.1"
+      },
+      {
+        "name": "networkx",
+        "version": "3.7"
+      },
+      {
+        "name": "numpy",
+        "version": "2.4.6"
+      },
+      {
+        "name": "numpy",
+        "version": "2.5.4"
+      },
+      {
+        "name": "nvidia-cublas",
+        "version": "13.4.1.3"
+      },
+      {
+        "name": "nvidia-cuda-cccl",
+        "version": "13.3.5.0.6"
+      },
+      {
+        "name": "nvidia-cuda-cupti",
+        "version": "13.2.86"
+      },
+      {
+        "name": "nvidia-cuda-nvrtc",
+        "version": "13.2.86"
+      },
+      {
+        "name": "nvidia-cuda-runtime",
+        "version": "13.2.86"
+      },
+      {
+        "name": "nvidia-cudnn-cu13",
+        "version": "9.26.0.51"
+      },
+      {
+        "name": "nvidia-cufft",
+        "version": "12.2.0.57"
+      },
+      {
+        "name": "nvidia-cufile",
+        "version": "1.17.1.22"
+      },
+      {
+        "name": "nvidia-cusolver",
+        "version": "12.2.0.11"
+      },
+      {
+        "name": "nvidia-cusparse",
+        "version": "12.7.10.12"
+      },
+      {
+        "name": "nvidia-cusparselt-cu13",
+        "version": "0.8.1"
+      },
+      {
+        "name": "nvidia-nccl-cu13",
+        "version": "2.30.7"
+      },
+      {
+        "name": "nvidia-nvjitlink",
+        "version": "13.5.37"
+      },
+      {
+        "name": "nvidia-nvshmem-cu13",
+        "version": "3.7.2"
+      },
+      {
+        "name": "nvidia-nvtx",
+        "version": "13.2.86"
+      },
+      {
+        "name": "onnxruntime",
+        "version": "1.31.1"
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.45.2"
+      },
+      {
+        "name": "orjson",
+        "version": "3.13.0"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pillow",
+        "version": "13.0.0"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.7.0"
+      },
+      {
+        "name": "protobuf",
+        "version": "7.36.2"
+      },
+      {
+        "name": "psutil",
+        "version": "7.2.2"
+      },
+      {
+        "name": "psycopg",
+        "version": "3.3.8"
+      },
+      {
+        "name": "py-rust-stemmers",
+        "version": "0.1.8"
+      },
+      {
+        "name": "pycparser",
+        "version": "3.12"
+      },
+      {
+        "name": "pydantic",
+        "version": "2.14.3"
+      },
+      {
+        "name": "pydantic-core",
+        "version": "2.50.4"
+      },
+      {
+        "name": "pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "pyjwt",
+        "version": "2.15.1"
+      },
+      {
+        "name": "pypdf",
+        "version": "6.21.4"
+      },
+      {
+        "name": "pytest",
+        "version": "9.0.3"
+      },
+      {
+        "name": "pyyaml",
+        "version": "6.0.3"
+      },
+      {
+        "name": "regex",
+        "version": "2026.11.9"
+      },
+      {
+        "name": "requests",
+        "version": "2.34.2"
+      },
+      {
+        "name": "requests-toolbelt",
+        "version": "1.0.0"
+      },
+      {
+        "name": "rich",
+        "version": "15.0.0"
+      },
+      {
+        "name": "safetensors",
+        "version": "0.8.0"
+      },
+      {
+        "name": "scikit-learn",
+        "version": "1.9.1"
+      },
+      {
+        "name": "scipy",
+        "version": "1.17.1"
+      },
+      {
+        "name": "scipy",
+        "version": "1.18.1"
+      },
+      {
+        "name": "sentence-transformers",
+        "version": "6.2.0"
+      },
+      {
+        "name": "setuptools",
+        "version": "84.2.1"
+      },
+      {
+        "name": "shellingham",
+        "version": "1.5.4"
+      },
+      {
+        "name": "sniffio",
+        "version": "1.3.1"
+      },
+      {
+        "name": "sympy",
+        "version": "1.14.0"
+      },
+      {
+        "name": "tenacity",
+        "version": "9.2.1"
+      },
+      {
+        "name": "threadpoolctl",
+        "version": "3.8.0"
+      },
+      {
+        "name": "tokenizers",
+        "version": "0.23.3"
+      },
+      {
+        "name": "torch",
+        "version": "2.15.0"
+      },
+      {
+        "name": "tqdm",
+        "version": "4.70.1"
+      },
+      {
+        "name": "transformers",
+        "version": "5.22.2"
+      },
+      {
+        "name": "triton",
+        "version": "3.9.0"
+      },
+      {
+        "name": "truststore",
+        "version": "0.10.5"
+      },
+      {
+        "name": "typer",
+        "version": "0.28.0"
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.5"
+      },
+      {
+        "name": "tzdata",
+        "version": "2026.6"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      },
+      {
+        "name": "uuid-utils",
+        "version": "0.19.0"
+      },
+      {
+        "name": "websockets",
+        "version": "17.4"
+      },
+      {
+        "name": "win32-setctime",
+        "version": "1.2.1"
+      },
+      {
+        "name": "xxhash",
+        "version": "4.0.2"
+      },
+      {
+        "name": "zstandard",
+        "version": "0.25.0"
+      }
+    ],
+    "note": "uv.lock records resolved versions and artifacts for every project extra."
+  },
+  "build": {
+    "instructions": "docs/REPRODUCIBLE_CORE_BUILD.md",
+    "repeatability_result": "research/results/h5-01-core-build-repeatability.json",
+    "repeatability": {
+      "schema": "memory-fabric-h5-01-core-build-repeatability/1",
+      "task_id": "H5-01",
+      "source_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+      "source_tree_clean_at_build_start": false,
+      "package_inputs_clean_at_build_start": true,
+      "python": "3.13.5",
+      "command": "python -m build --no-isolation --wheel --sdist; normalize each sdist with tools/normalize_sdist.py; SOURCE_DATE_EPOCH=0",
+      "normalizer_sha256": "ff228e405c35dc192fc2e06fe263dda738b676fe4d6abc0d34b65e4ec882033f",
+      "build_frontend": "1.6.1",
+      "backend": "setuptools 80.9.0",
+      "dependency_lock": {
+        "path": "uv.lock",
+        "sha256": "087b8c0bdf9f34c1c2796f1f28e90ca12c49114c0a109dad94976cfbdb891df2",
+        "packages": 114
+      },
+      "runs": [
+        {
+          "wheel": {
+            "name": "memory_fabric-0.19.0-py3-none-any.whl",
+            "bytes": 718766,
+            "sha256": "94779a507a712f02b5f398e2e4eaa1836c0fea50a32f6f3455d61f1e4594d487"
+          },
+          "sdist_normalized": {
+            "name": "memory_fabric-0.19.0.tar.gz",
+            "bytes": 626631,
+            "sha256": "e5fae5740807235579310a2bd81de818706ab9ea54c2b059e4ae061db3ad2527"
+          }
+        },
+        {
+          "wheel": {
+            "name": "memory_fabric-0.19.0-py3-none-any.whl",
+            "bytes": 718766,
+            "sha256": "94779a507a712f02b5f398e2e4eaa1836c0fea50a32f6f3455d61f1e4594d487"
+          },
+          "sdist_normalized": {
+            "name": "memory_fabric-0.19.0.tar.gz",
+            "bytes": 626631,
+            "sha256": "e5fae5740807235579310a2bd81de818706ab9ea54c2b059e4ae061db3ad2527"
+          }
+        }
+      ],
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true,
+      "fresh_venv_install": {
+        "status": "PASSED",
+        "command": "python -m pip install --no-index --no-deps dist/memory_fabric-0.19.0-py3-none-any.whl",
+        "installed_version": "0.19.0",
+        "runtime_dependencies": []
+      },
+      "limitations": [
+        "The artifacts are local candidates, not a published release.",
+        "The lock resolves every declared extra, but optional integrations are not claimed to have been installed or tested."
+      ]
+    },
+    "scope": "Core wheel and normalized sdist only; dependency resolution is recorded separately in uv.lock."
+  },
+  "inventory_run": {
+    "generated_at_commit": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+    "worktree_dirty": true,
+    "package_inputs_dirty": false,
+    "generator_sha256": "56aab9be9c8eae4bf389471c667530eb16328e75c8646f1dff5282e8f3533a5b",
+    "input_sha256": {
+      "pyproject.toml": "02ee806083c2c69f6d98f01025f70c3927d0c5047c49c7c1d04a8149600662c2",
+      "README.md": "48c92b8caafbbe2c0f2914522de2434c544f41f5d25dcceb58788d4390092fbb",
+      "LICENSE": "adee161373102cdbd16f36e8403fafd4291b62377c7b7c3eb0ee72c7d2cc5176"
+    },
+    "lock_sha256": "087b8c0bdf9f34c1c2796f1f28e90ca12c49114c0a109dad94976cfbdb891df2",
+    "build_repeatability_sha256": "6bc7a1b3fc72db816c3f0c5b0a43eb963b2125625384832ab0902ce973f269a6"
+  },
+  "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a"
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "memory-fabric-e4-04-evidence-manifest/1",
+  "measurement_source_commit": "ec58c674c7aa4a70a46d8798c157b55e0551cb6f",
+  "baseline_source_commit": "6bf613217a1deefa08b14c18868fb4a66460c01c",
+  "measurement_command": "tests: python -m pytest -p no:cacheprovider tests/test_integrity_chain.py tests/test_eventlog.py tests/test_multiprocess_crash.py --junitxml=research/results/e4-04-regression-tests.xml; load: experiments.p12b_api_load.run_one for 100 clients (3 trials, allocation pass omitted), and experiments.p12b_api_load --agents 10 50 --repeats 3",
+  "artifacts_sha256": {
+    "src/memory_fabric/integrity.py": "16fe9774b04d9d967f5bd1e43063c989a2b2ad5d83a5c89e07d44171de6ed8ae",
+    "tests/test_integrity_chain.py": "7fe93dcb0e178dee4cc148f2bc6522e9fd61e4d1e0687841f067201446690fe9",
+    "tests/test_eventlog.py": "9411f98f7238857755eb392ea0f03df93e8034a39b940f4b6cb98728cdaf8aa1",
+    "tests/test_multiprocess_crash.py": "266bbfe7a4057092b8996f10b3803c02129da0180c85d770e4f1e172914494dd",
+    "research/results/e4-04-contention-before-after.json": "5be748f8858a0fece591f7acacb19cb753e339192c997fba64dae909a480d8c3",
+    "research/results/e4-04-contention-before-after.md": "6e1ef87c0356113a1a0b28832ee7d35148948b28ff34e2437a383ca3a46f7ef0",
+    "research/results/e4-04-regression-tests.xml": "84d6cb6ded0393839e3dc94362030be8b2ca67b5b8ef28dba2893e9ea434c901",
+    "research/results/e4-04-batched-chain-pilot.json": "e0ba1560407923ceead1d511964f954aac3563188a3250eb44579e2a21b4433c",
+    "research/results/e4-04-batched-chain-pilot.md": "928d0e1eebf20e835614c2e595fbdf662f189b5a5770c226eb3d8dcff7b189c1",
+    "research/results/e4-04-100-client.json": "483b5f77f025c5b115c39184321a462712b8ddc6f4228400aacd634857cc003c"
+  }
+}

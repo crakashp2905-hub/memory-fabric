@@ -14,6 +14,12 @@ essentially never says it does not know.**
 
 ---
 
+> **Re-measured at the product's default settings** (2026-10-26, CI run 40391715822, commit
+> `725ccb2`): `lexical` turn recall **0.750**, session recall **0.919** on all 500 `s` histories, with
+> hostile-source withholding on as shipped. Before S1 that setting withheld whole histories (0.08 turn
+> recall on a sample); after it, the default costs 0.003, about what the ~0.08% of turns the screen
+> still holds would explain ([s1-screen-false-positives.md](s1-screen-false-positives.md)).
+
 ## 1. The realistic split — 500 instances, median 491 turns a history
 
 | arm | turn recall | session recall | any gold turn | returned | latency ms |
@@ -215,7 +221,7 @@ measurement agreed with.
 
 **And the latency closes P9.** That milestone declined distribution at
 **4.39 ms a retrieval**, measured with the 256-dimension hashing embedder, and
-`memory_fabric/vectors.py` has carried an open item ever since: the figure was
+`memory-fabric/vectors.py` has carried an open item ever since: the figure was
 taken at the wrong dimension. Here a trained-embedder retrieval costs
 **393 ms**, on a corpus of 23 documents — the cost is **embedding the query**,
 one model call, and is therefore independent of corpus size. That is **89× the

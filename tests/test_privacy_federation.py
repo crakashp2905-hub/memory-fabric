@@ -89,12 +89,15 @@ class TestDisclosureOfExistence(unittest.TestCase):
         return (decision.verdict, decision.reason_code, decision.version,
                 decision.detail, decision.lifecycle_state)
 
-    def test_by_default_a_cross_tenant_refusal_is_documented_as_wrong_tenant(self) -> None:
-        """The existing policy, pinned: it confirms the id exists elsewhere and
-        says nothing else. docs/SAFETY_AND_SECURITY.md records the choice."""
-        fabric, mid = self.make(conceal=False)
+    def test_by_default_cross_tenant_refusal_matches_a_missing_id(self) -> None:
+        fabric = MemoryFabric(auto_activate=True)
+        self.addCleanup(fabric.close)
+        self.assertTrue(fabric.conceal_cross_tenant)
+        mid = fabric.remember("ag", "tenant A fact", tenant_id="tn_a", scope="team")
         decision = fabric.use(mid, agent_id="b", tenant_id="tn_b").decision
-        self.assertEqual(decision.reason_code, "wrong_tenant")
+        missing = fabric.use("01NOTAREALMEMORYID00000000", agent_id="b",
+                             tenant_id="tn_b").decision
+        self.assertEqual(self.decision_shape(decision), self.decision_shape(missing))
 
     def test_concealed_a_cross_tenant_refusal_is_identical_to_a_missing_id(self) -> None:
         fabric, mid = self.make(conceal=True)

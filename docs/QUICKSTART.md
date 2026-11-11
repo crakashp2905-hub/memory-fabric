@@ -1,5 +1,32 @@
 # Quickstart: ten minutes, from install to a verified correction
 
+## One minute: see a correction change an action decision
+
+For the shortest offline path, install the local package and run the bundled
+fixture:
+
+```bash
+python -m pip install --no-index --no-deps --no-build-isolation .
+python examples/getting_started.py
+```
+
+It stores and recalls an approved maintenance fact, authorizes a protected
+action, applies a correction, and shows that the old action is now blocked
+while the revised fact is visible. The example uses deterministic fixture
+data and local storage only; the package install and example need no index,
+credentials, hosted model, or external endpoint. The local Python environment
+must already have the declared build backend (`setuptools>=77`).
+`tests/test_examples_run.py` verifies the offline install and full path within
+60 seconds.
+
+The longer `examples/quickstart.py` walkthrough runs inside the public
+`memory_fabric.offline.offline_mode()` context. While active, it refuses Python
+DNS lookups and socket connection or send calls, so an accidental networking
+dependency fails immediately. This is a process-local guard; use an OS sandbox
+as well when untrusted native code or child processes must also be contained.
+
+The longer walkthrough follows.
+
 Every step below is in [examples/quickstart.py](../examples/quickstart.py),
 which `tests/test_quickstart.py` runs on every CI build, on Linux, macOS and
 Windows with Python 3.11 to 3.13.
@@ -7,15 +34,21 @@ Windows with Python 3.11 to 3.13.
 ## 1. Install (1 minute)
 
 ```bash
-git clone https://github.com/crakashp2905-hub/memory-fabric.git
+git clone https://github.com/crakashp2905-hub/memory_fabric.git
 cd memory-fabric
 pip install .
-memory-fabric init ./memory
+memory-fabric init ./memory --mode personal     # or team (default), or regulated
 ```
 
 `init` creates a store, keeps its keys outside it, registers one agent,
 prints an MCP client configuration and runs `doctor`. It never overwrites an
 existing store.
+
+**Pick a mode, not a dozen settings.** `personal`: one person and their
+agents; what they write is usable at once. `team`: shared knowledge; new
+memories wait for review. `regulated`: protected tools need two independent
+sources and fresh evidence. In Python: `presets.open_store(path, "team")` and
+`presets.tool_rule("team", "issue_refund")`.
 
 **Removal is clean.** The package writes nothing outside the directories you
 name:

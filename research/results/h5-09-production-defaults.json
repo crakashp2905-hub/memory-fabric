@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "agent_api_loopback": true,
+    "claim_checker_off": true,
+    "dashboard_loopback": true,
+    "federation_loopback": true,
+    "firewall_model_screen_off": true,
+    "mcp_extended_off": true,
+    "mcp_trusted_local_off": true,
+    "no_import_bind_calls": true,
+    "no_import_threads": true,
+    "reranker_off": true
+  },
+  "defaults": {
+    "agent_api_loopback": true,
+    "claim_checker_off": true,
+    "dashboard_loopback": true,
+    "federation_loopback": true,
+    "firewall_model_screen_off": true,
+    "mcp_extended_off": true,
+    "mcp_trusted_local_off": true,
+    "no_import_bind_calls": true,
+    "no_import_threads": true,
+    "package_path": "memory_fabric/__init__.py",
+    "reranker_off": true
+  },
+  "input_sha256": {
+    "pyproject.toml": "b576bc4d9b31b627f0cb16c99b0abb240986258230cb5c02ded1c34c288d36c7",
+    "src/memory_fabric/_fabric/core.py": "2cf90af3f0b631180e07e5f83523c2b1a03180b7124764ff4baefe3b991b4277",
+    "src/memory_fabric/adapters/mcp.py": "a65812ebefe879af093b17d70b080b7cd25d87ee5a8f6ed89539d6092303e52f",
+    "src/memory_fabric/agent_api.py": "f2612374bb263449e0b5fe8c07b05a7bb43fe7e027ee261d38ce03888ac4c383",
+    "src/memory_fabric/governance/firewall.py": "47974652e5baef917c24113ec6225bf50b9006dda8e5008fab9977dcd6074c79",
+    "src/memory_fabric/observability/server.py": "4d780f7a14acd432d0510e81c678f50d8c5b96e6c13b7bb6badeda2b9fad5526",
+    "src/memory_fabric/transport.py": "17e9073afed67dc86b073f3017d8c9630370dd1f8d4acb9c6186069922df34e3",
+    "tests/data/default_features.json": "83504b3ef4dab543b5f32af7b50c9ce83a9a238e1cc6ce4780059f38eb8fe041",
+    "tools/audit_production_defaults.py": "48485e4850c517bc9fa4d585ff8121853d569183be084f1a19e7061f4c02cc88"
+  },
+  "install": "pip install --no-deps --target, then python -I isolated probe",
+  "limitations": [
+    "This audit checks a fresh wheel install and code defaults; it does not inspect deployment firewall rules or remote infrastructure.",
+    "No default listener is started by import; listener-factory bind defaults are loopback."
+  ],
+  "passed": true,
+  "schema": "memory-fabric-production-defaults-audit/1",
+  "source_commit": "55f189e40d4f74962b227537c0f71133668c6316",
+  "source_worktree_dirty": true,
+  "wheel": "memory_fabric-0.14.0-py3-none-any.whl",
+  "wheel_sha256": "0456fd4b39f7aefc8d88dad5bf226749a72311e8376a6f77b3459dcc62988007"
+}

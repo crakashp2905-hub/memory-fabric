@@ -1,0 +1,3 @@
+R4-09 per-seed variability reporting
+
+One regression test passed on exact commit 47a233f2107e8d7c54bf03c33884834b2dbc583e. The grand 50-agent baseline report now lists all five seed rows and labels the worst outcomes adjacent to the aggregate table: task success 53% at seed 103 and valid evidence withheld 21% at seed 104. Both are deterministic synthetic results and descriptive extrema, not tail-risk guarantees.

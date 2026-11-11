@@ -1,0 +1,136 @@
+{
+  "arms": {
+    "exact_shapley": {
+      "max_peak_memory_bytes": 38375,
+      "mean_cpu_nanoseconds": 38281250.0,
+      "mean_utility_difference": -0.2,
+      "mean_wall_nanoseconds": 37433330.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.41844156149751743,
+        0.01844156149751741
+      ]
+    },
+    "leave_one_out": {
+      "max_peak_memory_bytes": 11383,
+      "mean_cpu_nanoseconds": 6250000.0,
+      "mean_utility_difference": -0.255,
+      "mean_wall_nanoseconds": 7310710.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.48448922231315084,
+        -0.0255107776868492
+      ]
+    },
+    "oracle_one_removal": {
+      "max_peak_memory_bytes": 5775,
+      "mean_cpu_nanoseconds": 4687500.0,
+      "mean_utility_difference": 0.005,
+      "mean_wall_nanoseconds": 4641690.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.0048,
+        0.0148
+      ]
+    },
+    "random": {
+      "max_peak_memory_bytes": 3531,
+      "mean_cpu_nanoseconds": 2343750.0,
+      "mean_utility_difference": -0.075,
+      "mean_wall_nanoseconds": 1437490.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.22199999999999998,
+        0.072
+      ]
+    },
+    "recency": {
+      "max_peak_memory_bytes": 3531,
+      "mean_cpu_nanoseconds": 1562500.0,
+      "mean_utility_difference": -0.1,
+      "mean_wall_nanoseconds": 1375075.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.2348964515158903,
+        0.0348964515158903
+      ]
+    },
+    "sampled_shapley": {
+      "max_peak_memory_bytes": 273591,
+      "mean_cpu_nanoseconds": 1830468750.0,
+      "mean_utility_difference": -0.2,
+      "mean_wall_nanoseconds": 1876393155.0,
+      "n": 20,
+      "normal_approx_95_interval": [
+        -0.41844156149751743,
+        0.01844156149751741
+      ]
+    }
+  },
+  "configuration_sha256": "42c4acd98c2013e4f9fc1db6382129b3ff0eb8ff7a084cfd5f0f40c206febaf9",
+  "csv_sha256": "2152a99c024598026403e2d3db7ae9eeb776bf4eadd4c0aa04b96eeb6a27efcb",
+  "generator_sha256": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
+  "limitations": [
+    "No official reproduction of Shapley, CAR or another external system.",
+    "Normal-approximation intervals are imprecise at these sample sizes.",
+    "No real-world transfer or efficacy claim is supported."
+  ],
+  "primary": {
+    "contrast": "exact_shapley_utility_minus_leave_one_out_utility",
+    "decision": "DOES_NOT_SUPPORT_REGISTERED_SUPERIORITY_HYPOTHESIS",
+    "margin_share": 0.2,
+    "mean_paired_difference": 0.05500000000000001,
+    "normal_approx_95_interval": [
+      -0.052799999999999986,
+      0.1628
+    ],
+    "oracle_exceedances": 0,
+    "oracle_headroom_mean": 0.26,
+    "superiority_margin": 0.052000000000000005
+  },
+  "protocol": "CDM-R5-v3",
+  "protocol_path": "research/prereg/cdm-r5-evaluator-executor-ablations.md",
+  "protocol_sha256": "1818be9971bd6065170cb3fd096d39991da6d326c8acd5cb4502933d78b57227",
+  "report_sha256": "b60a93b55e2c99ba7df67bfdc8cc0ed46d261c29a0212957bfa80ff621921f52",
+  "safety": {
+    "authority_changes": 0,
+    "hidden_truth_visible_to_selectors": false,
+    "model_calls": 0,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "schema": "cdm-r5-architecture-superiority-v3",
+  "scope": "local conceptual architecture comparison on synthetic binary-sensor worlds",
+  "seeds": [
+    20261911,
+    20261912,
+    20261913,
+    20261914,
+    20261915,
+    20261916,
+    20261917,
+    20261918,
+    20261919,
+    20261920,
+    20261921,
+    20261922,
+    20261923,
+    20261924,
+    20261925,
+    20261926,
+    20261927,
+    20261928,
+    20261929,
+    20261930
+  ],
+  "source_hashes": {
+    "benchmarks/cdm_architecture_superiority.py": "b6b08cd26f80f258d19adcaa2e87e54df02a6ca2165da27edc6450da7f9cf081",
+    "src/memory_fabric/causal_replay/attribution.py": "46457b23ed32b7fe7583aeb6c710cde5f83d4eec99ff34f3dce3aca9cda16ba0",
+    "src/memory_fabric/causal_replay/bayes.py": "20e4f34fced57795dc70552a4d7f2984485cba98363f7d408d5ffed40d5d5fa2",
+    "src/memory_fabric/causal_replay/policy.py": "cdf0072ec7cb3e266321d4b2baf4df67ea65ac2769562a17ba33bf6e01865d1c",
+    "src/memory_fabric/causal_replay/state.py": "5f4e1c1eea17f1173bdb80d0c3cb59513ab67857aa13162e166d8a552e07b4fc"
+  },
+  "split": "confirmatory",
+  "status": "PASS",
+  "summary_sha256": "a6a3983cc853f153afeebf85be0078f01a47d04ed3fdf6007ab62a4b24aeda92"
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "memory-fabric-e5-09-agent-api-refactor/1",
+  "baseline_commit": "9456e3b0a914950c5809a3ec36d8a4c7d7b3c076",
+  "refactored_commit": "7964687049638252eecf835dd756b1d0af51f859",
+  "recorded_at_utc": "2026-11-08T01:03:16.890939+05:30",
+  "module_churn_before_refactor": {
+    "path": "src/memory_fabric/agent_api.py",
+    "change_records": 7,
+    "lines_added": 663,
+    "lines_deleted": 25
+  },
+  "behavior_snapshot": {
+    "path": "tests/data/agent_api_behavior.json",
+    "sha256": "e0ace124261631c09ef6b8eecb2f58bbf7c8d5f5653e3cfbf2bacd44847c02dd",
+    "unchanged_test_passed_before_and_after": true
+  },
+  "same_suite_comparison": {
+    "before": {
+      "junit": "research/results/e5-09-agent-api-before.xml",
+      "sha256": "f1c0731d21f9fb4d5cc518ee8152ad072cf627b16a767fee747e99b28fd135fb",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_collected_items": 17
+    },
+    "after": {
+      "junit": "research/results/e5-09-agent-api-after-core.xml",
+      "sha256": "78d188697236c150b2df94c62294405fedc1a09fa11f986f56a5f01a79164e31",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_collected_items": 17
+    }
+  },
+  "expanded_after_suite": {
+    "junit": "research/results/e5-09-agent-api-after.xml",
+    "sha256": "1fdc9a1eda0ba23954d7a95e5a4d5c75dee8b6d9715f4d6a081ab27ba271818a",
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "includes": "agent API and stage trace tests",
+    "pytest_collected_items": 20
+  },
+  "metrics": {
+    "before": {
+      "schema": "memory-fabric-e5-09-agent-api-metrics/1",
+      "phase": "before",
+      "source_commit": "9456e3b0a914950c5809a3ec36d8a4c7d7b3c076",
+      "method": "AST cyclomatic estimate: decision nodes plus one; duplicated memory-id input-validation call sites",
+      "metrics": {
+        "post_handler_cyclomatic": 21,
+        "duplicate_memory_id_validators": 1,
+        "memory_id_validator_call_sites": 2
+      }
+    },
+    "after": {
+      "schema": "memory-fabric-e5-09-agent-api-metrics/1",
+      "phase": "after",
+      "source_commit": "7964687049638252eecf835dd756b1d0af51f859",
+      "method": "AST cyclomatic estimate: decision nodes plus one; duplicated memory-id input-validation call sites",
+      "metrics": {
+        "post_handler_cyclomatic": 3,
+        "duplicate_memory_id_validators": 0,
+        "memory_id_validator_call_sites": 1
+      }
+    },
+    "improvement": {
+      "do_POST_cyclomatic_delta": -18,
+      "duplicate_memory_id_validator_delta": -1
+    }
+  },
+  "limitations": [
+    "Cyclomatic complexity is the documented local AST estimate, not a full-project complexity score. The duplication metric is scoped to repeated memory-id validation in the selected high-churn module."
+  ]
+}

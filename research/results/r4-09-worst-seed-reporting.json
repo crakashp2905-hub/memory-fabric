@@ -1,0 +1,45 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "R4-09",
+  "commit": "47a233f2107e8d7c54bf03c33884834b2dbc583e",
+  "command": "python -m unittest tests.test_r4_seed_reporting -q",
+  "exit_code": 0,
+  "tests_run": 1,
+  "failures": 0,
+  "errors": 0,
+  "runner_elapsed_seconds": 0.001,
+  "python": "3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "summary": {
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "mean_task_success": 0.584,
+    "worst_task_success": 0.53,
+    "worst_task_success_seed": 103,
+    "mean_valid_evidence_withheld": 0.168,
+    "worst_valid_evidence_withheld": 0.21,
+    "worst_valid_evidence_withheld_seed": 104,
+    "stale_actions_observed": 0
+  },
+  "checks": {
+    "per_seed_values_match_json": "PASS",
+    "worst_seed_labels_match_extrema": "PASS",
+    "Ruff": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "limitations": [
+    "Five deterministic synthetic seeds only; extrema are descriptive and not tail-risk guarantees.",
+    "This evidence augments the registered grand-baseline report; it does not harmonize every historical experiment."
+  ],
+  "file_sha256": {
+    "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+    "research/results/grand-50-agent-baseline-reproduction-v2.md": "7b17b346dd6530d0dbb30d6ac0f7c7d040e774ac15aa6475edba63e493b2efdd",
+    "tests/test_r4_seed_reporting.py": "9eedf05599ecf3aad14907f9d7faae0ca5417565aed4b9dde8a854f3caedccaa",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "aeab9677cb11605f6dd286f35bd6f79652f88f7ebca0fca81bacc78881d8877a"
+  }
+}

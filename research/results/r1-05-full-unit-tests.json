@@ -1,0 +1,17 @@
+{
+  "schema": "memory-fabric-full-unit-tests/1",
+  "source_commit": "af23574c16c78819d4d2b7e423dd547c2cf86a76",
+  "command": "python -m unittest discover -s tests -v",
+  "tests_run": 2463,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 17,
+  "passed": true,
+  "duration_seconds": 1143.266,
+  "log_path": "research/results/r1-05-full-unit-tests.txt",
+  "log_sha256": "74fa0e2b1e2eb806644c3dd1731c4d7c57c49aabad8fe707658dd8599836149b",
+  "notes": [
+    "Run executed with local socket access for loopback HTTP tests.",
+    "17 optional/platform skips are explained in the P5-02 qualification artifact."
+  ]
+}

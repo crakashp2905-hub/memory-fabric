@@ -1,0 +1,19 @@
+{
+  "file_sha256": {
+    "docs/OPERATIONS.md": "02cab7f22b6a159fd98fe68e3e03a1be0cd433653fe129ec8bba36d45cdc2b4f",
+    "docs/CLI.md": "266eb4be0260a2883775a3bfb71be4e230a46215cf05e4a8ab2e24a1bea646a4",
+    "tests/test_first_run.py": "3926b0a1cabe587db31efb777a26fffbfb219b9c047c645e85664226c30d8ea9",
+    "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
+    "docs/MEMORY_FABRIC_OFFLINE_10_OF_10_MASTER_CHECKLIST.md": "0eb35573640265cf15eaf7be36c03f481b028dfd608e19d74e145136b37357c2",
+    "src/memory_fabric/cli.py": "bd9969adad4e891e2ce772fe57230eb4d972065db26b0aeff0abe8b8ca4de0db"
+  },
+  "command": "python -m unittest tests.test_doctor tests.test_first_run -q",
+  "tests_run": 21,
+  "schema": "memory-fabric-focused-test-run/1",
+  "elapsed_seconds": 24.015,
+  "commit": "c9c98f765c5527b95a5bd627c3258830dede9514",
+  "python": "Python 3.13.5",
+  "result_text_sha256": "c5e6e854b347a22943fa8bf3cbd536a025181287a9a380bf561325a56428fbc3",
+  "task_id": "P1-05",
+  "exit_code": 0
+}

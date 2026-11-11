@@ -22,7 +22,7 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric.governance.sensitive import SensitiveDataDetector
 
@@ -48,8 +48,11 @@ ALLOWED_LINES = {
     # Our own detector's false positives, kept visible rather than silenced:
     # a statistical constant whose digits satisfy the Luhn check, and
     # `token=args.token`, which is code rather than an assignment of a secret.
-    ("memory_fabric/estimators.py", "credit_card"),
-    ("memory_fabric/cli.py", "password_assignment"),
+    ("src/memory_fabric/estimators.py", "credit_card"),
+    ("src/memory_fabric/cli.py", "password_assignment"),
+    # Generic bearer-token variables read from a request header and sent by a
+    # synthetic protocol benchmark are not embedded credentials.
+    ("experiments/n6_05_protocol_equivalence.py", "password_assignment"),
     # The staging run's adversary submits a fake credential on purpose, to
     # check that the ingest screen quarantines it.
     ("experiments/staging_run.py", "password_in_prose"),
@@ -96,6 +99,10 @@ ALLOWED_LINES = {
     # Tests of the agent API and dashboard operators, whose subject is tokens:
     # the same reason test_auth.py is listed. Values are generated or repeated
     # characters, never real credentials.
+    # Deployment templates name where the token comes from (a generated value,
+    # a Kubernetes Secret); they never hold one.
+    ("DEPLOYMENT.md", "password_assignment"),
+    ("deploy/helm/memory-fabric/templates/deployment.yaml", "password_assignment"),
     ("tests/test_agent_api.py", "password_assignment"),
     ("tests/test_operator_access.py", "password_assignment"),
     # Builds database URLs around a random per-run password to prove the CLI
@@ -128,26 +135,38 @@ ALLOWED_LINES = {
 # renaming the concept to dodge a detector would be worse naming for a cosmetic
 # reason.
 ALLOWED_SNIPPETS = {
+    # Historical nanosecond timing counters are long digit runs; allow only
+    # the exact profiling field in these two generated results. Other values
+    # and other files remain subject to the detector.
+    ("research/results/e4-03-local-profile.json", "credit_card", '"total": 3478897227000'),
+    ("research/results/e4-04-contention-before-after.json", "credit_card", '"total": 3478897227000'),
     # A placeholder for a stubbed HTTP transport: the SDK requires *some*
     # credential to build a client, and no request leaves the process.
     ("tests/test_claude_contract.py", "password_assignment", "api_key=STUB_KEY"),
-    ("memory_fabric/enforcement.py", "password_assignment", "ExposureToken"),
-    ("memory_fabric/enforcement.py", "password_assignment", "token.expired"),
-    ("memory_fabric/fabric.py", "password_assignment", "ExposureToken"),
+    ("src/memory_fabric/enforcement.py", "password_assignment", "ExposureToken"),
+    ("src/memory_fabric/enforcement.py", "password_assignment", "token.expired"),
+    # Erasure replay uses a digest-like cache token, never an authentication
+    # credential. The API delegates that opaque value to the cache adapter.
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", 'token = event.payload.get("embedding_cache_token")'),
+    ("src/memory_fabric/_fabric/core.py", "password_assignment", "isinstance(token, str) and token"),
+    ("src/memory_fabric/vectors.py", "password_assignment", 'token = getattr(self.embedder, "erasure_token", None)'),
+    # Deliberately unsafe fixture proves the package scanner rejects secrets.
+    ("tests/test_package_asset_audit.py", "password_assignment", "password = 'hunter2'"),
+    ("src/memory_fabric/fabric.py", "password_assignment", "ExposureToken"),
     # The recorded public API of MemoryFabric: a signature, `token: 'ExposureToken'`.
     ("tests/data/memory_fabric_api.json", "password_assignment", "ExposureToken"),
-    ("memory_fabric/_fabric/access.py", "password_assignment", "ExposureToken"),
-    ("memory_fabric/_fabric/access.py", "password_assignment", "self.enforcer.issue"),
-    ("memory_fabric/_fabric/access.py", "password_assignment", "token=token, memory=memory"),
+    ("src/memory_fabric/_fabric/access.py", "password_assignment", "ExposureToken"),
+    ("src/memory_fabric/_fabric/access.py", "password_assignment", "self.enforcer.issue"),
+    ("src/memory_fabric/_fabric/access.py", "password_assignment", "token=token, memory=memory"),
     ("tests/test_enforcement.py", "password_assignment", "enforcer.issue"),
-    ("memory_fabric/transport.py", "password_assignment", "retraction.sign"),
-    ("memory_fabric/sdk.py", "password_assignment", "ExposureToken"),
-    ("memory_fabric/sdk.py", "password_assignment", "read.token"),
+    ("src/memory_fabric/transport.py", "password_assignment", "retraction.sign"),
+    ("src/memory_fabric/sdk.py", "password_assignment", "ExposureToken"),
+    ("src/memory_fabric/sdk.py", "password_assignment", "read.token"),
     # Named dashboard operators: the code parses and passes tokens by name.
-    ("memory_fabric/observability/auth.py", "password_assignment", "token=token,"),
-    ("memory_fabric/observability/auth.py", "password_assignment", "name, sep, token = line.partition"),
-    ("memory_fabric/observability/auth.py", "password_assignment", "name, token = name.strip()"),
-    ("memory_fabric/observability/server.py", "password_assignment", "token='<your-token>'"),
+    ("src/memory_fabric/observability/auth.py", "password_assignment", "token=token,"),
+    ("src/memory_fabric/observability/auth.py", "password_assignment", "name, sep, token = line.partition"),
+    ("src/memory_fabric/observability/auth.py", "password_assignment", "name, token = name.strip()"),
+    ("src/memory_fabric/observability/server.py", "password_assignment", "token='<your-token>'"),
     # The System One client takes an optional bearer token for a remote
     # endpoint. `password_assignment` fires on the two lines that move the
     # caller's parameter into the instance and read it back, neither of which
@@ -156,9 +175,9 @@ ALLOWED_SNIPPETS = {
     # `api_key = <identifier>` would also stop firing on
     # `api_key = "hunter2"`, and weakening a governance rule so that my own
     # file passes the repository scan is the wrong direction.
-    ("memory_fabric/adapters/systemone.py", "password_assignment",
+    ("src/memory_fabric/adapters/systemone.py", "password_assignment",
      "self.api_key = api_key"),
-    ("memory_fabric/adapters/systemone.py", "password_assignment",
+    ("src/memory_fabric/adapters/systemone.py", "password_assignment",
      "if self.api_key:"),
 }
 
@@ -167,7 +186,8 @@ def is_allowed(path: str, kind: str, raw: str, line_text: str = "") -> bool:
     if (path, kind) in ALLOWED_LINES:
         return True
     for allowed_path, allowed_kind, snippet in ALLOWED_SNIPPETS:
-        if path == allowed_path and kind == allowed_kind and snippet in line_text:
+        if (path == allowed_path and kind == allowed_kind and snippet in line_text
+                and raw in line_text):
             return True
     stripped = raw.strip()
     if stripped in ALLOWED_VALUES:

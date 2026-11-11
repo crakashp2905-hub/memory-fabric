@@ -8,14 +8,14 @@ the code disagree.
 
 | tier | promise | may change |
 |---|---|---|
-| **stable** | Public functions, classes and CLI commands keep their names and meaning within a minor series. Removals are deprecated for one minor version first and noted in the CHANGELOG. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). | Internals, private names (`_x`), wording of messages |
+| **stable** | Public functions, classes, CLI commands, signatures and meanings stay compatible within a minor series. Incompatible changes require deprecation plus a CHANGELOG migration note. **Events written by any released version replay on every later version** ([VERSIONING.md](VERSIONING.md)). The canonical symbols and signatures are in [API_INVENTORY.json](docs/API_INVENTORY.json). | Internals, private names (`_x`), wording of messages |
 | **beta** | Used in production paths and tested, but new. Names may change in a minor version, always with a CHANGELOG entry. Events they write are covered by the replay guarantee like any other. | Signatures, defaults, output shapes |
 | **experimental** | New mechanisms. **All opt-in**: nothing in the default path calls them unless you turn it on. | Anything, or removal |
 
 Promotion needs evidence that the change in default behaviour helps,
 and the owner's decision (AGENTS.md principle 9).
 
-## Stable (57)
+## Stable (58)
 
 - `memory_fabric.__init__`
 - `memory_fabric._fabric.__init__`
@@ -68,6 +68,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.projections`
 - `memory_fabric.protocol`
 - `memory_fabric.relevance`
+- `memory_fabric.requirement_graph`
 - `memory_fabric.sdk`
 - `memory_fabric.service`
 - `memory_fabric.session`
@@ -75,21 +76,32 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (35)
+## Beta (65)
 
+- `memory_fabric.action_receipt`
 - `memory_fabric.actions`
 - `memory_fabric.adapters.claude`
 - `memory_fabric.adapters.claude_chat`
 - `memory_fabric.adapters.ollama`
+- `memory_fabric.advisory`
 - `memory_fabric.agent_api`
+- `memory_fabric.answerability`
 - `memory_fabric.auditor`
 - `memory_fabric.authority`
+- `memory_fabric.authorization_receipt`
 - `memory_fabric.branching`
 - `memory_fabric.chains`
 - `memory_fabric.conflicts`
+- `memory_fabric.connect`
+- `memory_fabric.consensus`
 - `memory_fabric.context_receipt`
 - `memory_fabric.correction`
+- `memory_fabric.decision_records`
+- `memory_fabric.dependence`
+- `memory_fabric.evidence_state`
+- `memory_fabric.evidence_status`
 - `memory_fabric.extraction`
+- `memory_fabric.freshness`
 - `memory_fabric.governance.directive`
 - `memory_fabric.hindsight`
 - `memory_fabric.incident`
@@ -101,32 +113,93 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.limits`
 - `memory_fabric.manager`
 - `memory_fabric.migrate`
+- `memory_fabric.models`
+- `memory_fabric.observability.control`
+- `memory_fabric.observability.health`
+- `memory_fabric.observability.incident_export`
 - `memory_fabric.observability.logs`
+- `memory_fabric.observability.metrics`
 - `memory_fabric.observability.server`
+- `memory_fabric.offline`
+- `memory_fabric.oidc`
+- `memory_fabric.pilot`
 - `memory_fabric.posture`
+- `memory_fabric.presets`
 - `memory_fabric.reach`
+- `memory_fabric.reasons`
 - `memory_fabric.relations`
 - `memory_fabric.rerank`
 - `memory_fabric.response`
+- `memory_fabric.retrieval_profiles`
+- `memory_fabric.retrieval_routing`
+- `memory_fabric.retrievers`
 - `memory_fabric.review`
+- `memory_fabric.stage_trace`
 - `memory_fabric.status`
+- `memory_fabric.support_bundle`
 - `memory_fabric.tenancy`
+- `memory_fabric.tour`
+- `memory_fabric.typedclaims`
+- `memory_fabric.upgrade_preview`
+- `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (12)
+## Experimental (54)
 
 - `memory_fabric.adapters.systemone`
+- `memory_fabric.agent_outcomes.__init__`
+- `memory_fabric.agent_outcomes.observations`
+- `memory_fabric.agent_outcomes.recovery`
+- `memory_fabric.causal_replay.__init__`
+- `memory_fabric.causal_replay.api`
+- `memory_fabric.causal_replay.attribution`
+- `memory_fabric.causal_replay.bayes`
+- `memory_fabric.causal_replay.capture`
+- `memory_fabric.causal_replay.certificates`
+- `memory_fabric.causal_replay.checkpoints`
+- `memory_fabric.causal_replay.environment`
+- `memory_fabric.causal_replay.evaluator`
+- `memory_fabric.causal_replay.executor`
+- `memory_fabric.causal_replay.intervention`
+- `memory_fabric.causal_replay.policy`
+- `memory_fabric.causal_replay.replay`
+- `memory_fabric.causal_replay.scheduler`
+- `memory_fabric.causal_replay.state`
+- `memory_fabric.causal_replay.tempfiles`
+- `memory_fabric.causal_replay.types`
+- `memory_fabric.causal_replay.verifier`
+- `memory_fabric.causal_replay.viewer`
+- `memory_fabric.causal_replay.visualization`
+- `memory_fabric.causal_replayeplay`
+- `memory_fabric.claimcheck`
 - `memory_fabric.compaction`
 - `memory_fabric.context_map`
 - `memory_fabric.decay`
+- `memory_fabric.decision_models`
+- `memory_fabric.decision_router`
+- `memory_fabric.docsource`
+- `memory_fabric.document_formats`
+- `memory_fabric.evidence_completeness`
 - `memory_fabric.governance.model_screen`
+- `memory_fabric.history`
+- `memory_fabric.history_query`
+- `memory_fabric.import_preview`
 - `memory_fabric.independence`
+- `memory_fabric.knowledge_compiler`
+- `memory_fabric.lossless_compaction`
 - `memory_fabric.mental_models`
+- `memory_fabric.navigation`
 - `memory_fabric.objective`
 - `memory_fabric.objective_v2`
+- `memory_fabric.portable`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
+- `memory_fabric.skills`
+- `memory_fabric.summary_dependencies`
+- `memory_fabric.tombstones`
+- `memory_fabric.tool_protocol`
 - `memory_fabric.trust`
+- `memory_fabric.typed_query`
 
 ## Compatibility, as tested
 

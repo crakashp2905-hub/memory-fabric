@@ -1,0 +1,28 @@
+{
+  "schema": "memory-fabric-security-fuzz/1",
+  "seed": 20261108,
+  "source_commit": "8fc0ab0450fd0eafb8d340494111f419037c52be",
+  "source_worktree_dirty": true,
+  "input_sha256": {
+    "tools/fuzz_security_boundaries.py": "39316cac085a920b59d5056726d501a2b296323adbf3c65f194dbd3ec6971d59",
+    "tests/data/security_fuzz_seeds.json": "de874eee693b78e4eafaeb28810bc52681837c115494593cb7bfae69622d5a2c",
+    "tests/data/code_mode_malicious_plans.json": "b69b192f705605dab3170c656f62ecf05324ff5b3b15e21b32af0b616a6ba707",
+    "src/memory_fabric/tool_protocol.py": "808df86d0da6a20bd2fc9687f30ac1c136f9d2dec7b4f86d60294d55ced27fa0"
+  },
+  "cases": 600,
+  "elapsed_seconds": 0.2776,
+  "peak_traced_heap_bytes": 214341,
+  "limits": {
+    "wall_seconds": 8.0,
+    "parent_timeout_seconds": 12,
+    "traced_heap_bytes": 67108864,
+    "input_bytes": 4096,
+    "cases": 600
+  },
+  "action_gate_denials": 48,
+  "tool_handler_calls": 0,
+  "syntax_warnings": 1,
+  "findings": [],
+  "regression_fixtures_written": 0,
+  "passed": true
+}

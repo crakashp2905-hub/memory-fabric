@@ -15,7 +15,7 @@ Companions: [DEPLOYMENT.md](../DEPLOYMENT.md) for choosing a topology,
 memory-fabric --db store.db doctor
 ```
 
-Ten checks, three outcomes, and exit codes meant for a script: **0** sound,
+Store-integrity checks, three outcomes, and exit codes meant for a script: **0** sound,
 **1** sound with warnings, **5** not sound. `ok` means verified rather than
 "nothing raised", and a check that *cannot* run reports a warning with the
 reason — never `ok`.
@@ -32,6 +32,20 @@ reason — never `ok`.
 | content cipher | unauthenticated `enc:v1` ciphertext remains, or encryption is off |
 | withdrawn knowledge is not exposed | a blocked memory passes the enforcement check |
 | tenant isolation | a memory is readable from another tenant |
+
+For a deployment preflight, optionally check the planned bind address and a
+local free-space floor:
+
+```bash
+memory-fabric --db store.db doctor --host 127.0.0.1 --port 8765 --min-free-mb 1024
+```
+
+The port probe binds and closes a local socket; it does not reserve the port,
+so another process can claim it before the service starts. The disk check
+measures the filesystem containing the local store at that moment. For
+PostgreSQL or `:memory:`, it reports that server-side capacity must be checked
+separately. Both checks are optional and read-only. If the disk floor fails,
+free or expand the volume, or make and verify a backup before moving the store.
 
 ## 2. Routine operations
 
@@ -74,6 +88,24 @@ A checkpoint kept beside the database buys nothing.
 Suggested cadence: one per deploy, and one per backup, committed alongside the
 backup's checksum.
 
+**Anchoring, in one command.** `anchor` appends the checkpoint to places the
+store's writer cannot rewrite, and `--verify` checks the store against all of
+them:
+
+```bash
+memory-fabric --db store.db anchor --to dir:/mnt/other-disk/anchors \
+                                   --to git:/srv/anchors-repo \
+                                   --to https://audit.example/anchors
+memory-fabric --db store.db anchor --verify dir:/mnt/other-disk/anchors   # exit 0 or 5
+```
+
+Run it from cron or a systemd timer, for example every 15 minutes:
+`*/15 * * * * memory-fabric --db /srv/store.db anchor --to git:/srv/anchors-repo`.
+Choose a git repository the database host can commit to but not rewrite (a
+pushed-to remote with protected history), or an HTTP endpoint that keeps what
+it receives. Each target reports separately, so one failing target does not
+hide the others, and any failure makes the exit code non-zero.
+
 ### Draining retractions
 
 A retraction is owed until delivered. After an outage:
@@ -85,6 +117,28 @@ Dispatcher(fabric, transport).drain()
 `doctor` fails on a permanently failed delivery, because the origin's own copy
 is withdrawn and the recipient is still exposing withdrawn knowledge with
 nothing raising anywhere.
+
+For an exhausted delivery, first restore or correct the peer route and inspect
+the recipient and retraction identifiers in the propagation report. An
+operator can explicitly requeue only a `failed` row; the change and an
+append-only repair receipt must be committed together:
+
+```python
+with fabric.log.transaction():
+    repaired = fabric.outbox.requeue_failed(
+        retraction_id, recipient_store_id, now_ms(),
+        "peer endpoint restored and verified",
+    )
+if repaired != 1:
+    raise RuntimeError("no failed delivery matched the repair request")
+Dispatcher(fabric, transport).drain()
+receipts = fabric.outbox.repairs(retraction_id)
+```
+
+The repair receipt preserves the previous transport error, operator reason,
+recipient, and timestamp even after a successful redelivery. This API does not
+repair a recipient's local state; delivery must receive a valid acknowledgement
+or reconciliation must apply the origin's replay.
 
 ## 3. Incidents
 
@@ -178,8 +232,8 @@ SQLite is single-writer. Writers serialise behind a 5-second busy timeout
 writers being unsupported.
 
 1. Is a long transaction open? Backups and replays hold read locks; a stuck dispatcher can hold a write lock.
-2. Raise `busy_timeout_ms`, or lower it if you would rather fail fast and retry at your own layer.
-3. If sustained concurrent writers are a real requirement, this is the measured trigger for a different backend — not a tuning problem. See [ROADMAP.md](../ROADMAP.md).
+2. Raise `busy_timeout_ms`, or lower it if you would rather fail fast and retry at your own layer. In a local 50-process stress run with 1/5/10-event transactions, 5 seconds produced explicit `database is locked` errors; 30 seconds completed all 1,600 writes in each of three trials. For that workload, open the store with `MemoryFabric(path, busy_timeout_ms=30_000)`. This is a bounded wait, not a throughput increase, and individual writes waited as long as 20 seconds.
+3. If sustained concurrent writers are a real requirement, this is the measured trigger for a different backend — not a tuning problem. See [ROADMAP.md](../ROADMAP.md). The local result is not a capacity guarantee for other machines or workloads; see the E4-05 stress evidence in the validation ledger.
 
 ## 4. Upgrades
 
@@ -243,12 +297,81 @@ agent waiting. Above 400 concurrent agents per store is unmeasured. For more,
 split agents across stores (`tenancy.TenantRouter`) rather than queueing more
 agents on one. Postgres was slower than SQLite at every point measured.
 
+**Teams of agents need a reviewer who validates *and* shares.** A memory written
+through `agent-api` is private to the agent that wrote it, and `validate` does not
+widen that. Until `share <id> team` (or a reviewer's equivalent), teammates recall
+nothing from it. A multi-agent pilot hit exactly this: the planner found no memories
+the inspector had written and validated.
+
 **Rate limits** (`agent-api`): each agent gets a token bucket, by default 20
 requests a second with a burst of 40 (`--rate-limit`, `--burst`;
 `--rate-limit 0` turns it off). Failed authentications are limited per remote
 address. A refused request gets `429` with `Retry-After`. Size the per-agent
 rate so that agents × rate stays below the measured total. Otherwise requests
 queue on the lock rather than being refused.
+
+## 4b. PostgreSQL failover
+
+Measured with a real primary and streaming replica, primary killed
+mid-write: every acknowledged write survived, the chain verified with no
+sequence gap, and the client resumed in about 0.1 s. Steps:
+
+1. **Connect through a multi-host URL** so the driver finds the new primary itself:
+   `postgresql://user@db1:5432,db2:5432/fabric?target_session_attrs=read-write`.
+2. **Promote the replica** (`pg_ctl promote` or your orchestrator).
+3. **If you ran synchronous replication, clear it on the new primary before
+   anything writes:** `ALTER SYSTEM SET synchronous_standby_names = ''; SELECT pg_reload_conf();`
+   (or attach a new standby). The setting is copied by `pg_basebackup`, and
+   without a standby every commit waits forever, with no error.
+4. **Check:** `memory-fabric --db <new primary URL> doctor`, then
+   `anchor --verify` against your anchors.
+
+Asynchronous replication can lose the last acknowledged commits on failover
+under load; use `synchronous_commit = on` with a standby where that matters.
+
+## 4c. Metrics
+
+`serve` answers `GET /metrics` in the Prometheus text format, behind the
+same token as the dashboard (`Authorization: Bearer <token>`):
+
+```yaml
+scrape_configs:
+  - job_name: memory-fabric
+    authorization: {credentials_file: /etc/prometheus/mf-token}
+    static_configs: [{targets: ["fabric-host:8765"]}]
+```
+
+| metric | what |
+|---|---|
+| `mf_memories{state}` | memories by lifecycle state |
+| `mf_events_total` | events in the log |
+| `mf_retrievals_total`, `mf_writes_total` | retrievals and new memories |
+| `mf_actions_total{tool,allowed}` | gate decisions on protected tools |
+| `mf_refusals_total{reason}` | memories refused to an agent, by reason code |
+| `mf_withdrawals_total{to}` | memories quarantined, retired, disputed or erased |
+
+The dashboard's **Local service health** card exposes a separate `/api/slo`
+snapshot: completed HTTP response count; 4xx/5xx responses divided by that
+count; p50/p95/p99 handler latency in milliseconds; denied action decisions over
+all gate decisions; pending correction deliveries; and the age of the oldest
+pending correction in seconds. HTTP counters reset when the server process
+restarts. Latency percentiles use a bounded rolling sample of up to 10,000
+responses; the API reports its sample denominator. Blocked-action counts are
+cumulative, not a time-window rate. Correction age uses the peer's issued time,
+so clock skew affects it. Empty denominators produce `null` percentiles/rates,
+not a fabricated zero. This is a local operator dashboard, not an SLO guarantee.
+
+Counters are read incrementally from the log, so a scrape costs what changed
+since the last one. No label carries memory content, memory ids or agent ids.
+Metrics are store-wide and contain no tenant dimension: they are for the
+operator dashboard, not a tenant-scoped reporting API. Keep the endpoint behind
+the operator token and do not republish these counters as tenant metrics without
+new sparse-count leakage review. A k=3 identity-permutation probe verifies that
+moving one retrieval between tenants leaves the exported metrics unchanged;
+the aggregate store activity totals remain visible to authorized operators.
+Worth alerting on: a rising `mf_actions_total{allowed="false"}` (agents
+trying to act on evidence that no longer holds) and any
+`mf_refusals_total{reason="wrong_tenant"}`.
 
 ## 5. Rollback
 

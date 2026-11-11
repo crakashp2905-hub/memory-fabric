@@ -33,7 +33,7 @@ merely been present when an episode failed, and of naive blame's 87
 withdrawals **57 were about a completely different fault**
 ([PA′](../research/results/phase-a-prime-attribution.md)). A relevance signal
 with lifecycle authority would be that mistake with a new name, so the types in
-`memory_fabric/relevance.py` have no route to one and a test asserts it
+`memory-fabric/relevance.py` have no route to one and a test asserts it
 structurally.
 
 ## 2. Why there is no ranker in this contract
@@ -78,7 +78,7 @@ invisible.
 
 ## 3. The types
 
-All in `memory_fabric/relevance.py`. The module imports nothing from
+All in `memory-fabric/relevance.py`. The module imports nothing from
 `fabric.py` and names no `LifecycleState`, which a test enforces.
 
 | Type | Holds |

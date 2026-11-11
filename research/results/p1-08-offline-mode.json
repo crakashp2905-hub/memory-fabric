@@ -1,0 +1,21 @@
+{
+  "schema": "memory-fabric-focused-test-run/1",
+  "task_id": "P1-08",
+  "commit": "3e2393fa052bc1fc6a46a074e84a5f73ff74ed24",
+  "command": "python -m unittest tests.test_quickstart tests.test_reference_docs -q",
+  "exit_code": 0,
+  "tests_run": 6,
+  "elapsed_seconds": 3.069,
+  "python": "Python 3.13.5",
+  "os": "Windows-11-10.0.26200-SP0",
+  "file_sha256": {
+    "docs/API_INVENTORY.json": "20b9247ae20ff1ddaf916d752e0ca069e6dcdfc5f6a13a72ae2f64661d843f65",
+    "tests/test_quickstart.py": "2025bc9c33f1289910e26b7391fca57caf7c219d7b4fca4c9c955562754f7770",
+    "docs/API.md": "3dec14630cab2cb32b1b02a5b18ec8c1df0ef2efd1abc32b68bb2d84888e5839",
+    "src/memory_fabric/offline.py": "9d4de6fd6339ea2a50e494e3d3f33e142461f2f682d1167051f01ce08908337d",
+    "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
+    "examples/quickstart.py": "6d688d2894d839aaa92e93926e7affcee6dfa57ffb4e07f260fbec292176a702",
+    ".github/workflows/ci.yml": "5578aa92454ce26c831dde30dbd0166ee65720b8d1f752bdcb4a6ccc514c9c7b"
+  },
+  "result_text_sha256": "e1e06a433688b30386cdcd67a5a64a27b17a720a0cf26994ccff4738461b97c6"
+}

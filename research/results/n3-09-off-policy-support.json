@@ -1,0 +1,44 @@
+{
+  "schema": "memory-fabric-n3-09-support/1",
+  "task_id": "N3-09",
+  "evidence_level": "CONTRACT",
+  "acceptance_passed": true,
+  "estimators": [
+    "ips",
+    "dr"
+  ],
+  "min_action_propensity": 0.01,
+  "support_conditions": [
+    "both observed actions per selected context stratum",
+    "observed action propensity and counterfactual complement each at least 0.01"
+  ],
+  "unsupported_status": "NON_IDENTIFIABLE",
+  "unsupported_confidence_interval": null,
+  "focused_tests": {
+    "path": "tests/test_estimators.py",
+    "passed": 26,
+    "subtests_passed": 2,
+    "skipped": 0,
+    "junit": "research/results/n3-09-support-tests.xml"
+  },
+  "lint": {
+    "command": "python -m ruff check src/memory_fabric/model.py src/memory_fabric/estimators.py tests/test_estimators.py",
+    "passed": true
+  },
+  "limitations": [
+    "Synthetic contract evidence only; does not validate propensity correctness or eliminate unmeasured confounding.",
+    "The configurable 0.01 support floor may conservatively reject mathematically positive but weak overlap."
+  ],
+  "compatibility_tests": {
+    "paths": [
+      "tests/test_estimators.py",
+      "tests/test_models.py",
+      "tests/test_eventlog.py"
+    ],
+    "passed": 50,
+    "subtests_passed": 2,
+    "skipped": 0,
+    "junit": "research/results/n3-09-compat-tests.xml",
+    "temp_directory": ".task-tmp (workspace-local)"
+  }
+}

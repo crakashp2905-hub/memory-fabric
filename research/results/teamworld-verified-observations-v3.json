@@ -1,0 +1,48 @@
+{
+  "schema": "teamworld-verified-observations/3",
+  "date": "2026-11-01",
+  "commit": "68b089a",
+  "worktree_clean": false,
+  "worktree_note": "Experiment source was committed; unrelated user changes remained in the shared worktree.",
+  "prereg": "research/prereg/teamworld-verified-observations-v3.md",
+  "experiment": "p3b-agent-teams",
+  "seeds": [401, 402, 403, 404, 405],
+  "config": {"agents": 50, "rounds": 60, "tasks_per_seed": 100, "k": 5},
+  "model_id": "deterministic-teamworld-agent",
+  "cost": {"model_calls": 0, "usd": 0},
+  "arms": {
+    "shared": {"task_success": 0.782, "stale_action_rate": 0.096, "wrong_invalidation_rate": 0.0, "abstention_rate": 0.0},
+    "fabric_authority": {
+      "task_success": 0.712,
+      "stale_action_rate": 0.0,
+      "wrong_invalidation_rate": 0.124,
+      "abstention_rate": 0.282,
+      "evidence_miss_reasons": {"unresolved_conflict": 13, "unvalidated_claim": 49}
+    },
+    "fabric_verified": {
+      "task_success": 0.898,
+      "stale_action_rate": 0.0,
+      "wrong_invalidation_rate": 0.036,
+      "abstention_rate": 0.058,
+      "correct_evidence_rate": 0.964,
+      "evidence_miss_reasons": {"unresolved_conflict": 18}
+    },
+    "oracle": {"task_success": 1.0, "stale_action_rate": 0.0, "wrong_invalidation_rate": 0.0, "abstention_rate": 0.0}
+  },
+  "deltas_vs_fabric_authority": {
+    "task_success": 0.186,
+    "wrong_invalidation_rate": -0.088,
+    "abstention_rate": -0.224,
+    "unvalidated_claim_misses": -49
+  },
+  "verdict": {
+    "relative_preregistered_rules": "PASS",
+    "stale_action_zero": true,
+    "task_success_exceeds_fabric_authority": true,
+    "withholding_below_fabric_authority": true,
+    "no_arm_exceeds_oracle": true,
+    "absolute_task_success_exceeds_shared": true,
+    "absolute_withholding_at_most_0_05": true,
+    "decision_quality_gate": "PASS"
+  }
+}

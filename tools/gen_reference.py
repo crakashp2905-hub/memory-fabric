@@ -13,11 +13,13 @@ from __future__ import annotations
 import argparse
 import importlib
 import inspect
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
 API: list[tuple[str, str, list[str]]] = [
@@ -27,6 +29,10 @@ API: list[tuple[str, str, list[str]]] = [
     ("Govern", "memory_fabric.fabric:MemoryFabric",
      ["validate", "quarantine", "release", "forget", "share", "challenge", "erase_content",
       "authority", "elevate", "sweep_retention", "certify", "verify_certificate"]),
+    ("Govern", "memory_fabric.requirement_graph:parse_requirement_graph", []),
+    ("Govern", "memory_fabric.requirement_graph:requirement_atom_keys", []),
+    ("Govern", "memory_fabric.requirement_graph:minimal_missing_evidence_sets", []),
+    ("Govern", "memory_fabric.requirement_graph:RequirementGraph", ["to_dict", "to_json"]),
     ("Agent SDK", "memory_fabric.sdk:agent", []),
     ("Agent SDK", "memory_fabric.sdk:AgentClient",
      ["recall", "fetch", "verify", "require", "remember", "episode", "record_outcome"]),
@@ -44,8 +50,23 @@ API: list[tuple[str, str, list[str]]] = [
     ("Actions", "memory_fabric.actions:ActionGate",
      ["authorize", "execute", "issue_grant", "revoke_grant"]),
     ("Actions", "memory_fabric.actions:ToolRule", []),
+    ("Actions", "memory_fabric.actions:ClaimPredicate", []),
+    ("Actions", "memory_fabric.actions:ClaimValueEvidence", []),
+    ("Actions", "memory_fabric.actions:ClaimDispute", []),
     ("Actions", "memory_fabric.actions:ActionRequest", []),
+    ("Actions", "memory_fabric.actions:ActionDecision", []),
+    ("Actions", "memory_fabric.actions:Approval", []),
+    ("Actions", "memory_fabric.actions:binding_digest", []),
+    ("Actions", "memory_fabric.actions:certificate_set_digest", []),
+    ("Actions", "memory_fabric.authorization_receipt:AuthorizationProofReceipt", []),
+    ("Actions", "memory_fabric.authorization_receipt:AuthorizationReceiptVerification", []),
+    ("Actions", "memory_fabric.authorization_receipt:issue_authorization_receipt", []),
+    ("Actions", "memory_fabric.authorization_receipt:verify_authorization_receipt", []),
+    ("Read-only advisory", "memory_fabric.advisory:ReadOnlyAdvisoryPolicy", []),
+    ("Read-only advisory", "memory_fabric.advisory:ReadOnlyAdvisoryDecision", []),
+    ("Read-only advisory", "memory_fabric.advisory:assess_read_only_advisory", []),
     ("Correction and recovery", "memory_fabric.correction:preview", []),
+    ("Correction and recovery", "memory_fabric.fabric:RevisionConflictError", []),
     ("Correction and recovery", "memory_fabric.correction:apply", []),
     ("Correction and recovery", "memory_fabric.correction:status", []),
     ("Correction and recovery", "memory_fabric.response:verify_recovery", []),
@@ -55,16 +76,23 @@ API: list[tuple[str, str, list[str]]] = [
     ("Trust", "memory_fabric.validation:assess", []),
     ("Trust", "memory_fabric.validation:assess_write", []),
     ("Trust", "memory_fabric.validation:review_queue", []),
+    ("Consensus", "memory_fabric.consensus:OriginCluster", ["to_json"]),
+    ("Consensus", "memory_fabric.consensus:ValueSupport", ["to_json"]),
+    ("Consensus", "memory_fabric.consensus:Support", ["to_json"]),
+    ("Consensus", "memory_fabric.consensus:support", []),
     ("Objectives", "memory_fabric.objective_v2:MemoryObjectiveV2",
      ["eligibility", "explain", "omissions", "reviewed"]),
     ("Objectives", "memory_fabric.objective_v2:ObjectiveLog", ["propose", "adopt"]),
     ("Sessions", "memory_fabric.compaction:compact_session", []),
+    ("Sessions", "memory_fabric.compaction:CompactionBudgetExceeded", ["to_dict"]),
+    ("Sessions", "memory_fabric.compaction:verify_compaction_certificate", []),
     ("Sessions", "memory_fabric.compaction:summary_for", []),
     ("Sessions", "memory_fabric.adapters.transcripts:ingest_transcript", []),
     ("Federation", "memory_fabric.federation:offer", []),
     ("Federation", "memory_fabric.federation:offer_remote", []),
     ("Background maintenance", "memory_fabric.manager:MemoryManager", ["run_once", "start", "stop"]),
     ("Limits", "memory_fabric.limits:Limits", []),
+    ("Offline execution", "memory_fabric.offline:offline_mode", []),
 ]
 
 
@@ -145,13 +173,50 @@ def api_md() -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def api_inventory() -> str:
+    """Canonical machine-readable inventory of documented public symbols.
+
+    Signatures are part of the generated diff, and each symbol inherits the
+    declared stability tier of its defining module. The stable-tier migration
+    requirement is documented in STABILITY.md and VERSIONING.md.
+    """
+    entries: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for _, target, members in API:
+        module_name, name = target.split(":")
+        module = importlib.import_module(module_name)
+        obj = getattr(module, name)
+        tier = stability(module_name)
+        if members:
+            for member in members:
+                public = name if member == "__init__" else f"{name}.{member}"
+                symbol = f"{module_name}.{public}"
+                if symbol in seen:
+                    continue
+                seen.add(symbol)
+                entries.append({"symbol": symbol, "module": module_name, "tier": tier,
+                                "signature": signature(getattr(obj, member))})
+        else:
+            symbol = f"{module_name}.{name}"
+            if symbol in seen:
+                continue
+            seen.add(symbol)
+            entries.append({"symbol": symbol, "module": module_name, "tier": tier,
+                            "signature": signature(obj)})
+    payload = {"schema": "memory-fabric-public-api/1",
+               "generated_by": "tools/gen_reference.py",
+               "compatibility_policy": "Stable signatures require deprecation and a CHANGELOG migration note before an incompatible minor-series change; beta and experimental rules are in STABILITY.md.",
+               "symbols": entries}
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
 def cli_md() -> str:
     from memory_fabric.cli import build_parser
 
     parser = build_parser()
     lines = ["# CLI reference", "",
              "Generated by `tools/gen_reference.py` from the argument parser.",
-             "Global options go **before** the command: `memory-fabric --db store.db --json overview`.",
+             "Global options go **before** the command: `memory_fabric --db store.db --json overview`.",
              "", "## Global options", ""]
     for action in parser._actions:
         if action.option_strings and action.dest != "help":
@@ -173,7 +238,8 @@ def cli_md() -> str:
 
 
 def main(argv: list[str]) -> int:
-    outputs = {ROOT / "docs" / "API.md": api_md(), ROOT / "docs" / "CLI.md": cli_md()}
+    outputs = {ROOT / "docs" / "API.md": api_md(), ROOT / "docs" / "CLI.md": cli_md(),
+               ROOT / "docs" / "API_INVENTORY.json": api_inventory()}
     if "--check" in argv:
         import difflib
 

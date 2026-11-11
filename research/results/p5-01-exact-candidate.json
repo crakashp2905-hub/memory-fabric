@@ -1,0 +1,46 @@
+{
+  "schema": "mf-exact-candidate-artifacts/1",
+  "source_commit": "2ef5273093b22298e8a8f31de1c03139f6ec0fa8",
+  "source_worktree_clean_before_build": true,
+  "package": "memory-fabric",
+  "package_version": "0.14.0",
+  "build_inputs": {
+    "python": "3.13.5",
+    "build_frontend": "1.6.1",
+    "setuptools": "80.9.0",
+    "wheel": "0.45.1",
+    "source_date_epoch": 1794105847,
+    "wheel_command": "python -m build --no-isolation --outdir <temporary-output>",
+    "sdist_normalization": "python tools/normalize_sdist.py <raw-sdist> <candidate-sdist> --epoch 1794105847"
+  },
+  "reproducibility": {
+    "independent_builds": 2,
+    "wheel_hashes_match": true,
+    "normalized_sdist_hashes_match": true,
+    "raw_setuptools_sdist_timestamps_vary": true,
+    "normalization_test": "research/results/p5-01-reproducible-sdist-tests.xml"
+  },
+  "artifacts": [
+    {
+      "path": "dist/candidate-2ef5273/memory_fabric-0.14.0-py3-none-any.whl",
+      "kind": "wheel",
+      "sha256": "d9b7aa4665df138ea2d9a89ba3e8c641c0d4fadae27cb2b6f1c00b9bf3f416b8",
+      "members": 149,
+      "asset_findings": 0
+    },
+    {
+      "path": "dist/candidate-2ef5273/memory_fabric-0.14.0.tar.gz",
+      "kind": "sdist",
+      "sha256": "fc3190c29fe7e6ae64613fe34ead2ee8123feb31c404ca9930889a2a90ac50f6",
+      "members": 155,
+      "asset_findings": 0
+    }
+  ],
+  "asset_audit": "research/results/p5-01-package-assets.json",
+  "fresh_machine_install_and_uninstall": {
+    "passed": true,
+    "evidence": "research/results/p5-01-fresh-machine.txt"
+  },
+  "internally_hashed": true,
+  "publication_approval": "not granted by this evidence; remains a separate owner/release gate"
+}

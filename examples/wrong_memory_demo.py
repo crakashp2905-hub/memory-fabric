@@ -20,7 +20,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric import MemoryFabric  # noqa: E402
 from memory_fabric.branching import Branches  # noqa: E402
@@ -33,6 +33,7 @@ def show(title: str) -> None:
 
 
 def main() -> None:
+    print("DEMO ONLY: simulated agent; deterministic fixture; no hosted model.")
     f = MemoryFabric(":memory:", auto_activate=True)
 
     show("1. A source states a policy; an agent derives a rule from it")

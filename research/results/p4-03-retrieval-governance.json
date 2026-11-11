@@ -1,0 +1,482 @@
+{
+  "arms": {
+    "governed_memory": {
+      "stale_action_denominator": 20,
+      "stale_actions_executed": 0,
+      "task_completed": 20,
+      "task_denominator": 20
+    },
+    "ordinary_retrieval": {
+      "stale_action_denominator": 20,
+      "stale_actions_would_execute": 20,
+      "task_completed": 20,
+      "task_denominator": 20
+    }
+  },
+  "cases": [
+    {
+      "case_id": "case-0-0",
+      "family": "pump purge interval",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 23,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        20,
+        23
+      ]
+    },
+    {
+      "case_id": "case-0-1",
+      "family": "pump purge interval",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 26,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        23,
+        26
+      ]
+    },
+    {
+      "case_id": "case-0-2",
+      "family": "pump purge interval",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 29,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        26,
+        29
+      ]
+    },
+    {
+      "case_id": "case-0-3",
+      "family": "pump purge interval",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 32,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        29,
+        32
+      ]
+    },
+    {
+      "case_id": "case-1-0",
+      "family": "robot travel speed",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 40,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        37,
+        40
+      ]
+    },
+    {
+      "case_id": "case-1-1",
+      "family": "robot travel speed",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 43,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        40,
+        43
+      ]
+    },
+    {
+      "case_id": "case-1-2",
+      "family": "robot travel speed",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 46,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        43,
+        46
+      ]
+    },
+    {
+      "case_id": "case-1-3",
+      "family": "robot travel speed",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 49,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        46,
+        49
+      ]
+    },
+    {
+      "case_id": "case-2-0",
+      "family": "batch sample count",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 57,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        54,
+        57
+      ]
+    },
+    {
+      "case_id": "case-2-1",
+      "family": "batch sample count",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 60,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        57,
+        60
+      ]
+    },
+    {
+      "case_id": "case-2-2",
+      "family": "batch sample count",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 63,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        60,
+        63
+      ]
+    },
+    {
+      "case_id": "case-2-3",
+      "family": "batch sample count",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 66,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        63,
+        66
+      ]
+    },
+    {
+      "case_id": "case-3-0",
+      "family": "coolant temperature ceiling",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 74,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        71,
+        74
+      ]
+    },
+    {
+      "case_id": "case-3-1",
+      "family": "coolant temperature ceiling",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 77,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        74,
+        77
+      ]
+    },
+    {
+      "case_id": "case-3-2",
+      "family": "coolant temperature ceiling",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 80,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        77,
+        80
+      ]
+    },
+    {
+      "case_id": "case-3-3",
+      "family": "coolant temperature ceiling",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 83,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        80,
+        83
+      ]
+    },
+    {
+      "case_id": "case-4-0",
+      "family": "network retry delay",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 91,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        88,
+        91
+      ]
+    },
+    {
+      "case_id": "case-4-1",
+      "family": "network retry delay",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 94,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        91,
+        94
+      ]
+    },
+    {
+      "case_id": "case-4-2",
+      "family": "network retry delay",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 97,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        94,
+        97
+      ]
+    },
+    {
+      "case_id": "case-4-3",
+      "family": "network retry delay",
+      "governed_memory": {
+        "current_value_retrieved": true,
+        "fresh_action_allowed": true,
+        "stale_action_executed": false,
+        "stale_refusal_reasons": [
+          "evidence_withdrawn"
+        ],
+        "task_completed": true
+      },
+      "ordinary_retrieval": {
+        "current_value": 100,
+        "stale_action_would_execute": true,
+        "task_completed": true
+      },
+      "same_input_versions": [
+        97,
+        100
+      ]
+    }
+  ],
+  "family_count": 5,
+  "interpretation": "In these scripted correction cases, ordinary latest-version lookup and governed retrieval both complete the corrected task; the ordinary adapter has no action gate, so its cached pre-correction action is labelled WOULD EXECUTE. The governed arm rechecks it and refuses stale evidence.",
+  "limitations": [
+    "Twenty authored synthetic cases; no real agents, external tool effects, model calls, held-out corpus, latency, or cost measured.",
+    "The ordinary baseline's stale outcome is counterfactual WOULD EXECUTE, not an observed external side effect.",
+    "Results are scoped to correction continuity and do not establish general retrieval superiority or production efficacy."
+  ],
+  "matched_inputs_per_case": true,
+  "passed": true,
+  "provenance": {
+    "command": "python -m experiments.p4_03_retrieval_governance --out research/results/p4-03-retrieval-governance.json",
+    "dirty_tree": false,
+    "inputs": {
+      "experiments/p4_03_retrieval_governance.py": "ca2bf79a39bf62021999cb6b9648a004fb1141d908c757d768e196a9cc7e4b80",
+      "tests/test_p4_03_retrieval_governance.py": "d8dd65f508f5828d261d9021407b1c101bb90605cc9f948d32d8fed2c7b5047b"
+    },
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "source_commit": "3c99845ac6584c8f862bbac696fe94e6114aba96",
+    "sqlite": "3.49.1"
+  },
+  "scenario_count": 20,
+  "schema": "memory-fabric-p4-03-matched-retrieval-governance/1",
+  "scope": "synthetic deterministic correction scenarios"
+}

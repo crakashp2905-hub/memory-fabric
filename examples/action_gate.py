@@ -15,7 +15,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from memory_fabric.cli import configure_output
 
@@ -26,6 +26,7 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 
 
 def main() -> int:
+    print("DEMO ONLY: simulated operator; deterministic fixture; no external action is performed.")
     fabric = MemoryFabric(seed=0)
     gauge = fabric.remember("ag_field", "Valve 7 pressure reads 4 bar.", scope="team")
     fabric.validate(gauge, actor="supervisor")

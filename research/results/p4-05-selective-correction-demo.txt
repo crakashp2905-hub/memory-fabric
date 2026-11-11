@@ -1,0 +1,3 @@
+P4-05 selective correction action demo
+
+The complete offline example suite (2 tests) passed on exact commit 2fbfb4f94608631eec6ad9d20224d0cc3a3a859e. In the new deterministic fixture, the dependent action executes before correction and is refused afterward; an unrelated evidence-backed action executes both before and after. The run creates only local simulated effect receipts.
