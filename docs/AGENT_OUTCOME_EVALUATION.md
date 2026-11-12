@@ -130,6 +130,11 @@ side effect, then creates a fresh certificate and exact-action grant from the
 delivered correction. The terminal grader completes only after the re-evaluated
 legal action executes. This remains a local scripted simulation with no
 external physical effect.
+The simulation records the correction as a bounded `RecoveryEpisode` REPLAN
+transition and builds the replacement certificate from the corrected reading
+plus still-valid actuator calibration evidence. Tests require the transition
+to reach `RECOVERED`, the revised action to complete, and the stale action to
+have no side effect.
 
 `build_battery_diagnosis_world(seed)` supplies a pack-sensor reading, an
 independent thermal-probe reading, and a calibration-lab record with distinct
@@ -311,7 +316,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v46.json`. Run it with
+`tools/agent_outcome_gate_manifest.v47.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

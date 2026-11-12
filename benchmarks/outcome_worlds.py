@@ -612,6 +612,8 @@ class CorrectionScenarioResult:
     stale_side_effect_count: int
     replanned_revision_epoch: int
     replanned_value: int
+    replan_transition_status: str
+    replan_evidence_count: int
     final_value: int
     terminal_status: str
     terminal_reason: str
@@ -633,7 +635,7 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
     from memory_fabric.actions import (
         REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
     )
-    from memory_fabric.agent_outcomes import AgentObservation
+    from memory_fabric.agent_outcomes import AgentObservation, RecoveryAction, RecoveryEpisode
     from memory_fabric.agent_outcomes.observations import OracleTask
     from memory_fabric.agent_outcomes.outcomes import (
         EffectRecord, TerminalObjective, TerminalSnapshot,
@@ -678,6 +680,8 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
 
     fabric = MemoryFabric(":memory:", auto_activate=True)
     try:
+        retained_evidence_id = fabric.remember(
+            "observer", "Actuator calibration verified for set_target operation.", scope="team")
         old_evidence_id = fabric.remember(
             "observer", f"Instrument-A target reading is {planned_value} units.", scope="team")
         old_certificate = fabric.certify(
@@ -702,12 +706,22 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
                                  if event.get("kind") == "correction"), None)
         correction_data = (correction_event.get("data")
                            if correction_event is not None else None)
-        if not isinstance(correction_data, Mapping):
+        if correction_event is None or not isinstance(correction_data, Mapping):
             raise ValueError("re-evaluation observation has no public correction event")
         current_value = correction_data["value"]
         if (not isinstance(current_value, int)
                 or current_snapshot.revision_epoch <= planned_revision):
             raise ValueError("correction did not advance the public world revision")
+
+        recovery = RecoveryEpisode(task_id)
+        recovery.record("correction_received", {
+            "correction_event_id": str(correction_event["event_id"]),
+            "invalidated_revision": planned_revision,
+        })
+        if not recovery.request_recovery(
+                RecoveryAction.REPLAN, before_token=f"revision:{planned_revision}",
+                detail={"trigger": "correction_received"}):
+            raise RuntimeError("correction did not start a bounded replan transition")
 
         fabric.quarantine(old_evidence_id, "instrument reading corrected",
                           actor="controller", basis=WithdrawalBasis.CONTRADICTED)
@@ -730,11 +744,16 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
             "observer", f"Instrument-A corrected target is {current_value} units.",
             scope="team")
         new_certificate = fabric.certify(
-            "Set target to the latest instrument reading.", [new_evidence_id], "executor")
+            "Set target to the latest instrument reading.",
+            [new_evidence_id, retained_evidence_id], "executor")
         new_request = ActionRequest("target", {"value": current_value})
         new_grant = gate.issue_grant(
             "set_target", "executor", issuer="host", certificate=new_certificate,
             request=new_request)
+        if not recovery.resolve_recovery(
+                RecoveryAction.REPLAN,
+                after_token=f"revision:{current_snapshot.revision_epoch}:new-plan:{current_value}"):
+            raise RuntimeError("replan did not replace the invalid plan with current evidence")
         completed_values: list[int] = []
         current_execution = gate.execute(
             "set_target", "executor", lambda _key: completed_values.append(current_value),
@@ -768,6 +787,8 @@ def run_correction_after_plan_scenario(seed: int) -> CorrectionScenarioResult:
             stale_side_effect_count=len(stale_effects),
             replanned_revision_epoch=replan_revision,
             replanned_value=current_value,
+            replan_transition_status=recovery.status.value,
+            replan_evidence_count=len(new_certificate.evidence),
             final_value=final_value,
             terminal_status=grade.status.value,
             terminal_reason=grade.reason.value,

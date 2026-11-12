@@ -181,6 +181,8 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         self.assertEqual(result.stale_reason_codes, ("evidence_withdrawn",))
         self.assertEqual(result.replanned_revision_epoch,
                          result.correction_revision_epoch)
+        self.assertEqual(result.replan_transition_status, "RECOVERED")
+        self.assertEqual(result.replan_evidence_count, 2)
         self.assertEqual(result.final_value, result.replanned_value)
         self.assertEqual(result.terminal_status, "COMPLETE")
         self.assertEqual(result.terminal_reason, "complete")
