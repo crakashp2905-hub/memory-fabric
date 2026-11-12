@@ -10,7 +10,8 @@ from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCo
 from .runtime import (
     AuthorizedReplayContract, CounterfactualReplayDispatch,
     CounterfactualReplayReason, CounterfactualReplayStatus,
-    ReplayContractBuild, ReplayContractStatus, RuntimeResult, RuntimeStatus,
+    ReplayBudget, ReplayContractBuild, ReplayContractStatus, ReplayLimits,
+    RuntimeResult, RuntimeStatus,
     RuntimeTool, ToolCallRecord, build_authorized_replay_contract,
     dispatch_counterfactual_replay, run_agent_json_loop, run_agent_loop,
 )
@@ -39,6 +40,7 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "CounterfactualReplayReason", "CounterfactualReplayStatus",
            "dispatch_counterfactual_replay",
            "AuthorizedReplayContract", "ReplayContractBuild", "ReplayContractStatus",
+           "ReplayLimits", "ReplayBudget",
            "build_authorized_replay_contract",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
            "RecoveryCause", "RecoveryGuidance", "RecoveryNextAction",

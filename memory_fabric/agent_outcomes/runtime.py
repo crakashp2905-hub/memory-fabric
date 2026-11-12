@@ -12,6 +12,7 @@ __stability__ = "experimental"
 import hashlib
 import json
 import re
+import time
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any, Callable, Mapping
@@ -32,6 +33,8 @@ class RuntimeStatus(StrEnum):
 class CounterfactualReplayStatus(StrEnum):
     SKIPPED = "SKIPPED"
     INVOKED = "INVOKED"
+    BUDGET_EXHAUSTED = "BUDGET_EXHAUSTED"
+    FAILED = "FAILED"
 
 
 class CounterfactualReplayReason(StrEnum):
@@ -40,6 +43,71 @@ class CounterfactualReplayReason(StrEnum):
     NO_MATERIAL_ALTERNATIVE = "no_material_alternative"
     CDM_UNAVAILABLE = "cdm_unavailable"
     MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE = "material_alternative_after_dependence"
+    REPLAY_CALL_BUDGET_EXHAUSTED = "replay_call_budget_exhausted"
+    REPLAY_RETRY_BUDGET_EXHAUSTED = "replay_retry_budget_exhausted"
+    REPLAY_INPUT_TOO_LARGE = "replay_input_too_large"
+    REPLAY_RESULT_TOO_LARGE = "replay_result_too_large"
+    REPLAY_WALL_BUDGET_EXCEEDED = "replay_wall_budget_exceeded"
+    REPLAY_CPU_BUDGET_EXCEEDED = "replay_cpu_budget_exceeded"
+    REPLAY_CALLBACK_FAILED = "replay_callback_failed"
+    REPLAY_RESULT_INVALID = "replay_result_invalid"
+
+
+@dataclass(frozen=True)
+class ReplayLimits:
+    """Hard ceilings for one replay budget shared across a task's dispatches."""
+
+    max_calls: int = 1
+    max_retries: int = 0
+    max_input_bytes: int = 32_000
+    max_result_bytes: int = MAX_TOOL_OUTPUT_BYTES
+    max_wall_ms: int = 2_000
+    max_cpu_ms: int = 1_000
+
+    def __post_init__(self) -> None:
+        for name, value, maximum, allow_zero in (
+            ("max_calls", self.max_calls, 8, False),
+            ("max_retries", self.max_retries, 2, True),
+            ("max_input_bytes", self.max_input_bytes, 32_000, False),
+            ("max_result_bytes", self.max_result_bytes, MAX_TOOL_OUTPUT_BYTES, False),
+            ("max_wall_ms", self.max_wall_ms, 30_000, False),
+            ("max_cpu_ms", self.max_cpu_ms, 10_000, False),
+        ):
+            lower = 0 if allow_zero else 1
+            if (not isinstance(value, int) or isinstance(value, bool)
+                    or not lower <= value <= maximum):
+                raise ValueError(f"{name} must be between {lower} and {maximum}")
+
+
+@dataclass
+class ReplayBudget:
+    """Mutable per-task accounting passed to every replay dispatch."""
+
+    limits: ReplayLimits = ReplayLimits()
+    calls: int = 0
+    retries: int = 0
+    wall_ms: int = 0
+    cpu_ms: int = 0
+
+    def reserve(self, input_bytes: int, *, retry: bool) -> CounterfactualReplayReason | None:
+        if input_bytes > self.limits.max_input_bytes:
+            return CounterfactualReplayReason.REPLAY_INPUT_TOO_LARGE
+        if self.calls >= self.limits.max_calls:
+            return CounterfactualReplayReason.REPLAY_CALL_BUDGET_EXHAUSTED
+        if retry and self.retries >= self.limits.max_retries:
+            return CounterfactualReplayReason.REPLAY_RETRY_BUDGET_EXHAUSTED
+        if self.wall_ms >= self.limits.max_wall_ms:
+            return CounterfactualReplayReason.REPLAY_WALL_BUDGET_EXCEEDED
+        if self.cpu_ms >= self.limits.max_cpu_ms:
+            return CounterfactualReplayReason.REPLAY_CPU_BUDGET_EXCEEDED
+        self.calls += 1
+        if retry:
+            self.retries += 1
+        return None
+
+    def record_usage(self, wall_ms: int, cpu_ms: int) -> None:
+        self.wall_ms += wall_ms
+        self.cpu_ms += cpu_ms
 
 
 class ReplayContractStatus(StrEnum):
@@ -183,6 +251,10 @@ class CounterfactualReplayDispatch:
     decision_sha256: str | None = None
     alternative_sha256: str | None = None
     result: Any = None
+    wall_ms: int = 0
+    cpu_ms: int = 0
+    calls_used: int = 0
+    retries_used: int = 0
 
 
 CounterfactualReplay = Callable[[Mapping[str, Any], Mapping[str, Any]], Any]
@@ -195,6 +267,8 @@ def dispatch_counterfactual_replay(
     dependence_checked: bool,
     depends_on_memory: bool,
     replay: CounterfactualReplay | None,
+    budget: ReplayBudget | None = None,
+    retry: bool = False,
 ) -> CounterfactualReplayDispatch:
     """Run the advisory CDM only after cheap dependence checks find a material alternative.
 
@@ -238,11 +312,78 @@ def dispatch_counterfactual_replay(
             CounterfactualReplayReason.CDM_UNAVAILABLE,
             current_digest, alternative_digest,
         )
-    result = replay(current, candidate)
+    active_budget = ReplayBudget() if budget is None else budget
+    if not isinstance(active_budget, ReplayBudget) or not isinstance(retry, bool):
+        raise ValueError("replay budget and retry flag are invalid")
+    encoded_current = json.dumps(
+        current, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    encoded_candidate = json.dumps(
+        candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    exhausted = active_budget.reserve(len(encoded_current) + len(encoded_candidate),
+                                      retry=retry)
+    if exhausted is not None:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.BUDGET_EXHAUSTED, exhausted,
+            current_digest, alternative_digest, calls_used=active_budget.calls,
+            retries_used=active_budget.retries,
+        )
+    wall_start = time.perf_counter_ns()
+    cpu_start = time.process_time_ns()
+    try:
+        raw_result = replay(current, candidate)
+    except Exception:  # noqa: BLE001 - report only a closed failure code
+        raw_result = None
+        callback_failed = True
+    else:
+        callback_failed = False
+    wall_ms = int((time.perf_counter_ns() - wall_start) / 1_000_000)
+    cpu_ms = int((time.process_time_ns() - cpu_start) / 1_000_000)
+    active_budget.record_usage(wall_ms, cpu_ms)
+    if callback_failed:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.FAILED,
+            CounterfactualReplayReason.REPLAY_CALLBACK_FAILED,
+            current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
+            calls_used=active_budget.calls, retries_used=active_budget.retries,
+        )
+    if wall_ms > active_budget.limits.max_wall_ms - (active_budget.wall_ms - wall_ms):
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.BUDGET_EXHAUSTED,
+            CounterfactualReplayReason.REPLAY_WALL_BUDGET_EXCEEDED,
+            current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
+            calls_used=active_budget.calls, retries_used=active_budget.retries,
+        )
+    if cpu_ms > active_budget.limits.max_cpu_ms - (active_budget.cpu_ms - cpu_ms):
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.BUDGET_EXHAUSTED,
+            CounterfactualReplayReason.REPLAY_CPU_BUDGET_EXCEEDED,
+            current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
+            calls_used=active_budget.calls, retries_used=active_budget.retries,
+        )
+    try:
+        result = _canonical_object(
+            raw_result, max_bytes=active_budget.limits.max_result_bytes,
+            label="counterfactual replay result",
+        )
+    except ValueError as exc:
+        too_large = "exceeds its byte limit" in str(exc)
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.BUDGET_EXHAUSTED if too_large
+            else CounterfactualReplayStatus.FAILED,
+            CounterfactualReplayReason.REPLAY_RESULT_TOO_LARGE if too_large
+            else CounterfactualReplayReason.REPLAY_RESULT_INVALID,
+            current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
+            calls_used=active_budget.calls, retries_used=active_budget.retries,
+        )
     return CounterfactualReplayDispatch(
         CounterfactualReplayStatus.INVOKED,
         CounterfactualReplayReason.MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE,
         current_digest, alternative_digest, result,
+        wall_ms, cpu_ms, active_budget.calls, active_budget.retries,
     )
 
 
