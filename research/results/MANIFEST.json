@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 105,
+ "results": 106,
  "missing_field_counts": {
   "git_sha": 34,
   "prereg": 35,
   "dataset_digest": 105,
-  "model_id": 73,
-  "prompt_hash": 105,
+  "model_id": 74,
+  "prompt_hash": 106,
   "seed": 45,
-  "cost": 89,
+  "cost": 90,
   "verdict": 68
  },
  "rows": [
@@ -73,6 +73,52 @@
     "above_ceiling": [],
     "A1a": "ABANDONED (headroom <= 0.05)",
     "A1b": "ABANDONED (headroom <= 0.05)"
+   },
+   "parsable": true
+  },
+  {
+   "experiment_id": "agent-outcome-v1-ao096-scripted-example",
+   "file": "research/results/agent-outcome-v1-ao096-scripted-example.json",
+   "file_sha256": "9484cb50e205aa7bb39388f7ac9c72ec9f3ffe2ff51de9d2b1e251c8cd047653",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/agent-outcome-v1.md",
+   "git_sha": "7ce457c2d0e40e5eb686c817c92b81861508b323",
+   "git_sha_source": "json",
+   "dataset_digest": "1a66b90ec0043e7caf50732782821f7ec6c4b77f874a37051e271608e9b97e6a",
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": {
+    "A0_abstention_cost_cases": "12/12",
+    "A0_completion": "0/12",
+    "A5_completion": "12/12",
+    "A5_eligible_recoveries": "6",
+    "A5_successful_recoveries": "6",
+    "A5_unsafe_attempts": 6,
+    "A5_unsafe_executions": 0,
+    "cluster_bootstrap_95_ci": [
+     1.0,
+     1.0
+    ],
+    "cluster_exact_sign_test_p": 0.00048828125,
+    "confirmatory": "NOT_RUN",
+    "paired_completion_difference": 1.0,
+    "recovery_latency": "NOT_MEASURED"
    },
    "parsable": true
   },

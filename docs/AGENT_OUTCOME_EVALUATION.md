@@ -386,6 +386,27 @@ The workflow is a readiness checklist, not evidence that a pilot or review has
 occurred. External participation and independent review remain unavailable in
 this repository task and must stay marked `BLOCKED_EXTERNAL`.
 
+## Measured in-house example and claim limits
+
+In the fixed 12-seed scripted correction example (`A5` recovery vs `A0`
+immediate abstention), the raw paired rows show safe completion of 12/12 vs
+0/12 task cases: +100 percentage points. The descriptive seed-cluster bootstrap
+95% interval is [100, 100] points and the exact sign-test p-value is 0.000488.
+All 12 A0 cases carry the evaluator's `abstention_cost` code. Six A5 cases were
+correction-eligible and all six recovered; A5 recorded six unsafe attempts and
+zero unsafe executions.
+
+These are fixed scripted contract cases, not held-out confirmatory evidence or
+local-model results. A0 is immediate abstention, not the strongest fair
+baseline. The point estimate and interval do not support a superiority or
+deployment claim. Correction-to-verified-action recovery time is
+`NOT_MEASURED`; total episode latency is not a substitute. Auditability is
+demonstrated by the trace structure (correction, stale-action refusal, replan,
+reauthorization, and evaluator result), but has no measured effect size. The
+content-safe raw rows and paired summary are recorded in
+[`research/results/agent-outcome-v1-ao096-scripted-example.json`](../research/results/agent-outcome-v1-ao096-scripted-example.json)
+and can be reproduced with `python -m benchmarks.outcome_recovery --seeds 12`.
+
 AO-039 keeps local model calls offline by default. `OllamaClient` requires the
 caller to pass `allow_loopback=True`; it accepts HTTP loopback hosts only,
 ignores proxy environment settings, and rejects redirects to other hosts.

@@ -54,6 +54,27 @@ def _evaluate(rows: list[dict[str, object]], **kwargs: Any) -> dict[str, Any]:
 
 
 class TestOutcomeConfirmatory(unittest.TestCase):
+    def test_scripted_product_example_is_recomputed_from_raw_rows_and_caveated(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        path = root / "research" / "results" / "agent-outcome-v1-ao096-scripted-example.json"
+        result = json.loads(path.read_text(encoding="utf-8"))
+        rows = result["raw_rows"]
+        self.assertEqual(result["status"], "DESCRIPTIVE_SCRIPTED_ONLY")
+        self.assertEqual(len(rows), 24)
+        completion_by_arm = {
+            arm: sum(row["completion"] for row in rows if row["arm"] == arm)
+            for arm in ("A0", "A5")
+        }
+        self.assertEqual(completion_by_arm, {"A0": 0, "A5": 12})
+        self.assertEqual(
+            result["paired_analysis"]["metrics"]["mean_paired_difference"]["value"],
+            (completion_by_arm["A5"] - completion_by_arm["A0"]) / 12,
+        )
+        self.assertEqual(result["verdict"]["recovery_latency"], "NOT_MEASURED")
+        self.assertEqual(result["verdict"]["confirmatory"], "NOT_RUN")
+        self.assertTrue(any("not held-out confirmatory evidence" in item
+                            for item in result["limitations"]))
+
     def test_frozen_endpoint_registry_separates_task_and_attempt_denominators(self) -> None:
         root = Path(__file__).resolve().parents[1]
         registry_path = root / "research" / "prereg" / "agent-outcome-endpoints.v1.json"
