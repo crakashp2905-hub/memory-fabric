@@ -10,6 +10,8 @@ from .observations import AgentObservation, AgentStep, EpisodeOutcome
 from .runtime import (MAX_TOOL_REQUEST_BYTES, AgentRuntime, RuntimeTrace, ToolCallRecord,
                       ToolOutput, parse_agent_request)
 from .outcomes import AgentEpisodeAudit
+from .boundary import (AgentPort, EvaluatorCallbackNotice, EvaluatorDispatch, EvaluatorPort,
+                       build_episode_boundary, grade_after_episode)
 from .recovery import (READ_ONLY_RECOVERY_CATALOG, ReadOnlyRecoveryCatalog, RecoveryAction,
                        RecoveryActionSpec, RecoveryDisposition, RecoveryEpisode,
                        RecoveryFailureClass, RecoveryGuidance, RecoveryLimits,
@@ -24,4 +26,6 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "RecoveryEpisode",
            "search_alternate_sources", "RecoveryDisposition", "RecoveryGuidance",
            "recovery_guidance", "RecoveryFailureClass", "classify_recovery_failure",
            "AgentRuntime", "RuntimeTrace", "ToolCallRecord", "ToolOutput",
-           "AgentEpisodeAudit", "MAX_TOOL_REQUEST_BYTES", "parse_agent_request"]
+           "AgentEpisodeAudit", "MAX_TOOL_REQUEST_BYTES", "parse_agent_request",
+           "AgentPort", "EvaluatorPort", "EvaluatorCallbackNotice", "EvaluatorDispatch",
+           "build_episode_boundary", "grade_after_episode"]
