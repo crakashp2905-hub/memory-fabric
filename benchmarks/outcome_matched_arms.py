@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import re
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -20,6 +21,53 @@ from .outcome_agents import OLLAMA_AGENT_SYSTEM_SHA256
 
 _ID = re.compile(r"[a-z][a-z0-9_-]{0,63}")
 _DIGEST = re.compile(r"(?:sha256:)?[0-9a-f]{64}")
+
+
+@dataclass(frozen=True)
+class AgentArmSpecification:
+    """Preregistered identity for one arm in the matched A0–A7 design."""
+
+    arm_id: str
+    name: str
+    memory_policy: str
+    recovery_policy: str
+    cdm_enabled: bool | None
+    evaluator_only: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "arm_id": self.arm_id,
+            "name": self.name,
+            "memory_policy": self.memory_policy,
+            "recovery_policy": self.recovery_policy,
+            "cdm_enabled": self.cdm_enabled,
+            "evaluator_only": self.evaluator_only,
+        }
+
+
+CANONICAL_AGENT_ARM_SPECS: tuple[AgentArmSpecification, ...] = (
+    AgentArmSpecification("A0", "no_memory", "none", "same_legal_tools", False),
+    AgentArmSpecification("A1", "local_only", "private_per_agent", "same_legal_tools", False),
+    AgentArmSpecification(
+        "A2", "pooled_shared", "pooled_without_correction_gating", "same_legal_tools", False,
+    ),
+    AgentArmSpecification(
+        "A3", "pooled_shared_plus_recovery", "pooled", "matched_recovery_budget", False,
+    ),
+    AgentArmSpecification(
+        "A4", "memory_fabric", "governed", "current_abstention_policy", False,
+    ),
+    AgentArmSpecification(
+        "A5", "memory_fabric_recovery", "governed", "explicit_recovery_replan", False,
+    ),
+    AgentArmSpecification(
+        "A6", "memory_fabric_recovery_cdm", "governed", "explicit_recovery_replan", True,
+    ),
+    AgentArmSpecification(
+        "A7", "oracle", "sealed_true_world", "idealized_legal_completion", None, True,
+    ),
+)
+_ARM_SPECS_BY_ID = {spec.arm_id: spec for spec in CANONICAL_AGENT_ARM_SPECS}
 
 
 def _sha256(value: Any) -> str:
@@ -54,8 +102,17 @@ class MatchedAgentArm:
     def __post_init__(self) -> None:
         for label, value in (("arm_id", self.arm_id),
                              ("intervention_id", self.intervention_id)):
-            if not isinstance(value, str) or _ID.fullmatch(value) is None:
+            if not isinstance(value, str):
                 raise ValueError(f"{label} must be a stable lowercase identifier")
+            is_canonical_arm_id = label == "arm_id" and value in _ARM_SPECS_BY_ID
+            if not is_canonical_arm_id and _ID.fullmatch(value) is None:
+                raise ValueError(f"{label} must be a stable lowercase identifier")
+        arm_spec = _ARM_SPECS_BY_ID.get(self.arm_id)
+        if arm_spec is not None:
+            if arm_spec.evaluator_only:
+                raise ValueError("A7 oracle is evaluator-only and cannot be an actor arm")
+            if self.intervention_id != arm_spec.name:
+                raise ValueError("canonical arm ID must use its preregistered intervention name")
         if (not isinstance(self.actor_id, str)
                 or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}", self.actor_id) is None):
             raise ValueError("actor_id must be a stable identifier")
@@ -231,3 +288,93 @@ def pair_agent_arms(
         treatment=treatment,
         memory_event_sources=memory_event_sources,
     )
+
+
+def match_arm_outcomes(
+    outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Bind evaluator-side outcomes from A0–A7 to one identical case set.
+
+    Each arm supplies one JSON-object outcome per task ID. Task membership is
+    identical across arms, but outcome values remain arm-specific. This maps
+    and preserves completed results; it does not execute agents or score an
+    efficacy contrast. The A7 oracle is represented only in this evaluator
+    input and is never an actor-visible ``MatchedAgentArm``.
+    """
+    if not isinstance(outcomes_by_arm, Mapping):
+        raise ValueError("matched outcomes must be supplied as an arm mapping")
+    if any(not isinstance(arm_id, str) for arm_id in outcomes_by_arm):
+        raise ValueError("matched arm identifiers must be strings")
+    specs_by_id = {spec.arm_id: spec for spec in CANONICAL_AGENT_ARM_SPECS}
+    expected_arm_ids = set(specs_by_id)
+    if set(outcomes_by_arm) != expected_arm_ids:
+        missing = sorted(expected_arm_ids - set(outcomes_by_arm))
+        extra = sorted(set(outcomes_by_arm) - expected_arm_ids)
+        raise ValueError(f"matched outcomes require exactly A0–A7; missing={missing}, extra={extra}")
+
+    outcome_maps: dict[str, dict[str, dict[str, Any]]] = {}
+    for spec in CANONICAL_AGENT_ARM_SPECS:
+        rows = outcomes_by_arm[spec.arm_id]
+        if (isinstance(rows, (str, bytes, Mapping))
+                or not isinstance(rows, Iterable)):
+            raise ValueError(f"{spec.arm_id} outcomes must be a sequence of per-task rows")
+        arm_outcomes: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError(f"{spec.arm_id} outcome rows must be mappings")
+            task_id, outcome = row.get("task_id"), row.get("outcome")
+            if not isinstance(task_id, str) or not task_id.strip():
+                raise ValueError(f"{spec.arm_id} outcome rows require a non-empty task_id")
+            if task_id in arm_outcomes:
+                raise ValueError(f"duplicate task ID {task_id!r} in {spec.arm_id}")
+            if not isinstance(outcome, Mapping):
+                raise ValueError(f"{spec.arm_id} outcome for {task_id!r} must be a JSON object")
+            normalized_outcome = dict(outcome)
+            try:
+                _sha256(normalized_outcome)
+            except (TypeError, ValueError, OverflowError, UnicodeError, RecursionError) as exc:
+                raise ValueError(
+                    f"{spec.arm_id} outcome for {task_id!r} must be canonical JSON data"
+                ) from exc
+            arm_outcomes[task_id] = normalized_outcome
+        if not arm_outcomes:
+            raise ValueError(f"{spec.arm_id} must contain at least one task outcome")
+        outcome_maps[spec.arm_id] = arm_outcomes
+
+    first_arm = CANONICAL_AGENT_ARM_SPECS[0].arm_id
+    task_ids = sorted(outcome_maps[first_arm])
+    task_id_set = set(task_ids)
+    for spec in CANONICAL_AGENT_ARM_SPECS[1:]:
+        if set(outcome_maps[spec.arm_id]) != task_id_set:
+            raise ValueError("A0–A7 must map outcomes to the identical task-ID set")
+
+    task_set_digest = _sha256(task_ids)
+    arms = []
+    for spec in CANONICAL_AGENT_ARM_SPECS:
+        arm_outcomes = outcome_maps[spec.arm_id]
+        arms.append({
+            **spec.to_dict(),
+            "task_ids": task_ids,
+            "task_id_set_sha256": task_set_digest,
+            "outcome_map_sha256": _sha256({
+                task_id: arm_outcomes[task_id] for task_id in task_ids
+            }),
+            "outcomes_by_task": {
+                task_id: arm_outcomes[task_id] for task_id in task_ids
+            },
+        })
+    return {
+        "schema_id": "memory-fabric.matched-agent-outcomes.v1",
+        "status": "MATCHED_CASES_VALIDATED",
+        "arm_registry": [spec.to_dict() for spec in CANONICAL_AGENT_ARM_SPECS],
+        "task_population": {
+            "name": "unique_matched_task_cases",
+            "denominator": len(task_ids),
+            "task_ids": task_ids,
+            "task_id_set_sha256": task_set_digest,
+        },
+        "arms": arms,
+        "all_arms_same_task_ids": True,
+        "outcomes_bound_per_task_id": True,
+        "claim_scope": "matched_case_mapping_only_no_efficacy_estimate",
+    }

@@ -202,9 +202,12 @@ correction event; the private terminal target is used only by the evaluator
 after the actor returns.
 This is integration coverage only: it is not an LLM agent run or evidence of
 comparative benefit. Existing seeded team experiments remain in
-`experiments/teamworld.py`; no full A0–A7 matched harness, confirmatory analysis,
-or independent-world result is claimed here. The preregistration shell remains
-`DRAFT / NOT FROZEN`.
+`experiments/teamworld.py`. `benchmarks.outcome_matched_arms` now defines the
+canonical A0–A7 registry and validates that evaluator-side outcomes are mapped
+to the same task IDs for every arm; A7 is explicitly evaluator-only. This is a
+matched case-mapping contract, not a full arm runner or efficacy result. No
+confirmatory analysis or independent-world result is claimed here. The
+preregistration shell remains `DRAFT / NOT FROZEN`.
 
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
@@ -267,7 +270,7 @@ outcome or provide efficacy evidence.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v36.json`. Run it with
+`tools/agent_outcome_gate_manifest.v37.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

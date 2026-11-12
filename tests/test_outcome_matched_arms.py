@@ -8,7 +8,12 @@ from typing import Callable, Literal
 
 from memory_fabric.actions import ActionRequest
 from memory_fabric.agent_outcomes import AgentObservation
-from benchmarks.outcome_matched_arms import MatchedAgentArm, pair_agent_arms
+from benchmarks.outcome_matched_arms import (
+    CANONICAL_AGENT_ARM_SPECS,
+    MatchedAgentArm,
+    match_arm_outcomes,
+    pair_agent_arms,
+)
 
 _ARM_TASKS = 12
 _ANSWERABLE_TASKS = 8
@@ -216,6 +221,87 @@ class TestOutcomeMatchedNegativeControls(unittest.TestCase):
 
 
 class TestMatchedAgentArmPairing(unittest.TestCase):
+    def test_oracle_arm_cannot_be_constructed_as_actor_input(self) -> None:
+        baseline, treatment = self._arm_pair()
+
+        with self.assertRaisesRegex(ValueError, "A7 oracle is evaluator-only"):
+            replace(treatment, arm_id="A7", intervention_id="oracle")
+        with self.assertRaisesRegex(ValueError, "preregistered intervention name"):
+            replace(baseline, arm_id="A0")
+
+    def test_a0_through_a7_preserve_per_case_outcomes_on_the_same_task_ids(self) -> None:
+        cases = _frozen_cases()
+        outcomes_by_arm = {
+            spec.arm_id: [
+                {
+                    "task_id": case.observation.task_id,
+                    "outcome": {
+                        "completed": case.answerable and spec.arm_id != "A0",
+                        "unsafe_attempt": not case.answerable and spec.arm_id == "A0",
+                    },
+                }
+                for case in cases
+            ]
+            for spec in CANONICAL_AGENT_ARM_SPECS
+        }
+
+        manifest = match_arm_outcomes(outcomes_by_arm)
+
+        self.assertEqual(manifest["status"], "MATCHED_CASES_VALIDATED")
+        self.assertEqual(manifest["task_population"]["denominator"], _ARM_TASKS)
+        self.assertEqual(manifest["task_population"]["task_ids"], [
+            f"negative-control-{index:02d}" for index in range(_ARM_TASKS)
+        ])
+        self.assertTrue(manifest["all_arms_same_task_ids"])
+        self.assertTrue(manifest["outcomes_bound_per_task_id"])
+        self.assertEqual(
+            [arm["name"] for arm in manifest["arms"]],
+            ["no_memory", "local_only", "pooled_shared", "pooled_shared_plus_recovery",
+             "memory_fabric", "memory_fabric_recovery", "memory_fabric_recovery_cdm",
+             "oracle"],
+        )
+        self.assertTrue(manifest["arms"][-1]["evaluator_only"])
+        self.assertEqual(
+            manifest["arms"][4]["outcomes_by_task"]["negative-control-00"]["completed"],
+            True,
+        )
+        self.assertNotEqual(
+            manifest["arms"][0]["outcome_map_sha256"],
+            manifest["arms"][4]["outcome_map_sha256"],
+        )
+
+    def test_a0_through_a7_reject_missing_duplicate_and_unmatched_cases(self) -> None:
+        task_ids = [f"case-{index}" for index in range(2)]
+        outcomes_by_arm = {
+            spec.arm_id: [
+                {"task_id": task_id, "outcome": {"completed": True}}
+                for task_id in task_ids
+            ]
+            for spec in CANONICAL_AGENT_ARM_SPECS
+        }
+
+        missing_arm = dict(outcomes_by_arm)
+        del missing_arm["A7"]
+        with self.assertRaisesRegex(ValueError, "exactly A0–A7"):
+            match_arm_outcomes(missing_arm)
+
+        duplicate_task = dict(outcomes_by_arm)
+        duplicate_task["A1"] = [*duplicate_task["A1"], duplicate_task["A1"][0]]
+        with self.assertRaisesRegex(ValueError, "duplicate task ID"):
+            match_arm_outcomes(duplicate_task)
+
+        unmatched_task = dict(outcomes_by_arm)
+        unmatched_task["A2"] = unmatched_task["A2"][:1]
+        with self.assertRaisesRegex(ValueError, "identical task-ID set"):
+            match_arm_outcomes(unmatched_task)
+
+        noncanonical_outcome = dict(outcomes_by_arm)
+        noncanonical_outcome["A3"] = [
+            {"task_id": "case-0", "outcome": {"metric": float("nan")}},
+        ]
+        with self.assertRaisesRegex(ValueError, "canonical JSON data"):
+            match_arm_outcomes(noncanonical_outcome)
+
     @staticmethod
     def _arm_pair() -> tuple[MatchedAgentArm, MatchedAgentArm]:
         def observation(memory_id: str, content: str) -> AgentObservation:
