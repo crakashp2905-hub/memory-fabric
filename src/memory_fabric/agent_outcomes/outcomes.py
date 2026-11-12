@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
+from memory_fabric.agent_outcomes.observations import MAX_JSON_BYTES
+
 SCHEMA_ID = "memory-fabric.agent-outcomes.terminal.v1"
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _DIGEST = re.compile(r"^[0-9a-f]{64}$")
@@ -30,10 +32,13 @@ def _digest(value: str, field: str) -> None:
 
 def _canonical(value: Any) -> bytes:
     try:
-        return json.dumps(value, sort_keys=True, separators=(",", ":"),
-                          ensure_ascii=False, allow_nan=False).encode("utf-8")
+        encoded = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                             ensure_ascii=False, allow_nan=False).encode("utf-8")
     except (TypeError, ValueError) as exc:
         raise ValueError("terminal outcome fields must be finite JSON data") from exc
+    if len(encoded) > MAX_JSON_BYTES:
+        raise ValueError("terminal outcome payload exceeds the size limit")
+    return encoded
 
 
 class OutcomeStatus(StrEnum):
@@ -66,6 +71,13 @@ class EffectReceipt:
                 "executed": self.executed, "authorized": self.authorized,
                 "idempotency_key": self.idempotency_key}
 
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> "EffectReceipt":
+        expected = {"effect_id", "action", "executed", "authorized", "idempotency_key"}
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("effect receipt fields do not match schema v1")
+        return cls(**raw)
+
 
 @dataclass(frozen=True)
 class OracleTask:
@@ -86,6 +98,34 @@ class OracleTask:
             _identifier(effect_id, "required_effect_id")
         if len(self.required_effect_ids) != len(set(self.required_effect_ids)):
             raise ValueError("required_effect_ids must be unique")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"schema_id": self.schema_id, "task_id": self.task_id,
+                "expected_terminal_digest": self.expected_terminal_digest,
+                "required_effect_ids": list(self.required_effect_ids),
+                "answerable": self.answerable}
+
+    def canonical_json(self) -> str:
+        return _canonical(self.to_dict()).decode("utf-8")
+
+    def request_digest(self) -> str:
+        return hashlib.sha256(self.canonical_json().encode("utf-8")).hexdigest()
+
+    @classmethod
+    def from_json(cls, value: str) -> "OracleTask":
+        if len(value.encode("utf-8")) > MAX_JSON_BYTES:
+            raise ValueError("terminal outcome payload exceeds the size limit")
+        raw = json.loads(value)
+        expected = {"schema_id", "task_id", "expected_terminal_digest",
+                    "required_effect_ids", "answerable"}
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("oracle task fields do not match schema v1")
+        effects = raw["required_effect_ids"]
+        if not isinstance(effects, list) or not all(isinstance(item, str) for item in effects):
+            raise ValueError("required_effect_ids must be a list of identifiers")
+        return cls(task_id=raw["task_id"], expected_terminal_digest=raw["expected_terminal_digest"],
+                   required_effect_ids=tuple(effects), answerable=raw["answerable"],
+                   schema_id=raw["schema_id"])
 
 
 @dataclass(frozen=True)
@@ -108,13 +148,33 @@ class TerminalResult:
             raise ValueError("effects must contain EffectReceipt values")
 
     def canonical_json(self) -> str:
-        return _canonical({
+        return _canonical(self.to_dict()).decode("utf-8")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
             "schema_id": self.schema_id,
             "task_id": self.task_id,
             "terminal_digest": self.terminal_digest,
             "effects": [effect.to_dict() for effect in self.effects],
             "abstained": self.abstained,
-        }).decode("utf-8")
+        }
+
+    def request_digest(self) -> str:
+        return hashlib.sha256(self.canonical_json().encode("utf-8")).hexdigest()
+
+    @classmethod
+    def from_json(cls, value: str) -> "TerminalResult":
+        if len(value.encode("utf-8")) > MAX_JSON_BYTES:
+            raise ValueError("terminal outcome payload exceeds the size limit")
+        raw = json.loads(value)
+        expected = {"schema_id", "task_id", "terminal_digest", "effects", "abstained"}
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("terminal result fields do not match schema v1")
+        if not isinstance(raw["effects"], list):
+            raise ValueError("effects must be a list")
+        effects = tuple(EffectReceipt.from_dict(item) for item in raw["effects"])
+        return cls(task_id=raw["task_id"], terminal_digest=raw["terminal_digest"],
+                   effects=effects, abstained=raw["abstained"], schema_id=raw["schema_id"])
 
 
 @dataclass(frozen=True)

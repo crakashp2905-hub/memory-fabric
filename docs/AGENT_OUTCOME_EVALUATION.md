@@ -22,6 +22,13 @@ terminal result. The world must pass the actor port alone to actor code. Python
 in-process APIs are a capability boundary for cooperating code, not an OS
 sandbox against hostile Python introspection.
 
+Observation and step requests use the versioned
+`memory-fabric.agent-outcomes.v1` schema. Evaluator task and terminal result
+records use the versioned terminal schema. Their canonical JSON and SHA-256
+request digests are deterministic; deserialization rejects unknown fields and
+oversized payloads rather than silently accepting new authority or security
+metadata.
+
 `benchmarks.outcome_worlds` assigns connected template/fact lineages to one
 seeded split and checks family IDs plus normalized word-order fingerprints for
 cross-split reuse. Paraphrased variants are detected through their preserved

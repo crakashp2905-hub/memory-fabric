@@ -59,6 +59,18 @@ class TestOutcomeContracts(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "evaluator-only"):
             AgentStep("task-1", "planner", "step-1", "propose", {"reward": 1}, ())
 
+    def test_step_canonical_roundtrip_and_unknown_metadata_rejection(self) -> None:
+        step = AgentStep("task-1", "planner", "step-1", "inspect",
+                         {"source": "sensor"}, (("memory-1", 3),))
+        restored = AgentStep.from_json(step.canonical_json())
+        self.assertEqual(restored, step)
+        self.assertEqual(restored.request_digest(), step.request_digest())
+        self.assertEqual(step.canonical_json(), restored.canonical_json())
+        with self.assertRaisesRegex(ValueError, "fields do not match"):
+            AgentStep.from_json(step.canonical_json().replace('"schema_id":', '"grant":true,"schema_id":'))
+        with self.assertRaisesRegex(ValueError, "non-negative version"):
+            AgentStep("task-1", "planner", "step-1", "inspect", {}, (("memory-1", True),))
+
     def test_episode_outcome_requires_opaque_oracle_digest(self) -> None:
         good = EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 1, 1, 0, 0, 0, 1.0,
                               hashlib.sha256(b"sealed outcome").hexdigest())

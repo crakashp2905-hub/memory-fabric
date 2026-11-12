@@ -133,7 +133,7 @@ class AgentStep:
         _no_oracle_fields(self.arguments)
         for item in self.evidence_versions:
             if (not isinstance(item, tuple) or len(item) != 2 or not isinstance(item[0], str)
-                    or not isinstance(item[1], int) or item[1] < 0):
+                    or not isinstance(item[1], int) or isinstance(item[1], bool) or item[1] < 0):
                 raise ValueError("evidence_versions must be (memory_id, non-negative version) pairs")
         _canonical(self.to_dict())
 
@@ -141,6 +141,31 @@ class AgentStep:
         return {"schema_id": self.schema_id, "task_id": self.task_id, "actor_id": self.actor_id,
                 "step_id": self.step_id, "intent": self.intent, "arguments": self.arguments,
                 "evidence_versions": [list(pair) for pair in self.evidence_versions]}
+
+    def canonical_json(self) -> str:
+        return _canonical(self.to_dict()).decode("utf-8")
+
+    def request_digest(self) -> str:
+        return hashlib.sha256(self.canonical_json().encode("utf-8")).hexdigest()
+
+    @classmethod
+    def from_json(cls, value: str) -> "AgentStep":
+        if len(value.encode("utf-8")) > MAX_JSON_BYTES:
+            raise ValueError("contract payload exceeds the size limit")
+        raw = json.loads(value)
+        expected = {"schema_id", "task_id", "actor_id", "step_id", "intent",
+                    "arguments", "evidence_versions"}
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("step fields do not match schema v1")
+        versions = raw["evidence_versions"]
+        if not isinstance(versions, list) or any(
+            not isinstance(item, list) or len(item) != 2 for item in versions
+        ):
+            raise ValueError("evidence_versions must be a list of pairs")
+        return cls(task_id=raw["task_id"], actor_id=raw["actor_id"], step_id=raw["step_id"],
+                   intent=raw["intent"], arguments=raw["arguments"],
+                   evidence_versions=tuple((item[0], item[1]) for item in versions),
+                   schema_id=raw["schema_id"])
 
 
 @dataclass(frozen=True)
