@@ -28,7 +28,8 @@
         "tests/test_outcome_mock_executor.py",
         "tests/test_outcome_report_metrics.py",
         "tests/test_outcome_world_splits.py",
-        "tests/test_outcome_demo_install.py"
+        "tests/test_outcome_demo_install.py",
+        "tests/test_agent_outcome_operator_trace.py"
       ]
     },
     {
@@ -41,6 +42,7 @@
         "benchmarks/outcome_report.py",
         "benchmarks/outcome_worlds.py",
         "src/memory_fabric/agent_outcomes",
+        "tests/test_agent_outcome_operator_trace.py",
         "src/memory_fabric/enforcement.py",
         "src/memory_fabric/reasons.py",
         "tests/test_agent_outcome_recovery_catalog.py",
