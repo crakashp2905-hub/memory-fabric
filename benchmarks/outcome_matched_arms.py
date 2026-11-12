@@ -1,8 +1,7 @@
-"""Comparability contracts for paired real-agent memory arms.
+"""Comparability contracts for paired real-agent memory and replay arms.
 
-This module does not score outcomes or claim efficacy. It freezes the task,
-prompt frame, model checkpoint, decoding settings, and output budget before a
-paired arm runner executes the two memory interventions.
+It freezes task and resource parity, then reports descriptive matched outcomes.
+It does not claim confirmatory efficacy or promotion.
 """
 
 from __future__ import annotations
@@ -74,6 +73,10 @@ RETRIEVAL_BASELINE_NAMES = {
     "R_FULL_CONTEXT": "full_context",
     "R_GOVERNED": "current_governed_memory",
 }
+REPLAY_ABLATION_STRATEGIES = (
+    "random", "recency", "exact_dependence", "leave_one_out", "shapley",
+    "budgeted_replay",
+)
 _RETRIEVAL_RESOURCE_KEYS = frozenset({
     "retrieval_calls", "retrieved_items", "context_tokens",
     "model_calls", "model_tokens", "output_tokens",
@@ -935,4 +938,109 @@ def compare_candidate_to_strongest_fair_arm(
         "parity_status": "NOT_MECHANICALLY_VERIFIED",
         "promotion_eligible": False,
         "claim_scope": "descriptive_matched_case_completion_only",
+    }
+
+
+def compare_replay_ablation_outcomes(
+    rows: Iterable[Mapping[str, Any]],
+    *,
+    work_budget: int,
+    context_token_budget: int,
+    minimum_seed_clusters: int = 5,
+) -> dict[str, Any]:
+    """Compare replay strategies only after exact per-case resource parity.
+
+    Every strategy must use the same measured work units and answer-context
+    tokens for each task, within common fixed caps. The output is descriptive;
+    it does not promote an arm or establish causal efficacy.
+    """
+    for name, value in (("work_budget", work_budget),
+                        ("context_token_budget", context_token_budget),
+                        ("minimum_seed_clusters", minimum_seed_clusters)):
+        if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+            raise ValueError(f"{name} must be a positive integer")
+    by_strategy: dict[str, dict[str, Mapping[str, Any]]] = {
+        strategy: {} for strategy in REPLAY_ABLATION_STRATEGIES
+    }
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("ablation outcome rows must be mappings")
+        strategy = row.get("strategy")
+        if not isinstance(strategy, str) or strategy not in by_strategy:
+            raise ValueError("unknown replay ablation strategy")
+        task_id = row.get("task_id")
+        if not isinstance(task_id, str) or not task_id:
+            raise ValueError("ablation rows require a task_id")
+        if task_id in by_strategy[strategy]:
+            raise ValueError(f"duplicate task {task_id!r} for {strategy}")
+        seed = row.get("seed")
+        if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+            raise ValueError("ablation seed must be a non-negative integer")
+        if not isinstance(row.get("completion"), bool):
+            raise ValueError("completion must be a terminal grader boolean")
+        for field, budget in (("work_units", work_budget),
+                              ("context_tokens", context_token_budget)):
+            amount = row.get(field)
+            if not isinstance(amount, int) or isinstance(amount, bool) or amount < 0:
+                raise ValueError(f"{field} must be a non-negative integer")
+            if amount > budget:
+                raise ValueError(f"{field} exceeds its fixed budget")
+        by_strategy[strategy][task_id] = row
+
+    reference_ids = set(by_strategy[REPLAY_ABLATION_STRATEGIES[0]])
+    if not reference_ids or any(set(items) != reference_ids for items in by_strategy.values()):
+        raise ValueError("all strategies must cover the same non-empty task IDs")
+    task_ids = sorted(reference_ids)
+    seed_by_task: dict[str, int] = {}
+    work_by_task: dict[str, int] = {}
+    context_by_task: dict[str, int] = {}
+    completion_counts: dict[str, int] = {}
+    strategy_task_counts: dict[str, dict[str, int | float]] = {}
+    for task_id in task_ids:
+        reference: Mapping[str, Any] | None = None
+        for strategy in REPLAY_ABLATION_STRATEGIES:
+            row = by_strategy[strategy][task_id]
+            if reference is None:
+                reference = row
+                seed_by_task[task_id] = int(row["seed"])
+                work_by_task[task_id] = int(row["work_units"])
+                context_by_task[task_id] = int(row["context_tokens"])
+            elif (row["seed"] != reference["seed"]
+                  or row["work_units"] != reference["work_units"]
+                  or row["context_tokens"] != reference["context_tokens"]):
+                raise ValueError("strategies must match seed, work units, and context per task")
+    cluster_count = len(set(seed_by_task.values()))
+    for strategy in REPLAY_ABLATION_STRATEGIES:
+        rows_by_task = by_strategy[strategy]
+        completion_counts[strategy] = sum(
+            bool(rows_by_task[task_id]["completion"]) for task_id in task_ids
+        )
+        strategy_task_counts[strategy] = {
+            "completed": completion_counts[strategy], "denominator": len(task_ids),
+            "completion_rate": completion_counts[strategy] / len(task_ids),
+        }
+    task_set_digest = _sha256(task_ids)
+    return {
+        "schema_id": "memory-fabric.replay-ablation-comparison.v1",
+        "status": "MATCHED_COSTS_VALIDATED",
+        "strategies": list(REPLAY_ABLATION_STRATEGIES),
+        "task_population": {
+            "denominator": len(task_ids),
+            "task_id_set_sha256": task_set_digest,
+            "independent_seed_clusters": cluster_count,
+            "minimum_seed_clusters": minimum_seed_clusters,
+            "seed_floor_met": cluster_count >= minimum_seed_clusters,
+        },
+        "fixed_budgets": {
+            "work_units": work_budget,
+            "context_tokens": context_token_budget,
+        },
+        "matched_resource_usage": {
+            "per_task_work_units": work_by_task,
+            "per_task_context_tokens": context_by_task,
+            "identical_across_strategies": True,
+        },
+        "completion_by_strategy": strategy_task_counts,
+        "promotion_eligible": False,
+        "claim_scope": "matched_budget_ablation_description_no_promotion_claim",
     }
