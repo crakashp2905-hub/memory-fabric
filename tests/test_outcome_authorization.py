@@ -381,6 +381,55 @@ class TestTypedPlanAuthorization(unittest.TestCase):
         self.assertIn(EVIDENCE_VERSION_MOVED, execution.decision.reason_codes)
         self.assertEqual(effects, [])
 
+    def test_action_time_correction_blocks_old_read_and_fresh_alternative_recovers(self) -> None:
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        original = fabric.remember("source-a", "Protected setting is 4.", scope="team")
+        alternative = fabric.remember(
+            "source-b", "Independent instrument confirms setting is 4.", scope="team",
+        )
+        request = ActionRequest("protected_setting", {"value": 4})
+        policy = ActionPolicy(
+            tools={"set_protected_setting": ToolRule(
+                "set_protected_setting", requires_grant=True,
+            )},
+            grants={"executor": frozenset({"set_protected_setting"})},
+        )
+        gate = ActionGate(fabric, policy)
+        read_certificate = fabric.certify(
+            "Apply the protected setting.", [original], "executor",
+        )
+        read_grant = gate.issue_grant(
+            "set_protected_setting", "executor", issuer="host",
+            certificate=read_certificate, request=request,
+        )
+
+        fabric.revise(original, "Updated protected setting is 9.",
+                      "source-a", "correction before execution")
+        effects: list[int] = []
+        stale = gate.execute(
+            "set_protected_setting", "executor", lambda _key: effects.append(4),
+            read_certificate, key="corrected-after-read", request=request, grant=read_grant,
+        )
+        self.assertEqual(stale.outcome, REFUSED)
+        self.assertIn(EVIDENCE_VERSION_MOVED, stale.decision.reason_codes)
+        self.assertEqual(effects, [])
+
+        fresh_certificate = fabric.certify(
+            "Apply the protected setting.", [alternative], "executor",
+        )
+        fresh_grant = gate.issue_grant(
+            "set_protected_setting", "executor", issuer="host",
+            certificate=fresh_certificate, request=request,
+        )
+        recovered = gate.execute(
+            "set_protected_setting", "executor", lambda _key: effects.append(4),
+            fresh_certificate, key="independent-alternative", request=request,
+            grant=fresh_grant,
+        )
+        self.assertEqual(recovered.outcome, "executed")
+        self.assertEqual(effects, [4])
+
     def test_changed_action_cannot_reuse_the_original_exact_action_grant(self) -> None:
         _, executor, gate, plan, certificate, grant = self._prepared_plan()
         changed = replace(plan, parameters={"value": 99})
