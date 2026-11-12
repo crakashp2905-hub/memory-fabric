@@ -29,6 +29,91 @@ class RuntimeStatus(StrEnum):
     BUDGET_EXHAUSTED = "BUDGET_EXHAUSTED"
 
 
+class CounterfactualReplayStatus(StrEnum):
+    SKIPPED = "SKIPPED"
+    INVOKED = "INVOKED"
+
+
+class CounterfactualReplayReason(StrEnum):
+    DEPENDENCE_NOT_CHECKED = "dependence_not_checked"
+    DECISION_INDEPENDENT = "decision_independent"
+    NO_MATERIAL_ALTERNATIVE = "no_material_alternative"
+    CDM_UNAVAILABLE = "cdm_unavailable"
+    MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE = "material_alternative_after_dependence"
+
+
+@dataclass(frozen=True)
+class CounterfactualReplayDispatch:
+    """Host-side receipt describing whether the advisory replay was invoked."""
+
+    status: CounterfactualReplayStatus
+    reason: CounterfactualReplayReason
+    decision_sha256: str | None = None
+    alternative_sha256: str | None = None
+    result: Any = None
+
+
+CounterfactualReplay = Callable[[Mapping[str, Any], Mapping[str, Any]], Any]
+
+
+def dispatch_counterfactual_replay(
+    decision: Mapping[str, Any],
+    alternative: Mapping[str, Any],
+    *,
+    dependence_checked: bool,
+    depends_on_memory: bool,
+    replay: CounterfactualReplay | None,
+) -> CounterfactualReplayDispatch:
+    """Run the advisory CDM only after cheap dependence checks find a material alternative.
+
+    ``decision`` and ``alternative`` are host-owned action proposals. The helper
+    records only their canonical digests; the replay callback remains advisory
+    and receives no evaluator capability or action-gate authority.
+    """
+    if not isinstance(dependence_checked, bool) or not isinstance(depends_on_memory, bool):
+        raise ValueError("dependence check results must be booleans")
+    if not dependence_checked:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.SKIPPED,
+            CounterfactualReplayReason.DEPENDENCE_NOT_CHECKED,
+        )
+    if not depends_on_memory:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.SKIPPED,
+            CounterfactualReplayReason.DECISION_INDEPENDENT,
+        )
+    current = _canonical_object(decision, max_bytes=MAX_TOOL_ARGUMENT_BYTES,
+                                label="decision proposal")
+    candidate = _canonical_object(alternative, max_bytes=MAX_TOOL_ARGUMENT_BYTES,
+                                  label="alternative proposal")
+    current_digest = hashlib.sha256(json.dumps(
+        current, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+    alternative_digest = hashlib.sha256(json.dumps(
+        candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+    if current_digest == alternative_digest:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.SKIPPED,
+            CounterfactualReplayReason.NO_MATERIAL_ALTERNATIVE,
+            current_digest, alternative_digest,
+        )
+    if replay is None:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.SKIPPED,
+            CounterfactualReplayReason.CDM_UNAVAILABLE,
+            current_digest, alternative_digest,
+        )
+    result = replay(current, candidate)
+    return CounterfactualReplayDispatch(
+        CounterfactualReplayStatus.INVOKED,
+        CounterfactualReplayReason.MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE,
+        current_digest, alternative_digest, result,
+    )
+
+
 @dataclass(frozen=True)
 class RuntimeTool:
     """Host-owned handler declaration with strict JSON argument and output bounds."""

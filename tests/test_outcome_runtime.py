@@ -7,12 +7,53 @@ import unittest
 from collections.abc import Mapping
 
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, RuntimeStatus, RuntimeTool,
-    run_agent_json_loop, run_agent_loop,
+    AgentObservation, AgentStep, CounterfactualReplayReason,
+    CounterfactualReplayStatus, RuntimeStatus, RuntimeTool,
+    dispatch_counterfactual_replay, run_agent_json_loop, run_agent_loop,
 )
 
 
 class TestOutcomeRuntime(unittest.TestCase):
+    def test_counterfactual_replay_requires_dependence_and_material_alternative(self) -> None:
+        decision = {"tool": "set_target", "value": 4}
+        alternative = {"tool": "set_target", "value": 9}
+        calls: list[tuple[dict[str, object], dict[str, object]]] = []
+
+        def replay(current: Mapping[str, object], candidate: Mapping[str, object]) -> str:
+            calls.append((dict(current), dict(candidate)))
+            return "proposal_changed"
+
+        unchecked = dispatch_counterfactual_replay(
+            decision, alternative, dependence_checked=False, depends_on_memory=True,
+            replay=replay,
+        )
+        independent = dispatch_counterfactual_replay(
+            decision, alternative, dependence_checked=True, depends_on_memory=False,
+            replay=replay,
+        )
+        same = dispatch_counterfactual_replay(
+            decision, dict(decision), dependence_checked=True, depends_on_memory=True,
+            replay=replay,
+        )
+        self.assertEqual(unchecked.reason, CounterfactualReplayReason.DEPENDENCE_NOT_CHECKED)
+        self.assertEqual(independent.reason, CounterfactualReplayReason.DECISION_INDEPENDENT)
+        self.assertEqual(same.reason, CounterfactualReplayReason.NO_MATERIAL_ALTERNATIVE)
+        self.assertEqual(calls, [])
+
+        triggered = dispatch_counterfactual_replay(
+            decision, alternative, dependence_checked=True, depends_on_memory=True,
+            replay=replay,
+        )
+        self.assertEqual(triggered.status, CounterfactualReplayStatus.INVOKED)
+        self.assertEqual(
+            triggered.reason,
+            CounterfactualReplayReason.MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE,
+        )
+        self.assertEqual(triggered.result, "proposal_changed")
+        self.assertEqual(calls, [(decision, alternative)])
+        self.assertEqual(len(triggered.decision_sha256 or ""), 64)
+        self.assertEqual(len(triggered.alternative_sha256 or ""), 64)
+
     def test_tool_output_changes_the_next_step_without_exposing_world_state(self) -> None:
         initial = AgentObservation(
             task_id="runtime-task-1", instruction="Read the gauge and set its value.",

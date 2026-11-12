@@ -8,8 +8,10 @@ __stability__ = "experimental"
 
 from .observations import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
 from .runtime import (
-    RuntimeResult, RuntimeStatus, RuntimeTool, ToolCallRecord,
-    run_agent_json_loop, run_agent_loop,
+    CounterfactualReplayDispatch, CounterfactualReplayReason,
+    CounterfactualReplayStatus, RuntimeResult, RuntimeStatus, RuntimeTool,
+    ToolCallRecord, dispatch_counterfactual_replay, run_agent_json_loop,
+    run_agent_loop,
 )
 from .recovery import (
     RECOVERY_ACTIONS, RecoveryAction, RecoveryCause, RecoveryEpisode, RecoveryGuidance,
@@ -30,7 +32,9 @@ from .outcomes import (
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RuntimeResult", "RuntimeStatus", "RuntimeTool", "ToolCallRecord",
-           "run_agent_json_loop", "run_agent_loop",
+           "run_agent_json_loop", "run_agent_loop", "CounterfactualReplayDispatch",
+           "CounterfactualReplayReason", "CounterfactualReplayStatus",
+           "dispatch_counterfactual_replay",
            "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
            "RecoveryCause", "RecoveryGuidance", "RecoveryNextAction",
            "RecoveryFailureClass", "RecoveryFeatureFlag", "RecoveryResolution",

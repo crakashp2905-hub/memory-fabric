@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v52.json`. Run it with
+`tools/agent_outcome_gate_manifest.v53.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -410,3 +410,5 @@ for unique task IDs; an accurate decision target index cannot count as a
 completed task.
 
 AO-056 exercises correction and action commits in separate processes. The action gate serializes evidence verification and the effect attempt with the correction transaction: if correction wins, stale evidence is refused; if action wins, its execution is ordered before correction. A crash leaves an unknown effect and the same idempotency key requires an explicit retry. The downstream effect handler must deduplicate that key because the gate cannot infer whether an external effect completed before a crash.
+
+AO-057 routes counterfactual replay through dispatch_counterfactual_replay. The host must first provide a completed dependence check; replay is skipped for independent decisions, missing checks, identical proposals, or an unavailable CDM. A dispatched replay records the reason and canonical proposal digests. The callback is advisory and receives no evaluator capability or action-gate authority.
