@@ -13,7 +13,7 @@ moment it acts.
 ![MCP](https://img.shields.io/badge/MCP-stdio%20server-purple)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-> **Status: alpha, 0.14.0 in development** (the last pinned baseline is 0.13.0, in the
+> **Status: alpha, 0.19.0 in development** (the last pinned baseline is 0.13.0, in the
 > [release notes](docs/RELEASE_NOTES_0.13.0.md)). Working name; not yet on PyPI.
 > What is stable and what is experimental: [STABILITY.md](STABILITY.md).
 

@@ -1,5 +1,11 @@
 # Agent outcome evaluation
 
+The current alpha package is version `0.19.0` in development; the event schema
+and `SPEC.md` remain at `0.14.0`. The 0.19.0 package has not been published or
+tagged. The latest pinned release notes remain 0.13.0. Source, README, Helm
+application image metadata, and the generated status report are checked for
+version consistency.
+
 The experimental runtime contracts live in `memory_fabric.agent_outcomes`.
 They are opt-in and do not replace Memory Fabric's identity, evidence
 verification, or `ActionGate`. `AgentObservation` rejects evaluator-only fields

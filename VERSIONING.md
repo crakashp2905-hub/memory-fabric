@@ -18,8 +18,9 @@ So the guarantee is placed where the irreversible damage is:
 > the same major series.**
 
 `SCHEMA_VERSION` in `memory_fabric/model.py` is the authority on the schema;
-the version in `pyproject.toml` is what `pip` sees. They are equal today, at
-`0.14.0`, and the invariant that is actually tested
+the version in `pyproject.toml` is what `pip` sees. The current development
+package is `0.19.0`, while the event schema remains `0.14.0`; the package may
+run ahead of the schema. The invariant that is actually tested
 (`test_package_version_is_not_behind_the_schema`) is the weaker one:
 
 > the package version is never *behind* the schema version.

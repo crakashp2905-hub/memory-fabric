@@ -262,6 +262,14 @@ class TestVersion(unittest.TestCase):
         with open(root / "pyproject.toml", "rb") as fh:
             declared = tomllib.load(fh)["project"]["version"]
         self.assertEqual(memory_fabric.__version__, declared)
+        chart = (root / "deploy" / "helm" / "memory-fabric" / "Chart.yaml").read_text(
+            encoding="utf-8")
+        values = (root / "deploy" / "helm" / "memory-fabric" / "values.yaml").read_text(
+            encoding="utf-8")
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        self.assertIn(f'appVersion: "{declared}"', chart)
+        self.assertIn(f'tag: "{declared}"', values)
+        self.assertIn(f"alpha, {declared} in development", readme)
 
 
 if __name__ == "__main__":
