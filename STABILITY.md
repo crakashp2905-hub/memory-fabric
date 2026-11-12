@@ -129,10 +129,11 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.typedclaims`
 - `memory_fabric.validation`
 
-## Experimental (25)
+## Experimental (26)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.agent_outcomes.__init__`
+- `memory_fabric.agent_outcomes.demo`
 - `memory_fabric.agent_outcomes.eligibility`
 - `memory_fabric.agent_outcomes.observations`
 - `memory_fabric.agent_outcomes.outcomes`

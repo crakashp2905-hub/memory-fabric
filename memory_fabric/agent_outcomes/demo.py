@@ -7,6 +7,8 @@ Memory Fabric store and a local simulated target.
 
 from __future__ import annotations
 
+__stability__ = "experimental"
+
 import hashlib
 import json
 from dataclasses import replace
