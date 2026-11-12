@@ -7,8 +7,10 @@ from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, Mapping
 
+from memory_fabric.actions import ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes.boundary import AgentPort
 from memory_fabric.agent_outcomes.observations import AgentObservation, AgentStep
+from memory_fabric.enforcement import RiskLevel
 from memory_fabric.service import Session
 
 
@@ -45,6 +47,24 @@ class ToolDeclaration:
                 raise ValueError(f"argument {name} has the wrong type")
             if not isinstance(value, expected_type):
                 raise ValueError(f"argument {name} has the wrong type")
+
+
+@dataclass(frozen=True)
+class PreparedAction:
+    task_id: str
+    actor_id: str
+    tool: str
+    evidence_versions: tuple[tuple[str, int], ...]
+    certificate: Any
+    request: ActionRequest
+
+
+@dataclass(frozen=True)
+class ExecutionRecord:
+    step: AgentStep
+    outcome: str
+    reason_codes: tuple[str, ...]
+    ran: bool
 
 
 @dataclass
@@ -153,6 +173,7 @@ class ExecutorActor(_Actor):
 
     def __init__(self, session: Session, declarations: tuple[ToolDeclaration, ...]) -> None:
         super().__init__(session, ActorRole.EXECUTOR, declarations)
+        self.executions: list[ExecutionRecord] = []
 
     def accept(self, observation: AgentObservation, plan: AgentStep) -> AgentStep:
         AgentPort(observation, plan.actor_id).submit(plan)
@@ -162,8 +183,94 @@ class ExecutorActor(_Actor):
         declaration = next((item for item in self.declarations if item.name == tool), None)
         if declaration is None or tool not in observation.permitted_tools:
             raise PermissionError("executor does not hold the proposed tool declaration")
+        visible_versions = {
+            (item.get("memory_id"), item.get("version"))
+            for item in observation.visible_events
+            if isinstance(item.get("memory_id"), str)
+            and isinstance(item.get("version"), int)
+            and not isinstance(item.get("version"), bool)
+        }
+        if len(set(plan.evidence_versions)) != len(plan.evidence_versions) or any(
+            pair not in visible_versions for pair in plan.evidence_versions
+        ):
+            raise ValueError("plan evidence versions are not present in the observation")
         arguments = {name: value for name, value in plan.arguments.items() if name != "tool"}
         declaration.validate_arguments(arguments)
         accepted = self._record(plan.task_id, "propose", dict(plan.arguments),
                                 plan.evidence_versions)
         return AgentPort(observation, self.actor_id).submit(accepted)
+
+    def prepare(
+        self,
+        observation: AgentObservation,
+        plan: AgentStep,
+        *,
+        request: ActionRequest,
+    ) -> PreparedAction:
+        """Pin the planner's exact evidence versions before a host issues a grant."""
+        accepted = self.accept(observation, plan)
+        tool = accepted.arguments["tool"]
+        declaration = next(item for item in self.declarations if item.name == tool)
+        if not declaration.protected:
+            raise ValueError("prepare is only for protected tools")
+        if not isinstance(request, ActionRequest):
+            raise TypeError("protected execution requires an ActionRequest")
+        if not accepted.evidence_versions:
+            raise ValueError("protected proposals must cite observed evidence versions")
+
+        for memory_id, planned_version in accepted.evidence_versions:
+            evidence = self.session.use(memory_id, risk=RiskLevel.HIGH)
+            if not evidence.usable:
+                raise PermissionError("planned evidence is not currently authorized")
+            if evidence.memory.version != planned_version:
+                raise ValueError("evidence version changed after planning")
+
+        certificate = self.session.certify(
+            f"agent-outcome:{accepted.task_id}",
+            [memory_id for memory_id, _version in accepted.evidence_versions],
+        )
+        certified_versions = tuple(sorted(
+            (item.memory_id, item.version) for item in certificate.supporting
+        ))
+        if certified_versions != tuple(sorted(accepted.evidence_versions)):
+            raise ValueError("certificate did not bind the planned evidence versions")
+        return PreparedAction(accepted.task_id, self.actor_id, tool,
+                              accepted.evidence_versions, certificate, request)
+
+    def execute(
+        self,
+        prepared: PreparedAction,
+        gate: ActionGate,
+        run: Any,
+        *,
+        key: str,
+        grant: Grant,
+    ) -> ActionExecution:
+        """Run only with a current exact-action Grant; ActionGate rechecks at effect time."""
+        if not isinstance(prepared, PreparedAction):
+            raise TypeError("prepared must be a PreparedAction")
+        if not isinstance(grant, Grant):
+            raise TypeError("protected actions require a typed Grant")
+        if not callable(run):
+            raise TypeError("tool handler must be callable")
+        if prepared.actor_id != self.actor_id or prepared.certificate.agent_id != self.actor_id:
+            raise PermissionError("prepared action belongs to another executor identity")
+        rule = gate.policy.tools.get(prepared.tool)
+        if rule is None or not rule.requires_grant:
+            raise PermissionError("protected tool policy must require an exact-action grant")
+        declaration = next((item for item in self.declarations
+                            if item.name == prepared.tool and item.protected), None)
+        if declaration is None:
+            raise PermissionError("executor does not hold the protected tool declaration")
+
+        result = gate.execute(
+            prepared.tool, self.actor_id, run, prepared.certificate, key=key,
+            tenant_id=self.session.tenant_id, session=self.session,
+            request=prepared.request, grant=grant,
+        )
+        reason_codes = tuple(result.decision.reason_codes) if result.decision else ()
+        step = self._record(prepared.task_id, "propose", {
+            "tool": prepared.tool, "outcome": result.outcome,
+        }, prepared.evidence_versions)
+        self.executions.append(ExecutionRecord(step, result.outcome, reason_codes, result.ran))
+        return result
