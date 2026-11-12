@@ -5,8 +5,9 @@ from __future__ import annotations
 import unittest
 
 from memory_fabric.agent_outcomes import (
-    ReplayContractStatus, build_authorized_replay_contract,
-    dispatch_counterfactual_replay,
+    OutcomeBenefitLabel, PolicyFlipLabel, ReplayContractStatus,
+    ReplayFidelityLabel, build_authorized_replay_contract,
+    dispatch_counterfactual_replay, label_counterfactual_evidence,
 )
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import REFUSED, ActionGate, ActionPolicy, ToolRule
@@ -31,6 +32,46 @@ def _complete_trace() -> dict[str, object]:
 
 
 class TestOutcomeCounterfactual(unittest.TestCase):
+    def test_changed_proposal_is_not_reported_as_outcome_benefit_or_cause(self) -> None:
+        report = label_counterfactual_evidence(
+            replay_fidelity=ReplayFidelityLabel.EXACT,
+            baseline_decision_sha256="a" * 64,
+            alternative_decision_sha256="b" * 64,
+            baseline_terminal_outcome=True,
+            alternative_terminal_outcome=True,
+        )
+
+        self.assertEqual(report["replay_fidelity"], "EXACT")
+        self.assertEqual(report["policy_flip"], PolicyFlipLabel.FLIPPED.value)
+        self.assertEqual(report["outcome_benefit"], OutcomeBenefitLabel.NO_CHANGE.value)
+        self.assertEqual(report["real_world_causality"], "NOT_ESTABLISHED")
+        self.assertFalse(report["physical_root_cause_established"])
+
+    def test_observed_paired_benefit_remains_distinct_from_physical_causality(self) -> None:
+        report = label_counterfactual_evidence(
+            replay_fidelity=ReplayFidelityLabel.DIVERGED,
+            baseline_decision_sha256="a" * 64,
+            alternative_decision_sha256="b" * 64,
+            baseline_terminal_outcome=False,
+            alternative_terminal_outcome=True,
+        )
+
+        self.assertEqual(report["outcome_benefit"], OutcomeBenefitLabel.IMPROVED.value)
+        self.assertEqual(report["real_world_causality"], "NOT_ESTABLISHED")
+        self.assertFalse(report["causal_effect_established"])
+
+    def test_missing_decision_or_terminal_evidence_is_undecidable(self) -> None:
+        report = label_counterfactual_evidence(
+            replay_fidelity=ReplayFidelityLabel.UNVERIFIABLE,
+            baseline_decision_sha256=None,
+            alternative_decision_sha256="b" * 64,
+            baseline_terminal_outcome=False,
+            alternative_terminal_outcome=None,
+        )
+
+        self.assertEqual(report["policy_flip"], PolicyFlipLabel.UNDECIDABLE.value)
+        self.assertEqual(report["outcome_benefit"], OutcomeBenefitLabel.UNDECIDABLE.value)
+
     def test_complete_trace_pins_model_policy_decision_and_evidence_epochs(self) -> None:
         built = build_authorized_replay_contract(_complete_trace())
 

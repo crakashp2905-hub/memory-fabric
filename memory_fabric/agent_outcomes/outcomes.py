@@ -1039,3 +1039,78 @@ def summarize_audit_memory_links(audit: EpisodeAudit) -> dict[str, Any]:
         "causal_effect_established": False,
         "claim_scope": "recorded_seen_and_relied_on_links_only_no_causal_attribution",
     }
+
+
+class ReplayFidelityLabel(StrEnum):
+    EXACT = "EXACT"
+    DIVERGED = "DIVERGED"
+    UNVERIFIABLE = "UNVERIFIABLE"
+
+
+class PolicyFlipLabel(StrEnum):
+    FLIPPED = "FLIPPED"
+    UNCHANGED = "UNCHANGED"
+    UNDECIDABLE = "UNDECIDABLE"
+
+
+class OutcomeBenefitLabel(StrEnum):
+    IMPROVED = "IMPROVED"
+    REGRESSED = "REGRESSED"
+    NO_CHANGE = "NO_CHANGE"
+    UNDECIDABLE = "UNDECIDABLE"
+
+
+def label_counterfactual_evidence(
+    *,
+    replay_fidelity: ReplayFidelityLabel,
+    baseline_decision_sha256: str | None,
+    alternative_decision_sha256: str | None,
+    baseline_terminal_outcome: bool | None,
+    alternative_terminal_outcome: bool | None,
+) -> dict[str, Any]:
+    """Keep replay fidelity, policy changes, observed outcomes, and causality distinct.
+
+    Terminal outcomes must come from the evaluator for the declared paired arms.
+    This function labels their comparison and never turns replay behavior into a
+    claim about physical root cause.
+    """
+    if not isinstance(replay_fidelity, ReplayFidelityLabel):
+        raise ValueError("replay_fidelity must use ReplayFidelityLabel")
+    decision_digests = (baseline_decision_sha256, alternative_decision_sha256)
+    if any(value is not None and (
+            not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None
+    ) for value in decision_digests):
+        raise ValueError("decision digests must be SHA-256 hex or absent")
+    for label, outcome in (("baseline", baseline_terminal_outcome),
+                           ("alternative", alternative_terminal_outcome)):
+        if outcome is not None and not isinstance(outcome, bool):
+            raise ValueError(f"{label} terminal outcome must be boolean or absent")
+
+    baseline_digest, alternative_digest = decision_digests
+    if baseline_digest is None or alternative_digest is None:
+        policy_flip = PolicyFlipLabel.UNDECIDABLE
+    elif baseline_digest == alternative_digest:
+        policy_flip = PolicyFlipLabel.UNCHANGED
+    else:
+        policy_flip = PolicyFlipLabel.FLIPPED
+
+    if baseline_terminal_outcome is None or alternative_terminal_outcome is None:
+        benefit = OutcomeBenefitLabel.UNDECIDABLE
+    elif baseline_terminal_outcome == alternative_terminal_outcome:
+        benefit = OutcomeBenefitLabel.NO_CHANGE
+    elif alternative_terminal_outcome:
+        benefit = OutcomeBenefitLabel.IMPROVED
+    else:
+        benefit = OutcomeBenefitLabel.REGRESSED
+
+    return {
+        "schema_id": "memory-fabric.counterfactual-evidence-labels.v1",
+        "replay_fidelity": replay_fidelity.value,
+        "policy_flip": policy_flip.value,
+        "outcome_benefit": benefit.value,
+        "outcome_basis": "paired_terminal_grader_outcomes",
+        "real_world_causality": "NOT_ESTABLISHED",
+        "causal_effect_established": False,
+        "physical_root_cause_established": False,
+        "claim_scope": "separate_replay_fidelity_decision_change_and_observed_outcome_labels",
+    }

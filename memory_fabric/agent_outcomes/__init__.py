@@ -26,9 +26,11 @@ from .eligibility import (
 )
 from .outcomes import (
     EffectRecord, EpisodeAudit, GradeReason, GradeStatus, OutcomeAuditEvent,
-    OutcomeAuditKind, OutcomeStage, TerminalGrade, TerminalObjective, TerminalSnapshot,
+    OutcomeAuditKind, OutcomeBenefitLabel, OutcomeStage, PolicyFlipLabel,
+    ReplayFidelityLabel, TerminalGrade, TerminalObjective, TerminalSnapshot,
     canonical_step_id, canonical_task_id, grade_terminal,
-    targeted_correction_reevaluation_receipts, summarize_audit_memory_links,
+    label_counterfactual_evidence, targeted_correction_reevaluation_receipts,
+    summarize_audit_memory_links,
 )
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
@@ -46,7 +48,9 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
            "diagnose_certificate", "diagnose_relevance", "find_alternate_sources",
            "EffectRecord", "EpisodeAudit", "GradeReason", "GradeStatus",
-           "OutcomeAuditEvent", "OutcomeAuditKind", "OutcomeStage", "TerminalGrade",
+           "OutcomeAuditEvent", "OutcomeAuditKind", "OutcomeBenefitLabel",
+           "OutcomeStage", "PolicyFlipLabel", "ReplayFidelityLabel", "TerminalGrade",
            "TerminalObjective", "TerminalSnapshot", "canonical_step_id",
            "canonical_task_id", "grade_terminal",
-           "targeted_correction_reevaluation_receipts", "summarize_audit_memory_links"]
+           "label_counterfactual_evidence", "targeted_correction_reevaluation_receipts",
+           "summarize_audit_memory_links"]

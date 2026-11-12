@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v57.json`. Run it with
+`tools/agent_outcome_gate_manifest.v58.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -420,3 +420,5 @@ AO-059 keeps replay outputs advisory: dispatch does not invoke tools or the acti
 AO-060 compares paired A6 CDM outcomes against A5 recovery-only outcomes. Per-case utility is terminal completion minus the registered replay-only latency penalty. Promotion requires frozen thresholds, at least five independent seed clusters, a positive clustered interval meeting the minimum net gain, and no increase in unsafe attempts or executed unsafe effects. Unfrozen or underpowered evidence stays NOT_READY; this report does not claim physical-world causality.
 
 AO-061 compares random, recency, exact-dependence, leave-one-out, Shapley, and budgeted-replay outcomes only after paired task IDs, world seeds, measured work units, and answer-context tokens match for each case and stay within common caps. Results are descriptive completion rates and cannot qualify a strategy for promotion.
+
+AO-062 exposes separate replay-fidelity, policy-flip, paired terminal-outcome, and real-world-causality labels. A changed proposal alone cannot imply benefit; even an observed paired outcome improvement leaves physical causality and root cause NOT_ESTABLISHED. Missing decision or outcome evidence remains UNDECIDABLE.
