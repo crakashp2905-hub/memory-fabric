@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v54.json`. Run it with
+`tools/agent_outcome_gate_manifest.v55.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -414,3 +414,5 @@ AO-056 exercises correction and action commits in separate processes. The action
 AO-057 routes counterfactual replay through dispatch_counterfactual_replay. The host must first provide a completed dependence check; replay is skipped for independent decisions, missing checks, identical proposals, or an unavailable CDM. A dispatched replay records the reason and canonical proposal digests. The callback is advisory and receives no evaluator capability or action-gate authority.
 
 AO-058 adds an authorized replay contract that pins model and policy identifiers, versions, and content digests, plus the observation digest, decision digest, evidence epochs, and a host authorization reference. Missing or malformed trace data yields NON_REPLAYABLE; the builder does not infer absent versions or epochs. The authorization digest is an audit reference supplied by the host, not a verification of that host's authorization policy.
+
+AO-059 keeps replay outputs advisory: dispatch does not invoke tools or the action gate. A replay proposal accompanied by a positive evaluator-like score is rejected when offered as the action gate's certificate, and the protected effect remains uncalled. Hosts must obtain ordinary current authorization separately before executing any proposal.

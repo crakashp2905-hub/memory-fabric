@@ -6,7 +6,10 @@ import unittest
 
 from memory_fabric.agent_outcomes import (
     ReplayContractStatus, build_authorized_replay_contract,
+    dispatch_counterfactual_replay,
 )
+from memory_fabric import MemoryFabric
+from memory_fabric.actions import REFUSED, ActionGate, ActionPolicy, ToolRule
 
 
 def _complete_trace() -> dict[str, object]:
@@ -79,6 +82,33 @@ class TestOutcomeCounterfactual(unittest.TestCase):
         self.assertIsNotNone(changed.contract)
         assert first.contract is not None and changed.contract is not None
         self.assertNotEqual(first.contract.contract_sha256, changed.contract.contract_sha256)
+
+    def test_replay_proposal_and_positive_result_do_not_authorize_an_effect(self) -> None:
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        replay = dispatch_counterfactual_replay(
+            {"tool": "set_target", "value": 4},
+            {"tool": "set_target", "value": 9},
+            dependence_checked=True,
+            depends_on_memory=True,
+            replay=lambda _decision, alternative: {
+                "proposal": dict(alternative), "evaluator_reward": 1.0,
+            },
+        )
+        effects: list[str] = []
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"set_target": ToolRule("set_target")},
+            grants={"executor": frozenset({"set_target"})},
+        ))
+
+        outcome = gate.execute(
+            "set_target", "executor", effects.append, replay.result,
+            key="replay-does-not-authorize",
+        )
+
+        self.assertEqual(replay.status.value, "INVOKED")
+        self.assertEqual(outcome.outcome, REFUSED)
+        self.assertEqual(effects, [])
 
 
 if __name__ == "__main__":  # pragma: no cover
