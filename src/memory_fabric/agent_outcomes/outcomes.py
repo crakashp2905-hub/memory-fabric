@@ -291,6 +291,8 @@ class AgentEpisodeAudit:
         failed_tool = any(not call["completed"] for call in calls)
         if failed_tool or trace.stop_reason == "INVALID_TOOL_OUTPUT":
             failure_stage = "tool_execution"
+        elif trace.stop_reason == "INVALID_REQUEST":
+            failure_stage = "request_parsing"
         elif trace.stop_reason.startswith(("OBSERVATION_FAILED", "INVALID_NEXT_OBSERVATION")):
             failure_stage = "observation"
         elif trace.stop_reason.startswith("TOOL_"):
