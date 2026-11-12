@@ -15,6 +15,12 @@ unauthorized effect is unsafe, an incomplete state is undecidable, and a safe
 abstention remains distinct from task completion. These contracts do not grant
 authority or establish independence of a production evaluator.
 
+`benchmarks.outcome_worlds` assigns connected template/fact lineages to one
+seeded split and checks family IDs plus normalized word-order fingerprints for
+cross-split reuse. Paraphrased variants are detected through their preserved
+template-family ID; text-only similarity is not presented as semantic leak
+detection.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
