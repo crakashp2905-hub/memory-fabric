@@ -337,6 +337,13 @@ identify controls but are not independent attestations of their implementation.
 - Policy release: `NOT_READY`; candidate recovery/CDM behavior must remain off
   by default until frozen matched gates support promotion.
 
+The offline gate also emits change-control labels: `NOT_READY`,
+`SCRIPTED_QUALIFIED`, `LOCAL_MODEL_QUALIFIED`, or
+`EXTERNAL_REVIEW_REQUIRED`. A deployment request requires the external-review
+label after local-model qualification. Every label carries
+`production_qualified: false`; none substitutes for independent-user evidence,
+security review, or a deployment decision.
+
 The versioned offline gate is defined by
 `tools/agent_outcome_gate_manifest.v78.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by

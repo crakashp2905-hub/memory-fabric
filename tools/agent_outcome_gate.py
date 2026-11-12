@@ -16,6 +16,7 @@ import subprocess
 import sys
 from collections.abc import Mapping
 from datetime import datetime, timezone
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -29,8 +30,8 @@ from benchmarks.outcome_report import (  # noqa: E402
     real_agent_report_is_complete,
 )
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v80.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v80"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v81.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v81"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -38,7 +39,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 80
+            or manifest.get("manifest_version") != 81
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -55,6 +56,49 @@ def overall_status(results: list[dict[str, Any]]) -> str:
     if any(result["status"] != "PASS" for result in required):
         return "NOT_RUN"
     return "SCRIPTED_QUALIFIED"
+
+
+class ChangeControlStatus(StrEnum):
+    """Qualification labels; none implies production readiness."""
+
+    NOT_READY = "NOT_READY"
+    SCRIPTED_QUALIFIED = "SCRIPTED_QUALIFIED"
+    LOCAL_MODEL_QUALIFIED = "LOCAL_MODEL_QUALIFIED"
+    EXTERNAL_REVIEW_REQUIRED = "EXTERNAL_REVIEW_REQUIRED"
+
+
+def change_control_status(
+    report: Mapping[str, Any], *, deployment_requested: bool = False,
+) -> dict[str, Any]:
+    """Derive a scoped release-control label without upgrading evidence levels."""
+    if not isinstance(deployment_requested, bool):
+        raise ValueError("deployment_requested must be boolean")
+    levels = report.get("evidence_levels")
+    if not isinstance(levels, Mapping) or report.get("status") != "SCRIPTED_QUALIFIED":
+        status = ChangeControlStatus.NOT_READY
+        next_requirement = "complete every required scripted check"
+    else:
+        model_status = levels.get("local_model")
+        if model_status == "PASS":
+            if deployment_requested:
+                status = ChangeControlStatus.EXTERNAL_REVIEW_REQUIRED
+                next_requirement = "independent-user evidence and security review"
+            else:
+                status = ChangeControlStatus.LOCAL_MODEL_QUALIFIED
+                next_requirement = "independent-user evidence and security review before deployment"
+        elif model_status == "REAL_AGENT_NOT_RUN":
+            status = ChangeControlStatus.SCRIPTED_QUALIFIED
+            next_requirement = "run a pinned local model before local-model claims"
+        else:
+            status = ChangeControlStatus.NOT_READY
+            next_requirement = "resolve local-model evidence failure"
+    return {
+        "status": status.value,
+        "production_qualified": False,
+        "deployment_requested": deployment_requested,
+        "next_requirement": next_requirement,
+        "allowed_statuses": [item.value for item in ChangeControlStatus],
+    }
 
 
 def replay_isolation_status() -> str:
@@ -331,6 +375,7 @@ def build_report(
     timeout_s: int = 3600,
     real_agent_report_path: Path | None = None,
     real_agent_team_report_path: Path | None = None,
+    deployment_requested: bool = False,
 ) -> dict[str, Any]:
     """Run manifest checks and return a content-safe evidence report."""
     manifest, manifest_sha256 = read_manifest()
@@ -348,6 +393,9 @@ def build_report(
                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                            stderr=subprocess.DEVNULL, text=True, check=False)
     status = overall_status(results)
+    local_model_status = next(
+        result["status"] for result in results if result["id"] == "local_model"
+    )
     return {
         "schema_id": MANIFEST_SCHEMA,
         "manifest_version": manifest["manifest_version"],
@@ -358,15 +406,17 @@ def build_report(
         "status": status,
         "evidence_levels": {
             "scripted": status,
-            "local_model": next(
-                result["status"] for result in results if result["id"] == "local_model"
-            ),
+            "local_model": local_model_status,
             "real_agent_team": next(
                 result["status"] for result in results if result["id"] == "real_agent_team"
             ),
             "deployment": "NOT_RUN",
             "replay_isolation": replay_isolation_status(),
         },
+        "change_control": change_control_status({
+            "status": status,
+            "evidence_levels": {"local_model": local_model_status},
+        }, deployment_requested=deployment_requested),
         "checks": results,
     }
 
@@ -381,6 +431,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="validate a separate completed REAL_AGENT report")
     parser.add_argument("--real-team-report", type=Path,
                         help="validate a completed sequential three-role REAL_AGENT report")
+    parser.add_argument("--deployment-requested", action="store_true",
+                        help="require external review after local-model qualification")
     parser.add_argument("--out", help="write JSON report to this path instead of stdout")
     args = parser.parse_args(argv)
     if args.timeout <= 0:
@@ -389,6 +441,7 @@ def main(argv: list[str] | None = None) -> int:
         skip_full=args.skip_full, timeout_s=args.timeout,
         real_agent_report_path=args.real_agent_report,
         real_agent_team_report_path=args.real_team_report,
+        deployment_requested=args.deployment_requested,
     ),
                         sort_keys=True, separators=(",", ":"), allow_nan=False)
     if args.out:

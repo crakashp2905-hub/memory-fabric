@@ -7,7 +7,8 @@ import unittest
 from pathlib import Path
 
 from tools.agent_outcome_gate import (
-    MANIFEST_PATH, _run_check, overall_status, read_manifest, replay_isolation_status,
+    MANIFEST_PATH, _run_check, change_control_status, overall_status, read_manifest,
+    replay_isolation_status,
     real_agent_team_evidence_result, real_agent_team_report_is_complete,
 )
 
@@ -15,11 +16,31 @@ from tools.agent_outcome_gate import (
 class TestAgentOutcomeGate(unittest.TestCase):
     def test_manifest_is_versioned_and_content_addressed(self) -> None:
         manifest, digest = read_manifest(MANIFEST_PATH)
-        self.assertEqual(manifest["manifest_version"], 80)
-        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v80")
+        self.assertEqual(manifest["manifest_version"], 81)
+        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v81")
         self.assertEqual(len(digest), 64)
         self.assertIn("full_repository", [item["id"] for item in manifest["checks"]])
         self.assertIn("real_agent_team", [item["id"] for item in manifest["checks"]])
+
+    def test_change_control_labels_never_claim_production_qualification(self) -> None:
+        scripted = {"status": "SCRIPTED_QUALIFIED", "evidence_levels": {
+            "local_model": "REAL_AGENT_NOT_RUN",
+        }}
+        self.assertEqual(change_control_status(scripted)["status"], "SCRIPTED_QUALIFIED")
+        model = {"status": "SCRIPTED_QUALIFIED", "evidence_levels": {
+            "local_model": "PASS",
+        }}
+        self.assertEqual(change_control_status(model)["status"], "LOCAL_MODEL_QUALIFIED")
+        self.assertEqual(change_control_status(
+            model, deployment_requested=True,
+        )["status"], "EXTERNAL_REVIEW_REQUIRED")
+        self.assertFalse(change_control_status(
+            model, deployment_requested=True,
+        )["production_qualified"])
+        incomplete = {"status": "NOT_RUN", "evidence_levels": {
+            "local_model": "PASS",
+        }}
+        self.assertEqual(change_control_status(incomplete)["status"], "NOT_READY")
 
     def test_gate_reports_os_limit_availability_without_claiming_sandboxing(self) -> None:
         self.assertIn(replay_isolation_status(),
