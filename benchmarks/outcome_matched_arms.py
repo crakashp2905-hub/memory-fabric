@@ -98,6 +98,12 @@ class MatchedAgentArm:
     num_ctx: int = 4096
     think: bool | None = False
     system_prompt_sha256: str = OLLAMA_AGENT_SYSTEM_SHA256
+    observation_privileges_sha256: str | None = None
+    evaluator_grading_sha256: str | None = None
+    memory_policy: str | None = None
+    recovery_policy: str | None = None
+    cdm_enabled: bool | None = None
+    cdm_work_budget: int = 0
 
     def __post_init__(self) -> None:
         for label, value in (("arm_id", self.arm_id),
@@ -145,6 +151,24 @@ class MatchedAgentArm:
                 or _DIGEST.fullmatch(self.system_prompt_sha256) is None
                 or self.system_prompt_sha256 != OLLAMA_AGENT_SYSTEM_SHA256):
             raise ValueError("system prompt hash must match the pinned Ollama agent prompt")
+        for label, digest in (
+            ("observation_privileges_sha256", self.observation_privileges_sha256),
+            ("evaluator_grading_sha256", self.evaluator_grading_sha256),
+        ):
+            if digest is not None and (
+                not isinstance(digest, str) or _DIGEST.fullmatch(digest) is None
+            ):
+                raise ValueError(f"{label} must be a SHA-256 digest when provided")
+        for label, optional_value in (("memory_policy", self.memory_policy),
+                                      ("recovery_policy", self.recovery_policy)):
+            if (optional_value is not None
+                    and (not isinstance(optional_value, str) or not optional_value.strip())):
+                raise ValueError(f"{label} must be a non-empty string when provided")
+        if self.cdm_enabled is not None and not isinstance(self.cdm_enabled, bool):
+            raise ValueError("cdm_enabled must be a boolean when provided")
+        if (not isinstance(self.cdm_work_budget, int) or isinstance(self.cdm_work_budget, bool)
+                or not 0 <= self.cdm_work_budget <= 1_000_000):
+            raise ValueError("cdm_work_budget must be between 0 and 1000000")
 
     @property
     def prompt_frame_sha256(self) -> str:
@@ -177,6 +201,25 @@ class MatchedAgentArm:
         }
 
 
+def _partition_arm_events(
+    arm: MatchedAgentArm, memory_event_sources: tuple[str, ...],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    world_events: list[dict[str, Any]] = []
+    memory_events: list[dict[str, Any]] = []
+    memory_started = False
+    sources = set(memory_event_sources)
+    for event in arm.observation.to_dict()["visible_events"]:
+        copied = dict(event)
+        if copied.get("source") in sources:
+            memory_started = True
+            memory_events.append(copied)
+        else:
+            if memory_started:
+                raise ValueError("memory intervention events must follow shared world events")
+            world_events.append(copied)
+    return world_events, memory_events
+
+
 @dataclass(frozen=True)
 class PairedAgentArmDesign:
     """A validated pair where memory input is the declared difference."""
@@ -206,20 +249,7 @@ class PairedAgentArmDesign:
 
     def _partition_events(self, arm: MatchedAgentArm) -> tuple[list[dict[str, Any]],
                                                                list[dict[str, Any]]]:
-        world_events: list[dict[str, Any]] = []
-        memory_events: list[dict[str, Any]] = []
-        memory_started = False
-        sources = set(self.memory_event_sources)
-        for event in arm.observation.to_dict()["visible_events"]:
-            copied = dict(event)
-            if copied.get("source") in sources:
-                memory_started = True
-                memory_events.append(copied)
-            else:
-                if memory_started:
-                    raise ValueError("memory intervention events must follow shared world events")
-                world_events.append(copied)
-        return world_events, memory_events
+        return _partition_arm_events(arm, self.memory_event_sources)
 
     def _validate_pair(self) -> None:
         left, right = self.baseline, self.treatment
@@ -231,6 +261,10 @@ class PairedAgentArmDesign:
             raise ValueError("paired arms must use identical permitted tools")
         if left.observation.to_dict()["budget"] != right.observation.to_dict()["budget"]:
             raise ValueError("paired arms must use identical task budgets")
+        if left.observation_privileges_sha256 != right.observation_privileges_sha256:
+            raise ValueError("paired arms must use identical observation privileges")
+        if left.evaluator_grading_sha256 != right.evaluator_grading_sha256:
+            raise ValueError("paired arms must use identical evaluator grading")
         if left.inference_controls() != right.inference_controls():
             raise ValueError("paired arms must use identical model and inference controls")
         left_world, left_memory = self._partition_events(left)
@@ -256,6 +290,8 @@ class PairedAgentArmDesign:
                     "memory_event_count": len(memory_events),
                     "prompt_frame_sha256": arm.prompt_frame_sha256,
                     "inference_controls": arm.inference_controls(),
+                    "observation_privileges_sha256": arm.observation_privileges_sha256,
+                    "evaluator_grading_sha256": arm.evaluator_grading_sha256,
                 }
                 for arm, memory_events in ((self.baseline, left_memory),
                                            (self.treatment, right_memory))
@@ -377,6 +413,134 @@ def match_arm_outcomes(
         "all_arms_same_task_ids": True,
         "outcomes_bound_per_task_id": True,
         "claim_scope": "matched_case_mapping_only_no_efficacy_estimate",
+    }
+
+
+def validate_matched_arm_parity(
+    arms: Mapping[str, MatchedAgentArm],
+    *,
+    memory_event_sources: tuple[str, ...] = ("memory_service",),
+) -> dict[str, Any]:
+    """Reject undeclared resource, access, world, or evaluator imbalance.
+
+    A0–A6 are actor arms. Their task framing, world events, legal tools,
+    observation privileges, task/model budgets, inference controls, and
+    evaluator grading digest must match. Only the registry's memory,
+    recovery, and CDM treatment dimensions may vary. A0 has no memory suffix;
+    A1–A6 must have one. The A7 oracle is evaluator-only and is not accepted.
+    """
+    if not isinstance(arms, Mapping) or any(not isinstance(key, str) for key in arms):
+        raise ValueError("parity inputs must map string arm IDs to actor arms")
+    if (not isinstance(memory_event_sources, tuple) or not memory_event_sources
+            or any(not isinstance(source, str) or not source
+                   for source in memory_event_sources)
+            or len(set(memory_event_sources)) != len(memory_event_sources)):
+        raise ValueError("memory_event_sources must be a non-empty unique tuple")
+    actor_arm_ids = tuple(spec.arm_id for spec in CANONICAL_AGENT_ARM_SPECS
+                          if not spec.evaluator_only)
+    expected_ids = set(actor_arm_ids)
+    if set(arms) != expected_ids:
+        missing = sorted(expected_ids - set(arms))
+        extra = sorted(set(arms) - expected_ids)
+        raise ValueError(
+            f"parity requires actor arms A0–A6 and excludes oracle A7; "
+            f"missing={missing}, extra={extra}"
+        )
+
+    for arm_id in actor_arm_ids:
+        arm = arms[arm_id]
+        if not isinstance(arm, MatchedAgentArm) or arm.arm_id != arm_id:
+            raise ValueError(f"{arm_id} must map to its matching MatchedAgentArm")
+    reference = arms[actor_arm_ids[0]]
+    privilege_digest = reference.observation_privileges_sha256
+    grading_digest = reference.evaluator_grading_sha256
+    if not isinstance(privilege_digest, str) or not isinstance(grading_digest, str):
+        raise ValueError(
+            "all actor arms require pinned observation privilege and evaluator grading hashes"
+        )
+    reference_world, reference_memory = _partition_arm_events(
+        reference, memory_event_sources,
+    )
+    if reference_memory:
+        raise ValueError("A0 no_memory must not receive memory intervention events")
+
+    arm_inputs = []
+    for arm_id in actor_arm_ids:
+        arm = arms[arm_id]
+        spec = _ARM_SPECS_BY_ID[arm_id]
+        if arm.observation.task_id != reference.observation.task_id:
+            raise ValueError("all actor arms must use the same task ID")
+        if arm.observation.instruction != reference.observation.instruction:
+            raise ValueError("all actor arms must use identical task prompt framing")
+        if arm.observation.permitted_tools != reference.observation.permitted_tools:
+            raise ValueError("all actor arms must use identical legal tools")
+        if arm.observation.to_dict()["budget"] != reference.observation.to_dict()["budget"]:
+            raise ValueError("all actor arms must use identical task and model budgets")
+        if arm.inference_controls() != reference.inference_controls():
+            raise ValueError("all actor arms must use identical model inference controls")
+        if (arm.memory_policy != spec.memory_policy
+                or arm.recovery_policy != spec.recovery_policy
+                or arm.cdm_enabled is not spec.cdm_enabled):
+            raise ValueError(f"{arm_id} treatment must match its preregistered arm specification")
+        if ((spec.cdm_enabled is True and arm.cdm_work_budget < 1)
+                or (spec.cdm_enabled is False and arm.cdm_work_budget != 0)):
+            raise ValueError(f"{arm_id} CDM work budget must match its declared treatment")
+        if arm.prompt_frame_sha256 != reference.prompt_frame_sha256:
+            raise ValueError("all actor arms must use identical task prompt framing")
+        if arm.observation_privileges_sha256 != privilege_digest:
+            raise ValueError("all actor arms must use identical observation privileges")
+        if arm.evaluator_grading_sha256 != grading_digest:
+            raise ValueError("all actor arms must use identical evaluator grading")
+        world_events, memory_events = _partition_arm_events(arm, memory_event_sources)
+        if world_events != reference_world:
+            raise ValueError("all actor arms must receive identical non-memory world events")
+        if arm_id == "A0" and memory_events:
+            raise ValueError("A0 no_memory must not receive memory intervention events")
+        if arm_id != "A0" and not memory_events:
+            raise ValueError(f"{arm_id} {spec.name} must include its declared memory input")
+        arm_inputs.append({
+            "arm_id": arm_id,
+            "name": spec.name,
+            "declared_memory_policy": spec.memory_policy,
+            "declared_recovery_policy": spec.recovery_policy,
+            "declared_cdm_enabled": spec.cdm_enabled,
+            "cdm_work_budget": arm.cdm_work_budget,
+            "memory_event_count": len(memory_events),
+            "memory_input_sha256": _sha256(memory_events),
+        })
+
+    shared_controls = {
+        "task_id": reference.observation.task_id,
+        "instruction_sha256": _sha256(reference.observation.instruction),
+        "legal_tools": list(reference.observation.permitted_tools),
+        "task_budget": reference.observation.to_dict()["budget"],
+        "inference_controls": reference.inference_controls(),
+        "observation_privileges_sha256": privilege_digest,
+        "evaluator_grading_sha256": grading_digest,
+        "world_context_sha256": _sha256(reference_world),
+    }
+    return {
+        "schema_id": "memory-fabric.matched-arm-parity.v1",
+        "status": "PARITY_VALIDATED",
+        "task_id": reference.observation.task_id,
+        "actor_arm_ids": list(actor_arm_ids),
+        "shared_controls_sha256": _sha256(shared_controls),
+        "shared_controls": {
+            "legal_tools_sha256": _sha256(list(reference.observation.permitted_tools)),
+            "task_budget_sha256": _sha256(reference.observation.to_dict()["budget"]),
+            "inference_controls_sha256": _sha256(reference.inference_controls()),
+            "observation_privileges_sha256": privilege_digest,
+            "evaluator_grading_sha256": grading_digest,
+            "world_context_sha256": _sha256(reference_world),
+        },
+        "declared_treatment_differences": [
+            "memory_policy", "recovery_policy", "cdm_enabled", "cdm_work_budget",
+        ],
+        "arm_inputs": arm_inputs,
+        "oracle_arm_id": "A7",
+        "oracle_actor_input_included": False,
+        "undeclared_imbalances": [],
+        "claim_scope": "mechanical_parity_only_no_efficacy_estimate",
     }
 
 

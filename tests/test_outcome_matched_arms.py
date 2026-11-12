@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from dataclasses import dataclass, replace
 from typing import Callable, Literal
@@ -14,6 +15,7 @@ from benchmarks.outcome_matched_arms import (
     compare_candidate_to_strongest_fair_arm,
     match_arm_outcomes,
     pair_agent_arms,
+    validate_matched_arm_parity,
 )
 
 _ARM_TASKS = 12
@@ -222,6 +224,163 @@ class TestOutcomeMatchedNegativeControls(unittest.TestCase):
 
 
 class TestMatchedAgentArmPairing(unittest.TestCase):
+    @staticmethod
+    def _canonical_arm_inputs() -> dict[str, MatchedAgentArm]:
+        arms = {}
+        for spec in CANONICAL_AGENT_ARM_SPECS[:-1]:
+            events = [{"source": "instrument", "reading": 5, "unit": "bar"}]
+            if spec.arm_id != "A0":
+                events.append({
+                    "source": "memory_service",
+                    "memory_id": f"memory-{spec.arm_id}",
+                    "version": 1,
+                    "content": f"synthetic {spec.name} evidence",
+                })
+            observation = AgentObservation(
+                task_id="parity-case-1",
+                instruction="Inspect the current reading and report the safe target.",
+                visible_events=tuple(events),
+                permitted_tools=("inspect", "set_target", "recover"),
+                budget={"steps": 4, "model_tokens": 512, "model_calls": 3},
+            )
+            arms[spec.arm_id] = MatchedAgentArm(
+                arm_id=spec.arm_id,
+                intervention_id=spec.name,
+                actor_id="shared-observer",
+                observation=observation,
+                model="qwen2.5:1.5b",
+                model_digest="a" * 64,
+                output_token_budget=256,
+                seed=17,
+                temperature=0.0,
+                top_p=0.9,
+                num_ctx=4096,
+                think=False,
+                observation_privileges_sha256="c" * 64,
+                evaluator_grading_sha256="d" * 64,
+                memory_policy=spec.memory_policy,
+                recovery_policy=spec.recovery_policy,
+                cdm_enabled=spec.cdm_enabled,
+                cdm_work_budget=512 if spec.cdm_enabled else 0,
+            )
+        return arms
+
+    def test_all_actor_arms_get_a_content_safe_mechanical_parity_report(self) -> None:
+        report = validate_matched_arm_parity(self._canonical_arm_inputs())
+
+        self.assertEqual(report["status"], "PARITY_VALIDATED")
+        self.assertEqual(report["actor_arm_ids"], ["A0", "A1", "A2", "A3", "A4", "A5", "A6"])
+        self.assertFalse(report["oracle_actor_input_included"])
+        self.assertEqual(report["shared_controls"]["observation_privileges_sha256"], "c" * 64)
+        self.assertEqual(report["shared_controls"]["evaluator_grading_sha256"], "d" * 64)
+        encoded = json.dumps(report, sort_keys=True)
+        self.assertNotIn("synthetic", encoded)
+        self.assertEqual(report["undeclared_imbalances"], [])
+
+    def test_mechanical_parity_rejects_tool_budget_privilege_and_grader_drift(self) -> None:
+        arms = self._canonical_arm_inputs()
+        reference = arms["A6"]
+        cases = (
+            (replace(reference, output_token_budget=128), "model inference controls"),
+            (replace(reference, observation_privileges_sha256="e" * 64),
+             "identical observation privileges"),
+            (replace(reference, evaluator_grading_sha256="f" * 64),
+             "identical evaluator grading"),
+            (replace(reference, recovery_policy="unregistered_recovery"),
+             "treatment must match its preregistered arm specification"),
+            (replace(reference, cdm_enabled=False, cdm_work_budget=0),
+             "treatment must match its preregistered arm specification"),
+        )
+        for changed_arm, message in cases:
+            changed = dict(arms)
+            changed["A6"] = changed_arm
+            with self.subTest(message=message):
+                with self.assertRaisesRegex(ValueError, message):
+                    validate_matched_arm_parity(changed)
+
+        changed_tools = dict(arms)
+        changed_tools["A6"] = replace(
+            reference,
+            observation=AgentObservation(
+                task_id=reference.observation.task_id,
+                instruction=reference.observation.instruction,
+                visible_events=reference.observation.visible_events,
+                permitted_tools=("inspect", "set_target"),
+                budget=reference.observation.budget,
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "identical legal tools"):
+            validate_matched_arm_parity(changed_tools)
+
+        changed_budget = dict(arms)
+        changed_budget["A6"] = replace(
+            reference,
+            observation=AgentObservation(
+                task_id=reference.observation.task_id,
+                instruction=reference.observation.instruction,
+                visible_events=reference.observation.visible_events,
+                permitted_tools=reference.observation.permitted_tools,
+                budget={"steps": 4, "model_tokens": 256, "model_calls": 3},
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "identical task and model budgets"):
+            validate_matched_arm_parity(changed_budget)
+
+        changed_world = dict(arms)
+        changed_world["A6"] = replace(
+            reference,
+            observation=AgentObservation(
+                task_id=reference.observation.task_id,
+                instruction=reference.observation.instruction,
+                visible_events=(
+                    {"source": "instrument", "reading": 99, "unit": "bar"},
+                    *reference.observation.visible_events[1:],
+                ),
+                permitted_tools=reference.observation.permitted_tools,
+                budget=reference.observation.budget,
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "identical non-memory world events"):
+            validate_matched_arm_parity(changed_world)
+
+    def test_mechanical_parity_requires_exact_actor_arms_and_memory_suffixes(self) -> None:
+        arms = self._canonical_arm_inputs()
+        with self.assertRaisesRegex(ValueError, "excludes oracle A7"):
+            validate_matched_arm_parity({**arms, "A7": arms["A6"]})
+
+        no_memory = dict(arms)
+        no_memory_observation = arms["A0"].observation
+        no_memory["A0"] = replace(
+            arms["A0"],
+            observation=AgentObservation(
+                task_id=no_memory_observation.task_id,
+                instruction=no_memory_observation.instruction,
+                visible_events=(
+                    *no_memory_observation.visible_events,
+                    {"source": "memory_service", "memory_id": "leak", "version": 1},
+                ),
+                permitted_tools=no_memory_observation.permitted_tools,
+                budget=no_memory_observation.budget,
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "A0 no_memory must not receive"):
+            validate_matched_arm_parity(no_memory)
+
+        missing_memory = dict(arms)
+        actor = arms["A1"]
+        missing_memory["A1"] = replace(
+            actor,
+            observation=AgentObservation(
+                task_id=actor.observation.task_id,
+                instruction=actor.observation.instruction,
+                visible_events=actor.observation.visible_events[:1],
+                permitted_tools=actor.observation.permitted_tools,
+                budget=actor.observation.budget,
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "A1 local_only must include"):
+            validate_matched_arm_parity(missing_memory)
+
     def test_a5_must_beat_the_strongest_fair_arm_not_only_a0(self) -> None:
         completions = {
             "A0": [False, False, False, False],

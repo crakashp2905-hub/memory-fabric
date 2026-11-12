@@ -129,6 +129,13 @@ exceed it. A7 `oracle` remains evaluator-only and is excluded from competitor
 selection. This comparison is descriptive until arm parity, independent-world
 uncertainty, and the remaining confirmatory thresholds are frozen and pass.
 
+The mechanical parity contract covers A0–A6 actor arms and requires the same
+task/world context, legal tools, observation-privilege digest, task/model
+budgets, inference settings, and evaluator-grading digest. Only the registered
+memory, recovery, and CDM treatments may differ. The grader and privilege
+digests must be pinned before confirmatory runs; digest equality alone does not
+prove that the supplied implementation matches its digest.
+
 **Not yet frozen:** minimum meaningful effect, sample size, stopping rule,
 confirmatory seeds, multiplicity correction, task template split, and resource
 caps. Until those are frozen before confirmatory runs, the promotion status is

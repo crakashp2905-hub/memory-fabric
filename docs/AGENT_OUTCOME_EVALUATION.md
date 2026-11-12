@@ -264,7 +264,14 @@ intervention events may differ. The content-safe pair manifest records hashes,
 event counts, and parity checks without copying prompt or memory text. Prompt
 framing is therefore a separately controlled factor, not an arm-local tuning
 knob. This contract establishes comparable inputs only; it does not score an
-outcome or provide efficacy evidence.
+outcome or provide efficacy evidence. `validate_matched_arm_parity` extends the
+contract across all A0–A6 actor arms and requires identical task/world context,
+legal tools, observation-privilege hash, task and model budgets, inference
+controls, and evaluator-grading hash. It permits only the registry's declared
+memory, recovery, and CDM treatment differences; A0 must have no memory suffix,
+A1–A6 must have one, and A7 is excluded from actor input. The report contains
+hashes and event counts, not prompt or memory content. Caller-supplied hashes
+identify controls but are not independent attestations of their implementation.
 
 - Scripted recovery pilot: focused contract tests pass; full repository
   qualification awaits CI and the complete check suite.
@@ -275,7 +282,7 @@ outcome or provide efficacy evidence.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v38.json`. Run it with
+`tools/agent_outcome_gate_manifest.v39.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
