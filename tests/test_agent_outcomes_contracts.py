@@ -11,7 +11,8 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from benchmarks.outcome_report import (
-    canonical_report, paired_completion_analysis, zero_event_upper_bound,
+    canonical_report, checkpoint_stratified_real_agent_analysis,
+    paired_completion_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
@@ -23,12 +24,100 @@ from memory_fabric.agent_outcomes import (
 )
 from memory_fabric.answerability import Answerability
 from memory_fabric.certificates import CertificateVerification
-from memory_fabric.agent_outcomes.observations import OracleTask
+from memory_fabric.agent_outcomes.observations import OracleTask, SCHEMA_ID
 from memory_fabric.enforcement import AccessDecision, RiskLevel, Verdict
 from memory_fabric.relevance import ReasonCode
 
 
 class TestOutcomeContracts(unittest.TestCase):
+    @staticmethod
+    def _checkpoint_report(task_id: str, digest: str, *, passed: bool = True) -> dict:
+        step = AgentStep.from_json(json.dumps({
+            "schema_id": SCHEMA_ID,
+            "task_id": task_id,
+            "actor_id": "observer",
+            "step_id": "mf-step-" + hashlib.sha256(
+                f"{task_id}:observer:1".encode("utf-8")
+            ).hexdigest()[:24],
+            "intent": "inspect",
+            "arguments": {"tool": "inspect"},
+            "evidence_versions": [],
+        }))
+        model = "qwen2.5:1.5b"
+        inference = {
+            "model": {
+                "name": model,
+                "digest": "sha256:" + digest,
+                "quantization_level": "Q4_K_M",
+            },
+            "options": {
+                "temperature": 0.0, "top_p": 0.9, "seed": 0,
+                "num_ctx": 4096, "num_predict": 256, "stream": False,
+                "format": "json_schema", "constrained": True,
+            },
+            "prompt_sha256": "1" * 64,
+            "system_prompt_sha256": "2" * 64,
+            "response_schema_sha256": "3" * 64,
+            "nondeterminism_disclosure": "runtime output may vary",
+            "usage": {"retry_count": 0, "request_succeeded": True},
+        }
+        common = {
+            "schema_id": "memory-fabric.real-agent-report.v2",
+            "population": "REAL_AGENT",
+            "task_id": task_id,
+            "model": model,
+            "model_calls": 1,
+            "model_tokens": 20 if passed else 4,
+            "retry_count": 0,
+            "prompt_injection_compliance": "NOT_TESTED",
+            "generated_at_utc": "2026-11-12T00:00:00+00:00",
+            "inference": inference,
+        }
+        if passed:
+            return {
+                **common,
+                "status": "PASS",
+                "reason": "completed_inference",
+                "decision_validated": True,
+                "counts_as_incomplete": False,
+                "failure_codes": [],
+                "terminal_failure_codes": [],
+                "failure_counts": {
+                    "invalid_json": 0, "invalid_agent_step": 0, "tool_misuse": 0,
+                    "hallucinated_evidence": 0, "retry_exhausted": 0,
+                    "prompt_injection_violation": 0,
+                },
+                "step": step.to_dict(),
+            }
+        return {
+            **common,
+            "status": "FAIL",
+            "reason": "invalid_json",
+            "decision_validated": False,
+            "counts_as_incomplete": True,
+            "failure_codes": ["invalid_json"],
+            "terminal_failure_codes": ["planning_error"],
+            "failure_counts": {
+                "invalid_json": 1, "invalid_agent_step": 0, "tool_misuse": 0,
+                "hallucinated_evidence": 0, "retry_exhausted": 0,
+                "prompt_injection_violation": 0,
+            },
+        }
+
+    @staticmethod
+    def _checkpoint_pilot(checkpoint_digest: str, preregistration_digest: str) -> dict:
+        return {
+            "schema_id": "memory-fabric.pinned-checkpoint-pilot.v1",
+            "status": "PASS",
+            "preregistration_status": "FROZEN",
+            "pilot_complete": True,
+            "checkpoint_digest": "sha256:" + checkpoint_digest,
+            "preregistration_sha256": preregistration_digest,
+            "pilot_report_sha256": "c" * 64,
+            "seeds": [11, 23, 37, 41, 59],
+            "registered_thresholds": {"primary_completion": True, "safety_bound": True},
+        }
+
     def test_evidence_diagnosis_classifies_access_without_leaking_details(self) -> None:
         denied = AccessDecision("private-memory", 0, Verdict.DENY, "not_visible",
                                 detail="secret memory contents")
@@ -334,6 +423,116 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(negative_control["metrics"]["mean_paired_difference"]["value"], 0.0)
         self.assertEqual(
             negative_control["metrics"]["cluster_exact_sign_test_p"]["value"], 1.0)
+
+    def test_one_pinned_checkpoint_needs_no_expansion_pilot(self) -> None:
+        checkpoint = "a" * 64
+        registration = "b" * 64
+        reports = [self._checkpoint_report(task, checkpoint) for task in ("case-1", "case-2")]
+        analysis = checkpoint_stratified_real_agent_analysis(
+            reports,
+            pinned_checkpoint_digest=checkpoint,
+            preregistration_sha256=registration,
+        )
+
+        self.assertEqual(analysis["checkpoint_count"], 1)
+        self.assertEqual(analysis["pilot_gate"]["status"],
+                         "NOT_REQUIRED_SINGLE_PINNED_CHECKPOINT")
+        self.assertEqual(analysis["checkpoint_strata"][0]["metrics"][
+            "validated_step_rate"], {
+                "value": 1.0, "numerator": 2, "denominator": 2,
+                "population": "validated_real_agent_steps",
+            })
+        self.assertIsNone(analysis["pooled_metrics"])
+
+    def test_additional_checkpoint_is_blocked_before_pinned_pilot_passes(self) -> None:
+        pinned, additional = "a" * 64, "d" * 64
+        reports = [
+            self._checkpoint_report(task, digest)
+            for digest in (pinned, additional)
+            for task in ("case-1", "case-2")
+        ]
+        with self.assertRaisesRegex(ValueError, "multiple model checkpoints require"):
+            checkpoint_stratified_real_agent_analysis(
+                reports,
+                pinned_checkpoint_digest=pinned,
+                preregistration_sha256="b" * 64,
+            )
+
+    def test_checkpoint_results_stay_stratified_after_pinned_pilot(self) -> None:
+        pinned, additional, registration = "a" * 64, "d" * 64, "b" * 64
+        reports = [
+            self._checkpoint_report(task, pinned)
+            for task in ("case-1", "case-2")
+        ] + [
+            self._checkpoint_report("case-1", additional),
+            self._checkpoint_report("case-2", additional, passed=False),
+        ]
+        analysis = checkpoint_stratified_real_agent_analysis(
+            reports,
+            pinned_checkpoint_digest=pinned,
+            preregistration_sha256=registration,
+            pinned_checkpoint_pilot=self._checkpoint_pilot(pinned, registration),
+        )
+
+        self.assertEqual(analysis["checkpoint_count"], 2)
+        self.assertEqual(analysis["cross_checkpoint_pooling"], "PROHIBITED")
+        self.assertIsNone(analysis["pooled_metrics"])
+        strata = {item["checkpoint_digest"]: item for item in analysis["checkpoint_strata"]}
+        self.assertEqual(strata["sha256:" + pinned]["metrics"]["validated_step_rate"]["value"],
+                         1.0)
+        self.assertEqual(
+            strata["sha256:" + additional]["metrics"]["validated_step_rate"], {
+                "value": 0.5, "numerator": 1, "denominator": 2,
+                "population": "validated_real_agent_steps",
+            },
+        )
+        self.assertEqual(analysis["pilot_gate"]["status"], "PASS")
+
+    def test_checkpoint_expansion_requires_same_tasks_and_valid_pilot(self) -> None:
+        pinned, additional, registration = "a" * 64, "d" * 64, "b" * 64
+        incomplete_reports = [
+            self._checkpoint_report("case-1", pinned),
+            self._checkpoint_report("case-2", pinned),
+            self._checkpoint_report("case-1", additional),
+        ]
+        pilot = self._checkpoint_pilot(pinned, registration)
+        with self.assertRaisesRegex(ValueError, "identical task IDs"):
+            checkpoint_stratified_real_agent_analysis(
+                incomplete_reports,
+                pinned_checkpoint_digest=pinned,
+                preregistration_sha256=registration,
+                pinned_checkpoint_pilot=pilot,
+            )
+
+        reports = [
+            self._checkpoint_report(task, digest)
+            for digest in (pinned, additional)
+            for task in ("case-1", "case-2")
+        ]
+        pilot["seeds"] = [11, 23, 37, 41]
+        with self.assertRaisesRegex(ValueError, "at least five unique"):
+            checkpoint_stratified_real_agent_analysis(
+                reports,
+                pinned_checkpoint_digest=pinned,
+                preregistration_sha256=registration,
+                pinned_checkpoint_pilot=pilot,
+            )
+
+    def test_checkpoint_comparison_requires_matching_inference_context(self) -> None:
+        pinned, additional, registration = "a" * 64, "d" * 64, "b" * 64
+        reports = [
+            self._checkpoint_report("case-1", pinned),
+            self._checkpoint_report("case-1", additional),
+        ]
+        reports[1]["inference"]["prompt_sha256"] = "9" * 64
+
+        with self.assertRaisesRegex(ValueError, "identical prompts and inference settings"):
+            checkpoint_stratified_real_agent_analysis(
+                reports,
+                pinned_checkpoint_digest=pinned,
+                preregistration_sha256=registration,
+                pinned_checkpoint_pilot=self._checkpoint_pilot(pinned, registration),
+            )
 
     def test_scripted_recovery_uses_gate_and_paired_abstention(self) -> None:
         recovered = run_episode(0)

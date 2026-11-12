@@ -748,3 +748,232 @@ def paired_completion_analysis(
         "confidence_level": confidence,
         "cluster_field": "seed",
     }
+
+
+def _checkpoint_sha256(value: object, label: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"{label} must be a SHA-256 digest")
+    digest = value.removeprefix("sha256:")
+    if re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        raise ValueError(f"{label} must be a lowercase SHA-256 digest")
+    return digest
+
+
+def _pinned_pilot_gate(
+    evidence: Mapping[str, Any] | None,
+    *,
+    pinned_digest: str,
+    preregistration_digest: str,
+) -> dict[str, Any]:
+    if not isinstance(evidence, Mapping):
+        raise ValueError(
+            "multiple model checkpoints require completed pilot evidence for the pinned checkpoint"
+        )
+    if (evidence.get("schema_id") != "memory-fabric.pinned-checkpoint-pilot.v1"
+            or evidence.get("status") != "PASS"
+            or evidence.get("preregistration_status") != "FROZEN"
+            or evidence.get("pilot_complete") is not True):
+        raise ValueError("pinned checkpoint pilot evidence is not complete and frozen")
+    evidence_checkpoint = _checkpoint_sha256(
+        evidence.get("checkpoint_digest"), "pilot checkpoint_digest",
+    )
+    if evidence_checkpoint != pinned_digest:
+        raise ValueError("pilot evidence checkpoint differs from the pinned checkpoint")
+    evidence_registration = _checkpoint_sha256(
+        evidence.get("preregistration_sha256"), "pilot preregistration_sha256",
+    )
+    if evidence_registration != preregistration_digest:
+        raise ValueError("pilot evidence is bound to a different preregistration")
+    report_digest = _checkpoint_sha256(
+        evidence.get("pilot_report_sha256"), "pilot_report_sha256",
+    )
+    seeds = evidence.get("seeds")
+    if (not isinstance(seeds, list) or len(seeds) < 5
+            or any(not isinstance(seed, int) or isinstance(seed, bool) or seed < 0
+                   for seed in seeds)
+            or len(set(seeds)) != len(seeds)):
+        raise ValueError("pinned checkpoint pilot requires at least five unique non-negative seeds")
+    thresholds = evidence.get("registered_thresholds")
+    if (not isinstance(thresholds, Mapping) or not thresholds
+            or any(not isinstance(name, str) or not name or passed is not True
+                   for name, passed in thresholds.items())):
+        raise ValueError("every registered pilot threshold must pass")
+    try:
+        canonical_evidence = json.dumps(
+            dict(evidence), sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8")
+    except (TypeError, ValueError) as exc:
+        raise ValueError("pinned checkpoint pilot evidence must be canonical JSON data") from exc
+    return {
+        "status": "PASS",
+        "checkpoint_digest": f"sha256:{pinned_digest}",
+        "preregistration_sha256": preregistration_digest,
+        "pilot_report_sha256": report_digest,
+        "seed_count": len(seeds),
+        "evidence_manifest_sha256": hashlib.sha256(canonical_evidence).hexdigest(),
+    }
+
+
+def checkpoint_stratified_real_agent_analysis(
+    reports: Iterable[RealAgentRunReport | Mapping[str, Any]],
+    *,
+    pinned_checkpoint_digest: str,
+    preregistration_sha256: str,
+    pinned_checkpoint_pilot: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Summarize model decisions per checkpoint without a pooled model score.
+
+    Every checkpoint must cover the same unique task IDs. Adding a checkpoint
+    beyond the pinned model requires a content-addressed, frozen five-seed
+    pilot qualification for that pinned model, with all registered thresholds
+    passed. A validated step is an adapter outcome, not task completion.
+    """
+    pinned_digest = _checkpoint_sha256(
+        pinned_checkpoint_digest, "pinned_checkpoint_digest",
+    )
+    preregistration_digest = _checkpoint_sha256(
+        preregistration_sha256, "preregistration_sha256",
+    )
+    strata: dict[str, dict[str, Any]] = {}
+    task_sets: dict[str, set[str]] = {}
+    task_inference_contexts: dict[str, str] = {}
+    for raw_report in reports:
+        report: Mapping[str, Any]
+        if isinstance(raw_report, RealAgentRunReport):
+            report = raw_report.to_dict()
+        elif isinstance(raw_report, Mapping):
+            report = raw_report
+        else:
+            raise ValueError("checkpoint analysis accepts only real-agent reports")
+
+        status = report.get("status")
+        if status == RealAgentStatus.PASS.value:
+            valid = real_agent_report_is_complete(report)
+        elif status == RealAgentStatus.FAIL.value:
+            valid = real_agent_failure_report_is_valid(report)
+        else:
+            valid = False
+        if not valid or report.get("population") != "REAL_AGENT":
+            raise ValueError("checkpoint analysis requires validated completed or failed attempts")
+        inference = report.get("inference")
+        if (not isinstance(inference, Mapping)
+                or not _complete_inference_manifest(inference)):
+            raise ValueError("checkpoint analysis requires complete model inference provenance")
+        model = inference.get("model")
+        if not isinstance(model, Mapping):
+            raise ValueError("checkpoint analysis requires complete model identity")
+        digest = _checkpoint_sha256(model.get("digest"), "report model digest")
+        model_name = model.get("name")
+        task_id = report.get("task_id")
+        calls, tokens = report.get("model_calls"), report.get("model_tokens")
+        if (not isinstance(model_name, str) or not model_name
+                or not isinstance(task_id, str) or not task_id
+                or not isinstance(calls, int) or isinstance(calls, bool) or calls < 1
+                or not isinstance(tokens, int) or isinstance(tokens, bool) or tokens < 0):
+            raise ValueError("checkpoint reports require model, task, and usage identity")
+        try:
+            inference_context = json.dumps(
+                {key: value for key, value in inference.items()
+                 if key not in {"model", "usage"}},
+                sort_keys=True, separators=(",", ":"), allow_nan=False,
+            )
+        except (TypeError, ValueError) as exc:
+            raise ValueError("inference context must be canonical JSON data") from exc
+        previous_context = task_inference_contexts.setdefault(task_id, inference_context)
+        if previous_context != inference_context:
+            raise ValueError(
+                "matched tasks must use identical prompts and inference settings across checkpoints"
+            )
+
+        stratum = strata.setdefault(digest, {
+            "model": model_name,
+            "passed": 0,
+            "failed": 0,
+            "model_calls": 0,
+            "model_tokens": 0,
+            "failure_counts": {code.value: 0 for code in RealAgentFailureCode},
+            "prompt_injection_counts": {
+                status.value: 0 for status in PromptInjectionCompliance
+            },
+        })
+        if stratum["model"] != model_name:
+            raise ValueError("one checkpoint digest cannot identify multiple model names")
+        task_set = task_sets.setdefault(digest, set())
+        if task_id in task_set:
+            raise ValueError(f"duplicate real-agent task {task_id!r} for one checkpoint")
+        task_set.add(task_id)
+        stratum["passed"] += status == RealAgentStatus.PASS.value
+        stratum["failed"] += status == RealAgentStatus.FAIL.value
+        stratum["model_calls"] += calls
+        stratum["model_tokens"] += tokens
+        failure_counts = report.get("failure_counts", {})
+        if isinstance(failure_counts, Mapping):
+            for code in RealAgentFailureCode:
+                value = failure_counts.get(code.value, 0)
+                if isinstance(value, int) and not isinstance(value, bool):
+                    stratum["failure_counts"][code.value] += value
+        prompt_status = report.get("prompt_injection_compliance")
+        if prompt_status in stratum["prompt_injection_counts"]:
+            stratum["prompt_injection_counts"][prompt_status] += 1
+
+    if not strata:
+        raise ValueError("at least one validated real-agent report is required")
+    if pinned_digest not in strata:
+        raise ValueError("reports do not include the pinned checkpoint")
+    task_id_sets = list(task_sets.values())
+    if any(task_ids != task_id_sets[0] for task_ids in task_id_sets[1:]):
+        raise ValueError("all checkpoint strata must cover identical task IDs")
+
+    if len(strata) > 1:
+        pilot_gate = _pinned_pilot_gate(
+            pinned_checkpoint_pilot,
+            pinned_digest=pinned_digest,
+            preregistration_digest=preregistration_digest,
+        )
+    else:
+        pilot_gate = {"status": "NOT_REQUIRED_SINGLE_PINNED_CHECKPOINT"}
+
+    task_ids = sorted(task_id_sets[0])
+    task_set_digest = hashlib.sha256("\n".join(task_ids).encode("utf-8")).hexdigest()
+    output_strata = []
+    for digest in sorted(strata):
+        stratum = strata[digest]
+        denominator = len(task_ids)
+        output_strata.append({
+            "model": stratum["model"],
+            "checkpoint_digest": f"sha256:{digest}",
+            "task_population": {
+                "name": "validated_real_agent_steps",
+                "denominator": denominator,
+                "task_id_set_sha256": task_set_digest,
+            },
+            "metrics": {
+                "validated_step_rate": {
+                    "value": stratum["passed"] / denominator,
+                    "numerator": stratum["passed"],
+                    "denominator": denominator,
+                    "population": "validated_real_agent_steps",
+                },
+                "failed_attempt_rate": {
+                    "value": stratum["failed"] / denominator,
+                    "numerator": stratum["failed"],
+                    "denominator": denominator,
+                    "population": "validated_real_agent_steps",
+                },
+                "failure_counts": stratum["failure_counts"],
+                "prompt_injection_counts": stratum["prompt_injection_counts"],
+                "model_calls": stratum["model_calls"],
+                "model_tokens": stratum["model_tokens"],
+            },
+        })
+    return {
+        "schema_id": "memory-fabric.real-agent-checkpoint-strata.v1",
+        "population": "REAL_AGENT",
+        "pinned_checkpoint_digest": f"sha256:{pinned_digest}",
+        "preregistration_sha256": preregistration_digest,
+        "checkpoint_count": len(output_strata),
+        "cross_checkpoint_pooling": "PROHIBITED",
+        "pooled_metrics": None,
+        "pilot_gate": pilot_gate,
+        "checkpoint_strata": output_strata,
+    }
