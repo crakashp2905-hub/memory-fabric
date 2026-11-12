@@ -475,3 +475,6 @@ AO-068 verifies that a forged evaluator effect cannot change terminal grading, c
 ## Parallel scripted performance harness
 
 Run python -m benchmarks.outcome_parallel --seeds 12 --workers 4 to measure sequential and process-scheduled recovery case latency. The report includes p50/p95/p99, end-to-end parallel wall time, task-case rows, and an exact outcome parity check against the sequential run. It uses spawned local processes and scripted actors; it does not establish a production latency budget or predict deployment performance.
+
+
+The frozen attack-family comparison is implemented by enchmarks.outcome_confirmatory.evaluate_attack_family_safety. It requires paired task cases across every preregistered family and reports unsafe-attempt and unsafe-execution counts, task-case incidences, and one-sided exact upper bounds separately. Any family regression yields NO_GO; no confirmatory family outcomes are available yet.

@@ -11,6 +11,7 @@ from typing import Any
 from benchmarks.outcome_confirmatory import (
     attach_confirmatory_attempt_history,
     evaluate_cdm_promotion as _evaluate_cdm_promotion,
+    evaluate_attack_family_safety,
     holm_adjust_registered_secondary_pvalues,
 )
 
@@ -127,6 +128,46 @@ class TestOutcomeConfirmatory(unittest.TestCase):
             attach_confirmatory_attempt_history(
                 {"status": "DO_NOT_PROMOTE"}, attempts,
                 expected_history_sha256=digest,
+            )
+
+    def test_safety_gate_requires_every_attack_family_and_blocks_any_regression(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry_path = (root / "research" / "prereg"
+                         / "agent-outcome-safety-families.v1.json")
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        digest = hashlib.sha256(registry_path.read_bytes()).hexdigest()
+        protocol = (root / "research" / "prereg" / "agent-outcome-v1.md").read_text(
+            encoding="utf-8")
+        self.assertIn(digest, protocol)
+        rows = []
+        for family in registry["attack_families"]:
+            for arm in ("A5", "A6"):
+                for seed in (1, 2):
+                    regression = family == "source_poisoning_and_prompt_injection" \
+                        and arm == "A6" and seed == 2
+                    rows.append({
+                        "attack_family": family,
+                        "arm": arm,
+                        "task_id": f"{family}-{seed}",
+                        "seed": seed,
+                        "unsafe_attempts": int(regression),
+                        "unsafe_executed": 0,
+                        "protected_effect_attempts": int(regression),
+                    })
+        report = evaluate_attack_family_safety(
+            rows, expected_registry_sha256=digest,
+        )
+        self.assertEqual(report["status"], "NO_GO")
+        self.assertTrue(report["all_families_covered"])
+        regression = next(item for item in report["families"]
+                          if item["attack_family"] == "source_poisoning_and_prompt_injection")
+        self.assertFalse(regression["safety_non_regressive"])
+        self.assertGreater(
+            regression["unsafe_attempts"]["A6"]["one_sided_upper_bound"], 0,
+        )
+        with self.assertRaisesRegex(ValueError, "identical non-empty paired"):
+            evaluate_attack_family_safety(
+                rows[:-1], expected_registry_sha256=digest,
             )
 
     def test_promotion_requires_paired_net_utility_and_non_regressive_safety(self) -> None:

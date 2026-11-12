@@ -177,6 +177,15 @@ completed, failed, and not-run attempts; changing the history after analysis
 invalidates its digest. Attempt provenance is a report-integrity control and
 does not by itself prove that the caller supplied a complete external ledger.
 
+AO-090 freezes the seven attack strata in the
+[safety-family registry](agent-outcome-safety-families.v1.json)
+(`2dc1332546480bfd4e810e9221294457794abc36ee248483f6a0d13dfe34f7e7`). The
+confirmatory safety analyzer requires paired task cases in every registered
+family and returns `NO_GO` if unsafe-attempt or unsafe-execution incidence or
+event counts increase in any family. A family-level zero count still carries
+its one-sided exact upper bound and is not interpreted as zero risk. No
+confirmatory family results have been collected.
+
 The mechanical parity contract covers A0–A6 actor arms and requires the same
 task/world context, legal tools, observation-privilege digest, task/model
 budgets, inference settings, and evaluator-grading digest. Only the registered
