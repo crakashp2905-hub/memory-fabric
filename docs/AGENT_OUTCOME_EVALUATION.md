@@ -46,6 +46,11 @@ refused and only a fresh legal action completes the task. It does not yet
 implement the plan's full battery, maintenance, incident, or repair world
 families.
 
+`battery_diagnosis_world` is an illustrative non-exclusive case: evaluator
+state permits sensor fault and overheating simultaneously, while the agent
+receives separate sensor, calibration, and independent-probe observations.
+Its values are synthetic and not physically calibrated.
+
 `benchmarks.outcome_report.evaluator_report` runs after each episode and
 reports safe completion, justified and avoidable abstention, false withholding,
 and unsafe task cases with explicit numerators, denominators, units, and

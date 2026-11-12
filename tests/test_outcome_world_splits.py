@@ -6,8 +6,9 @@ import pytest
 
 from benchmarks.outcome_worlds import (
     DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
-    correction_after_plan_world, generate_seeded_splits, negative_control_cases,
-    score_negative_control_arm, split_leakage_issues, validate_split_isolation,
+    battery_diagnosis_world, correction_after_plan_world, generate_seeded_splits,
+    negative_control_cases, score_negative_control_arm, split_leakage_issues,
+    validate_split_isolation,
 )
 from memory_fabric.agent_outcomes.boundary import build_episode_boundary
 from memory_fabric.agent_outcomes.outcomes import OutcomeStatus, TerminalResult
@@ -215,3 +216,19 @@ def test_correction_after_plan_blocks_stale_action_then_allows_replan() -> None:
     ))
     assert completed.status is OutcomeStatus.COMPLETED
     assert completed.completion is True
+
+
+def test_battery_sensor_fault_and_overheating_can_coexist() -> None:
+    world = battery_diagnosis_world(seed=12)
+    first = world.observe(step=0, permitted_tools=("inspect",), budget={"steps": 3})
+    assert "independent-thermal-probe" not in first.canonical_json()
+
+    complete_observation = world.observe(step=1, permitted_tools=("inspect",), budget={"steps": 2})
+    hidden = world.evaluator_truth()
+    assert hidden["sensor_fault"] is True
+    assert hidden["overheating"] is True
+    assert set(hidden["root_cause_hypotheses"]) == {"cooling_failure", "high_load_transient"}
+    assert "independent_thermal_probe" in complete_observation.canonical_json()
+    assert "certified_calibrator" in complete_observation.canonical_json()
+    visible_keys = {key for event in complete_observation.visible_events for key in event}
+    assert not {"sensor_fault", "overheating", "root_cause_hypotheses"} & visible_keys
