@@ -154,6 +154,17 @@ when that denominator is zero. This comparison is descriptive until arm parity,
 independent-world uncertainty, and the remaining confirmatory thresholds are
 frozen and pass.
 
+AO-079 freezes only the directional hypothesis definitions in the
+[content-addressed ablation registry](agent-outcome-ablation-hypotheses.v1.json)
+(`6bf6a497f0cd8cbb8264a072fa1e397a129ad5135ba92c978243582d28325007`). H1
+allows CDM to help; H0 explicitly retains null, uncertain, and below-material-
+gain estimates as `DO_NOT_PROMOTE`; H− records harmful net utility or any safety
+regression and blocks promotion. Every registered replay strategy and signed
+estimate remains reportable. This freezes hypotheses only: sample size,
+stopping, confirmatory seeds, multiplicity handling, template split, and
+resource caps remain unfrozen, so no confirmatory run or superiority claim is
+authorized by this registry.
+
 The mechanical parity contract covers A0–A6 actor arms and requires the same
 task/world context, legal tools, observation-privilege digest, task/model
 budgets, inference settings, and evaluator-grading digest. Only the registered

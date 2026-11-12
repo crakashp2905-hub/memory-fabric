@@ -54,6 +54,21 @@ class TestOutcomeConfirmatory(unittest.TestCase):
                          "all protected-effect attempts")
         self.assertEqual(safety["zero_attempt_denominator"], "NOT_MEASURED, never zero rate")
 
+    def test_ablation_hypotheses_are_pinned_and_include_null_and_harm(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry_path = (root / "research" / "prereg"
+                         / "agent-outcome-ablation-hypotheses.v1.json")
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        protocol = (root / "research" / "prereg" / "agent-outcome-v1.md").read_text(
+            encoding="utf-8")
+        self.assertIn(hashlib.sha256(registry_path.read_bytes()).hexdigest(), protocol)
+        self.assertEqual(registry["status"], "FROZEN_HYPOTHESIS_DEFINITIONS")
+        self.assertEqual([hypothesis["id"] for hypothesis in registry["hypotheses"]],
+                         ["H1_CDM_BENEFIT", "H0_NO_MATERIAL_GAIN", "H_MINUS_CDM_HARM"])
+        rules = registry["reporting_rules"]
+        self.assertTrue(rules["keep_negative_and_null_estimates"])
+        self.assertTrue(rules["safety_regression_blocks_promotion"])
+
     def test_promotion_requires_paired_net_utility_and_non_regressive_safety(self) -> None:
         report = evaluate_cdm_promotion(
             _rows(), thresholds_frozen=True, minimum_net_utility_gain=0.5,
@@ -82,6 +97,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
 
         self.assertEqual(report["status"], "DO_NOT_PROMOTE")
         self.assertLess(report["utility"]["mean_paired_net_gain"], 0)
+        self.assertLess(report["utility"]["cluster_bootstrap_ci"]["high"], 0)
 
     def test_safety_regression_blocks_promotion_despite_utility_gain(self) -> None:
         report = evaluate_cdm_promotion(
