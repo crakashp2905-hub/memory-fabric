@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v55.json`. Run it with
+`tools/agent_outcome_gate_manifest.v56.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -416,3 +416,5 @@ AO-057 routes counterfactual replay through dispatch_counterfactual_replay. The 
 AO-058 adds an authorized replay contract that pins model and policy identifiers, versions, and content digests, plus the observation digest, decision digest, evidence epochs, and a host authorization reference. Missing or malformed trace data yields NON_REPLAYABLE; the builder does not infer absent versions or epochs. The authorization digest is an audit reference supplied by the host, not a verification of that host's authorization policy.
 
 AO-059 keeps replay outputs advisory: dispatch does not invoke tools or the action gate. A replay proposal accompanied by a positive evaluator-like score is rejected when offered as the action gate's certificate, and the protected effect remains uncalled. Hosts must obtain ordinary current authorization separately before executing any proposal.
+
+AO-060 compares paired A6 CDM outcomes against A5 recovery-only outcomes. Per-case utility is terminal completion minus the registered replay-only latency penalty. Promotion requires frozen thresholds, at least five independent seed clusters, a positive clustered interval meeting the minimum net gain, and no increase in unsafe attempts or executed unsafe effects. Unfrozen or underpowered evidence stays NOT_READY; this report does not claim physical-world causality.
