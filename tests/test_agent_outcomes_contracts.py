@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import asdict, fields
 
 import unittest
@@ -74,7 +75,11 @@ class TestOutcomeContracts(unittest.TestCase):
     def test_episode_outcome_requires_opaque_oracle_digest(self) -> None:
         good = EpisodeOutcome("task-1", "A5", 1, False, 0, 0, 1, 1, 0, 0, 0, 1.0,
                               hashlib.sha256(b"sealed outcome").hexdigest())
-        self.assertIn('"population":"SCRIPTED_AGENT"', canonical_report([good]))
+        report = json.loads(canonical_report([good]))
+        self.assertEqual(report["population"], "SCRIPTED_AGENT")
+        self.assertEqual(report["model_status"], "REAL_AGENT_NOT_RUN")
+        self.assertEqual(report["model_token_claims"], "NONE")
+        self.assertIsNone(report["rows"][0]["model_tokens"])
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             EpisodeOutcome("task-1", "A5", 1, True, 0, 0, 0, 0, 0, 0, 0, 1.0, "truth")
 

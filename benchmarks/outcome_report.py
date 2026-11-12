@@ -74,6 +74,8 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
         evidence_opportunities = [case for case in arm_cases if case.valid_evidence_available]
         reports[arm] = {
             "population": "SCRIPTED_AGENT",
+            "model_status": "REAL_AGENT_NOT_RUN",
+            "model_token_claims": "NONE",
             "unit": "unique task case",
             "task_cases": len(arm_cases),
             "undecidable_task_cases": sum(
@@ -164,13 +166,18 @@ def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -
 
 
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
-    """Return stable per-case rows; evaluator digest is opaque and no hidden labels are emitted."""
+    """Return scripted per-case rows without implying measured LLM token usage."""
     rows = [asdict(item) for item in outcomes]
+    for row in rows:
+        row["model_tokens"] = None
     rows.sort(key=lambda row: (row["seed"], row["task_id"], row["arm"]))
     return rows
 
 
 def canonical_report(outcomes: Iterable[EpisodeOutcome]) -> str:
     return json.dumps({"schema_id": "memory-fabric.outcome-report.v1",
-                       "population": "SCRIPTED_AGENT", "rows": report_rows(outcomes)},
+                       "population": "SCRIPTED_AGENT",
+                       "model_status": "REAL_AGENT_NOT_RUN",
+                       "model_token_claims": "NONE",
+                       "rows": report_rows(outcomes)},
                       sort_keys=True, separators=(",", ":"), allow_nan=False)

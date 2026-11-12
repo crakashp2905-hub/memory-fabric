@@ -5,7 +5,7 @@ import hashlib
 import pytest
 
 from benchmarks.outcome_report import (
-    EvaluatedTaskCase, evaluator_report,
+    EvaluatedTaskCase, canonical_evaluator_report, evaluator_report,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -49,6 +49,10 @@ def test_metrics_name_their_population_unit_and_denominator() -> None:
     false_withholding = metric(report, "A5", "false_withholding")
     assert (false_withholding["numerator"], false_withholding["denominator"]) == (2, 3)
     assert report["arms"]["A5"]["undecidable_task_cases"] == 1
+    assert report["arms"]["A5"]["population"] == "SCRIPTED_AGENT"
+    assert report["arms"]["A5"]["model_status"] == "REAL_AGENT_NOT_RUN"
+    assert report["arms"]["A5"]["model_token_claims"] == "NONE"
+    assert "model_tokens" not in canonical_evaluator_report(cases)
 
 
 def test_zero_denominator_is_explicitly_unmeasured() -> None:
