@@ -27,7 +27,8 @@
         "tests/test_outcome_oracle_isolation.py",
         "tests/test_outcome_mock_executor.py",
         "tests/test_outcome_report_metrics.py",
-        "tests/test_outcome_world_splits.py"
+        "tests/test_outcome_world_splits.py",
+        "tests/test_outcome_demo_install.py"
       ]
     },
     {
@@ -59,7 +60,9 @@
         "tests/test_outcome_oracle_isolation.py",
         "tests/test_outcome_report_metrics.py",
         "tests/test_outcome_recovery.py",
-        "tests/test_outcome_world_splits.py"
+        "tests/test_outcome_world_splits.py",
+        "examples/outcome_recovery_demo.py",
+        "tests/test_outcome_demo_install.py"
       ]
     },
     {
