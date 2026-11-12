@@ -8,6 +8,8 @@ __stability__ = "experimental"
 
 from .observations import AgentObservation, AgentStep, EpisodeOutcome
 from .recovery import RecoveryEpisode, RecoveryLimits, RecoveryStatus
+from .eligibility import EvidenceFailure, EvidenceFailureKind, classify_evidence_failure
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "RecoveryEpisode",
-           "RecoveryLimits", "RecoveryStatus"]
+           "RecoveryLimits", "RecoveryStatus", "EvidenceFailure", "EvidenceFailureKind",
+           "classify_evidence_failure"]
