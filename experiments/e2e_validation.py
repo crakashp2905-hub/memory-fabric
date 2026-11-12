@@ -202,8 +202,9 @@ def scenario_backup_restore(tmp: Path) -> None:
     check("E3", "restored copy has the same memories and states",
           c.get(keep).lifecycle_state is LifecycleState.ACTIVE
           and c.get(gone).lifecycle_state is LifecycleState.QUARANTINED)
-    check("E3", "restored copy keeps the store identity",
-          c.store_id == MemoryFabric(store).store_id)
+    with MemoryFabric(store) as original:
+        same_store_id = c.store_id == original.store_id
+    check("E3", "restored copy keeps the store identity", same_store_id)
     check("E3", "restored copy verifies against the original's checkpoint",
           c.log.chain.verify_against(checkpoint).ok)
     doctor = run(CLI + ["--db", str(copy), "--json", "doctor"])
