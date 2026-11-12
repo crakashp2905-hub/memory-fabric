@@ -97,13 +97,13 @@ class TestOutcomeAuthorization(unittest.TestCase):
         episode = RecoveryEpisode("privacy-canary")
         self.assertTrue(episode.record("evidence_blocked", {
             "reason": "credential",
-            "api_key": "ghp_abcdefghijklmnopqrstuvwxyz0123456789",
+            "api_key": "ghp_aaa0000000000000000000000000000000000000",
             "private_content": canary,
             "safe_code": "evidence_stale",
         }))
         recovery_output = episode.canonical_audit_json()
         self.assertNotIn(canary, recovery_output)
-        self.assertNotIn("ghp_abcdefghijklmnopqrstuvwxyz0123456789", recovery_output)
+        self.assertNotIn("ghp_aaa0000000000000000000000000000000000000", recovery_output)
         self.assertEqual(episode.trace[0]["detail"]["safe_code"], "evidence_stale")
 
         step = AgentStep(
