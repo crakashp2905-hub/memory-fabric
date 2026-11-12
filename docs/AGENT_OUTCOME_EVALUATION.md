@@ -99,6 +99,7 @@ The preregistered confirmatory design remains `DRAFT / NOT FROZEN`.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is
   executed and recorded.
 - Independent deployment and security review: `BLOCKED_EXTERNAL`.
+- Pilot with independent users: `BLOCKED_EXTERNAL`.
 - Policy release: `NOT_READY`; candidate recovery/CDM behavior must remain off
   by default until frozen matched gates support promotion.
 
@@ -238,3 +239,46 @@ current evidence and authorization. A completed ledger entry returns
 repeat the effect. An unknown external effect cannot be made exactly once by a
 local database; reconcile it with the external system or operator before
 retrying.
+
+## Future pilot and independent security review
+
+**Status: `BLOCKED_EXTERNAL`.** No independent-user pilot or independent
+security review has been completed. In-house scripted passes and local model
+results cannot change this status or support a deployment claim.
+
+When external work is authorized and participants are available, use this
+sequence:
+
+1. Freeze the exact source commit, environment, model checkpoint (if used),
+   task IDs, seeds, arms, prompts, tool schemas, and budgets. Run the offline
+   gate and archive its manifest digest, complete output, and failure cases.
+   Preregister the comparison and decision thresholds before confirmatory runs.
+2. Define the pilot scope with independent users: representative tasks,
+   participant consent, allowed data, retention and deletion rules, tenant
+   boundaries, operator contacts, and a stop procedure. Use simulated or
+   reversible effects unless the deployment owner explicitly approves a
+   separately reviewed real-effect scope.
+3. Give each participant a separate identity and least-privilege tenant. Test
+   that unauthorized, erased, stale, withheld, and contested evidence remains
+   blocked. Verify operators can see the blocked source, plain-language cause,
+   legal next step, and terminal outcome without seeing evaluator acceptance
+   labels during a run.
+4. Have reviewers independent of implementation inspect the threat model,
+   ActionGate authorization and idempotency paths, crash recovery, checkpoint
+   access controls, data deletion, audit integrity, dependency and secret
+   handling, incident response, and rollback. Record findings, severity,
+   evidence, owner, and remediation status; unresolved critical findings stop
+   the pilot.
+5. Run the pilot only inside the approved scope. Preserve every attempted and
+   executed safety event, exact task-case denominators, user-reported failures,
+   and paired results. Stop on any unauthorized effect, tenant leak, erased
+   content recovery, or unexplained terminal result; reconcile the run before
+   resuming.
+6. Publish a post-run report separating scripted, local-model, and independent
+   user evidence. Record the reviewers' sign-off and unresolved limitations.
+   Promotion requires a separate owner decision after preregistered gates pass;
+   passing a pilot does not silently enable recovery or change its feature flag.
+
+Until each external prerequisite is actually completed and evidenced, retain
+`BLOCKED_EXTERNAL`; do not replace it with `DONE`, `PASS`, or
+`DEPLOYMENT_QUALIFIED` based on repository tests.
