@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from benchmarks.outcome_report import (
     canonical_report, checkpoint_stratified_real_agent_analysis,
-    paired_completion_analysis, zero_event_upper_bound,
+    evaluate_targeted_reevaluations, paired_completion_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
@@ -31,6 +31,25 @@ from memory_fabric.relevance import ReasonCode
 
 
 class TestOutcomeContracts(unittest.TestCase):
+    def test_reevaluation_targeting_accuracy_is_separate_from_task_completion(self) -> None:
+        eligible = [
+            {"task_id": "task-a", "arm": "A5", "step_id": "step-1"},
+            {"task_id": "task-a", "arm": "A5", "step_id": "step-2"},
+            {"task_id": "task-b", "arm": "A5", "step_id": "step-1"},
+        ]
+        report = evaluate_targeted_reevaluations(
+            eligible,
+            expected_target_decisions=[eligible[0]],
+            emitted_receipts=[eligible[0], eligible[1]],
+            terminal_task_outcomes={"task-a": False, "task-b": True},
+        )
+        targeting = report["decision_targeting"]
+        self.assertEqual(targeting["precision"], 0.5)
+        self.assertEqual(targeting["recall"], 1.0)
+        self.assertEqual(targeting["false_positive_unnecessary"], 1)
+        self.assertEqual(report["terminal_task_completion"]["rate"], 0.5)
+        self.assertFalse(report["decision_index_accuracy_is_task_success"])
+
     def test_correction_receipts_target_exact_relied_on_decision_versions(self) -> None:
         task_id = canonical_task_id("correction", 7, 0)
         audit = EpisodeAudit(task_id, "A5", 7)

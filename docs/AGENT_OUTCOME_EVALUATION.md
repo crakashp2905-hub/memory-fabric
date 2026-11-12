@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v50.json`. Run it with
+`tools/agent_outcome_gate_manifest.v51.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -402,3 +402,9 @@ count check only; passing it does not establish research eligibility. An arm
 compared with itself is a zero-effect negative
 control. These summaries do not freeze a confirmatory threshold or turn the
 current scripted pilot into a research result.
+
+`evaluate_targeted_reevaluations` reports decision-index precision, recall,
+unnecessary receipts, and missed targets separately from task completion. Its
+completion numerator and denominator come only from terminal grader outcomes
+for unique task IDs; an accurate decision target index cannot count as a
+completed task.

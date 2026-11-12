@@ -9,7 +9,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import StrEnum
-from typing import Any, Hashable, Iterable, Mapping, Protocol
+from typing import Any, Hashable, Iterable, Mapping, Protocol, Sequence
 
 from memory_fabric.adapters.ollama import CallRecord, OllamaError
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
@@ -763,6 +763,87 @@ def paired_completion_analysis(
         "bootstrap_resamples": resamples,
         "confidence_level": confidence,
         "cluster_field": "seed",
+    }
+
+
+def evaluate_targeted_reevaluations(
+    eligible_decisions: Sequence[Mapping[str, Any]],
+    expected_target_decisions: Sequence[Mapping[str, Any]],
+    emitted_receipts: Sequence[Mapping[str, Any]],
+    terminal_task_outcomes: Mapping[str, bool],
+) -> dict[str, Any]:
+    """Report decision-index targeting separately from terminal task success.
+
+    Decision identifiers are ``(task_id, arm, step_id)`` tuples. Target labels
+    must come from exact evaluator correction links; task completion comes only
+    from terminal grader outcomes and is never inferred from a re-evaluation.
+    """
+    def keys(rows: Sequence[Mapping[str, Any]], label: str) -> set[tuple[str, str, str]]:
+        if not isinstance(rows, Sequence) or isinstance(rows, (str, bytes)):
+            raise ValueError(f"{label} must be a bounded sequence of decision records")
+        result: set[tuple[str, str, str]] = set()
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError(f"{label} entries must be mappings")
+            identity = tuple(row.get(field) for field in ("task_id", "arm", "step_id"))
+            if any(not isinstance(value, str) or not value for value in identity):
+                raise ValueError(f"{label} entries require task_id, arm, and step_id")
+            if identity in result:
+                raise ValueError(f"{label} contains duplicate decision IDs")
+            result.add(identity)  # type: ignore[arg-type]
+        return result
+
+    eligible = keys(eligible_decisions, "eligible_decisions")
+    expected = keys(expected_target_decisions, "expected_target_decisions")
+    emitted = keys(emitted_receipts, "emitted_receipts")
+    if not eligible or expected - eligible or emitted - eligible:
+        raise ValueError("expected and emitted decision IDs must belong to a non-empty eligible set")
+    if not isinstance(terminal_task_outcomes, Mapping) or not terminal_task_outcomes:
+        raise ValueError("terminal_task_outcomes must map task IDs to grader booleans")
+    if (any(not isinstance(task_id, str) or not task_id
+            or not isinstance(completed, bool)
+            for task_id, completed in terminal_task_outcomes.items())):
+        raise ValueError("terminal task outcomes require string IDs and boolean grader labels")
+    eligible_tasks = {task_id for task_id, _, _ in eligible}
+    if eligible_tasks != set(terminal_task_outcomes):
+        raise ValueError("terminal grader outcomes must cover the eligible decision task IDs")
+    true_positive = len(expected & emitted)
+    false_positive = len(emitted - expected)
+    false_negative = len(expected - emitted)
+    true_negative = len(eligible - expected - emitted)
+    completed = sum(terminal_task_outcomes.values())
+    task_count = len(terminal_task_outcomes)
+
+    def digest(items: set[tuple[str, str, str]]) -> str:
+        payload = [list(item) for item in sorted(items)]
+        return hashlib.sha256(json.dumps(
+            payload, separators=(",", ":"), ensure_ascii=False,
+        ).encode("utf-8")).hexdigest()
+
+    return {
+        "schema_id": "memory-fabric.reevaluation-targeting-report.v1",
+        "status": "DECISION_TARGETING_AND_TASK_COMPLETION_REPORTED",
+        "decision_targeting": {
+            "population": "eligible_decisions",
+            "denominator": len(eligible),
+            "true_positive": true_positive,
+            "false_positive_unnecessary": false_positive,
+            "false_negative_missed": false_negative,
+            "true_negative": true_negative,
+            "precision": true_positive / len(emitted) if emitted else 1.0,
+            "recall": true_positive / len(expected) if expected else 1.0,
+            "eligible_decision_set_sha256": digest(eligible),
+            "expected_target_set_sha256": digest(expected),
+            "emitted_receipt_set_sha256": digest(emitted),
+        },
+        "terminal_task_completion": {
+            "population": "unique_task_ids_with_terminal_grader_outcomes",
+            "numerator": completed,
+            "denominator": task_count,
+            "rate": completed / task_count,
+        },
+        "decision_index_accuracy_is_task_success": False,
+        "claim_scope": "routing_counts_and_terminal_completion_only_no_causal_effect_estimate",
     }
 
 
