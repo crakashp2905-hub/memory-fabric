@@ -338,7 +338,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v64.json`. Run it with
+`tools/agent_outcome_gate_manifest.v78.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -348,6 +348,36 @@ evidence is `REAL_AGENT_NOT_RUN` until completed inference is supplied; pass
 PATH` for a sequential team report. The team evidence level is reported
 separately from the scripted qualification. Deployment evidence remains
 `NOT_RUN` until performed.
+
+## Independent-user pilot and security-review workflow
+
+The external pilot remains `BLOCKED_EXTERNAL`; no independent-user or
+deployment evidence is claimed. When an organization is ready to start one:
+
+1. Pin the candidate SHA, frozen protocol and threshold digests, task templates,
+   arm parity report, resource limits, and the exact offline gate result.
+2. Obtain the participating organization's approval, define a non-production
+   sandbox and least-privilege test identities, and agree on data retention and
+   incident contacts before importing any pilot data.
+3. Have an independent evaluator control task assignment and sealed outcomes.
+   Record every assigned case and analysis attempt, including failures,
+   undecidable cases, and stopped runs; keep evaluator truth outside actor
+   observations and public traces.
+4. Run the matched pilot without production credentials or real-world effects.
+   Stop on any executed unsafe effect, tenant-boundary failure, erasure leak,
+   or unexplained outcome mismatch; preserve the run artifacts and reconcile
+   incomplete effects before any retry.
+5. Submit the exact candidate, threat model, raw content-safe reports, failure
+   cases, and incident records to an independent security reviewer. Resolve
+   findings and rerun affected gates at a new pinned SHA.
+6. Keep deployment status `BLOCKED_EXTERNAL` and the feature flag off until
+   independent-user evidence and security review are completed and separately
+   approved. A scripted pass or a local-model smoke cannot substitute for
+   either external condition.
+
+The workflow is a readiness checklist, not evidence that a pilot or review has
+occurred. External participation and independent review remain unavailable in
+this repository task and must stay marked `BLOCKED_EXTERNAL`.
 
 AO-039 keeps local model calls offline by default. `OllamaClient` requires the
 caller to pass `allow_loopback=True`; it accepts HTTP loopback hosts only,
