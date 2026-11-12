@@ -196,6 +196,8 @@ def verify_seed_manifest(path: str | Path, *, root: Path = ROOT) -> list[str]:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, ValueError) as exc:
         return [f"seed manifest is unreadable: {exc}"]
+    if not isinstance(manifest, dict):
+        return ["seed manifest must be a JSON object"]
     if manifest.get("schema") != "memory-fabric-seed-manifest/1":
         return ["unknown seed manifest schema"]
     declared = manifest.get("declared_seeds", [])
@@ -209,6 +211,9 @@ def verify_seed_manifest(path: str | Path, *, root: Path = ROOT) -> list[str]:
         issues.append("repeated declared seed")
     observed: list[int] = []
     for output in outputs:
+        if not isinstance(output, dict):
+            issues.append("each output must be a JSON object")
+            continue
         seed, raw_path = output.get("seed"), output.get("path")
         if not isinstance(seed, int) or not isinstance(raw_path, str):
             issues.append("each output needs an integer seed and path")
