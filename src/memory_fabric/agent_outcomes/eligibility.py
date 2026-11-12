@@ -57,7 +57,9 @@ _ALIASES: dict[EvidenceFailureKind, frozenset[str]] = {
         "unauthorized", "wrong_tenant", "tool_not_granted", "authority_insufficient",
         "scope_denied", "permission_revoked",
     }),
-    EvidenceFailureKind.ERASED: frozenset({"erased", "record_erased", "source_erased"}),
+    EvidenceFailureKind.ERASED: frozenset({
+        "erased", "record_erased", "source_erased", "content_erased",
+    }),
     EvidenceFailureKind.DUPLICATE: frozenset({
         "duplicate", "duplicate_evidence", "duplicate_source", "copy_correlated",
     }),

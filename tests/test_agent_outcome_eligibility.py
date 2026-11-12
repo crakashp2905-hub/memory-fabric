@@ -17,7 +17,7 @@ from memory_fabric.agent_outcomes import (
         ("STALE_REVISION_EPOCH", EvidenceFailureKind.STALE),
         ("claim_evidence_disputed", EvidenceFailureKind.CONTESTED),
         ("tool_not_granted", EvidenceFailureKind.UNAUTHORIZED),
-        ("record_erased", EvidenceFailureKind.ERASED),
+        ("content_erased", EvidenceFailureKind.ERASED),
         ("duplicate_source", EvidenceFailureKind.DUPLICATE),
         ("insufficient_independent_support", EvidenceFailureKind.INSUFFICIENT),
         ("unmapped_refusal", EvidenceFailureKind.UNKNOWN),
