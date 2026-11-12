@@ -8,15 +8,60 @@ import math
 import unittest
 
 from memory_fabric import MemoryFabric
+from memory_fabric import certificates as certificate_codes
+from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RECOVERY_ACTIONS, RecoveryAction, RecoveryCause,
     RecoveryEpisode, RecoveryFailureClass, RecoveryFeatureFlag, RecoveryLimits,
     RecoveryNextAction, RecoveryResolution, RecoveryStatus,
 )
+from memory_fabric.justification import JustificationKind, justification_context
 from memory_fabric.service import MemoryService
 
 
 class TestVersionedOutcomeRequests(unittest.TestCase):
+    def test_correction_preserves_action_supported_by_an_independent_alternative(self) -> None:
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        corrected_root = fabric.remember(
+            "source-a", "Pump beta independent reading is 6.", scope="team")
+        surviving_root = fabric.remember(
+            "source-b", "Separate probe confirms pump beta value is 6.", scope="team")
+        conclusion = fabric.derive(
+            "planner", "Pump beta target is 6.",
+            parents=[corrected_root, surviving_root],
+            context=justification_context((
+                (corrected_root, JustificationKind.ALTERNATIVE),
+                (surviving_root, JustificationKind.ALTERNATIVE),
+            )), scope="team",
+        )
+        fabric.validate(conclusion, actor="supervisor")
+        certificate = fabric.certify(
+            "Set pump beta target to 6.", [conclusion], "executor",
+            required_checks=[certificate_codes.CHECK_DEPENDENCIES_CURRENT],
+        )
+
+        fabric.quarantine(
+            corrected_root, "source measurement corrected", actor="reviewer",
+            basis="contradicted",
+        )
+        verification = fabric.verify_certificate(certificate, "executor")
+        self.assertTrue(verification.ok, verification)
+        self.assertTrue(any("support_survived" in note for note in verification.notes))
+
+        request = ActionRequest("pump_beta", {"value": 6})
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"set_target": ToolRule("set_target", protected=False)},
+            grants={"executor": frozenset({"set_target"})},
+        ))
+        effects: list[int] = []
+        execution = gate.execute(
+            "set_target", "executor", lambda _key: effects.append(6),
+            certificate, key="alternative-survives-correction", request=request,
+        )
+        self.assertEqual(execution.outcome, "executed")
+        self.assertEqual(effects, [6])
+
     def test_observation_json_roundtrip_and_request_digest_are_deterministic(self) -> None:
         first = AgentObservation.from_json(
             '{"schema_id":"memory-fabric.agent-outcomes.v3",'

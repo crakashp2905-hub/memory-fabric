@@ -251,6 +251,13 @@ can still explain what was true at 10:00; that expired record cannot authorize
 a current effect. The verifier returns `evidence_outside_current_validity`,
 which the recovery diagnosis classifies as stale evidence.
 
+Correction routing must preserve alternatives with independent support. An
+integration contract now quarantines one of two alternative roots, re-verifies
+a dependent action certificate with dependency checks enabled, and executes
+the action through `ActionGate` using the surviving support. The companion
+negative case remains covered by selective-certificate tests: when all support
+is withdrawn, verification refuses the action.
+
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
 surface-free transition signatures, and token-order-independent text
@@ -322,7 +329,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v48.json`. Run it with
+`tools/agent_outcome_gate_manifest.v49.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
