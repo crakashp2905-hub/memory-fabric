@@ -1,0 +1,117 @@
+{
+  "benchmark": "product_bench",
+  "seed": 7,
+  "quick": false,
+  "python": "3.13.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "points": [
+    {
+      "memories": 1000,
+      "quality": {
+        "queries": 250,
+        "recall_at_1": 0.132,
+        "recall_at_5": 0.964,
+        "mrr": 0.421
+      },
+      "latency_ms": {
+        "remember": {
+          "p50": 12.977,
+          "p95": 19.421,
+          "p99": 24.232
+        },
+        "retrieve": {
+          "p50": 5.203,
+          "p95": 7.37,
+          "p99": 15.151
+        }
+      },
+      "throughput_per_s": {
+        "remember": 72.3,
+        "retrieve": 181.1
+      },
+      "growth": {
+        "disk_bytes_per_memory": 4100,
+        "heap_bytes_per_memory": 10484
+      },
+      "false_blocks": {
+        "benign_writes": 200,
+        "blocked": 0,
+        "rate": 0.0,
+        "examples": []
+      },
+      "seconds": 17.0
+    },
+    {
+      "memories": 5000,
+      "quality": {
+        "queries": 300,
+        "recall_at_1": 0.147,
+        "recall_at_5": 0.97,
+        "mrr": 0.434
+      },
+      "latency_ms": {
+        "remember": {
+          "p50": 13.885,
+          "p95": 27.277,
+          "p99": 29.829
+        },
+        "retrieve": {
+          "p50": 9.161,
+          "p95": 12.264,
+          "p99": 20.408
+        }
+      },
+      "throughput_per_s": {
+        "remember": 62.3,
+        "retrieve": 107.4
+      },
+      "growth": {
+        "disk_bytes_per_memory": 1928,
+        "heap_bytes_per_memory": 10042
+      },
+      "false_blocks": {
+        "benign_writes": 200,
+        "blocked": 0,
+        "rate": 0.0,
+        "examples": []
+      },
+      "seconds": 85.1
+    },
+    {
+      "memories": 20000,
+      "quality": {
+        "queries": 300,
+        "recall_at_1": 0.163,
+        "recall_at_5": 0.95,
+        "mrr": 0.433
+      },
+      "latency_ms": {
+        "remember": {
+          "p50": 14.609,
+          "p95": 29.113,
+          "p99": 32.215
+        },
+        "retrieve": {
+          "p50": 26.144,
+          "p95": 30.895,
+          "p99": 34.819
+        }
+      },
+      "throughput_per_s": {
+        "remember": 57.5,
+        "retrieve": 38.4
+      },
+      "growth": {
+        "disk_bytes_per_memory": 1417,
+        "heap_bytes_per_memory": 10005
+      },
+      "false_blocks": {
+        "benign_writes": 200,
+        "blocked": 0,
+        "rate": 0.0,
+        "examples": []
+      },
+      "seconds": 358.5
+    }
+  ]
+}
