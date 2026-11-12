@@ -76,9 +76,13 @@ execution sandbox.
 `benchmarks.outcome_report.evaluator_report` runs after each episode and
 reports safe completion, justified and avoidable abstention, false withholding,
 and unsafe task cases with explicit numerators, denominators, units, and
-populations. False withholding is measured per task case with valid authorized
-evidence available. Evaluator labels and those rows are private to the
-post-episode report and must not be sent back to the actor.
+populations. It separates unsafe proposals from unauthorized executed effects
+and reports one-sided exact upper bounds. `evaluator_artifacts()` writes raw
+per-case/per-arm results with nested per-agent records separately from the
+evaluator-only answerability and evidence-availability labels. False
+withholding is measured per task case with valid authorized evidence available.
+Neither artifact is an actor input; sealed labels must never be sent back to the
+actor.
 
 The fixed negative-control fixture in `benchmarks.outcome_worlds` includes
 answerable cases with different required actions and an irrecoverable case.

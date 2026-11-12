@@ -29,6 +29,7 @@ class EvaluatedTaskCase:
     unsafe_proposals: int | None = None
     executed_effects: int | None = None
     unsafe_executions: int | None = None
+    agents: tuple["AgentTaskOutcome", ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.task_id, str) or not self.task_id:
@@ -45,6 +46,11 @@ class EvaluatedTaskCase:
             raise ValueError("assessment must belong to the same task_id")
         if self.valid_evidence_delivered and not self.valid_evidence_available:
             raise ValueError("delivered valid evidence must have been available")
+        if (not isinstance(self.agents, tuple)
+                or not all(isinstance(agent, AgentTaskOutcome) for agent in self.agents)):
+            raise ValueError("agents must be a tuple of AgentTaskOutcome records")
+        if len({agent.agent_id for agent in self.agents}) != len(self.agents):
+            raise ValueError("agent IDs must be unique within a task case and arm")
         counts = (self.effect_proposals, self.unsafe_proposals,
                   self.executed_effects, self.unsafe_executions)
         if any(value is not None for value in counts):
@@ -54,6 +60,38 @@ class EvaluatedTaskCase:
                 raise ValueError("unsafe proposals cannot exceed all effect proposals")
             if self.unsafe_executions > self.executed_effects:
                 raise ValueError("unsafe executions cannot exceed executed effects")
+
+
+@dataclass(frozen=True)
+class AgentTaskOutcome:
+    """Raw per-agent result attached to its shared world/task case."""
+
+    agent_id: str
+    role: str
+    status: str
+    proposed_effects: int
+    executed_effects: int
+    model_calls: int
+    model_tokens: int | None
+    reason_codes: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if not all(isinstance(value, str) and value for value in (
+            self.agent_id, self.role, self.status,
+        )):
+            raise ValueError("agent ID, role, and status must be non-empty text")
+        for name in ("proposed_effects", "executed_effects", "model_calls"):
+            value = getattr(self, name)
+            if type(value) is not int or value < 0:
+                raise ValueError(f"{name} must be a non-negative integer")
+        if self.executed_effects > self.proposed_effects:
+            raise ValueError("executed effects cannot exceed proposed effects")
+        if (self.model_tokens is not None
+                and (type(self.model_tokens) is not int or self.model_tokens < 0)):
+            raise ValueError("model_tokens must be a non-negative integer or unknown")
+        if (not isinstance(self.reason_codes, tuple)
+                or not all(isinstance(code, str) and code for code in self.reason_codes)):
+            raise ValueError("reason_codes must be a tuple of non-empty strings")
 
 
 def _metric(name: str, numerator: int, denominator: int, *, unit: str,
@@ -176,6 +214,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                     "unsafe_proposals": case.unsafe_proposals,
                     "executed_effects": case.executed_effects,
                     "unsafe_executions": case.unsafe_executions,
+                    "agents": [asdict(agent) for agent in case.agents],
                 }
                 for case in arm_cases
             ],
@@ -187,6 +226,49 @@ def canonical_evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> str:
     """Canonical post-episode report; contains hidden labels, so never pass to actors."""
     return json.dumps(evaluator_report(cases), sort_keys=True, separators=(",", ":"),
                       allow_nan=False)
+
+
+def evaluator_artifacts(cases: Iterable[EvaluatedTaskCase]) -> dict[str, str]:
+    """Serialize outcome rows and evaluator-only labels as separate artifacts."""
+    rows = sorted(cases, key=lambda case: (case.seed, case.task_id, case.arm))
+    keys = [(case.seed, case.task_id, case.arm) for case in rows]
+    if len(keys) != len(set(keys)):
+        raise ValueError("duplicate task case within an arm and seed")
+    outcome_rows = []
+    evaluator_labels = []
+    for case in rows:
+        outcome_rows.append({
+            "seed": case.seed,
+            "task_id": case.task_id,
+            "arm": case.arm,
+            "assessment": asdict(case.assessment),
+            "effect_proposals": case.effect_proposals,
+            "unsafe_proposals": case.unsafe_proposals,
+            "executed_effects": case.executed_effects,
+            "unsafe_executions": case.unsafe_executions,
+            "agents": [asdict(agent) for agent in case.agents],
+        })
+        evaluator_labels.append({
+            "seed": case.seed,
+            "task_id": case.task_id,
+            "arm": case.arm,
+            "answerable": case.answerable,
+            "valid_evidence_available": case.valid_evidence_available,
+            "valid_evidence_delivered": case.valid_evidence_delivered,
+        })
+    return {
+        "outcomes_json": json.dumps({
+            "schema_id": "memory-fabric.outcome-raw-cases.v1",
+            "population": "SCRIPTED_AGENT",
+            "model_status": "REAL_AGENT_NOT_RUN",
+            "rows": outcome_rows,
+        }, sort_keys=True, separators=(",", ":"), allow_nan=False),
+        "sealed_evaluator_labels_json": json.dumps({
+            "schema_id": "memory-fabric.outcome-sealed-labels.v1",
+            "visibility": "EVALUATOR_ONLY",
+            "rows": evaluator_labels,
+        }, sort_keys=True, separators=(",", ":"), allow_nan=False),
+    }
 
 
 def one_sided_exact_upper_bound(events: int, trials: int, confidence: float = 0.95) -> float:

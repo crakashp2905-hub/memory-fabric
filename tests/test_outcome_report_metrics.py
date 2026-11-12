@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import hashlib
+import json
 
 import pytest
 
 from benchmarks.outcome_report import (
-    EvaluatedTaskCase, canonical_evaluator_report, evaluator_report,
-    one_sided_exact_upper_bound, paired_cluster_bootstrap,
+    AgentTaskOutcome, EvaluatedTaskCase, canonical_evaluator_report,
+    evaluator_artifacts, evaluator_report, one_sided_exact_upper_bound,
+    paired_cluster_bootstrap,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -157,3 +159,27 @@ def test_safety_denominator_cannot_silently_drop_cases() -> None:
     ]
     with pytest.raises(ValueError, match="every case in an arm"):
         evaluator_report(cases)
+
+
+def test_raw_agent_outcomes_and_evaluator_labels_are_separate_artifacts() -> None:
+    case = EvaluatedTaskCase(
+        "incident-7", "A5", 7, True, assessment("incident-7", OutcomeStatus.COMPLETED),
+        True, True,
+        agents=(AgentTaskOutcome(
+            agent_id="executor-1", role="Executor", status="COMPLETED",
+            proposed_effects=1, executed_effects=1, model_calls=0,
+            model_tokens=None, reason_codes=("VERIFIED_TERMINAL_STATE",),
+        ),),
+    )
+    artifacts = evaluator_artifacts([case])
+    outcomes = json.loads(artifacts["outcomes_json"])
+    labels = json.loads(artifacts["sealed_evaluator_labels_json"])
+    row = outcomes["rows"][0]
+    assert (row["seed"], row["task_id"], row["arm"]) == (7, "incident-7", "A5")
+    assert row["agents"][0]["agent_id"] == "executor-1"
+    assert row["agents"][0]["model_tokens"] is None
+    assert "answerable" not in row
+    assert "valid_evidence_available" not in row
+    assert labels["visibility"] == "EVALUATOR_ONLY"
+    assert labels["rows"][0]["answerable"] is True
+    assert labels["rows"][0]["valid_evidence_available"] is True
