@@ -434,3 +434,8 @@ AO-066 includes an adversarial untrusted-memory test. The recovery controller st
 AO-067 covers correction after evidence retrieval but before execution: the old certificate is refused by ActionGate with vidence_version_moved, and its effect does not run. A newly issued certificate and grant over a surviving independent source can then execute the same action.
 
 AO-068 verifies that a forged evaluator effect cannot change terminal grading, counterfeit evidence IDs are rejected, forged provenance roots cannot inflate independent support, and unrecognized certificate claims such as checks_passed or uthorized do not mint authority. Protected effect callbacks remain uncalled for each forged input.
+
+
+## Parallel scripted performance harness
+
+Run python -m benchmarks.outcome_parallel --seeds 12 --workers 4 to measure sequential and process-scheduled recovery case latency. The report includes p50/p95/p99, end-to-end parallel wall time, task-case rows, and an exact outcome parity check against the sequential run. It uses spawned local processes and scripted actors; it does not establish a production latency budget or predict deployment performance.
