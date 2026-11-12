@@ -6,6 +6,7 @@ import pytest
 
 from benchmarks.outcome_report import (
     EvaluatedTaskCase, canonical_evaluator_report, evaluator_report,
+    paired_cluster_bootstrap,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -78,3 +79,41 @@ def test_invalid_evidence_delivery_label_is_rejected() -> None:
     with pytest.raises(ValueError, match="must have been available"):
         EvaluatedTaskCase("task", "A5", 1, True,
                           assessment("task", OutcomeStatus.FAILED), False, True)
+
+
+def test_paired_cluster_bootstrap_and_sign_test_use_world_task_pairs() -> None:
+    cases = []
+    outcomes = {
+        "one": (OutcomeStatus.COMPLETED, OutcomeStatus.FAILED),
+        "two": (OutcomeStatus.COMPLETED, OutcomeStatus.FAILED),
+        "three": (OutcomeStatus.FAILED, OutcomeStatus.COMPLETED),
+        "four": (OutcomeStatus.COMPLETED, OutcomeStatus.COMPLETED),
+    }
+    for task_id, (treatment, control) in outcomes.items():
+        cases.extend((
+            EvaluatedTaskCase(task_id, "A5", 9, True, assessment(task_id, treatment), False, False),
+            EvaluatedTaskCase(task_id, "A4", 9, True, assessment(task_id, control), False, False),
+        ))
+
+    result = paired_cluster_bootstrap(
+        cases, treatment_arm="A5", control_arm="A4", iterations=2_000, seed=17,
+    )
+    replay = paired_cluster_bootstrap(
+        cases, treatment_arm="A5", control_arm="A4", iterations=2_000, seed=17,
+    )
+    assert result == replay
+    assert result["unit"] == "unique world/task case"
+    assert result["cluster_count"] == 4
+    assert result["paired_completion_difference"] == 0.25
+    assert result["paired_cluster_bootstrap_ci_95"][0] <= 0.25
+    assert result["paired_cluster_bootstrap_ci_95"][1] >= 0.25
+    assert result["exact_paired_sign_test"] == {
+        "wins": 2, "losses": 1, "ties": 1, "two_sided_p": 1.0,
+    }
+
+
+def test_paired_comparison_rejects_unmatched_cases() -> None:
+    case = EvaluatedTaskCase("only-a5", "A5", 1, True,
+                             assessment("only-a5", OutcomeStatus.COMPLETED), False, False)
+    with pytest.raises(ValueError, match="identical world/task cases"):
+        paired_cluster_bootstrap([case], treatment_arm="A5", control_arm="A4")

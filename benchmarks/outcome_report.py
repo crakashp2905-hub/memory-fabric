@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import random
 from dataclasses import asdict, dataclass
 from typing import Any, Iterable
 
@@ -163,6 +164,101 @@ def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -
         else:
             high = mid
     return (low + high) / 2
+
+
+def paired_cluster_bootstrap(
+    cases: Iterable[EvaluatedTaskCase],
+    *,
+    treatment_arm: str,
+    control_arm: str,
+    iterations: int = 10_000,
+    seed: int = 0,
+) -> dict[str, Any]:
+    """Compare completion on paired world/task cases, resampling cases as clusters.
+
+    Every scheduled matched case stays in the denominator. `UNDECIDABLE` is
+    counted as not completed, matching the frozen intention-to-evaluate endpoint;
+    its count is returned explicitly. Agents or retries within a case never
+    become independent bootstrap samples.
+    """
+    if (not treatment_arm or not control_arm or treatment_arm == control_arm
+            or type(iterations) is not int or not 1 <= iterations <= 1_000_000
+            or type(seed) is not int or seed < 0):
+        raise ValueError("arms must differ; iterations and seed must be bounded integers")
+    by_key: dict[tuple[int, str], dict[str, EvaluatedTaskCase]] = {}
+    for case in cases:
+        key = (case.seed, case.task_id)
+        arms = by_key.setdefault(key, {})
+        if case.arm in arms:
+            raise ValueError("duplicate task case within an arm and seed")
+        arms[case.arm] = case
+    if not by_key:
+        raise ValueError("paired comparison requires at least one task case")
+    missing = [key for key, arms in by_key.items()
+               if treatment_arm not in arms or control_arm not in arms]
+    if missing:
+        raise ValueError("paired arms must contain identical world/task cases")
+
+    ordered = [by_key[key] for key in sorted(by_key)]
+    differences = [
+        int(pair[treatment_arm].assessment.status is OutcomeStatus.COMPLETED)
+        - int(pair[control_arm].assessment.status is OutcomeStatus.COMPLETED)
+        for pair in ordered
+    ]
+    n = len(differences)
+    treatment_successes = sum(
+        pair[treatment_arm].assessment.status is OutcomeStatus.COMPLETED for pair in ordered
+    )
+    control_successes = sum(
+        pair[control_arm].assessment.status is OutcomeStatus.COMPLETED for pair in ordered
+    )
+    wins = sum(value > 0 for value in differences)
+    losses = sum(value < 0 for value in differences)
+    discordant = wins + losses
+    tail = sum(math.comb(discordant, k) for k in range(min(wins, losses) + 1))
+    exact_sign_p = min(1.0, 2.0 * tail / (2**discordant)) if discordant else 1.0
+
+    rng = random.Random(seed)
+    bootstrap = sorted(
+        sum(differences[rng.randrange(n)] for _ in range(n)) / n
+        for _ in range(iterations)
+    )
+
+    def quantile(probability: float) -> float:
+        # Nearest-rank percentile interval, explicitly named in the output.
+        index = max(0, math.ceil(probability * iterations) - 1)
+        return bootstrap[index]
+
+    return {
+        "schema_id": "memory-fabric.outcome-paired-cluster-comparison.v1",
+        "treatment_arm": treatment_arm,
+        "control_arm": control_arm,
+        "unit": "unique world/task case",
+        "cluster_count": n,
+        "denominator": n,
+        "treatment_completed": treatment_successes,
+        "control_completed": control_successes,
+        "treatment_undecidable": sum(
+            pair[treatment_arm].assessment.status is OutcomeStatus.UNDECIDABLE
+            for pair in ordered
+        ),
+        "control_undecidable": sum(
+            pair[control_arm].assessment.status is OutcomeStatus.UNDECIDABLE
+            for pair in ordered
+        ),
+        "treatment_completion_rate": treatment_successes / n,
+        "control_completion_rate": control_successes / n,
+        "paired_completion_difference": sum(differences) / n,
+        "paired_cluster_bootstrap_ci_95": [quantile(0.025), quantile(0.975)],
+        "bootstrap_iterations": iterations,
+        "bootstrap_seed": seed,
+        "bootstrap_interval": "two-sided percentile; nearest-rank quantiles",
+        "exact_paired_sign_test": {
+            "wins": wins, "losses": losses, "ties": n - discordant,
+            "two_sided_p": exact_sign_p,
+        },
+        "undecidable_rule": "Included in scheduled denominator as not completed; count reported.",
+    }
 
 
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
