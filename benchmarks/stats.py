@@ -24,7 +24,17 @@ def paired_bootstrap(a: Sequence[float], b: Sequence[float], seed: int, resample
     """Mean of b - a with a percentile CI, resampling clusters (default: each pair its own)."""
     if len(a) != len(b) or not a:
         raise ValueError("paired samples must be the same, non-zero length")
+    if (not isinstance(seed, int) or isinstance(seed, bool) or seed < 0
+            or not isinstance(resamples, int) or isinstance(resamples, bool)
+            or resamples <= 0):
+        raise ValueError("seed must be non-negative and resamples must be positive integers")
+    if not isinstance(level, (int, float)) or not math.isfinite(level) or not 0 < level < 1:
+        raise ValueError("confidence level must be finite and between zero and one")
+    if any(not math.isfinite(x) for x in (*a, *b)):
+        raise ValueError("paired samples must contain only finite values")
     keys = list(clusters) if clusters is not None else list(range(len(a)))
+    if len(keys) != len(a):
+        raise ValueError("clusters must contain one identifier per paired sample")
     groups: dict[Hashable, list[float]] = {}
     for k, x, y in zip(keys, a, b):
         groups.setdefault(k, []).append(y - x)

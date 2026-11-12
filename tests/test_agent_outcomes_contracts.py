@@ -16,6 +16,7 @@ from benchmarks.outcome_report import (
     paired_completion_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
+from benchmarks.stats import paired_bootstrap
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, DiagnosisSource, EpisodeAudit, EpisodeOutcome, EvidenceFailureCode,
@@ -576,6 +577,24 @@ class TestOutcomeContracts(unittest.TestCase):
             sorted(item["task_case_count"] for item in analysis["world_seed_clusters"]),
             [1, 2],
         )
+
+    def test_cluster_bootstrap_matches_hand_computable_worlds(self) -> None:
+        # Each of two worlds has a fixed paired effect; resampling worlds can
+        # therefore only produce -1, 0, or +1, regardless of case order.
+        baseline = [0.0, 0.0, 0.0, 0.0]
+        treatment = [1.0, 1.0, -1.0, -1.0]
+        clusters = [10, 10, 20, 20]
+        result = paired_bootstrap(
+            baseline, treatment, seed=23, resamples=2_000, clusters=clusters,
+        )
+        self.assertEqual(result, paired_bootstrap(
+            baseline, treatment, seed=23, resamples=2_000, clusters=clusters,
+        ))
+        self.assertEqual(result["diff"], 0.0)
+        self.assertEqual(result["lo"], -1.0)
+        self.assertEqual(result["hi"], 1.0)
+        with self.assertRaisesRegex(ValueError, "one identifier per paired sample"):
+            paired_bootstrap(baseline, treatment, seed=23, clusters=[10, 10])
 
     def test_one_pinned_checkpoint_needs_no_expansion_pilot(self) -> None:
         checkpoint = "a" * 64

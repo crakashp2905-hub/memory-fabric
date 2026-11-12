@@ -1,0 +1,139 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-gate.v71",
+  "manifest_version": 71,
+  "checks": [
+    {
+      "id": "scripted_contracts",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "tests.test_agent_outcomes_contracts",
+        "tests.test_agent_outcome_gate",
+        "tests.test_outcome_world_splits",
+        "tests.test_outcome_matched_arms",
+        "tests.test_outcome_oracle_isolation",
+        "tests.test_outcome_recovery",
+        "tests.test_access_matrix",
+        "tests.test_data_access_paths",
+        "tests.test_identity",
+        "tests.test_erasure",
+        "tests.test_erasure_residue",
+        "tests.test_poisonworld",
+        "tests.test_freshness",
+        "tests.test_cross_process_freshness",
+        "tests.test_outcome_authorization",
+        "tests.test_action_crash",
+        "tests.test_outcome_audit",
+        "tests.test_outcome_eligibility",
+        "tests.test_outcome_agents",
+        "tests.test_outcome_model_absence",
+        "tests.test_outcome_runtime",
+        "tests.test_outcome_counterfactual",
+        "tests.test_outcome_confirmatory",
+        "tests.test_outcome_replay_ablation",
+        "tests.test_outcome_world_engine",
+        "tests.test_action_fence",
+        "tests.test_stability",
+        "tests.test_suite_hygiene"
+      ]
+    },
+    {
+      "id": "lint",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "memory_fabric/agent_outcomes",
+        "memory_fabric/adapters/claude_chat.py",
+        "memory_fabric/adapters/ollama.py",
+        "benchmarks/outcome_report.py",
+        "benchmarks/stats.py",
+        "benchmarks/outcome_confirmatory.py",
+        "benchmarks/outcome_matched_arms.py",
+        "benchmarks/outcome_recovery.py",
+        "benchmarks/outcome_worlds.py",
+        "examples/outcome_recovery_demo.py",
+        "tools/agent_outcome_gate.py",
+        "tests/test_agent_outcomes_contracts.py",
+        "tests/test_agent_outcome_gate.py",
+        "tests/test_outcome_world_splits.py",
+        "tests/test_outcome_matched_arms.py",
+        "tests/test_outcome_oracle_isolation.py",
+        "tests/test_outcome_recovery.py",
+        "tests/test_outcome_world_engine.py",
+        "memory_fabric/certificates.py",
+        "tests/test_outcome_authorization.py",
+        "tests/test_action_crash.py",
+        "tests/test_outcome_audit.py",
+        "tests/test_outcome_eligibility.py",
+        "benchmarks/outcome_agents.py",
+        "tests/test_outcome_agents.py",
+        "tests/test_outcome_model_absence.py",
+        "memory_fabric/agent_outcomes/runtime.py",
+        "tests/test_outcome_runtime.py",
+        "tests/test_outcome_counterfactual.py",
+        "tests/test_outcome_confirmatory.py",
+        "tests/test_outcome_replay_ablation.py",
+        "memory_fabric/actions.py"
+      ]
+    },
+    {
+      "id": "types",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "mypy",
+        "memory_fabric/agent_outcomes",
+        "memory_fabric/adapters/ollama.py",
+        "benchmarks/outcome_report.py",
+        "benchmarks/stats.py",
+        "benchmarks/outcome_confirmatory.py",
+        "benchmarks/outcome_matched_arms.py",
+        "benchmarks/outcome_recovery.py",
+        "benchmarks/outcome_worlds.py",
+        "examples/outcome_recovery_demo.py",
+        "tools/agent_outcome_gate.py",
+        "memory_fabric/certificates.py",
+        "benchmarks/outcome_agents.py",
+        "memory_fabric/actions.py"
+      ]
+    },
+    {
+      "id": "full_repository",
+      "required_for_scripted_qualification": true,
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-t",
+        "."
+      ]
+    },
+    {
+      "id": "local_model",
+      "required_for_scripted_qualification": false,
+      "evidence_level": "local_model_tested",
+      "command": null
+    },
+    {
+      "id": "real_agent_team",
+      "required_for_scripted_qualification": false,
+      "evidence_level": "multi_agent_local_model_tested",
+      "command": null
+    },
+    {
+      "id": "deployment_review",
+      "required_for_scripted_qualification": false,
+      "evidence_level": "deployment_validated",
+      "command": null
+    }
+  ]
+}
