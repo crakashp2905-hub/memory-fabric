@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import asdict, fields
 
 import unittest
 
 from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
+    AgentObservation, AgentStep, EpisodeOutcome, OracleTask, RecoveryEpisode,
+    RecoveryStatus,
 )
 
 
@@ -23,10 +25,25 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(len(observation.request_digest()), 64)
 
     def test_observation_rejects_oracle_fields_recursively(self) -> None:
-        for field in ("truth", "expected_action", "evidence_usable", "reward"):
+        for field in ("truth", "expected_action", "evidence_usable", "reward",
+                      "answerable", "expected_terminal_digest", "required_effect_ids",
+                      "terminal_digest", "completion", "outcome_oracle_digest",
+                      "Expected-Action", "oracle_result"):
             with self.subTest(field=field):
                 with self.assertRaisesRegex(ValueError, "evaluator-only"):
                     AgentObservation("task-1", "Do task", ({"metadata": {field: True}},), (), {})
+
+    def test_oracle_task_shape_cannot_be_copied_into_observation(self) -> None:
+        oracle = OracleTask("task-1", hashlib.sha256(b"expected").hexdigest(),
+                            ("effect-1",), answerable=True)
+        with self.assertRaisesRegex(ValueError, "evaluator-only"):
+            AgentObservation("task-1", "Do task", (asdict(oracle),), (), {})
+
+    def test_observation_schema_has_no_evaluator_fields(self) -> None:
+        self.assertEqual(
+            {item.name for item in fields(AgentObservation)},
+            {"task_id", "instruction", "visible_events", "permitted_tools", "budget", "schema_id"},
+        )
 
     def test_contracts_reject_unknown_fields_and_unbounded_payloads(self) -> None:
         with self.assertRaisesRegex(ValueError, "fields do not match"):

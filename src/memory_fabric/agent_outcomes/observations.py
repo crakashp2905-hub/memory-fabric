@@ -15,7 +15,13 @@ MAX_JSON_BYTES = 64_000
 _FORBIDDEN = frozenset({
     "truth", "expected_action", "evidence_usable", "evidence_conflicted",
     "reward", "correct_answer", "answer_key", "eligibility_oracle",
+    "answerable", "expected_terminal_digest", "required_effect_ids",
+    "terminal_digest", "completion", "safety_violations", "outcome_oracle_digest",
+    "is_correct", "task_success", "success_label", "ground_truth",
 })
+_FORBIDDEN_NORMALIZED = frozenset(
+    re.sub(r"[^a-z0-9]", "", field) for field in _FORBIDDEN
+)
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _INTENTS = frozenset({"retrieve", "inspect", "request_refresh", "ask", "propose", "abstain"})
 
@@ -36,7 +42,9 @@ def _no_oracle_fields(value: Any, path: str = "$") -> None:
         for key, child in value.items():
             if not isinstance(key, str):
                 raise ValueError(f"non-string field at {path}")
-            if key.casefold() in _FORBIDDEN:
+            normalized = re.sub(r"[^a-z0-9]", "", key.casefold())
+            if (normalized in _FORBIDDEN_NORMALIZED
+                    or normalized.startswith(("oracle", "expected", "groundtruth", "evaluator"))):
                 raise ValueError(f"evaluator-only field is forbidden at {path}.{key}")
             _no_oracle_fields(child, f"{path}.{key}")
     elif isinstance(value, (list, tuple)):
