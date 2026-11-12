@@ -173,7 +173,7 @@ Decides, immediately before a tool runs, whether it may run.
 
 - **`ActionGate.authorize(tool: str, agent_id: str, certificate: EvidenceCertificate | Mapping[str, Any] | None = None, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionDecision`**
   Return whether `agent_id` may call `tool` now.
-- **`ActionGate.execute(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None) -> ActionExecution`**
+- **`ActionGate.execute(tool: str, agent_id: str, run: Callable[[str], Any], certificate: EvidenceCertificate | Mapping[str, Any] | None = None, key: str, lease_s: float = 2.0, tenant_id: str | None = None, approval: Approval | None = None, session: Any = None, retry: bool = False, request: ActionRequest | None = None, grant: Grant | str | None = None, receipt_context: str | None = None) -> ActionExecution`**
   Authorize and run `run(key)` with no window between them (module docstring).
 - **`ActionGate.issue_grant(tool: str, agent_id: str, issuer: str, certificate: EvidenceCertificate | None = None, request: ActionRequest | None = None, tenant_id: str | None = None, ttl_s: float = 60.0) -> Grant`**
   A grant for one exact action, valid for `ttl_s` and consumed by its first use.

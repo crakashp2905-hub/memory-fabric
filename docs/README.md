@@ -72,6 +72,7 @@ Every document in the repository, by what you are trying to do.
 | [INDEPENDENT_EVALUATION.md](INDEPENDENT_EVALUATION.md) | What an independent reviewer would need, and what has not happened |
 | [INVARIANTS.md](INVARIANTS.md) | Each integrity invariant and the test that holds it |
 | [AUDIT.md](AUDIT.md) | Implementation against the spec |
+| [AGENT_OUTCOME_EVALUATION.md](AGENT_OUTCOME_EVALUATION.md) | Outcome-agent contracts, model evidence and evaluation limits |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |

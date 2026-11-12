@@ -102,6 +102,8 @@ REASONS: dict[str, tuple[str, str]] = {
                            "Re-certify with current evidence."),
     "evidence_version_moved": ("Blocked: a memory this action relies on has changed since it was certified.",
                                "Read the new version and re-certify."),
+    "evidence_erased": ("Blocked: evidence this action relies on has been cryptographically erased.",
+                        "Use current evidence and certify the claim again; erased content cannot be restored."),
     "evidence_not_usable": ("Blocked: a memory this action relies on may not be used by this agent.",
                             "Use evidence the agent can see."),
     "evidence_suspicious": ("Blocked: a memory this action relies on failed the claim check and is held for review.",

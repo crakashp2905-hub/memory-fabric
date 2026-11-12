@@ -1,14 +1,14 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 104,
+ "results": 105,
  "missing_field_counts": {
-  "git_sha": 33,
+  "git_sha": 34,
   "prereg": 35,
-  "dataset_digest": 104,
-  "model_id": 72,
-  "prompt_hash": 104,
-  "seed": 44,
-  "cost": 88,
+  "dataset_digest": 105,
+  "model_id": 73,
+  "prompt_hash": 105,
+  "seed": 45,
+  "cost": 89,
   "verdict": 68
  },
  "rows": [
@@ -1439,6 +1439,32 @@
     "must_not_expose_any": {},
     "verdict": "SUPPORTED",
     "closed_share": 0.4999999999999997
+   },
+   "parsable": true
+  },
+  {
+   "experiment_id": "p3b-agent-teams-replay-f22fca4",
+   "file": "research/results/p3b-agent-teams-replay-f22fca4.json",
+   "file_sha256": "033814eb8b1bed4de011791320eeb1ff1c2fcf6f154bd245801dbdbf6a897ea2",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p3b-agent-teams.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": {
+    "best_baseline": 0.78,
+    "ceiling": 1.0,
+    "headroom": 0.22,
+    "threshold": 0.868,
+    "fabric": 0.97,
+    "baseline_reaches_ceiling": false,
+    "closed_share": 0.8636,
+    "verdict": "SUPPORTED"
    },
    "parsable": true
   },

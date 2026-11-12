@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OFFLINE = ["quickstart", "wrong_memory_demo", "reference_agent", "poisoning_and_rollback", "action_gate",
-           "agent_on_the_fabric"]
+           "agent_on_the_fabric", "outcome_recovery_demo"]
 
 
 class Examples(unittest.TestCase):

@@ -8,7 +8,11 @@ from __future__ import annotations
 
 import json
 import hashlib
+import sys
 from dataclasses import replace
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
@@ -28,7 +32,7 @@ def run_demo() -> dict[str, object]:
     )
     actor_trace: list[dict[str, object]] = [{
         "kind": "observation", "task_id": observation.task_id,
-        "visible_events": list(observation.visible_events),
+        "visible_events": observation.to_dict()["visible_events"],
     }]
     effects: list[int] = []
     fabric = MemoryFabric(":memory:", auto_activate=True)

@@ -110,6 +110,7 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `wrong_store`, `wrong_agent`, `wrong_tenant` | the certificate was issued elsewhere or for someone else | certify in this store, as this agent |
 | `certificate_expired`, `policy_changed` | the certificate is stale | certify again |
 | `no_supporting_evidence`, `evidence_not_found`, `evidence_not_usable` | there is no usable evidence | check the memories exist and are active |
+| `evidence_erased` | evidence content was cryptographically erased; its audit metadata remains | use current evidence and certify the claim again; erased content cannot be restored |
 | `evidence_withdrawn`, `dependency_withdrawn`, `dependency_not_found` | evidence, or something it rests on, was withdrawn | **working as intended**: the premise is gone |
 | `evidence_version_moved`, `dependency_version_moved` | the evidence was revised after certification | re-read it and certify the new version |
 | `insufficient_independent_support` | fewer independent sources than the rule needs | add independent evidence |
