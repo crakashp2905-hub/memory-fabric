@@ -247,6 +247,17 @@ test scorer synthesizes a terminal value only for exact requests on evaluator-
 authorized cases; it does not call `ActionGate` or a physical-effect executor.
 This fixture is not a benchmark result.
 
+Real-agent arm pairing is defined in `benchmarks.outcome_matched_arms`. Both
+arms must use the same task ID, actor identity, instruction and system-prompt
+hash, permitted tools, task budget, model digest, seed, sampling settings,
+context window, and output-token budget (`num_predict`). Shared world events
+must match and precede the memory-event suffix; only the declared memory
+intervention events may differ. The content-safe pair manifest records hashes,
+event counts, and parity checks without copying prompt or memory text. Prompt
+framing is therefore a separately controlled factor, not an arm-local tuning
+knob. This contract establishes comparable inputs only; it does not score an
+outcome or provide efficacy evidence.
+
 - Scripted recovery pilot: focused contract tests pass; full repository
   qualification awaits CI and the complete check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is
@@ -256,7 +267,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v33.json`. Run it with
+`tools/agent_outcome_gate_manifest.v34.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

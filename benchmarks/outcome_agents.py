@@ -76,6 +76,9 @@ _OLLAMA_AGENT_SYSTEM = (
     "to [] unless exact evidence IDs and non-negative integer versions appear in the "
     "observation; never invent evidence or versions. Do not add fields."
 )
+OLLAMA_AGENT_SYSTEM_SHA256 = hashlib.sha256(
+    _OLLAMA_AGENT_SYSTEM.encode("utf-8")
+).hexdigest()
 _INTENT_FOR_TOOL = {
     "remember_evidence": "inspect",
     "retrieve_evidence": "retrieve",
@@ -196,9 +199,7 @@ class OllamaAgentAdapter:
                 "request_succeeded": call.succeeded,
             },
             "prompt_sha256": call.prompt_sha256,
-            "system_prompt_sha256": hashlib.sha256(
-                _OLLAMA_AGENT_SYSTEM.encode("utf-8")
-            ).hexdigest(),
+            "system_prompt_sha256": OLLAMA_AGENT_SYSTEM_SHA256,
             "response_schema_sha256": self._schema_sha256,
             "nondeterminism_disclosure": (
                 "A fixed seed and sampling configuration do not guarantee bitwise-identical "

@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Callable, Literal
 
 from memory_fabric.actions import ActionRequest
 from memory_fabric.agent_outcomes import AgentObservation
+from benchmarks.outcome_matched_arms import MatchedAgentArm, pair_agent_arms
 
 _ARM_TASKS = 12
 _ANSWERABLE_TASKS = 8
@@ -212,6 +213,124 @@ class TestOutcomeMatchedNegativeControls(unittest.TestCase):
             self.assertNotIn("answerable", visible)
             self.assertNotIn("expected_request", visible)
             self.assertNotIn("oracle", visible)
+
+
+class TestMatchedAgentArmPairing(unittest.TestCase):
+    @staticmethod
+    def _arm_pair() -> tuple[MatchedAgentArm, MatchedAgentArm]:
+        def observation(memory_id: str, content: str) -> AgentObservation:
+            return AgentObservation(
+                task_id="paired-memory-task",
+                instruction="Inspect the current reading and report the safe target.",
+                visible_events=(
+                    {"source": "instrument", "reading": 5, "unit": "bar"},
+                    {"source": "memory_service", "memory_id": memory_id,
+                     "version": 1, "content": content},
+                ),
+                permitted_tools=("inspect",),
+                budget={"steps": 2, "model_tokens": 512},
+            )
+
+        common = {
+            "actor_id": "observer",
+            "model": "qwen2.5:1.5b",
+            "model_digest": "a" * 64,
+            "output_token_budget": 256,
+            "seed": 42,
+            "temperature": 0.0,
+            "top_p": 0.9,
+            "num_ctx": 4096,
+            "think": False,
+        }
+        return (
+            MatchedAgentArm(
+                arm_id="baseline", intervention_id="shared_store",
+                observation=observation("memory-a", "baseline evidence"), **common,
+            ),
+            MatchedAgentArm(
+                arm_id="treatment", intervention_id="governed_memory",
+                observation=observation("memory-b", "treatment evidence"), **common,
+            ),
+        )
+
+    def test_pair_freezes_prompt_frame_and_budget_without_serializing_memory(self) -> None:
+        baseline, treatment = self._arm_pair()
+        pair = pair_agent_arms(baseline, treatment)
+        report = pair.to_dict()
+
+        self.assertEqual(report["status"], "PAIRED_CONTROLS_VALIDATED")
+        self.assertTrue(report["prompt_framing_controlled"])
+        self.assertTrue(report["output_token_budgets_equal"])
+        self.assertEqual(report["only_declared_difference"], "memory_intervention_events")
+        self.assertEqual(report["arms"][0]["prompt_frame_sha256"],
+                         report["arms"][1]["prompt_frame_sha256"])
+        self.assertNotEqual(report["arms"][0]["memory_input_sha256"],
+                            report["arms"][1]["memory_input_sha256"])
+        encoded = pair.canonical_json()
+        self.assertNotIn("baseline evidence", encoded)
+        self.assertNotIn("treatment evidence", encoded)
+
+    def test_pair_rejects_prompt_budget_and_world_context_drift(self) -> None:
+        baseline, treatment = self._arm_pair()
+        cases = (
+            (baseline, replace(treatment, observation=AgentObservation(
+                task_id=treatment.observation.task_id,
+                instruction="Use the evidence carefully.",
+                visible_events=treatment.observation.visible_events,
+                permitted_tools=treatment.observation.permitted_tools,
+                budget=treatment.observation.budget,
+            )), "prompt framing"),
+            (baseline, replace(treatment, output_token_budget=128), "inference controls"),
+            (baseline, replace(treatment, observation=AgentObservation(
+                task_id=treatment.observation.task_id,
+                instruction=treatment.observation.instruction,
+                visible_events=(
+                    {"source": "instrument", "reading": 99, "unit": "bar"},
+                    *treatment.observation.visible_events[1:],
+                ),
+                permitted_tools=treatment.observation.permitted_tools,
+                budget=treatment.observation.budget,
+            )), "only in declared memory intervention events"),
+        )
+        for left, right, message in cases:
+            with self.subTest(message=message):
+                with self.assertRaisesRegex(ValueError, message):
+                    pair_agent_arms(left, right)
+
+    def test_pair_requires_distinct_memory_inputs_in_a_shared_suffix(self) -> None:
+        baseline, treatment = self._arm_pair()
+        same_memory = replace(
+            treatment,
+            observation=AgentObservation(
+                task_id=treatment.observation.task_id,
+                instruction=treatment.observation.instruction,
+                visible_events=(
+                    {"source": "instrument", "reading": 5, "unit": "bar"},
+                    {"source": "memory_service", "memory_id": "memory-a",
+                     "version": 1, "content": "baseline evidence"},
+                ),
+                permitted_tools=treatment.observation.permitted_tools,
+                budget=treatment.observation.budget,
+            ),
+        )
+        non_suffix_memory = replace(
+            treatment,
+            observation=AgentObservation(
+                task_id=treatment.observation.task_id,
+                instruction=treatment.observation.instruction,
+                visible_events=(
+                    {"source": "memory_service", "memory_id": "memory-b",
+                     "version": 1, "content": "treatment evidence"},
+                    {"source": "instrument", "reading": 5, "unit": "bar"},
+                ),
+                permitted_tools=treatment.observation.permitted_tools,
+                budget=treatment.observation.budget,
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "different declared memory evidence"):
+            pair_agent_arms(baseline, same_memory)
+        with self.assertRaisesRegex(ValueError, "must follow shared world events"):
+            pair_agent_arms(baseline, non_suffix_memory)
 
 
 if __name__ == "__main__":  # pragma: no cover
