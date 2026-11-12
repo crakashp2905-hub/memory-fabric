@@ -378,3 +378,113 @@ def match_arm_outcomes(
         "outcomes_bound_per_task_id": True,
         "claim_scope": "matched_case_mapping_only_no_efficacy_estimate",
     }
+
+
+def compare_candidate_to_strongest_fair_arm(
+    outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Compare A5 with the strongest preregistered non-oracle competitor.
+
+    All A0–A4 arms are included in the selection rule, including A3
+    ``pooled_shared_plus_recovery`` and A4 ``memory_fabric``. The A7 oracle is
+    an upper bound and cannot be selected as a fair competitor. A strict rate
+    improvement is required; ties do not pass. This descriptive contract does
+    not provide uncertainty or a promotion decision, and parity remains a
+    separate requirement.
+    """
+    manifest = match_arm_outcomes(outcomes_by_arm)
+    completion_counts: dict[str, int] = {}
+    denominators: dict[str, int] = {}
+    for arm in manifest["arms"]:
+        arm_id = arm["arm_id"]
+        outcomes = arm["outcomes_by_task"]
+        if not isinstance(outcomes, Mapping):
+            raise ValueError("matched outcome maps are malformed")
+        completed = []
+        for task_id in manifest["task_population"]["task_ids"]:
+            outcome = outcomes.get(task_id)
+            if not isinstance(outcome, Mapping) or not isinstance(outcome.get("completed"), bool):
+                raise ValueError(
+                    f"{arm_id} outcomes require a boolean completed field for every task"
+                )
+            completed.append(outcome["completed"])
+        completion_counts[arm_id] = sum(completed)
+        denominators[arm_id] = len(completed)
+
+    comparator_ids = ("A0", "A1", "A2", "A3", "A4")
+    rates = {
+        arm_id: completion_counts[arm_id] / denominators[arm_id]
+        for arm_id in (*comparator_ids, "A5")
+    }
+    all_arm_rates = [
+        {
+            "arm_id": arm["arm_id"],
+            "name": arm["name"],
+            "completed": completion_counts[arm["arm_id"]],
+            "denominator": denominators[arm["arm_id"]],
+            "rate": completion_counts[arm["arm_id"]] / denominators[arm["arm_id"]],
+            "evaluator_only": arm["evaluator_only"],
+        }
+        for arm in manifest["arms"]
+    ]
+    strongest_rate = max(rates[arm_id] for arm_id in comparator_ids)
+    strongest_ids = [arm_id for arm_id in comparator_ids if rates[arm_id] == strongest_rate]
+    candidate_rate = rates["A5"]
+    paired = []
+    candidate_outcomes = next(
+        arm["outcomes_by_task"] for arm in manifest["arms"] if arm["arm_id"] == "A5"
+    )
+    for competitor_id in strongest_ids:
+        competitor_outcomes = next(
+            arm["outcomes_by_task"] for arm in manifest["arms"]
+            if arm["arm_id"] == competitor_id
+        )
+        wins = sum(
+            candidate_outcomes[task_id]["completed"]
+            and not competitor_outcomes[task_id]["completed"]
+            for task_id in manifest["task_population"]["task_ids"]
+        )
+        losses = sum(
+            competitor_outcomes[task_id]["completed"]
+            and not candidate_outcomes[task_id]["completed"]
+            for task_id in manifest["task_population"]["task_ids"]
+        )
+        paired.append({
+            "competitor_arm_id": competitor_id,
+            "candidate_wins": wins,
+            "candidate_losses": losses,
+            "ties": denominators["A5"] - wins - losses,
+            "denominator": denominators["A5"],
+            "paired_rate_difference": (wins - losses) / denominators["A5"],
+        })
+    return {
+        "schema_id": "memory-fabric.matched-arm-strongest-fair-comparison.v1",
+        "status": (
+            "OUTPERFORMS_STRONGEST_DECLARED_FAIR_ARM"
+            if candidate_rate > strongest_rate
+            else "DOES_NOT_OUTPERFORM_STRONGEST_DECLARED_FAIR_ARM"
+        ),
+        "candidate_arm_id": "A5",
+        "fair_competitor_arm_ids": list(comparator_ids),
+        "arm_completion_rates": all_arm_rates,
+        "strongest_fair_competitor_arm_ids": strongest_ids,
+        "strongest_fair_completion_rate": strongest_rate,
+        "candidate_completion": {
+            "numerator": completion_counts["A5"],
+            "denominator": denominators["A5"],
+            "rate": candidate_rate,
+        },
+        "strongest_fair_completion": {
+            "numerator": completion_counts[strongest_ids[0]],
+            "denominator": denominators[strongest_ids[0]],
+            "rate": strongest_rate,
+            "tied_arm_ids": strongest_ids,
+        },
+        "paired_comparisons_to_strongest": paired,
+        "strict_improvement_required": True,
+        "oracle_arm_id": "A7",
+        "oracle_excluded_from_competitor_selection": True,
+        "parity_status": "NOT_MECHANICALLY_VERIFIED",
+        "promotion_eligible": False,
+        "claim_scope": "descriptive_matched_case_completion_only",
+    }

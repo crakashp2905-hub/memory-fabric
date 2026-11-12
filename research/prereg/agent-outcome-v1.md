@@ -121,6 +121,14 @@ identical cases, observation/tool budgets, prompts/model settings, and grading;
 only the preregistered memory/recovery/CDM intervention may differ. CDM is
 advisory and cannot authorize effects.
 
+Primary candidate A5 must be compared with every declared fair actor baseline
+A0–A4, including A3 `pooled_shared_plus_recovery` and A4 `memory_fabric`; it
+cannot qualify by beating only A0 `no_memory`. The strongest fair baseline is
+the highest task-completion rate among those matched arms, and A5 must strictly
+exceed it. A7 `oracle` remains evaluator-only and is excluded from competitor
+selection. This comparison is descriptive until arm parity, independent-world
+uncertainty, and the remaining confirmatory thresholds are frozen and pass.
+
 **Not yet frozen:** minimum meaningful effect, sample size, stopping rule,
 confirmatory seeds, multiplicity correction, task template split, and resource
 caps. Until those are frozen before confirmatory runs, the promotion status is

@@ -11,6 +11,7 @@ from memory_fabric.agent_outcomes import AgentObservation
 from benchmarks.outcome_matched_arms import (
     CANONICAL_AGENT_ARM_SPECS,
     MatchedAgentArm,
+    compare_candidate_to_strongest_fair_arm,
     match_arm_outcomes,
     pair_agent_arms,
 )
@@ -221,6 +222,66 @@ class TestOutcomeMatchedNegativeControls(unittest.TestCase):
 
 
 class TestMatchedAgentArmPairing(unittest.TestCase):
+    def test_a5_must_beat_the_strongest_fair_arm_not_only_a0(self) -> None:
+        completions = {
+            "A0": [False, False, False, False],
+            "A1": [True, False, False, False],
+            "A2": [True, True, False, False],
+            "A3": [True, True, True, False],
+            "A4": [True, True, False, False],
+            "A5": [True, True, False, False],
+            "A6": [True, True, True, True],
+            "A7": [True, True, True, True],
+        }
+
+        def reports() -> dict[str, list[dict[str, object]]]:
+            return {
+                arm_id: [
+                    {"task_id": f"case-{index}", "outcome": {"completed": completed}}
+                    for index, completed in enumerate(values)
+                ]
+                for arm_id, values in completions.items()
+            }
+
+        comparison = compare_candidate_to_strongest_fair_arm(reports())
+        self.assertEqual(
+            comparison["status"], "DOES_NOT_OUTPERFORM_STRONGEST_DECLARED_FAIR_ARM",
+        )
+        self.assertEqual(comparison["candidate_completion"]["rate"], 0.5)
+        self.assertEqual(comparison["strongest_fair_competitor_arm_ids"], ["A3"])
+        self.assertEqual(comparison["strongest_fair_completion"]["rate"], 0.75)
+        self.assertTrue(comparison["oracle_excluded_from_competitor_selection"])
+        self.assertFalse(comparison["promotion_eligible"])
+
+        # A5 tying A3 also fails the strict improvement rule.
+        completions["A5"] = list(completions["A3"])
+        tied = compare_candidate_to_strongest_fair_arm(reports())
+        self.assertEqual(
+            tied["status"], "DOES_NOT_OUTPERFORM_STRONGEST_DECLARED_FAIR_ARM",
+        )
+
+        completions["A5"] = [True, True, True, True]
+        improved = compare_candidate_to_strongest_fair_arm(reports())
+        self.assertEqual(improved["status"], "OUTPERFORMS_STRONGEST_DECLARED_FAIR_ARM")
+        self.assertEqual(improved["fair_competitor_arm_ids"], ["A0", "A1", "A2", "A3", "A4"])
+        self.assertEqual(len(improved["arm_completion_rates"]), 8)
+        self.assertEqual(improved["arm_completion_rates"][-1]["arm_id"], "A7")
+        self.assertTrue(improved["arm_completion_rates"][-1]["evaluator_only"])
+
+    def test_a5_comparison_requires_boolean_outcomes_for_every_arm(self) -> None:
+        outcomes_by_arm = {
+            spec.arm_id: [
+                {"task_id": "case-1", "outcome": {"completed": True}}
+            ]
+            for spec in CANONICAL_AGENT_ARM_SPECS
+        }
+        outcomes_by_arm["A3"] = [
+            {"task_id": "case-1", "outcome": {"completed": "yes"}}
+        ]
+
+        with self.assertRaisesRegex(ValueError, "boolean completed field"):
+            compare_candidate_to_strongest_fair_arm(outcomes_by_arm)
+
     def test_oracle_arm_cannot_be_constructed_as_actor_input(self) -> None:
         baseline, treatment = self._arm_pair()
 
