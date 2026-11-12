@@ -479,6 +479,15 @@ closed codes and read-only recovery suggestions. `not_found` stays
 cross-tenant. Suggestions are advisory; the actor must still pass any effect
 through `ActionGate`.
 
+For operator-facing reports, `explain_task_failure` converts the diagnosis into
+a plain-language reason, a safe next step, and the evaluator-provided terminal
+task status. The caller supplies a short public source alias such as
+`pump-sensor-A`; the formatter rejects free text and never needs a memory ID or
+evidence content. For example: “pump-sensor-A: the evidence was expired or had
+changed; request a current version from the authorized source; the final task
+outcome has not been verified.” A suggestion remains advisory and does not
+change grants or execute an action.
+
 `benchmarks.outcome_report.paired_completion_analysis` computes matched
 completion rates, treatment-minus-baseline effects, a seed-cluster bootstrap
 interval, and an exact sign test over cluster means. It rejects unmatched task

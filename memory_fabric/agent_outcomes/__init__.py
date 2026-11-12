@@ -21,9 +21,10 @@ from .recovery import (
     RecoveryResolution, RecoveryStatus,
 )
 from .eligibility import (
-    DiagnosisSource, EvidenceDiagnosis, EvidenceFailureCode, diagnose_access,
+    DiagnosisSource, EvidenceDiagnosis, EvidenceFailureCode, ReportedTaskStatus,
+    diagnose_access,
     diagnose_answerability, diagnose_certificate, diagnose_relevance,
-    find_alternate_sources,
+    explain_task_failure, find_alternate_sources,
 )
 from .outcomes import (
     EffectRecord, EpisodeAudit, GradeReason, GradeStatus, OutcomeAuditEvent,
@@ -47,7 +48,8 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "RecoveryFailureClass", "RecoveryFeatureFlag", "RecoveryResolution",
            "RecoveryStatus",
            "DiagnosisSource", "EvidenceDiagnosis",
-           "EvidenceFailureCode", "diagnose_access", "diagnose_answerability",
+           "EvidenceFailureCode", "ReportedTaskStatus", "explain_task_failure",
+           "diagnose_access", "diagnose_answerability",
            "diagnose_certificate", "diagnose_relevance", "find_alternate_sources",
            "EffectRecord", "EpisodeAudit", "GradeReason", "GradeStatus",
            "OutcomeAuditEvent", "OutcomeAuditKind", "OutcomeBenefitLabel",

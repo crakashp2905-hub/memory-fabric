@@ -9,9 +9,10 @@ from __future__ import annotations
 
 __stability__ = "experimental"
 
+import re
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Any, ClassVar, Sequence
+from typing import Any, ClassVar, Mapping, Sequence
 
 from .. import answerability as answerability_codes
 from .. import certificates as certificate_codes
@@ -43,6 +44,14 @@ class DiagnosisSource(StrEnum):
     CERTIFICATE = "certificate"
     ANSWERABILITY = "answerability"
     RELEVANCE = "relevance"
+
+
+class ReportedTaskStatus(StrEnum):
+    """Evaluator-provided terminal task state for a plain-language report."""
+
+    COMPLETED = "completed"
+    INCOMPLETE = "incomplete"
+    UNVERIFIED = "unverified"
 
 
 _RECOVERY_ADVICE: dict[EvidenceFailureCode, tuple[RecoveryAction, ...]] = {
@@ -93,6 +102,79 @@ class EvidenceDiagnosis:
             "failure_codes": [code.value for code in self.failure_codes],
             "suggested_actions": [action.value for action in self.suggested_actions],
         }
+
+
+_FAILURE_EXPLANATIONS: Mapping[EvidenceFailureCode, str] = {
+    EvidenceFailureCode.MISSING: "required evidence could not be found",
+    EvidenceFailureCode.WITHHELD: "evidence was withheld by an access or trust rule",
+    EvidenceFailureCode.IRRELEVANT: "the available evidence did not support this task",
+    EvidenceFailureCode.STALE: "the evidence was expired or had changed",
+    EvidenceFailureCode.CONTESTED: "the evidence has unresolved conflicting support",
+    EvidenceFailureCode.UNAUTHORIZED: "the current agent is not authorized to use this source",
+    EvidenceFailureCode.ERASED: "the evidence was erased and cannot be used",
+    EvidenceFailureCode.DUPLICATE: "the available evidence was duplicate support",
+    EvidenceFailureCode.INSUFFICIENT: "there was not enough independent evidence",
+    EvidenceFailureCode.UNKNOWN: "the system could not safely classify the evidence failure",
+}
+_ACTION_EXPLANATIONS: Mapping[RecoveryAction, str] = {
+    RecoveryAction.REFRESH: "request a current version from the authorized source",
+    RecoveryAction.RE_RETRIEVE: "search approved sources again for current evidence",
+    RecoveryAction.INSPECT_PROVENANCE: "review the source and its lineage before relying on it",
+    RecoveryAction.REQUEST_OBSERVATION: "request a new observation from an approved source",
+    RecoveryAction.ASK_CLARIFICATION: "ask the task owner which evidence or condition is required",
+    RecoveryAction.REPLAN: "choose another authorized plan and verify its evidence",
+}
+_FALLBACK_NEXT_STEPS: Mapping[EvidenceFailureCode, str] = {
+    EvidenceFailureCode.UNAUTHORIZED:
+        "ask the source owner for access; do not bypass the access rule",
+    EvidenceFailureCode.ERASED:
+        "use an authorized independent replacement if available; otherwise stop",
+    EvidenceFailureCode.UNKNOWN:
+        "stop and ask an operator to review the evidence path",
+}
+_PUBLIC_SOURCE_ALIAS = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$")
+
+
+def explain_task_failure(
+    diagnosis: EvidenceDiagnosis,
+    *,
+    blocked_source_alias: str,
+    task_status: ReportedTaskStatus,
+) -> dict[str, object]:
+    """Render a content-free, human-readable failure explanation.
+
+    ``blocked_source_alias`` must be a public label already visible to the
+    operator, never a memory ID, private source text, or credential. The task
+    status must come from the independent terminal evaluator.
+    """
+    if not isinstance(diagnosis, EvidenceDiagnosis):
+        raise ValueError("diagnosis must be an EvidenceDiagnosis")
+    if not isinstance(task_status, ReportedTaskStatus):
+        raise ValueError("task_status must come from the closed evaluator status set")
+    if (not isinstance(blocked_source_alias, str)
+            or _PUBLIC_SOURCE_ALIAS.fullmatch(blocked_source_alias) is None):
+        raise ValueError("blocked_source_alias must be a short public display label")
+    if not diagnosis.failure_codes:
+        raise ValueError("a failure explanation requires at least one diagnosed failure")
+
+    explanations = [_FAILURE_EXPLANATIONS[code] for code in diagnosis.failure_codes]
+    actions = [_ACTION_EXPLANATIONS[action] for action in diagnosis.suggested_actions]
+    next_step = (actions[0] if actions else
+                 _FALLBACK_NEXT_STEPS.get(
+                     diagnosis.failure_codes[0],
+                     "stop and ask an operator to review the evidence path"))
+    outcome = {
+        ReportedTaskStatus.COMPLETED: "The task completed after recovery.",
+        ReportedTaskStatus.INCOMPLETE: "The task did not complete.",
+        ReportedTaskStatus.UNVERIFIED: "The final task outcome has not been verified.",
+    }[task_status]
+    return {
+        "schema_id": "memory-fabric.why-task-failed.v1",
+        "blocked_source": blocked_source_alias,
+        "why": "; ".join(explanations),
+        "legal_next_step": next_step,
+        "task_outcome": outcome,
+    }
 
 
 def _diagnosis(source: DiagnosisSource,

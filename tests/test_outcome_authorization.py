@@ -20,7 +20,7 @@ from memory_fabric.actions import (
 )
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RecoveryAction, RecoveryCause, RecoveryEpisode,
-    RecoveryStatus, diagnose_certificate,
+    RecoveryStatus, ReportedTaskStatus, diagnose_certificate, explain_task_failure,
 )
 from memory_fabric.agent_outcomes.eligibility import EvidenceFailureCode
 from memory_fabric.certificates import (
@@ -277,6 +277,20 @@ class TestOutcomeAuthorization(unittest.TestCase):
         self.assertIsNotNone(result.decision.verification)
         diagnosis = diagnose_certificate(result.decision.verification)
         self.assertEqual(diagnosis.failure_codes, (EvidenceFailureCode.STALE,))
+        summary = explain_task_failure(
+            diagnosis, blocked_source_alias="pump-sensor-A",
+            task_status=ReportedTaskStatus.UNVERIFIED,
+        )
+        self.assertEqual(summary["blocked_source"], "pump-sensor-A")
+        self.assertIn("expired or had changed", summary["why"])
+        self.assertIn("request a current version", summary["legal_next_step"])
+        self.assertIn("not been verified", summary["task_outcome"])
+        self.assertNotIn(EvidenceFailureCode.STALE.value, summary["why"])
+        with self.assertRaisesRegex(ValueError, "public display label"):
+            explain_task_failure(
+                diagnosis, blocked_source_alias="private memory id/with content",
+                task_status=ReportedTaskStatus.UNVERIFIED,
+            )
         self.assertEqual(effects, [])
 
     def setUp(self) -> None:
