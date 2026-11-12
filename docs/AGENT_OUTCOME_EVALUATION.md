@@ -227,6 +227,14 @@ and their interaction as descriptive paired completion differences. This
 mechanically validates factor separation; it does not establish causal effects
 without a frozen confirmatory run and independent worlds.
 
+`targeted_correction_reevaluation_receipts` joins correction metadata to the
+exact `(memory_id, version)` references on audited decisions. It emits a
+content-free advisory only when a decision recorded reliance on the corrected
+version; exposure alone, another memory, or another version emits no receipt.
+Receipts request review and do not trigger actions. This checkout records these
+links in `AgentStep.evidence_versions` and `EpisodeAudit`; it does not contain
+the `decision_records.py` file named in the plan.
+
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
 surface-free transition signatures, and token-order-independent text
@@ -298,7 +306,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v44.json`. Run it with
+`tools/agent_outcome_gate_manifest.v45.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

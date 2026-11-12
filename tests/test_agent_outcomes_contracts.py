@@ -17,10 +17,11 @@ from benchmarks.outcome_report import (
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, DiagnosisSource, EpisodeOutcome, EvidenceFailureCode,
+    AgentObservation, AgentStep, DiagnosisSource, EpisodeAudit, EpisodeOutcome, EvidenceFailureCode,
     FailureCode, RECOVERY_ACTIONS, RecoveryAction, RecoveryEpisode, RecoveryLimits,
     RecoveryStatus, diagnose_access, diagnose_answerability, diagnose_certificate,
-    diagnose_relevance,
+    diagnose_relevance, targeted_correction_reevaluation_receipts,
+    canonical_step_id, canonical_task_id,
 )
 from memory_fabric.answerability import Answerability
 from memory_fabric.certificates import CertificateVerification
@@ -30,6 +31,30 @@ from memory_fabric.relevance import ReasonCode
 
 
 class TestOutcomeContracts(unittest.TestCase):
+    def test_correction_receipts_target_exact_relied_on_decision_versions(self) -> None:
+        task_id = canonical_task_id("correction", 7, 0)
+        audit = EpisodeAudit(task_id, "A5", 7)
+        audit = audit.record_decision(AgentStep(
+            task_id, "planner", canonical_step_id(task_id, 0), "ask", {},
+            (("memory-1", 3), ("memory-2", 1)),
+        ))
+        audit = audit.record_memory_use(
+            "planner", None, (("memory-1", 3),), use="exposed",
+        )
+        audit = audit.record_decision(AgentStep(
+            task_id, "planner", canonical_step_id(task_id, 1), "ask", {},
+            (("memory-1", 2),),
+        ))
+        result = targeted_correction_reevaluation_receipts(
+            [audit], correction_id="correction-7", memory_id="memory-1",
+            superseded_version=3, corrected_version=4,
+        )
+        self.assertEqual(result["status"], "ADVISORIES_EMITTED")
+        self.assertEqual(result["receipt_count"], 1)
+        self.assertEqual(result["receipts"][0]["step_id"], canonical_step_id(task_id, 0))
+        self.assertEqual(result["receipts"][0]["affected_evidence"], [["memory-1", 3]])
+        self.assertFalse(result["exposed_only_decisions_triggered"])
+
     @staticmethod
     def _checkpoint_report(task_id: str, digest: str, *, passed: bool = True) -> dict:
         step = AgentStep.from_json(json.dumps({

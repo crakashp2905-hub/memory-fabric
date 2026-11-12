@@ -25,6 +25,7 @@ from .outcomes import (
     EffectRecord, EpisodeAudit, GradeReason, GradeStatus, OutcomeAuditEvent,
     OutcomeAuditKind, OutcomeStage, TerminalGrade, TerminalObjective, TerminalSnapshot,
     canonical_step_id, canonical_task_id, grade_terminal,
+    targeted_correction_reevaluation_receipts,
 )
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
@@ -40,4 +41,5 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "EffectRecord", "EpisodeAudit", "GradeReason", "GradeStatus",
            "OutcomeAuditEvent", "OutcomeAuditKind", "OutcomeStage", "TerminalGrade",
            "TerminalObjective", "TerminalSnapshot", "canonical_step_id",
-           "canonical_task_id", "grade_terminal"]
+           "canonical_task_id", "grade_terminal",
+           "targeted_correction_reevaluation_receipts"]

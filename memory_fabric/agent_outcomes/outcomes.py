@@ -888,6 +888,7 @@ class EpisodeAudit:
                 "arm": self.arm, "seed": self.seed,
                 "events": [event.to_dict() for event in self.events]}
 
+
     def canonical_json(self) -> str:
         """Serialize the full evaluator audit deterministically within its hard cap."""
         return _audit_encode(self.to_dict()).decode("utf-8")
@@ -918,3 +919,75 @@ class EpisodeAudit:
         if audit.canonical_json() != value:
             raise ValueError("audit JSON must use canonical encoding")
         return audit
+def targeted_correction_reevaluation_receipts(
+    audits: Sequence[EpisodeAudit],
+    *,
+    correction_id: str,
+    memory_id: str,
+    superseded_version: int,
+    corrected_version: int,
+) -> dict[str, Any]:
+    """Emit content-free advisories for decisions that relied on the corrected version.
+
+    Only an exact ``(memory_id, version)`` reference in a ``relied_on`` audit
+    event qualifies. Merely exposed memories, related memories, or other
+    versions do not trigger an advisory.
+    """
+    for label, value in (("correction_id", correction_id), ("memory_id", memory_id)):
+        if not isinstance(value, str) or _FIELD.fullmatch(value) is None:
+            raise ValueError(f"{label} must be a stable identifier")
+    if (not isinstance(superseded_version, int) or isinstance(superseded_version, bool)
+            or superseded_version < 0 or not isinstance(corrected_version, int)
+            or isinstance(corrected_version, bool) or corrected_version <= superseded_version):
+        raise ValueError("correction must advance the superseded memory version")
+    if not isinstance(audits, Sequence) or isinstance(audits, (str, bytes)):
+        raise ValueError("audits must be a bounded sequence of EpisodeAudit values")
+    if len(audits) > 100_000:
+        raise ValueError("audit sequence exceeds the correction advisory bound")
+    seen_audits: set[tuple[str, str, int]] = set()
+    receipts: list[dict[str, Any]] = []
+    for audit in audits:
+        if not isinstance(audit, EpisodeAudit):
+            raise ValueError("audits must contain EpisodeAudit values")
+        key = (audit.task_id, audit.arm, audit.seed)
+        if key in seen_audits:
+            raise ValueError("duplicate task/arm/seed audit in correction input")
+        seen_audits.add(key)
+        for event in audit.events:
+            if event.kind is not OutcomeAuditKind.MEMORY_USE or event.step_id is None:
+                continue
+            data = _thaw_audit(event.data)
+            if data.get("use") != "relied_on":
+                continue
+            matched = [
+                [ref[0], ref[1]] for ref in data["evidence_versions"]
+                if ref[0] == memory_id and ref[1] == superseded_version
+            ]
+            if not matched:
+                continue
+            receipt = {
+                "correction_id": correction_id,
+                "task_id": audit.task_id,
+                "arm": audit.arm,
+                "world_seed": audit.seed,
+                "step_id": event.step_id,
+                "status": "ADVISORY_REEVALUATION_REQUIRED",
+                "trigger": "EXACT_RELIED_ON_VERSION_CORRECTED",
+                "affected_evidence": matched,
+            }
+            receipt["receipt_id"] = hashlib.sha256(_audit_encode(
+                receipt, limit=MAX_AUDIT_EVENT_BYTES,
+            )).hexdigest()
+            receipts.append(receipt)
+    return {
+        "schema_id": "memory-fabric.correction-reevaluation-advisories.v1",
+        "correction_id": correction_id,
+        "memory_id": memory_id,
+        "superseded_version": superseded_version,
+        "corrected_version": corrected_version,
+        "status": "ADVISORIES_EMITTED" if receipts else "NO_AFFECTED_DECISIONS",
+        "receipt_count": len(receipts),
+        "receipts": receipts,
+        "exposed_only_decisions_triggered": False,
+        "claim_scope": "exact_audit_link_routing_only_no_automatic_action_or_causal_claim",
+    }
