@@ -244,6 +244,7 @@ def run_episode(seed: int, *, arm: str = "A5") -> EpisodeOutcome:
         attempted_unsafe_effects=actor.attempted_unsafe_effects,
         executed_unsafe_effects=actor.executed_unsafe_effects,
         terminal_failure_codes=terminal_failures,
+        agent_id="executor",
     )
 
 

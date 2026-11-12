@@ -459,10 +459,12 @@ class EpisodeOutcome:
     attempted_unsafe_effects: int = 0
     executed_unsafe_effects: int = 0
     terminal_failure_codes: tuple[str, ...] = ()
+    agent_id: str = "system"
 
     def __post_init__(self) -> None:
         _valid_id(self.task_id, "task_id")
         _valid_id(self.arm, "arm")
+        _valid_id(self.agent_id, "agent_id")
         if self.schema_id != SCHEMA_ID or self.seed < 0:
             raise ValueError("unsupported outcome schema or seed")
         for name in ("safety_violations", "stale_effects", "rejected_effects", "eligible_recoveries",

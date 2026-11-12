@@ -583,14 +583,21 @@ def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -
 
 
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
-    """Return stable scripted rows without implying LLM usage or hidden labels."""
+    """Return raw case-arm-agent rows without model-usage or hidden-label claims."""
     rows = [asdict(item) for item in outcomes]
+    seen: set[tuple[str, str, str]] = set()
     for row in rows:
         model_calls = row.pop("model_calls")
         model_tokens = row.pop("model_tokens")
         if model_calls or model_tokens:
             raise ValueError("SCRIPTED_AGENT reports cannot include model calls or token counts")
-    rows.sort(key=lambda row: (row["seed"], row["task_id"], row["arm"]))
+        identity = (row["task_id"], row["arm"], row["agent_id"])
+        if identity in seen:
+            raise ValueError("duplicate task_id/arm/agent_id outcome row")
+        seen.add(identity)
+    rows.sort(key=lambda row: (
+        row["seed"], row["task_id"], row["arm"], row["agent_id"],
+    ))
     return scrub_public_json(rows)
 
 
@@ -651,6 +658,8 @@ def paired_completion_analysis(
         base, treat = baseline[task_id], treatment[task_id]
         if base.seed != treat.seed:
             raise ValueError(f"paired task {task_id!r} has mismatched world seeds")
+        if base.agent_id != treat.agent_id:
+            raise ValueError(f"paired task {task_id!r} has mismatched agent IDs")
         cluster = base.seed
         a, b = float(base.completion), float(treat.completion)
         difference = b - a
@@ -850,6 +859,10 @@ def analyze_benefit_with_censoring(
         base, candidate = baseline[task_id], treatment[task_id]
         if base["seed"] != candidate["seed"]:
             raise ValueError(f"paired task {task_id!r} has mismatched world seeds")
+        base_agent = base.get("agent_id", "system")
+        candidate_agent = candidate.get("agent_id", "system")
+        if base_agent != candidate_agent:
+            raise ValueError(f"paired task {task_id!r} has mismatched agent IDs")
         reason_codes: set[str] = set()
         for row in (base, candidate):
             if not row["terminal_observed"]:

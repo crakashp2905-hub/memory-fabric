@@ -389,9 +389,13 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertIn('"schema_id":"memory-fabric.outcome-report.v4"', report)
         self.assertIn('"terminal_failure_codes":["stale_data","retrieval_miss"]', report)
         row = json.loads(report)["rows"][0]
+        self.assertEqual((row["task_id"], row["arm"], row["agent_id"]),
+                         ("task-1", "A5", "system"))
         self.assertNotIn("model_calls", row)
         self.assertNotIn("model_tokens", row)
         from dataclasses import replace
+        with self.assertRaisesRegex(ValueError, "duplicate task_id/arm/agent_id"):
+            canonical_report([good, good])
         with self.assertRaisesRegex(ValueError, "SCRIPTED_AGENT reports"):
             canonical_report([replace(good, model_calls=1, model_tokens=32)])
         with self.assertRaisesRegex(ValueError, "SHA-256"):
@@ -480,6 +484,25 @@ class TestOutcomeContracts(unittest.TestCase):
                              row(task, "A5", seed, candidate_result)))
         analysis = paired_completion_analysis(outcomes, "A0", "A5", seed=7,
                                               resamples=500)
+        raw_rows = json.loads(canonical_report(outcomes))["rows"]
+        self.assertEqual(len(raw_rows), 10)
+        self.assertEqual({row["agent_id"] for row in raw_rows}, {"system"})
+        self.assertEqual(
+            {arm: sum(row["completion"] for row in raw_rows if row["arm"] == arm)
+             for arm in ("A0", "A5")},
+            {"A0": 2, "A5": 4},
+        )
+        recomputed_rates = {
+            arm: sum(row["completion"] for row in raw_rows if row["arm"] == arm)
+            / sum(row["arm"] == arm for row in raw_rows)
+            for arm in ("A0", "A5")
+        }
+        self.assertEqual(recomputed_rates["A0"],
+                         analysis["metrics"]["baseline_completion_rate"]["value"])
+        self.assertEqual(recomputed_rates["A5"],
+                         analysis["metrics"]["treatment_completion_rate"]["value"])
+        self.assertTrue(all("outcome_oracle_digest" in row for row in raw_rows))
+        self.assertNotIn("sealed case", json.dumps(raw_rows))
         self.assertEqual(analysis["schema_id"],
                          "memory-fabric.paired-completion-analysis.v2")
         metrics = analysis["metrics"]
@@ -520,6 +543,12 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(metrics["cluster_bootstrap_ci"]["positive_share"]["denominator"], 500)
         self.assertEqual(analysis, paired_completion_analysis(
             outcomes, "A0", "A5", seed=7, resamples=500))
+
+        from dataclasses import replace
+        mismatched_agents = list(outcomes)
+        mismatched_agents[-1] = replace(mismatched_agents[-1], agent_id="planner")
+        with self.assertRaisesRegex(ValueError, "mismatched agent IDs"):
+            paired_completion_analysis(mismatched_agents, "A0", "A5", resamples=100)
 
         negative_control = paired_completion_analysis(outcomes, "A0", "A0", seed=7,
                                                       resamples=500)
