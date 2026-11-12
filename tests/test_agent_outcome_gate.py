@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 from tools.agent_outcome_gate import (
-    MANIFEST_PATH, _run_check, overall_status, read_manifest,
+    MANIFEST_PATH, _run_check, overall_status, read_manifest, replay_isolation_status,
     real_agent_team_evidence_result, real_agent_team_report_is_complete,
 )
 
@@ -15,11 +15,15 @@ from tools.agent_outcome_gate import (
 class TestAgentOutcomeGate(unittest.TestCase):
     def test_manifest_is_versioned_and_content_addressed(self) -> None:
         manifest, digest = read_manifest(MANIFEST_PATH)
-        self.assertEqual(manifest["manifest_version"], 65)
-        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v65")
+        self.assertEqual(manifest["manifest_version"], 66)
+        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v66")
         self.assertEqual(len(digest), 64)
         self.assertIn("full_repository", [item["id"] for item in manifest["checks"]])
         self.assertIn("real_agent_team", [item["id"] for item in manifest["checks"]])
+
+    def test_gate_reports_os_limit_availability_without_claiming_sandboxing(self) -> None:
+        self.assertIn(replay_isolation_status(),
+                      {"OS_LIMITS_AVAILABLE", "OS_LIMITS_UNAVAILABLE"})
 
     def test_local_model_gate_requires_separate_completed_inference(self) -> None:
         manifest, _ = read_manifest(MANIFEST_PATH)

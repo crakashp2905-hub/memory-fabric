@@ -12,9 +12,13 @@ __stability__ = "experimental"
 import hashlib
 import json
 import re
+import subprocess
+import sys
+import tempfile
 import time
 from dataclasses import dataclass
 from enum import StrEnum
+from pathlib import Path
 from typing import Any, Callable, Mapping
 
 from .observations import AgentObservation, AgentStep
@@ -50,6 +54,10 @@ class CounterfactualReplayReason(StrEnum):
     REPLAY_WALL_BUDGET_EXCEEDED = "replay_wall_budget_exceeded"
     REPLAY_CPU_BUDGET_EXCEEDED = "replay_cpu_budget_exceeded"
     REPLAY_CALLBACK_FAILED = "replay_callback_failed"
+    REPLAY_CALLBACK_DISALLOWED = "replay_callback_disallowed"
+    REPLAY_WORKER_UNAVAILABLE = "replay_worker_unavailable"
+    REPLAY_WORKER_TIMED_OUT = "replay_worker_timed_out"
+    REPLAY_WORKER_OUTPUT_EXCEEDED = "replay_worker_output_exceeded"
     REPLAY_RESULT_INVALID = "replay_result_invalid"
 
 
@@ -61,7 +69,7 @@ class ReplayLimits:
     max_retries: int = 0
     max_input_bytes: int = 32_000
     max_result_bytes: int = MAX_TOOL_OUTPUT_BYTES
-    max_wall_ms: int = 2_000
+    max_wall_ms: int = 30_000
     max_cpu_ms: int = 1_000
 
     def __post_init__(self) -> None:
@@ -255,9 +263,72 @@ class CounterfactualReplayDispatch:
     cpu_ms: int = 0
     calls_used: int = 0
     retries_used: int = 0
+    isolation: str = "not_started"
+    os_limits_enforced: bool = False
 
 
-CounterfactualReplay = Callable[[Mapping[str, Any], Mapping[str, Any]], Any]
+_REPLAY_WORKERS = frozenset({"proposal_echo"})
+
+
+def _run_replay_worker(
+    worker_id: str, decision: Mapping[str, Any], alternative: Mapping[str, Any],
+    *, wall_ms: int, cpu_ms: int, output_bytes: int,
+) -> tuple[Any, int, int, bool, CounterfactualReplayReason | None]:
+    """Run a built-in worker in a short-lived subprocess with bounded files/time."""
+    started_wall = time.perf_counter_ns()
+    started_cpu = time.process_time_ns()
+    worker = Path(__file__).with_name("replay_worker.py")
+    with tempfile.TemporaryDirectory(prefix="mf-replay-") as tmp:
+        request_path = Path(tmp) / "request.json"
+        response_path = Path(tmp) / "response.json"
+        request_path.write_text(json.dumps(
+            {"worker_id": worker_id, "decision": decision, "alternative": alternative},
+            sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False,
+        ), encoding="utf-8")
+        try:
+            process = subprocess.Popen(
+                [sys.executable, "-I", str(worker), str(request_path), str(response_path),
+                 str(cpu_ms)], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL, close_fds=True,
+            )
+        except OSError:
+            elapsed_wall = int((time.perf_counter_ns() - started_wall) / 1_000_000)
+            elapsed_cpu = int((time.process_time_ns() - started_cpu) / 1_000_000)
+            return None, elapsed_wall, elapsed_cpu, False, CounterfactualReplayReason.REPLAY_WORKER_UNAVAILABLE
+        os_limits_enforced = False
+        deadline = time.monotonic() + wall_ms / 1000
+        reason: CounterfactualReplayReason | None = None
+        while process.poll() is None:
+            if response_path.exists() and response_path.stat().st_size > output_bytes:
+                reason = CounterfactualReplayReason.REPLAY_WORKER_OUTPUT_EXCEEDED
+                process.kill()
+                break
+            if time.monotonic() >= deadline:
+                reason = CounterfactualReplayReason.REPLAY_WORKER_TIMED_OUT
+                process.kill()
+                break
+            time.sleep(0.005)
+        process.wait()
+        elapsed_wall = int((time.perf_counter_ns() - started_wall) / 1_000_000)
+        elapsed_cpu = int((time.process_time_ns() - started_cpu) / 1_000_000)
+        if reason is None and process.returncode != 0:
+            reason = CounterfactualReplayReason.REPLAY_WORKER_UNAVAILABLE
+        if reason is None:
+            try:
+                if response_path.stat().st_size > output_bytes:
+                    reason = CounterfactualReplayReason.REPLAY_WORKER_OUTPUT_EXCEEDED
+                else:
+                    envelope = json.loads(response_path.read_text(encoding="utf-8"))
+                    worker_cpu_ms = envelope.pop("_worker_cpu_ms", 0)
+                    os_limits_enforced = envelope.pop("_worker_os_limits_enforced", False)
+                    if not isinstance(worker_cpu_ms, int) or isinstance(worker_cpu_ms, bool):
+                        raise ValueError("worker CPU usage is invalid")
+                    if not isinstance(os_limits_enforced, bool):
+                        raise ValueError("worker isolation report is invalid")
+                    return (envelope, elapsed_wall, worker_cpu_ms, os_limits_enforced, None)
+            except (OSError, ValueError):
+                reason = CounterfactualReplayReason.REPLAY_WORKER_UNAVAILABLE
+        return None, elapsed_wall, elapsed_cpu, os_limits_enforced, reason
 
 
 def dispatch_counterfactual_replay(
@@ -266,15 +337,15 @@ def dispatch_counterfactual_replay(
     *,
     dependence_checked: bool,
     depends_on_memory: bool,
-    replay: CounterfactualReplay | None,
+    replay: Callable[[Mapping[str, Any], Mapping[str, Any]], Any] | None = None,
+    worker_id: str | None = None,
     budget: ReplayBudget | None = None,
     retry: bool = False,
 ) -> CounterfactualReplayDispatch:
     """Run the advisory CDM only after cheap dependence checks find a material alternative.
 
-    ``decision`` and ``alternative`` are host-owned action proposals. The helper
-    records only their canonical digests; the replay callback remains advisory
-    and receives no evaluator capability or action-gate authority.
+    ``decision`` and ``alternative`` are host-owned action proposals. Only
+    built-in worker IDs are executable; arbitrary callbacks are refused.
     """
     if not isinstance(dependence_checked, bool) or not isinstance(depends_on_memory, bool):
         raise ValueError("dependence check results must be booleans")
@@ -306,14 +377,27 @@ def dispatch_counterfactual_replay(
             CounterfactualReplayReason.NO_MATERIAL_ALTERNATIVE,
             current_digest, alternative_digest,
         )
-    if replay is None:
+    if replay is not None:
+        return CounterfactualReplayDispatch(
+            CounterfactualReplayStatus.FAILED,
+            CounterfactualReplayReason.REPLAY_CALLBACK_DISALLOWED,
+            current_digest, alternative_digest,
+        )
+    if worker_id is None:
         return CounterfactualReplayDispatch(
             CounterfactualReplayStatus.SKIPPED,
             CounterfactualReplayReason.CDM_UNAVAILABLE,
             current_digest, alternative_digest,
         )
     active_budget = ReplayBudget() if budget is None else budget
-    if not isinstance(active_budget, ReplayBudget) or not isinstance(retry, bool):
+    if (not isinstance(active_budget, ReplayBudget) or not isinstance(retry, bool)
+            or not isinstance(worker_id, str) or worker_id not in _REPLAY_WORKERS):
+        if isinstance(worker_id, str) and worker_id not in _REPLAY_WORKERS:
+            return CounterfactualReplayDispatch(
+                CounterfactualReplayStatus.SKIPPED,
+                CounterfactualReplayReason.REPLAY_WORKER_UNAVAILABLE,
+                current_digest, alternative_digest,
+            )
         raise ValueError("replay budget and retry flag are invalid")
     encoded_current = json.dumps(
         current, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
@@ -331,24 +415,26 @@ def dispatch_counterfactual_replay(
             current_digest, alternative_digest, calls_used=active_budget.calls,
             retries_used=active_budget.retries,
         )
-    wall_start = time.perf_counter_ns()
-    cpu_start = time.process_time_ns()
-    try:
-        raw_result = replay(current, candidate)
-    except Exception:  # noqa: BLE001 - report only a closed failure code
-        raw_result = None
-        callback_failed = True
-    else:
-        callback_failed = False
-    wall_ms = int((time.perf_counter_ns() - wall_start) / 1_000_000)
-    cpu_ms = int((time.process_time_ns() - cpu_start) / 1_000_000)
+    raw_result, wall_ms, cpu_ms, os_limits_enforced, worker_error = _run_replay_worker(
+        worker_id, current, candidate,
+        wall_ms=min(active_budget.limits.max_wall_ms - active_budget.wall_ms,
+                    active_budget.limits.max_wall_ms),
+        cpu_ms=min(active_budget.limits.max_cpu_ms - active_budget.cpu_ms,
+                   active_budget.limits.max_cpu_ms),
+        output_bytes=active_budget.limits.max_result_bytes,
+    )
     active_budget.record_usage(wall_ms, cpu_ms)
-    if callback_failed:
+    if worker_error is not None:
         return CounterfactualReplayDispatch(
-            CounterfactualReplayStatus.FAILED,
-            CounterfactualReplayReason.REPLAY_CALLBACK_FAILED,
+            (CounterfactualReplayStatus.BUDGET_EXHAUSTED
+             if worker_error in {
+                 CounterfactualReplayReason.REPLAY_WORKER_TIMED_OUT,
+                 CounterfactualReplayReason.REPLAY_WORKER_OUTPUT_EXCEEDED,
+             } else CounterfactualReplayStatus.FAILED),
+            worker_error,
             current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
             calls_used=active_budget.calls, retries_used=active_budget.retries,
+            isolation="subprocess", os_limits_enforced=os_limits_enforced,
         )
     if wall_ms > active_budget.limits.max_wall_ms - (active_budget.wall_ms - wall_ms):
         return CounterfactualReplayDispatch(
@@ -356,6 +442,7 @@ def dispatch_counterfactual_replay(
             CounterfactualReplayReason.REPLAY_WALL_BUDGET_EXCEEDED,
             current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
             calls_used=active_budget.calls, retries_used=active_budget.retries,
+            isolation="subprocess", os_limits_enforced=os_limits_enforced,
         )
     if cpu_ms > active_budget.limits.max_cpu_ms - (active_budget.cpu_ms - cpu_ms):
         return CounterfactualReplayDispatch(
@@ -363,6 +450,7 @@ def dispatch_counterfactual_replay(
             CounterfactualReplayReason.REPLAY_CPU_BUDGET_EXCEEDED,
             current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
             calls_used=active_budget.calls, retries_used=active_budget.retries,
+            isolation="subprocess", os_limits_enforced=os_limits_enforced,
         )
     try:
         result = _canonical_object(
@@ -378,12 +466,14 @@ def dispatch_counterfactual_replay(
             else CounterfactualReplayReason.REPLAY_RESULT_INVALID,
             current_digest, alternative_digest, wall_ms=wall_ms, cpu_ms=cpu_ms,
             calls_used=active_budget.calls, retries_used=active_budget.retries,
+            isolation="subprocess", os_limits_enforced=os_limits_enforced,
         )
     return CounterfactualReplayDispatch(
         CounterfactualReplayStatus.INVOKED,
         CounterfactualReplayReason.MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE,
         current_digest, alternative_digest, result,
         wall_ms, cpu_ms, active_budget.calls, active_budget.retries,
+        "subprocess", os_limits_enforced,
     )
 
 

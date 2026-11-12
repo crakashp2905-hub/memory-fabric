@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import time
 import unittest
 from collections.abc import Mapping
 
@@ -18,43 +17,53 @@ class TestOutcomeRuntime(unittest.TestCase):
     def test_counterfactual_replay_requires_dependence_and_material_alternative(self) -> None:
         decision = {"tool": "set_target", "value": 4}
         alternative = {"tool": "set_target", "value": 9}
-        calls: list[tuple[dict[str, object], dict[str, object]]] = []
+        calls: list[str] = []
 
-        def replay(current: Mapping[str, object], candidate: Mapping[str, object]) -> dict[str, str]:
-            calls.append((dict(current), dict(candidate)))
+        def forbidden_callback(current: Mapping[str, object],
+                               candidate: Mapping[str, object]) -> dict[str, str]:
+            calls.append("called")
             return {"status": "proposal_changed"}
 
         unchecked = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=False, depends_on_memory=True,
-            replay=replay,
+            replay=forbidden_callback,
         )
         independent = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=False,
-            replay=replay,
+            replay=forbidden_callback,
         )
         same = dispatch_counterfactual_replay(
             decision, dict(decision), dependence_checked=True, depends_on_memory=True,
-            replay=replay,
+            replay=forbidden_callback,
         )
         self.assertEqual(unchecked.reason, CounterfactualReplayReason.DEPENDENCE_NOT_CHECKED)
         self.assertEqual(independent.reason, CounterfactualReplayReason.DECISION_INDEPENDENT)
         self.assertEqual(same.reason, CounterfactualReplayReason.NO_MATERIAL_ALTERNATIVE)
         self.assertEqual(calls, [])
 
+        callback_denied = dispatch_counterfactual_replay(
+            decision, alternative, dependence_checked=True, depends_on_memory=True,
+            replay=forbidden_callback,
+        )
+        self.assertEqual(callback_denied.reason,
+                         CounterfactualReplayReason.REPLAY_CALLBACK_DISALLOWED)
+        self.assertEqual(calls, [])
+
         triggered = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay,
+            worker_id="proposal_echo",
         )
         self.assertEqual(triggered.status, CounterfactualReplayStatus.INVOKED)
         self.assertEqual(
             triggered.reason,
             CounterfactualReplayReason.MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE,
         )
-        self.assertEqual(triggered.result, {"status": "proposal_changed"})
+        self.assertEqual(triggered.result["status"], "proposal_changed")
         self.assertEqual(triggered.calls_used, 1)
         self.assertGreaterEqual(triggered.wall_ms, 0)
         self.assertGreaterEqual(triggered.cpu_ms, 0)
-        self.assertEqual(calls, [(decision, alternative)])
+        self.assertEqual(calls, [])
+        self.assertEqual(triggered.isolation, "subprocess")
         self.assertEqual(len(triggered.decision_sha256 or ""), 64)
         self.assertEqual(len(triggered.alternative_sha256 or ""), 64)
 
@@ -62,29 +71,23 @@ class TestOutcomeRuntime(unittest.TestCase):
         decision = {"tool": "set_target", "value": 4}
         alternative = {"tool": "set_target", "value": 9}
         budget = ReplayBudget(ReplayLimits(max_calls=2, max_retries=1,
-                                           max_result_bytes=64))
-        calls = 0
-
-        def replay(_current: Mapping[str, object], _candidate: Mapping[str, object]) -> dict[str, str]:
-            nonlocal calls
-            calls += 1
-            return {"ok": "yes"}
+                                           max_result_bytes=1024))
 
         first = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay, budget=budget,
+            worker_id="proposal_echo", budget=budget,
         )
         retry = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay, budget=budget, retry=True,
+            worker_id="proposal_echo", budget=budget, retry=True,
         )
         exhausted = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay, budget=budget,
+            worker_id="proposal_echo", budget=budget,
         )
         oversized = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=lambda _current, _candidate: {"payload": "x" * 80},
+            worker_id="proposal_echo",
             budget=ReplayBudget(ReplayLimits(max_result_bytes=64)),
         )
         self.assertEqual(first.status, CounterfactualReplayStatus.INVOKED)
@@ -92,8 +95,8 @@ class TestOutcomeRuntime(unittest.TestCase):
         self.assertEqual(exhausted.reason, CounterfactualReplayReason.REPLAY_CALL_BUDGET_EXHAUSTED)
         self.assertEqual(exhausted.calls_used, 2)
         self.assertEqual(exhausted.retries_used, 1)
-        self.assertEqual(oversized.reason, CounterfactualReplayReason.REPLAY_RESULT_TOO_LARGE)
-        self.assertEqual(calls, 2)
+        self.assertEqual(oversized.reason,
+                         CounterfactualReplayReason.REPLAY_WORKER_OUTPUT_EXCEEDED)
 
     def test_replay_budget_rejects_large_input_and_excess_retry(self) -> None:
         decision = {"tool": "set_target", "value": 4}
@@ -105,27 +108,26 @@ class TestOutcomeRuntime(unittest.TestCase):
             return {"ok": True}
         large = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay, budget=ReplayBudget(ReplayLimits(max_input_bytes=8)),
+            worker_id="proposal_echo", budget=ReplayBudget(ReplayLimits(max_input_bytes=8)),
         )
         no_retry = dispatch_counterfactual_replay(
             decision, alternative, dependence_checked=True, depends_on_memory=True,
-            replay=replay, budget=ReplayBudget(), retry=True,
+            worker_id="proposal_echo", budget=ReplayBudget(), retry=True,
         )
         self.assertEqual(large.reason, CounterfactualReplayReason.REPLAY_INPUT_TOO_LARGE)
         self.assertEqual(no_retry.reason, CounterfactualReplayReason.REPLAY_RETRY_BUDGET_EXHAUSTED)
         self.assertEqual(called, [])
 
-    def test_replay_wall_overrun_is_reported_after_callback_returns(self) -> None:
+    def test_replay_wall_budget_kills_worker_and_reports_isolation(self) -> None:
         result = dispatch_counterfactual_replay(
             {"tool": "set_target", "value": 4},
             {"tool": "set_target", "value": 9},
             dependence_checked=True, depends_on_memory=True,
-            replay=lambda _current, _candidate: (time.sleep(0.01) or {"ok": True}),
-            budget=ReplayBudget(ReplayLimits(max_wall_ms=1)),
+            worker_id="proposal_echo", budget=ReplayBudget(ReplayLimits(max_wall_ms=1)),
         )
         self.assertEqual(result.status, CounterfactualReplayStatus.BUDGET_EXHAUSTED)
-        self.assertEqual(result.reason, CounterfactualReplayReason.REPLAY_WALL_BUDGET_EXCEEDED)
-        self.assertGreater(result.wall_ms, 1)
+        self.assertEqual(result.reason, CounterfactualReplayReason.REPLAY_WORKER_TIMED_OUT)
+        self.assertEqual(result.isolation, "subprocess")
 
     def test_tool_output_changes_the_next_step_without_exposing_world_state(self) -> None:
         initial = AgentObservation(

@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -28,8 +29,8 @@ from benchmarks.outcome_report import (  # noqa: E402
     real_agent_report_is_complete,
 )
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v65.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v65"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v66.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v66"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -37,7 +38,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 65
+            or manifest.get("manifest_version") != 66
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -54,6 +55,12 @@ def overall_status(results: list[dict[str, Any]]) -> str:
     if any(result["status"] != "PASS" for result in required):
         return "NOT_RUN"
     return "SCRIPTED_QUALIFIED"
+
+
+def replay_isolation_status() -> str:
+    """Report whether this host can enforce worker OS resource limits."""
+    return ("OS_LIMITS_AVAILABLE" if os.name == "posix"
+            and _module_available("resource") else "OS_LIMITS_UNAVAILABLE")
 
 
 def _module_available(module_name: str) -> bool:
@@ -358,6 +365,7 @@ def build_report(
                 result["status"] for result in results if result["id"] == "real_agent_team"
             ),
             "deployment": "NOT_RUN",
+            "replay_isolation": replay_isolation_status(),
         },
         "checks": results,
     }

@@ -132,9 +132,7 @@ class TestOutcomeCounterfactual(unittest.TestCase):
             {"tool": "set_target", "value": 9},
             dependence_checked=True,
             depends_on_memory=True,
-            replay=lambda _decision, alternative: {
-                "proposal": dict(alternative), "evaluator_reward": 1.0,
-            },
+            worker_id="proposal_echo",
         )
         effects: list[str] = []
         gate = ActionGate(fabric, ActionPolicy(
