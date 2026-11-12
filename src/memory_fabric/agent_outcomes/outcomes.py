@@ -127,7 +127,7 @@ class OutcomeAssessment:
     result_digest: str
 
 
-def grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> OutcomeAssessment:
+def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> OutcomeAssessment:
     """Score only observed terminal state and effect receipts against sealed facts."""
     if task.task_id != result.task_id:
         status, reason = OutcomeStatus.UNDECIDABLE, "TASK_ID_MISMATCH"

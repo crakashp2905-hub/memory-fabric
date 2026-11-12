@@ -8,8 +8,9 @@ from dataclasses import asdict, dataclass
 from typing import Any, Iterable
 
 from memory_fabric.agent_outcomes import (
-    EpisodeOutcome, OutcomeAssessment, OutcomeStatus,
+    EpisodeOutcome,
 )
+from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
 
 @dataclass(frozen=True)

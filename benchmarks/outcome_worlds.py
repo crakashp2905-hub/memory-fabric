@@ -12,9 +12,10 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Iterable, Mapping
 
-from memory_fabric.agent_outcomes import (
-    AgentObservation, EffectReceipt, OracleTask, OutcomeAssessment, TerminalResult,
-    grade_terminal_outcome,
+from memory_fabric.agent_outcomes.boundary import build_episode_boundary
+from memory_fabric.agent_outcomes.observations import AgentObservation
+from memory_fabric.agent_outcomes.outcomes import (
+    EffectReceipt, OracleTask, OutcomeAssessment, TerminalResult,
 )
 
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
@@ -277,7 +278,10 @@ def score_negative_control_arm(
                 (EffectReceipt(f"effect:{case.task_id}", action, True, True,
                                f"retry:{case.task_id}"),),
             )
-        assessment: OutcomeAssessment = grade_terminal_outcome(oracle, result)
+        _, evaluator_port = build_episode_boundary(
+            case.observation, oracle, actor_id="negative-control-agent"
+        )
+        assessment: OutcomeAssessment = evaluator_port.grade(result)
         rows.append({"task_id": case.task_id, "seed": case.seed,
                      "status": assessment.status.value,
                      "completion": assessment.completion,

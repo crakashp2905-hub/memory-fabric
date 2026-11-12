@@ -8,12 +8,19 @@ recovery episode is bounded and routes each proposed effect through
 `ActionGate.execute`, which rechecks current evidence and authorization.
 
 `OracleTask` and `TerminalResult` live on the evaluator side of the boundary.
-`grade_terminal_outcome` counts completion only when the observed terminal
+`EvaluatorPort.grade` counts completion only when the observed terminal
 state matches the task's sealed digest and all required effects have executed
 with authorization receipts. A rejected proposal is a failure, an executed
 unauthorized effect is unsafe, an incomplete state is undecidable, and a safe
 abstention remains distinct from task completion. These contracts do not grant
 authority or establish independence of a production evaluator.
+
+The package root exposes only actor-safe observation, step, episode-metric, and
+bounded-recovery contracts. A world may hold an `EvaluatorPort` capability
+alongside the separate `AgentPort`; only the evaluator port can grade a
+terminal result. The world must pass the actor port alone to actor code. Python
+in-process APIs are a capability boundary for cooperating code, not an OS
+sandbox against hostile Python introspection.
 
 `benchmarks.outcome_worlds` assigns connected template/fact lineages to one
 seeded split and checks family IDs plus normalized word-order fingerprints for

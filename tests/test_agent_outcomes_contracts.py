@@ -9,9 +9,9 @@ import unittest
 
 from benchmarks.outcome_report import canonical_report, zero_event_upper_bound
 from memory_fabric.agent_outcomes import (
-    AgentObservation, AgentStep, EpisodeOutcome, OracleTask, RecoveryEpisode,
-    RecoveryStatus,
+    AgentObservation, AgentStep, EpisodeOutcome, RecoveryEpisode, RecoveryStatus,
 )
+from memory_fabric.agent_outcomes.outcomes import OracleTask
 
 
 class TestOutcomeContracts(unittest.TestCase):

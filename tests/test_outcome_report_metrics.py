@@ -7,7 +7,7 @@ import pytest
 from benchmarks.outcome_report import (
     EvaluatedTaskCase, evaluator_report,
 )
-from memory_fabric.agent_outcomes import OutcomeAssessment, OutcomeStatus
+from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
 
 def assessment(task_id: str, status: OutcomeStatus) -> OutcomeAssessment:
