@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v61.json`. Run it with
+`tools/agent_outcome_gate_manifest.v62.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -428,3 +428,5 @@ AO-063 verifies that evaluator handles and reward fields cannot enter actor obse
 AO-064 retains missing-oracle and incomplete-effect pairs as UNDECIDABLE in the original denominator. The report estimates completion differences only from fully observed paired terminal outcomes; an exclusion takes effect only when its exact reason code was declared for that case and those rules are frozen. Empty analysis sets produce no estimate.
 
 AO-065 adds the existing authorization, action-fence, tenant-isolation, revocation, erasure, poisoning, and freshness modules to the scripted security gate without changing their assertions. The local security run passed 122 tests; the two localhost CLI revocation checks passed in a loopback-enabled rerun. The standalone full-repository suite remains separate from this scoped run.
+
+AO-066 includes an adversarial untrusted-memory test. The recovery controller stays in owner escalation and refuses replanning; the local-agent adapter rejects the injected protected tool before dispatch, leaving effects untouched. The adapter uses a stubbed malicious model response; this is a contract test, not real-model inference evidence.
