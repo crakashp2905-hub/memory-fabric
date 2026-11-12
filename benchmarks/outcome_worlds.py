@@ -690,6 +690,62 @@ def incident_triage_world(seed: int) -> tuple[DeterministicOutcomeWorld, OracleT
     return world, OracleTask(task_id, expected_digest, ("rollback",), answerable=True)
 
 
+def active_independent_root_ids(events: Iterable[Mapping[str, Any]], *,
+                               subject: str) -> tuple[str, ...]:
+    """Count active evidence by provenance root, never by copy/source count."""
+    invalidated: set[str] = set()
+    candidates: dict[str, str] = {}
+    for event in events:
+        if event.get("type") == "federation_notice":
+            values = event.get("invalidates", ())
+            if isinstance(values, (list, tuple)):
+                invalidated.update(value for value in values if isinstance(value, str))
+        elif event.get("type") == "evidence" and event.get("subject") == subject:
+            evidence_id, origin_root = event.get("evidence_id"), event.get("origin_root")
+            if (isinstance(evidence_id, str) and isinstance(origin_root, str)
+                    and evidence_id not in invalidated):
+                candidates[evidence_id] = origin_root
+    return tuple(sorted({root for evidence_id, root in candidates.items()
+                         if evidence_id not in invalidated}))
+
+
+def correlated_evidence_world(seed: int) -> DeterministicOutcomeWorld:
+    """Copied evidence, independent contradiction, and delayed revocation notice."""
+    if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+    return DeterministicOutcomeWorld(
+        task_id=f"evidence-lineage:{seed}",
+        seed=seed,
+        instruction="Compare the available pressure reports and inspect their provenance.",
+        initial_truth={"pressure_state": "normal"},
+        legal_effects_by_epoch={
+            0: ("set_pressure_normal", "inspect"),
+            1: ("set_pressure_high", "inspect"),
+        },
+        events=(
+            WorldEvent(0, "source-a-report", {
+                "type": "evidence", "evidence_id": "evidence-a", "origin_root": "root-a",
+                "subject": "pump-pressure", "value": "normal", "source": "plant-sensor-a",
+                "authority": "verified",
+            }),
+            WorldEvent(0, "federated-copy-report", {
+                "type": "evidence", "evidence_id": "evidence-b", "origin_root": "root-a",
+                "subject": "pump-pressure", "value": "normal", "source": "remote-copy-b",
+                "authority": "verified",
+            }),
+            WorldEvent(1, "independent-probe-report", {
+                "type": "evidence", "evidence_id": "evidence-c", "origin_root": "root-c",
+                "subject": "pump-pressure", "value": "high", "source": "calibrated-probe-c",
+                "authority": "verified",
+            }),
+            WorldEvent(2, "delayed-federation-notice", {
+                "type": "federation_notice", "invalidates": ["evidence-a", "evidence-b"],
+                "reason": "source calibration revoked",
+            }, {"pressure_state": "high"}),
+        ),
+    )
+
+
 @dataclass(frozen=True)
 class NegativeControlCase:
     """One answerable or deliberately irrecoverable scripted control task."""

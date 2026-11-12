@@ -50,6 +50,11 @@ terminal grader. The incident-triage fixture applies a new dependency alert
 after planning, rejects the old restart at execution time, and requires a
 verified rollback. These fixtures remain synthetic contract controls.
 
+`correlated_evidence_world` preserves copied and contradictory source events,
+groups corroboration by origin root, and applies a delayed federation notice
+as a new revision. The old planned effect is then refused as stale; copies do
+not increase independent-root count.
+
 `battery_diagnosis_world` is an illustrative non-exclusive case: evaluator
 state permits sensor fault and overheating simultaneously, while the agent
 receives separate sensor, calibration, and independent-probe observations.

@@ -7,9 +7,10 @@ import pytest
 from benchmarks.outcome_worlds import (
     DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
     battery_diagnosis_world, correction_after_plan_world,
-    generate_seeded_splits, incident_triage_world, maintenance_prerequisite_world,
-    negative_control_cases, score_negative_control_arm, split_leakage_issues,
-    validate_split_isolation,
+    active_independent_root_ids, correlated_evidence_world,
+    generate_seeded_splits, incident_triage_world,
+    maintenance_prerequisite_world, negative_control_cases,
+    score_negative_control_arm, split_leakage_issues, validate_split_isolation,
 )
 from memory_fabric.agent_outcomes.boundary import build_episode_boundary
 from memory_fabric.agent_outcomes.outcomes import OutcomeStatus, TerminalResult
@@ -312,3 +313,30 @@ def test_new_incident_dependency_alert_invalidates_old_remediation() -> None:
         oracle.task_id, world.terminal_digest(), (stale.receipt, rollback.receipt)
     ))
     assert assessment.status is OutcomeStatus.COMPLETED
+
+
+def test_copied_evidence_counts_once_and_delayed_notice_invalidates_it() -> None:
+    world = correlated_evidence_world(seed=91)
+    first = world.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    assert active_independent_root_ids(first.visible_events, subject="pump-pressure") == ("root-a",)
+    assert len(first.visible_events) == 2
+
+    contradictory = world.observe(step=1, permitted_tools=("inspect", "act"), budget={"steps": 2})
+    assert active_independent_root_ids(
+        contradictory.visible_events, subject="pump-pressure"
+    ) == ("root-a", "root-c")
+    observed_values = {event.get("value") for event in contradictory.visible_events
+                       if event.get("type") == "evidence"}
+    assert observed_values == {"normal", "high"}
+
+    planned_epoch = world.revision_epoch
+    after_notice = world.observe(step=2, permitted_tools=("inspect", "act"), budget={"steps": 1})
+    assert active_independent_root_ids(
+        after_notice.visible_events, subject="pump-pressure"
+    ) == ("root-c",)
+    assert world.evaluator_truth()["pressure_state"] == "high"
+    stale = world.apply_effect(effect_id="planned-normal", action="set_pressure_normal",
+                               expected_revision_epoch=planned_epoch,
+                               idempotency_key="before-federation-notice")
+    assert stale.reason_code == "STALE_REVISION_EPOCH"
+    assert stale.receipt.executed is False
