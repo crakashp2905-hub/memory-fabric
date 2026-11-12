@@ -5,8 +5,9 @@ from dataclasses import replace
 import pytest
 
 from benchmarks.outcome_worlds import (
-    TaskCase, WorldTemplate, generate_seeded_splits, negative_control_cases,
-    score_negative_control_arm, split_leakage_issues, validate_split_isolation,
+    DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
+    generate_seeded_splits, negative_control_cases, score_negative_control_arm,
+    split_leakage_issues, validate_split_isolation,
 )
 
 
@@ -100,3 +101,78 @@ def test_negative_control_actor_observations_contain_no_oracle_labels() -> None:
 
     assert all("answerable" not in case.observation.canonical_json() for case in cases)
     assert all(case.observation.task_id == case.task_id for case in cases)
+
+
+def make_world(seed: int) -> DeterministicOutcomeWorld:
+    return DeterministicOutcomeWorld(
+        task_id="pump-task",
+        seed=seed,
+        instruction="Check the pump and apply a currently authorized action.",
+        initial_truth={"pressure_kpa": 60, "overheating": False},
+        legal_effects_by_epoch={0: ("continue", "inspect"), 1: ("shut_down", "inspect")},
+        events=(
+            WorldEvent(0, "sensor-reading", {"type": "sensor", "pressure_kpa": 60}),
+            WorldEvent(2, "calibration-correction",
+                       {"type": "calibration", "pressure_kpa": 70},
+                       {"pressure_kpa": 70, "overheating": True}),
+        ),
+    )
+
+
+def test_world_events_and_outcome_digests_are_seed_deterministic() -> None:
+    left, right = make_world(41), make_world(41)
+    assert left.world_digest() == right.world_digest()
+
+    left_first = left.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    right_first = right.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    assert left_first.canonical_json() == right_first.canonical_json()
+    assert left.revision_epoch == right.revision_epoch == 0
+
+    left.observe(step=2, permitted_tools=("inspect", "act"), budget={"steps": 1})
+    right.observe(step=2, permitted_tools=("inspect", "act"), budget={"steps": 1})
+    assert left.revision_epoch == right.revision_epoch == 1
+    assert left.evaluator_truth() == {"pressure_kpa": 70, "overheating": True}
+    assert left.world_digest() == right.world_digest()
+
+    left.apply_effect(effect_id="shutdown", action="shut_down",
+                      expected_revision_epoch=1, idempotency_key="effect-retry-1")
+    right.apply_effect(effect_id="shutdown", action="shut_down",
+                       expected_revision_epoch=1, idempotency_key="effect-retry-1")
+    assert left.world_digest() == right.world_digest()
+    assert left.terminal_digest() == right.terminal_digest()
+
+
+def test_world_effects_are_epoch_checked_and_idempotent() -> None:
+    world = make_world(2)
+    world.observe(step=0, permitted_tools=("act",), budget={"steps": 2})
+    world.observe(step=2, permitted_tools=("act",), budget={"steps": 1})
+
+    stale = world.apply_effect(effect_id="continue", action="continue",
+                               expected_revision_epoch=0, idempotency_key="stale-attempt")
+    assert stale.reason_code == "STALE_REVISION_EPOCH"
+    assert stale.receipt.executed is False
+    assert stale.receipt.authorized is False
+
+    applied = world.apply_effect(effect_id="shutdown", action="shut_down",
+                                 expected_revision_epoch=1, idempotency_key="shutdown-once")
+    retried = world.apply_effect(effect_id="shutdown", action="shut_down",
+                                 expected_revision_epoch=1, idempotency_key="shutdown-once")
+    assert applied == retried
+    assert applied.receipt.executed is True
+    assert world.apply_effect(effect_id="shutdown", action="shut_down",
+                              expected_revision_epoch=1,
+                              idempotency_key="shutdown-again").reason_code == "EFFECT_ID_ALREADY_EXECUTED"
+
+
+def test_world_rejects_hidden_labels_in_visible_event_payload() -> None:
+    with pytest.raises(ValueError, match="evaluator-only"):
+        WorldEvent(0, "leak", {"expected_action": "shut_down"})
+
+
+def test_world_rejects_backwards_steps_and_provenance_overrides() -> None:
+    world = make_world(3)
+    world.observe(step=1, permitted_tools=(), budget={})
+    with pytest.raises(ValueError, match="monotone"):
+        world.observe(step=0, permitted_tools=(), budget={})
+    with pytest.raises(ValueError, match="provenance"):
+        WorldEvent(0, "spoof", {"event_id": "forged"})

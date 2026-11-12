@@ -35,6 +35,14 @@ cross-split reuse. Paraphrased variants are detected through their preserved
 template-family ID; text-only similarity is not presented as semantic leak
 detection.
 
+Its `DeterministicOutcomeWorld` applies scheduled truth revisions on a private
+evaluator state, emits validated observations, checks legal effects against
+the current revision epoch, and makes effect retries idempotent. `world_digest`
+binds the full deterministic run state; `terminal_digest` binds the terminal
+truth and executed effects for grading. The engine is a contract scaffold; it
+does not yet implement the plan's battery, maintenance, incident, or repair
+world families.
+
 `benchmarks.outcome_report.evaluator_report` runs after each episode and
 reports safe completion, justified and avoidable abstention, false withholding,
 and unsafe task cases with explicit numerators, denominators, units, and
@@ -52,9 +60,10 @@ control only; it is not a benchmark effect estimate.
 
 The attached master plan is a proposed 96-item program, not a report of work
 already completed. This implementation is a contract-level foundation. Existing
-seeded team experiments remain in `experiments/teamworld.py`; no new outcome
-world, full A0–A7 matched harness, confirmatory analysis, or independent-world
-result is claimed here. The preregistration shell remains `DRAFT / NOT FROZEN`.
+seeded team experiments remain in `experiments/teamworld.py`; the new event
+engine is a scaffold and not a complete task world. No full A0–A7 matched
+harness, confirmatory analysis, or independent-world result is claimed here.
+The preregistered confirmatory design remains `DRAFT / NOT FROZEN`.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is

@@ -6,11 +6,13 @@ the world implementation and must never be copied into ``WorldTemplate``.
 
 from __future__ import annotations
 
+import copy
 import hashlib
+import json
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Iterable, Mapping
+from typing import Any, Iterable, Mapping
 
 from memory_fabric.agent_outcomes.boundary import build_episode_boundary
 from memory_fabric.agent_outcomes.observations import AgentObservation
@@ -184,6 +186,223 @@ def validate_split_isolation(cases: Iterable[TaskCase]) -> None:
     issues = split_leakage_issues(cases)
     if issues:
         raise ValueError("cross-split leakage detected: " + ", ".join(issues))
+
+
+@dataclass(frozen=True)
+class WorldEvent:
+    """Scheduled observation plus an evaluator-only optional truth revision."""
+
+    at_step: int
+    event_id: str
+    visible_payload: dict[str, Any]
+    truth_update: dict[str, Any] | None = None
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.at_step, int) or isinstance(self.at_step, bool) or self.at_step < 0:
+            raise ValueError("at_step must be a non-negative integer")
+        _require_id(self.event_id, "event_id")
+        if not isinstance(self.visible_payload, dict):
+            raise ValueError("visible_payload must be a JSON object")
+        if self.truth_update is not None and not isinstance(self.truth_update, dict):
+            raise ValueError("truth_update must be a JSON object when supplied")
+        if {"event_id", "observed_at_step", "revision_epoch"} & set(self.visible_payload):
+            raise ValueError("visible_payload cannot override event provenance fields")
+        try:
+            json.dumps([self.visible_payload, self.truth_update], sort_keys=True,
+                       separators=(",", ":"), allow_nan=False)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("world event content must be finite JSON data") from exc
+        AgentObservation("event-validation", "Validate event visibility.",
+                         (self.visible_payload,), (), {})
+        object.__setattr__(self, "visible_payload", copy.deepcopy(self.visible_payload))
+        if self.truth_update is not None:
+            object.__setattr__(self, "truth_update", copy.deepcopy(self.truth_update))
+
+
+@dataclass(frozen=True)
+class WorldEffectResult:
+    receipt: EffectReceipt
+    reason_code: str
+    revision_epoch: int
+
+
+class DeterministicOutcomeWorld:
+    """Small deterministic event engine with a strict agent/evaluator split."""
+
+    def __init__(
+        self,
+        *,
+        task_id: str,
+        seed: int,
+        instruction: str,
+        initial_truth: Mapping[str, Any],
+        legal_effects_by_epoch: Mapping[int, Iterable[str]],
+        events: Iterable[WorldEvent],
+    ) -> None:
+        _require_id(task_id, "task_id")
+        if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+            raise ValueError("seed must be a non-negative integer")
+        if not isinstance(instruction, str) or not instruction.strip():
+            raise ValueError("instruction must be non-empty text")
+        if not isinstance(initial_truth, Mapping):
+            raise ValueError("initial_truth must be a mapping")
+        self._task_id = task_id
+        self._seed = seed
+        self._instruction = instruction
+        self._initial_truth = copy.deepcopy(dict(initial_truth))
+        self._truth = copy.deepcopy(self._initial_truth)
+        self._epoch = 0
+        self._tick = -1
+        self._visible_events: list[dict[str, Any]] = []
+        self._effect_receipts: dict[str, WorldEffectResult] = {}
+        self._effects: list[EffectReceipt] = []
+
+        legal: dict[int, frozenset[str]] = {}
+        for epoch, actions in legal_effects_by_epoch.items():
+            if not isinstance(epoch, int) or isinstance(epoch, bool) or epoch < 0:
+                raise ValueError("legal effect epochs must be non-negative integers")
+            action_set = frozenset(actions)
+            for action in action_set:
+                _require_id(action, "legal effect action")
+            legal[epoch] = action_set
+        self._legal_effects = legal
+
+        schedule = tuple(
+            WorldEvent(event.at_step, event.event_id, copy.deepcopy(event.visible_payload),
+                       copy.deepcopy(event.truth_update))
+            for event in events
+        )
+        event_ids = [event.event_id for event in schedule]
+        if len(event_ids) != len(set(event_ids)):
+            raise ValueError("world event IDs must be unique")
+        self._schedule = tuple(sorted(schedule, key=lambda event: (event.at_step, event.event_id)))
+        self._event_cursor = 0
+        self._digest_json(self._truth)
+
+    @staticmethod
+    def _digest_json(value: Any) -> str:
+        encoded = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                              ensure_ascii=False, allow_nan=False).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    @property
+    def revision_epoch(self) -> int:
+        return self._epoch
+
+    def advance_to(self, step: int) -> None:
+        if (not isinstance(step, int) or isinstance(step, bool) or step < 0
+                or step < self._tick):
+            raise ValueError("world steps must be non-negative and monotone")
+        while self._event_cursor < len(self._schedule):
+            event = self._schedule[self._event_cursor]
+            if event.at_step > step:
+                break
+            self._event_cursor += 1
+            if event.truth_update is not None:
+                self._truth.update(copy.deepcopy(event.truth_update))
+                self._epoch += 1
+            rendered = {
+                "event_id": event.event_id,
+                "observed_at_step": event.at_step,
+                "revision_epoch": self._epoch,
+                **copy.deepcopy(event.visible_payload),
+            }
+            # Construction of AgentObservation applies the recursive truth-field guard.
+            self._visible_events.append(rendered)
+        self._tick = step
+
+    def observe(
+        self,
+        *,
+        step: int,
+        permitted_tools: Iterable[str],
+        budget: Mapping[str, int],
+    ) -> AgentObservation:
+        self.advance_to(step)
+        return AgentObservation(
+            task_id=self._task_id,
+            instruction=self._instruction,
+            visible_events=tuple(copy.deepcopy(self._visible_events)),
+            permitted_tools=tuple(permitted_tools),
+            budget=dict(budget),
+        )
+
+    def apply_effect(
+        self,
+        *,
+        effect_id: str,
+        action: str,
+        expected_revision_epoch: int,
+        idempotency_key: str,
+    ) -> WorldEffectResult:
+        _require_id(effect_id, "effect_id")
+        _require_id(action, "action")
+        _require_id(idempotency_key, "idempotency_key")
+        if not isinstance(expected_revision_epoch, int) or isinstance(expected_revision_epoch, bool) \
+                or expected_revision_epoch < 0:
+            raise ValueError("expected_revision_epoch must be a non-negative integer")
+        prior = self._effect_receipts.get(idempotency_key)
+        if prior is not None:
+            receipt = prior.receipt
+            if receipt.effect_id != effect_id or receipt.action != action:
+                raise ValueError("idempotency key reused for a different effect")
+            return prior
+
+        if any(effect.effect_id == effect_id and effect.executed for effect in self._effects):
+            receipt = EffectReceipt(effect_id, action, False, False, idempotency_key)
+            result = WorldEffectResult(receipt, "EFFECT_ID_ALREADY_EXECUTED", self._epoch)
+            self._effect_receipts[idempotency_key] = result
+            self._effects.append(receipt)
+            return result
+
+        if expected_revision_epoch != self._epoch:
+            authorized, executed, reason = False, False, "STALE_REVISION_EPOCH"
+        elif action not in self._legal_effects.get(self._epoch, frozenset()):
+            authorized, executed, reason = False, False, "EFFECT_NOT_LEGAL_AT_CURRENT_EPOCH"
+        else:
+            authorized, executed, reason = True, True, "EFFECT_EXECUTED"
+        receipt = EffectReceipt(effect_id, action, executed, authorized, idempotency_key)
+        result = WorldEffectResult(receipt, reason, self._epoch)
+        self._effect_receipts[idempotency_key] = result
+        self._effects.append(receipt)
+        return result
+
+    def evaluator_truth(self) -> dict[str, Any]:
+        """Return a detached evaluator copy; never pass this to actor code."""
+        return copy.deepcopy(self._truth)
+
+    def world_digest(self) -> str:
+        """Digest complete state, including hidden truth and future event schedule."""
+        payload = {
+            "task_id": self._task_id,
+            "seed": self._seed,
+            "instruction": self._instruction,
+            "initial_truth": self._initial_truth,
+            "truth": self._truth,
+            "epoch": self._epoch,
+            "tick": self._tick,
+            "visible_events": self._visible_events,
+            "event_cursor": self._event_cursor,
+            "scheduled_events": [
+                {"at_step": event.at_step, "event_id": event.event_id,
+                 "visible_payload": event.visible_payload, "truth_update": event.truth_update}
+                for event in self._schedule
+            ],
+            "effects": [effect.to_dict() for effect in self._effects],
+            "legal_effects_by_epoch": {
+                str(epoch): sorted(actions) for epoch, actions in sorted(self._legal_effects.items())
+            },
+        }
+        return self._digest_json(payload)
+
+    def terminal_digest(self) -> str:
+        """Digest the evaluator-observed terminal state for outcome grading."""
+        return self._digest_json({
+            "task_id": self._task_id,
+            "truth": self._truth,
+            "revision_epoch": self._epoch,
+            "executed_effects": [effect.to_dict() for effect in self._effects if effect.executed],
+        })
 
 
 @dataclass(frozen=True)
