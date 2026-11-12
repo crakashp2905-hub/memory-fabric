@@ -55,6 +55,13 @@ state permits sensor fault and overheating simultaneously, while the agent
 receives separate sensor, calibration, and independent-probe observations.
 Its values are synthetic and not physically calibrated.
 
+`dependency_repair_task` offers only two visible manifest reads, a one-line
+allowlisted lockfile replacement, and a coarse `PASS`/`FAIL` result from a
+fixed local compatibility checker. The hidden evaluator file and its
+diagnostics stay inaccessible, and submitted text is never evaluated or
+executed as Python. This is a constrained patching fixture, not a general code
+execution sandbox.
+
 `benchmarks.outcome_report.evaluator_report` runs after each episode and
 reports safe completion, justified and avoidable abstention, false withholding,
 and unsafe task cases with explicit numerators, denominators, units, and
