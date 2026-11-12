@@ -19,6 +19,7 @@ from memory_fabric.agent_outcomes.observations import AgentObservation
 from memory_fabric.agent_outcomes.outcomes import (
     EffectReceipt, OracleTask, OutcomeAssessment, TerminalResult,
 )
+from memory_fabric.agent_outcomes.runtime import ToolOutput
 
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _TOKEN = re.compile(r"[\w]+", re.UNICODE)
@@ -415,6 +416,73 @@ class DeterministicOutcomeWorld:
             "revision_epoch": self._epoch,
             "executed_effects": [effect.to_dict() for effect in self._effects if effect.executed],
         })
+
+
+class MockPhysicalEffectExecutor:
+    """Expose deterministic world effects as tools without any real-system adapter."""
+
+    def __init__(
+        self,
+        world: DeterministicOutcomeWorld,
+        tool_actions: Mapping[str, tuple[str, str]],
+    ) -> None:
+        if not isinstance(world, DeterministicOutcomeWorld):
+            raise TypeError("mock executor requires a DeterministicOutcomeWorld")
+        actions = dict(tool_actions)
+        for tool, (effect_id, action) in actions.items():
+            _require_id(tool, "mock tool")
+            _require_id(effect_id, "mock effect")
+            _require_id(action, "mock action")
+        self._world = world
+        self._tool_actions = actions
+
+    @property
+    def tool_names(self) -> tuple[str, ...]:
+        return tuple(sorted(self._tool_actions))
+
+    def execute(
+        self,
+        tool: str,
+        *,
+        revision_epoch: int,
+        idempotency_key: str,
+    ) -> WorldEffectResult:
+        """Apply only a declared scripted effect to the hidden in-memory world."""
+        try:
+            effect_id, action = self._tool_actions[tool]
+        except KeyError as exc:
+            raise PermissionError("tool is not declared by the mock executor") from exc
+        return self._world.apply_effect(
+            effect_id=effect_id,
+            action=action,
+            expected_revision_epoch=revision_epoch,
+            idempotency_key=idempotency_key,
+        )
+
+    def handler(self, tool: str):
+        """Return a runtime-compatible handler that reveals only the world receipt."""
+        if tool not in self._tool_actions:
+            raise PermissionError("tool is not declared by the mock executor")
+
+        def run(arguments: Mapping[str, Any], _step: Any) -> ToolOutput:
+            if set(arguments) != {"revision_epoch", "idempotency_key"}:
+                raise ValueError("mock effect arguments must name epoch and idempotency key")
+            result = self.execute(
+                tool,
+                revision_epoch=arguments["revision_epoch"],
+                idempotency_key=arguments["idempotency_key"],
+            )
+            receipt = result.receipt
+            return ToolOutput(({
+                "effect_id": receipt.effect_id,
+                "action": receipt.action,
+                "authorized": receipt.authorized,
+                "executed": receipt.executed,
+                "reason_code": result.reason_code,
+                "revision_epoch": result.revision_epoch,
+            },), completed=True)
+
+        return run
 
 
 class DependencyRepairSandbox:
