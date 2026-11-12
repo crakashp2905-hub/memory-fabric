@@ -18,6 +18,7 @@ from memory_fabric.agent_outcomes.observations import (
     OracleTask,
 )
 from memory_fabric.agent_outcomes.outcomes import (
+    EpisodeAudit,
     EffectRecord,
     TerminalObjective,
     TerminalSnapshot,
@@ -61,6 +62,37 @@ def _bundle():
 
 
 class TestOutcomeOracleIsolation(unittest.TestCase):
+    def test_terminal_feedback_is_not_actor_input_and_closes_the_audit(self) -> None:
+        task_id, _, capability, objective, effect, snapshot = _bundle()
+        step_id = canonical_step_id(task_id, 0)
+        observation = AgentObservation(
+            task_id, "Set the target.", (), ("set_target",), {"steps": 1},
+        )
+        step = AgentStep(task_id, "executor", step_id, "propose", {"tool": "set_target"})
+        audit = EpisodeAudit(task_id, "A5", 17).record_observation(observation)
+        audit = audit.record_decision(step)
+        grade = grade_terminal(objective, [effect], [snapshot], capability=capability)
+
+        with self.assertRaisesRegex(ValueError, "evaluator handle"):
+            AgentObservation(
+                task_id, "Continue acting.", ({"feedback": grade},),
+                ("set_target",), {"steps": 1},
+            )
+        with self.assertRaisesRegex(ValueError, "evaluator-only field"):
+            AgentObservation(
+                task_id, "Continue acting.", ({"reward": {"completion": 1}},),
+                ("set_target",), {"steps": 1},
+            )
+
+        completed = audit.record_terminal(grade, [snapshot], capability=capability)
+        self.assertIsNotNone(completed.terminal_result)
+        with self.assertRaisesRegex(ValueError, "after the terminal result"):
+            completed.record_decision(AgentStep(
+                task_id, "executor", "step-after-terminal", "propose",
+                {"tool": "set_target"},
+            ))
+        self.assertIsNone(audit.terminal_result)
+
     def test_actor_identity_cannot_call_or_serialize_evaluator_outputs(self) -> None:
         task_id, oracle, capability, objective, effect, snapshot = _bundle()
         actor_step = AgentStep(task_id, "planner", "step-1", "propose", {"tool": "set_target"})
