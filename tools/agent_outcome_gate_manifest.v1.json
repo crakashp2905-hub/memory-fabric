@@ -31,7 +31,8 @@
         "tests/test_outcome_demo_install.py",
         "tests/test_agent_outcome_operator_trace.py",
         "tests/test_outcome_matched_arms.py",
-        "tests/test_outcome_confirmatory.py"
+        "tests/test_outcome_confirmatory.py",
+        "tests/test_matched_agent_arms.py"
       ]
     },
     {
@@ -49,6 +50,8 @@
         "tests/test_outcome_matched_arms.py",
         "benchmarks/outcome_confirmatory.py",
         "tests/test_outcome_confirmatory.py",
+        "benchmarks/matched_agent_arms.py",
+        "tests/test_matched_agent_arms.py",
         "src/memory_fabric/enforcement.py",
         "src/memory_fabric/reasons.py",
         "tests/test_agent_outcome_recovery_catalog.py",

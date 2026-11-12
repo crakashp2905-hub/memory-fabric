@@ -72,7 +72,7 @@ def randomized_tool_catalog(seed: int) -> list[str]:
 
 
 def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) -> dict[str, Any]:
-    if agent_count not in AGENT_COUNTS or arm not in ARMS:
+    if agent_count not in AGENT_COUNTS or arm not in (*ARMS, "no_memory"):
         raise ValueError("unknown agent count or arm")
     agents = (randomized_agent_ids(seed, agent_count) if randomize_order else
               [f"agent-{index:03d}" for index in range(agent_count)])
@@ -153,7 +153,10 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                 reason = ""
                 decision_started = time.perf_counter()
                 try:
-                    if arm == "isolated":
+                    if arm == "no_memory":
+                        allowed = False
+                        reason = "no_memory_context"
+                    elif arm == "isolated":
                         allowed = evidence_id is not None
                         reason = "cached_initial_evidence" if allowed else "no_initial_evidence"
                     elif arm == "pooled_shared":
