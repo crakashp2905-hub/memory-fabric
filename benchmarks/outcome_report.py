@@ -37,14 +37,19 @@ def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -
 
 
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
-    """Return stable per-case rows; evaluator digest is opaque and no hidden labels are emitted."""
+    """Return stable scripted rows without implying LLM usage or hidden labels."""
     rows = [asdict(item) for item in outcomes]
+    for row in rows:
+        model_calls = row.pop("model_calls")
+        model_tokens = row.pop("model_tokens")
+        if model_calls or model_tokens:
+            raise ValueError("SCRIPTED_AGENT reports cannot include model calls or token counts")
     rows.sort(key=lambda row: (row["seed"], row["task_id"], row["arm"]))
     return rows
 
 
 def canonical_report(outcomes: Iterable[EpisodeOutcome]) -> str:
-    return json.dumps({"schema_id": "memory-fabric.outcome-report.v3",
+    return json.dumps({"schema_id": "memory-fabric.outcome-report.v4",
                        "population": "SCRIPTED_AGENT", "rows": report_rows(outcomes)},
                       sort_keys=True, separators=(",", ":"), allow_nan=False)
 

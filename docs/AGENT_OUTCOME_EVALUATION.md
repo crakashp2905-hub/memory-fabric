@@ -200,7 +200,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v26.json`. Run it with
+`tools/agent_outcome_gate_manifest.v28.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -217,7 +217,12 @@ attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
 synthetic results are distinct experiments and are not pooled with future runs.
 
-Outcome report v3 requires each incomplete task row to carry one or more
+The scripted trial JSON report uses schema v4 and labels its population
+`SCRIPTED_AGENT`. Its rows omit model-call and token fields; nonzero model usage
+is rejected instead of being reported under a scripted label. Tool calls made
+by scripted roles do not imply model inference.
+
+Outcome report v4 requires each incomplete task row to carry one or more
 supported terminal failure codes. Mixed causes are retained as a list. The
 taxonomy covers retrieval misses, missing observations, unsupported claims,
 false policy denials, authorization denials, planning and tool errors,

@@ -195,8 +195,14 @@ class TestOutcomeContracts(unittest.TestCase):
                                                       FailureCode.RETRIEVAL_MISS.value))
         report = canonical_report([good])
         self.assertIn('"population":"SCRIPTED_AGENT"', report)
-        self.assertIn('"schema_id":"memory-fabric.outcome-report.v3"', report)
+        self.assertIn('"schema_id":"memory-fabric.outcome-report.v4"', report)
         self.assertIn('"terminal_failure_codes":["stale_data","retrieval_miss"]', report)
+        row = json.loads(report)["rows"][0]
+        self.assertNotIn("model_calls", row)
+        self.assertNotIn("model_tokens", row)
+        from dataclasses import replace
+        with self.assertRaisesRegex(ValueError, "SCRIPTED_AGENT reports"):
+            canonical_report([replace(good, model_calls=1, model_tokens=32)])
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             EpisodeOutcome("task-1", "A5", 1, True, 0, 0, 0, 0, 0, 0, 0, 1.0, "truth")
         with self.assertRaisesRegex(ValueError, "cannot exceed attempted"):
