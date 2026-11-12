@@ -11,11 +11,12 @@ import textwrap
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
 from memory_fabric.events import EventType
 from memory_fabric.actions import (
-    GRANT_MISMATCH, REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+    GRANT_MISMATCH, REFUSED, UNCERTAIN, ActionGate, ActionPolicy, ActionRequest, ToolRule,
 )
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RecoveryAction, RecoveryCause, RecoveryEpisode,
@@ -79,6 +80,18 @@ _RACE_ACTOR = textwrap.dedent("""
 
 
 class TestOutcomeAuthorization(unittest.TestCase):
+    def test_action_history_storage_failure_is_unknown_and_never_runs_tool(self) -> None:
+        _, certificate, request, gate, grant = self._prepared_action("store-fault")
+        effects: list[str] = []
+        with patch.object(self.fabric.log, "read_types", side_effect=OSError("partition")):
+            result = gate.execute(
+                "set_protected_setting", "executor", effects.append, certificate,
+                key="store-fault-key", request=request, tenant_id="tenant-a", grant=grant,
+            )
+        self.assertEqual(result.outcome, UNCERTAIN)
+        self.assertIn("reconciliation required", result.error or "")
+        self.assertEqual(effects, [])
+
     def test_public_logs_and_reports_scrub_secret_and_private_content_canaries(self) -> None:
         canary = "private-content-canary-91d4"
         episode = RecoveryEpisode("privacy-canary")

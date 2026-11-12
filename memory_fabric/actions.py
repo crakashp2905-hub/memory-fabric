@@ -52,11 +52,12 @@ The price and the limits, stated:
 - **The tool must not call this store.** It runs on a worker thread while the
   caller holds the store's lock, so a store call from inside it waits until
   the lease runs out.
-- **A crash mid-action** rolls the transaction back, so neither the decision
-  nor the outcome is recorded. The tool receives the idempotency key so that
-  it, the only party that can know, deduplicates a retry.
+- **A crash mid-action** rolls back the fenced decision and outcome, but the
+  separately committed attempt remains. The next call sees an uncertain result
+  and requires an explicit retry. The tool receives the idempotency key so it
+  can deduplicate a retry after a lost response.
 - **Retry.** A key whose last attempt `executed` is not run again
-  (`already_executed`). One that `timed_out` or `failed` has an unknown
+  (`already_executed`). One that `timed_out` or `uncertain` has an unknown
   effect, so it runs again only with `retry=True`, and then it re-verifies
   from scratch. A stale verification is never reused.
 """
@@ -275,7 +276,7 @@ class ActionExecution:
 
     @property
     def ran(self) -> bool:
-        return self.outcome in (EXECUTED, FAILED, TIMED_OUT)
+        return self.outcome in (EXECUTED, FAILED, TIMED_OUT, UNCERTAIN)
 
     def _is_gate_issued_for(self, tool: str, agent_id: str,
                             request: ActionRequest,
@@ -545,7 +546,13 @@ class ActionGate:
                                ))
             return execution
 
-        prior = self._last_execution(key)
+        try:
+            prior = self._last_execution(key)
+        except Exception:  # noqa: BLE001 - an unreadable ledger cannot authorize an effect
+            return issued_execution(
+                UNCERTAIN, None,
+                error=f"{STATE_UNAVAILABLE}: action history unavailable; reconciliation required",
+            )
         if prior is not None:
             if prior["outcome"] == EXECUTED:
                 return issued_execution(ALREADY_EXECUTED, None)
@@ -594,7 +601,9 @@ class ActionGate:
             if worker.is_alive():
                 outcome, fenced = TIMED_OUT, False
             elif "error" in box:
-                outcome, fenced = FAILED, True
+                # A remote exception may be a lost response after the effect
+                # happened. Keep it explicitly uncertain for reconciliation.
+                outcome, fenced = UNCERTAIN, True
             else:
                 outcome, fenced = EXECUTED, True
             verification = decision.verification

@@ -12,7 +12,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from memory_fabric import MemoryFabric
-from memory_fabric.actions import (ALREADY_EXECUTED, EXECUTED, FAILED, REFUSED, TIMED_OUT,
+from memory_fabric.actions import (ALREADY_EXECUTED, EXECUTED, REFUSED, TIMED_OUT, UNCERTAIN,
                                    ActionGate, ActionPolicy, ToolRule, unfenced_changes)
 from memory_fabric.events import EventType
 from memory_fabric.model import LifecycleState
@@ -120,7 +120,7 @@ class Fence(unittest.TestCase):
             raise RuntimeError("valve controller unreachable")
 
         first = self.gate.execute("open_valve", "ops", broken, self.cert, key="k6")
-        self.assertEqual(first.outcome, FAILED)
+        self.assertEqual(first.outcome, UNCERTAIN)
         self.assertIn("unreachable", first.error or "")
         blocked = self.gate.execute("open_valve", "ops", self.tool, self.cert, key="k6")
         self.assertEqual(blocked.outcome, REFUSED)
