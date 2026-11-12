@@ -42,6 +42,138 @@ class CounterfactualReplayReason(StrEnum):
     MATERIAL_ALTERNATIVE_AFTER_DEPENDENCE = "material_alternative_after_dependence"
 
 
+class ReplayContractStatus(StrEnum):
+    REPLAYABLE = "REPLAYABLE"
+    NON_REPLAYABLE = "NON_REPLAYABLE"
+
+
+@dataclass(frozen=True)
+class AuthorizedReplayContract:
+    """Content-addressed replay inputs pinned to model, policy, and evidence epochs."""
+
+    task_id: str
+    decision_id: str
+    actor_id: str
+    model_id: str
+    model_version: str
+    model_sha256: str
+    policy_id: str
+    policy_version: str
+    policy_sha256: str
+    observation_sha256: str
+    decision_sha256: str
+    evidence_epochs: tuple[tuple[str, int], ...]
+    authorization_sha256: str
+    contract_sha256: str
+    schema_id: str = "memory-fabric.authorized-replay.v1"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_id": self.schema_id,
+            "task_id": self.task_id,
+            "decision_id": self.decision_id,
+            "actor_id": self.actor_id,
+            "model_id": self.model_id,
+            "model_version": self.model_version,
+            "model_sha256": self.model_sha256,
+            "policy_id": self.policy_id,
+            "policy_version": self.policy_version,
+            "policy_sha256": self.policy_sha256,
+            "observation_sha256": self.observation_sha256,
+            "decision_sha256": self.decision_sha256,
+            "evidence_epochs": [[memory_id, version]
+                                for memory_id, version in self.evidence_epochs],
+            "authorization_sha256": self.authorization_sha256,
+            "contract_sha256": self.contract_sha256,
+        }
+
+
+@dataclass(frozen=True)
+class ReplayContractBuild:
+    status: ReplayContractStatus
+    contract: AuthorizedReplayContract | None
+    reasons: tuple[str, ...] = ()
+
+
+_REPLAY_CONTRACT_FIELDS = frozenset({
+    "task_id", "decision_id", "actor_id", "model_id", "model_version",
+    "model_sha256", "policy_id", "policy_version", "policy_sha256",
+    "observation_sha256", "decision_sha256", "evidence_epochs",
+    "authorization_sha256",
+})
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+
+
+def build_authorized_replay_contract(trace: Mapping[str, Any]) -> ReplayContractBuild:
+    """Build a pinned replay contract, or mark an incomplete trace NON_REPLAYABLE.
+
+    The authorization digest is an audit reference supplied by the trusted host;
+    this builder checks completeness and integrity shape, not the host's policy.
+    It never infers missing model, policy, observation, decision, or evidence data.
+    """
+    if not isinstance(trace, Mapping) or any(not isinstance(key, str) for key in trace):
+        return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                   ("invalid_trace_shape",))
+    missing = tuple(sorted(_REPLAY_CONTRACT_FIELDS - set(trace)))
+    extra = tuple(sorted(set(trace) - _REPLAY_CONTRACT_FIELDS))
+    if missing or extra:
+        reasons = tuple(
+            [*(f"missing:{field}" for field in missing),
+             *(f"unknown:{field}" for field in extra)]
+        )
+        return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None, reasons)
+    string_fields = _REPLAY_CONTRACT_FIELDS - {"evidence_epochs"}
+    for field in string_fields:
+        value = trace[field]
+        if not isinstance(value, str) or not value:
+            return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                       (f"invalid:{field}",))
+    for field in ("task_id", "decision_id", "actor_id", "model_id", "policy_id"):
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}", trace[field]):
+            return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                       (f"invalid:{field}",))
+    for field in ("model_sha256", "policy_sha256", "observation_sha256",
+                  "decision_sha256", "authorization_sha256"):
+        if not _SHA256.fullmatch(trace[field]):
+            return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                       (f"invalid:{field}",))
+    raw_epochs = trace["evidence_epochs"]
+    if not isinstance(raw_epochs, (list, tuple)) or not raw_epochs:
+        return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                   ("invalid:evidence_epochs",))
+    epochs: list[tuple[str, int]] = []
+    for item in raw_epochs:
+        if (not isinstance(item, (list, tuple)) or len(item) != 2
+                or not isinstance(item[0], str)
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}", item[0])
+                or not isinstance(item[1], int) or isinstance(item[1], bool)
+                or item[1] < 0):
+            return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                       ("invalid:evidence_epochs",))
+        epochs.append((item[0], item[1]))
+    if len({memory_id for memory_id, _ in epochs}) != len(epochs):
+        return ReplayContractBuild(ReplayContractStatus.NON_REPLAYABLE, None,
+                                   ("duplicate:evidence_epochs",))
+    fields: dict[str, Any] = {name: trace[name] for name in sorted(string_fields)}
+    fields["evidence_epochs"] = [[memory_id, version] for memory_id, version in epochs]
+    fields["schema_id"] = "memory-fabric.authorized-replay.v1"
+    digest = hashlib.sha256(json.dumps(
+        fields, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+    contract = AuthorizedReplayContract(
+        task_id=trace["task_id"], decision_id=trace["decision_id"],
+        actor_id=trace["actor_id"], model_id=trace["model_id"],
+        model_version=trace["model_version"], model_sha256=trace["model_sha256"],
+        policy_id=trace["policy_id"], policy_version=trace["policy_version"],
+        policy_sha256=trace["policy_sha256"],
+        observation_sha256=trace["observation_sha256"],
+        decision_sha256=trace["decision_sha256"], evidence_epochs=tuple(epochs),
+        authorization_sha256=trace["authorization_sha256"], contract_sha256=digest,
+    )
+    return ReplayContractBuild(ReplayContractStatus.REPLAYABLE, contract)
+
+
 @dataclass(frozen=True)
 class CounterfactualReplayDispatch:
     """Host-side receipt describing whether the advisory replay was invoked."""
