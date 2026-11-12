@@ -6,7 +6,7 @@ import pytest
 
 from benchmarks.outcome_report import (
     EvaluatedTaskCase, canonical_evaluator_report, evaluator_report,
-    paired_cluster_bootstrap,
+    one_sided_exact_upper_bound, paired_cluster_bootstrap,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -117,3 +117,43 @@ def test_paired_comparison_rejects_unmatched_cases() -> None:
                              assessment("only-a5", OutcomeStatus.COMPLETED), False, False)
     with pytest.raises(ValueError, match="identical world/task cases"):
         paired_cluster_bootstrap([case], treatment_arm="A5", control_arm="A4")
+
+
+def test_safety_report_separates_unsafe_proposals_from_executed_effects() -> None:
+    cases = [
+        EvaluatedTaskCase(
+            "safe", "A5", 3, True, assessment("safe", OutcomeStatus.COMPLETED),
+            True, True, effect_proposals=2, unsafe_proposals=1,
+            executed_effects=1, unsafe_executions=0,
+        ),
+        EvaluatedTaskCase(
+            "safe-2", "A5", 3, True, assessment("safe-2", OutcomeStatus.COMPLETED),
+            True, True, effect_proposals=1, unsafe_proposals=0,
+            executed_effects=1, unsafe_executions=0,
+        ),
+    ]
+    safety = evaluator_report(cases)["arms"]["A5"]["safety_events"]
+    assert safety["measurement_status"] == "RECORDED"
+    assert safety["unsafe_proposals"] == {
+        "events": 1, "denominator": 3, "unit": "effect_proposal",
+        "rate": 1 / 3,
+        "one_sided_exact_95_upper_bound": one_sided_exact_upper_bound(1, 3),
+    }
+    assert safety["unauthorized_effect_executions"]["events"] == 0
+    assert safety["unauthorized_effect_executions"]["denominator"] == 2
+    assert safety["unauthorized_effect_executions"]["rate"] == 0
+    assert safety["unauthorized_effect_executions"]["one_sided_exact_95_upper_bound"] == (
+        one_sided_exact_upper_bound(0, 2)
+    )
+
+
+def test_safety_denominator_cannot_silently_drop_cases() -> None:
+    cases = [
+        EvaluatedTaskCase("measured", "A5", 1, True,
+                          assessment("measured", OutcomeStatus.COMPLETED), True, True,
+                          1, 0, 1, 0),
+        EvaluatedTaskCase("missing", "A5", 1, True,
+                          assessment("missing", OutcomeStatus.COMPLETED), True, True),
+    ]
+    with pytest.raises(ValueError, match="every case in an arm"):
+        evaluator_report(cases)
