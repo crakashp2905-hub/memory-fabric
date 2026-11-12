@@ -141,6 +141,16 @@ confirmatory seeds, multiplicity correction, task template split, and resource
 caps. Until those are frozen before confirmatory runs, the promotion status is
 `NOT_READY`; no result can pass the research superiority gate.
 
+The split-use preflight in `benchmarks.outcome_worlds.validate_confirmatory_split_usage`
+requires callers to declare which splits informed prompt or policy selection,
+which split is confirmatory, and a content-addressed threshold manifest marked
+`FROZEN`. It rejects selection use of the confirmatory split, duplicate case
+IDs across splits, unfrozen thresholds, and threshold digest drift. The
+contract test uses synthetic split IDs; it does not freeze this protocol's
+thresholds or claim that any real confirmatory run has passed. The protocol
+remains `DRAFT / NOT FROZEN` until the listed design choices and the threshold
+values are preregistered.
+
 ## Analysis and safety
 
 Store raw paired rows; cluster uncertainty by independent world/task case, not

@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import unittest
+import hashlib
+import json
 
 from benchmarks.outcome_worlds import (
     InsufficientSplitComponents,
@@ -11,6 +13,7 @@ from benchmarks.outcome_worlds import (
     TransitionSkeleton,
     seeded_world_splits,
     validate_split_disjointness,
+    validate_confirmatory_split_usage,
 )
 
 
@@ -37,6 +40,32 @@ def _case(
 
 
 class TestOutcomeWorldSplits(unittest.TestCase):
+    def test_confirmatory_split_rejects_selection_leakage_and_pins_thresholds(self) -> None:
+        thresholds = {"minimum_effect": 0.05, "unsafe_upper_bound": 0.01}
+        digest = hashlib.sha256(json.dumps(
+            thresholds, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ).encode("utf-8")).hexdigest()
+        manifest = {"status": "FROZEN", "thresholds": thresholds,
+                    "thresholds_sha256": digest}
+        splits = {"train": ["train-1"], "dev": ["dev-1"],
+                  "heldout": ["heldout-1"]}
+        result = validate_confirmatory_split_usage(
+            splits, selected_splits=("train", "dev"), confirmatory_split="heldout",
+            threshold_manifest=manifest,
+        )
+        self.assertFalse(result["confirmatory_cases_used_for_selection"])
+        with self.assertRaisesRegex(ValueError, "cannot be used for prompt or policy selection"):
+            validate_confirmatory_split_usage(
+                splits, selected_splits=("train", "heldout"),
+                confirmatory_split="heldout", threshold_manifest=manifest,
+            )
+        with self.assertRaisesRegex(ValueError, "digest does not match"):
+            validate_confirmatory_split_usage(
+                splits, selected_splits=("train",), confirmatory_split="heldout",
+                threshold_manifest={**manifest, "thresholds": {"minimum_effect": 0.1}},
+            )
+
     def test_seeded_assignment_is_stable_order_independent_and_nonempty(self) -> None:
         cases = [_case(index) for index in range(18)]
         first = seeded_world_splits(cases, split_seed=0xA017)

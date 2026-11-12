@@ -1978,6 +1978,78 @@ def validate_split_disjointness(
                     raise SplitLeakageError(kind, prior_split, split_name)
 
 
+def validate_confirmatory_split_usage(
+    split_case_ids: Mapping[str, Sequence[str]],
+    *,
+    selected_splits: Sequence[str],
+    confirmatory_split: str,
+    threshold_manifest: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Fail closed if prompt/policy selection touched confirmatory cases.
+
+    The threshold manifest must be explicitly frozen and content-addressed.
+    Selection provenance is supplied as split names so callers cannot silently
+    relabel held-out cases as development data.
+    """
+    if not isinstance(split_case_ids, Mapping) or len(split_case_ids) < 2:
+        raise ValueError("confirmatory validation requires at least two named splits")
+    normalized: dict[str, tuple[str, ...]] = {}
+    seen_cases: dict[str, str] = {}
+    for split_name, raw_ids in split_case_ids.items():
+        _identifier(split_name, field="split name")
+        if (not isinstance(raw_ids, Sequence) or isinstance(raw_ids, (str, bytes))
+                or not raw_ids):
+            raise ValueError("every split must contain at least one case ID")
+        case_ids = tuple(_identifier(item, field="case ID") for item in raw_ids)
+        if len(case_ids) != len(set(case_ids)):
+            raise ValueError(f"duplicate case IDs within {split_name}")
+        for case_id in case_ids:
+            prior = seen_cases.setdefault(case_id, split_name)
+            if prior != split_name:
+                raise SplitLeakageError("case_id", prior, split_name)
+        normalized[split_name] = case_ids
+    if not isinstance(confirmatory_split, str) or confirmatory_split not in normalized:
+        raise ValueError("confirmatory_split must name a supplied split")
+    if (not isinstance(selected_splits, Sequence)
+            or isinstance(selected_splits, (str, bytes)) or not selected_splits
+            or any(not isinstance(name, str) for name in selected_splits)
+            or len(set(selected_splits)) != len(selected_splits)):
+        raise ValueError("selected_splits must be a non-empty unique sequence")
+    if set(selected_splits) - set(normalized):
+        raise ValueError("selection provenance names an unknown split")
+    if confirmatory_split in selected_splits:
+        raise ValueError("confirmatory split cannot be used for prompt or policy selection")
+    if not isinstance(threshold_manifest, Mapping):
+        raise ValueError("threshold manifest must be a mapping")
+    thresholds = threshold_manifest.get("thresholds")
+    digest = threshold_manifest.get("thresholds_sha256")
+    if threshold_manifest.get("status") != "FROZEN":
+        raise ValueError("confirmatory thresholds must be frozen before evaluation")
+    if not isinstance(thresholds, Mapping) or not thresholds:
+        raise ValueError("frozen threshold manifest requires named threshold values")
+    expected_digest = hashlib.sha256(_canonical_bytes(dict(thresholds))).hexdigest()
+    if not isinstance(digest, str) or digest != expected_digest:
+        raise ValueError("frozen threshold digest does not match threshold values")
+    return {
+        "schema_id": "memory-fabric.confirmatory-split-usage.v1",
+        "status": "CONFIRMATORY_SPLIT_ISOLATED",
+        "selected_split_names": list(selected_splits),
+        "confirmatory_split_name": confirmatory_split,
+        "selected_split_case_counts": {
+            name: len(normalized[name]) for name in selected_splits
+        },
+        "confirmatory_case_count": len(normalized[confirmatory_split]),
+        "selected_case_set_sha256": hashlib.sha256(_canonical_bytes(sorted(
+            case_id for name in selected_splits for case_id in normalized[name]
+        ))).hexdigest(),
+        "confirmatory_case_set_sha256": hashlib.sha256(_canonical_bytes(
+            sorted(normalized[confirmatory_split]))).hexdigest(),
+        "thresholds_sha256": digest,
+        "confirmatory_cases_used_for_selection": False,
+        "claim_scope": "split_and_threshold_provenance_contract_only",
+    }
+
+
 def seeded_world_splits(
     cases: Sequence[OutcomeWorldSpec],
     *,
