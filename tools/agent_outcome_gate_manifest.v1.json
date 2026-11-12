@@ -33,7 +33,8 @@
         "tests/test_outcome_matched_arms.py",
         "tests/test_outcome_confirmatory.py",
         "tests/test_matched_agent_arms.py",
-        "tests/test_outcome_ollama_adapter.py"
+        "tests/test_outcome_ollama_adapter.py",
+        "tests/test_outcome_model_absence.py"
       ]
     },
     {
@@ -51,7 +52,9 @@
         "tests/test_outcome_matched_arms.py",
         "benchmarks/outcome_confirmatory.py",
         "benchmarks/outcome_agents.py",
+        "benchmarks/outcome_model_status.py",
         "tests/test_outcome_ollama_adapter.py",
+        "tests/test_outcome_model_absence.py",
         "tests/test_outcome_confirmatory.py",
         "benchmarks/matched_agent_arms.py",
         "tests/test_matched_agent_arms.py",
