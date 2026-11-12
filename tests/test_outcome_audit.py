@@ -10,7 +10,7 @@ from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolR
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, EffectRecord, EpisodeAudit, FailureCode,
     OutcomeAuditKind, OutcomeStage, TerminalObjective, TerminalSnapshot,
-    canonical_step_id, canonical_task_id, grade_terminal,
+    canonical_step_id, canonical_task_id, grade_terminal, summarize_audit_memory_links,
 )
 from memory_fabric.agent_outcomes.observations import OracleTask
 from memory_fabric.agent_outcomes.outcomes import (
@@ -19,6 +19,24 @@ from memory_fabric.agent_outcomes.outcomes import (
 
 
 class TestEpisodeAudit(unittest.TestCase):
+    def test_unrelated_exposure_is_not_reported_as_a_relied_on_premise(self) -> None:
+        task_id = canonical_task_id("pump_check", 17, 5)
+        step_id = canonical_step_id(task_id, 0)
+        step = AgentStep(task_id, "executor", step_id, "ask", {},
+                         (("relied-memory", 2),))
+        audit = EpisodeAudit(task_id, "A5", 17).record_decision(step)
+        audit = audit.record_memory_use(
+            "executor", step_id, (("unrelated-retrieval", 9),), use="exposed",
+        )
+        report = summarize_audit_memory_links(audit)
+        self.assertEqual(report["steps"][0]["use_status"], "RELIED_ON_RECORDED")
+        self.assertEqual(report["steps"][0]["relied_on_evidence_versions"],
+                         [["relied-memory", 2]])
+        self.assertEqual(report["steps"][0]["exposed_evidence_versions"],
+                         [["unrelated-retrieval", 9]])
+        self.assertFalse(report["steps"][0]["causal_effect_established"])
+        self.assertFalse(report["causal_effect_established"])
+
     def _completed_case(self):
         task_id = canonical_task_id("pump_check", 17, 2)
         _, capability = OracleTask.seal_for_evaluator(task_id, {

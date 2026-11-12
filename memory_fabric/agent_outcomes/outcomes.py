@@ -991,3 +991,51 @@ def targeted_correction_reevaluation_receipts(
         "exposed_only_decisions_triggered": False,
         "claim_scope": "exact_audit_link_routing_only_no_automatic_action_or_causal_claim",
     }
+
+
+def summarize_audit_memory_links(audit: EpisodeAudit) -> dict[str, Any]:
+    """Report actor-recorded exposure and reliance separately, without causal inference."""
+    if not isinstance(audit, EpisodeAudit):
+        raise TypeError("audit must be an EpisodeAudit")
+    links: dict[str, dict[str, set[tuple[str, int]]]] = {}
+    unlinked_exposures: set[tuple[str, int]] = set()
+    for event in audit.events:
+        if event.kind is not OutcomeAuditKind.MEMORY_USE:
+            continue
+        data = _thaw_audit(event.data)
+        use = data["use"]
+        refs = {(ref[0], ref[1]) for ref in data["evidence_versions"]}
+        if event.step_id is None:
+            if use == "exposed":
+                unlinked_exposures.update(refs)
+            continue
+        step_links = links.setdefault(
+            event.step_id, {"exposed": set(), "relied_on": set()},
+        )
+        step_links[use].update(refs)
+    steps = []
+    for step_id in sorted(links):
+        exposed = sorted(links[step_id]["exposed"])
+        relied_on = sorted(links[step_id]["relied_on"])
+        steps.append({
+            "step_id": step_id,
+            "exposed_evidence_versions": [[memory_id, version]
+                                           for memory_id, version in exposed],
+            "relied_on_evidence_versions": [[memory_id, version]
+                                            for memory_id, version in relied_on],
+            "use_status": "RELIED_ON_RECORDED" if relied_on else (
+                "EXPOSED_ONLY" if exposed else "NO_RECORDED_MEMORY_LINK"
+            ),
+            "causal_effect_established": False,
+        })
+    return {
+        "schema_id": "memory-fabric.audit-memory-links.v1",
+        "task_id": audit.task_id,
+        "arm": audit.arm,
+        "world_seed": audit.seed,
+        "steps": steps,
+        "unlinked_exposures": [[memory_id, version]
+                                for memory_id, version in sorted(unlinked_exposures)],
+        "causal_effect_established": False,
+        "claim_scope": "recorded_seen_and_relied_on_links_only_no_causal_attribution",
+    }
