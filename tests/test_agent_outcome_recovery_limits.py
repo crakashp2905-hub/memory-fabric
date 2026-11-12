@@ -4,7 +4,7 @@ from memory_fabric.agent_outcomes import RecoveryEpisode, RecoveryLimits, Recove
 
 
 def test_repeated_noop_recovery_fails_and_records_budget() -> None:
-    episode = RecoveryEpisode("loop")
+    episode = RecoveryEpisode("loop", enabled=True)
     assert episode.record("replan")
 
     assert not episode.record("replan")
@@ -16,7 +16,7 @@ def test_repeated_noop_recovery_fails_and_records_budget() -> None:
 
 
 def test_repeated_progress_revision_fails_as_oscillation() -> None:
-    episode = RecoveryEpisode("oscillation")
+    episode = RecoveryEpisode("oscillation", enabled=True)
     assert episode.record("re_retrieve", {"progress_key": "revision-4"})
 
     assert not episode.record("replan", {"progress_key": "revision-4"})
@@ -25,14 +25,14 @@ def test_repeated_progress_revision_fails_as_oscillation() -> None:
 
 def test_attempt_event_and_deadline_budgets_fail_deterministically() -> None:
     attempt_limited = RecoveryEpisode(
-        "attempts", RecoveryLimits(max_steps=5, max_attempts=1)
+        "attempts", RecoveryLimits(max_steps=5, max_attempts=1), enabled=True
     )
     assert attempt_limited.record("evidence_blocked")
     assert not attempt_limited.record("abstain")
     assert attempt_limited.trace[-1]["reason"] == "ATTEMPT_LIMIT"
 
     event_limited = RecoveryEpisode(
-        "events", RecoveryLimits(max_steps=5, max_events=2)
+        "events", RecoveryLimits(max_steps=5, max_events=2), enabled=True
     )
     assert event_limited.record("evidence_blocked")
     assert not event_limited.record("abstain")
@@ -40,7 +40,8 @@ def test_attempt_event_and_deadline_budgets_fail_deterministically() -> None:
 
     now = [12.0]
     deadline_limited = RecoveryEpisode(
-        "deadline", RecoveryLimits(deadline_seconds=1.0), _clock=lambda: now[0]
+        "deadline", RecoveryLimits(deadline_seconds=1.0), enabled=True,
+        _clock=lambda: now[0]
     )
     now[0] = 13.1
     assert not deadline_limited.record("evidence_blocked")

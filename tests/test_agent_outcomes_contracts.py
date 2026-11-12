@@ -79,7 +79,7 @@ class TestOutcomeContracts(unittest.TestCase):
             EpisodeOutcome("task-1", "A5", 1, True, 0, 0, 0, 0, 0, 0, 0, 1.0, "truth")
 
     def test_recovery_episode_is_bounded_and_terminal(self) -> None:
-        episode = RecoveryEpisode("task-1")
+        episode = RecoveryEpisode("task-1", enabled=True)
         self.assertTrue(episode.record("evidence_blocked", {"reason": "stale"}))
         self.assertIs(episode.status, RecoveryStatus.BLOCKED)
         self.assertTrue(episode.record("replan"))

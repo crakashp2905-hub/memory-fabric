@@ -23,7 +23,7 @@ def test_authorization_failure_suppresses_requery_and_records_telemetry(monkeypa
             raise AssertionError("authorization failures must not re-query")
 
         monkeypatch.setattr(fabric, "retrieve", forbidden_retrieve)
-        episode = RecoveryEpisode("authorization-block")
+        episode = RecoveryEpisode("authorization-block", enabled=True)
         failure = classify_evidence_failure("tool_not_granted")
 
         result = episode.search_alternate_sources(
@@ -56,7 +56,7 @@ def test_retrieval_failure_allows_one_grant_checked_alternate_search() -> None:
             "instrument calibration before recording the value as thirty pounds per square "
             "inch.", tenant_id="tenant-a", scope="team",
         )
-        episode = RecoveryEpisode("retrieval-block")
+        episode = RecoveryEpisode("retrieval-block", enabled=True)
 
         found = episode.search_alternate_sources(
             classify_evidence_failure("not_found"), fabric,

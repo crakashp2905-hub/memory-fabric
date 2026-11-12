@@ -16,6 +16,7 @@ from ..certificates import EvidenceCertificate
 
 
 class RecoveryStatus(StrEnum):
+    DISABLED = "DISABLED"
     READY = "READY"
     BLOCKED = "BLOCKED"
     RECOVERED = "RECOVERED"
@@ -176,16 +177,22 @@ class RecoveryEpisode:
     status: RecoveryStatus = RecoveryStatus.READY
     steps: int = 0
     recoveries: int = 0
+    trace: list[dict[str, Any]] = field(default_factory=list)
+    enabled: bool = False
     alternate_search_attempts: int = 0
     authorization_requeries_suppressed: int = 0
-    trace: list[dict[str, Any]] = field(default_factory=list)
     _clock: Callable[[], float] = field(default=time.monotonic, repr=False, compare=False)
     _started_at: float = field(init=False, repr=False)
     _progress_seen: set[str] = field(default_factory=set, init=False, repr=False)
 
     def __post_init__(self) -> None:
+        if type(self.enabled) is not bool:
+            raise ValueError("enabled must be a boolean feature flag")
         self._started_at = self._clock()
+        if not self.enabled:
+            self.status = RecoveryStatus.DISABLED
         self.trace.append({"kind": "recovery_budget", "max_steps": self.limits.max_steps,
+                           "enabled": self.enabled,
                            "max_attempts": self.limits.max_attempts,
                            "max_recoveries": self.limits.max_recoveries,
                            "max_events": self.limits.max_events,
@@ -258,7 +265,10 @@ class RecoveryEpisode:
         """Append bounded, public trace metadata; return False when the step budget ends."""
         import json
 
-        if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.COMPLETE, RecoveryStatus.FAILED):
+        if not self.enabled:
+            return False
+        if self.status in (RecoveryStatus.DISABLED, RecoveryStatus.ABSTAINED,
+                           RecoveryStatus.COMPLETE, RecoveryStatus.FAILED):
             return False
         if self.steps >= self.limits.max_steps or self.steps >= self.limits.max_attempts:
             return self._fail("ATTEMPT_LIMIT")
@@ -301,7 +311,10 @@ class RecoveryEpisode:
         grant: Grant | str | None = None,
     ) -> ActionExecution:
         """Reauthorize at effect time via the existing gate, then record only its verdict."""
-        if self.status in (RecoveryStatus.ABSTAINED, RecoveryStatus.FAILED, RecoveryStatus.COMPLETE):
+        if not self.enabled:
+            raise RuntimeError("recovery is disabled")
+        if self.status in (RecoveryStatus.DISABLED, RecoveryStatus.ABSTAINED,
+                           RecoveryStatus.FAILED, RecoveryStatus.COMPLETE):
             raise RuntimeError(f"episode is terminal: {self.status}")
         if not self.record("propose", {"tool": tool, "key": key}):
             raise RuntimeError("episode step budget exhausted")

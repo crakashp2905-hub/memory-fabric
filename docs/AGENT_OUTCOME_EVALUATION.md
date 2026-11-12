@@ -100,3 +100,10 @@ Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
 synthetic results are distinct experiments and are not pooled with future runs.
+
+Recovery is experimental and its episode feature flag defaults to disabled.
+Disabled episodes do not record recovery steps, search alternate sources, or
+execute effects. Enabling recovery is explicit per episode; protected effects
+still pass through the host `ActionGate`, and the read-only recovery catalog
+cannot contain external-effect actions. No legacy retrieval or action entrypoint
+is routed through recovery.

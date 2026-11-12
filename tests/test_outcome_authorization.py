@@ -35,7 +35,7 @@ def test_recovery_never_overrides_action_gate_for_invalid_evidence(invalidation:
             elif invalidation == "revoked":
                 fabric.quarantine(memory_id, "reading withdrawn", actor="reviewer")
 
-        episode = RecoveryEpisode(f"task-{invalidation}")
+        episode = RecoveryEpisode(f"task-{invalidation}", enabled=True)
         assert episode.record("re_retrieve", {"progress_key": f"refresh-{invalidation}"})
         result = episode.execute(
             gate, "start_pump", "operator", certificate,
