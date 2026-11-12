@@ -2,18 +2,35 @@
 
 from __future__ import annotations
 
+import json
 import secrets
 import unittest
+from unittest.mock import patch
 
 from memory_fabric import MemoryFabric
+from memory_fabric.adapters.ollama import OllamaClient
 from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep
+from memory_fabric.agent_outcomes.observations import SCHEMA_ID
 from memory_fabric.identity import ROLE_AGENT
 from memory_fabric.service import MemoryService
 
 from benchmarks.outcome_agents import (
-    ActorToolDenied, ExecutorActor, ObserverActor, PlannerActor,
+    ActorToolDenied, ExecutorActor, ObserverActor, OllamaAgentAdapter, PlannerActor,
 )
+
+
+class StubOllamaClient:
+    def __init__(self, content: str, *, truncated: bool = False) -> None:
+        self.content = content
+        self.truncated = truncated
+        self.calls: list[dict[str, object]] = []
+
+    def chat(self, model, messages, tools=None, temperature=0.0, num_predict=256, schema=None):
+        self.calls.append({"model": model, "messages": list(messages), "tools": tools,
+                           "temperature": temperature, "num_predict": num_predict,
+                           "schema": schema, "truncated": self.truncated})
+        return {"message": {"content": self.content}}
 
 
 class TestScriptedOutcomeActors(unittest.TestCase):
@@ -97,6 +114,93 @@ class TestScriptedOutcomeActors(unittest.TestCase):
             self.planner.propose(
                 "unknown_privileged_tool", {"value": 4}, (), claim="unsafe",
             )
+
+
+class TestOllamaOutcomeAgentAdapter(unittest.TestCase):
+    def setUp(self) -> None:
+        self.observation = AgentObservation(
+            task_id="ollama-task-1",
+            instruction="Set the target using the visible instrument reading.",
+            visible_events=({"source": "instrument", "reading": 4},),
+            permitted_tools=("inspect", "set_target"),
+            budget={"steps": 3},
+        )
+
+    def _reply(self, **overrides: object) -> str:
+        step: dict[str, object] = {
+            "schema_id": SCHEMA_ID,
+            "task_id": self.observation.task_id,
+            "actor_id": "executor",
+            "step_id": "executor-step-1",
+            "intent": "propose",
+            "arguments": {"tool": "set_target", "value": 4},
+            "evidence_versions": [],
+        }
+        step.update(overrides)
+        return json.dumps(step, sort_keys=True, separators=(",", ":"))
+
+    def test_ollama_adapter_uses_only_public_observation_and_returns_typed_step(self) -> None:
+        client = StubOllamaClient(self._reply())
+        adapter = OllamaAgentAdapter("executor", model="qwen2.5:3b", client=client)
+
+        step = adapter.next_step(self.observation)
+
+        self.assertIsInstance(step, AgentStep)
+        self.assertEqual((step.task_id, step.actor_id, step.intent),
+                         (self.observation.task_id, "executor", "propose"))
+        self.assertEqual(step.arguments["tool"], "set_target")
+        self.assertFalse(hasattr(adapter, "fabric"))
+        self.assertFalse(hasattr(adapter, "oracle"))
+        call = client.calls[0]
+        self.assertEqual(call["model"], "qwen2.5:3b")
+        self.assertEqual(call["tools"], None)
+        self.assertEqual(len(call["schema"]["required"]), 7)  # type: ignore[index]
+        messages = call["messages"]
+        user_messages = [message for message in messages if message["role"] == "user"]  # type: ignore[union-attr]
+        self.assertEqual(len(user_messages), 1)
+        self.assertEqual(user_messages[0]["content"], self.observation.canonical_json())
+        self.assertNotIn("truth", user_messages[0]["content"])
+
+    def test_ollama_adapter_uses_the_existing_client_and_records_call_usage(self) -> None:
+        client = OllamaClient(retries=0)
+        reply = {"message": {"content": self._reply()},
+                 "prompt_eval_count": 17, "eval_count": 9}
+        with patch.object(client, "_post", return_value=reply):
+            adapter = OllamaAgentAdapter("executor", model="qwen2.5:3b", client=client)
+            step = adapter.next_step(self.observation)
+
+        self.assertEqual(step.intent, "propose")
+        self.assertEqual(len(adapter.calls), 1)
+        self.assertEqual(adapter.calls[0].model, "qwen2.5:3b")
+        self.assertEqual(adapter.calls[0].tokens, 26)
+
+    def test_ollama_adapter_rejects_wrong_task_actor_and_unpermitted_tool(self) -> None:
+        for override in (
+            {"task_id": "another-task"},
+            {"actor_id": "planner"},
+        ):
+            with self.subTest(override=override):
+                adapter = OllamaAgentAdapter(
+                    "executor", client=StubOllamaClient(self._reply(**override)))
+                with self.assertRaises(ValueError):
+                    adapter.next_step(self.observation)
+
+        adapter = OllamaAgentAdapter(
+            "executor", client=StubOllamaClient(self._reply(
+                arguments={"tool": "erase_store", "value": 4},
+            )))
+        with self.assertRaises(ActorToolDenied):
+            adapter.next_step(self.observation)
+
+        malformed = OllamaAgentAdapter(
+            "executor", client=StubOllamaClient('{"schema_id":"unknown"}'))
+        with self.assertRaisesRegex(ValueError, "fields do not match"):
+            malformed.next_step(self.observation)
+
+        truncated = OllamaAgentAdapter(
+            "executor", client=StubOllamaClient(self._reply(), truncated=True))
+        with self.assertRaisesRegex(ValueError, "output token limit"):
+            truncated.next_step(self.observation)
 
 
 if __name__ == "__main__":  # pragma: no cover

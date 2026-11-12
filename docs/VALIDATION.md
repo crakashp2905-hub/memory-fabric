@@ -16,7 +16,7 @@ billing; see [WORKPLAN.md](WORKPLAN.md), X-CI).
 
 | Check | Command | Result |
 |---|---|---|
-| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2275 tests** in the current tree. The last complete pass was the 2247-test baseline above; a 2026-11-12 full run was interrupted after loopback integration tests hit sandbox `WinError 10013`. The v28 scripted contract suite (105 tests), Ruff, and mypy pass; the gate marks the full repository check NOT_RUN when invoked with `--skip-full`. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
+| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2278 tests** in the current tree. The last complete pass was the 2247-test baseline above; a 2026-11-12 full run was interrupted after loopback integration tests hit sandbox `WinError 10013`. The v29 scripted contract suite, Ruff, and mypy pass; the gate marks the full repository check NOT_RUN when invoked with `--skip-full`. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
 | Fault matrix | `python -m experiments.faultsim` | **17/17** |
 | Secret scan | `python tools/scan_secrets.py` | 103 high-severity findings, **0 unexpected** |
 | Compile | `python -m compileall -q memory_fabric experiments tests examples tools` | clean |

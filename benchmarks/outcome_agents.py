@@ -14,10 +14,12 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from types import MappingProxyType
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any, Callable, Mapping, Protocol, Sequence
 
+from memory_fabric.adapters.ollama import DEFAULT_MODEL, CallRecord, OllamaClient
 from memory_fabric.actions import ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep
+from memory_fabric.agent_outcomes.observations import SCHEMA_ID
 from memory_fabric.certificates import EvidenceCertificate
 from memory_fabric.enforcement import RiskLevel
 from memory_fabric.model import Memory
@@ -36,6 +38,115 @@ class ActorToolDenied(ValueError):
 
 class EvidenceVersionChanged(ValueError):
     """The evidence changed or lost current authorization after planning."""
+
+
+class AgentAdapter(Protocol):
+    """A decision source that receives only an actor-visible observation."""
+
+    def __call__(self, observation: AgentObservation) -> AgentStep: ...
+
+
+_OLLAMA_AGENT_SYSTEM = (
+    "You are one role in a bounded task agent. The user message contains the only "
+    "task observation you may use. Return exactly one JSON AgentStep matching the "
+    "provided schema. Copy its task_id and use your assigned actor_id. Choose a "
+    "permitted tool from the observation or explicitly abstain. Do not add fields."
+)
+
+
+class OllamaAgentAdapter:
+    """Ask a local Ollama model for one strictly validated, task-only next step."""
+
+    def __init__(
+        self,
+        actor_id: str,
+        *,
+        model: str = DEFAULT_MODEL,
+        client: Any = None,
+        temperature: float = 0.0,
+        num_predict: int = 256,
+    ) -> None:
+        if not isinstance(actor_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}",
+                                                             actor_id):
+            raise ValueError("actor_id must be a stable identifier")
+        if not isinstance(model, str) or not model.strip():
+            raise ValueError("model must be a non-empty name")
+        if (not isinstance(temperature, (int, float)) or isinstance(temperature, bool)
+                or not 0 <= temperature <= 2):
+            raise ValueError("temperature must be between 0 and 2")
+        if (not isinstance(num_predict, int) or isinstance(num_predict, bool)
+                or not 1 <= num_predict <= 16_000):
+            raise ValueError("num_predict must be between 1 and 16000")
+        self.actor_id = actor_id
+        self.model = model
+        self.client = client if client is not None else OllamaClient()
+        self.temperature = float(temperature)
+        self.num_predict = num_predict
+
+    @property
+    def calls(self) -> tuple[CallRecord, ...]:
+        """Return the Ollama client's recorded model calls without prompt text."""
+        calls = getattr(self.client, "calls", ())
+        return tuple(calls)
+
+    def __call__(self, observation: AgentObservation) -> AgentStep:
+        return self.next_step(observation)
+
+    def next_step(self, observation: AgentObservation) -> AgentStep:
+        """Generate one schema-checked intent from the public observation only."""
+        if not isinstance(observation, AgentObservation):
+            raise TypeError("OllamaAgentAdapter accepts only AgentObservation")
+        schema = {
+            "type": "object",
+            "required": ["schema_id", "task_id", "actor_id", "step_id", "intent",
+                         "arguments", "evidence_versions"],
+            "additionalProperties": False,
+            "properties": {
+                "schema_id": {"const": SCHEMA_ID},
+                "task_id": {"const": observation.task_id},
+                "actor_id": {"const": self.actor_id},
+                "step_id": {"type": "string", "minLength": 1, "maxLength": 128},
+                "intent": {"type": "string", "enum": [
+                    "retrieve", "inspect", "request_refresh", "ask", "propose", "abstain",
+                ]},
+                "arguments": {"type": "object"},
+                "evidence_versions": {"type": "array", "items": {
+                    "type": "array", "minItems": 2, "maxItems": 2,
+                }},
+            },
+        }
+        prior_calls = getattr(self.client, "calls", None)
+        call_count = len(prior_calls) if isinstance(prior_calls, Sequence) else None
+        response = self.client.chat(
+            self.model,
+            [
+                {"role": "system", "content": _OLLAMA_AGENT_SYSTEM},
+                {"role": "user", "content": observation.canonical_json()},
+            ],
+            temperature=self.temperature,
+            num_predict=self.num_predict,
+            schema=schema,
+        )
+        recorded_calls = getattr(self.client, "calls", None)
+        if (call_count is not None and isinstance(recorded_calls, Sequence)
+                and len(recorded_calls) > call_count):
+            latest = recorded_calls[-1]
+            truncated = (latest.get("truncated", False) if isinstance(latest, Mapping)
+                         else getattr(latest, "truncated", False))
+            if truncated:
+                raise ValueError("Ollama response reached its output token limit")
+        message = response.get("message") if isinstance(response, Mapping) else None
+        content = message.get("content") if isinstance(message, Mapping) else None
+        if not isinstance(content, str):
+            raise ValueError("Ollama response must contain JSON assistant content")
+        step = AgentStep.from_json(content)
+        if step.task_id != observation.task_id or step.actor_id != self.actor_id:
+            raise ValueError("Ollama AgentStep must match the current task and actor")
+        if step.intent != "abstain":
+            tool = step.arguments.get("tool")
+            if not isinstance(tool, str) or tool not in observation.permitted_tools:
+                raise ActorToolDenied("Ollama AgentStep must name a permitted tool")
+        return step
 
 
 @dataclass(frozen=True)

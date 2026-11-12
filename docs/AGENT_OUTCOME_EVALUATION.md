@@ -31,6 +31,15 @@ schema before dispatch. Duplicate keys, unknown fields, oversized requests,
 unpermitted or undeclared tools, and arguments beyond the tool limit stop before
 the handler runs. A valid `abstain` step ends the loop explicitly.
 
+`benchmarks.outcome_agents.OllamaAgentAdapter` calls the existing local
+`OllamaClient` with one canonical `AgentObservation` and a constrained
+`AgentStep` JSON schema. It returns only a parsed, task- and actor-matched step
+whose requested tool is in that observation's permitted-tool list. The adapter
+has no store or evaluator handle. Stubbed contract tests cover the client
+request and validation path. A local `qwen2.5:1.5b` smoke inference returned a
+validated `inspect` step in one call (227 total tokens, not truncated). This
+checks adapter wiring only; it is not a task-success or safety-efficacy result.
+
 Typed `PlannedAction` values bind the proposal to the exact evidence IDs and
 versions observed during retrieval. The executor rechecks current evidence
 through its authenticated session before certification, and the `ActionGate`
@@ -200,7 +209,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v28.json`. Run it with
+`tools/agent_outcome_gate_manifest.v29.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
