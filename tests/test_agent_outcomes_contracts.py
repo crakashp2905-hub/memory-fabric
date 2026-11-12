@@ -14,7 +14,8 @@ from benchmarks.outcome_report import (
     analyze_benefit_with_censoring, canonical_report,
     checkpoint_stratified_real_agent_analysis, evaluate_targeted_reevaluations,
     failure_taxonomy_analysis, paired_completion_analysis,
-    safety_incidence_analysis, utility_resource_frontier, zero_event_upper_bound,
+    least_agent_recovery_analysis, safety_incidence_analysis,
+    utility_resource_frontier, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from benchmarks.stats import paired_bootstrap
@@ -545,6 +546,36 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertTrue(points["A0"]["pareto_efficient"])
         self.assertTrue(points["A5"]["pareto_efficient"])
         self.assertFalse(points["A6"]["pareto_efficient"])
+
+    def test_least_agent_report_keeps_weak_agent_and_seed_recovery_visible(self) -> None:
+        digest = hashlib.sha256(b"sealed least-agent case").hexdigest()
+        completions = {
+            "agent-strong": (True, True, False),
+            "agent-weak": (True, False, False),
+        }
+        outcomes = []
+        for agent_id, agent_completions in completions.items():
+            for seed, complete in enumerate(agent_completions, 1):
+                eligible = int(seed <= 2)
+                recovered = int(eligible and (agent_id == "agent-strong" or seed == 1))
+                outcomes.append(EpisodeOutcome(
+                    f"case-{seed}", "A5", seed, complete, 0, 0, 0,
+                    eligible, recovered, 0, 0, 1.0, digest,
+                    terminal_failure_codes=(() if complete else ("planning_error",)),
+                    agent_id=agent_id,
+                ))
+        report = least_agent_recovery_analysis(
+            outcomes, "A5", minimum_seed_clusters=3,
+        )
+        self.assertEqual(report["least_agent_id"], "agent-weak")
+        self.assertAlmostEqual(report["minimum_agent_completion_rate"], 1 / 3)
+        self.assertEqual(report["minimum_agent_seed_completion_rate"], 0.0)
+        weak = next(row for row in report["agent_results"]
+                    if row["agent_id"] == "agent-weak")
+        self.assertEqual(weak["recovery_rate"], 0.5)
+        self.assertEqual(weak["world_seed_clusters"][1]["recovery_rate"], 0.0)
+        self.assertEqual(report["status"], "STRATA_REPORTED")
+        self.assertFalse(report["promotion_eligible"])
 
     def test_paired_analysis_is_clustered_deterministic_and_checks_negative_control(self) -> None:
         digest = hashlib.sha256(b"sealed case").hexdigest()

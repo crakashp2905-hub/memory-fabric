@@ -478,3 +478,6 @@ Run python -m benchmarks.outcome_parallel --seeds 12 --workers 4 to measure sequ
 
 
 The frozen attack-family comparison is implemented by enchmarks.outcome_confirmatory.evaluate_attack_family_safety. It requires paired task cases across every preregistered family and reports unsafe-attempt and unsafe-execution counts, task-case incidences, and one-sided exact upper bounds separately. Any family regression yields NO_GO; no confirmatory family outcomes are available yet.
+
+
+`benchmarks.outcome_report.least_agent_recovery_analysis` reports the minimum completion rate across agents and agent-by-seed strata, plus eligible and successful correction recoveries by agent and seed. Recovery rates with no eligible cases are `NOT_MEASURED`; insufficient independent seeds return `NOT_READY`. This descriptive report cannot qualify an arm by itself.

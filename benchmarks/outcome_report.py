@@ -9,7 +9,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import StrEnum
-from typing import Any, Hashable, Iterable, Mapping, Protocol, Sequence
+from typing import Any, Hashable, Iterable, Mapping, Protocol, Sequence, cast
 
 from memory_fabric.adapters.ollama import CallRecord, OllamaError
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
@@ -748,6 +748,94 @@ def utility_resource_frontier(outcomes: Iterable[EpisodeOutcome]) -> dict[str, A
         "resources_minimized": list(resource_names),
         "abstention_opportunity_cost_measure": "explicit evaluator abstention_cost code only",
         "points": points,
+    }
+
+
+def least_agent_recovery_analysis(
+    outcomes: Iterable[EpisodeOutcome], arm: str, *, minimum_seed_clusters: int = 5,
+) -> dict[str, Any]:
+    """Expose worst-agent and per-world-seed completion and correction recovery."""
+    if (not isinstance(arm, str) or not arm
+            or not isinstance(minimum_seed_clusters, int)
+            or isinstance(minimum_seed_clusters, bool) or minimum_seed_clusters < 2):
+        raise ValueError("arm is required and minimum_seed_clusters must be at least two")
+    by_agent: dict[str, dict[str, EpisodeOutcome]] = {}
+    seen: set[tuple[str, str, str]] = set()
+    for row in outcomes:
+        if row.arm != arm:
+            continue
+        key = (row.task_id, row.arm, row.agent_id)
+        if key in seen:
+            raise ValueError("duplicate task_id/arm/agent_id outcome row")
+        seen.add(key)
+        by_agent.setdefault(row.agent_id, {})[row.task_id] = row
+    if len(by_agent) < 2:
+        raise ValueError("least-agent analysis requires at least two agents")
+    populations = [set(tasks) for tasks in by_agent.values()]
+    if not populations[0] or any(task_ids != populations[0] for task_ids in populations[1:]):
+        raise ValueError("agents must cover the same non-empty task IDs")
+    reference_tasks = next(iter(by_agent.values()))
+    task_ids = sorted(reference_tasks)
+    seed_by_task = {task_id: reference_tasks[task_id].seed for task_id in task_ids}
+    for agent_id, cases in by_agent.items():
+        for task_id in task_ids:
+            if cases[task_id].seed != seed_by_task[task_id]:
+                raise ValueError(f"agents have mismatched world seeds for {task_id!r}")
+    seeds = sorted(set(seed_by_task.values()))
+    per_agent = []
+    for agent_id, cases in sorted(by_agent.items()):
+        completed = sum(row.completion for row in cases.values())
+        eligible = sum(row.eligible_recoveries for row in cases.values())
+        recovered = sum(row.successful_recoveries for row in cases.values())
+        seed_rows = []
+        for seed in seeds:
+            cluster = [row for row in cases.values() if row.seed == seed]
+            eligible_recoveries = sum(row.eligible_recoveries for row in cluster)
+            successful_recoveries = sum(row.successful_recoveries for row in cluster)
+            seed_rows.append({
+                "world_seed": seed,
+                "task_case_denominator": len(cluster),
+                "completion_rate": sum(row.completion for row in cluster) / len(cluster),
+                "eligible_recoveries": eligible_recoveries,
+                "successful_recoveries": successful_recoveries,
+                "recovery_rate": (successful_recoveries / eligible_recoveries
+                                  if eligible_recoveries else None),
+                "recovery_status": "MEASURED" if eligible_recoveries else "NOT_MEASURED",
+            })
+        per_agent.append({
+            "agent_id": agent_id,
+            "task_case_denominator": len(cases),
+            "safe_completions": completed,
+            "completion_rate": completed / len(cases),
+            "eligible_recoveries": eligible,
+            "successful_recoveries": recovered,
+            "recovery_rate": recovered / eligible if eligible else None,
+            "recovery_status": "MEASURED" if eligible else "NOT_MEASURED",
+            "world_seed_clusters": seed_rows,
+        })
+    min_agent = min(per_agent, key=lambda item: (item["completion_rate"], item["agent_id"]))
+    min_seed_rate = min(
+        (seed_row["completion_rate"] for agent in per_agent
+         for seed_row in cast(list[dict[str, Any]], agent["world_seed_clusters"])),
+        default=0.0,
+    )
+    floor_met = len(seeds) >= minimum_seed_clusters
+    return {
+        "schema_id": "memory-fabric.least-agent-recovery-analysis.v1",
+        "arm": arm,
+        "task_case_denominator": len(task_ids),
+        "agent_count": len(per_agent),
+        "agents_cover_identical_task_cases": True,
+        "independent_world_seed_clusters": len(seeds),
+        "minimum_seed_clusters": minimum_seed_clusters,
+        "seed_floor_met": floor_met,
+        "minimum_agent_completion_rate": min_agent["completion_rate"],
+        "least_agent_id": min_agent["agent_id"],
+        "minimum_agent_seed_completion_rate": min_seed_rate,
+        "agent_results": per_agent,
+        "status": "STRATA_REPORTED" if floor_met else "NOT_READY",
+        "promotion_eligible": False,
+        "claim_scope": "descriptive_agent_and_world_seed_strata_with_recovery_opportunities",
     }
 
 
