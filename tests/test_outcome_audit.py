@@ -19,6 +19,25 @@ from memory_fabric.agent_outcomes.outcomes import (
 
 
 class TestEpisodeAudit(unittest.TestCase):
+    def test_public_audit_json_redacts_private_instruction_and_event_content(self) -> None:
+        task_id = canonical_task_id("pump_check", 17, 6)
+        canary = "private-audit-content-canary-7f22"
+        observation = AgentObservation(
+            task_id, canary,
+            ({"source": "memory", "private_content": canary},),
+            ("inspect",), {"steps": 1},
+        )
+        audit = EpisodeAudit(task_id, "A5", 17).record_observation(observation)
+        encoded = audit.canonical_json()
+        self.assertNotIn(canary, encoded)
+        restored = EpisodeAudit.from_json(encoded)
+        event = restored.reconstruct()[0]
+        self.assertEqual(event["data"]["observation"]["instruction"], "[REDACTED]")
+        self.assertEqual(
+            event["data"]["observation"]["visible_events"][0]["private_content"],
+            "[REDACTED]",
+        )
+
     def test_unrelated_exposure_is_not_reported_as_a_relied_on_premise(self) -> None:
         task_id = canonical_task_id("pump_check", 17, 5)
         step_id = canonical_step_id(task_id, 0)
@@ -96,7 +115,7 @@ class TestEpisodeAudit(unittest.TestCase):
         restored = EpisodeAudit.from_json(audit.canonical_json())
         timeline = restored.reconstruct()
         self.assertEqual(timeline[0]["data"]["observation"]["instruction"],
-                         observation.instruction)
+                         "[REDACTED]")
         self.assertEqual(timeline[1]["data"]["step"]["arguments"]["value"], 6)
         self.assertEqual(
             [event["data"]["use"] for event in timeline

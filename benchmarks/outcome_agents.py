@@ -21,6 +21,7 @@ from memory_fabric.adapters.ollama import DEFAULT_MODEL, CallRecord, OllamaClien
 from memory_fabric.actions import EXECUTED, ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep
 from memory_fabric.agent_outcomes.observations import SCHEMA_ID
+from memory_fabric.agent_outcomes.privacy import scrub_public_json
 from memory_fabric.certificates import EvidenceCertificate
 from memory_fabric.enforcement import RiskLevel
 from memory_fabric.model import Memory
@@ -671,7 +672,7 @@ class SequentialRealAgentTeamRun:
         return "PASS" if self.execution.outcome == EXECUTED else "FAIL"
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        report = {
             "schema_id": self.schema_id,
             "population": "REAL_AGENT",
             "task_id": self.task_id,
@@ -682,7 +683,9 @@ class SequentialRealAgentTeamRun:
             "model_digest": self.model_digest,
             "quantization_level": self.quantization_level,
             "actor_ids": list(self.actor_ids),
-            "model_steps": [step.to_dict() for step in self.model_steps],
+            "model_steps": [
+                scrub_public_json(step.to_dict()) for step in self.model_steps
+            ],
             "orchestration": "sequential",
             "memory_service_interactions": {
                 "observer_writes": 1,
@@ -696,9 +699,12 @@ class SequentialRealAgentTeamRun:
             ),
             "shared_model_weights": True,
             "max_concurrent_model_calls": 1,
-            "inference_manifests": [dict(manifest) for manifest in self.inference_manifests],
+            "inference_manifests": [
+                scrub_public_json(dict(manifest)) for manifest in self.inference_manifests
+            ],
             "effect": {"outcome": self.execution.outcome, "ran": self.execution.ran},
         }
+        return scrub_public_json(report)
 
     def canonical_json(self) -> str:
         return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"),

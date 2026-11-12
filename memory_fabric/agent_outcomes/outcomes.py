@@ -25,6 +25,7 @@ from ..actions import (
     ActionExecution, ActionRequest,
 )
 from .observations import AgentObservation, AgentStep, EvaluatorCapability, FailureCode
+from .privacy import scrub_public_json
 from .runtime import RuntimeResult, RuntimeStatus, ToolCallRecord
 
 SCHEMA_ID = "memory-fabric.terminal-outcome.v1"
@@ -472,9 +473,11 @@ class OutcomeAuditEvent:
         object.__setattr__(self, "data", _freeze_audit(copied))
 
     def to_dict(self) -> dict[str, Any]:
-        return {"sequence": self.sequence, "kind": self.kind.value,
-                "stage": self.stage.value, "step_id": self.step_id,
-                "data": _thaw_audit(self.data)}
+        return scrub_public_json({
+            "sequence": self.sequence, "kind": self.kind.value,
+            "stage": self.stage.value, "step_id": self.step_id,
+            "data": _thaw_audit(self.data),
+        })
 
 
 @dataclass(frozen=True)
@@ -884,9 +887,11 @@ class EpisodeAudit:
         return None
 
     def to_dict(self) -> dict[str, Any]:
-        return {"schema_id": self.schema_id, "task_id": self.task_id,
-                "arm": self.arm, "seed": self.seed,
-                "events": [event.to_dict() for event in self.events]}
+        return scrub_public_json({
+            "schema_id": self.schema_id, "task_id": self.task_id,
+            "arm": self.arm, "seed": self.seed,
+            "events": [event.to_dict() for event in self.events],
+        })
 
 
     def canonical_json(self) -> str:

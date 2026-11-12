@@ -15,6 +15,7 @@ from typing import Any, Callable, Mapping
 
 from ..actions import ActionExecution, ActionGate, ActionRequest, Grant
 from ..certificates import EvidenceCertificate
+from .privacy import scrub_public_json
 
 MAX_RECOVERY_STEPS = 1_024
 MAX_RECOVERY_ATTEMPTS = 128
@@ -296,7 +297,7 @@ class RecoveryEpisode:
             self._fail("step_budget_exhausted")
             return False
         try:
-            encoded = json.dumps(item, sort_keys=True, separators=(",", ":"),
+            encoded = json.dumps(scrub_public_json(item), sort_keys=True, separators=(",", ":"),
                                  ensure_ascii=False, allow_nan=False).encode("utf-8")
         except (RecursionError, TypeError, ValueError):
             self._fail("invalid_event")
@@ -343,7 +344,7 @@ class RecoveryEpisode:
             raise ValueError("recovery audit is not finite JSON") from exc
         if len(encoded) > MAX_RECOVERY_AUDIT_BYTES:
             raise ValueError("recovery audit exceeds the size limit")
-        return json.loads(encoded)
+        return scrub_public_json(json.loads(encoded))
 
     def canonical_audit_json(self) -> str:
         """Serialize the audit deterministically, including the configured budget."""

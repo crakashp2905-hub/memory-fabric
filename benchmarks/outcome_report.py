@@ -13,6 +13,7 @@ from typing import Any, Hashable, Iterable, Mapping, Protocol, Sequence
 
 from memory_fabric.adapters.ollama import CallRecord, OllamaError
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep, EpisodeOutcome, FailureCode
+from memory_fabric.agent_outcomes.privacy import scrub_public_json
 from .outcome_agents import ActorToolDenied, AgentOutputFailure
 from .stats import paired_bootstrap, sign_test_p
 
@@ -169,10 +170,16 @@ class RealAgentRunReport:
             "generated_at_utc": self.generated_at_utc,
         }
         if self.step is not None:
-            report["step"] = self.step.to_dict()
+            safe_step = self.step.to_dict()
+            safe_step["arguments"] = {}
+            report["step"] = safe_step
+            report["decision_payload_omitted"] = True
         if self.inference is not None:
-            report["inference"] = dict(self.inference)
-        return report
+            report["inference"] = scrub_public_json(dict(self.inference))
+        safe_report = scrub_public_json(report)
+        if self.step is not None:
+            safe_report["step"]["arguments"] = {}
+        return safe_report
 
     def canonical_json(self) -> str:
         return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"),
@@ -584,7 +591,7 @@ def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
         if model_calls or model_tokens:
             raise ValueError("SCRIPTED_AGENT reports cannot include model calls or token counts")
     rows.sort(key=lambda row: (row["seed"], row["task_id"], row["arm"]))
-    return rows
+    return scrub_public_json(rows)
 
 
 def canonical_report(outcomes: Iterable[EpisodeOutcome]) -> str:

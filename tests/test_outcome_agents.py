@@ -6,6 +6,7 @@ import hashlib
 import json
 import secrets
 import unittest
+from dataclasses import replace
 from typing import Any
 from unittest.mock import patch
 
@@ -351,11 +352,25 @@ class TestSequentialRealAgentTeam(unittest.TestCase):
         self.assertEqual(len(client.calls), 5)
         self.assertEqual(report["model_calls"], 5)
         self.assertEqual(report["model_tokens"], 260)
+        self.assertEqual(report["model_steps"][4]["arguments"]["parameters"]["value"], 4)
         self.assertTrue(report["shared_model_weights"])
         self.assertEqual(report["max_concurrent_model_calls"], 1)
         self.assertEqual(effects, [4])
         self.assertTrue(result.execution.ran)
         self.assertEqual(result.model_digest, "sha256:" + "c" * 64)
+        canary = "private-team-content-canary-39b8"
+        private_step = AgentStep(
+            observation.task_id, "executor", "privacy-step", "propose",
+            {"tool": "set_target", "private_content": canary},
+        )
+        private_report = json.loads(replace(
+            result, model_steps=(*result.model_steps[:-1], private_step),
+        ).canonical_json())
+        self.assertNotIn(canary, json.dumps(private_report))
+        self.assertEqual(
+            private_report["model_steps"][-1]["arguments"]["private_content"],
+            "[REDACTED]",
+        )
         self.assertTrue(any(event.get("source") == "retrieved_memory"
                             for event in client.user_observations[2]["visible_events"]))
         executor_schema = client.response_schemas[4]

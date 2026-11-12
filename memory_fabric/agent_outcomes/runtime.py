@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 from .observations import AgentObservation, AgentStep
+from .privacy import scrub_public_json
 
 MAX_RUNTIME_STEPS = 128
 MAX_TOOL_ARGUMENT_BYTES = 16_000
@@ -457,6 +458,7 @@ def dispatch_counterfactual_replay(
             raw_result, max_bytes=active_budget.limits.max_result_bytes,
             label="counterfactual replay result",
         )
+        result = scrub_public_json(result)
     except ValueError as exc:
         too_large = "exceeds its byte limit" in str(exc)
         return CounterfactualReplayDispatch(
