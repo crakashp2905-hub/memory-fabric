@@ -34,6 +34,59 @@ class RecoveryAction(StrEnum):
     REPLAN = "replan"
 
 
+class RecoveryDisposition(StrEnum):
+    RETRY = "RETRY"
+    CLARIFY = "CLARIFY"
+    ABSTAIN = "ABSTAIN"
+    ESCALATE = "ESCALATE"
+
+
+@dataclass(frozen=True)
+class RecoveryGuidance:
+    """A cause and a legal next step; it never authorizes a protected effect."""
+
+    cause_code: str
+    disposition: RecoveryDisposition
+    next_action: RecoveryAction | None
+    operator_handoff: bool
+    protected_effect_allowed: bool = False
+
+
+_RECOVERY_GUIDANCE: Mapping[str, RecoveryGuidance] = MappingProxyType({
+    "EVIDENCE_MISSING": RecoveryGuidance(
+        "EVIDENCE_MISSING", RecoveryDisposition.RETRY, RecoveryAction.RERETRIEVE, False),
+    "EVIDENCE_WITHHELD": RecoveryGuidance(
+        "EVIDENCE_WITHHELD", RecoveryDisposition.CLARIFY,
+        RecoveryAction.ASK_CLARIFICATION, True),
+    "EVIDENCE_IRRELEVANT": RecoveryGuidance(
+        "EVIDENCE_IRRELEVANT", RecoveryDisposition.RETRY, RecoveryAction.RERETRIEVE, False),
+    "EVIDENCE_STALE": RecoveryGuidance(
+        "EVIDENCE_STALE", RecoveryDisposition.RETRY,
+        RecoveryAction.REQUEST_CURRENT_OBSERVATION, False),
+    "EVIDENCE_CONTESTED": RecoveryGuidance(
+        "EVIDENCE_CONTESTED", RecoveryDisposition.ESCALATE,
+        RecoveryAction.INSPECT_PROVENANCE, True),
+    "EVIDENCE_UNAUTHORIZED": RecoveryGuidance(
+        "EVIDENCE_UNAUTHORIZED", RecoveryDisposition.ESCALATE, None, True),
+    "EVIDENCE_ERASED": RecoveryGuidance(
+        "EVIDENCE_ERASED", RecoveryDisposition.ESCALATE, None, True),
+    "EVIDENCE_DUPLICATE": RecoveryGuidance(
+        "EVIDENCE_DUPLICATE", RecoveryDisposition.RETRY, RecoveryAction.RERETRIEVE, False),
+    "EVIDENCE_INSUFFICIENT": RecoveryGuidance(
+        "EVIDENCE_INSUFFICIENT", RecoveryDisposition.CLARIFY,
+        RecoveryAction.ASK_CLARIFICATION, False),
+    "UNKNOWN": RecoveryGuidance("UNKNOWN", RecoveryDisposition.ABSTAIN, None, True),
+})
+
+
+def recovery_guidance(failure: Any) -> RecoveryGuidance:
+    """Return deterministic retry, abstention, or escalation guidance by cause."""
+    code = getattr(failure, "reason_code", "UNKNOWN")
+    if not isinstance(code, str):
+        code = "UNKNOWN"
+    return _RECOVERY_GUIDANCE.get(code, _RECOVERY_GUIDANCE["UNKNOWN"])
+
+
 @dataclass(frozen=True)
 class RecoveryActionSpec:
     action: RecoveryAction
