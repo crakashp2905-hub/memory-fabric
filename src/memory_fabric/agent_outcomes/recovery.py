@@ -6,12 +6,16 @@ __stability__ = "experimental"
 
 from dataclasses import dataclass, field
 from enum import StrEnum
+import json
+import os
+from pathlib import Path
+import tempfile
 from types import MappingProxyType
 import math
 import time
 from typing import Any, Callable, Mapping
 
-from ..actions import ActionExecution, ActionGate, ActionRequest, Grant
+from ..actions import ALREADY_EXECUTED, EXECUTED, ActionExecution, ActionGate, ActionRequest, Grant
 from ..certificates import EvidenceCertificate
 
 
@@ -261,6 +265,144 @@ class RecoveryEpisode:
             "unauthorized_alternate_source_accesses": 0,
         }
 
+    def to_json(self) -> str:
+        """Serialize a bounded checkpoint suitable for durable host storage."""
+        remaining = max(0.0, self.limits.deadline_seconds
+                        - (self._clock() - self._started_at))
+        payload = {
+            "schema_id": "memory-fabric.agent-outcome-recovery-checkpoint.v1",
+            "task_id": self.task_id,
+            "enabled": self.enabled,
+            "status": self.status.value,
+            "steps": self.steps,
+            "recoveries": self.recoveries,
+            "alternate_search_attempts": self.alternate_search_attempts,
+            "authorization_requeries_suppressed": self.authorization_requeries_suppressed,
+            "limits": {
+                "max_steps": self.limits.max_steps,
+                "max_recoveries": self.limits.max_recoveries,
+                "max_event_bytes": self.limits.max_event_bytes,
+                "max_attempts": self.limits.max_attempts,
+                "max_events": self.limits.max_events,
+                "deadline_seconds": remaining,
+            },
+            "trace": self.trace,
+        }
+        try:
+            rendered = json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                                  ensure_ascii=False, allow_nan=False)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("recovery checkpoint must contain finite JSON data") from exc
+        if len(rendered.encode("utf-8")) > 65_536:
+            raise ValueError("recovery checkpoint exceeds 65536 bytes")
+        return rendered
+
+    @classmethod
+    def from_json(
+        cls,
+        value: str,
+        *,
+        clock: Callable[[], float] = time.monotonic,
+    ) -> "RecoveryEpisode":
+        """Restore a validated checkpoint; unknown fields never gain authority."""
+        if not isinstance(value, str) or len(value.encode("utf-8")) > 65_536:
+            raise ValueError("recovery checkpoint must be text no larger than 65536 bytes")
+
+        def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+            result: dict[str, Any] = {}
+            for key, item in pairs:
+                if key in result:
+                    raise ValueError("recovery checkpoint contains a duplicate field")
+                result[key] = item
+            return result
+
+        try:
+            raw = json.loads(value, object_pairs_hook=unique_object,
+                             parse_constant=lambda _value: (_ for _ in ()).throw(
+                                 ValueError("non-finite checkpoint value")))
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise ValueError("recovery checkpoint must be valid JSON") from exc
+        expected = {
+            "schema_id", "task_id", "enabled", "status", "steps", "recoveries",
+            "alternate_search_attempts", "authorization_requeries_suppressed", "limits",
+            "trace",
+        }
+        if not isinstance(raw, dict) or set(raw) != expected:
+            raise ValueError("recovery checkpoint fields do not match schema v1")
+        if raw["schema_id"] != "memory-fabric.agent-outcome-recovery-checkpoint.v1":
+            raise ValueError("unsupported recovery checkpoint schema")
+        limit_fields = {
+            "max_steps", "max_recoveries", "max_event_bytes", "max_attempts",
+            "max_events", "deadline_seconds",
+        }
+        limits_raw = raw["limits"]
+        if not isinstance(limits_raw, dict) or set(limits_raw) != limit_fields:
+            raise ValueError("recovery checkpoint limits do not match schema v1")
+        limits = RecoveryLimits(**limits_raw)
+        if type(raw["enabled"]) is not bool:
+            raise ValueError("recovery checkpoint enabled flag must be boolean")
+        for field_name in ("steps", "recoveries", "alternate_search_attempts",
+                           "authorization_requeries_suppressed"):
+            if type(raw[field_name]) is not int or raw[field_name] < 0:
+                raise ValueError(f"recovery checkpoint {field_name} must be non-negative")
+        if raw["steps"] > min(limits.max_steps, limits.max_attempts):
+            raise ValueError("recovery checkpoint exceeds its step limit")
+        if raw["recoveries"] > limits.max_recoveries:
+            raise ValueError("recovery checkpoint exceeds its recovery limit")
+        trace = raw["trace"]
+        if (not isinstance(trace, list)
+                or len(trace) > limits.max_events + limits.max_steps + 1
+                or any(not isinstance(item, dict) or not isinstance(item.get("kind"), str)
+                       for item in trace)):
+            raise ValueError("recovery checkpoint trace is invalid or too large")
+        try:
+            status = RecoveryStatus(raw["status"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError("recovery checkpoint status is invalid") from exc
+        episode = cls(raw["task_id"], limits=limits, enabled=raw["enabled"], _clock=clock)
+        episode.status = status
+        episode.steps = raw["steps"]
+        episode.recoveries = raw["recoveries"]
+        episode.alternate_search_attempts = raw["alternate_search_attempts"]
+        episode.authorization_requeries_suppressed = raw["authorization_requeries_suppressed"]
+        episode.trace = trace
+        episode._progress_seen = {
+            str(item.get("detail", {}).get("progress_key", item["kind"]))
+            for item in trace
+            if item["kind"] in {"refresh", "re_retrieve", "ask", "replan"}
+            and isinstance(item.get("detail", {}), dict)
+        }
+        return episode
+
+    def save_checkpoint(self, path: str | Path) -> None:
+        """Atomically replace a host-managed checkpoint file."""
+        target = Path(path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        temporary_name: str | None = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", dir=target.parent,
+                prefix=f".{target.name}.", suffix=".tmp", delete=False,
+            ) as handle:
+                temporary_name = handle.name
+                handle.write(self.to_json())
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary_name, target)
+        finally:
+            if temporary_name is not None and os.path.exists(temporary_name):
+                os.unlink(temporary_name)
+
+    @classmethod
+    def load_checkpoint(
+        cls,
+        path: str | Path,
+        *,
+        clock: Callable[[], float] = time.monotonic,
+    ) -> "RecoveryEpisode":
+        """Read and validate a host-managed checkpoint file."""
+        return cls.from_json(Path(path).read_text(encoding="utf-8"), clock=clock)
+
     def record(self, kind: str, detail: Mapping[str, Any] | None = None) -> bool:
         """Append bounded, public trace metadata; return False when the step budget ends."""
         import json
@@ -309,21 +451,24 @@ class RecoveryEpisode:
         request: ActionRequest | None = None,
         tenant_id: str | None = None,
         grant: Grant | str | None = None,
+        retry: bool = False,
     ) -> ActionExecution:
         """Reauthorize at effect time via the existing gate, then record only its verdict."""
         if not self.enabled:
             raise RuntimeError("recovery is disabled")
+        if type(retry) is not bool:
+            raise ValueError("retry must be a boolean")
         if self.status in (RecoveryStatus.DISABLED, RecoveryStatus.ABSTAINED,
                            RecoveryStatus.FAILED, RecoveryStatus.COMPLETE):
             raise RuntimeError(f"episode is terminal: {self.status}")
         if not self.record("propose", {"tool": tool, "key": key}):
             raise RuntimeError("episode step budget exhausted")
         execution = gate.execute(tool, actor_id, run, certificate, key=key, request=request,
-                                 tenant_id=tenant_id, grant=grant)
+                                 tenant_id=tenant_id, grant=grant, retry=retry)
         self.trace.append({"kind": "action_gate", "outcome": execution.outcome,
                            "reason_codes": list(execution.decision.reason_codes)
                            if execution.decision else []})
-        if execution.ran:
+        if execution.outcome in (EXECUTED, ALREADY_EXECUTED):
             self.status = RecoveryStatus.COMPLETE
         else:
             self.status = RecoveryStatus.BLOCKED

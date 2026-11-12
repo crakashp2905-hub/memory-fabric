@@ -213,3 +213,22 @@ worker service p95 was about 2.8 ms and 3.1 ms respectively. These values are
 dominated by this run's process startup and queue behavior and are a functional
 smoke result, not a stable latency estimate. Re-run the benchmark in the target
 environment for operational planning.
+
+## Restarting a recovery episode
+
+`RecoveryEpisode.save_checkpoint()` atomically replaces a bounded host-managed
+JSON checkpoint. `load_checkpoint()` validates the version, limits, counters,
+status, and trace before resuming. Store the checkpoint with host access
+controls; it records workflow progress but does not authorize an effect.
+
+The durable ActionGate ledger remains the source of truth for effect attempts.
+It records an attempt before entering the effect transaction. After a process
+crash, transaction rollback can leave that attempt `unknown`; inspect
+`reconciliation_ledger()` before resuming. Reuse the same idempotency key and
+require the effect handler to deduplicate at its external system. A retry of an
+unknown attempt must be explicit (`retry=True`); the gate will still recheck
+current evidence and authorization. A completed ledger entry returns
+`ALREADY_EXECUTED`, so a crash after commit but before a new checkpoint does not
+repeat the effect. An unknown external effect cannot be made exactly once by a
+local database; reconcile it with the external system or operator before
+retrying.

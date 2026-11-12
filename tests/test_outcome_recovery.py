@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+import subprocess
+import sys
+import textwrap
+from pathlib import Path
+
 from memory_fabric import MemoryFabric
+from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule, reconciliation_ledger
 from memory_fabric.agent_outcomes import (
     RecoveryEpisode,
     classify_evidence_failure,
@@ -8,6 +14,8 @@ from memory_fabric.agent_outcomes import (
     RecoveryFailureClass,
 )
 from memory_fabric.exposure import AlwaysExposePolicy
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_authorization_failure_suppresses_requery_and_records_telemetry(monkeypatch) -> None:
@@ -71,3 +79,74 @@ def test_retrieval_failure_allows_one_grant_checked_alternate_search() -> None:
         }
     finally:
         fabric.close()
+
+
+def test_checkpoint_survives_process_crash_and_reconciles_idempotently(tmp_path: Path) -> None:
+    database = tmp_path / "recovery.db"
+    checkpoint = tmp_path / "episode.json"
+    side_effect = tmp_path / "effect.txt"
+    fabric = MemoryFabric(str(database), auto_activate=True, hold_suspicious=False)
+    memory_id = fabric.remember("operator", "Pressure is within range.", scope="team")
+    fabric.close()
+
+    episode = RecoveryEpisode("crash-recovery", enabled=True)
+    assert episode.record("evidence_blocked", {
+        "cause_code": "EVIDENCE_STALE", "source_id": "sensor:pressure",
+    })
+    assert episode.record("replan", {"progress_key": "fresh-reading"})
+    episode.save_checkpoint(checkpoint)
+
+    crash_script = textwrap.dedent(f"""
+        import os, sys
+        from pathlib import Path
+        sys.path.insert(0, {str(ROOT / 'src')!r})
+        from memory_fabric import MemoryFabric
+        from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
+        from memory_fabric.agent_outcomes import RecoveryEpisode
+        fabric = MemoryFabric({str(database)!r})
+        certificate = fabric.certify("pressure_safe", [{memory_id!r}], "operator")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={{"start_pump": ToolRule("start_pump")}},
+            grants={{"operator": frozenset({{"start_pump"}})}},
+        ))
+        episode = RecoveryEpisode.load_checkpoint({str(checkpoint)!r})
+        def effect(key):
+            Path({str(side_effect)!r}).write_text(key, encoding="utf-8")
+            os._exit(23)
+        episode.execute(gate, "start_pump", "operator", certificate, effect,
+                        key="recovery-effect")
+    """)
+    crashed = subprocess.run([sys.executable, "-c", crash_script], capture_output=True,
+                             text=True, timeout=30, check=False)
+    assert crashed.returncode == 23, crashed.stderr
+    assert side_effect.read_text(encoding="utf-8") == "recovery-effect"
+
+    reopened = MemoryFabric(str(database))
+    try:
+        assert [row["status"] for row in reconciliation_ledger(reopened)
+                if row["key"] == "recovery-effect"] == ["unknown"]
+        restored = RecoveryEpisode.load_checkpoint(checkpoint)
+        assert restored.status.name == "RECOVERED"
+        assert restored.steps == 2
+        certificate = reopened.certify("pressure_safe", [memory_id], "operator")
+        gate = ActionGate(reopened, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump")},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+
+        def idempotent_effect(key: str) -> str:
+            if not side_effect.exists():
+                side_effect.write_text(key, encoding="utf-8")
+            return "already-applied" if side_effect.exists() else "applied"
+
+        execution = restored.execute(
+            gate, "start_pump", "operator", certificate, idempotent_effect,
+            key="recovery-effect", retry=True,
+        )
+        assert execution.ran
+        assert restored.status.name == "COMPLETE"
+        assert side_effect.read_text(encoding="utf-8") == "recovery-effect"
+        assert [row["status"] for row in reconciliation_ledger(reopened)
+                    if row["key"] == "recovery-effect"] == ["completed"]
+    finally:
+        reopened.close()
