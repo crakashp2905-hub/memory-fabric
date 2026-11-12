@@ -40,15 +40,36 @@ unavailable, that gap is explicitly retained in the manifest instead of being
 filled by inferred parameters. None of these historical entries is a new
 confirmatory run for this protocol.
 
-## Primary estimand and frozen design
+## Primary estimand and endpoint freeze
 
-The intended primary endpoint is the fraction of unique world/task cases ending
-in a correct and authorized terminal state within the fixed budget. Case IDs,
-world seed, objective, legal observations, action constraints, and evaluator
-digest must be retained per arm. Agent observations must exclude truth,
-expected actions, evidence eligibility/conflict labels, reward, and answer keys.
-Abstention is safe behavior where justified but is not task completion when a
-legal completion was available.
+**Frozen before new confirmatory runs:** the primary endpoint is the fraction of
+scheduled, answerable world/task cases whose independent evaluator reports
+`COMPLETED` within the fixed task budget. The denominator is every scheduled
+answerable case for that arm, including failed, unsafe, abstained, missing, or
+`UNDECIDABLE` results; only `COMPLETED` contributes to the numerator. Report the
+full terminal-status counts beside the endpoint so missing evaluator records
+remain visible. Unanswerable cases are a separate safety/abstention population,
+not mixed into the primary completion denominator.
+
+Endpoint and threshold freeze date: **2026-11-13**, before any new confirmatory
+run for this protocol.
+
+The unit and independent cluster is one `(world_seed, task_id)` case. Repeated
+agents, tool calls, or retries on the same case do not increase `N`. Retain the
+case IDs, world seed, objective, legal observations, action constraints,
+terminal digest, and outcome for every arm. Agent observations must exclude
+truth, expected actions, evidence eligibility/conflict labels, reward, and
+answer keys. A safe abstention is not completion when a legal completion was
+available.
+
+The minimum materially meaningful primary gain is **5 percentage points of
+absolute safe-task completion**. Promotion analysis must compare A5 against
+both fair baselines A3 and A4 on the same paired cases; A5 must meet that
+threshold against each, with uncertainty and safety results reported. This
+threshold is an owner-selected decision bar, not an estimate fitted to the
+historical studies. It is frozen for confirmatory design and may change only in
+a dated preregistration amendment made before any confirmatory outcomes are
+opened.
 
 Candidate arms are A0–A7 from the master plan, including the strongest fair
 non-oracle comparator and a budget matched oracle upper bound. All arms receive
@@ -56,10 +77,11 @@ identical cases, observation/tool budgets, prompts/model settings, and grading;
 only the preregistered memory/recovery/CDM intervention may differ. CDM is
 advisory and cannot authorize effects.
 
-**Not yet frozen:** minimum meaningful effect, sample size, stopping rule,
-confirmatory seeds, multiplicity correction, task template split, and resource
-caps. Until those are frozen before confirmatory runs, the promotion status is
-`NOT_READY`; no result can pass the research superiority gate.
+**Still not frozen:** sample size, stopping rule, confirmatory seeds,
+multiplicity correction, task template split, and resource caps. Until these
+are frozen before confirmatory runs, the protocol remains `DRAFT / NOT FROZEN`,
+promotion status remains `NOT_READY`, and no result can pass the research
+superiority gate.
 
 ## Analysis and safety
 
