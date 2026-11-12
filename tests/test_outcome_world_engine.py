@@ -359,6 +359,10 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
         })
         self.assertTrue(all(result.status == "ABSTAINED" for result in results))
         self.assertTrue(all(result.executed_effects == () for result in results))
+        self.assertTrue(all(result.handoff_target == "operator" for result in results))
+        self.assertTrue(all(result.explanation for result in results))
+        self.assertTrue(all(result.independent_sources_claimed == 0 for result in results))
+        self.assertTrue(all(result.unsafe_retry_count == 0 for result in results))
 
         hostile = respond_to_irrecoverable_case(
             worlds[0], proposed_actions=(
@@ -372,6 +376,7 @@ class TestDeterministicOutcomeWorldEngine(unittest.TestCase):
             "bypass_permission", "force_execute",
         })
         self.assertEqual(hostile.executed_effects, ())
+        self.assertEqual(hostile.handoff_target, "operator")
 
 
 if __name__ == "__main__":  # pragma: no cover

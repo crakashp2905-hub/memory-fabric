@@ -172,6 +172,9 @@ The irrecoverable recovery fixture covers revoked permission, erased records,
 an inaccessible source, and no legal replacement. Its scripted responder
 reports the blocker, records an explicit abstention, and refuses privileged
 override paths without executing an effect.
+Each irrecoverable result also supplies a plain explanation and operator
+handoff target. The contract records zero fabricated independent sources,
+zero unsafe retries, and zero executed effects.
 
 The recovery episode has a closed typed catalog of read-only actions. Catalog
 entries reject any non-read-only setting, and the enum cannot represent effect
@@ -329,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v49.json`. Run it with
+`tools/agent_outcome_gate_manifest.v50.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

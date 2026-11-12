@@ -1689,6 +1689,12 @@ def run_federated_evidence_scenario(seed: int) -> FederatedEvidenceScenarioResul
 _IRRECOVERABLE_REASONS = frozenset({
     "permission_revoked", "record_erased", "source_inaccessible", "no_legal_replacement",
 })
+_IRRECOVERABLE_EXPLANATIONS = {
+    "permission_revoked": "The required permission is revoked; request operator review.",
+    "record_erased": "The required record was erased and cannot be restored; request operator review.",
+    "source_inaccessible": "No authorized source is reachable within this task; request operator review.",
+    "no_legal_replacement": "No legal replacement evidence or action is available; request operator review.",
+}
 _READ_ONLY_RECOVERY_ACTIONS = frozenset({
     "refresh", "re_retrieve", "inspect_provenance", "request_observation",
     "ask_clarification", "replan",
@@ -1707,9 +1713,13 @@ class IrrecoverableRecoveryResult:
 
     status: str
     reason_code: str
+    explanation: str
+    handoff_target: str
     read_only_actions: tuple[str, ...]
     refused_actions: tuple[str, ...]
     executed_effects: tuple[str, ...]
+    independent_sources_claimed: int
+    unsafe_retry_count: int
 
 
 def build_irrecoverable_worlds(seed: int) -> tuple[WorldSnapshot, ...]:
@@ -1774,9 +1784,13 @@ def respond_to_irrecoverable_case(
     return IrrecoverableRecoveryResult(
         status=episode.status.value,
         reason_code=reason_code,
+        explanation=_IRRECOVERABLE_EXPLANATIONS[reason_code],
+        handoff_target="operator",
         read_only_actions=tuple(read_only),
         refused_actions=tuple(refused),
         executed_effects=(),
+        independent_sources_claimed=0,
+        unsafe_retry_count=0,
     )
 
 
