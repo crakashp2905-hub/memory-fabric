@@ -13,7 +13,9 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
-from memory_fabric.agent_outcomes.observations import MAX_JSON_BYTES
+from memory_fabric.agent_outcomes.observations import (
+    MAX_JSON_BYTES, AgentObservation, AgentStep,
+)
 
 SCHEMA_ID = "memory-fabric.agent-outcomes.terminal.v1"
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
@@ -231,3 +233,108 @@ def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> Outcome
         reason_code=reason,
         result_digest=hashlib.sha256(_canonical(payload)).hexdigest(),
     )
+
+
+AUDIT_SCHEMA_ID = "memory-fabric.agent-outcomes.audit.v1"
+
+
+@dataclass(frozen=True)
+class AgentEpisodeAudit:
+    """Post-episode record of agent-visible turns, tool calls, and actual grading."""
+
+    task_id: str
+    actor_id: str
+    observations: tuple[AgentObservation, ...]
+    steps: tuple[AgentStep, ...]
+    tool_calls: tuple[dict[str, Any], ...]
+    terminal_result: TerminalResult
+    assessment: OutcomeAssessment
+    stop_reason: str
+    failure_stage: str
+    schema_id: str = AUDIT_SCHEMA_ID
+
+    def __post_init__(self) -> None:
+        _identifier(self.task_id, "task_id")
+        _identifier(self.actor_id, "actor_id")
+        if self.schema_id != AUDIT_SCHEMA_ID:
+            raise ValueError("unsupported episode audit schema")
+        if any(item.task_id != self.task_id for item in self.observations):
+            raise ValueError("audit observation task mismatch")
+        if any(item.task_id != self.task_id for item in self.steps):
+            raise ValueError("audit step task mismatch")
+        if self.terminal_result.task_id != self.task_id or self.assessment.task_id != self.task_id:
+            raise ValueError("audit terminal task mismatch")
+        if not isinstance(self.stop_reason, str) or not self.stop_reason:
+            raise ValueError("stop_reason must be non-empty")
+        if not isinstance(self.failure_stage, str) or not self.failure_stage:
+            raise ValueError("failure_stage must be non-empty")
+        _canonical(self.to_dict())
+
+    @classmethod
+    def from_runtime(
+        cls,
+        trace: Any,
+        terminal_result: TerminalResult,
+        assessment: OutcomeAssessment,
+    ) -> "AgentEpisodeAudit":
+        """Freeze all runtime evidence after evaluation, never back into an actor turn."""
+        if not isinstance(terminal_result, TerminalResult):
+            raise TypeError("terminal_result must be an evaluator TerminalResult")
+        if not isinstance(assessment, OutcomeAssessment):
+            raise TypeError("assessment must be an OutcomeAssessment")
+        calls = tuple({
+            "step_id": call.step_id,
+            "tool": call.tool,
+            "completed": call.output.completed,
+            "visible_events": list(call.output.visible_events),
+        } for call in trace.calls)
+        failed_tool = any(not call["completed"] for call in calls)
+        if failed_tool or trace.stop_reason == "INVALID_TOOL_OUTPUT":
+            failure_stage = "tool_execution"
+        elif trace.stop_reason.startswith(("OBSERVATION_FAILED", "INVALID_NEXT_OBSERVATION")):
+            failure_stage = "observation"
+        elif trace.stop_reason.startswith("TOOL_"):
+            failure_stage = "tool_dispatch"
+        elif trace.stop_reason == "STEP_BUDGET_EXHAUSTED":
+            failure_stage = "budget"
+        elif trace.stop_reason == "AGENT_ABSTAINED":
+            failure_stage = "decision"
+        else:
+            failure_stage = "complete"
+        return cls(
+            task_id=trace.task_id,
+            actor_id=trace.actor_id,
+            observations=tuple(trace.observations),
+            steps=tuple(trace.steps),
+            tool_calls=calls,
+            terminal_result=terminal_result,
+            assessment=assessment,
+            stop_reason=trace.stop_reason,
+            failure_stage=failure_stage,
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_id": self.schema_id,
+            "task_id": self.task_id,
+            "actor_id": self.actor_id,
+            "observations": [item.to_dict() for item in self.observations],
+            "steps": [item.to_dict() for item in self.steps],
+            "tool_calls": list(self.tool_calls),
+            "terminal_result": self.terminal_result.to_dict(),
+            "assessment": {
+                "status": self.assessment.status.value,
+                "completion": self.assessment.completion,
+                "safety_violations": self.assessment.safety_violations,
+                "reason_code": self.assessment.reason_code,
+                "result_digest": self.assessment.result_digest,
+            },
+            "stop_reason": self.stop_reason,
+            "failure_stage": self.failure_stage,
+        }
+
+    def canonical_json(self) -> str:
+        return _canonical(self.to_dict()).decode("utf-8")
+
+    def digest(self) -> str:
+        return hashlib.sha256(self.canonical_json().encode("utf-8")).hexdigest()

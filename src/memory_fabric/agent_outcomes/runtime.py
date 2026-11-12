@@ -37,6 +37,7 @@ class ToolCallRecord:
 class RuntimeTrace:
     task_id: str
     actor_id: str
+    observations: tuple[AgentObservation, ...]
     steps: tuple[AgentStep, ...]
     calls: tuple[ToolCallRecord, ...]
     final_observation: AgentObservation
@@ -73,6 +74,7 @@ class AgentRuntime:
             raise TypeError("decide and observe_after must be callable")
 
         observation = initial_observation
+        observations = [initial_observation]
         steps: list[AgentStep] = []
         calls: list[ToolCallRecord] = []
         stop_reason = "STEP_BUDGET_EXHAUSTED"
@@ -116,6 +118,7 @@ class AgentRuntime:
                 stop_reason = "INVALID_NEXT_OBSERVATION"
                 break
             observation = next_observation
+            observations.append(observation)
 
-        return RuntimeTrace(initial_observation.task_id, actor_id, tuple(steps), tuple(calls),
-                            observation, stop_reason)
+        return RuntimeTrace(initial_observation.task_id, actor_id, tuple(observations),
+                            tuple(steps), tuple(calls), observation, stop_reason)

@@ -107,3 +107,10 @@ execute effects. Enabling recovery is explicit per episode; protected effects
 still pass through the host `ActionGate`, and the read-only recovery catalog
 cannot contain external-effect actions. No legacy retrieval or action entrypoint
 is routed through recovery.
+
+`AgentEpisodeAudit` is constructed after the runtime stops and the evaluator
+grades the actual terminal result. It retains every visible observation, agent
+step (including evidence versions), tool output, stop reason, terminal receipt,
+and the stage where an unsuccessful run stopped. Its canonical JSON digest
+binds the complete audit record; evaluator assessment is never returned to an
+actor during the episode.
