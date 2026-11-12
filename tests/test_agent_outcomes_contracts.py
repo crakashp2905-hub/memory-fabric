@@ -11,8 +11,9 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from benchmarks.outcome_report import (
-    canonical_report, checkpoint_stratified_real_agent_analysis,
-    evaluate_targeted_reevaluations, paired_completion_analysis, zero_event_upper_bound,
+    analyze_benefit_with_censoring, canonical_report,
+    checkpoint_stratified_real_agent_analysis, evaluate_targeted_reevaluations,
+    paired_completion_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from examples.outcome_recovery_demo import run_demo
@@ -28,6 +29,63 @@ from memory_fabric.certificates import CertificateVerification
 from memory_fabric.agent_outcomes.observations import OracleTask, SCHEMA_ID
 from memory_fabric.enforcement import AccessDecision, RiskLevel, Verdict
 from memory_fabric.relevance import ReasonCode
+
+
+def _censored_rows() -> list[dict[str, object]]:
+    return [
+        {"task_id": "case-1", "seed": 1, "arm": "A5", "terminal_observed": True,
+         "effect_complete": True, "completion": False},
+        {"task_id": "case-1", "seed": 1, "arm": "A6", "terminal_observed": True,
+         "effect_complete": True, "completion": True},
+        {"task_id": "case-2", "seed": 2, "arm": "A5", "terminal_observed": False,
+         "effect_complete": True, "completion": None},
+        {"task_id": "case-2", "seed": 2, "arm": "A6", "terminal_observed": True,
+         "effect_complete": True, "completion": True},
+        {"task_id": "case-3", "seed": 3, "arm": "A5", "terminal_observed": True,
+         "effect_complete": True, "completion": False},
+        {"task_id": "case-3", "seed": 3, "arm": "A6", "terminal_observed": True,
+         "effect_complete": False, "completion": None},
+        {"task_id": "case-4", "seed": 4, "arm": "A5", "terminal_observed": True,
+         "effect_complete": True, "completion": False},
+        {"task_id": "case-4", "seed": 4, "arm": "A6", "terminal_observed": True,
+         "effect_complete": True, "completion": False},
+    ]
+
+
+class TestCensoredBenefitAnalysis(unittest.TestCase):
+    def test_missing_oracle_and_incomplete_effect_remain_undecidable(self) -> None:
+        report = analyze_benefit_with_censoring(_censored_rows(), "A5", "A6")
+
+        self.assertEqual(report["task_population"]["denominator"], 4)
+        self.assertEqual(report["task_population"]["decidable_pairs"], 2)
+        self.assertEqual(report["task_population"]["undecidable_pairs_retained"], 2)
+        self.assertEqual(report["task_population"]["excluded_by_preregistered_rules"], 0)
+        statuses = {item["task_id"]: item["status"]
+                    for item in report["case_statuses"]}
+        self.assertEqual(statuses["case-2"], "UNDECIDABLE")
+        self.assertEqual(statuses["case-3"], "UNDECIDABLE")
+
+    def test_only_frozen_matching_exclusion_rules_remove_an_undecidable_pair(self) -> None:
+        rows = _censored_rows()
+        frozen = analyze_benefit_with_censoring(
+            rows, "A5", "A6", preregistered_exclusions={"case-2": "missing_oracle"},
+            exclusion_rules_frozen=True,
+        )
+        unfrozen = analyze_benefit_with_censoring(
+            rows, "A5", "A6", preregistered_exclusions={"case-2": "missing_oracle"},
+            exclusion_rules_frozen=False,
+        )
+
+        self.assertEqual(frozen["task_population"]["excluded_by_preregistered_rules"], 1)
+        self.assertEqual(frozen["task_population"]["undecidable_pairs_retained"], 1)
+        self.assertEqual(unfrozen["task_population"]["excluded_by_preregistered_rules"], 0)
+        self.assertEqual(unfrozen["task_population"]["undecidable_pairs_retained"], 2)
+
+    def test_missing_oracle_cannot_carry_a_completion_label(self) -> None:
+        rows = _censored_rows()
+        rows[2]["completion"] = False
+        with self.assertRaisesRegex(ValueError, "cannot carry a completion outcome"):
+            analyze_benefit_with_censoring(rows, "A5", "A6")
 
 
 class TestOutcomeContracts(unittest.TestCase):

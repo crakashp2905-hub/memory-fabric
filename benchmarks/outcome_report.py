@@ -634,7 +634,7 @@ def paired_completion_analysis(
         raise ValueError("baseline and treatment must contain the same non-empty task IDs")
 
     task_ids = sorted(baseline)
-    clusters: list[Hashable] = []
+    clusters: list[int] = []
     diffs: list[float] = []
     baseline_values: list[float] = []
     treatment_values: list[float] = []
@@ -763,6 +763,158 @@ def paired_completion_analysis(
         "bootstrap_resamples": resamples,
         "confidence_level": confidence,
         "cluster_field": "seed",
+    }
+
+
+def analyze_benefit_with_censoring(
+    rows: Iterable[Mapping[str, Any]],
+    baseline_arm: str,
+    treatment_arm: str,
+    *,
+    preregistered_exclusions: Mapping[str, str] | None = None,
+    exclusion_rules_frozen: bool = False,
+    seed: int = 0,
+    resamples: int = 2_000,
+    confidence: float = 0.95,
+) -> dict[str, Any]:
+    """Estimate paired completion while retaining missing and censored cases.
+
+    Rows declare whether the terminal oracle was observed and whether the
+    effect trace was complete. Unknown pairs remain ``UNDECIDABLE`` in the
+    original denominator. A pair is excluded only when the exact observed
+    unavailability code has a matching pre-registered exclusion and the
+    caller marks those rules frozen.
+    """
+    if not baseline_arm or not treatment_arm or baseline_arm == treatment_arm:
+        raise ValueError("distinct baseline and treatment arm identifiers are required")
+    if not isinstance(exclusion_rules_frozen, bool):
+        raise ValueError("exclusion_rules_frozen must be boolean")
+    exclusions = {} if preregistered_exclusions is None else dict(preregistered_exclusions)
+    if any(not isinstance(task_id, str) or not task_id
+           or code not in {"missing_oracle", "incomplete_effect",
+                           "missing_oracle_and_incomplete_effect"}
+           for task_id, code in exclusions.items()):
+        raise ValueError("pre-registered exclusions need task IDs and supported reason codes")
+
+    by_arm: dict[str, dict[str, Mapping[str, Any]]] = {
+        baseline_arm: {}, treatment_arm: {},
+    }
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("benefit rows must be mappings")
+        arm = row.get("arm")
+        if not isinstance(arm, str) or arm not in by_arm:
+            continue
+        task_id = row.get("task_id")
+        if not isinstance(task_id, str) or not task_id:
+            raise ValueError("benefit rows require a task_id")
+        if task_id in by_arm[arm]:
+            raise ValueError(f"duplicate task {task_id!r} in arm {arm!r}")
+        seed_value = row.get("seed")
+        if not isinstance(seed_value, int) or isinstance(seed_value, bool) or seed_value < 0:
+            raise ValueError("benefit row seed must be a non-negative integer")
+        if not isinstance(row.get("terminal_observed"), bool):
+            raise ValueError("terminal_observed must be boolean")
+        if not isinstance(row.get("effect_complete"), bool):
+            raise ValueError("effect_complete must be boolean")
+        completion = row.get("completion")
+        if completion is not None and not isinstance(completion, bool):
+            raise ValueError("completion must be boolean or absent")
+        if not row["terminal_observed"] and completion is not None:
+            raise ValueError("missing oracle rows cannot carry a completion outcome")
+        if row["terminal_observed"] and row["effect_complete"] and completion is None:
+            raise ValueError("complete observed rows require a terminal completion label")
+        by_arm[arm][task_id] = row
+
+    baseline, treatment = by_arm[baseline_arm], by_arm[treatment_arm]
+    if not baseline or set(baseline) != set(treatment):
+        raise ValueError("baseline and treatment must contain the same non-empty task IDs")
+    task_ids = sorted(baseline)
+    unknown_exclusion_ids = set(exclusions) - set(task_ids)
+    if unknown_exclusion_ids:
+        raise ValueError("pre-registered exclusion names a task outside the paired population")
+
+    included_ids: list[str] = []
+    included_base: list[float] = []
+    included_treatment: list[float] = []
+    clusters: list[int] = []
+    statuses: list[dict[str, str]] = []
+    for task_id in task_ids:
+        base, candidate = baseline[task_id], treatment[task_id]
+        if base["seed"] != candidate["seed"]:
+            raise ValueError(f"paired task {task_id!r} has mismatched world seeds")
+        reason_codes: set[str] = set()
+        for row in (base, candidate):
+            if not row["terminal_observed"]:
+                reason_codes.add("missing_oracle")
+            elif not row["effect_complete"] or row["completion"] is None:
+                reason_codes.add("incomplete_effect")
+        if reason_codes:
+            reason = ("missing_oracle_and_incomplete_effect" if len(reason_codes) == 2
+                      else next(iter(reason_codes)))
+            excluded = (exclusion_rules_frozen
+                        and exclusions.get(task_id) == reason)
+            statuses.append({"task_id": task_id,
+                             "status": "EXCLUDED_BY_PREREGISTERED_RULE" if excluded
+                             else "UNDECIDABLE",
+                             "reason": reason})
+            continue
+        statuses.append({"task_id": task_id, "status": "DECIDABLE", "reason": "observed"})
+        included_ids.append(task_id)
+        included_base.append(float(base["completion"]))
+        included_treatment.append(float(candidate["completion"]))
+        clusters.append(int(base["seed"]))
+
+    bootstrap: dict[str, float] | None = None
+    exact_sign_p: float | None = None
+    if included_ids:
+        diffs = [b - a for a, b in zip(included_base, included_treatment)]
+        mean_difference = sum(diffs) / len(diffs)
+        cluster_count = len(set(clusters))
+        if cluster_count >= 2:
+            bootstrap = paired_bootstrap(
+                included_base, included_treatment, seed=seed, resamples=resamples,
+                clusters=clusters, level=confidence,
+            )
+            cluster_diffs: dict[int, list[float]] = {}
+            for cluster, difference in zip(clusters, diffs):
+                cluster_diffs.setdefault(cluster, []).append(difference)
+            exact_sign_p = sign_test_p([
+                sum(values) / len(values) for values in cluster_diffs.values()
+            ])
+    else:
+        diffs = []
+        mean_difference = None
+        cluster_count = 0
+
+    excluded_count = sum(item["status"] == "EXCLUDED_BY_PREREGISTERED_RULE"
+                         for item in statuses)
+    undecidable_count = sum(item["status"] == "UNDECIDABLE" for item in statuses)
+    return {
+        "schema_id": "memory-fabric.censored-benefit-analysis.v1",
+        "status": "ESTIMATE_AVAILABLE" if included_ids else "NO_DECIDABLE_PAIRS",
+        "baseline_arm": baseline_arm,
+        "treatment_arm": treatment_arm,
+        "task_population": {
+            "denominator": len(task_ids),
+            "task_id_set_sha256": hashlib.sha256(
+                "\n".join(task_ids).encode("utf-8")).hexdigest(),
+            "decidable_pairs": len(included_ids),
+            "undecidable_pairs_retained": undecidable_count,
+            "excluded_by_preregistered_rules": excluded_count,
+        },
+        "paired_completion_difference": {
+            "value": mean_difference,
+            "numerator": sum(diffs) if diffs else None,
+            "denominator": len(included_ids),
+            "independent_world_seed_clusters": cluster_count,
+            "cluster_bootstrap_ci": (None if bootstrap is None else
+                                      {"low": bootstrap["lo"], "high": bootstrap["hi"]}),
+            "cluster_exact_sign_test_p": exact_sign_p,
+        },
+        "case_statuses": statuses,
+        "exclusion_rules_frozen": exclusion_rules_frozen,
+        "claim_scope": "observed_paired_outcomes_only_missing_or_censored_are_not_inferred",
     }
 
 
