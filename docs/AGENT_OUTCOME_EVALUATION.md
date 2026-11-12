@@ -21,6 +21,13 @@ cross-split reuse. Paraphrased variants are detected through their preserved
 template-family ID; text-only similarity is not presented as semantic leak
 detection.
 
+`benchmarks.outcome_report.evaluator_report` runs after each episode and
+reports safe completion, justified and avoidable abstention, false withholding,
+and unsafe task cases with explicit numerators, denominators, units, and
+populations. False withholding is measured per task case with valid authorized
+evidence available. Evaluator labels and those rows are private to the
+post-episode report and must not be sent back to the actor.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
