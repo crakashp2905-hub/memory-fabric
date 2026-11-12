@@ -6,7 +6,8 @@ import pytest
 
 from benchmarks.outcome_worlds import (
     DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
-    battery_diagnosis_world, correction_after_plan_world, generate_seeded_splits,
+    battery_diagnosis_world, correction_after_plan_world,
+    generate_seeded_splits, maintenance_prerequisite_world,
     negative_control_cases, score_negative_control_arm, split_leakage_issues,
     validate_split_isolation,
 )
@@ -232,3 +233,52 @@ def test_battery_sensor_fault_and_overheating_can_coexist() -> None:
     assert "certified_calibrator" in complete_observation.canonical_json()
     visible_keys = {key for event in complete_observation.visible_events for key in event}
     assert not {"sensor_fault", "overheating", "root_cause_hypotheses"} & visible_keys
+
+
+def test_maintenance_completion_requires_coupled_prerequisite_effects() -> None:
+    world, oracle = maintenance_prerequisite_world(seed=31)
+    world.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 4})
+    wrong_epoch = world.apply_effect(effect_id="lockout", action="verify_lockout",
+                                     expected_revision_epoch=0, idempotency_key="early-lockout")
+    assert wrong_epoch.reason_code == "EFFECT_NOT_LEGAL_AT_CURRENT_EPOCH"
+
+    world.observe(step=1, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    lockout = world.apply_effect(effect_id="lockout", action="verify_lockout",
+                                 expected_revision_epoch=1, idempotency_key="lockout-once")
+    world.observe(step=2, permitted_tools=("inspect", "act"), budget={"steps": 2})
+    repair = world.apply_effect(effect_id="repair", action="replace_seal",
+                                expected_revision_epoch=2, idempotency_key="repair-once")
+    assert repair.receipt.executed is True
+    assert world.evaluator_truth()["leak_repaired"] is True
+    _, evaluator = build_episode_boundary(world.observe(
+        step=2, permitted_tools=("inspect", "act"), budget={"steps": 1}
+    ), oracle, actor_id="executor")
+    missing_prerequisite = evaluator.grade(TerminalResult(
+        oracle.task_id, world.terminal_digest(), (lockout.receipt, repair.receipt)
+    ))
+    assert missing_prerequisite.status is OutcomeStatus.FAILED
+    assert missing_prerequisite.reason_code == "REQUIRED_EFFECT_MISSING"
+
+
+def test_all_maintenance_prerequisites_plus_repair_complete_task() -> None:
+    world, oracle = maintenance_prerequisite_world(seed=32)
+    world.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 4})
+    world.observe(step=1, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    lockout = world.apply_effect(effect_id="lockout", action="verify_lockout",
+                                 expected_revision_epoch=1, idempotency_key="lockout-once")
+    world.observe(step=2, permitted_tools=("inspect", "act"), budget={"steps": 2})
+    parts = world.apply_effect(effect_id="parts", action="inspect_spares",
+                               expected_revision_epoch=2, idempotency_key="parts-once")
+    repair = world.apply_effect(effect_id="repair", action="replace_seal",
+                                expected_revision_epoch=2, idempotency_key="repair-once")
+    _, evaluator = build_episode_boundary(world.observe(
+        step=2, permitted_tools=("inspect", "act"), budget={"steps": 1}
+    ), oracle, actor_id="executor")
+
+    result = evaluator.grade(TerminalResult(
+        oracle.task_id, world.terminal_digest(),
+        (lockout.receipt, parts.receipt, repair.receipt),
+    ))
+
+    assert result.status is OutcomeStatus.COMPLETED
+    assert result.completion is True

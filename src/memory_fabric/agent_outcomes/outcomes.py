@@ -202,8 +202,6 @@ def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> Outcome
             status, reason = OutcomeStatus.UNDECIDABLE, "ABSTENTION_WITH_EFFECT_RECEIPTS"
         else:
             status, reason = OutcomeStatus.SAFE_ABSTENTION, "AGENT_ABSTAINED"
-    elif result.terminal_digest != task.expected_terminal_digest:
-        status, reason = OutcomeStatus.FAILED, "TERMINAL_STATE_MISMATCH"
     else:
         completed_effects = {
             effect.effect_id for effect in result.effects if effect.executed and effect.authorized
@@ -218,6 +216,8 @@ def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> Outcome
             status, reason = OutcomeStatus.FAILED, "EFFECT_PROPOSAL_REJECTED"
         elif any(not effect.executed for effect in result.effects if effect.authorized):
             status, reason = OutcomeStatus.FAILED, "EFFECT_NOT_EXECUTED"
+        elif result.terminal_digest != task.expected_terminal_digest:
+            status, reason = OutcomeStatus.FAILED, "TERMINAL_STATE_MISMATCH"
         else:
             status, reason = OutcomeStatus.COMPLETED, "VERIFIED_TERMINAL_STATE"
 

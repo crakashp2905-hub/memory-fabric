@@ -237,6 +237,7 @@ class DeterministicOutcomeWorld:
         instruction: str,
         initial_truth: Mapping[str, Any],
         legal_effects_by_epoch: Mapping[int, Iterable[str]],
+        effect_truth_updates: Mapping[str, Mapping[str, Any]] | None = None,
         events: Iterable[WorldEvent],
     ) -> None:
         _require_id(task_id, "task_id")
@@ -266,6 +267,14 @@ class DeterministicOutcomeWorld:
                 _require_id(action, "legal effect action")
             legal[epoch] = action_set
         self._legal_effects = legal
+        self._effect_truth_updates: dict[str, dict[str, Any]] = {}
+        for action, update in (effect_truth_updates or {}).items():
+            _require_id(action, "effect truth update action")
+            if not isinstance(update, Mapping):
+                raise ValueError("effect truth updates must be mappings")
+            copied_update = copy.deepcopy(dict(update))
+            self._digest_json(copied_update)
+            self._effect_truth_updates[action] = copied_update
 
         schedule = tuple(
             WorldEvent(event.at_step, event.event_id, copy.deepcopy(event.visible_payload),
@@ -362,6 +371,8 @@ class DeterministicOutcomeWorld:
         else:
             authorized, executed, reason = True, True, "EFFECT_EXECUTED"
         receipt = EffectReceipt(effect_id, action, executed, authorized, idempotency_key)
+        if executed:
+            self._truth.update(copy.deepcopy(self._effect_truth_updates.get(action, {})))
         result = WorldEffectResult(receipt, reason, self._epoch)
         self._effect_receipts[idempotency_key] = result
         self._effects.append(receipt)
@@ -392,6 +403,7 @@ class DeterministicOutcomeWorld:
             "legal_effects_by_epoch": {
                 str(epoch): sorted(actions) for epoch, actions in sorted(self._legal_effects.items())
             },
+            "effect_truth_updates": self._effect_truth_updates,
         }
         return self._digest_json(payload)
 
@@ -468,6 +480,54 @@ def battery_diagnosis_world(seed: int) -> DeterministicOutcomeWorld:
                         "deviation_c": 49}),
         ),
     )
+
+
+def maintenance_prerequisite_world(
+    seed: int,
+) -> tuple[DeterministicOutcomeWorld, OracleTask]:
+    """Maintenance task requiring isolation, parts inspection, and final repair."""
+    if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+    task_id = f"maintenance-task:{seed}"
+    expected_actions = (
+        EffectReceipt("lockout", "verify_lockout", True, True, "lockout-once"),
+        EffectReceipt("parts", "inspect_spares", True, True, "parts-once"),
+        EffectReceipt("repair", "replace_seal", True, True, "repair-once"),
+    )
+    expected_digest = DeterministicOutcomeWorld._digest_json({
+        "task_id": task_id,
+        "truth": {"lockout_isolated": True, "replacement_part_available": True,
+                  "leak_repaired": True},
+        "revision_epoch": 2,
+        "executed_effects": [receipt.to_dict() for receipt in expected_actions],
+    })
+    world = DeterministicOutcomeWorld(
+        task_id=task_id,
+        seed=seed,
+        instruction=("Complete the seal repair only after confirming lockout isolation and "
+                     "replacement-part availability."),
+        initial_truth={"lockout_isolated": False, "replacement_part_available": False,
+                       "leak_repaired": False},
+        legal_effects_by_epoch={
+            0: ("inspect",),
+            1: ("verify_lockout",),
+            2: ("inspect_spares", "replace_seal"),
+        },
+        effect_truth_updates={"replace_seal": {"leak_repaired": True}},
+        events=(
+            WorldEvent(1, "lockout-confirmation",
+                       {"type": "prerequisite", "name": "lockout_isolation",
+                        "status": "confirmed"},
+                       {"lockout_isolated": True}),
+            WorldEvent(2, "parts-confirmation",
+                       {"type": "prerequisite", "name": "replacement_seal",
+                        "status": "available"},
+                       {"replacement_part_available": True}),
+        ),
+    )
+    return world, OracleTask(task_id, expected_digest,
+                             tuple(receipt.effect_id for receipt in expected_actions),
+                             answerable=True)
 
 
 @dataclass(frozen=True)
