@@ -679,6 +679,78 @@ def failure_taxonomy_analysis(outcomes: Iterable[EpisodeOutcome]) -> dict[str, A
     }
 
 
+def utility_resource_frontier(outcomes: Iterable[EpisodeOutcome]) -> dict[str, Any]:
+    """Compare completion and abstention cost against measured per-case resources.
+
+    An abstention is counted as an opportunity-cost event only when the
+    evaluator assigned the explicit ``abstention_cost`` failure code. Other
+    abstentions are not inferred to have had a safe completion available.
+    """
+    rows = list(outcomes)
+    seen: set[tuple[str, str, str]] = set()
+    grouped: dict[tuple[str, str], list[EpisodeOutcome]] = {}
+    for row in rows:
+        identity = (row.task_id, row.arm, row.agent_id)
+        if identity in seen:
+            raise ValueError("duplicate task_id/arm/agent_id outcome row")
+        seen.add(identity)
+        grouped.setdefault((row.arm, row.agent_id), []).append(row)
+
+    points: list[dict[str, Any]] = []
+    resource_names = ("model_calls", "model_tokens", "wall_ms")
+    for (arm, agent_id), cases in sorted(grouped.items()):
+        n = len(cases)
+        completion_count = sum(row.completion for row in cases)
+        abstention_cost_cases = sum(
+            FailureCode.ABSTENTION_COST.value in row.terminal_failure_codes
+            for row in cases
+        )
+        resources: dict[str, dict[str, float | int]] = {}
+        for name in resource_names:
+            values = sorted(getattr(row, name) for row in cases)
+            resources[name] = {
+                "mean": sum(values) / n,
+                "p95": values[max(0, math.ceil(0.95 * n) - 1)],
+                "total": sum(values),
+            }
+        points.append({
+            "arm": arm,
+            "agent_id": agent_id,
+            "task_case_denominator": n,
+            "safe_completions": completion_count,
+            "safe_completion_rate": completion_count / n,
+            "abstention_cost_cases": abstention_cost_cases,
+            "coded_abstention_noncompletion_rate": abstention_cost_cases / n,
+            "opportunity_cost_status": "MEASURED_FOR_EXPLICIT_ABSTENTION_COST_CODES",
+            "resources_per_task_case": resources,
+        })
+
+    def dominates(left: dict[str, Any], right: dict[str, Any]) -> bool:
+        left_resources = left["resources_per_task_case"]
+        right_resources = right["resources_per_task_case"]
+        no_worse = left["safe_completion_rate"] >= right["safe_completion_rate"] and all(
+            left_resources[name]["mean"] <= right_resources[name]["mean"]
+            for name in resource_names
+        )
+        strictly_better = left["safe_completion_rate"] > right["safe_completion_rate"] or any(
+            left_resources[name]["mean"] < right_resources[name]["mean"]
+            for name in resource_names
+        )
+        return no_worse and strictly_better
+
+    for point in points:
+        point["pareto_efficient"] = not any(
+            other is not point and dominates(other, point) for other in points
+        )
+    return {
+        "schema_id": "memory-fabric.utility-resource-frontier.v1",
+        "utility_metric": "safe task-case completion rate",
+        "resources_minimized": list(resource_names),
+        "abstention_opportunity_cost_measure": "explicit evaluator abstention_cost code only",
+        "points": points,
+    }
+
+
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
     """Return raw case-arm-agent rows without model-usage or hidden-label claims."""
     rows = [asdict(item) for item in outcomes]

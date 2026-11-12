@@ -14,7 +14,7 @@ from benchmarks.outcome_report import (
     analyze_benefit_with_censoring, canonical_report,
     checkpoint_stratified_real_agent_analysis, evaluate_targeted_reevaluations,
     failure_taxonomy_analysis, paired_completion_analysis,
-    safety_incidence_analysis, zero_event_upper_bound,
+    safety_incidence_analysis, utility_resource_frontier, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from benchmarks.stats import paired_bootstrap
@@ -516,6 +516,35 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(row["failure_code_task_cases"]["stale_data"], 1)
         self.assertEqual(row["failure_code_task_cases"]["tool_error"], 1)
         self.assertEqual(row["failure_code_task_cases"]["retrieval_miss"], 1)
+
+    def test_utility_resource_frontier_exposes_abstention_cost(self) -> None:
+        digest = hashlib.sha256(b"sealed resource case").hexdigest()
+
+        def case(task: str, arm: str, *, complete: bool, calls: int, tokens: int,
+                 wall: float) -> EpisodeOutcome:
+            return EpisodeOutcome(
+                task, arm, 5, complete, 0, 0, 0, 0, 0, calls, tokens, wall, digest,
+                terminal_failure_codes=(() if complete else
+                                        (FailureCode.ABSTENTION_COST.value
+                                         if arm == "A0" else
+                                         FailureCode.PLANNING_ERROR.value,)),
+            )
+
+        report = utility_resource_frontier([
+            case("a0-1", "A0", complete=False, calls=0, tokens=0, wall=1),
+            case("a0-2", "A0", complete=False, calls=0, tokens=0, wall=1),
+            case("a5-1", "A5", complete=True, calls=2, tokens=20, wall=4),
+            case("a5-2", "A5", complete=False, calls=2, tokens=20, wall=4),
+            case("a6-1", "A6", complete=True, calls=3, tokens=30, wall=5),
+            case("a6-2", "A6", complete=False, calls=3, tokens=30, wall=5),
+        ])
+        points = {item["arm"]: item for item in report["points"]}
+        self.assertEqual(points["A0"]["safe_completion_rate"], 0.0)
+        self.assertEqual(points["A0"]["abstention_cost_cases"], 2)
+        self.assertEqual(points["A0"]["coded_abstention_noncompletion_rate"], 1.0)
+        self.assertTrue(points["A0"]["pareto_efficient"])
+        self.assertTrue(points["A5"]["pareto_efficient"])
+        self.assertFalse(points["A6"]["pareto_efficient"])
 
     def test_paired_analysis_is_clustered_deterministic_and_checks_negative_control(self) -> None:
         digest = hashlib.sha256(b"sealed case").hexdigest()
