@@ -7,7 +7,9 @@ import sys
 
 from benchmarks.agent_scale import task_manifest
 from benchmarks.matched_agent_arms import ARMS, run as run_legacy_arm
-from benchmarks.outcome_matched_arms import OUTCOME_ARMS, build_outcome_matrix
+from benchmarks.outcome_matched_arms import (
+    OUTCOME_ARMS, _grade_case, build_outcome_matrix,
+)
 
 
 def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> None:
@@ -17,6 +19,9 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
     expected_ids = [task["task_id"] for task in task_manifest(seed)]
     assert report["same_task_ids_all_arms"] is True
     assert report["parity_status"] == "PASS"
+    assert report["mechanical_parity"]["status"] == "INCOMPLETE_NOT_RUN_ARMS"
+    assert all(report["mechanical_parity"]["checks"].values())
+    assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A3", "A5", "A6"]
     assert report["task_ids"] == expected_ids
     mapped_legacy = tuple(
         arm["legacy_arm"] for arm in OUTCOME_ARMS
@@ -37,6 +42,15 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
         assert by_id[arm_id]["counts"] == run_legacy_arm(
             seed, agent_count, legacy_name
         )["counts"]
+
+
+def test_evaluator_grade_is_independent_of_arm_labels() -> None:
+    record = {"expected": "allow", "decision_counts": {
+        "unsafe_actions": 0, "false_abstentions": 0,
+    }}
+    labels = ("A1", "A4", "renamed-arm")
+    grades = [_grade_case(dict(record, arm=label)) for label in labels]
+    assert grades == ["COMPLETED"] * len(labels)
 
 
 def test_process_contention_benchmark_reports_parallel_latency() -> None:
