@@ -7,9 +7,11 @@ state and grading remain in the benchmark world, outside these contracts.
 __stability__ = "experimental"
 
 from .observations import AgentObservation, AgentStep, EpisodeOutcome
-from .recovery import RecoveryEpisode, RecoveryLimits, RecoveryStatus
+from .recovery import (READ_ONLY_RECOVERY_CATALOG, ReadOnlyRecoveryCatalog, RecoveryAction,
+                       RecoveryActionSpec, RecoveryEpisode, RecoveryLimits, RecoveryStatus)
 from .eligibility import EvidenceFailure, EvidenceFailureKind, classify_evidence_failure
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "RecoveryEpisode",
            "RecoveryLimits", "RecoveryStatus", "EvidenceFailure", "EvidenceFailureKind",
-           "classify_evidence_failure"]
+           "classify_evidence_failure", "RecoveryAction", "RecoveryActionSpec",
+           "ReadOnlyRecoveryCatalog", "READ_ONLY_RECOVERY_CATALOG"]

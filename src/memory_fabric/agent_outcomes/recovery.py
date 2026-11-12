@@ -6,6 +6,7 @@ __stability__ = "experimental"
 
 from dataclasses import dataclass, field
 from enum import StrEnum
+from types import MappingProxyType
 from typing import Any, Callable, Mapping
 
 from ..actions import ActionExecution, ActionGate, ActionRequest, Grant
@@ -19,6 +20,55 @@ class RecoveryStatus(StrEnum):
     ABSTAINED = "ABSTAINED"
     COMPLETE = "COMPLETE"
     FAILED = "FAILED"
+
+
+class RecoveryAction(StrEnum):
+    """Permitted evidence-recovery requests; none executes a protected effect."""
+
+    RERETRIEVE = "re_retrieve"
+    INSPECT_PROVENANCE = "inspect_provenance"
+    REQUEST_CURRENT_OBSERVATION = "request_current_observation"
+    ASK_CLARIFICATION = "ask_clarification"
+    REPLAN = "replan"
+
+
+@dataclass(frozen=True)
+class RecoveryActionSpec:
+    action: RecoveryAction
+    description: str
+    externally_effectful: bool = False
+
+
+class ReadOnlyRecoveryCatalog:
+    """Immutable catalog that rejects actions which cause external effects."""
+
+    def __init__(self, specs: tuple[RecoveryActionSpec, ...]) -> None:
+        by_action: dict[RecoveryAction, RecoveryActionSpec] = {}
+        for spec in specs:
+            if spec.externally_effectful:
+                raise ValueError("read-only recovery actions cannot cause external effects")
+            if spec.action in by_action:
+                raise ValueError(f"duplicate recovery action: {spec.action.value}")
+            by_action[spec.action] = spec
+        self._actions = MappingProxyType(by_action)
+
+    @property
+    def actions(self) -> Mapping[RecoveryAction, RecoveryActionSpec]:
+        return self._actions
+
+    def permits(self, action: RecoveryAction) -> bool:
+        return action in self._actions
+
+
+READ_ONLY_RECOVERY_CATALOG = ReadOnlyRecoveryCatalog((
+    RecoveryActionSpec(RecoveryAction.RERETRIEVE, "Search permitted evidence again."),
+    RecoveryActionSpec(RecoveryAction.INSPECT_PROVENANCE, "Inspect source and lineage metadata."),
+    RecoveryActionSpec(RecoveryAction.REQUEST_CURRENT_OBSERVATION,
+                       "Request a fresh observation through the host interface."),
+    RecoveryActionSpec(RecoveryAction.ASK_CLARIFICATION,
+                       "Return a clarification request for the caller to present."),
+    RecoveryActionSpec(RecoveryAction.REPLAN, "Recompute a plan from current observations."),
+))
 
 
 @dataclass(frozen=True)
