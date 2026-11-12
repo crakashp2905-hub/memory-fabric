@@ -666,6 +666,13 @@ def paired_completion_analysis(
     positive_clusters = sum(value > 0 for value in cluster_means)
     negative_clusters = sum(value < 0 for value in cluster_means)
     tied_clusters = len(cluster_means) - positive_clusters - negative_clusters
+    cluster_case_counts = {
+        str(cluster): len(values) for cluster, values in cluster_diffs.items()
+    }
+    total_cluster_cases = sum(cluster_case_counts.values())
+    effective_sample_size = total_cluster_cases ** 2 / sum(
+        count ** 2 for count in cluster_case_counts.values()
+    )
     bootstrap_positive_resamples = int(round(bootstrap["positive_share"] * resamples))
     task_population = "paired_common_task_cases"
     task_id_set_digest = hashlib.sha256("\n".join(task_ids).encode("utf-8")).hexdigest()
@@ -676,6 +683,12 @@ def paired_completion_analysis(
         "negative_control": baseline_arm == treatment_arm,
         "n_cases": len(task_ids),
         "n_independent_clusters": len(cluster_diffs),
+        "effective_sample_size": effective_sample_size,
+        "effective_sample_size_method": "kish_effective_n_from_world_seed_cluster_case_counts",
+        "world_seed_clusters": [
+            {"world_seed": cluster, "task_case_count": len(values)}
+            for cluster, values in cluster_diffs.items()
+        ],
         "minimum_cluster_floor_met": len(cluster_diffs) >= 5,
         "task_population": {
             "name": task_population,
@@ -683,6 +696,8 @@ def paired_completion_analysis(
             "unit": "unique paired task IDs",
             "independent_clusters": len(cluster_diffs),
             "cluster_unit": "world_seed",
+            "effective_sample_size": effective_sample_size,
+            "effective_sample_size_method": "kish_effective_n_from_world_seed_cluster_case_counts",
             "task_id_set_sha256": task_id_set_digest,
         },
         "metrics": {
@@ -725,6 +740,7 @@ def paired_completion_analysis(
                 "denominator": len(task_ids),
                 "population": "paired_common_task_cases_clustered_by_world_seed",
                 "independent_clusters": len(cluster_diffs),
+                "effective_sample_size": effective_sample_size,
                 "bootstrap_resamples": resamples,
                 "positive_share": {
                     "value": bootstrap["positive_share"],

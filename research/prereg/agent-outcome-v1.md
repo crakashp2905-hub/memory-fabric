@@ -160,6 +160,13 @@ correction recovery steps/time, and resource costs separately. A zero-event
 safety result must include a one-sided exact binomial upper bound. A missing or
 censored evaluator result is `UNDECIDABLE` and is handled only by frozen rules.
 
+`paired_completion_analysis` resamples paired task rows by world seed, retaining
+every task assigned to each sampled world. Reports expose each seed's task
+count and the Kish effective sample size computed from those cluster sizes
+alongside the unique task denominator. Multiple agents or tasks within one
+world do not inflate the independent-world count; a single-seed run still
+fails the minimum two-cluster check.
+
 The contract tests may establish `SCRIPTED_CONTRACT_PASS` for a specified code
 SHA. They cannot establish local-model usefulness, deployment qualification,
 production readiness, or causal benefit from CDM.

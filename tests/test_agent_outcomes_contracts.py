@@ -391,6 +391,9 @@ class TestOutcomeContracts(unittest.TestCase):
                             <= item.keys())
         self.assertEqual(metrics["mean_paired_difference"]["value"], 0.4)
         self.assertEqual(analysis["n_independent_clusters"], 5)
+        self.assertEqual(analysis["effective_sample_size"], 5.0)
+        self.assertEqual(len(analysis["world_seed_clusters"]), 5)
+        self.assertEqual(analysis["task_population"]["effective_sample_size"], 5.0)
         self.assertEqual({key: item["value"] for key, item in metrics["pair_counts"].items()},
                          {"treatment_wins": 2, "baseline_wins": 0, "ties": 3})
         self.assertEqual(metrics["cluster_exact_sign_test_p"]["value"], 0.5)
@@ -423,6 +426,25 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertEqual(negative_control["metrics"]["mean_paired_difference"]["value"], 0.0)
         self.assertEqual(
             negative_control["metrics"]["cluster_exact_sign_test_p"]["value"], 1.0)
+
+    def test_paired_analysis_discloses_unequal_cluster_effective_sample_size(self) -> None:
+        digest = hashlib.sha256(b"sealed case").hexdigest()
+        outcomes = []
+        for task, seed in (("case-a", 1), ("case-b", 1), ("case-c", 2)):
+            for arm, complete in (("A0", False), ("A5", True)):
+                outcomes.append(EpisodeOutcome(
+                    task, arm, seed, complete, 0, 0, 0, 0, 0, 0, 0, 1.0, digest,
+                    terminal_failure_codes=() if complete else ("planning_error",),
+                ))
+        analysis = paired_completion_analysis(
+            outcomes, "A0", "A5", seed=9, resamples=500,
+        )
+        self.assertEqual(analysis["n_independent_clusters"], 2)
+        self.assertAlmostEqual(analysis["effective_sample_size"], 9 / 5)
+        self.assertEqual(
+            sorted(item["task_case_count"] for item in analysis["world_seed_clusters"]),
+            [1, 2],
+        )
 
     def test_one_pinned_checkpoint_needs_no_expansion_pilot(self) -> None:
         checkpoint = "a" * 64

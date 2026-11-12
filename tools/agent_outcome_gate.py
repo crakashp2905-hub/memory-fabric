@@ -28,8 +28,8 @@ from benchmarks.outcome_report import (  # noqa: E402
     real_agent_report_is_complete,
 )
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v43.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v43"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v44.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v44"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -37,7 +37,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 43
+            or manifest.get("manifest_version") != 44
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
