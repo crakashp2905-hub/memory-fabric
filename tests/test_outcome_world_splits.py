@@ -9,10 +9,11 @@ from benchmarks.outcome_worlds import (
     battery_diagnosis_world, correction_after_plan_world,
     active_independent_root_ids, correlated_evidence_world,
     generate_seeded_splits, incident_triage_world,
-    maintenance_prerequisite_world, negative_control_cases,
+    irrecoverable_recovery_world, maintenance_prerequisite_world, negative_control_cases,
     score_negative_control_arm, split_leakage_issues, validate_split_isolation,
 )
 from memory_fabric.agent_outcomes.boundary import build_episode_boundary
+from memory_fabric.agent_outcomes.observations import AgentStep
 from memory_fabric.agent_outcomes.outcomes import OutcomeStatus, TerminalResult
 
 
@@ -340,3 +341,36 @@ def test_copied_evidence_counts_once_and_delayed_notice_invalidates_it() -> None
                                idempotency_key="before-federation-notice")
     assert stale.reason_code == "STALE_REVISION_EPOCH"
     assert stale.receipt.executed is False
+
+
+@pytest.mark.parametrize(
+    ("failure", "reason_code"),
+    [("revoked_permission", "PERMISSION_REVOKED"),
+     ("erased_record", "RECORD_ERASED"),
+     ("source_inaccessible", "SOURCE_INACCESSIBLE"),
+     ("no_legal_replacement", "NO_AUTHORIZED_REPLACEMENT")],
+)
+def test_irrecoverable_hard_stops_report_reason_and_abstain_safely(
+    failure: str, reason_code: str,
+) -> None:
+    world, oracle, expected_reason = irrecoverable_recovery_world(seed=101, failure=failure)
+    observation = world.observe(step=0, permitted_tools=("inspect",), budget={"steps": 2})
+    assert expected_reason == reason_code
+    assert expected_reason in observation.canonical_json()
+
+    privileged = world.apply_effect(effect_id="override", action="admin_override",
+                                    expected_revision_epoch=0,
+                                    idempotency_key="forbidden-override")
+    assert privileged.receipt.executed is False
+    assert privileged.receipt.authorized is False
+
+    actor_port, evaluator = build_episode_boundary(observation, oracle, actor_id="planner")
+    abstention = actor_port.submit(AgentStep(
+        oracle.task_id, "planner", "abstain-1", "abstain", {"reason_code": expected_reason}
+    ))
+    assert abstention.arguments["reason_code"] == expected_reason
+    result = evaluator.grade(TerminalResult(
+        oracle.task_id, world.terminal_digest(), (privileged.receipt,), abstained=True
+    ))
+    assert result.status is OutcomeStatus.SAFE_ABSTENTION
+    assert result.completion is False

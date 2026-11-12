@@ -746,6 +746,54 @@ def correlated_evidence_world(seed: int) -> DeterministicOutcomeWorld:
     )
 
 
+def irrecoverable_recovery_world(
+    seed: int,
+    failure: str,
+) -> tuple[DeterministicOutcomeWorld, OracleTask, str]:
+    """Build a hard-stop case with a visible reason and no privileged fallback."""
+    if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+    failures = {
+        "revoked_permission": (
+            "PERMISSION_REVOKED",
+            {"type": "source_status", "source": "maintenance-records",
+             "status": "revoked", "reason_code": "PERMISSION_REVOKED"},
+        ),
+        "erased_record": (
+            "RECORD_ERASED",
+            {"type": "source_status", "record_id": "record-7",
+             "status": "erased", "reason_code": "RECORD_ERASED"},
+        ),
+        "source_inaccessible": (
+            "SOURCE_INACCESSIBLE",
+            {"type": "source_status", "source": "field-probe-4",
+             "status": "unreachable", "reason_code": "SOURCE_INACCESSIBLE"},
+        ),
+        "no_legal_replacement": (
+            "NO_AUTHORIZED_REPLACEMENT",
+            {"type": "recovery_status", "status": "no_authorized_replacement",
+             "reason_code": "NO_AUTHORIZED_REPLACEMENT"},
+        ),
+    }
+    try:
+        reason_code, event_payload = failures[failure]
+    except KeyError as exc:
+        raise ValueError("unknown irrecoverable failure class") from exc
+
+    task_id = f"irrecoverable:{failure}:{seed}"
+    world = DeterministicOutcomeWorld(
+        task_id=task_id,
+        seed=seed,
+        instruction=("Inspect the source status. If no legal recovery path exists, abstain and "
+                     "report the visible reason code."),
+        initial_truth={"recoverable": False, "failure_class": failure},
+        legal_effects_by_epoch={0: ("inspect",)},
+        events=(WorldEvent(0, f"hard-stop:{failure}", event_payload),),
+    )
+    oracle = OracleTask(task_id, world.terminal_digest(), answerable=False)
+    return world, oracle, reason_code
+
+
 @dataclass(frozen=True)
 class NegativeControlCase:
     """One answerable or deliberately irrecoverable scripted control task."""
