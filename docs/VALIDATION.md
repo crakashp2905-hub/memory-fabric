@@ -51,6 +51,12 @@ and all 2,384 tests passed (46 skipped). It remains `SCRIPTED_QUALIFIED`, with
 model evidence `REAL_AGENT_NOT_RUN` and production qualification false. The
 report is [`agent-outcome-gate-v82-dbb0b76.json`](agent-outcome-gate-v82-dbb0b76.json).
 
+**2026-11-12 AO-083 exact-candidate gate**, commit
+`43cac376f649c08ad00adda7f93caeebb36b356e`: scripted contracts, Ruff, mypy,
+and all 2,384 tests passed (46 skipped). The status is `SCRIPTED_QUALIFIED`;
+model evidence is `REAL_AGENT_NOT_RUN`, and production qualification remains
+false. The report is [`agent-outcome-gate-v82-43cac37.json`](agent-outcome-gate-v82-43cac37.json).
+
 **2026-11-12 fresh-wheel AO-082 check**, built from commit
 `0cf6872579e8d624e6cd9d7ef8dd85c147c04041`: `pip wheel --no-deps
 --no-build-isolation`, installed into a new virtual environment without
