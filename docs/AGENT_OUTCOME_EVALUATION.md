@@ -447,8 +447,9 @@ The short simulated incident is available from a source checkout with
 `python -m examples.outcome_recovery_demo` and from a fresh package install with
 `memory-fabric-outcome-demo`. It needs no local model and uses only an in-memory
 store and simulated target. Its actor trace shows the observed correction,
-refusal of stale evidence, refreshed evidence, and authorized effect. The
-evaluator view appears only after the episode ends.
+refusal of stale evidence, explicit re-retrieval, replanning, reauthorization,
+and the authorized effect in their actual order. The evaluator view appears
+only after the episode ends.
 
 Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is

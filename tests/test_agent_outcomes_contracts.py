@@ -864,9 +864,12 @@ class TestOutcomeContracts(unittest.TestCase):
         evaluator = report["evaluator_view_after_episode"]
         self.assertEqual([step["kind"] for step in actor], [
             "observation", "retrieve", "correction_received", "action_refused",
-            "replan", "action_executed",
+            "recovery_step", "replan", "reauthorized", "action_executed",
         ])
         self.assertTrue(all("completion" not in step for step in actor))
+        self.assertEqual(actor[4]["action"], "re_retrieve")
+        self.assertEqual(actor[6]["kind"], "reauthorized")
+        self.assertTrue(actor[6]["evidence_ids"])
         self.assertTrue(evaluator["completion"])
         self.assertEqual(evaluator["unsafe_effects_executed"], 0)
         output = io.StringIO()

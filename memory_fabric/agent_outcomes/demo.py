@@ -74,6 +74,7 @@ def run_demo() -> dict[str, object]:
         before_token = observation.request_digest()
         if not recovery.request_recovery(recovery_action, before_token=before_token):
             raise RuntimeError("recovery budget unavailable")
+        actor_trace.append({"kind": "recovery_step", "action": recovery_action.value})
         corrected_id = fabric.remember(
             "observer", f"Target reading is {corrected} units.", scope="team")
         refreshed = planner.recall("target reading", k=3).exposed
@@ -87,15 +88,17 @@ def run_demo() -> dict[str, object]:
             raise RuntimeError("recovery made no progress")
         fresh_cert = fabric.certify(f"Target reading is {corrected} units.", fresh_ids, "executor")
         request = ActionRequest("target", {"value": corrected})
+        actor_trace.append({"kind": "replan", "evidence_versions": [
+            [memory.id, memory.version] for memory in refreshed if memory.id in fresh_ids]})
         grant = gate.issue_grant("set_target", "executor", issuer="host",
                                  certificate=fresh_cert, request=request)
+        actor_trace.append({"kind": "reauthorized", "tool": "set_target",
+                            "evidence_ids": fresh_ids})
         execution = recovery.execute(
             gate, "set_target", "executor", fresh_cert,
             lambda _key: effects.append(corrected), key="demo-corrected",
             request=request, grant=grant,
         )
-        actor_trace.append({"kind": "replan", "evidence_versions": [
-            [memory.id, memory.version] for memory in refreshed if memory.id in fresh_ids]})
         actor_trace.append({"kind": "action_executed", "outcome": execution.outcome})
         # The evaluator reads its private target only after the actor episode ends.
         completion = bool(effects and effects[-1] == corrected)
