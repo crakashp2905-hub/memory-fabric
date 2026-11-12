@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import hashlib
 import json
 import unittest
 import tempfile
@@ -32,7 +33,9 @@ class TestOutcomeModelAbsence(unittest.TestCase):
             "schema_id": SCHEMA_ID,
             "task_id": self.observation.task_id,
             "actor_id": "observer",
-            "step_id": "observer-step-1",
+            "step_id": "mf-step-" + hashlib.sha256(
+                f"{self.observation.task_id}:observer:1".encode("utf-8")
+            ).hexdigest()[:24],
             "intent": "inspect",
             "arguments": {"tool": "inspect"},
             "evidence_versions": [],

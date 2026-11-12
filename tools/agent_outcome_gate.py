@@ -10,8 +10,10 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import re
 import subprocess
 import sys
+from collections.abc import Mapping
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -20,10 +22,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from memory_fabric.agent_outcomes import AgentStep  # noqa: E402
 from benchmarks.outcome_report import real_agent_report_is_complete  # noqa: E402
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v31.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v31"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v32.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v32"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -31,7 +34,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 31
+            or manifest.get("manifest_version") != 32
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -127,11 +130,180 @@ def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
     }
 
 
+def real_agent_team_report_is_complete(report: Any) -> bool:
+    """Check model provenance, distinct sequential roles, and the gated effect."""
+    if not isinstance(report, dict):
+        return False
+    actor_ids = report.get("actor_ids")
+    interactions = report.get("memory_service_interactions")
+    raw_steps = report.get("model_steps")
+    manifests = report.get("inference_manifests")
+    task_id = report.get("task_id")
+    if (not isinstance(interactions, dict)
+            or set(interactions) != {
+                "observer_writes", "planner_retrievals", "executor_certifications",
+            }
+            or any(type(value) is not int or value != 1 for value in interactions.values())):
+        return False
+    if (report.get("schema_id") != "memory-fabric.real-agent-team-report.v1"
+            or report.get("population") != "REAL_AGENT" or report.get("status") != "PASS"
+            or not isinstance(task_id, str) or not task_id
+            or not isinstance(actor_ids, list) or len(actor_ids) != 3
+            or any(not isinstance(actor_id, str) or not actor_id for actor_id in actor_ids)
+            or len(set(actor_ids)) != 3 or report.get("orchestration") != "sequential"
+            or report.get("shared_model_weights") is not True
+            or type(report.get("max_concurrent_model_calls")) is not int
+            or report["max_concurrent_model_calls"] != 1
+            or not isinstance(raw_steps, list) or len(raw_steps) != 5
+            or not isinstance(manifests, list) or len(manifests) != 5
+            or report.get("model_calls") != 5
+            or type(report.get("host_effect_invocations")) is not int
+            or report["host_effect_invocations"] != 1
+            or not isinstance(report.get("run_timestamp_utc"), str)
+            or not report["run_timestamp_utc"]
+            or not isinstance(report.get("disclosure"), str)
+            or not report["disclosure"]):
+        return False
+
+    try:
+        steps = [AgentStep.from_json(json.dumps(step, allow_nan=False))
+                 for step in raw_steps]
+    except (TypeError, ValueError):
+        return False
+    expected_actor_order = [actor_ids[0], actor_ids[1], actor_ids[1],
+                            actor_ids[2], actor_ids[2]]
+    if (any(step.task_id != task_id for step in steps)
+            or [step.actor_id for step in steps] != expected_actor_order
+            or len({step.step_id for step in steps}) != 5):
+        return False
+    observer, retrieval, proposal, certification, execution = steps
+    if (observer.intent != "inspect"
+            or observer.arguments.get("tool") != "remember_evidence"
+            or retrieval.intent != "retrieve"
+            or retrieval.arguments.get("tool") != "retrieve_evidence"
+            or not retrieval.evidence_versions
+            or proposal.intent != "propose"
+            or proposal.arguments.get("tool") != "propose_action"
+            or proposal.arguments.get("action_tool") != "set_target"
+            or not isinstance(proposal.arguments.get("parameters"), Mapping)
+            or not isinstance(proposal.arguments.get("claim"), str)
+            or not proposal.arguments["claim"].strip()
+            or certification.intent != "inspect"
+            or certification.arguments.get("tool") != "certify_evidence"
+            or execution.intent != "propose"
+            or execution.arguments.get("tool") != "set_target"
+            or not isinstance(execution.arguments.get("parameters"), Mapping)
+            or any(step.evidence_versions != retrieval.evidence_versions
+                   for step in (proposal, certification, execution))):
+        return False
+    proposal_parameters = proposal.to_dict()["arguments"]["parameters"]
+    execution_parameters = execution.to_dict()["arguments"]["parameters"]
+    if json.dumps(proposal_parameters, sort_keys=True, allow_nan=False) != json.dumps(
+            execution_parameters, sort_keys=True, allow_nan=False):
+        return False
+
+    model_name = report.get("model")
+    model_digest = report.get("model_digest")
+    quantization = report.get("quantization_level")
+    if (not isinstance(model_name, str) or not model_name
+            or not isinstance(model_digest, str)
+            or re.fullmatch(r"[0-9a-f]{64}", model_digest) is None
+            or not isinstance(quantization, str) or not quantization):
+        return False
+    options_seen: list[dict[str, Any]] = []
+    total_tokens = 0
+    for manifest in manifests:
+        if not isinstance(manifest, dict):
+            return False
+        model = manifest.get("model")
+        options = manifest.get("options")
+        usage = manifest.get("usage")
+        if (not isinstance(model, dict) or model.get("name") != model_name
+                or model.get("digest") != model_digest
+                or model.get("quantization_level") != quantization
+                or manifest.get("decoder") != "ollama:/api/chat"
+                or not isinstance(manifest.get("nondeterminism_disclosure"), str)
+                or not manifest["nondeterminism_disclosure"]
+                or not isinstance(options, dict)
+                or options.get("format") != "json_schema"
+                or options.get("constrained") is not True
+                or options.get("stream") is not False
+                or not isinstance(usage, dict)):
+            return False
+        options_seen.append(options)
+        for field in ("prompt_sha256", "system_prompt_sha256", "response_schema_sha256"):
+            if not isinstance(manifest.get(field), str) or re.fullmatch(
+                    r"[0-9a-f]{64}", manifest[field]) is None:
+                return False
+        prompt_tokens = usage.get("prompt_tokens")
+        completion_tokens = usage.get("completion_tokens")
+        call_tokens = usage.get("total_tokens")
+        if (not isinstance(prompt_tokens, int) or isinstance(prompt_tokens, bool)
+                or prompt_tokens < 0 or not isinstance(completion_tokens, int)
+                or isinstance(completion_tokens, bool) or completion_tokens < 0
+                or not isinstance(call_tokens, int) or isinstance(call_tokens, bool)
+                or call_tokens != prompt_tokens + completion_tokens):
+            return False
+        total_tokens += call_tokens
+    if (not options_seen or any(options != options_seen[0] for options in options_seen)
+            or not isinstance(report.get("model_tokens"), int)
+            or isinstance(report["model_tokens"], bool)
+            or report["model_tokens"] != total_tokens or total_tokens <= 0):
+        return False
+    effect = report.get("effect")
+    effect_target = report.get("effect_target")
+    approved_target = execution_parameters.get("value")
+    return (
+        isinstance(effect, dict) and effect.get("outcome") == "executed"
+        and effect.get("ran") is True
+        and isinstance(approved_target, (int, float))
+        and not isinstance(approved_target, bool)
+        and type(effect_target) is type(approved_target)
+        and effect_target == approved_target
+    )
+
+
+def real_agent_team_evidence_result(report_path: Path | None) -> dict[str, Any]:
+    """Validate a separate three-role real-model report without scripted fallback."""
+    result = {"id": "real_agent_team", "required_for_scripted_qualification": False}
+    if report_path is None:
+        return {**result, "status": "REAL_AGENT_NOT_RUN",
+                "reason": "no completed team inference evidence was supplied"}
+    try:
+        payload = report_path.read_bytes()
+    except FileNotFoundError:
+        return {**result, "status": "REAL_AGENT_NOT_RUN",
+                "reason": "real-agent team report file is missing"}
+    except OSError as exc:
+        return {**result, "status": "FAIL", "reason": type(exc).__name__}
+    if len(payload) > 1_000_000:
+        return {**result, "status": "FAIL", "reason": "real-agent team report is too large"}
+    try:
+        report = json.loads(payload)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {**result, "status": "FAIL", "reason": "real-agent team report is malformed JSON"}
+    if not real_agent_team_report_is_complete(report):
+        return {**result, "status": "FAIL", "reason": "real-agent team evidence is incomplete"}
+    return {
+        **result,
+        "status": "PASS",
+        "reason": "sequential three-role model report validated",
+        "report_sha256": hashlib.sha256(payload).hexdigest(),
+        "model": report["model"],
+        "model_digest": report["model_digest"],
+        "quantization_level": report["quantization_level"],
+        "actor_ids": report["actor_ids"],
+        "model_calls": report["model_calls"],
+        "model_tokens": report["model_tokens"],
+    }
+
+
 def build_report(
     *,
     skip_full: bool = False,
     timeout_s: int = 3600,
     real_agent_report_path: Path | None = None,
+    real_agent_team_report_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run manifest checks and return a content-safe evidence report."""
     manifest, manifest_sha256 = read_manifest()
@@ -140,7 +312,8 @@ def build_report(
     for index, check_result in enumerate(results):
         if check_result["id"] == "local_model":
             results[index] = local_model_evidence_result(real_agent_report_path)
-            break
+        elif check_result["id"] == "real_agent_team":
+            results[index] = real_agent_team_evidence_result(real_agent_team_report_path)
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                             stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                             stderr=subprocess.DEVNULL, text=True, check=False)
@@ -161,6 +334,9 @@ def build_report(
             "local_model": next(
                 result["status"] for result in results if result["id"] == "local_model"
             ),
+            "real_agent_team": next(
+                result["status"] for result in results if result["id"] == "real_agent_team"
+            ),
             "deployment": "NOT_RUN",
         },
         "checks": results,
@@ -175,6 +351,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="per-check timeout in seconds (default: 3600)")
     parser.add_argument("--real-agent-report", type=Path,
                         help="validate a separate completed REAL_AGENT report")
+    parser.add_argument("--real-team-report", type=Path,
+                        help="validate a completed sequential three-role REAL_AGENT report")
     parser.add_argument("--out", help="write JSON report to this path instead of stdout")
     args = parser.parse_args(argv)
     if args.timeout <= 0:
@@ -182,6 +360,7 @@ def main(argv: list[str] | None = None) -> int:
     report = json.dumps(build_report(
         skip_full=args.skip_full, timeout_s=args.timeout,
         real_agent_report_path=args.real_agent_report,
+        real_agent_team_report_path=args.real_team_report,
     ),
                         sort_keys=True, separators=(",", ":"), allow_nan=False)
     if args.out:

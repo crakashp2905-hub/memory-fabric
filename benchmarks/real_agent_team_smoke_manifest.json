@@ -1,0 +1,298 @@
+{
+  "actor_ids": [
+    "observer",
+    "planner",
+    "executor"
+  ],
+  "disclosure": "Observer, Planner, and Executor are distinct authenticated identities and sessions, but sequentially share one local model's weights. This is one integration smoke run, not task-success or safety-efficacy evidence.",
+  "effect": {
+    "outcome": "executed",
+    "ran": true
+  },
+  "effect_target": 4,
+  "host_effect_invocations": 1,
+  "inference_manifests": [
+    {
+      "decoder": "ollama:/api/chat",
+      "model": {
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "family": "qwen2",
+        "format": "gguf",
+        "name": "qwen2.5:1.5b",
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "requested_name": "qwen2.5:1.5b",
+        "size": 986061892
+      },
+      "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+      "options": {
+        "constrained": true,
+        "format": "json_schema",
+        "keep_alive": "10m",
+        "num_ctx": 4096,
+        "num_predict": 512,
+        "seed": 42,
+        "stream": false,
+        "temperature": 0.0,
+        "think": false,
+        "top_p": 0.9
+      },
+      "prompt_sha256": "eaca7a0a818752dd53b62c6fdd9b72f363fecd2a554f3129298d960aa1a6a01c",
+      "response_schema_sha256": "47387ed4a502272e1906f0da450305bf8ce823d91be9e67ea53146e7c8d30b32",
+      "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+      "usage": {
+        "completion_tokens": 89,
+        "prompt_tokens": 181,
+        "total_tokens": 270,
+        "wall_seconds": 4.332421300001442
+      }
+    },
+    {
+      "decoder": "ollama:/api/chat",
+      "model": {
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "family": "qwen2",
+        "format": "gguf",
+        "name": "qwen2.5:1.5b",
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "requested_name": "qwen2.5:1.5b",
+        "size": 986061892
+      },
+      "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+      "options": {
+        "constrained": true,
+        "format": "json_schema",
+        "keep_alive": "10m",
+        "num_ctx": 4096,
+        "num_predict": 512,
+        "seed": 42,
+        "stream": false,
+        "temperature": 0.0,
+        "think": false,
+        "top_p": 0.9
+      },
+      "prompt_sha256": "f02725d8542e25e198d66c8f75a205229ac798605ac7b754de61983c5c0a15e8",
+      "response_schema_sha256": "c797dc29699af8ae85479043831f7e7467064108adad623e9c5ef10f1a5d0c27",
+      "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+      "usage": {
+        "completion_tokens": 121,
+        "prompt_tokens": 225,
+        "total_tokens": 346,
+        "wall_seconds": 5.870466299995314
+      }
+    },
+    {
+      "decoder": "ollama:/api/chat",
+      "model": {
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "family": "qwen2",
+        "format": "gguf",
+        "name": "qwen2.5:1.5b",
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "requested_name": "qwen2.5:1.5b",
+        "size": 986061892
+      },
+      "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+      "options": {
+        "constrained": true,
+        "format": "json_schema",
+        "keep_alive": "10m",
+        "num_ctx": 4096,
+        "num_predict": 512,
+        "seed": 42,
+        "stream": false,
+        "temperature": 0.0,
+        "think": false,
+        "top_p": 0.9
+      },
+      "prompt_sha256": "69da8ae1671e89b587807fc0bfc377441362f938eb95d6cdf886a3ec3006103e",
+      "response_schema_sha256": "4ac877dd84c865a8060a150b9497e130e99004232d81dbb00c3a2f222d3c6777",
+      "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+      "usage": {
+        "completion_tokens": 139,
+        "prompt_tokens": 261,
+        "total_tokens": 400,
+        "wall_seconds": 6.973933999994188
+      }
+    },
+    {
+      "decoder": "ollama:/api/chat",
+      "model": {
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "family": "qwen2",
+        "format": "gguf",
+        "name": "qwen2.5:1.5b",
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "requested_name": "qwen2.5:1.5b",
+        "size": 986061892
+      },
+      "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+      "options": {
+        "constrained": true,
+        "format": "json_schema",
+        "keep_alive": "10m",
+        "num_ctx": 4096,
+        "num_predict": 512,
+        "seed": 42,
+        "stream": false,
+        "temperature": 0.0,
+        "think": false,
+        "top_p": 0.9
+      },
+      "prompt_sha256": "3fff82c79c538c996b9a3de0e9a87f17d196cdf8aabe40f76a861d96709eb459",
+      "response_schema_sha256": "71e44c0bbf3697d2578ce4ee2a205645a9b87b57ae894c289723c382f352752d",
+      "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+      "usage": {
+        "completion_tokens": 111,
+        "prompt_tokens": 239,
+        "total_tokens": 350,
+        "wall_seconds": 5.633616400009487
+      }
+    },
+    {
+      "decoder": "ollama:/api/chat",
+      "model": {
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "family": "qwen2",
+        "format": "gguf",
+        "name": "qwen2.5:1.5b",
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "requested_name": "qwen2.5:1.5b",
+        "size": 986061892
+      },
+      "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+      "options": {
+        "constrained": true,
+        "format": "json_schema",
+        "keep_alive": "10m",
+        "num_ctx": 4096,
+        "num_predict": 512,
+        "seed": 42,
+        "stream": false,
+        "temperature": 0.0,
+        "think": false,
+        "top_p": 0.9
+      },
+      "prompt_sha256": "49711e73b64a59d8c6b90cd8fab46e41ce0a7b85aa075edb49dace935b73541a",
+      "response_schema_sha256": "340c54ffc4f3705b6a19196c50106ec0cf12bc255be14e4ba11b8fa1b530d837",
+      "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+      "usage": {
+        "completion_tokens": 115,
+        "prompt_tokens": 305,
+        "total_tokens": 420,
+        "wall_seconds": 6.398971600006917
+      }
+    }
+  ],
+  "max_concurrent_model_calls": 1,
+  "memory_service_interactions": {
+    "executor_certifications": 1,
+    "observer_writes": 1,
+    "planner_retrievals": 1
+  },
+  "model": "qwen2.5:1.5b",
+  "model_calls": 5,
+  "model_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+  "model_steps": [
+    {
+      "actor_id": "observer",
+      "arguments": {
+        "content": "reading: 4",
+        "tool": "remember_evidence"
+      },
+      "evidence_versions": [],
+      "intent": "inspect",
+      "schema_id": "memory-fabric.agent-outcomes.v3",
+      "step_id": "mf-step-bd81fde5b3dff5febc90ec88",
+      "task_id": "ao-sequential-team-live12"
+    },
+    {
+      "actor_id": "planner",
+      "arguments": {
+        "k": 1,
+        "query": "reading: 4",
+        "tool": "retrieve_evidence"
+      },
+      "evidence_versions": [
+        [
+          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          1
+        ]
+      ],
+      "intent": "retrieve",
+      "schema_id": "memory-fabric.agent-outcomes.v3",
+      "step_id": "mf-step-e436f5858cdf8250ea00126b",
+      "task_id": "ao-sequential-team-live12"
+    },
+    {
+      "actor_id": "planner",
+      "arguments": {
+        "action_tool": "set_target",
+        "claim": "The target is set to the visible instrument reading of 4.",
+        "parameters": {
+          "value": 4
+        },
+        "tool": "propose_action"
+      },
+      "evidence_versions": [
+        [
+          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          1
+        ]
+      ],
+      "intent": "propose",
+      "schema_id": "memory-fabric.agent-outcomes.v3",
+      "step_id": "mf-step-d831d06fb92ab5bbcb0ce9ad",
+      "task_id": "ao-sequential-team-live12"
+    },
+    {
+      "actor_id": "executor",
+      "arguments": {
+        "tool": "certify_evidence"
+      },
+      "evidence_versions": [
+        [
+          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          1
+        ]
+      ],
+      "intent": "inspect",
+      "schema_id": "memory-fabric.agent-outcomes.v3",
+      "step_id": "mf-step-93de8bd7fa0801fefa5c05d0",
+      "task_id": "ao-sequential-team-live12"
+    },
+    {
+      "actor_id": "executor",
+      "arguments": {
+        "parameters": {
+          "value": 4
+        },
+        "tool": "set_target"
+      },
+      "evidence_versions": [
+        [
+          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          1
+        ]
+      ],
+      "intent": "propose",
+      "schema_id": "memory-fabric.agent-outcomes.v3",
+      "step_id": "mf-step-4f96eff6f45248df95c8ba39",
+      "task_id": "ao-sequential-team-live12"
+    }
+  ],
+  "model_tokens": 1786,
+  "orchestration": "sequential",
+  "population": "REAL_AGENT",
+  "quantization_level": "Q4_K_M",
+  "reason": "completed_sequential_team_run",
+  "run_timestamp_utc": "2026-11-12T01:19:56.072018+00:00",
+  "schema_id": "memory-fabric.real-agent-team-report.v1",
+  "shared_model_weights": true,
+  "status": "PASS",
+  "task_id": "ao-sequential-team-live12"
+}

@@ -18,13 +18,13 @@ from types import MappingProxyType
 from typing import Any, Callable, Mapping, Protocol, Sequence
 
 from memory_fabric.adapters.ollama import DEFAULT_MODEL, CallRecord, OllamaClient
-from memory_fabric.actions import ActionExecution, ActionGate, ActionRequest, Grant
+from memory_fabric.actions import EXECUTED, ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep
 from memory_fabric.agent_outcomes.observations import SCHEMA_ID
 from memory_fabric.certificates import EvidenceCertificate
 from memory_fabric.enforcement import RiskLevel
 from memory_fabric.model import Memory
-from memory_fabric.service import Session
+from memory_fabric.service import MemoryService, Session
 
 
 class ActorRole(StrEnum):
@@ -50,11 +50,35 @@ class AgentAdapter(Protocol):
 _OLLAMA_AGENT_SYSTEM = (
     "You are one role in a bounded task agent. The user message contains the only "
     "task observation you may use. Return exactly one JSON AgentStep matching the "
-    "provided schema. Copy its task_id and use your assigned actor_id. Set "
+    "provided schema. Copy its task_id, actor_id, and step_id constants exactly. Set "
     "arguments.tool to one of the permitted tools or `abstain`. Set evidence_versions "
     "to [] unless exact evidence IDs and non-negative integer versions appear in the "
     "observation; never invent evidence or versions. Do not add fields."
 )
+_INTENT_FOR_TOOL = {
+    "remember_evidence": "inspect",
+    "retrieve_evidence": "retrieve",
+    "propose_action": "propose",
+    "certify_evidence": "inspect",
+    "set_target": "propose",
+    "inspect": "inspect",
+}
+_ARGUMENT_FIELDS_FOR_TOOL: dict[str, dict[str, Any]] = {
+    "remember_evidence": {
+        "content": {"type": "string", "minLength": 1, "maxLength": 8000},
+    },
+    "retrieve_evidence": {
+        "query": {"type": "string", "minLength": 1, "maxLength": 8000},
+        "k": {"type": "integer", "minimum": 1, "maximum": 20},
+    },
+    "propose_action": {
+        "action_tool": {"type": "string", "minLength": 1, "maxLength": 64},
+        "parameters": {"type": "object"},
+        "claim": {"type": "string", "minLength": 1, "maxLength": 8000},
+    },
+    "set_target": {"parameters": {"type": "object"}},
+}
+_ALL_AGENT_INTENTS = ("retrieve", "inspect", "request_refresh", "ask", "propose", "abstain")
 
 
 class OllamaAgentAdapter:
@@ -106,6 +130,7 @@ class OllamaAgentAdapter:
         self.think = think
         self._model_metadata: Mapping[str, Any] = MappingProxyType({})
         self._schema_sha256: str | None = None
+        self._step_counter = 0
 
     @property
     def calls(self) -> tuple[CallRecord, ...]:
@@ -162,7 +187,65 @@ class OllamaAgentAdapter:
         """Generate one schema-checked intent from the public observation only."""
         if not isinstance(observation, AgentObservation):
             raise TypeError("OllamaAgentAdapter accepts only AgentObservation")
-        schema = {
+        mapped_intents = {
+            _INTENT_FOR_TOOL[tool] for tool in observation.permitted_tools
+            if tool in _INTENT_FOR_TOOL
+        }
+        allowed_intents = ([intent for intent in _ALL_AGENT_INTENTS
+                            if intent == "abstain" or intent in mapped_intents]
+                           if mapped_intents else list(_ALL_AGENT_INTENTS))
+        argument_properties: dict[str, Any] = {
+            "tool": {
+                "type": "string",
+                "enum": [*observation.permitted_tools, "abstain"],
+            },
+        }
+        required_arguments = ["tool"]
+        if len(observation.permitted_tools) == 1:
+            expected_fields = _ARGUMENT_FIELDS_FOR_TOOL.get(observation.permitted_tools[0], {})
+            argument_properties.update({key: dict(value) for key, value in expected_fields.items()})
+            required_arguments.extend(expected_fields)
+            if observation.permitted_tools[0] == "propose_action":
+                visible_events = observation.to_dict()["visible_events"]
+                declarations = [
+                    event for event in visible_events
+                    if event.get("source") == "tool_declaration"
+                    and isinstance(event.get("tool"), str)
+                ]
+                if declarations:
+                    argument_properties["action_tool"] = {
+                        "type": "string",
+                        "enum": [event["tool"] for event in declarations],
+                    }
+                    parameter_schema = declarations[0].get("parameters_schema")
+                    if isinstance(parameter_schema, Mapping):
+                        argument_properties["parameters"] = dict(parameter_schema)
+            elif observation.permitted_tools[0] == "set_target":
+                approved_plans = [
+                    event for event in observation.to_dict()["visible_events"]
+                    if event.get("source") == "planner_proposal"
+                    and event.get("certificate_verified") is True
+                    and isinstance(event.get("parameters"), Mapping)
+                ]
+                if len(approved_plans) == 1:
+                    argument_properties["parameters"] = {
+                        "const": dict(approved_plans[0]["parameters"]),
+                    }
+        visible_versions: set[tuple[str, int]] = set()
+        for event in observation.visible_events:
+            memory_id, version = event.get("memory_id"), event.get("version")
+            if (isinstance(memory_id, str) and isinstance(version, int)
+                    and not isinstance(version, bool) and version >= 0):
+                visible_versions.add((memory_id, version))
+            event_versions = event.get("evidence_versions")
+            if isinstance(event_versions, (list, tuple)):
+                for pair in event_versions:
+                    if (isinstance(pair, (list, tuple)) and len(pair) == 2
+                            and isinstance(pair[0], str) and isinstance(pair[1], int)
+                            and not isinstance(pair[1], bool) and pair[1] >= 0):
+                        visible_versions.add((pair[0], pair[1]))
+        exact_versions = [list(pair) for pair in sorted(visible_versions)]
+        schema: dict[str, Any] = {
             "type": "object",
             "required": ["schema_id", "task_id", "actor_id", "step_id", "intent",
                          "arguments", "evidence_versions"],
@@ -172,24 +255,13 @@ class OllamaAgentAdapter:
                 "task_id": {"const": observation.task_id},
                 "actor_id": {"const": self.actor_id},
                 "step_id": {"type": "string", "minLength": 1, "maxLength": 128},
-                "intent": {"type": "string", "enum": [
-                    "retrieve", "inspect", "request_refresh", "ask", "propose", "abstain",
-                ]},
+                "intent": {"type": "string", "enum": allowed_intents},
                 "arguments": {
                     "type": "object",
-                    "required": ["tool"],
-                    "properties": {"tool": {
-                        "type": "string",
-                        "enum": [*observation.permitted_tools, "abstain"],
-                    }},
+                    "required": required_arguments,
+                    "properties": argument_properties,
                 },
-                "evidence_versions": {"type": "array", "items": {
-                    "type": "array", "minItems": 2, "maxItems": 2,
-                    "prefixItems": [
-                        {"type": "string", "minLength": 1, "maxLength": 128},
-                        {"type": "integer", "minimum": 0},
-                    ],
-                }},
+                "evidence_versions": {"type": "array", "const": exact_versions},
             },
         }
         metadata_reader = getattr(self.client, "model_metadata", None)
@@ -199,6 +271,12 @@ class OllamaAgentAdapter:
         if not isinstance(metadata, Mapping):
             raise ValueError("Ollama model metadata must be an object")
         self._model_metadata = MappingProxyType(dict(metadata))
+        self._step_counter += 1
+        step_material = f"{observation.task_id}:{self.actor_id}:{self._step_counter}"
+        model_step_id = "mf-step-" + hashlib.sha256(
+            step_material.encode("utf-8")
+        ).hexdigest()[:24]
+        schema["properties"]["step_id"] = {"const": model_step_id}
         self._schema_sha256 = hashlib.sha256(
             json.dumps(schema, sort_keys=True, separators=(",", ":"),
                        allow_nan=False).encode("utf-8")
@@ -234,6 +312,12 @@ class OllamaAgentAdapter:
         step = AgentStep.from_json(content)
         if step.task_id != observation.task_id or step.actor_id != self.actor_id:
             raise ValueError("Ollama AgentStep must match the current task and actor")
+        if step.step_id != model_step_id:
+            raise ValueError("Ollama AgentStep must use its assigned step identifier")
+        if step.intent not in allowed_intents:
+            raise ValueError("Ollama AgentStep intent must match the current tool scope")
+        if [list(pair) for pair in step.evidence_versions] != exact_versions:
+            raise ValueError("Ollama AgentStep evidence must match visible evidence versions")
         if step.intent != "abstain":
             tool = step.arguments.get("tool")
             if not isinstance(tool, str) or tool not in observation.permitted_tools:
@@ -486,3 +570,290 @@ class ExecutorActor(_OutcomeActor):
             "ran": execution.ran,
         }, plan.evidence_versions)
         return execution
+
+
+@dataclass(frozen=True)
+class SequentialRealAgentTeamRun:
+    """Content-safe evidence for a sequential, shared-model three-role run."""
+
+    task_id: str
+    model: str
+    model_digest: str
+    quantization_level: str
+    actor_ids: tuple[str, str, str]
+    model_steps: tuple[AgentStep, ...]
+    inference_manifests: tuple[Mapping[str, Any], ...]
+    execution: ActionExecution
+    schema_id: str = "memory-fabric.real-agent-team-report.v1"
+
+    @property
+    def status(self) -> str:
+        return "PASS" if self.execution.outcome == EXECUTED else "FAIL"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_id": self.schema_id,
+            "population": "REAL_AGENT",
+            "task_id": self.task_id,
+            "status": self.status,
+            "reason": "completed_sequential_team_run" if self.status == "PASS"
+            else f"effect_{self.execution.outcome}",
+            "model": self.model,
+            "model_digest": self.model_digest,
+            "quantization_level": self.quantization_level,
+            "actor_ids": list(self.actor_ids),
+            "model_steps": [step.to_dict() for step in self.model_steps],
+            "orchestration": "sequential",
+            "memory_service_interactions": {
+                "observer_writes": 1,
+                "planner_retrievals": 1,
+                "executor_certifications": 1,
+            },
+            "model_calls": len(self.inference_manifests),
+            "model_tokens": sum(
+                int(manifest["usage"]["total_tokens"])
+                for manifest in self.inference_manifests
+            ),
+            "shared_model_weights": True,
+            "max_concurrent_model_calls": 1,
+            "inference_manifests": [dict(manifest) for manifest in self.inference_manifests],
+            "effect": {"outcome": self.execution.outcome, "ran": self.execution.ran},
+        }
+
+    def canonical_json(self) -> str:
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"),
+                          allow_nan=False)
+
+
+def run_sequential_real_agent_team(
+    service: MemoryService,
+    observation: AgentObservation,
+    gate: ActionGate,
+    run_effect: Callable[[str], Any],
+    *,
+    model: str = DEFAULT_MODEL,
+    client: Any = None,
+    key: str,
+    observer_id: str = "observer",
+    planner_id: str = "planner",
+    executor_id: str = "executor",
+    issuer: str = "host",
+    temperature: float = 0.0,
+    top_p: float = 0.9,
+    seed: int = 0,
+    num_ctx: int = 4096,
+    num_predict: int = 512,
+    think: bool | None = False,
+) -> SequentialRealAgentTeamRun:
+    """Run Observer, Planner, and Executor in sequence over one local model.
+
+    Only typed public observations reach each model call. Host methods perform
+    memory access, certification, and the protected effect between decisions.
+    All three distinct sessions share one client and one model digest.
+    """
+    actor_ids = (observer_id, planner_id, executor_id)
+    if len(set(actor_ids)) != 3:
+        raise ValueError("Observer, Planner, and Executor need distinct identities")
+    if not isinstance(key, str) or not key:
+        raise ValueError("effect idempotency key must be non-empty")
+    required_tools = {
+        "remember_evidence", "retrieve_evidence", "propose_action",
+        "certify_evidence", "set_target",
+    }
+    if not required_tools <= set(observation.permitted_tools):
+        raise ValueError("team observation must permit each declared role tool")
+    shared_client = client if client is not None else OllamaClient()
+    created_sessions: list[Session] = []
+
+    def actor_session(actor_id: str) -> Session:
+        session = service.session(service.issue(actor_id))
+        created_sessions.append(session)
+        return session
+
+    steps: list[AgentStep] = []
+    manifests: list[Mapping[str, Any]] = []
+    adapters: dict[str, OllamaAgentAdapter] = {}
+    try:
+        observer = ObserverActor(actor_session(observer_id), observation)
+        planner = PlannerActor(actor_session(planner_id), observation)
+        executor = ExecutorActor(actor_session(executor_id), observation)
+        if len({observer.tenant_id, planner.tenant_id, executor.tenant_id}) != 1:
+            raise ValueError("sequential team actors must share one tenant")
+        for actor_id in actor_ids:
+            adapters[actor_id] = OllamaAgentAdapter(
+                actor_id, model=model, client=shared_client, temperature=temperature,
+                top_p=top_p, seed=seed, num_ctx=num_ctx, num_predict=num_predict,
+                think=think,
+            )
+
+        def role_observation(
+            role: str,
+            tools: tuple[str, ...],
+            events: Sequence[Mapping[str, Any]],
+            instruction: str,
+        ) -> AgentObservation:
+            return AgentObservation(
+                task_id=observation.task_id,
+                instruction=f"{role.upper()}: {observation.instruction} {instruction}",
+                visible_events=tuple(events),
+                permitted_tools=tools,
+                budget=observation.budget,
+            )
+
+        def decide(actor_id: str, task_observation: AgentObservation) -> AgentStep:
+            adapter = adapters[actor_id]
+            before = len(adapter.calls)
+            step = adapter.next_step(task_observation)
+            calls = adapter.calls
+            if len(calls) != before + 1:
+                raise ValueError("each sequential agent decision must record one model call")
+            steps.append(step)
+            manifests.append(adapter.inference_manifest(calls[-1]))
+            return step
+
+        observer_observation = role_observation(
+            "observer", ("remember_evidence",),
+            observation.visible_events,
+            "As Observer, record the visible measurement exactly as evidence.",
+        )
+        observer_step = decide(observer_id, observer_observation)
+        if observer_step.intent != "inspect" or observer_step.arguments.get(
+                "tool") != "remember_evidence":
+            raise ActorToolDenied("Observer must choose remember_evidence")
+        content = observer_step.arguments.get("content")
+        if not isinstance(content, str) or not content.strip():
+            raise ActorToolDenied("Observer must provide non-empty evidence content")
+        memory_id, _ = observer.remember(content)
+        written_memories, _ = observer.retrieve(content, k=1)
+        written_memory = next((memory for memory in written_memories
+                               if memory.id == memory_id), None)
+        if written_memory is None:
+            raise EvidenceVersionChanged("Observer evidence was not readable after writing")
+        observer_event = {
+            "source": "memory_service",
+            "memory_id": written_memory.id,
+            "version": written_memory.version,
+            "content": written_memory.content,
+        }
+
+        planner_retrieve_observation = role_observation(
+            "planner", ("retrieve_evidence",),
+            (observer_event,),
+            "As Planner, set arguments.query to the exact content string in the visible "
+            "memory event so you retrieve that evidence.",
+        )
+        retrieve_step = decide(planner_id, planner_retrieve_observation)
+        query = retrieve_step.arguments.get("query")
+        k = retrieve_step.arguments.get("k", 5)
+        if (retrieve_step.intent != "retrieve" or retrieve_step.arguments.get(
+                "tool") != "retrieve_evidence" or not isinstance(query, str)
+                or not query.strip() or not isinstance(k, int) or isinstance(k, bool)
+                or not 1 <= k <= 20):
+            raise ActorToolDenied("Planner must request a bounded evidence retrieval")
+        evidence, _ = planner.retrieve(query, k=k)
+        if not evidence:
+            raise ActorToolDenied("Planner retrieval returned no usable evidence")
+        versions = tuple(sorted((memory.id, memory.version) for memory in evidence))
+        evidence_events = tuple({
+            "source": "retrieved_memory", "memory_id": memory.id,
+            "version": memory.version, "content": memory.content,
+        } for memory in evidence)
+
+        planner_proposal_observation = role_observation(
+            "planner", ("propose_action",),
+            (*evidence_events, {
+                "source": "tool_declaration",
+                "tool": "set_target",
+                "parameters_schema": {
+                    "type": "object", "required": ["value"],
+                    "properties": {"value": {"type": "number"}},
+                },
+            }),
+            "As Planner, propose one action using the tool and parameters schema provided. "
+            "Set claim to a concise reason and cite exact evidence_versions.",
+        )
+        proposal_step = decide(planner_id, planner_proposal_observation)
+        action_tool = proposal_step.arguments.get("action_tool")
+        parameters = proposal_step.arguments.get("parameters")
+        claim = proposal_step.arguments.get("claim")
+        if (proposal_step.intent != "propose"
+                or proposal_step.arguments.get("tool") != "propose_action"
+                or not isinstance(action_tool, str) or not isinstance(parameters, Mapping)
+                or not isinstance(claim, str) or not claim.strip()
+                or tuple(sorted(proposal_step.evidence_versions)) != versions):
+            raise ActorToolDenied("Planner proposal must bind the retrieved evidence versions")
+        plan = planner.propose(action_tool, parameters, evidence, claim=claim)
+
+        plan_event = {
+            "source": "planner_proposal", "tool": plan.tool,
+            "parameters": dict(plan.parameters), "claim": plan.claim,
+            "evidence_versions": [[memory_id, version]
+                                  for memory_id, version in plan.evidence_versions],
+        }
+        executor_observation = role_observation(
+            "executor", ("certify_evidence",), (plan_event,),
+            "As Executor, certify this exact plan against current evidence before acting.",
+        )
+        certify_step = decide(executor_id, executor_observation)
+        if (certify_step.intent != "inspect"
+                or certify_step.arguments.get("tool") != "certify_evidence"
+                or tuple(sorted(certify_step.evidence_versions)) != versions):
+            raise ActorToolDenied("Executor must certify the plan's exact evidence versions")
+        certificate = executor.certify(plan)
+        certificate_event = {
+            **plan_event,
+            "certificate_verified": True,
+            "certificate_sha256": certificate.digest(),
+        }
+        execute_observation = role_observation(
+            "executor", ("set_target",), (certificate_event,),
+            "As Executor, apply only the exact approved set_target parameters and cite "
+            "the same evidence_versions.",
+        )
+        execute_step = decide(executor_id, execute_observation)
+        requested_parameters = execute_step.arguments.get("parameters")
+        if (execute_step.intent != "propose"
+                or execute_step.arguments.get("tool") != plan.tool
+                or not isinstance(requested_parameters, Mapping)
+                or dict(requested_parameters) != dict(plan.parameters)
+                or tuple(sorted(execute_step.evidence_versions)) != versions):
+            raise ActorToolDenied("Executor request must match the exact approved plan")
+        request = ActionRequest(plan.tool, plan.parameters)
+        grant = gate.issue_grant(
+            plan.tool, executor_id, issuer=issuer, certificate=certificate,
+            request=request, tenant_id=executor.tenant_id,
+        )
+        execution = executor.execute(
+            plan, certificate, gate, grant, run_effect, key=key,
+        )
+        model_metadata = [manifest["model"] for manifest in manifests]
+        names = {item.get("name") for item in model_metadata if isinstance(item, Mapping)}
+        digests = {item.get("digest") for item in model_metadata if isinstance(item, Mapping)}
+        quantizations = {
+            item.get("quantization_level") for item in model_metadata
+            if isinstance(item, Mapping)
+        }
+        if len(names) != 1 or len(digests) != 1 or len(quantizations) != 1:
+            raise ValueError("sequential actors did not share one pinned model digest")
+        pinned_name = next(iter(names))
+        pinned_digest = next(iter(digests))
+        pinned_quantization = next(iter(quantizations))
+        if (not isinstance(pinned_name, str) or not pinned_name
+                or not isinstance(pinned_digest, str) or not pinned_digest
+                or not isinstance(pinned_quantization, str) or not pinned_quantization):
+            raise ValueError("sequential model identity or quantization metadata is incomplete")
+        if len({step.actor_id for step in steps}) != 3:
+            raise ValueError("sequential model steps must come from three actor identities")
+        return SequentialRealAgentTeamRun(
+            task_id=observation.task_id,
+            model=pinned_name,
+            model_digest=pinned_digest,
+            quantization_level=pinned_quantization,
+            actor_ids=actor_ids,
+            model_steps=tuple(steps),
+            inference_manifests=tuple(manifests),
+            execution=execution,
+        )
+    finally:
+        # Sessions are owned by MemoryService and do not expose a close method.
+        created_sessions.clear()

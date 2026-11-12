@@ -49,6 +49,20 @@ one validated `inspect` step, and 232 tokens. The code revision was
 `dd01f0f`. The gate accepted this report as local-model evidence; the full
 repository suite remains `NOT_RUN` under the sandbox loopback restriction.
 
+`run_sequential_real_agent_team` runs Observer, Planner, and Executor through
+separate authenticated Memory Fabric sessions and one shared local model, with
+one inference call at a time. Host operations connect the roles through a
+memory write and retrieval, evidence certification, and a granted `set_target`
+effect. The recorded integration smoke is
+[benchmarks/real_agent_team_smoke_manifest.json](../benchmarks/real_agent_team_smoke_manifest.json):
+five calls, 1,786 total tokens, Qwen 2.5 1.5B digest
+`65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`, Q4_K_M,
+and one executed effect. The manifest discloses shared weights and pins every
+call's options and hashes. The v32 gate validates the three identities, typed
+step sequence, evidence versions, exact approved action parameters, and model
+provenance with `--real-team-report PATH`. This is one integration smoke run,
+not evidence of task-success rates or safety efficacy.
+
 Real-agent attempts use the separate `memory-fabric.real-agent-report.v1`
 schema. The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable
 or no new call is recorded. It passes only when a new Ollama `CallRecord` and a
@@ -228,13 +242,16 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v31.json`. Run it with
+`tools/agent_outcome_gate_manifest.v32.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
 but intentionally yields `NOT_RUN`, never `SCRIPTED_QUALIFIED`. Local-model
-evidence is `REAL_AGENT_NOT_RUN` until completed inference is supplied;
-deployment evidence remains `NOT_RUN` until performed.
+evidence is `REAL_AGENT_NOT_RUN` until completed inference is supplied; pass
+`--real-agent-report PATH` for a single-agent report and `--real-team-report
+PATH` for a sequential team report. The team evidence level is reported
+separately from the scripted qualification. Deployment evidence remains
+`NOT_RUN` until performed.
 
 The short simulated incident is available with
 `python -m examples.outcome_recovery_demo`. Its actor trace shows the observed
