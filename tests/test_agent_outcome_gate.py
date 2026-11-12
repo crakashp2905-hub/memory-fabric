@@ -16,8 +16,8 @@ from tools.agent_outcome_gate import (
 class TestAgentOutcomeGate(unittest.TestCase):
     def test_manifest_is_versioned_and_content_addressed(self) -> None:
         manifest, digest = read_manifest(MANIFEST_PATH)
-        self.assertEqual(manifest["manifest_version"], 82)
-        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v82")
+        self.assertEqual(manifest["manifest_version"], 83)
+        self.assertEqual(manifest["schema_id"], "memory-fabric.agent-outcome-gate.v83")
         self.assertEqual(len(digest), 64)
         self.assertIn("full_repository", [item["id"] for item in manifest["checks"]])
         self.assertIn("real_agent_team", [item["id"] for item in manifest["checks"]])
@@ -60,6 +60,19 @@ class TestAgentOutcomeGate(unittest.TestCase):
         self.assertEqual(result["actor_ids"], ["observer", "planner", "executor"])
         self.assertEqual(result["model_calls"], 5)
         self.assertEqual(len(result["report_sha256"]), 64)
+
+    def test_team_evidence_must_match_candidate_sha_when_gate_supplies_one(self) -> None:
+        report_path = (Path(__file__).resolve().parents[1]
+                       / "benchmarks" / "real_agent_team_smoke_manifest.json")
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(real_agent_team_evidence_result(
+            report_path, expected_candidate_sha=report["candidate_sha"],
+        )["status"], "PASS")
+        rejected = real_agent_team_evidence_result(
+            report_path, expected_candidate_sha="f" * 40,
+        )
+        self.assertEqual(rejected["status"], "FAIL")
+        self.assertIn("not bound", rejected["reason"])
 
     def test_real_agent_team_gate_rejects_executor_parameter_drift(self) -> None:
         report_path = (Path(__file__).resolve().parents[1]

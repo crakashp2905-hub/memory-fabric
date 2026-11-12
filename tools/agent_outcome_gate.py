@@ -30,8 +30,8 @@ from benchmarks.outcome_report import (  # noqa: E402
     real_agent_report_is_complete,
 )
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v82.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v82"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v83.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v83"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -39,7 +39,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 82
+            or manifest.get("manifest_version") != 83
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -145,7 +145,9 @@ def _run_check(check: dict[str, Any], *, timeout_s: int, run_full: bool) -> dict
     return {**result, "status": "FAIL", "reason": f"exit code {completed.returncode}"}
 
 
-def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
+def local_model_evidence_result(
+    report_path: Path | None, *, expected_candidate_sha: str | None = None,
+) -> dict[str, Any]:
     """Validate a separate real-agent report without substituting scripted data."""
     result = {"id": "local_model", "required_for_scripted_qualification": False}
     if report_path is None:
@@ -183,6 +185,10 @@ def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
         }
     if not real_agent_report_is_complete(report):
         return {**result, "status": "FAIL", "reason": "real-agent evidence is incomplete"}
+    if (expected_candidate_sha is not None
+            and report.get("candidate_sha") != expected_candidate_sha):
+        return {**result, "status": "FAIL",
+                "reason": "real-agent evidence is not bound to the candidate SHA"}
     inference = report["inference"]
     model = inference["model"]
     return {
@@ -334,7 +340,9 @@ def real_agent_team_report_is_complete(report: Any) -> bool:
     )
 
 
-def real_agent_team_evidence_result(report_path: Path | None) -> dict[str, Any]:
+def real_agent_team_evidence_result(
+    report_path: Path | None, *, expected_candidate_sha: str | None = None,
+) -> dict[str, Any]:
     """Validate a separate three-role real-model report without scripted fallback."""
     result = {"id": "real_agent_team", "required_for_scripted_qualification": False}
     if report_path is None:
@@ -355,6 +363,10 @@ def real_agent_team_evidence_result(report_path: Path | None) -> dict[str, Any]:
         return {**result, "status": "FAIL", "reason": "real-agent team report is malformed JSON"}
     if not real_agent_team_report_is_complete(report):
         return {**result, "status": "FAIL", "reason": "real-agent team evidence is incomplete"}
+    if (expected_candidate_sha is not None
+            and report.get("candidate_sha") != expected_candidate_sha):
+        return {**result, "status": "FAIL",
+                "reason": "real-agent team evidence is not bound to the candidate SHA"}
     return {
         **result,
         "status": "PASS",
@@ -379,16 +391,21 @@ def build_report(
 ) -> dict[str, Any]:
     """Run manifest checks and return a content-safe evidence report."""
     manifest, manifest_sha256 = read_manifest()
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                            stderr=subprocess.DEVNULL, text=True, check=False)
+    candidate_sha = commit.stdout.strip() if commit.returncode == 0 else None
     results = [_run_check(check, timeout_s=timeout_s, run_full=not skip_full)
                for check in manifest["checks"]]
     for index, check_result in enumerate(results):
         if check_result["id"] == "local_model":
-            results[index] = local_model_evidence_result(real_agent_report_path)
+            results[index] = local_model_evidence_result(
+                real_agent_report_path, expected_candidate_sha=candidate_sha,
+            )
         elif check_result["id"] == "real_agent_team":
-            results[index] = real_agent_team_evidence_result(real_agent_team_report_path)
-    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
-                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                            stderr=subprocess.DEVNULL, text=True, check=False)
+            results[index] = real_agent_team_evidence_result(
+                real_agent_team_report_path, expected_candidate_sha=candidate_sha,
+            )
     dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                            stderr=subprocess.DEVNULL, text=True, check=False)
@@ -400,7 +417,7 @@ def build_report(
         "schema_id": MANIFEST_SCHEMA,
         "manifest_version": manifest["manifest_version"],
         "manifest_sha256": manifest_sha256,
-        "candidate_sha": commit.stdout.strip() if commit.returncode == 0 else None,
+        "candidate_sha": candidate_sha,
         "working_tree_dirty": bool(dirty.stdout.strip()) if dirty.returncode == 0 else None,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "status": status,

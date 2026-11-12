@@ -468,14 +468,19 @@ class TestOutcomeModelAbsence(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "real-agent-report.json"
-            path.write_text(report.canonical_json(), encoding="utf-8")
-            result = local_model_evidence_result(path)
+            payload = json.loads(report.canonical_json())
+            payload["candidate_sha"] = "a" * 40
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            result = local_model_evidence_result(path, expected_candidate_sha="a" * 40)
+            stale = local_model_evidence_result(path, expected_candidate_sha="b" * 40)
 
         self.assertEqual(report.status, RealAgentStatus.PASS)
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["model"], "qwen2.5:1.5b")
         self.assertEqual(result["model_digest"], "sha256:" + "a" * 64)
         self.assertEqual(len(result["report_sha256"]), 64)
+        self.assertEqual(stale["status"], "FAIL")
+        self.assertIn("not bound", stale["reason"])
 
 
 if __name__ == "__main__":  # pragma: no cover
