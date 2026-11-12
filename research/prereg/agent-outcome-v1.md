@@ -161,9 +161,21 @@ allows CDM to help; H0 explicitly retains null, uncertain, and below-material-
 gain estimates as `DO_NOT_PROMOTE`; H− records harmful net utility or any safety
 regression and blocks promotion. Every registered replay strategy and signed
 estimate remains reportable. This freezes hypotheses only: sample size,
-stopping, confirmatory seeds, multiplicity handling, template split, and
-resource caps remain unfrozen, so no confirmatory run or superiority claim is
-authorized by this registry.
+stopping, confirmatory seeds, template split, and resource caps remain
+unfrozen, so no confirmatory run or superiority claim is authorized by this
+registry.
+
+AO-080 freezes the primary A6-vs-A5 contrast and the five registered
+replay-strategy secondary contrasts in the
+[confirmatory analysis registry](agent-outcome-confirmatory-analysis.v1.json)
+(`f479664ab9dce0a040b2de6998515efa1d3aaed133b9a543758e7a9b9ed564c0`). The
+secondary family uses Holm step-down control at familywise alpha 0.05; every
+registered comparison is required by the analyzer. Selection remains limited
+to disjoint development/pilot splits, and frozen threshold digests must match.
+Each confirmatory report must carry a content-pinned attempt history including
+completed, failed, and not-run attempts; changing the history after analysis
+invalidates its digest. Attempt provenance is a report-integrity control and
+does not by itself prove that the caller supplied a complete external ledger.
 
 The mechanical parity contract covers A0–A6 actor arms and requires the same
 task/world context, legal tools, observation-privilege digest, task/model
@@ -173,7 +185,7 @@ digests must be pinned before confirmatory runs; digest equality alone does not
 prove that the supplied implementation matches its digest.
 
 **Still not frozen:** sample size, stopping rule, confirmatory seeds,
-multiplicity correction, task template split, and resource caps. Until those are
+task template split, and resource caps. Until those are
 frozen before confirmatory runs, the promotion status is `NOT_READY`; no result
 can pass the research superiority gate.
 

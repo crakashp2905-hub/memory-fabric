@@ -6,8 +6,13 @@ import hashlib
 import unittest
 import json
 from pathlib import Path
+from typing import Any
 
-from benchmarks.outcome_confirmatory import evaluate_cdm_promotion
+from benchmarks.outcome_confirmatory import (
+    attach_confirmatory_attempt_history,
+    evaluate_cdm_promotion as _evaluate_cdm_promotion,
+    holm_adjust_registered_secondary_pvalues,
+)
 
 
 def _rows(seeds: int = 5, *, candidate_completion: bool = True,
@@ -29,6 +34,22 @@ def _rows(seeds: int = 5, *, candidate_completion: bool = True,
              "replay_overhead_ms": candidate_overhead_ms},
         ))
     return rows
+
+
+def _evaluate(rows: list[dict[str, object]], **kwargs: Any) -> dict[str, Any]:
+    attempts = [{
+        "attempt_id": "unit-confirmatory-analysis",
+        "status": "COMPLETED",
+        "candidate_sha256": "a" * 64,
+        "thresholds_sha256": "b" * 64,
+    }]
+    digest = hashlib.sha256(json.dumps(
+        attempts, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+    return _evaluate_cdm_promotion(
+        rows, attempt_history=attempts,
+        expected_attempt_history_sha256=digest, **kwargs,
+    )
 
 
 class TestOutcomeConfirmatory(unittest.TestCase):
@@ -69,8 +90,47 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         self.assertTrue(rules["keep_negative_and_null_estimates"])
         self.assertTrue(rules["safety_regression_blocks_promotion"])
 
+    def test_secondary_family_is_fully_holm_adjusted_and_attempts_are_pinned(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry_path = (root / "research" / "prereg"
+                         / "agent-outcome-confirmatory-analysis.v1.json")
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        protocol = (root / "research" / "prereg" / "agent-outcome-v1.md").read_text(
+            encoding="utf-8")
+        self.assertIn(hashlib.sha256(registry_path.read_bytes()).hexdigest(), protocol)
+        p_values = dict.fromkeys(registry["secondary_comparison_family"], 0.01)
+        adjusted = holm_adjust_registered_secondary_pvalues(p_values)
+        self.assertTrue(adjusted["all_registered_comparisons_included"])
+        self.assertEqual(adjusted["method"], "holm_step_down")
+        self.assertEqual(set(adjusted["adjusted_p_values"]), set(p_values))
+        with self.assertRaisesRegex(ValueError, "every registered"):
+            holm_adjust_registered_secondary_pvalues({"random_vs_exact_dependence": 0.01})
+
+        attempts = [
+            {"attempt_id": "run-1", "status": "FAILED",
+             "candidate_sha256": "a" * 64, "thresholds_sha256": "b" * 64},
+            {"attempt_id": "run-2", "status": "COMPLETED",
+             "candidate_sha256": "a" * 64, "thresholds_sha256": "b" * 64},
+        ]
+        digest = hashlib.sha256(json.dumps(
+            attempts, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8")).hexdigest()
+        report = attach_confirmatory_attempt_history(
+            {"status": "DO_NOT_PROMOTE"}, attempts,
+            expected_history_sha256=digest,
+        )
+        self.assertEqual(report["attempt_history"]["count"], 2)
+        self.assertEqual([row["status"] for row in report["attempt_history"]["attempts"]],
+                         ["FAILED", "COMPLETED"])
+        attempts[0]["status"] = "NOT_RUN"
+        with self.assertRaisesRegex(ValueError, "post-hoc changes"):
+            attach_confirmatory_attempt_history(
+                {"status": "DO_NOT_PROMOTE"}, attempts,
+                expected_history_sha256=digest,
+            )
+
     def test_promotion_requires_paired_net_utility_and_non_regressive_safety(self) -> None:
-        report = evaluate_cdm_promotion(
+        report = _evaluate(
             _rows(), thresholds_frozen=True, minimum_net_utility_gain=0.5,
             replay_overhead_weight=0.001, resamples=100,
         )
@@ -90,7 +150,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         })
 
     def test_replay_overhead_can_remove_an_apparent_completion_gain(self) -> None:
-        report = evaluate_cdm_promotion(
+        report = _evaluate(
             _rows(candidate_overhead_ms=10.0), thresholds_frozen=True,
             minimum_net_utility_gain=0.1, replay_overhead_weight=0.2, resamples=100,
         )
@@ -100,7 +160,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         self.assertLess(report["utility"]["cluster_bootstrap_ci"]["high"], 0)
 
     def test_safety_regression_blocks_promotion_despite_utility_gain(self) -> None:
-        report = evaluate_cdm_promotion(
+        report = _evaluate(
             _rows(candidate_attempts=1, candidate_executed=1), thresholds_frozen=True,
             minimum_net_utility_gain=0.5, replay_overhead_weight=0.001, resamples=100,
         )
@@ -109,11 +169,11 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         self.assertFalse(report["safety"]["non_regressive"])
 
     def test_unfrozen_thresholds_or_too_few_seeds_remain_not_ready(self) -> None:
-        unfrozen = evaluate_cdm_promotion(
+        unfrozen = _evaluate(
             _rows(), thresholds_frozen=False, minimum_net_utility_gain=0.5,
             replay_overhead_weight=0.001, resamples=100,
         )
-        underpowered = evaluate_cdm_promotion(
+        underpowered = _evaluate(
             _rows(seeds=4), thresholds_frozen=True, minimum_net_utility_gain=0.5,
             replay_overhead_weight=0.001, resamples=100,
         )
@@ -125,7 +185,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         rows = _rows()
         rows.pop()
         with self.assertRaisesRegex(ValueError, "same non-empty task IDs"):
-            evaluate_cdm_promotion(
+            _evaluate(
                 rows, thresholds_frozen=True, minimum_net_utility_gain=0.5,
                 replay_overhead_weight=0.001,
             )
@@ -133,7 +193,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         rows = _rows()
         rows.append(dict(rows[0]))
         with self.assertRaisesRegex(ValueError, "duplicate task"):
-            evaluate_cdm_promotion(
+            _evaluate(
                 rows, thresholds_frozen=True, minimum_net_utility_gain=0.5,
                 replay_overhead_weight=0.001,
             )
@@ -142,14 +202,14 @@ class TestOutcomeConfirmatory(unittest.TestCase):
         row = _rows()[0]
         row.pop("protected_effect_attempts")
         with self.assertRaisesRegex(ValueError, "protected_effect_attempts"):
-            evaluate_cdm_promotion(
+            _evaluate(
                 [row, *_rows()[1:]], thresholds_frozen=True,
                 minimum_net_utility_gain=0.5, replay_overhead_weight=0.001,
             )
         rows = _rows(candidate_attempts=2)
         rows[1]["protected_effect_attempts"] = 1
         with self.assertRaisesRegex(ValueError, "cannot exceed"):
-            evaluate_cdm_promotion(
+            _evaluate(
                 rows, thresholds_frozen=True, minimum_net_utility_gain=0.5,
                 replay_overhead_weight=0.001,
             )

@@ -3,15 +3,103 @@
 from __future__ import annotations
 
 import math
+import hashlib
+import json
 from collections.abc import Iterable, Mapping
+from pathlib import Path
 from typing import Any, Hashable
 
-from .stats import paired_bootstrap, sign_test_p
+from .stats import holm, paired_bootstrap, sign_test_p
+
+_ANALYSIS_REGISTRY_PATH = (Path(__file__).resolve().parents[1] / "research" / "prereg"
+                           / "agent-outcome-confirmatory-analysis.v1.json")
+
+
+def _canonical_digest(value: Any) -> str:
+    return hashlib.sha256(json.dumps(
+        value, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+
+
+def holm_adjust_registered_secondary_pvalues(
+    p_values: Mapping[str, float],
+) -> dict[str, Any]:
+    """Apply the frozen Holm family to every preregistered secondary contrast."""
+    registry = json.loads(_ANALYSIS_REGISTRY_PATH.read_text(encoding="utf-8"))
+    if registry.get("status") != "FROZEN_ANALYSIS_PLAN":
+        raise ValueError("secondary analysis plan is not frozen")
+    family = registry.get("secondary_comparison_family")
+    if not isinstance(family, list) or not family or len(set(family)) != len(family):
+        raise ValueError("frozen secondary comparison family is malformed")
+    if not isinstance(p_values, Mapping) or set(p_values) != set(family):
+        raise ValueError("p-values must include every registered secondary comparison")
+    values: list[float] = []
+    for name in family:
+        value = p_values[name]
+        if (not isinstance(value, (int, float)) or isinstance(value, bool)
+                or not math.isfinite(value) or not 0 <= value <= 1):
+            raise ValueError(f"invalid p-value for {name}")
+        values.append(float(value))
+    order = sorted(range(len(values)), key=values.__getitem__)
+    adjusted: list[float] = [0.0] * len(values)
+    running = 0.0
+    for rank, index in enumerate(order):
+        running = max(running, (len(values) - rank) * values[index])
+        adjusted[index] = min(1.0, running)
+    alpha = registry["familywise_alpha"]
+    return {
+        "method": "holm_step_down",
+        "family": list(family),
+        "familywise_alpha": alpha,
+        "adjusted_p_values": dict(zip(family, adjusted)),
+        "reject": dict(zip(family, holm(values, alpha=alpha))),
+        "all_registered_comparisons_included": True,
+    }
+
+
+def attach_confirmatory_attempt_history(
+    report: Mapping[str, Any],
+    attempts: Iterable[Mapping[str, Any]],
+    *,
+    expected_history_sha256: str,
+) -> dict[str, Any]:
+    """Attach a complete content-pinned attempt ledger; reject post-hoc edits."""
+    rows = [dict(item) for item in attempts]
+    if not rows:
+        raise ValueError("confirmatory report requires the complete attempt history")
+    required = {"attempt_id", "status", "candidate_sha256", "thresholds_sha256"}
+    seen: set[str] = set()
+    for row in rows:
+        if set(row) != required:
+            raise ValueError("each attempt requires exactly the registered provenance fields")
+        attempt_id = row["attempt_id"]
+        if not isinstance(attempt_id, str) or not attempt_id or attempt_id in seen:
+            raise ValueError("attempt IDs must be non-empty and unique")
+        seen.add(attempt_id)
+        if row["status"] not in {"COMPLETED", "FAILED", "NOT_RUN"}:
+            raise ValueError("attempt status must preserve completed, failed, or not-run trials")
+        for key in ("candidate_sha256", "thresholds_sha256"):
+            if not isinstance(row[key], str) or len(row[key]) != 64 or any(
+                    char not in "0123456789abcdef" for char in row[key]):
+                raise ValueError(f"{key} must be a lowercase SHA-256 digest")
+    digest = _canonical_digest(rows)
+    if digest != expected_history_sha256:
+        raise ValueError("attempt history digest mismatch; post-hoc changes are rejected")
+    result = dict(report)
+    result["attempt_history"] = {
+        "attempts": rows,
+        "count": len(rows),
+        "sha256": digest,
+        "all_registered_attempts_included": True,
+    }
+    return result
 
 
 def evaluate_cdm_promotion(
     rows: Iterable[Mapping[str, Any]],
     *,
+    attempt_history: Iterable[Mapping[str, Any]],
+    expected_attempt_history_sha256: str,
     thresholds_frozen: bool,
     minimum_net_utility_gain: float,
     replay_overhead_weight: float,
@@ -141,7 +229,7 @@ def evaluate_cdm_promotion(
     eligible = thresholds_frozen and cluster_floor_met
     promote = eligible and utility_favorable and safety_non_regressive
     status = "PROMOTE_CDM" if promote else ("NOT_READY" if not eligible else "DO_NOT_PROMOTE")
-    return {
+    report = {
         "schema_id": "memory-fabric.cdm-confirmatory-comparison.v1",
         "status": status,
         "candidate_arm_id": "A6",
@@ -205,3 +293,7 @@ def evaluate_cdm_promotion(
         ],
         "claim_scope": "paired_synthetic_or_real_agent_outcomes_no_physical_causal_claim",
     }
+    return attach_confirmatory_attempt_history(
+        report, attempt_history,
+        expected_history_sha256=expected_attempt_history_sha256,
+    )
