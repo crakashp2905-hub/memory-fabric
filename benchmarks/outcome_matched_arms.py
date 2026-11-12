@@ -683,6 +683,122 @@ def validate_matched_arm_parity(
     }
 
 
+def compare_prompt_framing_negative_control(
+    arms: Mapping[str, MatchedAgentArm],
+    outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Estimate prompt caution and governance effects in a matched 2x2 control.
+
+    Arms are ``ungoverned_neutral``, ``ungoverned_caution``,
+    ``governed_neutral``, and ``governed_caution``. Within each governance
+    level, only instruction framing may change; within each framing level,
+    only the memory intervention may change. Estimates are descriptive paired
+    completion-rate differences, not causal or confirmatory evidence.
+    """
+    names = ("ungoverned_neutral", "ungoverned_caution",
+             "governed_neutral", "governed_caution")
+    if not isinstance(arms, Mapping) or set(arms) != set(names):
+        raise ValueError("negative control requires all four registered factor arms")
+    if not isinstance(outcomes_by_arm, Mapping) or set(outcomes_by_arm) != set(names):
+        raise ValueError("negative control requires outcomes for all four factor arms")
+    for name in names:
+        if not isinstance(arms[name], MatchedAgentArm):
+            raise ValueError(f"{name} must be a MatchedAgentArm")
+        if arms[name].arm_id != name:
+            raise ValueError(f"{name} must use its matching arm ID")
+
+    def world_events(arm: MatchedAgentArm) -> list[dict[str, Any]]:
+        world, memory = _partition_arm_events(arm, ("memory_service",))
+        if not memory:
+            raise ValueError("each negative-control arm must receive its declared memory input")
+        return world
+
+    reference = arms["ungoverned_neutral"]
+    ref_world = world_events(reference)
+    if (not isinstance(reference.observation_privileges_sha256, str)
+            or not isinstance(reference.evaluator_grading_sha256, str)):
+        raise ValueError("negative-control arms require pinned privilege and grading hashes")
+    for name, arm in arms.items():
+        if (arm.observation.task_id != reference.observation.task_id
+                or arm.actor_id != reference.actor_id
+                or arm.observation.permitted_tools != reference.observation.permitted_tools
+                or arm.observation.to_dict()["budget"] != reference.observation.to_dict()["budget"]
+                or arm.inference_controls() != reference.inference_controls()
+                or arm.evaluator_grading_sha256 != reference.evaluator_grading_sha256
+                or world_events(arm) != ref_world):
+            raise ValueError("negative-control arms must share task, world, evaluator, and budgets")
+
+    caution_pairs = (("ungoverned_neutral", "ungoverned_caution"),
+                     ("governed_neutral", "governed_caution"))
+    for neutral_id, caution_id in caution_pairs:
+        neutral, caution = arms[neutral_id], arms[caution_id]
+        if neutral.observation.instruction == caution.observation.instruction:
+            raise ValueError("caution arms must differ in prompt framing")
+        _, neutral_memory = _partition_arm_events(neutral, ("memory_service",))
+        _, caution_memory = _partition_arm_events(caution, ("memory_service",))
+        if neutral_memory != caution_memory:
+            raise ValueError("prompt framing controls must receive identical memory inputs")
+    for neutral_id, caution_id in (("ungoverned_neutral", "governed_neutral"),
+                                   ("ungoverned_caution", "governed_caution")):
+        if arms[neutral_id].observation.instruction != arms[caution_id].observation.instruction:
+            raise ValueError("governance contrasts must use the same prompt framing")
+        _, ungoverned_memory = _partition_arm_events(arms[neutral_id], ("memory_service",))
+        _, governed_memory = _partition_arm_events(arms[caution_id], ("memory_service",))
+        if ungoverned_memory == governed_memory:
+            raise ValueError("governance contrasts must change the memory intervention")
+
+    outcomes: dict[str, dict[str, bool]] = {}
+    for name in names:
+        rows = outcomes_by_arm[name]
+        if isinstance(rows, (str, bytes, Mapping)) or not isinstance(rows, Iterable):
+            raise ValueError(f"{name} outcomes must be a sequence")
+        mapped: dict[str, bool] = {}
+        for row in rows:
+            if not isinstance(row, Mapping) or not isinstance(row.get("task_id"), str):
+                raise ValueError(f"{name} outcomes require task IDs")
+            result = row.get("outcome")
+            if (row["task_id"] in mapped or not isinstance(result, Mapping)
+                    or not isinstance(result.get("completed"), bool)):
+                raise ValueError(f"{name} requires unique task IDs and boolean completion labels")
+            mapped[row["task_id"]] = result["completed"]
+        if not mapped:
+            raise ValueError(f"{name} must include task outcomes")
+        outcomes[name] = mapped
+    task_ids = sorted(outcomes[names[0]])
+    if any(set(outcomes[name]) != set(task_ids) for name in names):
+        raise ValueError("negative-control arms must cover identical task IDs")
+
+    def effect(left: str, right: str) -> dict[str, Any]:
+        deltas = [int(outcomes[right][task]) - int(outcomes[left][task]) for task in task_ids]
+        wins = sum(delta > 0 for delta in deltas)
+        losses = sum(delta < 0 for delta in deltas)
+        return {"from_arm": left, "to_arm": right, "numerator": sum(deltas),
+                "denominator": len(task_ids), "rate_difference": sum(deltas) / len(task_ids),
+                "paired_wins": wins, "paired_losses": losses,
+                "paired_ties": len(task_ids) - wins - losses}
+
+    caution_effects = [effect("ungoverned_neutral", "ungoverned_caution"),
+                       effect("governed_neutral", "governed_caution")]
+    governance_effects = [effect("ungoverned_neutral", "governed_neutral"),
+                          effect("ungoverned_caution", "governed_caution")]
+    caution_mean = sum(item["rate_difference"] for item in caution_effects) / 2
+    governance_mean = sum(item["rate_difference"] for item in governance_effects) / 2
+    return {
+        "schema_id": "memory-fabric.prompt-framing-negative-control.v1",
+        "status": "PROMPT_AND_GOVERNANCE_CONTRASTS_VALIDATED",
+        "task_population": {"denominator": len(task_ids), "task_ids": task_ids,
+                             "task_id_set_sha256": _sha256(task_ids)},
+        "prompt_caution_effect_by_governance": caution_effects,
+        "core_governance_effect_by_prompt": governance_effects,
+        "average_prompt_caution_rate_difference": caution_mean,
+        "average_core_governance_rate_difference": governance_mean,
+        "interaction_rate_difference": (
+            caution_effects[1]["rate_difference"] - caution_effects[0]["rate_difference"]
+        ),
+        "claim_scope": "descriptive_matched_factor_contrasts_only_no_causal_or_confirmatory_claim",
+    }
+
+
 def compare_candidate_to_strongest_fair_arm(
     outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
     *,

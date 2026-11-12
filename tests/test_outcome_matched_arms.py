@@ -13,6 +13,7 @@ from benchmarks.outcome_matched_arms import (
     CANONICAL_AGENT_ARM_SPECS,
     MatchedAgentArm,
     compare_candidate_to_strongest_fair_arm,
+    compare_prompt_framing_negative_control,
     match_arm_outcomes,
     pair_agent_arms,
     validate_matched_arm_parity,
@@ -516,6 +517,43 @@ class TestMatchedAgentArmPairing(unittest.TestCase):
         rows["R_FULL_CONTEXT"][0]["resource_usage"]["retrieved_items"] = 1
         with self.assertRaisesRegex(ValueError, "full_context must include every"):
             validate_retrieval_baseline_matrix(rows)
+
+    def test_prompt_caution_and_core_governance_effects_are_separate(self) -> None:
+        ungoverned, governed = self._arm_pair()
+        arms = {}
+        for governance, source_arm in (("ungoverned", ungoverned), ("governed", governed)):
+            for caution, instruction in (("neutral", "Inspect the reading and report the target."),
+                                         ("caution", "Inspect the reading carefully and report the safe target.")):
+                arm_id = f"{governance}_{caution}"
+                arms[arm_id] = replace(
+                    source_arm, arm_id=arm_id, intervention_id=arm_id,
+                    observation=AgentObservation(
+                        task_id=source_arm.observation.task_id,
+                        instruction=instruction,
+                        visible_events=source_arm.observation.visible_events,
+                        permitted_tools=source_arm.observation.permitted_tools,
+                        budget=source_arm.observation.budget,
+                    ),
+                    observation_privileges_sha256="b" * 64,
+                    evaluator_grading_sha256="c" * 64,
+                )
+        labels = {
+            "ungoverned_neutral": [True, False],
+            "ungoverned_caution": [True, True],
+            "governed_neutral": [True, True],
+            "governed_caution": [True, True],
+        }
+        outcomes = {
+            arm_id: [
+                {"task_id": f"case-{i}", "outcome": {"completed": value}}
+                for i, value in enumerate(values)
+            ]
+            for arm_id, values in labels.items()
+        }
+        result = compare_prompt_framing_negative_control(arms, outcomes)
+        self.assertEqual(result["average_prompt_caution_rate_difference"], 0.25)
+        self.assertEqual(result["average_core_governance_rate_difference"], 0.25)
+        self.assertEqual(result["interaction_rate_difference"], -0.5)
 
     def test_oracle_arm_cannot_be_constructed_as_actor_input(self) -> None:
         baseline, treatment = self._arm_pair()

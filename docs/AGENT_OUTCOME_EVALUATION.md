@@ -218,6 +218,15 @@ not retrieval quality or efficacy. No confirmatory analysis or
 independent-world result is claimed. The preregistration shell remains
 `DRAFT / NOT FROZEN`.
 
+`compare_prompt_framing_negative_control` defines a matched 2×2 contract over
+governance (ungoverned/governed memory) and textual caution (neutral/caution
+instruction). It requires identical memory within each prompt contrast,
+identical framing within each governance contrast, and shared task, world,
+evaluator, model, and resource controls. It reports the two effects separately
+and their interaction as descriptive paired completion differences. This
+mechanically validates factor separation; it does not establish causal effects
+without a frozen confirmatory run and independent worlds.
+
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
 surface-free transition signatures, and token-order-independent text
@@ -289,7 +298,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v41.json`. Run it with
+`tools/agent_outcome_gate_manifest.v42.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
