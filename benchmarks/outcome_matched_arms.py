@@ -68,6 +68,16 @@ CANONICAL_AGENT_ARM_SPECS: tuple[AgentArmSpecification, ...] = (
     ),
 )
 _ARM_SPECS_BY_ID = {spec.arm_id: spec for spec in CANONICAL_AGENT_ARM_SPECS}
+RETRIEVAL_BASELINE_NAMES = {
+    "R_RECENCY": "recency",
+    "R_LEXICAL": "lexical",
+    "R_FULL_CONTEXT": "full_context",
+    "R_GOVERNED": "current_governed_memory",
+}
+_RETRIEVAL_RESOURCE_KEYS = frozenset({
+    "retrieval_calls", "retrieved_items", "context_tokens",
+    "model_calls", "model_tokens", "output_tokens",
+})
 
 
 def _sha256(value: Any) -> str:
@@ -416,6 +426,135 @@ def match_arm_outcomes(
     }
 
 
+def validate_retrieval_baseline_matrix(
+    retrieval_outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Validate strong retrieval controls on identical cases and fixed budgets."""
+    if (not isinstance(retrieval_outcomes_by_arm, Mapping)
+            or any(not isinstance(key, str) for key in retrieval_outcomes_by_arm)):
+        raise ValueError("retrieval baselines must map string arm IDs to task rows")
+    expected_ids = set(RETRIEVAL_BASELINE_NAMES)
+    if set(retrieval_outcomes_by_arm) != expected_ids:
+        missing = sorted(expected_ids - set(retrieval_outcomes_by_arm))
+        extra = sorted(set(retrieval_outcomes_by_arm) - expected_ids)
+        raise ValueError(
+            f"retrieval comparison requires recency, lexical, full-context, and "
+            f"current governed-memory arms; missing={missing}, extra={extra}"
+        )
+
+    outcomes: dict[str, dict[str, dict[str, Any]]] = {}
+    selected_hashes: dict[str, dict[str, str]] = {}
+    usage_by_task: dict[str, dict[str, dict[str, int]]] = {}
+    common_budget: dict[str, int] | None = None
+    eligible_by_task: dict[str, tuple[str, ...]] = {}
+    for arm_id, name in RETRIEVAL_BASELINE_NAMES.items():
+        arm_outcomes: dict[str, dict[str, Any]] = {}
+        arm_selected_hashes: dict[str, str] = {}
+        arm_usage: dict[str, dict[str, int]] = {}
+        rows = retrieval_outcomes_by_arm[arm_id]
+        if isinstance(rows, (str, bytes, Mapping)) or not isinstance(rows, Iterable):
+            raise ValueError(f"{arm_id} rows must be a sequence of retrieval outcomes")
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError(f"{arm_id} retrieval rows must be mappings")
+            task_id = row.get("task_id")
+            eligible_raw = row.get("eligible_memory_ids")
+            selected_raw = row.get("selected_memory_ids")
+            budget_raw = row.get("resource_budget")
+            usage_raw = row.get("resource_usage")
+            outcome_raw = row.get("outcome")
+            if not isinstance(task_id, str) or not task_id.strip():
+                raise ValueError(f"{arm_id} rows require a non-empty task_id")
+            if task_id in arm_outcomes:
+                raise ValueError(f"duplicate task ID {task_id!r} in {arm_id}")
+            if (not isinstance(eligible_raw, (list, tuple))
+                    or any(not isinstance(item, str) or not item for item in eligible_raw)
+                    or len(set(eligible_raw)) != len(eligible_raw)):
+                raise ValueError(f"{arm_id} requires unique eligible memory IDs per task")
+            if (not isinstance(selected_raw, (list, tuple))
+                    or any(not isinstance(item, str) or not item for item in selected_raw)
+                    or len(set(selected_raw)) != len(selected_raw)):
+                raise ValueError(f"{arm_id} requires unique selected memory IDs per task")
+            eligible, selected = tuple(eligible_raw), tuple(selected_raw)
+            if not set(selected).issubset(set(eligible)):
+                raise ValueError(f"{arm_id} selected memories outside the eligible corpus")
+            prior_eligible = eligible_by_task.setdefault(task_id, eligible)
+            if prior_eligible != eligible:
+                raise ValueError("retrieval arms must use identical eligible memory corpora")
+            if arm_id == "R_FULL_CONTEXT" and set(selected) != set(eligible):
+                raise ValueError("full_context must include every eligible memory within its budget")
+            if not isinstance(budget_raw, Mapping) or set(budget_raw) != _RETRIEVAL_RESOURCE_KEYS:
+                raise ValueError(f"{arm_id} must declare every fixed retrieval/model resource budget")
+            budget: dict[str, int] = {}
+            for key, value in budget_raw.items():
+                if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                    raise ValueError(f"{arm_id} resource budgets must be non-negative integers")
+                budget[key] = value
+            if common_budget is None:
+                common_budget = budget
+            elif common_budget != budget:
+                raise ValueError("retrieval arms must use identical fixed resource budgets")
+            if not isinstance(usage_raw, Mapping) or set(usage_raw) != _RETRIEVAL_RESOURCE_KEYS:
+                raise ValueError(f"{arm_id} must report actual usage for every resource budget")
+            usage: dict[str, int] = {}
+            for key, value in usage_raw.items():
+                if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                    raise ValueError(f"{arm_id} resource usage must be non-negative integers")
+                if value > budget[key]:
+                    raise ValueError(f"{arm_id} exceeded its {key} budget")
+                usage[key] = value
+            if usage["retrieved_items"] != len(selected):
+                raise ValueError(f"{arm_id} retrieved_items usage must match selected memories")
+            if not isinstance(outcome_raw, Mapping) or not isinstance(
+                outcome_raw.get("completed"), bool,
+            ):
+                raise ValueError(f"{arm_id} outcomes require a boolean completed field")
+            try:
+                _sha256(dict(outcome_raw))
+            except (TypeError, ValueError, OverflowError, UnicodeError, RecursionError) as exc:
+                raise ValueError(f"{arm_id} outcomes must be canonical JSON data") from exc
+            arm_outcomes[task_id] = dict(outcome_raw)
+            arm_selected_hashes[task_id] = _sha256(list(selected))
+            arm_usage[task_id] = usage
+        if not arm_outcomes:
+            raise ValueError(f"{arm_id} must contain at least one task outcome")
+        outcomes[arm_id] = arm_outcomes
+        selected_hashes[arm_id] = arm_selected_hashes
+        usage_by_task[arm_id] = arm_usage
+
+    if common_budget is None:
+        raise ValueError("retrieval baseline matrix must include task outcomes")
+    task_ids = sorted(outcomes["R_RECENCY"])
+    task_id_set = set(task_ids)
+    for arm_id in RETRIEVAL_BASELINE_NAMES:
+        if set(outcomes[arm_id]) != task_id_set:
+            raise ValueError("retrieval baselines must cover identical task IDs")
+    task_set_digest = _sha256(task_ids)
+    return {
+        "schema_id": "memory-fabric.retrieval-baseline-matrix.v1",
+        "status": "FIXED_BUDGET_RETRIEVALS_VALIDATED",
+        "task_population": {
+            "denominator": len(task_ids),
+            "task_ids": task_ids,
+            "task_id_set_sha256": task_set_digest,
+        },
+        "resource_budget": common_budget,
+        "resource_budget_sha256": _sha256(common_budget),
+        "arms": [
+            {
+                "arm_id": arm_id,
+                "name": RETRIEVAL_BASELINE_NAMES[arm_id],
+                "task_id_set_sha256": task_set_digest,
+                "outcomes_by_task": outcomes[arm_id],
+                "selected_memory_set_sha256_by_task": selected_hashes[arm_id],
+                "resource_usage_by_task": usage_by_task[arm_id],
+            }
+            for arm_id in RETRIEVAL_BASELINE_NAMES
+        ],
+        "claim_scope": "fixed_budget_retrieval_controls_only_no_efficacy_estimate",
+    }
+
+
 def validate_matched_arm_parity(
     arms: Mapping[str, MatchedAgentArm],
     *,
@@ -546,17 +685,20 @@ def validate_matched_arm_parity(
 
 def compare_candidate_to_strongest_fair_arm(
     outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
+    *,
+    retrieval_outcomes_by_arm: Mapping[str, Iterable[Mapping[str, Any]]],
 ) -> dict[str, Any]:
     """Compare A5 with the strongest preregistered non-oracle competitor.
 
-    All A0–A4 arms are included in the selection rule, including A3
-    ``pooled_shared_plus_recovery`` and A4 ``memory_fabric``. The A7 oracle is
+    All A0–A4 arms and fixed-budget retrieval baselines are included in the
+    selection rule. The A7 oracle is
     an upper bound and cannot be selected as a fair competitor. A strict rate
     improvement is required; ties do not pass. This descriptive contract does
     not provide uncertainty or a promotion decision, and parity remains a
     separate requirement.
     """
     manifest = match_arm_outcomes(outcomes_by_arm)
+    retrieval_manifest = validate_retrieval_baseline_matrix(retrieval_outcomes_by_arm)
     completion_counts: dict[str, int] = {}
     denominators: dict[str, int] = {}
     for arm in manifest["arms"]:
@@ -575,7 +717,19 @@ def compare_candidate_to_strongest_fair_arm(
         completion_counts[arm_id] = sum(completed)
         denominators[arm_id] = len(completed)
 
-    comparator_ids = ("A0", "A1", "A2", "A3", "A4")
+    retrieval_arms = retrieval_manifest["arms"]
+    retrieval_outcomes = {
+        arm["arm_id"]: arm["outcomes_by_task"] for arm in retrieval_arms
+    }
+    task_ids = manifest["task_population"]["task_ids"]
+    if set(task_ids) != set(retrieval_manifest["task_population"]["task_ids"]):
+        raise ValueError("agent and retrieval baselines must cover identical task IDs")
+    for arm_id, task_map in retrieval_outcomes.items():
+        if any(not isinstance(task_map[task_id].get("completed"), bool) for task_id in task_ids):
+            raise ValueError(f"{arm_id} outcomes require a boolean completed field for every task")
+        completion_counts[arm_id] = sum(task_map[task_id]["completed"] for task_id in task_ids)
+        denominators[arm_id] = len(task_ids)
+    comparator_ids = ("A0", "A1", "A2", "A3", "A4", *RETRIEVAL_BASELINE_NAMES)
     rates = {
         arm_id: completion_counts[arm_id] / denominators[arm_id]
         for arm_id in (*comparator_ids, "A5")
@@ -591,6 +745,14 @@ def compare_candidate_to_strongest_fair_arm(
         }
         for arm in manifest["arms"]
     ]
+    all_arm_rates.extend({
+        "arm_id": arm_id,
+        "name": RETRIEVAL_BASELINE_NAMES[arm_id],
+        "completed": completion_counts[arm_id],
+        "denominator": denominators[arm_id],
+        "rate": completion_counts[arm_id] / denominators[arm_id],
+        "evaluator_only": False,
+    } for arm_id in RETRIEVAL_BASELINE_NAMES)
     strongest_rate = max(rates[arm_id] for arm_id in comparator_ids)
     strongest_ids = [arm_id for arm_id in comparator_ids if rates[arm_id] == strongest_rate]
     candidate_rate = rates["A5"]
@@ -599,17 +761,22 @@ def compare_candidate_to_strongest_fair_arm(
         arm["outcomes_by_task"] for arm in manifest["arms"] if arm["arm_id"] == "A5"
     )
     for competitor_id in strongest_ids:
-        competitor_outcomes = next(
-            arm["outcomes_by_task"] for arm in manifest["arms"]
-            if arm["arm_id"] == competitor_id
+        competitor_outcomes = (
+            retrieval_outcomes[competitor_id] if competitor_id in retrieval_outcomes
+            else next(arm["outcomes_by_task"] for arm in manifest["arms"]
+                      if arm["arm_id"] == competitor_id)
         )
         wins = sum(
             candidate_outcomes[task_id]["completed"]
-            and not competitor_outcomes[task_id]["completed"]
+            and not (competitor_outcomes[task_id]["completed"]
+                     if competitor_id in retrieval_outcomes
+                     else competitor_outcomes[task_id]["completed"])
             for task_id in manifest["task_population"]["task_ids"]
         )
         losses = sum(
-            competitor_outcomes[task_id]["completed"]
+            (competitor_outcomes[task_id]["completed"]
+             if competitor_id in retrieval_outcomes
+             else competitor_outcomes[task_id]["completed"])
             and not candidate_outcomes[task_id]["completed"]
             for task_id in manifest["task_population"]["task_ids"]
         )
@@ -631,6 +798,7 @@ def compare_candidate_to_strongest_fair_arm(
         "candidate_arm_id": "A5",
         "fair_competitor_arm_ids": list(comparator_ids),
         "arm_completion_rates": all_arm_rates,
+        "retrieval_baseline_validation": retrieval_manifest,
         "strongest_fair_competitor_arm_ids": strongest_ids,
         "strongest_fair_completion_rate": strongest_rate,
         "candidate_completion": {

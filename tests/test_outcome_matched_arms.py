@@ -16,12 +16,38 @@ from benchmarks.outcome_matched_arms import (
     match_arm_outcomes,
     pair_agent_arms,
     validate_matched_arm_parity,
+    RETRIEVAL_BASELINE_NAMES,
+    validate_retrieval_baseline_matrix,
 )
 
 _ARM_TASKS = 12
 _ANSWERABLE_TASKS = 8
 _UNANSWERABLE_TASKS = _ARM_TASKS - _ANSWERABLE_TASKS
 _EXPECTED_REQUEST = ActionRequest("target", {"value": 5})
+
+
+def _retrieval_reports(completions: dict[str, list[bool]] | None = None):
+    completions = completions or {}
+    budget = {key: 10 for key in (
+        "retrieval_calls", "retrieved_items", "context_tokens",
+        "model_calls", "model_tokens", "output_tokens",
+    )}
+    rows = {}
+    for arm_id in RETRIEVAL_BASELINE_NAMES:
+        selected = ["m1", "m2"] if arm_id == "R_FULL_CONTEXT" else ["m1"]
+        values = completions.get(arm_id, [False] * 4)
+        rows[arm_id] = [
+            {
+                "task_id": f"case-{index}",
+                "eligible_memory_ids": ["m1", "m2"],
+                "selected_memory_ids": selected,
+                "resource_budget": dict(budget),
+                "resource_usage": {**budget, "retrieved_items": len(selected)},
+                "outcome": {"completed": completed},
+            }
+            for index, completed in enumerate(values)
+        ]
+    return rows
 
 
 @dataclass(frozen=True)
@@ -428,30 +454,40 @@ class TestMatchedAgentArmPairing(unittest.TestCase):
                 for arm_id, values in completions.items()
             }
 
-        comparison = compare_candidate_to_strongest_fair_arm(reports())
+        retrieval = _retrieval_reports({"R_RECENCY": [True, True, True, True]})
+        comparison = compare_candidate_to_strongest_fair_arm(
+            reports(), retrieval_outcomes_by_arm=retrieval,
+        )
         self.assertEqual(
             comparison["status"], "DOES_NOT_OUTPERFORM_STRONGEST_DECLARED_FAIR_ARM",
         )
         self.assertEqual(comparison["candidate_completion"]["rate"], 0.5)
-        self.assertEqual(comparison["strongest_fair_competitor_arm_ids"], ["A3"])
-        self.assertEqual(comparison["strongest_fair_completion"]["rate"], 0.75)
+        self.assertEqual(comparison["strongest_fair_competitor_arm_ids"], ["R_RECENCY"])
+        self.assertEqual(comparison["strongest_fair_completion"]["rate"], 1.0)
         self.assertTrue(comparison["oracle_excluded_from_competitor_selection"])
         self.assertFalse(comparison["promotion_eligible"])
 
         # A5 tying A3 also fails the strict improvement rule.
         completions["A5"] = list(completions["A3"])
-        tied = compare_candidate_to_strongest_fair_arm(reports())
+        tied = compare_candidate_to_strongest_fair_arm(
+            reports(), retrieval_outcomes_by_arm=retrieval,
+        )
         self.assertEqual(
             tied["status"], "DOES_NOT_OUTPERFORM_STRONGEST_DECLARED_FAIR_ARM",
         )
 
+        retrieval["R_RECENCY"] = [dict(row, outcome={"completed": False}) for row in retrieval["R_RECENCY"]]
         completions["A5"] = [True, True, True, True]
-        improved = compare_candidate_to_strongest_fair_arm(reports())
+        improved = compare_candidate_to_strongest_fair_arm(
+            reports(), retrieval_outcomes_by_arm=retrieval,
+        )
         self.assertEqual(improved["status"], "OUTPERFORMS_STRONGEST_DECLARED_FAIR_ARM")
-        self.assertEqual(improved["fair_competitor_arm_ids"], ["A0", "A1", "A2", "A3", "A4"])
-        self.assertEqual(len(improved["arm_completion_rates"]), 8)
-        self.assertEqual(improved["arm_completion_rates"][-1]["arm_id"], "A7")
-        self.assertTrue(improved["arm_completion_rates"][-1]["evaluator_only"])
+        self.assertEqual(improved["fair_competitor_arm_ids"], [
+            "A0", "A1", "A2", "A3", "A4", *RETRIEVAL_BASELINE_NAMES,
+        ])
+        self.assertEqual(len(improved["arm_completion_rates"]), 12)
+        self.assertEqual(improved["arm_completion_rates"][7]["arm_id"], "A7")
+        self.assertTrue(improved["arm_completion_rates"][7]["evaluator_only"])
 
     def test_a5_comparison_requires_boolean_outcomes_for_every_arm(self) -> None:
         outcomes_by_arm = {
@@ -465,7 +501,21 @@ class TestMatchedAgentArmPairing(unittest.TestCase):
         ]
 
         with self.assertRaisesRegex(ValueError, "boolean completed field"):
-            compare_candidate_to_strongest_fair_arm(outcomes_by_arm)
+            compare_candidate_to_strongest_fair_arm(
+                outcomes_by_arm, retrieval_outcomes_by_arm=_retrieval_reports(),
+            )
+
+    def test_retrieval_matrix_fails_closed_on_budget_and_full_context_drift(self) -> None:
+        rows = _retrieval_reports()
+        rows["R_LEXICAL"][0]["resource_budget"]["model_tokens"] -= 1
+        rows["R_LEXICAL"][0]["resource_usage"]["model_tokens"] -= 1
+        with self.assertRaisesRegex(ValueError, "identical fixed resource budgets"):
+            validate_retrieval_baseline_matrix(rows)
+        rows = _retrieval_reports()
+        rows["R_FULL_CONTEXT"][0]["selected_memory_ids"] = ["m1"]
+        rows["R_FULL_CONTEXT"][0]["resource_usage"]["retrieved_items"] = 1
+        with self.assertRaisesRegex(ValueError, "full_context must include every"):
+            validate_retrieval_baseline_matrix(rows)
 
     def test_oracle_arm_cannot_be_constructed_as_actor_input(self) -> None:
         baseline, treatment = self._arm_pair()

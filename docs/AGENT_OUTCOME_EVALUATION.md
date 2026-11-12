@@ -206,13 +206,17 @@ comparative benefit. Existing seeded team experiments remain in
 canonical A0–A7 registry and validates that evaluator-side outcomes are mapped
 to the same task IDs for every arm; A7 is explicitly evaluator-only. This is a
 matched case-mapping contract, not a full arm runner or efficacy result.
-`compare_candidate_to_strongest_fair_arm` reports all eight completion totals
-and compares primary candidate A5 with every declared fair baseline A0–A4,
-including pooled-shared-plus-recovery A3 and governed-memory A4. It requires a
-strict gain over the strongest comparator, excludes oracle A7, and keeps
-promotion ineligible until mechanical parity and inferential gates pass. No
-confirmatory analysis or independent-world result is claimed here. The
-preregistration shell remains `DRAFT / NOT FROZEN`.
+`compare_candidate_to_strongest_fair_arm` reports completion totals for A0–A7
+and compares candidate A5 with A0–A4 plus fixed-resource retrieval controls:
+recency, lexical, full-context, and current governed memory. Each retrieval arm
+uses the same task IDs, eligible corpus, and declared retrieval/model budgets;
+reported usage must stay within those budgets. Full-context must select every
+eligible item under the same caps. A strict gain over the strongest comparator
+is required, oracle A7 is excluded, and promotion remains ineligible pending
+mechanical parity and inferential gates. This validates the comparison inputs,
+not retrieval quality or efficacy. No confirmatory analysis or
+independent-world result is claimed. The preregistration shell remains
+`DRAFT / NOT FROZEN`.
 
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
@@ -285,7 +289,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v40.json`. Run it with
+`tools/agent_outcome_gate_manifest.v41.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
