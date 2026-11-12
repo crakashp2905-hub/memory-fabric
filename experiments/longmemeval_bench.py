@@ -342,7 +342,7 @@ def real_embedder():
     try:
         from memory_fabric.adapters.ollama import OllamaEmbedder
 
-        return OllamaEmbedder()
+        return OllamaEmbedder(allow_loopback=True)
     except Exception as exc:  # pragma: no cover - environment dependent
         print(f"  real_* arms skipped: {type(exc).__name__}: {exc}")
         return None

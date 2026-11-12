@@ -74,10 +74,10 @@ class ClaudeChat:
         return {"message": {"role": "assistant", "content": text}}
 
 
-def make_client(model: str) -> Any:
+def make_client(model: str, *, allow_loopback: bool = False) -> Any:
     """`ClaudeChat` for a Claude model id, `OllamaClient` for anything else."""
     if model.startswith("claude-"):
         return ClaudeChat()
     from .ollama import OllamaClient
 
-    return OllamaClient()
+    return OllamaClient(allow_loopback=allow_loopback)

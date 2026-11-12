@@ -236,7 +236,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.model:
         from memory_fabric.adapters.ollama import OllamaClient
 
-        client = OllamaClient()
+        client = OllamaClient(allow_loopback=True)
     runs = [run_seed(s, arms, args.budget, client, args.model or "") for s in seeds]
     summary = {arm: {k: round(statistics.mean(r[arm][k] for r in runs), 4)
                      for k in runs[0][arm] if k != "model"} for arm in arms}

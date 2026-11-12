@@ -267,7 +267,7 @@ outcome or provide efficacy evidence.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v34.json`. Run it with
+`tools/agent_outcome_gate_manifest.v35.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -277,6 +277,14 @@ evidence is `REAL_AGENT_NOT_RUN` until completed inference is supplied; pass
 PATH` for a sequential team report. The team evidence level is reported
 separately from the scripted qualification. Deployment evidence remains
 `NOT_RUN` until performed.
+
+AO-039 keeps local model calls offline by default. `OllamaClient` requires the
+caller to pass `allow_loopback=True`; it accepts HTTP loopback hosts only,
+ignores proxy environment settings, and rejects redirects to other hosts.
+Offline model discovery, metadata checks, chat, and embeddings make no socket
+calls. The adapter exposes chat and embedding endpoints but no model-pull
+operation; the model-absence tests exercise these paths without downloading a
+checkpoint or sending prompt content to a remote service.
 
 The short simulated incident is available with
 `python -m examples.outcome_recovery_demo`. Its actor trace shows the observed

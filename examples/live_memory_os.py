@@ -83,7 +83,7 @@ def federating_firewall() -> Firewall:
 
 
 def main() -> int:
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     try:
         available = client.available()
     except OllamaError as exc:

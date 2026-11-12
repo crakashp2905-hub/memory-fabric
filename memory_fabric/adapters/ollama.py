@@ -22,6 +22,7 @@ from __future__ import annotations
 __stability__ = "beta"
 
 import hashlib
+import ipaddress
 import json
 import threading
 import time
@@ -29,6 +30,7 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
+from urllib.parse import urlsplit
 
 from ..model import MemoryType
 from .context import build_context
@@ -43,6 +45,50 @@ KEEP_ALIVE = "10m"
 
 class OllamaError(RuntimeError):
     pass
+
+
+def _validate_loopback_url(url: str) -> None:
+    """Reject endpoints that could send prompts beyond the local machine."""
+    try:
+        parsed = urlsplit(url)
+        hostname = parsed.hostname
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError("Ollama host must be a valid loopback URL") from exc
+    if (parsed.scheme != "http" or not parsed.netloc or parsed.username is not None
+            or parsed.password is not None or parsed.query or parsed.fragment):
+        raise ValueError("Ollama host must be an HTTP loopback URL without credentials")
+    if port is not None and not 1 <= port <= 65535:
+        raise ValueError("Ollama host port must be between 1 and 65535")
+    if hostname is None:
+        raise ValueError("Ollama host must name a loopback address")
+    if hostname.lower() == "localhost":
+        return
+    try:
+        address = ipaddress.ip_address(hostname)
+    except ValueError as exc:
+        raise ValueError("Ollama host must use a loopback IP address or localhost") from exc
+    if not address.is_loopback or getattr(address, "scope_id", None) is not None:
+        raise ValueError("Ollama host must use a loopback IP address")
+
+
+class _LoopbackRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Keep an opted-in local request from following a redirect off-device."""
+
+    def redirect_request(
+        self,
+        req: urllib.request.Request,
+        fp: Any,
+        code: int,
+        msg: str,
+        headers: Any,
+        newurl: str,
+    ) -> Any:
+        try:
+            _validate_loopback_url(newurl)
+        except ValueError as exc:
+            raise OllamaError("Ollama redirects must stay on an HTTP loopback host") from exc
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 @dataclass(frozen=True)
@@ -91,7 +137,11 @@ class CallRecord:
 
 
 class OllamaClient:
-    """Minimal client over Ollama's native API."""
+    """Minimal client over Ollama's native API.
+
+    Requests are disabled by default. Pass ``allow_loopback=True`` to use an
+    explicitly local Ollama server; remote hosts and proxy routing are blocked.
+    """
 
     def __init__(
         self,
@@ -99,8 +149,25 @@ class OllamaClient:
         timeout: float = 600.0,
         keep_alive: str = KEEP_ALIVE,
         retries: int = 2,
+        *,
+        allow_loopback: bool = False,
     ) -> None:
-        self.host = host.rstrip("/")
+        if not isinstance(allow_loopback, bool):
+            raise ValueError("allow_loopback must be a boolean")
+        if not isinstance(host, str):
+            raise ValueError("Ollama host must be a loopback URL")
+        _validate_loopback_url(host)
+        parsed_host = urlsplit(host)
+        if parsed_host.path not in ("", "/"):
+            raise ValueError("Ollama host cannot include a URL path")
+        self.host = f"{parsed_host.scheme}://{parsed_host.netloc}"
+        self.allow_loopback = allow_loopback
+        self._opener = (
+            urllib.request.build_opener(
+                urllib.request.ProxyHandler({}), _LoopbackRedirectHandler(),
+            )
+            if allow_loopback else None
+        )
         # Generous by default: a cold load of a 7B model on a busy machine can
         # take minutes, and the first call to each model pays it. A timeout here
         # loses the whole run, which is a much worse failure than waiting.
@@ -116,7 +183,29 @@ class OllamaClient:
         record — cost is a first-class metric, and one that is easy to forget to
         collect until the bill arrives."""
 
+    def _open_url(self, request: Any, *, timeout: float) -> Any:
+        """Open an opted-in loopback request without proxy environment settings."""
+        if not self.allow_loopback or self._opener is None:
+            raise OllamaError(
+                "Ollama network access is disabled; pass allow_loopback=True "
+                "to use a local loopback server"
+            )
+        target = request.full_url if isinstance(request, urllib.request.Request) else str(request)
+        try:
+            _validate_loopback_url(target)
+        except ValueError as exc:
+            raise OllamaError("Ollama requests must stay on an HTTP loopback host") from exc
+        self._request_state.network_attempted = True
+        return self._opener.open(request, timeout=timeout)
+
     def _post(self, path: str, payload: Mapping[str, Any]) -> dict[str, Any]:
+        self._request_state.network_attempted = False
+        self._request_state.retry_count = 0
+        if not self.allow_loopback:
+            raise OllamaError(
+                "Ollama network access is disabled; pass allow_loopback=True "
+                "to use a local loopback server"
+            )
         body = json.dumps({**payload, "keep_alive": self.keep_alive}).encode("utf-8")
         last: Exception | None = None
         for attempt in range(self.retries + 1):
@@ -125,7 +214,7 @@ class OllamaClient:
                 self.host + path, data=body, headers={"Content-Type": "application/json"}
             )
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                with self._open_url(request, timeout=self.timeout) as response:
                     return json.load(response)
             except urllib.error.HTTPError as exc:
                 detail = exc.read().decode("utf-8", "replace")[:400]
@@ -158,7 +247,7 @@ class OllamaClient:
 
     def available(self) -> list[str]:
         try:
-            with urllib.request.urlopen(self.host + "/api/tags", timeout=10) as response:
+            with self._open_url(self.host + "/api/tags", timeout=10) as response:
                 return [m["name"] for m in json.load(response).get("models", [])]
         except Exception as exc:  # noqa: BLE001 - availability check must not raise
             raise OllamaError(f"cannot list models at {self.host}: {exc}") from exc
@@ -168,7 +257,7 @@ class OllamaClient:
         if not isinstance(model, str) or not model.strip():
             raise ValueError("model must be a non-empty name")
         try:
-            with urllib.request.urlopen(self.host + "/api/tags", timeout=10) as response:
+            with self._open_url(self.host + "/api/tags", timeout=10) as response:
                 payload = json.load(response)
         except Exception as exc:  # noqa: BLE001 - metadata absence is model unavailability
             raise OllamaError(f"cannot list model metadata at {self.host}: {exc}") from exc
@@ -268,11 +357,15 @@ class OllamaClient:
         prompt_sha256 = hashlib.sha256(
             json.dumps(list(messages), sort_keys=True, default=str).encode("utf-8")
         ).hexdigest()
+        self._request_state.network_attempted = False
+        self._request_state.retry_count = 0
         try:
             result = self._post("/api/chat", payload)
         except Exception as exc:
             retry_count = getattr(self._request_state, "retry_count", 0)
             self._chat_state.retry_count = retry_count
+            if not getattr(self._request_state, "network_attempted", False):
+                raise
             record = CallRecord(
                 model=model,
                 prompt_sha256=prompt_sha256,
@@ -373,7 +466,7 @@ class OllamaClient:
             raise OllamaError(
                 f"{model}: asked for {len(texts)} embedding(s), got "
                 f"{len(vectors) if isinstance(vectors, list) else type(vectors).__name__}. "
-                "Is it an embedding model? `ollama pull nomic-embed-text`"
+                "Is the requested embedding model installed locally?"
             )
         self.calls.append(
             CallRecord(
@@ -404,8 +497,12 @@ class OllamaEmbedder:
         client: OllamaClient | None = None,
         model: str = DEFAULT_EMBED_MODEL,
         dim: int = 768,
+        *,
+        allow_loopback: bool = False,
     ) -> None:
-        self.client = client or OllamaClient()
+        self.client = client if client is not None else OllamaClient(
+            allow_loopback=allow_loopback,
+        )
         self.model = model
         self.dim = dim
         self._cache: dict[str, list[float]] = {}
@@ -505,11 +602,14 @@ class OllamaMemoryAgent:
         max_turns: int = 4,
         temperature: float = 0.0,
         num_predict: int = 256,
+        allow_loopback: bool = False,
     ) -> None:
         self.fabric = fabric
         self.agent_id = agent_id
         self.model = model
-        self.client = client or OllamaClient()
+        self.client = client if client is not None else OllamaClient(
+            allow_loopback=allow_loopback,
+        )
         self.system = system
         self.recall_k = recall_k
         self.allow_remember = allow_remember

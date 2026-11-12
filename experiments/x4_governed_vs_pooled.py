@@ -470,7 +470,7 @@ def run(seeds: int, episodes: int, rates: Sequence[float], model: str,
         verbose: bool) -> dict[str, Any]:
     from memory_fabric.adapters.ollama import OllamaClient, OllamaEmbedder
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     embedder = OllamaEmbedder(client=client)
     started = time.perf_counter()
 

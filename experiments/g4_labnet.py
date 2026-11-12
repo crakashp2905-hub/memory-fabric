@@ -439,7 +439,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     from memory_fabric.adapters.ollama import OllamaClient
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     cache = Cache(args.cache)
     seeds = 1 if args.pilot else args.seeds
     started = time.perf_counter()

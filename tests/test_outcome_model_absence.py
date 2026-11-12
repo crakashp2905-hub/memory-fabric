@@ -9,6 +9,7 @@ import unittest
 import tempfile
 from pathlib import Path
 import urllib.error
+import urllib.request
 from unittest.mock import patch
 
 from benchmarks.outcome_agents import OllamaAgentAdapter
@@ -48,6 +49,97 @@ class TestOutcomeModelAbsence(unittest.TestCase):
             "evidence_versions": [],
         }, sort_keys=True, separators=(",", ":"))
 
+    def test_default_client_performs_no_network_operation_or_model_record(self) -> None:
+        client = OllamaClient(retries=0)
+        sink_calls: list[object] = []
+        client.add_sink(lambda *args: sink_calls.append(args))
+        with patch.object(urllib.request.OpenerDirector, "open", side_effect=AssertionError(
+                "offline mode attempted network access")) as network_open:
+            with patch("memory_fabric.adapters.ollama.urllib.request.urlopen",
+                       side_effect=AssertionError("offline mode used urlopen")) as urlopen:
+                with self.assertRaises(OllamaError):
+                    client.available()
+                with self.assertRaises(OllamaError):
+                    client.model_metadata("qwen2.5:1.5b")
+                with self.assertRaises(OllamaError):
+                    client.embed("nomic-embed-text", ["private text"])
+                with self.assertRaises(OllamaError):
+                    client.chat("qwen2.5:1.5b", [
+                        {"role": "user", "content": "private text"},
+                    ])
+
+        network_open.assert_not_called()
+        urlopen.assert_not_called()
+        self.assertEqual(client.calls, [])
+        self.assertEqual(sink_calls, [])
+        self.assertFalse(client.allow_loopback)
+        self.assertIsNone(client._opener)
+
+    def test_remote_and_non_http_ollama_hosts_are_rejected(self) -> None:
+        for host in (
+            "https://127.0.0.1:11434",
+            "http://ollama.example:11434",
+            "http://192.0.2.1:11434",
+            "http://127.0.0.1:11434/api/pull",
+            "http://user:secret@127.0.0.1:11434",
+        ):
+            with self.subTest(host=host), self.assertRaises(ValueError):
+                OllamaClient(host=host, allow_loopback=True)
+
+    def test_runtime_host_change_cannot_bypass_loopback_validation(self) -> None:
+        client = OllamaClient(allow_loopback=True, retries=0)
+        client.host = "http://192.0.2.1:11434"
+        with patch.object(client._opener, "open", side_effect=AssertionError(
+                "remote Ollama host reached the network")) as network_open:
+            with self.assertRaisesRegex(OllamaError, "loopback"):
+                client.chat("qwen2.5:1.5b", [{
+                    "role": "user", "content": "private text",
+                }])
+
+        network_open.assert_not_called()
+        self.assertEqual(client.calls, [])
+
+    def test_loopback_opt_in_disables_environment_proxies(self) -> None:
+        with patch.dict("os.environ", {
+            "HTTP_PROXY": "http://proxy.example:8080",
+            "HTTPS_PROXY": "http://proxy.example:8080",
+        }, clear=False):
+            client = OllamaClient(allow_loopback=True)
+
+        handlers = [handler for handler in client._opener.handlers
+                    if isinstance(handler, urllib.request.ProxyHandler)]
+        self.assertEqual(handlers, [])
+        self.assertTrue(client.allow_loopback)
+
+    def test_loopback_client_rejects_redirect_to_remote_host(self) -> None:
+        client = OllamaClient(allow_loopback=True)
+        handler = next(
+            handler for handler in client._opener.handlers
+            if type(handler).__name__ == "_LoopbackRedirectHandler"
+        )
+        with self.assertRaisesRegex(OllamaError, "redirects must stay"):
+            handler.redirect_request(
+                urllib.request.Request("http://127.0.0.1:11434/api/chat"),
+                io.BytesIO(), 307, "Temporary Redirect", {},
+                "https://models.example/upload",
+            )
+
+    def test_embedding_requests_do_not_use_a_model_download_route(self) -> None:
+        client = OllamaClient(allow_loopback=True, retries=0)
+        requests: list[urllib.request.Request] = []
+
+        def respond(request, *, timeout):
+            requests.append(request)
+            return io.BytesIO(json.dumps({"embeddings": [[0.1, 0.2]]}).encode())
+
+        with patch.object(client._opener, "open", side_effect=respond):
+            self.assertEqual(client.embed("nomic-embed-text", ["public fixture"]),
+                             [[0.1, 0.2]])
+
+        self.assertEqual(len(requests), 1)
+        self.assertEqual(requests[0].full_url, "http://127.0.0.1:11434/api/embed")
+        self.assertNotIn("/api/pull", requests[0].full_url)
+
     @staticmethod
     def _metadata(model: str) -> dict[str, object]:
         return {
@@ -72,6 +164,19 @@ class TestOutcomeModelAbsence(unittest.TestCase):
         self.assertEqual(value["model_calls"], 0)
         self.assertNotIn("step", value)
         self.assertNotIn("outcomes", value)
+
+    def test_default_adapter_stays_offline_and_reports_no_real_inference(self) -> None:
+        adapter = OllamaAgentAdapter("observer", model="qwen2.5:1.5b")
+        self.assertFalse(adapter.client.allow_loopback)
+        with patch.object(urllib.request.OpenerDirector, "open", side_effect=AssertionError(
+                "default outcome adapter attempted network access")) as network_open:
+            report = run_real_agent_gate(adapter, self.observation)
+
+        network_open.assert_not_called()
+        self.assertEqual(report.status, RealAgentStatus.NOT_RUN)
+        self.assertEqual(report.reason, "model_unavailable")
+        self.assertEqual(report.model_calls, 0)
+        self.assertEqual(adapter.calls, ())
 
     def test_valid_step_without_a_new_call_record_cannot_pass(self) -> None:
         class UnrecordedAdapter:
@@ -258,13 +363,13 @@ class TestOutcomeModelAbsence(unittest.TestCase):
                          PromptInjectionCompliance.COMPLIANT)
 
     def test_exhausted_ollama_retries_are_recorded_as_an_incomplete_attempt(self) -> None:
-        client = OllamaClient(retries=1)
+        client = OllamaClient(retries=1, allow_loopback=True)
         adapter = OllamaAgentAdapter("observer", model="qwen2.5:1.5b", client=client)
         with patch.object(client, "model_metadata",
                           return_value=self._metadata("qwen2.5:1.5b")):
             with patch("memory_fabric.adapters.ollama.time.sleep"):
-                with patch("memory_fabric.adapters.ollama.urllib.request.urlopen",
-                           side_effect=urllib.error.URLError("offline")):
+                with patch.object(client._opener, "open",
+                                  side_effect=urllib.error.URLError("offline")):
                     report = run_real_agent_gate(adapter, self.observation)
 
         self.assertEqual(report.status, RealAgentStatus.FAIL)
@@ -283,7 +388,7 @@ class TestOutcomeModelAbsence(unittest.TestCase):
         self.assertIn("retry_exhausted", result["failure_codes"])
 
     def test_ollama_metadata_captures_digest_and_quantization(self) -> None:
-        client = OllamaClient(retries=0)
+        client = OllamaClient(retries=0, allow_loopback=True)
         tags = {
             "models": [{
                 "name": "qwen2.5:1.5b",
@@ -296,8 +401,7 @@ class TestOutcomeModelAbsence(unittest.TestCase):
             }],
         }
         response = io.BytesIO(json.dumps(tags).encode("utf-8"))
-        with patch("memory_fabric.adapters.ollama.urllib.request.urlopen",
-                   return_value=response):
+        with patch.object(client._opener, "open", return_value=response):
             metadata = client.model_metadata("qwen2.5:1.5b")
 
         self.assertEqual(metadata["digest"], "sha256:" + "b" * 64)

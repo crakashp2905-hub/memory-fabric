@@ -114,6 +114,7 @@ class OllamaAgentAdapter:
         *,
         model: str = DEFAULT_MODEL,
         client: Any = None,
+        allow_loopback: bool = False,
         temperature: float = 0.0,
         top_p: float = 0.9,
         seed: int = 0,
@@ -145,7 +146,9 @@ class OllamaAgentAdapter:
             raise ValueError("think must be a boolean or None")
         self.actor_id = actor_id
         self.model = model
-        self.client = client if client is not None else OllamaClient()
+        self.client = client if client is not None else OllamaClient(
+            allow_loopback=allow_loopback,
+        )
         self.temperature = float(temperature)
         self.top_p = float(top_p)
         self.seed = seed
@@ -710,6 +713,7 @@ def run_sequential_real_agent_team(
     *,
     model: str = DEFAULT_MODEL,
     client: Any = None,
+    allow_loopback: bool = False,
     key: str,
     observer_id: str = "observer",
     planner_id: str = "planner",
@@ -739,7 +743,9 @@ def run_sequential_real_agent_team(
     }
     if not required_tools <= set(observation.permitted_tools):
         raise ValueError("team observation must permit each declared role tool")
-    shared_client = client if client is not None else OllamaClient()
+    shared_client = client if client is not None else OllamaClient(
+        allow_loopback=allow_loopback,
+    )
     created_sessions: list[Session] = []
 
     def actor_session(actor_id: str) -> Session:

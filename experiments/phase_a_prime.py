@@ -504,7 +504,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"unknown arms: {unknown}", file=sys.stderr)
         return 2
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     try:
         available = client.available()
     except OllamaError as exc:

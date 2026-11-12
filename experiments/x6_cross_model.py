@@ -168,7 +168,7 @@ def run(seeds: int, episodes: int, models: Sequence[str], cache_path: str | None
         verbose: bool) -> dict[str, Any]:
     from memory_fabric.adapters.ollama import OllamaClient
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     cache = Cache(cache_path)
     corpora_names = list(models) + [ORACLE]
     started = time.perf_counter()

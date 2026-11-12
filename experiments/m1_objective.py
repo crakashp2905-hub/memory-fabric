@@ -265,7 +265,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--cache")
     parser.add_argument("--out")
     args = parser.parse_args(argv)
-    client, cache = make_client(args.model), Cache(args.cache)
+    client, cache = make_client(args.model, allow_loopback=True), Cache(args.cache)
     started = time.perf_counter()
     rows, compiles = [], []
     for seed in SPLITS[args.split]:

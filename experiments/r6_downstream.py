@@ -51,7 +51,7 @@ SYSTEM = (
 def _client_and_model(model: str):
     from memory_fabric.adapters.ollama import OllamaClient
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     resolved = client.resolve(model, client.available())
     if resolved is None:
         raise RuntimeError(f"{model} is not installed; `ollama pull {model}`")

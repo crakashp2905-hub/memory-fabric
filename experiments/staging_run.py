@@ -172,7 +172,7 @@ def run(model: str, quick: bool, seed: int) -> dict[str, Any]:
     from memory_fabric.validation import assess
 
     rng = random.Random(seed)
-    llm = OllamaClient()
+    llm = OllamaClient(allow_loopback=True)
     facts = world(rng, quick)
     report: dict[str, Any] = {"model": model, "seed": seed, "facts": len(facts)}
     tmp = tempfile.mkdtemp(prefix="mf-staging-")

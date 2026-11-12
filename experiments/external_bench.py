@@ -202,7 +202,7 @@ def _real_embedder():
         return _SHARED_EMBEDDER
     from memory_fabric.adapters.ollama import OllamaClient, OllamaEmbedder
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     model = client.resolve("nomic-embed-text", client.available())
     if model is None:
         raise RuntimeError("nomic-embed-text is not installed")

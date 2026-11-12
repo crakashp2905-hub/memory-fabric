@@ -229,7 +229,7 @@ def paired(trials: Sequence[Trial], left: str, right: str,
 def run(seeds: int, episodes: int, model: str, verbose: bool) -> dict[str, Any]:
     from memory_fabric.adapters.ollama import OllamaClient, OllamaEmbedder
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     embedder = OllamaEmbedder(client=client)
     started = time.perf_counter()
 

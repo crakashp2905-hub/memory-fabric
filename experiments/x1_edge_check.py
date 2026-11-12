@@ -56,7 +56,7 @@ def check(model: str, modifier: str, stated: str,
     from memory_fabric.adapters.ollama import OllamaClient
 
     extractor = extracting.ModelExtractor(
-        client=OllamaClient(), model=model, constrained=constrained,
+        client=OllamaClient(allow_loopback=True), model=model, constrained=constrained,
         think=think)
     # Warm, so the first statement does not carry a 20-35s cold load.
     try:

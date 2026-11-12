@@ -66,7 +66,7 @@ def main(argv: list[str]) -> int:
         from memory_fabric.adapters.claude_chat import make_client
         from memory_fabric.governance.model_screen import ModelScreen
 
-        screen = ModelScreen(make_client(model), model)
+        screen = ModelScreen(make_client(model, allow_loopback=True), model)
     own = json.loads((ROOT / "research/bench/injection_heldout/heldout.json").read_text(encoding="utf-8"))
     own_rows = [(t, 1) for t in own["injections"]] + [(t, 0) for t in own["benign_hard_negatives"]]
     result = {"dataset": "deepset/prompt-injections", "model": model,

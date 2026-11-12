@@ -176,7 +176,7 @@ def run(models: Sequence[str], split: str = "dev",
     statements = sample(split)
     results: list[ModelResult] = []
     for model in models:
-        client = OllamaClient()
+        client = OllamaClient(allow_loopback=True)
         if trace:
             # Metadata only. `JsonlSink` sends no content unless asked, and
             # this comparison has no reason to ask: what it needs from a trace

@@ -227,7 +227,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     trials = 6 if args.quick else args.trials
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     try:
         available = client.available()
     except OllamaError as exc:

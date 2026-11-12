@@ -125,7 +125,7 @@ def build_extractor(model: str, cache: str | None = None,
                     constrained: bool = False) -> tuple[Any, Cost]:
     from memory_fabric.adapters.ollama import OllamaClient
 
-    client = OllamaClient()
+    client = OllamaClient(allow_loopback=True)
     if trace:
         from memory_fabric.adapters.tracing import JsonlSink
 

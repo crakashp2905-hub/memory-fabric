@@ -210,7 +210,7 @@ def real_embedder():
     try:
         from memory_fabric.adapters.ollama import OllamaClient, OllamaEmbedder
 
-        client = OllamaClient()
+        client = OllamaClient(allow_loopback=True)
         available = client.available()
         model = client.resolve("nomic-embed-text", available)
         if model is None:
