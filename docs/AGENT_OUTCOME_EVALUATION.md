@@ -82,7 +82,10 @@ per-case/per-arm results with nested per-agent records separately from the
 evaluator-only answerability and evidence-availability labels. False
 withholding is measured per task case with valid authorized evidence available.
 Neither artifact is an actor input; sealed labels must never be sent back to the
-actor.
+actor. Failed task cases require one or more supported failure codes from the
+retrieval miss, missing observation, unsupported claim, false policy denial,
+planning error, tool error, coordination failure, stale data, or evaluator
+undecidable taxonomy; mixed causes remain separate counts on the same case.
 
 The fixed negative-control fixture in `benchmarks.outcome_worlds` includes
 answerable cases with different required actions and an irrecoverable case.

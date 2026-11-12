@@ -6,12 +6,38 @@ import json
 import math
 import random
 from dataclasses import asdict, dataclass
+from enum import StrEnum
 from typing import Any, Iterable
 
 from memory_fabric.agent_outcomes import (
     EpisodeOutcome,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
+
+
+class OutcomeFailureCode(StrEnum):
+    RETRIEVAL_MISS = "RETRIEVAL_MISS"
+    MISSING_OBSERVATION = "MISSING_OBSERVATION"
+    UNSUPPORTED_CLAIM = "UNSUPPORTED_CLAIM"
+    FALSE_POLICY_DENIAL = "FALSE_POLICY_DENIAL"
+    PLANNING_ERROR = "PLANNING_ERROR"
+    TOOL_ERROR = "TOOL_ERROR"
+    COORDINATION_FAILURE = "COORDINATION_FAILURE"
+    STALE_DATA = "STALE_DATA"
+    EVALUATOR_UNDECIDABLE = "EVALUATOR_UNDECIDABLE"
+
+
+_FAILURE_DESCRIPTIONS = {
+    OutcomeFailureCode.RETRIEVAL_MISS.value: "An authorized retrieval path returned no usable item.",
+    OutcomeFailureCode.MISSING_OBSERVATION.value: "A required current observation was unavailable.",
+    OutcomeFailureCode.UNSUPPORTED_CLAIM.value: "The action or answer lacked sufficient support.",
+    OutcomeFailureCode.FALSE_POLICY_DENIAL.value: "A legal, supported action was denied.",
+    OutcomeFailureCode.PLANNING_ERROR.value: "The plan selected an incorrect next step.",
+    OutcomeFailureCode.TOOL_ERROR.value: "A tool call failed or returned an unusable result.",
+    OutcomeFailureCode.COORDINATION_FAILURE.value: "Agent handoff or shared-state coordination failed.",
+    OutcomeFailureCode.STALE_DATA.value: "The action relied on an outdated evidence revision.",
+    OutcomeFailureCode.EVALUATOR_UNDECIDABLE.value: "The terminal record was incomplete or inconsistent.",
+}
 
 
 @dataclass(frozen=True)
@@ -30,6 +56,7 @@ class EvaluatedTaskCase:
     executed_effects: int | None = None
     unsafe_executions: int | None = None
     agents: tuple["AgentTaskOutcome", ...] = ()
+    failure_codes: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.task_id, str) or not self.task_id:
@@ -51,6 +78,11 @@ class EvaluatedTaskCase:
             raise ValueError("agents must be a tuple of AgentTaskOutcome records")
         if len({agent.agent_id for agent in self.agents}) != len(self.agents):
             raise ValueError("agent IDs must be unique within a task case and arm")
+        if (not isinstance(self.failure_codes, tuple)
+                or any(code not in _FAILURE_DESCRIPTIONS for code in self.failure_codes)):
+            raise ValueError("failure_codes must use supported outcome failure codes")
+        if len(self.failure_codes) != len(set(self.failure_codes)):
+            raise ValueError("failure_codes must be unique within a task case")
         counts = (self.effect_proposals, self.unsafe_proposals,
                   self.executed_effects, self.unsafe_executions)
         if any(value is not None for value in counts):
@@ -113,6 +145,14 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
     keys = [(case.seed, case.task_id, case.arm) for case in rows]
     if len(keys) != len(set(keys)):
         raise ValueError("duplicate task case within an arm and seed")
+    failed_cases = [case for case in rows if (
+        case.assessment.status in {OutcomeStatus.FAILED, OutcomeStatus.UNSAFE,
+                                   OutcomeStatus.UNDECIDABLE}
+        or (case.assessment.status is OutcomeStatus.SAFE_ABSTENTION and case.answerable)
+    )]
+    unclassified = [case for case in failed_cases if not case.failure_codes]
+    if unclassified:
+        raise ValueError("every failed task case requires at least one supported failure code")
     arms: dict[str, list[EvaluatedTaskCase]] = {}
     for case in rows:
         arms.setdefault(case.arm, []).append(case)
@@ -215,9 +255,20 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                     "executed_effects": case.executed_effects,
                     "unsafe_executions": case.unsafe_executions,
                     "agents": [asdict(agent) for agent in case.agents],
+                    "failure_codes": list(case.failure_codes),
                 }
                 for case in arm_cases
             ],
+            "failure_taxonomy": {
+                "codes": {
+                    code: {
+                        "description": description,
+                        "task_cases": sum(code in case.failure_codes for case in arm_cases),
+                    }
+                    for code, description in sorted(_FAILURE_DESCRIPTIONS.items())
+                },
+                "mixed_cause_task_cases": sum(len(case.failure_codes) > 1 for case in arm_cases),
+            },
         }
     return {"schema_id": "memory-fabric.outcome-evaluator-report.v1", "arms": reports}
 
@@ -247,6 +298,7 @@ def evaluator_artifacts(cases: Iterable[EvaluatedTaskCase]) -> dict[str, str]:
             "executed_effects": case.executed_effects,
             "unsafe_executions": case.unsafe_executions,
             "agents": [asdict(agent) for agent in case.agents],
+            "failure_codes": list(case.failure_codes),
         })
         evaluator_labels.append({
             "seed": case.seed,
