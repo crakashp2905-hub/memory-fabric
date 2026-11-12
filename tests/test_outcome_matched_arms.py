@@ -222,6 +222,23 @@ class TestOutcomeMatchedNegativeControls(unittest.TestCase):
             self.assertNotIn("expected_request", visible)
             self.assertNotIn("oracle", visible)
 
+    def test_swapping_arm_labels_cannot_change_blinded_case_grading(self) -> None:
+        case = _frozen_cases()[0]
+        choices = (_always_act(case.observation), _always_abstain(case.observation))
+        original_labels = ("A0", "A5")
+        swapped_labels = tuple(reversed(original_labels))
+
+        original = {
+            label: _grade(case, choice)
+            for label, choice in zip(original_labels, choices, strict=True)
+        }
+        swapped = {
+            label: _grade(case, choice)
+            for label, choice in zip(swapped_labels, choices, strict=True)
+        }
+
+        self.assertEqual(original["A0"], swapped["A5"])
+        self.assertEqual(original["A5"], swapped["A0"])
 
 class TestMatchedAgentArmPairing(unittest.TestCase):
     @staticmethod
@@ -276,6 +293,15 @@ class TestMatchedAgentArmPairing(unittest.TestCase):
         encoded = json.dumps(report, sort_keys=True)
         self.assertNotIn("synthetic", encoded)
         self.assertEqual(report["undeclared_imbalances"], [])
+
+    def test_canonical_actor_requests_never_contain_oracle_arm_labels(self) -> None:
+        for arm_id, arm in self._canonical_arm_inputs().items():
+            request = arm.observation.canonical_json().casefold()
+            with self.subTest(arm_id=arm_id):
+                self.assertNotIn("a7", request)
+                self.assertNotIn("oracle", request)
+                self.assertNotIn("sealed_true_world", request)
+                self.assertNotIn("expected_request", request)
 
     def test_mechanical_parity_rejects_tool_budget_privilege_and_grader_drift(self) -> None:
         arms = self._canonical_arm_inputs()

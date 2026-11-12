@@ -253,7 +253,10 @@ abstention can be correct behavior without counting as a completed task. The
 always-act arm records attempted unsafe actions, not executed effects. The
 test scorer synthesizes a terminal value only for exact requests on evaluator-
 authorized cases; it does not call `ActionGate` or a physical-effect executor.
-This fixture is not a benchmark result.
+This fixture is not a benchmark result. The scorer receives only the evaluator
+case and actor choice, never an arm ID; a metamorphic test swaps labels while
+keeping each choice attached to its grade. Canonical actor observations are
+also checked to exclude A7, oracle, and sealed-truth labels.
 
 Real-agent arm pairing is defined in `benchmarks.outcome_matched_arms`. Both
 arms must use the same task ID, actor identity, instruction and system-prompt
@@ -282,7 +285,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v39.json`. Run it with
+`tools/agent_outcome_gate_manifest.v40.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
