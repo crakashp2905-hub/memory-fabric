@@ -114,6 +114,25 @@ correction recovery steps/time, and resource costs separately. A zero-event
 safety result must include a one-sided exact binomial upper bound. A missing or
 censored evaluator result is `UNDECIDABLE` and is handled only by frozen rules.
 
+## Confirmatory split and attempt-history guard
+
+`research/prereg/agent-outcome-confirmatory-v1.json` is deliberately
+`DRAFT`. `benchmarks/outcome_confirmatory.py` refuses analysis until that
+manifest has a frozen sample size, disjoint development/confirmatory seeds,
+task IDs, stopping rule, resource caps, freeze commit, and matching design
+digest. A confirmatory artifact containing any development seed, an unplanned
+task, a missing arm, or a case used for tuning is rejected.
+
+The confirmatory script verifies the registered A5–A3, A5–A4, and A6–A5
+contrasts, applies Holm–Bonferroni correction to all planned exact paired sign
+tests, and records hashes for the manifest and both outcome/label artifacts.
+Every attempt row, including failed, stopped, and skipped runs, is retained in
+the report. A seed with a failed or repeated confirmatory attempt blocks the
+analysis; it is not silently replaced or dropped. Design parameters are bound
+by a digest that each attempt must repeat, so changing a threshold or split
+after an outcome requires a visible preregistration amendment and a new
+confirmatory version.
+
 The contract tests may establish `SCRIPTED_CONTRACT_PASS` for a specified code
 SHA. They cannot establish local-model usefulness, deployment qualification,
 production readiness, or causal benefit from CDM.
