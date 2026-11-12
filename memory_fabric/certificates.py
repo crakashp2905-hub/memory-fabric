@@ -101,6 +101,7 @@ EVIDENCE_WITHDRAWN = "evidence_withdrawn"
 EVIDENCE_VERSION_MOVED = "evidence_version_moved"
 EVIDENCE_ERASED = "evidence_erased"
 EVIDENCE_NOT_USABLE = "evidence_not_usable"
+EVIDENCE_OUTSIDE_CURRENT_VALIDITY = "evidence_outside_current_validity"
 DEPENDENCY_WITHDRAWN = "dependency_withdrawn"
 DEPENDENCY_VERSION_MOVED = "dependency_version_moved"
 DEPENDENCY_NOT_FOUND = "dependency_not_found"
@@ -567,6 +568,10 @@ class CertificateVerifier:
                 code = EVIDENCE_ERASED
             elif decision.version != ref.version:
                 code = EVIDENCE_VERSION_MOVED
+            elif not fabric.state.memories[ref.memory_id].applies_at(fabric.now()):
+                # Historical reads may explicitly ask for the state at T.
+                # A consequential action always verifies against current time.
+                code = EVIDENCE_OUTSIDE_CURRENT_VALIDITY
             elif decision.verdict is not Verdict.USABLE:
                 state = fabric.state.memories[ref.memory_id].lifecycle_state
                 code = EVIDENCE_WITHDRAWN if state in BLOCKED_STATES else EVIDENCE_NOT_USABLE

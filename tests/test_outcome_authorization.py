@@ -10,14 +10,58 @@ from memory_fabric import MemoryFabric
 from memory_fabric.actions import (
     GRANT_MISMATCH, REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
 )
-from memory_fabric.agent_outcomes import AgentObservation, RecoveryAction, RecoveryEpisode
-from memory_fabric.certificates import EVIDENCE_VERSION_MOVED
+from memory_fabric.agent_outcomes import (
+    AgentObservation, RecoveryAction, RecoveryEpisode, diagnose_certificate,
+)
+from memory_fabric.agent_outcomes.eligibility import EvidenceFailureCode
+from memory_fabric.certificates import (
+    EVIDENCE_OUTSIDE_CURRENT_VALIDITY, EVIDENCE_VERSION_MOVED,
+)
 from memory_fabric.identity import ROLE_AGENT
 from memory_fabric.service import MemoryService
 from benchmarks.outcome_agents import ExecutorActor, ObserverActor, PlannerActor
 
 
 class TestOutcomeAuthorization(unittest.TestCase):
+    def test_historical_truth_is_readable_but_not_current_action_authority(self) -> None:
+        now = [500]
+        fabric = MemoryFabric(":memory:", auto_activate=True, clock=lambda: now[0])
+        self.addCleanup(fabric.close)
+        memory_id = fabric.remember(
+            "source", "Pump beta target was 6 at 10:00.",
+            valid_from=0, valid_to=1000, scope="team",
+        )
+        history = fabric.retrieve(
+            "executor", "Pump beta target at 10:00", as_of=500,
+            k=3, min_relevance=0.0,
+        )
+        self.assertIn(memory_id, {memory.id for memory in history.exposed})
+        certificate = fabric.certify(
+            "Set the current pump beta target.", [memory_id], "executor",
+        )
+        request = ActionRequest("protected_setting", {"value": 6})
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"set_protected_setting": ToolRule(
+                "set_protected_setting", requires_grant=True)},
+            grants={"executor": frozenset({"set_protected_setting"})},
+        ))
+        grant = gate.issue_grant(
+            "set_protected_setting", "executor", issuer="host",
+            certificate=certificate, request=request,
+        )
+        now[0] = 1000
+        effects: list[str] = []
+        result = gate.execute(
+            "set_protected_setting", "executor", lambda key: effects.append(key),
+            certificate, key="historical-not-current", request=request, grant=grant,
+        )
+        self.assertEqual(result.outcome, REFUSED)
+        self.assertIn(EVIDENCE_OUTSIDE_CURRENT_VALIDITY, result.decision.reason_codes)
+        self.assertIsNotNone(result.decision.verification)
+        diagnosis = diagnose_certificate(result.decision.verification)
+        self.assertEqual(diagnosis.failure_codes, (EvidenceFailureCode.STALE,))
+        self.assertEqual(effects, [])
+
     def setUp(self) -> None:
         self.fabric = MemoryFabric(":memory:", auto_activate=True)
         self.addCleanup(self.fabric.close)

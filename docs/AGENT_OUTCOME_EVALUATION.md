@@ -245,6 +245,12 @@ from evidence explicitly marked `relied_on`. An unrelated exposed memory stays
 in the exposure list and is never promoted to a premise. The report explicitly
 states that these audit links do not establish a causal effect.
 
+Action-time certificate verification also checks the evidence validity window
+against the store's current clock. An explicitly historical `as_of` retrieval
+can still explain what was true at 10:00; that expired record cannot authorize
+a current effect. The verifier returns `evidence_outside_current_validity`,
+which the recovery diagnosis classifies as stale evidence.
+
 `benchmarks.outcome_worlds` assigns generated cases by connected components of
 template families, fact families, provenance roots, exact identifiers,
 surface-free transition signatures, and token-order-independent text
@@ -316,7 +322,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v47.json`. Run it with
+`tools/agent_outcome_gate_manifest.v48.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

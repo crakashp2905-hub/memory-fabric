@@ -150,6 +150,7 @@ _CERTIFICATE_FAILURES: dict[str, EvidenceFailureCode] = {
     certificate_codes.EVIDENCE_WITHDRAWN: EvidenceFailureCode.WITHHELD,
     certificate_codes.DEPENDENCY_WITHDRAWN: EvidenceFailureCode.WITHHELD,
     certificate_codes.EVIDENCE_VERSION_MOVED: EvidenceFailureCode.STALE,
+    certificate_codes.EVIDENCE_OUTSIDE_CURRENT_VALIDITY: EvidenceFailureCode.STALE,
     certificate_codes.DEPENDENCY_VERSION_MOVED: EvidenceFailureCode.STALE,
     certificate_codes.EVIDENCE_NOT_USABLE: EvidenceFailureCode.WITHHELD,
     certificate_codes.INSUFFICIENT_INDEPENDENT_SUPPORT: EvidenceFailureCode.INSUFFICIENT,
