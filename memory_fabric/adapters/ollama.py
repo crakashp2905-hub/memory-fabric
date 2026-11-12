@@ -155,6 +155,45 @@ class OllamaClient:
         except Exception as exc:  # noqa: BLE001 - availability check must not raise
             raise OllamaError(f"cannot list models at {self.host}: {exc}") from exc
 
+    def model_metadata(self, model: str) -> dict[str, Any]:
+        """Return content-safe identity and quantization details for an installed model."""
+        if not isinstance(model, str) or not model.strip():
+            raise ValueError("model must be a non-empty name")
+        try:
+            with urllib.request.urlopen(self.host + "/api/tags", timeout=10) as response:
+                payload = json.load(response)
+        except Exception as exc:  # noqa: BLE001 - metadata absence is model unavailability
+            raise OllamaError(f"cannot list model metadata at {self.host}: {exc}") from exc
+        entries = payload.get("models", []) if isinstance(payload, Mapping) else []
+        if not isinstance(entries, list):
+            raise OllamaError("Ollama returned malformed model metadata")
+        valid_entries = [entry for entry in entries if isinstance(entry, Mapping)]
+        names: list[str] = []
+        for candidate in valid_entries:
+            candidate_name = candidate.get("name")
+            if isinstance(candidate_name, str):
+                names.append(candidate_name)
+        resolved = self.resolve(model, names)
+        if resolved is None:
+            raise OllamaError(f"model {model!r} is not installed at {self.host}")
+        entry = next(item for item in valid_entries if item.get("name") == resolved)
+        details = entry.get("details", {})
+        if not isinstance(details, Mapping):
+            details = {}
+        digest = entry.get("digest")
+        return {
+            "requested_name": model,
+            "name": resolved,
+            "digest": digest if isinstance(digest, str) else None,
+            "size": entry.get("size") if isinstance(entry.get("size"), int) else None,
+            "format": details.get("format") if isinstance(details.get("format"), str) else None,
+            "family": details.get("family") if isinstance(details.get("family"), str) else None,
+            "parameter_size": (details.get("parameter_size")
+                               if isinstance(details.get("parameter_size"), str) else None),
+            "quantization_level": (details.get("quantization_level")
+                                   if isinstance(details.get("quantization_level"), str) else None),
+        }
+
     def chat(
         self,
         model: str,
@@ -164,6 +203,9 @@ class OllamaClient:
         num_predict: int = 256,
         schema: Mapping[str, Any] | None = None,
         think: bool | None = None,
+        top_p: float | None = None,
+        num_ctx: int | None = None,
+        seed: int | None = None,
     ) -> dict[str, Any]:
         """One chat call, recorded.
 
@@ -185,11 +227,27 @@ class OllamaClient:
         Left as None, the server's default applies -- which is what every
         figure measured before this flag existed used.
         """
+        if top_p is not None and (not isinstance(top_p, (int, float))
+                                  or isinstance(top_p, bool) or not 0 < top_p <= 1):
+            raise ValueError("top_p must be between 0 and 1")
+        if num_ctx is not None and (not isinstance(num_ctx, int) or isinstance(num_ctx, bool)
+                                    or not 1 <= num_ctx <= 1_048_576):
+            raise ValueError("num_ctx must be between 1 and 1048576")
+        if seed is not None and (not isinstance(seed, int) or isinstance(seed, bool)
+                                 or not 0 <= seed <= 0xffffffff):
+            raise ValueError("seed must be a 32-bit non-negative integer")
+        options: dict[str, Any] = {"temperature": temperature, "num_predict": num_predict}
+        if top_p is not None:
+            options["top_p"] = float(top_p)
+        if num_ctx is not None:
+            options["num_ctx"] = num_ctx
+        if seed is not None:
+            options["seed"] = seed
         payload: dict[str, Any] = {
             "model": model,
             "messages": list(messages),
             "stream": False,
-            "options": {"temperature": temperature, "num_predict": num_predict},
+            "options": options,
         }
         if tools:
             payload["tools"] = list(tools)

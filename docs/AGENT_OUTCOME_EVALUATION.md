@@ -36,8 +36,9 @@ the handler runs. A valid `abstain` step ends the loop explicitly.
 `AgentStep` JSON schema. It returns only a parsed, task- and actor-matched step
 whose requested tool is in that observation's permitted-tool list. The adapter
 has no store or evaluator handle. Stubbed contract tests cover the client
-request and validation path. A local `qwen2.5:1.5b` smoke inference returned a
-validated `inspect` step in one call (227 total tokens, not truncated). This
+request and validation path. A real-agent run records the installed model's
+digest and quantization, sampling and context options, response-schema and
+prompt hashes, token use, and an explicit nondeterminism statement. This
 checks adapter wiring only; it is not a task-success or safety-efficacy result.
 
 Real-agent attempts use the separate `memory-fabric.real-agent-report.v1`
@@ -45,7 +46,10 @@ schema. The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable
 or no new call is recorded. It passes only when a new Ollama `CallRecord` and a
 validated `AgentStep` are both present; malformed output is a failure. This
 path has no scripted-agent fallback. The versioned offline gate reports
-`REAL_AGENT_NOT_RUN` until completed inference evidence is supplied.
+`REAL_AGENT_NOT_RUN` until completed inference evidence is supplied. Pass a
+saved model-only report with `--real-agent-report PATH`; the gate checks its
+typed step, recorded call, model digest, quantization, settings, and hashes and
+adds a digest of the report to its own output.
 
 Typed `PlannedAction` values bind the proposal to the exact evidence IDs and
 versions observed during retrieval. The executor rechecks current evidence
@@ -216,7 +220,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v30.json`. Run it with
+`tools/agent_outcome_gate_manifest.v31.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

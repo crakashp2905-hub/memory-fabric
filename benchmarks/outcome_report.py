@@ -5,9 +5,11 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from enum import StrEnum
-from typing import Any, Hashable, Iterable, Protocol
+from typing import Any, Hashable, Iterable, Mapping, Protocol
 
 from memory_fabric.adapters.ollama import CallRecord, OllamaError
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep, EpisodeOutcome
@@ -27,6 +29,8 @@ class RealAgentAdapter(Protocol):
 
     def next_step(self, observation: AgentObservation) -> AgentStep: ...
 
+    def inference_manifest(self, call: CallRecord) -> dict[str, Any]: ...
+
 
 @dataclass(frozen=True)
 class RealAgentRunReport:
@@ -39,7 +43,11 @@ class RealAgentRunReport:
     model_calls: int
     model_tokens: int
     step: AgentStep | None = field(default=None, repr=False)
+    inference: Mapping[str, Any] | None = None
     schema_id: str = "memory-fabric.real-agent-report.v1"
+    generated_at_utc: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
 
     def to_dict(self) -> dict[str, Any]:
         report: dict[str, Any] = {
@@ -51,9 +59,12 @@ class RealAgentRunReport:
             "model": self.model,
             "model_calls": self.model_calls,
             "model_tokens": self.model_tokens,
+            "generated_at_utc": self.generated_at_utc,
         }
         if self.step is not None:
             report["step"] = self.step.to_dict()
+        if self.inference is not None:
+            report["inference"] = dict(self.inference)
         return report
 
     def canonical_json(self) -> str:
@@ -74,10 +85,11 @@ def run_real_agent_gate(
     try:
         step = adapter.next_step(observation)
     except OllamaError:
+        metadata_available = bool(getattr(adapter, "model_metadata", {}))
         return RealAgentRunReport(
             task_id=observation.task_id,
-            status=RealAgentStatus.NOT_RUN,
-            reason="model_unavailable",
+            status=(RealAgentStatus.FAIL if metadata_available else RealAgentStatus.NOT_RUN),
+            reason=("inference_request_failed" if metadata_available else "model_unavailable"),
             model=adapter.model,
             model_calls=0,
             model_tokens=0,
@@ -86,6 +98,10 @@ def run_real_agent_gate(
         calls_after = tuple(adapter.calls)
         new_calls = calls_after[len(calls_before):]
         recorded = [call for call in new_calls if isinstance(call, CallRecord)]
+        try:
+            inference = adapter.inference_manifest(recorded[-1]) if recorded else None
+        except Exception:  # noqa: BLE001 - provenance collection cannot hide the failed attempt
+            inference = None
         return RealAgentRunReport(
             task_id=observation.task_id,
             status=RealAgentStatus.FAIL,
@@ -93,6 +109,7 @@ def run_real_agent_gate(
             model=recorded[-1].model if recorded else adapter.model,
             model_calls=len(recorded),
             model_tokens=sum(call.tokens for call in recorded),
+            inference=inference,
         )
 
     calls_after = tuple(adapter.calls)
@@ -121,6 +138,20 @@ def run_real_agent_gate(
             model_calls=len(records),
             model_tokens=sum(call.tokens for call in records),
         )
+    try:
+        inference = adapter.inference_manifest(records[-1])
+    except Exception:  # noqa: BLE001 - report incomplete provenance as a stable gate failure
+        inference = None
+    if not _complete_inference_manifest(inference):
+        return RealAgentRunReport(
+            task_id=observation.task_id,
+            status=RealAgentStatus.FAIL,
+            reason="model_provenance_incomplete",
+            model=records[-1].model,
+            model_calls=len(records),
+            model_tokens=sum(call.tokens for call in records),
+            inference=inference,
+        )
     return RealAgentRunReport(
         task_id=observation.task_id,
         status=RealAgentStatus.PASS,
@@ -129,7 +160,65 @@ def run_real_agent_gate(
         model_calls=len(records),
         model_tokens=sum(call.tokens for call in records),
         step=step,
+        inference=inference,
     )
+
+
+def _complete_inference_manifest(value: object) -> bool:
+    if not isinstance(value, Mapping):
+        return False
+    model, options = value.get("model"), value.get("options")
+    if not isinstance(model, Mapping) or not isinstance(options, Mapping):
+        return False
+    digest = model.get("digest")
+    quantization = model.get("quantization_level")
+    if (not isinstance(model.get("name"), str) or not model["name"]
+            or not isinstance(digest, str)
+            or re.fullmatch(r"(?:sha256:)?[0-9a-f]{64}", digest) is None
+            or not isinstance(quantization, str) or not quantization):
+        return False
+    required_options = ("temperature", "top_p", "seed", "num_ctx", "num_predict",
+                        "stream", "format", "constrained")
+    if any(key not in options or options[key] is None for key in required_options):
+        return False
+    hashes = ("prompt_sha256", "system_prompt_sha256", "response_schema_sha256")
+    return all(isinstance(value.get(key), str)
+               and re.fullmatch(r"[0-9a-f]{64}", value[key]) is not None for key in hashes) \
+        and isinstance(value.get("nondeterminism_disclosure"), str) \
+        and bool(value["nondeterminism_disclosure"])
+
+
+def real_agent_report_is_complete(value: object) -> bool:
+    """Validate the content required before a local-model report may pass."""
+    if not isinstance(value, Mapping):
+        return False
+    if (value.get("schema_id") != "memory-fabric.real-agent-report.v1"
+            or value.get("population") != "REAL_AGENT"
+            or value.get("status") != RealAgentStatus.PASS.value
+            or value.get("reason") != "completed_inference"):
+        return False
+    task_id, model = value.get("task_id"), value.get("model")
+    calls, tokens = value.get("model_calls"), value.get("model_tokens")
+    if (not isinstance(task_id, str) or not isinstance(model, str)
+            or not isinstance(calls, int) or isinstance(calls, bool) or calls < 1
+            or not isinstance(tokens, int) or isinstance(tokens, bool) or tokens < 0
+            or not isinstance(value.get("generated_at_utc"), str)):
+        return False
+    step = value.get("step")
+    if not isinstance(step, Mapping):
+        return False
+    try:
+        parsed_step = AgentStep.from_json(json.dumps(
+            dict(step), sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ))
+    except (TypeError, ValueError):
+        return False
+    inference = value.get("inference")
+    if not _complete_inference_manifest(inference):
+        return False
+    inference_model = inference.get("model") if isinstance(inference, Mapping) else None
+    return (parsed_step.task_id == task_id and isinstance(inference_model, Mapping)
+            and inference_model.get("name") == model)
 
 
 def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -> float:

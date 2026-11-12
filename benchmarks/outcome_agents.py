@@ -10,6 +10,7 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass
 from enum import StrEnum
@@ -49,8 +50,10 @@ class AgentAdapter(Protocol):
 _OLLAMA_AGENT_SYSTEM = (
     "You are one role in a bounded task agent. The user message contains the only "
     "task observation you may use. Return exactly one JSON AgentStep matching the "
-    "provided schema. Copy its task_id and use your assigned actor_id. Choose a "
-    "permitted tool from the observation or explicitly abstain. Do not add fields."
+    "provided schema. Copy its task_id and use your assigned actor_id. Set "
+    "arguments.tool to one of the permitted tools or `abstain`. Set evidence_versions "
+    "to [] unless exact evidence IDs and non-negative integer versions appear in the "
+    "observation; never invent evidence or versions. Do not add fields."
 )
 
 
@@ -64,7 +67,11 @@ class OllamaAgentAdapter:
         model: str = DEFAULT_MODEL,
         client: Any = None,
         temperature: float = 0.0,
+        top_p: float = 0.9,
+        seed: int = 0,
+        num_ctx: int = 4096,
         num_predict: int = 256,
+        think: bool | None = None,
     ) -> None:
         if not isinstance(actor_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}",
                                                              actor_id):
@@ -74,14 +81,31 @@ class OllamaAgentAdapter:
         if (not isinstance(temperature, (int, float)) or isinstance(temperature, bool)
                 or not 0 <= temperature <= 2):
             raise ValueError("temperature must be between 0 and 2")
+        if (not isinstance(top_p, (int, float)) or isinstance(top_p, bool)
+                or not 0 < top_p <= 1):
+            raise ValueError("top_p must be between 0 and 1")
+        if (not isinstance(seed, int) or isinstance(seed, bool)
+                or not 0 <= seed <= 0xffffffff):
+            raise ValueError("seed must be a 32-bit non-negative integer")
+        if (not isinstance(num_ctx, int) or isinstance(num_ctx, bool)
+                or not 1 <= num_ctx <= 1_048_576):
+            raise ValueError("num_ctx must be between 1 and 1048576")
         if (not isinstance(num_predict, int) or isinstance(num_predict, bool)
                 or not 1 <= num_predict <= 16_000):
             raise ValueError("num_predict must be between 1 and 16000")
+        if think is not None and not isinstance(think, bool):
+            raise ValueError("think must be a boolean or None")
         self.actor_id = actor_id
         self.model = model
         self.client = client if client is not None else OllamaClient()
         self.temperature = float(temperature)
+        self.top_p = float(top_p)
+        self.seed = seed
+        self.num_ctx = num_ctx
         self.num_predict = num_predict
+        self.think = think
+        self._model_metadata: Mapping[str, Any] = MappingProxyType({})
+        self._schema_sha256: str | None = None
 
     @property
     def calls(self) -> tuple[CallRecord, ...]:
@@ -89,8 +113,50 @@ class OllamaAgentAdapter:
         calls = getattr(self.client, "calls", ())
         return tuple(calls)
 
+    @property
+    def model_metadata(self) -> Mapping[str, Any]:
+        """Installed model identity loaded before the latest inference call."""
+        return self._model_metadata
+
     def __call__(self, observation: AgentObservation) -> AgentStep:
         return self.next_step(observation)
+
+    def inference_manifest(self, call: CallRecord) -> dict[str, Any]:
+        """Return pinned model, prompt hash, and explicit decoding provenance."""
+        if not isinstance(call, CallRecord) or self._schema_sha256 is None:
+            raise ValueError("inference metadata is unavailable before a completed model call")
+        model = dict(self._model_metadata)
+        return {
+            "model": model,
+            "decoder": "ollama:/api/chat",
+            "options": {
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "seed": self.seed,
+                "num_ctx": self.num_ctx,
+                "num_predict": self.num_predict,
+                "think": self.think,
+                "stream": False,
+                "keep_alive": getattr(self.client, "keep_alive", None),
+                "format": "json_schema",
+                "constrained": call.constrained,
+            },
+            "usage": {
+                "prompt_tokens": call.prompt_tokens,
+                "completion_tokens": call.completion_tokens,
+                "total_tokens": call.tokens,
+                "wall_seconds": call.seconds,
+            },
+            "prompt_sha256": call.prompt_sha256,
+            "system_prompt_sha256": hashlib.sha256(
+                _OLLAMA_AGENT_SYSTEM.encode("utf-8")
+            ).hexdigest(),
+            "response_schema_sha256": self._schema_sha256,
+            "nondeterminism_disclosure": (
+                "A fixed seed and sampling configuration do not guarantee bitwise-identical "
+                "outputs across Ollama versions, model runtimes, or hardware."
+            ),
+        }
 
     def next_step(self, observation: AgentObservation) -> AgentStep:
         """Generate one schema-checked intent from the public observation only."""
@@ -109,12 +175,34 @@ class OllamaAgentAdapter:
                 "intent": {"type": "string", "enum": [
                     "retrieve", "inspect", "request_refresh", "ask", "propose", "abstain",
                 ]},
-                "arguments": {"type": "object"},
+                "arguments": {
+                    "type": "object",
+                    "required": ["tool"],
+                    "properties": {"tool": {
+                        "type": "string",
+                        "enum": [*observation.permitted_tools, "abstain"],
+                    }},
+                },
                 "evidence_versions": {"type": "array", "items": {
                     "type": "array", "minItems": 2, "maxItems": 2,
+                    "prefixItems": [
+                        {"type": "string", "minLength": 1, "maxLength": 128},
+                        {"type": "integer", "minimum": 0},
+                    ],
                 }},
             },
         }
+        metadata_reader = getattr(self.client, "model_metadata", None)
+        if not callable(metadata_reader):
+            raise ValueError("Ollama client must provide model metadata for a qualified run")
+        metadata = metadata_reader(self.model)
+        if not isinstance(metadata, Mapping):
+            raise ValueError("Ollama model metadata must be an object")
+        self._model_metadata = MappingProxyType(dict(metadata))
+        self._schema_sha256 = hashlib.sha256(
+            json.dumps(schema, sort_keys=True, separators=(",", ":"),
+                       allow_nan=False).encode("utf-8")
+        ).hexdigest()
         prior_calls = getattr(self.client, "calls", None)
         call_count = len(prior_calls) if isinstance(prior_calls, Sequence) else None
         response = self.client.chat(
@@ -124,8 +212,12 @@ class OllamaAgentAdapter:
                 {"role": "user", "content": observation.canonical_json()},
             ],
             temperature=self.temperature,
+            top_p=self.top_p,
+            seed=self.seed,
+            num_ctx=self.num_ctx,
             num_predict=self.num_predict,
             schema=schema,
+            think=self.think,
         )
         recorded_calls = getattr(self.client, "calls", None)
         if (call_count is not None and isinstance(recorded_calls, Sequence)

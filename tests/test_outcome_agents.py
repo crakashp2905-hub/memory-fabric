@@ -25,11 +25,22 @@ class StubOllamaClient:
         self.content = content
         self.truncated = truncated
         self.calls: list[dict[str, object]] = []
+        self.metadata = {
+            "requested_name": "qwen2.5:3b", "name": "qwen2.5:3b",
+            "digest": "sha256:" + "a" * 64, "size": 123,
+            "format": "gguf", "family": "qwen2", "parameter_size": "3B",
+            "quantization_level": "Q4_K_M",
+        }
 
-    def chat(self, model, messages, tools=None, temperature=0.0, num_predict=256, schema=None):
+    def model_metadata(self, model):
+        return {**self.metadata, "requested_name": model, "name": model}
+
+    def chat(self, model, messages, tools=None, temperature=0.0, num_predict=256, schema=None,
+             think=None, top_p=None, num_ctx=None, seed=None):
         self.calls.append({"model": model, "messages": list(messages), "tools": tools,
                            "temperature": temperature, "num_predict": num_predict,
-                           "schema": schema, "truncated": self.truncated})
+                           "schema": schema, "truncated": self.truncated, "think": think,
+                           "top_p": top_p, "num_ctx": num_ctx, "seed": seed})
         return {"message": {"content": self.content}}
 
 
@@ -154,7 +165,14 @@ class TestOllamaOutcomeAgentAdapter(unittest.TestCase):
         call = client.calls[0]
         self.assertEqual(call["model"], "qwen2.5:3b")
         self.assertEqual(call["tools"], None)
+        self.assertEqual((call["temperature"], call["top_p"], call["seed"],
+                          call["num_ctx"], call["num_predict"]),
+                         (0.0, 0.9, 0, 4096, 256))
         self.assertEqual(len(call["schema"]["required"]), 7)  # type: ignore[index]
+        arguments_schema = call["schema"]["properties"]["arguments"]  # type: ignore[index]
+        self.assertIn("tool", arguments_schema["required"])
+        self.assertEqual(arguments_schema["properties"]["tool"]["enum"],
+                         ["inspect", "set_target", "abstain"])
         messages = call["messages"]
         user_messages = [message for message in messages if message["role"] == "user"]  # type: ignore[union-attr]
         self.assertEqual(len(user_messages), 1)
@@ -166,8 +184,13 @@ class TestOllamaOutcomeAgentAdapter(unittest.TestCase):
         reply = {"message": {"content": self._reply()},
                  "prompt_eval_count": 17, "eval_count": 9}
         with patch.object(client, "_post", return_value=reply):
-            adapter = OllamaAgentAdapter("executor", model="qwen2.5:3b", client=client)
-            step = adapter.next_step(self.observation)
+            with patch.object(client, "model_metadata", return_value={
+                    "requested_name": "qwen2.5:3b", "name": "qwen2.5:3b",
+                    "digest": "sha256:" + "a" * 64, "size": 123,
+                    "format": "gguf", "family": "qwen2", "parameter_size": "3B",
+                    "quantization_level": "Q4_K_M"}):
+                adapter = OllamaAgentAdapter("executor", model="qwen2.5:3b", client=client)
+                step = adapter.next_step(self.observation)
 
         self.assertEqual(step.intent, "propose")
         self.assertEqual(len(adapter.calls), 1)

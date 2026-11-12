@@ -17,8 +17,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v30.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v30"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from benchmarks.outcome_report import real_agent_report_is_complete  # noqa: E402
+
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v31.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v31"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -26,7 +31,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 30
+            or manifest.get("manifest_version") != 31
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -83,11 +88,59 @@ def _run_check(check: dict[str, Any], *, timeout_s: int, run_full: bool) -> dict
     return {**result, "status": "FAIL", "reason": f"exit code {completed.returncode}"}
 
 
-def build_report(*, skip_full: bool = False, timeout_s: int = 3600) -> dict[str, Any]:
+def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
+    """Validate a separate real-agent report without substituting scripted data."""
+    result = {"id": "local_model", "required_for_scripted_qualification": False}
+    if report_path is None:
+        return {**result, "status": "REAL_AGENT_NOT_RUN",
+                "reason": "no completed inference evidence was supplied"}
+    try:
+        payload = report_path.read_bytes()
+    except FileNotFoundError:
+        return {**result, "status": "REAL_AGENT_NOT_RUN",
+                "reason": "real-agent report file is missing"}
+    except OSError as exc:
+        return {**result, "status": "FAIL", "reason": type(exc).__name__}
+    if len(payload) > 1_000_000:
+        return {**result, "status": "FAIL", "reason": "real-agent report is too large"}
+    try:
+        report = json.loads(payload)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {**result, "status": "FAIL", "reason": "real-agent report is malformed JSON"}
+    if isinstance(report, dict) and report.get("status") == "REAL_AGENT_NOT_RUN":
+        return {**result, "status": "REAL_AGENT_NOT_RUN",
+                "reason": str(report.get("reason", "inference was not completed"))}
+    if not real_agent_report_is_complete(report):
+        return {**result, "status": "FAIL", "reason": "real-agent evidence is incomplete"}
+    inference = report["inference"]
+    model = inference["model"]
+    return {
+        **result,
+        "status": "PASS",
+        "reason": "completed inference report validated",
+        "report_sha256": hashlib.sha256(payload).hexdigest(),
+        "model": model["name"],
+        "model_digest": model["digest"],
+        "quantization_level": model["quantization_level"],
+        "model_calls": report["model_calls"],
+        "model_tokens": report["model_tokens"],
+    }
+
+
+def build_report(
+    *,
+    skip_full: bool = False,
+    timeout_s: int = 3600,
+    real_agent_report_path: Path | None = None,
+) -> dict[str, Any]:
     """Run manifest checks and return a content-safe evidence report."""
     manifest, manifest_sha256 = read_manifest()
     results = [_run_check(check, timeout_s=timeout_s, run_full=not skip_full)
                for check in manifest["checks"]]
+    for index, check_result in enumerate(results):
+        if check_result["id"] == "local_model":
+            results[index] = local_model_evidence_result(real_agent_report_path)
+            break
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                             stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                             stderr=subprocess.DEVNULL, text=True, check=False)
@@ -120,11 +173,16 @@ def main(argv: list[str] | None = None) -> int:
                         help="mark the full repository suite NOT_RUN")
     parser.add_argument("--timeout", type=int, default=3600,
                         help="per-check timeout in seconds (default: 3600)")
+    parser.add_argument("--real-agent-report", type=Path,
+                        help="validate a separate completed REAL_AGENT report")
     parser.add_argument("--out", help="write JSON report to this path instead of stdout")
     args = parser.parse_args(argv)
     if args.timeout <= 0:
         parser.error("--timeout must be positive")
-    report = json.dumps(build_report(skip_full=args.skip_full, timeout_s=args.timeout),
+    report = json.dumps(build_report(
+        skip_full=args.skip_full, timeout_s=args.timeout,
+        real_agent_report_path=args.real_agent_report,
+    ),
                         sort_keys=True, separators=(",", ":"), allow_nan=False)
     if args.out:
         Path(args.out).write_text(report + "\n", encoding="utf-8")
