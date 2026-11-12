@@ -16,7 +16,8 @@ from .runtime import (
     dispatch_counterfactual_replay, run_agent_json_loop, run_agent_loop,
 )
 from .recovery import (
-    RECOVERY_ACTIONS, RecoveryAction, RecoveryCause, RecoveryEpisode, RecoveryGuidance,
+    RECOVERY_ACTIONS, RECOVERY_CHECKPOINT_SCHEMA_ID, RecoveryAction, RecoveryCause,
+    RecoveryEpisode, RecoveryGuidance,
     RecoveryFailureClass, RecoveryFeatureFlag, RecoveryLimits, RecoveryNextAction,
     RecoveryResolution, RecoveryStatus,
 )
@@ -43,7 +44,8 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "FailureCode",
            "AuthorizedReplayContract", "ReplayContractBuild", "ReplayContractStatus",
            "ReplayLimits", "ReplayBudget",
            "build_authorized_replay_contract",
-           "RECOVERY_ACTIONS", "RecoveryAction", "RecoveryEpisode", "RecoveryLimits",
+           "RECOVERY_ACTIONS", "RECOVERY_CHECKPOINT_SCHEMA_ID", "RecoveryAction",
+           "RecoveryEpisode", "RecoveryLimits",
            "RecoveryCause", "RecoveryGuidance", "RecoveryNextAction",
            "RecoveryFailureClass", "RecoveryFeatureFlag", "RecoveryResolution",
            "RecoveryStatus",

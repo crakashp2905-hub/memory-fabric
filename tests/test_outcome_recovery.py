@@ -6,10 +6,13 @@ import hashlib
 import json
 import math
 import unittest
+from tempfile import TemporaryDirectory
 
 from memory_fabric import MemoryFabric
 from memory_fabric import certificates as certificate_codes
-from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
+from memory_fabric.actions import (
+    ALREADY_EXECUTED, REFUSED, UNCERTAIN, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+)
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, RECOVERY_ACTIONS, RecoveryAction, RecoveryCause,
     RecoveryEpisode, RecoveryFailureClass, RecoveryFeatureFlag, RecoveryLimits,
@@ -158,14 +161,47 @@ class TestRecoveryRequestDigest(unittest.TestCase):
         before = "public-state-token-private-canary-1"
         after = "public-state-token-private-canary-2"
         episode = RecoveryEpisode("request-5")
+        with self.assertRaisesRegex(ValueError, "typed methods"):
+            episode.record("recovery_requested")
+        with self.assertRaisesRegex(ValueError, "typed methods"):
+            episode.record("action_gate")
         self.assertTrue(episode.request_recovery(RecoveryAction.REFRESH, before_token=before))
         self.assertEqual(episode.trace[0]["before_token_digest"],
                          hashlib.sha256(before.encode("utf-8")).hexdigest())
-        self.assertTrue(episode.resolve_recovery(RecoveryAction.REFRESH, after_token=after))
-        serialized_trace = json.dumps(episode.trace, sort_keys=True)
+        checkpoint = episode.canonical_checkpoint_json()
+        self.assertNotIn(before, checkpoint)
+        resumed = RecoveryEpisode.from_checkpoint(checkpoint, downtime_s=0)
+        self.assertEqual(resumed.checkpoint_record()["pending_action"], "refresh")
+        self.assertTrue(resumed.resolve_recovery(RecoveryAction.REFRESH, after_token=after))
+        later = RecoveryEpisode.from_checkpoint(
+            resumed.canonical_checkpoint_json(), downtime_s=0)
+        self.assertTrue(later.request_recovery(
+            RecoveryAction.REPLAN, before_token="public-state-token-private-canary-3"))
+        self.assertFalse(later.resolve_recovery(
+            RecoveryAction.REPLAN, after_token=after))
+        serialized_trace = json.dumps(later.trace, sort_keys=True)
         self.assertNotIn(before, serialized_trace)
         self.assertNotIn(after, serialized_trace)
-        self.assertEqual(len(episode.trace[1]["after_token_digest"]), 64)
+        self.assertEqual(len(later.trace[1]["after_token_digest"]), 64)
+        invalid_checkpoint = episode.checkpoint_record()
+        invalid_checkpoint["pending_action"] = None
+        with self.assertRaisesRegex(ValueError, "pending action disagrees"):
+            RecoveryEpisode.from_checkpoint(invalid_checkpoint, downtime_s=0)
+        extra_audit_field = episode.checkpoint_record()
+        extra_audit_field["audit"]["host_claim"] = "complete"
+        with self.assertRaisesRegex(ValueError, "invalid audit record"):
+            RecoveryEpisode.from_checkpoint(extra_audit_field, downtime_s=0)
+        forged_receipt = episode.checkpoint_record()
+        forged_receipt["audit"]["trace"].append({
+            "kind": "action_gate",
+            "detail": {"outcome": "executed", "reason_codes": []},
+        })
+        forged_receipt["audit"]["used"]["steps"] += 1
+        forged_receipt["audit"]["status"] = RecoveryStatus.COMPLETE.value
+        with self.assertRaisesRegex(ValueError, "unproposed ActionGate result"):
+            RecoveryEpisode.from_checkpoint(forged_receipt, downtime_s=0)
+        expired = RecoveryEpisode.from_checkpoint(checkpoint, downtime_s=31)
+        self.assertEqual(expired.failure_reason, "deadline_exceeded")
 
 
 class TestRecoveryBudgets(unittest.TestCase):
@@ -194,6 +230,128 @@ class TestRecoveryBudgets(unittest.TestCase):
         self.assertEqual(audit["used"], {"steps": 4, "recoveries": 2})
         self.assertEqual(audit["telemetry"]["recovery_actions"]["re_retrieve"], 1)
         self.assertEqual(audit["telemetry"]["recovery_actions"]["replan"], 1)
+
+    def test_checkpoint_restart_reconciles_action_without_rerunning_effect(self) -> None:
+        with TemporaryDirectory() as folder:
+            db_path = f"{folder}/store.db"
+            fabric = MemoryFabric(db_path, auto_activate=True)
+            evidence_id = fabric.remember(
+                "sensor", "Target reading is 7 units.", scope="team")
+            certificate = fabric.certify(
+                "Set target to 7 units.", [evidence_id], "executor")
+            request = ActionRequest("target", {"value": 7})
+            policy = ActionPolicy(
+                tools={"set_target": ToolRule("set_target", requires_grant=True)},
+                grants={"executor": frozenset({"set_target"})},
+            )
+            gate = ActionGate(fabric, policy)
+            grant = gate.issue_grant(
+                "set_target", "executor", issuer="host",
+                certificate=certificate, request=request,
+            )
+            episode = RecoveryEpisode("restartable-task")
+            checkpoint = episode.canonical_checkpoint_json()
+            forged_complete = json.loads(checkpoint)
+            forged_complete["audit"]["status"] = RecoveryStatus.COMPLETE.value
+            with self.assertRaisesRegex(ValueError, "no executed action receipt"):
+                RecoveryEpisode.from_checkpoint(forged_complete, downtime_s=0)
+            callback_calls: list[str] = []
+            effects: set[str] = set()
+
+            def effect(key: str) -> None:
+                callback_calls.append(key)
+                effects.add(key)
+
+            try:
+                first = episode.execute(
+                    gate, "set_target", "executor", certificate, effect,
+                    key="restartable-action-key", request=request, grant=grant,
+                )
+                self.assertEqual(first.outcome, "executed")
+                self.assertEqual(episode.status, RecoveryStatus.COMPLETE)
+                fabric.close()
+
+                resumed = RecoveryEpisode.from_checkpoint(checkpoint, downtime_s=0)
+                reopened = MemoryFabric(db_path)
+                try:
+                    repeated = resumed.execute(
+                        ActionGate(reopened, policy), "set_target", "executor", certificate,
+                        effect, key="restartable-action-key", request=request, grant=grant,
+                    )
+                    self.assertEqual(repeated.outcome, ALREADY_EXECUTED)
+                    self.assertEqual(resumed.status, RecoveryStatus.COMPLETE)
+                    self.assertEqual(callback_calls, ["restartable-action-key"])
+                    self.assertEqual(effects, {"restartable-action-key"})
+                finally:
+                    reopened.close()
+            finally:
+                fabric.close()
+
+    def test_checkpoint_restart_requires_explicit_retry_for_uncertain_effect(self) -> None:
+        with TemporaryDirectory() as folder:
+            db_path = f"{folder}/uncertain.db"
+            fabric = MemoryFabric(db_path, auto_activate=True)
+            evidence_id = fabric.remember(
+                "sensor", "Target reading is 8 units.", scope="team")
+            certificate = fabric.certify(
+                "Set target to 8 units.", [evidence_id], "executor")
+            request = ActionRequest("target", {"value": 8})
+            policy = ActionPolicy(
+                tools={"set_target": ToolRule("set_target", requires_grant=True)},
+                grants={"executor": frozenset({"set_target"})},
+            )
+            gate = ActionGate(fabric, policy)
+            grant = gate.issue_grant(
+                "set_target", "executor", issuer="host",
+                certificate=certificate, request=request,
+            )
+            episode = RecoveryEpisode("uncertain-restart-task")
+            calls: list[str] = []
+            effects: set[str] = set()
+
+            def effect(key: str) -> None:
+                calls.append(key)
+                if key not in effects:
+                    effects.add(key)
+                    raise RuntimeError("effect committed; response was lost")
+
+            try:
+                first = episode.execute(
+                    gate, "set_target", "executor", certificate, effect,
+                    key="uncertain-action-key", request=request, grant=grant,
+                )
+                self.assertEqual(first.outcome, UNCERTAIN)
+                self.assertEqual(episode.status, RecoveryStatus.BLOCKED)
+                checkpoint = episode.canonical_checkpoint_json()
+                fabric.close()
+
+                resumed = RecoveryEpisode.from_checkpoint(checkpoint, downtime_s=0)
+                reopened = MemoryFabric(db_path)
+                try:
+                    gate_after_restart = ActionGate(reopened, policy)
+                    refused = resumed.execute(
+                        gate_after_restart, "set_target", "executor", certificate,
+                        effect, key="uncertain-action-key", request=request, grant=grant,
+                    )
+                    self.assertEqual(refused.outcome, REFUSED)
+                    self.assertEqual(calls, ["uncertain-action-key"])
+                    retry_grant = gate_after_restart.issue_grant(
+                        "set_target", "executor", issuer="host-retry",
+                        certificate=certificate, request=request,
+                    )
+                    retried = resumed.execute(
+                        gate_after_restart, "set_target", "executor", certificate,
+                        effect, key="uncertain-action-key", request=request,
+                        grant=retry_grant, retry=True,
+                    )
+                    self.assertEqual(retried.outcome, "executed")
+                    self.assertEqual(resumed.status, RecoveryStatus.COMPLETE)
+                    self.assertEqual(calls, ["uncertain-action-key", "uncertain-action-key"])
+                    self.assertEqual(effects, {"uncertain-action-key"})
+                finally:
+                    reopened.close()
+            finally:
+                fabric.close()
 
 
 class TestRecoveryGuidance(unittest.TestCase):

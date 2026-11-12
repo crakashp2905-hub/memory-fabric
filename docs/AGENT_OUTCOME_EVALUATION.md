@@ -193,9 +193,25 @@ entries reject any non-read-only setting, and the enum cannot represent effect
 operations. The episode also bounds steps, event size, and deadline, rejects
 repeated public state fingerprints as no progress, and routes proposed effects
 through `ActionGate.execute`, which rechecks current evidence and authorization.
-Recovery limits have hard ceilings, and the canonical `recovery-audit.v1`
+Recovery limits have hard ceilings, and the canonical `recovery-audit.v3`
 record includes configured limits, consumed attempts, terminal status, and a
 stable failure reason such as `no_monotonic_progress` or `deadline_exceeded`.
+
+AO-086 recovery persistence uses `RecoveryEpisode.canonical_checkpoint_json`
+and `RecoveryEpisode.from_checkpoint`. Checkpoints carry only digests for
+public progress tokens, the bounded trace and counters, a pending typed action,
+and elapsed budget time. The host must persist the checkpoint before a
+protected action and supply measured process downtime on restore; an exhausted
+deadline fails closed. Restoration rejects inconsistent event order, counters,
+telemetry, pending actions, private content, and a claimed completed state
+without an executed `ActionGate` receipt. Protected effects remain reconciled
+through the store's durable action key: repeating a successful key returns
+`ALREADY_EXECUTED` without invoking the callback again and resolves the restored
+episode as complete. Refused, failed, timed-out, and uncertain effects do not
+count as task completion and still require explicit reconciliation. A checkpoint
+is restart bookkeeping, not an authenticated statement of external state: the
+host must protect its persisted copy and treat the durable `ActionGate` ledger as
+the authority for whether an effect ran.
 
 The experimental `agent_outcomes.outcomes` grader accepts only host-supplied
 `ActionExecution` records paired with canonical task/step IDs and one
