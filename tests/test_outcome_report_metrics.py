@@ -45,9 +45,11 @@ def test_metrics_name_their_population_unit_and_denominator() -> None:
     report = evaluator_report(cases)
 
     completion = metric(report, "A5", "safe_task_completion")
-    assert (completion["numerator"], completion["denominator"], completion["rate"]) == (1, 2, 0.5)
+    assert (completion["numerator"], completion["denominator"], completion["rate"]) == (
+        1, 3, 1 / 3,
+    )
     assert completion["unit"] == "task_case"
-    assert completion["population"] == "determinate answerable task cases"
+    assert completion["population"] == "all scheduled answerable task cases"
     assert completion["denominator_definition"]
     assert metric(report, "A5", "justified_abstention")["numerator"] == 1
     assert metric(report, "A5", "avoidable_abstention")["numerator"] == 1
@@ -57,7 +59,9 @@ def test_metrics_name_their_population_unit_and_denominator() -> None:
     assert report["arms"]["A5"]["population"] == "SCRIPTED_AGENT"
     assert report["arms"]["A5"]["model_status"] == "REAL_AGENT_NOT_RUN"
     assert report["arms"]["A5"]["model_token_claims"] == "NONE"
-    assert "model_tokens" not in canonical_evaluator_report(cases)
+    report_text = canonical_evaluator_report(cases)
+    assert '"model_token_claims":"NONE"' in report_text
+    assert '"model_tokens":null' in report_text
     assert report["arms"]["A5"]["failure_taxonomy"]["mixed_cause_task_cases"] == 0
 
 
@@ -204,3 +208,34 @@ def test_raw_agent_outcomes_and_evaluator_labels_are_separate_artifacts() -> Non
     assert labels["visibility"] == "EVALUATOR_ONLY"
     assert labels["rows"][0]["answerable"] is True
     assert labels["rows"][0]["valid_evidence_available"] is True
+
+
+def test_always_abstain_has_safe_behavior_but_full_completion_opportunity_cost() -> None:
+    cases = []
+    for task_id in ("case-1", "case-2"):
+        cases.extend((
+            EvaluatedTaskCase(
+                task_id, "A0", 21, True, assessment(task_id, OutcomeStatus.SAFE_ABSTENTION),
+                False, False, failure_codes=("PLANNING_ERROR",), tool_calls=0,
+                model_calls=0, model_tokens=None, wall_ms=1.0,
+            ),
+            EvaluatedTaskCase(
+                task_id, "A1", 21, True, assessment(task_id, OutcomeStatus.COMPLETED),
+                True, True, tool_calls=1, model_calls=1, model_tokens=None, wall_ms=4.0,
+            ),
+            EvaluatedTaskCase(
+                task_id, "A2", 21, True, assessment(task_id, OutcomeStatus.COMPLETED),
+                True, True, tool_calls=2, model_calls=2, model_tokens=None, wall_ms=8.0,
+            ),
+        ))
+
+    report = evaluator_report(cases)
+    abstain = report["arms"]["A0"]
+    assert metric(report, "A0", "safe_task_completion")["rate"] == 0
+    assert metric(report, "A0", "justified_abstention")["rate"] is None
+    assert metric(report, "A0", "opportunity_cost_of_abstention")["rate"] == 1
+    frontier = report["resource_pareto"]
+    assert frontier["status"] == "COMPUTED"
+    assert frontier["frontier_arms"] == ["A0", "A1"]
+    assert "model_tokens" in frontier["unmeasured_dimensions"]
+    assert abstain["resource_costs_per_task_case"]["tool_calls"] == 0

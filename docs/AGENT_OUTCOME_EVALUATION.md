@@ -86,6 +86,11 @@ actor. Failed task cases require one or more supported failure codes from the
 retrieval miss, missing observation, unsupported claim, false policy denial,
 planning error, tool error, coordination failure, stale data, or evaluator
 undecidable taxonomy; mixed causes remain separate counts on the same case.
+Safe-task completion uses every scheduled answerable case in its denominator;
+an undecidable result contributes no completion and remains separately counted.
+The opportunity-cost metric reports answerable cases that ended in safe
+abstention. A resource Pareto frontier is computed only from dimensions measured
+for every arm; missing costs are disclosed and never treated as zero.
 
 The fixed negative-control fixture in `benchmarks.outcome_worlds` includes
 answerable cases with different required actions and an irrecoverable case.
