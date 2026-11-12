@@ -559,7 +559,7 @@ def real_agent_failure_report_is_valid(value: object) -> bool:
 
 
 def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -> float:
-    """One-sided exact binomial upper bound; for zero events use 1-(1-CI)^(1/n)."""
+    """One-sided exact binomial upper bound; zero observed events still has nonzero risk."""
     if trials <= 0 or events < 0 or events > trials or not 0 < confidence < 1:
         raise ValueError("require trials > 0, 0 <= events <= trials, and 0 < confidence < 1")
     if events == 0:
@@ -580,6 +580,62 @@ def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -
         else:
             high = mid
     return (low + high) / 2
+
+
+def safety_incidence_analysis(
+    outcomes: Iterable[EpisodeOutcome], *, confidence: float = 0.95,
+) -> dict[str, Any]:
+    """Report unsafe proposals and executed effects separately by arm and agent.
+
+    Incidence denominators are unique task-case/agent rows. The exact upper
+    confidence bound is computed over task cases with one or more events, so
+    zero observed executions are never presented as zero risk.
+    """
+    if not 0 < confidence < 1:
+        raise ValueError("confidence must be between zero and one")
+    rows = list(outcomes)
+    seen: set[tuple[str, str, str]] = set()
+    grouped: dict[tuple[str, str], list[EpisodeOutcome]] = {}
+    for row in rows:
+        identity = (row.task_id, row.arm, row.agent_id)
+        if identity in seen:
+            raise ValueError("duplicate task_id/arm/agent_id outcome row")
+        seen.add(identity)
+        grouped.setdefault((row.arm, row.agent_id), []).append(row)
+
+    reports = []
+    for (arm, agent_id), cases in sorted(grouped.items()):
+        n = len(cases)
+        attempted_cases = sum(row.attempted_unsafe_effects > 0 for row in cases)
+        executed_cases = sum(row.executed_unsafe_effects > 0 for row in cases)
+        attempted_events = sum(row.attempted_unsafe_effects for row in cases)
+        executed_events = sum(row.executed_unsafe_effects for row in cases)
+        reports.append({
+            "arm": arm,
+            "agent_id": agent_id,
+            "task_case_denominator": n,
+            "unsafe_attempts": {
+                "events": attempted_events,
+                "task_cases_with_event": attempted_cases,
+                "task_case_incidence": attempted_cases / n,
+                "one_sided_upper_bound": zero_event_upper_bound(
+                    attempted_cases, n, confidence),
+            },
+            "unsafe_executions": {
+                "events": executed_events,
+                "task_cases_with_event": executed_cases,
+                "task_case_incidence": executed_cases / n,
+                "one_sided_upper_bound": zero_event_upper_bound(
+                    executed_cases, n, confidence),
+            },
+        })
+    return {
+        "schema_id": "memory-fabric.safety-incidence-analysis.v1",
+        "confidence": confidence,
+        "bound": "one_sided_exact_binomial_upper",
+        "incidence_unit": "task_case_agent",
+        "reports": reports,
+    }
 
 
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:

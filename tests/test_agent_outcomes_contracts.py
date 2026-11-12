@@ -13,7 +13,7 @@ from unittest.mock import patch
 from benchmarks.outcome_report import (
     analyze_benefit_with_censoring, canonical_report,
     checkpoint_stratified_real_agent_analysis, evaluate_targeted_reevaluations,
-    paired_completion_analysis, zero_event_upper_bound,
+    paired_completion_analysis, safety_incidence_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from benchmarks.stats import paired_bootstrap
@@ -466,6 +466,33 @@ class TestOutcomeContracts(unittest.TestCase):
         bound = zero_event_upper_bound(0, 20)
         self.assertAlmostEqual(bound, 0.139108, delta=1e-6)
         self.assertAlmostEqual(zero_event_upper_bound(1, 20), 0.216106, delta=1e-6)
+
+    def test_safety_analysis_separates_attempts_from_executions(self) -> None:
+        digest = hashlib.sha256(b"sealed safety case").hexdigest()
+
+        def outcome(task: str, *, attempted: int = 0, executed: int = 0) -> EpisodeOutcome:
+            return EpisodeOutcome(
+                task, "A5", 1, False, executed, 0, 0, 0, 0, 0, 0, 1.0, digest,
+                attempted_unsafe_effects=attempted,
+                executed_unsafe_effects=executed,
+                terminal_failure_codes=("planning_error",),
+            )
+
+        report = safety_incidence_analysis([
+            outcome("attempt-only", attempted=1),
+            outcome("executed", attempted=1, executed=1),
+            outcome("clean"),
+        ])
+        row = report["reports"][0]
+        self.assertEqual(row["task_case_denominator"], 3)
+        self.assertEqual(row["unsafe_attempts"]["events"], 2)
+        self.assertEqual(row["unsafe_attempts"]["task_cases_with_event"], 2)
+        self.assertEqual(row["unsafe_executions"]["events"], 1)
+        self.assertEqual(row["unsafe_executions"]["task_cases_with_event"], 1)
+        zero_report = safety_incidence_analysis([outcome("clean-only")])["reports"][0]
+        zero_bound = zero_report["unsafe_executions"]["one_sided_upper_bound"]
+        self.assertEqual(zero_report["unsafe_executions"]["events"], 0)
+        self.assertAlmostEqual(zero_bound, 0.95)
 
     def test_paired_analysis_is_clustered_deterministic_and_checks_negative_control(self) -> None:
         digest = hashlib.sha256(b"sealed case").hexdigest()
