@@ -4,7 +4,8 @@
     "planner",
     "executor"
   ],
-  "disclosure": "Observer, Planner, and Executor are distinct authenticated identities and sessions, but sequentially share one local model's weights. This is one integration smoke run, not task-success or safety-efficacy evidence.",
+  "candidate_sha": "24b1e9d6b3113aa913047a3cb81c50a75cae14ac",
+  "disclosure": "One real local-model integration smoke: three distinct authenticated roles and sessions shared one model sequentially; the synthetic instrument fixture exposes reading 4. This is not task-success-rate or safety-efficacy evidence.",
   "effect": {
     "outcome": "executed",
     "ran": true
@@ -37,14 +38,16 @@
         "think": false,
         "top_p": 0.9
       },
-      "prompt_sha256": "eaca7a0a818752dd53b62c6fdd9b72f363fecd2a554f3129298d960aa1a6a01c",
-      "response_schema_sha256": "47387ed4a502272e1906f0da450305bf8ce823d91be9e67ea53146e7c8d30b32",
+      "prompt_sha256": "2c610e18f2c07e432229bcb6b35e58ccdb6dacdfe85ba9f7115ce739a22a33bc",
+      "response_schema_sha256": "bfe0cb9564a2330ecaac49657e1ec82c7fa53ab1bf5107b95e5687ae1217aac4",
       "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
       "usage": {
-        "completion_tokens": 89,
-        "prompt_tokens": 181,
-        "total_tokens": 270,
-        "wall_seconds": 4.332421300001442
+        "completion_tokens": 100,
+        "prompt_tokens": 190,
+        "request_succeeded": true,
+        "retry_count": 0,
+        "total_tokens": 290,
+        "wall_seconds": 34.843063200009055
       }
     },
     {
@@ -72,14 +75,16 @@
         "think": false,
         "top_p": 0.9
       },
-      "prompt_sha256": "f02725d8542e25e198d66c8f75a205229ac798605ac7b754de61983c5c0a15e8",
-      "response_schema_sha256": "c797dc29699af8ae85479043831f7e7467064108adad623e9c5ef10f1a5d0c27",
+      "prompt_sha256": "022c1157e9bdfc4b6037851175e7680db8fa6e506c11b49aba374e976ba5cd50",
+      "response_schema_sha256": "0c43dfe04e815a6fa6d5f38b025b4e5bdeed566ae129d5270218c26726163100",
       "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
       "usage": {
-        "completion_tokens": 121,
-        "prompt_tokens": 225,
-        "total_tokens": 346,
-        "wall_seconds": 5.870466299995314
+        "completion_tokens": 130,
+        "prompt_tokens": 233,
+        "request_succeeded": true,
+        "retry_count": 0,
+        "total_tokens": 363,
+        "wall_seconds": 18.46861360000912
       }
     },
     {
@@ -107,14 +112,16 @@
         "think": false,
         "top_p": 0.9
       },
-      "prompt_sha256": "69da8ae1671e89b587807fc0bfc377441362f938eb95d6cdf886a3ec3006103e",
-      "response_schema_sha256": "4ac877dd84c865a8060a150b9497e130e99004232d81dbb00c3a2f222d3c6777",
+      "prompt_sha256": "326b165f98e85cd97502be6afec6a5d4654a5fc085694c00e653e4d6e91e3fb6",
+      "response_schema_sha256": "dfc723143ea5c9fe381a235ae163c19b81d4b4a2d7ed56100524fdc4b080e4cc",
       "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
       "usage": {
-        "completion_tokens": 139,
-        "prompt_tokens": 261,
-        "total_tokens": 400,
-        "wall_seconds": 6.973933999994188
+        "completion_tokens": 145,
+        "prompt_tokens": 269,
+        "request_succeeded": true,
+        "retry_count": 0,
+        "total_tokens": 414,
+        "wall_seconds": 21.490341500000795
       }
     },
     {
@@ -142,14 +149,16 @@
         "think": false,
         "top_p": 0.9
       },
-      "prompt_sha256": "3fff82c79c538c996b9a3de0e9a87f17d196cdf8aabe40f76a861d96709eb459",
-      "response_schema_sha256": "71e44c0bbf3697d2578ce4ee2a205645a9b87b57ae894c289723c382f352752d",
+      "prompt_sha256": "8d31e8664f0bfb7fffa4a6fea46075d7e5ee47af700c6200fc3bc3ac93ac9643",
+      "response_schema_sha256": "ee10053b4cee4cd28dab82febc9e94265466d49251d1e1b506cd7cd62c602296",
       "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
       "usage": {
-        "completion_tokens": 111,
-        "prompt_tokens": 239,
-        "total_tokens": 350,
-        "wall_seconds": 5.633616400009487
+        "completion_tokens": 117,
+        "prompt_tokens": 247,
+        "request_succeeded": true,
+        "retry_count": 0,
+        "total_tokens": 364,
+        "wall_seconds": 17.305723400000716
       }
     },
     {
@@ -177,14 +186,16 @@
         "think": false,
         "top_p": 0.9
       },
-      "prompt_sha256": "49711e73b64a59d8c6b90cd8fab46e41ce0a7b85aa075edb49dace935b73541a",
-      "response_schema_sha256": "340c54ffc4f3705b6a19196c50106ec0cf12bc255be14e4ba11b8fa1b530d837",
+      "prompt_sha256": "060b0ffe5cca25b972383fe910228915f0605d6c30648e2e91afe62b64d825ce",
+      "response_schema_sha256": "50ae1399cee7d76887f69ee264860136ec504e0ef3b93a97239c395954ec8d65",
       "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
       "usage": {
-        "completion_tokens": 115,
-        "prompt_tokens": 305,
-        "total_tokens": 420,
-        "wall_seconds": 6.398971600006917
+        "completion_tokens": 124,
+        "prompt_tokens": 313,
+        "request_succeeded": true,
+        "retry_count": 0,
+        "total_tokens": 437,
+        "wall_seconds": 18.618866099976003
       }
     }
   ],
@@ -201,32 +212,32 @@
     {
       "actor_id": "observer",
       "arguments": {
-        "content": "reading: 4",
+        "content": "[REDACTED]",
         "tool": "remember_evidence"
       },
       "evidence_versions": [],
       "intent": "inspect",
       "schema_id": "memory-fabric.agent-outcomes.v3",
-      "step_id": "mf-step-bd81fde5b3dff5febc90ec88",
-      "task_id": "ao-sequential-team-live12"
+      "step_id": "mf-step-3f4d97bc7587dde10e6dcf3b",
+      "task_id": "ao-sequential-team-refresh-2026-11-12"
     },
     {
       "actor_id": "planner",
       "arguments": {
         "k": 1,
-        "query": "reading: 4",
+        "query": "[REDACTED]",
         "tool": "retrieve_evidence"
       },
       "evidence_versions": [
         [
-          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          "01M77YZH3FS4Q24E8FTD86SGCP",
           1
         ]
       ],
       "intent": "retrieve",
       "schema_id": "memory-fabric.agent-outcomes.v3",
-      "step_id": "mf-step-e436f5858cdf8250ea00126b",
-      "task_id": "ao-sequential-team-live12"
+      "step_id": "mf-step-d2966b383636e81be69c8f2b",
+      "task_id": "ao-sequential-team-refresh-2026-11-12"
     },
     {
       "actor_id": "planner",
@@ -240,14 +251,14 @@
       },
       "evidence_versions": [
         [
-          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          "01M77YZH3FS4Q24E8FTD86SGCP",
           1
         ]
       ],
       "intent": "propose",
       "schema_id": "memory-fabric.agent-outcomes.v3",
-      "step_id": "mf-step-d831d06fb92ab5bbcb0ce9ad",
-      "task_id": "ao-sequential-team-live12"
+      "step_id": "mf-step-8afa442fcc5d265f222968a2",
+      "task_id": "ao-sequential-team-refresh-2026-11-12"
     },
     {
       "actor_id": "executor",
@@ -256,14 +267,14 @@
       },
       "evidence_versions": [
         [
-          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          "01M77YZH3FS4Q24E8FTD86SGCP",
           1
         ]
       ],
       "intent": "inspect",
       "schema_id": "memory-fabric.agent-outcomes.v3",
-      "step_id": "mf-step-93de8bd7fa0801fefa5c05d0",
-      "task_id": "ao-sequential-team-live12"
+      "step_id": "mf-step-a447014eb2afe506e9f3f2f6",
+      "task_id": "ao-sequential-team-refresh-2026-11-12"
     },
     {
       "actor_id": "executor",
@@ -275,24 +286,24 @@
       },
       "evidence_versions": [
         [
-          "01M76NDA2G4HSRA8P6K2ZKWK89",
+          "01M77YZH3FS4Q24E8FTD86SGCP",
           1
         ]
       ],
       "intent": "propose",
       "schema_id": "memory-fabric.agent-outcomes.v3",
-      "step_id": "mf-step-4f96eff6f45248df95c8ba39",
-      "task_id": "ao-sequential-team-live12"
+      "step_id": "mf-step-15ba033e405d3cc8171af465",
+      "task_id": "ao-sequential-team-refresh-2026-11-12"
     }
   ],
-  "model_tokens": 1786,
+  "model_tokens": 1868,
   "orchestration": "sequential",
   "population": "REAL_AGENT",
   "quantization_level": "Q4_K_M",
   "reason": "completed_sequential_team_run",
-  "run_timestamp_utc": "2026-11-12T01:19:56.072018+00:00",
+  "run_timestamp_utc": "2026-11-12T13:27:17.784978+00:00",
   "schema_id": "memory-fabric.real-agent-team-report.v1",
   "shared_model_weights": true,
   "status": "PASS",
-  "task_id": "ao-sequential-team-live12"
+  "task_id": "ao-sequential-team-refresh-2026-11-12"
 }

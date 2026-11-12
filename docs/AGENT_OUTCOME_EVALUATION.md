@@ -51,9 +51,13 @@ The recorded smoke report is
 `qwen2.5:1.5b`, digest
 `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`,
 Q4_K_M, seed 42, temperature 0, top-p 0.9, context 4096, output limit 512,
-one validated `inspect` step, and 232 tokens. The code revision was
-`dd01f0f`. The gate accepted this report as local-model evidence; the full
-repository suite remains `NOT_RUN` under the sandbox loopback restriction.
+one validated `inspect` step, and 264 tokens. It was rerun on candidate
+`24b1e9d6b3113aa913047a3cb81c50a75cae14ac` on 2026-11-12 using the already
+installed local model over explicitly enabled loopback. The real-agent report
+records `PASS`, one inference call, and `NOT_TESTED` prompt-injection
+compliance; this validates one adapter decision, not policy robustness or task
+efficacy. The local full repository suite separately passed on the same code
+tree: 2,376 tests, 46 skipped.
 
 `run_sequential_real_agent_team` runs Observer, Planner, and Executor through
 separate authenticated Memory Fabric sessions and one shared local model, with
@@ -61,10 +65,12 @@ one inference call at a time. Host operations connect the roles through a
 memory write and retrieval, evidence certification, and a granted `set_target`
 effect. The recorded integration smoke is
 [benchmarks/real_agent_team_smoke_manifest.json](../benchmarks/real_agent_team_smoke_manifest.json):
-five calls, 1,786 total tokens, Qwen 2.5 1.5B digest
+five calls, 1,868 total tokens, Qwen 2.5 1.5B digest
 `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`, Q4_K_M,
-and one executed effect. The manifest discloses shared weights and pins every
-call's options and hashes. The v33 gate validates the three identities, typed
+and one executed effect at target 4, from the public instrument fixture's
+reading. It was rerun on candidate `24b1e9d6b3113aa913047a3cb81c50a75cae14ac`
+on 2026-11-12. The manifest discloses shared weights and pins every call's
+options and hashes. The v33 gate validates the three identities, typed
 step sequence, evidence versions, exact approved action parameters, and model
 provenance with `--real-team-report PATH`. This is one integration smoke run,
 not evidence of task-success rates or safety efficacy.
