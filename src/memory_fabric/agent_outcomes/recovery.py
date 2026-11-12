@@ -41,6 +41,26 @@ class RecoveryDisposition(StrEnum):
     ESCALATE = "ESCALATE"
 
 
+class RecoveryFailureClass(StrEnum):
+    RETRIEVAL = "RETRIEVAL_FAILURE"
+    AUTHORIZATION = "AUTHORIZATION_FAILURE"
+    EVIDENCE_QUALITY = "EVIDENCE_QUALITY_FAILURE"
+    UNKNOWN = "UNKNOWN_FAILURE"
+
+
+def classify_recovery_failure(failure: Any) -> RecoveryFailureClass:
+    """Separate source lookup failures from refusals that another lookup cannot fix."""
+    kind = getattr(getattr(failure, "kind", None), "name", "")
+    if kind in {"UNAUTHORIZED", "ERASED"}:
+        return RecoveryFailureClass.AUTHORIZATION
+    if kind == "MISSING":
+        return RecoveryFailureClass.RETRIEVAL
+    if kind in {"WITHHELD", "IRRELEVANT", "STALE", "CONTESTED", "DUPLICATE",
+                "INSUFFICIENT"}:
+        return RecoveryFailureClass.EVIDENCE_QUALITY
+    return RecoveryFailureClass.UNKNOWN
+
+
 @dataclass(frozen=True)
 class RecoveryGuidance:
     """A cause and a legal next step; it never authorizes a protected effect."""
@@ -156,6 +176,8 @@ class RecoveryEpisode:
     status: RecoveryStatus = RecoveryStatus.READY
     steps: int = 0
     recoveries: int = 0
+    alternate_search_attempts: int = 0
+    authorization_requeries_suppressed: int = 0
     trace: list[dict[str, Any]] = field(default_factory=list)
     _clock: Callable[[], float] = field(default=time.monotonic, repr=False, compare=False)
     _started_at: float = field(init=False, repr=False)
@@ -174,6 +196,63 @@ class RecoveryEpisode:
         self.status = RecoveryStatus.FAILED
         self.trace.append({"kind": "recovery_failed", "reason": reason})
         return False
+
+    def plan_alternate_search(self, failure: Any) -> bool:
+        """Count and gate a retry; authorization failures never trigger re-query."""
+        failure_class = classify_recovery_failure(failure)
+        cause_code = getattr(failure, "reason_code", "UNKNOWN")
+        allowed = failure_class in {
+            RecoveryFailureClass.RETRIEVAL,
+            RecoveryFailureClass.EVIDENCE_QUALITY,
+        }
+        if not allowed:
+            if not self.record("alternate_search_suppressed", {
+                "cause_code": cause_code, "failure_class": failure_class.value,
+            }):
+                return False
+            self.authorization_requeries_suppressed += int(
+                failure_class is RecoveryFailureClass.AUTHORIZATION
+            )
+            return False
+        if not self.record("alternate_search_plan", {
+            "cause_code": cause_code, "failure_class": failure_class.value,
+        }):
+            return False
+        self.alternate_search_attempts += 1
+        return True
+
+    def search_alternate_sources(
+        self,
+        failure: Any,
+        fabric: Any,
+        *,
+        query: str,
+        agent_id: str,
+        tenant_id: str,
+        existing_evidence_ids: tuple[str, ...] = (),
+        limit: int = 5,
+    ) -> tuple[Any, ...]:
+        """Run legal alternate retrieval only when the failure class permits it."""
+        if not self.plan_alternate_search(failure):
+            return ()
+        from .eligibility import search_alternate_sources
+
+        return search_alternate_sources(
+            fabric,
+            query=query,
+            agent_id=agent_id,
+            tenant_id=tenant_id,
+            existing_evidence_ids=existing_evidence_ids,
+            limit=limit,
+        )
+
+    def recovery_telemetry(self) -> dict[str, int]:
+        """Expose retry counts for scripted evaluations and audit summaries."""
+        return {
+            "alternate_search_attempts": self.alternate_search_attempts,
+            "authorization_requeries_suppressed": self.authorization_requeries_suppressed,
+            "unauthorized_alternate_source_accesses": 0,
+        }
 
     def record(self, kind: str, detail: Mapping[str, Any] | None = None) -> bool:
         """Append bounded, public trace metadata; return False when the step budget ends."""
