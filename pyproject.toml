@@ -52,6 +52,7 @@ retrieval-torch = ["sentence-transformers>=3"]
 
 [project.scripts]
 memory-fabric = "memory_fabric.cli:main"
+memory-fabric-outcome-demo = "memory_fabric.agent_outcomes.demo:main"
 
 [project.urls]
 Repository = "https://github.com/crakashp2905-hub/memory-fabric"

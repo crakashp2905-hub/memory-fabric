@@ -20,6 +20,7 @@ from benchmarks.outcome_report import (
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from benchmarks.stats import paired_bootstrap
 from examples.outcome_recovery_demo import run_demo
+from memory_fabric.agent_outcomes.demo import main as outcome_demo_main
 from memory_fabric.agent_outcomes import (
     AgentObservation, AgentStep, DiagnosisSource, EpisodeAudit, EpisodeOutcome, EvidenceFailureCode,
     FailureCode, RECOVERY_ACTIONS, RecoveryAction, RecoveryEpisode, RecoveryLimits,
@@ -868,6 +869,13 @@ class TestOutcomeContracts(unittest.TestCase):
         self.assertTrue(all("completion" not in step for step in actor))
         self.assertTrue(evaluator["completion"])
         self.assertEqual(evaluator["unsafe_effects_executed"], 0)
+        output = io.StringIO()
+        with redirect_stdout(output):
+            self.assertEqual(outcome_demo_main(), 0)
+        installed_command_report = json.loads(output.getvalue())
+        self.assertEqual(installed_command_report["schema_id"],
+                         "memory-fabric.outcome-recovery-demo.v1")
+        self.assertTrue(installed_command_report["evaluator_view_after_episode"]["completion"])
 
 
 class TestTerminalOutcomeProtocol(unittest.TestCase):
