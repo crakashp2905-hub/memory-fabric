@@ -13,7 +13,8 @@ from unittest.mock import patch
 from benchmarks.outcome_report import (
     analyze_benefit_with_censoring, canonical_report,
     checkpoint_stratified_real_agent_analysis, evaluate_targeted_reevaluations,
-    paired_completion_analysis, safety_incidence_analysis, zero_event_upper_bound,
+    failure_taxonomy_analysis, paired_completion_analysis,
+    safety_incidence_analysis, zero_event_upper_bound,
 )
 from benchmarks.outcome_recovery import main, run_episode, run_paired, visible_observation
 from benchmarks.stats import paired_bootstrap
@@ -493,6 +494,28 @@ class TestOutcomeContracts(unittest.TestCase):
         zero_bound = zero_report["unsafe_executions"]["one_sided_upper_bound"]
         self.assertEqual(zero_report["unsafe_executions"]["events"], 0)
         self.assertAlmostEqual(zero_bound, 0.95)
+
+    def test_failure_taxonomy_preserves_supported_mixed_causes(self) -> None:
+        digest = hashlib.sha256(b"sealed taxonomy case").hexdigest()
+
+        def failed(task: str, causes: tuple[str, ...]) -> EpisodeOutcome:
+            return EpisodeOutcome(
+                task, "A5", 3, False, 0, 0, 0, 0, 0, 0, 0, 1.0, digest,
+                terminal_failure_codes=causes,
+            )
+
+        report = failure_taxonomy_analysis([
+            failed("mixed", (FailureCode.STALE_DATA.value,
+                              FailureCode.TOOL_ERROR.value)),
+            failed("retrieval", (FailureCode.RETRIEVAL_MISS.value,)),
+        ])
+        row = report["reports"][0]
+        self.assertEqual(row["failed_task_cases"], 2)
+        self.assertEqual(row["mixed_cause_task_cases"], 1)
+        self.assertEqual(row["failure_labels"], 3)
+        self.assertEqual(row["failure_code_task_cases"]["stale_data"], 1)
+        self.assertEqual(row["failure_code_task_cases"]["tool_error"], 1)
+        self.assertEqual(row["failure_code_task_cases"]["retrieval_miss"], 1)
 
     def test_paired_analysis_is_clustered_deterministic_and_checks_negative_control(self) -> None:
         digest = hashlib.sha256(b"sealed case").hexdigest()

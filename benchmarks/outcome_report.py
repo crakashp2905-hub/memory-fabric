@@ -638,6 +638,47 @@ def safety_incidence_analysis(
     }
 
 
+def failure_taxonomy_analysis(outcomes: Iterable[EpisodeOutcome]) -> dict[str, Any]:
+    """Count supported failure causes by task case without collapsing mixed causes."""
+    rows = list(outcomes)
+    seen: set[tuple[str, str, str]] = set()
+    grouped: dict[tuple[str, str], list[EpisodeOutcome]] = {}
+    for row in rows:
+        identity = (row.task_id, row.arm, row.agent_id)
+        if identity in seen:
+            raise ValueError("duplicate task_id/arm/agent_id outcome row")
+        seen.add(identity)
+        grouped.setdefault((row.arm, row.agent_id), []).append(row)
+
+    reports = []
+    codes = tuple(sorted(FailureCode, key=lambda code: code.value))
+    for (arm, agent_id), cases in sorted(grouped.items()):
+        failed = [row for row in cases if not row.completion]
+        # EpisodeOutcome enforces at least one supported code for failures;
+        # repeat the invariant here so serializer/report boundary changes fail closed.
+        if any(not row.terminal_failure_codes for row in failed):
+            raise ValueError("failed task cases require at least one supported failure code")
+        reports.append({
+            "arm": arm,
+            "agent_id": agent_id,
+            "task_case_denominator": len(cases),
+            "failed_task_cases": len(failed),
+            "failure_code_task_cases": {
+                code.value: sum(code.value in row.terminal_failure_codes for row in failed)
+                for code in codes
+            },
+            "mixed_cause_task_cases": sum(
+                len(row.terminal_failure_codes) > 1 for row in failed),
+            "failure_labels": sum(len(row.terminal_failure_codes) for row in failed),
+        })
+    return {
+        "schema_id": "memory-fabric.failure-taxonomy-analysis.v1",
+        "counting_unit": "task_case_agent",
+        "mixed_cause_policy": "count each supported cause; retain the original row codes",
+        "reports": reports,
+    }
+
+
 def report_rows(outcomes: Iterable[EpisodeOutcome]) -> list[dict[str, Any]]:
     """Return raw case-arm-agent rows without model-usage or hidden-label claims."""
     rows = [asdict(item) for item in outcomes]
