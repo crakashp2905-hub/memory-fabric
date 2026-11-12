@@ -59,14 +59,24 @@ class CrashMidAction(unittest.TestCase):
         f = MemoryFabric(str(self.db))
         self.addCleanup(f.close)
         ran: list[str] = []
+        effect_keys = {self.marker.read_text(encoding="utf-8")}
+
+        def idempotent_effect(key: str) -> None:
+            if key in effect_keys:
+                return
+            effect_keys.add(key)
+            ran.append(key)
+
         cert = f.certify("open-v7", [self.mid], "ops")
-        again = self.gate(f).execute("open", "ops", ran.append, cert, key="k-crash")
+        again = self.gate(f).execute("open", "ops", idempotent_effect, cert, key="k-crash")
         self.assertEqual(again.outcome, REFUSED)
         self.assertIn("retry_required", again.error or "")
         self.assertEqual(ran, [], "not run again on the assumption it never happened")
-        retried = self.gate(f).execute("open", "ops", ran.append, cert, key="k-crash", retry=True)
+        retried = self.gate(f).execute("open", "ops", idempotent_effect, cert,
+                                       key="k-crash", retry=True)
         self.assertEqual(retried.outcome, EXECUTED)
-        self.assertEqual(ran, ["k-crash"])
+        self.assertEqual(ran, [], "the downstream idempotency key suppressed the repeat")
+        self.assertEqual(effect_keys, {"k-crash"})
 
 
 if __name__ == "__main__":  # pragma: no cover

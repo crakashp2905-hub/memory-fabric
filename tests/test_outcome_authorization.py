@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import json
 import secrets
+import subprocess
+import sys
+import tempfile
+import textwrap
 import unittest
 from dataclasses import replace
+from pathlib import Path
 
 from memory_fabric import MemoryFabric
+from memory_fabric.events import EventType
 from memory_fabric.actions import (
     GRANT_MISMATCH, REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
 )
@@ -21,8 +28,108 @@ from memory_fabric.identity import ROLE_AGENT
 from memory_fabric.service import MemoryService
 from benchmarks.outcome_agents import ExecutorActor, ObserverActor, PlannerActor
 
+_ROOT = Path(__file__).resolve().parents[1]
+_RACE_CORRECTOR = textwrap.dedent("""
+    import os, sys, time
+    sys.path.insert(0, sys.argv[1])
+    from memory_fabric import MemoryFabric
+    fabric = MemoryFabric(sys.argv[2])
+    deadline = time.monotonic() + 20
+    while not os.path.exists(sys.argv[4]):
+        if time.monotonic() > deadline:
+            raise TimeoutError("race start signal missing")
+        time.sleep(0.002)
+    fabric.revise(sys.argv[3], "Updated protected setting is 9.",
+                  "source", "controlled correction race")
+    fabric.close()
+""")
+_RACE_ACTOR = textwrap.dedent("""
+    import json, os, sys, time
+    sys.path.insert(0, sys.argv[1])
+    from memory_fabric import MemoryFabric
+    from memory_fabric.actions import ActionGate, ActionPolicy, ActionRequest, ToolRule
+    from memory_fabric.certificates import EvidenceCertificate
+    fabric = MemoryFabric(sys.argv[2])
+    gate = ActionGate(fabric, ActionPolicy(
+        tools={"set_target": ToolRule("set_target")},
+        grants={"executor": frozenset({"set_target"})},
+    ))
+    certificate = EvidenceCertificate.from_json(json.loads(sys.argv[5]))
+    deadline = time.monotonic() + 20
+    while not os.path.exists(sys.argv[4]):
+        if time.monotonic() > deadline:
+            raise TimeoutError("race start signal missing")
+        time.sleep(0.002)
+    def effect(key):
+        with open(sys.argv[6], "w", encoding="utf-8") as output:
+            output.write(key)
+    result = gate.execute(
+        "set_target", "executor", effect, certificate, key="controlled-race",
+        request=ActionRequest("protected_setting", {"value": 4}), lease_s=1.0,
+    )
+    print(result.outcome)
+    fabric.close()
+""")
+
 
 class TestOutcomeAuthorization(unittest.TestCase):
+    def test_correction_and_action_race_across_processes_respects_commit_order(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            db_path, start_path, effect_path = (
+                root / "race.db", root / "start", root / "effect",
+            )
+            fabric = MemoryFabric(str(db_path), auto_activate=True)
+            memory_id = fabric.remember(
+                "source", "Protected setting is 4.", scope="team",
+            )
+            certificate = fabric.certify(
+                "Apply protected setting.", [memory_id], "executor",
+            )
+            certificate_json = json.dumps(certificate.to_json(), separators=(",", ":"))
+            fabric.close()
+            processes = [
+                subprocess.Popen([
+                    sys.executable, "-c", _RACE_CORRECTOR, str(_ROOT), str(db_path),
+                    memory_id, str(start_path),
+                ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True),
+                subprocess.Popen([
+                    sys.executable, "-c", _RACE_ACTOR, str(_ROOT), str(db_path),
+                    memory_id, str(start_path), certificate_json, str(effect_path),
+                ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True),
+            ]
+            start_path.touch()
+            try:
+                outputs = [process.communicate(timeout=30) for process in processes]
+            finally:
+                for process in processes:
+                    if process.poll() is None:
+                        process.kill()
+                        process.wait(timeout=5)
+            for process, (stdout, stderr) in zip(processes, outputs):
+                self.assertEqual(process.returncode, 0, stderr[-2000:])
+
+            fabric = MemoryFabric(str(db_path))
+            events = list(fabric.log.read())
+            correction = next(
+                event for event in events
+                if event.payload.get("reason") == "controlled correction race"
+            )
+            action = next((
+                event for event in events
+                if event.payload.get("key") == "controlled-race"
+                and event.type == EventType.ACTION_EXECUTED
+            ), None)
+            self.assertIsNotNone(action, (outputs, [(e.type, e.payload) for e in events]))
+            if action.payload.get("outcome") == "executed":
+                self.assertLess(action.seq, correction.seq)
+                self.assertTrue(effect_path.exists())
+            else:
+                self.assertEqual(action.payload.get("outcome"), REFUSED)
+                self.assertGreater(action.seq, correction.seq)
+                self.assertFalse(effect_path.exists())
+            fabric.close()
+
     def test_historical_truth_is_readable_but_not_current_action_authority(self) -> None:
         now = [500]
         fabric = MemoryFabric(":memory:", auto_activate=True, clock=lambda: now[0])

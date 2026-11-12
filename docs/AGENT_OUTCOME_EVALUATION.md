@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v51.json`. Run it with
+`tools/agent_outcome_gate_manifest.v52.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -408,3 +408,5 @@ unnecessary receipts, and missed targets separately from task completion. Its
 completion numerator and denominator come only from terminal grader outcomes
 for unique task IDs; an accurate decision target index cannot count as a
 completed task.
+
+AO-056 exercises correction and action commits in separate processes. The action gate serializes evidence verification and the effect attempt with the correction transaction: if correction wins, stale evidence is refused; if action wins, its execution is ordered before correction. A crash leaves an unknown effect and the same idempotency key requires an explicit retry. The downstream effect handler must deduplicate that key because the gate cannot infer whether an external effect completed before a crash.
