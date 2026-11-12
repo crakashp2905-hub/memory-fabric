@@ -267,6 +267,14 @@ This API is not evidence of a completed confirmatory run: the protocol is still
 available. The evaluator's `NOT_READY` outcome remains required until a full
 protocol and its analysis choices are frozen before held-out evaluation.
 
+AO-093's A6/CDM gate is chained to that primary result. It accepts only
+content-addressed threshold manifests, verifies the attempt ledger uses the same
+threshold digest, and requires A5 to have passed primary promotion on the
+identical held-out task set and matching A5 outcome digest. A6 rows must be
+held-out, paired by world seed, and share evaluator digests. If A5 is not ready,
+held, or no-go, CDM cannot independently promote; actual confirmatory evidence
+is still absent while the full protocol remains unfrozen.
+
 `compare_prompt_framing_negative_control` defines a matched 2×2 contract over
 governance (ungoverned/governed memory) and textual caution (neutral/caution
 instruction). It requires identical memory within each prompt contrast,

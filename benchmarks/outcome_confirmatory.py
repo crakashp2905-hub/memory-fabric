@@ -142,6 +142,20 @@ def _canonical_digest(value: Any) -> str:
     ).encode("utf-8")).hexdigest()
 
 
+def _primary_a5_outcomes_digest(
+    outcomes: Mapping[str, Mapping[str, Any]],
+) -> str:
+    fields = (
+        "task_id", "split", "seed", "completion", "outcome_oracle_digest",
+        "unsafe_attempts", "unsafe_executed", "protected_effect_attempts",
+    )
+    rows = [
+        {field: outcomes[task_id].get(field) for field in fields}
+        for task_id in sorted(outcomes)
+    ]
+    return _canonical_digest(rows)
+
+
 def holm_adjust_registered_secondary_pvalues(
     p_values: Mapping[str, float],
 ) -> dict[str, Any]:
@@ -322,7 +336,8 @@ def evaluate_cdm_promotion(
     *,
     attempt_history: Iterable[Mapping[str, Any]],
     expected_attempt_history_sha256: str,
-    thresholds_frozen: bool,
+    threshold_manifest: Mapping[str, Any],
+    primary_a5_report: Mapping[str, Any],
     minimum_net_utility_gain: float,
     replay_overhead_weight: float,
     minimum_independent_seeds: int = 5,
@@ -342,8 +357,31 @@ def evaluate_cdm_promotion(
     denominators; a zero attempt denominator is not a zero rate. This is an
     evidence gate, not a claim of real-world causality.
     """
-    if not isinstance(thresholds_frozen, bool):
-        raise ValueError("thresholds_frozen must be boolean")
+    if not isinstance(threshold_manifest, Mapping):
+        raise ValueError("CDM promotion requires a frozen threshold manifest")
+    manifest = dict(threshold_manifest)
+    thresholds = manifest.get("thresholds")
+    thresholds_sha256 = manifest.get("thresholds_sha256")
+    if (set(manifest) != {"schema_id", "status", "thresholds", "thresholds_sha256"}
+            or manifest.get("schema_id") != "memory-fabric.cdm-thresholds.v1"
+            or manifest.get("status") not in {"FROZEN", "DRAFT"}
+            or not isinstance(thresholds, Mapping)):
+        raise ValueError("CDM threshold manifest must have a recognized frozen or draft status")
+    if not isinstance(primary_a5_report, Mapping):
+        raise ValueError("CDM promotion requires the primary A5 comparison report")
+    primary = dict(primary_a5_report)
+    if (primary.get("schema_id") != "memory-fabric.primary-a5-confirmatory-comparison.v1"
+            or primary.get("candidate_arm_id") != "A5"
+            or primary.get("status") not in {"PROMOTE_A5", "HOLD", "NO_GO", "NOT_READY"}):
+        raise ValueError("primary A5 report is malformed or has an unknown status")
+    if primary.get("status") == "PROMOTE_A5":
+        safety = primary.get("safety")
+        if (primary.get("protocol_frozen") is not True
+                or primary.get("seed_floor_met") is not True
+                or primary.get("all_registered_actor_and_retrieval_arms_reported") is not True
+                or not isinstance(safety, Mapping)
+                or safety.get("non_regressive") is not True):
+            raise ValueError("primary A5 promotion report does not meet its gate prerequisites")
     for name, value in (("minimum_net_utility_gain", minimum_net_utility_gain),
                         ("replay_overhead_weight", replay_overhead_weight),
                         ("confidence", confidence)):
@@ -361,6 +399,32 @@ def evaluate_cdm_promotion(
         raise ValueError("at least 100 bootstrap resamples are required")
     if not 0 < confidence < 1:
         raise ValueError("confidence must be between zero and one")
+    threshold_values = {
+        "minimum_net_utility_gain": float(minimum_net_utility_gain),
+        "replay_overhead_weight": float(replay_overhead_weight),
+        "minimum_independent_seeds": minimum_independent_seeds,
+        "bootstrap_seed": seed,
+        "resamples": resamples,
+        "confidence": float(confidence),
+        "cluster_unit": "world_seed",
+        "interval_method": "paired_cluster_bootstrap_percentile",
+    }
+    expected_threshold_digest = _canonical_digest(threshold_values)
+    try:
+        manifest_threshold_digest = _canonical_digest(dict(thresholds))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("CDM threshold manifest values must be finite JSON") from exc
+    if (dict(thresholds) != threshold_values
+            or manifest_threshold_digest != expected_threshold_digest):
+        raise ValueError("CDM evaluator parameters disagree with the threshold manifest")
+    if (not isinstance(thresholds_sha256, str)
+            or thresholds_sha256 != expected_threshold_digest):
+        raise ValueError("CDM threshold manifest digest does not match its values")
+    attempts = list(attempt_history)
+    if not attempts or any(
+            not isinstance(row, Mapping)
+            or row.get("thresholds_sha256") != thresholds_sha256 for row in attempts):
+        raise ValueError("CDM attempt history must use the frozen threshold digest")
 
     by_arm: dict[str, dict[str, Mapping[str, Any]]] = {"A5": {}, "A6": {}}
     for row in rows:
@@ -372,6 +436,12 @@ def evaluate_cdm_promotion(
         task_id = row.get("task_id")
         if not isinstance(task_id, str) or not task_id:
             raise ValueError("paired outcome rows require a task_id")
+        if row.get("split") != "heldout":
+            raise ValueError("CDM promotion accepts held-out outcome rows only")
+        oracle_digest = row.get("outcome_oracle_digest")
+        if (not isinstance(oracle_digest, str) or len(oracle_digest) != 64
+                or any(char not in "0123456789abcdef" for char in oracle_digest)):
+            raise ValueError("paired CDM outcomes require evaluator digests")
         if task_id in by_arm[arm]:
             raise ValueError(f"duplicate task {task_id!r} in arm {arm!r}")
         seed_value = row.get("seed")
@@ -396,6 +466,12 @@ def evaluate_cdm_promotion(
     if not baseline or set(baseline) != set(treatment):
         raise ValueError("A5 and A6 must contain the same non-empty task IDs")
     task_ids = sorted(baseline)
+    heldout_digest = _canonical_digest(task_ids)
+    if primary.get("heldout_task_id_set_sha256") != heldout_digest:
+        raise ValueError("CDM pairs must match the primary A5 held-out task cases")
+    a5_rows_digest = _primary_a5_outcomes_digest(baseline)
+    if primary.get("heldout_a5_outcomes_sha256") != a5_rows_digest:
+        raise ValueError("CDM A5 outcomes must match the primary held-out A5 outcomes")
     base_utilities: list[float] = []
     treatment_utilities: list[float] = []
     clusters: list[Hashable] = []
@@ -408,8 +484,9 @@ def evaluate_cdm_promotion(
     base_replay_ms = treatment_replay_ms = 0.0
     for task_id in task_ids:
         base, candidate = baseline[task_id], treatment[task_id]
-        if base["seed"] != candidate["seed"]:
-            raise ValueError(f"paired task {task_id!r} has mismatched seeds")
+        if (base["seed"] != candidate["seed"]
+                or base["outcome_oracle_digest"] != candidate["outcome_oracle_digest"]):
+            raise ValueError(f"paired task {task_id!r} has mismatched seeds or evaluator digests")
         base_utility = float(base["completion"]) - replay_overhead_weight * float(
             base["replay_overhead_ms"])
         treatment_utility = float(candidate["completion"]) - replay_overhead_weight * float(
@@ -448,9 +525,18 @@ def evaluate_cdm_promotion(
     utility_favorable = (
         bootstrap["diff"] >= minimum_net_utility_gain and bootstrap["lo"] > 0
     )
-    eligible = thresholds_frozen and cluster_floor_met
+    thresholds_frozen = manifest["status"] == "FROZEN"
+    primary_a5_passed = primary["status"] == "PROMOTE_A5"
+    eligible = thresholds_frozen and cluster_floor_met and primary_a5_passed
     promote = eligible and utility_favorable and safety_non_regressive
-    status = "PROMOTE_CDM" if promote else ("NOT_READY" if not eligible else "DO_NOT_PROMOTE")
+    if not safety_non_regressive or primary["status"] == "NO_GO":
+        status = "NO_GO"
+    elif not thresholds_frozen or not cluster_floor_met or primary["status"] == "NOT_READY":
+        status = "NOT_READY"
+    elif not primary_a5_passed:
+        status = "DO_NOT_PROMOTE"
+    else:
+        status = "PROMOTE_CDM" if promote else "DO_NOT_PROMOTE"
     report = {
         "schema_id": "memory-fabric.cdm-confirmatory-comparison.v1",
         "status": status,
@@ -461,6 +547,12 @@ def evaluate_cdm_promotion(
         "minimum_independent_seeds": minimum_independent_seeds,
         "cluster_floor_met": cluster_floor_met,
         "thresholds_frozen": thresholds_frozen,
+        "thresholds_sha256": thresholds_sha256,
+        "primary_a5_gate": {
+            "status": primary["status"],
+            "heldout_task_id_set_sha256": heldout_digest,
+            "same_heldout_task_cases": True,
+        },
         "utility": {
             "definition": "completion_minus_replay_overhead_weight_times_replay_only_ms",
             "replay_overhead_weight": replay_overhead_weight,
@@ -510,13 +602,14 @@ def evaluate_cdm_promotion(
             },
         },
         "promotion_requires": [
-            "thresholds_frozen", "minimum_independent_seed_floor",
+            "content_addressed_frozen_thresholds", "primary_a5_promotion_on_same_heldout_cases",
+            "minimum_independent_seed_floor",
             "favorable_net_utility_after_replay_overhead", "non_regressive_safety",
         ],
         "claim_scope": "paired_synthetic_or_real_agent_outcomes_no_physical_causal_claim",
     }
     return attach_confirmatory_attempt_history(
-        report, attempt_history,
+        report, attempts,
         expected_history_sha256=expected_attempt_history_sha256,
     )
 
@@ -684,6 +777,7 @@ def evaluate_primary_a5_promotion(
         "baseline_selection_sha256": baseline_selection["selection_sha256"],
         "pilot_task_id_set_sha256": baseline_selection["pilot_task_id_set_sha256"],
         "heldout_task_id_set_sha256": _canonical_digest(task_ids),
+        "heldout_a5_outcomes_sha256": _primary_a5_outcomes_digest(candidate),
         "heldout_outcome_rows_sha256": rows_sha256,
         "heldout_task_cases": task_case_count,
         "independent_world_seed_clusters": independent_seeds,

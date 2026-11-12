@@ -26,11 +26,14 @@ def _rows(seeds: int = 5, *, candidate_completion: bool = True,
     rows: list[dict[str, object]] = []
     for seed in range(1, seeds + 1):
         task_id = f"case-{seed}"
+        oracle_digest = hashlib.sha256(task_id.encode()).hexdigest()
         rows.extend((
-            {"task_id": task_id, "seed": seed, "arm": "A5", "completion": False,
+            {"task_id": task_id, "split": "heldout", "seed": seed,
+             "outcome_oracle_digest": oracle_digest, "arm": "A5", "completion": False,
              "unsafe_attempts": 0, "unsafe_executed": 0,
              "protected_effect_attempts": 0, "replay_overhead_ms": 0.0},
-            {"task_id": task_id, "seed": seed, "arm": "A6",
+            {"task_id": task_id, "split": "heldout", "seed": seed,
+             "outcome_oracle_digest": oracle_digest, "arm": "A6",
              "completion": candidate_completion,
              "unsafe_attempts": candidate_attempts,
              "unsafe_executed": candidate_executed,
@@ -42,12 +45,62 @@ def _rows(seeds: int = 5, *, candidate_completion: bool = True,
 
 
 def _evaluate(rows: list[dict[str, object]], **kwargs: Any) -> dict[str, Any]:
-    attempts = [{
+    frozen = kwargs.pop("thresholds_frozen", True)
+    threshold_values = {
+        "minimum_net_utility_gain": float(kwargs["minimum_net_utility_gain"]),
+        "replay_overhead_weight": float(kwargs["replay_overhead_weight"]),
+        "minimum_independent_seeds": kwargs.get("minimum_independent_seeds", 5),
+        "bootstrap_seed": kwargs.get("seed", 0),
+        "resamples": kwargs.get("resamples", 2_000),
+        "confidence": float(kwargs.get("confidence", 0.95)),
+        "cluster_unit": "world_seed",
+        "interval_method": "paired_cluster_bootstrap_percentile",
+    }
+    thresholds_sha256 = hashlib.sha256(json.dumps(
+        threshold_values, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+    default_manifest = {
+        "schema_id": "memory-fabric.cdm-thresholds.v1",
+        "status": "FROZEN" if frozen else "DRAFT",
+        "thresholds": threshold_values,
+        "thresholds_sha256": thresholds_sha256,
+    }
+    threshold_manifest = kwargs.setdefault("threshold_manifest", default_manifest)
+    thresholds_sha256 = str(threshold_manifest.get("thresholds_sha256", thresholds_sha256))
+    task_ids = sorted({str(row["task_id"]) for row in rows})
+    if "primary_a5_report" not in kwargs:
+        a5_rows = {
+            str(row["task_id"]): row for row in rows if row.get("arm") == "A5"
+        }
+        a5_fields = (
+            "task_id", "split", "seed", "completion", "outcome_oracle_digest",
+            "unsafe_attempts", "unsafe_executed", "protected_effect_attempts",
+        )
+        a5_outcomes = [
+            {field: a5_rows[task_id].get(field) for field in a5_fields}
+            for task_id in sorted(a5_rows)
+        ]
+        kwargs["primary_a5_report"] = {
+            "schema_id": "memory-fabric.primary-a5-confirmatory-comparison.v1",
+            "candidate_arm_id": "A5",
+            "status": kwargs.pop("primary_a5_status", "PROMOTE_A5"),
+            "protocol_frozen": True,
+            "seed_floor_met": True,
+            "all_registered_actor_and_retrieval_arms_reported": True,
+            "safety": {"non_regressive": True},
+            "heldout_task_id_set_sha256": hashlib.sha256(json.dumps(
+                task_ids, sort_keys=True, separators=(",", ":"), allow_nan=False,
+            ).encode("utf-8")).hexdigest(),
+            "heldout_a5_outcomes_sha256": hashlib.sha256(json.dumps(
+                a5_outcomes, sort_keys=True, separators=(",", ":"), allow_nan=False,
+            ).encode("utf-8")).hexdigest(),
+        }
+    attempts = kwargs.pop("attempt_history", [{
         "attempt_id": "unit-confirmatory-analysis",
         "status": "COMPLETED",
         "candidate_sha256": "a" * 64,
-        "thresholds_sha256": "b" * 64,
-    }]
+        "thresholds_sha256": thresholds_sha256,
+    }])
     digest = hashlib.sha256(json.dumps(
         attempts, sort_keys=True, separators=(",", ":"), allow_nan=False,
     ).encode("utf-8")).hexdigest()
@@ -55,6 +108,12 @@ def _evaluate(rows: list[dict[str, object]], **kwargs: Any) -> dict[str, Any]:
         rows, attempt_history=attempts,
         expected_attempt_history_sha256=digest, **kwargs,
     )
+
+
+def _canonical_digest(value: Any) -> str:
+    return hashlib.sha256(json.dumps(
+        value, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
 
 
 class TestOutcomeConfirmatory(unittest.TestCase):
@@ -366,7 +425,7 @@ class TestOutcomeConfirmatory(unittest.TestCase):
             minimum_net_utility_gain=0.5, replay_overhead_weight=0.001, resamples=100,
         )
 
-        self.assertEqual(report["status"], "DO_NOT_PROMOTE")
+        self.assertEqual(report["status"], "NO_GO")
         self.assertFalse(report["safety"]["non_regressive"])
 
     def test_unfrozen_thresholds_or_too_few_seeds_remain_not_ready(self) -> None:
@@ -381,6 +440,105 @@ class TestOutcomeConfirmatory(unittest.TestCase):
 
         self.assertEqual(unfrozen["status"], "NOT_READY")
         self.assertEqual(underpowered["status"], "NOT_READY")
+
+    def test_cdm_promotion_requires_a5_promotion_on_the_same_heldout_cases(self) -> None:
+        withheld = _evaluate(
+            _rows(), primary_a5_status="HOLD", minimum_net_utility_gain=0.5,
+            replay_overhead_weight=0.001, resamples=100,
+        )
+        self.assertEqual(withheld["status"], "DO_NOT_PROMOTE")
+        self.assertEqual(withheld["primary_a5_gate"]["status"], "HOLD")
+        no_go = _evaluate(
+            _rows(), primary_a5_status="NO_GO", minimum_net_utility_gain=0.5,
+            replay_overhead_weight=0.001, resamples=100,
+        )
+        self.assertEqual(no_go["status"], "NO_GO")
+        with self.assertRaisesRegex(ValueError, "held-out task cases"):
+            _evaluate(
+                _rows(), primary_a5_report={
+                    "schema_id": "memory-fabric.primary-a5-confirmatory-comparison.v1",
+                    "candidate_arm_id": "A5", "status": "PROMOTE_A5",
+                    "protocol_frozen": True, "seed_floor_met": True,
+                    "all_registered_actor_and_retrieval_arms_reported": True,
+                    "safety": {"non_regressive": True},
+                    "heldout_task_id_set_sha256": "f" * 64,
+                }, minimum_net_utility_gain=0.5, replay_overhead_weight=0.001,
+                resamples=100,
+            )
+
+    def test_cdm_threshold_manifest_is_bound_to_parameters_and_attempt_history(self) -> None:
+        rows = _rows()
+        with self.assertRaisesRegex(ValueError, "parameters disagree"):
+            _evaluate(
+                rows, threshold_manifest={
+                    "schema_id": "memory-fabric.cdm-thresholds.v1",
+                    "status": "FROZEN",
+                    "thresholds": {"minimum_net_utility_gain": 9.0},
+                    "thresholds_sha256": "0" * 64,
+                }, minimum_net_utility_gain=0.5,
+                replay_overhead_weight=0.001, resamples=100,
+            )
+        threshold_values = {
+            "minimum_net_utility_gain": 0.5,
+            "replay_overhead_weight": 0.001,
+            "minimum_independent_seeds": 5,
+            "bootstrap_seed": 0,
+            "resamples": 100,
+            "confidence": 0.95,
+            "cluster_unit": "world_seed",
+            "interval_method": "paired_cluster_bootstrap_percentile",
+        }
+        with self.assertRaisesRegex(ValueError, "digest does not match"):
+            _evaluate(
+                rows, threshold_manifest={
+                    "schema_id": "memory-fabric.cdm-thresholds.v1",
+                    "status": "FROZEN", "thresholds": threshold_values,
+                    "thresholds_sha256": "0" * 64,
+                }, minimum_net_utility_gain=0.5,
+                replay_overhead_weight=0.001, resamples=100,
+            )
+        with self.assertRaisesRegex(ValueError, "attempt history must use"):
+            _evaluate(
+                rows, attempt_history=[{
+                    "attempt_id": "wrong-threshold-history", "status": "COMPLETED",
+                    "candidate_sha256": "a" * 64, "thresholds_sha256": "b" * 64,
+                }], minimum_net_utility_gain=0.5,
+                replay_overhead_weight=0.001, resamples=100,
+            )
+
+    def test_cdm_comparison_rejects_development_rows(self) -> None:
+        rows = _rows()
+        rows[0]["split"] = "dev"
+        with self.assertRaisesRegex(ValueError, "held-out outcome rows only"):
+            _evaluate(
+                rows, minimum_net_utility_gain=0.5,
+                replay_overhead_weight=0.001, resamples=100,
+            )
+
+    def test_cdm_comparison_requires_primary_a5_outcomes_to_match(self) -> None:
+        rows = _rows()
+        a5_rows = [row for row in rows if row["arm"] == "A5"]
+        task_ids = sorted(str(row["task_id"]) for row in a5_rows)
+        fields = (
+            "task_id", "split", "seed", "completion", "outcome_oracle_digest",
+            "unsafe_attempts", "unsafe_executed", "protected_effect_attempts",
+        )
+        fingerprinted_a5 = [{field: row.get(field) for field in fields} for row in a5_rows]
+        report = {
+            "schema_id": "memory-fabric.primary-a5-confirmatory-comparison.v1",
+            "candidate_arm_id": "A5", "status": "PROMOTE_A5",
+            "protocol_frozen": True, "seed_floor_met": True,
+            "all_registered_actor_and_retrieval_arms_reported": True,
+            "safety": {"non_regressive": True},
+            "heldout_task_id_set_sha256": _canonical_digest(task_ids),
+            "heldout_a5_outcomes_sha256": _canonical_digest(fingerprinted_a5),
+        }
+        rows[0]["completion"] = True
+        with self.assertRaisesRegex(ValueError, "A5 outcomes must match"):
+            _evaluate(
+                rows, primary_a5_report=report, minimum_net_utility_gain=0.5,
+                replay_overhead_weight=0.001, resamples=100,
+            )
 
     def test_unpaired_or_duplicate_task_rows_are_rejected(self) -> None:
         rows = _rows()
