@@ -332,7 +332,7 @@ identify controls but are not independent attestations of their implementation.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v63.json`. Run it with
+`tools/agent_outcome_gate_manifest.v64.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
@@ -432,3 +432,5 @@ AO-065 adds the existing authorization, action-fence, tenant-isolation, revocati
 AO-066 includes an adversarial untrusted-memory test. The recovery controller stays in owner escalation and refuses replanning; the local-agent adapter rejects the injected protected tool before dispatch, leaving effects untouched. The adapter uses a stubbed malicious model response; this is a contract test, not real-model inference evidence.
 
 AO-067 covers correction after evidence retrieval but before execution: the old certificate is refused by ActionGate with vidence_version_moved, and its effect does not run. A newly issued certificate and grant over a surviving independent source can then execute the same action.
+
+AO-068 verifies that a forged evaluator effect cannot change terminal grading, counterfeit evidence IDs are rejected, forged provenance roots cannot inflate independent support, and unrecognized certificate claims such as checks_passed or uthorized do not mint authority. Protected effect callbacks remain uncalled for each forged input.
