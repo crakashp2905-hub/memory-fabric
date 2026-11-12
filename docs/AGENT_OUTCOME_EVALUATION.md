@@ -187,3 +187,29 @@ during execution and reveal the second only after grading. For example:
 The event projection is allowlisted: unknown fields, including oracle labels,
 are dropped from operator events. The evaluator section is a post-run result,
 not evidence that the actor had access to the grader.
+
+## Parallel scripted-agent latency probe
+
+Run `python benchmarks/outcome_matched_arms.py --workers 1,2,4 --tasks 64`
+to measure the bounded `AgentRuntime` under OS process scheduling. The report
+includes submit-to-result p50/p95/p99, worker service p50/p95/p99, throughput,
+observed worker count, and queue/dispatch residuals. Submit-to-result includes
+queueing and serialization; the batch also includes process-pool startup. The
+residual is a diagnostic difference between parent-observed latency and worker
+service time, not a separately instrumented queue timer.
+
+This probe applies a fixed CPU workload inside each scripted tool call. Its
+likely pressure points are CPU scheduling, queueing, process startup, and result
+serialization; it does not isolate one production bottleneck. Compare a local
+report with the target deployment and its explicit SLO before setting a latency
+budget. There is no universal budget in the benchmark, and results must not be
+extrapolated to a service deployment or real model inference. Reports identify
+`SCRIPTED_AGENT` and `REAL_AGENT_NOT_RUN`.
+
+A small checkout smoke run on 2026-11-13 used
+`--workers 1,2 --tasks 8 --work-units 10000` on a host reporting 8 logical
+CPUs. Submit-to-result p95 was about 1.50 s at one worker and 1.17 s at two;
+worker service p95 was about 2.8 ms and 3.1 ms respectively. These values are
+dominated by this run's process startup and queue behavior and are a functional
+smoke result, not a stable latency estimate. Re-run the benchmark in the target
+environment for operational planning.
