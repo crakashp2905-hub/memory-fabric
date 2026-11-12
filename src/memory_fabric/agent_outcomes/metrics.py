@@ -7,6 +7,8 @@ from typing import Any
 from .outcomes import OutcomeAssessment
 from .recovery import RecoveryEpisode
 
+__stability__ = "experimental"
+
 
 _DETAIL_FIELDS: dict[str, frozenset[str]] = {
     "recovery_budget": frozenset({

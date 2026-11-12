@@ -41,10 +41,18 @@ def versions() -> dict[str, str]:
     spec_latest = re.search(r"(?m)^### (\d+\.\d+\.\d+) ", _read("SPEC.md"))
     notes = sorted((ROOT / "docs").glob("RELEASE_NOTES_*.md"),
                    key=lambda p: tuple(int(x) for x in p.stem.split("_")[-1].split(".")))
+    latest_note_status = "not stated"
+    if notes:
+        note_text = notes[-1].read_text(encoding="utf-8")
+        if re.search(r"\*\*Released as `v[0-9.]+`\*\*", note_text):
+            latest_note_status = "tagged release notes"
+        elif re.search(r"\*\*Not yet tagged", note_text):
+            latest_note_status = "untagged qualification notes"
     return {"package": package[1] if package else "?", "schema": schema[1] if schema else "?",
             "spec_header": spec[1] if spec else "?",
             "spec_latest_section": spec_latest[1] if spec_latest else "?",
-            "latest_release_notes": notes[-1].stem.split("_")[-1] if notes else "none"}
+            "latest_release_notes": notes[-1].stem.split("_")[-1] if notes else "none",
+            "latest_release_notes_status": latest_note_status}
 
 
 def tags() -> list[str]:
@@ -137,8 +145,8 @@ def render(sha: str | None = None) -> str:
             ', '.join(f'`{x}`' for x in released) if released else
             'none visible in this checkout (not proof of publication status)' if sha else
             'not enumerated in the deterministic tree report; inspect stamped release evidence'),
-        f"- **Latest release notes:** `{v['latest_release_notes']}` (they pin their own baseline commit; "
-        "work merged since is not part of that release)",
+        f"- **Latest release-note document:** `{v['latest_release_notes']}` "
+        f"({v['latest_release_notes_status']}; not evidence that the source version was released)",
         f"- **Tests CI collects:** {test_count()}",
         "- **Module tiers:** " + ", ".join(f"{k} {len(t[k])}" for k in ("stable", "beta", "experimental") if k in t),
         "",

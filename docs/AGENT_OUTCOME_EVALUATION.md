@@ -7,6 +7,12 @@ recursively and has a stable canonical encoding and request digest. The
 recovery episode is bounded and routes each proposed effect through
 `ActionGate.execute`, which rechecks current evidence and authorization.
 
+This repository source tree is version `0.19.0` with schema `0.19.0`; it is
+development source, not a tagged or published release. Agent-outcome modules,
+including recovery checkpoints and operator traces, remain experimental under
+`STABILITY.md`. Their checkpoint schema is versioned, but no stable Python API
+compatibility promise is made for these opt-in contracts.
+
 `OracleTask` and `TerminalResult` live on the evaluator side of the boundary.
 `EvaluatorPort.grade` counts completion only when the observed terminal
 state matches the task's sealed digest and all required effects have executed

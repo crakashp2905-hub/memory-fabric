@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions track t
 
 ## [Unreleased]
 
+### Added: experimental agent-outcome evaluation and recovery contracts
+- Add an immutable offline gate manifest and an install-from-scratch scripted incident demo; real-agent runs remain explicitly `NOT_RUN` until a pinned model is executed.
+- Add truth-separated operator traces and plain-language failure guidance, plus a process-scheduled latency probe that reports p50/p95/p99 without claiming production or model performance.
+- Add bounded atomic recovery checkpoints and restart reconciliation through ActionGate's durable attempt ledger and explicit idempotent retries.
+- Keep the agent-outcome package experimental and recovery disabled by default; no stable API or release-readiness claim is made.
+
 ### Changed: hostile findings discredit the declared origin; certificates can name their target (O1)
 
 - **`context["ingested_from"]`** (`hindsight.INGESTED_FROM`): when a writer

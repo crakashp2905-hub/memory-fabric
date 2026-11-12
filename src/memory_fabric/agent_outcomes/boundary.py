@@ -16,6 +16,8 @@ from memory_fabric.agent_outcomes.outcomes import (
     OracleTask, OutcomeAssessment, TerminalResult, _grade_terminal_outcome,
 )
 
+__stability__ = "experimental"
+
 
 class AgentPort:
     """Agent identity view; contains no oracle object or grading method."""

@@ -19,7 +19,7 @@ So the guarantee is placed where the irreversible damage is:
 
 `SCHEMA_VERSION` in `memory-fabric/model.py` is the authority on the schema;
 the version in `pyproject.toml` is what `pip` sees. They are equal at
-`0.14.0`, and the invariant that is actually tested
+`0.19.0` in the current source tree, and the invariant that is actually tested
 (`test_package_version_is_not_behind_the_schema`) is the weaker one:
 
 > the package version is never *behind* the schema version.
@@ -56,15 +56,18 @@ the ones that would be lost.
 
 What 1.0 will mean: the API surface in SPEC.md §API v0 settles, and the estimator
 whose output drives retention and federation decisions has been validated against
-live agents rather than only RuleWorld. Neither is true at 0.14.0.
+live agents rather than only RuleWorld. Neither is true at source version 0.19.0.
 
 ## Supported versions
 
-| version | status | gets |
+| version | status | support statement |
 |---|---|---|
-| latest minor (0.12.x, once tagged) | **supported** | bug and security fixes |
-| previous minor (0.11.x) | **security fixes only** | for 90 days after the next minor is tagged |
-| older | unsupported | upgrade; every older log replays on the current reader |
+| 0.19.0 source tree | development; not tagged or published | No release support promise is made for this source snapshot. |
+| v0.11.0 | last released Git tag; not published on PyPI | Historical tagged release; current support status is not inferred here. |
+| 0.12.0 and 0.13.0 notes | qualification snapshots; untagged | Not releases and not supported package versions. |
+
+The support windows below apply to future tagged releases; this table does not
+claim an untagged development version is supported.
 
 - **Python:** 3.11, 3.12 and 3.13, each tested in CI on Linux, macOS and
   Windows. A Python version is dropped only in a minor release, announced in

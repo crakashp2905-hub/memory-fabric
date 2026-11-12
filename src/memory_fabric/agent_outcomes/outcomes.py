@@ -17,6 +17,8 @@ from memory_fabric.agent_outcomes.observations import (
     MAX_JSON_BYTES, AgentObservation, AgentStep,
 )
 
+__stability__ = "experimental"
+
 SCHEMA_ID = "memory-fabric.agent-outcomes.terminal.v1"
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
 _DIGEST = re.compile(r"^[0-9a-f]{64}$")
