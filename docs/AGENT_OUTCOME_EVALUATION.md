@@ -40,6 +40,14 @@ request and validation path. A real-agent run records the installed model's
 digest and quantization, sampling and context options, response-schema and
 prompt hashes, token use, and an explicit nondeterminism statement. This
 checks adapter wiring only; it is not a task-success or safety-efficacy result.
+The recorded smoke report is
+[benchmarks/real_agent_smoke_manifest.json](../benchmarks/real_agent_smoke_manifest.json):
+`qwen2.5:1.5b`, digest
+`65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`,
+Q4_K_M, seed 42, temperature 0, top-p 0.9, context 4096, output limit 512,
+one validated `inspect` step, and 232 tokens. The code revision was
+`dd01f0f`. The gate accepted this report as local-model evidence; the full
+repository suite remains `NOT_RUN` under the sandbox loopback restriction.
 
 Real-agent attempts use the separate `memory-fabric.real-agent-report.v1`
 schema. The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable
