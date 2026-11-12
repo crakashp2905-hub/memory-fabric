@@ -46,7 +46,9 @@ refused and only a fresh legal action completes the task. It does not yet
 implement the plan's full battery, maintenance, incident, or repair world
 families. The maintenance prerequisite fixture requires lockout verification,
 parts inspection, and seal replacement; omitting any required effect fails the
-terminal grader. These fixtures remain synthetic contract controls.
+terminal grader. The incident-triage fixture applies a new dependency alert
+after planning, rejects the old restart at execution time, and requires a
+verified rollback. These fixtures remain synthetic contract controls.
 
 `battery_diagnosis_world` is an illustrative non-exclusive case: evaluator
 state permits sensor fault and overheating simultaneously, while the agent

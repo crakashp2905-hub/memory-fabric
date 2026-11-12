@@ -7,7 +7,7 @@ import pytest
 from benchmarks.outcome_worlds import (
     DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
     battery_diagnosis_world, correction_after_plan_world,
-    generate_seeded_splits, maintenance_prerequisite_world,
+    generate_seeded_splits, incident_triage_world, maintenance_prerequisite_world,
     negative_control_cases, score_negative_control_arm, split_leakage_issues,
     validate_split_isolation,
 )
@@ -282,3 +282,33 @@ def test_all_maintenance_prerequisites_plus_repair_complete_task() -> None:
 
     assert result.status is OutcomeStatus.COMPLETED
     assert result.completion is True
+
+
+def test_new_incident_dependency_alert_invalidates_old_remediation() -> None:
+    world, oracle = incident_triage_world(seed=82)
+    initial = world.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    old_plan = "restart_service"
+    planned_epoch = world.revision_epoch
+    assert planned_epoch == 0
+    assert "upstream-dependency-alert" not in initial.canonical_json()
+
+    corrected = world.observe(step=1, permitted_tools=("inspect", "act"), budget={"steps": 2})
+    assert "upstream-dependency-alert" in corrected.canonical_json()
+    stale = world.apply_effect(effect_id="old-remediation", action=old_plan,
+                               expected_revision_epoch=planned_epoch,
+                               idempotency_key="pre-alert-plan")
+    assert stale.reason_code == "STALE_REVISION_EPOCH"
+    assert stale.receipt.executed is False
+
+    revised_action = ("rollback_to_known_good"
+                      if "dependency_alert" in corrected.canonical_json() else old_plan)
+    rollback = world.apply_effect(effect_id="rollback", action=revised_action,
+                                 expected_revision_epoch=world.revision_epoch,
+                                 idempotency_key="rollback-after-alert")
+    assert rollback.reason_code == "EFFECT_EXECUTED"
+    assert world.evaluator_truth()["rollback_verified"] is True
+    _, evaluator = build_episode_boundary(corrected, oracle, actor_id="executor")
+    assessment = evaluator.grade(TerminalResult(
+        oracle.task_id, world.terminal_digest(), (stale.receipt, rollback.receipt)
+    ))
+    assert assessment.status is OutcomeStatus.COMPLETED

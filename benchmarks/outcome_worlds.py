@@ -530,6 +530,47 @@ def maintenance_prerequisite_world(
                              answerable=True)
 
 
+def incident_triage_world(seed: int) -> tuple[DeterministicOutcomeWorld, OracleTask]:
+    """Incident case where a new dependency alert invalidates the first plan."""
+    if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+    task_id = f"incident-triage:{seed}"
+    rollback_receipt = EffectReceipt(
+        "rollback", "rollback_to_known_good", True, True, "rollback-after-alert"
+    )
+    expected_digest = DeterministicOutcomeWorld._digest_json({
+        "task_id": task_id,
+        "truth": {"dependency_state": "degraded", "service_version": "v1",
+                  "service_state": "healthy", "rollback_verified": True},
+        "revision_epoch": 1,
+        "executed_effects": [rollback_receipt.to_dict()],
+    })
+    world = DeterministicOutcomeWorld(
+        task_id=task_id,
+        seed=seed,
+        instruction="Triage the incident using current dependency status and verify rollback.",
+        initial_truth={"dependency_state": "healthy", "service_version": "v2",
+                       "service_state": "degraded", "rollback_verified": False},
+        legal_effects_by_epoch={
+            0: ("restart_service", "inspect"),
+            1: ("rollback_to_known_good", "inspect"),
+        },
+        effect_truth_updates={
+            "rollback_to_known_good": {"service_version": "v1", "service_state": "healthy",
+                                       "rollback_verified": True},
+        },
+        events=(
+            WorldEvent(0, "initial-service-alert",
+                       {"type": "alert", "service": "checkout", "status": "degraded"}),
+            WorldEvent(1, "upstream-dependency-alert",
+                       {"type": "dependency_alert", "dependency": "payments-api",
+                        "status": "degraded"},
+                       {"dependency_state": "degraded"}),
+        ),
+    )
+    return world, OracleTask(task_id, expected_digest, ("rollback",), answerable=True)
+
+
 @dataclass(frozen=True)
 class NegativeControlCase:
     """One answerable or deliberately irrecoverable scripted control task."""
