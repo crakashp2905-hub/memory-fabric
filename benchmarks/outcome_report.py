@@ -5,11 +5,131 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import asdict
-from typing import Any, Hashable, Iterable
+from dataclasses import asdict, dataclass, field
+from enum import StrEnum
+from typing import Any, Hashable, Iterable, Protocol
 
-from memory_fabric.agent_outcomes import EpisodeOutcome
+from memory_fabric.adapters.ollama import CallRecord, OllamaError
+from memory_fabric.agent_outcomes import AgentObservation, AgentStep, EpisodeOutcome
 from .stats import paired_bootstrap, sign_test_p
+
+
+class RealAgentStatus(StrEnum):
+    PASS = "PASS"
+    NOT_RUN = "REAL_AGENT_NOT_RUN"
+    FAIL = "FAIL"
+
+
+class RealAgentAdapter(Protocol):
+    model: str
+    actor_id: str
+    calls: tuple[CallRecord, ...]
+
+    def next_step(self, observation: AgentObservation) -> AgentStep: ...
+
+
+@dataclass(frozen=True)
+class RealAgentRunReport:
+    """One model-only attempt, kept separate from scripted outcome reports."""
+
+    task_id: str
+    status: RealAgentStatus
+    reason: str
+    model: str | None
+    model_calls: int
+    model_tokens: int
+    step: AgentStep | None = field(default=None, repr=False)
+    schema_id: str = "memory-fabric.real-agent-report.v1"
+
+    def to_dict(self) -> dict[str, Any]:
+        report: dict[str, Any] = {
+            "schema_id": self.schema_id,
+            "population": "REAL_AGENT",
+            "task_id": self.task_id,
+            "status": self.status.value,
+            "reason": self.reason,
+            "model": self.model,
+            "model_calls": self.model_calls,
+            "model_tokens": self.model_tokens,
+        }
+        if self.step is not None:
+            report["step"] = self.step.to_dict()
+        return report
+
+    def canonical_json(self) -> str:
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"),
+                          allow_nan=False)
+
+
+def run_real_agent_gate(
+    adapter: RealAgentAdapter,
+    observation: AgentObservation,
+) -> RealAgentRunReport:
+    """Pass only after a new Ollama call record and validated AgentStep exist.
+
+    An unavailable server is an explicit no-run result. This path has no
+    scripted actor fallback, and its report is independent of `canonical_report`.
+    """
+    calls_before = tuple(adapter.calls)
+    try:
+        step = adapter.next_step(observation)
+    except OllamaError:
+        return RealAgentRunReport(
+            task_id=observation.task_id,
+            status=RealAgentStatus.NOT_RUN,
+            reason="model_unavailable",
+            model=adapter.model,
+            model_calls=0,
+            model_tokens=0,
+        )
+    except Exception:  # noqa: BLE001 - produce a stable, content-safe gate result
+        calls_after = tuple(adapter.calls)
+        new_calls = calls_after[len(calls_before):]
+        recorded = [call for call in new_calls if isinstance(call, CallRecord)]
+        return RealAgentRunReport(
+            task_id=observation.task_id,
+            status=RealAgentStatus.FAIL,
+            reason="inference_or_step_validation_failed",
+            model=recorded[-1].model if recorded else adapter.model,
+            model_calls=len(recorded),
+            model_tokens=sum(call.tokens for call in recorded),
+        )
+
+    calls_after = tuple(adapter.calls)
+    new_calls = calls_after[len(calls_before):]
+    if not new_calls or any(not isinstance(call, CallRecord) for call in new_calls):
+        return RealAgentRunReport(
+            task_id=observation.task_id,
+            status=RealAgentStatus.NOT_RUN,
+            reason="no_recorded_inference",
+            model=adapter.model,
+            model_calls=0,
+            model_tokens=0,
+        )
+    records = [call for call in new_calls if isinstance(call, CallRecord)]
+    permitted = (step.intent == "abstain" or
+                 (isinstance(step.arguments.get("tool"), str)
+                  and step.arguments["tool"] in observation.permitted_tools)) \
+        if isinstance(step, AgentStep) else False
+    if (not isinstance(step, AgentStep) or step.task_id != observation.task_id
+            or step.actor_id != adapter.actor_id or not permitted):
+        return RealAgentRunReport(
+            task_id=observation.task_id,
+            status=RealAgentStatus.FAIL,
+            reason="invalid_agent_step",
+            model=records[-1].model,
+            model_calls=len(records),
+            model_tokens=sum(call.tokens for call in records),
+        )
+    return RealAgentRunReport(
+        task_id=observation.task_id,
+        status=RealAgentStatus.PASS,
+        reason="completed_inference",
+        model=records[-1].model,
+        model_calls=len(records),
+        model_tokens=sum(call.tokens for call in records),
+        step=step,
+    )
 
 
 def zero_event_upper_bound(events: int, trials: int, confidence: float = 0.95) -> float:

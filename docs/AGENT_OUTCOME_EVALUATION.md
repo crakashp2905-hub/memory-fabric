@@ -40,6 +40,13 @@ request and validation path. A local `qwen2.5:1.5b` smoke inference returned a
 validated `inspect` step in one call (227 total tokens, not truncated). This
 checks adapter wiring only; it is not a task-success or safety-efficacy result.
 
+Real-agent attempts use the separate `memory-fabric.real-agent-report.v1`
+schema. The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable
+or no new call is recorded. It passes only when a new Ollama `CallRecord` and a
+validated `AgentStep` are both present; malformed output is a failure. This
+path has no scripted-agent fallback. The versioned offline gate reports
+`REAL_AGENT_NOT_RUN` until completed inference evidence is supplied.
+
 Typed `PlannedAction` values bind the proposal to the exact evidence IDs and
 versions observed during retrieval. The executor rechecks current evidence
 through its authenticated session before certification, and the `ActionGate`
@@ -209,12 +216,13 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v29.json`. Run it with
+`tools/agent_outcome_gate_manifest.v30.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,
 but intentionally yields `NOT_RUN`, never `SCRIPTED_QUALIFIED`. Local-model
-and deployment evidence remain separate `NOT_RUN` entries until performed.
+evidence is `REAL_AGENT_NOT_RUN` until completed inference is supplied;
+deployment evidence remains `NOT_RUN` until performed.
 
 The short simulated incident is available with
 `python -m examples.outcome_recovery_demo`. Its actor trace shows the observed

@@ -17,8 +17,8 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v29.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v29"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v30.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v30"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -26,7 +26,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 29
+            or manifest.get("manifest_version") != 30
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -59,6 +59,9 @@ def _run_check(check: dict[str, Any], *, timeout_s: int, run_full: bool) -> dict
               "required_for_scripted_qualification": bool(
                   check.get("required_for_scripted_qualification", False))}
     if command is None:
+        if check_id == "local_model":
+            return {**result, "status": "REAL_AGENT_NOT_RUN",
+                    "reason": "no completed inference evidence was supplied"}
         return {**result, "status": "NOT_RUN", "reason": "requires separate real-world evidence"}
     if not isinstance(command, list) or not command:
         return {**result, "status": "FAIL", "reason": "invalid command in manifest"}
@@ -102,7 +105,9 @@ def build_report(*, skip_full: bool = False, timeout_s: int = 3600) -> dict[str,
         "status": status,
         "evidence_levels": {
             "scripted": status,
-            "local_model": "NOT_RUN",
+            "local_model": next(
+                result["status"] for result in results if result["id"] == "local_model"
+            ),
             "deployment": "NOT_RUN",
         },
         "checks": results,
