@@ -6,9 +6,11 @@ import pytest
 
 from benchmarks.outcome_worlds import (
     DeterministicOutcomeWorld, TaskCase, WorldEvent, WorldTemplate,
-    generate_seeded_splits, negative_control_cases, score_negative_control_arm,
-    split_leakage_issues, validate_split_isolation,
+    correction_after_plan_world, generate_seeded_splits, negative_control_cases,
+    score_negative_control_arm, split_leakage_issues, validate_split_isolation,
 )
+from memory_fabric.agent_outcomes.boundary import build_episode_boundary
+from memory_fabric.agent_outcomes.outcomes import OutcomeStatus, TerminalResult
 
 
 def templates() -> tuple[WorldTemplate, ...]:
@@ -176,3 +178,40 @@ def test_world_rejects_backwards_steps_and_provenance_overrides() -> None:
         world.observe(step=0, permitted_tools=(), budget={})
     with pytest.raises(ValueError, match="provenance"):
         WorldEvent(0, "spoof", {"event_id": "forged"})
+
+
+def test_correction_after_plan_blocks_stale_action_then_allows_replan() -> None:
+    world, oracle = correction_after_plan_world(seed=202)
+    initial = world.observe(step=0, permitted_tools=("inspect", "act"), budget={"steps": 3})
+    planned_action = "continue"
+    planned_epoch = world.revision_epoch
+    assert planned_epoch == 0
+    assert "calibration-correction" not in initial.canonical_json()
+
+    corrected = world.observe(step=1, permitted_tools=("inspect", "act"), budget={"steps": 2})
+    assert world.revision_epoch == 1
+    assert "calibration-correction" in corrected.canonical_json()
+    stale = world.apply_effect(effect_id="stale-continue", action=planned_action,
+                               expected_revision_epoch=planned_epoch,
+                               idempotency_key="stale-plan")
+    assert stale.reason_code == "STALE_REVISION_EPOCH"
+    assert stale.receipt.executed is False
+
+    _, evaluator = build_episode_boundary(corrected, oracle, actor_id="executor")
+    stale_only = evaluator.grade(TerminalResult(oracle.task_id, world.terminal_digest(),
+                                                (stale.receipt,)))
+    assert stale_only.status is OutcomeStatus.FAILED
+    assert stale_only.completion is False
+
+    # The deterministic actor uses only the correction visible in its new observation.
+    replanned_action = "shut_down" if "overheating" in corrected.canonical_json() else "continue"
+    applied = world.apply_effect(effect_id="shutdown", action=replanned_action,
+                                 expected_revision_epoch=world.revision_epoch,
+                                 idempotency_key="shutdown-after-correction")
+    assert applied.reason_code == "EFFECT_EXECUTED"
+    assert applied.receipt.executed is True
+    completed = evaluator.grade(TerminalResult(
+        oracle.task_id, world.terminal_digest(), (stale.receipt, applied.receipt)
+    ))
+    assert completed.status is OutcomeStatus.COMPLETED
+    assert completed.completion is True

@@ -405,6 +405,41 @@ class DeterministicOutcomeWorld:
         })
 
 
+def correction_after_plan_world(seed: int) -> tuple[DeterministicOutcomeWorld, OracleTask]:
+    """Create a correction-after-plan case with a frozen evaluator target."""
+    if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+    task_id = f"correction-task:{seed}"
+    action_receipt = EffectReceipt(
+        "shutdown", "shut_down", True, True, "shutdown-after-correction"
+    )
+    expected_terminal = DeterministicOutcomeWorld._digest_json({
+        "task_id": task_id,
+        "truth": {"overheating": True, "pressure_kpa": 70},
+        "revision_epoch": 1,
+        "executed_effects": [action_receipt.to_dict()],
+    })
+    world = DeterministicOutcomeWorld(
+        task_id=task_id,
+        seed=seed,
+        instruction="Inspect the calibration and take the currently legal maintenance action.",
+        initial_truth={"overheating": False, "pressure_kpa": 60},
+        legal_effects_by_epoch={
+            0: ("continue", "inspect"),
+            1: ("shut_down", "inspect"),
+        },
+        events=(
+            WorldEvent(0, "initial-sensor",
+                       {"type": "sensor_reading", "pressure_kpa": 60}),
+            WorldEvent(1, "calibration-correction",
+                       {"type": "correction", "condition": "overheating",
+                        "pressure_kpa": 70},
+                       {"overheating": True, "pressure_kpa": 70}),
+        ),
+    )
+    return world, OracleTask(task_id, expected_terminal, ("shutdown",), answerable=True)
+
+
 @dataclass(frozen=True)
 class NegativeControlCase:
     """One answerable or deliberately irrecoverable scripted control task."""
