@@ -17,7 +17,7 @@ from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, Callable, Mapping, Protocol, Sequence
 
-from memory_fabric.adapters.ollama import DEFAULT_MODEL, CallRecord, OllamaClient
+from memory_fabric.adapters.ollama import DEFAULT_MODEL, CallRecord, OllamaClient, OllamaError
 from memory_fabric.actions import EXECUTED, ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes import AgentObservation, AgentStep
 from memory_fabric.agent_outcomes.observations import SCHEMA_ID
@@ -35,6 +35,27 @@ class ActorRole(StrEnum):
 
 class ActorToolDenied(ValueError):
     """A role or task observation does not permit the requested tool."""
+
+    failure_code = "tool_misuse"
+
+    def __init__(self, message: str, *, attempted_tool: str | None = None) -> None:
+        super().__init__(message)
+        self.attempted_tool = attempted_tool
+
+
+class AgentOutputFailure(ValueError):
+    """A content-safe classification for a model response rejected by the host."""
+
+    def __init__(
+        self,
+        failure_code: str,
+        message: str = "agent output was rejected",
+        *,
+        attempted_tool: str | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.failure_code = failure_code
+        self.attempted_tool = attempted_tool
 
 
 class EvidenceVersionChanged(ValueError):
@@ -171,6 +192,8 @@ class OllamaAgentAdapter:
                 "completion_tokens": call.completion_tokens,
                 "total_tokens": call.tokens,
                 "wall_seconds": call.seconds,
+                "retry_count": call.retry_count,
+                "request_succeeded": call.succeeded,
             },
             "prompt_sha256": call.prompt_sha256,
             "system_prompt_sha256": hashlib.sha256(
@@ -187,6 +210,9 @@ class OllamaAgentAdapter:
         """Generate one schema-checked intent from the public observation only."""
         if not isinstance(observation, AgentObservation):
             raise TypeError("OllamaAgentAdapter accepts only AgentObservation")
+        reset_retry_count = getattr(self.client, "reset_chat_retry_count", None)
+        if callable(reset_retry_count):
+            reset_retry_count()
         mapped_intents = {
             _INTENT_FOR_TOOL[tool] for tool in observation.permitted_tools
             if tool in _INTENT_FOR_TOOL
@@ -266,10 +292,16 @@ class OllamaAgentAdapter:
         }
         metadata_reader = getattr(self.client, "model_metadata", None)
         if not callable(metadata_reader):
-            raise ValueError("Ollama client must provide model metadata for a qualified run")
-        metadata = metadata_reader(self.model)
+            raise AgentOutputFailure("model_provenance_incomplete")
+        self._model_metadata = MappingProxyType({})
+        try:
+            metadata = metadata_reader(self.model)
+        except OllamaError:
+            raise
+        except Exception as exc:
+            raise AgentOutputFailure("model_provenance_incomplete") from exc
         if not isinstance(metadata, Mapping):
-            raise ValueError("Ollama model metadata must be an object")
+            raise AgentOutputFailure("model_provenance_incomplete")
         self._model_metadata = MappingProxyType(dict(metadata))
         self._step_counter += 1
         step_material = f"{observation.task_id}:{self.actor_id}:{self._step_counter}"
@@ -304,24 +336,68 @@ class OllamaAgentAdapter:
             truncated = (latest.get("truncated", False) if isinstance(latest, Mapping)
                          else getattr(latest, "truncated", False))
             if truncated:
-                raise ValueError("Ollama response reached its output token limit")
+                raise AgentOutputFailure(
+                    "invalid_agent_step", "Ollama response reached its output token limit",
+                )
         message = response.get("message") if isinstance(response, Mapping) else None
         content = message.get("content") if isinstance(message, Mapping) else None
         if not isinstance(content, str):
-            raise ValueError("Ollama response must contain JSON assistant content")
-        step = AgentStep.from_json(content)
+            raise AgentOutputFailure("invalid_json")
+        def reject_constant(value: str) -> None:
+            raise ValueError(f"invalid JSON constant: {value}")
+
+        try:
+            json.loads(content, parse_constant=reject_constant)
+        except (json.JSONDecodeError, RecursionError, ValueError) as exc:
+            raise AgentOutputFailure("invalid_json") from exc
+        try:
+            step = AgentStep.from_json(content)
+        except (TypeError, ValueError) as exc:
+            raise AgentOutputFailure("invalid_agent_step", str(exc)) from exc
         if step.task_id != observation.task_id or step.actor_id != self.actor_id:
-            raise ValueError("Ollama AgentStep must match the current task and actor")
+            raise AgentOutputFailure(
+                "invalid_agent_step", "Ollama AgentStep must match the current task and actor",
+            )
         if step.step_id != model_step_id:
-            raise ValueError("Ollama AgentStep must use its assigned step identifier")
+            raise AgentOutputFailure(
+                "invalid_agent_step", "Ollama AgentStep must use its assigned step identifier",
+            )
         if step.intent not in allowed_intents:
-            raise ValueError("Ollama AgentStep intent must match the current tool scope")
+            attempted_tool = step.arguments.get("tool")
+            raise AgentOutputFailure(
+                "tool_misuse",
+                "Ollama AgentStep intent must match the current tool scope",
+                attempted_tool=attempted_tool if isinstance(attempted_tool, str) else None,
+            )
+        if any(not isinstance(memory_id, str) or not isinstance(version, int)
+               or isinstance(version, bool) or version < 0
+               for memory_id, version in step.evidence_versions):
+            raise AgentOutputFailure("invalid_agent_step")
+        if any(pair not in visible_versions for pair in step.evidence_versions):
+            raise AgentOutputFailure(
+                "hallucinated_evidence",
+                "Ollama AgentStep evidence must match visible evidence versions",
+            )
         if [list(pair) for pair in step.evidence_versions] != exact_versions:
-            raise ValueError("Ollama AgentStep evidence must match visible evidence versions")
+            raise AgentOutputFailure(
+                "invalid_agent_step",
+                "Ollama AgentStep evidence must match visible evidence versions",
+            )
         if step.intent != "abstain":
             tool = step.arguments.get("tool")
-            if not isinstance(tool, str) or tool not in observation.permitted_tools:
-                raise ActorToolDenied("Ollama AgentStep must name a permitted tool")
+            if not isinstance(tool, str):
+                raise AgentOutputFailure("invalid_agent_step")
+            if tool not in observation.permitted_tools:
+                raise ActorToolDenied(
+                    "Ollama AgentStep must name a permitted tool", attempted_tool=tool,
+                )
+            if _INTENT_FOR_TOOL.get(tool) != step.intent:
+                raise ActorToolDenied(
+                    "Ollama AgentStep intent does not match its permitted tool",
+                    attempted_tool=tool,
+                )
+        elif step.arguments.get("tool") != "abstain":
+            raise AgentOutputFailure("invalid_agent_step")
         return step
 
 

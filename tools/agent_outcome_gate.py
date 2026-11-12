@@ -23,10 +23,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from memory_fabric.agent_outcomes import AgentStep  # noqa: E402
-from benchmarks.outcome_report import real_agent_report_is_complete  # noqa: E402
+from benchmarks.outcome_report import (  # noqa: E402
+    real_agent_failure_report_is_valid,
+    real_agent_report_is_complete,
+)
 
-MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v32.json")
-MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v32"
+MANIFEST_PATH = Path(__file__).with_name("agent_outcome_gate_manifest.v33.json")
+MANIFEST_SCHEMA = "memory-fabric.agent-outcome-gate.v33"
 
 
 def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
@@ -34,7 +37,7 @@ def read_manifest(path: Path = MANIFEST_PATH) -> tuple[dict[str, Any], str]:
     payload = path.read_bytes()
     manifest = json.loads(payload)
     if (manifest.get("schema_id") != MANIFEST_SCHEMA
-            or manifest.get("manifest_version") != 32
+            or manifest.get("manifest_version") != 33
             or not isinstance(manifest.get("checks"), list)):
         raise ValueError("unsupported or malformed agent outcome gate manifest")
     ids = [item.get("id") for item in manifest["checks"]]
@@ -113,6 +116,20 @@ def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
     if isinstance(report, dict) and report.get("status") == "REAL_AGENT_NOT_RUN":
         return {**result, "status": "REAL_AGENT_NOT_RUN",
                 "reason": str(report.get("reason", "inference was not completed"))}
+    if real_agent_failure_report_is_valid(report):
+        return {
+            **result,
+            "status": "FAIL",
+            "reason": "real-agent attempt failed and counts as incomplete",
+            "report_sha256": hashlib.sha256(payload).hexdigest(),
+            "failure_reason": report["reason"],
+            "failure_codes": report["failure_codes"],
+            "terminal_failure_codes": report["terminal_failure_codes"],
+            "failure_counts": report["failure_counts"],
+            "retry_count": report["retry_count"],
+            "prompt_injection_compliance": report["prompt_injection_compliance"],
+            "counts_as_incomplete": True,
+        }
     if not real_agent_report_is_complete(report):
         return {**result, "status": "FAIL", "reason": "real-agent evidence is incomplete"}
     inference = report["inference"]
@@ -127,6 +144,9 @@ def local_model_evidence_result(report_path: Path | None) -> dict[str, Any]:
         "quantization_level": model["quantization_level"],
         "model_calls": report["model_calls"],
         "model_tokens": report["model_tokens"],
+        "retry_count": report.get("retry_count", 0),
+        "prompt_injection_compliance": report.get("prompt_injection_compliance", "NOT_TESTED"),
+        "failure_counts": report.get("failure_counts", {}),
     }
 
 

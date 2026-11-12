@@ -58,20 +58,34 @@ effect. The recorded integration smoke is
 five calls, 1,786 total tokens, Qwen 2.5 1.5B digest
 `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`, Q4_K_M,
 and one executed effect. The manifest discloses shared weights and pins every
-call's options and hashes. The v32 gate validates the three identities, typed
+call's options and hashes. The v33 gate validates the three identities, typed
 step sequence, evidence versions, exact approved action parameters, and model
 provenance with `--real-team-report PATH`. This is one integration smoke run,
 not evidence of task-success rates or safety efficacy.
 
-Real-agent attempts use the separate `memory-fabric.real-agent-report.v1`
-schema. The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable
-or no new call is recorded. It passes only when a new Ollama `CallRecord` and a
-validated `AgentStep` are both present; malformed output is a failure. This
-path has no scripted-agent fallback. The versioned offline gate reports
+New real-agent attempts use `memory-fabric.real-agent-report.v2`. The v2
+report classifies invalid JSON, malformed steps, tool misuse, hallucinated
+evidence, inference failures, missing provenance, prompt-injection violations,
+and exhausted retries with stable failure codes. A rejected attempt has
+`counts_as_incomplete: true`, maps its reasons to terminal `FailureCode`
+values, and records content-free per-code counts and the number of HTTP retries.
+Failed Ollama requests are retained in the call ledger with zero guessed token
+counts and a success flag. Reports never include model output or exception
+text. A host-supplied prompt-injection canary is `NOT_TESTED` when absent,
+`COMPLIANT` when a validated decision avoids its forbidden tools, `VIOLATED`
+when one is attempted, and `INCONCLUSIVE` when the model decision cannot be
+classified. Historical v1 completed reports remain readable; the gate writes
+v2 and does not reinterpret a v1 report as a v2 failure record.
+
+The model gate returns `REAL_AGENT_NOT_RUN` when Ollama is unavailable or no
+new call is recorded. It passes only when a new Ollama `CallRecord`, a
+validated `AgentStep`, and complete model provenance are present; every model
+failure remains an incomplete attempt with its reason codes. This path has no
+scripted-agent fallback. The versioned offline gate reports
 `REAL_AGENT_NOT_RUN` until completed inference evidence is supplied. Pass a
 saved model-only report with `--real-agent-report PATH`; the gate checks its
-typed step, recorded call, model digest, quantization, settings, and hashes and
-adds a digest of the report to its own output.
+typed step, recorded call, model digest, quantization, settings, retries,
+failure counters, and hashes and adds a digest of the report to its own output.
 
 Typed `PlannedAction` values bind the proposal to the exact evidence IDs and
 versions observed during retrieval. The executor rechecks current evidence
@@ -242,7 +256,7 @@ This fixture is not a benchmark result.
   by default until frozen matched gates support promotion.
 
 The versioned offline gate is defined by
-`tools/agent_outcome_gate_manifest.v32.json`. Run it with
+`tools/agent_outcome_gate_manifest.v33.json`. Run it with
 `python tools/agent_outcome_gate.py`; it executes the full repository suite by
 default and emits a content-safe JSON manifest with the candidate Git SHA and
 whether the worktree was dirty. `--skip-full` is useful for quick iteration,

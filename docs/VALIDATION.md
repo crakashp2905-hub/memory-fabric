@@ -16,7 +16,7 @@ billing; see [WORKPLAN.md](WORKPLAN.md), X-CI).
 
 | Check | Command | Result |
 |---|---|---|
-| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2291 tests** in the current tree. The 2026-11-12 full run passed: 2291 tests, 46 skipped, with local loopback access. The v32 scripted contract suite, Ruff, and mypy pass; `--skip-full` intentionally marks the full repository check NOT_RUN. The AO-036 local-model team smoke has five sequential calls and one gated effect; it is not efficacy evidence. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
+| Unit, integration, property | `python -m unittest discover -s tests -t .` | **2296 tests**. The 2026-11-12 v33 full gate passed with approved loopback access: scripted contracts, Ruff, mypy, and the full repository suite all PASS (`SCRIPTED_QUALIFIED`). `--skip-full` intentionally marks the full repository check NOT_RUN. The AO-036 local-model team smoke has five sequential calls and one gated effect; it is not efficacy evidence. The count is checked against the suite by `tests/test_suite_hygiene.py`; `python tools/count_tests.py --write` updates it |
 | Fault matrix | `python -m experiments.faultsim` | **17/17** |
 | Secret scan | `python tools/scan_secrets.py` | 103 high-severity findings, **0 unexpected** |
 | Compile | `python -m compileall -q memory_fabric experiments tests examples tools` | clean |

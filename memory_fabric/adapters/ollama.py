@@ -23,6 +23,7 @@ __stability__ = "beta"
 
 import hashlib
 import json
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -79,6 +80,10 @@ class CallRecord:
     count, so a cost or quality figure that does not say which mode produced
     it is not comparable with one that does.
     """
+    retry_count: int = 0
+    """Additional HTTP attempts made for this request."""
+    succeeded: bool = True
+    """Whether the HTTP request completed with a response."""
 
     @property
     def tokens(self) -> int:
@@ -104,6 +109,8 @@ class OllamaClient:
         self.retries = retries
         self._sinks: list[Any] = []
         self.calls: list[CallRecord] = []
+        self._request_state = threading.local()
+        self._chat_state = threading.local()
         """Every chat call this client has made. Kept on the client rather than
         returned per call so that a caller who never looks still accumulates the
         record — cost is a first-class metric, and one that is easy to forget to
@@ -113,6 +120,7 @@ class OllamaClient:
         body = json.dumps({**payload, "keep_alive": self.keep_alive}).encode("utf-8")
         last: Exception | None = None
         for attempt in range(self.retries + 1):
+            self._request_state.retry_count = attempt
             request = urllib.request.Request(
                 self.host + path, data=body, headers={"Content-Type": "application/json"}
             )
@@ -257,19 +265,48 @@ class OllamaClient:
             payload["think"] = think
 
         started = time.perf_counter()
-        result = self._post("/api/chat", payload)
+        prompt_sha256 = hashlib.sha256(
+            json.dumps(list(messages), sort_keys=True, default=str).encode("utf-8")
+        ).hexdigest()
+        try:
+            result = self._post("/api/chat", payload)
+        except Exception as exc:
+            retry_count = getattr(self._request_state, "retry_count", 0)
+            self._chat_state.retry_count = retry_count
+            record = CallRecord(
+                model=model,
+                prompt_sha256=prompt_sha256,
+                prompt_tokens=0,
+                completion_tokens=0,
+                seconds=time.perf_counter() - started,
+                constrained=bool(schema),
+                retry_count=retry_count,
+                succeeded=False,
+            )
+            self.calls.append(record)
+            failure_summary = {
+                "request_succeeded": False,
+                "failure_type": type(exc).__name__,
+            }
+            for sink in self._sinks:
+                try:
+                    sink(record, model, list(messages), failure_summary)
+                except Exception:  # pragma: no cover - exporters are best-effort
+                    pass
+            raise
+        retry_count = getattr(self._request_state, "retry_count", 0)
+        self._chat_state.retry_count = retry_count
         # Ollama reports these on a non-streamed response. Missing counts are
         # recorded as 0 rather than guessed, so a total is always a floor.
         record = CallRecord(
             model=model,
-            prompt_sha256=hashlib.sha256(
-                json.dumps(list(messages), sort_keys=True, default=str).encode("utf-8")
-            ).hexdigest(),
+            prompt_sha256=prompt_sha256,
             prompt_tokens=int(result.get("prompt_eval_count") or 0),
             completion_tokens=int(result.get("eval_count") or 0),
             seconds=time.perf_counter() - started,
             truncated=int(result.get("eval_count") or 0) >= num_predict,
             constrained=bool(schema),
+            retry_count=retry_count,
         )
         self.calls.append(record)
         for sink in self._sinks:
@@ -301,7 +338,18 @@ class OllamaClient:
             "completion_tokens": float(sum(c.completion_tokens for c in window)),
             "tokens": float(sum(c.tokens for c in window)),
             "seconds": sum(c.seconds for c in window),
+            "retries": float(sum(c.retry_count for c in window)),
         }
+
+    @property
+    def last_chat_retry_count(self) -> int:
+        """Additional request attempts for the latest chat on this thread."""
+        return getattr(self._chat_state, "retry_count", 0)
+
+    def reset_chat_retry_count(self) -> None:
+        """Clear per-thread chat retry state before a new agent attempt."""
+        self._chat_state.retry_count = 0
+        self._request_state.retry_count = 0
 
     def embed(self, model: str, inputs: Sequence[str]) -> list[list[float]]:
         """A batch of embeddings, **recorded** like every other model call.
@@ -337,6 +385,7 @@ class OllamaClient:
                 prompt_tokens=int(result.get("prompt_eval_count") or 0),
                 completion_tokens=0,
                 seconds=time.perf_counter() - started,
+                retry_count=getattr(self._request_state, "retry_count", 0),
             )
         )
         return vectors
