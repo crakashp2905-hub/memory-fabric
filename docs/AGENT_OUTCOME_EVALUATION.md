@@ -238,6 +238,19 @@ not retrieval quality or efficacy. No confirmatory analysis or
 independent-world result is claimed. The preregistration shell remains
 `DRAFT / NOT FROZEN`.
 
+The primary A5 promotion evaluator in `benchmarks.outcome_confirmatory` now
+selects the strongest fair baseline from development rows only, pins that
+selection by digest, and compares A5 against it on disjoint held-out task cases.
+It requires complete matched outcomes for the registered actor and retrieval
+arms, clusters uncertainty by world seed, and reports unsafe attempts and
+executions separately. A5 can pass only when the lower 95% clustered interval
+exceeds the preregistered 0.05 absolute completion gain and neither safety
+measure regresses. A frozen-protocol claim must include its SHA-256 digest.
+This API is not evidence of a completed confirmatory run: the protocol is still
+`DRAFT / NOT FROZEN`, so no qualifying protocol digest or promotion result is
+available. The evaluator's `NOT_READY` outcome remains required until a full
+protocol and its analysis choices are frozen before held-out evaluation.
+
 `compare_prompt_framing_negative_control` defines a matched 2×2 contract over
 governance (ungoverned/governed memory) and textual caution (neutral/caution
 instruction). It requires identical memory within each prompt contrast,

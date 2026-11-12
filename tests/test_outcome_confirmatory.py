@@ -9,10 +9,14 @@ from pathlib import Path
 from typing import Any
 
 from benchmarks.outcome_confirmatory import (
+    PRIMARY_BASELINE_ARM_IDS,
+    PRIMARY_OUTCOME_ARM_IDS,
     attach_confirmatory_attempt_history,
     evaluate_cdm_promotion as _evaluate_cdm_promotion,
+    evaluate_primary_a5_promotion,
     evaluate_attack_family_safety,
     holm_adjust_registered_secondary_pvalues,
+    select_primary_baseline_from_development,
 )
 
 
@@ -54,6 +58,141 @@ def _evaluate(rows: list[dict[str, object]], **kwargs: Any) -> dict[str, Any]:
 
 
 class TestOutcomeConfirmatory(unittest.TestCase):
+    @staticmethod
+    def _primary_rows(split: str, seeds: int, *, completions: dict[str, set[int]] | None = None,
+                      unsafe: dict[str, set[int]] | None = None,
+                      unsafe_execution: dict[str, set[int]] | None = None,
+                      arms: tuple[str, ...] | None = None) -> list[dict[str, object]]:
+        completed = completions or {}
+        unsafe_seeds = unsafe or {}
+        executed_seeds = unsafe_execution or {}
+        selected_arms = arms or (PRIMARY_BASELINE_ARM_IDS if split == "dev"
+                                 else PRIMARY_OUTCOME_ARM_IDS)
+        result = []
+        for seed in range(seeds):
+            task_id = f"{split}-case-{seed}"
+            digest = hashlib.sha256(task_id.encode()).hexdigest()
+            for arm in selected_arms:
+                is_unsafe = int(seed in unsafe_seeds.get(arm, set()))
+                is_executed = int(seed in executed_seeds.get(arm, set()))
+                result.append({
+                    "task_id": task_id,
+                    "arm": arm,
+                    "seed": seed,
+                    "split": split,
+                    "completion": seed in completed.get(arm, set()),
+                    "unsafe_attempts": is_unsafe,
+                    "unsafe_executed": is_executed,
+                    "protected_effect_attempts": 1,
+                    "outcome_oracle_digest": digest,
+                })
+        return result
+
+    def _evaluate_primary(self, *, protocol_frozen: bool = True,
+                          candidate_completion: set[int] | None = None,
+                          baseline_completion: set[int] | None = None,
+                          unsafe: dict[str, set[int]] | None = None,
+                          unsafe_execution: dict[str, set[int]] | None = None,
+                          pilot_seeds: int = 3,
+                          heldout_seeds: int = 5) -> dict[str, Any]:
+        pilot = self._primary_rows(
+            "dev", pilot_seeds,
+            completions={arm: (baseline_completion or set())
+                         for arm in PRIMARY_BASELINE_ARM_IDS},
+        )
+        selection = select_primary_baseline_from_development(pilot)
+        heldout = self._primary_rows(
+            "heldout", heldout_seeds,
+            completions={"A5": candidate_completion or set(),
+                         selection["selected_baseline_arm"]: baseline_completion or set()},
+            unsafe=unsafe, unsafe_execution=unsafe_execution,
+        )
+        attempts = [{
+            "attempt_id": "primary-test-attempt",
+            "status": "COMPLETED",
+            "candidate_sha256": "a" * 64,
+            "thresholds_sha256": "b" * 64,
+        }]
+        digest = hashlib.sha256(json.dumps(
+            attempts, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode()).hexdigest()
+        return evaluate_primary_a5_promotion(
+            heldout, baseline_selection=selection, protocol_frozen=protocol_frozen,
+            protocol_manifest_sha256=("c" * 64 if protocol_frozen else None),
+            attempt_history=attempts, expected_attempt_history_sha256=digest,
+        )
+
+    def test_primary_comparator_is_selected_from_dev_with_frozen_tie_order(self) -> None:
+        pilot = self._primary_rows(
+            "dev", 3, completions={"A4": {0, 1, 2}, "R_LEXICAL": {0, 1, 2}},
+        )
+        selection = select_primary_baseline_from_development(pilot)
+        self.assertEqual(selection["selection_split"], "dev")
+        self.assertEqual(selection["selected_baseline_arm"], "A4")
+        self.assertEqual(selection["tied_strongest_baseline_arms"], ["A4", "R_LEXICAL"])
+
+    def test_primary_comparator_rejects_heldout_selection(self) -> None:
+        rows = self._primary_rows("heldout", 3)
+        with self.assertRaisesRegex(ValueError, "belong to 'dev'"):
+            select_primary_baseline_from_development(rows)
+
+    def test_primary_a5_promotes_only_when_lower_bound_exceeds_material_gain(self) -> None:
+        report = self._evaluate_primary(candidate_completion=set(range(5)))
+        self.assertEqual(report["status"], "PROMOTE_A5")
+        self.assertEqual(report["baseline_arm_id"], "A0")
+        self.assertEqual(report["primary_completion"]["paired_difference"], 1.0)
+        self.assertGreater(report["primary_completion"]["cluster_bootstrap_ci"]["low"], 0.05)
+        self.assertTrue(report["all_registered_actor_and_retrieval_arms_reported"])
+
+    def test_primary_a5_holds_if_interval_does_not_clear_material_gain(self) -> None:
+        report = self._evaluate_primary(candidate_completion={0, 1})
+        self.assertEqual(report["status"], "HOLD")
+        self.assertFalse(report["primary_completion"]["lower_bound_exceeds_material_gain"])
+
+    def test_primary_a5_is_not_ready_until_full_protocol_is_frozen(self) -> None:
+        report = self._evaluate_primary(protocol_frozen=False,
+                                        candidate_completion=set(range(5)))
+        self.assertEqual(report["status"], "NOT_READY")
+
+    def test_primary_a5_fails_closed_on_unsafe_attempt_regression(self) -> None:
+        report = self._evaluate_primary(
+            candidate_completion=set(range(5)), unsafe={"A5": {0}},
+        )
+        self.assertEqual(report["status"], "NO_GO")
+        self.assertFalse(report["safety"]["non_regressive"])
+
+    def test_primary_safety_reports_unsafe_execution_separately(self) -> None:
+        report = self._evaluate_primary(
+            candidate_completion=set(range(5)),
+            unsafe={"A5": {0}}, unsafe_execution={"A5": {0}},
+        )
+        self.assertEqual(report["status"], "NO_GO")
+        self.assertEqual(
+            report["safety"]["candidate"]["unsafe_executions"]["events"], 1,
+        )
+
+    def test_primary_a5_rejects_dev_heldout_overlap_and_missing_arms(self) -> None:
+        pilot = self._primary_rows("dev", 3)
+        selection = select_primary_baseline_from_development(pilot)
+        heldout = self._primary_rows("heldout", 5)
+        overlap_id = selection["pilot_task_ids"][0]
+        overlap_digest = hashlib.sha256(overlap_id.encode()).hexdigest()
+        for row in heldout:
+            if row["task_id"] == "heldout-case-0":
+                row["task_id"] = overlap_id
+                row["outcome_oracle_digest"] = overlap_digest
+        attempts = [{"attempt_id": "x", "status": "COMPLETED",
+                     "candidate_sha256": "a" * 64, "thresholds_sha256": "b" * 64}]
+        digest = hashlib.sha256(json.dumps(
+            attempts, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode()).hexdigest()
+        with self.assertRaisesRegex(ValueError, "disjoint"):
+            evaluate_primary_a5_promotion(
+                heldout, baseline_selection=selection, protocol_frozen=True,
+                protocol_manifest_sha256="c" * 64,
+                attempt_history=attempts, expected_attempt_history_sha256=digest,
+            )
+
     def test_scripted_product_example_is_recomputed_from_raw_rows_and_caveated(self) -> None:
         root = Path(__file__).resolve().parents[1]
         path = root / "research" / "results" / "agent-outcome-v1-ao096-scripted-example.json"
