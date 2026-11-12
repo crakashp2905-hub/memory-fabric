@@ -28,6 +28,12 @@ populations. False withholding is measured per task case with valid authorized
 evidence available. Evaluator labels and those rows are private to the
 post-episode report and must not be sent back to the actor.
 
+The fixed negative-control fixture in `benchmarks.outcome_worlds` includes
+answerable cases with different required actions and an irrecoverable case.
+Its always-abstain and fixed-action policies are checked against an
+evaluator-only oracle on the identical cases. This is a scripted contract
+control only; it is not a benchmark effect estimate.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work

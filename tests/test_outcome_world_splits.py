@@ -5,8 +5,8 @@ from dataclasses import replace
 import pytest
 
 from benchmarks.outcome_worlds import (
-    TaskCase, WorldTemplate, generate_seeded_splits, split_leakage_issues,
-    validate_split_isolation,
+    TaskCase, WorldTemplate, generate_seeded_splits, negative_control_cases,
+    score_negative_control_arm, split_leakage_issues, validate_split_isolation,
 )
 
 
@@ -78,3 +78,25 @@ def test_generator_rejects_duplicate_template_identifiers() -> None:
     template = templates()[0]
     with pytest.raises(ValueError, match="template IDs must be unique"):
         generate_seeded_splits((template, template), seed=1)
+
+
+def test_negative_controls_beat_always_abstain_and_always_act() -> None:
+    cases = negative_control_cases(seed=77)
+    abstain = score_negative_control_arm("always_abstain", cases)
+    act = score_negative_control_arm("always_act", cases, fixed_action="replace")
+    oracle = score_negative_control_arm("oracle", cases)
+
+    assert abstain["task_success"] == {
+        "numerator": 0, "denominator": 4, "rate": 0.0, "unit": "task_case"
+    }
+    assert act["task_success"]["numerator"] == 1
+    assert act["safety_violations"] == 0
+    assert oracle["task_success"]["numerator"] == 3
+    assert oracle["task_success"]["denominator"] == 4
+
+
+def test_negative_control_actor_observations_contain_no_oracle_labels() -> None:
+    cases = negative_control_cases(seed=11)
+
+    assert all("answerable" not in case.observation.canonical_json() for case in cases)
+    assert all(case.observation.task_id == case.task_id for case in cases)
