@@ -5,8 +5,11 @@ import sys
 import textwrap
 from pathlib import Path
 
+import pytest
+
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule, reconciliation_ledger
+from memory_fabric.decision_records import DecisionReevaluationReceipt, EvidenceVersion
 from memory_fabric.agent_outcomes import (
     RecoveryEpisode,
     classify_evidence_failure,
@@ -16,6 +19,54 @@ from memory_fabric.agent_outcomes import (
 from memory_fabric.exposure import AlwaysExposePolicy
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_correction_receipt_drives_an_advisory_replan_transition() -> None:
+    episode = RecoveryEpisode("replan-task", enabled=True)
+    assert episode.record("evidence_blocked", {"cause_code": "EVIDENCE_STALE"})
+    receipt = DecisionReevaluationReceipt(
+        receipt_id="receipt-1", trigger_event_id="event-correction-1",
+        decision_id="decision-1", changed_premise=EvidenceVersion("memory-1", 2),
+        current_decision_status="proposed", proof_edge_ids=("edge-relied-on",),
+        affected_effect_ids=("edge-execution",),
+    )
+
+    assert episode.replan_from_reevaluation(
+        receipt, plan_sha256="a" * 64, progress_key="correction-replan-1",
+    )
+    assert episode.status.value == "RECOVERED"
+    assert episode.trace[-1]["kind"] == "replan"
+    assert episode.trace[-1]["detail"]["receipt_id"] == "receipt-1"
+    assert episode.trace[-1]["detail"]["action_authorized"] is False
+    steps = episode.steps
+    assert episode.replan_from_reevaluation(
+        receipt, plan_sha256="a" * 64, progress_key="correction-replan-1",
+    )
+    assert episode.steps == steps
+
+
+def test_replan_rejects_unlinked_or_malformed_correction_transitions() -> None:
+    receipt = DecisionReevaluationReceipt(
+        receipt_id="receipt-1", trigger_event_id="event-correction-1",
+        decision_id="decision-1", changed_premise=EvidenceVersion("memory-1", 2),
+        current_decision_status="proposed", proof_edge_ids=("edge-relied-on",),
+        affected_effect_ids=(),
+    )
+    episode = RecoveryEpisode("replan-task", enabled=True)
+    with pytest.raises(RuntimeError, match="evidence-blocked"):
+        episode.replan_from_reevaluation(
+            receipt, plan_sha256="a" * 64, progress_key="replan-1",
+        )
+    assert episode.record("evidence_blocked", {"cause_code": "EVIDENCE_STALE"})
+    with pytest.raises(ValueError, match="SHA-256"):
+        episode.replan_from_reevaluation(
+            receipt, plan_sha256="not-a-digest", progress_key="replan-1",
+        )
+    with pytest.raises(TypeError, match="DecisionReevaluationReceipt"):
+        episode.replan_from_reevaluation(
+            {"action_authorized": False}, plan_sha256="a" * 64,
+            progress_key="replan-1",
+        )
 
 
 def test_authorization_failure_suppresses_requery_and_records_telemetry(monkeypatch) -> None:

@@ -9,6 +9,7 @@ from enum import StrEnum
 import json
 import os
 from pathlib import Path
+import re
 import tempfile
 from types import MappingProxyType
 import math
@@ -264,6 +265,46 @@ class RecoveryEpisode:
             "authorization_requeries_suppressed": self.authorization_requeries_suppressed,
             "unauthorized_alternate_source_accesses": 0,
         }
+
+    def replan_from_reevaluation(
+        self,
+        receipt: Any,
+        *,
+        plan_sha256: str,
+        progress_key: str,
+    ) -> bool:
+        """Record an explicit new-plan transition from an advisory impact receipt.
+
+        This links exact decision/evidence impact to recovery progress. The
+        receipt remains advisory: it can require reevaluation but can never
+        grant or carry authority for an external action.
+        """
+        from ..decision_records import DecisionReevaluationReceipt
+
+        if not isinstance(receipt, DecisionReevaluationReceipt):
+            raise TypeError("receipt must be a DecisionReevaluationReceipt")
+        if not receipt.reevaluation_required or receipt.action_authorized:
+            raise ValueError("reevaluation receipt must remain advisory")
+        if not any(item.get("kind") == "evidence_blocked" for item in self.trace):
+            raise RuntimeError("replanning requires an evidence-blocked correction episode")
+        if (not isinstance(plan_sha256, str)
+                or not re.fullmatch(r"[0-9a-f]{64}", plan_sha256)):
+            raise ValueError("plan_sha256 must be a lowercase SHA-256 digest")
+        if not isinstance(progress_key, str) or not progress_key.strip():
+            raise ValueError("progress_key must be non-empty text")
+
+        detail = {
+            "progress_key": progress_key,
+            "receipt_id": receipt.receipt_id,
+            "decision_id": receipt.decision_id,
+            "changed_premise": receipt.changed_premise.to_dict(),
+            "plan_sha256": plan_sha256,
+            "action_authorized": False,
+        }
+        if any(item.get("kind") == "replan" and item.get("detail") == detail
+               for item in self.trace):
+            return True
+        return self.record("replan", detail)
 
     def to_json(self) -> str:
         """Serialize a bounded checkpoint suitable for durable host storage."""
