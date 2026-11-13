@@ -57,8 +57,21 @@ def load_manifest(path: Path) -> tuple[dict[str, Any], str]:
                 raise ValueError("condition command must be a non-empty argv list")
         elif condition["status"] not in _STATUSES or condition["status"] == "PASS":
             raise ValueError("static conditions may be FAIL or NOT_RUN, never predeclared PASS")
-    if "real_agent_execution" not in identifiers:
-        raise ValueError("manifest must report the real_agent_execution condition")
+    required_conditions = {"registered_adversarial_families", "real_agent_execution"}
+    missing_conditions = required_conditions - identifiers
+    if missing_conditions:
+        raise ValueError(
+            "manifest must report required conditions: "
+            + ", ".join(sorted(missing_conditions))
+        )
+    attack_gate = next(
+        item for item in conditions if item["id"] == "registered_adversarial_families"
+    )
+    if (attack_gate.get("required") is not True
+            or attack_gate.get("command") != ["python", "tools/adversarial_gate.py"]):
+        raise ValueError(
+            "registered_adversarial_families must run the frozen adversarial gate"
+        )
     real_agent = next(
         item for item in conditions if item["id"] == "real_agent_execution"
     )

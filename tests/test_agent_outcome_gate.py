@@ -19,6 +19,10 @@ def test_checked_in_manifest_is_immutable_versioned_and_requires_model_status() 
     assert manifest["immutable"] is True
     assert manifest["manifest_version"] == 1
     assert len(digest) == 64
+    attack_gate = next(item for item in manifest["conditions"]
+                       if item["id"] == "registered_adversarial_families")
+    assert attack_gate["required"] is True
+    assert attack_gate["command"] == ["python", "tools/adversarial_gate.py"]
     assert next(item for item in manifest["conditions"]
                 if item["id"] == "real_agent_execution")["status"] == "NOT_RUN"
 
@@ -53,4 +57,16 @@ def test_manifest_cannot_predeclare_model_execution_pass(tmp_path: Path) -> None
     path.write_text(json.dumps(manifest), encoding="utf-8")
 
     with pytest.raises(ValueError, match="never predeclared PASS"):
+        GATE["load_manifest"](path)
+
+
+def test_manifest_requires_registered_attack_family_gate(tmp_path: Path) -> None:
+    source = json.loads((ROOT / "tools" / "agent_outcome_gate_manifest.v1.json")
+                        .read_text(encoding="utf-8"))
+    source["conditions"] = [item for item in source["conditions"]
+                            if item["id"] != "registered_adversarial_families"]
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(source), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="registered_adversarial_families"):
         GATE["load_manifest"](path)

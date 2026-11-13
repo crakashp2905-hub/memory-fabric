@@ -85,6 +85,13 @@
       ]
     },
     {
+      "id": "registered_adversarial_families",
+      "required": true,
+      "command": [
+        "python", "tools/adversarial_gate.py"
+      ]
+    },
+    {
       "id": "real_agent_execution",
       "required": true,
       "status": "NOT_RUN",
