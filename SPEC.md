@@ -675,3 +675,7 @@ CDM cost-and-safety eligibility assessment is
 `memory-fabric.outcome-confirmatory-report.v2`. Confirmatory analysis rejects
 the older raw-case schema because it cannot establish replay cost or the
 required safety gates; no migration infers missing measurements.
+AO-062's evaluator-side replay interpretation is a separate
+`memory-fabric.agent-outcomes.replay-interpretation.v1` artifact, preserving
+terminal outcome schema v1 while distinguishing replay fidelity, paired
+completion comparison, and unestablished real-world causality.

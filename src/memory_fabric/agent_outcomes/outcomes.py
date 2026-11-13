@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dataclass_field
 from enum import StrEnum
 from typing import Any
 
@@ -189,6 +189,204 @@ class OutcomeAssessment:
     safety_violations: int
     reason_code: str
     result_digest: str
+
+
+class ReplayFidelity(StrEnum):
+    VERIFIED_EXACT = "VERIFIED_EXACT"
+    UNVERIFIED = "UNVERIFIED"
+    NO_CERTIFICATE = "NO_CERTIFICATE"
+    NON_REPLAYABLE = "NON_REPLAYABLE"
+
+
+class CompletionComparison(StrEnum):
+    GAIN = "COMPLETION_GAIN"
+    NO_CHANGE = "COMPLETION_NO_CHANGE"
+    LOSS = "COMPLETION_LOSS"
+    INCONCLUSIVE = "INCONCLUSIVE"
+    NOT_ASSESSED = "NOT_ASSESSED"
+
+
+_INTERPRETATION_SCHEMA_ID = "memory-fabric.agent-outcomes.replay-interpretation.v1"
+
+
+@dataclass(frozen=True)
+class ReplayOutcomeInterpretation:
+    """Keep replay fidelity, proposal flip, observed completion, and causality separate."""
+
+    task_id: str
+    replay_fidelity: ReplayFidelity
+    policy_flip: bool | None
+    paired_completion_comparison: CompletionComparison
+    factual_status: OutcomeStatus | None
+    counterfactual_status: OutcomeStatus | None
+    safety_violation_difference: int | None
+    replay_certificate_digest: str | None = None
+    factual_result_digest: str | None = None
+    counterfactual_result_digest: str | None = None
+    real_world_causality: str = "NOT_ESTABLISHED"
+    physical_root_cause: str = "NOT_ESTABLISHED"
+    schema_id: str = _INTERPRETATION_SCHEMA_ID
+    reported_replay_status: str | None = None
+    replay_certificate: Any = dataclass_field(default=None, repr=False, compare=False)
+
+    def __post_init__(self) -> None:
+        _identifier(self.task_id, "task_id")
+        if self.schema_id != _INTERPRETATION_SCHEMA_ID:
+            raise ValueError("unsupported replay interpretation schema")
+        if not isinstance(self.replay_fidelity, ReplayFidelity):
+            raise ValueError("replay_fidelity must use the versioned enum")
+        if not isinstance(self.paired_completion_comparison, CompletionComparison):
+            raise ValueError("paired_completion_comparison must use the versioned enum")
+        if self.policy_flip is not None and type(self.policy_flip) is not bool:
+            raise ValueError("policy_flip must be boolean or unknown")
+        if ((self.replay_fidelity is ReplayFidelity.VERIFIED_EXACT)
+                != (self.policy_flip is not None)):
+            raise ValueError("only verified exact replay may establish policy_flip")
+        if (self.replay_fidelity is ReplayFidelity.VERIFIED_EXACT
+                and self.replay_certificate_digest is None):
+            raise ValueError("verified exact fidelity requires its certificate digest")
+        verified_certificate = False
+        if self.replay_certificate is not None:
+            from memory_fabric.causal_replay.certificates import (
+                ReplayCertificate, verify as verify_replay_certificate,
+            )
+            verified_certificate = (
+                type(self.replay_certificate) is ReplayCertificate
+                and verify_replay_certificate(self.replay_certificate)
+                and self.replay_certificate.action_entitlement is False
+            )
+            if verified_certificate and (
+                self.replay_fidelity is not ReplayFidelity.VERIFIED_EXACT
+                or self.policy_flip != self.replay_certificate.proposal_changed
+                or self.replay_certificate_digest != self.replay_certificate.certificate_digest
+            ):
+                raise ValueError("verified certificate and replay interpretation disagree")
+        if self.replay_fidelity is ReplayFidelity.VERIFIED_EXACT and not verified_certificate:
+            raise ValueError("verified exact fidelity requires a verified non-authorizing certificate")
+        if ((self.factual_status is None) != (self.counterfactual_status is None)):
+            raise ValueError("factual and counterfactual outcomes must be paired")
+        if ((self.factual_status is None)
+                != (self.paired_completion_comparison is CompletionComparison.NOT_ASSESSED)):
+            raise ValueError("completion effect requires both independently graded outcomes")
+        for field, value in (("replay_certificate_digest", self.replay_certificate_digest),
+                             ("factual_result_digest", self.factual_result_digest),
+                             ("counterfactual_result_digest", self.counterfactual_result_digest)):
+            if value is not None:
+                _digest(value, field)
+        if (self.factual_status is None) != (self.factual_result_digest is None):
+            raise ValueError("factual result digest must accompany factual status")
+        if (self.counterfactual_status is None) != (self.counterfactual_result_digest is None):
+            raise ValueError("counterfactual result digest must accompany counterfactual status")
+        if (self.safety_violation_difference is not None
+                and type(self.safety_violation_difference) is not int):
+            raise ValueError("safety_violation_difference must be an integer or unknown")
+        if (self.real_world_causality != "NOT_ESTABLISHED"
+                or self.physical_root_cause != "NOT_ESTABLISHED"):
+            raise ValueError("replay interpretation cannot claim real-world causality or root cause")
+        if (self.reported_replay_status is not None
+                and self.reported_replay_status not in {
+                    "EXACT", "APPROXIMATE", "NON_REPLAYABLE", "UNDEFINED_CONTINUATION",
+                    "ERASED", "UNAUTHORIZED",
+                }):
+            raise ValueError("reported_replay_status is unsupported")
+
+    @classmethod
+    def assess(
+        cls,
+        task_id: str,
+        *,
+        replay_certificate: Any = None,
+        reported_replay_status: str | None = None,
+        factual: OutcomeAssessment | None = None,
+        counterfactual: OutcomeAssessment | None = None,
+    ) -> "ReplayOutcomeInterpretation":
+        """Verify replay evidence and independently compare terminal outcomes."""
+        fidelity = (
+            ReplayFidelity.NON_REPLAYABLE if reported_replay_status == "NON_REPLAYABLE"
+            else ReplayFidelity.NO_CERTIFICATE if reported_replay_status is None
+            else ReplayFidelity.UNVERIFIED
+        )
+        policy_flip = None
+        if replay_certificate is not None:
+            from memory_fabric.causal_replay.certificates import (
+                ReplayCertificate, verify as verify_replay_certificate,
+            )
+            if (type(replay_certificate) is ReplayCertificate
+                    and verify_replay_certificate(replay_certificate)
+                    and replay_certificate.action_entitlement is False):
+                fidelity = ReplayFidelity.VERIFIED_EXACT
+                policy_flip = replay_certificate.proposal_changed
+            else:
+                fidelity = ReplayFidelity.UNVERIFIED
+        if (factual is None) != (counterfactual is None):
+            raise ValueError("factual and counterfactual outcomes must be supplied together")
+        effect = CompletionComparison.NOT_ASSESSED
+        safety_difference = None
+        factual_status = counterfactual_status = None
+        factual_digest = counterfactual_digest = None
+        certificate_digest = None
+        if factual is not None and counterfactual is not None:
+            if (not isinstance(factual, OutcomeAssessment)
+                    or not isinstance(counterfactual, OutcomeAssessment)
+                    or factual.task_id != task_id or counterfactual.task_id != task_id):
+                raise ValueError("paired outcome assessments must belong to task_id")
+            if (not isinstance(factual.status, OutcomeStatus)
+                    or not isinstance(counterfactual.status, OutcomeStatus)
+                    or type(factual.completion) is not bool
+                    or type(counterfactual.completion) is not bool
+                    or type(factual.safety_violations) is not int
+                    or type(counterfactual.safety_violations) is not int
+                    or factual.completion != (factual.status is OutcomeStatus.COMPLETED)
+                    or counterfactual.completion != (
+                        counterfactual.status is OutcomeStatus.COMPLETED)
+                    or min(factual.safety_violations, counterfactual.safety_violations) < 0):
+                raise ValueError("paired outcome assessments contain invalid evaluator fields")
+            factual_status, counterfactual_status = factual.status, counterfactual.status
+            factual_digest = factual.result_digest
+            counterfactual_digest = counterfactual.result_digest
+            safety_difference = counterfactual.safety_violations - factual.safety_violations
+            if (factual.status is OutcomeStatus.UNDECIDABLE
+                    or counterfactual.status is OutcomeStatus.UNDECIDABLE):
+                effect = CompletionComparison.INCONCLUSIVE
+            elif counterfactual.completion and not factual.completion:
+                effect = CompletionComparison.GAIN
+            elif factual.completion and not counterfactual.completion:
+                effect = CompletionComparison.LOSS
+            else:
+                effect = CompletionComparison.NO_CHANGE
+        if replay_certificate is not None:
+            from memory_fabric.causal_replay.certificates import ReplayCertificate
+            if type(replay_certificate) is ReplayCertificate:
+                certificate_digest = replay_certificate.certificate_digest
+        return cls(
+            task_id=task_id, replay_fidelity=fidelity, policy_flip=policy_flip,
+            paired_completion_comparison=effect, factual_status=factual_status,
+            counterfactual_status=counterfactual_status,
+            safety_violation_difference=safety_difference,
+            replay_certificate_digest=certificate_digest,
+            factual_result_digest=factual_digest,
+            counterfactual_result_digest=counterfactual_digest,
+            reported_replay_status=reported_replay_status,
+            replay_certificate=replay_certificate,
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_id": self.schema_id, "task_id": self.task_id,
+            "replay_fidelity": self.replay_fidelity.value,
+            "reported_replay_status": self.reported_replay_status,
+            "policy_flip": self.policy_flip,
+            "paired_completion_comparison": self.paired_completion_comparison.value,
+            "factual_status": self.factual_status.value if self.factual_status else None,
+            "counterfactual_status": (self.counterfactual_status.value
+                                       if self.counterfactual_status else None),
+            "safety_violation_difference": self.safety_violation_difference,
+            "replay_certificate_digest": self.replay_certificate_digest,
+            "factual_result_digest": self.factual_result_digest,
+            "counterfactual_result_digest": self.counterfactual_result_digest,
+            "real_world_causality": self.real_world_causality,
+            "physical_root_cause": self.physical_root_cause,
+        }
 
 
 def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> OutcomeAssessment:

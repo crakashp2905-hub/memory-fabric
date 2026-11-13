@@ -162,6 +162,14 @@ and historical event sequence under the authorized `known_at` and source-head
 bounds. An incomplete or no-longer-authorized capture cannot be promoted to an
 exact replay certificate.
 
+`ReplayOutcomeInterpretation` is a separate evaluator-side report: it records
+verified replay fidelity, policy flips, paired completion comparison, and
+safety change independently, with the replay-certificate and terminal-result
+digests. Only a verified exact, non-authorizing replay
+certificate can establish a policy-flip label. A changed proposal does not
+establish a completion gain; even a measured completion gain leaves
+`real_world_causality` and `physical_root_cause` as `NOT_ESTABLISHED`.
+
 `AgentEpisodeAudit` is constructed after the runtime stops and the evaluator
 grades the actual terminal result. It retains every visible observation, agent
 step (including evidence versions), tool output, stop reason, terminal receipt,
