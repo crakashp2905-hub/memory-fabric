@@ -23,9 +23,10 @@ _DETAIL_FIELDS: dict[str, frozenset[str]] = {
     "propose": frozenset({"tool", "key"}),
     "action_gate": frozenset({"outcome", "reason_codes"}),
     "recovery_failed": frozenset({"reason"}),
+    "operator_handoff": frozenset({"cause_code", "failure_class", "reason_code"}),
 }
 _RECOVERY_ACTIONS = frozenset({
-    "refresh", "re_retrieve", "ask", "replan",
+    "refresh", "re_retrieve", "ask", "replan", "operator_handoff",
     "request_current_observation", "inspect_provenance",
 })
 

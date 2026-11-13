@@ -306,6 +306,28 @@ class RecoveryEpisode:
             return True
         return self.record("replan", detail)
 
+    def finish_irrecoverable(self, failure: Any, *, reason_code: str) -> bool:
+        """Stop retrying and hand off after an evidence-blocked episode is exhausted."""
+        if self.status is not RecoveryStatus.BLOCKED:
+            raise RuntimeError("irrecoverable fallback requires a blocked recovery episode")
+        if not isinstance(reason_code, str) or not reason_code.strip():
+            raise ValueError("reason_code must be non-empty text")
+        failure_class = classify_recovery_failure(failure)
+        cause_code = getattr(failure, "reason_code", "UNKNOWN")
+        if not isinstance(cause_code, str) or not cause_code.strip():
+            cause_code = "UNKNOWN"
+        if not self.record("operator_handoff", {
+            "cause_code": cause_code,
+            "failure_class": failure_class.value,
+            "reason_code": reason_code,
+        }):
+            return False
+        return self.record("abstain", {
+            "cause_code": cause_code,
+            "failure_class": failure_class.value,
+            "reason": reason_code,
+        })
+
     def to_json(self) -> str:
         """Serialize a bounded checkpoint suitable for durable host storage."""
         remaining = max(0.0, self.limits.deadline_seconds

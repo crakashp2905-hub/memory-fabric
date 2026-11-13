@@ -19,6 +19,8 @@ from memory_fabric.agent_outcomes import (
     classify_recovery_failure,
     RecoveryFailureClass,
 )
+from memory_fabric.agent_outcomes.metrics import operator_trace
+from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 from memory_fabric.exposure import AlwaysExposePolicy
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +72,56 @@ def test_replan_rejects_unlinked_or_malformed_correction_transitions() -> None:
             {"action_authorized": False}, plan_sha256="a" * 64,
             progress_key="replan-1",
         )
+
+
+def test_irrecoverable_episode_hands_off_and_abstains_without_retry(monkeypatch) -> None:
+    fabric = MemoryFabric(":memory:", hold_suspicious=False)
+    try:
+        calls: list[str] = []
+
+        def forbidden_retrieve(**_kwargs):
+            calls.append("retrieve")
+            raise AssertionError("terminal fallback must not retry retrieval")
+
+        monkeypatch.setattr(fabric, "retrieve", forbidden_retrieve)
+        failure = classify_evidence_failure("content_erased")
+        episode = RecoveryEpisode("irrecoverable-task", enabled=True)
+        assert episode.record("evidence_blocked", {
+            "cause_code": failure.reason_code,
+            "failure_class": classify_recovery_failure(failure).value,
+        })
+
+        assert episode.finish_irrecoverable(
+            failure, reason_code="NO_AUTHORIZED_RECOVERY_PATH",
+        )
+        assert episode.status.value == "ABSTAINED"
+        assert [event["kind"] for event in episode.trace[-2:]] == [
+            "operator_handoff", "abstain",
+        ]
+        assert episode.trace[-2]["detail"]["cause_code"] == "EVIDENCE_ERASED"
+        assert episode.trace[-2]["detail"]["reason_code"] == "NO_AUTHORIZED_RECOVERY_PATH"
+        assert episode.trace[-1]["detail"]["reason"] == "NO_AUTHORIZED_RECOVERY_PATH"
+        report = operator_trace(episode, OutcomeAssessment(
+            "irrecoverable-task", OutcomeStatus.SAFE_ABSTENTION, False, 0,
+            "AGENT_ABSTAINED", "a" * 64,
+        ))
+        handoff = next(event for event in report["operator_events"]
+                       if event["kind"] == "operator_handoff")
+        assert handoff["detail"] == {
+            "cause_code": "EVIDENCE_ERASED",
+            "failure_class": "AUTHORIZATION_FAILURE",
+            "reason_code": "NO_AUTHORIZED_RECOVERY_PATH",
+        }
+        assert "reason" not in report["operator_events"][-1].get("detail", {})
+
+        assert episode.search_alternate_sources(
+            failure, fabric, query="erased source", agent_id="operator",
+            tenant_id="tenant-a",
+        ) == ()
+        assert calls == []
+        assert episode.recovery_telemetry()["alternate_search_attempts"] == 0
+    finally:
+        fabric.close()
 
 
 def test_correction_preserves_historical_decision_but_revokes_old_authorization() -> None:
