@@ -125,6 +125,14 @@ seeded team experiments remain in `experiments/teamworld.py`; the new event
 engine is a scaffold and not a complete task world. No full A0–A7 matched
 harness, confirmatory analysis, or independent-world result is claimed here.
 The preregistered confirmatory design remains `DRAFT / NOT FROZEN`.
+When frozen artifacts are eventually supplied, `benchmarks.outcome_confirmatory`
+compares A5 with both fair baselines (A3 and A4) and A6 with A5 on the same
+paired held-out world/task cases. A5 is held unless both baseline contrasts
+meet the material threshold, have a positive paired 95% cluster-bootstrap
+interval, and pass Holm-adjusted exact sign tests. Null or wide intervals remain
+`HOLD`; the analyzer never authorizes promotion. The draft protocol currently
+has no confirmatory seeds or outcome artifacts, so no A5/A6 effect estimate is
+claimed.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is

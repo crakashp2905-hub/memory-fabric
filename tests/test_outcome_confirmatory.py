@@ -6,7 +6,8 @@ import hashlib
 import pytest
 
 from benchmarks.outcome_confirmatory import (
-    SCHEMA_ID, confirmatory_report, design_digest, holm_bonferroni, validate_manifest,
+    SCHEMA_ID, _paired_cluster_bootstrap_ci, confirmatory_report, design_digest,
+    holm_bonferroni, validate_manifest,
 )
 
 
@@ -112,9 +113,13 @@ def test_report_applies_registered_contrasts_and_holm_adjustment() -> None:
     assert len(report["attempts"]) == 1
     assert report["contrasts"]["A5-A3"]["denominator"] == 2
     assert report["contrasts"]["A5-A3"]["paired_completion_difference"] == 0.5
-    assert report["cdm_incremental_assessment"]["status"] == "ELIGIBLE_FOR_OWNER_REVIEW"
+    assert report["contrasts"]["A5-A3"]["paired_cluster_bootstrap_ci_95"] == [0.0, 1.0]
+    assert report["primary_improvement_gate"]["status"] == "HOLD"
+    assert report["primary_improvement_gate"]["promotion_authorized"] is False
+    assert report["cdm_incremental_assessment"]["status"] == "INELIGIBLE"
     assert report["cdm_incremental_assessment"]["promotion_authorized"] is False
     assert report["cdm_incremental_assessment"]["a6_replay_wall_ms_mean_per_case"] == 10
+    assert report["cdm_incremental_assessment"]["gates"]["positive_paired_interval"] is False
 
 
 def test_cdm_owner_review_gate_fails_on_safety_regression_or_replay_cap() -> None:
@@ -220,3 +225,21 @@ def test_holm_adjustment_is_monotone_and_accounts_for_all_comparisons() -> None:
     assert adjusted == {"primary": 0.03, "cdm": 0.06, "secondary": 0.06}
     with pytest.raises(ValueError, match="between zero and one"):
         holm_bonferroni({"bad": 1.2})
+
+
+def test_positive_estimate_with_wide_interval_or_adjusted_null_remains_hold() -> None:
+    report = run_report()
+    primary = report["primary_improvement_gate"]
+    assert report["contrasts"]["A5-A4"]["paired_completion_difference"] == 0.0
+    assert report["contrasts"]["A5-A4"]["paired_cluster_bootstrap_ci_95"][0] == 0.0
+    assert primary["status"] == "HOLD"
+    assert primary["all_required_contrasts_pass"] is False
+
+
+def test_paired_cluster_interval_is_deterministic_and_resamples_case_pairs() -> None:
+    differences = [1, 0, -1, 0]
+    first = _paired_cluster_bootstrap_ci(differences, iterations=2_000, seed=13)
+    second = _paired_cluster_bootstrap_ci(differences, iterations=2_000, seed=13)
+    assert first == second
+    assert first[0] <= 0 <= first[1]
+    assert _paired_cluster_bootstrap_ci([1, 1], iterations=100) == [1.0, 1.0]
