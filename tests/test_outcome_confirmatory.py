@@ -198,6 +198,15 @@ def test_tuning_seed_and_failed_attempts_reject_confirmatory_analysis() -> None:
     assert any("failed, stopped, or skipped" in error for error in rejected["errors"])
 
 
+def test_repeated_completed_attempt_is_retained_and_rejected() -> None:
+    manifest = frozen_manifest()
+    repeated = [attempt(manifest), attempt(manifest, "COMPLETED")]
+    report = run_report(attempts=repeated)
+    assert report["status"] == "REJECTED"
+    assert report["attempts"] == repeated
+    assert any("exactly one registered attempt" in error for error in report["errors"])
+
+
 def test_draft_protocol_is_not_an_analysis_pass() -> None:
     manifest = frozen_manifest()
     manifest["status"] = "DRAFT"
