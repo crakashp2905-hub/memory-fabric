@@ -192,6 +192,46 @@ def test_paired_comparison_rejects_unmatched_cases() -> None:
         paired_cluster_bootstrap([case], treatment_arm="A5", control_arm="A4")
 
 
+def test_single_cluster_bootstrap_and_identical_arm_negative_control_are_hand_computable() -> None:
+    one_pair = [
+        EvaluatedTaskCase(
+            "single", arm, 31, True,
+            assessment("single", status), False, False,
+        )
+        for arm, status in (
+            ("A5", OutcomeStatus.COMPLETED),
+            ("A4", OutcomeStatus.FAILED),
+        )
+    ]
+    single = paired_cluster_bootstrap(
+        one_pair, treatment_arm="A5", control_arm="A4", iterations=17, seed=12,
+    )
+    assert single["cluster_count"] == 1
+    assert single["paired_completion_difference"] == 1.0
+    assert single["paired_cluster_bootstrap_ci_95"] == [1.0, 1.0]
+    assert single["exact_paired_sign_test"] == {
+        "wins": 1, "losses": 0, "ties": 0, "two_sided_p": 1.0,
+    }
+
+    negative_control = [
+        EvaluatedTaskCase(
+            task_id, arm, 32, True,
+            assessment(task_id, OutcomeStatus.COMPLETED), False, False,
+        )
+        for task_id in ("nc-1", "nc-2", "nc-3")
+        for arm in ("candidate", "identical-control")
+    ]
+    null = paired_cluster_bootstrap(
+        negative_control, treatment_arm="candidate", control_arm="identical-control",
+        iterations=100, seed=99,
+    )
+    assert null["paired_completion_difference"] == 0.0
+    assert null["paired_cluster_bootstrap_ci_95"] == [0.0, 0.0]
+    assert null["exact_paired_sign_test"] == {
+        "wins": 0, "losses": 0, "ties": 3, "two_sided_p": 1.0,
+    }
+
+
 def test_failed_task_requires_supported_mixed_cause_codes() -> None:
     failed = EvaluatedTaskCase(
         "failed", "A5", 2, True, assessment("failed", OutcomeStatus.FAILED), False, False,
