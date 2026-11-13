@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from memory_fabric import MemoryFabric
 from memory_fabric import events as ev
-from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
+from memory_fabric.actions import REFUSED, ActionGate, ActionPolicy, ToolRule
+from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 from memory_fabric.agent_outcomes.runtime import schedule_counterfactual_replays
 from memory_fabric.causal_replay.bayes import BinaryNode
 from memory_fabric.causal_replay.capture import capture, record_decision
+from memory_fabric.causal_replay.certificates import issue as issue_replay_certificate
 from memory_fabric.causal_replay.executor import execute_recorded
 from memory_fabric.causal_replay.policy import ThresholdPolicy
 from memory_fabric.causal_replay.replay import deterministic_simulator
@@ -13,6 +15,16 @@ from memory_fabric.causal_replay.types import (
     ModelProvenance, NonReplayable, ReplayContext,
 )
 from memory_fabric.service import MemoryService
+
+
+def _verified_cdm_certificate():
+    return issue_replay_certificate(
+        capture_digest="a" * 64, intervention_digest="b" * 64,
+        factual_fingerprint="c" * 64, counterfactual_fingerprint="d" * 64,
+        updater_id="registered-updater-v1", policy_id="registered-policy-v1",
+        status="EXACT", factual_proposal="monitor",
+        counterfactual_proposal="investigate", complete=True,
+    )
 
 
 def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypatch) -> None:
@@ -33,7 +45,7 @@ def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypat
     def replay(decision, remaining):
         order.append(("replay", decision["seq"]))
         assert remaining == ("independent-source",)
-        return {"status": "EXACT", "action_authorized": False}
+        return _verified_cdm_certificate()
 
     monkeypatch.setattr(
         "memory_fabric.agent_outcomes.runtime.dependence.decisions_depending_on",
@@ -64,7 +76,12 @@ def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypat
             "material_alternative_ids": ["continue-with-backup"],
             "replay_status": "INVOKED",
             "reason_code": "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE",
-            "replay_result": {"status": "EXACT", "action_authorized": False},
+            "replay_receipt": {
+                "status": "EXACT",
+                "certificate_digest": _verified_cdm_certificate().certificate_digest,
+                "proposal_changed": True,
+                "action_authorized": False,
+            },
         },
         {
             "decision_sequence": 30,
@@ -91,6 +108,64 @@ def test_unaffected_correction_never_invokes_cdm(monkeypatch) -> None:
     assert report["decisions"] == []
     assert report["cdm_invocations"] == 0
     assert calls == []
+
+
+def test_untrusted_reward_or_authority_claim_is_not_returned_as_cdm_result(monkeypatch) -> None:
+    monkeypatch.setattr(
+        "memory_fabric.agent_outcomes.runtime.dependence.decisions_depending_on",
+        lambda *_args: {
+            "depended": [],
+            "would_stand": [{"seq": 5, "remaining": ["backup-source"]}],
+            "exposed_only": [],
+        },
+    )
+    report = schedule_counterfactual_replays(
+        object(), "corrected-source", material_alternatives={5: ("switch-plan",)},
+        replay=lambda *_args: {
+            "status": "EXACT", "positive_reward": 1.0, "action_authorized": True,
+        },
+    )
+
+    decision = report["decisions"][0]
+    assert report["action_authorized"] is False
+    assert decision["replay_status"] == "FAILED"
+    assert decision["error_type"] == "ValueError"
+    assert "replay_receipt" not in decision
+
+
+def test_cdm_certificate_and_positive_outcome_cannot_authorize_an_action() -> None:
+    fabric = MemoryFabric(":memory:", auto_activate=True)
+    try:
+        memory_id = fabric.remember("operator", "Valve V-10 safe to open.", scope="team")
+        evidence_certificate = fabric.certify("open-v10", [memory_id], "operator")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"open": ToolRule("open")},
+            grants={"operator": frozenset({"open"})},
+        ))
+        positive_assessment = OutcomeAssessment(
+            task_id="case-10", status=OutcomeStatus.COMPLETED,
+            completion=True, safety_violations=0,
+            reason_code="VERIFIED_TERMINAL_STATE", result_digest="e" * 64,
+        )
+        effects: list[str] = []
+        for key, non_authority_input in (
+            ("cdm-certificate", _verified_cdm_certificate()),
+            ("positive-evaluator", positive_assessment),
+        ):
+            result = gate.execute(
+                "open", "operator", effects.append, non_authority_input,
+                key=key,
+            )
+            assert result.outcome == REFUSED
+        assert effects == []
+        # Passing the actual evidence certificate still requires live ActionGate checks.
+        allowed = gate.execute(
+            "open", "operator", effects.append, evidence_certificate, key="host-evidence",
+        )
+        assert allowed.ran is True
+        assert effects == ["host-evidence"]
+    finally:
+        fabric.close()
 
 
 def test_real_dependence_check_filters_before_registered_replay() -> None:

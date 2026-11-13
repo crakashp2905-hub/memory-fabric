@@ -90,12 +90,25 @@ def schedule_counterfactual_replays(
             invocations += 1
             record["reason_code"] = "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE"
             try:
-                record["replay_result"] = replay(row, tuple(row["remaining"]))
+                replay_result = replay(row, tuple(row["remaining"]))
+                from ..causal_replay.certificates import (
+                    ReplayCertificate, verify as verify_replay_certificate,
+                )
+                if (type(replay_result) is not ReplayCertificate
+                        or replay_result.action_entitlement is not False
+                        or not verify_replay_certificate(replay_result)):
+                    raise ValueError("CDM must return a verified no-entitlement replay certificate")
             except Exception as exc:
                 record["replay_status"] = "FAILED"
                 record["error_type"] = type(exc).__name__
             else:
                 record["replay_status"] = "INVOKED"
+                record["replay_receipt"] = {
+                    "status": replay_result.status,
+                    "certificate_digest": replay_result.certificate_digest,
+                    "proposal_changed": replay_result.proposal_changed,
+                    "action_authorized": False,
+                }
         decisions.append(record)
 
     return {

@@ -139,6 +139,10 @@ its evidence policy and has a material alternative. Its schedule report records
 the dependence verdict and trigger or skip reason; replay output remains
 advisory and cannot authorize an effect or change an `ActionGate` decision.
 This scheduler is opt-in and does not run on every query.
+The callback must return a verified `ReplayCertificate` whose
+`action_entitlement` is false; the schedule includes only its status, digest,
+and proposal-change flag. Arbitrary rewards and unverified replay payloads are
+recorded as replay failures and are never returned as authority-bearing data.
 
 CDM decision records distinguish the registered deterministic-policy path from
 an external-model path. The latter must bind model ID/version/weight digest and
