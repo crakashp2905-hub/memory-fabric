@@ -22,7 +22,7 @@ ARMS = (
     "budgeted_replay",
 )
 _REPLAY_BUDGET = ReplayBudget(max_events=3, max_attempts=1, max_nodes=4,
-                              max_wall_seconds=5.0)
+                              max_wall_seconds=5.0, max_cpu_seconds=5.0)
 
 
 def _world(seed: int) -> tuple[tuple[BinaryNode, ...], tuple[Observation, ...], bool]:
@@ -150,12 +150,15 @@ def run(seeds: tuple[int, ...]) -> dict[str, Any]:
         candidates = tuple(candidates_list)
 
         budget_started: float | None = None
+        budget_cpu_started: float | None = None
 
         def budgeted_select() -> Observation:
-            nonlocal budget_started
+            nonlocal budget_started, budget_cpu_started
             budget_started = time.monotonic()
+            budget_cpu_started = time.process_time()
             check_budget(_REPLAY_BUDGET, event_count=len(events), node_count=len(nodes),
-                         attempt_count=1, started_monotonic=budget_started)
+                         attempt_count=1, started_monotonic=budget_started,
+                         started_process_cpu=budget_cpu_started)
             selected_id = select_priority(candidates, k=1)[0].candidate_id
             return next(event for event in events if event.observation_id == selected_id)
 
@@ -176,15 +179,17 @@ def run(seeds: tuple[int, ...]) -> dict[str, Any]:
 
             def execute():
                 if arm == "budgeted_replay":
-                    if budget_started is None:
+                    if budget_started is None or budget_cpu_started is None:
                         raise RuntimeError("budgeted replay started without a checked budget")
                     check_budget(_REPLAY_BUDGET, event_count=len(events), node_count=len(nodes),
-                                 attempt_count=1, started_monotonic=budget_started)
+                                 attempt_count=1, started_monotonic=budget_started,
+                                 started_process_cpu=budget_cpu_started)
                     result = replay(events, intervention=intervention,
                                     simulator_id="synthetic", simulators={"synthetic": simulator},
                                     max_steps=_REPLAY_BUDGET.max_events)
                     check_budget(_REPLAY_BUDGET, event_count=len(events), node_count=len(nodes),
-                                 attempt_count=1, started_monotonic=budget_started)
+                                 attempt_count=1, started_monotonic=budget_started,
+                                 started_process_cpu=budget_cpu_started)
                     return result.state, result.consumed, result.complete
                 reduced = tuple(item for item in events
                                 if item.observation_id != removed.observation_id)
@@ -218,6 +223,7 @@ def run(seeds: tuple[int, ...]) -> dict[str, Any]:
                                    "max_attempts": _REPLAY_BUDGET.max_attempts,
                                    "max_nodes": _REPLAY_BUDGET.max_nodes,
                                    "max_wall_seconds": _REPLAY_BUDGET.max_wall_seconds,
+                                   "max_cpu_seconds": _REPLAY_BUDGET.max_cpu_seconds,
                                    "max_tool_calls": _REPLAY_BUDGET.max_tool_calls}
                                   if arm == "budgeted_replay" else None),
                 "network_calls": 0, "tool_calls": 0, "model_calls": 0,

@@ -24,7 +24,7 @@ def test_selector_ablation_pairs_context_and_caps_budgeted_replay() -> None:
     budgeted = [row for row in report["rows"] if row["arm"] == "budgeted_replay"]
     assert all(row["replay_budget"] == {
         "max_events": 3, "max_attempts": 1, "max_nodes": 4,
-        "max_wall_seconds": 5.0, "max_tool_calls": 0,
+        "max_wall_seconds": 5.0, "max_cpu_seconds": 5.0, "max_tool_calls": 0,
     } for row in budgeted)
     assert report["comparison_contract"]["equalized_compute_count_per_arm"] == 8
     assert report["comparison_contract"]["equalized_compute_unit"] == (

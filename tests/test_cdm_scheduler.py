@@ -92,16 +92,24 @@ class TestScheduler(unittest.TestCase):
         budget = ReplayBudget(max_events=4, max_attempts=2, max_wall_seconds=5,
                               max_memory_bytes=100_000, max_nodes=10)
         check_budget(budget, event_count=4, node_count=4, attempt_count=2,
-                     started_monotonic=time.monotonic())
+                     started_monotonic=time.monotonic(),
+                     started_process_cpu=time.process_time())
         with self.assertRaises(BudgetExceeded):
             check_budget(budget, event_count=5, node_count=4, attempt_count=1,
-                         started_monotonic=time.monotonic())
+                         started_monotonic=time.monotonic(),
+                         started_process_cpu=time.process_time())
         with self.assertRaises(BudgetExceeded):
             check_budget(budget, event_count=1, node_count=10, attempt_count=1,
-                         started_monotonic=time.monotonic())
+                         started_monotonic=time.monotonic(),
+                         started_process_cpu=time.process_time())
         with self.assertRaises(BudgetExceeded):
             check_budget(budget, event_count=1, node_count=2, attempt_count=1,
-                         started_monotonic=time.monotonic() - 6)
+                         started_monotonic=time.monotonic() - 6,
+                         started_process_cpu=time.process_time())
+        with self.assertRaisesRegex(BudgetExceeded, "CPU-time"):
+            check_budget(budget, event_count=1, node_count=2, attempt_count=1,
+                         started_monotonic=time.monotonic(),
+                         started_process_cpu=time.process_time() - 11)
 
     def test_no_signal_selector_is_stable(self):
         candidates = tuple(Candidate(name, index, 0.0, 0.0, 0.0)

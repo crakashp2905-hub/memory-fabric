@@ -13,6 +13,7 @@ from .boundary import AgentPort
 from .observations import AgentObservation, AgentStep, _no_oracle_fields
 
 MAX_TOOL_REQUEST_BYTES = 16_000
+MAX_RUNTIME_STEPS = 64
 
 
 def schedule_counterfactual_replays(
@@ -232,8 +233,8 @@ class AgentRuntime:
 
     def __init__(self, *, max_steps: int, tools: Mapping[str, Callable[..., ToolOutput]],
                  request_schemas: Mapping[str, Mapping[str, type]] | None = None) -> None:
-        if type(max_steps) is not int or max_steps < 1:
-            raise ValueError("max_steps must be a positive integer")
+        if type(max_steps) is not int or not 1 <= max_steps <= MAX_RUNTIME_STEPS:
+            raise ValueError(f"max_steps must be between 1 and {MAX_RUNTIME_STEPS}")
         if not isinstance(tools, Mapping) or any(
             not isinstance(name, str) or not name or not callable(handler)
             for name, handler in tools.items()

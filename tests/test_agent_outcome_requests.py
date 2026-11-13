@@ -26,6 +26,11 @@ def _request(*, tool="set_target", arguments=None, intent="propose") -> str:
     })
 
 
+def test_runtime_rejects_unbounded_tool_call_budget() -> None:
+    with pytest.raises(ValueError, match="between 1 and 64"):
+        AgentRuntime(max_steps=65, tools={})
+
+
 def test_valid_structured_request_parses_against_registered_schema() -> None:
     step = parse_agent_request(
         _request(), observation=_observation(), actor_id="planner", step_id="step-1",
