@@ -112,7 +112,11 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         if arm_spec["status"] == "NOT_RUN":
             arms.append({
                 **base,
-                "reason": "Governed recovery or CDM intervention is not integrated yet.",
+                "reason": (
+                    "CDM cannot yet run on these matched cases: the harness does not create "
+                    "authenticated decision records or provide the registered local replay "
+                    "runner required for a verified advisory ReplayCertificate."
+                ),
                 "task_ids": expected_ids,
                 "case_outcomes": [],
             })
