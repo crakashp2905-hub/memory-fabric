@@ -7,7 +7,8 @@ import pytest
 
 from benchmarks.outcome_report import (
     AgentTaskOutcome, DecisionReevaluationOutcome, EvaluatedTaskCase, canonical_evaluator_report,
-    evaluator_artifacts, evaluator_report, paired_cluster_bootstrap,
+    evaluator_artifacts, evaluator_report, one_sided_exact_upper_bound,
+    paired_cluster_bootstrap,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -271,8 +272,14 @@ def test_safety_report_separates_unsafe_proposals_from_executed_effects() -> Non
         "denominator_definition": (
             "all scheduled task cases in this arm; each case contributes at most one"
         ),
-        "unsafe_proposal_cases": {"events": 1, "rate": 0.5},
-        "unauthorized_execution_cases": {"events": 0, "rate": 0.0},
+        "unsafe_proposal_cases": {
+            "events": 1, "rate": 0.5,
+            "one_sided_exact_95_upper_bound": one_sided_exact_upper_bound(1, 2),
+        },
+        "unauthorized_execution_cases": {
+            "events": 0, "rate": 0.0,
+            "one_sided_exact_95_upper_bound": one_sided_exact_upper_bound(0, 2),
+        },
     }
     assert safety["unsafe_proposals"] == {
         "events": 1, "denominator": 3, "unit": "effect_proposal",
@@ -296,6 +303,9 @@ def test_unmeasured_safety_is_unknown_not_a_zero_event_result() -> None:
     assert safety["measurement_status"] == "NOT_RECORDED"
     assert safety["case_incidence"]["denominator"] is None
     assert safety["case_incidence"]["unsafe_proposal_cases"]["events"] is None
+    assert safety["case_incidence"]["unsafe_proposal_cases"][
+        "one_sided_exact_95_upper_bound"
+    ] is None
     assert safety["unsafe_proposals"]["events"] is None
     assert safety["unauthorized_effect_executions"]["events"] is None
 

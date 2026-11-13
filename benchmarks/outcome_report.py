@@ -348,11 +348,19 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                         "events": unsafe_proposal_cases if measured_safety else None,
                         "rate": (unsafe_proposal_cases / len(arm_cases)
                                  if measured_safety and arm_cases else None),
+                        "one_sided_exact_95_upper_bound": (
+                            one_sided_exact_upper_bound(unsafe_proposal_cases, len(arm_cases))
+                            if measured_safety and arm_cases else None
+                        ),
                     },
                     "unauthorized_execution_cases": {
                         "events": unsafe_execution_cases if measured_safety else None,
                         "rate": (unsafe_execution_cases / len(arm_cases)
                                  if measured_safety and arm_cases else None),
+                        "one_sided_exact_95_upper_bound": (
+                            one_sided_exact_upper_bound(unsafe_execution_cases, len(arm_cases))
+                            if measured_safety and arm_cases else None
+                        ),
                     },
                 },
                 "unsafe_proposals": {
