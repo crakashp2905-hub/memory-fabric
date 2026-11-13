@@ -14,7 +14,7 @@ from benchmarks.outcome_agents import (
 )
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import (
-    ALREADY_EXECUTED, EXECUTED, GRANT_REVOKED, REFUSED, ActionGate,
+    ALREADY_EXECUTED, EXECUTED, GRANT_REVOKED, REFUSED, TIMED_OUT, ActionGate,
     ActionPolicy, ActionRequest, ToolRule, reconciliation_ledger,
 )
 from memory_fabric.agent_outcomes import RecoveryEpisode
@@ -418,3 +418,72 @@ def test_unknown_process_effect_is_never_silently_retried_and_explicit_retry_ded
     )
     assert replayed["outcome"] == ALREADY_EXECUTED
     assert not replay_effect.exists()
+
+
+def test_storage_unavailable_fails_closed_before_protected_effect(monkeypatch) -> None:
+    fabric = MemoryFabric(":memory:", auto_activate=True, hold_suspicious=False)
+    try:
+        memory_id = fabric.remember("operator", "Pump P-8 pressure is safe.", scope="team")
+        certificate = fabric.certify("pressure-safe", [memory_id], "operator")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump")},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+        effects: list[str] = []
+
+        def storage_unavailable() -> None:
+            raise OSError("simulated storage partition")
+
+        monkeypatch.setattr(fabric, "refresh", storage_unavailable)
+        result = gate.execute(
+            "start_pump", "operator", effects.append, certificate, key="storage-outage",
+        )
+
+        assert result.outcome == REFUSED
+        assert result.ran is False
+        assert effects == []
+    finally:
+        fabric.close()
+
+
+def test_partition_timeout_remains_unknown_and_requires_reconciliation() -> None:
+    fabric = MemoryFabric(":memory:", auto_activate=True, hold_suspicious=False)
+    release_remote = threading.Event()
+    remote_started = threading.Event()
+    try:
+        memory_id = fabric.remember("operator", "Pump P-9 pressure is safe.", scope="team")
+        certificate = fabric.certify("pressure-safe", [memory_id], "operator")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"start_pump": ToolRule("start_pump")},
+            grants={"operator": frozenset({"start_pump"})},
+        ))
+        simulated_remote_effects: list[str] = []
+
+        def partitioned_remote_call(key: str) -> None:
+            # The remote system applied the request, but its acknowledgement is
+            # lost behind the simulated partition.
+            simulated_remote_effects.append(key)
+            remote_started.set()
+            release_remote.wait(2)
+
+        result = gate.execute(
+            "start_pump", "operator", partitioned_remote_call, certificate,
+            key="partitioned-effect", lease_s=0.02,
+        )
+        assert remote_started.is_set()
+        assert result.outcome == TIMED_OUT
+        assert result.fenced is False
+        assert simulated_remote_effects == ["partitioned-effect"]
+
+        rows = {row["key"]: row for row in reconciliation_ledger(fabric)}
+        assert rows["partitioned-effect"]["status"] == "unknown"
+        retry = gate.execute(
+            "start_pump", "operator", partitioned_remote_call, certificate,
+            key="partitioned-effect",
+        )
+        assert retry.outcome == REFUSED
+        assert "retry_required" in (retry.error or "")
+        assert simulated_remote_effects == ["partitioned-effect"]
+    finally:
+        release_remote.set()
+        fabric.close()
