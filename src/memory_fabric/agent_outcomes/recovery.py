@@ -189,6 +189,8 @@ class RecoveryEpisode:
     authorization_requeries_suppressed: int = 0
     _clock: Callable[[], float] = field(default=time.monotonic, repr=False, compare=False)
     _started_at: float = field(init=False, repr=False)
+    _recovery_started_at: float | None = field(default=None, init=False, repr=False)
+    _recovery_clock_continuous: bool = field(default=True, init=False, repr=False)
     _progress_seen: set[str] = field(default_factory=set, init=False, repr=False)
 
     def __post_init__(self) -> None:
@@ -266,6 +268,23 @@ class RecoveryEpisode:
             "authorization_requeries_suppressed": self.authorization_requeries_suppressed,
             "unauthorized_alternate_source_accesses": 0,
         }
+
+    def recovery_elapsed_ms(self, verified_completion_at: float) -> int | None:
+        """Measure through a host-captured monotonic evaluator verification time.
+
+        Monotonic timestamps are deliberately not serialized. A checkpoint resumed
+        after a block therefore cannot claim end-to-end recovery time.
+        """
+        if (isinstance(verified_completion_at, bool)
+                or not isinstance(verified_completion_at, (int, float))
+                or not math.isfinite(verified_completion_at)):
+            raise ValueError("verified_completion_at must be a finite monotonic timestamp")
+        if self._recovery_started_at is None or not self._recovery_clock_continuous:
+            return None
+        if verified_completion_at < self._recovery_started_at:
+            raise ValueError("verified completion must follow the first blocked event")
+        elapsed = verified_completion_at - self._recovery_started_at
+        return round(elapsed * 1000)
 
     def replan_from_reevaluation(
         self,
@@ -430,6 +449,8 @@ class RecoveryEpisode:
         episode.alternate_search_attempts = raw["alternate_search_attempts"]
         episode.authorization_requeries_suppressed = raw["authorization_requeries_suppressed"]
         episode.trace = trace
+        if any(item["kind"] == "evidence_blocked" for item in trace):
+            episode._recovery_clock_continuous = False
         episode._progress_seen = {
             str(item.get("detail", {}).get("progress_key", item["kind"]))
             for item in trace
@@ -500,6 +521,8 @@ class RecoveryEpisode:
             self.recoveries += 1
             self.status = RecoveryStatus.RECOVERED
         elif kind == "evidence_blocked":
+            if self._recovery_started_at is None:
+                self._recovery_started_at = self._clock()
             self.status = RecoveryStatus.BLOCKED
         elif kind == "abstain":
             self.status = RecoveryStatus.ABSTAINED

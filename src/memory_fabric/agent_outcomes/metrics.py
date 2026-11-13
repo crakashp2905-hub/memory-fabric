@@ -35,6 +35,8 @@ _RECOVERY_ACTIONS = frozenset({
 def operator_trace(
     episode: RecoveryEpisode,
     assessment: OutcomeAssessment,
+    *,
+    verified_completion_monotonic: float | None = None,
 ) -> dict[str, Any]:
     """Return an allowlisted operator stream plus a separate post-run verdict.
 
@@ -78,5 +80,34 @@ def operator_trace(
             "reason_code": assessment.reason_code,
             "result_digest": assessment.result_digest,
         },
+        "recovery_metrics_after_episode": _recovery_metrics(
+            episode, assessment, verified_completion_monotonic,
+        ),
         "model_status": "REAL_AGENT_NOT_RUN",
     })
+
+
+def _recovery_metrics(
+    episode: RecoveryEpisode,
+    assessment: OutcomeAssessment,
+    verified_completion_monotonic: float | None,
+) -> dict[str, Any]:
+    """Keep measured recovery time separate from terminal success grading."""
+    blocked = any(event.get("kind") == "evidence_blocked" for event in episode.trace)
+    if not blocked:
+        state = "NOT_APPLICABLE"
+        elapsed_ms = None
+    elif assessment.status.value != "COMPLETED":
+        state = "NOT_COMPLETED"
+        elapsed_ms = None
+    elif verified_completion_monotonic is None:
+        state = "NOT_RECORDED"
+        elapsed_ms = None
+    else:
+        elapsed_ms = episode.recovery_elapsed_ms(verified_completion_monotonic)
+        state = "MEASURED" if elapsed_ms is not None else "NOT_RECORDED"
+    return {
+        "recovery_time_status": state,
+        "recovery_elapsed_ms": elapsed_ms,
+        "recovery_steps": episode.recoveries,
+    }
