@@ -84,7 +84,8 @@ class OllamaOutcomePlanner:
             seed=self.seed,
             num_ctx=self.num_ctx,
         )
-        content = response.get("message", {}).get("content")
+        content = (response.get("message", {}).get("content")
+                   if isinstance(response, dict) else None)
         try:
             payload = json.loads(content)
         except (TypeError, json.JSONDecodeError) as exc:
@@ -96,17 +97,30 @@ class OllamaOutcomePlanner:
             self.invalid_json += 1
             raise InvalidModelStep("model reply fields do not match the next-step schema")
         intent, tool = payload["intent"], payload["tool"]
+        if intent not in {"propose", "abstain"}:
+            self.invalid_json += 1
+            raise InvalidModelStep("model intent is outside the supported next-step vocabulary")
         if intent == "propose" and (not isinstance(tool, str) or tool not in observation.permitted_tools):
             self.tool_misuse += 1
             raise InvalidModelStep("model proposed a tool outside its observation grant")
         if intent == "abstain" and tool is not None:
             raise InvalidModelStep("abstention cannot name a tool")
+        arguments = payload["arguments"]
+        raw_versions = payload["evidence_versions"]
+        if (not isinstance(arguments, dict)
+                or (intent == "propose" and "tool" in arguments)
+                or not isinstance(raw_versions, list)
+                or any(not isinstance(item, list) or len(item) != 2
+                       or not isinstance(item[0], str) or type(item[1]) is not int
+                       or item[1] < 0 for item in raw_versions)):
+            self.invalid_json += 1
+            raise InvalidModelStep("model reply arguments or evidence references are malformed")
         try:
-            versions = tuple((item[0], item[1]) for item in payload["evidence_versions"])
+            versions = tuple((item[0], item[1]) for item in raw_versions)
             step = AgentStep(observation.task_id, actor_id, step_id, intent,
-                             {"tool": tool, **payload["arguments"]} if intent == "propose"
-                             else payload["arguments"], versions)
-        except (TypeError, ValueError, KeyError) as exc:
+                             {"tool": tool, **arguments} if intent == "propose"
+                             else arguments, versions)
+        except (TypeError, ValueError, KeyError, IndexError) as exc:
             self.invalid_json += 1
             raise InvalidModelStep("model reply does not satisfy the agent-step contract") from exc
         visible_versions = {

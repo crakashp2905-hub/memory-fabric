@@ -72,6 +72,21 @@ def test_ollama_planner_requires_an_observation_contract() -> None:
         planner.decide({"truth": "hidden"}, actor_id="planner-1", step_id="step-1")
 
 
+@pytest.mark.parametrize("payload", [
+    {"intent": "retrieve", "tool": None, "arguments": {}, "evidence_versions": []},
+    {"intent": "propose", "tool": "publish", "arguments": {"tool": "erase"},
+     "evidence_versions": []},
+    {"intent": "propose", "tool": "publish", "arguments": {},
+     "evidence_versions": [["evidence-1"]]},
+])
+def test_ollama_planner_rejects_malformed_or_ambiguous_steps(payload) -> None:
+    planner = OllamaOutcomePlanner(
+        "qwen2.5:3b", StubOllama(json.dumps(payload)),
+    )
+    with pytest.raises(InvalidModelStep):
+        planner.decide(observation(), actor_id="planner-1", step_id="step-1")
+
+
 def test_ollama_client_records_and_sends_available_decode_settings() -> None:
     client = OllamaClient()
     requests = []
