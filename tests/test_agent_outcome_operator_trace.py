@@ -57,3 +57,33 @@ def test_operator_trace_shows_failure_recovery_reauthorization_and_separate_verd
         assert "oracle_answer" not in operator_json
     finally:
         fabric.close()
+
+
+def test_recovery_time_uses_verified_monotonic_completion_and_survives_no_restart_claim() -> None:
+    clock = [10.0]
+    episode = RecoveryEpisode("timed-recovery", enabled=True, _clock=lambda: clock[0])
+    assert episode.record("evidence_blocked", {"cause_code": "EVIDENCE_STALE"})
+    assert episode.record("re_retrieve", {"progress_key": "fresh-evidence"})
+    assessment = OutcomeAssessment(
+        "timed-recovery", OutcomeStatus.COMPLETED, True, 0,
+        "VERIFIED_TERMINAL_STATE", hashlib.sha256(b"timed-grade").hexdigest(),
+    )
+
+    measured = operator_trace(
+        episode, assessment, verified_completion_monotonic=12.5,
+    )["recovery_metrics_after_episode"]
+    assert measured == {
+        "recovery_time_status": "MEASURED",
+        "recovery_elapsed_ms": 2500,
+        "recovery_steps": 1,
+    }
+
+    resumed = RecoveryEpisode.from_json(episode.to_json(), clock=lambda: 20.0)
+    after_resume = operator_trace(
+        resumed, assessment, verified_completion_monotonic=22.0,
+    )["recovery_metrics_after_episode"]
+    assert after_resume == {
+        "recovery_time_status": "NOT_RECORDED",
+        "recovery_elapsed_ms": None,
+        "recovery_steps": 1,
+    }

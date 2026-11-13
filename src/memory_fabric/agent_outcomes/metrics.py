@@ -97,7 +97,8 @@ def _recovery_metrics(
     if not blocked:
         state = "NOT_APPLICABLE"
         elapsed_ms = None
-    elif assessment.status.value != "COMPLETED":
+    elif not (assessment.status.value == "COMPLETED"
+              and assessment.completion and assessment.safety_violations == 0):
         state = "NOT_COMPLETED"
         elapsed_ms = None
     elif verified_completion_monotonic is None:
