@@ -81,3 +81,62 @@ def test_adversarial_evaluator_callback_cannot_approve_or_rewrite_an_episode() -
         assert captured_notices[0].stop_reason == trace.stop_reason
     finally:
         fabric.close()
+
+
+def test_evaluator_feedback_is_unavailable_until_runtime_and_grading_finish() -> None:
+    task_id = "feedback-isolation"
+    timeline: list[str] = []
+    initial = AgentObservation(task_id, "Inspect the fixture.", (), ("inspect",), {"steps": 2})
+
+    def inspect(_arguments, _step):
+        assert "evaluator_grade" not in timeline
+        assert "evaluator_callback" not in timeline
+        timeline.append("tool")
+        return ToolOutput(({"inspection": "complete"},))
+
+    def decide(observation):
+        assert "evaluator_grade" not in timeline
+        assert "evaluator_callback" not in timeline
+        timeline.append("decide")
+        return AgentStep(task_id, "planner", f"step-{len(timeline)}", "propose",
+                         {"tool": "inspect"})
+
+    def observe_after(_index, output):
+        assert "evaluator_grade" not in timeline
+        assert "evaluator_callback" not in timeline
+        timeline.append("observe")
+        return AgentObservation(task_id, "Inspect the fixture.", output.visible_events,
+                                ("inspect",), {"steps": 1})
+
+    trace = AgentRuntime(max_steps=2, tools={"inspect": inspect}).run(
+        initial_observation=initial, actor_id="planner", decide=decide,
+        observe_after=observe_after,
+    )
+    timeline.append("runtime_returned")
+
+    class TrackingEvaluator(EvaluatorPort):
+        def grade(self, result):
+            assert timeline[-1] == "runtime_returned"
+            timeline.append("evaluator_grade")
+            return super().grade(result)
+
+    evaluator = TrackingEvaluator(OracleTask(task_id, "0" * 64))
+    notice_fields: set[str] = set()
+
+    def callback(notice):
+        timeline.append("evaluator_callback")
+        notice_fields.update(notice.__dict__)
+        return {"reward": 1, "completion": True}
+
+    dispatch = grade_after_episode(
+        evaluator, TerminalResult(task_id, "0" * 64), trace, callback,
+    )
+    assert dispatch.assessment.status is OutcomeStatus.COMPLETED
+    assert dispatch.callback_error_type is None
+    assert timeline == [
+        "decide", "tool", "observe", "decide", "tool", "observe",
+        "runtime_returned", "evaluator_grade", "evaluator_callback",
+    ]
+    assert not notice_fields & {
+        "assessment", "status", "completion", "reward", "truth", "terminal_digest",
+    }
