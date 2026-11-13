@@ -6,7 +6,8 @@ import json
 import pytest
 
 from benchmarks.outcome_report import (
-    AgentTaskOutcome, DecisionReevaluationOutcome, EvaluatedTaskCase, canonical_evaluator_report,
+    AgentTaskOutcome, DecisionReevaluationOutcome, EvaluatedTaskCase,
+    OutcomeFailureCode, canonical_evaluator_report,
     evaluator_artifacts, evaluator_report, one_sided_exact_upper_bound,
     paired_cluster_bootstrap,
 )
@@ -249,6 +250,27 @@ def test_failed_task_requires_supported_mixed_cause_codes() -> None:
     )
     with pytest.raises(ValueError, match="requires at least one supported failure code"):
         evaluator_report([unclassified])
+
+
+def test_failure_taxonomy_retains_every_supported_code_per_task_case() -> None:
+    cases = [
+        EvaluatedTaskCase(
+            f"failure-{index}", "A5", 11, True,
+            assessment(f"failure-{index}", OutcomeStatus.FAILED),
+            False, False, failure_codes=(code.value,),
+        )
+        for index, code in enumerate(OutcomeFailureCode)
+    ]
+    report = evaluator_report(cases)["arms"]["A5"]
+    assert set(report["failure_taxonomy"]["codes"]) == {
+        code.value for code in OutcomeFailureCode
+    }
+    assert all(item["task_cases"] == 1
+               for item in report["failure_taxonomy"]["codes"].values())
+    assert report["failure_taxonomy"]["mixed_cause_task_cases"] == 0
+    assert {tuple(row["failure_codes"]) for row in report["rows"]} == {
+        (code.value,) for code in OutcomeFailureCode
+    }
 
 
 def test_safety_report_separates_unsafe_proposals_from_executed_effects() -> None:
