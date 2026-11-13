@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+import ipaddress
 import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, Mapping
+from urllib.parse import urlsplit
 
 from memory_fabric.actions import ActionExecution, ActionGate, ActionRequest, Grant
 from memory_fabric.agent_outcomes.boundary import AgentPort
@@ -54,6 +56,19 @@ class OllamaOutcomePlanner:
             raise ValueError("num_ctx must be from 1 through 1000000")
         if not callable(getattr(client, "chat", None)):
             raise TypeError("client must provide chat")
+        host = getattr(client, "host", None)
+        if host is not None:
+            parsed_host = urlsplit(host)
+            hostname = (parsed_host.hostname or "").casefold()
+            try:
+                is_loopback = ipaddress.ip_address(hostname).is_loopback
+            except ValueError:
+                is_loopback = hostname == "localhost"
+            if (parsed_host.scheme != "http" or not is_loopback
+                    or parsed_host.username is not None or parsed_host.password is not None
+                    or parsed_host.path not in {"", "/"}
+                    or parsed_host.query or parsed_host.fragment):
+                raise ValueError("outcome model endpoint must be loopback-only HTTP")
         self.model = model
         self.model_digest = model_digest
         self.quantization = quantization

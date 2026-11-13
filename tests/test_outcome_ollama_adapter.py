@@ -118,3 +118,18 @@ def test_ollama_inventory_exposes_digest_and_quantization() -> None:
     assert inventory[0]["name"] == "model:latest"
     assert inventory[0]["digest"] == "a" * 64
     assert inventory[0]["details"]["quantization_level"] == "Q4_K_M"
+
+
+@pytest.mark.parametrize("host", [
+    "https://127.0.0.1:11434", "http://192.0.2.10:11434",
+    "http://user:secret@localhost:11434", "http://localhost:11434/path",
+])
+def test_outcome_adapter_rejects_nonlocal_or_credentialed_endpoint(host: str) -> None:
+    with pytest.raises(ValueError, match="loopback-only"):
+        OllamaOutcomePlanner("qwen2.5:3b", OllamaClient(host=host))
+
+
+@pytest.mark.parametrize("host", ["http://127.0.0.1:11434", "http://localhost:11434",
+                                    "http://[::1]:11434"])
+def test_outcome_adapter_allows_loopback_endpoint(host: str) -> None:
+    OllamaOutcomePlanner("qwen2.5:3b", OllamaClient(host=host))
