@@ -9,7 +9,10 @@ import pytest
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule, reconciliation_ledger
-from memory_fabric.decision_records import DecisionReevaluationReceipt, EvidenceVersion
+from memory_fabric.decision_records import (
+    DecisionEdge, DecisionLedger, DecisionOption, DecisionReevaluationReceipt,
+    DecisionRecord, EvidenceVersion,
+)
 from memory_fabric.agent_outcomes import (
     RecoveryEpisode,
     classify_evidence_failure,
@@ -67,6 +70,48 @@ def test_replan_rejects_unlinked_or_malformed_correction_transitions() -> None:
             {"action_authorized": False}, plan_sha256="a" * 64,
             progress_key="replan-1",
         )
+
+
+def test_correction_preserves_historical_decision_but_revokes_old_authorization() -> None:
+    fabric = MemoryFabric(":memory:", auto_activate=True, hold_suspicious=False)
+    try:
+        memory_id = fabric.remember("reviewer", "Current pressure is 42.", scope="team")
+        fabric.elevate(memory_id, approver="operator", reason="source checked")
+        premise = EvidenceVersion(memory_id, 1)
+        ledger = DecisionLedger(fabric.log, lambda: 1_800_000_000_000)
+        decision = DecisionRecord(
+            "decision-1", "tn_default", "agent-1", "2026-11-13T10:00:00Z",
+            "set threshold from the observed pressure",
+            (DecisionOption("option-42", "Use 42", (premise,)),),
+            "option-42", (premise,), {},
+        )
+        ledger.record(decision)
+        ledger.link(DecisionEdge(
+            "relied-1", "decision-1", "relied_on", "claim-42", "agent-1",
+            "2026-11-13T10:01:00Z", premise,
+        ))
+        certificate = fabric.certify("decision-1", [memory_id], "agent-1")
+        gate = ActionGate(fabric, ActionPolicy(
+            tools={"publish": ToolRule("publish")},
+            grants={"agent-1": frozenset({"publish"})},
+        ))
+        assert gate.authorize("publish", "agent-1", certificate).allowed
+
+        fabric.revise(memory_id, "Current pressure is 40.", agent_id="reviewer",
+                      reason="verified correction", expected_version=1)
+        event = next(item for item in reversed(list(fabric.log.read()))
+                     if item.type == "MemoryVersioned"
+                     and item.payload.get("memory", {}).get("id") == memory_id)
+        receipt, = ledger.reevaluation_receipts_from_event(event.event_id)
+
+        assert ledger.get("decision-1") == decision
+        assert receipt.changed_premise == premise
+        assert receipt.action_authorized is False
+        assert fabric.get(memory_id).content == "Current pressure is 40."
+        denied = gate.authorize("publish", "agent-1", certificate)
+        assert denied.allowed is False
+    finally:
+        fabric.close()
 
 
 def test_authorization_failure_suppresses_requery_and_records_telemetry(monkeypatch) -> None:
