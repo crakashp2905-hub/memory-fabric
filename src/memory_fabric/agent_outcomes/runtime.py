@@ -4,16 +4,126 @@ from __future__ import annotations
 
 __stability__ = "experimental"
 
-from dataclasses import dataclass
 import json
+import importlib
+import inspect
+import multiprocessing
+import math
+import os
+import queue
+from dataclasses import dataclass
 from typing import Any, Callable, Mapping
 
 from .. import dependence
+from ..causal_replay.scheduler import ReplayBudget
 from .boundary import AgentPort
 from .observations import AgentObservation, AgentStep, _no_oracle_fields
 
 MAX_TOOL_REQUEST_BYTES = 16_000
 MAX_RUNTIME_STEPS = 64
+
+
+def _replay_worker_entry(
+    result_queue: Any,
+    replay: Callable[[dict[str, Any], tuple[str, ...]], Any],
+    row: dict[str, Any],
+    remaining: tuple[str, ...],
+    cpu_seconds: float,
+    memory_bytes: int,
+) -> None:
+    """Run one host-selected replay callable in a separate process."""
+    isolation = "SUBPROCESS_WALL_LIMIT_ONLY"
+    try:
+        import resource
+
+        cpu_limit = max(1, math.ceil(cpu_seconds))
+        resource.setrlimit(resource.RLIMIT_CPU, (cpu_limit, cpu_limit + 1))
+        isolation = "SUBPROCESS_CPU_LIMITED"
+        try:
+            with open("/proc/self/statm", encoding="ascii") as statm:
+                virtual_pages = int(statm.read().split()[0])
+            page_bytes = os.sysconf("SC_PAGE_SIZE")
+            address_space_limit = virtual_pages * page_bytes + memory_bytes
+            resource.setrlimit(resource.RLIMIT_AS,
+                               (address_space_limit, address_space_limit))
+            isolation = "SUBPROCESS_CPU_MEMORY_LIMITED"
+        except (OSError, AttributeError, ValueError, IndexError):
+            pass
+    except (ImportError, AttributeError, OSError, ValueError):
+        # Windows and restricted runtimes may lack these process resource
+        # controls. The parent still enforces wall time and reports the gap.
+        pass
+    try:
+        from ..causal_replay.certificates import ReplayCertificate
+
+        result = replay(row, remaining)
+        if type(result) is not ReplayCertificate:
+            raise ValueError("replay worker must return a ReplayCertificate")
+        result_queue.put({"ok": True, "certificate_json": result.to_json(),
+                          "isolation_status": isolation})
+    except BaseException as exc:
+        result_queue.put({"ok": False, "error_type": type(exc).__name__,
+                          "isolation_status": isolation})
+
+
+def _isolated_replay(
+    replay: Callable[[dict[str, Any], tuple[str, ...]], Any],
+    row: dict[str, Any],
+    remaining: tuple[str, ...],
+    *,
+    max_wall_seconds: float,
+    max_cpu_seconds: float,
+    max_memory_bytes: int,
+) -> tuple[Any | None, str | None, str]:
+    """Run only an importable host callback; never fall back to inline execution."""
+    if (not inspect.isfunction(replay) or replay.__name__ == "<lambda>"
+            or "<locals>" in replay.__qualname__):
+        return None, "ReplayCallbackNotImportable", "NOT_STARTED"
+    try:
+        resolved: Any = importlib.import_module(replay.__module__)
+        for component in replay.__qualname__.split("."):
+            resolved = getattr(resolved, component)
+    except (ImportError, AttributeError):
+        return None, "ReplayCallbackNotImportable", "NOT_STARTED"
+    if resolved is not replay:
+        return None, "ReplayCallbackNotImportable", "NOT_STARTED"
+    context = multiprocessing.get_context("spawn")
+    result_queue = context.Queue(maxsize=1)
+    process = context.Process(
+        target=_replay_worker_entry,
+        args=(result_queue, replay, row, remaining, max_cpu_seconds, max_memory_bytes),
+        daemon=True,
+    )
+    try:
+        process.start()
+    except (OSError, TypeError, AttributeError) as exc:
+        result_queue.close()
+        return None, type(exc).__name__, "NOT_STARTED"
+    process.join(max_wall_seconds)
+    if process.is_alive():
+        process.terminate()
+        process.join(timeout=2)
+        result_queue.close()
+        return None, "ReplayWorkerTimeout", "SUBPROCESS_WALL_LIMIT_ONLY"
+    try:
+        envelope = result_queue.get(timeout=0.5)
+    except queue.Empty:
+        result_queue.close()
+        return None, "ReplayWorkerExitedWithoutResult", "SUBPROCESS_WALL_LIMIT_ONLY"
+    finally:
+        result_queue.close()
+    isolation = envelope.get("isolation_status", "SUBPROCESS_WALL_LIMIT_ONLY")
+    if not envelope.get("ok"):
+        return None, envelope.get("error_type", "ReplayWorkerFailed"), isolation
+    try:
+        from ..causal_replay.certificates import ReplayCertificate
+
+        raw = json.loads(envelope["certificate_json"])
+        raw["claims"] = tuple(raw["claims"])
+        raw["limitations"] = tuple(raw["limitations"])
+        return ReplayCertificate(**raw), None, isolation
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError):
+        return None, "MalformedReplayWorkerResult", isolation
 
 
 def schedule_counterfactual_replays(
@@ -22,6 +132,7 @@ def schedule_counterfactual_replays(
     *,
     material_alternatives: Mapping[int, tuple[str, ...]],
     replay: Callable[[dict[str, Any], tuple[str, ...]], Any],
+    replay_budget: ReplayBudget | None = None,
 ) -> dict[str, Any]:
     """Run expensive CDM replay only after cheap dependence and materiality checks.
 
@@ -30,15 +141,22 @@ def schedule_counterfactual_replays(
     decision that no longer satisfies policy is sent to ordinary recovery,
     not counterfactual replay. For a decision that still stands, replay runs
     only when the host supplies at least one material, non-selected
-    alternative. The replay callback must be a registered local CDM executor;
-    this scheduler never grants authority to execute a proposed action.
+    alternative. Replay runs only through an importable host-selected callable
+    in a spawned worker. Lambdas and closures fail closed. The worker applies
+    OS CPU and address-space limits where available, the parent enforces wall
+    time, and reports expose missing limits. This is process isolation, not a
+    general-purpose sandbox. The scheduler never grants authority to execute
+    a proposed action.
     """
     if not isinstance(corrected_memory_id, str) or not corrected_memory_id:
         raise ValueError("corrected_memory_id must be non-empty text")
     if not isinstance(material_alternatives, Mapping):
         raise ValueError("material_alternatives must map decision sequences to option IDs")
+    budget = replay_budget if replay_budget is not None else ReplayBudget()
+    if not isinstance(budget, ReplayBudget):
+        raise TypeError("replay_budget must be a ReplayBudget")
     if not callable(replay):
-        raise TypeError("replay must be a registered local CDM callable")
+        raise TypeError("replay must be a host-selected importable CDM callable")
     alternatives: dict[int, tuple[str, ...]] = {}
     for sequence, option_ids in material_alternatives.items():
         if (type(sequence) is not int or sequence < 0 or type(option_ids) is not tuple
@@ -75,6 +193,7 @@ def schedule_counterfactual_replays(
 
     decisions: list[dict[str, Any]] = []
     invocations = 0
+    isolation_statuses: set[str] = set()
     for sequence, verdict, row in sorted(candidates):
         options = alternatives.get(sequence, ())
         record: dict[str, Any] = {
@@ -90,8 +209,23 @@ def schedule_counterfactual_replays(
         else:
             invocations += 1
             record["reason_code"] = "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE"
+            replay_result = None
+            if invocations > budget.max_attempts:
+                worker_error, isolation = "ReplayAttemptBudgetExceeded", "NOT_STARTED"
+            elif len(row["remaining"]) > budget.max_events:
+                worker_error, isolation = "ReplayEventBudgetExceeded", "NOT_STARTED"
+            else:
+                replay_result, worker_error, isolation = _isolated_replay(
+                    replay, row, tuple(row["remaining"]),
+                    max_wall_seconds=budget.max_wall_seconds,
+                    max_cpu_seconds=budget.max_cpu_seconds,
+                    max_memory_bytes=budget.max_memory_bytes,
+                )
+            isolation_statuses.add(isolation)
+            record["isolation_status"] = isolation
             try:
-                replay_result = replay(row, tuple(row["remaining"]))
+                if worker_error is not None:
+                    raise RuntimeError(worker_error)
                 from ..causal_replay.certificates import (
                     ReplayCertificate, verify as verify_replay_certificate,
                 )
@@ -101,7 +235,8 @@ def schedule_counterfactual_replays(
                     raise ValueError("CDM must return a verified no-entitlement replay certificate")
             except Exception as exc:
                 record["replay_status"] = "FAILED"
-                record["error_type"] = type(exc).__name__
+                record["error_type"] = (worker_error if worker_error is not None
+                                         else type(exc).__name__)
             else:
                 record["replay_status"] = "INVOKED"
                 record["replay_receipt"] = {
@@ -118,6 +253,8 @@ def schedule_counterfactual_replays(
         "dependence_check": "COMPLETED",
         "cdm_invocations": invocations,
         "decisions": decisions,
+        "worker_isolation_statuses": sorted(isolation_statuses),
+        "isolation_gap": "SUBPROCESS_CPU_MEMORY_LIMITED" not in isolation_statuses,
         "action_authorized": False,
     }
 

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 from memory_fabric import MemoryFabric
 from memory_fabric import events as ev
 from memory_fabric.actions import REFUSED, ActionGate, ActionPolicy, ToolRule
@@ -27,6 +29,19 @@ def _verified_cdm_certificate():
     )
 
 
+def _isolated_valid_replay(_decision, _remaining):
+    return _verified_cdm_certificate()
+
+
+def _isolated_forged_replay(_decision, _remaining):
+    return {"status": "EXACT", "positive_reward": 1.0, "action_authorized": True}
+
+
+def _isolated_slow_replay(_decision, _remaining):
+    time.sleep(5)
+    return _verified_cdm_certificate()
+
+
 def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypatch) -> None:
     order: list[tuple[str, int | None]] = []
 
@@ -42,11 +57,6 @@ def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypat
             "exposed_only": [],
         }
 
-    def replay(decision, remaining):
-        order.append(("replay", decision["seq"]))
-        assert remaining == ("independent-source",)
-        return _verified_cdm_certificate()
-
     monkeypatch.setattr(
         "memory_fabric.agent_outcomes.runtime.dependence.decisions_depending_on",
         dependence_check,
@@ -55,13 +65,19 @@ def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypat
     report = schedule_counterfactual_replays(
         object(), "corrected-source",
         material_alternatives={20: ("continue-with-backup",), 30: ()},
-        replay=replay,
+        replay=_isolated_valid_replay,
     )
 
-    assert order == [("dependence", None), ("replay", 20)]
+    assert order == [("dependence", None)]
     assert report["dependence_check"] == "COMPLETED"
     assert report["cdm_invocations"] == 1
     assert report["action_authorized"] is False
+    worker_isolation = report["decisions"][1].pop("isolation_status")
+    assert worker_isolation in {
+        "SUBPROCESS_CPU_MEMORY_LIMITED", "SUBPROCESS_WALL_LIMIT_ONLY",
+    }
+    assert report["worker_isolation_statuses"] == [worker_isolation]
+    assert report["isolation_gap"] is (worker_isolation != "SUBPROCESS_CPU_MEMORY_LIMITED")
     assert report["decisions"] == [
         {
             "decision_sequence": 10,
@@ -121,9 +137,7 @@ def test_untrusted_reward_or_authority_claim_is_not_returned_as_cdm_result(monke
     )
     report = schedule_counterfactual_replays(
         object(), "corrected-source", material_alternatives={5: ("switch-plan",)},
-        replay=lambda *_args: {
-            "status": "EXACT", "positive_reward": 1.0, "action_authorized": True,
-        },
+        replay=_isolated_forged_replay,
     )
 
     decision = report["decisions"][0]
@@ -131,6 +145,53 @@ def test_untrusted_reward_or_authority_claim_is_not_returned_as_cdm_result(monke
     assert decision["replay_status"] == "FAILED"
     assert decision["error_type"] == "ValueError"
     assert "replay_receipt" not in decision
+
+
+def test_nonimportable_callback_is_not_run_inline(monkeypatch) -> None:
+    monkeypatch.setattr(
+        "memory_fabric.agent_outcomes.runtime.dependence.decisions_depending_on",
+        lambda *_args: {
+            "depended": [],
+            "would_stand": [{"seq": 7, "remaining": ["backup-source"]}],
+            "exposed_only": [],
+        },
+    )
+    calls: list[str] = []
+
+    def local_callback(*_args):
+        calls.append("ran")
+
+    report = schedule_counterfactual_replays(
+        object(), "corrected-source", material_alternatives={7: ("alternative",)},
+        replay=local_callback,
+    )
+    decision = report["decisions"][0]
+    assert decision["replay_status"] == "FAILED"
+    assert decision["error_type"] == "ReplayCallbackNotImportable"
+    assert decision["isolation_status"] == "NOT_STARTED"
+    assert calls == []
+
+
+def test_long_running_replay_worker_is_terminated_by_wall_budget(monkeypatch) -> None:
+    from memory_fabric.causal_replay.scheduler import ReplayBudget
+
+    monkeypatch.setattr(
+        "memory_fabric.agent_outcomes.runtime.dependence.decisions_depending_on",
+        lambda *_args: {
+            "depended": [],
+            "would_stand": [{"seq": 8, "remaining": ["backup-source"]}],
+            "exposed_only": [],
+        },
+    )
+    report = schedule_counterfactual_replays(
+        object(), "corrected-source", material_alternatives={8: ("alternative",)},
+        replay=_isolated_slow_replay,
+        replay_budget=ReplayBudget(max_wall_seconds=1.0, max_cpu_seconds=1.0),
+    )
+    decision = report["decisions"][0]
+    assert decision["replay_status"] == "FAILED"
+    assert decision["error_type"] == "ReplayWorkerTimeout"
+    assert decision["isolation_status"] == "SUBPROCESS_WALL_LIMIT_ONLY"
 
 
 def test_cdm_certificate_and_positive_outcome_cannot_authorize_an_action() -> None:
@@ -200,15 +261,12 @@ def test_real_dependence_check_filters_before_registered_replay() -> None:
             target, "Sensor Alpha report corrected; reading withdrawn.",
             "alice", "calibration correction",
         )
-        calls: list[int] = []
-
         report = schedule_counterfactual_replays(
             fabric, target,
             material_alternatives={independent_sequence: ("use-backup-plan",)},
-            replay=lambda row, _remaining: calls.append(row["seq"]) or {"status": "EXACT"},
+            replay=_isolated_forged_replay,
         )
 
-        assert calls == [independent_sequence]
         assert report["cdm_invocations"] == 1
         by_sequence = {row["decision_sequence"]: row for row in report["decisions"]}
         assert by_sequence[action_rows[0].seq]["reason_code"] == (

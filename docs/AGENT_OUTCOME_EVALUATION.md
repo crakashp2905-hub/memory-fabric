@@ -29,6 +29,14 @@ terminal result. The world must pass the actor port alone to actor code. Python
 in-process APIs are a capability boundary for cooperating code, not an OS
 sandbox against hostile Python introspection.
 
+Counterfactual replay callbacks must be importable module functions and run in
+spawned workers; lambdas, closures, and callable objects are refused. The parent
+terminates workers that exceed the replay wall budget. Where `resource` and
+`/proc` limits are available, workers also receive CPU and address-space
+limits. Reports set `isolation_gap` when those OS limits are unavailable. This
+worker boundary is process isolation, not a general-purpose sandbox: it does
+not claim network isolation or protection from a hostile host-selected module.
+
 Observation and step requests use the versioned
 `memory-fabric.agent-outcomes.v1` schema. Evaluator task and terminal result
 records use the versioned terminal schema. Their canonical JSON and SHA-256
