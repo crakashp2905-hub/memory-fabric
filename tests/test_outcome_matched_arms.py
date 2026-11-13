@@ -137,3 +137,26 @@ def test_matched_cli_emits_the_outcome_matrix() -> None:
     report = json.loads(result.stdout)
     assert report["schema_id"] == "memory-fabric.outcome-matched-arms.v1"
     assert report["parity_status"] == "PASS"
+
+
+def test_recorded_a5_development_probe_is_source_bound_and_non_confirmatory() -> None:
+    artifact = Path(__file__).resolve().parents[1] / "research" / "results" / (
+        "agent-outcome-a5-matched-development.json"
+    )
+    report = json.loads(artifact.read_text(encoding="utf-8"))
+    assert report["source"]["commit_sha"] == "8b8e6673c48f1e3f5e31b62a585ed0514e6d812c"
+    assert report["source"]["clean_at_start"] is True
+    assert report["seed"] == 701
+    assert report["task_count"] == 10
+    assert report["a5_same_case_comparisons"]["A5-A3"][
+        "paired_completion_difference"
+    ] == 0.0
+    assert report["a5_same_case_comparisons"]["A5-A4"][
+        "paired_completion_difference"
+    ] == 0.2
+    assert next(arm for arm in report["arms"] if arm["id"] == "A6")["status"] == (
+        "NOT_RUN"
+    )
+    assert report["a5_same_case_comparisons"]["A5-A4"]["promotion_status"] == (
+        "NOT_ASSESSED"
+    )
