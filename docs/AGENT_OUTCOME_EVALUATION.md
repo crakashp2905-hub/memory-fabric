@@ -144,6 +144,15 @@ The callback must return a verified `ReplayCertificate` whose
 and proposal-change flag. Arbitrary rewards and unverified replay payloads are
 recorded as replay failures and are never returned as authority-bearing data.
 
+AO-061's selector-ablation development harness is exposed through
+`benchmarks/outcome_matched_arms.py --mode selector-ablation`. It compares
+random, recency, exact model dependence, leave-one-out, Shapley, and bounded
+replay on the same evidence context, with a shared eight-coalition posterior
+evaluation budget and one intervention per arm. It reports measured CPU/wall
+cost and the cost-quality frontier. Budgeted replay enforces event, attempt,
+node, wall-time, and tool-call caps. The draft protocol does not support a
+confirmatory superiority or promotion claim.
+
 CDM decision records distinguish the registered deterministic-policy path from
 an external-model path. The latter must bind model ID/version/weight digest and
 runtime ID/version/digest, alongside the policy digest; the current local CDM

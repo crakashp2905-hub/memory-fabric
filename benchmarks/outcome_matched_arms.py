@@ -43,6 +43,13 @@ OUTCOME_ARMS = (
      "status": "NOT_RUN"},
     {"id": "A7", "name": "oracle", "legacy_arm": "oracle", "status": "RUN"},
 )
+
+
+def build_selector_ablation(*, seeds: tuple[int, ...]) -> dict[str, Any]:
+    """Run the AO-061 selector comparison on its paired development worlds."""
+    from benchmarks.outcome_selector_ablation import run
+
+    return run(seeds)
 _PARITY_FIELDS = (
     "runtime_tool", "runtime_permission_grants", "tool_registry_order",
     "context_budget_max", "retrieval_call_budget", "context_items_exposed",
@@ -314,9 +321,13 @@ def run_benchmark(*, workers: tuple[int, ...], tasks: int,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("contention", "matched"), default="contention",
-                        help="run the process contention probe or matched A0-A7 matrix")
+    parser.add_argument("--mode", choices=("contention", "matched", "selector-ablation"),
+                        default="contention",
+                        help="contention probe, matched A0-A7 matrix, or AO-061 selector ablation")
     parser.add_argument("--seed", type=int, default=701)
+    parser.add_argument("--seeds", type=int, nargs="+", default=[20261101, 20261102,
+                        20261103, 20261104, 20261105],
+                        help="paired AO-061 development seeds (at least five)")
     parser.add_argument("--agent-count", type=int, default=5)
     parser.add_argument("--workers", default="1,2,4",
                         help="comma-separated process counts (default: 1,2,4)")
@@ -326,6 +337,8 @@ def main() -> int:
     try:
         if args.mode == "matched":
             report = build_outcome_matrix(seed=args.seed, agent_count=args.agent_count)
+        elif args.mode == "selector-ablation":
+            report = build_selector_ablation(seeds=tuple(args.seeds))
         else:
             workers = tuple(int(item.strip()) for item in args.workers.split(","))
             report = run_benchmark(workers=workers, tasks=args.tasks,
