@@ -170,6 +170,23 @@ Missing or skipped gates keep the candidate at `NOT_READY`; a scripted pass
 cannot be relabeled as local-model qualification. Even after external review,
 policy promotion is a separate owner decision.
 
+## Product value claims
+
+The proposed value is narrower correction recovery with fewer avoidable safe
+refusals and a trace operators can audit. There is no measured improvement
+claim for this candidate yet. Report each value in its own unit and population:
+
+| Value | Required evidence | Current evidence and limit |
+| --- | --- | --- |
+| Corrected-task success | Paired A5 completion difference against both A3 and A4 on the same held-out cases, with the registered interval and safety gates. | No frozen confirmatory cases or effect estimate; historical studies are separate populations. |
+| Recovery time | Elapsed time from the correction/block event to verified completion, plus recovery-step count, reported by task case and compared on matched cases. | Recovery steps are recorded, but recovery-specific elapsed time is not currently measured. Whole-task `wall_ms` must not be described as recovery time. |
+| Refusal opportunity cost | Answerable cases ending in safe abstention divided by all scheduled answerable cases, paired across arms. | The evaluator report defines this metric; current values are scripted controls, not an outcome-effect estimate. |
+| Auditability | Fraction of episodes with a complete operator trace linking blocked source/cause, permitted next step, reauthorization, and post-episode outcome; disclose redactions and missing fields. | Trace structure and privacy behavior have contract tests; no independent operator usability result is available. |
+
+Do not collapse these into a single score or use generic superiority claims.
+Publish the matched denominators, effect sizes, intervals, safety outcomes, and
+source limitations together when valid outcome artifacts exist.
+
 Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
