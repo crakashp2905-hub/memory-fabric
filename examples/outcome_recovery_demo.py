@@ -166,8 +166,11 @@ def run_demo() -> int:
 
         print(f"Package: {memory_fabric.__file__}")
         print(f"Observer: {len(observer.steps)} retrievals; planner: {len(planner.steps)} proposals.")
-        print("Executor: stale proposal refused by ActionGate after correction.")
+        print("Correction arrives after planning; stale proposal refused by ActionGate.")
+        print("ActionGate blocks the stale continue action; Observer re-retrieves current evidence.")
+        print("Planner recovers, replans; Executor gets a fresh grant.")
         print("Executor: refreshed proposal authorized and applied in the mock world.")
+        print("Mock executor applies shut_down in the simulated world.")
         print(f"Independent evaluator: {assessment.status.value} ({assessment.reason_code}).")
         print("Actors: observer, planner, executor (distinct verified sessions).")
         print("Model: REAL_AGENT_NOT_RUN; no local model was used.")
