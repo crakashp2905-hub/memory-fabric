@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -142,6 +143,10 @@ def test_matched_cli_emits_the_outcome_matrix() -> None:
 def test_recorded_a5_development_probe_is_source_bound_and_non_confirmatory() -> None:
     artifact = Path(__file__).resolve().parents[1] / "research" / "results" / (
         "agent-outcome-a5-matched-development.json"
+    )
+    canonical_bytes = artifact.read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(canonical_bytes).hexdigest() == (
+        "ce844ed4cf1fe0212749e84ba96d5c74cd47ea333b27a2a3ebf253c365d5ae51"
     )
     report = json.loads(artifact.read_text(encoding="utf-8"))
     assert report["source"]["commit_sha"] == "8b8e6673c48f1e3f5e31b62a585ed0514e6d812c"

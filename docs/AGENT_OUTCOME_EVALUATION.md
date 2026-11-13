@@ -143,8 +143,8 @@ seed 701, source commit `8b8e6673c48f1e3f5e31b62a585ed0514e6d812c`, A5–A3
 decision-completion difference `0.00`, and A5–A4 difference `+0.20` (2 of 10
 cases). A6 remains `NOT_RUN`. This is a one-seed synthetic action-outcome
 comparison, not a held-out task-success estimate or confirmatory evidence;
-promotion remains `NOT_ASSESSED`. The report SHA-256 is
-`b226dd468d6ab7540331d84522c662ebf0c09451de0b5c427ffaf0b90a96e044` in
+promotion remains `NOT_ASSESSED`. The report's canonical-LF SHA-256 is
+`ce844ed4cf1fe0212749e84ba96d5c74cd47ea333b27a2a3ebf253c365d5ae51` in
 `research/results/agent-outcome-a5-matched-development.json`.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
