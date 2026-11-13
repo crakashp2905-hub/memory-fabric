@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 317,
+ "results": 318,
  "missing_field_counts": {
-  "git_sha": 178,
+  "git_sha": 179,
   "prereg": 112,
-  "dataset_digest": 313,
-  "model_id": 278,
-  "prompt_hash": 317,
+  "dataset_digest": 314,
+  "model_id": 279,
+  "prompt_hash": 318,
   "seed": 227,
-  "cost": 291,
-  "verdict": 235
+  "cost": 292,
+  "verdict": 236
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 302
+  "unclassified": 303
  },
  "rows": [
   {
@@ -149,6 +149,24 @@
    "population": "unclassified",
    "prompt_hash": null,
    "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "agent-outcome-a5-matched-development",
+   "file": "research/results/agent-outcome-a5-matched-development.json",
+   "file_sha256": "ce844ed4cf1fe0212749e84ba96d5c74cd47ea333b27a2a3ebf253c365d5ae51",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/agent-scale-v1.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": 701,
    "config": null,
    "cost": null,
    "verdict": null,
@@ -645975,7 +645993,7 @@
   {
    "experiment_id": "r1-05-suite-control-coverage",
    "file": "research/results/r1-05-suite-control-coverage.json",
-   "file_sha256": "57ba0ab219dfc164bc8743012360a6c3ab5738fd6b6b7016eeabe1332171ad7c",
+   "file_sha256": "1d4fb1385e741ff05461604b834563d36878c54dbd15341d68319de4bfb0e0a5",
    "file_sha256_basis": "UTF-8 file bytes with LF line endings",
    "prereg": null,
    "git_sha": null,
