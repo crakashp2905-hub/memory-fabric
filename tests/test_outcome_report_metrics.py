@@ -6,7 +6,7 @@ import json
 import pytest
 
 from benchmarks.outcome_report import (
-    AgentTaskOutcome, EvaluatedTaskCase, canonical_evaluator_report,
+    AgentTaskOutcome, DecisionReevaluationOutcome, EvaluatedTaskCase, canonical_evaluator_report,
     evaluator_artifacts, evaluator_report, one_sided_exact_upper_bound,
     paired_cluster_bootstrap,
 )
@@ -63,6 +63,40 @@ def test_metrics_name_their_population_unit_and_denominator() -> None:
     assert '"model_token_claims":"NONE"' in report_text
     assert '"model_tokens":null' in report_text
     assert report["arms"]["A5"]["failure_taxonomy"]["mixed_cause_task_cases"] == 0
+
+
+def test_reevaluation_quality_is_separate_from_completed_task_success() -> None:
+    cases = [
+        EvaluatedTaskCase(
+            "task-1", "A5", 4, True, assessment("task-1", OutcomeStatus.COMPLETED),
+            False, False,
+            decision_reevaluations=(DecisionReevaluationOutcome("premise-1", True, True),),
+        ),
+        EvaluatedTaskCase(
+            "task-2", "A5", 4, True, assessment("task-2", OutcomeStatus.COMPLETED),
+            False, False,
+            decision_reevaluations=(DecisionReevaluationOutcome("premise-2", False, True),),
+        ),
+        EvaluatedTaskCase(
+            "task-3", "A5", 4, True, assessment("task-3", OutcomeStatus.COMPLETED),
+            False, False,
+            decision_reevaluations=(DecisionReevaluationOutcome("premise-3", True, False),),
+        ),
+    ]
+
+    report = evaluator_report(cases)
+
+    assert metric(report, "A5", "safe_task_completion")["numerator"] == 3
+    for name, numerator in (
+        ("targeted_decision_reevaluation", 1),
+        ("unnecessary_decision_reevaluation", 1),
+        ("missed_decision_reevaluation", 1),
+    ):
+        result = metric(report, "A5", name)
+        assert (result["numerator"], result["denominator"], result["unit"]) == (
+            numerator, 3, "decision_premise",
+        )
+    assert "decision_reevaluations" in report["arms"]["A5"]["rows"][0]
 
 
 def test_zero_denominator_is_explicitly_unmeasured() -> None:
@@ -195,6 +229,7 @@ def test_raw_agent_outcomes_and_evaluator_labels_are_separate_artifacts() -> Non
             proposed_effects=1, executed_effects=1, model_calls=0,
             model_tokens=None, reason_codes=("VERIFIED_TERMINAL_STATE",),
         ),),
+        decision_reevaluations=(DecisionReevaluationOutcome("premise-7", True, True),),
     )
     artifacts = evaluator_artifacts([case])
     outcomes = json.loads(artifacts["outcomes_json"])
@@ -208,6 +243,12 @@ def test_raw_agent_outcomes_and_evaluator_labels_are_separate_artifacts() -> Non
     assert labels["visibility"] == "EVALUATOR_ONLY"
     assert labels["rows"][0]["answerable"] is True
     assert labels["rows"][0]["valid_evidence_available"] is True
+    assert row["decision_reevaluations"] == [
+        {"reevaluation_id": "premise-7", "performed": True},
+    ]
+    assert labels["rows"][0]["decision_reevaluations"] == [
+        {"reevaluation_id": "premise-7", "required": True},
+    ]
 
 
 def test_always_abstain_has_safe_behavior_but_full_completion_opportunity_cost() -> None:
