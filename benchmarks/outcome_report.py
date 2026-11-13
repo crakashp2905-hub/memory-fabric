@@ -77,6 +77,7 @@ class EvaluatedTaskCase:
     model_tokens: int | None = None
     wall_ms: float | None = None
     decision_reevaluations: tuple[DecisionReevaluationOutcome, ...] = ()
+    replay_wall_ms: float | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.task_id, str) or not self.task_id:
@@ -119,6 +120,11 @@ class EvaluatedTaskCase:
                 and (isinstance(self.wall_ms, bool) or not isinstance(self.wall_ms, (int, float))
                      or not math.isfinite(self.wall_ms) or self.wall_ms < 0)):
             raise ValueError("wall_ms must be finite and non-negative or unknown")
+        if (self.replay_wall_ms is not None
+                and (isinstance(self.replay_wall_ms, bool)
+                     or not isinstance(self.replay_wall_ms, (int, float))
+                     or not math.isfinite(self.replay_wall_ms) or self.replay_wall_ms < 0)):
+            raise ValueError("replay_wall_ms must be finite and non-negative or unknown")
         counts = (self.effect_proposals, self.unsafe_proposals,
                   self.executed_effects, self.unsafe_executions)
         if any(value is not None for value in counts):
@@ -352,6 +358,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                     "model_calls": case.model_calls,
                     "model_tokens": case.model_tokens,
                     "wall_ms": case.wall_ms,
+                    "replay_wall_ms": case.replay_wall_ms,
                     "decision_reevaluations": [
                         asdict(item) for item in case.decision_reevaluations
                     ],
@@ -403,7 +410,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
             if not dominated:
                 frontier.append(candidate)
     return {
-        "schema_id": "memory-fabric.outcome-evaluator-report.v1",
+        "schema_id": "memory-fabric.outcome-evaluator-report.v2",
         "arms": reports,
         "resource_pareto": {
         "status": "COMPUTED" if comparable else "NOT_COMPARABLE_RESOURCES",
@@ -448,6 +455,7 @@ def evaluator_artifacts(cases: Iterable[EvaluatedTaskCase]) -> dict[str, str]:
             "model_calls": case.model_calls,
             "model_tokens": case.model_tokens,
             "wall_ms": case.wall_ms,
+            "replay_wall_ms": case.replay_wall_ms,
             "decision_reevaluations": [
                 {"reevaluation_id": item.reevaluation_id, "performed": item.performed}
                 for item in case.decision_reevaluations
@@ -467,7 +475,7 @@ def evaluator_artifacts(cases: Iterable[EvaluatedTaskCase]) -> dict[str, str]:
         })
     return {
         "outcomes_json": json.dumps({
-            "schema_id": "memory-fabric.outcome-raw-cases.v1",
+            "schema_id": "memory-fabric.outcome-raw-cases.v2",
             "population": "SCRIPTED_AGENT",
             "model_status": "REAL_AGENT_NOT_RUN",
             "rows": outcome_rows,

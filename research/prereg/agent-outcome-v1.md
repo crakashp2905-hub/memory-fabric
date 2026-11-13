@@ -123,6 +123,18 @@ task IDs, stopping rule, resource caps, freeze commit, and matching design
 digest. A confirmatory artifact containing any development seed, an unplanned
 task, a missing arm, or a case used for tuning is rejected.
 
+AO-060's confirmatory analysis also requires per-case replay wall time and
+measured attempted/executed safety counts for every arm. Its A6-versus-A5
+owner-review gate reports paired completion gain, A6 replay time against the
+frozen `max_replay_wall_ms_per_case` cap, unsafe-proposal rates, and A6
+unauthorized executions as separate coordinates. Zero proposal denominators
+are not treated as safe. A point-estimate pass is only `ELIGIBLE_FOR_OWNER_REVIEW`;
+the report never authorizes promotion, and the protocol remains DRAFT until its
+unfrozen sample, stopping, split, multiplicity, and resource details are set.
+The expanded evaluator and raw-case artifacts use their v2 schema IDs; v1 raw
+cases are rejected for confirmatory analysis because those measurements cannot
+be inferred retroactively.
+
 The confirmatory script verifies the registered A5–A3, A5–A4, and A6–A5
 contrasts, applies Holm–Bonferroni correction to all planned exact paired sign
 tests, and records hashes for the manifest and both outcome/label artifacts.

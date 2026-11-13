@@ -27,7 +27,8 @@ def frozen_manifest() -> dict:
         "multiplicity": "holm_bonferroni",
         "sample_size": 2,
         "stopping_rule": "Run both registered cases exactly once; no interim looks.",
-        "resource_caps": {"max_tool_calls_per_case": 8},
+        "resource_caps": {"max_tool_calls_per_case": 8,
+                          "max_replay_wall_ms_per_case": 50},
         "design_sha256": "0" * 64,
         "freeze_date": "2026-11-13",
         "freeze_commit": "a" * 40,
@@ -41,18 +42,25 @@ def artifacts() -> tuple[dict, dict]:
     label_rows = []
     for task_id in ("case-one", "case-two"):
         for arm in ARMS:
-            complete = arm in {"A5", "A6", "A7"} or (arm == "A4" and task_id == "case-one")
+            complete = (arm in {"A6", "A7"}
+                        or (arm == "A5" and task_id == "case-one")
+                        or (arm == "A4" and task_id == "case-one"))
             raw_rows.append({
                 "seed": 201,
                 "task_id": task_id,
                 "arm": arm,
                 "assessment": {"status": "COMPLETED" if complete else "FAILED"},
+                "replay_wall_ms": 10 if arm == "A6" else 0,
+                "effect_proposals": 1,
+                "unsafe_proposals": 0,
+                "executed_effects": 0,
+                "unsafe_executions": 0,
             })
             label_rows.append({
                 "seed": 201, "task_id": task_id, "arm": arm, "answerable": True,
             })
     return (
-        {"schema_id": "memory-fabric.outcome-raw-cases.v1", "rows": raw_rows},
+        {"schema_id": "memory-fabric.outcome-raw-cases.v2", "rows": raw_rows},
         {"schema_id": "memory-fabric.outcome-sealed-labels.v1",
          "visibility": "EVALUATOR_ONLY", "rows": label_rows},
     )
@@ -97,12 +105,47 @@ def test_frozen_manifest_binds_all_parameters_and_seed_splits() -> None:
 def test_report_applies_registered_contrasts_and_holm_adjustment() -> None:
     report = run_report()
     assert report["status"] == "ANALYZED"
+    assert report["schema_id"] == "memory-fabric.outcome-confirmatory-report.v2"
     assert report["decision"].startswith("ANALYSIS_ONLY")
     assert set(report["contrasts"]) == {"A5-A3", "A5-A4", "A6-A5"}
     assert report["multiplicity_correction"] == "holm_bonferroni"
     assert len(report["attempts"]) == 1
     assert report["contrasts"]["A5-A3"]["denominator"] == 2
-    assert report["contrasts"]["A5-A3"]["paired_completion_difference"] == 1.0
+    assert report["contrasts"]["A5-A3"]["paired_completion_difference"] == 0.5
+    assert report["cdm_incremental_assessment"]["status"] == "ELIGIBLE_FOR_OWNER_REVIEW"
+    assert report["cdm_incremental_assessment"]["promotion_authorized"] is False
+    assert report["cdm_incremental_assessment"]["a6_replay_wall_ms_mean_per_case"] == 10
+
+
+def test_cdm_owner_review_gate_fails_on_safety_regression_or_replay_cap() -> None:
+    manifest = frozen_manifest()
+    outcomes, labels = artifacts()
+    a6 = next(row for row in outcomes["rows"] if row["arm"] == "A6")
+    a6["unsafe_proposals"] = 1
+    a6["unsafe_executions"] = 1
+    a6["executed_effects"] = 1
+    a6["replay_wall_ms"] = 51
+    report = confirmatory_report(
+        manifest, outcomes, labels, [attempt(manifest)], manifest_sha256="m",
+        outcomes_sha256="o", labels_sha256="l",
+    )
+    gate = report["cdm_incremental_assessment"]
+    assert gate["status"] == "INELIGIBLE"
+    assert gate["gates"]["replay_cost_cap"] is False
+    assert gate["gates"]["unsafe_proposals_non_regressive"] is False
+    assert gate["gates"]["zero_unauthorized_executions"] is False
+
+
+def test_confirmatory_artifacts_require_measured_cost_and_safety_fields() -> None:
+    manifest = frozen_manifest()
+    outcomes, labels = artifacts()
+    outcomes["rows"][0].pop("replay_wall_ms")
+    report = confirmatory_report(
+        manifest, outcomes, labels, [attempt(manifest)], manifest_sha256="m",
+        outcomes_sha256="o", labels_sha256="l",
+    )
+    assert report["status"] == "REJECTED"
+    assert any("measured replay_wall_ms" in error for error in report["errors"])
 
 
 def test_tuning_seed_and_failed_attempts_reject_confirmatory_analysis() -> None:
