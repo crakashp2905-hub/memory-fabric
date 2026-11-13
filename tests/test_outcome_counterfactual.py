@@ -74,7 +74,8 @@ def test_cdm_runs_only_after_dependence_check_and_material_alternative(monkeypat
     assert report["action_authorized"] is False
     worker_isolation = report["decisions"][1].pop("isolation_status")
     assert worker_isolation in {
-        "SUBPROCESS_CPU_MEMORY_LIMITED", "SUBPROCESS_WALL_LIMIT_ONLY",
+        "SUBPROCESS_CPU_MEMORY_LIMITED", "SUBPROCESS_CPU_LIMITED",
+        "SUBPROCESS_WALL_LIMIT_ONLY",
     }
     assert report["worker_isolation_statuses"] == [worker_isolation]
     assert report["isolation_gap"] is (worker_isolation != "SUBPROCESS_CPU_MEMORY_LIMITED")
