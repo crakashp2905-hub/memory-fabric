@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast local demonstration of correction, refusal, recovery, and grading."""
+"""DEMO ONLY: Fast local demonstration of correction, refusal, recovery, and grading."""
 
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ from memory_fabric.agent_outcomes.boundary import EvaluatorPort  # noqa: E402
 
 
 def run_demo() -> int:
+    print("DEMO ONLY: scripted simulated world; no model, service, or real device.")
     world, oracle = correction_after_plan_world(seed=82)
     initial = world.observe(
         step=0, permitted_tools=("continue", "shut_down"), budget={"steps": 4}
