@@ -2,11 +2,32 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: ["**"]
   pull_request:
   workflow_dispatch:
 
 jobs:
+  agent-outcome-offline-gate:
+    # Keep the outcome contract gate visible on feature branches even when a
+    # repository integration cannot create the corresponding pull request.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install the gate runtime
+        run: python -m pip install -e ".[test]" "ruff==0.15.13"
+      - name: Run the exact-candidate offline gate
+        run: python tools/agent_outcome_gate.py --json-out research/results/agent-outcome-gate.json
+      - name: Preserve the source-bound gate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-outcome-gate-${{ github.sha }}
+          path: research/results/agent-outcome-gate.json
+          if-no-files-found: warn
+
   test:
     # The core claims zero dependencies and support from 3.11. Both are only
     # true if they are checked on every version claimed, on more than one OS.
