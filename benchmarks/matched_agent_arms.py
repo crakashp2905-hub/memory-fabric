@@ -94,7 +94,8 @@ def randomized_tool_catalog(seed: int) -> list[str]:
 def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True,
         task_cases: list[dict[str, str]] | None = None) -> dict[str, Any]:
     if agent_count not in AGENT_COUNTS or arm not in (*ARMS, "no_memory",
-                                                       "pooled_shared_plus_recovery"):
+                                                       "pooled_shared_plus_recovery",
+                                                       "memory_fabric_recovery"):
         raise ValueError("unknown agent count or arm")
     agents = (randomized_agent_ids(seed, agent_count) if randomize_order else
               [f"agent-{index:03d}" for index in range(agent_count)])
@@ -253,6 +254,62 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True,
                         reason_codes[decision.reason_code] += 1
                         reason = decision.reason_code
                         allowed = decision.allowed
+                    elif arm == "memory_fabric_recovery":
+                        decision = gate.authorize(TOOL, agent, certificates.get(agent))
+                        reason_codes[decision.reason_code] += 1
+                        reason = decision.reason_code
+                        allowed = decision.allowed
+                        if (not allowed and family in {"corrected", "recoverable"}
+                                and evidence_id is not None):
+                            episode = RecoveryEpisode(task["task_id"], enabled=True)
+                            episode.record("evidence_blocked", {
+                                "cause_code": "EVIDENCE_STALE",
+                                "source_id": evidence_id,
+                            })
+                            alternate = episode.search_alternate_sources(
+                                EvidenceFailure(EvidenceFailureKind.STALE,
+                                                "stale_revision_epoch"),
+                                _CaseScopedFabric(
+                                    fabric,
+                                    candidate_ids=recovery_candidates.get(task["task_id"], ()),
+                                ),
+                                query=f"Record {case_key}",
+                                agent_id=agent,
+                                tenant_id=DEFAULT_TENANT,
+                                existing_evidence_ids=(evidence_id,),
+                                limit=5,
+                            )
+                            recovery_search_calls += 1
+                            retrieval_calls += 1
+                            recovery_alternates_found += len(alternate)
+                            if alternate:
+                                alternative_id = alternate[0].memory_id
+                                episode.record("re_retrieve", {
+                                    "progress_key": f"a5-alternate:{task['task_id']}:{agent}",
+                                    "candidate_count": len(alternate),
+                                })
+                                refreshed = fabric.certify(
+                                    task["task_id"], [alternative_id], agent
+                                )
+                                reauthorized = gate.authorize(TOOL, agent, refreshed)
+                                reason_codes[reauthorized.reason_code] += 1
+                                allowed = reauthorized.allowed
+                                reason = ("authorized_alternate_found" if allowed
+                                          else reauthorized.reason_code)
+                            else:
+                                episode.record("abstain", {
+                                    "reason": "NO_AUTHORIZED_ALTERNATE",
+                                })
+                                reason = "no_authorized_alternate"
+                            recovery_trace.append({
+                                "arm": arm,
+                                "task_id": task["task_id"],
+                                "alternate_count": len(alternate),
+                                "status": episode.status.value,
+                                "steps": episode.steps,
+                                "search_attempts": episode.alternate_search_attempts,
+                                "reauthorized": bool(alternate) and allowed,
+                            })
                     else:
                         allowed = expected
                         reason = "oracle_label"

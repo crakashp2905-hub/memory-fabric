@@ -12,6 +12,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 import math
 import os
 from pathlib import Path
+import subprocess
 import sys
 import time
 from typing import Any
@@ -28,6 +29,7 @@ if str(_REPOSITORY_ROOT) not in sys.path:
 from benchmarks.agent_scale import outcome_task_manifest  # noqa: E402
 from benchmarks.matched_agent_arms import ARMS as LEGACY_ARMS  # noqa: E402
 from benchmarks.matched_agent_arms import run as run_legacy_arm  # noqa: E402
+from benchmarks.manifest import capture_environment, head  # noqa: E402
 from memory_fabric.agent_outcomes.observations import AgentObservation, AgentStep  # noqa: E402
 from memory_fabric.agent_outcomes.runtime import AgentRuntime, ToolOutput  # noqa: E402
 
@@ -38,7 +40,8 @@ OUTCOME_ARMS = (
     {"id": "A3", "name": "pooled_shared_plus_recovery",
      "legacy_arm": "pooled_shared_plus_recovery", "status": "RUN"},
     {"id": "A4", "name": "memory_fabric", "legacy_arm": "memory_fabric", "status": "RUN"},
-    {"id": "A5", "name": "memory_fabric_recovery", "legacy_arm": None, "status": "NOT_RUN"},
+    {"id": "A5", "name": "memory_fabric_recovery",
+     "legacy_arm": "memory_fabric_recovery", "status": "RUN"},
     {"id": "A6", "name": "memory_fabric_recovery_cdm", "legacy_arm": None,
      "status": "NOT_RUN"},
     {"id": "A7", "name": "oracle", "legacy_arm": "oracle", "status": "RUN"},
@@ -91,6 +94,14 @@ def _mechanical_parity(arms: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def _source_tree_clean() -> bool:
+    completed = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=_REPOSITORY_ROOT,
+        capture_output=True, text=True, check=False,
+    )
+    return completed.returncode == 0 and not completed.stdout.strip()
+
+
 def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
     """Adapt the existing matched harness to A0..A7 without changing its totals."""
     expected_tasks = outcome_task_manifest(seed)
@@ -108,7 +119,7 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             continue
         legacy_arm = arm_spec["legacy_arm"]
         if legacy_arm not in LEGACY_ARMS and legacy_arm not in {
-            "no_memory", "pooled_shared_plus_recovery",
+            "no_memory", "pooled_shared_plus_recovery", "memory_fabric_recovery",
         }:
             raise RuntimeError(f"unrecognized legacy matched arm: {legacy_arm}")
         legacy = run_legacy_arm(seed, agent_count, legacy_arm, task_cases=expected_tasks)
@@ -123,13 +134,14 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             case_outcomes.append({
                 "seed": seed,
                 "task_id": row["task_id"],
+                "task_family": row["family"],
                 "arm": arm_spec["id"],
                 "status": grade,
                 "case_completion": grade == "COMPLETED",
                 "agent_count": agent_count,
                 "legacy_counts": decision,
                 "source_arm": legacy_arm,
-                "legacy_counts_reproducible": legacy_arm in LEGACY_ARMS,
+            "legacy_counts_reproducible": legacy_arm in LEGACY_ARMS,
             })
         arms.append({
             **base,
@@ -163,8 +175,32 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         key=lambda arm: completion_rates[arm["id"]],
     )
     a3_rate = completion_rates.get("A3", 0.0)
+    by_arm = {arm["id"]: arm for arm in arms}
+    a5_comparisons: dict[str, Any] = {}
+    if by_arm.get("A5", {}).get("status") == "RUN":
+        candidate = {row["task_id"]: row for row in by_arm["A5"]["case_outcomes"]}
+        for baseline_id in ("A3", "A4"):
+            baseline = {row["task_id"]: row
+                        for row in by_arm[baseline_id]["case_outcomes"]}
+            common = sorted(set(candidate) & set(baseline))
+            differences = [
+                int(candidate[task_id]["case_completion"])
+                - int(baseline[task_id]["case_completion"])
+                for task_id in common
+            ]
+            a5_comparisons[f"A5-{baseline_id}"] = {
+                "unit": "paired world/task case; scripted descriptive result",
+                "denominator": len(common),
+                "paired_completion_difference": (
+                    sum(differences) / len(differences) if differences else None
+                ),
+                "case_differences": dict(zip(common, differences, strict=True)),
+                "promotion_status": "NOT_ASSESSED",
+            }
     return {
         "schema_id": "memory-fabric.outcome-matched-arms.v1",
+        "source": {"commit_sha": head(), "clean_at_start": _source_tree_clean()},
+        "environment": capture_environment(),
         "population": "SCRIPTED_AGENT",
         "model_status": "REAL_AGENT_NOT_RUN",
         "model_token_claims": "NONE",
@@ -190,9 +226,11 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             "promotion_status": "NOT_ASSESSED",
             "reason": "This deterministic fixture is an implementation probe, not confirmatory evidence.",
         },
+        "a5_same_case_comparisons": a5_comparisons,
         "arms": arms,
         "limitations": [
-            "A5 and A6 remain NOT_RUN until governed recovery and CDM are integrated.",
+            "A5 is a bounded scripted governed-recovery arm and remains non-confirmatory.",
+            "A6 remains NOT_RUN until CDM is integrated into the matched runner.",
             "A3 recovery improvement is descriptive on two scripted recoverable cases only.",
             "Legacy agent-count repetitions share world/task cases and are not independent samples.",
             "No local model or production outcome is measured.",

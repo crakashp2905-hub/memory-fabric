@@ -22,8 +22,11 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
     assert report["parity_status"] == "PASS"
     assert report["mechanical_parity"]["status"] == "INCOMPLETE_NOT_RUN_ARMS"
     assert all(report["mechanical_parity"]["checks"].values())
-    assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A5", "A6"]
+    assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A6"]
     assert report["task_ids"] == expected_ids
+    assert len(report["source"]["commit_sha"]) == 40
+    assert isinstance(report["source"]["clean_at_start"], bool)
+    assert report["environment"]["python"]
     assert expected_ids[:len(legacy_ids)] == legacy_ids
     comparison = report["strongest_non_oracle_comparison"]
     assert comparison["promotion_status"] == "NOT_ASSESSED"
@@ -40,9 +43,23 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
     assert [arm["id"] for arm in report["arms"]] == [f"A{index}" for index in range(8)]
     for arm in report["arms"]:
         assert arm["task_ids"] == expected_ids
-    for arm_id in ("A5", "A6"):
-        assert by_id[arm_id]["status"] == "NOT_RUN"
-        assert by_id[arm_id]["case_outcomes"] == []
+    assert by_id["A5"]["status"] == "RUN"
+    assert all(row["legacy_counts_reproducible"] is False
+               for row in by_id["A5"]["case_outcomes"])
+    assert by_id["A5"]["task_ids"] == expected_ids
+    assert len(by_id["A5"]["case_outcomes"]) == len(expected_ids)
+    assert by_id["A5"]["recovery_trace"]
+    assert by_id["A5"]["observed_resource_use"]["recovery_alternates_found"] > 0
+    assert all(row["status"] == "COMPLETED" for row in by_id["A5"]["case_outcomes"]
+               if row["task_family"] == "recoverable")
+    assert by_id["A6"]["status"] == "NOT_RUN"
+    assert by_id["A6"]["case_outcomes"] == []
+    assert report["a5_same_case_comparisons"]["A5-A3"]["denominator"] == len(expected_ids)
+    assert report["a5_same_case_comparisons"]["A5-A4"]["denominator"] == len(expected_ids)
+    assert report["a5_same_case_comparisons"]["A5-A4"][
+        "paired_completion_difference"
+    ] > 0
+    assert report["a5_same_case_comparisons"]["A5-A3"]["promotion_status"] == "NOT_ASSESSED"
     for arm_id in ("A0", "A1", "A2", "A3", "A4", "A7"):
         assert by_id[arm_id]["status"] == "RUN"
         legacy_name = by_id[arm_id]["legacy_arm"]
