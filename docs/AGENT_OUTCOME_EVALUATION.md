@@ -150,6 +150,26 @@ on `HOLD`.
 - Policy release: `NOT_READY`; candidate recovery/CDM behavior must remain off
   by default until frozen matched gates support promotion.
 
+## Change-control status
+
+The candidate's current status is **`NOT_READY`**. The confirmatory design is
+still draft, no pinned local-model run is recorded, and independent review and
+pilot evidence are external prerequisites. Recovery and CDM stay disabled by
+default. Status names describe evidence maturity; none is a production
+approval.
+
+| Status | Entry condition | What it does not establish |
+| --- | --- | --- |
+| `NOT_READY` | Default while any required design, qualification, or evidence is missing or a required gate is `FAIL`/`NOT_RUN`. | No release or promotion claim. |
+| `SCRIPTED_QUALIFIED` | Exact clean candidate SHA passes the complete CI matrix, offline contract gate, static checks, and all registered attack families. | No model utility, deployment safety, or causal benefit. |
+| `LOCAL_MODEL_QUALIFIED` | Scripted qualification plus a pinned local model/runtime run with complete provenance that passes the frozen matched outcome and safety criteria. | No independent user or deployment qualification. |
+| `EXTERNAL_REVIEW_REQUIRED` | Local-model qualification is recorded and an independent deployment/security review and scoped user pilot are the remaining change-control steps. | No policy release; owner approval and completed external evidence remain required. |
+
+Transitions require a dated evidence record tied to the exact source SHA.
+Missing or skipped gates keep the candidate at `NOT_READY`; a scripted pass
+cannot be relabeled as local-model qualification. Even after external review,
+policy promotion is a separate owner decision.
+
 Reports must preserve exact task-case denominators, raw paired outcomes, and
 attempted versus executed safety events. A zero observed unsafe-event count is
 not a zero risk; use a one-sided exact upper confidence bound. Historical
