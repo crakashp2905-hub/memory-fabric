@@ -130,6 +130,16 @@ still pass through the host `ActionGate`, and the read-only recovery catalog
 cannot contain external-effect actions. No legacy retrieval or action entrypoint
 is routed through recovery.
 
+`schedule_counterfactual_replays` first runs the cheaper recorded-evidence
+dependence check for a corrected source. It skips decisions whose corrected
+evidence is required by policy, decisions without a host-declared material
+alternative, and corrections that affected no recorded decision. It invokes
+the supplied registered local CDM runner only for a decision that still passes
+its evidence policy and has a material alternative. Its schedule report records
+the dependence verdict and trigger or skip reason; replay output remains
+advisory and cannot authorize an effect or change an `ActionGate` decision.
+This scheduler is opt-in and does not run on every query.
+
 `AgentEpisodeAudit` is constructed after the runtime stops and the evaluator
 grades the actual terminal result. It retains every visible observation, agent
 step (including evidence versions), tool output, stop reason, terminal receipt,

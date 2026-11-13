@@ -8,10 +8,104 @@ from dataclasses import dataclass
 import json
 from typing import Any, Callable, Mapping
 
+from .. import dependence
 from .boundary import AgentPort
 from .observations import AgentObservation, AgentStep, _no_oracle_fields
 
 MAX_TOOL_REQUEST_BYTES = 16_000
+
+
+def schedule_counterfactual_replays(
+    fabric: Any,
+    corrected_memory_id: str,
+    *,
+    material_alternatives: Mapping[int, tuple[str, ...]],
+    replay: Callable[[dict[str, Any], tuple[str, ...]], Any],
+) -> dict[str, Any]:
+    """Run expensive CDM replay only after cheap dependence and materiality checks.
+
+    The dependence classifier first verifies whether each recorded decision
+    still satisfies its own evidence policy without the corrected source. A
+    decision that no longer satisfies policy is sent to ordinary recovery,
+    not counterfactual replay. For a decision that still stands, replay runs
+    only when the host supplies at least one material, non-selected
+    alternative. The replay callback must be a registered local CDM executor;
+    this scheduler never grants authority to execute a proposed action.
+    """
+    if not isinstance(corrected_memory_id, str) or not corrected_memory_id:
+        raise ValueError("corrected_memory_id must be non-empty text")
+    if not isinstance(material_alternatives, Mapping):
+        raise ValueError("material_alternatives must map decision sequences to option IDs")
+    if not callable(replay):
+        raise TypeError("replay must be a registered local CDM callable")
+    alternatives: dict[int, tuple[str, ...]] = {}
+    for sequence, option_ids in material_alternatives.items():
+        if (type(sequence) is not int or sequence < 0 or type(option_ids) is not tuple
+                or any(not isinstance(option, str) or not option for option in option_ids)
+                or len(option_ids) != len(set(option_ids))):
+            raise ValueError("material alternatives must use unique option IDs and valid sequences")
+        alternatives[sequence] = option_ids
+
+    # This policy check is deliberately first. The CDM callback is never
+    # invoked for an unaffected decision or one whose recorded evidence no
+    # longer satisfies the original action policy.
+    assessment = dependence.decisions_depending_on(fabric, corrected_memory_id)
+    if not isinstance(assessment, dict) or any(
+        not isinstance(assessment.get(name), list)
+        for name in ("depended", "would_stand", "exposed_only")
+    ):
+        raise ValueError("dependence assessment does not match the recorded schema")
+
+    candidates: list[tuple[int, str, dict[str, Any]]] = []
+    seen_sequences: set[int] = set()
+    for verdict in ("depended", "would_stand"):
+        for row in assessment[verdict]:
+            if not isinstance(row, dict) or type(row.get("seq")) is not int:
+                raise ValueError("dependence assessment contains an invalid decision row")
+            sequence = row["seq"]
+            if sequence < 0 or sequence in seen_sequences:
+                raise ValueError("dependence assessment decision sequences must be unique")
+            remaining = row.get("remaining")
+            if (not isinstance(remaining, list)
+                    or any(not isinstance(item, str) or not item for item in remaining)):
+                raise ValueError("dependence assessment has invalid remaining evidence")
+            seen_sequences.add(sequence)
+            candidates.append((sequence, verdict, row))
+
+    decisions: list[dict[str, Any]] = []
+    invocations = 0
+    for sequence, verdict, row in sorted(candidates):
+        options = alternatives.get(sequence, ())
+        record: dict[str, Any] = {
+            "decision_sequence": sequence,
+            "dependence_verdict": verdict,
+            "material_alternative_ids": list(options),
+            "replay_status": "SKIPPED",
+        }
+        if verdict == "depended":
+            record["reason_code"] = "CORRECTED_EVIDENCE_REQUIRED_BY_POLICY"
+        elif not options:
+            record["reason_code"] = "NO_MATERIAL_ALTERNATIVE"
+        else:
+            invocations += 1
+            record["reason_code"] = "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE"
+            try:
+                record["replay_result"] = replay(row, tuple(row["remaining"]))
+            except Exception as exc:
+                record["replay_status"] = "FAILED"
+                record["error_type"] = type(exc).__name__
+            else:
+                record["replay_status"] = "INVOKED"
+        decisions.append(record)
+
+    return {
+        "schema_id": "memory-fabric.agent-outcome-counterfactual-schedule.v1",
+        "corrected_memory_id": corrected_memory_id,
+        "dependence_check": "COMPLETED",
+        "cdm_invocations": invocations,
+        "decisions": decisions,
+        "action_authorized": False,
+    }
 
 
 def _unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
