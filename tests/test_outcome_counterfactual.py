@@ -4,6 +4,14 @@ from memory_fabric import MemoryFabric
 from memory_fabric import events as ev
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
 from memory_fabric.agent_outcomes.runtime import schedule_counterfactual_replays
+from memory_fabric.causal_replay.bayes import BinaryNode
+from memory_fabric.causal_replay.capture import capture, record_decision
+from memory_fabric.causal_replay.executor import execute_recorded
+from memory_fabric.causal_replay.policy import ThresholdPolicy
+from memory_fabric.causal_replay.replay import deterministic_simulator
+from memory_fabric.causal_replay.types import (
+    ModelProvenance, NonReplayable, ReplayContext,
+)
 from memory_fabric.service import MemoryService
 
 
@@ -134,5 +142,41 @@ def test_real_dependence_check_filters_before_registered_replay() -> None:
         assert by_sequence[independent_sequence]["reason_code"] == (
             "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE"
         )
+    finally:
+        fabric.close()
+
+
+def test_model_replay_contract_binds_versions_and_fails_closed_without_runner() -> None:
+    fabric = MemoryFabric(":memory:", auto_activate=True)
+    try:
+        service = MemoryService(fabric)
+        service.register_agent("model-agent", b"counterfactual-model-key", tenant_id="plant-b")
+        session = service.session(service.issue("model-agent"))
+        memory_id = session.remember("historical observation")
+        captured = capture(
+            fabric, session, [memory_id], context=ReplayContext(fabric.log.head_seq),
+        )
+        model = ModelProvenance(
+            "agent-model", "checkpoint-2026-11", "c" * 64,
+            "local-runtime", "runtime-3", "d" * 64,
+        )
+        record = record_decision(
+            fabric, session, options=("monitor", "investigate"), selected="monitor",
+            evidence=captured.evidence, policy_id="host-policy-v2",
+            policy_digest="a" * 64, execution_mode="model", model_provenance=model,
+        )
+        replay_policy = ThresholdPolicy("fault")
+        simulator = deterministic_simulator((BinaryNode("fault", (), {(): 0.2}),))
+
+        try:
+            execute_recorded(
+                fabric, (), simulator=simulator, policy=replay_policy,
+                decision_record=record,
+            )
+        except NonReplayable as exc:
+            assert exc.code == "NON_REPLAYABLE"
+            assert "exact registered replay runner" in str(exc)
+        else:
+            raise AssertionError("model trace replayed without its exact registered runner")
     finally:
         fabric.close()

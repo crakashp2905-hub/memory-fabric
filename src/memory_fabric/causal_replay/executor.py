@@ -552,6 +552,8 @@ def execute_recorded(fabric: Any, observations: tuple[Observation, ...], *,
 
     if not verify_decision_record(fabric, decision_record):
         raise NonReplayable("decision record has no valid immutable event receipt")
+    if decision_record.execution_mode == "model":
+        raise NonReplayable("the recorded model and runtime have no exact registered replay runner")
     if decision_record.rng_applicability == "missing_state_non_replayable":
         raise NonReplayable("the original decision's RNG continuation state is unavailable")
     if decision_record.tool_observations:

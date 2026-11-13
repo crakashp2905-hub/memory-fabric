@@ -6,7 +6,8 @@ import unittest
 import json
 
 from memory_fabric.causal_replay.types import (BeliefReference, CDMError, ReplayContext,
-                                                DecisionRecord, ToolObservation,
+                                                DecisionRecord, ModelProvenance,
+                                                ToolObservation,
                                                 canonical_json, digest_json,
                                                 parse_record, schema_is_compatible,
                                                 schema_version, serialize_record)
@@ -36,6 +37,25 @@ class TestCanonical(unittest.TestCase):
 
 
 class TestContracts(unittest.TestCase):
+    def test_model_decision_requires_complete_versioned_runtime_provenance(self):
+        evidence = (BeliefReference("m_1", 2, "tenant_a", "a" * 64),)
+        with self.assertRaises(CDMError):
+            DecisionRecord(8, "tenant_a", "agent_a", ("monitor", "investigate"),
+                "investigate", evidence, "policy-v1", "b" * 64,
+                execution_mode="model")
+        provenance = ModelProvenance(
+            "local-model", "checkpoint-4", "c" * 64,
+            "ollama-runtime", "0.13.2", "d" * 64,
+        )
+        record = DecisionRecord(8, "tenant_a", "agent_a", ("monitor", "investigate"),
+            "investigate", evidence, "policy-v1", "b" * 64,
+            execution_mode="model", model_provenance=provenance)
+        restored = parse_record(DecisionRecord, serialize_record(record))
+        self.assertEqual(restored, record)
+        with self.assertRaises(CDMError):
+            ModelProvenance("local-model", "checkpoint-4", "not-a-digest",
+                            "ollama-runtime", "0.13.2", "d" * 64)
+
     def test_tool_observation_determinism_classes_are_closed(self):
         for determinism in ("exogenous", "simulated_endogenous", "opaque"):
             observation = ToolObservation("agent", "tool", "a" * 64, "b" * 64,

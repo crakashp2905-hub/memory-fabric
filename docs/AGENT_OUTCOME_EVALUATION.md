@@ -140,6 +140,15 @@ the dependence verdict and trigger or skip reason; replay output remains
 advisory and cannot authorize an effect or change an `ActionGate` decision.
 This scheduler is opt-in and does not run on every query.
 
+CDM decision records distinguish the registered deterministic-policy path from
+an external-model path. The latter must bind model ID/version/weight digest and
+runtime ID/version/digest, alongside the policy digest; the current local CDM
+executor still returns `NON_REPLAYABLE` for it until that exact model/runtime
+runner is registered. Captured evidence binds tenant, version, content digest,
+and historical event sequence under the authorized `known_at` and source-head
+bounds. An incomplete or no-longer-authorized capture cannot be promoted to an
+exact replay certificate.
+
 `AgentEpisodeAudit` is constructed after the runtime stops and the evaluator
 grades the actual terminal result. It retains every visible observation, agent
 step (including evidence versions), tool output, stop reason, terminal receipt,
