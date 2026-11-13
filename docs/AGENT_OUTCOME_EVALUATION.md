@@ -117,13 +117,26 @@ Its always-abstain and fixed-action policies are checked against an
 evaluator-only oracle on the identical cases. This is a scripted contract
 control only; it is not a benchmark effect estimate.
 
+`examples/outcome_recovery_demo.py` now supplies one complete scripted
+three-role vertical slice. An Observer retrieves a versioned calibration
+record, a Planner proposes `continue`, and an Executor prepares the proposal
+against that exact evidence version. The simulated correction revises the
+record before execution; the existing `ActionGate` refuses the stale
+certificate and grant without invoking the effect. The Observer retrieves the
+new version, the Planner proposes `shut_down`, and the Executor obtains a new
+certificate and exact-action grant before applying the effect to the mock
+world. The evaluator grades the terminal digest only after the actor sequence
+returns. This deterministic demo proves the contract path, not a measured
+task-success improvement or real-agent behavior.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
 already completed. This implementation is a contract-level foundation. Existing
 seeded team experiments remain in `experiments/teamworld.py`; the new event
-engine is a scaffold and not a complete task world. No full A0–A7 matched
-harness, confirmatory analysis, or independent-world result is claimed here.
+engine and task fixtures provide scripted contracts, not a complete broad task
+benchmark. No full A0–A7 matched harness, confirmatory analysis, or
+independent-world result is claimed here.
 The preregistered confirmatory design remains `DRAFT / NOT FROZEN`.
 When frozen artifacts are eventually supplied, `benchmarks.outcome_confirmatory`
 compares A5 with both fair baselines (A3 and A4) and A6 with A5 on the same

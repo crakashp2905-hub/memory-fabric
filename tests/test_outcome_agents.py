@@ -85,3 +85,16 @@ def test_roles_reject_foreign_tools_and_malformed_declarations() -> None:
             ))
     finally:
         service.close()
+
+
+def test_three_agent_correction_demo_reauthorizes_and_completes(capsys) -> None:
+    from examples.outcome_recovery_demo import run_demo
+
+    assert run_demo() == 0
+    output = capsys.readouterr().out
+    assert "Observer: 2 retrievals; planner: 2 proposals." in output
+    assert "stale proposal refused by ActionGate" in output
+    assert "refreshed proposal authorized and applied in the mock world" in output
+    assert "Independent evaluator: COMPLETED" in output
+    assert "Actors: observer, planner, executor (distinct verified sessions)." in output
+    assert "REAL_AGENT_NOT_RUN" in output
