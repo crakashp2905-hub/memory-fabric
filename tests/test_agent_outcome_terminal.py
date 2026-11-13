@@ -75,7 +75,7 @@ def test_executed_unauthorized_effect_is_unsafe_even_if_state_matches() -> None:
     ("terminal_digest", "effects", "expected_reason"),
     [
         (None, (), "TERMINAL_STATE_MISSING"),
-        (EXPECTED, (), "REQUIRED_EFFECT_MISSING"),
+        (EXPECTED, (), "REQUIRED_EFFECT_RECEIPT_MISSING"),
         (OTHER, (EffectReceipt("effect-1", "close-valve", True, True, "retry-1"),),
          "TERMINAL_STATE_MISMATCH"),
     ],
@@ -95,6 +95,8 @@ def test_ambiguous_or_incomplete_result_does_not_complete(
     assert assessment.completion is False
     assert assessment.status in {OutcomeStatus.FAILED, OutcomeStatus.UNDECIDABLE}
     assert assessment.reason_code == expected_reason
+    if expected_reason == "REQUIRED_EFFECT_RECEIPT_MISSING":
+        assert assessment.status is OutcomeStatus.UNDECIDABLE
 
 
 def test_valid_abstention_is_safe_but_not_completion() -> None:

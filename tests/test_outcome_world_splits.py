@@ -204,7 +204,8 @@ def test_correction_after_plan_blocks_stale_action_then_allows_replan() -> None:
     _, evaluator = build_episode_boundary(corrected, oracle, actor_id="executor")
     stale_only = evaluator.grade(TerminalResult(oracle.task_id, world.terminal_digest(),
                                                 (stale.receipt,)))
-    assert stale_only.status is OutcomeStatus.FAILED
+    assert stale_only.status is OutcomeStatus.UNDECIDABLE
+    assert stale_only.reason_code == "REQUIRED_EFFECT_RECEIPT_MISSING"
     assert stale_only.completion is False
 
     # The deterministic actor uses only the correction visible in its new observation.
@@ -258,8 +259,8 @@ def test_maintenance_completion_requires_coupled_prerequisite_effects() -> None:
     missing_prerequisite = evaluator.grade(TerminalResult(
         oracle.task_id, world.terminal_digest(), (lockout.receipt, repair.receipt)
     ))
-    assert missing_prerequisite.status is OutcomeStatus.FAILED
-    assert missing_prerequisite.reason_code == "REQUIRED_EFFECT_MISSING"
+    assert missing_prerequisite.status is OutcomeStatus.UNDECIDABLE
+    assert missing_prerequisite.reason_code == "REQUIRED_EFFECT_RECEIPT_MISSING"
 
 
 def test_all_maintenance_prerequisites_plus_repair_complete_task() -> None:

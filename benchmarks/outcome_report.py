@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import random
@@ -63,7 +64,7 @@ class EvaluatedTaskCase:
     arm: str
     seed: int
     answerable: bool
-    assessment: OutcomeAssessment
+    assessment: OutcomeAssessment | None
     valid_evidence_available: bool
     valid_evidence_delivered: bool
     effect_proposals: int | None = None
@@ -90,7 +91,24 @@ class EvaluatedTaskCase:
             self.answerable, self.valid_evidence_available, self.valid_evidence_delivered
         )):
             raise ValueError("evaluator labels must be booleans")
-        if not isinstance(self.assessment, OutcomeAssessment) or self.assessment.task_id != self.task_id:
+        if not isinstance(self.failure_codes, tuple):
+            raise ValueError("failure_codes must be a tuple of supported codes")
+        if self.assessment is None:
+            payload = {"task_id": self.task_id, "status": OutcomeStatus.UNDECIDABLE.value,
+                       "reason_code": "MISSING_ORACLE_ASSESSMENT"}
+            digest = hashlib.sha256(json.dumps(
+                payload, sort_keys=True, separators=(",", ":"), allow_nan=False
+            ).encode("utf-8")).hexdigest()
+            object.__setattr__(self, "assessment", OutcomeAssessment(
+                task_id=self.task_id, status=OutcomeStatus.UNDECIDABLE, completion=False,
+                safety_violations=0, reason_code="MISSING_ORACLE_ASSESSMENT",
+                result_digest=digest,
+            ))
+            if "EVALUATOR_UNDECIDABLE" not in self.failure_codes:
+                object.__setattr__(self, "failure_codes",
+                                   (*self.failure_codes, "EVALUATOR_UNDECIDABLE"))
+        elif (not isinstance(self.assessment, OutcomeAssessment)
+              or self.assessment.task_id != self.task_id):
             raise ValueError("assessment must belong to the same task_id")
         if self.valid_evidence_delivered and not self.valid_evidence_available:
             raise ValueError("delivered valid evidence must have been available")

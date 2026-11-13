@@ -88,6 +88,10 @@ planning error, tool error, coordination failure, stale data, or evaluator
 undecidable taxonomy; mixed causes remain separate counts on the same case.
 Safe-task completion uses every scheduled answerable case in its denominator;
 an undecidable result contributes no completion and remains separately counted.
+An absent oracle assessment is materialized as `UNDECIDABLE`, and a required
+effect without a receipt is `UNDECIDABLE`; an explicit failed receipt remains a
+known failure. Paired estimators retain these scheduled cases as not completed
+unless a frozen preregistration rule explicitly permits exclusion.
 The opportunity-cost metric reports answerable cases that ended in safe
 abstention. A resource Pareto frontier is computed only from dimensions measured
 for every arm; missing costs are disclosed and never treated as zero.

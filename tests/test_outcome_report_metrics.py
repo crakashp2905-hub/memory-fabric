@@ -65,6 +65,37 @@ def test_metrics_name_their_population_unit_and_denominator() -> None:
     assert report["arms"]["A5"]["failure_taxonomy"]["mixed_cause_task_cases"] == 0
 
 
+def test_missing_oracle_is_undecidable_and_retained_in_scheduled_denominator() -> None:
+    missing = EvaluatedTaskCase(
+        "missing-oracle", "A5", 8, True, None, True, False,
+    )
+    completed = EvaluatedTaskCase(
+        "observed", "A5", 8, True,
+        assessment("observed", OutcomeStatus.COMPLETED), True, True,
+    )
+    report = evaluator_report([missing, completed])
+    completion = metric(report, "A5", "safe_task_completion")
+    assert (completion["numerator"], completion["denominator"]) == (1, 2)
+    assert report["arms"]["A5"]["undecidable_task_cases"] == 1
+    missing_row = next(row for row in report["arms"]["A5"]["rows"]
+                       if row["task_id"] == "missing-oracle")
+    assert missing_row["assessment"]["reason_code"] == "MISSING_ORACLE_ASSESSMENT"
+
+
+def test_paired_bootstrap_keeps_missing_oracle_as_undecidable_pair() -> None:
+    cases = [
+        EvaluatedTaskCase("missing", "A6", 9, True, None, False, False),
+        EvaluatedTaskCase("missing", "A5", 9, True,
+                          assessment("missing", OutcomeStatus.COMPLETED), False, False),
+    ]
+    result = paired_cluster_bootstrap(
+        cases, treatment_arm="A6", control_arm="A5", iterations=100, seed=11,
+    )
+    assert result["denominator"] == 1
+    assert result["treatment_undecidable"] == 1
+    assert result["paired_completion_difference"] == -1.0
+
+
 def test_reevaluation_quality_is_separate_from_completed_task_success() -> None:
     cases = [
         EvaluatedTaskCase(

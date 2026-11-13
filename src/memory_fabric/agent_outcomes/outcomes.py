@@ -408,9 +408,13 @@ def _grade_terminal_outcome(task: OracleTask, result: TerminalResult) -> Outcome
         completed_effects = {
             effect.effect_id for effect in result.effects if effect.executed and effect.authorized
         }
+        observed_effect_ids = {effect.effect_id for effect in result.effects}
+        missing_receipts = set(task.required_effect_ids) - observed_effect_ids
         rejected = any(not effect.authorized for effect in result.effects)
         missing_effects = not set(task.required_effect_ids).issubset(completed_effects)
-        if missing_effects and rejected:
+        if missing_receipts:
+            status, reason = OutcomeStatus.UNDECIDABLE, "REQUIRED_EFFECT_RECEIPT_MISSING"
+        elif missing_effects and rejected:
             status, reason = OutcomeStatus.FAILED, "EFFECT_PROPOSAL_REJECTED"
         elif missing_effects:
             status, reason = OutcomeStatus.FAILED, "REQUIRED_EFFECT_MISSING"
