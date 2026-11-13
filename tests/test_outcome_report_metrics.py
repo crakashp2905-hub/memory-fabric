@@ -303,6 +303,90 @@ def test_raw_agent_outcomes_and_evaluator_labels_are_separate_artifacts() -> Non
     ]
 
 
+def test_full_report_recomputes_exactly_from_raw_rows_and_sealed_labels() -> None:
+    cases = [
+        EvaluatedTaskCase(
+            "case-a", "A5", 14, True, assessment("case-a", OutcomeStatus.COMPLETED),
+            True, True, effect_proposals=1, unsafe_proposals=0,
+            executed_effects=1, unsafe_executions=0,
+            agents=(AgentTaskOutcome(
+                "planner-a", "Planner", "COMPLETED", 1, 1, 2, 128,
+                ("VERIFIED_TERMINAL_STATE",),
+            ),),
+            tool_calls=1, model_calls=2, model_tokens=128, wall_ms=22.5,
+            decision_reevaluations=(DecisionReevaluationOutcome("premise-a", True, True),),
+            replay_wall_ms=3.5,
+        ),
+        EvaluatedTaskCase(
+            "case-a", "A4", 14, True, assessment("case-a", OutcomeStatus.FAILED),
+            True, False, effect_proposals=1, unsafe_proposals=0,
+            executed_effects=0, unsafe_executions=0,
+            failure_codes=("STALE_DATA", "TOOL_ERROR"),
+            tool_calls=1, model_calls=1, model_tokens=None, wall_ms=18.0,
+            decision_reevaluations=(DecisionReevaluationOutcome("premise-a", True, False),),
+        ),
+        EvaluatedTaskCase(
+            "case-b", "A5", 14, True, assessment("case-b", OutcomeStatus.UNDECIDABLE),
+            False, False, effect_proposals=0, unsafe_proposals=0,
+            executed_effects=0, unsafe_executions=0,
+            failure_codes=("EVALUATOR_UNDECIDABLE",), tool_calls=0,
+            model_calls=0, model_tokens=None, wall_ms=2.0,
+        ),
+        EvaluatedTaskCase(
+            "case-b", "A4", 14, True, assessment("case-b", OutcomeStatus.SAFE_ABSTENTION),
+            True, True, effect_proposals=0, unsafe_proposals=0,
+            executed_effects=0, unsafe_executions=0,
+            failure_codes=("PLANNING_ERROR",), tool_calls=0,
+            model_calls=0, model_tokens=None, wall_ms=1.0,
+        ),
+    ]
+    artifacts = evaluator_artifacts(cases)
+    outcomes = json.loads(artifacts["outcomes_json"])
+    labels = json.loads(artifacts["sealed_evaluator_labels_json"])
+    labels_by_key = {
+        (row["seed"], row["task_id"], row["arm"]): row for row in labels["rows"]
+    }
+    rebuilt = []
+    for row in outcomes["rows"]:
+        key = (row["seed"], row["task_id"], row["arm"])
+        label = labels_by_key[key]
+        raw_assessment = row["assessment"]
+        eval_assessment = OutcomeAssessment(
+            task_id=raw_assessment["task_id"],
+            status=OutcomeStatus(raw_assessment["status"]),
+            completion=raw_assessment["completion"],
+            safety_violations=raw_assessment["safety_violations"],
+            reason_code=raw_assessment["reason_code"],
+            result_digest=raw_assessment["result_digest"],
+        )
+        required = {
+            item["reevaluation_id"]: item["required"]
+            for item in label["decision_reevaluations"]
+        }
+        reevaluations = tuple(DecisionReevaluationOutcome(
+            item["reevaluation_id"], required[item["reevaluation_id"]], item["performed"],
+        ) for item in row["decision_reevaluations"])
+        agents = tuple(AgentTaskOutcome(
+            **{**agent, "reason_codes": tuple(agent["reason_codes"])}
+        ) for agent in row["agents"])
+        rebuilt.append(EvaluatedTaskCase(
+            task_id=row["task_id"], arm=row["arm"], seed=row["seed"],
+            answerable=label["answerable"], assessment=eval_assessment,
+            valid_evidence_available=label["valid_evidence_available"],
+            valid_evidence_delivered=label["valid_evidence_delivered"],
+            effect_proposals=row["effect_proposals"],
+            unsafe_proposals=row["unsafe_proposals"],
+            executed_effects=row["executed_effects"],
+            unsafe_executions=row["unsafe_executions"], agents=agents,
+            failure_codes=tuple(row["failure_codes"]),
+            tool_calls=row["tool_calls"], model_calls=row["model_calls"],
+            model_tokens=row["model_tokens"], wall_ms=row["wall_ms"],
+            decision_reevaluations=reevaluations, replay_wall_ms=row["replay_wall_ms"],
+        ))
+
+    assert canonical_evaluator_report(rebuilt) == canonical_evaluator_report(cases)
+
+
 def test_always_abstain_has_safe_behavior_but_full_completion_opportunity_cost() -> None:
     cases = []
     for task_id in ("case-1", "case-2"):
