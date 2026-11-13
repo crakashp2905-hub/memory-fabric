@@ -21,27 +21,36 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
     assert report["parity_status"] == "PASS"
     assert report["mechanical_parity"]["status"] == "INCOMPLETE_NOT_RUN_ARMS"
     assert all(report["mechanical_parity"]["checks"].values())
-    assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A3", "A5", "A6"]
+    assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A5", "A6"]
     assert report["task_ids"] == expected_ids
     mapped_legacy = tuple(
         arm["legacy_arm"] for arm in OUTCOME_ARMS
-        if arm["legacy_arm"] not in (None, "no_memory")
+        if arm["legacy_arm"] in ARMS
     )
     assert mapped_legacy == ("isolated", "pooled_shared", "memory_fabric", "oracle")
+    assert OUTCOME_ARMS[3]["legacy_arm"] == "pooled_shared_plus_recovery"
     assert "blanket_retraction" in ARMS
     by_id = {arm["id"]: arm for arm in report["arms"]}
     assert [arm["id"] for arm in report["arms"]] == [f"A{index}" for index in range(8)]
     for arm in report["arms"]:
         assert arm["task_ids"] == expected_ids
-    for arm_id in ("A3", "A5", "A6"):
+    for arm_id in ("A5", "A6"):
         assert by_id[arm_id]["status"] == "NOT_RUN"
         assert by_id[arm_id]["case_outcomes"] == []
-    for arm_id in ("A0", "A1", "A2", "A4", "A7"):
+    for arm_id in ("A0", "A1", "A2", "A3", "A4", "A7"):
         assert by_id[arm_id]["status"] == "RUN"
         legacy_name = by_id[arm_id]["legacy_arm"]
         assert by_id[arm_id]["counts"] == run_legacy_arm(
             seed, agent_count, legacy_name
         )["counts"]
+    assert by_id["A3"]["counts"] == by_id["A2"]["counts"]
+    assert by_id["A3"]["observed_resource_use"]["retrieval_calls"] == 90
+    assert by_id["A2"]["observed_resource_use"]["retrieval_calls"] == 80
+    assert by_id["A3"]["observed_resource_use"]["recovery_search_calls"] == 10
+    assert by_id["A3"]["observed_resource_use"]["recovery_alternates_found"] == 0
+    assert len(by_id["A3"]["recovery_trace"]) == 10
+    assert all(item["status"] == "ABSTAINED"
+               for item in by_id["A3"]["recovery_trace"])
 
 
 def test_evaluator_grade_is_independent_of_arm_labels() -> None:

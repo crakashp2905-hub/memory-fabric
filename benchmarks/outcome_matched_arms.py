@@ -35,8 +35,8 @@ OUTCOME_ARMS = (
     {"id": "A0", "name": "no_memory", "legacy_arm": "no_memory", "status": "RUN"},
     {"id": "A1", "name": "local_only", "legacy_arm": "isolated", "status": "RUN"},
     {"id": "A2", "name": "pooled_shared", "legacy_arm": "pooled_shared", "status": "RUN"},
-    {"id": "A3", "name": "pooled_shared_plus_recovery", "legacy_arm": None,
-     "status": "NOT_RUN"},
+    {"id": "A3", "name": "pooled_shared_plus_recovery",
+     "legacy_arm": "pooled_shared_plus_recovery", "status": "RUN"},
     {"id": "A4", "name": "memory_fabric", "legacy_arm": "memory_fabric", "status": "RUN"},
     {"id": "A5", "name": "memory_fabric_recovery", "legacy_arm": None, "status": "NOT_RUN"},
     {"id": "A6", "name": "memory_fabric_recovery_cdm", "legacy_arm": None,
@@ -45,7 +45,7 @@ OUTCOME_ARMS = (
 )
 _PARITY_FIELDS = (
     "runtime_tool", "runtime_permission_grants", "tool_registry_order",
-    "context_budget_max", "retrieval_calls", "context_items_exposed",
+    "context_budget_max", "retrieval_call_budget", "context_items_exposed",
     "simulated_decision_attempts", "external_tool_calls", "wall_time_budget_ms",
     "model_calls", "model_tokens", "model_usd",
 )
@@ -94,13 +94,15 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         if arm_spec["status"] == "NOT_RUN":
             arms.append({
                 **base,
-                "reason": "Required recovery/CDM intervention is not integrated yet.",
+                "reason": "Governed recovery or CDM intervention is not integrated yet.",
                 "task_ids": expected_ids,
                 "case_outcomes": [],
             })
             continue
         legacy_arm = arm_spec["legacy_arm"]
-        if legacy_arm not in LEGACY_ARMS and legacy_arm != "no_memory":
+        if legacy_arm not in LEGACY_ARMS and legacy_arm not in {
+            "no_memory", "pooled_shared_plus_recovery",
+        }:
             raise RuntimeError(f"unrecognized legacy matched arm: {legacy_arm}")
         legacy = run_legacy_arm(seed, agent_count, legacy_arm)
         task_rows = legacy["task_manifest"]
@@ -120,7 +122,7 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
                 "agent_count": agent_count,
                 "legacy_counts": decision,
                 "source_arm": legacy_arm,
-                "legacy_counts_reproducible": True,
+                "legacy_counts_reproducible": legacy_arm in LEGACY_ARMS,
             })
         arms.append({
             **base,
@@ -129,6 +131,12 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             "task_ids": task_ids,
             "case_outcomes": case_outcomes,
             "parity_metadata": {field: legacy[field] for field in _PARITY_FIELDS},
+            "observed_resource_use": {
+                "retrieval_calls": legacy["retrieval_calls"],
+                "recovery_search_calls": legacy["recovery_search_calls"],
+                "recovery_alternates_found": legacy["recovery_alternates_found"],
+            },
+            "recovery_trace": legacy["recovery_trace"],
         })
 
     all_task_ids_match = all(arm["task_ids"] == expected_ids for arm in arms)
@@ -145,9 +153,14 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         "same_task_ids_all_arms": all_task_ids_match,
         "parity_status": "PASS" if all_task_ids_match else "FAIL",
         "mechanical_parity": _mechanical_parity(arms),
+        "recovery_arm_interpretation": (
+            "A3 executed bounded alternate-source searches; the current corrected cases have "
+            "no independent replacement source, so no recovery completion can be claimed."
+        ),
         "arms": arms,
         "limitations": [
-            "A3, A5, and A6 remain NOT_RUN until pooled recovery, governed recovery, and CDM are integrated.",
+            "A5 and A6 remain NOT_RUN until governed recovery and CDM are integrated.",
+            "A3 is operational but has zero authorized replacement sources in the current task fixture.",
             "Legacy agent-count repetitions share world/task cases and are not independent samples.",
             "No local model or production outcome is measured.",
         ],

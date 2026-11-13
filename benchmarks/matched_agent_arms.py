@@ -15,7 +15,10 @@ from typing import Any
 from benchmarks.agent_scale import AGENT_COUNTS, FAMILIES, ROOT, SEEDS, task_manifest
 from benchmarks.manifest import capture_environment, head
 from memory_fabric import MemoryFabric
+from memory_fabric.agent_outcomes.eligibility import EvidenceFailure, EvidenceFailureKind
+from memory_fabric.agent_outcomes.recovery import RecoveryEpisode
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
+from memory_fabric.identity import DEFAULT_TENANT
 
 ARMS = ("isolated", "pooled_shared", "blanket_retraction", "memory_fabric", "oracle")
 TOOL = "publish"
@@ -23,6 +26,21 @@ TOOL_CATALOG = ("publish", "archive", "notify")
 FAILURE_CLASSES = ("retrieval", "insufficient_evidence", "policy_refusal", "coordination", "tool_error")
 HIGH_RISK_FAMILIES = frozenset({"corrected", "contested"})
 WALL_TIME_BUDGET_MS_PER_RUN = 10_000
+
+
+class _CaseScopedFabric:
+    """Restrict a recovery lookup to evidence registered for the current task."""
+
+    def __init__(self, fabric: MemoryFabric, candidate_ids: tuple[str, ...]) -> None:
+        self._fabric = fabric
+        self._candidate_ids = candidate_ids
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._fabric, name)
+
+    def retrieve(self, *args: Any, **kwargs: Any) -> Any:
+        kwargs["within"] = self._candidate_ids
+        return self._fabric.retrieve(*args, **kwargs)
 
 
 def _percentile(values: list[float], p: float) -> float:
@@ -72,7 +90,8 @@ def randomized_tool_catalog(seed: int) -> list[str]:
 
 
 def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) -> dict[str, Any]:
-    if agent_count not in AGENT_COUNTS or arm not in (*ARMS, "no_memory"):
+    if agent_count not in AGENT_COUNTS or arm not in (*ARMS, "no_memory",
+                                                       "pooled_shared_plus_recovery"):
         raise ValueError("unknown agent count or arm")
     agents = (randomized_agent_ids(seed, agent_count) if randomize_order else
               [f"agent-{index:03d}" for index in range(agent_count)])
@@ -84,6 +103,9 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
              for family in FAMILIES}
     details = []
     retrieval_calls = 0
+    recovery_search_calls = 0
+    recovery_alternates_found = 0
+    recovery_trace: list[dict[str, Any]] = []
     context_items_exposed = 0
     per_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
     blanket_source_withdrawn = False
@@ -163,6 +185,48 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                         current = fresh_retrieval[agent]
                         allowed = bool(current)
                         reason = "shared_retrieval_hit" if allowed else "shared_retrieval_miss"
+                    elif arm == "pooled_shared_plus_recovery":
+                        current = fresh_retrieval[agent]
+                        if current:
+                            allowed = True
+                            reason = "shared_retrieval_hit"
+                        elif family == "corrected" and evidence_id is not None:
+                            episode = RecoveryEpisode(task["task_id"], enabled=True)
+                            alternate = episode.search_alternate_sources(
+                                EvidenceFailure(EvidenceFailureKind.STALE,
+                                                "stale_revision_epoch"),
+                                _CaseScopedFabric(fabric, candidate_ids=()),
+                                query=f"Record {case_key}",
+                                agent_id=agent,
+                                tenant_id=DEFAULT_TENANT,
+                                existing_evidence_ids=(evidence_id,),
+                                limit=5,
+                            )
+                            recovery_search_calls += 1
+                            retrieval_calls += 1
+                            recovery_alternates_found += len(alternate)
+                            if alternate:
+                                episode.record("re_retrieve", {
+                                    "progress_key": f"alternate:{task['task_id']}:{agent}",
+                                    "candidate_count": len(alternate),
+                                })
+                                allowed = True
+                                reason = "authorized_alternate_found"
+                            else:
+                                episode.record("evidence_blocked", {"reason": "NO_ALTERNATE"})
+                                episode.record("abstain", {"reason": "NO_AUTHORIZED_ALTERNATE"})
+                                allowed = False
+                                reason = "no_authorized_alternate"
+                            recovery_trace.append({
+                                "task_id": task["task_id"],
+                                "alternate_count": len(alternate),
+                                "status": episode.status.value,
+                                "steps": episode.steps,
+                                "search_attempts": episode.alternate_search_attempts,
+                            })
+                        else:
+                            allowed = bool(current)
+                            reason = "shared_retrieval_miss"
                     elif arm == "blanket_retraction":
                         allowed = (evidence_id is not None and family == "supported"
                                    and not blanket_source_withdrawn)
@@ -270,6 +334,10 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
             "agent_identity_order_sha256": _hash(agents),
             "agent_identity_scheme": "seeded_opaque_ids_v1" if randomize_order else "ordinal_control",
             "retrieval_calls": retrieval_calls,
+            "retrieval_call_budget": agent_count * len(tasks) * 3,
+            "recovery_search_calls": recovery_search_calls,
+            "recovery_alternates_found": recovery_alternates_found,
+            "recovery_trace": recovery_trace,
             "context_items_exposed": context_items_exposed,
             "simulated_decision_attempts": agent_count * len(tasks),
             "external_tool_calls": 0,
