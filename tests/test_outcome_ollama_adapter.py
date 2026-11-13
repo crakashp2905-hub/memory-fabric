@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
+from io import BytesIO
+from unittest.mock import patch
 
 import pytest
 
 from benchmarks.outcome_agents import InvalidModelStep, OllamaOutcomePlanner
 from memory_fabric.agent_outcomes.observations import AgentObservation
+from memory_fabric.adapters.ollama import OllamaClient
 
 
 class StubOllama:
@@ -45,7 +48,10 @@ def test_ollama_planner_sends_only_observation_and_validates_response() -> None:
     request = client.calls[0][1]
     assert json.loads(request[1]["content"]) == observation().to_dict()
     assert "expected_action" not in request[1]["content"]
-    assert client.calls[0][2] == {"temperature": 0.0, "num_predict": 160}
+    assert client.calls[0][2] == {
+        "temperature": 0.0, "num_predict": 160, "top_p": None,
+        "seed": None, "num_ctx": 4096,
+    }
 
 
 def test_ollama_planner_counts_invalid_json_tool_misuse_and_hallucinated_evidence() -> None:
@@ -64,3 +70,36 @@ def test_ollama_planner_requires_an_observation_contract() -> None:
     planner = OllamaOutcomePlanner("qwen2.5:3b", StubOllama(encoded_step()))
     with pytest.raises(TypeError, match="AgentObservation"):
         planner.decide({"truth": "hidden"}, actor_id="planner-1", step_id="step-1")
+
+
+def test_ollama_client_records_and_sends_available_decode_settings() -> None:
+    client = OllamaClient()
+    requests = []
+
+    def post(_path, payload):
+        requests.append(payload)
+        return {"message": {"content": "{}"}, "prompt_eval_count": 7, "eval_count": 2}
+
+    client._post = post
+    client.chat("model:latest", [{"role": "user", "content": "task"}],
+                temperature=0.1, top_p=0.9, seed=42, num_ctx=2048, num_predict=160)
+    assert requests[0]["options"] == {
+        "temperature": 0.1, "top_p": 0.9, "seed": 42,
+        "num_ctx": 2048, "num_predict": 160,
+    }
+    record = client.calls[0]
+    assert (record.temperature, record.top_p, record.seed,
+            record.num_ctx, record.num_predict) == (0.1, 0.9, 42, 2048, 160)
+
+
+def test_ollama_inventory_exposes_digest_and_quantization() -> None:
+    response = BytesIO(json.dumps({"models": [{
+        "name": "model:latest", "digest": "a" * 64, "size": 100,
+        "modified_at": "2026-11-13T00:00:00Z",
+        "details": {"quantization_level": "Q4_K_M"},
+    }]}).encode())
+    with patch("urllib.request.urlopen", return_value=response):
+        inventory = OllamaClient().inventory()
+    assert inventory[0]["name"] == "model:latest"
+    assert inventory[0]["digest"] == "a" * 64
+    assert inventory[0]["details"]["quantization_level"] == "Q4_K_M"

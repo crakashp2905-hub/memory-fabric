@@ -59,6 +59,7 @@
         "benchmarks/matched_agent_arms.py",
         "tests/test_matched_agent_arms.py",
         "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/adapters/ollama.py",
         "src/memory_fabric/reasons.py",
         "tests/test_agent_outcome_recovery_catalog.py",
         "tests/test_outcome_recovery_feature_flag.py",

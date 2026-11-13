@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import MappingProxyType
@@ -29,7 +30,10 @@ class OllamaOutcomePlanner:
         "evidence_versions (array of [memory_id, version]). Never invent evidence IDs."
     )
 
-    def __init__(self, model: str, client: Any, *, temperature: float = 0.0,
+    def __init__(self, model: str, client: Any, *, model_digest: str | None = None,
+                 quantization: str | None = None,
+                 temperature: float = 0.0, top_p: float | None = None,
+                 seed: int | None = None, num_ctx: int = 4096,
                  num_predict: int = 160) -> None:
         if not isinstance(model, str) or not model.strip():
             raise ValueError("a pinned model name is required")
@@ -37,11 +41,27 @@ class OllamaOutcomePlanner:
             raise ValueError("temperature must be non-negative")
         if type(num_predict) is not int or not 1 <= num_predict <= 4096:
             raise ValueError("num_predict must be from 1 through 4096")
+        if model_digest is not None and not re.fullmatch(r"(?:sha256:)?[0-9a-f]{64}", model_digest):
+            raise ValueError("model_digest must be a SHA-256 digest")
+        if quantization is not None and (not isinstance(quantization, str) or not quantization.strip()):
+            raise ValueError("quantization must be non-empty text or None")
+        if top_p is not None and (isinstance(top_p, bool) or not isinstance(top_p, (int, float))
+                                  or not 0 < top_p <= 1):
+            raise ValueError("top_p must be greater than zero and at most one")
+        if seed is not None and (type(seed) is not int or seed < 0):
+            raise ValueError("seed must be a non-negative integer or None")
+        if type(num_ctx) is not int or not 1 <= num_ctx <= 1_000_000:
+            raise ValueError("num_ctx must be from 1 through 1000000")
         if not callable(getattr(client, "chat", None)):
             raise TypeError("client must provide chat")
         self.model = model
+        self.model_digest = model_digest
+        self.quantization = quantization
         self.client = client
         self.temperature = float(temperature)
+        self.top_p = float(top_p) if top_p is not None else None
+        self.seed = seed
+        self.num_ctx = num_ctx
         self.num_predict = num_predict
         self.invalid_json = 0
         self.tool_misuse = 0
@@ -60,6 +80,9 @@ class OllamaOutcomePlanner:
             ],
             temperature=self.temperature,
             num_predict=self.num_predict,
+            top_p=self.top_p,
+            seed=self.seed,
+            num_ctx=self.num_ctx,
         )
         content = response.get("message", {}).get("content")
         try:
