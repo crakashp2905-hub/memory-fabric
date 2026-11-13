@@ -150,6 +150,13 @@ without a positive A6–A5 interval and adjusted sign test. These are analysis
 gates, not promotion authority; the production preregistration remains DRAFT
 until its remaining design fields are frozen.
 
+For each confirmatory seed, compare A5's least successful agent completion rate
+with the stronger of A3 and A4; any regression is `HOLD`. Retain the same
+registered agent roster across arms and task cases. Every seed must include a
+required correction reevaluation for A5, and each such reevaluation must be
+performed and end in evaluator-verified completion. Missing per-agent or
+correction evidence is `NOT_ASSESSABLE` and cannot pass the gate.
+
 ## Confirmatory split and attempt-history guard
 
 `research/prereg/agent-outcome-confirmatory-v1.json` is deliberately

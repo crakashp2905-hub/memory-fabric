@@ -116,6 +116,10 @@ def test_report_applies_registered_contrasts_and_holm_adjustment() -> None:
     assert report["contrasts"]["A5-A3"]["paired_cluster_bootstrap_ci_95"] == [0.0, 1.0]
     assert report["primary_improvement_gate"]["status"] == "HOLD"
     assert report["primary_improvement_gate"]["promotion_authorized"] is False
+    assert report["robustness_gate"]["status"] == "NOT_ASSESSABLE"
+    assert report["primary_improvement_gate"]["least_agent_and_correction_gate"] == (
+        "NOT_ASSESSABLE"
+    )
     assert report["cdm_incremental_assessment"]["status"] == "INELIGIBLE"
     assert report["cdm_incremental_assessment"]["promotion_authorized"] is False
     assert report["cdm_incremental_assessment"]["a6_replay_wall_ms_mean_per_case"] == 10
@@ -243,3 +247,48 @@ def test_paired_cluster_interval_is_deterministic_and_resamples_case_pairs() -> 
     assert first == second
     assert first[0] <= 0 <= first[1]
     assert _paired_cluster_bootstrap_ci([1, 1], iterations=100) == [1.0, 1.0]
+
+
+def test_robustness_gate_requires_least_agent_parity_and_correction_recovery_each_seed() -> None:
+    manifest = frozen_manifest()
+    outcomes, labels = artifacts()
+    for row in outcomes["rows"]:
+        status = row["assessment"]["status"]
+        row["agents"] = [
+            {"agent_id": agent, "status": status} for agent in ("agent-a", "agent-b")
+        ]
+        row["decision_reevaluations"] = []
+    target = next(row for row in outcomes["rows"]
+                  if row["arm"] == "A5" and row["task_id"] == "case-one")
+    target["decision_reevaluations"] = [
+        {"reevaluation_id": "correction-one", "performed": True}
+    ]
+    label = next(row for row in labels["rows"]
+                 if row["arm"] == "A5" and row["task_id"] == "case-one")
+    label["decision_reevaluations"] = [
+        {"reevaluation_id": "correction-one", "required": True}
+    ]
+    for row in labels["rows"]:
+        row.setdefault("decision_reevaluations", [])
+
+    report = confirmatory_report(
+        manifest, outcomes, labels, [attempt(manifest)], manifest_sha256="m",
+        outcomes_sha256="o", labels_sha256="l",
+    )
+    assert report["robustness_gate"]["status"] == "PASS"
+    assert report["robustness_gate"]["by_seed"]["201"][
+        "least_agent_non_regression_passed"
+    ] is True
+    assert report["robustness_gate"]["by_seed"]["201"][
+        "missed_or_incomplete_corrections"
+    ] == 0
+
+    target["decision_reevaluations"][0]["performed"] = False
+    failed = confirmatory_report(
+        manifest, outcomes, labels, [attempt(manifest)], manifest_sha256="m",
+        outcomes_sha256="o", labels_sha256="l",
+    )
+    assert failed["robustness_gate"]["status"] == "HOLD"
+    assert failed["robustness_gate"]["by_seed"]["201"][
+        "missed_or_incomplete_corrections"
+    ] == 1

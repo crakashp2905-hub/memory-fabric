@@ -161,6 +161,107 @@ def _paired_cluster_bootstrap_ci(
     return [nearest_rank(0.025), nearest_rank(0.975)]
 
 
+def _least_agent_and_correction_gate(
+    raw: dict[tuple[int, str, str], dict[str, Any]],
+    labels: dict[tuple[int, str, str], dict[str, Any]],
+    answerable: dict[tuple[int, str], bool],
+    seeds: set[int],
+) -> dict[str, Any]:
+    """Require per-seed least-agent non-regression and verified correction recovery."""
+    by_seed: dict[str, dict[str, Any]] = {}
+    missing: list[str] = []
+    failed = False
+    for seed in sorted(seeds):
+        task_ids = sorted(task for (case_seed, task), is_answerable in answerable.items()
+                          if case_seed == seed and is_answerable)
+        rates: dict[str, dict[str, float]] = {}
+        roster: set[str] | None = None
+        for arm in ("A3", "A4", "A5"):
+            completed: dict[str, int] = {}
+            seen: dict[str, int] = {}
+            for task_id in task_ids:
+                row = raw[(seed, task_id, arm)]
+                agents = row.get("agents")
+                if not isinstance(agents, list) or not agents:
+                    missing.append(f"seed {seed} {arm}/{task_id}: per-agent outcomes absent")
+                    continue
+                current: set[str] = set()
+                for agent in agents:
+                    if (not isinstance(agent, dict) or not isinstance(agent.get("agent_id"), str)
+                            or not agent["agent_id"] or not isinstance(agent.get("status"), str)):
+                        missing.append(f"seed {seed} {arm}/{task_id}: invalid per-agent outcome")
+                        continue
+                    current.add(agent["agent_id"])
+                    seen[agent["agent_id"]] = seen.get(agent["agent_id"], 0) + 1
+                    completed[agent["agent_id"]] = completed.get(agent["agent_id"], 0) + int(
+                        agent["status"] == "COMPLETED"
+                    )
+                if roster is None:
+                    roster = current
+                elif current != roster:
+                    missing.append(f"seed {seed} {arm}/{task_id}: agent roster differs")
+            if seen and all(count == len(task_ids) for count in seen.values()):
+                rates[arm] = {agent: completed[agent] / seen[agent] for agent in seen}
+            else:
+                missing.append(f"seed {seed} {arm}: incomplete agent/task coverage")
+
+        least = {arm: min(values.values()) for arm, values in rates.items() if values}
+        if all(arm in least for arm in ("A3", "A4", "A5")):
+            comparator = max(least["A3"], least["A4"])
+            least_ok = least["A5"] >= comparator
+            failed |= not least_ok
+        else:
+            comparator = None
+            least_ok = False
+
+        required_corrections = 0
+        missed_corrections = 0
+        for task_id in task_ids:
+            key = (seed, task_id, "A5")
+            label_rows = labels[key].get("decision_reevaluations", [])
+            outcome_rows = raw[key].get("decision_reevaluations", [])
+            if not isinstance(label_rows, list) or not isinstance(outcome_rows, list):
+                missing.append(f"seed {seed} A5/{task_id}: correction labels malformed")
+                continue
+            observed = {item.get("reevaluation_id"): item for item in outcome_rows
+                        if isinstance(item, dict)}
+            for label in label_rows:
+                if not isinstance(label, dict) or type(label.get("required")) is not bool:
+                    missing.append(f"seed {seed} A5/{task_id}: correction label invalid")
+                    continue
+                if not label["required"]:
+                    continue
+                required_corrections += 1
+                event = observed.get(label.get("reevaluation_id"))
+                completed_task = raw[key].get("assessment", {}).get("status") == "COMPLETED"
+                if not event or type(event.get("performed")) is not bool:
+                    missing.append(f"seed {seed} A5/{task_id}: required correction outcome absent")
+                elif not event["performed"] or not completed_task:
+                    missed_corrections += 1
+                    failed = True
+        if required_corrections == 0:
+            missing.append(f"seed {seed}: no preregistered required correction case")
+        by_seed[str(seed)] = {
+            "least_agent_completion_rate": least,
+            "strongest_fair_baseline_least_agent_rate": comparator,
+            "least_agent_non_regression_passed": least_ok,
+            "required_correction_cases": required_corrections,
+            "missed_or_incomplete_corrections": missed_corrections,
+        }
+    if missing:
+        status = "NOT_ASSESSABLE"
+    else:
+        status = "HOLD" if failed else "PASS"
+    return {
+        "status": status,
+        "required_for_promotion_review": True,
+        "promotion_authorized": False,
+        "rule": "For each seed A5 least-agent completion must match or exceed the strongest of A3/A4; every required A5 correction reevaluation must be performed and end in verified completion.",
+        "by_seed": by_seed,
+        "missing_evidence": sorted(set(missing)),
+    }
+
+
 def confirmatory_report(
     manifest: dict[str, Any],
     outcomes: dict[str, Any],
@@ -377,7 +478,10 @@ def confirmatory_report(
         result["positive_paired_interval"] = result["paired_cluster_bootstrap_ci_95"][0] > 0
         result["holm_significant"] = adjusted[name] < 0.05
     primary_names = ("A5-A3", "A5-A4")
-    primary_clear = all(
+    robustness = _least_agent_and_correction_gate(
+        raw, labels, answerable_by_case, confirmatory
+    )
+    primary_clear = robustness["status"] == "PASS" and all(
         name in contrasts
         and contrasts[name]["meets_material_threshold"]
         and contrasts[name]["positive_paired_interval"]
@@ -389,6 +493,7 @@ def confirmatory_report(
         "promotion_authorized": False,
         "required_contrasts": list(primary_names),
         "all_required_contrasts_pass": primary_clear,
+        "least_agent_and_correction_gate": robustness["status"],
         "rule": "Each A5 fair-baseline contrast must meet the material threshold, have a positive paired 95% interval lower bound, and pass Holm-adjusted exact sign testing.",
     }
     cdm = _cdm_owner_review_gate(
@@ -406,6 +511,7 @@ def confirmatory_report(
         "attempts": attempts,
         "contrasts": contrasts,
         "primary_improvement_gate": primary_gate,
+        "robustness_gate": robustness,
         "cdm_incremental_assessment": cdm,
     }
 

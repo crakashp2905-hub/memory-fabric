@@ -133,6 +133,10 @@ interval, and pass Holm-adjusted exact sign tests. Null or wide intervals remain
 `HOLD`; the analyzer never authorizes promotion. The draft protocol currently
 has no confirmatory seeds or outcome artifacts, so no A5/A6 effect estimate is
 claimed.
+The same report requires per-seed least-agent parity against the stronger fair
+baseline and evaluator-confirmed correction recovery in each seed. Missing
+per-agent or correction labels are `NOT_ASSESSABLE`, which keeps the comparison
+on `HOLD`.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is
