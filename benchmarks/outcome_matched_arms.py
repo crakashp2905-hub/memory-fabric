@@ -115,7 +115,10 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
                 "reason": (
                     "CDM cannot yet run on these matched cases: the harness does not create "
                     "authenticated decision records or provide the registered local replay "
-                    "runner required for a verified advisory ReplayCertificate."
+                    "runner required for a verified advisory ReplayCertificate. The current "
+                    "captured-replay path also requires source evidence to remain currently "
+                    "admissible, so a quarantined historical source cannot be replayed as "
+                    "though it were still available."
                 ),
                 "task_ids": expected_ids,
                 "case_outcomes": [],
