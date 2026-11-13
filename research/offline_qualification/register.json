@@ -6,8 +6,8 @@
     "tasks": 260
   },
   "source": {
-    "commit": "f42f9c1aa57e540a599d509a0ecfd86636ba5c75",
-    "dirty": true
+    "commit": "a206b3638a20afea64c5fc6097019f6d40109733",
+    "dirty": false
   },
   "summary": {
     "counts": {
@@ -1508,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "1c554645c6761492a35e6eecc23dcaf9114521759fdce757b8e62be31054b00a",
         "tests/test_benchmarks.py": "83a2538d988fec3cf5d6d3da4121c1e6f5c0798564e538b13215c22756a6170e",
-        "research/results/MANIFEST.json": "78d453c6f97555012463247c66c4e11ac5df523e79a4888fbf09b9340c0c99c6",
+        "research/results/MANIFEST.json": "fcf267457607122f73b70077e6c6d452e63c4fe5059912ff6a41b86f0284018d",
         "research/results/BENCHMARK_SCOREBOARD.md": "ff33eb9d5cd1911611664ba8c272872796ecc9df5d0b2fbb7d9e27f3c52f473e",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
