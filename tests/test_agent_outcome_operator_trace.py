@@ -4,7 +4,9 @@ import hashlib
 
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
-from memory_fabric.agent_outcomes import RecoveryEpisode, operator_trace
+from memory_fabric.agent_outcomes import (
+    RecoveryEpisode, explain_task_outcome, operator_trace,
+)
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
 
@@ -51,6 +53,16 @@ def test_operator_trace_shows_failure_recovery_reauthorization_and_separate_verd
             "VERIFIED_TERMINAL_STATE"
         )
 
+        explanation = explain_task_outcome(episode, assessment)
+        assert explanation == {
+            "schema_id": "memory-fabric.agent-outcome-user-explanation.v1",
+            "outcome": "The task completed and its final state was independently verified.",
+            "why": "The source changed after the plan was prepared.",
+            "blocked_source_id": "sensor:pressure",
+            "next_step": "No further action is needed for this task.",
+            "operator_handoff": False,
+        }
+
         operator_json = str(rendered["operator_events"])
         assert "expected_terminal_digest" not in operator_json
         assert "hidden-oracle-label" not in operator_json
@@ -87,3 +99,28 @@ def test_recovery_time_uses_verified_monotonic_completion_and_survives_no_restar
         "recovery_elapsed_ms": None,
         "recovery_steps": 1,
     }
+
+
+def test_user_explanation_hands_off_unauthorized_evidence_without_leaking_details() -> None:
+    episode = RecoveryEpisode("user-explanation", enabled=True)
+    assert episode.record("evidence_blocked", {
+        "cause_code": "EVIDENCE_UNAUTHORIZED",
+        "source_id": "source:restricted",
+        "content": "PRIVATE_SOURCE_CANARY",
+        "expected_terminal_digest": "ORACLE_CANARY",
+    })
+    assessment = OutcomeAssessment(
+        "user-explanation", OutcomeStatus.SAFE_ABSTENTION, False, 0,
+        "SAFE_TERMINAL_ABSTENTION", hashlib.sha256(b"abstention").hexdigest(),
+    )
+
+    explanation = explain_task_outcome(episode, assessment)
+
+    assert explanation["blocked_source_id"] == "source:restricted"
+    assert explanation["why"] == "The agent was not authorized to use this source."
+    assert explanation["next_step"] == (
+        "Do not retry automatically; hand the task to an authorized operator."
+    )
+    assert explanation["operator_handoff"] is True
+    assert "PRIVATE_SOURCE_CANARY" not in str(explanation)
+    assert "ORACLE_CANARY" not in str(explanation)

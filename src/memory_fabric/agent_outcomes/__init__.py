@@ -19,7 +19,7 @@ from .recovery import (READ_ONLY_RECOVERY_CATALOG, ReadOnlyRecoveryCatalog, Reco
                        RecoveryStatus, classify_recovery_failure, recovery_guidance)
 from .eligibility import (AlternateEvidence, EvidenceFailure, EvidenceFailureKind,
                           classify_evidence_failure, search_alternate_sources)
-from .metrics import operator_trace
+from .metrics import explain_task_outcome, operator_trace
 
 __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "RecoveryEpisode",
            "RecoveryLimits", "RecoveryStatus", "EvidenceFailure", "EvidenceFailureKind",
@@ -31,4 +31,5 @@ __all__ = ["AgentObservation", "AgentStep", "EpisodeOutcome", "RecoveryEpisode",
            "AgentEpisodeAudit", "ReplayOutcomeInterpretation", "ReplayFidelity",
            "CompletionComparison", "MAX_TOOL_REQUEST_BYTES", "parse_agent_request",
            "AgentPort", "EvaluatorPort", "EvaluatorCallbackNotice", "EvaluatorDispatch",
-           "build_episode_boundary", "grade_after_episode", "operator_trace"]
+           "build_episode_boundary", "grade_after_episode", "operator_trace",
+           "explain_task_outcome"]

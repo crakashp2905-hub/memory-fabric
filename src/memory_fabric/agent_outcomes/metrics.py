@@ -2,13 +2,43 @@
 
 from __future__ import annotations
 
+import re
+from types import SimpleNamespace
 from typing import Any
 
 from .outcomes import OutcomeAssessment
 from .privacy import redact_public
-from .recovery import RecoveryEpisode
+from .recovery import RecoveryAction, RecoveryEpisode, recovery_guidance
 
 __stability__ = "experimental"
+
+_SOURCE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$")
+_CAUSE_EXPLANATIONS = {
+    "EVIDENCE_MISSING": "No authorized source provided the information needed for this task.",
+    "EVIDENCE_WITHHELD": "The information exists, but this agent could not access it.",
+    "EVIDENCE_IRRELEVANT": "The available source did not support the requested decision.",
+    "EVIDENCE_STALE": "The source changed after the plan was prepared.",
+    "EVIDENCE_CONTESTED": "The source conflicts with another credible record.",
+    "EVIDENCE_UNAUTHORIZED": "The agent was not authorized to use this source.",
+    "EVIDENCE_ERASED": "The source was erased and cannot be used.",
+    "EVIDENCE_DUPLICATE": "The source repeated evidence already counted for this decision.",
+    "EVIDENCE_INSUFFICIENT": "The evidence did not meet the support required for this decision.",
+    "UNKNOWN": "The recovery trace does not identify why the evidence was blocked.",
+}
+_NEXT_STEP_TEXT = {
+    RecoveryAction.RERETRIEVE: "Search the evidence this agent is currently authorized to access again.",
+    RecoveryAction.INSPECT_PROVENANCE: "Ask an authorized operator to review the source and its history.",
+    RecoveryAction.REQUEST_CURRENT_OBSERVATION: "Request a fresh observation from the approved source.",
+    RecoveryAction.ASK_CLARIFICATION: "Ask the requester to clarify the required condition.",
+    RecoveryAction.REPLAN: "Prepare a new plan using current authorized evidence.",
+}
+_OUTCOME_TEXT = {
+    "COMPLETED": "The task completed and its final state was independently verified.",
+    "SAFE_ABSTENTION": "The agent stopped safely without completing the requested task.",
+    "FAILED": "The task did not reach a verified successful final state.",
+    "UNSAFE": "Unsafe activity was detected; stop and escalate immediately.",
+    "UNDECIDABLE": "The final state could not be verified; reconcile it before any retry.",
+}
 
 
 _DETAIL_FIELDS: dict[str, frozenset[str]] = {
@@ -84,6 +114,51 @@ def operator_trace(
             episode, assessment, verified_completion_monotonic,
         ),
         "model_status": "REAL_AGENT_NOT_RUN",
+    })
+
+
+def explain_task_outcome(
+    episode: RecoveryEpisode,
+    assessment: OutcomeAssessment,
+) -> dict[str, Any]:
+    """Render a post-episode explanation without exposing oracle or source content.
+
+    This view is intended for a task requester. It names an opaque source ID
+    only when it matches the stable identifier grammar; it never emits source
+    text, evaluator digests, or internal authorization details.
+    """
+    if not isinstance(episode, RecoveryEpisode):
+        raise TypeError("episode must be a RecoveryEpisode")
+    if not isinstance(assessment, OutcomeAssessment) or assessment.task_id != episode.task_id:
+        raise ValueError("assessment must belong to the recovery episode")
+
+    blocked = next((event for event in episode.trace
+                    if event.get("kind") == "evidence_blocked"), None)
+    detail = blocked.get("detail", {}) if isinstance(blocked, dict) else {}
+    cause_code = detail.get("cause_code") if isinstance(detail, dict) else None
+    if not isinstance(cause_code, str) or cause_code not in _CAUSE_EXPLANATIONS:
+        cause_code = "UNKNOWN"
+    source_id = detail.get("source_id") if isinstance(detail, dict) else None
+    if not isinstance(source_id, str) or not _SOURCE_ID.fullmatch(source_id):
+        source_id = None
+
+    status = assessment.status.value
+    if status not in _OUTCOME_TEXT:
+        status = "UNDECIDABLE"
+    guidance = recovery_guidance(SimpleNamespace(reason_code=cause_code))
+    if status == "COMPLETED" and assessment.completion:
+        next_step = "No further action is needed for this task."
+    elif guidance.next_action is not None:
+        next_step = _NEXT_STEP_TEXT[guidance.next_action]
+    else:
+        next_step = "Do not retry automatically; hand the task to an authorized operator."
+    return redact_public({
+        "schema_id": "memory-fabric.agent-outcome-user-explanation.v1",
+        "outcome": _OUTCOME_TEXT[status],
+        "why": _CAUSE_EXPLANATIONS[cause_code],
+        "blocked_source_id": source_id,
+        "next_step": next_step,
+        "operator_handoff": bool(guidance.operator_handoff or status in {"UNSAFE", "UNDECIDABLE"}),
     })
 
 

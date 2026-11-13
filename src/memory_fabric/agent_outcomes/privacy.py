@@ -16,7 +16,7 @@ _SAFE_TEXT_FIELDS = frozenset({
     "memory_id", "effect_id", "action", "receipt_id", "decision_id",
     "plan_sha256", "progress_key", "permitted_tools", "arm", "agent_id",
     "terminal_digest", "result_digest", "reason_codes", "source_id", "next_action",
-    "recovery_time_status",
+    "recovery_time_status", "why", "next_step", "blocked_source_id",
 })
 _SENSITIVE_FIELDS = frozenset({
     "content", "instruction", "prompt", "private", "raw", "secret", "password",

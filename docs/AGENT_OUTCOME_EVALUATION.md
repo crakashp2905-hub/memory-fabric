@@ -347,6 +347,17 @@ The event projection is allowlisted: unknown fields, including oracle labels,
 are dropped from operator events. The evaluator section is a post-run result,
 not evidence that the actor had access to the grader.
 
+For a task requester, `explain_task_outcome` converts the blocked-source cause
+into plain language, identifies a validated opaque source ID when available,
+states the verified task outcome, and recommends only the next action allowed
+by the recovery guidance. For example: “The task completed and its final state
+was independently verified. The source changed after the plan was prepared.
+Blocked source: `sensor:pressure`. No further action is needed for this task.”
+An unauthorized source instead recommends handoff to an authorized operator;
+it never recommends repeating a request that cannot succeed. The explanation
+omits source content, evaluator digests, and internal authorization details.
+This is a deterministic wording contract, not a usability study.
+
 ## Parallel scripted-agent latency probe
 
 Run `python benchmarks/outcome_matched_arms.py --workers 1,2,4 --tasks 64`
