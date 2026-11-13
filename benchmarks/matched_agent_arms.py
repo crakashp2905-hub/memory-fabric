@@ -12,7 +12,9 @@ from statistics import fmean
 from pathlib import Path
 from typing import Any
 
-from benchmarks.agent_scale import AGENT_COUNTS, FAMILIES, ROOT, SEEDS, task_manifest
+from benchmarks.agent_scale import (
+    AGENT_COUNTS, FAMILIES, ROOT, SEEDS, task_manifest,
+)
 from benchmarks.manifest import capture_environment, head
 from memory_fabric import MemoryFabric
 from memory_fabric.agent_outcomes.eligibility import EvidenceFailure, EvidenceFailureKind
@@ -89,23 +91,26 @@ def randomized_tool_catalog(seed: int) -> list[str]:
     return tools
 
 
-def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) -> dict[str, Any]:
+def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True,
+        task_cases: list[dict[str, str]] | None = None) -> dict[str, Any]:
     if agent_count not in AGENT_COUNTS or arm not in (*ARMS, "no_memory",
                                                        "pooled_shared_plus_recovery"):
         raise ValueError("unknown agent count or arm")
     agents = (randomized_agent_ids(seed, agent_count) if randomize_order else
               [f"agent-{index:03d}" for index in range(agent_count)])
     tool_order = randomized_tool_catalog(seed) if randomize_order else list(TOOL_CATALOG)
-    tasks = task_manifest(seed)
+    tasks = task_cases if task_cases is not None else task_manifest(seed)
+    families = tuple(dict.fromkeys((*FAMILIES, *(task["family"] for task in tasks))))
     result: dict[str, dict[str, Any]] = {family: {"attempted": 0, "correct": 0, "unsafe_actions": 0,
                        "stale_actions": 0, "false_abstentions": 0,
                        "failure_classes": {name: 0 for name in FAILURE_CLASSES}}
-             for family in FAMILIES}
+             for family in families}
     details = []
     retrieval_calls = 0
     recovery_search_calls = 0
     recovery_alternates_found = 0
     recovery_trace: list[dict[str, Any]] = []
+    recovery_candidates: dict[str, tuple[str, ...]] = {}
     context_items_exposed = 0
     per_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
     blanket_source_withdrawn = False
@@ -147,10 +152,19 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                 fabric.elevate(conflict, approver="reviewer", reason="fixture conflict checked")
                 fabric.challenge([evidence_id, conflict], evidence="contradictory fixture",
                                  detector_id="matched-agent-arms-v1")
-            if family == "corrected" and evidence_id:
+            if family in {"corrected", "recoverable"} and evidence_id:
                 fabric.quarantine(evidence_id, actor="reviewer", reason="source correction",
                                   basis="contradicted")
                 blanket_source_withdrawn = True
+                if family == "recoverable":
+                    replacement_id = fabric.remember(
+                        "independent-reviewer",
+                        f"Current verified Record {case_key} status code is 0.",
+                        scope="team", auto_activate=True,
+                    )
+                    fabric.elevate(replacement_id, approver="reviewer",
+                                   reason="independent current source checked")
+                    recovery_candidates[task["task_id"]] = (replacement_id,)
 
             # Every arm receives the same second retrieval opportunity and
             # operation budget after the task's lifecycle updates. Only
@@ -162,7 +176,7 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                     min_relevance=0.0).exposed
                 retrieval_calls += 1
 
-            expected = family == "supported"
+            expected = family in {"supported", "recoverable"}
             family_result = result[family]
             reason_codes: Counter[str] = Counter()
             failure_class_counts: Counter[str] = Counter()
@@ -190,12 +204,15 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                         if current:
                             allowed = True
                             reason = "shared_retrieval_hit"
-                        elif family == "corrected" and evidence_id is not None:
+                        elif family in {"corrected", "recoverable"} and evidence_id is not None:
                             episode = RecoveryEpisode(task["task_id"], enabled=True)
                             alternate = episode.search_alternate_sources(
                                 EvidenceFailure(EvidenceFailureKind.STALE,
                                                 "stale_revision_epoch"),
-                                _CaseScopedFabric(fabric, candidate_ids=()),
+                                _CaseScopedFabric(
+                                    fabric,
+                                    candidate_ids=recovery_candidates.get(task["task_id"], ()),
+                                ),
                                 query=f"Record {case_key}",
                                 agent_id=agent,
                                 tenant_id=DEFAULT_TENANT,
@@ -243,23 +260,32 @@ def run(seed: int, agent_count: int, arm: str, *, randomize_order: bool = True) 
                     allowed = False
                     reason = f"tool_error:{type(exc).__name__}"
                     failure_class_counts["tool_error"] += 1
-                failure_classes = classify_failure(arm, family, allowed, expected, reason)
+                unsafe = allowed and (
+                    not expected
+                    or (family in {"corrected", "recoverable"}
+                        and reason not in {"authorized_alternate_found", "oracle_label"})
+                )
+                failure_classes = classify_failure(
+                    arm, family, allowed and not unsafe, expected, reason,
+                )
+                if unsafe and "insufficient_evidence" not in failure_classes:
+                    failure_classes.append("insufficient_evidence")
                 failure_class_counts.update(failure_classes)
                 allowed_count += int(allowed)
-                mismatched_agents += int(allowed != expected)
-                unsafe = allowed and not expected
+                task_correct = allowed == expected and not unsafe
+                mismatched_agents += int(not task_correct)
                 unsafe_actions += int(unsafe)
-                stale_actions += int(allowed and family == "corrected")
+                stale_actions += int(allowed and family in {"corrected", "recoverable"} and unsafe)
                 false_abstentions += int(expected and not allowed)
                 per_agent[agent].append({
                     "task_id": task["task_id"], "family": family,
-                    "correct": allowed == expected,
+                    "correct": task_correct,
                     "unsafe_action": unsafe,
                     "high_risk": family in HIGH_RISK_FAMILIES,
                     "latency_ms": (time.perf_counter() - decision_started) * 1000,
                 })
                 family_result["attempted"] += 1
-                family_result["correct"] += int(allowed == expected)
+                family_result["correct"] += int(task_correct)
                 family_result["unsafe_actions"] += int(unsafe)
                 family_result["stale_actions"] += int(allowed and family == "corrected")
                 family_result["false_abstentions"] += int(expected and not allowed)

@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from benchmarks.agent_scale import task_manifest
+from benchmarks.agent_scale import outcome_task_manifest, task_manifest
 from benchmarks.matched_agent_arms import ARMS, run as run_legacy_arm
 from benchmarks.outcome_matched_arms import (
     OUTCOME_ARMS, _grade_case, build_outcome_matrix,
@@ -16,13 +16,19 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
     seed = 701
     agent_count = 5
     report = build_outcome_matrix(seed=seed, agent_count=agent_count)
-    expected_ids = [task["task_id"] for task in task_manifest(seed)]
+    expected_ids = [task["task_id"] for task in outcome_task_manifest(seed)]
+    legacy_ids = [task["task_id"] for task in task_manifest(seed)]
     assert report["same_task_ids_all_arms"] is True
     assert report["parity_status"] == "PASS"
     assert report["mechanical_parity"]["status"] == "INCOMPLETE_NOT_RUN_ARMS"
     assert all(report["mechanical_parity"]["checks"].values())
     assert report["mechanical_parity"]["excluded_not_run_arm_ids"] == ["A5", "A6"]
     assert report["task_ids"] == expected_ids
+    assert expected_ids[:len(legacy_ids)] == legacy_ids
+    comparison = report["strongest_non_oracle_comparison"]
+    assert comparison["promotion_status"] == "NOT_ASSESSED"
+    assert comparison["candidate_completion_rate"] > comparison["baseline_completion_rate"]
+    assert comparison["baseline_arm"] in {"A0", "A1", "A2", "A4"}
     mapped_legacy = tuple(
         arm["legacy_arm"] for arm in OUTCOME_ARMS
         if arm["legacy_arm"] in ARMS
@@ -41,16 +47,21 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
         assert by_id[arm_id]["status"] == "RUN"
         legacy_name = by_id[arm_id]["legacy_arm"]
         assert by_id[arm_id]["counts"] == run_legacy_arm(
-            seed, agent_count, legacy_name
+            seed, agent_count, legacy_name,
+            task_cases=outcome_task_manifest(seed),
         )["counts"]
-    assert by_id["A3"]["counts"] == by_id["A2"]["counts"]
-    assert by_id["A3"]["observed_resource_use"]["retrieval_calls"] == 90
-    assert by_id["A2"]["observed_resource_use"]["retrieval_calls"] == 80
-    assert by_id["A3"]["observed_resource_use"]["recovery_search_calls"] == 10
-    assert by_id["A3"]["observed_resource_use"]["recovery_alternates_found"] == 0
-    assert len(by_id["A3"]["recovery_trace"]) == 10
-    assert all(item["status"] == "ABSTAINED"
-               for item in by_id["A3"]["recovery_trace"])
+        if legacy_name in ARMS:
+            assert by_id[arm_id]["legacy_base_counts"] == run_legacy_arm(
+                seed, agent_count, legacy_name
+            )["counts"]
+    assert by_id["A3"]["counts"]["correct"] > by_id["A2"]["counts"]["correct"]
+    assert by_id["A3"]["observed_resource_use"]["retrieval_calls"] == 120
+    assert by_id["A2"]["observed_resource_use"]["retrieval_calls"] == 100
+    assert by_id["A3"]["observed_resource_use"]["recovery_search_calls"] == 20
+    assert by_id["A3"]["observed_resource_use"]["recovery_alternates_found"] == 10
+    assert len(by_id["A3"]["recovery_trace"]) == 20
+    assert sum(item["status"] == "ABSTAINED" for item in by_id["A3"]["recovery_trace"]) == 10
+    assert sum(item["status"] == "RECOVERED" for item in by_id["A3"]["recovery_trace"]) == 10
 
 
 def test_evaluator_grade_is_independent_of_arm_labels() -> None:

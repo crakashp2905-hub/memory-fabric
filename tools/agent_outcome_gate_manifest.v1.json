@@ -50,6 +50,7 @@
         "tests/test_agent_outcome_operator_trace.py",
         "benchmarks/outcome_matched_arms.py",
         "tests/test_outcome_matched_arms.py",
+        "benchmarks/agent_scale.py",
         "benchmarks/outcome_confirmatory.py",
         "benchmarks/outcome_agents.py",
         "benchmarks/outcome_model_status.py",

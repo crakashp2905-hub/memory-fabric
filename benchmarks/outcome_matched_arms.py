@@ -25,7 +25,7 @@ if str(_SOURCE_ROOT) not in sys.path:
 if str(_REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPOSITORY_ROOT))
 
-from benchmarks.agent_scale import task_manifest  # noqa: E402
+from benchmarks.agent_scale import outcome_task_manifest  # noqa: E402
 from benchmarks.matched_agent_arms import ARMS as LEGACY_ARMS  # noqa: E402
 from benchmarks.matched_agent_arms import run as run_legacy_arm  # noqa: E402
 from memory_fabric.agent_outcomes.observations import AgentObservation, AgentStep  # noqa: E402
@@ -86,7 +86,7 @@ def _mechanical_parity(arms: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
     """Adapt the existing matched harness to A0..A7 without changing its totals."""
-    expected_tasks = task_manifest(seed)
+    expected_tasks = outcome_task_manifest(seed)
     expected_ids = [task["task_id"] for task in expected_tasks]
     arms: list[dict[str, Any]] = []
     for arm_spec in OUTCOME_ARMS:
@@ -104,7 +104,7 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             "no_memory", "pooled_shared_plus_recovery",
         }:
             raise RuntimeError(f"unrecognized legacy matched arm: {legacy_arm}")
-        legacy = run_legacy_arm(seed, agent_count, legacy_arm)
+        legacy = run_legacy_arm(seed, agent_count, legacy_arm, task_cases=expected_tasks)
         task_rows = legacy["task_manifest"]
         task_ids = [row["task_id"] for row in task_rows]
         if task_ids != expected_ids:
@@ -128,6 +128,10 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             **base,
             "source_arm": legacy_arm,
             "counts": legacy["counts"],
+            "legacy_base_counts": (
+                run_legacy_arm(seed, agent_count, legacy_arm)["counts"]
+                if legacy_arm in LEGACY_ARMS else None
+            ),
             "task_ids": task_ids,
             "case_outcomes": case_outcomes,
             "parity_metadata": {field: legacy[field] for field in _PARITY_FIELDS},
@@ -140,6 +144,18 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         })
 
     all_task_ids_match = all(arm["task_ids"] == expected_ids for arm in arms)
+    non_oracle = [arm for arm in arms if arm["id"] in {"A0", "A1", "A2", "A3", "A4"}
+                  and arm["status"] == "RUN"]
+    completion_rates = {
+        arm["id"]: sum(case["case_completion"] for case in arm["case_outcomes"])
+        / len(expected_ids)
+        for arm in non_oracle
+    }
+    strongest_baseline = max(
+        (arm for arm in non_oracle if arm["id"] != "A3"),
+        key=lambda arm: completion_rates[arm["id"]],
+    )
+    a3_rate = completion_rates.get("A3", 0.0)
     return {
         "schema_id": "memory-fabric.outcome-matched-arms.v1",
         "population": "SCRIPTED_AGENT",
@@ -154,13 +170,23 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
         "parity_status": "PASS" if all_task_ids_match else "FAIL",
         "mechanical_parity": _mechanical_parity(arms),
         "recovery_arm_interpretation": (
-            "A3 executed bounded alternate-source searches; the current corrected cases have "
-            "no independent replacement source, so no recovery completion can be claimed."
+            "A3 executed bounded task-scoped searches. The two explicit recoverable correction "
+            "cases have independent replacement sources; ordinary corrected cases have none."
         ),
+        "strongest_non_oracle_comparison": {
+            "unit": "matched world/task case; descriptive scripted outcomes",
+            "candidate_arm": "A3",
+            "baseline_arm": strongest_baseline["id"],
+            "candidate_completion_rate": a3_rate,
+            "baseline_completion_rate": completion_rates[strongest_baseline["id"]],
+            "difference": a3_rate - completion_rates[strongest_baseline["id"]],
+            "promotion_status": "NOT_ASSESSED",
+            "reason": "This deterministic fixture is an implementation probe, not confirmatory evidence.",
+        },
         "arms": arms,
         "limitations": [
             "A5 and A6 remain NOT_RUN until governed recovery and CDM are integrated.",
-            "A3 is operational but has zero authorized replacement sources in the current task fixture.",
+            "A3 recovery improvement is descriptive on two scripted recoverable cases only.",
             "Legacy agent-count repetitions share world/task cases and are not independent samples.",
             "No local model or production outcome is measured.",
         ],
