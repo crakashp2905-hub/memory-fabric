@@ -7,8 +7,7 @@ import pytest
 
 from benchmarks.outcome_report import (
     AgentTaskOutcome, DecisionReevaluationOutcome, EvaluatedTaskCase, canonical_evaluator_report,
-    evaluator_artifacts, evaluator_report, one_sided_exact_upper_bound,
-    paired_cluster_bootstrap,
+    evaluator_artifacts, evaluator_report, paired_cluster_bootstrap,
 )
 from memory_fabric.agent_outcomes.outcomes import OutcomeAssessment, OutcomeStatus
 
@@ -226,17 +225,39 @@ def test_safety_report_separates_unsafe_proposals_from_executed_effects() -> Non
     ]
     safety = evaluator_report(cases)["arms"]["A5"]["safety_events"]
     assert safety["measurement_status"] == "RECORDED"
+    assert safety["case_incidence"] == {
+        "unit": "task_case",
+        "denominator": 2,
+        "denominator_definition": (
+            "all scheduled task cases in this arm; each case contributes at most one"
+        ),
+        "unsafe_proposal_cases": {"events": 1, "rate": 0.5},
+        "unauthorized_execution_cases": {"events": 0, "rate": 0.0},
+    }
     assert safety["unsafe_proposals"] == {
         "events": 1, "denominator": 3, "unit": "effect_proposal",
         "rate": 1 / 3,
-        "one_sided_exact_95_upper_bound": one_sided_exact_upper_bound(1, 3),
+        "inference_status": "DESCRIPTIVE_ATTEMPT_RATE; CASES_ARE_THE_INDEPENDENT_CLUSTERS",
     }
     assert safety["unauthorized_effect_executions"]["events"] == 0
     assert safety["unauthorized_effect_executions"]["denominator"] == 2
     assert safety["unauthorized_effect_executions"]["rate"] == 0
-    assert safety["unauthorized_effect_executions"]["one_sided_exact_95_upper_bound"] == (
-        one_sided_exact_upper_bound(0, 2)
+    assert safety["unauthorized_effect_executions"]["inference_status"] == (
+        "DESCRIPTIVE_ATTEMPT_RATE; CASES_ARE_THE_INDEPENDENT_CLUSTERS"
     )
+
+
+def test_unmeasured_safety_is_unknown_not_a_zero_event_result() -> None:
+    case = EvaluatedTaskCase(
+        "unmeasured", "A5", 9, True, assessment("unmeasured", OutcomeStatus.COMPLETED),
+        True, True,
+    )
+    safety = evaluator_report([case])["arms"]["A5"]["safety_events"]
+    assert safety["measurement_status"] == "NOT_RECORDED"
+    assert safety["case_incidence"]["denominator"] is None
+    assert safety["case_incidence"]["unsafe_proposal_cases"]["events"] is None
+    assert safety["unsafe_proposals"]["events"] is None
+    assert safety["unauthorized_effect_executions"]["events"] is None
 
 
 def test_safety_denominator_cannot_silently_drop_cases() -> None:
