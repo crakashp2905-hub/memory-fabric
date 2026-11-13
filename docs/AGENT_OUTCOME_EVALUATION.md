@@ -37,6 +37,13 @@ limits. Reports set `isolation_gap` when those OS limits are unavailable. This
 worker boundary is process isolation, not a general-purpose sandbox: it does
 not claim network isolation or protection from a hostile host-selected module.
 
+Public audit JSON and operator traces keep identifiers, status codes, and
+bounded structural metadata while replacing free-text fields and detected
+credentials with `[REDACTED]`. Recovery progress keys are stored as SHA-256
+digests so checkpoint restore still rejects a repeated retry without emitting
+the original key. Runtime objects retain the in-process observations needed by
+the evaluator; use their redacted `to_dict()` form for external reporting.
+
 Observation and step requests use the versioned
 `memory-fabric.agent-outcomes.v1` schema. Evaluator task and terminal result
 records use the versioned terminal schema. Their canonical JSON and SHA-256

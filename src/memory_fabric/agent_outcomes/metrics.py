@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from .outcomes import OutcomeAssessment
+from .privacy import redact_public
 from .recovery import RecoveryEpisode
 
 __stability__ = "experimental"
@@ -66,7 +67,7 @@ def operator_trace(
                 event[key] = raw[key]
         events.append(event)
 
-    return {
+    return redact_public({
         "schema_id": "memory-fabric.agent-outcome-operator-trace.v1",
         "task_id": episode.task_id,
         "operator_events": events,
@@ -78,4 +79,4 @@ def operator_trace(
             "result_digest": assessment.result_digest,
         },
         "model_status": "REAL_AGENT_NOT_RUN",
-    }
+    })

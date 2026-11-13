@@ -18,6 +18,7 @@ from .. import dependence
 from ..causal_replay.scheduler import ReplayBudget
 from .boundary import AgentPort
 from .observations import AgentObservation, AgentStep, _no_oracle_fields
+from .privacy import redact_public
 
 MAX_TOOL_REQUEST_BYTES = 16_000
 MAX_RUNTIME_STEPS = 64
@@ -363,6 +364,23 @@ class RuntimeTrace:
     calls: tuple[ToolCallRecord, ...]
     final_observation: AgentObservation
     stop_reason: str
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return a redacted JSON-safe trace summary for external reporting."""
+        return redact_public({
+            "task_id": self.task_id,
+            "actor_id": self.actor_id,
+            "observations": [item.to_dict() for item in self.observations],
+            "steps": [item.to_dict() for item in self.steps],
+            "calls": [{
+                "step_id": call.step_id,
+                "tool": call.tool,
+                "completed": call.output.completed,
+                "visible_events": list(call.output.visible_events),
+            } for call in self.calls],
+            "final_observation": self.final_observation.to_dict(),
+            "stop_reason": self.stop_reason,
+        })
 
 
 class AgentRuntime:

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from memory_fabric.agent_outcomes import (
@@ -11,6 +13,7 @@ from memory_fabric.agent_outcomes import (
 )
 from memory_fabric.agent_outcomes.boundary import EvaluatorPort
 from memory_fabric.agent_outcomes.outcomes import OracleTask, TerminalResult, OutcomeStatus
+from memory_fabric.agent_outcomes import RecoveryEpisode, operator_trace
 
 
 def test_audit_reconstructs_observations_steps_failure_and_terminal_grade() -> None:
@@ -68,3 +71,43 @@ def test_audit_rejects_terminal_results_from_another_task() -> None:
 
     with pytest.raises(ValueError, match="terminal task mismatch"):
         AgentEpisodeAudit.from_runtime(trace, terminal, assessment)
+
+
+def test_serialized_traces_and_recovery_checkpoints_scrub_canaries() -> None:
+    private_instruction = "PRIVATE-INSTRUCTION-CANARY"
+    private_memory = "PRIVATE-MEMORY-CANARY"
+    private_argument = "PRIVATE-ARGUMENT-CANARY"
+    credential = "ghp_" + "A" * 40
+    observation = AgentObservation(
+        "privacy-task", private_instruction,
+        ({"memory_id": "memory-private", "version": 1, "content": private_memory,
+          "token": credential},), (), {},
+    )
+    trace = AgentRuntime(max_steps=1, tools={}).run(
+        initial_observation=observation, actor_id="planner",
+        decide=lambda _observation: AgentStep(
+            "privacy-task", "planner", "step-1", "abstain", {"reason": private_argument},
+        ),
+        observe_after=lambda _index, _output: observation,
+    )
+    terminal = TerminalResult("privacy-task", "0" * 64, abstained=True)
+    assessment = EvaluatorPort(OracleTask("privacy-task", "0" * 64)).grade(terminal)
+    audit = AgentEpisodeAudit.from_runtime(trace, terminal, assessment)
+    serialized_trace = json.dumps(trace.to_dict(), sort_keys=True)
+    serialized_audit = audit.canonical_json()
+
+    recovery = RecoveryEpisode("privacy-task", enabled=True)
+    assert recovery.record("evidence_blocked", {
+        "private_note": private_memory, "token": credential,
+    })
+    progress_canary = "PRIVATE-PROGRESS-CANARY"
+    assert recovery.record("re_retrieve", {"progress_key": progress_canary})
+    checkpoint = recovery.to_json()
+    operator_json = json.dumps(operator_trace(recovery, assessment), sort_keys=True)
+    restored = RecoveryEpisode.from_json(checkpoint)
+    assert not restored.record("re_retrieve", {"progress_key": progress_canary})
+
+    for emitted in (serialized_trace, serialized_audit, checkpoint, operator_json):
+        for canary in (private_instruction, private_memory, private_argument,
+                       credential, progress_canary):
+            assert canary not in emitted

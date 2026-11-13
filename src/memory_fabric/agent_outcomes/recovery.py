@@ -18,6 +18,7 @@ from typing import Any, Callable, Mapping
 
 from ..actions import ALREADY_EXECUTED, EXECUTED, ActionExecution, ActionGate, ActionRequest, Grant
 from ..certificates import EvidenceCertificate
+from .privacy import progress_key_digest, redact_public
 
 
 class RecoveryStatus(StrEnum):
@@ -294,7 +295,7 @@ class RecoveryEpisode:
             raise ValueError("progress_key must be non-empty text")
 
         detail = {
-            "progress_key": progress_key,
+            "progress_key": progress_key_digest(progress_key),
             "receipt_id": receipt.receipt_id,
             "decision_id": receipt.decision_id,
             "changed_premise": receipt.changed_premise.to_dict(),
@@ -349,7 +350,7 @@ class RecoveryEpisode:
                 "max_events": self.limits.max_events,
                 "deadline_seconds": remaining,
             },
-            "trace": self.trace,
+            "trace": redact_public(self.trace),
         }
         try:
             rendered = json.dumps(payload, sort_keys=True, separators=(",", ":"),
@@ -481,14 +482,18 @@ class RecoveryEpisode:
             return self._fail("EVENT_LIMIT")
         if self._clock() - self._started_at > self.limits.deadline_seconds:
             return self._fail("DEADLINE_EXCEEDED")
-        item = {"kind": kind, "detail": dict(detail or {})}
+        item_detail = dict(detail or {})
+        raw_progress_key = item_detail.get("progress_key")
+        if isinstance(raw_progress_key, str):
+            item_detail["progress_key"] = progress_key_digest(raw_progress_key)
+        item = {"kind": kind, "detail": item_detail}
         encoded = json.dumps(item, sort_keys=True, separators=(",", ":"), default=str).encode()
         if len(encoded) > self.limits.max_event_bytes:
             return self._fail("EVENT_BYTES_EXCEEDED")
         if kind in {"refresh", "re_retrieve", "ask", "replan"}:
             if self.recoveries >= self.limits.max_recoveries:
                 return self._fail("RECOVERY_LIMIT")
-            progress_key = str((detail or {}).get("progress_key", kind))
+            progress_key = str(item_detail.get("progress_key", progress_key_digest(kind)))
             if not progress_key or progress_key in self._progress_seen:
                 return self._fail("NO_MONOTONIC_PROGRESS")
             self._progress_seen.add(progress_key)

@@ -16,6 +16,7 @@ from typing import Any
 from memory_fabric.agent_outcomes.observations import (
     MAX_JSON_BYTES, AgentObservation, AgentStep,
 )
+from memory_fabric.agent_outcomes.privacy import redact_public
 
 __stability__ = "experimental"
 
@@ -520,7 +521,7 @@ class AgentEpisodeAudit:
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        return redact_public({
             "schema_id": self.schema_id,
             "task_id": self.task_id,
             "actor_id": self.actor_id,
@@ -537,7 +538,7 @@ class AgentEpisodeAudit:
             },
             "stop_reason": self.stop_reason,
             "failure_stage": self.failure_stage,
-        }
+        })
 
     def canonical_json(self) -> str:
         return _canonical(self.to_dict()).decode("utf-8")
