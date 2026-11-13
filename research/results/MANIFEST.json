@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 318,
+ "results": 320,
  "missing_field_counts": {
-  "git_sha": 179,
+  "git_sha": 181,
   "prereg": 112,
-  "dataset_digest": 314,
-  "model_id": 279,
-  "prompt_hash": 318,
-  "seed": 227,
-  "cost": 292,
-  "verdict": 236
+  "dataset_digest": 316,
+  "model_id": 281,
+  "prompt_hash": 320,
+  "seed": 229,
+  "cost": 294,
+  "verdict": 237
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 303
+  "unclassified": 305
  },
  "rows": [
   {
@@ -170,6 +170,42 @@
    "config": null,
    "cost": null,
    "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "agent-outcome-contention-2026-11-13",
+   "file": "research/results/agent-outcome-contention-2026-11-13.json",
+   "file_sha256": "c9ce610a60a57b4817161007c0414454cba94c1b607310d5e21325ccd5b75393",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/agent-scale-v1.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "agent-outcome-contention-2026-11-13.manifest",
+   "file": "research/results/agent-outcome-contention-2026-11-13.manifest.json",
+   "file_sha256": "4e0c73c94c2a4fa6f1b130254a758d1efc230a52a3d90d9c8f7b98bebd34611e",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/agent-scale-v1.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": "DESCRIPTIVE",
    "parsable": true
   },
   {

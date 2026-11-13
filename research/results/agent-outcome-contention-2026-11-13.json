@@ -1,0 +1,110 @@
+{
+  "command": [
+    "python",
+    "benchmarks/outcome_matched_arms.py",
+    "--mode",
+    "contention",
+    "--workers",
+    "1,2,4",
+    "--tasks",
+    "64",
+    "--work-units",
+    "100000"
+  ],
+  "cpu_count_reported_by_os": 8,
+  "created_at_utc": "2026-11-13T16:04:50.246377+00:00",
+  "input_sha256": {
+    "benchmarks/agent_scale.py": "9811369e9a85d5fa2f3745e9747d42c835bb0d311fa6be257b75e75a37e72bc6",
+    "benchmarks/matched_agent_arms.py": "13c0882f6cfec2943466df8835d54460afd50c7f29a3669aeccde06e41b50cdd",
+    "benchmarks/outcome_matched_arms.py": "242fdce4eee7ddd5f9fdef6a5b4ae5eb11c60b2bfd813671446f00f31d934abd",
+    "src/memory_fabric/agent_outcomes/observations.py": "dbe196371c11cd19006da8c01580c618f98d81e34ff1cef24e882fd15a420b2d",
+    "src/memory_fabric/agent_outcomes/runtime.py": "1b7687a7be0af8b00dd1d533f4608ff5e2d0cc924d61963dd88d5eb78b3bb3e4"
+  },
+  "machine_architecture": "AMD64",
+  "measurement": {
+    "batch_includes_process_pool_startup": true,
+    "bottleneck_disclosure": "CPU scheduling, worker queueing, process startup, serialization, and the fixed scripted CPU workload are all included; this probe does not isolate a single production bottleneck.",
+    "extrapolation": "Local run only; no extrapolation to production or model latency.",
+    "latency_budget": "No universal budget claimed; compare against a deployment SLO.",
+    "latency_scope": "submit to completed result; includes queueing and serialization",
+    "scheduler": "OS process scheduler via ProcessPoolExecutor",
+    "worker_service_scope": "bounded AgentRuntime episode inside worker process"
+  },
+  "model_status": "REAL_AGENT_NOT_RUN",
+  "population": "SCRIPTED_AGENT",
+  "python_version": "3.13.5",
+  "scenarios": [
+    {
+      "elapsed_seconds": 2.291300799988676,
+      "queue_dispatch_residual_ms": {
+        "p50": 1850.692400003687,
+        "p95": 2157.9805999937503,
+        "p99": 2187.2633000014807
+      },
+      "submit_to_result_ms": {
+        "p50": 1861.206300003687,
+        "p95": 2167.70419999375,
+        "p99": 2197.090000001481
+      },
+      "tasks": 64,
+      "throughput_tasks_per_second": 27.931732053825627,
+      "work_units_per_task": 100000,
+      "worker_service_ms": {
+        "p50": 10.2434,
+        "p95": 14.8059,
+        "p99": 22.3073
+      },
+      "workers_observed": 1,
+      "workers_requested": 1
+    },
+    {
+      "elapsed_seconds": 2.5841460000083316,
+      "queue_dispatch_residual_ms": {
+        "p50": 2021.2767999885082,
+        "p95": 2394.4624000014674,
+        "p99": 2440.171699992631
+      },
+      "submit_to_result_ms": {
+        "p50": 2046.9957999885082,
+        "p95": 2420.3899999847636,
+        "p99": 2463.0004999926314
+      },
+      "tasks": 64,
+      "throughput_tasks_per_second": 24.766402517424964,
+      "work_units_per_task": 100000,
+      "worker_service_ms": {
+        "p50": 23.5792,
+        "p95": 30.4187,
+        "p99": 31.1498
+      },
+      "workers_observed": 2,
+      "workers_requested": 2
+    },
+    {
+      "elapsed_seconds": 2.776933099987218,
+      "queue_dispatch_residual_ms": {
+        "p50": 2282.928000001345,
+        "p95": 2520.346300008587,
+        "p99": 2531.9056000017376
+      },
+      "submit_to_result_ms": {
+        "p50": 2313.849400001345,
+        "p95": 2552.200400008587,
+        "p99": 2561.4606000017375
+      },
+      "tasks": 64,
+      "throughput_tasks_per_second": 23.047008226555615,
+      "work_units_per_task": 100000,
+      "worker_service_ms": {
+        "p50": 31.1978,
+        "p95": 33.6858,
+        "p99": 35.1113
+      },
+      "workers_observed": 4,
+      "workers_requested": 4
+    }
+  ],
+  "schema_id": "memory-fabric.outcome-process-contention.v1",
+  "source_commit_sha": "7e635caf17e5252c828179bfdea1e7236c14c83f",
+  "source_tree_clean_at_start": true
+}

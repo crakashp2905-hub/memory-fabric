@@ -61,11 +61,7 @@ Its `DeterministicOutcomeWorld` applies scheduled truth revisions on a private
 evaluator state, emits validated observations, checks legal effects against
 the current revision epoch, and makes effect retries idempotent. `world_digest`
 binds the full deterministic run state; `terminal_digest` binds the terminal
-truth and executed effects for grading. The engine is a contract scaffold; it
-includes one bounded correction-after-plan case in which a stale action is
-refused and only a fresh legal action completes the task. It does not yet
-implement the plan's full battery, maintenance, incident, or repair world
-families. The maintenance prerequisite fixture requires lockout verification,
+truth and executed effects for grading. The engine is a contract scaffold; it\r\nincludes bounded correction-after-plan, battery diagnosis, maintenance, incident\r\ntriage, and dependency-repair fixtures. These are synthetic contract controls,\r\nnot calibrated operational worlds. The maintenance prerequisite fixture requires\r\nlockout verification,
 parts inspection, and seal replacement; omitting any required effect fails the
 terminal grader. The incident-triage fixture applies a new dependency alert
 after planning, rejects the old restart at execution time, and requires a
@@ -383,6 +379,19 @@ worker service p95 was about 2.8 ms and 3.1 ms respectively. These values are
 dominated by this run's process startup and queue behavior and are a functional
 smoke result, not a stable latency estimate. Re-run the benchmark in the target
 environment for operational planning.
+
+A registered 64-task run at source SHA
+`7e635caf17e5252c828179bfdea1e7236c14c83f` used
+`--workers 1,2,4 --tasks 64 --work-units 100000` on a clean checkout. The
+machine reported 8 logical CPUs. It observed 1, 2, and 4 worker processes,
+respectively; throughput was 27.93, 24.77, and 23.05 tasks/s. Submit-to-result
+p95/p99 was 2168/2197 ms, 2420/2463 ms, and 2552/2561 ms. Worker-service
+p95/p99 was 14.8/22.3 ms, 30.4/31.1 ms, and 33.7/35.1 ms. This workload
+slowed as workers increased on this host; it is a descriptive local run, not a
+parallel scaling claim. Raw scenarios and the run manifest with command,
+environment, source SHA, input hashes, timestamp, and output digest are in
+[`agent-outcome-contention-2026-11-13.json`](../research/results/agent-outcome-contention-2026-11-13.json)
+and its `.manifest.json` companion.
 
 ## Restarting a recovery episode
 
