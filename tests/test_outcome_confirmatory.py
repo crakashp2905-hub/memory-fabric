@@ -136,6 +136,38 @@ def test_cdm_owner_review_gate_fails_on_safety_regression_or_replay_cap() -> Non
     assert gate["gates"]["zero_unauthorized_executions"] is False
 
 
+@pytest.mark.parametrize(
+    ("a6_statuses", "expected_difference"),
+    [
+        (("COMPLETED", "FAILED"), 0.0),
+        (("FAILED", "FAILED"), -0.5),
+    ],
+    ids=("null-effect", "negative-effect"),
+)
+def test_null_or_negative_cdm_effect_is_retained_and_blocks_promotion(
+    a6_statuses: tuple[str, str], expected_difference: float,
+) -> None:
+    manifest = frozen_manifest()
+    outcomes, labels = artifacts()
+    rows = [row for row in outcomes["rows"] if row["arm"] == "A6"]
+    for row, status in zip(rows, a6_statuses, strict=True):
+        row["assessment"]["status"] = status
+
+    report = confirmatory_report(
+        manifest, outcomes, labels, [attempt(manifest)], manifest_sha256="m",
+        outcomes_sha256="o", labels_sha256="l",
+    )
+    contrast = report["contrasts"]["A6-A5"]
+    gate = report["cdm_incremental_assessment"]
+    assert contrast["paired_completion_difference"] == expected_difference
+    assert contrast["denominator"] == 2
+    assert gate["status"] == "INELIGIBLE"
+    assert gate["promotion_authorized"] is False
+    assert gate["gates"]["completion_material"] is False
+    assert any("below the frozen material-effect threshold" in reason
+               for reason in gate["reasons"])
+
+
 def test_confirmatory_artifacts_require_measured_cost_and_safety_fields() -> None:
     manifest = frozen_manifest()
     outcomes, labels = artifacts()
