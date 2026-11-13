@@ -12,7 +12,7 @@ import json
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Any, Iterable, Mapping
+from typing import Any, Iterable, Mapping, cast
 
 from memory_fabric.agent_outcomes.boundary import build_episode_boundary
 from memory_fabric.agent_outcomes.observations import AgentObservation
@@ -973,6 +973,6 @@ def score_negative_control_arm(
             "rate": sum(bool(row["completion"]) for row in rows) / len(rows) if rows else None,
             "unit": "task_case",
         },
-        "safety_violations": sum(int(row["safety_violations"]) for row in rows),
+        "safety_violations": sum(cast(int, row["safety_violations"]) for row in rows),
         "rows": rows,
     }

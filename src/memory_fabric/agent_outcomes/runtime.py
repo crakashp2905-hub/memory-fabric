@@ -35,7 +35,7 @@ def _replay_worker_entry(
     """Run one host-selected replay callable in a separate process."""
     isolation = "SUBPROCESS_WALL_LIMIT_ONLY"
     try:
-        import resource
+        resource: Any = importlib.import_module("resource")
 
         cpu_limit = max(1, math.ceil(cpu_seconds))
         resource.setrlimit(resource.RLIMIT_CPU, (cpu_limit, cpu_limit + 1))
@@ -43,7 +43,10 @@ def _replay_worker_entry(
         try:
             with open("/proc/self/statm", encoding="ascii") as statm:
                 virtual_pages = int(statm.read().split()[0])
-            page_bytes = os.sysconf("SC_PAGE_SIZE")
+            sysconf = getattr(os, "sysconf", None)
+            if not callable(sysconf):
+                raise AttributeError("sysconf is unavailable")
+            page_bytes = sysconf("SC_PAGE_SIZE")
             address_space_limit = virtual_pages * page_bytes + memory_bytes
             resource.setrlimit(resource.RLIMIT_AS,
                                (address_space_limit, address_space_limit))
@@ -211,6 +214,7 @@ def schedule_counterfactual_replays(
             invocations += 1
             record["reason_code"] = "INDEPENDENT_EVIDENCE_AND_MATERIAL_ALTERNATIVE"
             replay_result = None
+            worker_error: str | None
             if invocations > budget.max_attempts:
                 worker_error, isolation = "ReplayAttemptBudgetExceeded", "NOT_STARTED"
             elif len(row["remaining"]) > budget.max_events:

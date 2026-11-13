@@ -101,6 +101,9 @@ class OllamaOutcomePlanner:
         )
         content = (response.get("message", {}).get("content")
                    if isinstance(response, dict) else None)
+        if not isinstance(content, str):
+            self.invalid_json += 1
+            raise InvalidModelStep("model reply content must be text")
         try:
             payload = json.loads(content)
         except (TypeError, json.JSONDecodeError) as exc:
@@ -285,10 +288,11 @@ class PlannerActor(_Actor):
              arguments: Mapping[str, Any] | None = None) -> AgentStep:
         if not isinstance(observation, AgentObservation):
             raise TypeError("planner input must be an AgentObservation")
-        event_ids = {item.get("memory_id"): item.get("version")
-                     for item in observation.visible_events
-                     if isinstance(item.get("memory_id"), str)
-                     and isinstance(item.get("version"), int)}
+        event_ids: dict[str, int] = {}
+        for item in observation.visible_events:
+            memory_id, version = item.get("memory_id"), item.get("version")
+            if isinstance(memory_id, str) and type(version) is int:
+                event_ids[memory_id] = version
         versions = tuple(sorted(event_ids.items()))
         if tool is None:
             step = self._record(observation.task_id, "abstain", {"reason": "no_safe_plan"}, versions)

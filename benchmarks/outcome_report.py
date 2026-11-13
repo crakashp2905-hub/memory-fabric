@@ -8,7 +8,7 @@ import math
 import random
 from dataclasses import asdict, dataclass
 from enum import StrEnum
-from typing import Any, Iterable
+from typing import Any, Iterable, cast
 
 from memory_fabric.agent_outcomes import (
     EpisodeOutcome,
@@ -148,9 +148,11 @@ class EvaluatedTaskCase:
         if any(value is not None for value in counts):
             if any(type(value) is not int or value < 0 for value in counts):
                 raise ValueError("safety counts must all be non-negative integers")
-            if self.unsafe_proposals > self.effect_proposals:
+            if (self.unsafe_proposals is not None and self.effect_proposals is not None
+                    and self.unsafe_proposals > self.effect_proposals):
                 raise ValueError("unsafe proposals cannot exceed all effect proposals")
-            if self.unsafe_executions > self.executed_effects:
+            if (self.unsafe_executions is not None and self.executed_effects is not None
+                    and self.unsafe_executions > self.executed_effects):
                 raise ValueError("unsafe executions cannot exceed executed effects")
 
 
@@ -186,6 +188,14 @@ class AgentTaskOutcome:
             raise ValueError("reason_codes must be a tuple of non-empty strings")
 
 
+def _assessment(case: EvaluatedTaskCase) -> OutcomeAssessment:
+    """Return the normalized assessment installed during case validation."""
+    assessment = case.assessment
+    if assessment is None:
+        raise ValueError("task case has no normalized assessment")
+    return assessment
+
+
 def _metric(name: str, numerator: int, denominator: int, *, unit: str,
             population: str, denominator_definition: str) -> dict[str, Any]:
     return {
@@ -210,9 +220,9 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
     if len(keys) != len(set(keys)):
         raise ValueError("duplicate task case within an arm and seed")
     failed_cases = [case for case in rows if (
-        case.assessment.status in {OutcomeStatus.FAILED, OutcomeStatus.UNSAFE,
+        _assessment(case).status in {OutcomeStatus.FAILED, OutcomeStatus.UNSAFE,
                                    OutcomeStatus.UNDECIDABLE}
-        or (case.assessment.status is OutcomeStatus.SAFE_ABSTENTION and case.answerable)
+        or (_assessment(case).status is OutcomeStatus.SAFE_ABSTENTION and case.answerable)
     )]
     unclassified = [case for case in failed_cases if not case.failure_codes]
     if unclassified:
@@ -252,11 +262,14 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
             "model_tokens": [case.model_tokens for case in arm_cases],
             "wall_ms": [case.wall_ms for case in arm_cases],
         }
-        mean_resources = {
-            name: (sum(values) / len(values)
-                   if values and all(value is not None for value in values) else None)
-            for name, values in resource_values.items()
-        }
+        mean_resources: dict[str, float | None] = {}
+        for name, raw_values in resource_values.items():
+            values = cast(list[int | float | None], raw_values)
+            measured = [value for value in values if value is not None]
+            mean_resources[name] = (
+                sum(measured) / len(measured)
+                if measured and len(measured) == len(values) else None
+            )
         reports[arm] = {
             "population": "SCRIPTED_AGENT",
             "model_status": "REAL_AGENT_NOT_RUN",
@@ -264,12 +277,12 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
             "unit": "unique task case",
             "task_cases": len(arm_cases),
             "undecidable_task_cases": sum(
-                case.assessment.status is OutcomeStatus.UNDECIDABLE for case in arm_cases
+                _assessment(case).status is OutcomeStatus.UNDECIDABLE for case in arm_cases
             ),
             "metrics": [
                 _metric(
                     "safe_task_completion", sum(
-                        case.assessment.status is OutcomeStatus.COMPLETED for case in answerable
+                        _assessment(case).status is OutcomeStatus.COMPLETED for case in answerable
                     ),
                     len(answerable), unit="task_case",
                     population="all scheduled answerable task cases",
@@ -277,21 +290,21 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                 ),
                 _metric(
                     "justified_abstention",
-                    sum(case.assessment.status is OutcomeStatus.SAFE_ABSTENTION for case in unanswerable),
+                    sum(_assessment(case).status is OutcomeStatus.SAFE_ABSTENTION for case in unanswerable),
                     len(unanswerable), unit="task_case",
                     population="determinate unanswerable task cases",
                     denominator_definition="unanswerable cases with a determinate evaluator result",
                 ),
                 _metric(
                     "avoidable_abstention",
-                    sum(case.assessment.status is OutcomeStatus.SAFE_ABSTENTION for case in answerable),
+                    sum(_assessment(case).status is OutcomeStatus.SAFE_ABSTENTION for case in answerable),
                     len(answerable), unit="task_case",
                     population="determinate answerable task cases",
                     denominator_definition="all scheduled answerable cases",
                 ),
                 _metric(
                     "opportunity_cost_of_abstention",
-                    sum(case.assessment.status is OutcomeStatus.SAFE_ABSTENTION for case in answerable),
+                    sum(_assessment(case).status is OutcomeStatus.SAFE_ABSTENTION for case in answerable),
                     len(answerable), unit="task_case",
                     population="all scheduled answerable task cases",
                     denominator_definition="answerable task cases completed as safe abstentions instead of completion",
@@ -305,7 +318,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                 ),
                 _metric(
                     "unsafe_task_case",
-                    sum(case.assessment.status is OutcomeStatus.UNSAFE for case in arm_cases),
+                    sum(_assessment(case).status is OutcomeStatus.UNSAFE for case in arm_cases),
                     len(arm_cases), unit="task_case",
                     population="all scheduled task cases",
                     denominator_definition="all scheduled cases, including undecidable outcomes",
@@ -392,7 +405,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                     "seed": case.seed,
                     "arm": case.arm,
                     "answerable": case.answerable,
-                    "assessment": asdict(case.assessment),
+                    "assessment": asdict(_assessment(case)),
                     "valid_evidence_available": case.valid_evidence_available,
                     "valid_evidence_delivered": case.valid_evidence_delivered,
                     "effect_proposals": case.effect_proposals,
@@ -425,7 +438,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
         }
     resource_dimensions = [
         name for name in ("tool_calls", "model_calls", "model_tokens", "wall_ms")
-        if reports and all(item["resource_costs_per_task_case"][name] is not None
+        if reports and all(cast(dict[str, Any], item["resource_costs_per_task_case"])[name] is not None
                            for item in reports.values())
     ]
     frontier: list[str] = []
@@ -443,13 +456,17 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
                 if candidate == other:
                     continue
                 other_completion = completion_rates[other]
-                other_costs = other_report["resource_costs_per_task_case"]
-                candidate_costs = candidate_report["resource_costs_per_task_case"]
-                no_worse = other_completion >= candidate_completion and all(
-                    other_costs[name] <= candidate_costs[name] for name in resource_dimensions
+                other_costs = cast(dict[str, float | None], other_report["resource_costs_per_task_case"])
+                candidate_costs = cast(dict[str, float | None], candidate_report["resource_costs_per_task_case"])
+                no_worse = (cast(float, other_completion) >= cast(float, candidate_completion)
+                            and all(cast(float, other_costs[name]) <=
+                                    cast(float, candidate_costs[name])
+                                    for name in resource_dimensions)
                 )
-                strictly_better = other_completion > candidate_completion or any(
-                    other_costs[name] < candidate_costs[name] for name in resource_dimensions
+                strictly_better = (cast(float, other_completion) > cast(float, candidate_completion)
+                                   or any(cast(float, other_costs[name]) <
+                                          cast(float, candidate_costs[name])
+                                          for name in resource_dimensions)
                 )
                 if no_worse and strictly_better:
                     dominated = True
@@ -466,7 +483,7 @@ def evaluator_report(cases: Iterable[EvaluatedTaskCase]) -> dict[str, Any]:
             "frontier_arms": sorted(frontier),
             "unmeasured_dimensions": sorted({
                 name for item in reports.values()
-                for name in item["unmeasured_resource_dimensions"]
+                for name in cast(list[str], item["unmeasured_resource_dimensions"])
             }),
         },
     }
@@ -491,7 +508,7 @@ def evaluator_artifacts(cases: Iterable[EvaluatedTaskCase]) -> dict[str, str]:
             "seed": case.seed,
             "task_id": case.task_id,
             "arm": case.arm,
-            "assessment": asdict(case.assessment),
+            "assessment": asdict(_assessment(case)),
             "effect_proposals": case.effect_proposals,
             "unsafe_proposals": case.unsafe_proposals,
             "executed_effects": case.executed_effects,
@@ -599,16 +616,16 @@ def paired_cluster_bootstrap(
 
     ordered = [by_key[key] for key in sorted(by_key)]
     differences = [
-        int(pair[treatment_arm].assessment.status is OutcomeStatus.COMPLETED)
-        - int(pair[control_arm].assessment.status is OutcomeStatus.COMPLETED)
+        int(_assessment(pair[treatment_arm]).status is OutcomeStatus.COMPLETED)
+        - int(_assessment(pair[control_arm]).status is OutcomeStatus.COMPLETED)
         for pair in ordered
     ]
     n = len(differences)
     treatment_successes = sum(
-        pair[treatment_arm].assessment.status is OutcomeStatus.COMPLETED for pair in ordered
+        _assessment(pair[treatment_arm]).status is OutcomeStatus.COMPLETED for pair in ordered
     )
     control_successes = sum(
-        pair[control_arm].assessment.status is OutcomeStatus.COMPLETED for pair in ordered
+        _assessment(pair[control_arm]).status is OutcomeStatus.COMPLETED for pair in ordered
     )
     wins = sum(value > 0 for value in differences)
     losses = sum(value < 0 for value in differences)
@@ -637,11 +654,11 @@ def paired_cluster_bootstrap(
         "treatment_completed": treatment_successes,
         "control_completed": control_successes,
         "treatment_undecidable": sum(
-            pair[treatment_arm].assessment.status is OutcomeStatus.UNDECIDABLE
+            _assessment(pair[treatment_arm]).status is OutcomeStatus.UNDECIDABLE
             for pair in ordered
         ),
         "control_undecidable": sum(
-            pair[control_arm].assessment.status is OutcomeStatus.UNDECIDABLE
+            _assessment(pair[control_arm]).status is OutcomeStatus.UNDECIDABLE
             for pair in ordered
         ),
         "treatment_completion_rate": treatment_successes / n,

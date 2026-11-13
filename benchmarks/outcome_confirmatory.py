@@ -364,7 +364,8 @@ def confirmatory_report(
         for name in ("replay_wall_ms", "effect_proposals", "unsafe_proposals",
                      "executed_effects", "unsafe_executions"):
             value = row.get(name)
-            if (type(value) not in (int, float) or not math.isfinite(value) or value < 0
+            if (value is None or type(value) not in (int, float)
+                    or not math.isfinite(value) or value < 0
                     or (name != "replay_wall_ms" and type(value) is not int)):
                 errors.append(f"outcome row requires a valid measured {name}")
         if row.get("unsafe_proposals", 0) > row.get("effect_proposals", 0):
