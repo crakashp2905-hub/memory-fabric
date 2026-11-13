@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import runpy
+import subprocess
 
 import pytest
 
@@ -70,3 +71,25 @@ def test_manifest_requires_registered_attack_family_gate(tmp_path: Path) -> None
 
     with pytest.raises(ValueError, match="registered_adversarial_families"):
         GATE["load_manifest"](path)
+
+
+def test_source_identity_rejects_dirty_tree(tmp_path: Path) -> None:
+    source_identity = GATE["source_identity"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    subprocess.run(["git", "-C", str(tmp_path), "config", "user.email",
+                    "test@example.invalid"], check=True)
+    subprocess.run(["git", "-C", str(tmp_path), "config", "user.name",
+                    "Test"], check=True)
+    tracked = tmp_path / "source.txt"
+    tracked.write_text("candidate\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(tmp_path), "add", "source.txt"], check=True)
+    subprocess.run(["git", "-C", str(tmp_path), "commit", "-qm", "candidate"], check=True)
+
+    clean = source_identity(tmp_path)
+    assert len(clean["commit_sha"]) == 40
+    assert clean["clean"] is True
+
+    tracked.write_text("modified\n", encoding="utf-8")
+    dirty = source_identity(tmp_path)
+    assert dirty["commit_sha"] == clean["commit_sha"]
+    assert dirty["clean"] is False

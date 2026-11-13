@@ -139,6 +139,10 @@ per-agent or correction labels are `NOT_ASSESSABLE`, which keeps the comparison
 on `HOLD`.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
+- The offline gate report records the exact candidate commit and requires a
+  clean source tree. It marks seeds `NOT_APPLICABLE` for the deterministic
+  contract run, lists any skipped condition, and labels the matched baseline
+  `NOT_RUN` when no same-task frozen baseline artifact is registered.
 - Local model: `REAL_AGENT_NOT_RUN` unless an actual pinned local inference is
   executed and recorded.
 - Independent deployment and security review: `BLOCKED_EXTERNAL`.

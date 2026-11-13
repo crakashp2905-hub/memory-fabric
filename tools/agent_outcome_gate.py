@@ -13,7 +13,7 @@ from typing import Any
 
 
 SCHEMA_ID = "memory-fabric.agent-outcome-gate-manifest.v1"
-REPORT_SCHEMA_ID = "memory-fabric.agent-outcome-gate-report.v1"
+REPORT_SCHEMA_ID = "memory-fabric.agent-outcome-gate-report.v2"
 MANIFEST_NAME = "agent_outcome_gate_manifest.v1.json"
 _STATUSES = {"PASS", "FAIL", "NOT_RUN"}
 
@@ -89,9 +89,34 @@ def overall_status(results: list[dict[str, Any]]) -> str:
     return "PASS"
 
 
+def source_identity(root: Path) -> dict[str, Any]:
+    """Bind gate output to a commit and fail closed for an uncommitted tree."""
+    try:
+        commit = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=root, check=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        ).stdout.strip()
+        changes = subprocess.run(
+            ["git", "status", "--porcelain"], cwd=root, check=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        ).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        return {"commit_sha": None, "clean": False,
+                "error": f"{type(exc).__name__}: source commit could not be verified"}
+    return {"commit_sha": commit if len(commit) == 40 else None,
+            "clean": not changes.strip()}
+
+
 def run_gate(root: Path, manifest_path: Path) -> dict[str, Any]:
     manifest, manifest_digest = load_manifest(manifest_path)
-    results: list[dict[str, Any]] = []
+    source = source_identity(root)
+    results: list[dict[str, Any]] = [{
+        "id": "candidate_source_tree_clean",
+        "required": True,
+        "status": "PASS" if source["commit_sha"] and source["clean"] else "FAIL",
+        "reason": ("verified clean source commit" if source["commit_sha"] and source["clean"]
+                   else "candidate must be a verified clean Git commit"),
+    }]
     for condition in manifest["conditions"]:
         result = {"id": condition["id"], "required": condition["required"]}
         if "status" in condition:
@@ -112,13 +137,28 @@ def run_gate(root: Path, manifest_path: Path) -> dict[str, Any]:
                     output=completed.stdout[-4000:],
                 )
         results.append(result)
+    status = overall_status(results)
     return {
         "schema_id": REPORT_SCHEMA_ID,
         "manifest_schema_id": manifest["schema_id"],
         "manifest_version": manifest["manifest_version"],
         "manifest_sha256": manifest_digest,
-        "status": overall_status(results),
+        "candidate_commit_sha": source["commit_sha"],
+        "source_tree_clean": source["clean"],
+        "seed": None,
+        "seed_status": "NOT_APPLICABLE",
+        "seed_reason": "This deterministic contract gate is not a seeded benchmark run.",
+        "status": status,
         "conditions": results,
+        "skips": [
+            {"id": item["id"], "reason": item.get("reason", "condition not run")}
+            for item in results if item["status"] == "NOT_RUN"
+        ],
+        "current_result": {"status": status},
+        "baseline_result": {
+            "status": "NOT_RUN",
+            "reason": "No same-task frozen baseline artifact is registered in this offline gate.",
+        },
     }
 
 
