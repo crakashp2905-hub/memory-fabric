@@ -1,5 +1,12 @@
 from __future__ import annotations
 
+import json
+import subprocess
+import sys
+import threading
+import time
+from pathlib import Path
+
 import pytest
 
 from benchmarks.outcome_agents import (
@@ -7,11 +14,44 @@ from benchmarks.outcome_agents import (
 )
 from memory_fabric import MemoryFabric
 from memory_fabric.actions import (
-    GRANT_REVOKED, REFUSED, ActionGate, ActionPolicy, ActionRequest, ToolRule,
+    ALREADY_EXECUTED, EXECUTED, GRANT_REVOKED, REFUSED, ActionGate,
+    ActionPolicy, ActionRequest, ToolRule, reconciliation_ledger,
 )
 from memory_fabric.agent_outcomes import RecoveryEpisode
 from memory_fabric.agent_outcomes.observations import AgentObservation
+from memory_fabric.certificates import EvidenceCertificate
+from memory_fabric.events import EventType
 from memory_fabric.service import MemoryService
+
+
+_WORKER = Path(__file__).with_name("outcome_authorization_worker.py")
+
+
+def _wait_for_file(path: Path, timeout: float = 15.0) -> None:
+    deadline = time.monotonic() + timeout
+    while not path.exists():
+        if time.monotonic() >= deadline:
+            raise AssertionError(f"subprocess did not create {path.name}")
+        time.sleep(0.01)
+
+
+def _run_worker(
+    mode: str, db_path: Path, cert: EvidenceCertificate, key: str, effect_path: Path,
+    *barriers: Path, expected_returncode: int = 0,
+) -> dict:
+    command = [
+        sys.executable, str(_WORKER), mode, str(db_path),
+        json.dumps(cert.to_json()), key, str(effect_path),
+        *(str(path) for path in barriers),
+    ]
+    completed = subprocess.run(
+        command, capture_output=True, text=True, timeout=30,
+        cwd=_WORKER.parents[1], check=False,
+    )
+    assert completed.returncode == expected_returncode, completed.stderr[-2000:]
+    if expected_returncode != 0:
+        return {}
+    return json.loads(completed.stdout)
 
 
 @pytest.mark.parametrize("invalidation", ["cross_tenant", "erased", "stale", "revoked"])
@@ -149,3 +189,139 @@ def test_revoked_typed_grant_is_refused_and_strings_are_not_accepted() -> None:
         assert effects == []
     finally:
         service.close()
+
+
+def test_process_correction_race_is_serialized_before_or_after_action(tmp_path: Path) -> None:
+    db_path = tmp_path / "fabric.db"
+    fabric = MemoryFabric(db_path, auto_activate=True, hold_suspicious=False)
+    try:
+        memory_id = fabric.remember(
+            "operator", "Valve V-8 is safe to start.", scope="team",
+        )
+        certificate = fabric.certify("start-v8", [memory_id], "operator")
+        effect_path = tmp_path / "race-effect"
+        entered_path = tmp_path / "action-entered"
+        release_path = tmp_path / "release-action"
+        process = subprocess.Popen(
+            [
+                sys.executable, str(_WORKER), "race", str(db_path),
+                json.dumps(certificate.to_json()), "race-key", str(effect_path),
+                str(entered_path), str(release_path),
+            ],
+            cwd=_WORKER.parents[1], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True,
+        )
+        _wait_for_file(entered_path)
+
+        correction_attempted = threading.Event()
+        correction_done = threading.Event()
+        correction_errors: list[BaseException] = []
+
+        def correct() -> None:
+            correction_attempted.set()
+            try:
+                fabric.revise(
+                    memory_id, "Valve V-8 must stay stopped.", "operator",
+                    "operator correction during action process",
+                )
+            except BaseException as exc:  # surfaced in the test thread below
+                correction_errors.append(exc)
+            finally:
+                correction_done.set()
+
+        correction_thread = threading.Thread(target=correct)
+        correction_thread.start()
+        assert correction_attempted.wait(5)
+        # The action process owns the SQLite write fence. The correction from
+        # this process must wait until the effect receipt commits.
+        release_path.write_text("release", encoding="utf-8")
+        stdout, stderr = process.communicate(timeout=30)
+        correction_thread.join(timeout=15)
+
+        assert process.returncode == 0, stderr[-2000:]
+        action_result = json.loads(stdout)
+        assert action_result["outcome"] == EXECUTED
+        assert effect_path.read_text(encoding="utf-8") == "race-key"
+        assert correction_done.is_set()
+        assert not correction_thread.is_alive()
+        assert correction_errors == []
+
+        # Reopen to observe the commits made through the independent process
+        # connection rather than relying on this handle's projection caches.
+        with MemoryFabric(db_path) as observer:
+            events = observer.log.read_types(
+                [EventType.ACTION_EXECUTED, EventType.MEMORY_VERSIONED]
+            )
+            action_candidates = [
+                event for event in events
+                if event.type == EventType.ACTION_EXECUTED
+                and event.payload.get("key") == "race-key"
+            ]
+            assert action_candidates, [(event.type, event.payload) for event in events]
+            action_event = action_candidates[0]
+        correction_event = next(
+            event for event in events
+            if event.type == EventType.MEMORY_VERSIONED
+            and event.payload.get("memory", {}).get("id") == memory_id
+        )
+        assert action_event.seq < correction_event.seq
+
+        stale_effect = tmp_path / "stale-effect"
+        stale_result = _run_worker(
+            "once", db_path, certificate, "after-correction", stale_effect,
+        )
+        assert stale_result["outcome"] == REFUSED
+        assert not stale_effect.exists()
+    finally:
+        fabric.close()
+
+
+def test_unknown_process_effect_is_never_silently_retried_and_explicit_retry_deduplicates(
+    tmp_path: Path,
+) -> None:
+    db_path = tmp_path / "fabric.db"
+    fabric = MemoryFabric(db_path, auto_activate=True, hold_suspicious=False)
+    memory_id = fabric.remember("operator", "Valve V-9 is safe to start.", scope="team")
+    certificate = fabric.certify("start-v9", [memory_id], "operator")
+    fabric.close()
+
+    effect_path = tmp_path / "external-effect"
+    crashed = subprocess.run(
+        [
+            sys.executable, str(_WORKER), "crash_after_effect", str(db_path),
+            json.dumps(certificate.to_json()), "stable-effect-key", str(effect_path),
+        ],
+        capture_output=True, text=True, timeout=30,
+        cwd=_WORKER.parents[1], check=False,
+    )
+    assert crashed.returncode == 23, crashed.stderr[-2000:]
+    assert effect_path.read_text(encoding="utf-8") == "stable-effect-key"
+
+    with MemoryFabric(db_path) as reopened:
+        rows = {row["key"]: row for row in reconciliation_ledger(reopened)}
+        assert rows["stable-effect-key"]["status"] == "unknown"
+
+    no_retry_effect = tmp_path / "must-not-run"
+    no_retry = _run_worker(
+        "once", db_path, certificate, "stable-effect-key", no_retry_effect,
+    )
+    assert no_retry["outcome"] == REFUSED
+    assert "retry_required" in no_retry["error"]
+    assert not no_retry_effect.exists()
+
+    retried = _run_worker(
+        "retry", db_path, certificate, "stable-effect-key", effect_path,
+    )
+    assert retried["outcome"] == EXECUTED
+    assert effect_path.read_text(encoding="utf-8") == "stable-effect-key"
+    with MemoryFabric(db_path) as reopened:
+        rows = {row["key"]: row for row in reconciliation_ledger(reopened)}
+        assert rows["stable-effect-key"]["status"] == "completed"
+        assert rows["stable-effect-key"]["attempt_count"] == 2
+
+    replay_effect = tmp_path / "must-not-repeat"
+    replayed = _run_worker(
+        "once", db_path, certificate, "stable-effect-key", replay_effect,
+    )
+    assert replayed["outcome"] == ALREADY_EXECUTED
+    assert not replay_effect.exists()
