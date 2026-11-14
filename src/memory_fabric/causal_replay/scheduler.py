@@ -18,6 +18,7 @@ class ReplayBudget:
     max_events: int = 10_000
     max_attempts: int = 100
     max_wall_seconds: float = 10.0
+    max_cpu_seconds: float = 10.0
     max_memory_bytes: int = 64 * 1024 * 1024
     max_nodes: int = 18
     max_tool_calls: int = 0
@@ -31,6 +32,9 @@ class ReplayBudget:
                 or isinstance(self.max_wall_seconds, bool)
                 or not isinstance(self.max_wall_seconds, (int, float))
                 or not math.isfinite(self.max_wall_seconds) or self.max_wall_seconds <= 0
+                or isinstance(self.max_cpu_seconds, bool)
+                or not isinstance(self.max_cpu_seconds, (int, float))
+                or not math.isfinite(self.max_cpu_seconds) or self.max_cpu_seconds <= 0
                 or self.max_tool_calls != 0):
             raise CDMError("invalid replay budget; real tool calls must remain zero")
 
@@ -52,7 +56,8 @@ class Candidate:
 
 
 def check_budget(budget: ReplayBudget, *, event_count: int, node_count: int,
-                 attempt_count: int, started_monotonic: float) -> None:
+                 attempt_count: int, started_monotonic: float,
+                 started_process_cpu: float) -> None:
     if event_count > budget.max_events or attempt_count > budget.max_attempts:
         raise BudgetExceeded("replay budget exceeded")
     if node_count > budget.max_nodes:
@@ -63,6 +68,8 @@ def check_budget(budget: ReplayBudget, *, event_count: int, node_count: int,
         raise BudgetExceeded("estimated exact-enumeration memory exceeds budget")
     if time.monotonic() - started_monotonic > budget.max_wall_seconds:
         raise BudgetExceeded("replay wall-time budget exceeded")
+    if time.process_time() - started_process_cpu > budget.max_cpu_seconds:
+        raise BudgetExceeded("replay CPU-time budget exceeded")
 
 
 def earliest_affected_index(event_ids: tuple[str, ...], target_id: str, *,

@@ -29,6 +29,15 @@ def task_manifest(seed: int) -> list[dict[str, str]]:
     return tasks
 
 
+def outcome_task_manifest(seed: int) -> list[dict[str, str]]:
+    """Add explicit recoverable corrections without changing legacy totals."""
+    return [
+        *task_manifest(seed),
+        {"task_id": f"s{seed}-recoverable-0", "family": "recoverable"},
+        {"task_id": f"s{seed}-recoverable-1", "family": "recoverable"},
+    ]
+
+
 def _sha(path: str) -> str:
     return hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
 

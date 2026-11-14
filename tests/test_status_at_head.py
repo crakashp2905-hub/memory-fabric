@@ -33,6 +33,24 @@ class StatusAtHead(unittest.TestCase):
     def test_no_version_contradictions(self) -> None:
         self.assertEqual(status_at_head.contradictions(status_at_head.versions()), [])
 
+    def test_latest_qualification_notes_are_not_reported_as_a_release(self) -> None:
+        versions = status_at_head.versions()
+        self.assertEqual(versions["package"], "0.19.0")
+        self.assertEqual(versions["latest_release_notes"], "0.13.0")
+        self.assertEqual(versions["latest_release_notes_status"],
+                         "untagged qualification notes")
+        self.assertIn("not evidence that the source version was released", status_at_head.render())
+
+    def test_user_release_status_uses_current_source_and_tag_facts(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        versioning = (ROOT / "VERSIONING.md").read_text(encoding="utf-8")
+        docs_index = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
+        self.assertIn("source version 0.19.0 in development", readme)
+        self.assertIn("last released Git tag is [v0.11.0]", readme)
+        self.assertIn("0.13.0 qualification baseline (untagged, unpublished)", docs_index)
+        self.assertNotIn("0.14.0", versioning)
+        self.assertNotIn("latest minor (0.12.x, once tagged)", versioning)
+
     def test_page_is_current(self) -> None:
         self.assertEqual(status_at_head.OUT.read_text(encoding="utf-8"), status_at_head.render(),
                          "regenerate: python tools/status_at_head.py --write")

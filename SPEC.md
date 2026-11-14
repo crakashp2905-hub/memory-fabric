@@ -666,3 +666,16 @@ Additive: no migration needed. Older logs replay unchanged, and the suppression 
 ## 8. Versioning of this spec
 
 Semver on `schema_version`. A minor bump means additive fields; a major bump needs a migration script and a changelog entry here.
+
+Research outcome artifacts use versioned `schema_id` values independently of
+the event log. AO-060 adds per-case `replay_wall_ms` to evaluator and raw-case
+artifacts, so these are `memory-fabric.outcome-evaluator-report.v2` and
+`memory-fabric.outcome-raw-cases.v2`. The confirmatory report containing the
+CDM cost-and-safety eligibility assessment is
+`memory-fabric.outcome-confirmatory-report.v2`. Confirmatory analysis rejects
+the older raw-case schema because it cannot establish replay cost or the
+required safety gates; no migration infers missing measurements.
+AO-062's evaluator-side replay interpretation is a separate
+`memory-fabric.agent-outcomes.replay-interpretation.v1` artifact, preserving
+terminal outcome schema v1 while distinguishing replay fidelity, paired
+completion comparison, and unestablished real-world causality.

@@ -1,0 +1,101 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-gate-manifest.v1",
+  "manifest_version": 1,
+  "immutable": true,
+  "conditions": [
+    {
+      "id": "scripted_contract_suite",
+      "required": true,
+      "command": [
+        "python", "-m", "pytest", "-q",
+        "tests/test_agent_outcome_gate.py",
+        "tests/test_agent_outcomes_contracts.py",
+        "tests/test_agent_outcome_boundary.py",
+        "tests/test_agent_outcome_terminal.py",
+        "tests/test_agent_outcome_eligibility.py",
+        "tests/test_agent_outcome_recovery_catalog.py",
+        "tests/test_agent_outcome_recovery_limits.py",
+        "tests/test_agent_outcome_recovery_guidance.py",
+        "tests/test_outcome_recovery_feature_flag.py",
+        "tests/test_agent_outcome_runtime.py",
+        "tests/test_agent_outcome_requests.py",
+        "tests/test_outcome_authorization.py",
+        "tests/test_outcome_alternate_sources.py",
+        "tests/test_outcome_recovery.py",
+        "tests/test_outcome_agents.py",
+        "tests/test_outcome_audit.py",
+        "tests/test_outcome_oracle_isolation.py",
+        "tests/test_outcome_mock_executor.py",
+        "tests/test_outcome_report_metrics.py",
+        "tests/test_outcome_world_splits.py",
+        "tests/test_outcome_demo_install.py",
+        "tests/test_agent_outcome_operator_trace.py",
+        "tests/test_outcome_matched_arms.py",
+        "tests/test_outcome_confirmatory.py",
+        "tests/test_matched_agent_arms.py",
+        "tests/test_outcome_ollama_adapter.py",
+        "tests/test_outcome_model_absence.py"
+      ]
+    },
+    {
+      "id": "static_analysis",
+      "required": true,
+      "command": [
+        "python", "-m", "ruff", "check",
+        "tools/agent_outcome_gate.py",
+        "benchmarks/outcome_agents.py",
+        "benchmarks/outcome_report.py",
+        "benchmarks/outcome_worlds.py",
+        "src/memory_fabric/outcome_protocol",
+        "tests/test_agent_outcome_operator_trace.py",
+        "benchmarks/outcome_matched_arms.py",
+        "tests/test_outcome_matched_arms.py",
+        "benchmarks/agent_scale.py",
+        "benchmarks/outcome_confirmatory.py",
+        "benchmarks/outcome_agents.py",
+        "benchmarks/outcome_model_status.py",
+        "tests/test_outcome_ollama_adapter.py",
+        "tests/test_outcome_model_absence.py",
+        "tests/test_outcome_confirmatory.py",
+        "benchmarks/matched_agent_arms.py",
+        "tests/test_matched_agent_arms.py",
+        "src/memory_fabric/enforcement.py",
+        "src/memory_fabric/adapters/ollama.py",
+        "src/memory_fabric/reasons.py",
+        "tests/test_agent_outcome_recovery_catalog.py",
+        "tests/test_outcome_recovery_feature_flag.py",
+        "tests/test_agent_outcome_recovery_guidance.py",
+        "tests/test_agent_outcome_recovery_limits.py",
+        "tests/test_agent_outcome_requests.py",
+        "tests/test_agent_outcome_gate.py",
+        "tests/test_agent_outcome_runtime.py",
+        "tests/test_agent_outcome_eligibility.py",
+        "tests/test_agent_outcomes_contracts.py",
+        "tests/test_outcome_alternate_sources.py",
+        "tests/test_outcome_agents.py",
+        "tests/test_outcome_audit.py",
+        "tests/test_outcome_authorization.py",
+        "tests/test_outcome_mock_executor.py",
+        "tests/test_outcome_oracle_isolation.py",
+        "tests/test_outcome_report_metrics.py",
+        "tests/test_outcome_recovery.py",
+        "tests/test_outcome_world_splits.py",
+        "examples/outcome_recovery_demo.py",
+        "tests/test_outcome_demo_install.py"
+      ]
+    },
+    {
+      "id": "registered_adversarial_families",
+      "required": true,
+      "command": [
+        "python", "tools/adversarial_gate.py"
+      ]
+    },
+    {
+      "id": "real_agent_execution",
+      "required": true,
+      "status": "NOT_RUN",
+      "reason": "No pinned local model execution has been recorded."
+    }
+  ]
+}

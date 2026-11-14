@@ -1,0 +1,2134 @@
+{
+  "a5_same_case_comparisons": {
+    "A5-A3": {
+      "case_differences": {
+        "s701-contested-0": 0,
+        "s701-contested-1": 0,
+        "s701-corrected-0": 0,
+        "s701-corrected-1": 0,
+        "s701-missing-0": 0,
+        "s701-missing-1": 0,
+        "s701-recoverable-0": 0,
+        "s701-recoverable-1": 0,
+        "s701-supported-0": 0,
+        "s701-supported-1": 0
+      },
+      "denominator": 10,
+      "paired_completion_difference": 0.0,
+      "promotion_status": "NOT_ASSESSED",
+      "unit": "paired world/task case; scripted descriptive result"
+    },
+    "A5-A4": {
+      "case_differences": {
+        "s701-contested-0": 0,
+        "s701-contested-1": 0,
+        "s701-corrected-0": 0,
+        "s701-corrected-1": 0,
+        "s701-missing-0": 0,
+        "s701-missing-1": 0,
+        "s701-recoverable-0": 1,
+        "s701-recoverable-1": 1,
+        "s701-supported-0": 0,
+        "s701-supported-1": 0
+      },
+      "denominator": 10,
+      "paired_completion_difference": 0.2,
+      "promotion_status": "NOT_ASSESSED",
+      "unit": "paired world/task case; scripted descriptive result"
+    }
+  },
+  "agent_count_per_case": 5,
+  "arms": [
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "FAILED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "FAILED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A0",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "no_memory",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 0.6,
+        "attempted": 50,
+        "correct": 30,
+        "false_abstentions": 20,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A0",
+      "legacy_arm": "no_memory",
+      "legacy_base_counts": null,
+      "name": "no_memory",
+      "observed_resource_use": {
+        "recovery_alternates_found": 0,
+        "recovery_search_calls": 0,
+        "retrieval_calls": 100
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [],
+      "source_arm": "no_memory",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 5,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 5,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 5,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A1",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 5,
+            "unsafe_actions": 5
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "isolated",
+          "status": "UNSAFE",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 0.4,
+        "attempted": 50,
+        "correct": 20,
+        "false_abstentions": 0,
+        "stale_actions": 10,
+        "unsafe_actions": 30
+      },
+      "id": "A1",
+      "legacy_arm": "isolated",
+      "legacy_base_counts": {
+        "accuracy": 0.5,
+        "attempted": 40,
+        "correct": 20,
+        "false_abstentions": 0,
+        "stale_actions": 10,
+        "unsafe_actions": 20
+      },
+      "name": "local_only",
+      "observed_resource_use": {
+        "recovery_alternates_found": 0,
+        "recovery_search_calls": 0,
+        "retrieval_calls": 100
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [],
+      "source_arm": "isolated",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A2",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "pooled_shared",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 0.8,
+        "attempted": 50,
+        "correct": 40,
+        "false_abstentions": 10,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A2",
+      "legacy_arm": "pooled_shared",
+      "legacy_base_counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "name": "pooled_shared",
+      "observed_resource_use": {
+        "recovery_alternates_found": 0,
+        "recovery_search_calls": 0,
+        "retrieval_calls": 100
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [],
+      "source_arm": "pooled_shared",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A3",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "pooled_shared_plus_recovery",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 50,
+        "correct": 50,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A3",
+      "legacy_arm": "pooled_shared_plus_recovery",
+      "legacy_base_counts": null,
+      "name": "pooled_shared_plus_recovery",
+      "observed_resource_use": {
+        "recovery_alternates_found": 10,
+        "recovery_search_calls": 20,
+        "retrieval_calls": 120
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 2,
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "source_arm": "pooled_shared_plus_recovery",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A4",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 5,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "memory_fabric",
+          "status": "FAILED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 0.8,
+        "attempted": 50,
+        "correct": 40,
+        "false_abstentions": 10,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A4",
+      "legacy_arm": "memory_fabric",
+      "legacy_base_counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "name": "memory_fabric",
+      "observed_resource_use": {
+        "recovery_alternates_found": 0,
+        "recovery_search_calls": 0,
+        "retrieval_calls": 100
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [],
+      "source_arm": "memory_fabric",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A5",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": false,
+          "seed": 701,
+          "source_arm": "memory_fabric_recovery",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 50,
+        "correct": 50,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A5",
+      "legacy_arm": "memory_fabric_recovery",
+      "legacy_base_counts": null,
+      "name": "memory_fabric_recovery",
+      "observed_resource_use": {
+        "recovery_alternates_found": 10,
+        "recovery_search_calls": 20,
+        "retrieval_calls": 120
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 0,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": false,
+          "search_attempts": 1,
+          "status": "ABSTAINED",
+          "steps": 3,
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-1"
+        },
+        {
+          "alternate_count": 1,
+          "arm": "memory_fabric_recovery",
+          "reauthorized": true,
+          "search_attempts": 1,
+          "status": "RECOVERED",
+          "steps": 3,
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "source_arm": "memory_fabric_recovery",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [],
+      "id": "A6",
+      "legacy_arm": null,
+      "name": "memory_fabric_recovery_cdm",
+      "reason": "Governed recovery or CDM intervention is not integrated yet.",
+      "status": "NOT_RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    },
+    {
+      "case_outcomes": [
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "missing",
+          "task_id": "s701-missing-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "COMPLETED",
+          "task_family": "supported",
+          "task_id": "s701-supported-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "corrected",
+          "task_id": "s701-corrected-1"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": false,
+          "legacy_counts": {
+            "abstained": 5,
+            "allowed": 0,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "SAFE_ABSTENTION",
+          "task_family": "contested",
+          "task_id": "s701-contested-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-0"
+        },
+        {
+          "agent_count": 5,
+          "arm": "A7",
+          "case_completion": true,
+          "legacy_counts": {
+            "abstained": 0,
+            "allowed": 5,
+            "false_abstentions": 0,
+            "stale_actions": 0,
+            "unsafe_actions": 0
+          },
+          "legacy_counts_reproducible": true,
+          "seed": 701,
+          "source_arm": "oracle",
+          "status": "COMPLETED",
+          "task_family": "recoverable",
+          "task_id": "s701-recoverable-1"
+        }
+      ],
+      "counts": {
+        "accuracy": 1.0,
+        "attempted": 50,
+        "correct": 50,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "id": "A7",
+      "legacy_arm": "oracle",
+      "legacy_base_counts": {
+        "accuracy": 1.0,
+        "attempted": 40,
+        "correct": 40,
+        "false_abstentions": 0,
+        "stale_actions": 0,
+        "unsafe_actions": 0
+      },
+      "name": "oracle",
+      "observed_resource_use": {
+        "recovery_alternates_found": 0,
+        "recovery_search_calls": 0,
+        "retrieval_calls": 100
+      },
+      "parity_metadata": {
+        "context_budget_max": 1,
+        "context_items_exposed": 40,
+        "external_tool_calls": 0,
+        "model_calls": 0,
+        "model_tokens": 0,
+        "model_usd": 0,
+        "retrieval_call_budget": 150,
+        "runtime_permission_grants": 5,
+        "runtime_tool": "publish",
+        "simulated_decision_attempts": 50,
+        "tool_registry_order": [
+          "notify",
+          "publish",
+          "archive"
+        ],
+        "wall_time_budget_ms": 10000
+      },
+      "recovery_trace": [],
+      "source_arm": "oracle",
+      "status": "RUN",
+      "task_ids": [
+        "s701-missing-0",
+        "s701-missing-1",
+        "s701-corrected-0",
+        "s701-supported-1",
+        "s701-contested-1",
+        "s701-supported-0",
+        "s701-corrected-1",
+        "s701-contested-0",
+        "s701-recoverable-0",
+        "s701-recoverable-1"
+      ]
+    }
+  ],
+  "environment": {
+    "logical_cpus": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "process_count": 1,
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "thread_count": 1
+  },
+  "legacy_arm_totals_preserved": true,
+  "limitations": [
+    "A5 is a bounded scripted governed-recovery arm and remains non-confirmatory.",
+    "A6 remains NOT_RUN until CDM is integrated into the matched runner.",
+    "A3 recovery improvement is descriptive on two scripted recoverable cases only.",
+    "Legacy agent-count repetitions share world/task cases and are not independent samples.",
+    "No local model or production outcome is measured."
+  ],
+  "mechanical_parity": {
+    "checks": {
+      "context_budget_max": true,
+      "context_items_exposed": true,
+      "external_tool_calls": true,
+      "model_calls": true,
+      "model_tokens": true,
+      "model_usd": true,
+      "retrieval_call_budget": true,
+      "runtime_permission_grants": true,
+      "runtime_tool": true,
+      "simulated_decision_attempts": true,
+      "task_ids": true,
+      "tool_registry_order": true,
+      "wall_time_budget_ms": true
+    },
+    "compared_arm_ids": [
+      "A0",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A7"
+    ],
+    "declared_treatment": "memory/recovery intervention only; equal tools, evaluator and budgets",
+    "evaluator": "arm-blind _grade_case using expected outcome and observed decisions",
+    "excluded_not_run_arm_ids": [
+      "A6"
+    ],
+    "status": "INCOMPLETE_NOT_RUN_ARMS"
+  },
+  "model_status": "REAL_AGENT_NOT_RUN",
+  "model_token_claims": "NONE",
+  "parity_status": "PASS",
+  "population": "SCRIPTED_AGENT",
+  "recovery_arm_interpretation": "A3 executed bounded task-scoped searches. The two explicit recoverable correction cases have independent replacement sources; ordinary corrected cases have none.",
+  "same_task_ids_all_arms": true,
+  "schema_id": "memory-fabric.outcome-matched-arms.v1",
+  "seed": 701,
+  "source": {
+    "clean_at_start": true,
+    "commit_sha": "8b8e6673c48f1e3f5e31b62a585ed0514e6d812c"
+  },
+  "strongest_non_oracle_comparison": {
+    "baseline_arm": "A1",
+    "baseline_completion_rate": 0.2,
+    "candidate_arm": "A3",
+    "candidate_completion_rate": 0.4,
+    "difference": 0.2,
+    "promotion_status": "NOT_ASSESSED",
+    "reason": "This deterministic fixture is an implementation probe, not confirmatory evidence.",
+    "unit": "matched world/task case; descriptive scripted outcomes"
+  },
+  "task_count": 10,
+  "task_ids": [
+    "s701-missing-0",
+    "s701-missing-1",
+    "s701-corrected-0",
+    "s701-supported-1",
+    "s701-contested-1",
+    "s701-supported-0",
+    "s701-corrected-1",
+    "s701-contested-0",
+    "s701-recoverable-0",
+    "s701-recoverable-1"
+  ]
+}

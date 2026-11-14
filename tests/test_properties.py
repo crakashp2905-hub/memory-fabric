@@ -201,7 +201,10 @@ def property_use_agrees_with_lifecycle(walk: Walk) -> str | None:
     fabric = walk.fabric
     for memory_id, memory in fabric.state.memories.items():
         decision = fabric.enforcer.check(memory_id)
-        if memory.lifecycle_state in EXPOSABLE_STATES:
+        if memory_id in fabric.state.erased:
+            if decision.usable:
+                return f"erased {memory_id[-6:]} is usable"
+        elif memory.lifecycle_state in EXPOSABLE_STATES:
             if decision.verdict is not Verdict.USABLE:
                 return f"{memory_id[-6:]} is active but {decision.verdict.value}"
         elif memory.lifecycle_state in BLOCKED_STATES:

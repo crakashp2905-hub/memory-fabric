@@ -1,0 +1,201 @@
+{
+  "schema": "memory-fabric-agent-outcome-baseline/1",
+  "status": "FROZEN_INVENTORY_WITH_REPRODUCIBILITY_LIMITATIONS",
+  "recorded_at_utc": "2026-11-12T19:15:46Z",
+  "implementation_baseline": {
+    "commit": "10f14810e08ea28c3a336a8b7d54c6babbb40f5d",
+    "role": "source baseline for new agent-outcome implementation",
+    "confirmatory_run": false
+  },
+  "proposal_source": {
+    "commit": "4315997d066a261aa674559fc89d73d0c407d16b",
+    "object_present": true,
+    "role": "proposal review source only",
+    "benchmark_suite_reproduced": false
+  },
+  "historical_references": [
+    {
+      "id": "grand-50-agent-baseline-reproduction-v2",
+      "population": "deterministic_scripted_teamworld",
+      "source_commit": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+      "parameters": {
+        "seeds": [101, 102, 103, 104, 105],
+        "agents": 50,
+        "rounds": 60,
+        "tasks_per_seed": 100,
+        "retrieval_k": 5,
+        "exact_command_recorded": false,
+        "python": "3.13.5",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "logical_cpus": 8
+      },
+      "results": {
+        "task_success": {"numerator": 292, "denominator": 500, "rate": 0.584},
+        "valid_evidence_withheld": {"numerator": 84, "denominator": 500, "rate": 0.168},
+        "stale_actions": {"numerator": 0, "denominator": 500, "rate": 0.0}
+      },
+      "reproduction_status": "REPRODUCED_EXACTLY_AS_RECORDED",
+      "artifact": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+      "artifact_sha256": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+      "raw_output_sha256": "ed34dbf25df33b6625286c903564ae912027d191a2f402d181f0671375968c4d",
+      "limitations": [
+        "The report carries per-seed aggregates, not raw per-task paired rows.",
+        "Scripted deterministic behavior is not learned-model or deployment evidence.",
+        "The existing recorded clean-checkout reproduction is accepted as historical evidence; it was not rerun while freezing this inventory."
+      ]
+    },
+    {
+      "id": "r2-withholding-promotion-gate",
+      "population": "deterministic_scripted_teamworld",
+      "source_commit": "48158b62e6727ba70178fada92165178be70fb51",
+      "parameters": {
+        "seeds": [101, 102, 103, 104, 105],
+        "agents": 50,
+        "rounds": 60,
+        "tasks": 500,
+        "stale_controls": 125,
+        "arms": ["live", "single_source_floor_placebo", "allow_suspicious", "provisional_guard_placebo", "no_authority_floor"],
+        "exact_command_recorded": false,
+        "maximum_valid_withholding_rate": 0.05,
+        "python": "3.13.5",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "logical_cpus": 8,
+        "dirty": false
+      },
+      "results": {
+        "valid_withheld": {"numerator": 86, "denominator": 500, "rate": 0.172},
+        "stale_actions": {"numerator": 0, "denominator": 125, "rate": 0.0},
+        "promotion_status": "HOLD_EXISTING_POLICY"
+      },
+      "reproduction_status": "RECORDED_RESULT_INPUT_DIGEST_MISMATCH",
+      "artifact": "research/results/r2-withholding-promotion-gate.json",
+      "artifact_sha256": "a4a89cebf89c013735ffc3c4732383818a5d00b12a0b339dea2ab461d5cf577c",
+      "input_sha256": {
+        "benchmarks/withholding_promotion_gate.py": "b5d003c7f637457c6c1e42b0e5a78349ca2fafce064905384d566848d83c9169",
+        "research/prereg/r2-withholding-promotion-gate-v1.md": "e140069a954b968688b466494bbe20d29acbaf13ca809b748ccdac6247eecca1",
+        "research/results/grand-50-agent-baseline-reproduction-v2.json": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+        "research/results/r2-false-withholding-ablation.json": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572"
+      },
+      "input_digest_issue": {
+        "path": "research/results/r2-false-withholding-ablation.json",
+        "digest_recorded_by_gate": "eb5719b78d133816b1bdd17b5afacaac594383e3844eb734decc9eee8d309572",
+        "digest_in_frozen_checkout": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24"
+      },
+      "limitations": [
+        "The 5% withholding target was not met; no candidate was promoted.",
+        "The mismatch prevents exact reconstruction of every gate input from this checkout.",
+        "A zero observed stale-action count does not establish zero risk."
+      ]
+    },
+    {
+      "id": "r2-false-withholding-diagnostic-ablation",
+      "population": "synthetic_scripted",
+      "source_commit": "ec54a261641e8d6061622f71dae4577508648d22",
+      "parameters": {
+        "seeds": [101, 102, 103, 104, 105],
+        "agents_per_seed": 50,
+        "rounds": 60,
+        "diagnostic_case_denominator": 125,
+        "task_denominator": 500,
+        "python": "3.13.16",
+        "platform": "Linux-6.18.44-fc-v338-x86_64-with-glibc2.39",
+        "dirty": true
+      },
+      "reproduction_status": "DISTINCT_DIRTY_CHECKOUT_DIAGNOSTIC_NOT_UPSTREAM_REPRODUCTION",
+      "artifact": "research/results/r2-false-withholding-ablation.json",
+      "artifact_sha256": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24",
+      "recorded_upstream_candidate_sha": "12c612ea37980f92d206fe2b343b217603d1b3cc",
+      "exact_upstream_rows_available": false,
+      "limitations": [
+        "Current report valid_withholding_rate is 0.0 and does not independently support the 86/500 figure.",
+        "Counterfactuals are dry-run gate decisions and do not measure a completed task recovery.",
+        "Local corpus is explicitly not an exact import of PR #30 rows."
+      ]
+    },
+    {
+      "id": "phase-a-real-agent-benchmark",
+      "population": "qwen2.5-3b-model-backed-synthetic-depotworld",
+      "parameters": {
+        "model_name": "qwen2.5:3b",
+        "embedding_model_name": "nomic-embed-text",
+        "seeds": [0, 1, 2, 3, 4],
+        "learning_episodes_per_seed": 18,
+        "evaluation_episodes_per_seed_per_arm": 24,
+        "arms": ["no_memory", "local_rag", "shared_memory", "shared_memory_framed", "shared_memory_decay", "fabric", "fabric_causal", "oracle"],
+        "evaluation_decisions": 960,
+        "exact_command_recorded": false
+      },
+      "reproduction_status": "HISTORICAL_MODEL_RUN_PROVENANCE_INCOMPLETE_NOT_REPRODUCED_FOR_THIS_PLAN",
+      "protocol": "research/prereg/phase-a-real-agent-benchmark.md",
+      "result": "research/results/phase-a-decisions.json",
+      "result_sha256": "0ef98a8374ce24cae8e6cbdf38fc456a173fcc32dfd424eff02934f85ca360fb",
+      "run_log": "research/results/phase-a-run.txt",
+      "limitations": [
+        "The decision JSON and run log do not record the source commit, model digest, quantization, full decoding configuration, or run timestamp.",
+        "This synthetic DepotWorld result is not the new correction-aware three-agent benchmark and is not an independent deployment study."
+      ]
+    },
+    {
+      "id": "phase-a-prime-attribution",
+      "population": "qwen2.5-3b-model-backed-synthetic-depotworld",
+      "parameters": {
+        "model_name": "qwen2.5:3b",
+        "seeds": [0, 1, 2, 3, 4],
+        "learning_episodes_per_seed": 18,
+        "evaluation_episodes_per_seed_per_arm": 24,
+        "arms": ["no_memory", "shared_memory", "fabric_blame", "fabric_loo", "fabric_contrastive", "oracle"],
+        "evaluation_decisions": 720,
+        "exact_command_recorded": false
+      },
+      "reproduction_status": "HISTORICAL_MODEL_RUN_PROVENANCE_INCOMPLETE_NOT_REPRODUCED_FOR_THIS_PLAN",
+      "protocol": "research/prereg/phase-a-prime-attribution.md",
+      "result": "research/results/phase-a-prime-decisions.json",
+      "result_sha256": "a393021fc29153d09b8c988d87c264ca5acd21b77effbc14b6ffc8a14241af39",
+      "run_log": "research/results/phase-a-prime-run.txt",
+      "limitations": [
+        "The decision JSON and run log do not record the source commit, model digest, quantization, full decoding configuration, or run timestamp.",
+        "Its arms and intervention differ from the proposed A0–A7 correction-recovery evaluation."
+      ]
+    },
+    {
+      "id": "historical-p3b-agent-teams",
+      "population": "deterministic_scripted_agents",
+      "parameters": {
+        "seeds": 5,
+        "agents": 10,
+        "rounds": 60,
+        "arms": ["local", "shared", "shared_blanket", "fabric", "oracle"]
+      },
+      "reproduction_status": "HISTORICAL_REPORT_ONLY_NOT_REPRODUCED_FOR_THIS_PLAN",
+      "artifact": "research/results/p3b-agent-teams.md",
+      "limitations": [
+        "World and agent are locally implemented and deterministic.",
+        "Narrative report is not an independent-world learned-agent result.",
+        "The report's headline fabric success (0.970) conflicts with the detailed table and derived threshold section (0.960); do not treat either value as resolved without the source rows."
+      ]
+    },
+    {
+      "id": "counterfactual-decision-memory-findings",
+      "population": "multiple_separate_synthetic_and_fixture_studies",
+      "reproduction_status": "SEPARATE_NEGATIVE_NULL_INVALIDATED_AND_UNTESTED_RESULTS_RETAINED",
+      "artifact": "docs/CDM_KNOWN_FINDINGS.md",
+      "artifact_sha256": "d494436e232fee7d1ba7709b4d0c7feae718f5256475621f37860854eb4c28d1",
+      "limitations": [
+        "Do not aggregate across the cited protocols or outcomes.",
+        "No marginal CDM benefit is assumed for the new agent-outcome benchmark."
+      ]
+    }
+  ],
+  "new_protocol_status": {
+    "confirmatory_design_frozen": false,
+    "unfrozen_items": [
+      "minimum meaningful effect",
+      "sample size and stopping rule",
+      "held-out seed manifest",
+      "world-template split",
+      "multiplicity adjustment",
+      "resource caps"
+    ],
+    "promotion_status": "NOT_READY"
+  }
+}

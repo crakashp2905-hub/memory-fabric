@@ -116,6 +116,8 @@ REASONS: dict[str, tuple[str, str]] = {
                                "Certify the claim with at least one memory."),
     "evidence_not_found": ("Blocked: a memory this action relies on no longer exists.",
                            "Re-certify with current evidence."),
+    "content_erased": ("Blocked: content for a memory this action relies on was erased.",
+                        "Certify the action with current, available evidence."),
     "evidence_withdrawn": ("Blocked: a memory this action relies on has been withdrawn.",
                            "Re-certify with current evidence."),
     "evidence_version_moved": ("Blocked: a memory this action relies on has changed since it was certified.",

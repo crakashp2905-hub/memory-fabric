@@ -79,6 +79,11 @@ class CallRecord:
     count, so a cost or quality figure that does not say which mode produced
     it is not comparable with one that does.
     """
+    temperature: float = 0.0
+    top_p: float | None = None
+    seed: int | None = None
+    num_ctx: int | None = None
+    num_predict: int = 256
 
     @property
     def tokens(self) -> int:
@@ -149,9 +154,25 @@ class OllamaClient:
         return None
 
     def available(self) -> list[str]:
+        return [str(model["name"]) for model in self.inventory()]
+
+    def inventory(self) -> list[dict[str, Any]]:
+        """Return local model names, digests, and quantization metadata."""
         try:
             with urllib.request.urlopen(self.host + "/api/tags", timeout=10) as response:
-                return [m["name"] for m in json.load(response).get("models", [])]
+                models = json.load(response).get("models", [])
+                if not isinstance(models, list):
+                    raise ValueError("Ollama model inventory is not a list")
+                return [
+                    {
+                        "name": str(model.get("name", "")),
+                        "digest": model.get("digest"),
+                        "size": model.get("size"),
+                        "modified_at": model.get("modified_at"),
+                        "details": model.get("details", {}),
+                    }
+                    for model in models if isinstance(model, dict)
+                ]
         except Exception as exc:  # noqa: BLE001 - availability check must not raise
             raise OllamaError(f"cannot list models at {self.host}: {exc}") from exc
 
@@ -164,6 +185,9 @@ class OllamaClient:
         num_predict: int = 256,
         schema: Mapping[str, Any] | None = None,
         think: bool | None = None,
+        top_p: float | None = None,
+        seed: int | None = None,
+        num_ctx: int | None = None,
     ) -> dict[str, Any]:
         """One chat call, recorded.
 
@@ -185,11 +209,18 @@ class OllamaClient:
         Left as None, the server's default applies -- which is what every
         figure measured before this flag existed used.
         """
+        options: dict[str, Any] = {"temperature": temperature, "num_predict": num_predict}
+        if top_p is not None:
+            options["top_p"] = top_p
+        if seed is not None:
+            options["seed"] = seed
+        if num_ctx is not None:
+            options["num_ctx"] = num_ctx
         payload: dict[str, Any] = {
             "model": model,
             "messages": list(messages),
             "stream": False,
-            "options": {"temperature": temperature, "num_predict": num_predict},
+            "options": options,
         }
         if tools:
             payload["tools"] = list(tools)
@@ -212,6 +243,11 @@ class OllamaClient:
             seconds=time.perf_counter() - started,
             truncated=int(result.get("eval_count") or 0) >= num_predict,
             constrained=bool(schema),
+            temperature=temperature,
+            top_p=top_p,
+            seed=seed,
+            num_ctx=num_ctx,
+            num_predict=num_predict,
         )
         self.calls.append(record)
         for sink in self._sinks:
