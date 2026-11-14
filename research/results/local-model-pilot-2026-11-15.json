@@ -232,6 +232,92 @@
       }
     ]
   },
+  "three_role_local_model_chain": {
+    "actor_identities": {
+      "executor": "executor",
+      "observer": "observer",
+      "planner": "planner"
+    },
+    "adapter_errors": {
+      "hallucinated_evidence": 0,
+      "invalid_json": 0,
+      "retries": 0,
+      "tool_misuse": 0
+    },
+    "chain_result": {
+      "effect_executed": false,
+      "executor_validated": true,
+      "model_intent": "propose",
+      "model_step_sha256": "838d64ff27719cce139ad47475035c015263b5315ae8754183780017ef3c2610",
+      "status": "MODEL_STEP_AND_EXECUTOR_VALIDATION_COMPLETED",
+      "task_completion": "NOT_MEASURED"
+    },
+    "inference_settings": {
+      "constrained_json": true,
+      "num_ctx": 4096,
+      "num_predict": 160,
+      "output_schema_sha256": "958fc197be85b81c60235958cf32d5fd6eef07fd0abcc862896c3b861854295c",
+      "prompt_sha256": "dfe4aced6cdabd5f40c4e99ca64cf98090d84b00b3ad1b014c91812e5dd57005",
+      "seed": null,
+      "temperature": 0.0,
+      "top_p": null
+    },
+    "limitations": [
+      "One development task only; no frozen seed or confirmatory dataset.",
+      "Executor acceptance is validation only; no action was executed.",
+      "No independent evaluator measured terminal task completion.",
+      "Observer and executor use deterministic code; the local model chooses the planner step.",
+      "Model weights are shared through a single sequential local instance."
+    ],
+    "model": {
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "name": "qwen2.5:3b",
+      "quantization": "Q4_K_M",
+      "shared_weights": "one qwen2.5:3b instance, one sequential planner inference",
+      "size_bytes": 1929912432
+    },
+    "population": "real_model_agent",
+    "qualification_status": "NOT_ASSESSED",
+    "recorded_at_utc": "2026-11-14T19:43:31.290631+00:00",
+    "role_order": [
+      "observer.retrieve",
+      "planner.local_model_decide_and_validate",
+      "executor.validate_proposal"
+    ],
+    "runtime": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.5"
+    },
+    "source": {
+      "commit_sha": "d0c3c8747fefbc8bbccac78214b073468148fcbd",
+      "working_tree_dirty": false
+    },
+    "task_observation": {
+      "budget": {
+        "model_tokens": 160,
+        "steps": 3
+      },
+      "instruction": "Set Valve V-8 to the safe setting described in current calibration evidence.",
+      "permitted_tools": [
+        "set_valve"
+      ],
+      "task_id": "local-qwen-role-chain-2026-11-15",
+      "visible_events": [
+        {
+          "content": "Calibration note for Valve V-8: safe setting is closed.",
+          "memory_id": "01M7DSBYN7436BXK1MPGGJJHJB",
+          "version": 1
+        }
+      ]
+    },
+    "usage": {
+      "calls": 1.0,
+      "completion_tokens": 79.0,
+      "prompt_tokens": 196.0,
+      "seconds": 9.479792899976019,
+      "tokens": 275.0
+    }
+  },
   "typed_tool_schema_attempt": {
     "attempt": 6,
     "interpretation": "A successful status means the model output passed AgentStep and declared argument validation; it does not show that the action was authorized or the task completed.",
