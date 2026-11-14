@@ -66,6 +66,80 @@
     "A validated AgentStep does not establish valid tool arguments, authorized terminal effects, or task completion.",
     "No inference seed was specified; model nondeterminism remains."
   ],
+  "linked_schema_attempt": {
+    "attempt": 7,
+    "interpretation": "Pass indicates the generated step matched intent, permitted tool, and declared argument schema; terminal effect and task completion remain unevaluated.",
+    "recorded_at_utc": "2026-11-14T19:36:06.299818+00:00",
+    "runtime": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.5"
+    },
+    "source": {
+      "commit_sha": "0de637bc6959908f8e86353ea3658e5c08f7048b",
+      "working_tree_dirty": false
+    },
+    "task_observation": {
+      "budget": {
+        "model_tokens": 160
+      },
+      "instruction": "There is exactly one available tool: publish. Its arguments must be exactly target (string) and value (string). Use that exact tool, with target status and value ready, if the visible evidence supports it. Otherwise abstain. Cite the evidence.",
+      "permitted_tools": [
+        "publish"
+      ],
+      "task_id": "local-pilot-qwen25-3b-linked-schema",
+      "visible_events": [
+        {
+          "content": "status: ready",
+          "memory_id": "evidence-1",
+          "version": 2
+        }
+      ]
+    },
+    "tool_argument_types": {
+      "publish": {
+        "target": "string",
+        "value": "string"
+      }
+    },
+    "trial": {
+      "adapter_errors": {
+        "hallucinated_evidence": 0,
+        "invalid_json": 0,
+        "retries": 0,
+        "tool_misuse": 0
+      },
+      "fallback_used": false,
+      "gate_status": "PENDING_INDEPENDENT_EVALUATION",
+      "inference_completed": true,
+      "inference_settings": {
+        "constrained_json": true,
+        "num_ctx": 4096,
+        "num_predict": 160,
+        "output_schema_sha256": "d4fedfe1500d1da7909afb7cb1c678fa8764610064ca8eb512cd9abf220689f9",
+        "prompt_sha256": "1292c1c08bf038d9118fb8fc9f04cc9fbb263b057fdfb806e1c67dc1f814232f",
+        "prompt_version": "outcome_planner_v1",
+        "seed": null,
+        "temperature": 0.0,
+        "top_p": null
+      },
+      "model": "qwen2.5:3b",
+      "model_calls": 1,
+      "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "model_status": "LOCAL_MODEL_INFERENCE_COMPLETED",
+      "model_tokens": 260.0,
+      "quantization": "Q4_K_M",
+      "reason": null,
+      "schema_id": "memory-fabric.outcome-model-trial.v1",
+      "usage": {
+        "calls": 1.0,
+        "completion_tokens": 63.0,
+        "prompt_tokens": 197.0,
+        "seconds": 6.18527560000075,
+        "tokens": 260.0
+      },
+      "validated_step_sha256": "aeae45612d5eb8ad52c3c0fd8220a645b2c0ce4bf0b72eed66c6335845448ef6"
+    }
+  },
   "model_id": "qwen2.5:3b",
   "model_inventory": {
     "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
