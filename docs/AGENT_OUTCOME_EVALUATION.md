@@ -156,11 +156,13 @@ promotion remains `NOT_ASSESSED`. The report's canonical-LF SHA-256 is
 `ce844ed4cf1fe0212749e84ba96d5c74cd47ea333b27a2a3ebf253c365d5ae51` in
 `research/results/agent-outcome-a5-matched-development.json`.
 The matched A6 arm remains `NOT_RUN` because the harness has no authenticated
-CDM decision receipt and registered local replay runner. The current captured
-replay path also requires evidence to remain currently admissible; it cannot
-replay quarantined historical evidence as current. Preserving that gate is
-necessary to keep advisory counterfactual analysis from becoming an alternate
-path around evidence authorization.
+CDM decision receipt or outcome-equivalent registered replay runner. CDM's
+current registry accepts a `ThresholdPolicy` over a `DeterministicSimulator`;
+neither maps the harness actor and world transition, so substituting them would
+not measure A6. Captured replay also requires evidence to remain currently
+admissible; it cannot replay quarantined historical evidence as current.
+Preserving that gate is necessary to keep advisory counterfactual analysis from
+becoming an alternate path around evidence authorization.
 
 - Scripted contracts: qualification awaits the repository CI/check suite.
 - The offline gate report records the exact candidate commit and requires a

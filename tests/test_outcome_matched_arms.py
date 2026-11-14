@@ -55,6 +55,7 @@ def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> No
                if row["task_family"] == "recoverable")
     assert by_id["A6"]["status"] == "NOT_RUN"
     assert by_id["A6"]["case_outcomes"] == []
+    assert "neither is an outcome-equivalent mapping" in by_id["A6"]["reason"]
     assert report["a5_same_case_comparisons"]["A5-A3"]["denominator"] == len(expected_ids)
     assert report["a5_same_case_comparisons"]["A5-A4"]["denominator"] == len(expected_ids)
     assert report["a5_same_case_comparisons"]["A5-A4"][
