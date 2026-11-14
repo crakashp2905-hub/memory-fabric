@@ -385,6 +385,47 @@ class PlannerActor(_Actor):
         step = self._record(observation.task_id, "propose", payload, versions)
         return AgentPort(observation, self.actor_id).submit(step)
 
+    def accept_model_step(
+        self, observation: AgentObservation, step: AgentStep,
+    ) -> AgentStep:
+        """Bind a model proposal to this planner identity and its declared tools."""
+        if not isinstance(observation, AgentObservation):
+            raise TypeError("planner input must be an AgentObservation")
+        if not isinstance(step, AgentStep):
+            raise TypeError("model output must be an AgentStep")
+        actor_id = self.actor_id
+        if step.actor_id != actor_id:
+            raise PermissionError("model step does not belong to this planner identity")
+        if any(existing.step_id == step.step_id for existing in self.steps):
+            raise ValueError("model step ID was already recorded")
+        AgentPort(observation, actor_id).submit(step)
+        visible_versions = {
+            (item.get("memory_id"), item.get("version"))
+            for item in observation.visible_events
+            if isinstance(item.get("memory_id"), str)
+            and type(item.get("version")) is int
+        }
+        if (len(set(step.evidence_versions)) != len(step.evidence_versions)
+                or any(pair not in visible_versions for pair in step.evidence_versions)):
+            raise ValueError("model step evidence is not present in the observation")
+        if step.intent == "abstain":
+            if "tool" in step.arguments:
+                raise ValueError("abstention cannot name a tool")
+        elif step.intent == "propose":
+            tool = step.arguments.get("tool")
+            if not isinstance(tool, str) or tool not in observation.permitted_tools:
+                raise PermissionError("planner proposed a tool outside the observation grant")
+            declaration = next((item for item in self.declarations
+                                if item.name == "propose"), None)
+            if declaration is None:
+                raise PermissionError("planner has no propose declaration")
+            declaration.validate_arguments(step.arguments)
+        else:
+            raise ValueError("planner model may only propose or abstain")
+        self._counter += 1
+        self.steps.append(step)
+        return step
+
 
 class ExecutorActor(_Actor):
     """Checks a planner proposal against its own tool declarations and identity."""
