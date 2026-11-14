@@ -590,6 +590,8 @@ class RecoveryEpisode:
         """Reauthorize at effect time via the existing gate, then record only its verdict."""
         if not self.enabled:
             raise RuntimeError("recovery is disabled")
+        if type(gate) is not ActionGate:
+            raise TypeError("protected recovery effects require the existing ActionGate")
         if type(retry) is not bool:
             raise ValueError("retry must be a boolean")
         if self.status in (RecoveryStatus.DISABLED, RecoveryStatus.ABSTAINED,

@@ -26,6 +26,25 @@ from memory_fabric.exposure import AlwaysExposePolicy
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_recovery_execution_rejects_gate_lookalikes() -> None:
+    called = False
+
+    class GateLookalike:
+        def execute(self, *_args, **_kwargs):
+            nonlocal called
+            called = True
+
+    episode = RecoveryEpisode("forged-gate", enabled=True)
+    with pytest.raises(TypeError, match="existing ActionGate"):
+        episode.execute(  # type: ignore[arg-type]
+            GateLookalike(), "protected", "agent", None, lambda _key: None,  # type: ignore[arg-type]
+            key="forged-gate-key",
+        )
+
+    assert not called
+    assert episode.steps == 0
+
+
 def test_correction_receipt_drives_an_advisory_replan_transition() -> None:
     episode = RecoveryEpisode("replan-task", enabled=True)
     assert episode.record("evidence_blocked", {"cause_code": "EVIDENCE_STALE"})
