@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "cef9dc975e27f53f550a34bad30d88f292c7a45c",
+    "commit": "1acbad25e42f0637ba357f3bb339e2fec5b7a1d4",
     "dirty": true
   },
   "summary": {
@@ -5568,7 +5568,7 @@
       ],
       "evidence_digests": {
         "tests/test_personal_data_redaction.py": "c3e3bb7f6b5a1693d6825b34ab2a7c92879f792895f45a4b8b12f6b3fbc90560",
-        "tools/scan_secrets.py": "357bfb05169dfe338bc8a24be5169b95a06066c4ad4bc026a174df235d8501de",
+        "tools/scan_secrets.py": "a8324f625d5fd9b8c9c58fee7263ca6b398a54f28a65be397911e57848b7bc24",
         "research/results/h3-05-personal-data-redaction.json": "56f307ea684ac08ef56414b32e6b08d6785fc2e1292c0147aa6b3013659d5f8c",
         "research/results/h3-05-personal-data-redaction-tests.xml": "55945996c93d0c540dd450fa2e5b6a93a87d3ddbc2083541820865b377967e49"
       },
