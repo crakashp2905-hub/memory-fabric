@@ -158,5 +158,60 @@
       }
     ]
   },
+  "typed_tool_schema_attempt": {
+    "attempt": 6,
+    "interpretation": "A successful status means the model output passed AgentStep and declared argument validation; it does not show that the action was authorized or the task completed.",
+    "recorded_at_utc": "2026-11-14T19:27:48.069167+00:00",
+    "runtime": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.5"
+    },
+    "source": {
+      "commit_sha": "ce26aa089e5d9676b259b71280efe19a789f7741",
+      "working_tree_dirty": false
+    },
+    "task_observation": {
+      "budget": {
+        "model_tokens": 160
+      },
+      "instruction": "There is exactly one available tool: publish. Its arguments must be exactly target (string) and value (string). Use that exact tool, with target status and value ready, if the visible evidence supports it. Otherwise abstain. Cite the evidence.",
+      "permitted_tools": [
+        "publish"
+      ],
+      "task_id": "local-pilot-qwen25-3b-typed-tool",
+      "visible_events": [
+        {
+          "content": "status: ready",
+          "memory_id": "evidence-1",
+          "version": 2
+        }
+      ]
+    },
+    "tool_argument_types": {
+      "publish": {
+        "target": "string",
+        "value": "string"
+      }
+    },
+    "trial": {
+      "adapter_errors": {
+        "hallucinated_evidence": 0,
+        "invalid_json": 0,
+        "retries": 0,
+        "tool_misuse": 1
+      },
+      "fallback_used": false,
+      "gate_status": "NOT_RUN",
+      "inference_completed": true,
+      "model": "qwen2.5:3b",
+      "model_calls": 1,
+      "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "model_status": "LOCAL_MODEL_INFERENCE_FAILED",
+      "model_tokens": null,
+      "quantization": "Q4_K_M",
+      "reason": "INVALID_MODEL_STEP:model proposed a tool outside its observation grant",
+      "schema_id": "memory-fabric.outcome-model-trial.v1"
+    }
+  },
   "verdict": "NOT_ASSESSED"
 }

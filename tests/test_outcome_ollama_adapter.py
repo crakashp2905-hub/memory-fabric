@@ -53,8 +53,12 @@ def test_ollama_planner_sends_only_observation_and_validates_response() -> None:
         "temperature": 0.0, "num_predict": 160, "top_p": None,
         "seed": None, "num_ctx": 4096,
     }
-    tool_schema = client.calls[0][2]["schema"]["properties"]["tool"]["anyOf"][0]
+    proposal_schema = client.calls[0][2]["schema"]["anyOf"][0]
+    tool_schema = proposal_schema["properties"]["tool"]
     assert tool_schema["enum"] == ["publish"]
+    abstention_schema = client.calls[0][2]["schema"]["anyOf"][-1]
+    assert abstention_schema["properties"]["intent"]["enum"] == ["abstain"]
+    assert abstention_schema["properties"]["tool"]["type"] == "null"
 
 
 def test_ollama_planner_counts_invalid_json_tool_misuse_and_hallucinated_evidence() -> None:
@@ -93,6 +97,17 @@ def test_ollama_planner_handles_unhashable_intent_as_invalid_model_step() -> Non
     assert planner.invalid_json == 1
 
 
+def test_ollama_planner_rejects_proposal_without_a_tool() -> None:
+    response = json.dumps({
+        "intent": "propose", "tool": None, "arguments": {}, "evidence_versions": [],
+    })
+    planner = OllamaOutcomePlanner("qwen2.5:3b", StubOllama(response))
+
+    with pytest.raises(InvalidModelStep, match="outside its observation grant"):
+        planner.decide(observation(), actor_id="planner-1", step_id="step-1")
+    assert planner.tool_misuse == 1
+
+
 def test_ollama_planner_constrains_and_validates_registered_tool_arguments() -> None:
     client = StubOllama(encoded_step())
     planner = OllamaOutcomePlanner(
@@ -101,7 +116,8 @@ def test_ollama_planner_constrains_and_validates_registered_tool_arguments() -> 
     )
     step = planner.decide(observation(), actor_id="planner-1", step_id="step-1")
 
-    arguments_schema = client.calls[0][2]["schema"]["properties"]["arguments"]["anyOf"][0]
+    proposal_schema = client.calls[0][2]["schema"]["anyOf"][0]
+    arguments_schema = proposal_schema["properties"]["arguments"]
     assert arguments_schema["properties"] == {
         "target": {"type": "string"}, "value": {"type": "string"},
     }

@@ -39,39 +39,47 @@ class OllamaOutcomePlanner:
             str: "string", int: "integer", float: "number",
             bool: "boolean", list: "array", dict: "object",
         }
-        argument_schemas = []
+        evidence_schema = {
+            "type": "array",
+            "items": {"type": "array", "minItems": 2, "maxItems": 2},
+        }
+        branches: list[dict[str, Any]] = []
         for tool in observation.permitted_tools:
             declared = self.tool_argument_types.get(tool)
-            if declared is None:
-                continue
-            argument_schemas.append({
+            arguments_schema: dict[str, Any] = {"type": "object"}
+            if declared is not None:
+                arguments_schema = {
+                    "type": "object",
+                    "properties": {name: {"type": json_type_names[kind]}
+                                   for name, kind in declared.items()},
+                    "required": list(declared),
+                    "additionalProperties": False,
+                }
+            branches.append({
                 "type": "object",
-                "properties": {name: {"type": json_type_names[kind]}
-                               for name, kind in declared.items()},
-                "required": list(declared),
+                "properties": {
+                    "intent": {"type": "string", "enum": ["propose"]},
+                    "tool": {"type": "string", "enum": [tool]},
+                    "arguments": arguments_schema,
+                    "evidence_versions": evidence_schema,
+                },
+                "required": ["intent", "tool", "arguments", "evidence_versions"],
                 "additionalProperties": False,
             })
-        arguments_schema: dict[str, Any] = {"type": "object"}
-        if argument_schemas:
-            arguments_schema = {"anyOf": argument_schemas}
-        return {
+        branches.append({
             "type": "object",
             "properties": {
-                "intent": {"type": "string", "enum": ["propose", "abstain"]},
-                "tool": {
-                    "anyOf": [
-                        {"type": "string", "enum": list(observation.permitted_tools)},
-                        {"type": "null"},
-                    ],
-                },
-                "arguments": arguments_schema,
-                "evidence_versions": {
-                    "type": "array",
-                    "items": {"type": "array", "minItems": 2, "maxItems": 2},
-                },
+                "intent": {"type": "string", "enum": ["abstain"]},
+                "tool": {"type": "null"},
+                "arguments": {"type": "object"},
+                "evidence_versions": evidence_schema,
             },
             "required": ["intent", "tool", "arguments", "evidence_versions"],
             "additionalProperties": False,
+        })
+        return {
+            "type": "object",
+            "anyOf": branches,
         }
 
     def __init__(self, model: str, client: Any, *, model_digest: str | None = None,
