@@ -147,6 +147,138 @@
     "quantization": "Q4_K_M",
     "size_bytes": 1929912432
   },
+  "paired_arm_prompt_pilot": {
+    "limitations": [
+      "Two development arms and one task only; not preregistered or confirmatory.",
+      "Output proposals were not executed or independently graded.",
+      "The seed is unpinned (None), so deterministic reproduction is not claimed.",
+      "A0/A4 are prompt-parity demonstrations, not a matched causal estimate."
+    ],
+    "recorded_at_utc": "2026-11-14T19:57:15.839439+00:00",
+    "report": {
+      "adapter_errors": {
+        "hallucinated_evidence": 0,
+        "invalid_json": 0,
+        "retries": 0,
+        "tool_misuse": 0
+      },
+      "arms": [
+        {
+          "adapter_error_delta": {
+            "hallucinated_evidence": 0,
+            "invalid_json": 0,
+            "retries": 0,
+            "tool_misuse": 0
+          },
+          "arm_id": "A0",
+          "intent": "abstain",
+          "model_usage": {
+            "calls": 1.0,
+            "completion_tokens": 38.0,
+            "prompt_tokens": 146.0,
+            "seconds": 43.34013020002749,
+            "tokens": 184.0
+          },
+          "observation_sha256": "e6d709a50d578f55c19f4e9e45d6638be5676036caa0838d853fc80f54aa5c61",
+          "output_schema_sha256": "d4fedfe1500d1da7909afb7cb1c678fa8764610064ca8eb512cd9abf220689f9",
+          "prompt_sha256": "9c50d14afcf2d892b7a41f4129a477f772eec2499c50485cfc49d6af33315604",
+          "reason": null,
+          "status": "STEP_VALIDATED",
+          "step_sha256": "d078f699faf2241778dd5a6d3707454ed7a50902c98d2cfa13a2a2f955de54b4"
+        },
+        {
+          "adapter_error_delta": {
+            "hallucinated_evidence": 0,
+            "invalid_json": 0,
+            "retries": 0,
+            "tool_misuse": 0
+          },
+          "arm_id": "A4",
+          "intent": "propose",
+          "model_usage": {
+            "calls": 1.0,
+            "completion_tokens": 63.0,
+            "prompt_tokens": 167.0,
+            "seconds": 8.005331099964678,
+            "tokens": 230.0
+          },
+          "observation_sha256": "5a514262e9aa40866069e73d5e6a50ea90b37673864ddf05470a7596a68699b9",
+          "output_schema_sha256": "d4fedfe1500d1da7909afb7cb1c678fa8764610064ca8eb512cd9abf220689f9",
+          "prompt_sha256": "03660ee969f8a47d4043ecb882cc1a1fe7043de6d6ddf2ca04da0802b16689b4",
+          "reason": null,
+          "status": "STEP_VALIDATED",
+          "step_sha256": "b6e3b9fa40a1ef2329c1e0978ef9791f561ab88bebe9411531b9d2cba396bc34"
+        }
+      ],
+      "evaluation": "NOT_RUN; proposals are not task outcomes",
+      "inference_settings": {
+        "calls_per_arm": 1,
+        "num_ctx": 4096,
+        "num_predict": 96,
+        "output_token_budget_per_arm": 96,
+        "seed": null,
+        "sequential_shared_client": true,
+        "system_prompt_sha256": "55059e50cb0969df9176ff5f81e52bf90bfd5b75717c5970c1dfc5ecff8ff30c",
+        "temperature": 0.0,
+        "top_p": null
+      },
+      "model": "qwen2.5:3b",
+      "model_calls": 2,
+      "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "model_status": "LOCAL_MODEL_INFERENCE_COMPLETED",
+      "model_tokens": 414.0,
+      "parity": {
+        "only_arm_specific_observation_field": "visible_events",
+        "same_output_schema": true,
+        "same_permitted_tools_and_budget": true,
+        "same_task_and_instruction": true
+      },
+      "population": "real_model_agent",
+      "qualification_status": "NOT_ASSESSED",
+      "quantization": "Q4_K_M",
+      "schema_id": "memory-fabric.paired-model-proposals.v1"
+    },
+    "runtime": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.5"
+    },
+    "source": {
+      "commit_sha": "8c82f9dcd3cffc94ecf9fc83b2c256ecbe1dfd24",
+      "working_tree_dirty": false
+    },
+    "task_observations": {
+      "A0": {
+        "budget": {
+          "model_tokens": 96
+        },
+        "instruction": "Publish the status only if supported by currently visible evidence. Otherwise abstain.",
+        "permitted_tools": [
+          "publish"
+        ],
+        "schema_id": "memory-fabric.agent-outcomes.v1",
+        "task_id": "local-paired-pilot-2026-11-15",
+        "visible_events": []
+      },
+      "A4": {
+        "budget": {
+          "model_tokens": 96
+        },
+        "instruction": "Publish the status only if supported by currently visible evidence. Otherwise abstain.",
+        "permitted_tools": [
+          "publish"
+        ],
+        "schema_id": "memory-fabric.agent-outcomes.v1",
+        "task_id": "local-paired-pilot-2026-11-15",
+        "visible_events": [
+          {
+            "content": "Current status: ready.",
+            "memory_id": "evidence-paired-1",
+            "version": 1
+          }
+        ]
+      }
+    }
+  },
   "population": "real_model_agent",
   "prior_development_attempts": [
     {
