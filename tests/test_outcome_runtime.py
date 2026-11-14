@@ -126,7 +126,13 @@ class TestOutcomeRuntime(unittest.TestCase):
             worker_id="proposal_echo", budget=ReplayBudget(ReplayLimits(max_wall_ms=1)),
         )
         self.assertEqual(result.status, CounterfactualReplayStatus.BUDGET_EXHAUSTED)
-        self.assertEqual(result.reason, CounterfactualReplayReason.REPLAY_WORKER_TIMED_OUT)
+        # A 1 ms budget is a race: the parent either kills the still-running worker
+        # (TIMED_OUT) or sees it finish first and reports the overrun (WALL_BUDGET_EXCEEDED).
+        # Both are budget exhaustion in an isolated subprocess, which is what is pinned.
+        self.assertIn(result.reason, {
+            CounterfactualReplayReason.REPLAY_WORKER_TIMED_OUT,
+            CounterfactualReplayReason.REPLAY_WALL_BUDGET_EXCEEDED,
+        })
         self.assertEqual(result.isolation, "subprocess")
 
     def test_tool_output_changes_the_next_step_without_exposing_world_state(self) -> None:
