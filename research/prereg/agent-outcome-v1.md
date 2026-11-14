@@ -16,7 +16,9 @@
   `experiments/p3b_teams.py`. New work must reuse it where the treatment and
   outcome definitions match; a new world requires a written reason.
 - Evidence classes are `contract_tested`, `local_model_tested`, and
-  `deployment_validated`. This checkout currently has no outcome-stage result.
+  `deployment_validated`. This checkout has one scripted A5 development probe,
+  recorded in `research/results/agent-outcome-a5-matched-development.json`; it
+  has no confirmatory or local-model outcome result.
 
 ## Frozen historical outcome references
 
