@@ -112,3 +112,34 @@ def test_pinned_model_digest_and_inference_settings_are_reported() -> None:
     assert len(report["inference_settings"]["prompt_sha256"]) == 64
     assert "step" not in report
     assert report["fallback_used"] is False
+
+
+def test_invalid_model_step_reports_adapter_failure_counters_without_raw_output() -> None:
+    class InvalidReplyClient:
+        def available(self):
+            return ["pinned-model:latest"]
+
+        def inventory(self):
+            return [{"name": "pinned-model:latest", "digest": "a" * 64,
+                     "details": {"quantization_level": "Q4_K_M"}}]
+
+        def chat(self, _model, _messages, **_kwargs):
+            return {"message": {"content": '{"intent": [], "tool": null,'
+                    '"arguments": {}, "evidence_versions": []}'}}
+
+    planner = OllamaOutcomePlanner(
+        "pinned-model", InvalidReplyClient(), model_digest="a" * 64,
+        quantization="Q4_K_M",
+    )
+    observation = AgentObservation("task-1", "Do the task.", (), ("publish",), {})
+    report = run_local_model_trial(planner, observation=observation)
+
+    assert report["model_status"] == "LOCAL_MODEL_INFERENCE_FAILED"
+    assert report["reason"] == (
+        "INVALID_MODEL_STEP:model intent is outside the supported next-step vocabulary"
+    )
+    assert report["adapter_errors"] == {
+        "invalid_json": 1, "tool_misuse": 0,
+        "hallucinated_evidence": 0, "retries": 0,
+    }
+    assert "[]" not in report["reason"]

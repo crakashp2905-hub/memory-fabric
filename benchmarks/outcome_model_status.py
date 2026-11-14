@@ -139,7 +139,9 @@ def run_local_model_trial(
             "schema_id": "memory-fabric.outcome-model-trial.v1",
             "model_status": "LOCAL_MODEL_INFERENCE_FAILED",
             "gate_status": "NOT_RUN",
-            "reason": f"INVALID_MODEL_STEP:{type(exc).__name__}",
+            # InvalidModelStep messages are adapter-owned fixed reason strings;
+            # do not include raw model content in the report.
+            "reason": f"INVALID_MODEL_STEP:{exc}",
             "model": planner.model,
             "inference_completed": True,
             "model_calls": 1,
@@ -147,6 +149,12 @@ def run_local_model_trial(
             "fallback_used": False,
             "model_digest": pinned_digest,
             "quantization": observed_quantization,
+            "adapter_errors": {
+                "invalid_json": planner.invalid_json,
+                "tool_misuse": planner.tool_misuse,
+                "hallucinated_evidence": planner.hallucinated_evidence,
+                "retries": planner.retries,
+            },
         }
     after_usage = planner.client.usage() if callable(getattr(planner.client, "usage", None)) else None
     usage_delta = None
