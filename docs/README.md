@@ -28,6 +28,7 @@ Every document in the repository, by what you are trying to do.
 | [FAQ.md](FAQ.md) | Common questions, short answers |
 | [PIPELINE.md](PIPELINE.md) | One memory from write to erasure, with what is and is not measured |
 | [PIPELINE_2026-10-15.md](PIPELINE_2026-10-15.md) | Earlier version of the pipeline document, kept from the archive branch for history; superseded by PIPELINE.md |
+| [MCP.md](MCP.md) | Memory Fabric as an MCP server for any MCP host: recall, write, flag disagreements, retract, and ask why a memory exists |
 | [../examples/README.md](../examples/README.md) | Runnable examples |
 
 ## Reference
