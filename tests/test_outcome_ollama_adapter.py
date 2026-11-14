@@ -49,7 +49,7 @@ def test_ollama_planner_sends_only_observation_and_validates_response() -> None:
     assert json.loads(request[1]["content"]) == observation().to_dict()
     assert "expected_action" not in request[1]["content"]
     assert client.calls[0][2] == {
-        "schema": OllamaOutcomePlanner.response_schema(observation()),
+        "schema": planner.response_schema(observation()),
         "temperature": 0.0, "num_predict": 160, "top_p": None,
         "seed": None, "num_ctx": 4096,
     }
@@ -89,6 +89,39 @@ def test_ollama_planner_handles_unhashable_intent_as_invalid_model_step() -> Non
         })),
     )
     with pytest.raises(InvalidModelStep, match="intent"):
+        planner.decide(observation(), actor_id="planner-1", step_id="step-1")
+    assert planner.invalid_json == 1
+
+
+def test_ollama_planner_constrains_and_validates_registered_tool_arguments() -> None:
+    client = StubOllama(encoded_step())
+    planner = OllamaOutcomePlanner(
+        "qwen2.5:3b", client,
+        tool_argument_types={"publish": {"target": str, "value": str}},
+    )
+    step = planner.decide(observation(), actor_id="planner-1", step_id="step-1")
+
+    arguments_schema = client.calls[0][2]["schema"]["properties"]["arguments"]["anyOf"][0]
+    assert arguments_schema["properties"] == {
+        "target": {"type": "string"}, "value": {"type": "string"},
+    }
+    assert arguments_schema["required"] == ["target", "value"]
+    assert arguments_schema["additionalProperties"] is False
+    assert step.arguments == {"tool": "publish", "target": "status", "value": "ready"}
+
+
+def test_ollama_planner_rejects_arguments_outside_registered_tool_schema() -> None:
+    malformed = json.dumps({
+        "intent": "propose", "tool": "publish",
+        "arguments": {"memory_id": "evidence-1", "version": 2},
+        "evidence_versions": [["evidence-1", 2]],
+    })
+    planner = OllamaOutcomePlanner(
+        "qwen2.5:3b", StubOllama(malformed),
+        tool_argument_types={"publish": {"target": str, "value": str}},
+    )
+
+    with pytest.raises(InvalidModelStep, match="declared tool schema"):
         planner.decide(observation(), actor_id="planner-1", step_id="step-1")
     assert planner.invalid_json == 1
 

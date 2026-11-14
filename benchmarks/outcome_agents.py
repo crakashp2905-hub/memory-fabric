@@ -33,9 +33,27 @@ class OllamaOutcomePlanner:
         "evidence_versions (array of [memory_id, version]). Never invent evidence IDs."
     )
 
-    @staticmethod
-    def response_schema(observation: AgentObservation) -> dict[str, Any]:
+    def response_schema(self, observation: AgentObservation) -> dict[str, Any]:
         """Constrain decoding to the public step shape and this observation's tools."""
+        json_type_names = {
+            str: "string", int: "integer", float: "number",
+            bool: "boolean", list: "array", dict: "object",
+        }
+        argument_schemas = []
+        for tool in observation.permitted_tools:
+            declared = self.tool_argument_types.get(tool)
+            if declared is None:
+                continue
+            argument_schemas.append({
+                "type": "object",
+                "properties": {name: {"type": json_type_names[kind]}
+                               for name, kind in declared.items()},
+                "required": list(declared),
+                "additionalProperties": False,
+            })
+        arguments_schema: dict[str, Any] = {"type": "object"}
+        if argument_schemas:
+            arguments_schema = {"anyOf": argument_schemas}
         return {
             "type": "object",
             "properties": {
@@ -46,7 +64,7 @@ class OllamaOutcomePlanner:
                         {"type": "null"},
                     ],
                 },
-                "arguments": {"type": "object"},
+                "arguments": arguments_schema,
                 "evidence_versions": {
                     "type": "array",
                     "items": {"type": "array", "minItems": 2, "maxItems": 2},
@@ -58,6 +76,7 @@ class OllamaOutcomePlanner:
 
     def __init__(self, model: str, client: Any, *, model_digest: str | None = None,
                  quantization: str | None = None,
+                 tool_argument_types: Mapping[str, Mapping[str, type]] | None = None,
                  temperature: float = 0.0, top_p: float | None = None,
                  seed: int | None = None, num_ctx: int = 4096,
                  num_predict: int = 160) -> None:
@@ -72,6 +91,17 @@ class OllamaOutcomePlanner:
             raise ValueError("model_digest must be a SHA-256 digest")
         if quantization is not None and (not isinstance(quantization, str) or not quantization.strip()):
             raise ValueError("quantization must be non-empty text or None")
+        if tool_argument_types is not None and not isinstance(tool_argument_types, Mapping):
+            raise ValueError("tool_argument_types must be a mapping or None")
+        declared_arguments = dict(tool_argument_types or {})
+        json_types = {str, int, float, bool, list, dict}
+        if any(not isinstance(tool, str) or not tool
+               or not isinstance(arguments, Mapping)
+               or any(not isinstance(name, str) or not name or not isinstance(kind, type)
+                      or kind not in json_types
+                      for name, kind in arguments.items())
+               for tool, arguments in declared_arguments.items()):
+            raise ValueError("tool_argument_types must declare JSON-compatible argument types")
         if top_p is not None and (isinstance(top_p, bool) or not isinstance(top_p, (int, float))
                                   or not 0 < top_p <= 1):
             raise ValueError("top_p must be greater than zero and at most one")
@@ -97,6 +127,9 @@ class OllamaOutcomePlanner:
         self.model = model
         self.model_digest = model_digest
         self.quantization = quantization
+        self.tool_argument_types = {
+            tool: dict(arguments) for tool, arguments in declared_arguments.items()
+        }
         self.client = client
         self.temperature = float(temperature)
         self.top_p = float(top_p) if top_p is not None else None
@@ -159,6 +192,17 @@ class OllamaOutcomePlanner:
                        or item[1] < 0 for item in raw_versions)):
             self.invalid_json += 1
             raise InvalidModelStep("model reply arguments or evidence references are malformed")
+        declared = self.tool_argument_types.get(tool) if intent == "propose" else None
+        if declared is not None:
+            if set(arguments) != set(declared):
+                self.invalid_json += 1
+                raise InvalidModelStep("model arguments do not match the declared tool schema")
+            for name, expected_type in declared.items():
+                value = arguments[name]
+                if ((expected_type is int and isinstance(value, bool))
+                        or not isinstance(value, expected_type)):
+                    self.invalid_json += 1
+                    raise InvalidModelStep("model argument has the wrong declared type")
         try:
             versions = tuple((item[0], item[1]) for item in raw_versions)
             step = AgentStep(observation.task_id, actor_id, step_id, intent,
