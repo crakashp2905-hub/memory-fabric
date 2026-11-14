@@ -1,0 +1,145 @@
+{
+  "families": {
+    "injection": {
+      "tests": 13,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.09,
+      "passed": true
+    },
+    "delayed_and_progressive_poisoning": {
+      "tests": 8,
+      "failures": [],
+      "errors": [],
+      "seconds": 6.55,
+      "passed": true
+    },
+    "laundering_through_summaries_tools_federation": {
+      "tests": 6,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.13,
+      "passed": true
+    },
+    "false_corroboration": {
+      "tests": 7,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.12,
+      "passed": true
+    },
+    "cross_tenant_access_and_metadata_leakage": {
+      "tests": 31,
+      "failures": [],
+      "errors": [],
+      "seconds": 2.13,
+      "passed": true
+    },
+    "stale_authorization_and_replay": {
+      "tests": 18,
+      "failures": [],
+      "errors": [],
+      "seconds": 2.91,
+      "passed": true
+    },
+    "authority_and_elevation": {
+      "tests": 6,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.06,
+      "passed": true
+    },
+    "offline_peers_and_recovery": {
+      "tests": 56,
+      "failures": [],
+      "errors": [],
+      "seconds": 10.98,
+      "passed": true
+    },
+    "key_rotation_and_retired_keys": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 2.7,
+      "passed": true
+    },
+    "plain_false_claims": {
+      "tests": 12,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.18,
+      "passed": true
+    },
+    "authorization_across_access_paths": {
+      "tests": 11,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.25,
+      "passed": true
+    },
+    "actions_under_crashes_and_timeouts": {
+      "tests": 1,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.96,
+      "passed": true
+    },
+    "log_and_chain_rewrite_detection": {
+      "tests": 2,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.55,
+      "passed": true
+    },
+    "production_cryptography": {
+      "tests": 4,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.01,
+      "passed": true
+    },
+    "log_tampering": {
+      "tests": 44,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.97,
+      "passed": true
+    },
+    "privacy": {
+      "tests": 16,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.23,
+      "passed": true
+    },
+    "resource_exhaustion": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.04,
+      "passed": true
+    },
+    "privilege_separation": {
+      "tests": 5,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.02,
+      "passed": true
+    },
+    "backup_tamper_and_restore": {
+      "tests": 3,
+      "failures": [],
+      "errors": [],
+      "seconds": 1.9,
+      "passed": true
+    },
+    "objective_filters_never_drop_safety_evidence": {
+      "tests": 7,
+      "failures": [],
+      "errors": [],
+      "seconds": 0.12,
+      "passed": true
+    }
+  },
+  "failed": []
+}

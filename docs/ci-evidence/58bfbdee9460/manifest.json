@@ -1,0 +1,28 @@
+{
+  "commit": "58bfbdee9460c2900d5172a5e8719e8093426c00",
+  "dirty": false,
+  "package_version": "0.19.0",
+  "schema_version": "0.14.0",
+  "python": "3.13.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "built_at": "2026-11-12T18:55:22Z",
+  "checks": {
+    "clean tree": true,
+    "secret scan": true,
+    "adversarial gate": true,
+    "tests": true,
+    "benchmark": true,
+    "versions consistent": true
+  },
+  "files": {
+    "adversarial-gate.json": "2cf77b476282f8ac9542290705a15180a63f15ad7f4feb801aab6690d3fafaa0",
+    "LIMITATIONS.md": "fef90f9608f107263836161bdea1d9be94a1659dad691f68488e236843fd226f",
+    "product-bench.json": "4702843d91656234504e2366d36658c15695f3733134da298025057a959117f3",
+    "sbom.cdx.json": "8828e168dc310ca74db8cb2597b7af8c4758c7f943f5a235ee0b8a9360c41c74",
+    "secret-scan.txt": "568c6c2a0489daa99e45f134dfb5f1f3cb92d0eea32447bd68e505ad71f1cf2f",
+    "STABILITY.md": "22694c11e6e5db284683413809b6fc270365ab76e079af61c683d6c97913ac75",
+    "STATUS_AT_HEAD.md": "2b43da8f314f3d0a76d819f03b68487cf35ae433409e41f22b7ad052ed4440b0",
+    "tests.json": "717d3d4623d5ba956d9edcf4e57ef9fcde3bc4d3902c5ceebecac37fa53dce8f",
+    "wheel.sha256": "0a835aaae646ba7b4ffecc0498e57ddd80260606f8650ff7322c76be24b3d481"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-ablation-hypotheses.v1",
+  "status": "FROZEN_HYPOTHESIS_DEFINITIONS",
+  "scope": "future_confirmatory_runs_only",
+  "primary_contrast": {
+    "candidate": "A6",
+    "baseline": "A5",
+    "outcome": "paired safe task completion with replay overhead reported separately and in the preregistered net utility analysis",
+    "unit": "unique task case clustered by world seed"
+  },
+  "hypotheses": [
+    {
+      "id": "H1_CDM_BENEFIT",
+      "statement": "A6 improves safe task completion over A5 and satisfies the already frozen material-gain and uncertainty criteria after replay cost.",
+      "interpretation": "candidate evidence for CDM value; promotion still requires all frozen safety and parity gates"
+    },
+    {
+      "id": "H0_NO_MATERIAL_GAIN",
+      "statement": "A6 is null, uncertain, or below the frozen material-gain criterion after replay cost.",
+      "interpretation": "retain the estimate and interval; do not promote CDM"
+    },
+    {
+      "id": "H_MINUS_CDM_HARM",
+      "statement": "A6 has a negative paired net utility estimate, a materially adverse interval, or a safety regression relative to A5.",
+      "interpretation": "retain and annotate the adverse result; do not promote CDM, regardless of any favorable secondary metric"
+    }
+  ],
+  "reporting_rules": {
+    "keep_all_registered_ablation_strategies": true,
+    "keep_negative_and_null_estimates": true,
+    "no_threshold_retuning_after_confirmatory_data": true,
+    "safety_regression_blocks_promotion": true,
+    "promotion_requires_frozen_protocol_and_independent_world_floor": true
+  }
+}

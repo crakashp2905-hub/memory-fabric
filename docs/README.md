@@ -28,6 +28,7 @@ Every document in the repository, by what you are trying to do.
 | [FAQ.md](FAQ.md) | Common questions, short answers |
 | [PIPELINE.md](PIPELINE.md) | One memory from write to erasure, with what is and is not measured |
 | [PIPELINE_2026-10-15.md](PIPELINE_2026-10-15.md) | Earlier version of the pipeline document, kept from the archive branch for history; superseded by PIPELINE.md |
+| [MCP.md](MCP.md) | Memory Fabric as an MCP server for any MCP host: recall, write, flag disagreements, retract, and ask why a memory exists |
 | [../examples/README.md](../examples/README.md) | Runnable examples |
 
 ## Reference
@@ -98,6 +99,7 @@ Every document in the repository, by what you are trying to do.
 | [INVARIANTS.md](INVARIANTS.md) | Each integrity invariant and the test that holds it |
 | [ENGINEERING_RESEARCH_CHECKLIST.md](ENGINEERING_RESEARCH_CHECKLIST.md) | Engineering and research acceptance ledger, including external gates |
 | [AUDIT.md](AUDIT.md) | Implementation against the spec |
+| [AGENT_OUTCOME_EVALUATION.md](AGENT_OUTCOME_EVALUATION.md) | Outcome-agent contracts, model evidence and evaluation limits |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |

@@ -1,0 +1,457 @@
+{
+  "result": {
+    "experiment": "p3b-agent-teams",
+    "agents": 10,
+    "rounds": 60,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "tasks_per_seed": 20,
+    "arms": {
+      "local": {
+        "task_success": {
+          "mean": 0.06,
+          "min": 0.0,
+          "max": 0.15,
+          "sd": 0.049
+        },
+        "correct_evidence_rate": {
+          "mean": 0.68,
+          "min": 0.6,
+          "max": 0.75,
+          "sd": 0.051
+        },
+        "stale_action_rate": {
+          "mean": 0.09,
+          "min": 0.05,
+          "max": 0.1,
+          "sd": 0.02
+        },
+        "wrong_invalidation_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "abstention_rate": {
+          "mean": 0.4,
+          "min": 0.4,
+          "max": 0.4,
+          "sd": 0.0
+        },
+        "rediscovery_rate": {
+          "mean": 0.45,
+          "min": 0.4,
+          "max": 0.5,
+          "sd": 0.0316
+        },
+        "answered_correctly_eventually": {
+          "mean": 0.51,
+          "min": 0.5,
+          "max": 0.55,
+          "sd": 0.02
+        },
+        "duplicate_discoveries": {
+          "mean": 14.0,
+          "min": 13,
+          "max": 15,
+          "sd": 0.6325
+        },
+        "discovery_actions": {
+          "mean": 38.0,
+          "min": 37,
+          "max": 39,
+          "sd": 0.6325
+        },
+        "model_calls": {
+          "mean": 20.0,
+          "min": 20,
+          "max": 20,
+          "sd": 0.0
+        },
+        "context_tokens": {
+          "mean": 36.94,
+          "min": 36.1,
+          "max": 37.8,
+          "sd": 0.5886
+        },
+        "latency_ms": {
+          "mean": 0.042,
+          "min": 0.034,
+          "max": 0.068,
+          "sd": 0.0132
+        },
+        "rounds": {
+          "mean": 60.0,
+          "min": 60,
+          "max": 60,
+          "sd": 0.0
+        },
+        "wall_ms": {
+          "mean": 1.8,
+          "min": 1.4,
+          "max": 3.1,
+          "sd": 0.6542
+        }
+      },
+      "shared": {
+        "task_success": {
+          "mean": 0.78,
+          "min": 0.7,
+          "max": 0.9,
+          "sd": 0.0748
+        },
+        "correct_evidence_rate": {
+          "mean": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0
+        },
+        "stale_action_rate": {
+          "mean": 0.18,
+          "min": 0.1,
+          "max": 0.25,
+          "sd": 0.051
+        },
+        "wrong_invalidation_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "abstention_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "rediscovery_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "answered_correctly_eventually": {
+          "mean": 0.78,
+          "min": 0.7,
+          "max": 0.9,
+          "sd": 0.0748
+        },
+        "duplicate_discoveries": {
+          "mean": 5.0,
+          "min": 5,
+          "max": 5,
+          "sd": 0.0
+        },
+        "discovery_actions": {
+          "mean": 29.0,
+          "min": 29,
+          "max": 29,
+          "sd": 0.0
+        },
+        "model_calls": {
+          "mean": 20.0,
+          "min": 20,
+          "max": 20,
+          "sd": 0.0
+        },
+        "context_tokens": {
+          "mean": 53.04,
+          "min": 53.0,
+          "max": 53.1,
+          "sd": 0.049
+        },
+        "latency_ms": {
+          "mean": 0.3614,
+          "min": 0.328,
+          "max": 0.377,
+          "sd": 0.0173
+        },
+        "rounds": {
+          "mean": 60.0,
+          "min": 60,
+          "max": 60,
+          "sd": 0.0
+        },
+        "wall_ms": {
+          "mean": 7.84,
+          "min": 7.2,
+          "max": 8.2,
+          "sd": 0.3382
+        }
+      },
+      "shared_blanket": {
+        "task_success": {
+          "mean": 0.72,
+          "min": 0.7,
+          "max": 0.75,
+          "sd": 0.0245
+        },
+        "correct_evidence_rate": {
+          "mean": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0
+        },
+        "stale_action_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "wrong_invalidation_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "abstention_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "rediscovery_rate": {
+          "mean": 0.25,
+          "min": 0.25,
+          "max": 0.25,
+          "sd": 0.0
+        },
+        "answered_correctly_eventually": {
+          "mean": 0.97,
+          "min": 0.95,
+          "max": 1.0,
+          "sd": 0.0245
+        },
+        "duplicate_discoveries": {
+          "mean": 10.0,
+          "min": 10,
+          "max": 10,
+          "sd": 0.0
+        },
+        "discovery_actions": {
+          "mean": 34.0,
+          "min": 34,
+          "max": 34,
+          "sd": 0.0
+        },
+        "model_calls": {
+          "mean": 20.0,
+          "min": 20,
+          "max": 20,
+          "sd": 0.0
+        },
+        "context_tokens": {
+          "mean": 52.92,
+          "min": 52.8,
+          "max": 53.0,
+          "sd": 0.0748
+        },
+        "latency_ms": {
+          "mean": 0.2308,
+          "min": 0.14,
+          "max": 0.277,
+          "sd": 0.0485
+        },
+        "rounds": {
+          "mean": 60.0,
+          "min": 60,
+          "max": 60,
+          "sd": 0.0
+        },
+        "wall_ms": {
+          "mean": 6.48,
+          "min": 3.9,
+          "max": 7.8,
+          "sd": 1.3934
+        }
+      },
+      "fabric": {
+        "task_success": {
+          "mean": 0.97,
+          "min": 0.9,
+          "max": 1.0,
+          "sd": 0.04
+        },
+        "correct_evidence_rate": {
+          "mean": 0.99,
+          "min": 0.95,
+          "max": 1.0,
+          "sd": 0.02
+        },
+        "stale_action_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "wrong_invalidation_rate": {
+          "mean": 0.01,
+          "min": 0.0,
+          "max": 0.05,
+          "sd": 0.02
+        },
+        "abstention_rate": {
+          "mean": 0.02,
+          "min": 0.0,
+          "max": 0.05,
+          "sd": 0.0245
+        },
+        "rediscovery_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "answered_correctly_eventually": {
+          "mean": 0.97,
+          "min": 0.9,
+          "max": 1.0,
+          "sd": 0.04
+        },
+        "duplicate_discoveries": {
+          "mean": 5.0,
+          "min": 5,
+          "max": 5,
+          "sd": 0.0
+        },
+        "discovery_actions": {
+          "mean": 29.0,
+          "min": 29,
+          "max": 29,
+          "sd": 0.0
+        },
+        "model_calls": {
+          "mean": 20.0,
+          "min": 20,
+          "max": 20,
+          "sd": 0.0
+        },
+        "context_tokens": {
+          "mean": 52.82,
+          "min": 52.6,
+          "max": 53.1,
+          "sd": 0.172
+        },
+        "latency_ms": {
+          "mean": 2.0222,
+          "min": 1.576,
+          "max": 2.698,
+          "sd": 0.4055
+        },
+        "rounds": {
+          "mean": 60.0,
+          "min": 60,
+          "max": 60,
+          "sd": 0.0
+        },
+        "wall_ms": {
+          "mean": 67.6,
+          "min": 56.6,
+          "max": 77.2,
+          "sd": 7.5976
+        }
+      },
+      "oracle": {
+        "task_success": {
+          "mean": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0
+        },
+        "correct_evidence_rate": {
+          "mean": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0
+        },
+        "stale_action_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "wrong_invalidation_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "abstention_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "rediscovery_rate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "sd": 0.0
+        },
+        "answered_correctly_eventually": {
+          "mean": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "sd": 0.0
+        },
+        "duplicate_discoveries": {
+          "mean": 5.0,
+          "min": 5,
+          "max": 5,
+          "sd": 0.0
+        },
+        "discovery_actions": {
+          "mean": 29.0,
+          "min": 29,
+          "max": 29,
+          "sd": 0.0
+        },
+        "model_calls": {
+          "mean": 20.0,
+          "min": 20,
+          "max": 20,
+          "sd": 0.0
+        },
+        "context_tokens": {
+          "mean": 10.5,
+          "min": 10.5,
+          "max": 10.5,
+          "sd": 0.0
+        },
+        "latency_ms": {
+          "mean": 0.0074,
+          "min": 0.005,
+          "max": 0.01,
+          "sd": 0.0016
+        },
+        "rounds": {
+          "mean": 60.0,
+          "min": 60,
+          "max": 60,
+          "sd": 0.0
+        },
+        "wall_ms": {
+          "mean": 0.62,
+          "min": 0.4,
+          "max": 1.0,
+          "sd": 0.2227
+        }
+      }
+    }
+  },
+  "verdict": {
+    "best_baseline": 0.78,
+    "ceiling": 1.0,
+    "headroom": 0.22,
+    "threshold": 0.868,
+    "fabric": 0.97,
+    "baseline_reaches_ceiling": false,
+    "closed_share": 0.8636,
+    "verdict": "SUPPORTED"
+  }
+}

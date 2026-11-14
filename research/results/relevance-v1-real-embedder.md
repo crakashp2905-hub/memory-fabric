@@ -109,7 +109,7 @@ P1.
 
 ```python
 from memory_fabric.adapters.ollama import OllamaEmbedder
-fabric = MemoryFabric("memory.db", embedder=OllamaEmbedder())
+fabric = MemoryFabric("memory.db", embedder=OllamaEmbedder(allow_loopback=True))
 ```
 
 Cost, now measurable because it was not: embedding calls go through the one
