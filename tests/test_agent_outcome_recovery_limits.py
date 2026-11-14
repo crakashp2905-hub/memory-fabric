@@ -37,6 +37,9 @@ def test_attempt_event_and_deadline_budgets_fail_deterministically() -> None:
     assert event_limited.record("evidence_blocked")
     assert not event_limited.record("abstain")
     assert event_limited.trace[-1]["reason"] == "EVENT_LIMIT"
+    assert event_limited.trace[-1]["kind"] == "recovery_failed"
+    assert len(event_limited.trace) == event_limited.limits.max_events
+    assert event_limited.trace[0]["kind"] == "recovery_budget"
 
     now = [12.0]
     deadline_limited = RecoveryEpisode(
@@ -46,3 +49,12 @@ def test_attempt_event_and_deadline_budgets_fail_deterministically() -> None:
     now[0] = 13.1
     assert not deadline_limited.record("evidence_blocked")
     assert deadline_limited.trace[-1]["reason"] == "DEADLINE_EXCEEDED"
+
+
+def test_limits_reserve_bounded_audit_events() -> None:
+    import pytest
+
+    with pytest.raises(ValueError, match="budget and terminal events"):
+        RecoveryLimits(max_events=1)
+    with pytest.raises(ValueError, match="too small for bounded audit events"):
+        RecoveryLimits(max_event_bytes=1)

@@ -173,15 +173,42 @@ class RecoveryLimits:
     deadline_seconds: float = 30.0
 
     def __post_init__(self) -> None:
+        import json
+
         for name in ("max_steps", "max_recoveries", "max_event_bytes", "max_attempts",
                      "max_events"):
             value = getattr(self, name)
             if type(value) is not int or value < 0:
                 raise ValueError(f"{name} must be a non-negative integer")
+        if self.max_events < 2:
+            raise ValueError("max_events must leave space for budget and terminal events")
         if (isinstance(self.deadline_seconds, bool)
                 or not isinstance(self.deadline_seconds, (int, float))
                 or not math.isfinite(self.deadline_seconds) or self.deadline_seconds < 0):
             raise ValueError("deadline_seconds must be finite and non-negative")
+        budget_event = {
+            "kind": "recovery_budget", "max_steps": self.max_steps, "enabled": False,
+            "max_attempts": self.max_attempts, "max_recoveries": self.max_recoveries,
+            "max_events": self.max_events, "max_event_bytes": self.max_event_bytes,
+            "deadline_seconds": self.deadline_seconds,
+        }
+        terminal_reasons = (
+            "ATTEMPT_LIMIT", "EVENT_LIMIT", "DEADLINE_EXCEEDED",
+            "EVENT_BYTES_EXCEEDED", "RECOVERY_LIMIT", "NO_MONOTONIC_PROGRESS",
+        )
+        try:
+            required_bytes = max(
+                len(json.dumps(budget_event, sort_keys=True, separators=(",", ":"),
+                               allow_nan=False).encode("utf-8")),
+                *(len(json.dumps({"kind": "recovery_failed", "reason": reason},
+                                 sort_keys=True, separators=(",", ":"),
+                                 allow_nan=False).encode("utf-8"))
+                  for reason in terminal_reasons),
+            )
+        except (TypeError, ValueError) as exc:
+            raise ValueError("recovery limits must serialize to finite JSON") from exc
+        if self.max_event_bytes < required_bytes:
+            raise ValueError("max_event_bytes is too small for bounded audit events")
 
 
 @dataclass
@@ -219,7 +246,13 @@ class RecoveryEpisode:
 
     def _fail(self, reason: str) -> bool:
         self.status = RecoveryStatus.FAILED
-        self.trace.append({"kind": "recovery_failed", "reason": reason})
+        event = {"kind": "recovery_failed", "reason": reason}
+        if len(self.trace) < self.limits.max_events:
+            self.trace.append(event)
+        else:
+            # Keep the trace bounded while preserving its initial budget and
+            # terminal reason when the final event slot has already been used.
+            self.trace[-1] = event
         return False
 
     def plan_alternate_search(self, failure: Any) -> bool:

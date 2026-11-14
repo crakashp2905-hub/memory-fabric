@@ -402,6 +402,12 @@ JSON checkpoint. `load_checkpoint()` validates the version, limits, counters,
 status, and trace before resuming. Store the checkpoint with host access
 controls; it records workflow progress but does not authorize an effect.
 
+The recovery trace includes its initial budget record and a terminal failure
+reason. Configure room for at least those two records; if the event cap is
+reached, the terminal failure replaces the last trace slot instead of growing
+the trace beyond its limit. `max_event_bytes` must fit the initial budget and
+the bounded failure records.
+
 The durable ActionGate ledger remains the source of truth for effect attempts.
 It records an attempt before entering the effect transaction. After a process
 crash, transaction rollback can leave that attempt `unknown`; inspect
