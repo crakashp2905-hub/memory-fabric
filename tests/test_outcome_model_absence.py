@@ -110,6 +110,8 @@ def test_pinned_model_digest_and_inference_settings_are_reported() -> None:
     assert report["inference_settings"]["num_ctx"] == 2048
     assert report["inference_settings"]["num_predict"] == 96
     assert len(report["inference_settings"]["prompt_sha256"]) == 64
+    assert report["inference_settings"]["constrained_json"] is True
+    assert len(report["inference_settings"]["output_schema_sha256"]) == 64
     assert "step" not in report
     assert report["fallback_used"] is False
 

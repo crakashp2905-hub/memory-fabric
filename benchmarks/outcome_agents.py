@@ -33,6 +33,29 @@ class OllamaOutcomePlanner:
         "evidence_versions (array of [memory_id, version]). Never invent evidence IDs."
     )
 
+    @staticmethod
+    def response_schema(observation: AgentObservation) -> dict[str, Any]:
+        """Constrain decoding to the public step shape and this observation's tools."""
+        return {
+            "type": "object",
+            "properties": {
+                "intent": {"type": "string", "enum": ["propose", "abstain"]},
+                "tool": {
+                    "anyOf": [
+                        {"type": "string", "enum": list(observation.permitted_tools)},
+                        {"type": "null"},
+                    ],
+                },
+                "arguments": {"type": "object"},
+                "evidence_versions": {
+                    "type": "array",
+                    "items": {"type": "array", "minItems": 2, "maxItems": 2},
+                },
+            },
+            "required": ["intent", "tool", "arguments", "evidence_versions"],
+            "additionalProperties": False,
+        }
+
     def __init__(self, model: str, client: Any, *, model_digest: str | None = None,
                  quantization: str | None = None,
                  temperature: float = 0.0, top_p: float | None = None,
@@ -95,6 +118,7 @@ class OllamaOutcomePlanner:
                 {"role": "system", "content": self.SYSTEM_PROMPT},
                 {"role": "user", "content": observation.canonical_json()},
             ],
+            schema=self.response_schema(observation),
             temperature=self.temperature,
             num_predict=self.num_predict,
             top_p=self.top_p,

@@ -49,9 +49,12 @@ def test_ollama_planner_sends_only_observation_and_validates_response() -> None:
     assert json.loads(request[1]["content"]) == observation().to_dict()
     assert "expected_action" not in request[1]["content"]
     assert client.calls[0][2] == {
+        "schema": OllamaOutcomePlanner.response_schema(observation()),
         "temperature": 0.0, "num_predict": 160, "top_p": None,
         "seed": None, "num_ctx": 4096,
     }
+    tool_schema = client.calls[0][2]["schema"]["properties"]["tool"]["anyOf"][0]
+    assert tool_schema["enum"] == ["publish"]
 
 
 def test_ollama_planner_counts_invalid_json_tool_misuse_and_hallucinated_evidence() -> None:
@@ -114,15 +117,19 @@ def test_ollama_client_records_and_sends_available_decode_settings() -> None:
         return {"message": {"content": "{}"}, "prompt_eval_count": 7, "eval_count": 2}
 
     client._post = post
+    schema = {"type": "object", "properties": {"intent": {"enum": ["abstain"]}}}
     client.chat("model:latest", [{"role": "user", "content": "task"}],
-                temperature=0.1, top_p=0.9, seed=42, num_ctx=2048, num_predict=160)
+                temperature=0.1, top_p=0.9, seed=42, num_ctx=2048, num_predict=160,
+                schema=schema)
     assert requests[0]["options"] == {
         "temperature": 0.1, "top_p": 0.9, "seed": 42,
         "num_ctx": 2048, "num_predict": 160,
     }
+    assert requests[0]["format"] == schema
     record = client.calls[0]
     assert (record.temperature, record.top_p, record.seed,
             record.num_ctx, record.num_predict) == (0.1, 0.9, 42, 2048, 160)
+    assert record.constrained is True
 
 
 def test_ollama_inventory_exposes_digest_and_quantization() -> None:

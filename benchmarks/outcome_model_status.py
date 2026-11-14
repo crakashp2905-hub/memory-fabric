@@ -164,6 +164,10 @@ def run_local_model_trial(
     step_digest = hashlib.sha256(json.dumps(
         step.to_dict(), sort_keys=True, separators=(",", ":"), allow_nan=False
     ).encode("utf-8")).hexdigest()
+    output_schema = planner.response_schema(observation)
+    output_schema_sha256 = hashlib.sha256(json.dumps(
+        output_schema, sort_keys=True, separators=(",", ":"), allow_nan=False
+    ).encode("utf-8")).hexdigest()
     return {
         "schema_id": "memory-fabric.outcome-model-trial.v1",
         "model_status": "LOCAL_MODEL_INFERENCE_COMPLETED",
@@ -182,7 +186,11 @@ def run_local_model_trial(
             "prompt_sha256": hashlib.sha256(
                 planner.SYSTEM_PROMPT.encode("utf-8")
                 + observation.canonical_json().encode("utf-8")
+                + json.dumps(output_schema, sort_keys=True, separators=(",", ":"),
+                             allow_nan=False).encode("utf-8")
             ).hexdigest(),
+            "constrained_json": True,
+            "output_schema_sha256": output_schema_sha256,
         },
         "inference_completed": True,
         "model_calls": 1,
