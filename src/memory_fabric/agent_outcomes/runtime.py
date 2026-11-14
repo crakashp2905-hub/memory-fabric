@@ -388,7 +388,10 @@ class RuntimeTrace:
 
 
 class AgentRuntime:
-    """Execute only the tools exposed by each observation, within a fixed step budget."""
+    """Execute exposed tools within a step budget.
+
+    Configured argument schemas apply equally to parsed JSON and typed requests.
+    """
 
     def __init__(self, *, max_steps: int, tools: Mapping[str, Callable[..., ToolOutput]],
                  request_schemas: Mapping[str, Mapping[str, type]] | None = None) -> None:
@@ -399,9 +402,19 @@ class AgentRuntime:
             for name, handler in tools.items()
         ):
             raise ValueError("tools must map non-empty names to callable handlers")
+        if request_schemas is not None and not isinstance(request_schemas, Mapping):
+            raise ValueError("request_schemas must map tool names to argument schemas")
+        schemas = dict(request_schemas or {})
+        for tool_name, schema in schemas.items():
+            if (not isinstance(tool_name, str) or tool_name not in tools
+                    or not isinstance(schema, Mapping)
+                    or any(not isinstance(name, str) or not name or not isinstance(value_type, type)
+                           for name, value_type in schema.items())):
+                raise ValueError("request_schemas contain an invalid tool or argument schema")
         self.max_steps = max_steps
         self._tools = dict(tools)
-        self._request_schemas = dict(request_schemas or {})
+        self._request_schemas = {name: dict(schema) for name, schema in schemas.items()}
+        self._schemas_required = request_schemas is not None
 
     def run(
         self,
@@ -452,11 +465,21 @@ class AgentRuntime:
             if not isinstance(tool_name, str) or tool_name not in observation.permitted_tools:
                 stop_reason = "TOOL_NOT_PERMITTED"
                 break
+            arguments = {key: value for key, value in step.arguments.items() if key != "tool"}
+            if self._schemas_required:
+                schema = self._request_schemas.get(tool_name)
+                if schema is None:
+                    stop_reason = "TOOL_SCHEMA_NOT_REGISTERED"
+                    break
+                if (set(arguments) != set(schema)
+                        or any(type(arguments[name]) is not value_type
+                               for name, value_type in schema.items())):
+                    stop_reason = "INVALID_TOOL_ARGUMENTS"
+                    break
             handler = self._tools.get(tool_name)
             if handler is None:
                 stop_reason = "TOOL_NOT_REGISTERED"
                 break
-            arguments = {key: value for key, value in step.arguments.items() if key != "tool"}
             try:
                 output = handler(arguments, step)
             except Exception as exc:

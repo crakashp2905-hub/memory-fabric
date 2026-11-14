@@ -71,6 +71,26 @@ def test_unpermitted_tool_never_falls_through_to_a_handler() -> None:
     assert trace.calls == ()
 
 
+def test_typed_step_cannot_bypass_registered_tool_argument_schema() -> None:
+    calls: list[dict] = []
+    trace = AgentRuntime(
+        max_steps=1,
+        tools={"inspect": lambda arguments, _step: calls.append(arguments) or ToolOutput()},
+        request_schemas={"inspect": {"depth": int}},
+    ).run(
+        initial_observation=observation(), actor_id="planner",
+        decide=lambda _obs: AgentStep(
+            "runtime-task", "planner", "step-1", "propose",
+            {"tool": "inspect", "depth": True},
+        ),
+        observe_after=lambda _index, _output: observation(),
+    )
+
+    assert trace.stop_reason == "INVALID_TOOL_ARGUMENTS"
+    assert calls == []
+    assert trace.calls == ()
+
+
 def test_invalid_oracle_shaped_tool_output_is_rejected() -> None:
     with pytest.raises(ValueError, match="evaluator-only"):
         ToolOutput(({"truth": {"safe": True}},))
