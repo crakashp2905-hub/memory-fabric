@@ -72,6 +72,24 @@ def test_ollama_planner_requires_an_observation_contract() -> None:
         planner.decide({"truth": "hidden"}, actor_id="planner-1", step_id="step-1")
 
 
+@pytest.mark.parametrize("temperature", [float("nan"), float("inf"), float("-inf"), True])
+def test_ollama_planner_rejects_non_finite_or_boolean_temperature(temperature) -> None:
+    with pytest.raises(ValueError, match="temperature"):
+        OllamaOutcomePlanner("qwen2.5:3b", StubOllama(encoded_step()), temperature=temperature)
+
+
+def test_ollama_planner_handles_unhashable_intent_as_invalid_model_step() -> None:
+    planner = OllamaOutcomePlanner(
+        "qwen2.5:3b",
+        StubOllama(json.dumps({
+            "intent": [], "tool": None, "arguments": {}, "evidence_versions": [],
+        })),
+    )
+    with pytest.raises(InvalidModelStep, match="intent"):
+        planner.decide(observation(), actor_id="planner-1", step_id="step-1")
+    assert planner.invalid_json == 1
+
+
 @pytest.mark.parametrize("payload", [
     {"intent": "retrieve", "tool": None, "arguments": {}, "evidence_versions": []},
     {"intent": "propose", "tool": "publish", "arguments": {"tool": "erase"},

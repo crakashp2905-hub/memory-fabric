@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import ipaddress
+import math
 import re
 from dataclasses import dataclass, field
 from enum import StrEnum
@@ -39,7 +40,8 @@ class OllamaOutcomePlanner:
                  num_predict: int = 160) -> None:
         if not isinstance(model, str) or not model.strip():
             raise ValueError("a pinned model name is required")
-        if isinstance(temperature, bool) or not isinstance(temperature, (int, float)) or temperature < 0:
+        if (isinstance(temperature, bool) or not isinstance(temperature, (int, float))
+                or not math.isfinite(temperature) or temperature < 0):
             raise ValueError("temperature must be non-negative")
         if type(num_predict) is not int or not 1 <= num_predict <= 4096:
             raise ValueError("num_predict must be from 1 through 4096")
@@ -115,7 +117,7 @@ class OllamaOutcomePlanner:
             self.invalid_json += 1
             raise InvalidModelStep("model reply fields do not match the next-step schema")
         intent, tool = payload["intent"], payload["tool"]
-        if intent not in {"propose", "abstain"}:
+        if not isinstance(intent, str) or intent not in {"propose", "abstain"}:
             self.invalid_json += 1
             raise InvalidModelStep("model intent is outside the supported next-step vocabulary")
         if intent == "propose" and (not isinstance(tool, str) or tool not in observation.permitted_tools):
