@@ -1,0 +1,18 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-confirmatory.v1",
+  "manifest_version": 1,
+  "status": "DRAFT",
+  "development_seeds": [],
+  "confirmatory_seeds": [],
+  "task_ids_by_seed": {},
+  "arms": ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7"],
+  "contrasts": [["A5", "A3"], ["A5", "A4"], ["A6", "A5"]],
+  "minimum_effect": 0.05,
+  "multiplicity": "holm_bonferroni",
+  "sample_size": 0,
+  "stopping_rule": "",
+  "resource_caps": {},
+  "design_sha256": "",
+  "freeze_date": "",
+  "freeze_commit": ""
+}

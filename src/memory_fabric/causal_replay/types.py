@@ -221,6 +221,8 @@ class DecisionRecord:
     rng_applicability: str = "not_applicable_deterministic"
     rng_state: RNGSnapshot | None = None
     tool_observations: tuple[ToolObservation, ...] = ()
+    execution_mode: str = "registered_policy"
+    model_provenance: "ModelProvenance | None" = None
 
     def __post_init__(self) -> None:
         if type(self.sequence) is not int or self.sequence < 0:
@@ -247,8 +249,33 @@ class DecisionRecord:
                 or type(self.tool_observations) is not tuple
                 or any(type(item) is not ToolObservation for item in self.tool_observations)):
             raise CDMError("RNG or tool determinism metadata is invalid")
+        if (self.execution_mode not in {"registered_policy", "model"}
+                or (self.execution_mode == "model"
+                    and type(self.model_provenance) is not ModelProvenance)
+                or (self.execution_mode == "registered_policy"
+                    and self.model_provenance is not None)):
+            raise CDMError("model decisions require complete model provenance")
         if not re.fullmatch(r"[0-9a-f]{64}", self.policy_digest):
             raise CDMError("policy_digest must be SHA-256")
+
+
+@dataclass(frozen=True)
+class ModelProvenance:
+    """Immutable identity for an external model and the runtime that invoked it."""
+
+    model_id: str
+    model_version: str
+    model_digest: str
+    runtime_id: str
+    runtime_version: str
+    runtime_digest: str
+
+    def __post_init__(self) -> None:
+        for name in ("model_id", "model_version", "runtime_id", "runtime_version"):
+            _identifier(getattr(self, name), name)
+        for name in ("model_digest", "runtime_digest"):
+            if not re.fullmatch(r"[0-9a-f]{64}", getattr(self, name)):
+                raise CDMError(f"{name} must be a lowercase SHA-256 digest")
 
 
 @dataclass(frozen=True)
@@ -336,8 +363,8 @@ class CaptureResult:
         return asdict(self)
 
 
-RECORD_TYPES = (EventReference, BeliefReference, DecisionTraceReference, DecisionRecord, ReplayContext,
-                ToolObservation, CaptureResult, RNGSnapshot)
+RECORD_TYPES = (EventReference, BeliefReference, DecisionTraceReference, DecisionRecord,
+                ReplayContext, ToolObservation, CaptureResult, RNGSnapshot, ModelProvenance)
 
 
 def serialize_record(value: Any) -> str:
@@ -391,6 +418,9 @@ def parse_record(record_type: type, value: str | dict[str, Any]) -> Any:
                 raise CDMError("tool_observations must be a JSON array")
             body["tool_observations"] = tuple(
                 parse_record(ToolObservation, item) for item in body["tool_observations"])
+        if body.get("model_provenance") is not None:
+            body["model_provenance"] = parse_record(ModelProvenance,
+                                                      body["model_provenance"])
     if record_type is DecisionRecord and "options" in body:
         if type(body["options"]) is not list:
             raise CDMError("options must be a JSON array")

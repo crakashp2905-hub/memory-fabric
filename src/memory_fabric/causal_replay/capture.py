@@ -16,7 +16,7 @@ from ..model import EXPOSABLE_STATES, visible_to
 from ..projections import Projection
 from ..service import Session
 from .types import (BeliefReference, CaptureResult, CDMError, DecisionRecord,
-                    DecisionTraceReference, Erased,
+                    DecisionTraceReference, Erased, ModelProvenance,
                     RNGSnapshot, ReplayContext, ToolObservation, Unauthorized,
                     digest_json)
 from .intervention import Intervention
@@ -236,7 +236,9 @@ def record_decision(fabric: Any, principal: Any, *, options: Iterable[str],
                     constraints: Iterable[str] = (),
                     rng_state: RNGSnapshot | None = None,
                     rng_applicability: str = "not_applicable_deterministic",
-                    tool_observations: Iterable[ToolObservation] = ()) -> DecisionRecord:
+                    tool_observations: Iterable[ToolObservation] = (),
+                    execution_mode: str = "registered_policy",
+                    model_provenance: ModelProvenance | None = None) -> DecisionRecord:
     """Append a digest-only decision receipt under a currently verified session."""
     if type(principal) is not Session or principal.service._fabric is not fabric:
         raise Unauthorized("decision recording requires a fabric-bound session")
@@ -274,7 +276,8 @@ def record_decision(fabric: Any, principal: Any, *, options: Iterable[str],
             options_tuple, selected, evidence_tuple, policy_id, policy_digest,
             constraints=constraints_tuple, source_event_id=event_id,
             rng_applicability=rng_applicability, rng_state=rng_state,
-            tool_observations=tool_tuple)
+            tool_observations=tool_tuple, execution_mode=execution_mode,
+            model_provenance=model_provenance)
         payload = {"decision_digest": digest_json(asdict(record)),
                    "policy_id": policy_id, "policy_digest": policy_digest,
                    "record_schema": record.schema, "tenant_id": identity.tenant_id}
@@ -293,12 +296,18 @@ def verify_decision_record(fabric: Any, decision: DecisionRecord) -> bool:
     if not fabric.log.chain.verify(fabric.log.read()).ok:
         return False
     event = next(fabric.log.read(since_seq=decision.sequence - 1, limit=1), None)
+    legacy_digest = digest_json({
+        key: value for key, value in asdict(decision).items()
+        if key not in {"execution_mode", "model_provenance"}
+    })
     return bool(event is not None and event.seq == decision.sequence
         and event.event_id == decision.source_event_id
         and event.type == ev.EventType.CDM_DECISION_RECORDED
         and event.agent_id == decision.agent_id
         and event.payload.get("tenant_id") == decision.tenant_id
-        and event.payload.get("decision_digest") == digest_json(asdict(decision))
+        and event.payload.get("decision_digest") in {
+            digest_json(asdict(decision)), legacy_digest,
+        }
         and event.payload.get("policy_id") == decision.policy_id
         and event.payload.get("policy_digest") == decision.policy_digest
         and event.payload.get("record_schema") == decision.schema)

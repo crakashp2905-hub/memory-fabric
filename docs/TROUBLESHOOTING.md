@@ -120,7 +120,7 @@ order. `tests/test_troubleshooting.py` fails if a code is missing here.
 | `malformed_certificate`, `unknown_certificate_version`, `certificate_too_large`, `unknown_required_check` | the certificate cannot be read | rebuild it with this version's `certify` |
 | `wrong_store`, `wrong_agent`, `wrong_tenant` | the certificate was issued elsewhere or for someone else | certify in this store, as this agent |
 | `certificate_expired`, `policy_changed` | the certificate is stale | certify again |
-| `no_supporting_evidence`, `evidence_not_found`, `evidence_not_usable` | there is no usable evidence | check the memories exist and are active |
+| `no_supporting_evidence`, `evidence_not_found`, `evidence_not_usable`, `content_erased` | there is no usable evidence | check the memories exist, are active, and have not been erased |
 | `evidence_withdrawn`, `dependency_withdrawn`, `dependency_not_found` | evidence, or something it rests on, was withdrawn | **working as intended**: the premise is gone |
 | `evidence_version_moved`, `dependency_version_moved` | the evidence was revised after certification | re-read it and certify the new version |
 | `insufficient_independent_support` | fewer independent sources than the rule needs | add independent evidence |

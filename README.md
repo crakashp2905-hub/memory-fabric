@@ -13,14 +13,17 @@ claim came from, withdraw incorrect knowledge, and verify evidence before acting
 ![MCP](https://img.shields.io/badge/MCP-stdio%20server-purple)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-> **Status: alpha, 0.14.0 in development** (the last pinned baseline is 0.13.0, in the
-> [release notes](docs/RELEASE_NOTES_0.13.0.md)). Not yet published under this name.
+> **Status: alpha, source version 0.19.0 in development; this source version is not tagged or published.**
+> The last released Git tag is [v0.11.0](docs/RELEASE_NOTES_0.11.0.md); that release is not on PyPI.
+> [0.13.0 release notes](docs/RELEASE_NOTES_0.13.0.md) describe an untagged qualification baseline.
 > What is stable and what is experimental: [STABILITY.md](STABILITY.md).
 > The import, command and environment namespace changed. See
 > [migration](docs/MIGRATING_TO_MEMORY_FABRIC.md) and
 > [release readiness](docs/MEMORY_FABRIC_RELEASE_CHECKLIST.md).
 > The repository rename is complete. Package-index publication remains pending
 > name/account readiness and the release gates above.
+
+**New here?** [docs/PIPELINE.md](docs/PIPELINE.md) walks one memory from the write that creates it to the erasure that destroys its content, and says plainly what is measured to work, what is measured not to, and what is still open.
 
 ---
 
@@ -280,7 +283,7 @@ python tools/check.py           # regenerate docs, lint, type-check, doc tests, 
 python tools/check.py --full    # and the full suite, which needs no dependencies
 ```
 
-**3028 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
+**3244 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
 a multi-store fault matrix and an adversarial release gate run
 in CI on Linux, macOS and Windows. Read [AGENTS.md](AGENTS.md), the rules for
 everyone who changes this repository, humans and AI agents alike, and

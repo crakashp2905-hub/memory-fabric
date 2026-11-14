@@ -191,6 +191,7 @@ WRONG_AGENT = "wrong_agent"
 WRONG_STORE = "wrong_store"
 WRONG_TENANT = "wrong_tenant"
 NOT_VISIBLE = "not_visible"
+CONTENT_ERASED = "content_erased"
 
 
 class Enforcer:
@@ -259,6 +260,12 @@ class Enforcer:
             return AccessDecision(
                 memory_id=memory_id, version=0, verdict=Verdict.DENY,
                 reason_code=NOT_VISIBLE, risk=risk, integrity_revision=revision,
+            )
+
+        if memory_id in state.erased:
+            return AccessDecision(
+                memory_id=memory_id, version=memory.version, verdict=Verdict.DENY,
+                reason_code=CONTENT_ERASED, risk=risk, integrity_revision=revision,
             )
 
         lifecycle = memory.lifecycle_state
