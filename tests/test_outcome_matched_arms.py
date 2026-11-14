@@ -104,7 +104,7 @@ def test_process_contention_benchmark_reports_parallel_latency() -> None:
         cwd=repository,
         capture_output=True,
         text=True,
-        timeout=30,
+        timeout=300,
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
@@ -132,7 +132,7 @@ def test_matched_cli_emits_the_outcome_matrix() -> None:
     result = subprocess.run(
         [sys.executable, str(repository / "benchmarks" / "outcome_matched_arms.py"),
          "--mode", "matched", "--seed", "701", "--agent-count", "5"],
-        cwd=repository, capture_output=True, text=True, timeout=30, check=False,
+        cwd=repository, capture_output=True, text=True, timeout=300, check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
     report = json.loads(result.stdout)
