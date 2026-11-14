@@ -10,19 +10,30 @@ from typing import Any
 __stability__ = "experimental"
 
 
+def _set_limit(resource_api: Any, name: str, value: tuple[int, int]) -> bool:
+    """Apply one rlimit best-effort; platforms (notably macOS) may refuse some."""
+    if not hasattr(resource_api, name):
+        return False
+    try:
+        resource_api.setrlimit(getattr(resource_api, name), value)
+    except (OSError, ValueError):
+        return False
+    return True
+
+
 def _limits(cpu_ms: int) -> bool:
+    """Apply OS limits best-effort and report whether all of them were enforced."""
     if os.name != "posix":
         return False
     resource_api: Any = __import__("resource")
     cpu_seconds = max(1, (cpu_ms + 999) // 1000)
-    resource_api.setrlimit(resource_api.RLIMIT_CPU, (cpu_seconds, cpu_seconds + 1))
-    if hasattr(resource_api, "RLIMIT_AS"):
-        resource_api.setrlimit(resource_api.RLIMIT_AS, (512 * 1024 * 1024, 512 * 1024 * 1024))
-    if hasattr(resource_api, "RLIMIT_FSIZE"):
-        resource_api.setrlimit(resource_api.RLIMIT_FSIZE, (32_768, 32_768))
-    if hasattr(resource_api, "RLIMIT_NOFILE"):
-        resource_api.setrlimit(resource_api.RLIMIT_NOFILE, (16, 16))
-    return True
+    applied = [
+        _set_limit(resource_api, "RLIMIT_CPU", (cpu_seconds, cpu_seconds + 1)),
+        _set_limit(resource_api, "RLIMIT_AS", (512 * 1024 * 1024, 512 * 1024 * 1024)),
+        _set_limit(resource_api, "RLIMIT_FSIZE", (32_768, 32_768)),
+        _set_limit(resource_api, "RLIMIT_NOFILE", (16, 16)),
+    ]
+    return all(applied)
 
 
 def main(argv: list[str]) -> int:
