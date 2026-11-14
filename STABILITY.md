@@ -76,13 +76,16 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.txn`
 - `memory_fabric.vectors`
 
-## Beta (65)
+## Beta (68)
 
 - `memory_fabric.action_receipt`
 - `memory_fabric.actions`
+- `memory_fabric.actions_typed`
 - `memory_fabric.adapters.claude`
 - `memory_fabric.adapters.claude_chat`
+- `memory_fabric.adapters.claude_chat_typed`
 - `memory_fabric.adapters.ollama`
+- `memory_fabric.adapters.ollama_typed`
 - `memory_fabric.advisory`
 - `memory_fabric.agent_api`
 - `memory_fabric.answerability`
@@ -144,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (63)
+## Experimental (72)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.agent_outcomes.__init__`
@@ -200,6 +203,15 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_protocol.privacy`
 - `memory_fabric.outcome_protocol.recovery`
 - `memory_fabric.outcome_protocol.runtime`
+- `memory_fabric.outcome_typed.__init__`
+- `memory_fabric.outcome_typed.demo`
+- `memory_fabric.outcome_typed.eligibility`
+- `memory_fabric.outcome_typed.observations`
+- `memory_fabric.outcome_typed.outcomes`
+- `memory_fabric.outcome_typed.privacy`
+- `memory_fabric.outcome_typed.recovery`
+- `memory_fabric.outcome_typed.replay_worker`
+- `memory_fabric.outcome_typed.runtime`
 - `memory_fabric.portable`
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`

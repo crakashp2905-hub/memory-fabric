@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "633e4268f17563c41ca479668c401b19555891c4",
+    "commit": "d280e9694f33339222b56a5678044a300d974b6d",
     "dirty": true
   },
   "summary": {
@@ -1173,7 +1173,7 @@
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "docs/API_INVENTORY.json": "5ca96ffbaa43013001113dc5a41d02eac623e2fa41feeab761b9fca7f10b06e5",
         "docs/API.md": "e048897d2ccde7de2b4319e177ebc0544e8f6abb5e6e2f54bfca88c48c64baa4",
-        "STABILITY.md": "0027868832ad3e7b8f5bc16d0e12cae43e92407a5242ae029726aff26af40621",
+        "STABILITY.md": "6996c9aa2e7d90e1de84c6cd6b554522981ba5beeb5244b60b1f11d5a547b768",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -1508,7 +1508,7 @@
         "benchmarks/scoreboard.py": "cead8e03576f8b914ce827b6dfab904e6ce1c008b5662b5c23418672497595d6",
         "tests/test_status_at_head.py": "1c554645c6761492a35e6eecc23dcaf9114521759fdce757b8e62be31054b00a",
         "tests/test_benchmarks.py": "83a2538d988fec3cf5d6d3da4121c1e6f5c0798564e538b13215c22756a6170e",
-        "research/results/MANIFEST.json": "8a916a4331f746b5fa366f37ac236880bbc4a50562a8061d342806f7003baaa5",
+        "research/results/MANIFEST.json": "f71f4f8ea61459faebc3d99a8b8690aa9bb45d344ac0e331fe561c67f9c53852",
         "research/results/BENCHMARK_SCOREBOARD.md": "ff33eb9d5cd1911611664ba8c272872796ecc9df5d0b2fbb7d9e27f3c52f473e",
         "research/results/r1-population-separation-tests.xml": "d8ca2e2719072d338a0ceffbc39ce6da6379c962c0c3683269ac2ac4800b4800"
       },
@@ -1887,7 +1887,7 @@
         "research/results/r2-06-07-support-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/certificates.py": "de28cb96eef8d35b282304176c5fff648c80e6c6b0dd1d6960f0cc0f21d9fd44",
+        "src/memory_fabric/certificates.py": "ee14b60a9019e8d354b2805950172159715bb8d1f8ae98216d3c1f3e8ea54946",
         "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
@@ -1914,7 +1914,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/justification.py": "cc531e72e3271051d57726775364d06e5f2bc7ba0bcee60c6d6a1a33d60b1d4c",
-        "src/memory_fabric/certificates.py": "de28cb96eef8d35b282304176c5fff648c80e6c6b0dd1d6960f0cc0f21d9fd44",
+        "src/memory_fabric/certificates.py": "ee14b60a9019e8d354b2805950172159715bb8d1f8ae98216d3c1f3e8ea54946",
         "tests/test_justification.py": "201a51e019543c08441e2d175fdf137ca87843f2dad559d6aabf379b0696b62e",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "research/results/r2-06-07-support-tests.xml": "77b4688569de4a538e231a4cd0731f228dcc791576f4b0f13d90c8211a0bc814"
@@ -3183,7 +3183,7 @@
         "CHANGELOG.md": "b8351016dc5e5986cf60730e8cf1c24afc72ebfe64827e6ccaf7bd87cdd80a52",
         "tests/test_requirement_graph.py": "f980d9a45ffb5448a912662315ee88d0c965f66b7f454f7ff643422e6b1d8491",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-01-requirement-graph-tests.xml": "4a992f41872157f8098af69761180c663f81e4365ce1ddc2369a361ebc4cae06"
       },
       "evidence_issues": {},
@@ -3228,7 +3228,7 @@
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-02-action-requirements-tests.xml": "a68b8c8259285ed4c13e74a364aee33406ea6c05e80c3354c933c2541c2b8be5",
         "research/results/n2-04-claim-support-tests.xml": "67c29517eb57ab9c2c69c98b209f47773f1f0106cb92d4512ca5f249ebe99419",
         "research/results/n2-05-disputed-claims-tests.xml": "d9d817fbbf6152469978d37d7ea58a250300a5486e521b789ecf15a5278038fc"
@@ -3284,7 +3284,7 @@
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-03-minimal-missing-evidence-tests.xml": "5742ceb4b1935157fdcafb191b2baa3fafba3db556c9ee6d7f11de0d78d0d85a"
       },
       "evidence_issues": {},
@@ -3337,7 +3337,7 @@
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-04-claim-support-tests.xml": "67c29517eb57ab9c2c69c98b209f47773f1f0106cb92d4512ca5f249ebe99419",
         "research/results/n2-05-disputed-claims-tests.xml": "d9d817fbbf6152469978d37d7ea58a250300a5486e521b789ecf15a5278038fc"
       },
@@ -3384,7 +3384,7 @@
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-05-disputed-claims-tests.xml": "d9d817fbbf6152469978d37d7ea58a250300a5486e521b789ecf15a5278038fc"
       },
       "evidence_issues": {},
@@ -3436,7 +3436,7 @@
         "research/results/n2-07-source-dependence-tests.xml"
       ],
       "evidence_digests": {
-        "src/memory_fabric/certificates.py": "de28cb96eef8d35b282304176c5fff648c80e6c6b0dd1d6960f0cc0f21d9fd44",
+        "src/memory_fabric/certificates.py": "ee14b60a9019e8d354b2805950172159715bb8d1f8ae98216d3c1f3e8ea54946",
         "src/memory_fabric/duplicates.py": "813d28b5e8d4b40625ba5a8f38f219546743753dee33510107fc9c5257246162",
         "docs/EVIDENCE_REQUIREMENT_GRAPHS.md": "c1d5b1982c9013be0df408b9da28ff52b17e09195dfb6d31501b26786be6f79f",
         "tests/test_certificates.py": "424cec3498ebca69bc8712d6982ba5961df4dded0505fe21cb575f231fa04b84",
@@ -3484,7 +3484,7 @@
         "tests/test_advisory.py": "971538a1972b069c5c70d7e48e73e3482c2ecd4d44cab010b45424dfc0f381e3",
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-08-safe-advisory-tests.xml": "8fc913f65ab29688c71df4ae905742d327f2ea7fbef19def00a2b0188006534d"
       },
       "evidence_issues": {},
@@ -3557,7 +3557,7 @@
       "evidence_digests": {
         "src/memory_fabric/authorization_receipt.py": "42a5eeacee6eb02c7753f396301a23f04d6c8600d44b804402d5ea5ed860d2cd",
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
-        "src/memory_fabric/certificates.py": "de28cb96eef8d35b282304176c5fff648c80e6c6b0dd1d6960f0cc0f21d9fd44",
+        "src/memory_fabric/certificates.py": "ee14b60a9019e8d354b2805950172159715bb8d1f8ae98216d3c1f3e8ea54946",
         "src/memory_fabric/requirement_graph.py": "e2e1c090b18657042fd373c17b0c0cae1c0e9824979f51d29f8d64c5c6970cdc",
         "src/memory_fabric/__init__.py": "2f0692891557c57beb2bcaaf17c8854b87fe81ab672d0d81b0fd4a4226ecce6b",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
@@ -3570,7 +3570,7 @@
         "tests/test_action_requirements.py": "9a77b0051aa2c1e87d1d8e858aa13ee69906ce57d949ddf3a203d48c04f558d1",
         "tests/test_authority.py": "b4807edff1706521bafab46b98c8c3a11d2cabf02b7996173f4d1e71eaf509df",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/n2-10-authorization-receipt-tests.xml": "0dae7e1e223e88b7fe304415d2c47c7c46c5680c384bff59ba90a9d332b6e55b",
         "research/results/n2-10-authorization-receipt-first-run-tests.xml": "63e570ae2078a825761032dda3258c08ef3a18edf1795370c5b1e9125b41af9f"
       },
@@ -5734,7 +5734,7 @@
         "tests/test_cipher.py": "856d7683f87352b257e7423dc8cb73d51f3e72e0442d1754e7bb5089c46a1200",
         "tests/test_event_schema_hardening.py": "8fd05676d99e4776b88a248057b671fcca8838e164313f2641025b9475deb7c6",
         "tests/test_doctor.py": "ef7b1d40a9ca0e64ae9d499239b2cd93bc609801a83597f54b5650ea1012d815",
-        "docs/TROUBLESHOOTING.md": "1fb78940fd2782f615f669f27c9006d02fed07c5a5a40b950099f8671f43ab35",
+        "docs/TROUBLESHOOTING.md": "4086ba54ebfae61e23eb5d83c9ac37a0af04e4f9595baf3ac97e62fdd5343cfc",
         "docs/RUNBOOKS.md": "a300a963d323187c3b90fab94ea63ab613768c7794a2fffefb3c6582d55e7ac8",
         "research/results/h3-10-key-loss.json": "875450bf314a94e68baefcc4b0f4d3ca5484d66fe39d9098cf5b741d4d20ba04",
         "research/results/h3-10-key-loss-tests.xml": "aba8769c6e0f5cb73215b8ba468b9b58b95cf30c50876e4f3d9eca2af795ee2a"
@@ -6346,7 +6346,7 @@
       "evidence_digests": {
         "examples/getting_started.py": "c9d358c47babc8e022ed86857102f2e30b4e785a17aec46ef6e5827a7383ce6d",
         "docs/QUICKSTART.md": "f46cef1e8a68d40e645c2c242a85dbf66b5eae956e41c4c350c3eaf9c91ab588",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p1-01-example-tests.json": "a321bef3b32ef5af52307b31945751b51707109a58420970d3253fa389315333",
         "research/results/p1-01-example-tests.txt": "720ab82165d56986c2b99b4dd8982d0cf1954531477da94526094238c1797e7f",
         "research/results/p1-03-example-labels.json": "88c8f7ae2810054f75e447842bb89dc8a6b208c4dbfd5b6e8efc4337f6c030af",
@@ -6384,8 +6384,8 @@
         "examples/reference_agent.py": "27a965984401db19767efa6859215d27756a335dec7878eb338cb211f0b7ab95",
         "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
         "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p1-02-example-tests.json": "b22c561058905a78a68afefcff6cee8829f28abf6a0e951c436f7320dd5bd693",
         "research/results/p1-02-example-tests.txt": "b436b96b0714ab88b7d006f73885f6638911f8fa361c4e20e527596357376663",
         "research/results/p1-03-example-labels.json": "88c8f7ae2810054f75e447842bb89dc8a6b208c4dbfd5b6e8efc4337f6c030af",
@@ -6433,8 +6433,8 @@
         "examples/multi_agent_team.py": "7cff3c164ae10427236275877bb6dd3dcf6fd8e3f30ab301464f62eed99d0852",
         "examples/agent_on_the_fabric.py": "15df1e3c4a6356b7ac28f03d7caae31dfafebfa0b80976ff383dbf0843c64b29",
         "examples/live_memory_os.py": "486addaef6e686933e695a949d105c50a4df765d1dcc7adb82b6a2e4b490ca9c",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p1-03-example-labels.json": "88c8f7ae2810054f75e447842bb89dc8a6b208c4dbfd5b6e8efc4337f6c030af",
         "research/results/p1-03-example-labels.txt": "4b7e6275549535b891c4856bfc40175c5b0261bd0eb24ae06e16978dd36e612d",
         "research/results/p1-04-sdk-workflow.json": "53570e3f72089f060e98b4c72372c428633098ea14adec98c8893c0a0fce6340",
@@ -6473,7 +6473,7 @@
         "examples/sdk_workflow.py": "e1852e5f96d18fbb9162008da21bd5b7fc5dedfcd341bd76fff4e97ba21d7627",
         "docs/SDK_WORKFLOW.md": "878acf586f0d21161bee3fc00d04e94192012efb7be5c5e22b62d646d3f2a182",
         "tests/test_sdk.py": "e7bac98b9485a04943030ea6e5019e845ba8f1010635864fa0b939e70a2cd4f5",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p1-04-sdk-workflow.json": "53570e3f72089f060e98b4c72372c428633098ea14adec98c8893c0a0fce6340",
         "research/results/p1-04-sdk-workflow.txt": "c58b1014a15e6cfdbcf8cd018eaf5a153b241acd740136221bd719fa86cb1b4d"
       },
@@ -6563,10 +6563,10 @@
       ],
       "evidence_digests": {
         "examples/why_blocked.py": "165c3b3f812251f07760a91664a3af692d9f8434afe72fa9e30e55eb52dd482f",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
-        "docs/TROUBLESHOOTING.md": "1fb78940fd2782f615f669f27c9006d02fed07c5a5a40b950099f8671f43ab35",
+        "docs/TROUBLESHOOTING.md": "4086ba54ebfae61e23eb5d83c9ac37a0af04e4f9595baf3ac97e62fdd5343cfc",
         "research/results/p1-07-why-blocked.json": "6c2f54cf6938b625d35fef763a832b56d1431b9c1d683c4fe000871c99033088",
         "research/results/p1-07-why-blocked.txt": "a63583ab3f1d9077c8482a92ba18da69fe30344e18a14ba77239789b37b0ae31"
       },
@@ -6626,8 +6626,8 @@
       ],
       "evidence_digests": {
         "examples/memory_vs_json.py": "753ccd6d7d0f0f90447927120c216811c365118adb9bd2a3f981d460eb744605",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p1-09-memory-vs-json.json": "ddef35f4fa64e3c51f5ddc205082f7c07bb4503a6a1d21bb4282765cd8ca08ee",
         "research/results/p1-09-memory-vs-json.txt": "4924a79fabb5be212c6fb01fa4e19a75771189d2b5ed58ea47a484d637357ae8"
       },
@@ -7031,7 +7031,7 @@
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
         "research/results/p3-02-health-fault-matrix.json": "b9c010594e84ba9d5a0f2e14b04b2fd9f685284d06c34f5a9b0d3a80f82f8f1d",
         "docs/HEALTH_LEVELS.md": "c7f160a91e4d75cd691ac8d2540889059d529963dfedb88692e24978c1564af2",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058"
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7062,13 +7062,13 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/cli.py": "21fc5dd238ac036b21d3608f094667fa6b2c66965b0623d67fce75fefd2b1d41",
-        "src/memory_fabric/reasons.py": "6994de6ada29f4139bdc4e888a51e69812d6cc199ba48e74d3940718342522f8",
+        "src/memory_fabric/reasons.py": "bd43d040742ca55b32930780a872d36aee5a7c2477f344a424fd2a883fef4fac",
         "tests/test_cli_explain.py": "9f6a941e8cb1138d7043df75f2bf25d7124d7c075ac387bf11248f4db0f953a6",
         "tests/test_reasons.py": "c340aebd79ff175175ff340b5c1226529a236163e386fa67cbff22ac8c86d77a",
         "tests/test_troubleshooting.py": "8a77dafba572475d9c6024b570528f1ed730249321156c5aece6c4a3b3e220f2",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "docs/CLI.md": "06787b395b6ff28a42436197f58e3a13b8f0f82ab0355f3445162cf0e44e52fb",
-        "docs/TROUBLESHOOTING.md": "1fb78940fd2782f615f669f27c9006d02fed07c5a5a40b950099f8671f43ab35",
+        "docs/TROUBLESHOOTING.md": "4086ba54ebfae61e23eb5d83c9ac37a0af04e4f9595baf3ac97e62fdd5343cfc",
         "research/results/p3-03-refusal-explainer.json": "4cdfbc19ce1bc7c9eb040cb0b9ef8d27c242f4fa293ee4b6940447bab9814fb5",
         "research/results/p3-03-refusal-explainer.txt": "5ac70956cbf6f466f328dcbe47273603ca37d5686235f7005450c8594ad8bbcd"
       },
@@ -7099,7 +7099,7 @@
         "tests/test_upgrade_preview.py": "90a5d715f66b9a7ec3abf5778815d4077b4582b29c373e6403d15420f2beabfc",
         "docs/UPGRADE_PREVIEW.md": "f70ddff7e01967493918d021f2ecdc8e5e3ceb450e9fbcc03dc54b90bd4b0bb6",
         "docs/CLI.md": "06787b395b6ff28a42436197f58e3a13b8f0f82ab0355f3445162cf0e44e52fb",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058"
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7167,7 +7167,7 @@
         "tests/test_incident_replay.py": "bab1345b0fdf9590ba93ef84c8bab6510dd773cfde6c9cde7011bf813c6fa7a3",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
         "docs/INCIDENT_REPLAY.md": "964cb74bb4cf96398a27163862cbba5fc6a55920300227b7e1c50d8588664e49",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058",
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a",
         "research/results/p3-06-incident-replay.json": "116e29d6521e14c5b0513e3d3ba888f2ae412a81dc615e6034af6962c59f934e"
       },
       "evidence_issues": {},
@@ -7207,7 +7207,7 @@
         "tools/resource_budget_smoke.py": "9266a01470812752947a3331b598f7e8f873a5c36934b0e80cbb89128f4522ce",
         "research/results/p3-07-resource-budgets.json": "a37a9bb3721bf938403de11a922cce74314501e79c9f87919821932dd1ca33fa",
         "docs/RESOURCE_BUDGETS.md": "ae68b51b7959e4cbc34efa226e137b7f49a85c00fe00ae4da3b407c2561042fe",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058"
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7262,7 +7262,7 @@
         "tests/test_support_bundle.py": "e508e82e58526f6c7e496042596f1704e9d868b68af5a95b27286016cd0e9e68",
         "docs/SUPPORT_BUNDLE.md": "05f51e86b163bb2c82e10be05e7a79777ccf48f50bcabea2b31bab1c7f9ea8d4",
         "docs/CLI.md": "06787b395b6ff28a42436197f58e3a13b8f0f82ab0355f3445162cf0e44e52fb",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058"
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a"
       },
       "evidence_issues": {},
       "limitations": [
@@ -7319,9 +7319,9 @@
       ],
       "evidence_digests": {
         "docs/product/JOBS_TO_BE_DONE.md": "8cda9f6876f7c461ae8efd7b5739fe6f2870c9fe4e56ce20a9ca198bfdb1d39c",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058",
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a",
         "tests/test_product_jobs.py": "efed95c4c439b12e335b8619817caf4d878a49ab8a27ffc54815938893b74082",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "examples/poisoning_and_rollback.py": "989dd3faf8c7b4d054d2577d0e7eec5af15eb268c1c5ef4a1e5e6706c4dc9c96",
         "examples/wrong_memory_demo.py": "ed6514153fa51b9fbf6d989486a2f8105f11a165c711acdd6c4fe07bec337a3e",
         "examples/action_gate.py": "299604de7d3dcfee4b51d11583896fd01c51eaf999d895693043907334bba17d",
@@ -7350,7 +7350,7 @@
       ],
       "evidence_digests": {
         "examples/memory_vs_json.py": "753ccd6d7d0f0f90447927120c216811c365118adb9bd2a3f981d460eb744605",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p4-02-ordinary-memory-adapter.json": "2b85f6d54f7fd5efc88506e93861a95b3482ac9c22df7fbaae177237ef173cf3",
         "research/results/p4-02-ordinary-memory-adapter.txt": "241ef5fcaaaa95a2a62f7f40d8588672c93ec6ddcf890c3f648fb00f2455c906"
       },
@@ -7404,8 +7404,8 @@
       ],
       "evidence_digests": {
         "examples/correction_strategy_comparison.py": "b4dfadeab0365c2e2fe2dd1a3a27eb65a9273054ae860cf757c04009491e640f",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p4-04-correction-strategy-comparison.json": "43e291502faf0c2fe5d42694279f26e1196a89b3e8ebb087297a613f3ae1dbb6",
         "research/results/p4-04-correction-strategy-comparison.txt": "8492a61f2d2430a05a621715a334211f6551a6b7e1c8d348bbce693440ab9df4"
       },
@@ -7433,8 +7433,8 @@
       ],
       "evidence_digests": {
         "examples/correction_spares_unrelated_action.py": "73f0cd6f843d8e534b4f22b6b53f36e543d49d3e66ec7c60ffa978305afc6e87",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "research/results/p4-05-selective-correction-demo.json": "87fd81bd31d2d1908f1165b20910f0be50cb20f50bb1ef5678383b9ad7323df2",
         "research/results/p4-05-selective-correction-demo.txt": "a4185a87b1780838f71502ba20aff31492a5463ac149590a4f8fc9122747dba2"
       },
@@ -7462,8 +7462,8 @@
       ],
       "evidence_digests": {
         "examples/multi_agent_provenance_dispute.py": "133f98003306ebd8573a7a748d6bf6df47523f4767ecae516e6c9d49f21d7141",
-        "examples/README.md": "80f391af7c83107b54e1013f51b77f36ac11de1d0392a9f191f78e493414307b",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "examples/README.md": "74be83d43d6e80d1ef27c526f39a7de63d2ace38433aa4956ed3c212a0a619fc",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "tests/test_consensus.py": "12dfb78a7c772edc2e0188cc9fbd9694de0e033e3f252cc2cfddb1c5bf1f0772",
         "research/results/p4-06-provenance-dispute-demo.json": "07a29e9fe8a218f8230caf4b2eced2ec73083803471ae4b9eadfcbff2b444cf0",
         "research/results/p4-06-provenance-dispute-demo.txt": "60b8f6bb9a0b19fee26b512d17f4579691c37aad4a4f9c0ac3ce16c448f60c55"
@@ -7494,12 +7494,12 @@
       ],
       "evidence_digests": {
         "docs/product/WHEN_TO_USE_MEMORY_FABRIC.md": "52b40bf3f7f5ce1212f5aef8087f16eb01600d4417e0a560b6aa6aa707975de7",
-        "docs/README.md": "1a00c61549e086f6a5487eb6a81d19ade5d446a063205a49aa9d9dfa5d37f058",
+        "docs/README.md": "a87313d84a87c65bc94ca4ab821b31806c8aa397cb3344711ea6124240d6c29a",
         "research/results/l1-long-running.md": "1d3606fad24dd2ab2d01c294903803d70a8fc52fd7ea1534549b5a0a26522e71",
         "research/results/x4-governed-vs-pooled.md": "76a217d94f46d4a940ae444e312377a8814e8a1d9036899433ea3b01b398dd32",
         "research/results/master-checklist-http-capacity-v1.md": "a768a0b8b78b105af40639201dc9f716d6f7d8f3ba17f4880df53dce13f845d7",
         "tests/test_product_fit_guidance.py": "13c0b7d299d43912c0898ddb7df307fe7e1a3f283a6d604a5ed5c0d4328e21f4",
-        "tests/test_doc_links.py": "8ff05f65c9f80fbebf595c98ad7fa9f1a1b31c131cae380fa414d465893009d6",
+        "tests/test_doc_links.py": "05de28a914e3b634f164e2556da232a027754bf97a6e73d43b282fa0ca37d614",
         "research/results/p4-07-product-fit.json": "73bf4b43cf320904443eb858fe2e37e70d43df6b8e2db2e23faa2b2f40d9abd3",
         "research/results/p4-07-product-fit.txt": "a229bc544838b3b2556bdf49b8f6a1884e50ed06beddaa00f1fce34db107c603"
       },
@@ -7733,7 +7733,7 @@
       "evidence_digests": {
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "tools/gen_reference.py": "ec532bbe6323da81ce051738aec900df58c81e9cf1d8d0b01699be561bfc0e5e",
-        "tests/test_examples_run.py": "8fc869f565e4a1df286a86d23a69b2d0626613d54f0085263fbb93ad8bfebff8",
+        "tests/test_examples_run.py": "0252b93f925fe742e4964fe34910f8ff61a8a7ef0c3a22ae4e9bb342c1b3bab9",
         "tests/test_doc_examples.py": "7f4a9fa84eaad22000d2f3f72a87feac1bcbbe967942d3d6df4b401092b38c7b",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_user_docs_no_research.py": "40204106f31b9514194afc005f47d8fcb6e8e23b7220750d0bda17801c460220",

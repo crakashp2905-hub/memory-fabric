@@ -1,0 +1,20 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-confirmatory-analysis.v1",
+  "status": "FROZEN_ANALYSIS_PLAN",
+  "primary_contrast": "A6_vs_A5",
+  "secondary_comparison_family": [
+    "random_vs_exact_dependence",
+    "recency_vs_exact_dependence",
+    "leave_one_out_vs_exact_dependence",
+    "shapley_vs_exact_dependence",
+    "budgeted_replay_vs_exact_dependence"
+  ],
+  "familywise_alpha": 0.05,
+  "multiplicity_method": "holm_step_down",
+  "split_rule": "all prompt and policy selection uses pilot/development splits; confirmatory cases are disjoint and never used for selection",
+  "threshold_rule": "threshold values and their SHA-256 digest are frozen before confirmatory evaluation",
+  "attempt_history_fields": ["attempt_id", "status", "candidate_sha256", "thresholds_sha256"],
+  "attempt_statuses": ["COMPLETED", "FAILED", "NOT_RUN"],
+  "retain_failed_and_null_attempts": true,
+  "no_threshold_retuning_after_confirmatory_data": true
+}
