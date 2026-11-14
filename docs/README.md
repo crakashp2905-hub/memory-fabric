@@ -27,6 +27,7 @@ Every document in the repository, by what you are trying to do.
 | [COOKBOOK.md](COOKBOOK.md) | Task-sized recipes, each run by a test |
 | [FAQ.md](FAQ.md) | Common questions, short answers |
 | [PIPELINE.md](PIPELINE.md) | One memory from write to erasure, with what is and is not measured |
+| [PIPELINE_2026-10-15.md](PIPELINE_2026-10-15.md) | Earlier version of the pipeline document, kept from the archive branch for history; superseded by PIPELINE.md |
 | [../examples/README.md](../examples/README.md) | Runnable examples |
 
 ## Reference
