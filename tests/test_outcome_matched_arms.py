@@ -6,11 +6,15 @@ from pathlib import Path
 import subprocess
 import sys
 
+import pytest
+
 from benchmarks.agent_scale import outcome_task_manifest, task_manifest
 from benchmarks.matched_agent_arms import ARMS, run as run_legacy_arm
 from benchmarks.outcome_matched_arms import (
-    OUTCOME_ARMS, _grade_case, build_outcome_matrix,
+    OUTCOME_ARMS, _grade_case, build_outcome_matrix, run_paired_model_proposals,
 )
+from benchmarks.outcome_agents import OllamaOutcomePlanner
+from memory_fabric.agent_outcomes.observations import AgentObservation
 
 
 def test_outcome_matrix_preserves_task_ids_and_implemented_legacy_totals() -> None:
@@ -166,3 +170,88 @@ def test_recorded_a5_development_probe_is_source_bound_and_non_confirmatory() ->
     assert report["a5_same_case_comparisons"]["A5-A4"]["promotion_status"] == (
         "NOT_ASSESSED"
     )
+
+
+def test_paired_model_proposals_hold_prompt_schema_and_output_budget_constant() -> None:
+    class StubOllama:
+        def __init__(self) -> None:
+            self.calls = []
+
+        def chat(self, model, messages, **kwargs):
+            self.calls.append((model, messages, kwargs))
+            observation = json.loads(messages[1]["content"])
+            if observation["visible_events"]:
+                event = observation["visible_events"][0]
+                content = json.dumps({
+                    "intent": "propose", "tool": "publish",
+                    "arguments": {"target": "status", "value": "ready"},
+                    "evidence_versions": [[event["memory_id"], event["version"]]],
+                })
+            else:
+                content = json.dumps({
+                    "intent": "abstain", "tool": None,
+                    "arguments": {}, "evidence_versions": [],
+                })
+            return {"message": {"content": content}}
+
+        def usage(self):
+            return {"calls": float(len(self.calls)), "tokens": 12.0 * len(self.calls)}
+
+    client = StubOllama()
+    planner = OllamaOutcomePlanner(
+        "pinned-local-model", client, model_digest="a" * 64,
+        quantization="Q4_K_M", num_predict=48,
+        tool_argument_types={"publish": {"target": str, "value": str}},
+    )
+    common = {
+        "task_id": "paired-prompt-task",
+        "instruction": "Publish the current visible status.",
+        "permitted_tools": ("publish",),
+        "budget": {"model_tokens": 48},
+    }
+    report = run_paired_model_proposals(planner, {
+        "A0": AgentObservation(**common, visible_events=()),
+        "A4": AgentObservation(**common, visible_events=(
+            {"memory_id": "evidence-1", "version": 2, "content": "status: ready"},
+        )),
+    })
+
+    assert report["model_status"] == "LOCAL_MODEL_INFERENCE_COMPLETED"
+    assert report["qualification_status"] == "NOT_ASSESSED"
+    assert report["parity"] == {
+        "same_task_and_instruction": True,
+        "same_permitted_tools_and_budget": True,
+        "same_output_schema": True,
+        "only_arm_specific_observation_field": "visible_events",
+    }
+    assert [row["status"] for row in report["arms"]] == [
+        "STEP_VALIDATED", "STEP_VALIDATED",
+    ]
+    assert [row["intent"] for row in report["arms"]] == ["abstain", "propose"]
+    assert report["model_calls"] == 2
+    assert report["model_tokens"] == 24
+    assert all(call[2]["num_predict"] == 48 for call in client.calls)
+    assert client.calls[0][1][0] == client.calls[1][1][0]
+    assert client.calls[0][2]["schema"] == client.calls[1][2]["schema"]
+
+
+def test_paired_model_proposals_reject_changed_instruction_or_budget() -> None:
+    class NoCallClient:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def chat(self, *_args, **_kwargs):
+            self.calls += 1
+            raise AssertionError("parity mismatch must fail before inference")
+
+    client = NoCallClient()
+    planner = OllamaOutcomePlanner(
+        "pinned-local-model", client, model_digest="a" * 64, quantization="Q4_K_M",
+    )
+    base = AgentObservation("paired-mismatch", "Inspect evidence.", (), ("publish",),
+                            {"model_tokens": 160})
+    mismatch = AgentObservation("paired-mismatch", "Use a different prompt.", (),
+                                ("publish",), {"model_tokens": 160})
+    with pytest.raises(ValueError, match="share task, instruction, tools, and budgets"):
+        run_paired_model_proposals(planner, {"A0": base, "A4": mismatch})
+    assert client.calls == 0

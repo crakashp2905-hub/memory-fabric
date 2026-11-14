@@ -9,13 +9,16 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import hashlib
+import json
 import math
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
-from typing import Any
+from typing import Any, Mapping
 
 # Let the repository benchmark run directly from a source checkout as well as
 # from an installed environment.
@@ -30,6 +33,7 @@ from benchmarks.agent_scale import outcome_task_manifest  # noqa: E402
 from benchmarks.matched_agent_arms import ARMS as LEGACY_ARMS  # noqa: E402
 from benchmarks.matched_agent_arms import run as run_legacy_arm  # noqa: E402
 from benchmarks.manifest import capture_environment, head  # noqa: E402
+from benchmarks.outcome_agents import InvalidModelStep, OllamaOutcomePlanner  # noqa: E402
 from memory_fabric.agent_outcomes.observations import AgentObservation, AgentStep  # noqa: E402
 from memory_fabric.agent_outcomes.runtime import AgentRuntime, ToolOutput  # noqa: E402
 
@@ -46,6 +50,147 @@ OUTCOME_ARMS = (
      "status": "NOT_RUN"},
     {"id": "A7", "name": "oracle", "legacy_arm": "oracle", "status": "RUN"},
 )
+
+
+def run_paired_model_proposals(
+    planner: OllamaOutcomePlanner,
+    observations: Mapping[str, AgentObservation],
+) -> dict[str, Any]:
+    """Run the same pinned prompt and decoding budget once per matched arm.
+
+    Across arms, only ``visible_events`` may differ. Requests execute
+    sequentially through one planner/client so a local checkpoint is shared.
+    This records model proposals only; it does not grade or execute effects.
+    """
+    if not isinstance(planner, OllamaOutcomePlanner):
+        raise TypeError("planner must be an OllamaOutcomePlanner")
+    if planner.model_digest is None or planner.quantization is None:
+        raise ValueError("paired local-model runs require a pinned digest and quantization")
+    if not isinstance(observations, Mapping) or len(observations) < 2:
+        raise ValueError("at least two arm observations are required")
+    if any(not isinstance(arm, str) or not re.fullmatch(r"[A-Za-z0-9_.:-]{1,64}", arm)
+           for arm in observations):
+        raise ValueError("arm IDs must be stable short identifiers")
+    if any(not isinstance(item, AgentObservation) for item in observations.values()):
+        raise TypeError("every arm must supply an AgentObservation")
+
+    first = next(iter(observations.values()))
+    common = (first.task_id, first.instruction, first.permitted_tools,
+              first.budget, first.schema_id)
+    if any((item.task_id, item.instruction, item.permitted_tools,
+            item.budget, item.schema_id) != common
+           for item in observations.values()):
+        raise ValueError(
+            "paired arms must share task, instruction, tools, and budgets; only evidence may vary"
+        )
+
+    def digest(value: Any) -> str:
+        encoded = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                             ensure_ascii=False, allow_nan=False).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    schema_hashes = {arm: digest(planner.response_schema(item))
+                     for arm, item in observations.items()}
+    if len(set(schema_hashes.values())) != 1:
+        raise ValueError("paired arms must receive the same constrained output schema")
+    system_prompt_hash = hashlib.sha256(planner.SYSTEM_PROMPT.encode("utf-8")).hexdigest()
+    usage = getattr(planner.client, "usage", None)
+    arm_results: list[dict[str, Any]] = []
+    for arm, observation in observations.items():
+        usage_before = usage() if callable(usage) else None
+        counters_before = (planner.invalid_json, planner.tool_misuse,
+                           planner.hallucinated_evidence, planner.retries)
+        actor_id = f"paired-{arm}-planner"
+        step_id = f"paired:{digest([observation.task_id, arm])[:32]}"
+        step_digest: str | None
+        status: str
+        reason: str | None
+        intent: str | None
+        try:
+            step = planner.decide(observation, actor_id=actor_id, step_id=step_id)
+        except InvalidModelStep as exc:
+            step_digest = None
+            status = "INVALID_MODEL_STEP"
+            reason = str(exc)
+            intent = None
+        else:
+            step_digest = digest(step.to_dict())
+            status = "STEP_VALIDATED"
+            reason = None
+            intent = step.intent
+        usage_after = usage() if callable(usage) else None
+        usage_delta = None
+        if isinstance(usage_before, dict) and isinstance(usage_after, dict):
+            usage_delta = {
+                key: usage_after.get(key, 0) - value
+                for key, value in usage_before.items()
+                if isinstance(value, (int, float))
+            }
+        counters_after = (planner.invalid_json, planner.tool_misuse,
+                          planner.hallucinated_evidence, planner.retries)
+        arm_results.append({
+            "arm_id": arm,
+            "status": status,
+            "reason": reason,
+            "intent": intent,
+            "step_sha256": step_digest,
+            "observation_sha256": observation.request_digest(),
+            "output_schema_sha256": schema_hashes[arm],
+            "prompt_sha256": hashlib.sha256(
+                planner.SYSTEM_PROMPT.encode("utf-8")
+                + observation.canonical_json().encode("utf-8")
+                + json.dumps(planner.response_schema(observation), sort_keys=True,
+                             separators=(",", ":"), allow_nan=False).encode("utf-8")
+            ).hexdigest(),
+            "model_usage": usage_delta,
+            "adapter_error_delta": dict(zip(
+                ("invalid_json", "tool_misuse", "hallucinated_evidence", "retries"),
+                (after - before for before, after in zip(
+                    counters_before, counters_after, strict=True)), strict=True,
+            )),
+        })
+
+    has_invalid = any(row["status"] != "STEP_VALIDATED" for row in arm_results)
+    return {
+        "schema_id": "memory-fabric.paired-model-proposals.v1",
+        "population": "real_model_agent",
+        "model_status": ("LOCAL_MODEL_INFERENCE_COMPLETED_WITH_INVALID_STEPS"
+                         if has_invalid else "LOCAL_MODEL_INFERENCE_COMPLETED"),
+        "qualification_status": "NOT_ASSESSED",
+        "model": planner.model,
+        "model_digest": planner.model_digest.removeprefix("sha256:"),
+        "quantization": planner.quantization,
+        "inference_settings": {
+            "system_prompt_sha256": system_prompt_hash,
+            "temperature": planner.temperature,
+            "top_p": planner.top_p,
+            "seed": planner.seed,
+            "num_ctx": planner.num_ctx,
+            "num_predict": planner.num_predict,
+            "output_token_budget_per_arm": planner.num_predict,
+            "calls_per_arm": 1,
+            "sequential_shared_client": True,
+        },
+        "parity": {
+            "same_task_and_instruction": True,
+            "same_permitted_tools_and_budget": True,
+            "same_output_schema": len(set(schema_hashes.values())) == 1,
+            "only_arm_specific_observation_field": "visible_events",
+        },
+        "arms": arm_results,
+        "evaluation": "NOT_RUN; proposals are not task outcomes",
+        "model_calls": len(arm_results),
+        "model_tokens": (sum(row["model_usage"].get("tokens", 0)
+                              for row in arm_results if isinstance(row["model_usage"], dict))
+                         if all(isinstance(row["model_usage"], dict) for row in arm_results)
+                         else None),
+        "adapter_errors": {
+            "invalid_json": planner.invalid_json,
+            "tool_misuse": planner.tool_misuse,
+            "hallucinated_evidence": planner.hallucinated_evidence,
+            "retries": planner.retries,
+        },
+    }
 
 
 def build_selector_ablation(*, seeds: tuple[int, ...]) -> dict[str, Any]:
