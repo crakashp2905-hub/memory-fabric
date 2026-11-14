@@ -6,6 +6,8 @@ from memory_fabric.agent_outcomes.observations import AgentObservation
 
 
 class MissingServer:
+    host = "http://127.0.0.1:11434"
+
     def available(self):
         raise OSError("loopback Ollama is not running")
 
@@ -14,6 +16,8 @@ class MissingServer:
 
 
 class MissingModel:
+    host = "http://127.0.0.1:11434"
+
     def __init__(self) -> None:
         self.chat_calls = 0
 
@@ -71,6 +75,8 @@ def test_model_presence_without_digest_pin_does_not_infer() -> None:
 
 def test_pinned_model_digest_and_inference_settings_are_reported() -> None:
     class PinnedClient:
+        host = "http://127.0.0.1:11434"
+
         def __init__(self) -> None:
             self.chat_calls = 0
 
@@ -118,6 +124,8 @@ def test_pinned_model_digest_and_inference_settings_are_reported() -> None:
 
 def test_invalid_model_step_reports_adapter_failure_counters_without_raw_output() -> None:
     class InvalidReplyClient:
+        host = "http://127.0.0.1:11434"
+
         def available(self):
             return ["pinned-model:latest"]
 

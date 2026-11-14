@@ -174,6 +174,8 @@ def test_recorded_a5_development_probe_is_source_bound_and_non_confirmatory() ->
 
 def test_paired_model_proposals_hold_prompt_schema_and_output_budget_constant() -> None:
     class StubOllama:
+        host = "http://127.0.0.1:11434"
+
         def __init__(self) -> None:
             self.calls = []
 
@@ -237,6 +239,8 @@ def test_paired_model_proposals_hold_prompt_schema_and_output_budget_constant() 
 
 def test_paired_model_proposals_reject_changed_instruction_or_budget() -> None:
     class NoCallClient:
+        host = "http://127.0.0.1:11434"
+
         def __init__(self) -> None:
             self.calls = 0
 

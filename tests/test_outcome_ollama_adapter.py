@@ -12,6 +12,8 @@ from memory_fabric.adapters.ollama import OllamaClient
 
 
 class StubOllama:
+    host = "http://127.0.0.1:11434"
+
     def __init__(self, content: str) -> None:
         self.content = content
         self.calls = []
@@ -207,3 +209,12 @@ def test_outcome_adapter_rejects_nonlocal_or_credentialed_endpoint(host: str) ->
                                     "http://[::1]:11434"])
 def test_outcome_adapter_allows_loopback_endpoint(host: str) -> None:
     OllamaOutcomePlanner("qwen2.5:3b", OllamaClient(host=host))
+
+
+def test_outcome_adapter_rejects_client_without_an_explicit_endpoint() -> None:
+    class UnscopedClient:
+        def chat(self, *_args, **_kwargs):
+            return {"message": {"content": encoded_step()}}
+
+    with pytest.raises(ValueError, match="declare a loopback-only HTTP host"):
+        OllamaOutcomePlanner("qwen2.5:3b", UnscopedClient())

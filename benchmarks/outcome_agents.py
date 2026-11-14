@@ -120,18 +120,19 @@ class OllamaOutcomePlanner:
         if not callable(getattr(client, "chat", None)):
             raise TypeError("client must provide chat")
         host = getattr(client, "host", None)
-        if host is not None:
-            parsed_host = urlsplit(host)
-            hostname = (parsed_host.hostname or "").casefold()
-            try:
-                is_loopback = ipaddress.ip_address(hostname).is_loopback
-            except ValueError:
-                is_loopback = hostname == "localhost"
-            if (parsed_host.scheme != "http" or not is_loopback
-                    or parsed_host.username is not None or parsed_host.password is not None
-                    or parsed_host.path not in {"", "/"}
-                    or parsed_host.query or parsed_host.fragment):
-                raise ValueError("outcome model endpoint must be loopback-only HTTP")
+        if not isinstance(host, str) or not host:
+            raise ValueError("client must declare a loopback-only HTTP host")
+        parsed_host = urlsplit(host)
+        hostname = (parsed_host.hostname or "").casefold()
+        try:
+            is_loopback = ipaddress.ip_address(hostname).is_loopback
+        except ValueError:
+            is_loopback = hostname == "localhost"
+        if (parsed_host.scheme != "http" or not is_loopback
+                or parsed_host.username is not None or parsed_host.password is not None
+                or parsed_host.path not in {"", "/"}
+                or parsed_host.query or parsed_host.fragment):
+            raise ValueError("outcome model endpoint must be loopback-only HTTP")
         self.model = model
         self.model_digest = model_digest
         self.quantization = quantization

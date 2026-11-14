@@ -68,6 +68,8 @@ def test_three_roles_use_distinct_sessions_tools_and_logged_steps() -> None:
 
 def test_local_model_step_flows_through_observer_planner_executor_identities() -> None:
     class StubOllama:
+        host = "http://127.0.0.1:11434"
+
         def __init__(self) -> None:
             self.calls = []
 
