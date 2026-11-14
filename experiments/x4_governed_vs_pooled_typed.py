@@ -55,7 +55,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from experiments import checks  # noqa: E402
 from experiments import depotworld as W  # noqa: E402
-from experiments import phase_a_prime_typed as phase_a_prime as PA  # noqa: E402
+from experiments import phase_a_prime_typed as PA  # noqa: E402
 from memory_fabric import LifecycleState, MemoryFabric  # noqa: E402
 from memory_fabric.adapters.context import build_context  # noqa: E402
 

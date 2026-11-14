@@ -77,7 +77,7 @@ from typing import Any, Mapping, Sequence
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
 from experiments import checks  # noqa: E402
-from experiments import relevance_bench_typed as relevance_bench as rb  # noqa: E402
+from experiments import relevance_bench_typed as rb  # noqa: E402
 from memory_fabric import extraction as extracting  # noqa: E402
 from memory_fabric.relations import RelationKind  # noqa: E402
 

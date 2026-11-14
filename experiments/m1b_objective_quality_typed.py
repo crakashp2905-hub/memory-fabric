@@ -58,7 +58,7 @@ import time
 from pathlib import Path
 from typing import Any, Sequence
 
-from experiments import m1_objective_typed as m1_objective as m1
+from experiments import m1_objective_typed as m1
 
 ARMS = ("plain", "prompt", "compiled_filter", "reviewed_filter", "v2_evidence",
         "v2_evidence_safety", "oracle")

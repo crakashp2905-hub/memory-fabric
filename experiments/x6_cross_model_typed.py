@@ -41,7 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from experiments import checks  # noqa: E402
 from experiments import depotworld as W  # noqa: E402
-from experiments import phase_a_prime_typed as phase_a_prime as PA  # noqa: E402
+from experiments import phase_a_prime_typed as PA  # noqa: E402
 from memory_fabric.vectors import LexicalIndex  # noqa: E402
 
 MODELS = ("qwen2.5:3b", "llama3.2:3b", "gemma3:4b")
