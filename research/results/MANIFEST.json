@@ -1,17 +1,18 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 320,
+ "results": 321,
  "missing_field_counts": {
   "git_sha": 181,
   "prereg": 112,
-  "dataset_digest": 316,
+  "dataset_digest": 317,
   "model_id": 281,
   "prompt_hash": 320,
-  "seed": 229,
+  "seed": 230,
   "cost": 294,
   "verdict": 237
  },
  "population_counts": {
+  "real_model_agent": 1,
   "synthetic_scripted": 15,
   "unclassified": 305
  },
@@ -2838,6 +2839,43 @@
    "config": 41,
    "cost": null,
    "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "local-model-pilot-2026-11-15",
+   "file": "research/results/local-model-pilot-2026-11-15.json",
+   "file_sha256": "11bbfde0004639ac445a455d524887589ee311b7103c9483d8e69b0dc9ef467b",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/local-three-agent-audit.md",
+   "git_sha": "e6460b4f979961b16780e5a160f706cd941828d9",
+   "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": "qwen2.5:3b",
+   "population": "real_model_agent",
+   "prompt_hash": "8ac420c179d5ec4445df2c64e9e6f0663541b00a59eee6d6ec77084fc4d29592",
+   "seed": null,
+   "config": {
+    "inference_settings": {
+     "constrained_json": true,
+     "num_ctx": 4096,
+     "num_predict": 160,
+     "output_schema_sha256": "bb5221d22bd1c7c888ea8e7142c3c034b4b108e1aa900d34355b2948fd2aa687",
+     "prompt_sha256": "8ac420c179d5ec4445df2c64e9e6f0663541b00a59eee6d6ec77084fc4d29592",
+     "prompt_version": "outcome_planner_v1",
+     "seed": null,
+     "temperature": 0.0,
+     "top_p": null
+    },
+    "task_id": "local-pilot-qwen25-3b-final"
+   },
+   "cost": {
+    "calls": 1.0,
+    "completion_tokens": 67.0,
+    "prompt_tokens": 179.0,
+    "seconds": 6.390752599982079,
+    "tokens": 246.0
+   },
+   "verdict": "NOT_ASSESSED",
    "parsable": true
   },
   {
