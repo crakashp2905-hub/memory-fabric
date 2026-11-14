@@ -15,6 +15,8 @@ specification (2026-07-28) made MCP **stateless**, and a server built from the
 older initialize-first tutorials is wrong for current clients.
 """
 
-from .protocol import (  # noqa: F401
+__stability__ = "experimental"
+
+from .wire import (  # noqa: F401
     CURRENT_VERSION, LEGACY_VERSIONS, SUPPORTED_VERSIONS, McpError, Server,
 )

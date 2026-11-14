@@ -127,7 +127,9 @@ and identity tables still live in SQLite, which also means the property that
 available on Postgres. Porting them is the next pass.
 """
 
+
 from __future__ import annotations
+__stability__ = "experimental"
 
 import json
 import threading

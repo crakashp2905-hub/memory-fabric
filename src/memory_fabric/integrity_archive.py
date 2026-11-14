@@ -47,7 +47,9 @@ covers. Backfilling would be worse than the gap: computing hashes now over
 events nobody hashed then proves only that they are self-consistent today.
 """
 
+
 from __future__ import annotations
+__stability__ = "experimental"
 
 import hashlib
 import json
@@ -308,7 +310,7 @@ def verify_records(records: dict[int, tuple[str, str]],
     """
     low = min(records) if records else None
     high = max(records) if records else None
-    if low is None:
+    if low is None or high is None:
         return Verification(
             ok=True, checked=0,
             detail="no chain recorded; nothing to verify and nothing claimed",

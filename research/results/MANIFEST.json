@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 322,
+ "results": 324,
  "missing_field_counts": {
-  "git_sha": 182,
-  "prereg": 112,
-  "dataset_digest": 317,
-  "model_id": 283,
-  "prompt_hash": 322,
-  "seed": 230,
-  "cost": 296,
-  "verdict": 237
+  "git_sha": 184,
+  "prereg": 114,
+  "dataset_digest": 319,
+  "model_id": 285,
+  "prompt_hash": 324,
+  "seed": 232,
+  "cost": 298,
+  "verdict": 239
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 307
+  "unclassified": 309
  },
  "rows": [
   {
@@ -3191,6 +3191,24 @@
    "prereg": null,
    "git_sha": "a626fdccd69842bac31d86811bd5783a6e31543c",
    "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "mcp-efficiency",
+   "file": "research/results/mcp-efficiency.json",
+   "file_sha256": "2ecce618cafd68b36fcc6c2c4fcb2aaecc762b0381e785bafeaff1a1257cec3f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",
@@ -645858,6 +645876,24 @@
    "prereg": null,
    "git_sha": "bea61a0",
    "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "pg-throughput",
+   "file": "research/results/pg-throughput.json",
+   "file_sha256": "38733577a1f6cfa1166aadbb0ae361e23f91839619bc8719897f9f65e064f107",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

@@ -30,15 +30,16 @@ same `Server.handle()`, and would need the `Mcp-Method` / `Mcp-Name` headers and
 the authorization rules that 2026-07-28 specifies.
 """
 
+
 from __future__ import annotations
+__stability__ = "experimental"
 
 import argparse
-import io
 import json
 import sys
 from typing import IO, Any, Sequence
 
-from .protocol import PARSE_ERROR, McpError, Server
+from .wire import PARSE_ERROR, McpError, Server
 
 
 def serve(server: Server, stdin: IO[str] | None = None,

@@ -147,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (72)
+## Experimental (79)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.agent_outcomes.__init__`
@@ -188,8 +188,13 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.history_query`
 - `memory_fabric.import_preview`
 - `memory_fabric.independence`
+- `memory_fabric.integrity_archive`
 - `memory_fabric.knowledge_compiler`
 - `memory_fabric.lossless_compaction`
+- `memory_fabric.mcp.__init__`
+- `memory_fabric.mcp.stdio`
+- `memory_fabric.mcp.tools`
+- `memory_fabric.mcp.wire`
 - `memory_fabric.mental_models`
 - `memory_fabric.navigation`
 - `memory_fabric.objective`
@@ -216,6 +221,8 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.receipts`
 - `memory_fabric.rulebook`
 - `memory_fabric.skills`
+- `memory_fabric.storage.__init__`
+- `memory_fabric.storage.postgres`
 - `memory_fabric.summary_dependencies`
 - `memory_fabric.tombstones`
 - `memory_fabric.tool_protocol`

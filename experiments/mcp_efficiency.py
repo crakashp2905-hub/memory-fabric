@@ -47,7 +47,7 @@ from typing import Any, Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from memory_fabric import MemoryFabric  # noqa: E402
-from memory_fabric.mcp.protocol import (  # noqa: E402
+from memory_fabric.mcp.wire import (  # noqa: E402
     META_PROTOCOL, Cache, Handled, Server,
 )
 from memory_fabric.mcp.tools import build_server  # noqa: E402

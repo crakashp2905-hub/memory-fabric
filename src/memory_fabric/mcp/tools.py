@@ -57,17 +57,19 @@ MCP tool result lands in a model's context exactly as a retrieval does. The
 structured result carries `trust: "untrusted-evidence"` for the same reason.
 """
 
+
 from __future__ import annotations
+__stability__ = "experimental"
 
 import secrets
 import time
 from dataclasses import dataclass, field
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping
 
 from ..adapters.context import build_context
 from ..fabric import NotFound
 from ..model import LifecycleState, MemoryType, WithdrawalBasis
-from .protocol import (
+from .wire import (
     INVALID_PARAMS, Cache, Context, Handled, McpError, Server,
 )
 
@@ -109,7 +111,7 @@ _SUPPORTED = frozenset({
     "minLength", "maxLength", "minimum", "maximum", "minItems", "maxItems",
     "items", "description", "default", "uniqueItems",
 })
-_TYPES = {
+_TYPES: dict[str, type | tuple[type, ...]] = {
     "string": str, "integer": int, "number": (int, float),
     "boolean": bool, "array": list, "object": dict,
 }
@@ -486,7 +488,7 @@ class MemoryTools:
         # recover from by reasoning.
         _validate(arguments, tool["inputSchema"])
         try:
-            structured, text = getattr(self, "_" + name)(arguments)
+            structured, text = getattr(self, "_" + tool["name"])(arguments)
         except _ToolFailure as failure:
             # Failures of the *operation* are results, so the model sees them.
             return Handled(_tool_result(failure.message, None, ctx,

@@ -67,7 +67,9 @@ capability this project measures best (PB2: acting on retracted memory, 17% to
 recover from it, and a JSON-RPC error is something the host swallows.
 """
 
+
 from __future__ import annotations
+__stability__ = "experimental"
 
 import json
 import sys
