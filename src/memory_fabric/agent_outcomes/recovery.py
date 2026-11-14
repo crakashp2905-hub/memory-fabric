@@ -120,6 +120,14 @@ class RecoveryActionSpec:
     description: str
     externally_effectful: bool = False
 
+    def __post_init__(self) -> None:
+        if type(self.action) is not RecoveryAction:
+            raise ValueError("recovery actions must use the fixed RecoveryAction catalog")
+        if not isinstance(self.description, str) or not self.description.strip():
+            raise ValueError("recovery action descriptions must be non-empty text")
+        if type(self.externally_effectful) is not bool:
+            raise ValueError("externally_effectful must be a boolean")
+
 
 class ReadOnlyRecoveryCatalog:
     """Immutable catalog that rejects actions which cause external effects."""
@@ -127,6 +135,8 @@ class ReadOnlyRecoveryCatalog:
     def __init__(self, specs: tuple[RecoveryActionSpec, ...]) -> None:
         by_action: dict[RecoveryAction, RecoveryActionSpec] = {}
         for spec in specs:
+            if type(spec) is not RecoveryActionSpec:
+                raise TypeError("recovery catalogs accept only typed action specifications")
             if spec.externally_effectful:
                 raise ValueError("read-only recovery actions cannot cause external effects")
             if spec.action in by_action:
@@ -139,7 +149,7 @@ class ReadOnlyRecoveryCatalog:
         return self._actions
 
     def permits(self, action: RecoveryAction) -> bool:
-        return action in self._actions
+        return type(action) is RecoveryAction and action in self._actions
 
 
 READ_ONLY_RECOVERY_CATALOG = ReadOnlyRecoveryCatalog((

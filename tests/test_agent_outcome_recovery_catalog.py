@@ -24,6 +24,19 @@ def test_read_only_catalog_rejects_external_effects() -> None:
         ),))
 
 
+def test_catalog_rejects_untyped_or_invalid_action_names() -> None:
+    with pytest.raises(ValueError, match="fixed RecoveryAction catalog"):
+        RecoveryActionSpec("publish", "Publish the result.")  # type: ignore[arg-type]
+
+    assert not READ_ONLY_RECOVERY_CATALOG.permits("replan")  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize("effectful", [0, 1, "false"])
+def test_catalog_requires_boolean_effect_metadata(effectful) -> None:
+    with pytest.raises(ValueError, match="must be a boolean"):
+        RecoveryActionSpec(RecoveryAction.REPLAN, "Replan.", effectful)  # type: ignore[arg-type]
+
+
 def test_catalog_view_is_immutable() -> None:
     with pytest.raises(TypeError):
         READ_ONLY_RECOVERY_CATALOG.actions[RecoveryAction.REPLAN] = RecoveryActionSpec(
