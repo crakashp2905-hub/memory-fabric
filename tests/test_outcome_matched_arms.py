@@ -11,7 +11,8 @@ import pytest
 from benchmarks.agent_scale import outcome_task_manifest, task_manifest
 from benchmarks.matched_agent_arms import ARMS, run as run_legacy_arm
 from benchmarks.outcome_matched_arms import (
-    OUTCOME_ARMS, _grade_case, build_outcome_matrix, run_paired_model_proposals,
+    OUTCOME_ARMS, _grade_case, build_outcome_matrix,
+    build_retrieval_baseline_comparison, run_paired_model_proposals,
 )
 from benchmarks.outcome_agents import OllamaOutcomePlanner
 from memory_fabric.agent_outcomes.observations import AgentObservation
@@ -94,6 +95,21 @@ def test_evaluator_grade_is_independent_of_arm_labels() -> None:
     labels = ("A1", "A4", "renamed-arm")
     grades = [_grade_case(dict(record, arm=label)) for label in labels]
     assert grades == ["COMPLETED"] * len(labels)
+
+
+def test_retrieval_baselines_share_candidates_and_fixed_token_budget() -> None:
+    report = build_retrieval_baseline_comparison(seed=701)
+    assert report["status"] == "DESCRIPTIVE_NOT_CONFIRMATORY"
+    assert report["arms"] == ["recency", "lexical", "full_context", "governed_memory"]
+    assert all(report["parity"].values())
+    assert report["inference"].startswith("NONE")
+    for task in report["task_rows"]:
+        assert task["eligible_candidate_count"] == 4
+        token_budgets = {row["token_budget"] for row in task["arms"].values()}
+        assert len(token_budgets) == 1
+        assert token_budgets == {12}
+        assert all(row["tokens_exposed"] <= row["token_budget"]
+                   for row in task["arms"].values())
 
 
 def test_process_contention_benchmark_reports_parallel_latency() -> None:

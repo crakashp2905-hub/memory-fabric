@@ -36,6 +36,115 @@ from benchmarks.manifest import capture_environment, head  # noqa: E402
 from benchmarks.outcome_agents import InvalidModelStep, OllamaOutcomePlanner  # noqa: E402
 from memory_fabric.agent_outcomes.observations import AgentObservation, AgentStep  # noqa: E402
 from memory_fabric.agent_outcomes.runtime import AgentRuntime, ToolOutput  # noqa: E402
+from memory_fabric import MemoryFabric  # noqa: E402
+
+RETRIEVAL_BASELINE_ARMS = ("recency", "lexical", "full_context", "governed_memory")
+RETRIEVAL_CONTEXT_BUDGET_TOKENS = 12
+
+
+def build_retrieval_baseline_comparison(*, seed: int) -> dict[str, Any]:
+    """Compare common-pool retrieval policies under one equal token cap.
+
+    Outcomes are target-evidence inclusion only. The comparison is descriptive
+    and deliberately does not feed the agent task-completion estimate.
+    """
+    tasks = outcome_task_manifest(seed)
+    task_rows: list[dict[str, Any]] = []
+    selected_by_arm: dict[str, list[int]] = {arm: [] for arm in RETRIEVAL_BASELINE_ARMS}
+    with MemoryFabric(":memory:", recognise_copies=False, encrypt_content=False,
+                      hold_suspicious=False) as fabric:
+        for task in tasks:
+            case_key = task["task_id"].replace("-", "").upper()
+            query = f"Record {case_key} status code"
+            target = f"Record {case_key} status code is 1."
+            corpus = [
+                ("target", target),
+                ("note-a", f"Record {case_key} was reviewed by operations."),
+                ("note-b", f"Status code for unrelated ticket {case_key} is pending."),
+                ("note-c", f"Archive record {case_key} status was checked last week."),
+            ]
+            ids: dict[str, str] = {}
+            for name, content in corpus:
+                memory_id = fabric.remember(name, content, scope="team", auto_activate=True)
+                fabric.elevate(memory_id, approver="reviewer", reason="benchmark fixture checked")
+                ids[name] = memory_id
+
+            # Every strategy receives the same active, governed, task-local pool.
+            eligible_ids = tuple(ids.values())
+            lexical_hits = fabric.retrieve(
+                "retrieval-baseline", query, k=len(eligible_ids), min_relevance=0.0,
+                within=eligible_ids, method="lexical", group_by_source_root=False,
+                expand_lineage=0,
+            ).exposed
+            governed_hits = fabric.retrieve(
+                "retrieval-baseline", query, k=len(eligible_ids), min_relevance=0.0,
+                within=eligible_ids, group_by_source_root=False, expand_lineage=0,
+            ).exposed
+            visible = {memory.id: memory for memory in fabric.state.memories.values()
+                       if memory.id in eligible_ids}
+            ranked: dict[str, list[str]] = {
+                "recency": sorted(eligible_ids,
+                                  key=lambda mid: (-visible[mid].created_at, mid)),
+                "lexical": [memory.id for memory in lexical_hits],
+                # Full-context traverses the complete eligible pool in a
+                # label-blind canonical content order, subject to the same cap.
+                "full_context": sorted(eligible_ids,
+                                       key=lambda mid: (hashlib.sha256(
+                                           visible[mid].content.encode("utf-8")).hexdigest(), mid)),
+                "governed_memory": [memory.id for memory in governed_hits],
+            }
+
+            def pack(order: list[str]) -> tuple[list[str], int]:
+                chosen: list[str] = []
+                tokens = 0
+                for memory_id in order:
+                    cost = len(visible[memory_id].content.split())
+                    if tokens + cost <= RETRIEVAL_CONTEXT_BUDGET_TOKENS:
+                        chosen.append(memory_id)
+                        tokens += cost
+                return chosen, tokens
+
+            arms: dict[str, Any] = {}
+            for arm in RETRIEVAL_BASELINE_ARMS:
+                chosen, token_count = pack(ranked[arm])
+                found = ids["target"] in chosen
+                selected_by_arm[arm].append(int(found))
+                arms[arm] = {
+                    "selected_ids": chosen,
+                    "target_evidence_included": found,
+                    "tokens_exposed": token_count,
+                    "token_budget": RETRIEVAL_CONTEXT_BUDGET_TOKENS,
+                }
+            task_rows.append({
+                "task_id": task["task_id"],
+                "eligible_candidate_count": len(eligible_ids),
+                "eligible_pool_sha256": hashlib.sha256(
+                    "\n".join(sorted(eligible_ids)).encode("utf-8")).hexdigest(),
+                "arms": arms,
+            })
+
+    recall = {arm: sum(values) / len(tasks)
+              for arm, values in selected_by_arm.items()}
+    paired_gaps = {arm: recall[arm] - recall["governed_memory"]
+                   for arm in RETRIEVAL_BASELINE_ARMS if arm != "governed_memory"}
+    return {
+        "status": "DESCRIPTIVE_NOT_CONFIRMATORY",
+        "unit": "matched task fixture",
+        "arms": list(RETRIEVAL_BASELINE_ARMS),
+        "candidate_pool": "identical task-local eligible active and reviewed memories",
+        "resource_budget": {"context_tokens_max": RETRIEVAL_CONTEXT_BUDGET_TOKENS,
+                             "selection_passes_per_arm": 1},
+        "parity": {
+            "same_task_ids": True,
+            "same_candidate_pool_per_task": True,
+            "same_context_token_budget": True,
+            "full_context_is_budgeted": True,
+        },
+        "target_evidence_recall": recall,
+        "paired_difference_vs_governed_memory": paired_gaps,
+        "inference": "NONE; do not infer improvement from these scripted fixtures",
+        "task_rows": task_rows,
+    }
 
 OUTCOME_ARMS = (
     {"id": "A0", "name": "no_memory", "legacy_arm": "no_memory", "status": "RUN"},
@@ -381,6 +490,7 @@ def build_outcome_matrix(*, seed: int, agent_count: int = 5) -> dict[str, Any]:
             "reason": "This deterministic fixture is an implementation probe, not confirmatory evidence.",
         },
         "a5_same_case_comparisons": a5_comparisons,
+        "retrieval_baseline_comparison": build_retrieval_baseline_comparison(seed=seed),
         "arms": arms,
         "limitations": [
             "A5 is a bounded scripted governed-recovery arm and remains non-confirmatory.",
