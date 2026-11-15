@@ -1,0 +1,73 @@
+"""Fixed, isolated worker entry point for bounded counterfactual replay."""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+from typing import Any
+
+__stability__ = "experimental"
+
+
+def _set_limit(resource_api: Any, name: str, value: tuple[int, int]) -> bool:
+    """Apply one rlimit best-effort; platforms (notably macOS) may refuse some."""
+    if not hasattr(resource_api, name):
+        return False
+    try:
+        resource_api.setrlimit(getattr(resource_api, name), value)
+    except (OSError, ValueError):
+        return False
+    return True
+
+
+def _limits(cpu_ms: int) -> bool:
+    """Apply OS limits best-effort and report whether all of them were enforced."""
+    if os.name != "posix":
+        return False
+    resource_api: Any = __import__("resource")
+    cpu_seconds = max(1, (cpu_ms + 999) // 1000)
+    applied = [
+        _set_limit(resource_api, "RLIMIT_CPU", (cpu_seconds, cpu_seconds + 1)),
+        _set_limit(resource_api, "RLIMIT_AS", (512 * 1024 * 1024, 512 * 1024 * 1024)),
+        _set_limit(resource_api, "RLIMIT_FSIZE", (32_768, 32_768)),
+        _set_limit(resource_api, "RLIMIT_NOFILE", (16, 16)),
+    ]
+    return all(applied)
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) != 4:
+        return 2
+    request_path, response_path, cpu_ms_text = argv[1:]
+    try:
+        cpu_ms = int(cpu_ms_text)
+        os_limits_enforced = _limits(cpu_ms)
+        request: dict[str, Any] = json.loads(Path(request_path).read_text(encoding="utf-8"))
+        if request.get("worker_id") != "proposal_echo":
+            return 3
+        decision = request["decision"]
+        alternative = request["alternative"]
+        result = {
+            "status": "proposal_changed",
+            "proposal": alternative,
+            "decision_sha256": __import__("hashlib").sha256(
+                json.dumps(decision, sort_keys=True, separators=(",", ":"),
+                           ensure_ascii=False, allow_nan=False).encode("utf-8")
+            ).hexdigest(),
+        }
+        resource_api: Any = __import__("resource") if os.name == "posix" else None
+        result["_worker_cpu_ms"] = int(resource_api.getrusage(
+            resource_api.RUSAGE_SELF).ru_utime * 1000) if resource_api else 0
+        result["_worker_os_limits_enforced"] = os_limits_enforced
+        Path(response_path).write_text(json.dumps(
+            result, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ), encoding="utf-8")
+        return 0
+    except Exception:
+        return 4
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))

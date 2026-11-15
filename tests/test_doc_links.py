@@ -14,7 +14,9 @@ LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 
 def tracked_markdown() -> list[Path]:
     out = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard", "*.md"], capture_output=True, text=True, cwd=ROOT)
-    return [ROOT / p for p in out.stdout.split() if p]
+    # docs/ci-evidence holds frozen snapshots of docs from an earlier commit; their
+    # relative links point at that commit's root, so they are evidence, not live docs.
+    return [ROOT / p for p in out.stdout.split() if p and not p.startswith("docs/ci-evidence/")]
 
 
 def broken() -> list[str]:

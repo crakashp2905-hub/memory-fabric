@@ -17,6 +17,11 @@ API key. An integration that is not listed here is not supported.
 | LangChain retriever | `integrations.langchain` | `pip install ".[langchain]"` | `tests/test_integrations.py` (skipped without `langchain-core`) | beta |
 | PostgreSQL backend | `--db postgresql://…` | `pip install ".[postgres]"` | `tests/test_postgres.py` (CI job `postgres`) | beta |
 
+Ollama calls are disabled by default. Pass `allow_loopback=True` to
+`OllamaClient`, `OllamaEmbedder`, `OllamaMemoryAgent`, or `make_client` to use
+an HTTP loopback server. Remote hosts, proxy routing, and redirects off the
+local machine are rejected.
+
 Stability tiers are defined in [STABILITY.md](../STABILITY.md).
 Supported versions of Python, PostgreSQL and the optional packages are in
 [VERSIONING.md](../VERSIONING.md#supported-versions).

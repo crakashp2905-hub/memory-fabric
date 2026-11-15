@@ -1,19 +1,19 @@
 {
  "generated_by": "tools/results_manifest.py",
- "results": 320,
+ "results": 324,
  "missing_field_counts": {
-  "git_sha": 181,
-  "prereg": 112,
-  "dataset_digest": 316,
-  "model_id": 281,
-  "prompt_hash": 320,
-  "seed": 229,
-  "cost": 294,
-  "verdict": 237
+  "git_sha": 184,
+  "prereg": 114,
+  "dataset_digest": 319,
+  "model_id": 285,
+  "prompt_hash": 324,
+  "seed": 232,
+  "cost": 298,
+  "verdict": 239
  },
  "population_counts": {
   "synthetic_scripted": 15,
-  "unclassified": 305
+  "unclassified": 309
  },
  "rows": [
   {
@@ -206,6 +206,53 @@
    "config": null,
    "cost": null,
    "verdict": "DESCRIPTIVE",
+   "parsable": true
+  },
+  {
+   "experiment_id": "agent-outcome-v1-ao096-scripted-example",
+   "file": "research/results/agent-outcome-v1-ao096-scripted-example.json",
+   "file_sha256": "9484cb50e205aa7bb39388f7ac9c72ec9f3ffe2ff51de9d2b1e251c8cd047653",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/agent-outcome-v1.md",
+   "git_sha": "7ce457c2d0e40e5eb686c817c92b81861508b323",
+   "git_sha_source": "json",
+   "dataset_digest": "1a66b90ec0043e7caf50732782821f7ec6c4b77f874a37051e271608e9b97e6a",
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "config": null,
+   "cost": null,
+   "verdict": {
+    "A0_abstention_cost_cases": "12/12",
+    "A0_completion": "0/12",
+    "A5_completion": "12/12",
+    "A5_eligible_recoveries": "6",
+    "A5_successful_recoveries": "6",
+    "A5_unsafe_attempts": 6,
+    "A5_unsafe_executions": 0,
+    "cluster_bootstrap_95_ci": [
+     1.0,
+     1.0
+    ],
+    "cluster_exact_sign_test_p": 0.00048828125,
+    "confirmatory": "NOT_RUN",
+    "paired_completion_difference": 1.0,
+    "recovery_latency": "NOT_MEASURED"
+   },
    "parsable": true
   },
   {
@@ -3144,6 +3191,24 @@
    "prereg": null,
    "git_sha": "a626fdccd69842bac31d86811bd5783a6e31543c",
    "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "mcp-efficiency",
+   "file": "research/results/mcp-efficiency.json",
+   "file_sha256": "2ecce618cafd68b36fcc6c2c4fcb2aaecc762b0381e785bafeaff1a1257cec3f",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",
@@ -645393,6 +645458,33 @@
    "parsable": true
   },
   {
+   "experiment_id": "p3b-agent-teams-replay-f22fca4",
+   "file": "research/results/p3b-agent-teams-replay-f22fca4.json",
+   "file_sha256": "033814eb8b1bed4de011791320eeb1ff1c2fcf6f154bd245801dbdbf6a897ea2",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": "research/prereg/p3b-agent-teams.md",
+   "git_sha": null,
+   "git_sha_source": null,
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": {
+    "best_baseline": 0.78,
+    "ceiling": 1.0,
+    "headroom": 0.22,
+    "threshold": 0.868,
+    "fabric": 0.97,
+    "baseline_reaches_ceiling": false,
+    "closed_share": 0.8636,
+    "verdict": "SUPPORTED"
+   },
+   "parsable": true
+  },
+  {
    "experiment_id": "p4-01-jobs-to-be-done",
    "file": "research/results/p4-01-jobs-to-be-done.json",
    "file_sha256": "89be739ca7877056e314e4e133bbdbe6cef62b788457e64eb2214d29dea6d172",
@@ -645784,6 +645876,24 @@
    "prereg": null,
    "git_sha": "bea61a0",
    "git_sha_source": "json",
+   "dataset_digest": null,
+   "model_id": null,
+   "population": "unclassified",
+   "prompt_hash": null,
+   "seed": null,
+   "config": null,
+   "cost": null,
+   "verdict": null,
+   "parsable": true
+  },
+  {
+   "experiment_id": "pg-throughput",
+   "file": "research/results/pg-throughput.json",
+   "file_sha256": "38733577a1f6cfa1166aadbb0ae361e23f91839619bc8719897f9f65e064f107",
+   "file_sha256_basis": "UTF-8 file bytes with LF line endings",
+   "prereg": null,
+   "git_sha": null,
+   "git_sha_source": null,
    "dataset_digest": null,
    "model_id": null,
    "population": "unclassified",

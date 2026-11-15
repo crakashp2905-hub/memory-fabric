@@ -56,6 +56,8 @@ ALLOWED_LINES = {
     # The staging run's adversary submits a fake credential on purpose, to
     # check that the ingest screen quarantines it.
     ("experiments/staging_run.py", "password_in_prose"),
+    # The typed-query port of the same staging run carries the identical fixture.
+    ("experiments/staging_run_typed.py", "password_in_prose"),
 
     # These test the auth layer and the detector itself, so synthetic
     # credentials are the subject matter.

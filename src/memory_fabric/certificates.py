@@ -46,7 +46,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Mapping, Sequence
 
-from .enforcement import RiskLevel, Verdict
+from .enforcement import NOT_VISIBLE, RiskLevel, Verdict
 from .model import BLOCKED_STATES
 
 CERTIFICATE_VERSION = 1
@@ -111,7 +111,9 @@ NO_SUPPORTING_EVIDENCE = "no_supporting_evidence"
 EVIDENCE_NOT_FOUND = "evidence_not_found"
 EVIDENCE_WITHDRAWN = "evidence_withdrawn"
 EVIDENCE_VERSION_MOVED = "evidence_version_moved"
+EVIDENCE_ERASED = "evidence_erased"
 EVIDENCE_NOT_USABLE = "evidence_not_usable"
+EVIDENCE_OUTSIDE_CURRENT_VALIDITY = "evidence_outside_current_validity"
 DEPENDENCY_WITHDRAWN = "dependency_withdrawn"
 DEPENDENCY_VERSION_MOVED = "dependency_version_moved"
 DEPENDENCY_NOT_FOUND = "dependency_not_found"
@@ -587,8 +589,20 @@ class CertificateVerifier:
                 code = EVIDENCE_NOT_FOUND
             elif decision.reason_code == "wrong_tenant":
                 code = WRONG_TENANT
+            elif decision.reason_code == NOT_VISIBLE:
+                # Do not reveal erasure metadata for evidence hidden from this
+                # caller; the access denial remains deliberately generic.
+                code = EVIDENCE_NOT_USABLE
+            elif ref.memory_id in fabric.state.erased:
+                # Content erasure leaves audit metadata in the append-only log,
+                # but that metadata can no longer support a consequential claim.
+                code = EVIDENCE_ERASED
             elif decision.version != ref.version:
                 code = EVIDENCE_VERSION_MOVED
+            elif not fabric.state.memories[ref.memory_id].applies_at(fabric.now()):
+                # Historical reads may explicitly ask for the state at T.
+                # A consequential action always verifies against current time.
+                code = EVIDENCE_OUTSIDE_CURRENT_VALIDITY
             elif decision.verdict is not Verdict.USABLE:
                 state = fabric.state.memories[ref.memory_id].lifecycle_state
                 code = EVIDENCE_WITHDRAWN if state in BLOCKED_STATES else EVIDENCE_NOT_USABLE

@@ -154,6 +154,8 @@ with `retry=True`.
 | `payload_too_large` | content over 1 MiB (library) or 256 KiB (servers) | split it |
 | `write_quota_exhausted` | an agent wrote more than its quota in the window (servers: 600 a minute) | usually a loop; otherwise raise `Limits.writes_per_window` |
 | `federation_budget_exhausted` | one peer imported more than its budget (servers: 300 a minute) | wait, or raise `Limits.imports_per_window` for a trusted peer |
+| `evidence_erased` | evidence content was cryptographically erased; its audit metadata remains | use current evidence and certify the claim again; erased content cannot be restored |
+| `evidence_outside_current_validity` | the evidence is outside its current validity window, so it cannot support a certificate now | use evidence whose validity window covers the action time, or renew and recertify it |
 
 ## "Permission denied: lacks the 'x' permission"
 

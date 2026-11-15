@@ -1,0 +1,87 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-12T18:34:30Z",
+    "component": {
+      "type": "library",
+      "name": "memory-fabric",
+      "version": "0.19.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "anthropic",
+      "version": ">=0.40",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "claude"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cryptography",
+      "version": ">=42",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "crypto"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "langchain-core",
+      "version": ">=0.3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "langchain"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "psycopg",
+      "version": ">=3.1",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "postgres"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fastembed",
+      "version": ">=0.5",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "retrieval"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sentence-transformers",
+      "version": ">=3",
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "extra",
+          "value": "retrieval-torch"
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,8 @@ answer.
     from memory_fabric.governance.firewall import Firewall
     from memory_fabric.governance.model_screen import ModelScreen
 
-    firewall = Firewall(model_screen=ModelScreen(OllamaClient(), "qwen2.5:3b"))
+    firewall = Firewall(model_screen=ModelScreen(
+        OllamaClient(allow_loopback=True), "qwen2.5:3b"))
     firewall = Firewall(model_screen=ModelScreen.using("anthropic:claude-haiku-5-5"))
 
 **Off by default.** It needs a model, adds a model call per new text, and a

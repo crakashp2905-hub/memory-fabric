@@ -26,5 +26,6 @@ independent compliance validation.
 | [correction_strategy_comparison.py](correction_strategy_comparison.py) | Compare naive deletion, blanket invalidation and selective action gating, including false blocks | nothing |
 | [agent_on_the_fabric.py](agent_on_the_fabric.py) | The Claude adapter end to end, with a scripted model; drop the stub to use the live API | nothing (`pip install ".[claude]"` and a key for the live API) |
 | [live_memory_os.py](live_memory_os.py) | The whole layer driven by real local models: governed writes, semantic retrieval, federation, retraction | Ollama with `qwen2.5:3b` and `nomic-embed-text` |
+| [outcome_recovery_demo_typed.py](outcome_recovery_demo_typed.py) | Typed-query outcome demo on the `memory_fabric.outcome_typed` package | nothing; run: `python -m memory_fabric.outcome_typed.demo` |
 
 Shorter, task-sized snippets are in [docs/COOKBOOK.md](../docs/COOKBOOK.md).

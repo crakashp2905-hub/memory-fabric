@@ -1,0 +1,73 @@
+{
+  "candidate_sha": "24b1e9d6b3113aa913047a3cb81c50a75cae14ac",
+  "counts_as_incomplete": false,
+  "decision_payload_omitted": true,
+  "decision_validated": true,
+  "failure_codes": [],
+  "failure_counts": {
+    "hallucinated_evidence": 0,
+    "invalid_agent_step": 0,
+    "invalid_json": 0,
+    "prompt_injection_violation": 0,
+    "retry_exhausted": 0,
+    "tool_misuse": 0
+  },
+  "generated_at_utc": "2026-11-12T13:28:20.380823+00:00",
+  "inference": {
+    "decoder": "ollama:/api/chat",
+    "model": {
+      "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "family": "qwen2",
+      "format": "gguf",
+      "name": "qwen2.5:1.5b",
+      "parameter_size": "1.5B",
+      "quantization_level": "Q4_K_M",
+      "requested_name": "qwen2.5:1.5b",
+      "size": 986061892
+    },
+    "nondeterminism_disclosure": "A fixed seed and sampling configuration do not guarantee bitwise-identical outputs across Ollama versions, model runtimes, or hardware.",
+    "options": {
+      "constrained": true,
+      "format": "json_schema",
+      "keep_alive": "10m",
+      "num_ctx": 4096,
+      "num_predict": 256,
+      "seed": 42,
+      "stream": false,
+      "temperature": 0.0,
+      "think": null,
+      "top_p": 0.9
+    },
+    "prompt_sha256": "f35b22f163dd5413d30a9a246888ff758d578da55777af195125ac3629125699",
+    "response_schema_sha256": "dea43c2f3b363c9205fd42fce7f20e52e013c82e0ce8e22afb1bcec478460541",
+    "system_prompt_sha256": "d18c82fa41f5acd32c12a5463a12238967e87d8ce7a986489ea38d49c7971afc",
+    "usage": {
+      "completion_tokens": 88,
+      "prompt_tokens": 176,
+      "request_succeeded": true,
+      "retry_count": 0,
+      "total_tokens": 264,
+      "wall_seconds": 14.081448400014779
+    }
+  },
+  "model": "qwen2.5:1.5b",
+  "model_calls": 1,
+  "model_tokens": 264,
+  "population": "REAL_AGENT",
+  "prompt_injection_compliance": "NOT_TESTED",
+  "reason": "completed_inference",
+  "retry_count": 0,
+  "schema_id": "memory-fabric.real-agent-report.v2",
+  "status": "PASS",
+  "step": {
+    "actor_id": "observer",
+    "arguments": {},
+    "evidence_versions": [],
+    "intent": "inspect",
+    "schema_id": "memory-fabric.agent-outcomes.v3",
+    "step_id": "mf-step-086699285cca0e33db2134b9",
+    "task_id": "ao-live-inference-refresh-2026-11-12"
+  },
+  "task_id": "ao-live-inference-refresh-2026-11-12",
+  "terminal_failure_codes": []
+}

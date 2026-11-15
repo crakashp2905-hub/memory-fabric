@@ -15,13 +15,13 @@ OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agen
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
            "agent_on_the_fabric", "why_blocked", "memory_vs_json",
            "correction_spares_unrelated_action", "multi_agent_provenance_dispute",
-           "correction_strategy_comparison", "outcome_recovery_demo"]
+           "correction_strategy_comparison", "outcome_recovery_demo", "outcome_recovery_demo_typed"]
 
 
 class Examples(unittest.TestCase):
     def test_offline_examples_run(self) -> None:
         listed = {p.stem for p in (ROOT / "examples").glob("*.py")}
-        self.assertEqual(listed - set(OFFLINE), {"live_memory_os"},
+        self.assertEqual(listed - set(OFFLINE), {"live_memory_os", "live_memory_os_typed"},
                          "a new example must be added here, or to the live list")
         for source in (ROOT / "examples").glob("*.py"):
             self.assertIn("DEMO ONLY:", source.read_text(encoding="utf-8"),
