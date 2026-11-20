@@ -1,0 +1,15 @@
+{
+  "conclusion": "failure",
+  "event": "schedule",
+  "evidence": [
+    "job 133234599140: runner_id=0, runner_name='', no steps, 2026-11-16T10:23:58Z -> 2026-11-16T10:24:01Z"
+  ],
+  "failure_class": "NO_RUNNER_ASSIGNED",
+  "head_sha": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+  "interpretation": "the job never started on a runner; no attack or invariant executed, so this is not evidence of a vulnerability or of a passing defence",
+  "invariant_status": "NOT_RUN",
+  "root_cause": "CAUSE_UNVERIFIED",
+  "run_id": 43848470357,
+  "schema_id": "memory-fabric.workflow-run-classification.v1",
+  "workflow": "model-attacks"
+}

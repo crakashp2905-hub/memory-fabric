@@ -1,7 +1,7 @@
 # Agent outcome evaluation
 
 The current alpha package is version `0.19.0` in development; the event schema
-and `SPEC.md` remain at `0.14.0`. The 0.19.0 package has not been published or
+and `SPEC.md` are at `0.19.0`. The 0.19.0 package has not been published or
 tagged. The latest pinned release notes remain 0.13.0. Source, README, Helm
 application image metadata, and the generated status report are checked for
 version consistency.
@@ -260,8 +260,9 @@ selection by digest, and compares A5 against it on disjoint held-out task cases.
 It requires complete matched outcomes for the registered actor and retrieval
 arms, clusters uncertainty by world seed, and reports unsafe attempts and
 executions separately. A5 can pass only when the lower 95% clustered interval
-exceeds the preregistered 0.05 absolute completion gain and neither safety
-measure regresses. A frozen-protocol claim must include its SHA-256 digest.
+exceeds the preregistered 0.05 absolute completion gain (frozen in the
+[endpoint registry](../research/prereg/agent-outcome-endpoints.v1.json)) and
+neither safety measure regresses. A frozen-protocol claim must include its SHA-256 digest.
 This API is not evidence of a completed confirmatory run: the protocol is still
 `DRAFT / NOT FROZEN`, so no qualifying protocol digest or promotion result is
 available. The evaluator's `NOT_READY` outcome remains required until a full
@@ -438,6 +439,11 @@ immediate abstention), the raw paired rows show safe completion of 12/12 vs
 All 12 A0 cases carry the evaluator's `abstention_cost` code. Six A5 cases were
 correction-eligible and all six recovered; A5 recorded six unsafe attempts and
 zero unsafe executions.
+Raw rows and analysis:
+[`agent-outcome-v1-ao096-scripted-example.json`](../research/results/agent-outcome-v1-ao096-scripted-example.json)
+(`python -m benchmarks.outcome_recovery --seeds 12`). A0 is the immediate-abstention
+control, not the strongest fair baseline, so this is a capability demonstration and
+not evidence of an advantage over A3 or A4.
 
 These are fixed scripted contract cases, not held-out confirmatory evidence or
 local-model results. A0 is immediate abstention, not the strongest fair

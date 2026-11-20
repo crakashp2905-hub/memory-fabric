@@ -1,0 +1,78 @@
+{
+  "dependencies": {
+    "optional": {
+      "claude": [
+        "anthropic>=0.40"
+      ],
+      "crypto": [
+        "cryptography>=42"
+      ],
+      "documents": [
+        "pypdf>=6.0,<7"
+      ],
+      "langchain": [
+        "langchain-core>=0.3"
+      ],
+      "oauth": [
+        "PyJWT[crypto]>=2.10,<3"
+      ],
+      "pdf": [
+        "pypdf>=4"
+      ],
+      "postgres": [
+        "psycopg>=3.1"
+      ],
+      "retrieval": [
+        "fastembed>=0.5"
+      ],
+      "retrieval-torch": [
+        "sentence-transformers>=3"
+      ],
+      "test": [
+        "psutil>=5.9",
+        "pytest==9.0.3",
+        "setuptools>=77"
+      ]
+    },
+    "runtime": []
+  },
+  "installed_distributions": {
+    "anthropic": null,
+    "cryptography": "50.0.1",
+    "fastembed": null,
+    "langchain-core": null,
+    "psutil": "7.2.2",
+    "psycopg": null,
+    "pyjwt": "2.15.0",
+    "pypdf": "6.17.0",
+    "pytest": "9.0.3",
+    "sentence-transformers": null,
+    "setuptools": "84.2.1"
+  },
+  "manifest_sha256": "07b8da13a0b583aaa40d5037c772b572ace7e2fcc25fc445a03d24ddd6e38575",
+  "network_calls": 0,
+  "os": {
+    "machine": "x86_64",
+    "release": "6.18.44-fc-v726",
+    "system": "Linux"
+  },
+  "package": {
+    "name": "memory-fabric",
+    "requires_python": ">=3.11",
+    "version": "0.19.0"
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.13.18"
+  },
+  "schema_id": "memory-fabric.baseline-manifest.v1",
+  "source": {
+    "commit_sha": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+    "dirty_path_count": 0,
+    "dirty_paths": [],
+    "tree_clean": true
+  },
+  "sqlite": {
+    "library_version": "3.53.1"
+  }
+}

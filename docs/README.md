@@ -116,6 +116,7 @@ Every document in the repository, by what you are trying to do.
 | [RELEASE_EVALUATION.md](RELEASE_EVALUATION.md) | The release gate's evidence, per release |
 | [AGENT_OUTCOME_EVALUATION.md](AGENT_OUTCOME_EVALUATION.md) | Agent outcome contracts: what is measured and what is not |
 | [OUTCOME_PROTOCOL_EVALUATION.md](OUTCOME_PROTOCOL_EVALUATION.md) | Evaluator-side terminal outcome protocol (`memory_fabric.outcome_protocol`), kept separate from the agent-outcome contracts until reconciled |
+| [checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md](checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md) | The agent-validation checklist (240 tasks); status of each task is in the [task ledger](../research/checklist/AGENT_VALIDATION_LEDGER.md), and the starting point in the [baseline](../research/results/agent-outcomes/baseline-70e34c8/BASELINE.md) |
 | [../VERSIONING.md](../VERSIONING.md) | What a version number promises; supported versions |
 
 ## For maintainers

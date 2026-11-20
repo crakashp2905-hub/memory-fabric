@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import threading
+import time
 import unittest
 import urllib.request
 
@@ -65,7 +66,17 @@ class StageTraceContracts(unittest.TestCase):
         with urllib.request.urlopen(request, timeout=5) as response:
             self.assertEqual(response.status, 200)
             json.loads(response.read())
-        traces = recorder.snapshot()
+        # The server thread records `transport` after it has written the response,
+        # so the client can hold the response before the trace exists. Wait for the
+        # completed trace (bounded) instead of racing it; every assertion below holds.
+        deadline = time.monotonic() + 2.0
+        while True:
+            traces = recorder.snapshot()
+            if traces and not traces[-1].validate():
+                break
+            if time.monotonic() >= deadline:
+                break
+            time.sleep(0.005)
         http_trace = traces[-1]
         self.assertFalse(http_trace.validate(), http_trace.validate())
         for stage in ("body_decode", "auth", "event_append", "projection",

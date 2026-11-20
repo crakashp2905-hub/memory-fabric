@@ -24,7 +24,7 @@ Validation commands:
 python tools/check.py --full
 python -m build
 python -m twine check --strict dist/*
-python tools/fresh_machine.py dist/memory-fabric-0.14.0-py3-none-any.whl
+python tools/fresh_machine.py dist/memory_fabric-*-py3-none-any.whl
 ```
 
 Run `doctor` with a real initialized database, not an unrelated empty path.

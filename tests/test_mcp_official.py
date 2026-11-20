@@ -4,6 +4,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -13,6 +14,20 @@ from pathlib import Path
 from memory_fabric import MemoryFabric
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _read_timeout(seconds: float):
+    """The SDK's read timeout: a timedelta in 1.x, plain seconds from 2.x on."""
+    from importlib.metadata import version
+
+    major = int(version("mcp").split(".")[0])
+    return timedelta(seconds=seconds) if major < 2 else float(seconds)
+
+
+def _field(result, camel: str):
+    """A result field by its 1.x camelCase name or its 2.x snake_case name."""
+    snake = re.sub(r"(?<!^)(?=[A-Z])", "_", camel).lower()
+    return getattr(result, camel) if hasattr(result, camel) else getattr(result, snake)
 
 
 @unittest.skipUnless(importlib.util.find_spec("mcp"), "official MCP SDK is optional; run mcp-contract CI")
@@ -34,19 +49,19 @@ class OfficialClient(unittest.IsolatedAsyncioTestCase):
                       "--tenant", "tn_client"],
                 env=dict(os.environ, PYTHONPATH=str(ROOT / "src")), cwd=str(ROOT))
             async with stdio_client(params) as (read, write):
-                async with ClientSession(read, write, read_timeout_seconds=timedelta(seconds=30)) as session:
+                async with ClientSession(read, write, read_timeout_seconds=_read_timeout(30)) as session:
                     initialized = await session.initialize()
-                    self.assertEqual(initialized.serverInfo.name, "memory-fabric")
-                    self.assertIn(initialized.protocolVersion,
+                    self.assertEqual(_field(initialized, "serverInfo").name, "memory-fabric")
+                    self.assertIn(_field(initialized, "protocolVersion"),
                                   ("2025-06-18", "2025-03-26", "2024-11-05"))
                     tools = await session.list_tools()
                     self.assertEqual({tool.name for tool in tools.tools},
                                      {"recall", "fetch", "verify", "remember"})
                     fetched = await session.call_tool("fetch", {"memory_id": evidence})
-                    self.assertFalse(fetched.isError)
+                    self.assertFalse(_field(fetched, "isError"))
                     self.assertIn("reviewed valve", fetched.content[0].text)
                     hidden = await session.call_tool("fetch", {"memory_id": foreign})
-                    self.assertTrue(hidden.isError)
+                    self.assertTrue(_field(hidden, "isError"))
                     self.assertNotIn("FOREIGN_ONLY_MARKER", str(hidden.content))
                     before = await session.call_tool("verify", {"memory_id": evidence})
                     self.assertTrue(json.loads(before.content[0].text)["usable"])
@@ -56,4 +71,4 @@ class OfficialClient(unittest.IsolatedAsyncioTestCase):
                     after = await session.call_tool("verify", {"memory_id": evidence})
                     self.assertFalse(json.loads(after.content[0].text)["usable"])
                     withdrawn = await session.call_tool("fetch", {"memory_id": evidence})
-                    self.assertTrue(withdrawn.isError)
+                    self.assertTrue(_field(withdrawn, "isError"))

@@ -147,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (79)
+## Experimental (80)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.agent_outcomes.__init__`
@@ -211,6 +211,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_typed.__init__`
 - `memory_fabric.outcome_typed.demo`
 - `memory_fabric.outcome_typed.eligibility`
+- `memory_fabric.outcome_typed.evidence`
 - `memory_fabric.outcome_typed.observations`
 - `memory_fabric.outcome_typed.outcomes`
 - `memory_fabric.outcome_typed.privacy`

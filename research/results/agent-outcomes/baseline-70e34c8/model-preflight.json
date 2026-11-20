@@ -1,0 +1,17 @@
+{
+  "detail": "OllamaError",
+  "download_attempted": false,
+  "host": "http://127.0.0.1:11434",
+  "missing": [
+    "qwen2.5:1.5b"
+  ],
+  "models": [],
+  "reason": "LOCAL_RUNTIME_UNAVAILABLE",
+  "required": [
+    "qwen2.5:1.5b"
+  ],
+  "runtime_version": null,
+  "schema_id": "memory-fabric.model-preflight.v1",
+  "scripted_substitute_used": false,
+  "status": "REAL_AGENT_NOT_RUN"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_id": "memory-fabric.local-test-run.v1",
+  "commit_sha": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+  "tree_clean": true,
+  "command": "python -m pytest tests -q -p no:cacheprovider",
+  "python": "3.13.18",
+  "environment_manifest": "research/results/agent-outcomes/baseline-70e34c8/manifest.json",
+  "passed": 3449,
+  "skipped": 61,
+  "failed": 1,
+  "subtests_passed": 3203,
+  "duration_seconds": 299.77,
+  "failures": [
+    {
+      "test": "tests/test_mcp_official.py::OfficialClient::test_negotiation_isolation_and_correction_through_official_client",
+      "cause": "mcp 2.3.0 installed locally; ClientSession read_timeout_seconds now expects a float (TypeError: float + datetime.timedelta). CI pins mcp==1.26.0.",
+      "classification": "ENVIRONMENT_INCOMPATIBILITY"
+    }
+  ]
+}
