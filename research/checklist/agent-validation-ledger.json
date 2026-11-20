@@ -4,34 +4,126 @@
  "spec_sha256": "bd002f61112e4ac64544df0b706298d8e78fee90ea269b8c1954b8f54b73fbcd",
  "tasks": {
   "W01-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/baseline_manifest.py",
+    "research/results/agent-outcomes/baseline-70e34c8/manifest.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::BaselineManifest"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Deterministic, offline, self-digested; pins clean 70e34c8."
   },
   "W01-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/evidence_inventory.py",
+    "research/results/agent-outcomes/EVIDENCE_INVENTORY.json",
+    "research/claims.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::EvidenceInventory"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "5/5 promoted claims resolve commitments; 184 results LEGACY_UNVERIFIED."
   },
   "W01-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/status_at_head.py",
+    "docs/AGENT_OUTCOME_EVALUATION.md",
+    "docs/MEMORY_FABRIC_RELEASE_CHECKLIST.md"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::CurrentStateVersions",
+    "tests/test_status_at_head.py"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Found and fixed two stale current-state statements; historical artifacts untouched."
   },
   "W01-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/evidence.py"
+   ],
+   "tests": [
+    "tests/test_outcome_evidence_status.py::ReleaseMatrix",
+    "tests/test_outcome_evidence_status.py::Vocabulary"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "release_evidence_matrix renders each gate from its own evidence type; wired into the end-to-end gate in a later batch."
   },
   "W01-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/classify_workflow_run.py",
+    "research/results/agent-outcomes/baseline-70e34c8/model-attacks-run-43848470357.json",
+    "research/results/agent-outcomes/baseline-70e34c8/model-attacks-run-43848470357.classification.json",
+    "research/results/agent-outcomes/baseline-70e34c8/model-attacks-local-reproduction.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::WorkflowTriage"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "NO_RUNNER_ASSIGNED; root cause CAUSE_UNVERIFIED; no invariant ran. Local reproduction: MODEL_NOT_AVAILABLE."
   },
   "W01-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/model_attack_check.py",
+    ".github/workflows/model-attacks.yml",
+    "research/results/agent-outcomes/baseline-70e34c8/model-attacks-local-reproduction.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::ModelAttackCheck"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Missing model is MODEL_NOT_AVAILABLE (exit 2); invariant failure FAIL (exit 1). Workflow change not yet exercised on a GitHub runner."
   },
   "W01-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/evidence.py"
+   ],
+   "tests": [
+    "tests/test_outcome_evidence_status.py::Vocabulary"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W01-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/evidence.py"
+   ],
+   "tests": [
+    "tests/test_outcome_evidence_status.py::Pairing"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W01-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/claim_scanner.py",
+    "tools/claim_scanner_allowlist.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::ClaimScanner"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Found one unlinked result and two unlinked thresholds; linked, allowlist empty."
   },
   "W01-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "research/results/agent-outcomes/baseline-70e34c8/BASELINE.md",
+    "research/results/agent-outcomes/baseline-70e34c8/baseline.json",
+    "research/results/agent-outcomes/baseline-70e34c8/local-test-run.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::BaselineRecord"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W02-01": {
    "status": "TODO"
@@ -334,7 +426,16 @@
    "status": "TODO"
   },
   "W12-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/model_preflight.py",
+    "research/results/agent-outcomes/baseline-70e34c8/model-preflight.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::ModelPreflight"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Loopback-only, no download; REAL_AGENT_NOT_RUN here (no runtime installed)."
   },
   "W12-02": {
    "status": "TODO"
@@ -475,7 +576,18 @@
    "status": "TODO"
   },
   "W16-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    ".github/workflows/model-attacks.yml",
+    "tools/model_attack_check.py",
+    "tools/classify_workflow_run.py"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::ModelAttackCheck",
+    "tests/test_agent_validation_w01.py::WorkflowTriage"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b",
+   "note": "Artifacts carry preflight, stderr and status; runner-less failures are classified from metadata."
   },
   "W16-09": {
    "status": "TODO"
@@ -688,7 +800,15 @@
    "status": "TODO"
   },
   "W23-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/checklist_ledger.py",
+    "research/checklist/agent-validation-ledger.json"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::TaskLedger"
+   ],
+   "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W23-10": {
    "status": "TODO"

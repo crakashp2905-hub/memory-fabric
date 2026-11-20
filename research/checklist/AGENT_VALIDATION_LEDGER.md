@@ -8,9 +8,9 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 240 |
+| `TODO` | 227 |
 | `IMPLEMENTED` | 0 |
-| `TESTED` | 0 |
+| `TESTED` | 13 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
@@ -22,7 +22,7 @@ Total: 240 tasks.
 
 | workstream | title | `TODO` | `IMPLEMENTED` | `TESTED` | `SCRIPTED_QUALIFIED` | `LOCAL_MODEL_QUALIFIED` | `RESEARCH_QUALIFIED` | `BLOCKED_EXTERNAL` |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| W01 | Exact revision, evidence registry, and failed-workflow triage | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W01 | Exact revision, evidence registry, and failed-workflow triage | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
 | W02 | Consolidate the three experimental outcome packages | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W03 | One genuine end-to-end agent execution loop | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W04 | Independent outcomes and hidden-world evaluation | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -33,34 +33,34 @@ Total: 240 tasks.
 | W09 | Counterfactual Decision Memory used only where beneficial | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W10 | Multi-agent knowledge and coordination under changing truth | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W11 | Fair baselines and resource parity | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W12 | Actual local model agents, no hosted service requirement | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W12 | Actual local model agents, no hosted service requirement | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W13 | Strict evaluator metrics and operator-relevant benefits | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W14 | Preregister and power the real confirmatory study | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W15 | Run negative-control, ablation and confirmatory experiments | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W16 | Defend learned agents against contaminated memory and unsafe prompts | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W16 | Defend learned agents against contaminated memory and unsafe prompts | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W17 | Persistence, recovery, and transactional consistency | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W18 | Performance and cost efficiency with honest measurements | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W19 | Governance privacy, consent, erasure, operator trust | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W20 | Developer-facing APIs, SDK and usability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W21 | Control Center and operator outcome observability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W22 | Research novelty, precise scientific claims and negative results | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W23 | CI, local qualification and no-regression release gates | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W23 | CI, local qualification and no-regression release gates | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W24 | Business value and launch decision without premature deployment | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Tasks
 
 | task | P | status | evidence | note |
 |---|---|---|---|---|
-| W01-01 | P0 | `TODO` |  |  |
-| W01-02 | P0 | `TODO` |  |  |
-| W01-03 | P0 | `TODO` |  |  |
-| W01-04 | P0 | `TODO` |  |  |
-| W01-05 | P0 | `TODO` |  |  |
-| W01-06 | P0 | `TODO` |  |  |
-| W01-07 | P0 | `TODO` |  |  |
-| W01-08 | P0 | `TODO` |  |  |
-| W01-09 | P0 | `TODO` |  |  |
-| W01-10 | P0 | `TODO` |  |  |
+| W01-01 | P0 | `TESTED` | `tools/baseline_manifest.py`<br>`research/results/agent-outcomes/baseline-70e34c8/manifest.json` | Deterministic, offline, self-digested; pins clean 70e34c8. |
+| W01-02 | P0 | `TESTED` | `tools/evidence_inventory.py`<br>`research/results/agent-outcomes/EVIDENCE_INVENTORY.json`<br>`research/claims.json` | 5/5 promoted claims resolve commitments; 184 results LEGACY_UNVERIFIED. |
+| W01-03 | P0 | `TESTED` | `tools/status_at_head.py`<br>`docs/AGENT_OUTCOME_EVALUATION.md`<br>`docs/MEMORY_FABRIC_RELEASE_CHECKLIST.md` | Found and fixed two stale current-state statements; historical artifacts untouched. |
+| W01-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/evidence.py` | release_evidence_matrix renders each gate from its own evidence type; wired into the end-to-end gate in a later batch. |
+| W01-05 | P0 | `TESTED` | `tools/classify_workflow_run.py`<br>`research/results/agent-outcomes/baseline-70e34c8/model-attacks-run-43848470357.json`<br>`research/results/agent-outcomes/baseline-70e34c8/model-attacks-run-43848470357.classification.json`<br>`research/results/agent-outcomes/baseline-70e34c8/model-attacks-local-reproduction.json` | NO_RUNNER_ASSIGNED; root cause CAUSE_UNVERIFIED; no invariant ran. Local reproduction: MODEL_NOT_AVAILABLE. |
+| W01-06 | P0 | `TESTED` | `tools/model_attack_check.py`<br>`.github/workflows/model-attacks.yml`<br>`research/results/agent-outcomes/baseline-70e34c8/model-attacks-local-reproduction.json` | Missing model is MODEL_NOT_AVAILABLE (exit 2); invariant failure FAIL (exit 1). Workflow change not yet exercised on a GitHub runner. |
+| W01-07 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/evidence.py` |  |
+| W01-08 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/evidence.py` |  |
+| W01-09 | P0 | `TESTED` | `tools/claim_scanner.py`<br>`tools/claim_scanner_allowlist.json` | Found one unlinked result and two unlinked thresholds; linked, allowlist empty. |
+| W01-10 | P0 | `TESTED` | `research/results/agent-outcomes/baseline-70e34c8/BASELINE.md`<br>`research/results/agent-outcomes/baseline-70e34c8/baseline.json`<br>`research/results/agent-outcomes/baseline-70e34c8/local-test-run.json` |  |
 | W02-01 | P0 | `TODO` |  |  |
 | W02-02 | P0 | `TODO` |  |  |
 | W02-03 | P0 | `TODO` |  |  |
@@ -161,7 +161,7 @@ Total: 240 tasks.
 | W11-08 | P0 | `TODO` |  |  |
 | W11-09 | P0 | `TODO` |  |  |
 | W11-10 | P0 | `TODO` |  |  |
-| W12-01 | P0 | `TODO` |  |  |
+| W12-01 | P0 | `TESTED` | `tools/model_preflight.py`<br>`research/results/agent-outcomes/baseline-70e34c8/model-preflight.json` | Loopback-only, no download; REAL_AGENT_NOT_RUN here (no runtime installed). |
 | W12-02 | P0 | `TODO` |  |  |
 | W12-03 | P0 | `TODO` |  |  |
 | W12-04 | P0 | `TODO` |  |  |
@@ -208,7 +208,7 @@ Total: 240 tasks.
 | W16-05 | P0 | `TODO` |  |  |
 | W16-06 | P0 | `TODO` |  |  |
 | W16-07 | P0 | `TODO` |  |  |
-| W16-08 | P0 | `TODO` |  |  |
+| W16-08 | P0 | `TESTED` | `.github/workflows/model-attacks.yml`<br>`tools/model_attack_check.py`<br>`tools/classify_workflow_run.py` | Artifacts carry preflight, stderr and status; runner-less failures are classified from metadata. |
 | W16-09 | P0 | `TODO` |  |  |
 | W16-10 | P0 | `TODO` |  |  |
 | W17-01 | P1 | `TODO` |  |  |
@@ -279,7 +279,7 @@ Total: 240 tasks.
 | W23-06 | P0 | `TODO` |  |  |
 | W23-07 | P0 | `TODO` |  |  |
 | W23-08 | P0 | `TODO` |  |  |
-| W23-09 | P0 | `TODO` |  |  |
+| W23-09 | P0 | `TESTED` | `tools/checklist_ledger.py`<br>`research/checklist/agent-validation-ledger.json` |  |
 | W23-10 | P0 | `TODO` |  |  |
 | W24-01 | P1 | `TODO` |  |  |
 | W24-02 | P1 | `TODO` |  |  |
