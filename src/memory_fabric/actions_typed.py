@@ -104,6 +104,26 @@ def _action_execution_binding(tool: str, agent_id: str,
     return hashlib.sha256(encoded).hexdigest()
 
 
+def _idempotency_binding(request_binding: str | None, tenant_id: str | None,
+                         certificate: Any) -> str | None:
+    """What an idempotency key commits to: the request, the tenant and the source versions.
+
+    ``None`` when the call described no request, so there is nothing to compare.
+    """
+    if request_binding is None:
+        return None
+    if isinstance(certificate, Mapping):
+        try:
+            certificate = EvidenceCertificate.from_json(certificate)
+        except CertificateError:
+            certificate = None
+    evidence = (sorted([e.memory_id, e.version] for e in certificate.evidence)
+                if isinstance(certificate, EvidenceCertificate) else [])
+    encoded = json.dumps({"request": request_binding, "tenant": tenant_id, "evidence": evidence},
+                         sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _action_execution_receipt(execution: ActionExecution, binding: str | None,
                               receipt_context: str | None) -> bytes:
     decision = execution.decision
@@ -129,6 +149,10 @@ APPROVAL_INVALID = "approval_invalid"
 CREDENTIAL_INVALID = "credential_invalid"
 PERMISSION_DENIED = "execute_permission_missing"
 RETRY_REQUIRED = "retry_required"
+IDEMPOTENCY_CONFLICT = "idempotency_key_payload_mismatch"
+"""The key was used before for a different action (target, parameters, actor or
+receipt context). Nothing runs, and the caller is told so rather than being
+told its changed action already happened. Same value as the untyped gate's."""
 AUTHORITY_INSUFFICIENT = "authority_insufficient"
 INSTRUCTION_EVIDENCE = "instruction_is_not_evidence"
 EVIDENCE_SUSPICIOUS = "evidence_suspicious"
@@ -532,6 +556,7 @@ class ActionGate:
                      or not receipt_context or len(receipt_context) > 256)):
             raise ValueError("receipt_context must be a non-empty string of at most 256 characters")
         request_binding = _action_execution_binding(tool, agent_id, request, receipt_context)
+        key_binding = _idempotency_binding(request_binding, tenant_id, certificate)
 
         def issued_execution(outcome: str, decision: ActionDecision | None, *,
                              result: Any = None, error: str | None = None,
@@ -554,6 +579,10 @@ class ActionGate:
                 error=f"{STATE_UNAVAILABLE}: action history unavailable; reconciliation required",
             )
         if prior is not None:
+            recorded = prior.get("binding")
+            if recorded is not None and recorded != key_binding:
+                # The same key, a different action: never report it as done.
+                return issued_execution(REFUSED, None, error=IDEMPOTENCY_CONFLICT)
             if prior["outcome"] == EXECUTED:
                 return issued_execution(ALREADY_EXECUTED, None)
             if not retry:
@@ -567,7 +596,8 @@ class ActionGate:
         # though nothing had happened (tests/test_action_crash.py).
         with fabric.lock, fabric._transaction():
             fabric._emit(ev.action_attempted(ts=fabric.now(), agent_id=agent_id, key=key,
-                                             tool=tool, tenant_id=tenant_id))
+                                             tool=tool, tenant_id=tenant_id,
+                                             binding=key_binding))
         if isinstance(certificate, Mapping):
             try:
                 certificate = EvidenceCertificate.from_json(certificate)
@@ -583,7 +613,7 @@ class ActionGate:
                     ts=fabric.now(), agent_id=decision.agent_id, key=key, tool=tool,
                     outcome=REFUSED, fenced=True, watermark=None,
                     lease_ms=int(lease_s * 1000), elapsed_ms=0, evidence=[],
-                    tenant_id=tenant_id))
+                    tenant_id=tenant_id, binding=key_binding))
                 return issued_execution(REFUSED, decision)
             box: dict[str, Any] = {}
 
@@ -614,7 +644,7 @@ class ActionGate:
                 outcome=outcome, fenced=fenced,
                 watermark=verification.verified_at_watermark if verification else None,
                 lease_ms=int(lease_s * 1000), elapsed_ms=elapsed_ms, evidence=evidence,
-                tenant_id=tenant_id))
+                tenant_id=tenant_id, binding=key_binding))
         return issued_execution(outcome, decision, result=box.get("result"),
                                 error=box.get("error"), fenced=fenced)
 
@@ -630,7 +660,7 @@ class ActionGate:
             if event.payload.get("key") != key:
                 continue
             if event.type == ev.EventType.ACTION_ATTEMPTED:
-                last = {"outcome": UNCERTAIN}
+                last = {"outcome": UNCERTAIN, "binding": event.payload.get("binding")}
             elif event.payload.get("outcome") == REFUSED:
                 last = None
             else:

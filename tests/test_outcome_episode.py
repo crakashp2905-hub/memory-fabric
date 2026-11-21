@@ -397,6 +397,32 @@ class NegativeControlsAndIntegrity(unittest.TestCase):
         self.assertNotIn("SECRET-CANARY", json.dumps(record.to_dict()))
 
 
+class IdempotencyThroughThePort(unittest.TestCase):
+    def test_a_reused_effect_key_with_changed_parameters_is_refused(self) -> None:
+        from memory_fabric import MemoryFabric
+        from memory_fabric.outcome_typed.episode import Proposal
+
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        port = GovernedMemoryPort(fabric, "task-idem", protected_tools=("set_target",))
+        memory_id, version = port.record("observer", "instrument-A reading is 58 units.")
+        port.retrieve("planner", "instrument-A reading", 5)
+        ran: list[int] = []
+        outcomes = []
+        for value in (58, 99):
+            proposal = Proposal(task_id="task-idem", actor_id="planner", objective_id="obj-1",
+                                tool="set_target", target="actuator", parameters={"value": value},
+                                evidence=((memory_id, version),), world_epoch=0)
+            verified = port.verify(proposal)
+            outcomes.append(port.execute(proposal, verified,
+                                         lambda key, value=value: ran.append(value) or {},
+                                         "task-idem:same-key"))
+        self.assertEqual(outcomes[0].outcome, "EXECUTED")
+        self.assertEqual((outcomes[1].outcome, outcomes[1].reason_codes),
+                         ("REFUSED", ("idempotency_key_payload_mismatch",)))
+        self.assertEqual(ran, [58])
+
+
 class OneCommand(unittest.TestCase):
     def test_the_command_line_runs_in_a_fresh_process(self) -> None:
         # In-process calls load the whole module first and can hide a guard placed

@@ -544,7 +544,11 @@ class GovernedMemoryPort:
                                       key=key, request=request, grant=grant,
                                       tenant_id=self.tenant_id,
                                       receipt_context=f"{self.task_id}:effect")
-        reasons = execution.decision.reason_codes if execution.decision else ()
+        reasons: tuple[str, ...] = tuple(execution.decision.reason_codes) if execution.decision else ()
+        if not reasons and execution.error:
+            # Refusals made before authorization (an idempotency conflict, a
+            # retry required) carry their code in the error text.
+            reasons = (str(execution.error).split(":", 1)[0],)
         receipt = execution.result if isinstance(execution.result, Mapping) else {}
         return EffectOutcome(str(execution.outcome).upper(), tuple(reasons), dict(receipt))
 
