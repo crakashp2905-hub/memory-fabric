@@ -56,6 +56,7 @@ CONTRACT_TESTS = [
     "tests/test_outcome_model_actor.py", "tests/test_outcome_scorecard.py",
     "tests/test_outcome_prereg.py", "tests/test_outcome_ablation.py",
     "tests/test_outcome_evaluator_mutation.py", "tests/test_agent_outcome_end_to_end_gate.py",
+    "tests/test_fake_local_model.py", "tests/test_launch_decision_and_doctor.py",
 ]
 
 
