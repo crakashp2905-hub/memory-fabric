@@ -398,6 +398,17 @@ class NegativeControlsAndIntegrity(unittest.TestCase):
 
 
 class OneCommand(unittest.TestCase):
+    def test_the_command_line_runs_in_a_fresh_process(self) -> None:
+        # In-process calls load the whole module first and can hide a guard placed
+        # above a later definition; run it the way a user does.
+        import subprocess
+        import sys
+
+        done = subprocess.run([sys.executable, "-m", "benchmarks.outcome_episode", "--seed", "1"],
+                              cwd=ROOT, capture_output=True, text=True, timeout=120)
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertIn("evaluator: COMPLETED", done.stdout)
+
     def test_blank_store_to_evaluator_receipt_offline(self) -> None:
         with mock.patch.object(socket.socket, "connect",
                                side_effect=AssertionError("network used")):

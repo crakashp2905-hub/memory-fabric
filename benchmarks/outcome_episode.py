@@ -463,8 +463,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     return 0 if result["evaluator"]["terminal_status"] == "COMPLETED" else 1
 
 
-if __name__ == "__main__":  # pragma: no cover
-    sys.exit(main())
 
 
 # --- an ungoverned memory port (baseline, not product) -------------------------------
@@ -529,3 +527,7 @@ class PooledMemoryPort:
         status = (result or {}).get("status")
         return EffectOutcome("EXECUTED" if status in {"APPLIED", "IDEMPOTENT_REPLAY"} else "REFUSED",
                              (str(status).lower(),), dict(result or {}))
+
+
+if __name__ == "__main__":  # pragma: no cover
+    sys.exit(main())
