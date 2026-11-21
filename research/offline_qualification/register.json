@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "c5a1ca95adf7e619829b10d33e0ffbb0bd266ec7",
+    "commit": "385fc3a61eab11b07ca45f01bff1b01db7b2ef60",
     "dirty": true
   },
   "summary": {
@@ -1173,7 +1173,7 @@
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "docs/API_INVENTORY.json": "5ca96ffbaa43013001113dc5a41d02eac623e2fa41feeab761b9fca7f10b06e5",
         "docs/API.md": "e048897d2ccde7de2b4319e177ebc0544e8f6abb5e6e2f54bfca88c48c64baa4",
-        "STABILITY.md": "d7038c9473392e7f6bdc058ba489ec0ba1f29d83c5d352700cdf94ce84a73438",
+        "STABILITY.md": "9736d9472d8f99c1a81d09919be77daa9989b909778fccb731cafc5f02b7a0ff",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -2030,7 +2030,7 @@
         "research/results/r3-01-agent-scale.json"
       ],
       "evidence_digests": {
-        "benchmarks/agent_scale.py": "9811369e9a85d5fa2f3745e9747d42c835bb0d311fa6be257b75e75a37e72bc6",
+        "benchmarks/agent_scale.py": "8bd338dc74ff8fe2f2bd6dc99cffd8aa3c989aa9a6977f2f8fe269e8a62a9484",
         "tests/test_agent_scale.py": "405990c36366ffe055fcd9d6cc92c932bd70763d2bf84e38f65a264f8b206a1b",
         "research/prereg/agent-scale-v1.md": "97e4a5bddba6a39670a8267a6d94aa420db24d041e7a864d802d6e5c8b121936",
         "docs/AGENT_SCALE_BENCHMARK.md": "a9944713de48f86f8d0e79da6bdbc1446b5eaa1639a2137403e33c78fb4524e5",
@@ -2061,7 +2061,7 @@
       ],
       "evidence_digests": {
         "benchmarks/matched_agent_arms.py": "16049ba1a93f33af70eb587bde23c684158832bb7ed848cac8ed2b5668ca337d",
-        "benchmarks/agent_scale.py": "9811369e9a85d5fa2f3745e9747d42c835bb0d311fa6be257b75e75a37e72bc6",
+        "benchmarks/agent_scale.py": "8bd338dc74ff8fe2f2bd6dc99cffd8aa3c989aa9a6977f2f8fe269e8a62a9484",
         "research/prereg/matched-agent-arms-v1.md": "29ebf4ab7e42e3110ff53ac25fe40d0ba5c3fb8bcdababacec4fceb742c6ed0a",
         "docs/MATCHED_AGENT_ARMS.md": "d5d5072c046d9c2f1a7f8231a7c200c71851b5222f7545d651cff61251f9cb88",
         "tests/test_matched_agent_arms.py": "22989af9357ec56927ec5285f587e843dd265d4bb3bb2d75eec43b11b3985eee",

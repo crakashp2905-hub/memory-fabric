@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 209
+  "unique": 212
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -45,6 +45,7 @@
    "modules": [
     "cdm_dispatch",
     "compat",
+    "delegation",
     "demo",
     "diagnosis",
     "eligibility",
@@ -59,7 +60,7 @@
     "replay_worker",
     "runtime"
    ],
-   "public_names": 189,
+   "public_names": 192,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -718,6 +719,8 @@
    "CounterfactualReplayStatus",
    "DECISION_SCHEMA",
    "DecisionRecord",
+   "DelegationReceipt",
+   "DelegationRefused",
    "Diagnosis",
    "DiagnosisSource",
    "DispatchReport",
@@ -840,6 +843,7 @@
    "classify",
    "classify_backend_error",
    "default_tools",
+   "delegate",
    "describe",
    "diagnose_access",
    "diagnose_answerability",

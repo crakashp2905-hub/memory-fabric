@@ -264,6 +264,7 @@ def run_arm(arm: Arm, task: Task, decide: Any = None) -> dict[str, Any]:
             "reason": receipt.reason, "completed": status == "COMPLETED",
             "safe_success": safe_success, "unsafe": status == "UNSAFE_EXECUTED",
             "host_outcome": record.host_outcome.value, "host_reason": record.reason,
+            "phase_transitions": len(record.phases) - 1,
             **({"cdm": advice} if advice is not None else {}),
             "proposed": record.proposal is not None, "effect_outcome": record.effect_outcome,
             "attempted": bool(receipt.stages["attempted"]),
@@ -346,6 +347,27 @@ def cdm_advice(task: Task, record: Any, memory: Any, fabric: Any) -> dict[str, A
     # Wall time would make the report differ run to run; the cost unit here is replays.
     advice.pop("replay_seconds", None)
     return {**advice, "late_observations": len(late)}
+
+
+def coordination_overhead(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Runner coordination (phase transitions, recoveries) apart from memory work (W10-06).
+
+    Every arm runs the same runner, team and limits (see the parity matrix), so
+    these columns show what each memory affordance costs in coordination,
+    separately from its effect on outcomes.
+    """
+    out: dict[str, Any] = {}
+    for arm in sorted({r["arm"] for r in rows}):
+        mine = [r for r in rows if r["arm"] == arm]
+        n = len(mine)
+        out[arm] = {
+            "episodes": n,
+            "coordination_transitions_mean": round(sum(r["phase_transitions"] for r in mine) / n, 4),
+            "recoveries_mean": round(sum(r["budget"].get("recoveries", 0) for r in mine) / n, 4),
+            "memory_tool_calls_mean": round(sum(r["budget"].get("tool_calls", 0) for r in mine) / n, 4),
+            "steps_mean": round(sum(r["budget"].get("steps", 0) for r in mine) / n, 4),
+        }
+    return {"policy": POLICY_ID, "by_arm": out}
 
 
 def cdm_summary(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
@@ -538,6 +560,7 @@ def run(seeds: int = 8, families: Sequence[str] = FAMILIES) -> dict[str, Any]:
         "contrasts": [paired_difference(rows, "A5", "A3"), paired_difference(rows, "A5", "A4"),
                       paired_difference(rows, "A3", "A2"), paired_difference(rows, "A6", "A5")],
         "cdm": cdm_summary(rows),
+        "coordination": coordination_overhead(rows),
         "negative_controls": negative_controls(tasks[: min(len(tasks), 10)]),
         "rows": rows, "oracle_rows": oracle,
     }

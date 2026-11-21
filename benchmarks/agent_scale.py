@@ -42,9 +42,11 @@ def _sha(path: str) -> str:
     return hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
 
 
-def run(seed: int, agent_count: int) -> dict[str, Any]:
-    if agent_count not in AGENT_COUNTS:
-        raise ValueError(f"agent_count must be one of {AGENT_COUNTS}")
+def run(seed: int, agent_count: int, *, counts: tuple[int, ...] = AGENT_COUNTS) -> dict[str, Any]:
+    """One seed at one agent count. ``counts`` is the registered set unless an
+    explicitly exploratory caller (``benchmarks.outcome_agent_scale_clusters``) widens it."""
+    if agent_count not in counts:
+        raise ValueError(f"agent_count must be one of {counts}")
     agents = [f"agent-{i:03d}" for i in range(agent_count)]
     tool = "publish"
     gate = None
