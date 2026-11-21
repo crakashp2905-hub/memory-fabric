@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 231
+  "unique": 236
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -60,10 +60,11 @@
     "replan",
     "replay_worker",
     "retrieval_cache",
+    "rollout",
     "runtime",
     "spool"
    ],
-   "public_names": 211,
+   "public_names": 216,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -723,6 +724,7 @@
    "CounterfactualReplayReason",
    "CounterfactualReplayStatus",
    "DECISION_SCHEMA",
+   "DEFAULTS",
    "DecisionRecord",
    "DelegationReceipt",
    "DelegationRefused",
@@ -812,6 +814,7 @@
    "RELEASE_MATRIX_GATES",
    "REPLAYED",
    "REQUEST_FIELDS",
+   "REQUIRED_EVIDENCE",
    "REQUIRED_FIELDS",
    "RESOLVED_BY_ALTERNATE_SOURCE",
    "ROLES",
@@ -828,6 +831,8 @@
    "ReportedTaskStatus",
    "ResultPopulation",
    "RetrievalCache",
+   "Rollout",
+   "RolloutRefused",
    "Rung",
    "RuntimeResult",
    "RuntimeStatus",
@@ -836,6 +841,7 @@
    "SKIP_BUDGET",
    "SKIP_INDEPENDENT",
    "SKIP_NO_ALTERNATIVE",
+   "STAGES",
    "STATUS",
    "STOP_CONDITIONS",
    "SUNSET",

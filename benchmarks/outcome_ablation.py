@@ -87,13 +87,95 @@ def headroom(seeds: int = 8, families: Sequence[str] = FAMILIES) -> dict[str, An
             "per_task": per_task}
 
 
+def _with_correction_at(seed: int, tick: int) -> Any:
+    from .outcome_arms import Task, _envelope
+    from .outcome_episode import build_correction_task
+
+    base = build_task("public_correction", seed)
+    world, _ = build_correction_task(seed, correction_tick=tick, family=f"timing{tick}")
+    return Task(f"timing{tick}", seed, world,
+                _envelope(world.spec.task_id, base.envelope.objective, base.envelope.limits),
+                None, "COMPLETED")
+
+
+def _without_marker(seed: int) -> Any:
+    """The same correction world, but the correction no longer says it is one."""
+    task = build_task("public_correction", seed)
+    original = task.world.feed
+
+    def feed(tick: int) -> list[dict[str, Any]]:
+        out = []
+        for item in original(tick):
+            data = dict(item.get("data", {}))
+            if data.get("status") == "correction":
+                data["status"] = "update"
+            out.append({**item, "data": data})
+        return out
+
+    setattr(task.world, "feed", feed)
+    return task
+
+
+def _noisy_planner(rate: float, seed: int) -> Any:
+    """A scripted planner that proposes a wrong value with probability ``rate`` (a proxy, not a model)."""
+    import random as _random
+
+    from memory_fabric.outcome_typed.observations import AgentStep
+
+    from .outcome_episode import ScriptedTeam
+
+    team, rng = ScriptedTeam(), _random.Random(f"noise:{rate}:{seed}")
+
+    def decide(role: str, observation: Any) -> Any:
+        step = team(role, observation)
+        if role == "planner" and step.intent == "propose" and rng.random() < rate:
+            arguments = json.loads(step.canonical_json())["arguments"]
+            arguments["parameters"]["value"] += 1
+            return AgentStep(step.task_id, step.actor_id, step.step_id, step.intent, arguments)
+        return step
+
+    return decide
+
+
+def orthogonal(seeds: int = 8) -> dict[str, Any]:
+    """Correction timing, evidence quality and planner accuracy, each varied alone (W22-06)."""
+    from . import outcome_poisoning
+
+    def rates(make_task: Any, decide: Any = None) -> dict[str, float]:
+        out = {}
+        for arm in ("A3", "A5"):
+            rows = [run_arm(ARMS[arm], make_task(seed), decide(seed) if decide else None)
+                    for seed in range(seeds)]
+            out[arm] = round(sum(r["completed"] for r in rows) / len(rows), 4)
+        out["A5_minus_A3"] = round(out["A5"] - out["A3"], 4) + 0.0
+        return out
+
+    timing = {str(tick): rates(lambda seed, t=tick: _with_correction_at(seed, t))
+              for tick in (2, 3, 6, 12)}
+    quality = {"marked_correction": rates(lambda seed: build_task("public_correction", seed)),
+               "unmarked_correction": rates(_without_marker)}
+    accuracy = {str(rate): rates(lambda seed: build_task("public_correction", seed),
+                                 lambda seed, r=rate: _noisy_planner(r, seed))
+                for rate in (0.0, 0.25, 0.5)}
+    stress = outcome_poisoning.run()["amplification_stress"]
+    return {"metric": "completion", "factors": {
+        "correction_timing_tick": timing, "evidence_quality": quality,
+        "planner_error_rate_proxy": accuracy,
+        "source_independence_colluders": {str(r["colluders"]): {"roots": r["roots_false"],
+                                                                "governed_fooled": r["governed_fooled"]}
+                                          for r in stress}},
+            "model_accuracy": "NOT_RUN: planner_error_rate_proxy is scripted noise, not a model",
+            "confounds": "no prompts (scripted); opaque task ids; one factor varied at a time"}
+
+
 def run(seeds: int = 8) -> dict[str, Any]:
     return {"schema_id": SCHEMA_ID, "population": "SCRIPTED_DEVELOPMENT",
             "promotion": "NOT_ASSESSED", "seeds": seeds, "families": list(FAMILIES),
             "factors": {"memory": ["pooled_recheck", "governed"], "recovery": [False, True]},
             "not_separable_in_this_harness": list(NOT_SEPARABLE),
             "cdm_ablation": "NOT_RUN: A6 is not implemented",
-            "factorial": factorial(seeds), "headroom": headroom(seeds)}
+            "factorial": factorial(seeds), "headroom": headroom(seeds),
+            "orthogonal": orthogonal(seeds)}
 
 
 def main(argv: Sequence[str] | None = None) -> int:

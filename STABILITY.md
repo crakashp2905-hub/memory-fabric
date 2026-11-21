@@ -147,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (91)
+## Experimental (92)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.agent_outcomes.__init__`
@@ -227,6 +227,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_typed.replan`
 - `memory_fabric.outcome_typed.replay_worker`
 - `memory_fabric.outcome_typed.retrieval_cache`
+- `memory_fabric.outcome_typed.rollout`
 - `memory_fabric.outcome_typed.runtime`
 - `memory_fabric.outcome_typed.spool`
 - `memory_fabric.portable`
