@@ -109,7 +109,9 @@ def run_model_team(model: str, *, arms: Sequence[str] = MODEL_ARMS, seeds: int =
         "model": {"name": config.model, "digest": config.digest,
                   "runtime_version": config.runtime_version, "quantization": config.quantization},
         "config_fingerprints": fingerprints,
-        "arms": list(arms), "not_run_arms": dict(NOT_RUN_ARMS), "families": list(families),
+        "arms": list(arms), "not_run_arms": {**dict(NOT_RUN_ARMS), **{
+            arm: "not part of this model-team run" for arm in ("A3", "A4", "A5", "A6")
+            if arm not in arms}}, "families": list(families),
         "seeds": seeds, "preflight": preflight,
         "summary": summarize(rows),
         "contrasts": [paired_difference(rows, left, right)

@@ -8,13 +8,13 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 110 |
+| `TODO` | 70 |
 | `IMPLEMENTED` | 17 |
-| `TESTED` | 103 |
+| `TESTED` | 142 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
-| `BLOCKED_EXTERNAL` | 10 |
+| `BLOCKED_EXTERNAL` | 11 |
 
 Total: 240 tasks.
 
@@ -26,17 +26,17 @@ Total: 240 tasks.
 | W02 | Consolidate the three experimental outcome packages | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
 | W03 | One genuine end-to-end agent execution loop | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
 | W04 | Independent outcomes and hidden-world evaluation | 0 | 2 | 8 | 0 | 0 | 0 | 0 |
-| W05 | Design broader, hard-to-game synthetic agent worlds | 2 | 2 | 6 | 0 | 0 | 0 | 0 |
-| W06 | Evidence diagnosis before refusal | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
-| W07 | Safe recovery orchestration, not blanket refusal | 5 | 0 | 5 | 0 | 0 | 0 | 0 |
-| W08 | Action-time safety, idempotency and terminal effects | 1 | 1 | 8 | 0 | 0 | 0 | 0 |
-| W09 | Counterfactual Decision Memory used only where beneficial | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W10 | Multi-agent knowledge and coordination under changing truth | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W11 | Fair baselines and resource parity | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
+| W05 | Design broader, hard-to-game synthetic agent worlds | 0 | 2 | 8 | 0 | 0 | 0 | 0 |
+| W06 | Evidence diagnosis before refusal | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
+| W07 | Safe recovery orchestration, not blanket refusal | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
+| W08 | Action-time safety, idempotency and terminal effects | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
+| W09 | Counterfactual Decision Memory used only where beneficial | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
+| W10 | Multi-agent knowledge and coordination under changing truth | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
+| W11 | Fair baselines and resource parity | 0 | 1 | 8 | 0 | 0 | 0 | 1 |
 | W12 | Actual local model agents, no hosted service requirement | 0 | 1 | 5 | 0 | 0 | 0 | 4 |
 | W13 | Strict evaluator metrics and operator-relevant benefits | 0 | 4 | 6 | 0 | 0 | 0 | 0 |
 | W14 | Preregister and power the real confirmatory study | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
-| W15 | Run negative-control, ablation and confirmatory experiments | 2 | 1 | 3 | 0 | 0 | 0 | 4 |
+| W15 | Run negative-control, ablation and confirmatory experiments | 1 | 1 | 4 | 0 | 0 | 0 | 4 |
 | W16 | Defend learned agents against contaminated memory and unsafe prompts | 4 | 1 | 4 | 0 | 0 | 0 | 1 |
 | W17 | Persistence, recovery, and transactional consistency | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W18 | Performance and cost efficiency with honest measurements | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -97,29 +97,29 @@ Total: 240 tasks.
 | W05-04 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
 | W05-05 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
 | W05-06 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
-| W05-07 | P0 | `TODO` |  |  |
+| W05-07 | P0 | `TESTED` | `benchmarks/outcome_worlds_extra.py` | Valid-time policy answers history and action-now; timeless-contradiction and latest-known controls fail. Rows: research/results/agent-outcomes/DEV_RESULTS_W05_W11.md. |
 | W05-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_arms.py`<br>`benchmarks/outcome_worlds_typed.py` | restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02). |
-| W05-09 | P0 | `TODO` |  |  |
+| W05-09 | P0 | `TESTED` | `benchmarks/outcome_worlds_extra.py` | Two-hop answer survives re-wiring; single-record and exact-match shortcut controls fail. |
 | W05-10 | P0 | `IMPLEMENTED` | `benchmarks/outcome_worlds_typed.py` | Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified. |
-| W06-01 | P0 | `TODO` |  |  |
-| W06-02 | P0 | `TODO` |  |  |
-| W06-03 | P0 | `TODO` |  |  |
+| W06-01 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/diagnosis.py` | Nine typed diagnoses on relevance/validity/authority axes; every refusal code maps to one; unmapped codes raise. |
+| W06-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/diagnosis.py` | Exists/retrieved/authorized/answers kept apart for the evaluator; actor gets only accessible fields. |
+| W06-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/diagnosis.py`<br>`src/memory_fabric/history_query.py` | Private source and absence give the actor identical surfaces. |
 | W06-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/eligibility.py` | Existing: independent current source recovers; revoked grants and sessions excluded; limits fail closed. |
-| W06-05 | P0 | `TODO` |  |  |
-| W06-06 | P0 | `TODO` |  |  |
-| W06-07 | P0 | `TODO` |  |  |
-| W06-08 | P0 | `TODO` |  |  |
-| W06-09 | P0 | `TODO` |  |  |
-| W06-10 | P0 | `TODO` |  |  |
+| W06-05 | P0 | `TESTED` | `src/memory_fabric/history_query.py` | Existing bitemporal reads: withdrawn data never revives via historical or time-travel query. |
+| W06-06 | P0 | `TESTED` | `src/memory_fabric/independence.py` | Existing independent-root accounting: copies never raise corroboration; disagreement preserved. |
+| W06-07 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/diagnosis.py` | Availability result is advisory; the action gate refuses it as a certificate. |
+| W06-08 | P0 | `TESTED` | `src/memory_fabric/answerability.py` | Existing structured answerability: conflict, undetermined and insufficient are separate verdicts. |
+| W06-09 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/diagnosis.py`<br>`src/memory_fabric/retrieval_routing.py` | Fixed exact->lexical->hybrid-if-qualified->abstain ladder with per-rung cost on its own budget; rungs carry the store's filters. |
+| W06-10 | P0 | `TESTED` | `benchmarks/outcome_diagnosis.py` | Per-family confusion matrices vs hidden oracle; release blocked on guard-sensitive false allow. Dev: 0 false allow, 4 false denials (retrieval_miss). |
 | W07-01 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py` | Catalog: refresh, re_retrieve, inspect_provenance, request_observation, ask_clarification, replan; read-only and non-authorizing (names differ from the checklist's). |
 | W07-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py`<br>`src/memory_fabric/outcome_typed/episode.py` |  |
-| W07-03 | P0 | `TODO` |  |  |
+| W07-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` | Recovery fingerprint binds task id, last failure codes, observations and evidence versions; repeated state is no_progress. |
 | W07-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/recovery.py` |  |
-| W07-05 | P0 | `TODO` |  |  |
+| W07-05 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/cdm_dispatch.py` | Alternate source and dependence checks come before replay; fewer replays than always-on with the same flips. |
 | W07-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py` |  |
-| W07-07 | P0 | `TODO` |  |  |
-| W07-08 | P0 | `TODO` |  |  |
-| W07-09 | P0 | `TODO` |  |  |
+| W07-07 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/replan.py` | Only steps on changed evidence and their dependents are redone; matches the full-replan oracle with less work. |
+| W07-08 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`benchmarks/outcome_episode.py` | Missing and contradictory observations end in reasoned abstention; fresh correction during recovery ends in the corrected plan. |
+| W07-09 | P0 | `TESTED` | `src/memory_fabric/outcome_protocol/__init__.py` | Existing operator trace and explanation (legacy runtime, deprecated per ADR 0004); reasons for the canonical runtime are in diagnosis.py and memory_fabric.reasons. |
 | W07-10 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`research/results/agent-outcomes/scripted-arms-dev.json` | A5-A3 (governance) and A5-A4 (recovery) reported per family and per case. |
 | W08-01 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
 | W08-02 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py`<br>`src/memory_fabric/outcome_typed/episode.py`<br>`docs/KNOWN_GAPS.md` | Key binding covers tool, actor, target, parameters, receipt context (task), tenant and source versions; a changed action under a used key is REFUSED (idempotency_key_payload_mismatch), never reported done. Residual: a typed-gate call with no request and no receipt context records no binding. |
@@ -128,35 +128,35 @@ Total: 240 tasks.
 | W08-05 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
 | W08-06 | P0 | `TESTED` | `benchmarks/outcome_episode.py`<br>`benchmarks/outcome_worlds_typed.py` |  |
 | W08-07 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
-| W08-08 | P0 | `TODO` |  |  |
+| W08-08 | P0 | `TESTED` | `src/memory_fabric/causal_replay/certificates.py` | Replay certificates never authorize via SDK or MCP; UTCP exposes no counterfactual surface. |
 | W08-09 | P0 | `TESTED` | `src/memory_fabric/mcp`<br>`src/memory_fabric/agent_api.py` | HTTP, MCP and UTCP mock workflows agree on semantics and permissions; Code Mode not covered by this test. |
 | W08-10 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation. |
-| W09-01 | P0 | `TODO` |  |  |
-| W09-02 | P0 | `TODO` |  |  |
-| W09-03 | P0 | `TODO` |  |  |
-| W09-04 | P0 | `TODO` |  |  |
-| W09-05 | P0 | `TODO` |  |  |
-| W09-06 | P0 | `TODO` |  |  |
-| W09-07 | P0 | `TODO` |  |  |
-| W09-08 | P0 | `TODO` |  |  |
-| W09-09 | P0 | `TODO` |  |  |
-| W09-10 | P0 | `TODO` |  |  |
-| W10-01 | P1 | `TODO` |  |  |
-| W10-02 | P1 | `TODO` |  |  |
-| W10-03 | P1 | `TODO` |  |  |
-| W10-04 | P1 | `TODO` |  |  |
-| W10-05 | P1 | `TODO` |  |  |
-| W10-06 | P1 | `TODO` |  |  |
-| W10-07 | P1 | `TODO` |  |  |
-| W10-08 | P1 | `TODO` |  |  |
-| W10-09 | P1 | `TODO` |  |  |
-| W10-10 | P1 | `TODO` |  |  |
+| W09-01 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/cdm_dispatch.py`<br>`benchmarks/outcome_arms.py` | Dependence-first dispatcher with explicit skip reasons; no replay (or model call) for independent decisions. |
+| W09-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/cdm_dispatch.py`<br>`src/memory_fabric/causal_replay/intervention.py` | Counterfactual is separate from replanning and never mutates the log or executes effects. |
+| W09-03 | P0 | `TESTED` | `src/memory_fabric/causal_replay/replay.py` | Incomplete trace, unresolved policy digest or wrong RNG position refuses exact replay. |
+| W09-04 | P0 | `TESTED` | `src/memory_fabric/causal_replay/intervention.py` | Finite operators over authorized captures; erased, revoked and cross-tenant inputs cannot be probed. |
+| W09-05 | P0 | `TESTED` | `src/memory_fabric/causal_replay/attribution.py` | Dependence, LOO, Shapley and budgeted replay compared on shared seeds and budgets, negative results kept. |
+| W09-06 | P0 | `TESTED` | `src/memory_fabric/causal_replay/scheduler.py` | Selector uses declared pre-replay features only, abstains without outcomes, calibrates on held-out data. |
+| W09-07 | P0 | `TESTED` | `src/memory_fabric/causal_replay/executor.py`<br>`docs/CAUSAL_REPLAY_LIMITATIONS.md` | Budgeted local worker; violation terminates it; it cannot mint authority; isolation gap declared in limitations. |
+| W09-08 | P0 | `TESTED` | `src/memory_fabric/causal_replay/verifier.py` | Independent verifier rejects tampered or incomplete certificates and traces. |
+| W09-09 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/cdm_dispatch.py`<br>`benchmarks/outcome_arms.py` | Ledger separates flips, completion and safety differences and replay cost; flips never earn utility (dev: 8 flips, net -0.08). |
+| W09-10 | P0 | `TESTED` | `benchmarks/outcome_confirmatory.py`<br>`benchmarks/outcome_arms.py` | A6 is ADVISORY_ONLY unless A5 is promoted and the frozen A6-A5 net-utility test passes. |
+| W10-01 | P1 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/observations.py` | Roles have declared tools; evaluator capability is task-bound and unshared; effects only on the executor's grant. |
+| W10-02 | P1 | `TESTED` | `src/memory_fabric/independence.py` | Every claim keeps its source root; N copies count as one root. |
+| W10-03 | P1 | `TESTED` | `src/memory_fabric/independence.py`<br>`src/memory_fabric/compaction.py` | Minority views survive; false-majority worlds do not trigger decisive action. |
+| W10-04 | P1 | `TESTED` | `src/memory_fabric/outbox.py`<br>`src/memory_fabric/federation.py` | Idempotent outbox with acks; delayed, reordered and duplicated notices converge. |
+| W10-05 | P1 | `TESTED` | `src/memory_fabric/freshness.py` | Signed leases bound remote freshness; expired or forged leases fail closed. |
+| W10-06 | P1 | `TESTED` | `benchmarks/outcome_arms.py` | Coordination transitions, recoveries and memory calls per arm, apart from outcomes, under one policy and parity. |
+| W10-07 | P1 | `TESTED` | `src/memory_fabric/outcome_typed/delegation.py` | Digested delegation receipts; only tools the delegator may call, never protected ones; no credential or grant. |
+| W10-08 | P1 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`benchmarks/outcome_episode.py` | Missing observation, conflicting reports and timeouts each end with an explicit abstention or budget reason. |
+| W10-09 | P1 | `TESTED` | `src/memory_fabric/history_query.py` | Alternate evidence only through current authorization; no covert cross-tenant search. |
+| W10-10 | P1 | `TESTED` | `benchmarks/outcome_agent_scale_clusters.py`<br>`benchmarks/agent_scale.py` | 3-50 agents on the same 24 tasks and 3 seed clusters; attempts scale, independent units do not (exploratory). |
 | W11-01 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
 | W11-02 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
 | W11-03 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`benchmarks/outcome_episode.py` |  |
 | W11-04 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
-| W11-05 | P0 | `TODO` |  |  |
-| W11-06 | P0 | `TODO` |  |  |
+| W11-05 | P0 | `TESTED` | `benchmarks/outcome_retrieval_baselines.py`<br>`benchmarks/outcome_matched_arms_typed.py` | Recency, lexical, fixed-top-k, full-context, summary, governed under one budget and reader; usage reported. |
+| W11-06 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_matched_arms_typed.py` | The framing x memory factorial analysis exists and is tested; scripted agents ignore prompt text, so the measurement needs a model. |
 | W11-07 | P0 | `IMPLEMENTED` | `benchmarks/outcome_arms.py` | Parity covers task IDs, worlds, envelopes, limits and policy; model inference settings do not exist for the scripted policy and are checked only when a model backend runs. |
 | W11-08 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
 | W11-09 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
@@ -194,7 +194,7 @@ Total: 240 tasks.
 | W15-01 | P0 | `TESTED` | `tests/test_outcome_evaluator_mutation.py` | Always-complete, staleness-blind, host-trusting and early-horizon graders are caught; malformed truth refused. |
 | W15-02 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md` | Scripted development arms A0-A5 with A7 ceiling; A6 NOT_RUN; promotion NOT_ASSESSED. |
 | W15-03 | P0 | `IMPLEMENTED` | `benchmarks/outcome_ablation.py` | Memory x recovery factorial with main effects and interaction per family (tested); correction propagation, source independence and retrieval method are not separable factors here and are listed as not run. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md. |
-| W15-04 | P0 | `TODO` |  |  |
+| W15-04 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`src/memory_fabric/outcome_typed/cdm_dispatch.py` | A5 vs A6 with replay on/off, skip reasons, budget and cost; utility after replay overhead, not flip count (scripted). |
 | W15-05 | P0 | `TESTED` | `benchmarks/outcome_ablation.py` | A3-optimal and no-headroom tasks excluded from targets; measured A5-A3 bounded by attainable headroom. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md (8/40 improvable over A3). |
 | W15-06 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_prereg.py` | Heldout execution needs a frozen model and prompts. |
 | W15-07 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_confirmatory.py` | Paired cluster bootstrap and Holm exist in benchmarks/outcome_confirmatory.py; nothing to compute without heldout model runs. |

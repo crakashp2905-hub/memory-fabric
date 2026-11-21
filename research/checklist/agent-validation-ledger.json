@@ -507,7 +507,15 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_extra.py"
+   ],
+   "tests": [
+    "tests/test_outcome_worlds_extra_and_baselines.py::TemporalValidity"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Valid-time policy answers history and action-now; timeless-contradiction and latest-known controls fail. Rows: research/results/agent-outcomes/DEV_RESULTS_W05_W11.md."
   },
   "W05-08": {
    "status": "IMPLEMENTED",
@@ -518,7 +526,15 @@
    "note": "restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02)."
   },
   "W05-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_extra.py"
+   ],
+   "tests": [
+    "tests/test_outcome_worlds_extra_and_baselines.py::MultiHop"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Two-hop answer survives re-wiring; single-record and exact-match shortcut controls fail."
   },
   "W05-10": {
    "status": "IMPLEMENTED",
@@ -528,13 +544,40 @@
    "note": "Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified."
   },
   "W06-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/diagnosis.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::Taxonomy"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Nine typed diagnoses on relevance/validity/authority axes; every refusal code maps to one; unmapped codes raise."
   },
   "W06-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/diagnosis.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::Availability::test_the_four_facts_stay_separate_for_the_evaluator"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Exists/retrieved/authorized/answers kept apart for the evaluator; actor gets only accessible fields."
   },
   "W06-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/diagnosis.py",
+    "src/memory_fabric/history_query.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::Availability::test_a_private_source_is_indistinguishable_from_absence_to_the_actor",
+    "tests/test_cross_tenant_surface_matrix.py::CrossTenantSurfaceMatrix::test_foreign_ids_are_opaque_and_writes_stay_in_the_bound_tenant",
+    "tests/test_history_query.py::HistoricalReads::test_foreign_and_historical_private_content_is_not_disclosed"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Private source and absence give the actor identical surfaces."
   },
   "W06-04": {
    "status": "TESTED",
@@ -548,22 +591,77 @@
    "note": "Existing: independent current source recovers; revoked grants and sessions excluded; limits fail closed."
   },
   "W06-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/history_query.py"
+   ],
+   "tests": [
+    "tests/test_history_query.py::HistoricalReads::test_current_retraction_and_erasure_override_historical_visibility",
+    "tests/test_history_query.py::HistoricalReads::test_old_certificate_cannot_authorize_a_historical_revision",
+    "tests/test_branching.py::Governance::test_history_shows_a_withdrawn_memory_without_making_it_usable"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Existing bitemporal reads: withdrawn data never revives via historical or time-travel query."
   },
   "W06-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/independence.py"
+   ],
+   "tests": [
+    "tests/test_independence.py::AcrossStores::test_laundering_through_a_second_store_is_still_one_source",
+    "tests/test_minority_source.py::MinoritySource::test_copy_majority_counts_one_root_and_reports_minority_separately",
+    "tests/test_n5_06_byzantine_agents.py::ByzantineAgentTests::test_copy_and_replay_keep_source_roots_instead_of_minting_independence"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Existing independent-root accounting: copies never raise corroboration; disagreement preserved."
   },
   "W06-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/diagnosis.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::Availability::test_availability_is_advisory_and_the_gate_refuses_it_as_a_certificate"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Availability result is advisory; the action gate refuses it as a certificate."
   },
   "W06-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/answerability.py"
+   ],
+   "tests": [
+    "tests/test_answerability.py::Verdicts",
+    "tests/test_answerability.py::BoundedParameterEquivalences::test_novel_parameter_remains_undetermined"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Existing structured answerability: conflict, undetermined and insufficient are separate verdicts."
   },
   "W06-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/diagnosis.py",
+    "src/memory_fabric/retrieval_routing.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::Ladder",
+    "tests/test_retrieval_routing.py::RoutingRules::test_adaptive_routing_cannot_widen_governance_eligibility"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Fixed exact->lexical->hybrid-if-qualified->abstain ladder with per-rung cost on its own budget; rungs carry the store's filters."
   },
   "W06-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_diagnosis.py"
+   ],
+   "tests": [
+    "tests/test_outcome_diagnosis.py::OracleBenchmark"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Per-family confusion matrices vs hidden oracle; release blocked on guard-sensitive false allow. Dev: 0 false allow, 4 false denials (retrieval_miss)."
   },
   "W07-01": {
    "status": "TESTED",
@@ -589,7 +687,16 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_replan_and_recovery_state.py::RecoveryState",
+    "tests/test_outcome_recovery_typed.py::TestRecoveryBudgets::test_budget_audit_is_deterministic_and_records_no_progress_failure"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Recovery fingerprint binds task id, last failure codes, observations and evidence versions; repeated state is no_progress."
   },
   "W07-04": {
    "status": "TESTED",
@@ -604,7 +711,16 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py"
+   ],
+   "tests": [
+    "tests/test_outcome_cdm_dispatch.py::Dispatch::test_an_exact_alternate_source_answers_before_replay",
+    "tests/test_outcome_cdm_dispatch.py::Dispatch::test_dependence_first_costs_less_than_always_on_with_the_same_flips"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Alternate source and dependence checks come before replay; fewer replays than always-on with the same flips."
   },
   "W07-06": {
    "status": "TESTED",
@@ -617,13 +733,39 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/replan.py"
+   ],
+   "tests": [
+    "tests/test_outcome_replan_and_recovery_state.py::PartialReplan"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Only steps on changed evidence and their dependents are redone; matches the full-replan oracle with less work."
   },
   "W07-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_replan_and_recovery_state.py::ObservationEdgeCases"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Missing and contradictory observations end in reasoned abstention; fresh correction during recovery ends in the corrected plan."
   },
   "W07-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_protocol/__init__.py"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_operator_trace.py::test_operator_trace_shows_failure_recovery_reauthorization_and_separate_verdict",
+    "tests/test_agent_outcome_operator_trace.py::test_user_explanation_hands_off_unauthorized_evidence_without_leaking_details"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Existing operator trace and explanation (legacy runtime, deprecated per ADR 0004); reasons for the canonical runtime are in diagnosis.py and memory_fabric.reasons."
   },
   "W07-10": {
    "status": "TESTED",
@@ -716,7 +858,17 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/certificates.py"
+   ],
+   "tests": [
+    "tests/test_cdm_verifier.py::TestReplayCertificateAuthorityBoundary::test_replay_certificate_cannot_execute_a_protected_tool",
+    "tests/test_outcome_counterfactual_typed.py::TestOutcomeCounterfactual::test_replay_proposal_and_positive_result_do_not_authorize_an_effect",
+    "tests/test_cdm_api.py::TestFacade::test_existing_sdk_mcp_audit_retraction_and_action_fence_stay_separate"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Replay certificates never authorize via SDK or MCP; UTCP exposes no counterfactual surface."
   },
   "W08-09": {
    "status": "TESTED",
@@ -739,64 +891,267 @@
    "note": "The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation."
   },
   "W09-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py",
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_cdm_dispatch.py::Dispatch::test_every_skip_has_an_explicit_reason_and_costs_no_replay",
+    "tests/test_outcome_arms.py::CounterfactualArm::test_only_decisions_on_changed_evidence_are_replayed"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Dependence-first dispatcher with explicit skip reasons; no replay (or model call) for independent decisions."
   },
   "W09-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py",
+    "src/memory_fabric/causal_replay/intervention.py"
+   ],
+   "tests": [
+    "tests/test_cdm_interventions.py::TestInterventions::test_replay_does_not_change_fabric_or_auth_state",
+    "tests/test_outcome_counterfactual_typed.py::TestOutcomeCounterfactual::test_changed_proposal_is_not_reported_as_outcome_benefit_or_cause",
+    "tests/test_outcome_cdm_dispatch.py::Dispatch::test_reports_are_advisory_and_never_authorize"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Counterfactual is separate from replanning and never mutates the log or executes effects."
   },
   "W09-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/replay.py"
+   ],
+   "tests": [
+    "tests/test_outcome_counterfactual_typed.py::TestOutcomeCounterfactual::test_incomplete_trace_is_non_replayable_without_filling_missing_facts",
+    "tests/test_outcome_counterfactual_typed.py::TestOutcomeCounterfactual::test_complete_trace_pins_model_policy_decision_and_evidence_epochs",
+    "tests/test_cdm_replay.py::TestReplay::test_recorded_policy_digest_must_resolve_to_exact_local_implementation",
+    "tests/test_cdm_replay.py::TestReplay::test_same_seed_wrong_rng_position_refuses_recorded_replay"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Incomplete trace, unresolved policy digest or wrong RNG position refuses exact replay."
   },
   "W09-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/intervention.py"
+   ],
+   "tests": [
+    "tests/test_cdm_interventions.py::TestInterventions::test_withhold_is_time_bounded_and_requires_current_authorized_capture",
+    "tests/test_cdm_interventions.py::TestInterventions::test_noop_suppress_delay_and_policy_swap_are_distinct",
+    "tests/test_cdm_privacy.py::TestPrivacy::test_erasure_dominates_old_capture_inputs",
+    "tests/test_cdm_privacy.py::TestPrivacy::test_repeated_capture_after_revocation_never_returns_artifact",
+    "tests/test_cdm_api.py::TestFacade::test_correction_report_is_tenant_scoped_and_rechecks_session"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Finite operators over authorized captures; erased, revoked and cross-tenant inputs cannot be probed."
   },
   "W09-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/attribution.py"
+   ],
+   "tests": [
+    "tests/test_cdm_intervention_vs_loo.py::InterventionVersusLooTests::test_five_registered_worlds_show_replay_increment_over_loo",
+    "tests/test_cdm_attribution_bench.py::AttributionBenchmarkTests::test_matched_arms_share_seeds_and_keep_negative_results",
+    "tests/test_cdm_scheduler.py::TestScheduler::test_selectors_are_deterministic_and_budgeted"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Dependence, LOO, Shapley and budgeted replay compared on shared seeds and budgets, negative results kept."
   },
   "W09-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/scheduler.py"
+   ],
+   "tests": [
+    "tests/test_cdm_scheduler.py::TestScheduler::test_priority_uses_declared_pre_replay_features_only",
+    "tests/test_cdm_evaluator.py::TestEvaluator::test_missing_outcomes_abstain",
+    "tests/test_cdm_evaluator.py::TestEvaluator::test_calibration_uses_only_valid_held_out_outcomes"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Selector uses declared pre-replay features only, abstains without outcomes, calibrates on held-out data."
   },
   "W09-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/executor.py",
+    "docs/CAUSAL_REPLAY_LIMITATIONS.md"
+   ],
+   "tests": [
+    "tests/test_cdm_timeout_teardown.py::TestTimeoutTeardown::test_wall_time_interruption_terminates_child_and_removes_temp_directory",
+    "tests/test_cdm_scheduler.py::TestScheduler::test_budget_checks_events_attempts_memory_and_time",
+    "tests/test_cdm_privacy.py::TestPrivacy::test_compromised_agent_cannot_mint_replay_authority"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Budgeted local worker; violation terminates it; it cannot mint authority; isolation gap declared in limitations."
   },
   "W09-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/verifier.py"
+   ],
+   "tests": [
+    "tests/test_cdm_verifier.py::TestAttributionVerifier::test_tampered_or_incomplete_table_is_rejected",
+    "tests/test_cdm_replay.py::TestReplay::test_independent_verifier_accepts_valid_and_rejects_tampered_trace"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Independent verifier rejects tampered or incomplete certificates and traces."
   },
   "W09-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py",
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_cdm_dispatch.py::Ledger",
+    "tests/test_outcome_arms.py::CounterfactualArm::test_flips_earn_nothing_and_a6_stays_advisory"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Ledger separates flips, completion and safety differences and replay cost; flips never earn utility (dev: 8 flips, net -0.08)."
   },
   "W09-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_confirmatory.py",
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_confirmatory.py::test_cdm_owner_review_gate_fails_on_safety_regression_or_replay_cap",
+    "tests/test_outcome_arms.py::CounterfactualArm::test_flips_earn_nothing_and_a6_stays_advisory"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "A6 is ADVISORY_ONLY unless A5 is promoted and the frozen A6-A5 net-utility test passes."
   },
   "W10-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/observations.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools::test_undeclared_unpermitted_and_malformed_requests_are_refused",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_capability_is_task_bound_opaque_and_not_serializable"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Roles have declared tools; evaluator capability is task-bound and unshared; effects only on the executor's grant."
   },
   "W10-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/independence.py"
+   ],
+   "tests": [
+    "tests/test_independence.py::InOneStore::test_it_is_transitive",
+    "tests/test_independence.py::AcrossStores::test_laundering_through_a_second_store_is_still_one_source",
+    "tests/test_minority_source.py::MinoritySource::test_copy_majority_counts_one_root_and_reports_minority_separately"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Every claim keeps its source root; N copies count as one root."
   },
   "W10-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/independence.py",
+    "src/memory_fabric/compaction.py"
+   ],
+   "tests": [
+    "tests/test_minority_source.py::MinoritySource::test_copy_majority_counts_one_root_and_reports_minority_separately",
+    "tests/test_compaction_contested_facts.py::ContestedCompactionFacts::test_compaction_retains_a_single_minority_against_ten_repetitions",
+    "tests/test_n5_10_false_consensus_recovery.py::FalseConsensusRecoveryTests::test_preregistered_rule_requires_incremental_uplift_over_both_comparators"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Minority views survive; false-majority worlds do not trigger decisive action."
   },
   "W10-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outbox.py",
+    "src/memory_fabric/federation.py"
+   ],
+   "tests": [
+    "tests/test_retraction_protocol.py::ReorderedDeliveryAcrossVersions::test_the_v1_copys_retraction_applies_after_the_v2_copys",
+    "tests/test_retraction_protocol.py::TestIdempotency::test_one_event_delivered_a_hundred_times_has_one_effect",
+    "tests/test_retraction_protocol.py::TestAcknowledgements::test_a_lost_acknowledgement_is_safe_to_retry",
+    "tests/test_federation_transport.py::TestOfflineRecipient::test_it_converges_when_the_recipient_returns"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Idempotent outbox with acks; delayed, reordered and duplicated notices converge."
   },
   "W10-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/freshness.py"
+   ],
+   "tests": [
+    "tests/test_freshness.py::Federation::test_partition_bounds_staleness_to_one_lease_lifetime",
+    "tests/test_freshness.py::Federation::test_a_forged_lease_is_rejected",
+    "tests/test_freshness.py::Federation::test_no_lease_means_strict_refuses_and_lenient_allows"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Signed leases bound remote freshness; expired or forged leases fail closed."
   },
   "W10-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_multiagent.py::CoordinationOverhead"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Coordination transitions, recoveries and memory calls per arm, apart from outcomes, under one policy and parity."
   },
   "W10-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/delegation.py"
+   ],
+   "tests": [
+    "tests/test_outcome_multiagent.py::Delegation"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Digested delegation receipts; only tools the delegator may call, never protected ones; no credential or grant."
   },
   "W10-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_replan_and_recovery_state.py::ObservationEdgeCases",
+    "tests/test_agent_outcome_runtime.py::test_step_budget_and_task_binding_are_enforced",
+    "tests/test_agent_outcome_recovery_limits.py::test_attempt_event_and_deadline_budgets_fail_deterministically"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Missing observation, conflicting reports and timeouts each end with an explicit abstention or budget reason."
   },
   "W10-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/history_query.py"
+   ],
+   "tests": [
+    "tests/test_outcome_alternate_sources.py::test_duplicate_root_is_not_returned_as_independent_recovery",
+    "tests/test_cross_tenant_surface_matrix.py::CrossTenantSurfaceMatrix::test_foreign_ids_are_opaque_and_writes_stay_in_the_bound_tenant",
+    "tests/test_history_query.py::HistoricalReads::test_foreign_and_historical_private_content_is_not_disclosed"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Alternate evidence only through current authorization; no covert cross-tenant search."
   },
   "W10-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_agent_scale_clusters.py",
+    "benchmarks/agent_scale.py"
+   ],
+   "tests": [
+    "tests/test_outcome_multiagent.py::ScaleClusters"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "3-50 agents on the same 24 tasks and 3 seed clusters; attempts scale, independent units do not (exploratory)."
   },
   "W11-01": {
    "status": "TESTED",
@@ -841,10 +1196,28 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_retrieval_baselines.py",
+    "benchmarks/outcome_matched_arms_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_worlds_extra_and_baselines.py::FirstPartyBaselines",
+    "tests/test_outcome_matched_arms_typed.py::TestMatchedAgentArmPairing::test_retrieval_matrix_fails_closed_on_budget_and_full_context_drift"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "Recency, lexical, fixed-top-k, full-context, summary, governed under one budget and reader; usage reported."
   },
   "W11-06": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "evidence": [
+    "benchmarks/outcome_matched_arms_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_matched_arms_typed.py::TestMatchedAgentArmPairing::test_prompt_caution_and_core_governance_effects_are_separate"
+   ],
+   "note": "The framing x memory factorial analysis exists and is tested; scripted agents ignore prompt text, so the measurement needs a model."
   },
   "W11-07": {
    "status": "IMPLEMENTED",
@@ -1247,7 +1620,17 @@
    "note": "Memory x recovery factorial with main effects and interaction per family (tested); correction propagation, source independence and retrieval method are not separable factors here and are listed as not run. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md."
   },
   "W15-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::CounterfactualArm",
+    "tests/test_outcome_cdm_dispatch.py::Dispatch::test_budget_is_respected_and_reported"
+   ],
+   "verified_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "note": "A5 vs A6 with replay on/off, skip reasons, budget and cost; utility after replay overhead, not flip count (scripted)."
   },
   "W15-05": {
    "status": "TESTED",

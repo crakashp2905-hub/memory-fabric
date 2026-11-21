@@ -210,6 +210,8 @@ class Arm:
     memory: str
     recovery: bool
     description: str
+    cdm: bool = False
+    """Dependence-first counterfactual dispatch after the episode, advisory only."""
 
 
 ARMS: Mapping[str, Arm] = {
@@ -219,8 +221,10 @@ ARMS: Mapping[str, Arm] = {
     "A3": Arm("A3", "pooled_recheck", True, "pooled shared memory + equally capable recovery"),
     "A4": Arm("A4", "governed", False, "Memory Fabric governance, no recovery"),
     "A5": Arm("A5", "governed", True, "Memory Fabric governance + bounded recovery"),
+    "A6": Arm("A6", "governed", True, "A5 + dependence-first counterfactual dispatch "
+              "(advisory: it can flag a decision, never act)", cdm=True),
 }
-NOT_RUN_ARMS = {"A6": "conditional CDM replay is not wired into the episode runtime"}
+NOT_RUN_ARMS: dict[str, str] = {}
 
 
 def run_arm(arm: Arm, task: Task, decide: Any = None) -> dict[str, Any]:
@@ -248,6 +252,7 @@ def run_arm(arm: Arm, task: Task, decide: Any = None) -> dict[str, Any]:
                                  store_events=task.store_events)
             authorized = gate_executed_keys(fabric) if fabric is not None else None
             receipt = grade_episode(task.world, record, authorized)
+            advice = cdm_advice(task, record, memory, fabric) if arm.cdm else None
         finally:
             if fabric is not None:
                 fabric.close()
@@ -259,6 +264,8 @@ def run_arm(arm: Arm, task: Task, decide: Any = None) -> dict[str, Any]:
             "reason": receipt.reason, "completed": status == "COMPLETED",
             "safe_success": safe_success, "unsafe": status == "UNSAFE_EXECUTED",
             "host_outcome": record.host_outcome.value, "host_reason": record.reason,
+            "phase_transitions": len(record.phases) - 1,
+            **({"cdm": advice} if advice is not None else {}),
             "proposed": record.proposal is not None, "effect_outcome": record.effect_outcome,
             "attempted": bool(receipt.stages["attempted"]),
             "justified_abstention": receipt.justified_abstention,
@@ -270,6 +277,122 @@ def rows_for(arms: Sequence[str], seeds: int, families: Sequence[str] = FAMILIES
     """Rows for the named arms on every family and seed, each on a fresh task."""
     return [run_arm(ARMS[arm], build_task(family, seed))
             for arm in arms for family in families for seed in range(seeds)]
+
+
+LATE_TICK = 10_000
+"""Past every scheduled event in these worlds; used only for A6's post-episode review."""
+
+
+def cdm_advice(task: Task, record: Any, memory: Any, fabric: Any) -> dict[str, Any]:
+    """A6: replay the executed decision only if its evidence changed and it had an alternative.
+
+    The replay is the same deterministic planner on the evidence the governed
+    port returns now. The result is advice; it never reaches the world.
+    """
+    from benchmarks.outcome_episode import _reading as _text_reading
+    from memory_fabric.model import LifecycleState
+    from memory_fabric.outcome_typed.cdm_dispatch import DecisionRecord, dispatch
+    from memory_fabric.outcome_typed.episode import EpisodeBudget
+
+    proposal = record.proposal
+    if proposal is None:
+        empty = dispatch([], (), lambda decision: decision.chosen).to_dict()
+        empty.pop("replay_seconds", None)
+        return {**empty, "late_observations": 0}
+    # Keep observing after the episode: the same observer policy records the world
+    # events that arrived after the effect, as a deployment that keeps running would.
+    # The grade is already fixed; this only feeds the advisory review.
+    trace = record.trace["events"]
+    seen = {event_id for event in trace if event["kind"] == "world_events"
+            for event_id in event["payload"]["event_ids"]}
+    recorded = {item["event_id"]: item["memory_id"] for event in trace
+                if event["kind"] == "observations_recorded" for item in event["payload"]["recorded"]}
+    late = [item for item in task.world.feed(LATE_TICK) if str(item.get("event_id")) not in seen]
+    if late:
+        budget = EpisodeBudget(task.envelope.limits)
+        step = ScriptedTeam()("observer", task.envelope.observation(
+            "observer", [{"source": "world", "events": late}], budget))
+        for claim in dict(step.arguments).get("claims", []):
+            corrects = [recorded[c] for c in claim.get("corrects", []) if c in recorded]
+            memory_id, _ = memory.record("observer", claim["text"], corrects,
+                                         bool(claim.get("restricted", False)))
+            recorded[claim["event_id"]] = memory_id
+    evidence = frozenset((str(m), int(v)) for m, v in proposal["evidence"])
+    current = memory.retrieve("planner", "instrument-A reading", 5)
+    values = {str(_text_reading(ref.text)) for ref in current if _text_reading(ref.text) is not None}
+    chosen = str(proposal["parameters"].get("value"))
+    changed = set()
+    for memory_id, version in evidence:
+        try:
+            item = fabric.get(memory_id)
+        except Exception:  # noqa: BLE001 - an unreadable record counts as changed
+            changed.add(memory_id)
+            continue
+        if item.version != version or item.lifecycle_state is not LifecycleState.ACTIVE:
+            changed.add(memory_id)
+
+    def replay(decision: DecisionRecord) -> str:
+        events = [{"source": "tool", "tool": "recall",
+                   "output": {"evidence": [ref.to_dict() for ref in current]}}]
+        observation = task.envelope.observation("planner", events,
+                                                EpisodeBudget(task.envelope.limits))
+        step = ScriptedTeam()("planner", observation)
+        if step.intent != "propose":
+            return "abstain"
+        return str(dict(step.arguments)["parameters"]["value"])
+
+    decision = DecisionRecord("executed-proposal", chosen, evidence,
+                              tuple(sorted(values | {chosen})))
+    advice = dispatch([decision], changed, replay, budget=1).to_dict()
+    # Wall time would make the report differ run to run; the cost unit here is replays.
+    advice.pop("replay_seconds", None)
+    return {**advice, "late_observations": len(late)}
+
+
+def coordination_overhead(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Runner coordination (phase transitions, recoveries) apart from memory work (W10-06).
+
+    Every arm runs the same runner, team and limits (see the parity matrix), so
+    these columns show what each memory affordance costs in coordination,
+    separately from its effect on outcomes.
+    """
+    out: dict[str, Any] = {}
+    for arm in sorted({r["arm"] for r in rows}):
+        mine = [r for r in rows if r["arm"] == arm]
+        n = len(mine)
+        out[arm] = {
+            "episodes": n,
+            "coordination_transitions_mean": round(sum(r["phase_transitions"] for r in mine) / n, 4),
+            "recoveries_mean": round(sum(r["budget"].get("recoveries", 0) for r in mine) / n, 4),
+            "memory_tool_calls_mean": round(sum(r["budget"].get("tool_calls", 0) for r in mine) / n, 4),
+            "steps_mean": round(sum(r["budget"].get("steps", 0) for r in mine) / n, 4),
+        }
+    return {"policy": POLICY_ID, "by_arm": out}
+
+
+def cdm_summary(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """A6 against A5: replays, flips, wasted always-on replays and the utility ledger (W09-09)."""
+    from memory_fabric.outcome_typed.cdm_dispatch import REASONS, utility_ledger
+
+    a6 = [r for r in rows if r["arm"] == "A6"]
+    if not a6:
+        return {"status": "NOT_RUN"}
+    replays = sum(r["cdm"]["replays"] for r in a6)
+    flips = sum(r["cdm"]["flips"] for r in a6)
+    decisions = sum(len(r["cdm"]["rows"]) for r in a6)
+    counts = {reason: sum(r["cdm"]["counts"].get(reason, 0) for r in a6) for reason in REASONS}
+    completion = paired_difference(rows, "A6", "A5", "completed")["mean_difference"] or 0.0
+    unsafe = paired_difference(rows, "A6", "A5", "unsafe")["mean_difference"] or 0.0
+    ledger = utility_ledger(policy_flips=flips, completion_difference=completion,
+                            safety_difference=unsafe, replays=replays)
+    flagged = sorted({r["family"] for r in a6 if r["cdm"]["flips"]})
+    return {"status": "RUN", "advisory": True, "decisions": decisions,
+            "dependence_first_replays": replays, "always_on_replays": decisions,
+            "wasted_always_on_replays": decisions - replays, "flips": flips,
+            "flagged_families": flagged, "reasons": counts, "utility": ledger,
+            "promotion": "ADVISORY_ONLY" if not ledger["promotable"] else "NOT_ASSESSED",
+            "promotion_rule": "A6 cannot promote unless A5 is promoted and the frozen A6-A5 "
+                              "net-utility test passes (W09-10); A5 promotion is NOT_ASSESSED"}
 
 
 def oracle_row(task: Task) -> dict[str, Any]:
@@ -294,10 +417,11 @@ def parity_matrix(tasks: Sequence[Task], arms: Sequence[Arm]) -> dict[str, Any]:
                                                             sort_keys=True).encode()).hexdigest()
                                   for t in tasks),
               "limits": [t.envelope.limits.to_dict() for t in tasks][:1]}
-    rows = {arm.arm_id: {**shared, "varies": {"memory": arm.memory, "recovery": arm.recovery}}
+    rows = {arm.arm_id: {**shared, "varies": {"memory": arm.memory, "recovery": arm.recovery,
+                                              "cdm": arm.cdm}}
             for arm in arms}
     problems = validate_parity(rows)
-    missing = sorted(set(NOT_RUN_ARMS) | ({"A0", "A1", "A2", "A3", "A4", "A5"} - set(rows)))
+    missing = sorted(set(NOT_RUN_ARMS) | ({"A0", "A1", "A2", "A3", "A4", "A5", "A6"} - set(rows)))
     return {"arms": rows, "problems": problems, "missing_arms": missing,
             "status": "INVALID" if problems else ("INCOMPLETE" if missing else "COMPLETE")}
 
@@ -434,7 +558,9 @@ def run(seeds: int = 8, families: Sequence[str] = FAMILIES) -> dict[str, Any]:
         "tasks_with_headroom": len(headroom_tasks), "tasks_total": len(tasks),
         "summary": summary,
         "contrasts": [paired_difference(rows, "A5", "A3"), paired_difference(rows, "A5", "A4"),
-                      paired_difference(rows, "A3", "A2")],
+                      paired_difference(rows, "A3", "A2"), paired_difference(rows, "A6", "A5")],
+        "cdm": cdm_summary(rows),
+        "coordination": coordination_overhead(rows),
         "negative_controls": negative_controls(tasks[: min(len(tasks), 10)]),
         "rows": rows, "oracle_rows": oracle,
     }

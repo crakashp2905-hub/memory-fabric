@@ -269,13 +269,23 @@ arms. The contract tests are `tests/test_outcome_episode.py` and
 
 ### Matched arms over the episode runtime
 
-`benchmarks/outcome_arms.py` runs actor arms A0–A5 with the same scripted team,
-tools, budget, worlds and seeds. Arms differ only in the memory port and in
-whether recovery is enabled. A3's recovery is as capable as A5's: it re-plans
-on new observations and rechecks for retraction notes, so A5−A3 isolates
-governance and A5−A4 isolates recovery. A6 (CDM) is `NOT_RUN`, so parity
-reports `INCOMPLETE`. A7 is the evaluator's ceiling, and the run fails if any
-arm exceeds it.
+`benchmarks/outcome_arms.py` runs actor arms A0–A6 with the same scripted team,
+tools, budget, worlds and seeds. Arms differ only in the memory port, in
+whether recovery is enabled, and (A6 only) in counterfactual dispatch. A3's
+recovery is as capable as A5's: it re-plans on new observations and rechecks
+for retraction notes, so A5−A3 isolates governance and A5−A4 isolates
+recovery.
+
+A6 is A5 plus dependence-first counterfactual dispatch
+(`memory_fabric.outcome_typed.cdm_dispatch`). After the episode, the same
+observer records any late world events. A6 then replays the executed decision
+only if evidence it used has changed and another choice existed, and gives
+every skip an explicit reason. Its output is advice: it never reaches the
+world, so A6 outcomes equal A5's. The report's `cdm` block keeps the decisions
+that would flip, the observed completion and safety differences and the
+replay cost apart, and A6 stays `ADVISORY_ONLY` unless A5 is promoted and the
+frozen A6−A5 net-utility test passes. Parity is `COMPLETE`. A7 is the
+evaluator's ceiling, and the run fails if any arm exceeds it.
 
 The development rows and their limits are in
 [SCRIPTED_ARMS_DEV.md](../research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md).

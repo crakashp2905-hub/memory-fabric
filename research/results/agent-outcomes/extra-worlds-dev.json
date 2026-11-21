@@ -1,0 +1,395 @@
+{
+ "multi_hop": {
+  "policies": {
+   "exact_match": {
+    "accuracy": 0.0,
+    "by_phase": {
+     "after": 0.0,
+     "before": 0.0
+    }
+   },
+   "single_record": {
+    "accuracy": 0.0,
+    "by_phase": {
+     "after": 0.0,
+     "before": 0.0
+    }
+   },
+   "two_hop": {
+    "accuracy": 1.0,
+    "by_phase": {
+     "after": 1.0,
+     "before": 1.0
+    }
+   }
+  },
+  "rows": [
+   {
+    "answer": 30,
+    "correct": true,
+    "phase": "before",
+    "policy": "two_hop",
+    "seed": 0
+   },
+   {
+    "answer": 37,
+    "correct": false,
+    "phase": "before",
+    "policy": "single_record",
+    "seed": 0
+   },
+   {
+    "answer": 37,
+    "correct": false,
+    "phase": "before",
+    "policy": "exact_match",
+    "seed": 0
+   },
+   {
+    "answer": 40,
+    "correct": true,
+    "phase": "after",
+    "policy": "two_hop",
+    "seed": 0
+   },
+   {
+    "answer": 37,
+    "correct": false,
+    "phase": "after",
+    "policy": "single_record",
+    "seed": 0
+   },
+   {
+    "answer": 37,
+    "correct": false,
+    "phase": "after",
+    "policy": "exact_match",
+    "seed": 0
+   },
+   {
+    "answer": 31,
+    "correct": true,
+    "phase": "before",
+    "policy": "two_hop",
+    "seed": 1
+   },
+   {
+    "answer": 38,
+    "correct": false,
+    "phase": "before",
+    "policy": "single_record",
+    "seed": 1
+   },
+   {
+    "answer": 38,
+    "correct": false,
+    "phase": "before",
+    "policy": "exact_match",
+    "seed": 1
+   },
+   {
+    "answer": 41,
+    "correct": true,
+    "phase": "after",
+    "policy": "two_hop",
+    "seed": 1
+   },
+   {
+    "answer": 38,
+    "correct": false,
+    "phase": "after",
+    "policy": "single_record",
+    "seed": 1
+   },
+   {
+    "answer": 38,
+    "correct": false,
+    "phase": "after",
+    "policy": "exact_match",
+    "seed": 1
+   },
+   {
+    "answer": 32,
+    "correct": true,
+    "phase": "before",
+    "policy": "two_hop",
+    "seed": 2
+   },
+   {
+    "answer": 39,
+    "correct": false,
+    "phase": "before",
+    "policy": "single_record",
+    "seed": 2
+   },
+   {
+    "answer": 39,
+    "correct": false,
+    "phase": "before",
+    "policy": "exact_match",
+    "seed": 2
+   },
+   {
+    "answer": 42,
+    "correct": true,
+    "phase": "after",
+    "policy": "two_hop",
+    "seed": 2
+   },
+   {
+    "answer": 39,
+    "correct": false,
+    "phase": "after",
+    "policy": "single_record",
+    "seed": 2
+   },
+   {
+    "answer": 39,
+    "correct": false,
+    "phase": "after",
+    "policy": "exact_match",
+    "seed": 2
+   },
+   {
+    "answer": 33,
+    "correct": true,
+    "phase": "before",
+    "policy": "two_hop",
+    "seed": 3
+   },
+   {
+    "answer": 40,
+    "correct": false,
+    "phase": "before",
+    "policy": "single_record",
+    "seed": 3
+   },
+   {
+    "answer": 40,
+    "correct": false,
+    "phase": "before",
+    "policy": "exact_match",
+    "seed": 3
+   },
+   {
+    "answer": 43,
+    "correct": true,
+    "phase": "after",
+    "policy": "two_hop",
+    "seed": 3
+   },
+   {
+    "answer": 40,
+    "correct": false,
+    "phase": "after",
+    "policy": "single_record",
+    "seed": 3
+   },
+   {
+    "answer": 40,
+    "correct": false,
+    "phase": "after",
+    "policy": "exact_match",
+    "seed": 3
+   }
+  ]
+ },
+ "population": "SCRIPTED_DEVELOPMENT",
+ "schema_id": "memory-fabric.agent-outcome-extra-worlds.v1",
+ "seeds": 4,
+ "temporal_validity": {
+  "policies": {
+   "latest_known": {
+    "accuracy": 0.5,
+    "by_question": {
+     "action_now": 1.0,
+     "historical": 0.0
+    }
+   },
+   "temporal": {
+    "accuracy": 1.0,
+    "by_question": {
+     "action_now": 1.0,
+     "historical": 1.0
+    }
+   },
+   "timeless": {
+    "accuracy": 0.0,
+    "by_question": {
+     "action_now": 0.0,
+     "historical": 0.0
+    }
+   }
+  },
+  "rows": [
+   {
+    "answer": 10,
+    "correct": true,
+    "policy": "temporal",
+    "question": "historical",
+    "seed": 0
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "historical",
+    "seed": 0
+   },
+   {
+    "answer": 20,
+    "correct": false,
+    "policy": "latest_known",
+    "question": "historical",
+    "seed": 0
+   },
+   {
+    "answer": 20,
+    "correct": true,
+    "policy": "temporal",
+    "question": "action_now",
+    "seed": 0
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "action_now",
+    "seed": 0
+   },
+   {
+    "answer": 20,
+    "correct": true,
+    "policy": "latest_known",
+    "question": "action_now",
+    "seed": 0
+   },
+   {
+    "answer": 11,
+    "correct": true,
+    "policy": "temporal",
+    "question": "historical",
+    "seed": 1
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "historical",
+    "seed": 1
+   },
+   {
+    "answer": 21,
+    "correct": false,
+    "policy": "latest_known",
+    "question": "historical",
+    "seed": 1
+   },
+   {
+    "answer": 21,
+    "correct": true,
+    "policy": "temporal",
+    "question": "action_now",
+    "seed": 1
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "action_now",
+    "seed": 1
+   },
+   {
+    "answer": 21,
+    "correct": true,
+    "policy": "latest_known",
+    "question": "action_now",
+    "seed": 1
+   },
+   {
+    "answer": 12,
+    "correct": true,
+    "policy": "temporal",
+    "question": "historical",
+    "seed": 2
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "historical",
+    "seed": 2
+   },
+   {
+    "answer": 22,
+    "correct": false,
+    "policy": "latest_known",
+    "question": "historical",
+    "seed": 2
+   },
+   {
+    "answer": 22,
+    "correct": true,
+    "policy": "temporal",
+    "question": "action_now",
+    "seed": 2
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "action_now",
+    "seed": 2
+   },
+   {
+    "answer": 22,
+    "correct": true,
+    "policy": "latest_known",
+    "question": "action_now",
+    "seed": 2
+   },
+   {
+    "answer": 13,
+    "correct": true,
+    "policy": "temporal",
+    "question": "historical",
+    "seed": 3
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "historical",
+    "seed": 3
+   },
+   {
+    "answer": 23,
+    "correct": false,
+    "policy": "latest_known",
+    "question": "historical",
+    "seed": 3
+   },
+   {
+    "answer": 23,
+    "correct": true,
+    "policy": "temporal",
+    "question": "action_now",
+    "seed": 3
+   },
+   {
+    "answer": null,
+    "correct": false,
+    "policy": "timeless",
+    "question": "action_now",
+    "seed": 3
+   },
+   {
+    "answer": 23,
+    "correct": true,
+    "policy": "latest_known",
+    "question": "action_now",
+    "seed": 3
+   }
+  ]
+ }
+}
