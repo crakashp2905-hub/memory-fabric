@@ -352,11 +352,20 @@ class ScriptedTeam:
             evidence = [ref for ref in last["output"]["evidence"]
                         if not ref["text"].startswith(note) and ref["text"] not in retracted]
             if not evidence:
-                return self._step(observation, "planner", step_id, "abstain", {})
-            chosen = next((ref for ref in evidence if "(correction)" in ref["text"]), evidence[0])
+                return self._step(observation, "planner", step_id, "abstain",
+                                  {"reason": "no_evidence"})
+            corrections = [ref for ref in evidence if "(correction)" in ref["text"]]
+            readings = {_reading(ref["text"]) for ref in evidence} - {None}
+            if not corrections and len(readings) > 1:
+                # Two current readings disagree and nothing says which supersedes the
+                # other: do not pick one (W07-08).
+                return self._step(observation, "planner", step_id, "abstain",
+                                  {"reason": "contradictory_observations"})
+            chosen = corrections[0] if corrections else evidence[0]
             value = _reading(chosen["text"])
             if value is None:
-                return self._step(observation, "planner", step_id, "abstain", {})
+                return self._step(observation, "planner", step_id, "abstain",
+                                  {"reason": "malformed_observation"})
             return self._step(observation, "planner", step_id, "propose", {
                 "tool": "set_target", "target": "actuator", "parameters": {"value": value},
                 "evidence": [[chosen["memory_id"], chosen["version"]]]})
