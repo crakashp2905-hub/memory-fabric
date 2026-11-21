@@ -1,0 +1,120 @@
+"""Scripted factorial ablation and oracle-headroom analysis (W15-03, W15-05).
+
+    python -m benchmarks.outcome_ablation --seeds 8 --out research/results/agent-outcomes/scripted-ablation-dev.json
+
+**Factorial.** Two factors, each with two levels, every cell on the same tasks
+with the same scripted team: *memory* (pooled with a retraction recheck, or
+Memory Fabric with the action gate) and *recovery* (off or on). The pooled cell
+without recovery is not a registered arm; it exists here only so the design is
+complete. Main effects and the interaction are reported separately, per family,
+so no factor is credited with another's gain. Correction propagation, source
+independence and retrieval method are not separable factors in this harness;
+they are listed as not run rather than folded into "memory".
+
+**Headroom.** For each task: the oracle's best terminal, which arms reach it,
+and whether the fair baseline A3 is already optimal. Tasks where A3 is optimal,
+and tasks no arm can improve, are excluded from any improvement target.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from typing import Any, Mapping, Sequence
+
+from .outcome_arms import ARMS, FAMILIES, Arm, build_task, oracle_row, run_arm
+
+SCHEMA_ID = "memory-fabric.scripted-factorial-ablation.v1"
+CELLS = {
+    ("pooled_recheck", False): Arm("F-pooled-norec", "pooled_recheck", False,
+                                   "pooled + recheck, recovery off (design cell only)"),
+    ("pooled_recheck", True): ARMS["A3"],
+    ("governed", False): ARMS["A4"],
+    ("governed", True): ARMS["A5"],
+}
+NOT_SEPARABLE = ("correction_propagation", "source_independence", "retrieval_method")
+
+
+def _mean(values: Sequence[float]) -> float | None:
+    return round(sum(values) / len(values), 4) if values else None
+
+
+def effects(cell: Mapping[tuple[str, bool], float]) -> dict[str, float]:
+    """2x2 main effects and interaction on a rate; positive favours the second level."""
+    g0r0, g0r1 = cell[("pooled_recheck", False)], cell[("pooled_recheck", True)]
+    g1r0, g1r1 = cell[("governed", False)], cell[("governed", True)]
+    # ``+ 0.0`` turns a rounded -0.0 into 0.0 so a null effect never prints a sign.
+    return {"governance_main": round(((g1r0 + g1r1) - (g0r0 + g0r1)) / 2, 4) + 0.0,
+            "recovery_main": round(((g0r1 + g1r1) - (g0r0 + g1r0)) / 2, 4) + 0.0,
+            "interaction": round((g1r1 - g1r0) - (g0r1 - g0r0), 4) + 0.0}
+
+
+def factorial(seeds: int = 8, families: Sequence[str] = FAMILIES,
+              metric: str = "safe_success") -> dict[str, Any]:
+    rows = [{**run_arm(arm, build_task(family, seed)), "cell": [memory, recovery]}
+            for (memory, recovery), arm in CELLS.items()
+            for family in families for seed in range(seeds)]
+    out: dict[str, Any] = {}
+    for scope in ("overall", *families):
+        mine = rows if scope == "overall" else [r for r in rows if r["family"] == scope]
+        cell = {key: _mean([float(r[metric]) for r in mine
+                            if (r["cell"][0], r["cell"][1]) == key]) or 0.0 for key in CELLS}
+        out[scope] = {"cells": {f"{m}/{'recovery' if r else 'no-recovery'}": v
+                                for (m, r), v in cell.items()},
+                      **effects(cell)}
+    return {"metric": metric, "by_scope": out, "rows": rows}
+
+
+def headroom(seeds: int = 8, families: Sequence[str] = FAMILIES) -> dict[str, Any]:
+    tasks = [build_task(family, seed) for family in families for seed in range(seeds)]
+    per_task = []
+    for task in tasks:
+        best = oracle_row(task)["best_terminal"]
+        reached = {arm_id: run_arm(arm, build_task(task.family, task.seed))["terminal_status"]
+                   for arm_id, arm in ARMS.items()}
+        optimal = sorted(a for a, status in reached.items() if best != "NONE" and status == best)
+        per_task.append({"task_id": task.envelope.task_id, "family": task.family,
+                         "seed": task.seed, "best_terminal": best, "arms_at_ceiling": optimal,
+                         "a3_already_optimal": "A3" in optimal, "no_headroom": best == "NONE"})
+    target = [t for t in per_task if not t["no_headroom"] and not t["a3_already_optimal"]]
+    return {"tasks": len(per_task),
+            "no_headroom": sum(t["no_headroom"] for t in per_task),
+            "a3_already_optimal": sum(t["a3_already_optimal"] for t in per_task),
+            "improvable_over_a3": len(target),
+            "improvable_families": sorted({t["family"] for t in target}),
+            "max_attainable_a5_minus_a3": round(len(target) / len(per_task), 4) if per_task else None,
+            "per_task": per_task}
+
+
+def run(seeds: int = 8) -> dict[str, Any]:
+    return {"schema_id": SCHEMA_ID, "population": "SCRIPTED_DEVELOPMENT",
+            "promotion": "NOT_ASSESSED", "seeds": seeds, "families": list(FAMILIES),
+            "factors": {"memory": ["pooled_recheck", "governed"], "recovery": [False, True]},
+            "not_separable_in_this_harness": list(NOT_SEPARABLE),
+            "cdm_ablation": "NOT_RUN: A6 is not implemented",
+            "factorial": factorial(seeds), "headroom": headroom(seeds)}
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--seeds", type=int, default=8)
+    parser.add_argument("--out")
+    args = parser.parse_args(argv)
+    report = run(args.seeds)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            handle.write(json.dumps(report, sort_keys=True, indent=1) + "\n")
+    overall = report["factorial"]["by_scope"]["overall"]
+    print(f"cells: {overall['cells']}")
+    print(f"governance main {overall['governance_main']}, recovery main {overall['recovery_main']}, "
+          f"interaction {overall['interaction']}")
+    h = report["headroom"]
+    print(f"headroom: {h['improvable_over_a3']}/{h['tasks']} tasks improvable over A3 "
+          f"({h['improvable_families']}); {h['a3_already_optimal']} A3-optimal; "
+          f"{h['no_headroom']} without headroom")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    sys.exit(main())

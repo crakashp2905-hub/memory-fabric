@@ -1,0 +1,207 @@
+{
+  "candidate_commit_sha": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+  "failed_stages": [],
+  "production_qualified": false,
+  "release_matrix": {
+    "production_qualified": false,
+    "production_reason": "in-house evidence cannot self-certify production; independent review and pilot remain separate gates",
+    "rows": [
+      {
+        "evidence_type": null,
+        "gate_id": "main_ci",
+        "reason": "no evidence of this gate's own type was supplied",
+        "status": "NOT_RUN",
+        "target_sha": null
+      },
+      {
+        "artifacts": [],
+        "evidence_type": "scripted",
+        "gate_id": "synthetic_outcome_gate",
+        "model_digest": null,
+        "reason": "scripted contracts, episode demo, matched arms and provenance at this commit",
+        "registration_sha256": null,
+        "status": "SCRIPTED_PASS",
+        "target_sha": "26a578946ef93862df237a0fbfb8dfe7c27b2b65"
+      },
+      {
+        "evidence_type": null,
+        "gate_id": "model_attacks",
+        "reason": "no evidence of this gate's own type was supplied",
+        "status": "NOT_RUN",
+        "target_sha": null
+      },
+      {
+        "artifacts": [],
+        "evidence_type": "local_model",
+        "gate_id": "real_agent",
+        "model_digest": null,
+        "reason": "LOCAL_RUNTIME_UNAVAILABLE",
+        "registration_sha256": null,
+        "status": "NOT_RUN",
+        "target_sha": null
+      },
+      {
+        "evidence_type": null,
+        "gate_id": "confirmatory",
+        "reason": "no evidence of this gate's own type was supplied",
+        "status": "NOT_RUN",
+        "target_sha": null
+      },
+      {
+        "evidence_type": null,
+        "gate_id": "independent_review",
+        "reason": "no evidence of this gate's own type was supplied",
+        "status": "NOT_RUN",
+        "target_sha": null
+      }
+    ],
+    "schema_id": "memory-fabric.release-evidence-matrix.v1",
+    "single_target_sha": true,
+    "target_shas": [
+      "26a578946ef93862df237a0fbfb8dfe7c27b2b65"
+    ]
+  },
+  "schema_id": "memory-fabric.agent-outcome-end-to-end-gate.v1",
+  "stages": {
+    "arms": {
+      "evidence_status": "SCRIPTED_PASS",
+      "missing_arms": [
+        "A6"
+      ],
+      "parity": "INCOMPLETE",
+      "problems": [],
+      "promotion": "NOT_ASSESSED",
+      "scorecard_decision": "HOLD",
+      "seconds": 0.49,
+      "status": "PASS"
+    },
+    "contracts": {
+      "commands": [
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "tests/test_outcome_episode.py",
+            "tests/test_outcome_arms.py",
+            "tests/test_outcome_canonical_package.py",
+            "tests/test_outcome_evidence_status.py",
+            "tests/test_agent_validation_w01.py",
+            "tests/test_outcome_runtime.py",
+            "tests/test_outcome_oracle_isolation_typed.py",
+            "tests/test_action_fence_typed.py",
+            "tests/test_outcome_world_engine.py",
+            "tests/test_outcome_alternate_sources.py",
+            "tests/test_outcome_model_actor.py",
+            "tests/test_outcome_scorecard.py",
+            "tests/test_outcome_prereg.py",
+            "tests/test_outcome_ablation.py",
+            "tests/test_outcome_evaluator_mutation.py",
+            "tests/test_agent_outcome_end_to_end_gate.py",
+            "tests/test_fake_local_model.py",
+            "tests/test_launch_decision_and_doctor.py"
+          ],
+          "exit_code": 0,
+          "seconds": 13.72
+        }
+      ],
+      "seconds": 13.72,
+      "status": "PASS"
+    },
+    "demo": {
+      "seconds": 0.18,
+      "status": "PASS"
+    },
+    "local_model": {
+      "reason": "LOCAL_RUNTIME_UNAVAILABLE",
+      "required": false,
+      "scripted_substitute_used": false,
+      "seconds": 0.14,
+      "status": "REAL_AGENT_NOT_RUN"
+    },
+    "provenance": {
+      "commands": [
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/baseline_manifest.py",
+            "--verify",
+            "research/results/agent-outcomes/baseline-70e34c8/manifest.json"
+          ],
+          "exit_code": 0,
+          "seconds": 0.05
+        },
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/evidence_inventory.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "seconds": 0.12
+        },
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/claim_scanner.py"
+          ],
+          "exit_code": 0,
+          "seconds": 0.04
+        },
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/checklist_ledger.py",
+            "--check",
+            "--history",
+            "--resolve-tests"
+          ],
+          "exit_code": 0,
+          "seconds": 2.54
+        },
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/status_at_head.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "seconds": 4.72
+        }
+      ],
+      "seconds": 7.47,
+      "status": "PASS"
+    },
+    "security": {
+      "commands": [
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/adversarial_gate.py"
+          ],
+          "exit_code": 0,
+          "seconds": 11.97
+        },
+        {
+          "argv": [
+            "/usr/local/bin/python3",
+            "tools/scan_secrets.py"
+          ],
+          "exit_code": 0,
+          "seconds": 59.26
+        }
+      ],
+      "seconds": 71.23,
+      "status": "PASS"
+    },
+    "source": {
+      "commit_sha": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+      "reason": "clean commit",
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

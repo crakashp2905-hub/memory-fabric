@@ -366,11 +366,18 @@
    "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-04": {
-   "status": "IMPLEMENTED",
+   "status": "TESTED",
    "evidence": [
-    "benchmarks/outcome_episode.py"
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_arms.py"
    ],
-   "note": "Attempted, authorized, applied and objective-reached are separate stages; fixtures cover stale (not applied), unauthorized (applied) and lost-ack. An applied-but-objective-not-reached fixture is still missing (batch 3)."
+   "tests": [
+    "tests/test_outcome_arms.py::Stages",
+    "tests/test_outcome_episode.py::TerminalStatuses",
+    "tests/test_outcome_episode.py::TraceAndWorld::test_unauthorized_mutation_is_unsafe_even_when_the_value_is_right"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Fixtures: stale (not applied), applied-unauthorized, lost-ack, applied-authorized-not-reached."
   },
   "W04-05": {
    "status": "TESTED",
@@ -417,9 +424,10 @@
   "W04-09": {
    "status": "IMPLEMENTED",
    "evidence": [
-    "benchmarks/outcome_episode.py"
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_arms.py"
    ],
-   "note": "The feed is a public projection with no truth fields; missing, delayed, duplicated, contradictory and inaccessible variants arrive with the W05 world families."
+   "note": "Families now include delayed, missing (silent change), inaccessible (restricted) and retracted evidence; duplicated and contradictory observation variants are still missing."
   },
   "W04-10": {
    "status": "TESTED",
@@ -433,34 +441,91 @@
    "note": "Opaque task IDs and keyed values; task-ID probe never completes; label shuffle breaks an observation-following policy."
   },
   "W05-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Registry",
+    "tests/test_outcome_arms.py::Contrasts::test_no_headroom_families_are_failed_by_every_arm",
+    "tests/test_outcome_recovery_typed.py::TestVersionedOutcomeRequests::test_correction_preserves_action_supported_by_an_independent_alternative"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Public correction, remote retraction, restricted source, silent change and delayed correction with declared best terminals; the independent-source case is covered by the recovery suite."
   },
   "W05-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_battery_diagnosis_keeps_sensor_fault_and_overheating_nonexclusive"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Existing world; root_cause stays None (no physical-causality claim)."
   },
   "W05-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_maintenance_requires_all_dependent_prerequisites_and_allows_safe_alternatives"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_new_incident_alert_requires_rollback_and_revision_bound_replan"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_coding_repair_hides_oracle_cases_and_bounds_tool_calls",
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_coding_patch_interpreter_never_executes_submitted_calls"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_federation_copies_do_not_count_as_independent_and_late_effect_is_logged",
+    "tests/test_minority_source.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-07": {
    "status": "TODO"
   },
   "W05-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "note": "restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02)."
   },
   "W05-09": {
    "status": "TODO"
   },
   "W05-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "note": "Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified."
   },
   "W06-01": {
    "status": "TODO"
@@ -472,7 +537,15 @@
    "status": "TODO"
   },
   "W06-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/eligibility.py"
+   ],
+   "tests": [
+    "tests/test_outcome_alternate_sources.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Existing: independent current source recovers; revoked grants and sessions excluded; limits fail closed."
   },
   "W06-05": {
    "status": "TODO"
@@ -493,22 +566,55 @@
    "status": "TODO"
   },
   "W07-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_fallback_is_structured_and_selects_only_a_read_only_action"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Catalog: refresh, re_retrieve, inspect_provenance, request_observation, ask_clarification, replan; read-only and non-authorizing (names differ from the checklist's)."
   },
   "W07-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_authorization_failure_blocks_and_counts_pointless_retrieval",
+    "tests/test_outcome_arms.py::Contrasts"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-03": {
    "status": "TODO"
   },
   "W07-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::StateMachine",
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_unknown_failure_abstains_and_no_progress_escalates"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-05": {
    "status": "TODO"
   },
   "W07-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_authorization_failure_escalates_without_changing_grants"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-07": {
    "status": "TODO"
@@ -520,37 +626,117 @@
    "status": "TODO"
   },
   "W07-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "research/results/agent-outcomes/scripted-arms-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "A5-A3 (governance) and A5-A4 (recovery) reported per family and per case."
   },
   "W08-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::Fence::test_withdrawn_evidence_stops_it_before_the_side_effect"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py",
+    "src/memory_fabric/outcome_typed/episode.py",
+    "docs/KNOWN_GAPS.md"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::IdempotencyBinding",
+    "tests/test_outcome_episode.py::IdempotencyThroughThePort::test_a_reused_effect_key_with_changed_parameters_is_refused"
+   ],
+   "verified_sha": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+   "note": "Key binding covers tool, actor, target, parameters, receipt context (task), tenant and source versions; a changed action under a used key is REFUSED (idempotency_key_payload_mismatch), never reported done. Residual: a typed-gate call with no request and no receipt context records no binding."
   },
   "W08-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::Fence::test_a_concurrent_retraction_waits_for_the_action"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_crash_typed.py",
+    "tests/test_action_fence_typed.py::Fence::test_an_unknown_outcome_needs_an_explicit_retry_that_re_verifies"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_reconciliation.py",
+    "tests/test_action_fence_typed.py::Fence::test_an_unknown_outcome_needs_an_explicit_retry_that_re_verifies"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TerminalStatuses::test_a_stale_proposal_has_zero_effect_where_the_world_checks_revisions",
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_mock_effects_change_only_hidden_state_and_are_idempotently_replayable"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_host_claims_cannot_raise_a_grade"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-08": {
    "status": "TODO"
   },
   "W08-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/mcp",
+    "src/memory_fabric/agent_api.py"
+   ],
+   "tests": [
+    "tests/test_n6_05_protocol_equivalence.py",
+    "tests/test_mcp_official.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "HTTP, MCP and UTCP mock workflows agree on semantics and permissions; Code Mode not covered by this test."
   },
   "W08-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "note": "The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation."
   },
   "W09-01": {
    "status": "TODO"
@@ -613,16 +799,46 @@
    "status": "TODO"
   },
   "W11-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Registry"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Parity"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts::test_a5_minus_a3_isolates_governance",
+    "tests/test_outcome_arms.py::Contrasts::test_equal_recovery_lets_pooled_memory_tie_on_corrections_it_can_see"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts::test_a5_minus_a4_isolates_recovery"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-05": {
    "status": "TODO"
@@ -631,16 +847,42 @@
    "status": "TODO"
   },
   "W11-07": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "note": "Parity covers task IDs, worlds, envelopes, limits and policy; model inference settings do not exist for the scripted policy and are checked only when a model backend runs."
   },
   "W11-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::OracleAndControls"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::OracleAndControls::test_negative_controls_fail_the_answerable_families"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Parity"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "A6 missing renders INCOMPLETE, never PASS."
   },
   "W12-01": {
    "status": "TESTED",
@@ -655,142 +897,452 @@
    "note": "Loopback-only, no download; REAL_AGENT_NOT_RUN here (no runtime installed)."
   },
   "W12-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::Plumbing::test_any_pinned_setting_changes_the_fingerprint",
+    "tests/test_outcome_model_actor.py::Plumbing::test_calls_are_logged_with_a_pinned_fingerprint_and_unknown_tokens_stay_unknown"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "ModelConfig pins digest, runtime, quantization, decoding, context, prompt template and tool schema into one fingerprint logged per call."
   },
   "W12-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::Plumbing::test_the_model_sees_only_a_system_prompt_and_the_canonical_observation",
+    "tests/test_outcome_model_actor.py::Plumbing::test_json_channel_reproduces_the_scripted_team_exactly",
+    "tests/test_outcome_model_actor.py::DistinctFailures::test_parse_decision_is_strict"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Actor gets (role, observation) only; strict {intent, arguments} JSON; verified with a FAKE backend, not a model."
   },
   "W12-04": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Per-role tools and sessions exist (ToolRegistry roles, GovernedMemoryPort per-role sessions) and run with a FAKE backend; no model run.",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::ModelTeamHarness::test_fake_backend_runs_matched_arms_and_is_never_evidence"
+   ]
   },
   "W12-05": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Correction-after-plan worlds and the model team exist; no inference has run.",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ]
   },
   "W12-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::DistinctFailures"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Malformed JSON, invalid tool, evidence never retrieved, timeout, OOM, unavailable, context overflow, truncation and call budget are distinct host reasons; no fallback."
   },
   "W12-07": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Per-call tokens (unknown kept unknown), wall time, failures and per-role call budgets recorded; retries are 0 by construction. Cold/warm load is not separated yet."
   },
   "W12-08": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Needs two installed model sizes; none installed.",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ]
   },
   "W12-09": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "A3/A4/A5 share one prompt, config fingerprint and tasks in the model team; A6 is not implemented and no model ran.",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::ModelTeamHarness::test_fake_backend_runs_matched_arms_and_is_never_evidence"
+   ]
   },
   "W12-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/agent_outcome_end_to_end_gate.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_end_to_end_gate.py::Matrix::test_model_evidence_needs_this_commit_and_a_digest",
+    "tests/test_agent_outcome_end_to_end_gate.py::LocalModelStage"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "LOCAL_MODEL_EVIDENCE_AVAILABLE only when the model team ran at the gate's own commit with inference-backed steps in every row; historical JSON is never read."
   },
   "W13-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_every_scheduled_task_is_in_the_completion_denominator",
+    "tests/test_outcome_scorecard.py::Scorecard::test_completion_comes_from_the_evaluator_not_the_host"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Completion from the evaluator's terminal status over every scheduled task."
   },
   "W13-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_false_withholding_counts_only_answerable_tasks"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Eligible only where the oracle can complete with accessible evidence; denominator reported."
   },
   "W13-03": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Unsafe executed, stale executed and gate-refused attempts reported with denominators; unsafe proposals are NOT_ASSESSABLE until proposals carry an oracle label."
   },
   "W13-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_zero_denominators_are_not_assessable_never_perfect"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Recovery over correction families with headroom; irrecoverable abstention separate; zero denominator is NOT_ASSESSABLE."
   },
   "W13-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_unrecorded_quantities_say_so"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "NOT_RECORDED: no shared monotonic clock between correction and effect; end-to-end time is not relabelled."
   },
   "W13-06": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "False abstention, correct refusal and hallucinated evidence computed with eligibility; unnecessary re-evaluation NOT_RECORDED and operator interventions NOT_ASSESSABLE."
   },
   "W13-07": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Steps, tool calls, context bytes and model tokens (when present) per arm; replay CPU, peak memory, storage and worker time NOT_RECORDED."
   },
   "W13-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Per-family worst case and material per-family regression fail the decision (tested); per-agent fairness needs learned agents."
   },
   "W13-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_a_missing_basis_is_invalid",
+    "tests/test_outcome_scorecard.py::Scorecard::test_non_scripted_evidence_gets_intervals"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Schema, source SHA, task-set digest, sampling unit and uncertainty rule; missing basis is INVALID."
   },
   "W13-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_outcome_scorecard.py::Scorecard::test_rendering_cannot_change_the_decision",
+    "tests/test_outcome_scorecard.py::Scorecard::test_scripted_evidence_holds_at_best",
+    "tests/test_outcome_scorecard.py::Scorecard::test_an_arm_above_the_ceiling_fails"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Decision computed into JSON before Markdown; scripted evidence HOLD at best. Development scorecard: research/results/agent-outcomes/SCRIPTED_SCORECARD_DEV.md (HOLD)."
   },
   "W14-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_a_family_outside_the_mixture_cannot_enter_the_denominator"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Validator only; the study itself is blocked on a model (see W14-04)."
   },
   "W14-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_primary_contrasts_cannot_be_swapped_for_an_easier_baseline"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "A5-A3 and A5-A4 primary; only A6-A5 secondary."
   },
   "W14-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_missing_commitments_are_named",
+    "tests/test_outcome_prereg.py::Prereg::test_editing_any_commitment_after_the_freeze_breaks_the_digest"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Generator, prompt, model, runtime, policy, evaluator and tool-schema digests are in the design digest."
   },
   "W14-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "memeval/power.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_an_effect_above_the_oracle_headroom_is_impossible",
+    "tests/test_outcome_prereg.py::Prereg::test_an_underpowered_sample_is_rejected"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Validator rejects impossible and underpowered targets; pilot discordance needs a model run."
   },
   "W14-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_the_sampling_unit_is_the_seed_cluster",
+    "tests/test_outcome_prereg.py::Prereg::test_repeated_decisions_are_not_independent_pairs"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Seed cluster is the unit; repeated decisions are not pairs."
   },
   "W14-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_confirmatory.py",
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_confirmatory.py::test_tuning_seed_and_failed_attempts_reject_confirmatory_analysis",
+    "tests/test_outcome_confirmatory.py::test_repeated_completed_attempt_is_retained_and_rejected",
+    "tests/test_outcome_confirmatory.py::test_holm_adjustment_is_monotone_and_accounts_for_all_comparisons"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "v1 rules carried into v2: stopping rule, attempts retained, Holm."
   },
   "W14-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_safety_rules_must_be_frozen",
+    "tests/test_outcome_prereg.py::Prereg::test_zero_events_are_never_zero_risk"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Non-inferiority margin, per-family bounds, exact binomial zero-event bound."
   },
   "W14-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "benchmarks/outcome_confirmatory.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Seed overlap rejected (tested); template-ID overlap needs model prompt templates."
   },
   "W14-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "research/prereg/agent-outcome-confirmatory-v2.json"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_a_complete_frozen_registration_validates",
+    "tests/test_outcome_prereg.py::Prereg::test_the_committed_draft_is_blocked_not_passed"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Offline validator; the committed v2 manifest is DRAFT and blocked."
   },
   "W14-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_outcome_prereg.py::Prereg::test_changing_runtime_code_after_the_freeze_invalidates_the_comparison"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Frozen source digest re-checked at analysis."
   },
   "W15-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tests/test_outcome_evaluator_mutation.py"
+   ],
+   "tests": [
+    "tests/test_outcome_evaluator_mutation.py::Mutants"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Always-complete, staleness-blind, host-trusting and early-horizon graders are caught; malformed truth refused."
   },
   "W15-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::OracleAndControls::test_no_arm_beats_the_ceiling_and_a7_is_never_a_contrast"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Scripted development arms A0-A5 with A7 ceiling; A6 NOT_RUN; promotion NOT_ASSESSED."
   },
   "W15-03": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_ablation.py"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Memory x recovery factorial with main effects and interaction per family (tested); correction propagation, source independence and retrieval method are not separable factors here and are listed as not run. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md."
   },
   "W15-04": {
    "status": "TODO"
   },
   "W15-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_ablation.py"
+   ],
+   "tests": [
+    "tests/test_outcome_ablation.py::Headroom"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "A3-optimal and no-headroom tasks excluded from targets; measured A5-A3 bounded by attainable headroom. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md (8/40 improvable over A3)."
   },
   "W15-06": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Heldout execution needs a frozen model and prompts.",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ]
   },
   "W15-07": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Paired cluster bootstrap and Holm exist in benchmarks/outcome_confirmatory.py; nothing to compute without heldout model runs.",
+   "evidence": [
+    "benchmarks/outcome_confirmatory.py"
+   ]
   },
   "W15-08": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "A6 is not implemented and A5 has no confirmatory result."
   },
   "W15-09": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "note": "Independent generator-family replication needs model runs."
   },
   "W15-10": {
    "status": "TODO"
   },
   "W16-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_THREAT_MATRIX.md"
+   ],
+   "tests": [
+    "tests/test_agent_threat_matrix.py::ThreatMatrix"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Twelve injection points with attacker, boundary, goal, mitigation and collected test; two rows marked not covered (W16-06, W16-07)."
   },
   "W16-02": {
    "status": "TODO"
   },
   "W16-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_counterfeit_evidence_ids_and_forged_roots_do_not_authorize_effects"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Typed roles enforced by the tool registry; injected memory text, evaluator fields and forged evidence produce no effect. Scripted and fake actors only."
   },
   "W16-04": {
    "status": "TODO"
   },
   "W16-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/model_actor.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::DistinctFailures::test_hallucinated_evidence_is_refused_before_verification",
+    "tests/test_outcome_model_actor.py::DistinctFailures::test_invalid_tool_name",
+    "tests/test_outcome_episode.py::Tools::test_authority_shaped_memory_text_grants_nothing"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Invented evidence ids/versions (evidence_not_retrieved), tool names (tool_not_declared) and commitments (proposal_commitment_mismatch) are refused; exercised with FAKE answers, not a model."
   },
   "W16-06": {
    "status": "TODO"
   },
   "W16-07": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "evidence": [
+    "tools/model_attack_check.py"
+   ],
+   "note": "Model-attack harness reports NOT_RUN / MODEL_NOT_AVAILABLE without a model."
   },
   "W16-08": {
    "status": "TESTED",
@@ -810,7 +1362,13 @@
    "status": "TODO"
   },
   "W16-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "tools/claim_scanner.py",
+    "tools/claim_scanner_allowlist.json"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Allowlist entries must carry the covered text, a reason and an ISO date; a reviewed negative test per change is not enforced."
   },
   "W17-01": {
    "status": "TODO"
@@ -828,7 +1386,18 @@
    "status": "TODO"
   },
   "W17-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/eventlog.py",
+    "src/memory_fabric/integrity.py"
+   ],
+   "tests": [
+    "tests/test_write_fault_injection.py::WriteFaultInjection::test_a_failed_append_leaves_the_integrity_chain_whole",
+    "tests/test_write_fault_injection.py::WriteFaultInjection::test_append_and_correction_failures_leave_no_partial_version",
+    "tests/test_multiprocess_crash.py::CrashInsideATransaction"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Aborted writes (injected via trigger; disk-full simulated as a write abort) and killed processes leave no partial commit; the chain still verifies."
   },
   "W17-07": {
    "status": "TODO"
@@ -888,7 +1457,18 @@
    "status": "TODO"
   },
   "W19-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/integrity.py",
+    "tools/agent_outcome_end_to_end_gate.py",
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_integrity_chain.py::ItDetectsTampering",
+    "tests/test_launch_decision_and_doctor.py::NoOverclaimedIntegrity"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Tamper tests detect edits, deletions and reordering; reports are labelled UNSIGNED and no view calls a hash an attestation."
   },
   "W19-07": {
    "status": "TODO"
@@ -906,7 +1486,16 @@
    "status": "TODO"
   },
   "W20-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_PROTOTYPE.md",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::OneCommand::test_the_command_line_runs_in_a_fresh_process"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "One offline command runs observer, planner and executor to a graded receipt; guide lists five commands."
   },
   "W20-03": {
    "status": "TODO"
@@ -924,13 +1513,29 @@
    "status": "TODO"
   },
   "W20-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/fake_local_model.py"
+   ],
+   "tests": [
+    "tests/test_fake_local_model.py::FakeServer"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Loopback FAKE server drives the real HTTP client, preflight, actor and model team; reports FAKE runtime and digests; runs are FAKE_BACKEND_NOT_EVIDENCE."
   },
   "W20-09": {
    "status": "TODO"
   },
   "W20-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/agent_outcome_doctor.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Doctor"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Runtime, canonical vs deprecated packages, role tools, recovery default, loopback model availability, ledger and gate-at-HEAD."
   },
   "W21-01": {
    "status": "TODO"
@@ -963,7 +1568,13 @@
    "status": "TODO"
   },
   "W22-01": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "research/prereg/agent-outcome-confirmatory-v2.json"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Thesis encoded as the registered primary contrast A5-A3 at equal budget; untested on learned agents."
   },
   "W22-02": {
    "status": "TODO"
@@ -972,7 +1583,15 @@
    "status": "TODO"
   },
   "W22-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_ablation.py"
+   ],
+   "tests": [
+    "tests/test_outcome_ablation.py::Factorial::test_each_family_credits_only_the_factor_that_moves_it"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Per family: governance helps only restricted_source, recovery only public_correction, neither elsewhere; governance never hurts in these scripted families (a designed population, no prevalence)."
   },
   "W22-05": {
    "status": "TODO"
@@ -993,10 +1612,28 @@
    "status": "TODO"
   },
   "W23-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_end_to_end_gate.py::Report",
+    "tests/test_outcome_episode.py::OneCommand::test_the_command_line_runs_in_a_fresh_process"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "One offline command; report written even when a stage fails; exit 1 on a required failure. Its first run caught the demo regression fixed in 3d02d25. Run record at this commit: research/results/agent-outcomes/candidate-offline/05ced0e/ (overall PASS; synthetic gate SCRIPTED_PASS; real_agent NOT_RUN)."
   },
   "W23-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_end_to_end_gate.py::LocalModelStage::test_no_runtime_is_real_agent_not_run",
+    "tests/test_agent_outcome_end_to_end_gate.py::Matrix::test_a_missing_model_never_turns_into_model_evidence"
+   ],
+   "verified_sha": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "note": "Optional --local-model stage; no checkpoint gives REAL_AGENT_NOT_RUN, never a scripted substitute."
   },
   "W23-03": {
    "status": "TODO"
@@ -1028,7 +1665,16 @@
    "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W23-10": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN); an independent review and pilot",
+   "evidence": [
+    "tools/launch_decision.py",
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision::test_deployment_go_needs_every_gate_of_its_own_type"
+   ],
+   "note": "Exact-SHA offline qualification and separate engineering/deployment decisions exist; model evidence and research promotion cannot be produced here. Deployment stays HOLD."
   },
   "W24-01": {
    "status": "TODO"
@@ -1037,13 +1683,36 @@
    "status": "TODO"
   },
   "W24-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision::test_a_fair_baseline_that_ties_is_no_go",
+    "tests/test_launch_decision_and_doctor.py::Decision::test_no_headroom_is_no_go"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "No-go: fair baseline with equal recovery ties or wins; no headroom; underpowered model effect."
   },
   "W24-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_PROTOTYPE.md",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::OneCommand::test_the_command_line_runs_in_a_fresh_process"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Local showcase with no customer data, external API or service."
   },
   "W24-05": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Decision record states the maximum credible inference separately for simulator, local-model study (NOT_RUN) and independent pilot (NOT_RUN)."
   },
   "W24-06": {
    "status": "TODO"
@@ -1058,7 +1727,15 @@
    "status": "TODO"
   },
   "W24-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Auditable record from hashed committed inputs; engineering and deployment decisions kept separate. Operational evidence beyond the gate is not an input yet."
   }
  }
 }

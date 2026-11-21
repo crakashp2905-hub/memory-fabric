@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 166
+  "unique": 179
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -48,6 +48,7 @@
     "eligibility",
     "episode",
     "evidence",
+    "model_actor",
     "observations",
     "outcomes",
     "privacy",
@@ -55,7 +56,7 @@
     "replay_worker",
     "runtime"
    ],
-   "public_names": 146,
+   "public_names": 159,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -701,12 +702,16 @@
    "search_alternate_sources"
   ],
   "outcome_typed": [
+   "ACTOR_BACKEND_CODES",
+   "ActorBackendError",
    "ActorTrace",
    "AuthorizedReplayContract",
    "BudgetExhausted",
+   "ChatBackend",
    "CounterfactualReplayDispatch",
    "CounterfactualReplayReason",
    "CounterfactualReplayStatus",
+   "DECISION_SCHEMA",
    "DiagnosisSource",
    "EPISODE_SCHEMA_ID",
    "EffectOutcome",
@@ -731,6 +736,7 @@
    "GradeReason",
    "GradeStatus",
    "HostOutcome",
+   "INTENTS",
    "IllegalTransition",
    "IncompatibleRecord",
    "LEGACY_PACKAGES",
@@ -753,6 +759,8 @@
    "MAX_TOOL_ARGUMENT_BYTES",
    "MAX_TOOL_OUTPUT_BYTES",
    "MemoryPort",
+   "ModelActor",
+   "ModelConfig",
    "ORACLE_SCHEMA_ID",
    "OUTCOME_AUDIT_SCHEMA_ID",
    "OutcomeAuditEvent",
@@ -760,6 +768,7 @@
    "OutcomeBenefitLabel",
    "OutcomeEvidenceStatus",
    "OutcomeStage",
+   "PROMPT_VERSION",
    "Phase",
    "PolicyFlipLabel",
    "Population",
@@ -785,6 +794,7 @@
    "RuntimeTool",
    "STOP_CONDITIONS",
    "SUNSET",
+   "SYSTEM_TEMPLATE",
    "TRACE_SCHEMA_ID",
    "TRANSITIONS",
    "TaskEnvelope",
@@ -800,6 +810,7 @@
    "build_authorized_replay_contract",
    "canonical_step_id",
    "canonical_task_id",
+   "classify_backend_error",
    "default_tools",
    "describe",
    "diagnose_access",
@@ -818,9 +829,11 @@
    "observation_to_legacy",
    "outcome_from_legacy",
    "outcome_to_legacy",
+   "parse_decision",
    "recovery_status_from_legacy",
    "recovery_status_to_legacy",
    "release_evidence_matrix",
+   "render_messages",
    "run_agent_json_loop",
    "run_agent_loop",
    "run_demo",
@@ -830,6 +843,7 @@
    "step_to_legacy",
    "summarize_audit_memory_links",
    "targeted_correction_reevaluation_receipts",
+   "tool_schema",
    "trace_digest",
    "validate_paired_comparison"
   ]

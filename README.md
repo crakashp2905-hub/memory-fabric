@@ -263,7 +263,7 @@ know before you start:
 
 | | |
 |---|---|
-| **Start** | [Quickstart](docs/QUICKSTART.md) · [Concepts](docs/CONCEPTS.md) · [Cookbook](docs/COOKBOOK.md) · [FAQ](docs/FAQ.md) · [Examples](examples/README.md) |
+| **Start** | [Quickstart](docs/QUICKSTART.md) · [Agent prototype](docs/AGENT_PROTOTYPE.md) · [Concepts](docs/CONCEPTS.md) · [Cookbook](docs/COOKBOOK.md) · [FAQ](docs/FAQ.md) · [Examples](examples/README.md) |
 | **Reference** | [Python API](docs/API.md) · [CLI](docs/CLI.md) · [Integrations](docs/INTEGRATIONS.md) · [Federation protocol](docs/PROTOCOL.md) · [Schema](SPEC.md) |
 | **Operate** | [Deployment](DEPLOYMENT.md) · [Operations](docs/OPERATIONS.md) · [Runbooks](docs/RUNBOOKS.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [Migration](docs/MIGRATION.md) · [Scale](docs/SCALE.md) |
 | **Trust** | [Security and threat model](SECURITY.md) · [Limitations](docs/LIMITATIONS.md) · [Stability](STABILITY.md) |
@@ -283,7 +283,7 @@ python tools/check.py           # regenerate docs, lint, type-check, doc tests, 
 python tools/check.py --full    # and the full suite, which needs no dependencies
 ```
 
-**3595 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
+**3694 tests** (see [the current baseline](docs/VALIDATION.md#current-baseline)),
 a multi-store fault matrix and an adversarial release gate run
 in CI on Linux, macOS and Windows. Read [AGENTS.md](AGENTS.md), the rules for
 everyone who changes this repository, humans and AI agents alike, and

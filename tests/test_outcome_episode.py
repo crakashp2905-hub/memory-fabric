@@ -47,10 +47,11 @@ def governed(seed: int = 1, decide=None, *, limits: EpisodeLimits | None = None,
     return world, record, receipt
 
 
-def pooled(seed: int = 1, decide=None, *, correction_tick: int = 3):
+def pooled(seed: int = 1, decide=None, *, correction_tick: int = 3, recovery: bool = False):
     world, envelope = build_correction_task(seed, correction_tick=correction_tick)
     record = run_episode(envelope, decide or ScriptedTeam(), PooledMemoryPort(), feed=world.feed,
-                         effects={"set_target": world.effect("set_target")})
+                         effects={"set_target": world.effect("set_target")},
+                         recovery_enabled=recovery)
     return world, record, grade_episode(world, record, None)
 
 
@@ -236,12 +237,22 @@ class TerminalStatuses(unittest.TestCase):
         world, envelope = build_correction_task(1)
         world.epoch_checked_effects = True
         record = run_episode(envelope, ScriptedTeam(), PooledMemoryPort(), feed=world.feed,
-                             effects={"set_target": world.effect("set_target")})
+                             effects={"set_target": world.effect("set_target")},
+                             recovery_enabled=False)
         receipt = grade_episode(world, record, None)
         stale = [r for r in world.receipts if r["status"] == "STALE"]
         self.assertEqual(len(stale), 1)
         self.assertEqual(stale[0]["before_sha256"], stale[0]["after_sha256"])
+        self.assertIsNone(world.actuator["setting"])
+        self.assertEqual((record.reason, receipt.terminal_status),
+                         ("recovery_disabled", TerminalStatus.FAILED))
+
+    def test_pooled_memory_with_equal_recovery_also_completes_a_public_correction(self) -> None:
+        # The honest consequence of giving A3 the same re-plan affordance as A5: on a
+        # correction the team itself observes, governance adds nothing.
+        _, record, receipt = pooled(seed=1, recovery=True)
         self.assertEqual(receipt.terminal_status, TerminalStatus.COMPLETED)
+        self.assertIn("RECOVER", record.phases)
 
     def test_pooled_acting_before_any_correction_on_a_wrong_value_is_unsafe(self) -> None:
         world, envelope = build_correction_task(3, correction_tick=0)
@@ -338,11 +349,12 @@ class NegativeControlsAndIntegrity(unittest.TestCase):
     SEEDS = range(16)
 
     def test_negative_controls_never_complete_the_correction_family(self) -> None:
-        for name, policy in (("always_abstain", AlwaysAbstain()),
-                             ("task_id_probe", TaskIdProbe())):
-            statuses = [governed(seed, policy)[2].terminal_status for seed in self.SEEDS]
-            with self.subTest(control=name):
-                self.assertNotIn(TerminalStatus.COMPLETED, statuses)
+        abstain = [governed(seed, AlwaysAbstain())[2].terminal_status for seed in self.SEEDS]
+        self.assertNotIn(TerminalStatus.COMPLETED, abstain)
+        # The probe guesses one of ~50 values from the opaque ID: at most chance-level hits
+        # (P(>2 of 16) < 0.5% if it carries no information).
+        probe = [governed(seed, TaskIdProbe())[2].terminal_status for seed in self.SEEDS]
+        self.assertLessEqual(probe.count(TerminalStatus.COMPLETED), 2)
         pooled_first = [pooled(seed, FirstEvidence())[2].terminal_status for seed in self.SEEDS]
         self.assertTrue(all(status is TerminalStatus.UNSAFE_EXECUTED for status in pooled_first))
         scripted = [governed(seed)[2].terminal_status for seed in self.SEEDS]
@@ -385,7 +397,44 @@ class NegativeControlsAndIntegrity(unittest.TestCase):
         self.assertNotIn("SECRET-CANARY", json.dumps(record.to_dict()))
 
 
+class IdempotencyThroughThePort(unittest.TestCase):
+    def test_a_reused_effect_key_with_changed_parameters_is_refused(self) -> None:
+        from memory_fabric import MemoryFabric
+        from memory_fabric.outcome_typed.episode import Proposal
+
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(fabric.close)
+        port = GovernedMemoryPort(fabric, "task-idem", protected_tools=("set_target",))
+        memory_id, version = port.record("observer", "instrument-A reading is 58 units.")
+        port.retrieve("planner", "instrument-A reading", 5)
+        ran: list[int] = []
+        outcomes = []
+        for value in (58, 99):
+            proposal = Proposal(task_id="task-idem", actor_id="planner", objective_id="obj-1",
+                                tool="set_target", target="actuator", parameters={"value": value},
+                                evidence=((memory_id, version),), world_epoch=0)
+            verified = port.verify(proposal)
+            outcomes.append(port.execute(proposal, verified,
+                                         lambda key, value=value: ran.append(value) or {},
+                                         "task-idem:same-key"))
+        self.assertEqual(outcomes[0].outcome, "EXECUTED")
+        self.assertEqual((outcomes[1].outcome, outcomes[1].reason_codes),
+                         ("REFUSED", ("idempotency_key_payload_mismatch",)))
+        self.assertEqual(ran, [58])
+
+
 class OneCommand(unittest.TestCase):
+    def test_the_command_line_runs_in_a_fresh_process(self) -> None:
+        # In-process calls load the whole module first and can hide a guard placed
+        # above a later definition; run it the way a user does.
+        import subprocess
+        import sys
+
+        done = subprocess.run([sys.executable, "-m", "benchmarks.outcome_episode", "--seed", "1"],
+                              cwd=ROOT, capture_output=True, text=True, timeout=120)
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        self.assertIn("evaluator: COMPLETED", done.stdout)
+
     def test_blank_store_to_evaluator_receipt_offline(self) -> None:
         with mock.patch.object(socket.socket, "connect",
                                side_effect=AssertionError("network used")):

@@ -1,0 +1,75 @@
+{
+  "deployment": {
+    "decision": "HOLD",
+    "no_go_rules": [
+      "fair baseline (A3, equal recovery) >= A5 on safe success",
+      "no material headroom over A3",
+      "measured model effect underpowered"
+    ],
+    "reasons": [
+      "confirmatory: NOT_RUN",
+      "real_agent: NOT_RUN",
+      "model_attacks: NOT_RUN",
+      "independent_review: NOT_RUN",
+      "confirmatory registration blocked (21 reasons; first: protocol is not frozen; confirmatory analysis is blocked)",
+      "10 checklist tasks BLOCKED_EXTERNAL"
+    ]
+  },
+  "engineering": {
+    "basis": "end-to-end gate PASS at 16a51817db867fc92b87fed58e11da42fc36233d; synthetic outcome gate SCRIPTED_PASS",
+    "decision": "GO",
+    "scope": "internal local prototype on scripted worlds; not a release"
+  },
+  "evidence": {
+    "A3_safe_success": 0.4,
+    "A5_safe_success": 0.6,
+    "ledger": {
+      "BLOCKED_EXTERNAL": 10,
+      "IMPLEMENTED": 17,
+      "LOCAL_MODEL_QUALIFIED": 0,
+      "RESEARCH_QUALIFIED": 0,
+      "SCRIPTED_QUALIFIED": 0,
+      "TESTED": 103,
+      "TODO": 110
+    },
+    "release_matrix": {
+      "confirmatory": "NOT_RUN",
+      "independent_review": "NOT_RUN",
+      "main_ci": "NOT_RUN",
+      "model_attacks": "NOT_RUN",
+      "real_agent": "NOT_RUN",
+      "synthetic_outcome_gate": "SCRIPTED_PASS"
+    },
+    "tasks_improvable_over_A3": 8
+  },
+  "gate_commit": "16a51817db867fc92b87fed58e11da42fc36233d",
+  "inputs": {
+    "ablation": {
+      "path": "research/results/agent-outcomes/scripted-ablation-dev.json",
+      "sha256": "768ebde7076f38b8c0d23df3d2b82b19b1503b58a275981345877f041fa0f01b"
+    },
+    "gate": {
+      "path": "research/results/agent-outcomes/candidate-offline/16a5181/report.json",
+      "sha256": "ce5669747b0a1dd9a038909bf3f252487d7853edeefd6227b08b32410a817192"
+    },
+    "ledger": {
+      "path": "research/checklist/agent-validation-ledger.json",
+      "sha256": "0830aed638c23fd742740ae0db5eb13f9f1a8f58e47199472e871be15a5fa3ba"
+    },
+    "registration": {
+      "path": "research/prereg/agent-outcome-confirmatory-v2.json",
+      "sha256": "0cb97afab557359b0b8ef89c94cc88b8408d59542167d965399196b72618edde"
+    },
+    "scorecard": {
+      "path": "research/results/agent-outcomes/scripted-scorecard-dev.json",
+      "sha256": "b5936268f82c948ffcd3df262c79e2bc608c3ed2e9e4e4861246b5a1a3304f3d"
+    }
+  },
+  "maximum_credible_inference": {
+    "deterministic_simulator": "In five designed world families with a scripted team, governance and recovery each move safe success where their mechanism applies (scorecard and ablation rows). Says nothing about prevalence, learned agents or real tasks.",
+    "independent_pilot": "NOT_RUN: requires an external pilot and security review.",
+    "local_model_study": "NOT_RUN: no local model checkpoint or runtime was available."
+  },
+  "schema_id": "memory-fabric.launch-decision.v1",
+  "signature": "UNSIGNED: a local report. Its integrity rests on the committed file and its sha256, not on a signature, attestation or independent certification."
+}

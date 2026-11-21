@@ -12,8 +12,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from memory_fabric import MemoryFabric
-from memory_fabric.actions_typed import (ALREADY_EXECUTED, EXECUTED, REFUSED, TIMED_OUT, UNCERTAIN,
-                                   ActionGate, ActionPolicy, ToolRule, unfenced_changes)
+from memory_fabric.actions_typed import (ALREADY_EXECUTED, EXECUTED, IDEMPOTENCY_CONFLICT, REFUSED,
+                                   TIMED_OUT, UNCERTAIN, ActionGate, ActionPolicy, ActionRequest,
+                                   ToolRule, unfenced_changes)
 from memory_fabric.events import EventType
 from memory_fabric.model import LifecycleState
 
@@ -23,6 +24,58 @@ ROOT = Path(__file__).resolve().parents[1]
 def gate_for(fabric: MemoryFabric) -> ActionGate:
     return ActionGate(fabric, ActionPolicy(tools={"open_valve": ToolRule("open_valve")},
                                            grants={"ops": frozenset({"open_valve"})}))
+
+
+class IdempotencyBinding(unittest.TestCase):
+    """A reused key names one action; a different action under it is a conflict (W08-02)."""
+
+    def setUp(self) -> None:
+        self.f = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(self.f.close)
+        self.cert = self.f.certify("open-7", [self.f.remember("ana", "valve 7 is safe below 4 bar",
+                                                               scope="team")], "ops")
+        self.gate = gate_for(self.f)
+        self.effects: list[str] = []
+
+    def run_tool(self, key: str) -> str:
+        self.effects.append(key)
+        return "opened"
+
+    def call(self, bar: int, **kwargs: object):
+        return self.gate.execute("open_valve", "ops", kwargs.pop("tool", self.run_tool), self.cert,
+                                 key="k", request=ActionRequest("valve-7", {"bar": bar}), **kwargs)
+
+    def test_a_changed_request_under_a_used_key_is_refused_not_reported_done(self) -> None:
+        self.assertEqual(self.call(3).outcome, EXECUTED)
+        changed = self.call(9)
+        self.assertEqual((changed.outcome, changed.error), (REFUSED, IDEMPOTENCY_CONFLICT))
+        self.assertEqual(self.call(3).outcome, ALREADY_EXECUTED)
+        self.assertEqual(self.effects, ["k"])
+
+    def test_an_uncertain_attempt_cannot_be_retried_as_a_different_action(self) -> None:
+        def broken(key: str) -> str:
+            raise ConnectionError("lost response")
+        self.assertEqual(self.call(3, tool=broken).outcome, UNCERTAIN)
+        self.assertEqual(self.call(9, retry=True).error, IDEMPOTENCY_CONFLICT)
+        self.assertEqual(self.effects, [])
+        self.assertEqual(self.call(3, retry=True).outcome, EXECUTED)
+
+    def test_the_key_also_commits_to_tenant_and_source_versions(self) -> None:
+        self.assertEqual(self.call(3).outcome, EXECUTED)
+        newer = self.f.certify("open-7b", [self.f.remember("ana", "valve 7 is safe below 5 bar",
+                                                           scope="team")], "ops")
+        other_evidence = self.gate.execute("open_valve", "ops", self.run_tool, newer, key="k",
+                                           request=ActionRequest("valve-7", {"bar": 3}))
+        self.assertEqual(other_evidence.error, IDEMPOTENCY_CONFLICT)
+        self.assertEqual(self.effects, ["k"])
+
+    def test_both_events_record_the_request_binding(self) -> None:
+        self.call(3)
+        events = list(self.f.log.read_types([EventType.ACTION_ATTEMPTED, EventType.ACTION_EXECUTED]))
+        bindings = {event.payload.get("binding") for event in events}
+        self.assertEqual(len(events), 2)
+        self.assertEqual(len(bindings), 1)
+        self.assertIsNotNone(bindings.pop())
 
 
 class Fence(unittest.TestCase):

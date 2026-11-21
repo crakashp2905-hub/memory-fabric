@@ -3,6 +3,7 @@
 
     python tools/checklist_ledger.py --check            # validate the ledger against the spec
     python tools/checklist_ledger.py --check --history  # also verify each commit in git history
+    python tools/checklist_ledger.py --check --resolve-tests  # every test reference is collected
     python tools/checklist_ledger.py --write            # regenerate the rendered ledger page
     python tools/checklist_ledger.py --init             # create a ledger with every task TODO
 
@@ -166,6 +167,23 @@ def validate(ledger: dict[str, Any], spec: dict[str, Any], root: Path = ROOT,
     return problems
 
 
+def unresolved_tests(ledger: dict[str, Any], root: Path = ROOT) -> list[str]:
+    """Test references that pytest does not collect (a guessed class or test name)."""
+    refs = sorted({ref for entry in ledger.get("tasks", {}).values()
+                   for ref in entry.get("tests") or [] if _TEST_REF.fullmatch(ref)})
+    files = sorted({ref.split("::")[0] for ref in refs if (root / ref.split("::")[0]).is_file()})
+    if not files:
+        return []
+    done = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q",
+                           "-p", "no:cacheprovider", *files],
+                          cwd=root, capture_output=True, text=True)
+    nodes = [line.strip() for line in done.stdout.splitlines() if "::" in line]
+    collected_files = {node.split("::")[0] for node in nodes}
+    return [ref for ref in refs
+            if not (ref in collected_files
+                    or any(node == ref or node.startswith(ref + "::") for node in nodes))]
+
+
 def summary(ledger: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
     by_status: dict[str, int] = {status: 0 for status in (*ORDER, "BLOCKED_EXTERNAL")}
     by_workstream: dict[str, dict[str, int]] = {}
@@ -238,6 +256,9 @@ def main(argv: list[str]) -> int:
         return 0
     if "--check" in argv:
         problems = validate(ledger, spec, history="--history" in argv)
+        if "--resolve-tests" in argv:
+            problems.extend(f"test reference not collected by pytest: {ref}"
+                            for ref in unresolved_tests(ledger))
         if not PAGE.is_file() or PAGE.read_text(encoding="utf-8") != render(ledger, spec):
             problems.append("AGENT_VALIDATION_LEDGER.md is stale; run tools/checklist_ledger.py --write")
         print("\n".join(problems) if problems else "PASS")

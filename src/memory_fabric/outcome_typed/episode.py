@@ -110,6 +110,26 @@ class IllegalTransition(EpisodeError):
     pass
 
 
+ACTOR_BACKEND_CODES = frozenset({
+    "model_malformed_output", "model_truncated", "model_timeout", "model_context_overflow",
+    "model_out_of_memory", "model_unavailable", "model_call_budget_exhausted", "model_error",
+})
+
+
+class ActorBackendError(EpisodeError):
+    """A decision backend (a local model) that produced no valid step (W12-06).
+
+    Each code is a distinct incomplete outcome that stays in the denominator; the
+    runtime keeps the code instead of folding it into ``decision_failed``, and
+    never substitutes another answer.
+    """
+
+    def __init__(self, code: str) -> None:
+        if code not in ACTOR_BACKEND_CODES:
+            raise ValueError(f"unknown actor backend code: {code}")
+        super().__init__(code)
+
+
 def _check_id(value: str, label: str) -> str:
     if not isinstance(value, str) or not _ID.fullmatch(value):
         raise ValueError(f"{label} must be a stable identifier")
@@ -431,7 +451,8 @@ class MemoryPort(Protocol):
 
     name: str
 
-    def record(self, role: str, text: str, corrects: Sequence[str] = ()) -> tuple[str, int]: ...
+    def record(self, role: str, text: str, corrects: Sequence[str] = (),
+               restricted: bool = False) -> tuple[str, int]: ...
 
     def retrieve(self, role: str, query: str, k: int) -> list[EvidenceRef]: ...
 
@@ -452,13 +473,16 @@ class GovernedMemoryPort:
     name = "governed"
 
     def __init__(self, fabric: Any, task_id: str, *, executor_id: str = "executor",
-                 protected_tools: Sequence[str] = ()) -> None:
+                 protected_tools: Sequence[str] = (), tenant_id: str = "tn_default",
+                 restricted_tenant: str = "tn_restricted") -> None:
         from memory_fabric.actions_typed import ActionGate, ActionPolicy, ToolRule
         from memory_fabric.certificates import CertificateVerifier
 
         self.fabric = fabric
         self.task_id = task_id
         self.executor_id = executor_id
+        self.tenant_id = tenant_id
+        self.restricted_tenant = restricted_tenant
         self._sessions: dict[str, Any] = {}
         self.verifier = CertificateVerifier(fabric)
         self.gate = ActionGate(fabric, ActionPolicy(
@@ -470,27 +494,39 @@ class GovernedMemoryPort:
             self._sessions[role] = self.fabric.session(role, self.task_id, seed=0)
         return self._sessions[role]
 
-    def record(self, role: str, text: str, corrects: Sequence[str] = ()) -> tuple[str, int]:
+    def record(self, role: str, text: str, corrects: Sequence[str] = (),
+               restricted: bool = False) -> tuple[str, int]:
         from memory_fabric.model import WithdrawalBasis
 
-        memory_id = self.fabric.remember(role, text, scope="team")
+        # A restricted observation belongs to its owning tenant, not this team's.
+        memory_id = self.fabric.remember(
+            role, text, scope="team",
+            tenant_id=self.restricted_tenant if restricted else self.tenant_id)
         for old in corrects:
             self.fabric.quarantine(old, "corrected by a newer observation", actor=role,
                                    basis=WithdrawalBasis.CONTRADICTED)
         return memory_id, 1
 
+    def withdraw_external(self, memory_id: str) -> None:
+        """Another team withdrew this memory; governance propagates it to this store."""
+        from memory_fabric.model import WithdrawalBasis
+
+        self.fabric.quarantine(memory_id, "withdrawn by another team", actor="remote-team",
+                               basis=WithdrawalBasis.CONTRADICTED)
+
     def retrieve(self, role: str, query: str, k: int) -> list[EvidenceRef]:
-        result = self._session(role).recall(query, k=k)
+        result = self.fabric.retrieve(agent_id=role, query=query, k=k, tenant_id=self.tenant_id)
         return [EvidenceRef(memory.id, memory.version, memory.content) for memory in result.exposed]
 
     def verify(self, proposal: Proposal) -> VerifyResult:
         ids = [memory_id for memory_id, _ in proposal.evidence]
         certificate = self.fabric.certify(f"{proposal.tool} {proposal.target}", ids,
-                                          self.executor_id)
+                                          self.executor_id, tenant_id=self.tenant_id)
         held = {(e.memory_id, e.version) for e in certificate.evidence}
         if held != set(proposal.evidence):
             return VerifyResult(False, ("evidence_version_moved",), None)
-        verification = self.verifier.verify(certificate, self.executor_id)
+        verification = self.verifier.verify(certificate, self.executor_id,
+                                            tenant_id=self.tenant_id)
         return VerifyResult(bool(verification.ok), tuple(verification.reason_codes), certificate)
 
     def execute(self, proposal: Proposal, verified: VerifyResult,
@@ -500,13 +536,19 @@ class GovernedMemoryPort:
         request = ActionRequest(proposal.target, dict(proposal.parameters))
         try:
             grant = self.gate.issue_grant(proposal.tool, self.executor_id, issuer="host",
-                                          certificate=verified.certificate, request=request)
+                                          certificate=verified.certificate, request=request,
+                                          tenant_id=self.tenant_id)
         except ValueError:
             return EffectOutcome("REFUSED", ("grant_refused",))
         execution = self.gate.execute(proposal.tool, self.executor_id, run, verified.certificate,
                                       key=key, request=request, grant=grant,
+                                      tenant_id=self.tenant_id,
                                       receipt_context=f"{self.task_id}:effect")
-        reasons = execution.decision.reason_codes if execution.decision else ()
+        reasons: tuple[str, ...] = tuple(execution.decision.reason_codes) if execution.decision else ()
+        if not reasons and execution.error:
+            # Refusals made before authorization (an idempotency conflict, a
+            # retry required) carry their code in the error text.
+            reasons = (str(execution.error).split(":", 1)[0],)
         receipt = execution.result if isinstance(execution.result, Mapping) else {}
         return EffectOutcome(str(execution.outcome).upper(), tuple(reasons), dict(receipt))
 
@@ -579,8 +621,14 @@ class EpisodeRunner:
                  feed: Callable[[int], Sequence[Mapping[str, Any]]],
                  effects: Mapping[str, Callable[[str, Mapping[str, Any]], Mapping[str, Any]]],
                  tools: ToolRegistry | None = None,
-                 clock: Callable[[], float] = time.monotonic) -> None:
+                 clock: Callable[[], float] = time.monotonic,
+                 recovery_enabled: bool = True,
+                 store_events: Callable[[int], Sequence[str]] | None = None) -> None:
         self.envelope = envelope
+        self.recovery_enabled = recovery_enabled
+        self.store_events = store_events
+        self.applied_store_events: set[str] = set()
+        self.seen_at_proposal = 0
         self.decide = decide
         self.memory = memory
         self.feed = feed
@@ -593,6 +641,7 @@ class EpisodeRunner:
         self.tick = 0
         self.events: dict[str, list[dict[str, Any]]] = {role: [] for role in ROLES}
         self.recorded: dict[str, str] = {}  # public event id -> memory id
+        self.retrieved: set[tuple[str, int]] = set()  # every (memory id, version) shown to the planner
         self.seen_events: set[str] = set()
         self.world_epoch = 0
         self.proposal: Proposal | None = None
@@ -623,6 +672,8 @@ class EpisodeRunner:
         self.budget.charge_step(role, size)
         try:
             step = self.decide(role, observation)
+        except ActorBackendError:
+            raise
         except Exception as exc:  # a broken backend is an invalid step, not a crash
             raise EpisodeError("decision_failed") from exc
         if (not isinstance(step, AgentStep) or step.task_id != self.envelope.task_id
@@ -638,6 +689,18 @@ class EpisodeRunner:
         spec, arguments = self.tools.validate(role, step)
         self.budget.charge_tool()
         return spec, arguments
+
+    def _store_changes(self) -> None:
+        """Apply changes another team made to the shared store (not seen by this team)."""
+        if self.store_events is None:
+            return
+        for event_id in self.store_events(self.tick):
+            if event_id in self.applied_store_events or event_id not in self.recorded:
+                continue
+            self.applied_store_events.add(event_id)
+            withdraw = getattr(self.memory, "withdraw_external", None)
+            if callable(withdraw):
+                withdraw(self.recorded[event_id])
 
     def _observe(self) -> None:
         """Deliver unseen public events to the observer and record what it reports."""
@@ -666,7 +729,8 @@ class EpisodeRunner:
                 raise ToolRejected("malformed_tool_arguments")
             corrects = [self.recorded[event_id] for event_id in claim.get("corrects", [])
                         if isinstance(event_id, str) and event_id in self.recorded]
-            memory_id, version = self.memory.record("observer", claim["text"], corrects)
+            memory_id, version = self.memory.record("observer", claim["text"], corrects,
+                                                    bool(claim.get("restricted", False)))
             self.recorded[claim["event_id"]] = memory_id
             recorded.append({"event_id": claim["event_id"], "memory_id": memory_id,
                              "version": version, "corrected": corrects})
@@ -703,6 +767,7 @@ class EpisodeRunner:
         self._observe()
         self._move(Phase.RETRIEVE)
         while True:
+            self._store_changes()
             self._observe()
             if self.phase is Phase.RETRIEVE:
                 step = self._ask("planner")
@@ -717,6 +782,7 @@ class EpisodeRunner:
                 self.events["planner"].append({
                     "source": "tool", "tool": "recall", "world_epoch": self.world_epoch,
                     "output": {"evidence": [ref.to_dict() for ref in found]}})
+                self.retrieved.update((ref.memory_id, ref.version) for ref in found)
                 self.trace.add("retrieved", "planner", {"evidence": [
                     [ref.memory_id, ref.version] for ref in found]})
                 self._move(Phase.PLAN)
@@ -731,6 +797,15 @@ class EpisodeRunner:
                     continue
                 if not spec.protected or step.intent != "propose":
                     raise ToolRejected("expected_proposal")
+                cited = arguments["evidence"]
+                if not all(isinstance(pair, (list, tuple)) and len(pair) == 2
+                           and isinstance(pair[0], str) and isinstance(pair[1], int)
+                           and not isinstance(pair[1], bool) for pair in cited):
+                    raise ToolRejected("malformed_tool_arguments")
+                if any((pair[0], pair[1]) not in self.retrieved for pair in cited):
+                    # Evidence the planner was never shown: invented or carried in
+                    # from elsewhere. Refused before verification (W12-06).
+                    raise ToolRejected("evidence_not_retrieved")
                 self.proposal = Proposal(
                     task_id=self.envelope.task_id, actor_id="planner",
                     objective_id=self.envelope.objective_id, tool=spec.name,
@@ -738,6 +813,7 @@ class EpisodeRunner:
                     evidence=tuple(tuple(pair) for pair in arguments["evidence"]),
                     world_epoch=self.world_epoch)
                 commitment = self.proposal.commitment()
+                self.seen_at_proposal = len(self.seen_events)
                 self.trace.add("proposed", "planner", {"commitment": commitment,
                                                        "evidence": arguments["evidence"]})
                 self.events["executor"].append({"source": "host", "kind": "proposal",
@@ -746,6 +822,15 @@ class EpisodeRunner:
                 self._move(Phase.VERIFY)
             elif self.phase is Phase.VERIFY:
                 assert self.proposal is not None
+                if self.recovery_enabled and len(self.seen_events) > self.seen_at_proposal:
+                    # New observations arrived after the plan: re-plan before acting.
+                    # A recovery affordance every memory arm gets, not a governance one.
+                    self.trace.add("verified", None, {"ok": False,
+                                                      "reason_codes": ["new_observations_since_plan"]})
+                    self.events["planner"].append({"source": "host", "kind": "replan_requested",
+                                                   "reason_codes": ["new_observations_since_plan"]})
+                    self._move(Phase.RECOVER)
+                    continue
                 self.verified = self.memory.verify(self.proposal)
                 self.trace.add("verified", None, {"ok": self.verified.ok,
                                                   "reason_codes": list(self.verified.reason_codes)})
@@ -792,6 +877,9 @@ class EpisodeRunner:
                     self._move(Phase.TERMINAL)
                     return HostOutcome.EFFECT_UNKNOWN, "effect_outcome_unknown"
             elif self.phase is Phase.RECOVER:
+                if not self.recovery_enabled:
+                    self._move(Phase.TERMINAL)
+                    return HostOutcome.FAILED, "recovery_disabled"
                 self.budget.charge_recovery()
                 fingerprint = _digest({"seen": sorted(self.seen_events),
                                        "evidence": self.proposal.to_dict()["evidence"]
@@ -811,7 +899,10 @@ def run_episode(envelope: TaskEnvelope, decide: DecisionFunction, memory: Memory
                 feed: Callable[[int], Sequence[Mapping[str, Any]]],
                 effects: Mapping[str, Callable[[str, Mapping[str, Any]], Mapping[str, Any]]],
                 tools: ToolRegistry | None = None,
-                clock: Callable[[], float] = time.monotonic) -> EpisodeRecord:
+                clock: Callable[[], float] = time.monotonic,
+                recovery_enabled: bool = True,
+                store_events: Callable[[int], Sequence[str]] | None = None) -> EpisodeRecord:
     """Run one episode; see :class:`EpisodeRunner`."""
     return EpisodeRunner(envelope, decide, memory, feed=feed, effects=effects, tools=tools,
-                         clock=clock).run()
+                         clock=clock, recovery_enabled=recovery_enabled,
+                         store_events=store_events).run()
