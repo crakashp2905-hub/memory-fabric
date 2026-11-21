@@ -20,9 +20,11 @@ def rows(arms=("A2", "A3", "A4", "A5"), families=FAMILIES, seeds=SEEDS):
 
 class Registry(unittest.TestCase):
     def test_actor_arms_and_evaluator_only_oracle(self) -> None:
-        self.assertEqual(set(ARMS), {"A0", "A1", "A2", "A3", "A4", "A5"})
-        self.assertIn("A6", NOT_RUN_ARMS)
+        self.assertEqual(set(ARMS), {"A0", "A1", "A2", "A3", "A4", "A5", "A6"})
+        self.assertEqual(NOT_RUN_ARMS, {})
         self.assertNotIn("A7", ARMS)
+        self.assertEqual((ARMS["A6"].memory, ARMS["A6"].recovery, ARMS["A6"].cdm),
+                         ("governed", True, True))
         self.assertEqual((ARMS["A4"].memory, ARMS["A4"].recovery), ("governed", False))
         self.assertEqual((ARMS["A5"].memory, ARMS["A5"].recovery), ("governed", True))
         self.assertTrue(ARMS["A3"].recovery and ARMS["A3"].memory == "pooled_recheck")
@@ -37,8 +39,10 @@ class Parity(unittest.TestCase):
         tasks = [build_task(family, seed) for family in FAMILIES for seed in SEEDS]
         matrix = parity_matrix(tasks, list(ARMS.values()))
         self.assertEqual(matrix["problems"], [])
-        self.assertEqual(matrix["status"], "INCOMPLETE")
-        self.assertEqual(matrix["missing_arms"], ["A6"])
+        self.assertEqual(matrix["status"], "COMPLETE")
+        self.assertEqual(matrix["missing_arms"], [])
+        self.assertEqual(matrix["arms"]["A6"]["varies"]["cdm"], True)
+        self.assertEqual(matrix["arms"]["A5"]["varies"]["cdm"], False)
         varies = {arm: row["varies"] for arm, row in matrix["arms"].items()}
         self.assertEqual(varies["A4"]["memory"], varies["A5"]["memory"])
 
@@ -89,6 +93,45 @@ class Contrasts(unittest.TestCase):
             for family in ("silent_change", "delayed_correction"):
                 with self.subTest(arm=arm, family=family):
                     self.assertNotIn("COMPLETED", self.by(arm, family))
+
+
+class CounterfactualArm(unittest.TestCase):
+    """A6 = A5 + dependence-first counterfactual dispatch, advisory only (W09)."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.rows = rows(arms=("A5", "A6"))
+
+    def test_a6_outcomes_equal_a5_because_advice_cannot_act(self) -> None:
+        by = {(r["arm"], r["task_id"]): r for r in self.rows}
+        for (arm, task_id), row in by.items():
+            if arm == "A6":
+                twin = by[("A5", task_id)]
+                self.assertEqual(row["terminal_status"], twin["terminal_status"], task_id)
+                self.assertEqual(row["trace_digest"], twin["trace_digest"], task_id)
+                self.assertFalse(row["cdm"]["authorizes_effects"])
+
+    def test_only_decisions_on_changed_evidence_are_replayed(self) -> None:
+        for row in (r for r in self.rows if r["arm"] == "A6"):
+            reasons = [item["reason"] for item in row["cdm"]["rows"]]
+            with self.subTest(family=row["family"]):
+                if row["family"] == "delayed_correction":
+                    self.assertEqual(reasons, ["replayed"])
+                    self.assertEqual(row["cdm"]["flips"], 1)
+                else:
+                    self.assertNotIn("replayed", reasons)
+                    self.assertEqual(row["cdm"]["replays"], 0)
+
+    def test_flips_earn_nothing_and_a6_stays_advisory(self) -> None:
+        report = run(seeds=2)
+        cdm = report["cdm"]
+        self.assertGreater(cdm["flips"], 0)
+        self.assertLessEqual(cdm["utility"]["net_utility"], 0)
+        self.assertFalse(cdm["utility"]["promotable"])
+        self.assertEqual(cdm["promotion"], "ADVISORY_ONLY")
+        self.assertGreater(cdm["wasted_always_on_replays"], 0)
+        self.assertEqual(cdm["always_on_replays"] - cdm["dependence_first_replays"],
+                         cdm["wasted_always_on_replays"])
 
 
 class Stages(unittest.TestCase):

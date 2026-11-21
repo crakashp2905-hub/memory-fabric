@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 179
+  "unique": 192
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -43,6 +43,7 @@
   },
   "outcome_typed": {
    "modules": [
+    "cdm_dispatch",
     "compat",
     "demo",
     "eligibility",
@@ -56,7 +57,7 @@
     "replay_worker",
     "runtime"
    ],
-   "public_names": 159,
+   "public_names": 172,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -712,7 +713,10 @@
    "CounterfactualReplayReason",
    "CounterfactualReplayStatus",
    "DECISION_SCHEMA",
+   "DecisionRecord",
    "DiagnosisSource",
+   "DispatchReport",
+   "DispatchRow",
    "EPISODE_SCHEMA_ID",
    "EffectOutcome",
    "EffectRecord",
@@ -761,6 +765,7 @@
    "MemoryPort",
    "ModelActor",
    "ModelConfig",
+   "NON_REPLAYABLE",
    "ORACLE_SCHEMA_ID",
    "OUTCOME_AUDIT_SCHEMA_ID",
    "OutcomeAuditEvent",
@@ -773,10 +778,13 @@
    "PolicyFlipLabel",
    "Population",
    "Proposal",
+   "REASONS",
    "RECOVERY_ACTIONS",
    "RECOVERY_AUDIT_SCHEMA_ID",
    "RECOVERY_CHECKPOINT_SCHEMA_ID",
    "RELEASE_MATRIX_GATES",
+   "REPLAYED",
+   "RESOLVED_BY_ALTERNATE_SOURCE",
    "ROLES",
    "RecoveryCause",
    "RecoveryFeatureFlag",
@@ -792,6 +800,9 @@
    "RuntimeResult",
    "RuntimeStatus",
    "RuntimeTool",
+   "SKIP_BUDGET",
+   "SKIP_INDEPENDENT",
+   "SKIP_NO_ALTERNATIVE",
    "STOP_CONDITIONS",
    "SUNSET",
    "SYSTEM_TEMPLATE",
@@ -807,6 +818,7 @@
    "ToolSpec",
    "UnpairedComparisonError",
    "VerifyResult",
+   "always_on",
    "build_authorized_replay_contract",
    "canonical_step_id",
    "canonical_task_id",
@@ -817,6 +829,7 @@
    "diagnose_answerability",
    "diagnose_certificate",
    "diagnose_relevance",
+   "dispatch",
    "dispatch_counterfactual_replay",
    "explain_task_failure",
    "find_alternate_sources",
@@ -845,6 +858,7 @@
    "targeted_correction_reevaluation_receipts",
    "tool_schema",
    "trace_digest",
+   "utility_ledger",
    "validate_paired_comparison"
   ]
  }
