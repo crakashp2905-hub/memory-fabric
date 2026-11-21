@@ -142,7 +142,13 @@ def parse_decision(text: Any) -> tuple[str, dict[str, Any]]:
 
 
 def classify_backend_error(exc: BaseException) -> str:
-    """Map a backend exception to one distinct incomplete-outcome code."""
+    """Map a backend exception to one distinct incomplete-outcome code.
+
+    A timeout wins over "cannot reach": the HTTP client reports a connect
+    timeout and a read timeout with the same text, so either is a timeout. A
+    missing runtime is caught earlier by the loopback preflight, before any
+    episode runs.
+    """
     if isinstance(exc, TimeoutError):
         return "model_timeout"
     if isinstance(exc, MemoryError):

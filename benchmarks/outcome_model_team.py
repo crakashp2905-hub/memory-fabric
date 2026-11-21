@@ -66,6 +66,8 @@ def run_model_team(model: str, *, arms: Sequence[str] = MODEL_ARMS, seeds: int =
     fake = backend is not None
     preflight: dict[str, Any] = {}
     if not fake:
+        from .fake_local_model import is_fake
+
         preflight = _preflight(host, model)
         if preflight.get("status") != "MODELS_AVAILABLE":
             return not_run(str(preflight.get("reason")), preflight)
@@ -78,6 +80,8 @@ def run_model_team(model: str, *, arms: Sequence[str] = MODEL_ARMS, seeds: int =
                                        runtime_version=str(preflight["runtime_version"]),
                                        quantization=entry.get("quantization"))
         backend = OllamaClient(host=preflight["host"], retries=0, timeout=timeout)
+        # A declared fake server is plumbing, never inference (W20-08).
+        fake = is_fake(preflight.get("runtime_version"), entry.get("digest"))
     assert backend is not None
     config = config or ModelConfig(model=model, digest="fake", runtime_version="fake")
     rows = []

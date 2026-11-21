@@ -169,9 +169,32 @@ class DistinctFailures(unittest.TestCase):
         tight = ModelConfig(**{**CONFIG.__dict__, "calls_per_role": 1})
         self.assert_incomplete(FakeBackend(), "model_call_budget_exhausted", tight)
 
-    def test_a_real_client_against_a_closed_loopback_port_is_unavailable(self) -> None:
-        client = OllamaClient(host="http://127.0.0.1:9", retries=0, timeout=2)
-        self.assert_incomplete(client, "model_unavailable")
+    def test_a_real_client_whose_runtime_drops_the_connection_is_unavailable(self) -> None:
+        # A listener that accepts and closes every connection fails the same way on
+        # every OS. (A closed port does not: Windows retries the connect until the
+        # client's timeout, which is then, correctly, a timeout.)
+        import socket
+        import threading
+
+        listener = socket.socket()
+        listener.bind(("127.0.0.1", 0))
+        listener.listen()
+
+        def drop() -> None:
+            while True:
+                try:
+                    connection, _ = listener.accept()
+                except OSError:
+                    return
+                connection.close()
+
+        threading.Thread(target=drop, daemon=True).start()
+        try:
+            port = listener.getsockname()[1]
+            client = OllamaClient(host=f"http://127.0.0.1:{port}", retries=0, timeout=10)
+            self.assert_incomplete(client, "model_unavailable")
+        finally:
+            listener.close()
 
     def test_parse_decision_is_strict(self) -> None:
         self.assertEqual(parse_decision('{"intent": "abstain", "arguments": {}}'), ("abstain", {}))
