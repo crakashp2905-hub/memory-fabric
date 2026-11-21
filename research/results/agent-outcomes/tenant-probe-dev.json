@@ -1,0 +1,23 @@
+{
+ "ignored_fields": [
+  "memory_id",
+  "integrity_revision"
+ ],
+ "median_difference_seconds": 9e-07,
+ "median_seconds": {
+  "foreign": 3.85e-05,
+  "missing": 3.77e-05
+ },
+ "payload_variants": {
+  "foreign": [
+   "{\"detail\": \"\", \"has_memory\": false, \"has_token\": false, \"lifecycle_state\": \"\", \"reason_code\": \"not_found\", \"verdict\": \"Verdict.DENY\", \"version\": 0, \"warnings\": []}"
+  ],
+  "missing": [
+   "{\"detail\": \"\", \"has_memory\": false, \"has_token\": false, \"lifecycle_state\": \"\", \"reason_code\": \"not_found\", \"verdict\": \"Verdict.DENY\", \"version\": 0, \"warnings\": []}"
+  ]
+ },
+ "payloads_identical": true,
+ "schema_id": "memory-fabric.tenant-existence-probe.v1",
+ "timing_claim": "RESIDUAL_DOCUMENTED: medians are reported, not claimed equal; the HTTP API rate-limits each credential",
+ "trials": 200
+}

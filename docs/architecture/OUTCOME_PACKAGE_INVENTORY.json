@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 212
+  "unique": 217
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -58,9 +58,11 @@
     "recovery",
     "replan",
     "replay_worker",
-    "runtime"
+    "retrieval_cache",
+    "runtime",
+    "spool"
    ],
-   "public_names": 192,
+   "public_names": 197,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -752,10 +754,12 @@
    "INTENTS",
    "IllegalTransition",
    "IncompatibleRecord",
+   "JobSpool",
    "LADDER_ORDER",
    "LEGACY_PACKAGES",
    "LEGACY_SCHEMA_ID",
    "LadderResult",
+   "Lease",
    "MAX_ALTERNATE_SOURCE_BASES",
    "MAX_ALTERNATE_SOURCE_CANDIDATES",
    "MAX_ALTERNATE_SOURCE_QUERY_CHARS",
@@ -812,6 +816,7 @@
    "ReplayLimits",
    "ReportedTaskStatus",
    "ResultPopulation",
+   "RetrievalCache",
    "Rung",
    "RuntimeResult",
    "RuntimeStatus",
@@ -822,6 +827,7 @@
    "STOP_CONDITIONS",
    "SUNSET",
    "SYSTEM_TEMPLATE",
+   "SpoolFull",
    "TRACE_SCHEMA_ID",
    "TRANSITIONS",
    "TaskEnvelope",
@@ -875,6 +881,7 @@
    "run_episode",
    "scrub_public_json",
    "search_ladder",
+   "state_fingerprint",
    "step_from_legacy",
    "step_to_legacy",
    "summarize_audit_memory_links",
