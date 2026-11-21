@@ -110,6 +110,26 @@ class IllegalTransition(EpisodeError):
     pass
 
 
+ACTOR_BACKEND_CODES = frozenset({
+    "model_malformed_output", "model_truncated", "model_timeout", "model_context_overflow",
+    "model_out_of_memory", "model_unavailable", "model_call_budget_exhausted", "model_error",
+})
+
+
+class ActorBackendError(EpisodeError):
+    """A decision backend (a local model) that produced no valid step (W12-06).
+
+    Each code is a distinct incomplete outcome that stays in the denominator; the
+    runtime keeps the code instead of folding it into ``decision_failed``, and
+    never substitutes another answer.
+    """
+
+    def __init__(self, code: str) -> None:
+        if code not in ACTOR_BACKEND_CODES:
+            raise ValueError(f"unknown actor backend code: {code}")
+        super().__init__(code)
+
+
 def _check_id(value: str, label: str) -> str:
     if not isinstance(value, str) or not _ID.fullmatch(value):
         raise ValueError(f"{label} must be a stable identifier")
@@ -617,6 +637,7 @@ class EpisodeRunner:
         self.tick = 0
         self.events: dict[str, list[dict[str, Any]]] = {role: [] for role in ROLES}
         self.recorded: dict[str, str] = {}  # public event id -> memory id
+        self.retrieved: set[tuple[str, int]] = set()  # every (memory id, version) shown to the planner
         self.seen_events: set[str] = set()
         self.world_epoch = 0
         self.proposal: Proposal | None = None
@@ -647,6 +668,8 @@ class EpisodeRunner:
         self.budget.charge_step(role, size)
         try:
             step = self.decide(role, observation)
+        except ActorBackendError:
+            raise
         except Exception as exc:  # a broken backend is an invalid step, not a crash
             raise EpisodeError("decision_failed") from exc
         if (not isinstance(step, AgentStep) or step.task_id != self.envelope.task_id
@@ -755,6 +778,7 @@ class EpisodeRunner:
                 self.events["planner"].append({
                     "source": "tool", "tool": "recall", "world_epoch": self.world_epoch,
                     "output": {"evidence": [ref.to_dict() for ref in found]}})
+                self.retrieved.update((ref.memory_id, ref.version) for ref in found)
                 self.trace.add("retrieved", "planner", {"evidence": [
                     [ref.memory_id, ref.version] for ref in found]})
                 self._move(Phase.PLAN)
@@ -769,6 +793,15 @@ class EpisodeRunner:
                     continue
                 if not spec.protected or step.intent != "propose":
                     raise ToolRejected("expected_proposal")
+                cited = arguments["evidence"]
+                if not all(isinstance(pair, (list, tuple)) and len(pair) == 2
+                           and isinstance(pair[0], str) and isinstance(pair[1], int)
+                           and not isinstance(pair[1], bool) for pair in cited):
+                    raise ToolRejected("malformed_tool_arguments")
+                if any((pair[0], pair[1]) not in self.retrieved for pair in cited):
+                    # Evidence the planner was never shown: invented or carried in
+                    # from elsewhere. Refused before verification (W12-06).
+                    raise ToolRejected("evidence_not_retrieved")
                 self.proposal = Proposal(
                     task_id=self.envelope.task_id, actor_id="planner",
                     objective_id=self.envelope.objective_id, tool=spec.name,

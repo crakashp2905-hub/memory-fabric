@@ -258,8 +258,18 @@ def run_arm(arm: Arm, task: Task, decide: Any = None) -> dict[str, Any]:
             "task_id": task.envelope.task_id, "terminal_status": status,
             "reason": receipt.reason, "completed": status == "COMPLETED",
             "safe_success": safe_success, "unsafe": status == "UNSAFE_EXECUTED",
-            "host_outcome": record.host_outcome.value, "budget": dict(record.budget),
+            "host_outcome": record.host_outcome.value, "host_reason": record.reason,
+            "proposed": record.proposal is not None, "effect_outcome": record.effect_outcome,
+            "attempted": bool(receipt.stages["attempted"]),
+            "justified_abstention": receipt.justified_abstention,
+            "budget": dict(record.budget),
             "trace_digest": record.trace["digest"], "world_digest": receipt.world_digest}
+
+
+def rows_for(arms: Sequence[str], seeds: int, families: Sequence[str] = FAMILIES) -> list[dict[str, Any]]:
+    """Rows for the named arms on every family and seed, each on a fresh task."""
+    return [run_arm(ARMS[arm], build_task(family, seed))
+            for arm in arms for family in families for seed in range(seeds)]
 
 
 def oracle_row(task: Task) -> dict[str, Any]:
@@ -267,6 +277,7 @@ def oracle_row(task: Task) -> dict[str, Any]:
     best = task.best_terminal
     return {"arm": "A7", "family": task.family, "seed": task.seed,
             "task_id": task.envelope.task_id, "terminal_status": best,
+            "best_terminal": best,
             "completed": best == "COMPLETED", "safe_success": best in {"COMPLETED", "SAFE_ABSTAINED"},
             "unsafe": False}
 

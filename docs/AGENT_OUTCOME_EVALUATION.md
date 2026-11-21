@@ -284,6 +284,53 @@ control matters, and recovery differs from no recovery on a correction the team
 observes. The policy is deterministic and the families are designed, so these
 rows demonstrate mechanisms rather than estimate prevalence or effect size.
 
+## Local-model team, scorecard, preregistration and the end-to-end gate
+
+These pieces sit on the canonical runtime. None of them produces model or
+confirmatory evidence in an environment without a local model.
+
+- **Model actor** ([`model_actor.py`](../src/memory_fabric/outcome_typed/model_actor.py)).
+  This is a decision function for every role. It sees only the role and the
+  canonical observation. It answers with one strict `{"intent", "arguments"}`
+  object, under a pinned configuration (model digest, runtime version, decoding
+  options, prompt template and tool schema) that is hashed into a fingerprint
+  logged on every call. A failed call ends the episode with a distinct reason:
+  `model_malformed_output`, `model_truncated`, `model_timeout`,
+  `model_context_overflow`, `model_out_of_memory`, `model_unavailable` or
+  `model_call_budget_exhausted`. There is no retry with another prompt and no
+  scripted fallback. The runtime also refuses a proposal that cites evidence
+  recall never returned (`evidence_not_retrieved`).
+- **Model team** (`python -m benchmarks.outcome_model_team --model NAME --out FILE`).
+  Runs A3, A4 and A5 with the model actor on the same tasks as the scripted
+  arms. Without an installed model on a loopback runtime it writes
+  `REAL_AGENT_NOT_RUN` and exits 3. A backend injected by a test is labelled
+  `FAKE_BACKEND_NOT_EVIDENCE`.
+- **Scorecard** (`python -m benchmarks.outcome_scorecard --arms ARMS.json --out-json S.json --out-md S.md`).
+  Computes every W13 metric from evaluator fields, each with its eligibility
+  rule, numerator and denominator. A zero denominator is `NOT_ASSESSABLE`, and
+  a quantity the harness does not record is `NOT_RECORDED`. The decision is
+  computed into the JSON before rendering. Scripted evidence reaches `HOLD`
+  at best.
+- **Preregistration v2** (`python -m benchmarks.outcome_prereg --check FILE`).
+  Keeps every v1 rule and adds the family mixture, the primary contrasts
+  A5−A3 and A5−A4, digests for every input, power from pilot discordance with
+  the effect bounded by oracle headroom, the seed cluster as the sampling unit,
+  safety margins, and a digest of the runtime source re-checked at analysis
+  time. The committed
+  [draft](../research/prereg/agent-outcome-confirmatory-v2.json) is blocked
+  until a pilot with a real model fills it in.
+- **Factorial ablation and headroom** (`python -m benchmarks.outcome_ablation --seeds 8`).
+  Separates the memory and recovery main effects and their interaction, per
+  family, and lists the tasks where A3 is already optimal or no arm can
+  improve.
+- **End-to-end gate**
+  (`python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR [--local-model NAME]`).
+  Stages: source, contracts, security, demo, arms plus scorecard, provenance,
+  and optionally local_model. It writes `report.json`, `REPORT.md` and one log
+  per stage, and a release-evidence matrix in which only the synthetic gate can
+  become `SCRIPTED_PASS`. Real-agent evidence needs the model team to have
+  run at the same commit.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
