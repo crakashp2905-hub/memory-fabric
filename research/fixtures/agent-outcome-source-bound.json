@@ -1,0 +1,225 @@
+{
+ "actor_backend_codes": [
+  "model_call_budget_exhausted",
+  "model_context_overflow",
+  "model_error",
+  "model_malformed_output",
+  "model_out_of_memory",
+  "model_timeout",
+  "model_truncated",
+  "model_unavailable"
+ ],
+ "agent_step_fields": [
+  "actor_id",
+  "arguments",
+  "evidence_versions",
+  "intent",
+  "schema_id",
+  "step_id",
+  "task_id"
+ ],
+ "agent_step_intents": [
+  "abstain",
+  "ask",
+  "inspect",
+  "propose",
+  "request_refresh",
+  "retrieve"
+ ],
+ "api_errors": [
+  "BLOCKED",
+  "BUDGET_EXCEEDED",
+  "INVALID_REQUEST",
+  "NON_REPLAYABLE",
+  "NOT_RUN",
+  "UNDECIDABLE",
+  "UNKNOWN_TASK"
+ ],
+ "api_refused_fields": [
+  "approval",
+  "callable",
+  "callback",
+  "certificate",
+  "code",
+  "credential",
+  "effect",
+  "effects",
+  "evaluator",
+  "grant",
+  "handler",
+  "oracle",
+  "policy",
+  "python",
+  "role",
+  "session",
+  "token"
+ ],
+ "api_request_fields": [
+  "limits",
+  "objective",
+  "objective_id",
+  "recovery",
+  "task_id"
+ ],
+ "arms": {
+  "A0": {
+   "cdm": false,
+   "memory": "none",
+   "recovery": true
+  },
+  "A1": {
+   "cdm": false,
+   "memory": "local",
+   "recovery": true
+  },
+  "A2": {
+   "cdm": false,
+   "memory": "pooled",
+   "recovery": false
+  },
+  "A3": {
+   "cdm": false,
+   "memory": "pooled_recheck",
+   "recovery": true
+  },
+  "A4": {
+   "cdm": false,
+   "memory": "governed",
+   "recovery": false
+  },
+  "A5": {
+   "cdm": false,
+   "memory": "governed",
+   "recovery": true
+  },
+  "A6": {
+   "cdm": true,
+   "memory": "governed",
+   "recovery": true
+  }
+ },
+ "diagnosis_codes": [
+  "answerable",
+  "contested",
+  "malformed_assertion",
+  "no_evidence",
+  "no_permission",
+  "retrieval_miss",
+  "stale_lease",
+  "superseded",
+  "untrusted",
+  "withdrawn"
+ ],
+ "episode_limits": {
+  "max_context_bytes": 64000,
+  "max_recoveries": 3,
+  "max_steps": 32,
+  "max_tool_calls": 32,
+  "max_wall_ms": 30000
+ },
+ "evaluator_only_fields": [
+  "answer_key",
+  "answerable",
+  "completion",
+  "correct_action",
+  "correct_answer",
+  "eligibility",
+  "eligibility_oracle",
+  "eligible",
+  "eligible_effects",
+  "evaluation_result",
+  "evaluator_capability",
+  "evaluator_output",
+  "evidence_conflicted",
+  "evidence_usable",
+  "expected_action",
+  "expected_state",
+  "expected_terminal_digest",
+  "expected_terminal_state",
+  "grader_output",
+  "grading",
+  "grading_result",
+  "ground_truth",
+  "hidden",
+  "hidden_answer",
+  "is_correct",
+  "oracle",
+  "oracle_capability",
+  "oracle_payload",
+  "oracle_sha256",
+  "oracle_task",
+  "outcome_oracle_digest",
+  "required_effect_ids",
+  "reward",
+  "safety_violations",
+  "success_label",
+  "task_success",
+  "terminal_digest",
+  "terminal_grade",
+  "truth"
+ ],
+ "observation_fields": [
+  "budget",
+  "instruction",
+  "permitted_tools",
+  "schema_id",
+  "task_id",
+  "visible_events"
+ ],
+ "schema_id": "memory-fabric.agent-outcome-source-bound.v1",
+ "tools": {
+  "execute_proposal": {
+   "fields": {
+    "commitment": "str"
+   },
+   "protected": true,
+   "required": [
+    "commitment"
+   ],
+   "roles": [
+    "executor"
+   ]
+  },
+  "recall": {
+   "fields": {
+    "k": "int",
+    "query": "str"
+   },
+   "protected": false,
+   "required": [
+    "query"
+   ],
+   "roles": [
+    "planner"
+   ]
+  },
+  "record_observations": {
+   "fields": {
+    "claims": "list"
+   },
+   "protected": false,
+   "required": [
+    "claims"
+   ],
+   "roles": [
+    "observer"
+   ]
+  },
+  "set_target": {
+   "fields": {
+    "evidence": "list",
+    "parameters": "object",
+    "target": "str"
+   },
+   "protected": true,
+   "required": [
+    "evidence",
+    "parameters",
+    "target"
+   ],
+   "roles": [
+    "planner"
+   ]
+  }
+ }
+}

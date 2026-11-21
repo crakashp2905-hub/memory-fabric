@@ -237,7 +237,9 @@ def main(argv: list[str] | None = None) -> int:
             [PY, "tools/evidence_inventory.py", "--check"],
             [PY, "tools/claim_scanner.py"],
             [PY, "tools/checklist_ledger.py", "--check", "--history", "--resolve-tests"],
-            [PY, "tools/status_at_head.py", "--check"]], out),
+            [PY, "tools/status_at_head.py", "--check"],
+            [PY, "tools/source_bound.py", "--check"],
+            [PY, "tools/frozen_results.py", "--check"]], out),
     }
     for name, run in plan.items():
         if name in args.skip:

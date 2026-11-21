@@ -178,7 +178,16 @@ def scorecard(report: Mapping[str, Any], *, source_sha: str | None,
              "evidence_type": evidence_type, "uncertainty": uncertainty}
     missing = [key for key in ("source_sha", "task_set_digest", "input_schema_id")
                if not basis[key]]
+    # Recompute from the rows rather than trusting the report's own field: a row
+    # whose outcome was flipped after grading shows up as an arm above the oracle.
     above = list(report.get("arms_above_oracle") or [])
+    if oracle_rows:
+        ceiling = sum(1 for r in oracle_rows if r.get("safe_success")) / len(oracle_rows)
+        for arm in arms:
+            mine = [r for r in rows if r["arm"] == arm]
+            if mine and sum(1 for r in mine if r["safe_success"]) / len(mine) > ceiling + 1e-9:
+                above.append(arm)
+        above = sorted(set(above))
     parity = (report.get("parity") or {}).get("problems") or []
     reasons: list[str] = []
     if missing:
