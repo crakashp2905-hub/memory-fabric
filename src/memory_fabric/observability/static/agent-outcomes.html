@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent outcomes</title>
+<style>
+  :root { --fg: #1b1f24; --muted: #57606a; --bg: #ffffff; --line: #d0d7de; --warn: #9a6700; }
+  @media (prefers-color-scheme: dark) { :root { --fg: #e6edf3; --muted: #8d96a0; --bg: #0d1117; --line: #30363d; --warn: #d29922; } }
+  body { font: 14px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 16px; max-width: 1100px; }
+  h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; overflow-x: auto; display: block; }
+  th, td { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: left; white-space: nowrap; }
+  .badge { display: inline-block; padding: 1px 8px; border: 1px solid var(--line); border-radius: 10px; }
+  .muted { color: var(--muted); } .label { color: var(--warn); }
+</style>
+</head>
+<body>
+<h1>Agent outcomes <span id="badge" class="badge"></span></h1>
+<p class="muted">Read-only. This page offers no controls; the server refuses every write.</p>
+<div id="provenance" class="muted"></div>
+<h2>Task summary</h2><div id="summary"></div>
+<h2>Arm comparison</h2><div id="comparison"></div>
+<h2>Blocked-task diagnosis</h2><div id="diagnosis"></div>
+<h2>Counterfactual replay</h2><p id="replay-label" class="label"></p><div id="replay"></div>
+<h2>Decision timeline</h2><div id="timeline"></div>
+<h2>Budgets</h2><div id="budgets"></div>
+<h2>Red-team walkthrough</h2><div id="red_team"></div>
+<script>
+"use strict";
+function cell(v) { return (v === null || v === undefined) ? "NOT_MEASURED" : (typeof v === "object" ? JSON.stringify(v) : String(v)); }
+function table(rows, columns) {
+  const t = document.createElement("table");
+  const head = t.insertRow();
+  ["", ...columns].forEach(c => { const th = document.createElement("th"); th.textContent = c; head.appendChild(th); });
+  for (const [key, row] of Object.entries(rows || {})) {
+    const r = t.insertRow(); r.insertCell().textContent = key;
+    columns.forEach(c => { r.insertCell().textContent = cell(row[c]); });
+  }
+  return t;
+}
+fetch("/api/agent-outcomes", {method: "GET", credentials: "same-origin"}).then(r => r.json()).then(view => {
+  document.getElementById("badge").textContent = (view.provenance || {}).badge || view.status;
+  const p = view.provenance || {};
+  document.getElementById("provenance").textContent =
+    `source ${p.source_sha} · evidence ${p.evidence_type} · model ${p.model_digest} · population ${p.population} · seeds ${cell(p.seeds)}`;
+  const s = view.summary || {};
+  document.getElementById("summary").appendChild(table(s.by_arm, ["completion", "false_withholding", "unsafe_attempts_refused_by_gate", "unsafe_executed", "steps", "tool_calls", "model_tokens"]));
+  document.getElementById("comparison").appendChild(table((view.comparison || {}).arms, ["status", "safe_success", "interval", "cost_steps_mean", "by_family"]));
+  document.getElementById("diagnosis").appendChild(table((view.diagnosis || {}).by_arm, ["completed", "safe_abstain", "incomplete", "policy_denial", "unsafe"]));
+  const rp = view.replay || {};
+  document.getElementById("replay-label").textContent = rp.label || "";
+  document.getElementById("replay").appendChild(table({A6: rp}, ["policy_flips", "observed_completion_difference", "observed_safety_difference", "replay_cost", "net_utility", "promotion"]));
+  const tl = view.timeline || {};
+  const steps = {}; (tl.steps || []).forEach(s => { steps[s.seq] = {kind: s.kind, role: s.role, audit_ref: s.audit_ref, refs: s.refs}; });
+  document.getElementById("timeline").appendChild(table(steps, ["kind", "role", "audit_ref", "refs"]));
+  document.getElementById("budgets").appendChild(table({budgets: view.budgets || {}}, ["queue_depth", "replay_cost", "retries"]));
+  const rt = {}; ((view.red_team || {}).scenarios || []).forEach((s, i) => { rt[i] = s; });
+  document.getElementById("red_team").appendChild(table(rt, ["scenario", "naive_control_fooled", "governed_fooled", "outcome", "payloads_identical"]));
+});
+</script>
+</body>
+</html>

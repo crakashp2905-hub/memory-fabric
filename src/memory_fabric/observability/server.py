@@ -63,6 +63,7 @@ STATIC_ROUTES: dict[str, tuple[str, str]] = {
     "/": ("dashboard.html", "text/html; charset=utf-8"),
     "/dashboard.html": ("dashboard.html", "text/html; charset=utf-8"),
     "/withholding-benchmark.json": ("withholding-benchmark.json", "application/json; charset=utf-8"),
+    "/agent-outcomes.html": ("agent-outcomes.html", "text/html; charset=utf-8"),
 }
 
 _ULID = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
@@ -247,6 +248,17 @@ class Api:
         f = self.fabric
 
         match rest:
+            case ["agent-outcomes"]:
+                import os
+
+                from .outcomes import build_view
+                return build_view(os.environ.get("MEMORY_FABRIC_OUTCOME_ARTIFACTS"))
+            case ["agent-outcomes", "lineage"]:
+                from .outcomes import lineage_view
+                ids = [i for i in params.get("id", []) if _ULID.match(i)]
+                if not ids:
+                    raise ValueError("pass one or more ?id=<memory id>")
+                return lineage_view(f, ids[:50])
             case ["health"]:
                 return self.health_snapshot()
             case ["slo"]:
