@@ -267,6 +267,23 @@ its boundaries work; it is not evidence about learned agents and it compares no
 arms. The contract tests are `tests/test_outcome_episode.py` and
 `tests/test_outcome_canonical_package.py`.
 
+### Matched arms over the episode runtime
+
+`benchmarks/outcome_arms.py` runs actor arms A0–A5 with the same scripted team,
+tools, budget, worlds and seeds. Arms differ only in the memory port and in
+whether recovery is enabled. A3's recovery is as capable as A5's: it re-plans
+on new observations and rechecks for retraction notes, so A5−A3 isolates
+governance and A5−A4 isolates recovery. A6 (CDM) is `NOT_RUN`, so parity
+reports `INCOMPLETE`. A7 is the evaluator's ceiling, and the run fails if any
+arm exceeds it.
+
+The development rows and their limits are in
+[SCRIPTED_ARMS_DEV.md](../research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md).
+In short: governance differs from equal recovery only where tenant access
+control matters, and recovery differs from no recovery on a correction the team
+observes. The policy is deterministic and the families are designed, so these
+rows demonstrate mechanisms rather than estimate prevalence or effect size.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work

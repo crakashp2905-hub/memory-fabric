@@ -11,6 +11,7 @@ the tracker row that says why. Product limitations for users are in [LIMITATIONS
   Join/aggregate completeness now includes missing or malformed scalar keys rather than silently dropping them. These experimental queries do not establish real-world truth.
 - **The default compaction summariser does not compress** a log whose lines all carry values; it keeps every value by design (MF-038).
 - **Encrypted stores move only with backup/restore** (SQLite) or the database's tools: `export-events` keeps every tombstone, but encrypted content is sealed to its store and `import-events` refuses it (GOV-16).
+- **An idempotency key reused with a different payload is reported as already executed.** `ActionGate.execute` runs nothing on the second call (it fails closed), but it returns `already_executed` instead of a conflict, so a caller can believe its changed action happened. The fix needs the request binding persisted in the action-attempt event, which is an event-schema change (AGENTS.md principle 10). The episode runtime is not exposed: its keys derive from the proposal commitment, so any payload change is a new key (agent-validation checklist W08-02).
 
 ## Evidence
 

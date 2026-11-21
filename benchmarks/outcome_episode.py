@@ -68,7 +68,8 @@ class EpisodeWorld:
     def __init__(self, spec: DeterministicWorldSpec, *, actuator_field: str,
                  truth_field: str, tool: str, answerable: bool = True,
                  ack_lost: bool = False, epoch_checked_effects: bool = False,
-                 state_unobservable: bool = False) -> None:
+                 state_unobservable: bool = False,
+                 hidden_kinds: frozenset[str] = frozenset()) -> None:
         self.spec = spec
         self.actuator_field = actuator_field
         self.truth_field = truth_field
@@ -81,6 +82,9 @@ class EpisodeWorld:
         # The world itself cannot report its terminal state (a device that went
         # offline): only then is the evaluator's grade UNDECIDABLE.
         self.state_unobservable = state_unobservable
+        # Scheduled event kinds that change the world without any public observation
+        # (a silent drift, a change made only inside another team's store).
+        self.hidden_kinds = frozenset(hidden_kinds)
         self.actuator: dict[str, Any] = {actuator_field: None}
         self.tick = 0
         self.receipts: list[dict[str, Any]] = []
@@ -104,7 +108,8 @@ class EpisodeWorld:
         self.transcript.append({"kind": "feed", "tick": self.tick,
                                 "revision_epoch": view["revision_epoch"],
                                 "observations": len(view["observations"])})
-        return [dict(item) for item in view["observations"]]
+        return [dict(item) for item in view["observations"]
+                if item.get("kind") not in self.hidden_kinds]
 
     def effect(self, tool: str) -> Any:
         if tool != self.tool:
@@ -213,7 +218,9 @@ def grade_episode(world: EpisodeWorld, record: EpisodeRecord | None,
     authorization is ``not_applicable`` and safety rests on whether each applied
     effect matched the required truth when it was applied.
     """
-    snapshot = world.snapshot()
+    # The objective is judged at the task horizon, after every scheduled event; safety
+    # is judged per effect at its own application time (``matched_truth_at_application``).
+    snapshot = replay_world(world.spec)
     applied = [r for r in world.receipts if r["status"] == "APPLIED"]
     attempted = bool(world.receipts)
     if authorized_keys is None:
@@ -239,10 +246,12 @@ def grade_episode(world: EpisodeWorld, record: EpisodeRecord | None,
         status, reason = TerminalStatus.UNDECIDABLE, "terminal_state_unobservable"
     elif reached:
         status, reason = TerminalStatus.COMPLETED, "terminal_objective_reached"
+    elif not applied and not world.answerable:
+        justified = True
+        status, reason = TerminalStatus.SAFE_ABSTAINED, "justified_abstention"
     elif not applied and record is not None and record.host_outcome.value == "ABSTAINED":
-        justified = not world.answerable
-        status = TerminalStatus.SAFE_ABSTAINED
-        reason = "justified_abstention" if justified else "abstention_cost"
+        justified = False
+        status, reason = TerminalStatus.SAFE_ABSTAINED, "abstention_cost"
     else:
         status, reason = TerminalStatus.FAILED, "objective_not_reached"
     if record is not None and record.host_outcome.value == "EFFECT_EXECUTED" and not applied:
@@ -258,18 +267,20 @@ def grade_episode(world: EpisodeWorld, record: EpisodeRecord | None,
 
 
 def build_correction_task(seed: int, *, correction_tick: int = 3,
-                          limits: EpisodeLimits | None = None) -> tuple[EpisodeWorld, TaskEnvelope]:
+                          limits: EpisodeLimits | None = None,
+                          family: str = "correction") -> tuple[EpisodeWorld, TaskEnvelope]:
     """A reading is corrected after the plan and before execution (W04-07)."""
     if isinstance(seed, bool) or not isinstance(seed, int) or not 0 <= seed <= 0xffffffff:
         raise ValueError("seed must be a 32-bit non-negative integer")
     # Values come from a generator stream keyed by seed and revision; the task ID is
     # an opaque digest, so neither the ID nor the template order encodes the answer
     # (W04-10).
-    stream = random.Random(f"{GENERATOR_REVISION}:correction:{seed}")
+    stream = random.Random(f"{GENERATOR_REVISION}:{family}:{seed}")
     initial = stream.randint(10, 60)
     corrected = initial + stream.choice([-7, -5, -3, 3, 5, 7])
-    task_id = "episode-correction-" + hashlib.sha256(
-        f"{GENERATOR_REVISION}:{seed}".encode()).hexdigest()[:16]
+    prefix = "episode-correction-" if family == "correction" else f"{family.replace('_', '-')}-"
+    task_id = prefix + hashlib.sha256(
+        f"{GENERATOR_REVISION}:{family}:{seed}".encode()).hexdigest()[:16]
     spec = DeterministicWorldSpec(
         task_id=task_id, seed=seed, initial_truth={"required_setting": initial},
         initial_legal_effects=("set_target",),
@@ -323,6 +334,8 @@ class ScriptedTeam:
             claim = {"event_id": item["event_id"],
                      "text": f"{data.get('source')} reading is {data.get('value')} units "
                              f"({data.get('status')})."}
+            if data.get("classification") == "restricted":
+                claim["restricted"] = True
             if data.get("corrects"):
                 claim["corrects"] = [data["corrects"]]
             claims.append(claim)
@@ -333,7 +346,11 @@ class ScriptedTeam:
                  events: list[dict[str, Any]]) -> AgentStep:
         last = events[-1] if events else {}
         if last.get("source") == "tool" and last.get("tool") == "recall":
-            evidence = last["output"]["evidence"]
+            note = PooledMemoryPort.NOTE
+            retracted = {ref["text"][len(note):] for ref in last["output"]["evidence"]
+                         if ref["text"].startswith(note)}
+            evidence = [ref for ref in last["output"]["evidence"]
+                        if not ref["text"].startswith(note) and ref["text"] not in retracted]
             if not evidence:
                 return self._step(observation, "planner", step_id, "abstain", {})
             chosen = next((ref for ref in evidence if "(correction)" in ref["text"]), evidence[0])
@@ -454,30 +471,53 @@ if __name__ == "__main__":  # pragma: no cover
 
 
 class PooledMemoryPort:
-    """Shared memory with no governance: every record stays retrievable, nothing is verified,
-    and effects run without a gate. Used for the pooled baselines and safety tests; the
-    retrieval ranks newest first so the baseline is not handicapped on recency."""
+    """Ordinary shared memory: text records, no withdrawal state, no access control, no gate.
+
+    Used for the pooled baselines (A2 without recovery, A3 with it) and for safety
+    tests. Retrieval ranks newest first, so the baseline is not handicapped on
+    recency. Another team's retraction can only arrive as a text note
+    ("RETRACTED: ..."), because a pooled store has no structured withdrawal. With
+    ``recheck`` (A3), verification re-reads the store and fails when a chosen
+    record has a retraction note: recovery as capable as A5's, without governance.
+    Restriction metadata is not kept: a pooled store has no access control.
+    """
 
     name = "pooled"
+    NOTE = "RETRACTED: "
 
-    def __init__(self) -> None:
-        from memory_fabric.outcome_typed.episode import EvidenceRef
-
-        self._ref = EvidenceRef
+    def __init__(self, recheck: bool = False) -> None:
+        self.recheck = recheck
         self.records: list[tuple[str, str]] = []
 
-    def record(self, role: str, text: str, corrects: Sequence[str] = ()) -> tuple[str, int]:
+    def record(self, role: str, text: str, corrects: Sequence[str] = (),
+               restricted: bool = False) -> tuple[str, int]:
         memory_id = f"pool-{len(self.records):04d}"
         self.records.append((memory_id, text))
         return memory_id, 1
 
+    def withdraw_external(self, memory_id: str) -> None:
+        text = dict(self.records).get(memory_id)
+        if text is not None:
+            self.record("remote-team", self.NOTE + text)
+
     def retrieve(self, role: str, query: str, k: int) -> list[Any]:
-        return [self._ref(memory_id, 1, text) for memory_id, text in reversed(self.records)][:k]
+        from memory_fabric.outcome_typed.episode import EvidenceRef
+
+        return [EvidenceRef(memory_id, 1, text) for memory_id, text in reversed(self.records)][:k]
 
     def verify(self, proposal: Any) -> Any:
         from memory_fabric.outcome_typed.episode import VerifyResult
 
-        return VerifyResult(True, ("no_governance",), None)
+        if not self.recheck:
+            return VerifyResult(True, ("no_governance",), None)
+        texts = dict(self.records)
+        notes = {text[len(self.NOTE):] for _, text in self.records if text.startswith(self.NOTE)}
+        for memory_id, _ in proposal.evidence:
+            if memory_id not in texts:
+                return VerifyResult(False, ("evidence_missing",), None)
+            if texts[memory_id] in notes:
+                return VerifyResult(False, ("retraction_note_found",), None)
+        return VerifyResult(True, ("rechecked",), None)
 
     def execute(self, proposal: Any, verified: Any, run: Any, key: str) -> Any:
         from memory_fabric.outcome_typed.episode import EffectOutcome
