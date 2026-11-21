@@ -60,6 +60,9 @@ CONTRACT_TESTS = [
     "tests/test_outcome_evaluator_mutation.py", "tests/test_agent_outcome_end_to_end_gate.py",
     "tests/test_fake_local_model.py", "tests/test_launch_decision_and_doctor.py",
     "tests/test_agent_threat_matrix.py", "tests/test_action_fence_typed.py",
+    "tests/test_outcome_cdm_dispatch.py", "tests/test_outcome_diagnosis.py",
+    "tests/test_outcome_replan_and_recovery_state.py",
+    "tests/test_outcome_worlds_extra_and_baselines.py", "tests/test_outcome_multiagent.py",
 ]
 
 
