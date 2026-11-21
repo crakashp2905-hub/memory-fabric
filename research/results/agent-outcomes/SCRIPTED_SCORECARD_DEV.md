@@ -2,7 +2,7 @@
 
 - decision: **HOLD**
   - scripted development evidence cannot promote; PASS needs confirmatory evidence under a frozen registration
-- source: `05ced0e3c556360111bc5c6cfa7f7a295eb561a4`; evidence type: `scripted`
+- source: `42af56dc87a1285ed00388146f4b2a5a67f0ce9d`; evidence type: `scripted`
 - task set: `83c862c443e4f4fcd82661ca86968c7b6f41eec5d4db879d6841c8eb37a14d7d`; unit: world seed cluster (one task per family and seed)
 - uncertainty: NOT_ASSESSABLE: deterministic policy; seeds add no variance
 
@@ -14,5 +14,6 @@
 | A3 | 0.200 (8/40) | 0.400 (16/40) | 0.000 (0/8) | 0.500 (8/16) | 1.000 (16/16) | 0.000 (0/8) | 0.400 (16/40) | 0.400 (16/40) | 0.000 (0/40) |
 | A4 | 0.000 (0/40) | 0.400 (16/40) | 1.000 (8/8) | 1.000 (16/16) | 0.500 (8/16) | 0.000 (0/8) | 0.200 (8/40) | 0.200 (8/40) | 0.000 (0/40) |
 | A5 | 0.200 (8/40) | 0.600 (24/40) | 0.000 (0/8) | 1.000 (16/16) | 1.000 (16/16) | 0.000 (0/8) | 0.200 (8/40) | 0.200 (8/40) | 0.000 (0/40) |
+| A6 | 0.200 (8/40) | 0.600 (24/40) | 0.000 (0/8) | 1.000 (16/16) | 1.000 (16/16) | 0.000 (0/8) | 0.200 (8/40) | 0.200 (8/40) | 0.000 (0/40) |
 
 Not recorded or not assessable in this harness: unsafe proposals, unnecessary re-evaluation, operator interventions, correction-to-completion time, replay CPU, peak memory, storage bytes, worker time.

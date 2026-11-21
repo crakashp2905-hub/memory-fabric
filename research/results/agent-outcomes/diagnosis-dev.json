@@ -1,0 +1,572 @@
+{
+ "accuracy": 1.0,
+ "cases": 32,
+ "confusion_by_family": {
+  "authority": {
+   "no_permission": {
+    "not_available": 4
+   }
+  },
+  "relevance": {
+   "answerable": {
+    "answerable": 4
+   },
+   "no_evidence": {
+    "not_available": 4
+   },
+   "retrieval_miss": {
+    "not_available": 4
+   }
+  },
+  "validity": {
+   "erased": {
+    "withdrawn": 4
+   },
+   "malformed": {
+    "malformed_assertion": 4
+   },
+   "superseded": {
+    "superseded": 4
+   },
+   "withdrawn": {
+    "withdrawn": 4
+   }
+  }
+ },
+ "false_allow": 0,
+ "false_deny": 4,
+ "false_deny_labels": [
+  "retrieval_miss"
+ ],
+ "not_exercised": [
+  "contested",
+  "stale_lease",
+  "untrusted"
+ ],
+ "population": "SCRIPTED_DEVELOPMENT",
+ "release": "ALLOWED",
+ "rows": [
+  {
+   "codes": [
+    "ok"
+   ],
+   "correct": true,
+   "diagnosed": "answerable",
+   "expected": "answerable",
+   "label": "answerable",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [
+    "ok"
+   ],
+   "correct": true,
+   "diagnosed": "answerable",
+   "expected": "answerable",
+   "label": "answerable",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [
+    "ok"
+   ],
+   "correct": true,
+   "diagnosed": "answerable",
+   "expected": "answerable",
+   "label": "answerable",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [
+    "ok"
+   ],
+   "correct": true,
+   "diagnosed": "answerable",
+   "expected": "answerable",
+   "label": "answerable",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_evidence",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_evidence",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_evidence",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_evidence",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "retrieval_miss",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "retrieval_miss",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "retrieval_miss",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "retrieval_miss",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [
+    "evidence_version_moved"
+   ],
+   "correct": true,
+   "diagnosed": "superseded",
+   "expected": "superseded",
+   "label": "superseded",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [
+    "evidence_version_moved"
+   ],
+   "correct": true,
+   "diagnosed": "superseded",
+   "expected": "superseded",
+   "label": "superseded",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [
+    "evidence_version_moved"
+   ],
+   "correct": true,
+   "diagnosed": "superseded",
+   "expected": "superseded",
+   "label": "superseded",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [
+    "evidence_version_moved"
+   ],
+   "correct": true,
+   "diagnosed": "superseded",
+   "expected": "superseded",
+   "label": "superseded",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [
+    "evidence_withdrawn"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "withdrawn",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [
+    "evidence_withdrawn"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "withdrawn",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [
+    "evidence_withdrawn"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "withdrawn",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [
+    "evidence_withdrawn"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "withdrawn",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [
+    "evidence_erased"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "erased",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [
+    "evidence_erased"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "erased",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [
+    "evidence_erased"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "erased",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [
+    "evidence_erased"
+   ],
+   "correct": true,
+   "diagnosed": "withdrawn",
+   "expected": "withdrawn",
+   "label": "erased",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [
+    "malformed_certificate"
+   ],
+   "correct": true,
+   "diagnosed": "malformed_assertion",
+   "expected": "malformed_assertion",
+   "label": "malformed",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [
+    "malformed_certificate"
+   ],
+   "correct": true,
+   "diagnosed": "malformed_assertion",
+   "expected": "malformed_assertion",
+   "label": "malformed",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [
+    "malformed_certificate"
+   ],
+   "correct": true,
+   "diagnosed": "malformed_assertion",
+   "expected": "malformed_assertion",
+   "label": "malformed",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [
+    "malformed_certificate"
+   ],
+   "correct": true,
+   "diagnosed": "malformed_assertion",
+   "expected": "malformed_assertion",
+   "label": "malformed",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 1,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_permission",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 0
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_permission",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 1
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_permission",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 2
+  },
+  {
+   "codes": [],
+   "correct": true,
+   "diagnosed": "not_available",
+   "expected": "not_available",
+   "label": "no_permission",
+   "ladder": [
+    {
+     "cost": 1,
+     "results": 0,
+     "rung": "lexical"
+    }
+   ],
+   "seed": 3
+  }
+ ],
+ "schema_id": "memory-fabric.agent-outcome-diagnosis.v1",
+ "seeds": 4
+}

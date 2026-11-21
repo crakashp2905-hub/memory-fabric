@@ -1,0 +1,90 @@
+{
+ "agent_counts": [
+  3,
+  5,
+  10,
+  25,
+  50
+ ],
+ "note": "agent count multiplies attempts on the same tasks; it adds no independent units",
+ "sampling_unit": "seed cluster",
+ "schema_id": "memory-fabric.agent-scale-clusters.v1",
+ "seeds": [
+  701,
+  709,
+  719
+ ],
+ "status": "EXPLORATORY",
+ "summary": {
+  "10": {
+   "accuracy_by_cluster": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "accuracy_max": 1.0,
+   "accuracy_min": 1.0,
+   "attempts": 240,
+   "attempts_per_unique_task": 10.0,
+   "clusters": 3,
+   "unique_tasks": 24,
+   "unsafe_actions": 0
+  },
+  "25": {
+   "accuracy_by_cluster": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "accuracy_max": 1.0,
+   "accuracy_min": 1.0,
+   "attempts": 600,
+   "attempts_per_unique_task": 25.0,
+   "clusters": 3,
+   "unique_tasks": 24,
+   "unsafe_actions": 0
+  },
+  "3": {
+   "accuracy_by_cluster": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "accuracy_max": 1.0,
+   "accuracy_min": 1.0,
+   "attempts": 72,
+   "attempts_per_unique_task": 3.0,
+   "clusters": 3,
+   "unique_tasks": 24,
+   "unsafe_actions": 0
+  },
+  "5": {
+   "accuracy_by_cluster": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "accuracy_max": 1.0,
+   "accuracy_min": 1.0,
+   "attempts": 120,
+   "attempts_per_unique_task": 5.0,
+   "clusters": 3,
+   "unique_tasks": 24,
+   "unsafe_actions": 0
+  },
+  "50": {
+   "accuracy_by_cluster": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "accuracy_max": 1.0,
+   "accuracy_min": 1.0,
+   "attempts": 1200,
+   "attempts_per_unique_task": 50.0,
+   "clusters": 3,
+   "unique_tasks": 24,
+   "unsafe_actions": 0
+  }
+ }
+}
