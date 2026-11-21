@@ -386,7 +386,8 @@ def cdm_summary(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     ledger = utility_ledger(policy_flips=flips, completion_difference=completion,
                             safety_difference=unsafe, replays=replays)
     flagged = sorted({r["family"] for r in a6 if r["cdm"]["flips"]})
-    return {"status": "RUN", "advisory": True, "decisions": decisions,
+    return {"status": "RUN", "advisory": True, "physical_causality": "NOT_ESTABLISHED",
+            "root_cause_level": "simulator", "decisions": decisions,
             "dependence_first_replays": replays, "always_on_replays": decisions,
             "wasted_always_on_replays": decisions - replays, "flips": flips,
             "flagged_families": flagged, "reasons": counts, "utility": ledger,

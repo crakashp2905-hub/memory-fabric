@@ -103,6 +103,7 @@ Every document in the repository, by what you are trying to do.
 | [AGENT_PROTOTYPE.md](AGENT_PROTOTYPE.md) | Run the agent-outcome prototype in five offline commands |
 | [AGENT_THREAT_MATRIX.md](AGENT_THREAT_MATRIX.md) | Agent injection points: attacker, boundary, goal, mitigation, test |
 | [AGENT_OPERATING_ENVELOPE.md](AGENT_OPERATING_ENVELOPE.md) | What the agent-outcome stack was measured to do, on which host |
+| [AGENT_PRINCIPALS.md](AGENT_PRINCIPALS.md) | Agent-outcome principals, secret custody and permission matrix |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |

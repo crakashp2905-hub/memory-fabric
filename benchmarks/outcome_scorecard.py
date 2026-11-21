@@ -170,6 +170,8 @@ def scorecard(report: Mapping[str, Any], *, source_sha: str | None,
                        metrics[arm]["safe_success"]["numerator"],
                        metrics[arm]["safe_success"]["denominator"])} for arm in arms})
     basis = {"schema_id": SCHEMA_ID, "source_sha": source_sha,
+             "physical_causality": "NOT_ESTABLISHED",
+             "root_cause_level": "simulator" if deterministic else "agent_policy",
              "input_schema_id": report.get("schema_id"),
              "task_set_digest": task_set_digest(rows) if rows else None,
              "sampling_unit": "world seed cluster (one task per family and seed)",
