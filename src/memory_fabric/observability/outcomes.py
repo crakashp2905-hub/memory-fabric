@@ -88,7 +88,7 @@ def comparison_view(scorecard: Mapping[str, Any] | None,
                     arms: Mapping[str, Any] | None) -> dict[str, Any]:
     present = set((scorecard or {}).get("arms", {}))
     uncertainty = (scorecard or {}).get("uncertainty", NOT_MEASURED)
-    rows = {}
+    rows: dict[str, dict[str, Any]] = {}
     for arm in COMPARISON_ARMS:
         if arm not in present:
             rows[arm] = {"status": NOT_RUN}

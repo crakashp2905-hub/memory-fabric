@@ -6,7 +6,7 @@
     "tasks": 260
   },
   "source": {
-    "commit": "01b3879631fdf7e19e4aeefd98c5ee48c192df30",
+    "commit": "726b9251eb43bbdabe9a9767e36a55725058644b",
     "dirty": true
   },
   "summary": {
@@ -1173,7 +1173,7 @@
         "tools/gen_stability.py": "694b639547fa3be937b7cbbabe9b5a04022ef9f349572d297f93cb84816590a3",
         "docs/API_INVENTORY.json": "5ca96ffbaa43013001113dc5a41d02eac623e2fa41feeab761b9fca7f10b06e5",
         "docs/API.md": "e048897d2ccde7de2b4319e177ebc0544e8f6abb5e6e2f54bfca88c48c64baa4",
-        "STABILITY.md": "5e2abf13e77b3fa08cf5fcd9840e1d3cc3f828867683bea978ece0acae80559f",
+        "STABILITY.md": "647a353f5b819ee938363ad9db343136839f6c0f2b1e962224d2928799f3b9e1",
         "tests/test_reference_docs.py": "0ab93a9b8de83d7772061cd5f699878914f712782205b433803ad21bc39f2bf3",
         "tests/test_fabric_structure.py": "174b51ad406344d4427c232f5dcd3547841cc128555c288b54ce00d120757c10",
         "tests/test_stability.py": "8884289a717f9dd4ea8feaeef2cd3a8a4039b5e55728371307a0a945fad7c2b1",
@@ -6714,7 +6714,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
         "research/results/p2-02-event-links.json": "2c1ab98c4f5c0f5ba19ea497adb47a156717c8b9fe56338cf75d0a35308a7697",
@@ -6802,7 +6802,7 @@
         "research/results/p2-05-withholding-scorecard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "src/memory_fabric/observability/static/withholding-benchmark.json": "2f9db9a22238dafc0ba0740438ec1e53f095d559eabe92f25a6cf43e85d40d0d",
         "research/results/r2-false-withholding-ablation.json": "b1677ca6f5f5dcd14c3c6be083127d4da61bf99ce0cd7c19b54ea80e08780f24",
@@ -6838,7 +6838,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/control.py": "978a563a80700b7287209fc30a7d222c49f5ae62bc7a74e1d91d1c59a4a49bc8",
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "src/memory_fabric/actions.py": "5a8853f7b567853586b46bd0dea6e607bea8584aacae0f016513ca2b461da5d9",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
@@ -6899,7 +6899,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/report.py": "f0585716b0defa41910c3e03ce9ef5988365e5fb2efe86197f2535d0a7e3d31d",
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_control_center.py": "43d324bdf8e55af0b954ad1cb72c2eb16247527f4626934cef3df9439fc49d84",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
@@ -6930,7 +6930,7 @@
         "research/results/p2-09-read-only-dashboard.txt"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_observability.py": "0f0a3d2ba5709fc760134b2afa5042ef5be52dfc783036c493e626d126c653de",
         "tests/test_control_center.py": "43d324bdf8e55af0b954ad1cb72c2eb16247527f4626934cef3df9439fc49d84",
@@ -6961,7 +6961,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/incident_export.py": "19791ab64e57fd77fbeeefa659d59ac8f1ebc133fd5f3b5a590a1e4d2bf3ee3c",
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_control_center_ui.py": "e311f5c5731fd14476039562a3b9ad89f6f958a77b8d8c8d1fd298fbd4fcd55b",
         "tests/test_incident.py": "5fbd8c27ad17c4e1373e09c86b8b1b325c1dda37fd6669d792dfa7675dd6a93e",
@@ -6991,7 +6991,7 @@
         "docs/OPERATIONS.md"
       ],
       "evidence_digests": {
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_slo_dashboard.py": "10093fb7b50145f8dd87b7452b776e2ecad130d33c52633062e7228fc6b10323",
         "tools/slo_dashboard_smoke.py": "b47b623feee314ebe3d7992af5dfcc9a029745c4a5061f03419339bbd9c2ffcb",
@@ -7025,7 +7025,7 @@
       ],
       "evidence_digests": {
         "src/memory_fabric/observability/health.py": "22b3f40f9128c32e0135da3b21f9543539a6ee2f03de55a1a1d16855311b665c",
-        "src/memory_fabric/observability/server.py": "34c58f84272b243ae8ff28ef610ff70d6197f558b74c7584d2aa0fb1e34af58f",
+        "src/memory_fabric/observability/server.py": "8a3fcfb1a5629b44a7ad665bd6bf08c41293912eecdc272e8606714ab6bd78ab",
         "src/memory_fabric/observability/static/dashboard.html": "a83dd1018e0ac9c891bf6c308e4a192ad5d21b71ac570045df19d332cfdf5fe7",
         "tests/test_service_health.py": "c64bbad379b2989ac05f20557850ef3a7b4b4d100b7254f3966c5d5e930e1d28",
         "tools/service_health_smoke.py": "30697ff61e53ca9160ee432af67e2f6fb76642d5fad51323983275f4c9d24eb6",
