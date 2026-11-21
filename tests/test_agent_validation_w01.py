@@ -309,6 +309,12 @@ class TaskLedger(unittest.TestCase):
         self.assertEqual(self._with("W24-09", {"status": "BLOCKED_EXTERNAL",
                                                "blocked_on": "an independent pilot partner"}), [])
 
+    def test_every_test_reference_is_collected_by_pytest(self) -> None:
+        self.assertEqual(checklist_ledger.unresolved_tests(self.ledger), [])
+        bogus = {"tasks": {"W01-01": {"tests": [
+            "tests/test_agent_validation_w01.py::NoSuchClass::test_nothing"]}}}
+        self.assertEqual(len(checklist_ledger.unresolved_tests(bogus)), 1)
+
     def test_spec_drift_and_missing_tasks_are_refused(self) -> None:
         ledger = json.loads(json.dumps(self.ledger))
         ledger["spec_sha256"] = "0" * 64

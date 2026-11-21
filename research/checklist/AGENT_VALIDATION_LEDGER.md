@@ -8,9 +8,9 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 197 |
-| `IMPLEMENTED` | 4 |
-| `TESTED` | 39 |
+| `TODO` | 167 |
+| `IMPLEMENTED` | 7 |
+| `TESTED` | 66 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
@@ -25,14 +25,14 @@ Total: 240 tasks.
 | W01 | Exact revision, evidence registry, and failed-workflow triage | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
 | W02 | Consolidate the three experimental outcome packages | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
 | W03 | One genuine end-to-end agent execution loop | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
-| W04 | Independent outcomes and hidden-world evaluation | 0 | 3 | 7 | 0 | 0 | 0 | 0 |
-| W05 | Design broader, hard-to-game synthetic agent worlds | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W06 | Evidence diagnosis before refusal | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W07 | Safe recovery orchestration, not blanket refusal | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W08 | Action-time safety, idempotency and terminal effects | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W04 | Independent outcomes and hidden-world evaluation | 0 | 2 | 8 | 0 | 0 | 0 | 0 |
+| W05 | Design broader, hard-to-game synthetic agent worlds | 2 | 2 | 6 | 0 | 0 | 0 | 0 |
+| W06 | Evidence diagnosis before refusal | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
+| W07 | Safe recovery orchestration, not blanket refusal | 5 | 0 | 5 | 0 | 0 | 0 | 0 |
+| W08 | Action-time safety, idempotency and terminal effects | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
 | W09 | Counterfactual Decision Memory used only where beneficial | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W10 | Multi-agent knowledge and coordination under changing truth | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W11 | Fair baselines and resource parity | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W11 | Fair baselines and resource parity | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
 | W12 | Actual local model agents, no hosted service requirement | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W13 | Strict evaluator metrics and operator-relevant benefits | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W14 | Preregister and power the real confirmatory study | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -84,53 +84,53 @@ Total: 240 tasks.
 | W04-01 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
 | W04-02 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
 | W04-03 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
-| W04-04 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | Attempted, authorized, applied and objective-reached are separate stages; fixtures cover stale (not applied), unauthorized (applied) and lost-ack. An applied-but-objective-not-reached fixture is still missing (batch 3). |
+| W04-04 | P0 | `TESTED` | `benchmarks/outcome_episode.py`<br>`benchmarks/outcome_arms.py` | Fixtures: stale (not applied), applied-unauthorized, lost-ack, applied-authorized-not-reached. |
 | W04-05 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
 | W04-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/observations.py` |  |
 | W04-07 | P0 | `TESTED` | `benchmarks/outcome_episode.py`<br>`src/memory_fabric/outcome_typed/episode.py` |  |
 | W04-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | World transcript kept outside the actor trace with a reproducible digest; a separate content-safe audit verifier is not built. |
-| W04-09 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | The feed is a public projection with no truth fields; missing, delayed, duplicated, contradictory and inaccessible variants arrive with the W05 world families. |
+| W04-09 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py`<br>`benchmarks/outcome_arms.py` | Families now include delayed, missing (silent change), inaccessible (restricted) and retracted evidence; duplicated and contradictory observation variants are still missing. |
 | W04-10 | P0 | `TESTED` | `benchmarks/outcome_episode.py` | Opaque task IDs and keyed values; task-ID probe never completes; label shuffle breaks an observation-following policy. |
-| W05-01 | P0 | `TODO` |  |  |
-| W05-02 | P0 | `TODO` |  |  |
-| W05-03 | P0 | `TODO` |  |  |
-| W05-04 | P0 | `TODO` |  |  |
-| W05-05 | P0 | `TODO` |  |  |
-| W05-06 | P0 | `TODO` |  |  |
+| W05-01 | P0 | `TESTED` | `benchmarks/outcome_arms.py` | Public correction, remote retraction, restricted source, silent change and delayed correction with declared best terminals; the independent-source case is covered by the recovery suite. |
+| W05-02 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` | Existing world; root_cause stays None (no physical-causality claim). |
+| W05-03 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
+| W05-04 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
+| W05-05 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
+| W05-06 | P0 | `TESTED` | `benchmarks/outcome_worlds_typed.py` |  |
 | W05-07 | P0 | `TODO` |  |  |
-| W05-08 | P0 | `TODO` |  |  |
+| W05-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_arms.py`<br>`benchmarks/outcome_worlds_typed.py` | restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02). |
 | W05-09 | P0 | `TODO` |  |  |
-| W05-10 | P0 | `TODO` |  |  |
+| W05-10 | P0 | `IMPLEMENTED` | `benchmarks/outcome_worlds_typed.py` | Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified. |
 | W06-01 | P0 | `TODO` |  |  |
 | W06-02 | P0 | `TODO` |  |  |
 | W06-03 | P0 | `TODO` |  |  |
-| W06-04 | P0 | `TODO` |  |  |
+| W06-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/eligibility.py` | Existing: independent current source recovers; revoked grants and sessions excluded; limits fail closed. |
 | W06-05 | P0 | `TODO` |  |  |
 | W06-06 | P0 | `TODO` |  |  |
 | W06-07 | P0 | `TODO` |  |  |
 | W06-08 | P0 | `TODO` |  |  |
 | W06-09 | P0 | `TODO` |  |  |
 | W06-10 | P0 | `TODO` |  |  |
-| W07-01 | P0 | `TODO` |  |  |
-| W07-02 | P0 | `TODO` |  |  |
+| W07-01 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py` | Catalog: refresh, re_retrieve, inspect_provenance, request_observation, ask_clarification, replan; read-only and non-authorizing (names differ from the checklist's). |
+| W07-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py`<br>`src/memory_fabric/outcome_typed/episode.py` |  |
 | W07-03 | P0 | `TODO` |  |  |
-| W07-04 | P0 | `TODO` |  |  |
+| W07-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/recovery.py` |  |
 | W07-05 | P0 | `TODO` |  |  |
-| W07-06 | P0 | `TODO` |  |  |
+| W07-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/recovery.py` |  |
 | W07-07 | P0 | `TODO` |  |  |
 | W07-08 | P0 | `TODO` |  |  |
 | W07-09 | P0 | `TODO` |  |  |
-| W07-10 | P0 | `TODO` |  |  |
-| W08-01 | P0 | `TODO` |  |  |
-| W08-02 | P0 | `TODO` |  |  |
-| W08-03 | P0 | `TODO` |  |  |
-| W08-04 | P0 | `TODO` |  |  |
-| W08-05 | P0 | `TODO` |  |  |
-| W08-06 | P0 | `TODO` |  |  |
-| W08-07 | P0 | `TODO` |  |  |
+| W07-10 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`research/results/agent-outcomes/scripted-arms-dev.json` | A5-A3 (governance) and A5-A4 (recovery) reported per family and per case. |
+| W08-01 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
+| W08-02 | P0 | `TODO` |  | Gap found: ActionGate reports a reused key with a changed payload as already_executed (it runs nothing). Fix needs the request binding in the attempt event: a schema change. Recorded in docs/KNOWN_GAPS.md. |
+| W08-03 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
+| W08-04 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
+| W08-05 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
+| W08-06 | P0 | `TESTED` | `benchmarks/outcome_episode.py`<br>`benchmarks/outcome_worlds_typed.py` |  |
+| W08-07 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
 | W08-08 | P0 | `TODO` |  |  |
-| W08-09 | P0 | `TODO` |  |  |
-| W08-10 | P0 | `TODO` |  |  |
+| W08-09 | P0 | `TESTED` | `src/memory_fabric/mcp`<br>`src/memory_fabric/agent_api.py` | HTTP, MCP and UTCP mock workflows agree on semantics and permissions; Code Mode not covered by this test. |
+| W08-10 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation. |
 | W09-01 | P0 | `TODO` |  |  |
 | W09-02 | P0 | `TODO` |  |  |
 | W09-03 | P0 | `TODO` |  |  |
@@ -151,16 +151,16 @@ Total: 240 tasks.
 | W10-08 | P1 | `TODO` |  |  |
 | W10-09 | P1 | `TODO` |  |  |
 | W10-10 | P1 | `TODO` |  |  |
-| W11-01 | P0 | `TODO` |  |  |
-| W11-02 | P0 | `TODO` |  |  |
-| W11-03 | P0 | `TODO` |  |  |
-| W11-04 | P0 | `TODO` |  |  |
+| W11-01 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
+| W11-02 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
+| W11-03 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`benchmarks/outcome_episode.py` |  |
+| W11-04 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
 | W11-05 | P0 | `TODO` |  |  |
 | W11-06 | P0 | `TODO` |  |  |
-| W11-07 | P0 | `TODO` |  |  |
-| W11-08 | P0 | `TODO` |  |  |
-| W11-09 | P0 | `TODO` |  |  |
-| W11-10 | P0 | `TODO` |  |  |
+| W11-07 | P0 | `IMPLEMENTED` | `benchmarks/outcome_arms.py` | Parity covers task IDs, worlds, envelopes, limits and policy; model inference settings do not exist for the scripted policy and are checked only when a model backend runs. |
+| W11-08 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
+| W11-09 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
+| W11-10 | P0 | `TESTED` | `benchmarks/outcome_arms.py` | A6 missing renders INCOMPLETE, never PASS. |
 | W12-01 | P0 | `TESTED` | `tools/model_preflight.py`<br>`research/results/agent-outcomes/baseline-70e34c8/model-preflight.json` | Loopback-only, no download; REAL_AGENT_NOT_RUN here (no runtime installed). |
 | W12-02 | P0 | `TODO` |  |  |
 | W12-03 | P0 | `TODO` |  |  |

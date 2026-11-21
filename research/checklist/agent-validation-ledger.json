@@ -366,11 +366,18 @@
    "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-04": {
-   "status": "IMPLEMENTED",
+   "status": "TESTED",
    "evidence": [
-    "benchmarks/outcome_episode.py"
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_arms.py"
    ],
-   "note": "Attempted, authorized, applied and objective-reached are separate stages; fixtures cover stale (not applied), unauthorized (applied) and lost-ack. An applied-but-objective-not-reached fixture is still missing (batch 3)."
+   "tests": [
+    "tests/test_outcome_arms.py::Stages",
+    "tests/test_outcome_episode.py::TerminalStatuses",
+    "tests/test_outcome_episode.py::TraceAndWorld::test_unauthorized_mutation_is_unsafe_even_when_the_value_is_right"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Fixtures: stale (not applied), applied-unauthorized, lost-ack, applied-authorized-not-reached."
   },
   "W04-05": {
    "status": "TESTED",
@@ -417,9 +424,10 @@
   "W04-09": {
    "status": "IMPLEMENTED",
    "evidence": [
-    "benchmarks/outcome_episode.py"
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_arms.py"
    ],
-   "note": "The feed is a public projection with no truth fields; missing, delayed, duplicated, contradictory and inaccessible variants arrive with the W05 world families."
+   "note": "Families now include delayed, missing (silent change), inaccessible (restricted) and retracted evidence; duplicated and contradictory observation variants are still missing."
   },
   "W04-10": {
    "status": "TESTED",
@@ -433,34 +441,91 @@
    "note": "Opaque task IDs and keyed values; task-ID probe never completes; label shuffle breaks an observation-following policy."
   },
   "W05-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Registry",
+    "tests/test_outcome_arms.py::Contrasts::test_no_headroom_families_are_failed_by_every_arm",
+    "tests/test_outcome_recovery_typed.py::TestVersionedOutcomeRequests::test_correction_preserves_action_supported_by_an_independent_alternative"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Public correction, remote retraction, restricted source, silent change and delayed correction with declared best terminals; the independent-source case is covered by the recovery suite."
   },
   "W05-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_battery_diagnosis_keeps_sensor_fault_and_overheating_nonexclusive"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Existing world; root_cause stays None (no physical-causality claim)."
   },
   "W05-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_maintenance_requires_all_dependent_prerequisites_and_allows_safe_alternatives"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_new_incident_alert_requires_rollback_and_revision_bound_replan"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_coding_repair_hides_oracle_cases_and_bounds_tool_calls",
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_coding_patch_interpreter_never_executes_submitted_calls"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_federation_copies_do_not_count_as_independent_and_late_effect_is_logged",
+    "tests/test_minority_source.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W05-07": {
    "status": "TODO"
   },
   "W05-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "note": "restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02)."
   },
   "W05-09": {
    "status": "TODO"
   },
   "W05-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "note": "Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified."
   },
   "W06-01": {
    "status": "TODO"
@@ -472,7 +537,15 @@
    "status": "TODO"
   },
   "W06-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/eligibility.py"
+   ],
+   "tests": [
+    "tests/test_outcome_alternate_sources.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Existing: independent current source recovers; revoked grants and sessions excluded; limits fail closed."
   },
   "W06-05": {
    "status": "TODO"
@@ -493,22 +566,55 @@
    "status": "TODO"
   },
   "W07-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_fallback_is_structured_and_selects_only_a_read_only_action"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "Catalog: refresh, re_retrieve, inspect_provenance, request_observation, ask_clarification, replan; read-only and non-authorizing (names differ from the checklist's)."
   },
   "W07-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_authorization_failure_blocks_and_counts_pointless_retrieval",
+    "tests/test_outcome_arms.py::Contrasts"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-03": {
    "status": "TODO"
   },
   "W07-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::StateMachine",
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_unknown_failure_abstains_and_no_progress_escalates"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-05": {
    "status": "TODO"
   },
   "W07-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryGuidance::test_authorization_failure_escalates_without_changing_grants"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W07-07": {
    "status": "TODO"
@@ -520,37 +626,107 @@
    "status": "TODO"
   },
   "W07-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "research/results/agent-outcomes/scripted-arms-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "A5-A3 (governance) and A5-A4 (recovery) reported per family and per case."
   },
   "W08-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::Fence::test_withdrawn_evidence_stops_it_before_the_side_effect"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-02": {
-   "status": "TODO"
+   "status": "TODO",
+   "note": "Gap found: ActionGate reports a reused key with a changed payload as already_executed (it runs nothing). Fix needs the request binding in the attempt event: a schema change. Recorded in docs/KNOWN_GAPS.md."
   },
   "W08-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::Fence::test_a_concurrent_retraction_waits_for_the_action"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_crash_typed.py",
+    "tests/test_action_fence_typed.py::Fence::test_an_unknown_outcome_needs_an_explicit_retry_that_re_verifies"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_action_reconciliation.py",
+    "tests/test_action_fence_typed.py::Fence::test_an_unknown_outcome_needs_an_explicit_retry_that_re_verifies"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TerminalStatuses::test_a_stale_proposal_has_zero_effect_where_the_world_checks_revisions",
+    "tests/test_outcome_world_engine.py::TestDeterministicOutcomeWorldEngine::test_mock_effects_change_only_hidden_state_and_are_idempotently_replayable"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_host_claims_cannot_raise_a_grade"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-08": {
    "status": "TODO"
   },
   "W08-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/mcp",
+    "src/memory_fabric/agent_api.py"
+   ],
+   "tests": [
+    "tests/test_n6_05_protocol_equivalence.py",
+    "tests/test_mcp_official.py"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "HTTP, MCP and UTCP mock workflows agree on semantics and permissions; Code Mode not covered by this test."
   },
   "W08-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "note": "The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation."
   },
   "W09-01": {
    "status": "TODO"
@@ -613,16 +789,46 @@
    "status": "TODO"
   },
   "W11-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Registry"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Parity"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts::test_a5_minus_a3_isolates_governance",
+    "tests/test_outcome_arms.py::Contrasts::test_equal_recovery_lets_pooled_memory_tie_on_corrections_it_can_see"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Contrasts::test_a5_minus_a4_isolates_recovery"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-05": {
    "status": "TODO"
@@ -631,16 +837,42 @@
    "status": "TODO"
   },
   "W11-07": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "note": "Parity covers task IDs, worlds, envelopes, limits and policy; model inference settings do not exist for the scripted policy and are checked only when a model backend runs."
   },
   "W11-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::OracleAndControls"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::OracleAndControls::test_negative_controls_fail_the_answerable_families"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W11-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "tests": [
+    "tests/test_outcome_arms.py::Parity"
+   ],
+   "verified_sha": "256f8265a695052ef422e93628a59df17c391396",
+   "note": "A6 missing renders INCOMPLETE, never PASS."
   },
   "W12-01": {
    "status": "TESTED",
