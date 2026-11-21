@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "memory-fabric/outcome-api.v1",
+  "title": "Outcome API run_task request (v1)",
+  "description": "Enforced by memory_fabric.outcome_typed.api.validate_request with the standard library. Authority-bearing and executable fields are refused; effects are host-registered and chosen by name.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "objective"],
+  "properties": {
+    "task_id": {"type": "string"},
+    "objective": {"type": "string"},
+    "objective_id": {"type": "string"},
+    "recovery": {"type": "boolean"},
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_steps": {"type": "integer"},
+        "max_tool_calls": {"type": "integer"},
+        "max_context_bytes": {"type": "integer"},
+        "max_wall_ms": {"type": "integer"},
+        "max_recoveries": {"type": "integer"}
+      }
+    }
+  },
+  "refused_fields": ["grant", "certificate", "approval", "credential", "token", "session", "callback", "code", "python", "callable", "handler", "effect", "effects", "evaluator", "oracle", "policy", "role"],
+  "statuses": ["EFFECT_EXECUTED", "ABSTAINED", "BLOCKED", "BUDGET_EXCEEDED", "UNDECIDABLE"],
+  "errors": {
+    "INVALID_REQUEST": "The request does not match the schema; nothing ran.",
+    "UNKNOWN_TASK": "No task with this id has run through this API.",
+    "NOT_RUN": "The operation needs a task that has run; this one has not.",
+    "NON_REPLAYABLE": "The recorded task cannot be resumed: its trace is incomplete.",
+    "BLOCKED": "The task cannot be resumed: its stop is not recoverable by re-running.",
+    "UNDECIDABLE": "Whether the effect happened is unknown; reconcile before anything else.",
+    "BUDGET_EXCEEDED": "The task used its whole budget; the host must decide to extend it."
+  },
+  "examples": [
+    {"task_id": "task-0001", "objective": "set the actuator to the current instrument-A reading", "recovery": true},
+    {"task_id": "task-0002", "objective": "same, with a tight budget", "limits": {"max_steps": 4}}
+  ]
+}

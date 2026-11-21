@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 217
+  "unique": 231
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -43,6 +43,7 @@
   },
   "outcome_typed": {
    "modules": [
+    "api",
     "cdm_dispatch",
     "compat",
     "delegation",
@@ -62,7 +63,7 @@
     "runtime",
     "spool"
    ],
-   "public_names": 197,
+   "public_names": 211,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -708,7 +709,9 @@
    "search_alternate_sources"
   ],
   "outcome_typed": [
+   "ACTION_PERMISSION",
    "ACTOR_BACKEND_CODES",
+   "AUTHORITY_FIELDS",
    "AXIS",
    "ActorBackendError",
    "ActorTrace",
@@ -728,6 +731,7 @@
    "DispatchReport",
    "DispatchRow",
    "EPISODE_SCHEMA_ID",
+   "ERRORS",
    "EffectOutcome",
    "EffectRecord",
    "EpisodeAudit",
@@ -758,6 +762,7 @@
    "LADDER_ORDER",
    "LEGACY_PACKAGES",
    "LEGACY_SCHEMA_ID",
+   "LIMIT_FIELDS",
    "LadderResult",
    "Lease",
    "MAX_ALTERNATE_SOURCE_BASES",
@@ -780,10 +785,13 @@
    "MemoryPort",
    "ModelActor",
    "ModelConfig",
+   "NEXT_STEPS",
    "NON_REPLAYABLE",
    "NOT_A_REFUSAL",
    "ORACLE_SCHEMA_ID",
    "OUTCOME_AUDIT_SCHEMA_ID",
+   "OutcomeAPI",
+   "OutcomeApiError",
    "OutcomeAuditEvent",
    "OutcomeAuditKind",
    "OutcomeBenefitLabel",
@@ -797,11 +805,14 @@
    "Population",
    "Proposal",
    "REASONS",
+   "REASON_DIAGNOSIS",
    "RECOVERY_ACTIONS",
    "RECOVERY_AUDIT_SCHEMA_ID",
    "RECOVERY_CHECKPOINT_SCHEMA_ID",
    "RELEASE_MATRIX_GATES",
    "REPLAYED",
+   "REQUEST_FIELDS",
+   "REQUIRED_FIELDS",
    "RESOLVED_BY_ALTERNATE_SOURCE",
    "ROLES",
    "RecoveryCause",
@@ -821,9 +832,11 @@
    "RuntimeResult",
    "RuntimeStatus",
    "RuntimeTool",
+   "SCHEMA_VERSION",
    "SKIP_BUDGET",
    "SKIP_INDEPENDENT",
    "SKIP_NO_ALTERNATIVE",
+   "STATUS",
    "STOP_CONDITIONS",
    "SUNSET",
    "SYSTEM_TEMPLATE",
@@ -831,6 +844,7 @@
    "TRACE_SCHEMA_ID",
    "TRANSITIONS",
    "TaskEnvelope",
+   "TaskResult",
    "TerminalGrade",
    "TerminalObjective",
    "TerminalSnapshot",
@@ -889,7 +903,8 @@
    "tool_schema",
    "trace_digest",
    "utility_ledger",
-   "validate_paired_comparison"
+   "validate_paired_comparison",
+   "validate_request"
   ]
  }
 }

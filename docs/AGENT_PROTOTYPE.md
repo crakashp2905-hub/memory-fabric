@@ -81,6 +81,25 @@ The doctor reports:
 - the task-ledger totals;
 - whether this commit has an end-to-end gate record.
 
+## Tenants and authorization
+
+```bash
+python examples/agent_outcome_tenant_setup.py
+```
+
+This sets up a tenant from nothing:
+
+- agent keys are generated with `os.urandom` and never printed;
+- the action policy grants one tool to one agent;
+- a second agent in the same tenant is registered without that grant.
+
+The script prints `ops: allowed` and `intern: refused (tool_not_granted)`.
+Nothing in it is a default credential. For the high-level API
+(`memory_fabric.outcome_typed.api`), requests are checked against
+[`docs/schemas/outcome-api.v1.json`](schemas/outcome-api.v1.json). Grants,
+certificates, callbacks and code are refused as request fields; effects are
+host-registered.
+
 ## With a local model
 
 If an Ollama runtime on 127.0.0.1 already has a model, run:
