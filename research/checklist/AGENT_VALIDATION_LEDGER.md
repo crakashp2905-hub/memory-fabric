@@ -8,9 +8,9 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 116 |
+| `TODO` | 115 |
 | `IMPLEMENTED` | 16 |
-| `TESTED` | 98 |
+| `TESTED` | 99 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
@@ -29,7 +29,7 @@ Total: 240 tasks.
 | W05 | Design broader, hard-to-game synthetic agent worlds | 2 | 2 | 6 | 0 | 0 | 0 | 0 |
 | W06 | Evidence diagnosis before refusal | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W07 | Safe recovery orchestration, not blanket refusal | 5 | 0 | 5 | 0 | 0 | 0 | 0 |
-| W08 | Action-time safety, idempotency and terminal effects | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
+| W08 | Action-time safety, idempotency and terminal effects | 1 | 1 | 8 | 0 | 0 | 0 | 0 |
 | W09 | Counterfactual Decision Memory used only where beneficial | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W10 | Multi-agent knowledge and coordination under changing truth | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W11 | Fair baselines and resource parity | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
@@ -122,7 +122,7 @@ Total: 240 tasks.
 | W07-09 | P0 | `TODO` |  |  |
 | W07-10 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`research/results/agent-outcomes/scripted-arms-dev.json` | A5-A3 (governance) and A5-A4 (recovery) reported per family and per case. |
 | W08-01 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
-| W08-02 | P0 | `TODO` |  | Gap found: ActionGate reports a reused key with a changed payload as already_executed (it runs nothing). Fix needs the request binding in the attempt event: a schema change. Recorded in docs/KNOWN_GAPS.md. |
+| W08-02 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py`<br>`src/memory_fabric/outcome_typed/episode.py`<br>`docs/KNOWN_GAPS.md` | Key binding covers tool, actor, target, parameters, receipt context (task), tenant and source versions; a changed action under a used key is REFUSED (idempotency_key_payload_mismatch), never reported done. Residual: a typed-gate call with no request and no receipt context records no binding. |
 | W08-03 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
 | W08-04 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |
 | W08-05 | P0 | `TESTED` | `src/memory_fabric/actions_typed.py` |  |

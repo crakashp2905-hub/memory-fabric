@@ -16,7 +16,7 @@
     ]
   },
   "engineering": {
-    "basis": "end-to-end gate PASS at 7ccbc6686051ecac477d940576177793b74a7991; synthetic outcome gate SCRIPTED_PASS",
+    "basis": "end-to-end gate PASS at 26a578946ef93862df237a0fbfb8dfe7c27b2b65; synthetic outcome gate SCRIPTED_PASS",
     "decision": "GO",
     "scope": "internal local prototype on scripted worlds; not a release"
   },
@@ -29,8 +29,8 @@
       "LOCAL_MODEL_QUALIFIED": 0,
       "RESEARCH_QUALIFIED": 0,
       "SCRIPTED_QUALIFIED": 0,
-      "TESTED": 98,
-      "TODO": 116
+      "TESTED": 99,
+      "TODO": 115
     },
     "release_matrix": {
       "confirmatory": "NOT_RUN",
@@ -42,19 +42,19 @@
     },
     "tasks_improvable_over_A3": 8
   },
-  "gate_commit": "7ccbc6686051ecac477d940576177793b74a7991",
+  "gate_commit": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
   "inputs": {
     "ablation": {
       "path": "research/results/agent-outcomes/scripted-ablation-dev.json",
       "sha256": "768ebde7076f38b8c0d23df3d2b82b19b1503b58a275981345877f041fa0f01b"
     },
     "gate": {
-      "path": "research/results/agent-outcomes/candidate-offline/7ccbc66/report.json",
-      "sha256": "be07c8fabef3a8399c93e40fe0ef5570336ef37d62bf0b6484629a6ee63a9943"
+      "path": "research/results/agent-outcomes/candidate-offline/26a5789/report.json",
+      "sha256": "80c513e674702415941e7180a8fd2f3eaa5888a684f87b74ee6e43396c5e8924"
     },
     "ledger": {
       "path": "research/checklist/agent-validation-ledger.json",
-      "sha256": "15378636a998e94a5717279a64452dadfaba74d90cc05b762d18a6aabf85e787"
+      "sha256": "1ff877f161a90dd849cce82cbecd90ddfe713b2c1d93ed80db75a078800a7951"
     },
     "registration": {
       "path": "research/prereg/agent-outcome-confirmatory-v2.json",

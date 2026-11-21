@@ -648,8 +648,18 @@
    "verified_sha": "256f8265a695052ef422e93628a59df17c391396"
   },
   "W08-02": {
-   "status": "TODO",
-   "note": "Gap found: ActionGate reports a reused key with a changed payload as already_executed (it runs nothing). Fix needs the request binding in the attempt event: a schema change. Recorded in docs/KNOWN_GAPS.md."
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions_typed.py",
+    "src/memory_fabric/outcome_typed/episode.py",
+    "docs/KNOWN_GAPS.md"
+   ],
+   "tests": [
+    "tests/test_action_fence_typed.py::IdempotencyBinding",
+    "tests/test_outcome_episode.py::IdempotencyThroughThePort::test_a_reused_effect_key_with_changed_parameters_is_refused"
+   ],
+   "verified_sha": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+   "note": "Key binding covers tool, actor, target, parameters, receipt context (task), tenant and source versions; a changed action under a used key is REFUSED (idempotency_key_payload_mismatch), never reported done. Residual: a typed-gate call with no request and no receipt context records no binding."
   },
   "W08-03": {
    "status": "TESTED",
