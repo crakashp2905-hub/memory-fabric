@@ -8,9 +8,9 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 227 |
-| `IMPLEMENTED` | 0 |
-| `TESTED` | 13 |
+| `TODO` | 197 |
+| `IMPLEMENTED` | 4 |
+| `TESTED` | 39 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
@@ -23,9 +23,9 @@ Total: 240 tasks.
 | workstream | title | `TODO` | `IMPLEMENTED` | `TESTED` | `SCRIPTED_QUALIFIED` | `LOCAL_MODEL_QUALIFIED` | `RESEARCH_QUALIFIED` | `BLOCKED_EXTERNAL` |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | W01 | Exact revision, evidence registry, and failed-workflow triage | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
-| W02 | Consolidate the three experimental outcome packages | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W03 | One genuine end-to-end agent execution loop | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W04 | Independent outcomes and hidden-world evaluation | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W02 | Consolidate the three experimental outcome packages | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
+| W03 | One genuine end-to-end agent execution loop | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
+| W04 | Independent outcomes and hidden-world evaluation | 0 | 3 | 7 | 0 | 0 | 0 | 0 |
 | W05 | Design broader, hard-to-game synthetic agent worlds | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W06 | Evidence diagnosis before refusal | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W07 | Safe recovery orchestration, not blanket refusal | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -61,36 +61,36 @@ Total: 240 tasks.
 | W01-08 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/evidence.py` |  |
 | W01-09 | P0 | `TESTED` | `tools/claim_scanner.py`<br>`tools/claim_scanner_allowlist.json` | Found one unlinked result and two unlinked thresholds; linked, allowlist empty. |
 | W01-10 | P0 | `TESTED` | `research/results/agent-outcomes/baseline-70e34c8/BASELINE.md`<br>`research/results/agent-outcomes/baseline-70e34c8/baseline.json`<br>`research/results/agent-outcomes/baseline-70e34c8/local-test-run.json` |  |
-| W02-01 | P0 | `TODO` |  |  |
-| W02-02 | P0 | `TODO` |  |  |
-| W02-03 | P0 | `TODO` |  |  |
-| W02-04 | P0 | `TODO` |  |  |
-| W02-05 | P0 | `TODO` |  |  |
-| W02-06 | P0 | `TODO` |  |  |
-| W02-07 | P0 | `TODO` |  |  |
-| W02-08 | P0 | `TODO` |  |  |
-| W02-09 | P0 | `TODO` |  |  |
-| W02-10 | P0 | `TODO` |  |  |
-| W03-01 | P0 | `TODO` |  |  |
-| W03-02 | P0 | `TODO` |  |  |
-| W03-03 | P0 | `TODO` |  |  |
-| W03-04 | P0 | `TODO` |  |  |
-| W03-05 | P0 | `TODO` |  |  |
-| W03-06 | P0 | `TODO` |  |  |
-| W03-07 | P0 | `TODO` |  |  |
-| W03-08 | P0 | `TODO` |  |  |
-| W03-09 | P0 | `TODO` |  |  |
-| W03-10 | P0 | `TODO` |  |  |
-| W04-01 | P0 | `TODO` |  |  |
-| W04-02 | P0 | `TODO` |  |  |
-| W04-03 | P0 | `TODO` |  |  |
-| W04-04 | P0 | `TODO` |  |  |
-| W04-05 | P0 | `TODO` |  |  |
-| W04-06 | P0 | `TODO` |  |  |
-| W04-07 | P0 | `TODO` |  |  |
-| W04-08 | P0 | `TODO` |  |  |
-| W04-09 | P0 | `TODO` |  |  |
-| W04-10 | P0 | `TODO` |  |  |
+| W02-01 | P0 | `TESTED` | `tools/outcome_package_inventory.py`<br>`docs/architecture/OUTCOME_PACKAGE_INVENTORY.json` | 3 identical, 12 conflicting shared names; agent_outcomes has no unique names. |
+| W02-02 | P0 | `TESTED` | `docs/adr/0004-canonical-outcome-runtime.md` | outcome_typed is canonical; every responsibility has one owner. |
+| W02-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/compat.py` |  |
+| W02-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/observations.py` | Canonical guard tightened to the union of the legacy guards. |
+| W02-05 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/compat.py` |  |
+| W02-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/observations.py`<br>`src/memory_fabric/outcome_typed/episode.py` |  |
+| W02-07 | P0 | `TESTED` | `docs/architecture/OUTCOME_LEGACY_CALLSITES.json`<br>`tools/outcome_package_inventory.py` | 32 grandfathered call sites, sunset 2027-03-31. |
+| W02-08 | P0 | `IMPLEMENTED` | `tests/test_outcome_canonical_package.py` | Contract-level differential only (accept/reject and content across all three packages); it found and fixed a weaker canonical guard. A differential of gate decisions through the legacy runtimes is not built. |
+| W02-09 | P0 | `TESTED` | `src/memory_fabric/agent_outcomes/__init__.py`<br>`src/memory_fabric/outcome_protocol/__init__.py` |  |
+| W02-10 | P0 | `TESTED` | `tests/test_outcome_canonical_package.py` |  |
+| W03-01 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` | Scripted and JSON (model-shaped) backends produce identical traces through the same host. |
+| W03-04 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-05 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-07 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-08 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`benchmarks/outcome_episode.py` |  |
+| W03-09 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py` |  |
+| W03-10 | P0 | `TESTED` | `benchmarks/outcome_episode.py` | python -m benchmarks.outcome_episode --seed 1; scripted test double, not learned-agent evidence. |
+| W04-01 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
+| W04-02 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
+| W04-03 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
+| W04-04 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | Attempted, authorized, applied and objective-reached are separate stages; fixtures cover stale (not applied), unauthorized (applied) and lost-ack. An applied-but-objective-not-reached fixture is still missing (batch 3). |
+| W04-05 | P0 | `TESTED` | `benchmarks/outcome_episode.py` |  |
+| W04-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/observations.py` |  |
+| W04-07 | P0 | `TESTED` | `benchmarks/outcome_episode.py`<br>`src/memory_fabric/outcome_typed/episode.py` |  |
+| W04-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | World transcript kept outside the actor trace with a reproducible digest; a separate content-safe audit verifier is not built. |
+| W04-09 | P0 | `IMPLEMENTED` | `benchmarks/outcome_episode.py` | The feed is a public projection with no truth fields; missing, delayed, duplicated, contradictory and inaccessible variants arrive with the W05 world families. |
+| W04-10 | P0 | `TESTED` | `benchmarks/outcome_episode.py` | Opaque task IDs and keyed values; task-ID probe never completes; label shuffle breaks an observation-following policy. |
 | W05-01 | P0 | `TODO` |  |  |
 | W05-02 | P0 | `TODO` |  |  |
 | W05-03 | P0 | `TODO` |  |  |
