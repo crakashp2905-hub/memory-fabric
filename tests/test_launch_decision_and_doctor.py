@@ -22,6 +22,7 @@ def _load(name: str):
 
 launch = _load("launch_decision")
 doctor = _load("agent_outcome_doctor")
+gate_tool = _load("agent_outcome_end_to_end_gate")
 SHA = "d" * 40
 
 
@@ -80,6 +81,37 @@ class Decision(unittest.TestCase):
         self.assertEqual(set(record["inputs"]), {"gate", "scorecard", "ablation", "ledger",
                                                  "registration"})
         self.assertTrue(all(len(item["sha256"]) == 64 for item in record["inputs"].values()))
+
+
+class NoOverclaimedIntegrity(unittest.TestCase):
+    """W19-06: hashes are integrity checks; nothing calls them attestation or certification."""
+
+    WORDS = ("attestation", "attested", "certified", "certification")
+
+    def scrub(self, text: str) -> str:
+        for signature in (launch.SIGNATURE, gate_tool.SIGNATURE):
+            text = text.replace(signature, "")
+        return text.lower()
+
+    def test_reports_say_they_are_unsigned(self) -> None:
+        record = launch.decide(gate(), card(0.4, 0.6), ABLATION, {}, [])
+        record = {"gate_commit": SHA, "signature": launch.SIGNATURE, **record,
+                  "inputs": {"gate": {"path": "g.json", "sha256": "0" * 64}}}
+        self.assertTrue(launch.SIGNATURE.startswith("UNSIGNED"))
+        self.assertIn(launch.SIGNATURE, launch.render(record))
+        report = {"candidate_commit_sha": SHA, "status": "PASS", "stages": {},
+                  "release_matrix": gate_tool.build_matrix({}, SHA), "signature": gate_tool.SIGNATURE}
+        self.assertIn(gate_tool.SIGNATURE, gate_tool.render_markdown(report))
+
+    def test_no_view_or_report_calls_a_hash_an_attestation(self) -> None:
+        texts = {"dashboard": (ROOT / "src/memory_fabric/observability/static/dashboard.html")
+                 .read_text(encoding="utf-8")}
+        for path in sorted((ROOT / "research/results/agent-outcomes").glob("**/*.md")):
+            if "LAUNCH" in path.name or "REPORT" in path.name:
+                texts[path.name + str(path.parent.name)] = path.read_text(encoding="utf-8")
+        for name, text in texts.items():
+            for word in self.WORDS:
+                self.assertNotIn(word, self.scrub(text), f"{name} says {word!r}")
 
 
 class Doctor(unittest.TestCase):

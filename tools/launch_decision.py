@@ -37,6 +37,8 @@ for extra in (ROOT, ROOT / "src"):
         sys.path.insert(0, str(extra))
 
 SCHEMA_ID = "memory-fabric.launch-decision.v1"
+SIGNATURE = ("UNSIGNED: a local report. Its integrity rests on the committed file and its "
+             "sha256, not on a signature, attestation or independent certification.")
 RESULTS = ROOT / "research" / "results" / "agent-outcomes"
 DEFAULTS = {
     "scorecard": RESULTS / "scripted-scorecard-dev.json",
@@ -132,6 +134,7 @@ def render(record: Mapping[str, Any]) -> str:
     lines += ["", "## Maximum credible inference", ""]
     lines += [f"- **{tier.replace('_', ' ')}**: {text}"
               for tier, text in record["maximum_credible_inference"].items()]
+    lines += ["", f"_{record.get('signature', SIGNATURE)}_"]
     lines += ["", "## Inputs", "", "| input | path | sha256 |", "|---|---|---|"]
     lines += [f"| {name} | [`{item['path']}`](../../../{item['path']}) | `{item['sha256'][:16]}` |"
               for name, item in record["inputs"].items()]
@@ -158,7 +161,7 @@ def main(argv: list[str] | None = None) -> int:
     record = decide(data["gate"], data["scorecard"], data["ablation"], totals,
                     validate(data["registration"]))
     record = {"schema_id": SCHEMA_ID, "gate_commit": data["gate"].get("candidate_commit_sha"),
-              **record,
+              "signature": SIGNATURE, **record,
               "inputs": {name: {"path": _rel(path), "sha256": _sha256(path)}
                          for name, path in paths.items()}}
     args.out_json.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -54,6 +54,22 @@ class WriteFaultInjection(unittest.TestCase):
         self.assertEqual(self.fabric.get(memory_id).content, "original wording")
         self.assert_projection_matches_replay()
 
+    def test_a_failed_append_leaves_the_integrity_chain_whole(self) -> None:
+        # W17-06: a write that aborts mid-commit adds nothing to the log or the
+        # chain, the chain still verifies, and the next write extends it.
+        self.fabric.remember("agent_a", "before the fault")
+        self.fail_event(EventType.MEMORY_CREATED)
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.fabric.remember("agent_a", "aborted write")
+        self.clear_failure()
+        log = self.fabric.log
+        self.assertEqual(len(log.chain), len(log))
+        self.assertTrue(log.chain.verify(log.read()).ok)
+        self.fabric.remember("agent_a", "after the fault")
+        self.assertEqual(len(log.chain), len(log))
+        self.assertTrue(log.chain.verify(log.read()).ok)
+        self.assert_projection_matches_replay()
+
     def test_erasure_failure_keeps_key_and_projection_consistent(self) -> None:
         memory_id = self.fabric.remember("agent_a", "erase probe secret")
         self.fail_event(EventType.CONTENT_ERASED)

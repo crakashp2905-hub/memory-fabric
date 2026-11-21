@@ -46,6 +46,8 @@ from memory_fabric.outcome_typed.evidence import (  # noqa: E402
 )
 
 SCHEMA_ID = "memory-fabric.agent-outcome-end-to-end-gate.v1"
+SIGNATURE = ("UNSIGNED: a local report. Its integrity rests on the committed file and its "
+             "sha256, not on a signature, attestation or independent certification.")
 PY = sys.executable
 CONTRACT_TESTS = [
     "tests/test_outcome_episode.py", "tests/test_outcome_arms.py",
@@ -57,6 +59,7 @@ CONTRACT_TESTS = [
     "tests/test_outcome_prereg.py", "tests/test_outcome_ablation.py",
     "tests/test_outcome_evaluator_mutation.py", "tests/test_agent_outcome_end_to_end_gate.py",
     "tests/test_fake_local_model.py", "tests/test_launch_decision_and_doctor.py",
+    "tests/test_agent_threat_matrix.py", "tests/test_action_fence_typed.py",
 ]
 
 
@@ -197,7 +200,8 @@ def render_markdown(report: dict[str, Any]) -> str:
     for row in report["release_matrix"]["rows"]:
         lines.append(f"| {row['gate_id']} | {row['status']} | {row['evidence_type'] or '-'} |")
     lines += ["", "No row is a production qualification. NOT_RUN means no evidence of that "
-              "gate's own type exists for this commit."]
+              "gate's own type exists for this commit.", "",
+              f"_{report.get('signature', SIGNATURE)}_"]
     return "\n".join(lines) + "\n"
 
 
@@ -247,7 +251,8 @@ def main(argv: list[str] | None = None) -> int:
     report = {"schema_id": SCHEMA_ID, "candidate_commit_sha": sha,
               "status": "FAIL" if failed else "PASS", "failed_stages": failed,
               "stages": stages, "release_matrix": build_matrix(stages, sha),
-              "production_qualified": False}
+              "production_qualified": False,
+              "signature": SIGNATURE}
     (out / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n",
                                      encoding="utf-8")
     (out / "REPORT.md").write_text(render_markdown(report), encoding="utf-8")
