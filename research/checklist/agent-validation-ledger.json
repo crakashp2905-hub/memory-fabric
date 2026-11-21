@@ -1292,13 +1292,29 @@
    "status": "TODO"
   },
   "W16-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/model_actor.py"
+   ],
+   "tests": [
+    "tests/test_outcome_model_actor.py::DistinctFailures::test_hallucinated_evidence_is_refused_before_verification",
+    "tests/test_outcome_model_actor.py::DistinctFailures::test_invalid_tool_name",
+    "tests/test_outcome_episode.py::Tools::test_authority_shaped_memory_text_grants_nothing"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Invented evidence ids/versions (evidence_not_retrieved), tool names (tool_not_declared) and commitments (proposal_commitment_mismatch) are refused; exercised with FAKE answers, not a model."
   },
   "W16-06": {
    "status": "TODO"
   },
   "W16-07": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
+   "evidence": [
+    "tools/model_attack_check.py"
+   ],
+   "note": "Model-attack harness reports NOT_RUN / MODEL_NOT_AVAILABLE without a model."
   },
   "W16-08": {
    "status": "TESTED",
@@ -1414,7 +1430,16 @@
    "status": "TODO"
   },
   "W20-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_PROTOTYPE.md",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::OneCommand::test_the_command_line_runs_in_a_fresh_process"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "One offline command runs observer, planner and executor to a graded receipt; guide lists five commands."
   },
   "W20-03": {
    "status": "TODO"
@@ -1432,13 +1457,29 @@
    "status": "TODO"
   },
   "W20-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/fake_local_model.py"
+   ],
+   "tests": [
+    "tests/test_fake_local_model.py::FakeServer"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Loopback FAKE server drives the real HTTP client, preflight, actor and model team; reports FAKE runtime and digests; runs are FAKE_BACKEND_NOT_EVIDENCE."
   },
   "W20-09": {
    "status": "TODO"
   },
   "W20-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/agent_outcome_doctor.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Doctor"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Runtime, canonical vs deprecated packages, role tools, recovery default, loopback model availability, ledger and gate-at-HEAD."
   },
   "W21-01": {
    "status": "TODO"
@@ -1471,7 +1512,13 @@
    "status": "TODO"
   },
   "W22-01": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "research/prereg/agent-outcome-confirmatory-v2.json"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Thesis encoded as the registered primary contrast A5-A3 at equal budget; untested on learned agents."
   },
   "W22-02": {
    "status": "TODO"
@@ -1480,7 +1527,15 @@
    "status": "TODO"
   },
   "W22-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_ablation.py"
+   ],
+   "tests": [
+    "tests/test_outcome_ablation.py::Factorial::test_each_family_credits_only_the_factor_that_moves_it"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Per family: governance helps only restricted_source, recovery only public_correction, neither elsewhere; governance never hurts in these scripted families (a designed population, no prevalence)."
   },
   "W22-05": {
    "status": "TODO"
@@ -1554,7 +1609,16 @@
    "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W23-10": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN); an independent review and pilot",
+   "evidence": [
+    "tools/launch_decision.py",
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision::test_deployment_go_needs_every_gate_of_its_own_type"
+   ],
+   "note": "Exact-SHA offline qualification and separate engineering/deployment decisions exist; model evidence and research promotion cannot be produced here. Deployment stays HOLD."
   },
   "W24-01": {
    "status": "TODO"
@@ -1563,13 +1627,36 @@
    "status": "TODO"
   },
   "W24-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision::test_a_fair_baseline_that_ties_is_no_go",
+    "tests/test_launch_decision_and_doctor.py::Decision::test_no_headroom_is_no_go"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "No-go: fair baseline with equal recovery ties or wins; no headroom; underpowered model effect."
   },
   "W24-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_PROTOTYPE.md",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::OneCommand::test_the_command_line_runs_in_a_fresh_process"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Local showcase with no customer data, external API or service."
   },
   "W24-05": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Decision record states the maximum credible inference separately for simulator, local-model study (NOT_RUN) and independent pilot (NOT_RUN)."
   },
   "W24-06": {
    "status": "TODO"
@@ -1584,7 +1671,15 @@
    "status": "TODO"
   },
   "W24-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_launch_decision_and_doctor.py::Decision"
+   ],
+   "verified_sha": "7ccbc6686051ecac477d940576177793b74a7991",
+   "note": "Auditable record from hashed committed inputs; engineering and deployment decisions kept separate. Operational evidence beyond the gate is not an input yet."
   }
  }
 }

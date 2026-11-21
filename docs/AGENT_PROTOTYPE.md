@@ -7,7 +7,7 @@ on the standard library, with no hosted service, downloaded data or model.
 |---|---|
 | **What it is** | An observer, planner and executor that share Memory Fabric memory, run on one canonical episode runtime (`memory_fabric.outcome_typed`) against simulated worlds, and are graded by an evaluator they cannot see |
 | **What it shows** | On five designed world families, governance (tenant access control plus the action gate) and recovery (re-planning when evidence changes) each improve safe outcomes where their mechanism applies, against fair baselines given the same recovery |
-| **What it does not show** | Anything about learned agents, prevalence in real tasks, or production readiness. No local model has been run, and the deployment decision is HOLD (`research/results/agent-outcomes/LAUNCH_DECISION.md`) |
+| **What it does not show** | Anything about learned agents, prevalence in real tasks, or production readiness. No local model has been run, and the deployment decision is HOLD ([decision record](../research/results/agent-outcomes/LAUNCH_DECISION.md)) |
 
 ## 1. One episode, start to finish
 
@@ -61,7 +61,7 @@ This one command checks contracts, the adversarial gate and secret scan, the
 demo, the arms and scorecard, and provenance. It writes `report.json` and
 `REPORT.md` even when a stage fails, and exits 1 on any required failure.
 Committed record:
-[candidate-offline/05ced0e](../research/results/agent-outcomes/candidate-offline/05ced0e/REPORT.md).
+[candidate-offline/7ccbc66](../research/results/agent-outcomes/candidate-offline/7ccbc66/REPORT.md).
 
 ## 5. What is available here, and what is missing
 
@@ -97,7 +97,7 @@ loopback server (`benchmarks/fake_local_model.py`) is labelled
 ## Decisions
 
 ```bash
-python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/05ced0e/report.json \
+python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/7ccbc66/report.json \
     --out-json decision.json --out-md DECISION.md
 ```
 

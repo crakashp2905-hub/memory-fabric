@@ -8,13 +8,13 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 128 |
-| `IMPLEMENTED` | 14 |
-| `TESTED` | 90 |
+| `TODO` | 116 |
+| `IMPLEMENTED` | 16 |
+| `TESTED` | 98 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
-| `BLOCKED_EXTERNAL` | 8 |
+| `BLOCKED_EXTERNAL` | 10 |
 
 Total: 240 tasks.
 
@@ -37,15 +37,15 @@ Total: 240 tasks.
 | W13 | Strict evaluator metrics and operator-relevant benefits | 0 | 4 | 6 | 0 | 0 | 0 | 0 |
 | W14 | Preregister and power the real confirmatory study | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
 | W15 | Run negative-control, ablation and confirmatory experiments | 2 | 1 | 3 | 0 | 0 | 0 | 4 |
-| W16 | Defend learned agents against contaminated memory and unsafe prompts | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
+| W16 | Defend learned agents against contaminated memory and unsafe prompts | 7 | 0 | 2 | 0 | 0 | 0 | 1 |
 | W17 | Persistence, recovery, and transactional consistency | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W18 | Performance and cost efficiency with honest measurements | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W19 | Governance privacy, consent, erasure, operator trust | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W20 | Developer-facing APIs, SDK and usability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W20 | Developer-facing APIs, SDK and usability | 7 | 0 | 3 | 0 | 0 | 0 | 0 |
 | W21 | Control Center and operator outcome observability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W22 | Research novelty, precise scientific claims and negative results | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W23 | CI, local qualification and no-regression release gates | 7 | 0 | 3 | 0 | 0 | 0 | 0 |
-| W24 | Business value and launch decision without premature deployment | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W22 | Research novelty, precise scientific claims and negative results | 8 | 1 | 1 | 0 | 0 | 0 | 0 |
+| W23 | CI, local qualification and no-regression release gates | 6 | 0 | 3 | 0 | 0 | 0 | 1 |
+| W24 | Business value and launch decision without premature deployment | 6 | 1 | 3 | 0 | 0 | 0 | 0 |
 
 ## Tasks
 
@@ -205,9 +205,9 @@ Total: 240 tasks.
 | W16-02 | P0 | `TODO` |  |  |
 | W16-03 | P0 | `TODO` |  |  |
 | W16-04 | P0 | `TODO` |  |  |
-| W16-05 | P0 | `TODO` |  |  |
+| W16-05 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/model_actor.py` | Invented evidence ids/versions (evidence_not_retrieved), tool names (tool_not_declared) and commitments (proposal_commitment_mismatch) are refused; exercised with FAKE answers, not a model. |
 | W16-06 | P0 | `TODO` |  |  |
-| W16-07 | P0 | `TODO` |  |  |
+| W16-07 | P0 | `BLOCKED_EXTERNAL` | `tools/model_attack_check.py` | Model-attack harness reports NOT_RUN / MODEL_NOT_AVAILABLE without a model. |
 | W16-08 | P0 | `TESTED` | `.github/workflows/model-attacks.yml`<br>`tools/model_attack_check.py`<br>`tools/classify_workflow_run.py` | Artifacts carry preflight, stderr and status; runner-less failures are classified from metadata. |
 | W16-09 | P0 | `TODO` |  |  |
 | W16-10 | P0 | `TODO` |  |  |
@@ -242,15 +242,15 @@ Total: 240 tasks.
 | W19-09 | P1 | `TODO` |  |  |
 | W19-10 | P1 | `TODO` |  |  |
 | W20-01 | P1 | `TODO` |  |  |
-| W20-02 | P1 | `TODO` |  |  |
+| W20-02 | P1 | `TESTED` | `docs/AGENT_PROTOTYPE.md`<br>`benchmarks/outcome_episode.py` | One offline command runs observer, planner and executor to a graded receipt; guide lists five commands. |
 | W20-03 | P1 | `TODO` |  |  |
 | W20-04 | P1 | `TODO` |  |  |
 | W20-05 | P1 | `TODO` |  |  |
 | W20-06 | P1 | `TODO` |  |  |
 | W20-07 | P1 | `TODO` |  |  |
-| W20-08 | P1 | `TODO` |  |  |
+| W20-08 | P1 | `TESTED` | `benchmarks/fake_local_model.py` | Loopback FAKE server drives the real HTTP client, preflight, actor and model team; reports FAKE runtime and digests; runs are FAKE_BACKEND_NOT_EVIDENCE. |
 | W20-09 | P1 | `TODO` |  |  |
-| W20-10 | P1 | `TODO` |  |  |
+| W20-10 | P1 | `TESTED` | `tools/agent_outcome_doctor.py` | Runtime, canonical vs deprecated packages, role tools, recovery default, loopback model availability, ledger and gate-at-HEAD. |
 | W21-01 | P1 | `TODO` |  |  |
 | W21-02 | P1 | `TODO` |  |  |
 | W21-03 | P1 | `TODO` |  |  |
@@ -261,10 +261,10 @@ Total: 240 tasks.
 | W21-08 | P1 | `TODO` |  |  |
 | W21-09 | P1 | `TODO` |  |  |
 | W21-10 | P1 | `TODO` |  |  |
-| W22-01 | P1 | `TODO` |  |  |
+| W22-01 | P1 | `IMPLEMENTED` | `benchmarks/outcome_prereg.py`<br>`research/prereg/agent-outcome-confirmatory-v2.json` | Thesis encoded as the registered primary contrast A5-A3 at equal budget; untested on learned agents. |
 | W22-02 | P1 | `TODO` |  |  |
 | W22-03 | P1 | `TODO` |  |  |
-| W22-04 | P1 | `TODO` |  |  |
+| W22-04 | P1 | `TESTED` | `benchmarks/outcome_ablation.py` | Per family: governance helps only restricted_source, recovery only public_correction, neither elsewhere; governance never hurts in these scripted families (a designed population, no prevalence). |
 | W22-05 | P1 | `TODO` |  |  |
 | W22-06 | P1 | `TODO` |  |  |
 | W22-07 | P1 | `TODO` |  |  |
@@ -280,14 +280,14 @@ Total: 240 tasks.
 | W23-07 | P0 | `TODO` |  |  |
 | W23-08 | P0 | `TODO` |  |  |
 | W23-09 | P0 | `TESTED` | `tools/checklist_ledger.py`<br>`research/checklist/agent-validation-ledger.json` |  |
-| W23-10 | P0 | `TODO` |  |  |
+| W23-10 | P0 | `BLOCKED_EXTERNAL` | `tools/launch_decision.py`<br>`tools/agent_outcome_end_to_end_gate.py` | Exact-SHA offline qualification and separate engineering/deployment decisions exist; model evidence and research promotion cannot be produced here. Deployment stays HOLD. |
 | W24-01 | P1 | `TODO` |  |  |
 | W24-02 | P1 | `TODO` |  |  |
-| W24-03 | P1 | `TODO` |  |  |
-| W24-04 | P1 | `TODO` |  |  |
-| W24-05 | P1 | `TODO` |  |  |
+| W24-03 | P1 | `TESTED` | `tools/launch_decision.py` | No-go: fair baseline with equal recovery ties or wins; no headroom; underpowered model effect. |
+| W24-04 | P1 | `TESTED` | `docs/AGENT_PROTOTYPE.md`<br>`benchmarks/outcome_episode.py` | Local showcase with no customer data, external API or service. |
+| W24-05 | P1 | `IMPLEMENTED` | `tools/launch_decision.py` | Decision record states the maximum credible inference separately for simulator, local-model study (NOT_RUN) and independent pilot (NOT_RUN). |
 | W24-06 | P1 | `TODO` |  |  |
 | W24-07 | P1 | `TODO` |  |  |
 | W24-08 | P1 | `TODO` |  |  |
 | W24-09 | P1 | `TODO` |  |  |
-| W24-10 | P1 | `TODO` |  |  |
+| W24-10 | P1 | `TESTED` | `tools/launch_decision.py` | Auditable record from hashed committed inputs; engineering and deployment decisions kept separate. Operational evidence beyond the gate is not an input yet. |
