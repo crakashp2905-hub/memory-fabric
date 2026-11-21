@@ -65,14 +65,15 @@ def run_case(label: str, seed: int) -> dict[str, Any]:
             fabric.remember("ana", text, scope="team", tenant_id=tenant)
 
         def lexical(q: str) -> Sequence[Any]:
-            return fabric.retrieve(agent_id="ops", query=q, k=3, tenant_id=tenant, method="lexical")
+            return list(fabric.retrieve(agent_id="ops", query=q, k=3, tenant_id=tenant,
+                                        method="lexical"))
 
         ladder = search_ladder(query, [Rung("lexical", lexical)], budget=2)
         found = list(ladder.results)
         codes: tuple[str, ...] = ()
         evidence: list[tuple[str, int]] = []
         if found:
-            memory_id = getattr(found[0], "memory_id", None) or getattr(found[0], "id", None)
+            memory_id = str(getattr(found[0], "memory_id", None) or getattr(found[0], "id"))
             certificate = fabric.certify(subject, [memory_id], "ops", tenant_id=tenant)
             evidence = [(str(memory_id), 1)]
             if label == "superseded":
