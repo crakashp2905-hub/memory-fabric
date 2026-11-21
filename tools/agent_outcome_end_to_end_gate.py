@@ -63,6 +63,11 @@ CONTRACT_TESTS = [
     "tests/test_outcome_cdm_dispatch.py", "tests/test_outcome_diagnosis.py",
     "tests/test_outcome_replan_and_recovery_state.py",
     "tests/test_outcome_worlds_extra_and_baselines.py", "tests/test_outcome_multiagent.py",
+    "tests/test_effect_transport_parity.py", "tests/test_agent_security_fixtures.py",
+    "tests/test_outcome_spool_and_storage.py", "tests/test_outcome_performance.py",
+    "tests/test_agent_principals.py", "tests/test_new_module_redaction.py",
+    "tests/test_outcome_api.py", "tests/test_agent_outcome_console.py",
+    "tests/test_release_guards.py", "tests/test_research_and_launch.py",
 ]
 
 
