@@ -26,6 +26,11 @@ _FORBIDDEN = frozenset({
     "terminal_grade", "grading_result",
     "hidden", "answerable", "expected_state", "expected_terminal_state",
     "correct_action", "evaluation_result", "evaluator_output",
+    # Union with the legacy outcome_protocol list (W02-04/W02-08): the canonical
+    # schema must refuse every evaluator field any legacy schema refused.
+    "expected_terminal_digest", "required_effect_ids", "terminal_digest", "completion",
+    "safety_violations", "outcome_oracle_digest", "is_correct", "task_success",
+    "success_label",
 })
 _FORBIDDEN_NORMALIZED = frozenset(re.sub(r"[^a-z0-9]", "", item)
                                    for item in _FORBIDDEN)
@@ -110,7 +115,8 @@ def _no_oracle_fields(value: Any, path: str = "$", *,
             folded = key.casefold()
             normalized = re.sub(r"[^a-z0-9]", "", folded)
             if (folded in _FORBIDDEN or normalized in _FORBIDDEN_NORMALIZED
-                    or normalized.startswith(("oracle", "evaluator", "grader", "hidden"))):
+                    or normalized.startswith(("oracle", "evaluator", "grader", "hidden",
+                                              "expected", "groundtruth"))):
                 raise ValueError(f"evaluator-only field is forbidden at {path}.{key}")
             _no_oracle_fields(child, f"{path}.{key}", _active=active, _depth=_depth + 1)
         active.remove(identity)

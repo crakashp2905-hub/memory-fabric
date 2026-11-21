@@ -126,94 +126,311 @@
    "verified_sha": "4ed22d3985befdbb337f930c57ee4d9976055b7b"
   },
   "W02-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/outcome_package_inventory.py",
+    "docs/architecture/OUTCOME_PACKAGE_INVENTORY.json"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::Inventory"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "3 identical, 12 conflicting shared names; agent_outcomes has no unique names."
   },
   "W02-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/adr/0004-canonical-outcome-runtime.md"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::Inventory"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "outcome_typed is canonical; every responsibility has one owner."
   },
   "W02-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/compat.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::Translation"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W02-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/observations.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::CanonicalSchema"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "Canonical guard tightened to the union of the legacy guards."
   },
   "W02-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/compat.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::Translation::test_identity_and_versions_are_never_reinterpreted"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W02-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/observations.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::EvaluatorIsolation",
+    "tests/test_outcome_episode.py::TraceAndWorld"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W02-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/architecture/OUTCOME_LEGACY_CALLSITES.json",
+    "tools/outcome_package_inventory.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::LegacyCallSites"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "32 grandfathered call sites, sunset 2027-03-31."
   },
   "W02-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "tests/test_outcome_canonical_package.py"
+   ],
+   "note": "Contract-level differential only (accept/reject and content across all three packages); it found and fixed a weaker canonical guard. A differential of gate decisions through the legacy runtimes is not built."
   },
   "W02-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/agent_outcomes/__init__.py",
+    "src/memory_fabric/outcome_protocol/__init__.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::LegacyCallSites"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W02-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tests/test_outcome_canonical_package.py"
+   ],
+   "tests": [
+    "tests/test_outcome_canonical_package.py::SurfaceGate"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::StateMachine"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::EnvelopeAndInterface"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::EnvelopeAndInterface"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "Scripted and JSON (model-shaped) backends produce identical traces through the same host."
   },
   "W03-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::ProposalBinding",
+    "tests/test_outcome_episode.py::Tools::test_authority_shaped_memory_text_grants_nothing"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::StateMachine"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TerminalStatuses"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_trace_digest_is_canonical_and_tamper_evident"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W03-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::OneCommand"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "python -m benchmarks.outcome_episode --seed 1; scripted test double, not learned-agent evidence."
   },
   "W04-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_world_is_evaluator_only_and_host_module_never_imports_it"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_world_state_is_reproducible_by_seed"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TraceAndWorld::test_host_claims_cannot_raise_a_grade"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-04": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "note": "Attempted, authorized, applied and objective-reached are separate stages; fixtures cover stale (not applied), unauthorized (applied) and lost-ack. An applied-but-objective-not-reached fixture is still missing (batch 3)."
   },
   "W04-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::NegativeControlsAndIntegrity::test_negative_controls_never_complete_the_correction_family"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/outcome_typed/observations.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools::test_injected_evaluator_fields_in_world_output_never_reach_an_actor",
+    "tests/test_outcome_episode.py::NegativeControlsAndIntegrity::test_backend_exceptions_never_carry_their_message_into_the_record",
+    "tests/test_outcome_canonical_package.py::CanonicalSchema"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py",
+    "src/memory_fabric/outcome_typed/episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::TerminalStatuses::test_a_stale_proposal_has_zero_effect_where_the_world_checks_revisions",
+    "tests/test_outcome_episode.py::TerminalStatuses::test_governed_episode_completes_after_a_correction"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88"
   },
   "W04-08": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "note": "World transcript kept outside the actor trace with a reproducible digest; a separate content-safe audit verifier is not built."
   },
   "W04-09": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "note": "The feed is a public projection with no truth fields; missing, delayed, duplicated, contradictory and inaccessible variants arrive with the W05 world families."
   },
   "W04-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::NegativeControlsAndIntegrity"
+   ],
+   "verified_sha": "226c6cd5f7586f24557dad23a1704530199cce88",
+   "note": "Opaque task IDs and keyed values; task-ID probe never completes; label shuffle breaks an observation-following policy."
   },
   "W05-01": {
    "status": "TODO"

@@ -226,6 +226,47 @@ integrity check, not a portable cryptographic signature or a sandbox against
 reflective code with module access. The host remains responsible for supplying
 the authoritative world-state snapshot.
 
+## Canonical runtime and one end-to-end episode
+
+[ADR 0004](adr/0004-canonical-outcome-runtime.md) makes
+`memory_fabric.outcome_typed` the canonical outcome runtime (schema v3).
+`agent_outcomes` and `outcome_protocol` are deprecated but stay importable;
+`memory_fabric.outcome_typed.compat` translates their v1 records and raises
+`IncompatibleRecord` instead of inventing a field v1 never recorded. The
+canonical oracle-field guard now refuses everything either legacy guard refused.
+A test fails on any new legacy import, any new public name in a legacy package
+and any outcome contract class defined outside the three packages.
+
+`memory_fabric.outcome_typed.episode` runs one episode end to end. Three roles
+(`observer`, `planner`, `executor`) decide through one typed interface, which a
+scripted team or a JSON-answering model backend implements. Every tool request
+is validated against a declared registry before any handler runs. One shared
+budget covers every role and sub-loop. A plan is a proposal bound to task,
+actor, objective, tool, target, parameters and exact evidence versions, and the
+executor must name its commitment. The protected effect runs only through
+`ActionGate` for governed memory. The phases are
+`OBSERVE -> RETRIEVE -> PLAN -> VERIFY -> EXECUTE`, with `RECOVER` after a
+failed verification or a refused effect. A recovery that revisits a state stops
+with `no_progress`; an uncertain effect stops as `EFFECT_UNKNOWN` and is not
+retried.
+
+The evaluator is separate: `benchmarks/outcome_episode.py` owns the hidden
+world, gives the host only a public feed and simulated effect functions, and
+grades from its own state and the store's gate log. It reports attempted,
+authorized, applied and objective-reached as separate stages, and its terminal
+statuses are `COMPLETED`, `SAFE_ABSTAINED`, `FAILED`, `UNDECIDABLE` and
+`UNSAFE_EXECUTED`. Run one governed episode, from a blank store to an evaluator
+receipt, with:
+
+```
+python -m benchmarks.outcome_episode --seed 1
+```
+
+This is a scripted test double over a simulated world. It shows the loop and
+its boundaries work; it is not evidence about learned agents and it compares no
+arms. The contract tests are `tests/test_outcome_episode.py` and
+`tests/test_outcome_canonical_package.py`.
+
 ## Evidence status
 
 The attached master plan is a proposed 96-item program, not a report of work
