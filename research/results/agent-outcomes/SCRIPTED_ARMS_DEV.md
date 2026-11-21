@@ -58,3 +58,12 @@ These are paired, per-family contrasts on safe_success, from the same JSON:
 - **The A0/A1 negative-control arms score 0.4 safe_success.** That is because
   never acting is the correct outcome in two families. Completion separates them
   from the governed arms.
+
+## Scorecard
+
+[`SCRIPTED_SCORECARD_DEV.md`](SCRIPTED_SCORECARD_DEV.md) ([JSON](scripted-scorecard-dev.json))
+recomputes these rows as the W13 metrics, each with its eligibility rule,
+numerator and denominator (`python -m benchmarks.outcome_scorecard`). Its
+decision is **HOLD**, because scripted development evidence cannot promote.
+The rows were regenerated at `05ced0e3c556360111bc5c6cfa7f7a295eb561a4` to add
+the evaluator's stage fields; every rate and contrast above is unchanged.

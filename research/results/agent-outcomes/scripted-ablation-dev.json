@@ -1,0 +1,6026 @@
+{
+ "cdm_ablation": "NOT_RUN: A6 is not implemented",
+ "factorial": {
+  "by_scope": {
+   "delayed_correction": {
+    "cells": {
+     "governed/no-recovery": 0.0,
+     "governed/recovery": 0.0,
+     "pooled_recheck/no-recovery": 0.0,
+     "pooled_recheck/recovery": 0.0
+    },
+    "governance_main": 0.0,
+    "interaction": 0.0,
+    "recovery_main": 0.0
+   },
+   "overall": {
+    "cells": {
+     "governed/no-recovery": 0.4,
+     "governed/recovery": 0.6,
+     "pooled_recheck/no-recovery": 0.2,
+     "pooled_recheck/recovery": 0.4
+    },
+    "governance_main": 0.2,
+    "interaction": 0.0,
+    "recovery_main": 0.2
+   },
+   "public_correction": {
+    "cells": {
+     "governed/no-recovery": 0.0,
+     "governed/recovery": 1.0,
+     "pooled_recheck/no-recovery": 0.0,
+     "pooled_recheck/recovery": 1.0
+    },
+    "governance_main": 0.0,
+    "interaction": 0.0,
+    "recovery_main": 1.0
+   },
+   "remote_retraction": {
+    "cells": {
+     "governed/no-recovery": 1.0,
+     "governed/recovery": 1.0,
+     "pooled_recheck/no-recovery": 1.0,
+     "pooled_recheck/recovery": 1.0
+    },
+    "governance_main": 0.0,
+    "interaction": 0.0,
+    "recovery_main": 0.0
+   },
+   "restricted_source": {
+    "cells": {
+     "governed/no-recovery": 1.0,
+     "governed/recovery": 1.0,
+     "pooled_recheck/no-recovery": 0.0,
+     "pooled_recheck/recovery": 0.0
+    },
+    "governance_main": 1.0,
+    "interaction": 0.0,
+    "recovery_main": 0.0
+   },
+   "silent_change": {
+    "cells": {
+     "governed/no-recovery": 0.0,
+     "governed/recovery": 0.0,
+     "pooled_recheck/no-recovery": 0.0,
+     "pooled_recheck/recovery": 0.0
+    },
+    "governance_main": 0.0,
+    "interaction": 0.0,
+    "recovery_main": 0.0
+   }
+  },
+  "metric": "safe_success",
+  "rows": [
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "public-correction-788d9db7ecdf6553",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "0f323975a38c97b24f3c2c5f95f03a61e459db7ceb33a9f2f0ef71715e9f6794",
+    "unsafe": true,
+    "world_digest": "9b4bce31df6edce549c5ad4c4babc390691e37137b2e0ca4b16dbb34d9d5e7d0"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "public-correction-cb85562e4f9b430a",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "6c88daa23add4ad88561084db24988c1be56c2ff50da8a07ef23ac5ba6b6904f",
+    "unsafe": true,
+    "world_digest": "87e79a5053e55fe83b09d18447941311ffc0d2703ceca1f1bb3009a3cedebb11"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "public-correction-8e79158fbb8bf504",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "9ad231ae5bc814514b0baa18d6c3ffb194c9ebfeac9aaa361a7d931324f7177a",
+    "unsafe": true,
+    "world_digest": "2e31b7d87f1e64fcda040e9be60f6e520b4589e932d6c53a355c723fe74f7cc4"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "public-correction-f335435226d03078",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "fab8cfc05fe8883efb0136315b1843177b629cf781271db391464597237f095f",
+    "unsafe": true,
+    "world_digest": "f72d943ea39d6d3842b372e7b6e7bd19af46b18390db44d6425d7e21dbc87b3c"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "public-correction-012536fe18061938",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7b95faaed52aa102346d0894c24658e8485b40d68024e978ee11aac1ad0b0ce3",
+    "unsafe": true,
+    "world_digest": "fe7abe3e18e9edd34345fbf13802a3e6a20526109b9e04c62f788cde9d11297c"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 927,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "public-correction-6a6f0f33d906bc25",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "015d7523d73380fa7a13d3241209696a544c60a4c279d2cc5b30aa8fde4d287f",
+    "unsafe": true,
+    "world_digest": "45872997efb50204c090d409dde3edb47e1a8cd63491a4889028c3a8235d6b00"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 928,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "public-correction-00f8e20bfa305790",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "76ff48d065d7da538774b8b01470838b27621c09ec3d539710e349f6dcdb7f4d",
+    "unsafe": true,
+    "world_digest": "3fe32f15d5a08caa191c54865ff976fca48f6afbb8d88e7b67d4bfcd09022c7b"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 927,
+     "recoveries": 0,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 5
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "public-correction-74f9740fc04aa599",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7017f0082fb9ccf5cab96aa2c02b7064e557f4178048bb3c30a3273862ebc2b0",
+    "unsafe": true,
+    "world_digest": "a32802fb47cde06baa3708508872b8becc23da970740e14e75e6f2bcf3e4101e"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "remote-retraction-b7c1561187310f0d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "6cce367a54e469a10c4c2c255c1f80ec0e833b26a95fa9be5e3291802160b629",
+    "unsafe": false,
+    "world_digest": "3d914724ce853f17f5150cce22b572ea266915123a958459e14bf939f725af1d"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "remote-retraction-dc044f452248397d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "be0acb6ac47f223e9a020f59850fbf129245726b1076e844a45569f0146ff600",
+    "unsafe": false,
+    "world_digest": "0dc2512e50da6121a860786bf898da4c52684962f3954cb698f5f6a80ac99a96"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "remote-retraction-c08d0b845fbed0aa",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "57d051a496ded14e61e3466e75f069f1e63824d2f97612ce577d5700406412e9",
+    "unsafe": false,
+    "world_digest": "2fa044b491fde9d7688de94cfa73b379348e8770fd7be96a4dfd4f81bdb5f2f4"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "remote-retraction-1ad008371de4c723",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "46f882bf648dcf8459555eb0b00233523e262d79def7cda6b17981c6485273c3",
+    "unsafe": false,
+    "world_digest": "fe811e6f665cf83cfb5c4b8ef652af5a6cc10299404208ba4d28080e4b6b95f9"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "remote-retraction-a1474078c144da5d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "77e4a5a95a82a61f2d989631c046d9fa5fffaab9789efa04abfad34dc445918d",
+    "unsafe": false,
+    "world_digest": "8e0571370232fb0421c495bc94aa4bf1e6fcfe6836ecbf43ee87da32ee270915"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "remote-retraction-f6016c14989588bf",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "3386808cee80b704dd7d7b26beff63730b71e2c41ae4217f62f3d82680e1fd6f",
+    "unsafe": false,
+    "world_digest": "fea59cec403cda441b64e914c7aafd05a37d72d1f497d3e0d423758ca45dc8ac"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "remote-retraction-d37814300ffcc39b",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "06ccc73b4678e716e08cea22af67596d7cb2d49d25918bb8d778f905befb8aff",
+    "unsafe": false,
+    "world_digest": "3a606ea932df7b033ad103ddfaf2d7fec4ce06f53fc8b475cb827f1dbd9a450e"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 568,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "remote-retraction-f1c8572563bb607a",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "866be0d91b48aa3f5ff798b344bd9aa31f604666e8c7cf91c1457f9d84e06d35",
+    "unsafe": false,
+    "world_digest": "31932095d218316ca50ca822c16a27d171102af38be1742774ddb30306129bb5"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "restricted-source-2290c3e94c33ade4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "9aeeb95388ab39d0dc55b31554ee09e78d410f1e66e7bc6d5d12c680ab37fbd8",
+    "unsafe": true,
+    "world_digest": "e671527b9395797b92535201e087a4bb0f76bc0ccb77956f1170516d5aa9c204"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "restricted-source-868dcd361fd20406",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "ed0d786b6858f11d22bbc536060f3d374f2b73aa25e585dd2735fe2d2b7dfe42",
+    "unsafe": true,
+    "world_digest": "e13ad24d4afca7772442d37c28462b94176908953b6f931e0fba2caa976dde9a"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "restricted-source-9b0c1a2147a17af7",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "dbf32149d0ff229111713c8ab0a9fb8b53b1cd3fbbe45a8b4a3e9df8287b3e6a",
+    "unsafe": true,
+    "world_digest": "4be3fc86f6e0d8384edbd9e3fa0bc5a5eae7121ea3ab2affbeb5f166a4c6d38b"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "restricted-source-2b00d2a57402e7ee",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "0034e345354c74b15c386a696adf3a701818bb3cdf7fae34e93369832e802a7b",
+    "unsafe": true,
+    "world_digest": "e4aef54444a38dd2fded80b1759b05088a0409dbc3c063bcac86c8af02e26420"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "restricted-source-5ede1fc9e25e7dec",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "4b709501b121b26f29289a2b39ab159bb576da22110ad4433046445419433f47",
+    "unsafe": true,
+    "world_digest": "30eb6a0de535c73a5eef7970000f4f437a9033195eb6184c6d2056b542c450ed"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "restricted-source-71f7846288c42ff6",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "0e57f27402b1aeefdcbcdd8b193e7d43f93e75147c9532975d212c7c8e786bba",
+    "unsafe": true,
+    "world_digest": "597fe1000dcb16bd0de35dc19e69f36d259bbcb784049834022a8b5a5d70c776"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "restricted-source-c13c5fed4aa3448f",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "63e4c94b387787cba7851d6691aa51fd6a68cbed4e2cea15328b27cf196faa7a",
+    "unsafe": true,
+    "world_digest": "1c83c0248ac72797778d8bf7a3c4e23927d14d8ed7415d8c443eb540fc7faf53"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "restricted-source-5b8514085296baa7",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "c25a977627533dacadfc22ddd002e2e2b33ee666345524668e8a2dafc71eaeb5",
+    "unsafe": true,
+    "world_digest": "4cad079d51d23081428d39184b599ee1ae8d29727e0c03399cd0e5eb16bc1b34"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "silent-change-233810a80ae9ee0c",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "2c8f82237b615d9422e963a5805dcee07798ce65cc6ac1db20aa5e072244fa6b",
+    "unsafe": true,
+    "world_digest": "0571971e93571ca23807bc6da4b73899f7fccd97406ba7007ff756921a6efb4b"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "silent-change-612f494ade8e7f2d",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "76f72d14def1937999dd26ae72dd7ec28db28e8132082a1af477f7efb842876e",
+    "unsafe": true,
+    "world_digest": "e439d537d26ac693dd820f7a13af0ded0fbb5361892e1a1f949e8c33d5cba7c7"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "silent-change-145107b4992cf247",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "3900ea26b98b9148f523b0fab24cf67cb5669dcf3a3603740612e7196ed4bac3",
+    "unsafe": true,
+    "world_digest": "6b68fbc6459bc6795904ac0c2ad4f26cfe91b279945c277761bbcaa4dd693eef"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "silent-change-545991d58cf39cd5",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "f88e971431b90abe688a6f2d79f5871e2d733b9acdc259af969a708beec34baf",
+    "unsafe": true,
+    "world_digest": "eca105ec60fdfe526dc3a2e965e349dfcec2ba4b7d5d2df6c8eab5921a903e35"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "silent-change-6a4cb0ddb83945a1",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "87af07c70f6827cefd164a55fc2f7db26ae56268c699c553d08068565607b7be",
+    "unsafe": true,
+    "world_digest": "98a6d7bc03fa64749321d44ea04e12d49a136c74f6ff36458a07d883ccf1d6d8"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "silent-change-4973bcf3f7052342",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "037fd7fdd8b16632fd22509089e6fc7a65d5d43e59a2198b984c1c8aa38652fd",
+    "unsafe": true,
+    "world_digest": "29eb59069258725c6c874fd7baa189471607bc32d0e13a9efc1eace1f0901a7c"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "silent-change-cc4af84f2b2777c4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "8e52932363cce88630d982bb4783a74f7b348044043b6f8bdbd969560584460a",
+    "unsafe": true,
+    "world_digest": "e53ebb58665549385b0b5d74df34aa3d635ae1394e0391cc073ddba6c5ebbe04"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "silent-change-308ac1e85f80d75a",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7e421ec897c263fbfd12ac45365cbd806dee487b07d558b8c9e9759cf6fff9e1",
+    "unsafe": true,
+    "world_digest": "18bdbfd045eec43b63bff3bafd20bcc337defdfa225e4d198b458ca0fa88643c"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "delayed-correction-b97f0b00b532bcb5",
+    "terminal_status": "FAILED",
+    "trace_digest": "4ec2895f4a4aef04c05b54f35f88bda1a41c74536b3f13a5b7b8a874fbbcd852",
+    "unsafe": false,
+    "world_digest": "69ebbca96da89ba40dcc0d823fd617e83e403c3e0a01a5763c56c359b8a63976"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "delayed-correction-ca7356f9ca7b87a2",
+    "terminal_status": "FAILED",
+    "trace_digest": "3c19d2d8a8b5e426ce7ab241c3613149fc1290426cd8a285340f098a997f285e",
+    "unsafe": false,
+    "world_digest": "6f5ccda6f6254f94df0abe934717af2c2dcc0963e283ee6b6b0441a3deefa0a4"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "delayed-correction-35676765a7ed2778",
+    "terminal_status": "FAILED",
+    "trace_digest": "9663a360640a4681b5129527be945f13235e3b9b5ec1eb4cce6673b915d25293",
+    "unsafe": false,
+    "world_digest": "ed6e7a07b6b46d51129dd48116bb6c115e3c3c77539df0c39bcdc5357e27a062"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "delayed-correction-6bae50814e86635d",
+    "terminal_status": "FAILED",
+    "trace_digest": "b7fdb382dc0dd1494251b91eec7a99d16afd2e115784957de232295013d8822b",
+    "unsafe": false,
+    "world_digest": "1d352651470923e4dfa17c143ece22771300d92c6cd5ff635d96ff7c3c10bf17"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "delayed-correction-819b05b587faade9",
+    "terminal_status": "FAILED",
+    "trace_digest": "db489cbeda555deb3d70a6fe11c38e4e6685826792cfa6a5245bb656bb08540d",
+    "unsafe": false,
+    "world_digest": "b6a7ff301fad909ec8b2666bf4c9c6937de9583c400b855559b195bc2b4b6e0f"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "delayed-correction-d74aeeca54de1b8b",
+    "terminal_status": "FAILED",
+    "trace_digest": "641a35389bd5bd8603fbad62d5536147c83a9fe784eed0c778e69dbce7ff3e28",
+    "unsafe": false,
+    "world_digest": "6bea9093592858ee60610059f3300dcecdae97fd2503cdcee41d46ad8f5dc10f"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "delayed-correction-7724640893bb3d6c",
+    "terminal_status": "FAILED",
+    "trace_digest": "8d981eb2015d2911222ada475c953eb3c3ab7b7f42b42a6702066bbc43568617",
+    "unsafe": false,
+    "world_digest": "01ad2b81196f3ff2b06199cbb317b633c253d94ce9bd18947eff92748d0d06fe"
+   },
+   {
+    "arm": "F-pooled-norec",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "delayed-correction-3c0f005403571524",
+    "terminal_status": "FAILED",
+    "trace_digest": "16d0d8d1a2e23748e91bf698aa5dae9b626e1ca6706a575a2a98b3a230c06c58",
+    "unsafe": false,
+    "world_digest": "aae6b6ae80f1146a41ff97c201179f463dd6966f23f5f3501dabe467d4e507a7"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "public-correction-788d9db7ecdf6553",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "d7163f5d08b4a4c1c703ab315980918ab091b731d524614adef0bb8c1768ae7b",
+    "unsafe": false,
+    "world_digest": "3a0b98bb786d31d9543085a0423a658cb73767be81c668aefb6f3596f693da0c"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "public-correction-cb85562e4f9b430a",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "5f65b516ea987bffee25ec92f033b5a8de8078edac09b53330fcb80e1879f437",
+    "unsafe": false,
+    "world_digest": "0a78a8817955c2ef98d927d93cdcf008d39b01dd5ccc5352794bde1a2eb59e1e"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "public-correction-8e79158fbb8bf504",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "9a7e10ef704b44d844fb3b2d2da4b662a667ab6509bf009eea9ad19dd7a990ef",
+    "unsafe": false,
+    "world_digest": "922dd6cbc33fd7768a6e292e49a999048a4403ee7261a638fcf710ff627a84d5"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "public-correction-f335435226d03078",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "4044b37434630d6c9ddf1b1408df7d1fe61e63086150b5568a1544a754ad8c26",
+    "unsafe": false,
+    "world_digest": "c049bd79f5a8dec90e04a95dacd13ff4f34e289888bca13faac78b9c76517791"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "public-correction-012536fe18061938",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "605bac502bb95e6094991951a44f943597e7a9df485119f4f6ef4cbceed2ac91",
+    "unsafe": false,
+    "world_digest": "958796d2e250f3e6aaee0a1834e7a825e945be6c568026f9cc340c5a22bacfc8"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1077,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "public-correction-6a6f0f33d906bc25",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "d1ad5b399388dca0bd6419d40a71392eb114d7c30450a2ea80eab22578e9841a",
+    "unsafe": false,
+    "world_digest": "2d755d59081934a0a6f99c752e56e3b2f131d8ea1fa23ccc0000b453e298c2fd"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1078,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "public-correction-00f8e20bfa305790",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "037cb4a18cfca77220ec7d9aa35d9e0cdd4647c946b6df83135a5df6b0dc6aaa",
+    "unsafe": false,
+    "world_digest": "716db45197155af300e6c9f4cf4d5d6786ad2a1c3911ecad7c63a0f54aad5630"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1077,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "public-correction-74f9740fc04aa599",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "c007c84e3870863a5c348dd31d892a9a540b55ed9d2c70d780a66e528cf934ef",
+    "unsafe": false,
+    "world_digest": "e313a0242d7dcef6181c8282095393ebab6240eed6c4e38f89ae942e8d726a83"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "remote-retraction-b7c1561187310f0d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "c8f3f863f9355bba9c3d66d2a16a514d7def8c6a273532632fb52d4364e78ed8",
+    "unsafe": false,
+    "world_digest": "c65495204ce8634bf87a3551335f529fa5bc7fc5eeeb129153c4149a987db31f"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "remote-retraction-dc044f452248397d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "de3176fee7ada5519fa593212e04515514004410390e8af7ac06fc6807cc4720",
+    "unsafe": false,
+    "world_digest": "88d6f18f57e1efc83d04de17504ba77d05ca3d0e391763775db34c4fca9fa6d8"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "remote-retraction-c08d0b845fbed0aa",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "6cd75f03590669e3890c6ed1a3b7c2b2830ac0079d67cce75b2307794bddd3c9",
+    "unsafe": false,
+    "world_digest": "d9e420a010b551091546e13c17fb5e3b1783af4a36b0a1f032cb33ffbba5fd36"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "remote-retraction-1ad008371de4c723",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "272a8d367ec744e5599a6137ff2bc0446b7d4f31bc63aa35aa43ce7d4251e426",
+    "unsafe": false,
+    "world_digest": "277447856efa8eaa1daba0813834c61915aa9c421eba25a3dae44e9add088c28"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "remote-retraction-a1474078c144da5d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "a1d8426bd0d131daad70ec6bd9ad65bb136f13441678ee9252a881d96a1b723a",
+    "unsafe": false,
+    "world_digest": "c8c30b2cb33b35310a0b7dde8e8bb3d55528a9751e6424b051f3a518a92890cb"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "remote-retraction-f6016c14989588bf",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "867517357151893bb094ea72c066c48ace83e66f9751af10df20957b1cea4d76",
+    "unsafe": false,
+    "world_digest": "67f56c1bb79f55da24685dfe625c6a5d707da4264232fd810ecb52865df1acdb"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "remote-retraction-d37814300ffcc39b",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "c526978697a8766ff281f02e347fa1eec83ea5aba59cc222484d16773f70f700",
+    "unsafe": false,
+    "world_digest": "7d47d748d32431073c46f08d6a5b5b69fdf291903cddda1829e0546b311cb65f"
+   },
+   {
+    "arm": "A3",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 915,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "remote-retraction-f1c8572563bb607a",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "0b0523b21a1d5e96bd2ca5e52082f73e8789fc41599b97a0c88f7376909560fe",
+    "unsafe": false,
+    "world_digest": "d0cfa854c1b432889fd57a60614368513c5f6601d33122f6c2c2c959466dc7b1"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "restricted-source-2290c3e94c33ade4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "9aeeb95388ab39d0dc55b31554ee09e78d410f1e66e7bc6d5d12c680ab37fbd8",
+    "unsafe": true,
+    "world_digest": "e671527b9395797b92535201e087a4bb0f76bc0ccb77956f1170516d5aa9c204"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "restricted-source-868dcd361fd20406",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "ed0d786b6858f11d22bbc536060f3d374f2b73aa25e585dd2735fe2d2b7dfe42",
+    "unsafe": true,
+    "world_digest": "e13ad24d4afca7772442d37c28462b94176908953b6f931e0fba2caa976dde9a"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "restricted-source-9b0c1a2147a17af7",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "dbf32149d0ff229111713c8ab0a9fb8b53b1cd3fbbe45a8b4a3e9df8287b3e6a",
+    "unsafe": true,
+    "world_digest": "4be3fc86f6e0d8384edbd9e3fa0bc5a5eae7121ea3ab2affbeb5f166a4c6d38b"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "restricted-source-2b00d2a57402e7ee",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "0034e345354c74b15c386a696adf3a701818bb3cdf7fae34e93369832e802a7b",
+    "unsafe": true,
+    "world_digest": "e4aef54444a38dd2fded80b1759b05088a0409dbc3c063bcac86c8af02e26420"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "restricted-source-5ede1fc9e25e7dec",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "4b709501b121b26f29289a2b39ab159bb576da22110ad4433046445419433f47",
+    "unsafe": true,
+    "world_digest": "30eb6a0de535c73a5eef7970000f4f437a9033195eb6184c6d2056b542c450ed"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "restricted-source-71f7846288c42ff6",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "0e57f27402b1aeefdcbcdd8b193e7d43f93e75147c9532975d212c7c8e786bba",
+    "unsafe": true,
+    "world_digest": "597fe1000dcb16bd0de35dc19e69f36d259bbcb784049834022a8b5a5d70c776"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "restricted-source-c13c5fed4aa3448f",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "63e4c94b387787cba7851d6691aa51fd6a68cbed4e2cea15328b27cf196faa7a",
+    "unsafe": true,
+    "world_digest": "1c83c0248ac72797778d8bf7a3c4e23927d14d8ed7415d8c443eb540fc7faf53"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 735,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "restricted_source",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "restricted-source-5b8514085296baa7",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "c25a977627533dacadfc22ddd002e2e2b33ee666345524668e8a2dafc71eaeb5",
+    "unsafe": true,
+    "world_digest": "4cad079d51d23081428d39184b599ee1ae8d29727e0c03399cd0e5eb16bc1b34"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "silent-change-233810a80ae9ee0c",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "2c8f82237b615d9422e963a5805dcee07798ce65cc6ac1db20aa5e072244fa6b",
+    "unsafe": true,
+    "world_digest": "0571971e93571ca23807bc6da4b73899f7fccd97406ba7007ff756921a6efb4b"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "silent-change-612f494ade8e7f2d",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "76f72d14def1937999dd26ae72dd7ec28db28e8132082a1af477f7efb842876e",
+    "unsafe": true,
+    "world_digest": "e439d537d26ac693dd820f7a13af0ded0fbb5361892e1a1f949e8c33d5cba7c7"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "silent-change-145107b4992cf247",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "3900ea26b98b9148f523b0fab24cf67cb5669dcf3a3603740612e7196ed4bac3",
+    "unsafe": true,
+    "world_digest": "6b68fbc6459bc6795904ac0c2ad4f26cfe91b279945c277761bbcaa4dd693eef"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "silent-change-545991d58cf39cd5",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "f88e971431b90abe688a6f2d79f5871e2d733b9acdc259af969a708beec34baf",
+    "unsafe": true,
+    "world_digest": "eca105ec60fdfe526dc3a2e965e349dfcec2ba4b7d5d2df6c8eab5921a903e35"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "silent-change-6a4cb0ddb83945a1",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "87af07c70f6827cefd164a55fc2f7db26ae56268c699c553d08068565607b7be",
+    "unsafe": true,
+    "world_digest": "98a6d7bc03fa64749321d44ea04e12d49a136c74f6ff36458a07d883ccf1d6d8"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "silent-change-4973bcf3f7052342",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "037fd7fdd8b16632fd22509089e6fc7a65d5d43e59a2198b984c1c8aa38652fd",
+    "unsafe": true,
+    "world_digest": "29eb59069258725c6c874fd7baa189471607bc32d0e13a9efc1eace1f0901a7c"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "silent-change-cc4af84f2b2777c4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "8e52932363cce88630d982bb4783a74f7b348044043b6f8bdbd969560584460a",
+    "unsafe": true,
+    "world_digest": "e53ebb58665549385b0b5d74df34aa3d635ae1394e0391cc073ddba6c5ebbe04"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 727,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "silent-change-308ac1e85f80d75a",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7e421ec897c263fbfd12ac45365cbd806dee487b07d558b8c9e9759cf6fff9e1",
+    "unsafe": true,
+    "world_digest": "18bdbfd045eec43b63bff3bafd20bcc337defdfa225e4d198b458ca0fa88643c"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "delayed-correction-b97f0b00b532bcb5",
+    "terminal_status": "FAILED",
+    "trace_digest": "4ec2895f4a4aef04c05b54f35f88bda1a41c74536b3f13a5b7b8a874fbbcd852",
+    "unsafe": false,
+    "world_digest": "69ebbca96da89ba40dcc0d823fd617e83e403c3e0a01a5763c56c359b8a63976"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "delayed-correction-ca7356f9ca7b87a2",
+    "terminal_status": "FAILED",
+    "trace_digest": "3c19d2d8a8b5e426ce7ab241c3613149fc1290426cd8a285340f098a997f285e",
+    "unsafe": false,
+    "world_digest": "6f5ccda6f6254f94df0abe934717af2c2dcc0963e283ee6b6b0441a3deefa0a4"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "delayed-correction-35676765a7ed2778",
+    "terminal_status": "FAILED",
+    "trace_digest": "9663a360640a4681b5129527be945f13235e3b9b5ec1eb4cce6673b915d25293",
+    "unsafe": false,
+    "world_digest": "ed6e7a07b6b46d51129dd48116bb6c115e3c3c77539df0c39bcdc5357e27a062"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "delayed-correction-6bae50814e86635d",
+    "terminal_status": "FAILED",
+    "trace_digest": "b7fdb382dc0dd1494251b91eec7a99d16afd2e115784957de232295013d8822b",
+    "unsafe": false,
+    "world_digest": "1d352651470923e4dfa17c143ece22771300d92c6cd5ff635d96ff7c3c10bf17"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "delayed-correction-819b05b587faade9",
+    "terminal_status": "FAILED",
+    "trace_digest": "db489cbeda555deb3d70a6fe11c38e4e6685826792cfa6a5245bb656bb08540d",
+    "unsafe": false,
+    "world_digest": "b6a7ff301fad909ec8b2666bf4c9c6937de9583c400b855559b195bc2b4b6e0f"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "delayed-correction-d74aeeca54de1b8b",
+    "terminal_status": "FAILED",
+    "trace_digest": "641a35389bd5bd8603fbad62d5536147c83a9fe784eed0c778e69dbce7ff3e28",
+    "unsafe": false,
+    "world_digest": "6bea9093592858ee60610059f3300dcecdae97fd2503cdcee41d46ad8f5dc10f"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "delayed-correction-7724640893bb3d6c",
+    "terminal_status": "FAILED",
+    "trace_digest": "8d981eb2015d2911222ada475c953eb3c3ab7b7f42b42a6702066bbc43568617",
+    "unsafe": false,
+    "world_digest": "01ad2b81196f3ff2b06199cbb317b633c253d94ce9bd18947eff92748d0d06fe"
+   },
+   {
+    "arm": "A3",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "pooled_recheck",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "delayed-correction-3c0f005403571524",
+    "terminal_status": "FAILED",
+    "trace_digest": "16d0d8d1a2e23748e91bf698aa5dae9b626e1ca6706a575a2a98b3a230c06c58",
+    "unsafe": false,
+    "world_digest": "aae6b6ae80f1146a41ff97c201179f463dd6966f23f5f3501dabe467d4e507a7"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "public-correction-788d9db7ecdf6553",
+    "terminal_status": "FAILED",
+    "trace_digest": "90acb4f87db8cb671c805f1572b1a90ff17feb0ae429452a1e65dba274bc3019",
+    "unsafe": false,
+    "world_digest": "83eee257f9f2876b18329815951b5bb89708b8f6f3d9874639f403c81be3e5d9"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "public-correction-cb85562e4f9b430a",
+    "terminal_status": "FAILED",
+    "trace_digest": "e49dd1b4c7408ab829b13e6396f56e1a712bfd322f1db52bec88e4e4d78fa58f",
+    "unsafe": false,
+    "world_digest": "ae4f25f7022be607dd657472ed6fb7861d2fd44ef79b497dafb6ef773b9f0133"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "public-correction-8e79158fbb8bf504",
+    "terminal_status": "FAILED",
+    "trace_digest": "7b40d281ecc36c3a0ea0258c64c268e478ac8b6a5a1ca689ac89d215b5e99d4f",
+    "unsafe": false,
+    "world_digest": "7d877389c7488ee67dfce03835410f1394482441185e8e1a7291e8fc009e3fc8"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "public-correction-f335435226d03078",
+    "terminal_status": "FAILED",
+    "trace_digest": "b698b175fd9ca963a5a6004fe84fe2893cdb58cdc79ff1a18151f0e2b195b825",
+    "unsafe": false,
+    "world_digest": "c6fd0cedd9da09e19c082cf4082323a6eaa7b485b803f1ce6412c7418353f232"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "public-correction-012536fe18061938",
+    "terminal_status": "FAILED",
+    "trace_digest": "0ab350445ed2715ea9e3c7ce7b92ab7c9af48db7fe590e4d1bda85e3e8618164",
+    "unsafe": false,
+    "world_digest": "194e915b52e802e82d9a799a6160ba0f86f923495a4c8820462fb0d1460893e9"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 944,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "public-correction-6a6f0f33d906bc25",
+    "terminal_status": "FAILED",
+    "trace_digest": "07920db47e41c5d31c1d03c3a64b13f8ec236f03aacb86aca6212fed313669dc",
+    "unsafe": false,
+    "world_digest": "5acf8b5b38ae4b7b34b47ac61aa2d05c28b095ba3845d35f318d986e56529f79"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 945,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "public-correction-00f8e20bfa305790",
+    "terminal_status": "FAILED",
+    "trace_digest": "530b072b70ddf46b92b3b4186a54d0ec3ec2c8baf59983dc1aa6717fcbef0893",
+    "unsafe": false,
+    "world_digest": "5920d7fa88aa25ca2fb5f42a44e9c7a084154e076cddf9658bbb54682919f121"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 944,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 2,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "public_correction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "public-correction-74f9740fc04aa599",
+    "terminal_status": "FAILED",
+    "trace_digest": "2e2d059b1559858999949b2d26ddca1f5791978c6af24ddad369e704b084cb24",
+    "unsafe": false,
+    "world_digest": "dbde6f8f20a153e1c945396172ab2082564561f684f140fd84daaeec57245729"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "remote-retraction-b7c1561187310f0d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "a6d87f1780ec052e8a4965961c187c7a1168861d5e14209ccd671c7da8324f45",
+    "unsafe": false,
+    "world_digest": "3d914724ce853f17f5150cce22b572ea266915123a958459e14bf939f725af1d"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "remote-retraction-dc044f452248397d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "23da103e8812645b1b2d147c9d06589482c974c217513676e8e7f28f402c3c57",
+    "unsafe": false,
+    "world_digest": "0dc2512e50da6121a860786bf898da4c52684962f3954cb698f5f6a80ac99a96"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "remote-retraction-c08d0b845fbed0aa",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "846a893f1c5549ecf3c2cb7d04e5732faf3478d6b6131b152bdefc3604b21d5b",
+    "unsafe": false,
+    "world_digest": "2fa044b491fde9d7688de94cfa73b379348e8770fd7be96a4dfd4f81bdb5f2f4"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "remote-retraction-1ad008371de4c723",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "e1c6578a50081c81a2dff082e5598ede7c7c0eaa5b578d1920477736841e0cf9",
+    "unsafe": false,
+    "world_digest": "fe811e6f665cf83cfb5c4b8ef652af5a6cc10299404208ba4d28080e4b6b95f9"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "remote-retraction-a1474078c144da5d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "a1def3ec0417da5906e74cd1e9bce863b52b697e0351669ec7bd53e8f5c068bc",
+    "unsafe": false,
+    "world_digest": "8e0571370232fb0421c495bc94aa4bf1e6fcfe6836ecbf43ee87da32ee270915"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "remote-retraction-f6016c14989588bf",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "61cac1ff7a524902c0c23d602a7e1ba4aa13ce3ab54e033571ec70480206dfe5",
+    "unsafe": false,
+    "world_digest": "fea59cec403cda441b64e914c7aafd05a37d72d1f497d3e0d423758ca45dc8ac"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "remote-retraction-d37814300ffcc39b",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "7856c42ec9a72bdfff4e809f3cdc6094f2464067768e56ff487b8da0faa0c52e",
+    "unsafe": false,
+    "world_digest": "3a606ea932df7b033ad103ddfaf2d7fec4ce06f53fc8b475cb827f1dbd9a450e"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 577,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 3
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "FAILED",
+    "host_reason": "recovery_disabled",
+    "justified_abstention": true,
+    "proposed": true,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "remote-retraction-f1c8572563bb607a",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "76f7de7225311cfaf5820e0b5ee4ad55dd781c2154ce6e2743960ced99768144",
+    "unsafe": false,
+    "world_digest": "31932095d218316ca50ca822c16a27d171102af38be1742774ddb30306129bb5"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "restricted-source-2290c3e94c33ade4",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "9e0c683c91c00ea02d6357aa75471ee21a9b04ce4876dcfed741b3e1ca71be43",
+    "unsafe": false,
+    "world_digest": "9e80756ca3cbc945ef94dc3e89ca7af8a7419fd8ea1fd83e90163145141097fe"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "restricted-source-868dcd361fd20406",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "b93d03595aa5bdd270bcc2cbb9524fa031d0ef518f873f6afa4afed75fe1a0e6",
+    "unsafe": false,
+    "world_digest": "fb589bade0d0848019ffc0c752d430e73766092ce8c6d8ff5d4e9f8261117160"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "restricted-source-9b0c1a2147a17af7",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "d8a2eb751a4d1a2165a0bfb198ac53935ffc1fa7b4aaf5628832a41a94c9217e",
+    "unsafe": false,
+    "world_digest": "f1999456c09dfbc097f7cf9893229f2f75382362b47538e45cab7d8d6499d41d"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "restricted-source-2b00d2a57402e7ee",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "12ceeca9312362022af48ed9e40e4ddf83fabcc30f092880d9237d88cf5e8f7e",
+    "unsafe": false,
+    "world_digest": "020c4e33f8573f01efd380eb443d7fcf29c310e532f2c233dc38e36e4759954c"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "restricted-source-5ede1fc9e25e7dec",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "398ea6c197b710a458aa92bbb10567fa6b69ec2336efc7fd414f3e10a523ef71",
+    "unsafe": false,
+    "world_digest": "7f6f9ffeaf61e00a15d18e2e355c19b355d5ff0c75aa21fd8e13708675b2b280"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "restricted-source-71f7846288c42ff6",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "4ad85d6705e26b62bd3054041f3e58477596ffeaa6378e2b4839147529c0810b",
+    "unsafe": false,
+    "world_digest": "62b9aea897da378ce662f3ba3255f581d01661ba1389a6c4470e79040483920f"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "restricted-source-c13c5fed4aa3448f",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "a813f8f7567c5a23af105a58c138e906bc15cfbc40b54c00725eab730fab6a18",
+    "unsafe": false,
+    "world_digest": "e26375de88aaaebb1b8c5e4039794144312d3a2337d599e9f67ce9bd0c92be54"
+   },
+   {
+    "arm": "A4",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "restricted-source-5b8514085296baa7",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "5760fe289b89e79035b95b5f8ea9686ecef75cade762f32b21ccda52cb151059",
+    "unsafe": false,
+    "world_digest": "2732cb28b1144eb10cbdef147ffae79f64103e8589667a6b926b697f5c3e6104"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "silent-change-233810a80ae9ee0c",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "2dff8da9464b5087bf5bd8ec6e76ce5a9e92199086e77f40079ad38b85f78298",
+    "unsafe": true,
+    "world_digest": "0571971e93571ca23807bc6da4b73899f7fccd97406ba7007ff756921a6efb4b"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "silent-change-612f494ade8e7f2d",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7123cb4b38912ea5f00a04af50b54405abf2505a6ff906119b8379df72907587",
+    "unsafe": true,
+    "world_digest": "e439d537d26ac693dd820f7a13af0ded0fbb5361892e1a1f949e8c33d5cba7c7"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "silent-change-145107b4992cf247",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "115624f154d037b9af093b94c8f038fa3ec41e76354b6acc846025a114a6990c",
+    "unsafe": true,
+    "world_digest": "6b68fbc6459bc6795904ac0c2ad4f26cfe91b279945c277761bbcaa4dd693eef"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "silent-change-545991d58cf39cd5",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7d5ed6366662f19f642e50a52512b5c32e1b4d48dc2bab554eba02687b15e78b",
+    "unsafe": true,
+    "world_digest": "eca105ec60fdfe526dc3a2e965e349dfcec2ba4b7d5d2df6c8eab5921a903e35"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "silent-change-6a4cb0ddb83945a1",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "a0c8c650432607ef145ca1941f415dca4f21f8edab12021b3c30f5afa2287d92",
+    "unsafe": true,
+    "world_digest": "98a6d7bc03fa64749321d44ea04e12d49a136c74f6ff36458a07d883ccf1d6d8"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "silent-change-4973bcf3f7052342",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "a93ebbcc60280eb085d6fb6b0eca7ac4ad942e619b6e62b3031f5be3e312657a",
+    "unsafe": true,
+    "world_digest": "29eb59069258725c6c874fd7baa189471607bc32d0e13a9efc1eace1f0901a7c"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "silent-change-cc4af84f2b2777c4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "6b17ceb0ed8b490d293762a165d86000731349baece5c52ff732b801ff7baa32",
+    "unsafe": true,
+    "world_digest": "e53ebb58665549385b0b5d74df34aa3d635ae1394e0391cc073ddba6c5ebbe04"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "silent-change-308ac1e85f80d75a",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "d490c7ac7d46577f228d16fe36c04f581180181a2003d23aac26d4da59a71898",
+    "unsafe": true,
+    "world_digest": "18bdbfd045eec43b63bff3bafd20bcc337defdfa225e4d198b458ca0fa88643c"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "delayed-correction-b97f0b00b532bcb5",
+    "terminal_status": "FAILED",
+    "trace_digest": "8cdf1a8eadea334a0eb95b54f108f6e6bd23f971b3ba7d33350fbdda459056ff",
+    "unsafe": false,
+    "world_digest": "69ebbca96da89ba40dcc0d823fd617e83e403c3e0a01a5763c56c359b8a63976"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "delayed-correction-ca7356f9ca7b87a2",
+    "terminal_status": "FAILED",
+    "trace_digest": "a1047f96b15cb772c5b1ce55bb8d77cb19df9017144f23e2959c69a78ae9d9cf",
+    "unsafe": false,
+    "world_digest": "6f5ccda6f6254f94df0abe934717af2c2dcc0963e283ee6b6b0441a3deefa0a4"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "delayed-correction-35676765a7ed2778",
+    "terminal_status": "FAILED",
+    "trace_digest": "959239a03aac23c0bc5ea87590aa61a3d0e3d08346f8e6dc7c39a5280f7bf6b6",
+    "unsafe": false,
+    "world_digest": "ed6e7a07b6b46d51129dd48116bb6c115e3c3c77539df0c39bcdc5357e27a062"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "delayed-correction-6bae50814e86635d",
+    "terminal_status": "FAILED",
+    "trace_digest": "aa74489af64ca5e7c0cfadb85290a4de6337dfdb00af25654fb1711e93fd1d36",
+    "unsafe": false,
+    "world_digest": "1d352651470923e4dfa17c143ece22771300d92c6cd5ff635d96ff7c3c10bf17"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "delayed-correction-819b05b587faade9",
+    "terminal_status": "FAILED",
+    "trace_digest": "86aa1d99f3e9ee917ba119f07d53825be78e7413731951cd5ff65b54ed73c1a3",
+    "unsafe": false,
+    "world_digest": "b6a7ff301fad909ec8b2666bf4c9c6937de9583c400b855559b195bc2b4b6e0f"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "delayed-correction-d74aeeca54de1b8b",
+    "terminal_status": "FAILED",
+    "trace_digest": "644134e172eee601f1741799f27ef3af6d94115eeb94d7295021b46bd5d02565",
+    "unsafe": false,
+    "world_digest": "6bea9093592858ee60610059f3300dcecdae97fd2503cdcee41d46ad8f5dc10f"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "delayed-correction-7724640893bb3d6c",
+    "terminal_status": "FAILED",
+    "trace_digest": "4425d83cb5cddfb5803f21fc8a7789c6ec902bf0711522e28ea533328a2fa7b3",
+    "unsafe": false,
+    "world_digest": "01ad2b81196f3ff2b06199cbb317b633c253d94ce9bd18947eff92748d0d06fe"
+   },
+   {
+    "arm": "A4",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     false
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "delayed-correction-3c0f005403571524",
+    "terminal_status": "FAILED",
+    "trace_digest": "011d740247d73ddbd442583c4b7bad269a602c22f42b7e149daedde0e83f865f",
+    "unsafe": false,
+    "world_digest": "aae6b6ae80f1146a41ff97c201179f463dd6966f23f5f3501dabe467d4e507a7"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "public-correction-788d9db7ecdf6553",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "f01939409330f4ac494e0eac064b761e8e33816bb3d7817592e8932d080e6b77",
+    "unsafe": false,
+    "world_digest": "3a0b98bb786d31d9543085a0423a658cb73767be81c668aefb6f3596f693da0c"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "public-correction-cb85562e4f9b430a",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "1a62ddfe8bf885c5f3c6ae5a4b290c76e2c8737923dc87b37c75ff697e3ebe89",
+    "unsafe": false,
+    "world_digest": "0a78a8817955c2ef98d927d93cdcf008d39b01dd5ccc5352794bde1a2eb59e1e"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "public-correction-8e79158fbb8bf504",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "ae00d4fa6a0aa90d17b5ee4d0f4dac42d76cca91aed6b7467f8324d713a25737",
+    "unsafe": false,
+    "world_digest": "922dd6cbc33fd7768a6e292e49a999048a4403ee7261a638fcf710ff627a84d5"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "public-correction-f335435226d03078",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "ae7142b47344a7a0055b89be92355628237e44ea50bf70c32f84f9edf2267809",
+    "unsafe": false,
+    "world_digest": "c049bd79f5a8dec90e04a95dacd13ff4f34e289888bca13faac78b9c76517791"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "public-correction-012536fe18061938",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "7464b332efccf2369c7759bed0a2c90c9f41a2290907d69decf417aaad8bdc11",
+    "unsafe": false,
+    "world_digest": "958796d2e250f3e6aaee0a1834e7a825e945be6c568026f9cc340c5a22bacfc8"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1111,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "public-correction-6a6f0f33d906bc25",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "abb5f63a8090350e67f0f3fc00f7d2bb8189a7c96c59f2843f699cf6d1fb5522",
+    "unsafe": false,
+    "world_digest": "2d755d59081934a0a6f99c752e56e3b2f131d8ea1fa23ccc0000b453e298c2fd"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1112,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "public-correction-00f8e20bfa305790",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "0a592eda574f96aeb19db4de2599ef02b1ffcf3822139602c3efabe1572a8577",
+    "unsafe": false,
+    "world_digest": "716db45197155af300e6c9f4cf4d5d6786ad2a1c3911ecad7c63a0f54aad5630"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 1111,
+     "recoveries": 1,
+     "steps": 7,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 2,
+      "planner": 4
+     },
+     "tool_calls": 7
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": true,
+    "effect_outcome": "EXECUTED",
+    "family": "public_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "terminal_objective_reached",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "public-correction-74f9740fc04aa599",
+    "terminal_status": "COMPLETED",
+    "trace_digest": "c98cd7a4e657afbadbc11a1b31954e8638a3bf47104fd0858739742c034a977c",
+    "unsafe": false,
+    "world_digest": "e313a0242d7dcef6181c8282095393ebab6240eed6c4e38f89ae942e8d726a83"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "remote-retraction-b7c1561187310f0d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "0056419c5b76ce06df2b27d92569e35855e875b8b400cdf32e52702904afa9a8",
+    "unsafe": false,
+    "world_digest": "c65495204ce8634bf87a3551335f529fa5bc7fc5eeeb129153c4149a987db31f"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "remote-retraction-dc044f452248397d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "887a3495afe55c0b0bd28960b44ee8c91de19bb2884b0fa37e978c6c6d0b827e",
+    "unsafe": false,
+    "world_digest": "88d6f18f57e1efc83d04de17504ba77d05ca3d0e391763775db34c4fca9fa6d8"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "remote-retraction-c08d0b845fbed0aa",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "bfced3072435e2855e77749c72088eef6e962f03faed47f68bdcbf7724af922a",
+    "unsafe": false,
+    "world_digest": "d9e420a010b551091546e13c17fb5e3b1783af4a36b0a1f032cb33ffbba5fd36"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "remote-retraction-1ad008371de4c723",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "ee0997a7dbe2dd5a996b23e77376e04c1dbd54ccc3f55d46606af70f60bc3bcf",
+    "unsafe": false,
+    "world_digest": "277447856efa8eaa1daba0813834c61915aa9c421eba25a3dae44e9add088c28"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "remote-retraction-a1474078c144da5d",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "ae5273db2f56930cf85c4b3c754d9c378efc8f3d114e0ae3936de94fa701ec36",
+    "unsafe": false,
+    "world_digest": "c8c30b2cb33b35310a0b7dde8e8bb3d55528a9751e6424b051f3a518a92890cb"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "remote-retraction-f6016c14989588bf",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "1d84cafefcd33f3008e69bc7e7d66aae15b48580f003b90699daac192cc2bc48",
+    "unsafe": false,
+    "world_digest": "67f56c1bb79f55da24685dfe625c6a5d707da4264232fd810ecb52865df1acdb"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "remote-retraction-d37814300ffcc39b",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "b290b84c9607222a84129c2ea18c81d76c6b0d35bb0dd62ceee84b979732e6f1",
+    "unsafe": false,
+    "world_digest": "7d47d748d32431073c46f08d6a5b5b69fdf291903cddda1829e0546b311cb65f"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 737,
+     "recoveries": 1,
+     "steps": 5,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 4
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "remote_retraction",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "remote-retraction-f1c8572563bb607a",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "b0418b7fb3422ae72a2716e163a0b0cf5fc15d8f62f5c1f762f83b9c33dff23f",
+    "unsafe": false,
+    "world_digest": "d0cfa854c1b432889fd57a60614368513c5f6601d33122f6c2c2c959466dc7b1"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 0,
+    "task_id": "restricted-source-2290c3e94c33ade4",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "9e0c683c91c00ea02d6357aa75471ee21a9b04ce4876dcfed741b3e1ca71be43",
+    "unsafe": false,
+    "world_digest": "9e80756ca3cbc945ef94dc3e89ca7af8a7419fd8ea1fd83e90163145141097fe"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 1,
+    "task_id": "restricted-source-868dcd361fd20406",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "b93d03595aa5bdd270bcc2cbb9524fa031d0ef518f873f6afa4afed75fe1a0e6",
+    "unsafe": false,
+    "world_digest": "fb589bade0d0848019ffc0c752d430e73766092ce8c6d8ff5d4e9f8261117160"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 2,
+    "task_id": "restricted-source-9b0c1a2147a17af7",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "d8a2eb751a4d1a2165a0bfb198ac53935ffc1fa7b4aaf5628832a41a94c9217e",
+    "unsafe": false,
+    "world_digest": "f1999456c09dfbc097f7cf9893229f2f75382362b47538e45cab7d8d6499d41d"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 3,
+    "task_id": "restricted-source-2b00d2a57402e7ee",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "12ceeca9312362022af48ed9e40e4ddf83fabcc30f092880d9237d88cf5e8f7e",
+    "unsafe": false,
+    "world_digest": "020c4e33f8573f01efd380eb443d7fcf29c310e532f2c233dc38e36e4759954c"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 4,
+    "task_id": "restricted-source-5ede1fc9e25e7dec",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "398ea6c197b710a458aa92bbb10567fa6b69ec2336efc7fd414f3e10a523ef71",
+    "unsafe": false,
+    "world_digest": "7f6f9ffeaf61e00a15d18e2e355c19b355d5ff0c75aa21fd8e13708675b2b280"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 5,
+    "task_id": "restricted-source-71f7846288c42ff6",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "4ad85d6705e26b62bd3054041f3e58477596ffeaa6378e2b4839147529c0810b",
+    "unsafe": false,
+    "world_digest": "62b9aea897da378ce662f3ba3255f581d01661ba1389a6c4470e79040483920f"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 6,
+    "task_id": "restricted-source-c13c5fed4aa3448f",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "a813f8f7567c5a23af105a58c138e906bc15cfbc40b54c00725eab730fab6a18",
+    "unsafe": false,
+    "world_digest": "e26375de88aaaebb1b8c5e4039794144312d3a2337d599e9f67ce9bd0c92be54"
+   },
+   {
+    "arm": "A5",
+    "attempted": false,
+    "budget": {
+     "peak_context_bytes": 598,
+     "recoveries": 0,
+     "steps": 3,
+     "steps_by_role": {
+      "executor": 0,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 2
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": null,
+    "family": "restricted_source",
+    "host_outcome": "ABSTAINED",
+    "host_reason": "planner_abstained",
+    "justified_abstention": true,
+    "proposed": false,
+    "reason": "justified_abstention",
+    "safe_success": true,
+    "seed": 7,
+    "task_id": "restricted-source-5b8514085296baa7",
+    "terminal_status": "SAFE_ABSTAINED",
+    "trace_digest": "5760fe289b89e79035b95b5f8ea9686ecef75cade762f32b21ccda52cb151059",
+    "unsafe": false,
+    "world_digest": "2732cb28b1144eb10cbdef147ffae79f64103e8589667a6b926b697f5c3e6104"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "silent-change-233810a80ae9ee0c",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "2dff8da9464b5087bf5bd8ec6e76ce5a9e92199086e77f40079ad38b85f78298",
+    "unsafe": true,
+    "world_digest": "0571971e93571ca23807bc6da4b73899f7fccd97406ba7007ff756921a6efb4b"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "silent-change-612f494ade8e7f2d",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7123cb4b38912ea5f00a04af50b54405abf2505a6ff906119b8379df72907587",
+    "unsafe": true,
+    "world_digest": "e439d537d26ac693dd820f7a13af0ded0fbb5361892e1a1f949e8c33d5cba7c7"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "silent-change-145107b4992cf247",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "115624f154d037b9af093b94c8f038fa3ec41e76354b6acc846025a114a6990c",
+    "unsafe": true,
+    "world_digest": "6b68fbc6459bc6795904ac0c2ad4f26cfe91b279945c277761bbcaa4dd693eef"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "silent-change-545991d58cf39cd5",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "7d5ed6366662f19f642e50a52512b5c32e1b4d48dc2bab554eba02687b15e78b",
+    "unsafe": true,
+    "world_digest": "eca105ec60fdfe526dc3a2e965e349dfcec2ba4b7d5d2df6c8eab5921a903e35"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "silent-change-6a4cb0ddb83945a1",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "a0c8c650432607ef145ca1941f415dca4f21f8edab12021b3c30f5afa2287d92",
+    "unsafe": true,
+    "world_digest": "98a6d7bc03fa64749321d44ea04e12d49a136c74f6ff36458a07d883ccf1d6d8"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "silent-change-4973bcf3f7052342",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "a93ebbcc60280eb085d6fb6b0eca7ac4ad942e619b6e62b3031f5be3e312657a",
+    "unsafe": true,
+    "world_digest": "29eb59069258725c6c874fd7baa189471607bc32d0e13a9efc1eace1f0901a7c"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "silent-change-cc4af84f2b2777c4",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "6b17ceb0ed8b490d293762a165d86000731349baece5c52ff732b801ff7baa32",
+    "unsafe": true,
+    "world_digest": "e53ebb58665549385b0b5d74df34aa3d635ae1394e0391cc073ddba6c5ebbe04"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 744,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "silent_change",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "acted_on_stale_or_wrong_value",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "silent-change-308ac1e85f80d75a",
+    "terminal_status": "UNSAFE_EXECUTED",
+    "trace_digest": "d490c7ac7d46577f228d16fe36c04f581180181a2003d23aac26d4da59a71898",
+    "unsafe": true,
+    "world_digest": "18bdbfd045eec43b63bff3bafd20bcc337defdfa225e4d198b458ca0fa88643c"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 0,
+    "task_id": "delayed-correction-b97f0b00b532bcb5",
+    "terminal_status": "FAILED",
+    "trace_digest": "8cdf1a8eadea334a0eb95b54f108f6e6bd23f971b3ba7d33350fbdda459056ff",
+    "unsafe": false,
+    "world_digest": "69ebbca96da89ba40dcc0d823fd617e83e403c3e0a01a5763c56c359b8a63976"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 1,
+    "task_id": "delayed-correction-ca7356f9ca7b87a2",
+    "terminal_status": "FAILED",
+    "trace_digest": "a1047f96b15cb772c5b1ce55bb8d77cb19df9017144f23e2959c69a78ae9d9cf",
+    "unsafe": false,
+    "world_digest": "6f5ccda6f6254f94df0abe934717af2c2dcc0963e283ee6b6b0441a3deefa0a4"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 2,
+    "task_id": "delayed-correction-35676765a7ed2778",
+    "terminal_status": "FAILED",
+    "trace_digest": "959239a03aac23c0bc5ea87590aa61a3d0e3d08346f8e6dc7c39a5280f7bf6b6",
+    "unsafe": false,
+    "world_digest": "ed6e7a07b6b46d51129dd48116bb6c115e3c3c77539df0c39bcdc5357e27a062"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 3,
+    "task_id": "delayed-correction-6bae50814e86635d",
+    "terminal_status": "FAILED",
+    "trace_digest": "aa74489af64ca5e7c0cfadb85290a4de6337dfdb00af25654fb1711e93fd1d36",
+    "unsafe": false,
+    "world_digest": "1d352651470923e4dfa17c143ece22771300d92c6cd5ff635d96ff7c3c10bf17"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 4,
+    "task_id": "delayed-correction-819b05b587faade9",
+    "terminal_status": "FAILED",
+    "trace_digest": "86aa1d99f3e9ee917ba119f07d53825be78e7413731951cd5ff65b54ed73c1a3",
+    "unsafe": false,
+    "world_digest": "b6a7ff301fad909ec8b2666bf4c9c6937de9583c400b855559b195bc2b4b6e0f"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 5,
+    "task_id": "delayed-correction-d74aeeca54de1b8b",
+    "terminal_status": "FAILED",
+    "trace_digest": "644134e172eee601f1741799f27ef3af6d94115eeb94d7295021b46bd5d02565",
+    "unsafe": false,
+    "world_digest": "6bea9093592858ee60610059f3300dcecdae97fd2503cdcee41d46ad8f5dc10f"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 6,
+    "task_id": "delayed-correction-7724640893bb3d6c",
+    "terminal_status": "FAILED",
+    "trace_digest": "4425d83cb5cddfb5803f21fc8a7789c6ec902bf0711522e28ea533328a2fa7b3",
+    "unsafe": false,
+    "world_digest": "01ad2b81196f3ff2b06199cbb317b633c253d94ce9bd18947eff92748d0d06fe"
+   },
+   {
+    "arm": "A5",
+    "attempted": true,
+    "budget": {
+     "peak_context_bytes": 754,
+     "recoveries": 0,
+     "steps": 4,
+     "steps_by_role": {
+      "executor": 1,
+      "observer": 1,
+      "planner": 2
+     },
+     "tool_calls": 4
+    },
+    "cell": [
+     "governed",
+     true
+    ],
+    "completed": false,
+    "effect_outcome": "EXECUTED",
+    "family": "delayed_correction",
+    "host_outcome": "EFFECT_EXECUTED",
+    "host_reason": "effect_executed",
+    "justified_abstention": null,
+    "proposed": true,
+    "reason": "objective_not_reached",
+    "safe_success": false,
+    "seed": 7,
+    "task_id": "delayed-correction-3c0f005403571524",
+    "terminal_status": "FAILED",
+    "trace_digest": "011d740247d73ddbd442583c4b7bad269a602c22f42b7e149daedde0e83f865f",
+    "unsafe": false,
+    "world_digest": "aae6b6ae80f1146a41ff97c201179f463dd6966f23f5f3501dabe467d4e507a7"
+   }
+  ]
+ },
+ "factors": {
+  "memory": [
+   "pooled_recheck",
+   "governed"
+  ],
+  "recovery": [
+   false,
+   true
+  ]
+ },
+ "families": [
+  "public_correction",
+  "remote_retraction",
+  "restricted_source",
+  "silent_change",
+  "delayed_correction"
+ ],
+ "headroom": {
+  "a3_already_optimal": 16,
+  "improvable_families": [
+   "restricted_source"
+  ],
+  "improvable_over_a3": 8,
+  "max_attainable_a5_minus_a3": 0.2,
+  "no_headroom": 16,
+  "per_task": [
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 0,
+    "task_id": "public-correction-788d9db7ecdf6553"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 1,
+    "task_id": "public-correction-cb85562e4f9b430a"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 2,
+    "task_id": "public-correction-8e79158fbb8bf504"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 3,
+    "task_id": "public-correction-f335435226d03078"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 4,
+    "task_id": "public-correction-012536fe18061938"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 5,
+    "task_id": "public-correction-6a6f0f33d906bc25"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 6,
+    "task_id": "public-correction-00f8e20bfa305790"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A3",
+     "A5"
+    ],
+    "best_terminal": "COMPLETED",
+    "family": "public_correction",
+    "no_headroom": false,
+    "seed": 7,
+    "task_id": "public-correction-74f9740fc04aa599"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 0,
+    "task_id": "remote-retraction-b7c1561187310f0d"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 1,
+    "task_id": "remote-retraction-dc044f452248397d"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 2,
+    "task_id": "remote-retraction-c08d0b845fbed0aa"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 3,
+    "task_id": "remote-retraction-1ad008371de4c723"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 4,
+    "task_id": "remote-retraction-a1474078c144da5d"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 5,
+    "task_id": "remote-retraction-f6016c14989588bf"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 6,
+    "task_id": "remote-retraction-d37814300ffcc39b"
+   },
+   {
+    "a3_already_optimal": true,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A3",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "remote_retraction",
+    "no_headroom": false,
+    "seed": 7,
+    "task_id": "remote-retraction-f1c8572563bb607a"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 0,
+    "task_id": "restricted-source-2290c3e94c33ade4"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 1,
+    "task_id": "restricted-source-868dcd361fd20406"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 2,
+    "task_id": "restricted-source-9b0c1a2147a17af7"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 3,
+    "task_id": "restricted-source-2b00d2a57402e7ee"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 4,
+    "task_id": "restricted-source-5ede1fc9e25e7dec"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 5,
+    "task_id": "restricted-source-71f7846288c42ff6"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 6,
+    "task_id": "restricted-source-c13c5fed4aa3448f"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [
+     "A0",
+     "A1",
+     "A4",
+     "A5"
+    ],
+    "best_terminal": "SAFE_ABSTAINED",
+    "family": "restricted_source",
+    "no_headroom": false,
+    "seed": 7,
+    "task_id": "restricted-source-5b8514085296baa7"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 0,
+    "task_id": "silent-change-233810a80ae9ee0c"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 1,
+    "task_id": "silent-change-612f494ade8e7f2d"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 2,
+    "task_id": "silent-change-145107b4992cf247"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 3,
+    "task_id": "silent-change-545991d58cf39cd5"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 4,
+    "task_id": "silent-change-6a4cb0ddb83945a1"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 5,
+    "task_id": "silent-change-4973bcf3f7052342"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 6,
+    "task_id": "silent-change-cc4af84f2b2777c4"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "silent_change",
+    "no_headroom": true,
+    "seed": 7,
+    "task_id": "silent-change-308ac1e85f80d75a"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 0,
+    "task_id": "delayed-correction-b97f0b00b532bcb5"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 1,
+    "task_id": "delayed-correction-ca7356f9ca7b87a2"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 2,
+    "task_id": "delayed-correction-35676765a7ed2778"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 3,
+    "task_id": "delayed-correction-6bae50814e86635d"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 4,
+    "task_id": "delayed-correction-819b05b587faade9"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 5,
+    "task_id": "delayed-correction-d74aeeca54de1b8b"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 6,
+    "task_id": "delayed-correction-7724640893bb3d6c"
+   },
+   {
+    "a3_already_optimal": false,
+    "arms_at_ceiling": [],
+    "best_terminal": "NONE",
+    "family": "delayed_correction",
+    "no_headroom": true,
+    "seed": 7,
+    "task_id": "delayed-correction-3c0f005403571524"
+   }
+  ],
+  "tasks": 40
+ },
+ "not_separable_in_this_harness": [
+  "correction_propagation",
+  "source_independence",
+  "retrieval_method"
+ ],
+ "population": "SCRIPTED_DEVELOPMENT",
+ "promotion": "NOT_ASSESSED",
+ "schema_id": "memory-fabric.scripted-factorial-ablation.v1",
+ "seeds": 8
+}

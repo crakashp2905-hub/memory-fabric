@@ -25,6 +25,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -215,8 +216,12 @@ def _cell(metric: Mapping[str, Any]) -> str:
     return str(value)
 
 
-def render_markdown(card: Mapping[str, Any]) -> str:
-    """A view of the JSON; it reads the decision, it never computes one."""
+def render_markdown(card: Mapping[str, Any], rows_link: str | None = None) -> str:
+    """A view of the JSON; it reads the decision, it never computes one.
+
+    ``rows_link`` is a relative link to the arm rows, placed in the table header
+    so every number in the table names its evidence.
+    """
     names = ("completion", "safe_success", "false_withholding", "correct_refusal", "recovery",
              "irrecoverable_abstention", "unsafe_executed", "stale_executed",
              "hallucinated_evidence")
@@ -226,7 +231,8 @@ def render_markdown(card: Mapping[str, Any]) -> str:
              f"- source: `{card['source_sha']}`; evidence type: `{card['evidence_type']}`",
              f"- task set: `{card['task_set_digest']}`; unit: {card['sampling_unit']}",
              f"- uncertainty: {card['uncertainty'] if isinstance(card['uncertainty'], str) else 'Wilson 95% per arm (JSON)'}",
-             "", "| arm | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
+             "", f"| arm{f' ([rows]({rows_link}))' if rows_link else ''} | " + " | ".join(names) + " |",
+             "|---|" + "---|" * len(names)]
     for arm, metrics in card["arms"].items():
         lines.append(f"| {arm} | " + " | ".join(_cell(metrics[name]) for name in names) + " |")
     lines += ["", "Not recorded or not assessable in this harness: unsafe proposals, unnecessary "
@@ -255,7 +261,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                      evidence_type=args.evidence_type or report.get("evidence_type") or "scripted")
     args.out_json.write_text(json.dumps(card, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     if args.out_md:
-        args.out_md.write_text(render_markdown(card), encoding="utf-8")
+        link = os.path.relpath(args.arms.resolve(), args.out_md.resolve().parent)
+        args.out_md.write_text(render_markdown(card, link.replace(os.sep, "/")), encoding="utf-8")
     print(f"{card['decision']}: {'; '.join(card['decision_reasons'])}")
     return 1 if card["decision"] in {"FAIL", "INVALID"} else 0
 

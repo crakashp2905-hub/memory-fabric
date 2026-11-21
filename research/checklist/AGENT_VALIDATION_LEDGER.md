@@ -8,13 +8,13 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 167 |
-| `IMPLEMENTED` | 7 |
-| `TESTED` | 66 |
+| `TODO` | 128 |
+| `IMPLEMENTED` | 14 |
+| `TESTED` | 90 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
-| `BLOCKED_EXTERNAL` | 0 |
+| `BLOCKED_EXTERNAL` | 8 |
 
 Total: 240 tasks.
 
@@ -33,10 +33,10 @@ Total: 240 tasks.
 | W09 | Counterfactual Decision Memory used only where beneficial | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W10 | Multi-agent knowledge and coordination under changing truth | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W11 | Fair baselines and resource parity | 2 | 1 | 7 | 0 | 0 | 0 | 0 |
-| W12 | Actual local model agents, no hosted service requirement | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
-| W13 | Strict evaluator metrics and operator-relevant benefits | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W14 | Preregister and power the real confirmatory study | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W15 | Run negative-control, ablation and confirmatory experiments | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W12 | Actual local model agents, no hosted service requirement | 0 | 1 | 5 | 0 | 0 | 0 | 4 |
+| W13 | Strict evaluator metrics and operator-relevant benefits | 0 | 4 | 6 | 0 | 0 | 0 | 0 |
+| W14 | Preregister and power the real confirmatory study | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
+| W15 | Run negative-control, ablation and confirmatory experiments | 2 | 1 | 3 | 0 | 0 | 0 | 4 |
 | W16 | Defend learned agents against contaminated memory and unsafe prompts | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W17 | Persistence, recovery, and transactional consistency | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W18 | Performance and cost efficiency with honest measurements | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -44,7 +44,7 @@ Total: 240 tasks.
 | W20 | Developer-facing APIs, SDK and usability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W21 | Control Center and operator outcome observability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W22 | Research novelty, precise scientific claims and negative results | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W23 | CI, local qualification and no-regression release gates | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
+| W23 | CI, local qualification and no-regression release gates | 7 | 0 | 3 | 0 | 0 | 0 | 0 |
 | W24 | Business value and launch decision without premature deployment | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Tasks
@@ -162,44 +162,44 @@ Total: 240 tasks.
 | W11-09 | P0 | `TESTED` | `benchmarks/outcome_arms.py` |  |
 | W11-10 | P0 | `TESTED` | `benchmarks/outcome_arms.py` | A6 missing renders INCOMPLETE, never PASS. |
 | W12-01 | P0 | `TESTED` | `tools/model_preflight.py`<br>`research/results/agent-outcomes/baseline-70e34c8/model-preflight.json` | Loopback-only, no download; REAL_AGENT_NOT_RUN here (no runtime installed). |
-| W12-02 | P0 | `TODO` |  |  |
-| W12-03 | P0 | `TODO` |  |  |
-| W12-04 | P0 | `TODO` |  |  |
-| W12-05 | P0 | `TODO` |  |  |
-| W12-06 | P0 | `TODO` |  |  |
-| W12-07 | P0 | `TODO` |  |  |
-| W12-08 | P0 | `TODO` |  |  |
-| W12-09 | P0 | `TODO` |  |  |
-| W12-10 | P0 | `TODO` |  |  |
-| W13-01 | P0 | `TODO` |  |  |
-| W13-02 | P0 | `TODO` |  |  |
-| W13-03 | P0 | `TODO` |  |  |
-| W13-04 | P0 | `TODO` |  |  |
-| W13-05 | P0 | `TODO` |  |  |
-| W13-06 | P0 | `TODO` |  |  |
-| W13-07 | P0 | `TODO` |  |  |
-| W13-08 | P0 | `TODO` |  |  |
-| W13-09 | P0 | `TODO` |  |  |
-| W13-10 | P0 | `TODO` |  |  |
-| W14-01 | P0 | `TODO` |  |  |
-| W14-02 | P0 | `TODO` |  |  |
-| W14-03 | P0 | `TODO` |  |  |
-| W14-04 | P0 | `TODO` |  |  |
-| W14-05 | P0 | `TODO` |  |  |
-| W14-06 | P0 | `TODO` |  |  |
-| W14-07 | P0 | `TODO` |  |  |
-| W14-08 | P0 | `TODO` |  |  |
-| W14-09 | P0 | `TODO` |  |  |
-| W14-10 | P0 | `TODO` |  |  |
-| W15-01 | P0 | `TODO` |  |  |
-| W15-02 | P0 | `TODO` |  |  |
-| W15-03 | P0 | `TODO` |  |  |
+| W12-02 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/model_actor.py` | ModelConfig pins digest, runtime, quantization, decoding, context, prompt template and tool schema into one fingerprint logged per call. |
+| W12-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/model_actor.py`<br>`src/memory_fabric/outcome_typed/episode.py` | Actor gets (role, observation) only; strict {intent, arguments} JSON; verified with a FAKE backend, not a model. |
+| W12-04 | P0 | `BLOCKED_EXTERNAL` | `src/memory_fabric/outcome_typed/model_actor.py`<br>`benchmarks/outcome_model_team.py` | Per-role tools and sessions exist (ToolRegistry roles, GovernedMemoryPort per-role sessions) and run with a FAKE backend; no model run. |
+| W12-05 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_model_team.py` | Correction-after-plan worlds and the model team exist; no inference has run. |
+| W12-06 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/model_actor.py`<br>`src/memory_fabric/outcome_typed/episode.py` | Malformed JSON, invalid tool, evidence never retrieved, timeout, OOM, unavailable, context overflow, truncation and call budget are distinct host reasons; no fallback. |
+| W12-07 | P0 | `IMPLEMENTED` | `src/memory_fabric/outcome_typed/model_actor.py`<br>`benchmarks/outcome_model_team.py` | Per-call tokens (unknown kept unknown), wall time, failures and per-role call budgets recorded; retries are 0 by construction. Cold/warm load is not separated yet. |
+| W12-08 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_model_team.py` | Needs two installed model sizes; none installed. |
+| W12-09 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_model_team.py` | A3/A4/A5 share one prompt, config fingerprint and tasks in the model team; A6 is not implemented and no model ran. |
+| W12-10 | P0 | `TESTED` | `tools/agent_outcome_end_to_end_gate.py`<br>`benchmarks/outcome_model_team.py` | LOCAL_MODEL_EVIDENCE_AVAILABLE only when the model team ran at the gate's own commit with inference-backed steps in every row; historical JSON is never read. |
+| W13-01 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | Completion from the evaluator's terminal status over every scheduled task. |
+| W13-02 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | Eligible only where the oracle can complete with accessible evidence; denominator reported. |
+| W13-03 | P0 | `IMPLEMENTED` | `benchmarks/outcome_scorecard.py` | Unsafe executed, stale executed and gate-refused attempts reported with denominators; unsafe proposals are NOT_ASSESSABLE until proposals carry an oracle label. |
+| W13-04 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | Recovery over correction families with headroom; irrecoverable abstention separate; zero denominator is NOT_ASSESSABLE. |
+| W13-05 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | NOT_RECORDED: no shared monotonic clock between correction and effect; end-to-end time is not relabelled. |
+| W13-06 | P0 | `IMPLEMENTED` | `benchmarks/outcome_scorecard.py` | False abstention, correct refusal and hallucinated evidence computed with eligibility; unnecessary re-evaluation NOT_RECORDED and operator interventions NOT_ASSESSABLE. |
+| W13-07 | P0 | `IMPLEMENTED` | `benchmarks/outcome_scorecard.py` | Steps, tool calls, context bytes and model tokens (when present) per arm; replay CPU, peak memory, storage and worker time NOT_RECORDED. |
+| W13-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_scorecard.py` | Per-family worst case and material per-family regression fail the decision (tested); per-agent fairness needs learned agents. |
+| W13-09 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | Schema, source SHA, task-set digest, sampling unit and uncertainty rule; missing basis is INVALID. |
+| W13-10 | P0 | `TESTED` | `benchmarks/outcome_scorecard.py` | Decision computed into JSON before Markdown; scripted evidence HOLD at best. Development scorecard: research/results/agent-outcomes/SCRIPTED_SCORECARD_DEV.md (HOLD). |
+| W14-01 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | Validator only; the study itself is blocked on a model (see W14-04). |
+| W14-02 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | A5-A3 and A5-A4 primary; only A6-A5 secondary. |
+| W14-03 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | Generator, prompt, model, runtime, policy, evaluator and tool-schema digests are in the design digest. |
+| W14-04 | P0 | `TESTED` | `benchmarks/outcome_prereg.py`<br>`memeval/power.py` | Validator rejects impossible and underpowered targets; pilot discordance needs a model run. |
+| W14-05 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | Seed cluster is the unit; repeated decisions are not pairs. |
+| W14-06 | P0 | `TESTED` | `benchmarks/outcome_confirmatory.py`<br>`benchmarks/outcome_prereg.py` | v1 rules carried into v2: stopping rule, attempts retained, Holm. |
+| W14-07 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | Non-inferiority margin, per-family bounds, exact binomial zero-event bound. |
+| W14-08 | P0 | `IMPLEMENTED` | `benchmarks/outcome_prereg.py`<br>`benchmarks/outcome_confirmatory.py` | Seed overlap rejected (tested); template-ID overlap needs model prompt templates. |
+| W14-09 | P0 | `TESTED` | `benchmarks/outcome_prereg.py`<br>`research/prereg/agent-outcome-confirmatory-v2.json` | Offline validator; the committed v2 manifest is DRAFT and blocked. |
+| W14-10 | P0 | `TESTED` | `benchmarks/outcome_prereg.py` | Frozen source digest re-checked at analysis. |
+| W15-01 | P0 | `TESTED` | `tests/test_outcome_evaluator_mutation.py` | Always-complete, staleness-blind, host-trusting and early-horizon graders are caught; malformed truth refused. |
+| W15-02 | P0 | `TESTED` | `benchmarks/outcome_arms.py`<br>`research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md` | Scripted development arms A0-A5 with A7 ceiling; A6 NOT_RUN; promotion NOT_ASSESSED. |
+| W15-03 | P0 | `IMPLEMENTED` | `benchmarks/outcome_ablation.py` | Memory x recovery factorial with main effects and interaction per family (tested); correction propagation, source independence and retrieval method are not separable factors here and are listed as not run. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md. |
 | W15-04 | P0 | `TODO` |  |  |
-| W15-05 | P0 | `TODO` |  |  |
-| W15-06 | P0 | `TODO` |  |  |
-| W15-07 | P0 | `TODO` |  |  |
-| W15-08 | P0 | `TODO` |  |  |
-| W15-09 | P0 | `TODO` |  |  |
+| W15-05 | P0 | `TESTED` | `benchmarks/outcome_ablation.py` | A3-optimal and no-headroom tasks excluded from targets; measured A5-A3 bounded by attainable headroom. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md (8/40 improvable over A3). |
+| W15-06 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_prereg.py` | Heldout execution needs a frozen model and prompts. |
+| W15-07 | P0 | `BLOCKED_EXTERNAL` | `benchmarks/outcome_confirmatory.py` | Paired cluster bootstrap and Holm exist in benchmarks/outcome_confirmatory.py; nothing to compute without heldout model runs. |
+| W15-08 | P0 | `BLOCKED_EXTERNAL` |  | A6 is not implemented and A5 has no confirmatory result. |
+| W15-09 | P0 | `BLOCKED_EXTERNAL` |  | Independent generator-family replication needs model runs. |
 | W15-10 | P0 | `TODO` |  |  |
 | W16-01 | P0 | `TODO` |  |  |
 | W16-02 | P0 | `TODO` |  |  |
@@ -271,8 +271,8 @@ Total: 240 tasks.
 | W22-08 | P1 | `TODO` |  |  |
 | W22-09 | P1 | `TODO` |  |  |
 | W22-10 | P1 | `TODO` |  |  |
-| W23-01 | P0 | `TODO` |  |  |
-| W23-02 | P0 | `TODO` |  |  |
+| W23-01 | P0 | `TESTED` | `tools/agent_outcome_end_to_end_gate.py` | One offline command; report written even when a stage fails; exit 1 on a required failure. Its first run caught the demo regression fixed in 3d02d25. Run record at this commit: research/results/agent-outcomes/candidate-offline/05ced0e/ (overall PASS; synthetic gate SCRIPTED_PASS; real_agent NOT_RUN). |
+| W23-02 | P0 | `TESTED` | `tools/agent_outcome_end_to_end_gate.py` | Optional --local-model stage; no checkpoint gives REAL_AGENT_NOT_RUN, never a scripted substitute. |
 | W23-03 | P0 | `TODO` |  |  |
 | W23-04 | P0 | `TODO` |  |  |
 | W23-05 | P0 | `TODO` |  |  |

@@ -86,6 +86,10 @@ class Scorecard(unittest.TestCase):
         self.assertIn(f"decision: **{self.card['decision']}**", text)
         self.assertEqual(json.dumps(self.card, sort_keys=True), before)
 
+    def test_the_rendered_table_links_its_rows(self) -> None:
+        text = render_markdown(self.card, "scripted-arms-dev.json")
+        self.assertIn("| arm ([rows](scripted-arms-dev.json)) |", text)
+
     def test_non_scripted_evidence_gets_intervals(self) -> None:
         card = scorecard(self.report, source_sha=SHA, evidence_type="local_model")
         low, high = card["uncertainty"]["A5"]["safe_success_wilson95"]
