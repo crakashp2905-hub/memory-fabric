@@ -1,0 +1,837 @@
+{
+ "counts": {
+  "conflicting": 12,
+  "identical": 3,
+  "incompatible": 0,
+  "missing": 7,
+  "unique": 166
+ },
+ "generated_by": "tools/outcome_package_inventory.py",
+ "packages": {
+  "agent_outcomes": {
+   "modules": [
+    "observations",
+    "recovery"
+   ],
+   "public_names": 8,
+   "schema_ids": [
+    "memory-fabric.agent-outcomes.v1"
+   ]
+  },
+  "outcome_protocol": {
+   "modules": [
+    "boundary",
+    "eligibility",
+    "metrics",
+    "observations",
+    "outcomes",
+    "privacy",
+    "recovery",
+    "runtime"
+   ],
+   "public_names": 50,
+   "schema_ids": [
+    "memory-fabric.agent-outcome-counterfactual-schedule.v1",
+    "memory-fabric.agent-outcome-operator-trace.v1",
+    "memory-fabric.agent-outcome-recovery-checkpoint.v1",
+    "memory-fabric.agent-outcome-user-explanation.v1",
+    "memory-fabric.agent-outcomes.audit.v1",
+    "memory-fabric.agent-outcomes.replay-interpretation.v1",
+    "memory-fabric.agent-outcomes.terminal.v1",
+    "memory-fabric.agent-outcomes.v1"
+   ]
+  },
+  "outcome_typed": {
+   "modules": [
+    "compat",
+    "demo",
+    "eligibility",
+    "episode",
+    "evidence",
+    "observations",
+    "outcomes",
+    "privacy",
+    "recovery",
+    "replay_worker",
+    "runtime"
+   ],
+   "public_names": 146,
+   "schema_ids": [
+    "memory-fabric.agent-episode-trace.v1",
+    "memory-fabric.agent-episode.v1",
+    "memory-fabric.agent-outcome-audit.v1",
+    "memory-fabric.agent-outcomes.v1",
+    "memory-fabric.agent-outcomes.v3",
+    "memory-fabric.audit-memory-links.v1",
+    "memory-fabric.authorized-replay.v1",
+    "memory-fabric.correction-reevaluation-advisories.v1",
+    "memory-fabric.counterfactual-evidence-labels.v1",
+    "memory-fabric.evidence-diagnosis.v1",
+    "memory-fabric.oracle-task.v1",
+    "memory-fabric.outcome-recovery-demo.v1",
+    "memory-fabric.recovery-audit.v3",
+    "memory-fabric.recovery-checkpoint.v1",
+    "memory-fabric.recovery-guidance.v1",
+    "memory-fabric.release-evidence-matrix.v1",
+    "memory-fabric.terminal-outcome.v1",
+    "memory-fabric.why-task-failed.v1"
+   ]
+  }
+ },
+ "schema_id": "memory-fabric.outcome-package-inventory.v1",
+ "shared_names": {
+  "AgentObservation": {
+   "absent_from": [],
+   "classification": "identical",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "fields": [
+      "task_id",
+      "instruction",
+      "visible_events",
+      "permitted_tools",
+      "budget",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.agent_outcomes.observations"
+    },
+    "outcome_protocol": {
+     "fields": [
+      "task_id",
+      "instruction",
+      "visible_events",
+      "permitted_tools",
+      "budget",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.observations"
+    },
+    "outcome_typed": {
+     "fields": [
+      "task_id",
+      "instruction",
+      "visible_events",
+      "permitted_tools",
+      "budget",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.observations"
+    }
+   }
+  },
+  "AgentStep": {
+   "absent_from": [],
+   "classification": "identical",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "fields": [
+      "task_id",
+      "actor_id",
+      "step_id",
+      "intent",
+      "arguments",
+      "evidence_versions",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.agent_outcomes.observations"
+    },
+    "outcome_protocol": {
+     "fields": [
+      "task_id",
+      "actor_id",
+      "step_id",
+      "intent",
+      "arguments",
+      "evidence_versions",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.observations"
+    },
+    "outcome_typed": {
+     "fields": [
+      "task_id",
+      "actor_id",
+      "step_id",
+      "intent",
+      "arguments",
+      "evidence_versions",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.observations"
+    }
+   }
+  },
+  "EpisodeOutcome": {
+   "absent_from": [],
+   "classification": "conflicting",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "fields": [
+      "task_id",
+      "arm",
+      "seed",
+      "completion",
+      "safety_violations",
+      "stale_effects",
+      "rejected_effects",
+      "eligible_recoveries",
+      "successful_recoveries",
+      "model_calls",
+      "model_tokens",
+      "wall_ms",
+      "outcome_oracle_digest",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.agent_outcomes.observations"
+    },
+    "outcome_protocol": {
+     "fields": [
+      "task_id",
+      "arm",
+      "seed",
+      "completion",
+      "safety_violations",
+      "stale_effects",
+      "rejected_effects",
+      "eligible_recoveries",
+      "successful_recoveries",
+      "model_calls",
+      "model_tokens",
+      "wall_ms",
+      "outcome_oracle_digest",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.observations"
+    },
+    "outcome_typed": {
+     "fields": [
+      "task_id",
+      "arm",
+      "seed",
+      "completion",
+      "safety_violations",
+      "stale_effects",
+      "rejected_effects",
+      "eligible_recoveries",
+      "successful_recoveries",
+      "model_calls",
+      "model_tokens",
+      "wall_ms",
+      "outcome_oracle_digest",
+      "schema_id",
+      "attempted_unsafe_effects",
+      "executed_unsafe_effects",
+      "terminal_failure_codes",
+      "agent_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.observations"
+    }
+   }
+  },
+  "MAX_JSON_BYTES": {
+   "absent_from": [],
+   "classification": "identical",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "kind": "constant",
+     "module": "memory_fabric.agent_outcomes.observations",
+     "value": 64000
+    },
+    "outcome_protocol": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_protocol.observations",
+     "value": 64000
+    },
+    "outcome_typed": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_typed.observations",
+     "value": 64000
+    }
+   }
+  },
+  "MAX_RUNTIME_STEPS": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_protocol.runtime",
+     "value": 64
+    },
+    "outcome_typed": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_typed.runtime",
+     "value": 128
+    }
+   }
+  },
+  "OracleTask": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "fields": [
+      "task_id",
+      "expected_terminal_digest",
+      "required_effect_ids",
+      "answerable",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.outcomes"
+    },
+    "outcome_typed": {
+     "fields": [
+      "task_id",
+      "seal_sha256",
+      "schema_id"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.observations"
+    }
+   }
+  },
+  "RecoveryAction": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "kind": "enum",
+     "members": [
+      "ASK_CLARIFICATION",
+      "INSPECT_PROVENANCE",
+      "REPLAN",
+      "REQUEST_CURRENT_OBSERVATION",
+      "RERETRIEVE"
+     ],
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "kind": "enum",
+     "members": [
+      "ASK_CLARIFICATION",
+      "INSPECT_PROVENANCE",
+      "REFRESH",
+      "REPLAN",
+      "REQUEST_OBSERVATION",
+      "RE_RETRIEVE"
+     ],
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryActionSpec": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "fields": [
+      "action",
+      "description",
+      "externally_effectful"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "fields": [
+      "action",
+      "read_only"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryEpisode": {
+   "absent_from": [],
+   "classification": "conflicting",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "fields": [
+      "task_id",
+      "limits",
+      "status",
+      "steps",
+      "recoveries",
+      "trace"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.agent_outcomes.recovery"
+    },
+    "outcome_protocol": {
+     "fields": [
+      "task_id",
+      "limits",
+      "status",
+      "steps",
+      "recoveries",
+      "trace",
+      "enabled",
+      "alternate_search_attempts",
+      "authorization_requeries_suppressed"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "fields": [
+      "task_id",
+      "limits",
+      "status",
+      "steps",
+      "recoveries",
+      "trace"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryFailureClass": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "kind": "enum",
+     "members": [
+      "AUTHORIZATION",
+      "EVIDENCE_QUALITY",
+      "RETRIEVAL",
+      "UNKNOWN"
+     ],
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "kind": "enum",
+     "members": [
+      "AUTHORIZATION",
+      "EVIDENCE_VALIDITY",
+      "RECOVERY_CONTROL",
+      "RETRIEVAL",
+      "UNKNOWN"
+     ],
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryGuidance": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "fields": [
+      "cause_code",
+      "disposition",
+      "next_action",
+      "operator_handoff",
+      "protected_effect_allowed"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "fields": [
+      "cause",
+      "resolution",
+      "next_action",
+      "requires_human"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryLimits": {
+   "absent_from": [],
+   "classification": "conflicting",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "fields": [
+      "max_steps",
+      "max_recoveries",
+      "max_event_bytes"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.agent_outcomes.recovery"
+    },
+    "outcome_protocol": {
+     "fields": [
+      "max_steps",
+      "max_recoveries",
+      "max_event_bytes",
+      "max_attempts",
+      "max_events",
+      "deadline_seconds"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "fields": [
+      "max_steps",
+      "max_recoveries",
+      "max_event_bytes",
+      "deadline_s"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "RecoveryStatus": {
+   "absent_from": [],
+   "classification": "conflicting",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "kind": "enum",
+     "members": [
+      "ABSTAINED",
+      "BLOCKED",
+      "COMPLETE",
+      "FAILED",
+      "READY",
+      "RECOVERED"
+     ],
+     "module": "memory_fabric.agent_outcomes.recovery"
+    },
+    "outcome_protocol": {
+     "kind": "enum",
+     "members": [
+      "ABSTAINED",
+      "BLOCKED",
+      "COMPLETE",
+      "DISABLED",
+      "FAILED",
+      "READY",
+      "RECOVERED"
+     ],
+     "module": "memory_fabric.outcome_protocol.recovery"
+    },
+    "outcome_typed": {
+     "kind": "enum",
+     "members": [
+      "ABSTAINED",
+      "BLOCKED",
+      "COMPLETE",
+      "ESCALATED",
+      "FAILED",
+      "READY",
+      "RECOVERED"
+     ],
+     "module": "memory_fabric.outcome_typed.recovery"
+    }
+   }
+  },
+  "SCHEMA_ID": {
+   "absent_from": [],
+   "classification": "conflicting",
+   "present_in": [
+    "agent_outcomes",
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "agent_outcomes": {
+     "kind": "constant",
+     "module": "memory_fabric.agent_outcomes.observations",
+     "value": "memory-fabric.agent-outcomes.v1"
+    },
+    "outcome_protocol": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_protocol.observations",
+     "value": "memory-fabric.agent-outcomes.v1"
+    },
+    "outcome_typed": {
+     "kind": "constant",
+     "module": "memory_fabric.outcome_typed.observations",
+     "value": "memory-fabric.agent-outcomes.v3"
+    }
+   }
+  },
+  "ToolCallRecord": {
+   "absent_from": [
+    "agent_outcomes"
+   ],
+   "classification": "conflicting",
+   "present_in": [
+    "outcome_protocol",
+    "outcome_typed"
+   ],
+   "shapes": {
+    "outcome_protocol": {
+     "fields": [
+      "step_id",
+      "tool",
+      "output"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_protocol.runtime"
+    },
+    "outcome_typed": {
+     "fields": [
+      "step_id",
+      "tool",
+      "status",
+      "output_sha256"
+     ],
+     "kind": "dataclass",
+     "module": "memory_fabric.outcome_typed.runtime"
+    }
+   }
+  }
+ },
+ "unique_names": {
+  "agent_outcomes": [],
+  "outcome_protocol": [
+   "AUDIT_SCHEMA_ID",
+   "AgentEpisodeAudit",
+   "AgentPort",
+   "AgentRuntime",
+   "AlternateEvidence",
+   "CompletionComparison",
+   "EffectReceipt",
+   "EvaluatorCallbackNotice",
+   "EvaluatorDispatch",
+   "EvaluatorPort",
+   "EvidenceFailure",
+   "EvidenceFailureKind",
+   "MAX_TOOL_REQUEST_BYTES",
+   "OutcomeAssessment",
+   "OutcomeStatus",
+   "READ_ONLY_RECOVERY_CATALOG",
+   "ReadOnlyRecoveryCatalog",
+   "RecoveryDisposition",
+   "ReplayFidelity",
+   "ReplayOutcomeInterpretation",
+   "RuntimeTrace",
+   "TerminalResult",
+   "ToolOutput",
+   "build_episode_boundary",
+   "classify_evidence_failure",
+   "classify_recovery_failure",
+   "explain_task_outcome",
+   "grade_after_episode",
+   "operator_trace",
+   "parse_agent_request",
+   "progress_key_digest",
+   "recovery_guidance",
+   "redact_public",
+   "schedule_counterfactual_replays",
+   "search_alternate_sources"
+  ],
+  "outcome_typed": [
+   "ActorTrace",
+   "AuthorizedReplayContract",
+   "BudgetExhausted",
+   "CounterfactualReplayDispatch",
+   "CounterfactualReplayReason",
+   "CounterfactualReplayStatus",
+   "DiagnosisSource",
+   "EPISODE_SCHEMA_ID",
+   "EffectOutcome",
+   "EffectRecord",
+   "EpisodeAudit",
+   "EpisodeBudget",
+   "EpisodeError",
+   "EpisodeLimits",
+   "EpisodeRecord",
+   "EpisodeRunner",
+   "EvaluatorCapability",
+   "EvidenceBoundaryError",
+   "EvidenceDiagnosis",
+   "EvidenceFailureCode",
+   "EvidenceRef",
+   "EvidenceType",
+   "FAILURE_CODES",
+   "FailureCode",
+   "GATE_EVIDENCE_TYPES",
+   "GateEvidence",
+   "GovernedMemoryPort",
+   "GradeReason",
+   "GradeStatus",
+   "HostOutcome",
+   "IllegalTransition",
+   "IncompatibleRecord",
+   "LEGACY_PACKAGES",
+   "LEGACY_SCHEMA_ID",
+   "MAX_ALTERNATE_SOURCE_BASES",
+   "MAX_ALTERNATE_SOURCE_CANDIDATES",
+   "MAX_ALTERNATE_SOURCE_QUERY_CHARS",
+   "MAX_ALTERNATE_SOURCE_RESULTS",
+   "MAX_AUDIT_BYTES",
+   "MAX_AUDIT_EVENTS",
+   "MAX_AUDIT_EVENT_BYTES",
+   "MAX_EFFECTS",
+   "MAX_MEMORY_REFS_PER_EVENT",
+   "MAX_RECOVERY_ATTEMPTS",
+   "MAX_RECOVERY_AUDIT_BYTES",
+   "MAX_RECOVERY_DEADLINE_S",
+   "MAX_RECOVERY_EVENT_BYTES",
+   "MAX_RECOVERY_STEPS",
+   "MAX_TERMINAL_SNAPSHOTS",
+   "MAX_TOOL_ARGUMENT_BYTES",
+   "MAX_TOOL_OUTPUT_BYTES",
+   "MemoryPort",
+   "ORACLE_SCHEMA_ID",
+   "OUTCOME_AUDIT_SCHEMA_ID",
+   "OutcomeAuditEvent",
+   "OutcomeAuditKind",
+   "OutcomeBenefitLabel",
+   "OutcomeEvidenceStatus",
+   "OutcomeStage",
+   "Phase",
+   "PolicyFlipLabel",
+   "Population",
+   "Proposal",
+   "RECOVERY_ACTIONS",
+   "RECOVERY_AUDIT_SCHEMA_ID",
+   "RECOVERY_CHECKPOINT_SCHEMA_ID",
+   "RELEASE_MATRIX_GATES",
+   "ROLES",
+   "RecoveryCause",
+   "RecoveryFeatureFlag",
+   "RecoveryNextAction",
+   "RecoveryResolution",
+   "ReplayBudget",
+   "ReplayContractBuild",
+   "ReplayContractStatus",
+   "ReplayFidelityLabel",
+   "ReplayLimits",
+   "ReportedTaskStatus",
+   "ResultPopulation",
+   "RuntimeResult",
+   "RuntimeStatus",
+   "RuntimeTool",
+   "STOP_CONDITIONS",
+   "SUNSET",
+   "TRACE_SCHEMA_ID",
+   "TRANSITIONS",
+   "TaskEnvelope",
+   "TerminalGrade",
+   "TerminalObjective",
+   "TerminalSnapshot",
+   "TerminalStatus",
+   "ToolRegistry",
+   "ToolRejected",
+   "ToolSpec",
+   "UnpairedComparisonError",
+   "VerifyResult",
+   "build_authorized_replay_contract",
+   "canonical_step_id",
+   "canonical_task_id",
+   "default_tools",
+   "describe",
+   "diagnose_access",
+   "diagnose_answerability",
+   "diagnose_certificate",
+   "diagnose_relevance",
+   "dispatch_counterfactual_replay",
+   "explain_task_failure",
+   "find_alternate_sources",
+   "from_legacy_gate_status",
+   "grade_terminal",
+   "json_decisions",
+   "label_counterfactual_evidence",
+   "main",
+   "observation_from_legacy",
+   "observation_to_legacy",
+   "outcome_from_legacy",
+   "outcome_to_legacy",
+   "recovery_status_from_legacy",
+   "recovery_status_to_legacy",
+   "release_evidence_matrix",
+   "run_agent_json_loop",
+   "run_agent_loop",
+   "run_demo",
+   "run_episode",
+   "scrub_public_json",
+   "step_from_legacy",
+   "step_to_legacy",
+   "summarize_audit_memory_links",
+   "targeted_correction_reevaluation_receipts",
+   "trace_digest",
+   "validate_paired_comparison"
+  ]
+ }
+}

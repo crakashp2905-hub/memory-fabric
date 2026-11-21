@@ -1,0 +1,232 @@
+{
+ "schema_id": "memory-fabric.outcome-legacy-callsites.v1",
+ "canonical_package": "memory_fabric.outcome_typed",
+ "adr": "docs/adr/0004-canonical-outcome-runtime.md",
+ "note": "Every import of a legacy outcome package outside it must be listed here; new code imports memory_fabric.outcome_typed. tests/test_outcome_canonical_package.py enforces this.",
+ "callsites": [
+  {
+   "path": "benchmarks/outcome_report.py",
+   "package": "memory_fabric.agent_outcomes",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "tests/test_agent_outcomes_contracts.py",
+   "package": "memory_fabric.agent_outcomes",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_canonical_package.py",
+   "package": "memory_fabric.agent_outcomes",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "translation and differential tests between the legacy packages and the canonical runtime"
+  },
+  {
+   "path": "benchmarks/matched_agent_arms_protocol.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "benchmarks/outcome_agents.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "benchmarks/outcome_matched_arms.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "benchmarks/outcome_protocol_report.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "benchmarks/outcome_worlds.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical benchmark harness whose recorded results cite this package"
+  },
+  {
+   "path": "examples/outcome_recovery_demo.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical example; the canonical demo is memory_fabric.outcome_typed.demo"
+  },
+  {
+   "path": "tests/test_agent_outcome_boundary.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_eligibility.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_operator_trace.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_recovery_catalog.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_recovery_guidance.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_recovery_limits.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_requests.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_runtime.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_agent_outcome_terminal.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_alternate_sources.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_audit.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_authorization.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_canonical_package.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "translation and differential tests between the legacy packages and the canonical runtime"
+  },
+  {
+   "path": "tests/test_outcome_counterfactual.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_interpretation.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_model_absence.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_ollama_adapter.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_oracle_isolation.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_protocol_contracts.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_recovery.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_recovery_feature_flag.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_report_metrics.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  },
+  {
+   "path": "tests/test_outcome_world_splits.py",
+   "package": "memory_fabric.outcome_protocol",
+   "status": "GRANDFATHERED",
+   "sunset": "2027-03-31",
+   "reason": "historical contract tests of the legacy package; kept to prove legacy behaviour until removal"
+  }
+ ]
+}
