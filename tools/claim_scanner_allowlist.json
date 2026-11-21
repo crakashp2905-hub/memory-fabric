@@ -1,0 +1,5 @@
+{
+  "schema_id": "memory-fabric.claim-scanner-allowlist.v1",
+  "note": "Each entry covers one paragraph of one document by exact text, with a reason and an ISO date. Prefer linking the evidence; an allowlisted number is still an unsupported number.",
+  "entries": []
+}

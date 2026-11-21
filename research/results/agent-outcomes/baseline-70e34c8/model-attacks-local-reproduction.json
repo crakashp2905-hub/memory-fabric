@@ -1,0 +1,44 @@
+{
+  "schema_id": "memory-fabric.model-attacks-local-reproduction.v1",
+  "baseline_commit": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+  "environment_manifest": "research/results/agent-outcomes/baseline-70e34c8/manifest.json",
+  "commands": [
+    {
+      "argv": "python tools/model_preflight.py --require qwen2.5:1.5b --out preflight.json",
+      "exit_code": 3
+    },
+    {
+      "argv": "python -m experiments.g4b_conflicts --split dev --model qwen2.5:1.5b --out g4b.json",
+      "exit_code": 1,
+      "stderr_last_line": "memory_fabric.adapters.ollama.OllamaError: cannot reach Ollama at http://127.0.0.1:11434: [Errno 111] Connection refused. Is `ollama serve` running?"
+    },
+    {
+      "argv": "python -m experiments.t2b_notice --split dev --model qwen2.5:1.5b --out t2b.json",
+      "exit_code": 1,
+      "stderr_last_line": "memory_fabric.adapters.ollama.OllamaError: cannot reach Ollama at http://127.0.0.1:11434: [Errno 111] Connection refused. Is `ollama serve` running?"
+    },
+    {
+      "argv": "python tools/model_attack_check.py --preflight preflight.json --status-out model-attack-status.json g4b.json t2b.json",
+      "exit_code": 2
+    }
+  ],
+  "checker_status": {
+    "status": "MODEL_NOT_AVAILABLE",
+    "reason": "model preflight: LOCAL_RUNTIME_UNAVAILABLE",
+    "inputs": [
+      {
+        "input": "g4b.json",
+        "problems": [],
+        "status": "MISSING"
+      },
+      {
+        "input": "t2b.json",
+        "problems": [],
+        "status": "MISSING"
+      }
+    ],
+    "preflight_status": "REAL_AGENT_NOT_RUN",
+    "model_digests": []
+  },
+  "interpretation": "The attack experiments need a local Ollama model; none is available here, so the invariants were not checked. MODEL_NOT_AVAILABLE is not a pass and not a vulnerability."
+}

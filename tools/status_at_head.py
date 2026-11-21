@@ -111,8 +111,39 @@ def results() -> tuple[list[str], list[str]]:
     return pinned, unpinned
 
 
-def contradictions(v: dict[str, str]) -> list[str]:
+# Current-state statements made outside this generated page (checklist W01-03).
+# Group 1 of each pattern must equal the named version of the tree. Historical
+# documents (release notes, the changelog, recorded results) are deliberately not
+# listed: they describe the state they were written in and are never rewritten.
+CURRENT_STATE = (
+    ("README.md", r"source version (\d+\.\d+\.\d+)", "package"),
+    ("docs/AGENT_OUTCOME_EVALUATION.md", r"package is version `(\d+\.\d+\.\d+)`", "package"),
+    ("docs/AGENT_OUTCOME_EVALUATION.md",
+     r"event schema\s+and `SPEC\.md` (?:remain at|are at) `(\d+\.\d+\.\d+)`", "schema"),
+    ("deploy/helm/memory-fabric/Chart.yaml", r'(?m)^appVersion:\s*"?(\d+\.\d+\.\d+)', "package"),
+    ("docs/MEMORY_FABRIC_RELEASE_CHECKLIST.md",
+     r"memory[-_]fabric-(\d+\.\d+\.\d+)-py3-none-any\.whl", "package"),
+)
+
+
+def current_state_mentions(v: dict[str, str], read: Any = None) -> list[str]:
+    """Current-state documents whose stated version disagrees with the tree."""
+    read = read or _read
     out = []
+    for rel, pattern, key in CURRENT_STATE:
+        try:
+            text = read(rel)
+        except FileNotFoundError:
+            out.append(f"{rel} is listed as a current-state document but is missing")
+            continue
+        for match in re.finditer(pattern, text):
+            if match.group(1) != v[key]:
+                out.append(f"{rel} states {key} `{match.group(1)}`; the tree is `{v[key]}`")
+    return out
+
+
+def contradictions(v: dict[str, str]) -> list[str]:
+    out = current_state_mentions(v)
     if v["spec_header"] != v["schema"]:
         out.append(f"SPEC.md header says schema `{v['spec_header']}`, code says `{v['schema']}`")
     if v["spec_latest_section"] != v["schema"]:

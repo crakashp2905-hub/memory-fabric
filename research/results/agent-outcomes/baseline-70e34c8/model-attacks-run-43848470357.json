@@ -1,0 +1,66 @@
+{
+  "comparison_runs": [
+    {
+      "conclusion": "success",
+      "created_at": "2026-11-09T10:39:33Z",
+      "head_sha": "3e29df6699973eda255113595bb5f3320d018626",
+      "id": 42602472698,
+      "run_number": 3,
+      "updated_at": "2026-11-09T10:50:49Z"
+    },
+    {
+      "conclusion": "success",
+      "created_at": "2026-11-02T10:20:09Z",
+      "head_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+      "id": 41427970442,
+      "run_number": 2,
+      "updated_at": "2026-11-02T10:46:48Z"
+    },
+    {
+      "conclusion": "success",
+      "created_at": "2026-10-26T08:18:17Z",
+      "head_sha": "c10246e75e9881529dcf6c657b31d58727dc9462",
+      "id": 40291323960,
+      "run_number": 1,
+      "updated_at": "2026-10-26T08:32:14Z"
+    }
+  ],
+  "jobs": [
+    {
+      "completed_at": "2026-11-16T10:24:01Z",
+      "conclusion": "failure",
+      "id": 133234599140,
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "name": "attacks",
+      "runner_group_id": 0,
+      "runner_group_name": "",
+      "runner_id": 0,
+      "runner_name": "",
+      "started_at": "2026-11-16T10:23:58Z",
+      "status": "completed",
+      "steps": []
+    }
+  ],
+  "log_retrieval": {
+    "detail": "HTTP 404 on job log download",
+    "status": "UNAVAILABLE"
+  },
+  "run": {
+    "conclusion": "failure",
+    "created_at": "2026-11-16T10:23:58Z",
+    "event": "schedule",
+    "head_branch": "main",
+    "head_sha": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+    "id": 43848470357,
+    "name": "model-attacks",
+    "path": ".github/workflows/model-attacks.yml",
+    "run_attempt": 1,
+    "run_number": 4,
+    "status": "completed",
+    "updated_at": "2026-11-16T10:24:02Z"
+  },
+  "schema_id": "memory-fabric.workflow-run-record.v1",
+  "source": "GitHub REST API via the session's GitHub tools, retrieved 2026-11-20; job log download returned HTTP 404"
+}

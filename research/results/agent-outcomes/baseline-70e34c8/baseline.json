@@ -1,0 +1,129 @@
+{
+  "schema_id": "memory-fabric.agent-outcome-baseline.v1",
+  "baseline_commit": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+  "environment_manifest": "research/results/agent-outcomes/baseline-70e34c8/manifest.json",
+  "recorded_on": "2026-11-20",
+  "overall_status": "NOT_RUN",
+  "overall_reason": "No same-commit real-agent, confirmatory or independent evidence exists; in-house scripted and contract evidence only.",
+  "known_results": [
+    {
+      "id": "a5-matched-development",
+      "status": "SCRIPTED_PASS",
+      "evidence_type": "scripted",
+      "summary": "A5-A3 paired completion difference 0.0 and A5-A4 +0.2 on 10 scripted development task cases, seed 701; A6 not run.",
+      "path": "research/results/agent-outcome-a5-matched-development.json",
+      "do_not_extrapolate": "One seed, scripted actors, development split; not held-out, not confirmatory, no promotion."
+    },
+    {
+      "id": "scripted-correction-example",
+      "status": "SCRIPTED_PASS",
+      "evidence_type": "scripted",
+      "summary": "A5 recovery completed 12/12 vs 0/12 for A0 immediate abstention over 12 seeds.",
+      "path": "research/results/agent-outcome-v1-ao096-scripted-example.json",
+      "do_not_extrapolate": "A0 is a negative control, not the strongest fair baseline (A3/A4); capability demonstration only."
+    },
+    {
+      "id": "real-model-single-decision-smoke",
+      "status": "LOCAL_MODEL_PASS",
+      "evidence_type": "local_model",
+      "summary": "One validated qwen2.5:1.5b decision (1 model call) at candidate 24b1e9d6b311.",
+      "path": "benchmarks/real_agent_smoke_manifest.json",
+      "do_not_extrapolate": "Interface smoke at a different commit; not a task-success population; prompt-injection compliance NOT_TESTED."
+    },
+    {
+      "id": "real-model-three-role-smoke",
+      "status": "LOCAL_MODEL_PASS",
+      "evidence_type": "local_model",
+      "summary": "Five sequential qwen2.5:1.5b Q4_K_M calls across three authenticated roles, one host effect.",
+      "path": "benchmarks/real_agent_team_smoke_manifest.json",
+      "do_not_extrapolate": "One sequential integration smoke; the manifest itself says it is not task-success or safety-efficacy evidence."
+    },
+    {
+      "id": "historical-50-agent-teamworld",
+      "status": "SCRIPTED_PASS",
+      "evidence_type": "scripted",
+      "summary": "Deterministic TeamWorld: task success 0.584 and valid evidence withheld 0.168 over 500 tasks, zero observed stale actions.",
+      "path": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+      "do_not_extrapolate": "Historical population at d4fd174; not an A5 outcome result; zero observed is not zero risk."
+    },
+    {
+      "id": "false-withholding-ablation",
+      "status": "SCRIPTED_PASS",
+      "evidence_type": "scripted",
+      "summary": "17.2% withholding (86/500) re-encoded from TeamWorld seeds 101-105; the historical aggregate was 16.8%.",
+      "path": "docs/FALSE_WITHHOLDING_ABLATION.md",
+      "do_not_extrapolate": "Separate re-encoding, not a row-level import of the historical study."
+    },
+    {
+      "id": "cdm-r5v3-superiority",
+      "status": "INCONCLUSIVE",
+      "evidence_type": "scripted",
+      "summary": "Exact-Shapley minus LOO utility +0.055, 95% interval [-0.0528, +0.1628]; does not support the preregistered superiority hypothesis.",
+      "path": "research/results/cdm/architecture-superiority-r5v3/",
+      "do_not_extrapolate": "Null result on synthetic worlds; a policy flip is not a utility gain."
+    }
+  ],
+  "known_failures": [
+    {
+      "id": "model-attacks-2026-11-16",
+      "status": "NOT_RUN",
+      "failure_class": "NO_RUNNER_ASSIGNED",
+      "root_cause": "CAUSE_UNVERIFIED",
+      "summary": "Run 43848470357 at 70e34c8 failed in 3 seconds with runner_id 0 and no steps; no attack or invariant executed. Logs return HTTP 404.",
+      "path": "research/results/agent-outcomes/baseline-70e34c8/model-attacks-run-43848470357.classification.json"
+    },
+    {
+      "id": "local-mcp-official-sdk-2x",
+      "status": "FAILED",
+      "failure_class": "ENVIRONMENT_INCOMPATIBILITY",
+      "summary": "In this container (mcp 2.3.0 preinstalled), tests/test_mcp_official.py fails: SDK 2.x expects a float read timeout where the test passes a timedelta. CI pins mcp==1.26.0 in mcp-contract and skips the test elsewhere.",
+      "path": "research/results/agent-outcomes/baseline-70e34c8/local-test-run.json"
+    },
+    {
+      "id": "stale-current-state-versions",
+      "status": "FAILED",
+      "failure_class": "DOCUMENTATION_DRIFT",
+      "summary": "docs/AGENT_OUTCOME_EVALUATION.md stated schema and SPEC.md at 0.14.0 (both are 0.19.0); the release checklist named a 0.14.0 wheel. Fixed and now checked by tools/status_at_head.py --check.",
+      "path": "tools/status_at_head.py"
+    },
+    {
+      "id": "unlinked-scripted-example-claim",
+      "status": "FAILED",
+      "failure_class": "UNSUPPORTED_CLAIM",
+      "summary": "The 12/12 vs 0/12 scripted example in docs/AGENT_OUTCOME_EVALUATION.md had no evidence link. Linked; tools/claim_scanner.py now fails on unlinked outcome numbers.",
+      "path": "tools/claim_scanner.py"
+    }
+  ],
+  "not_run": [
+    {
+      "id": "real-agent-execution",
+      "status": "NOT_RUN",
+      "reason": "REAL_AGENT_NOT_RUN: no local model runtime in this environment (LOCAL_RUNTIME_UNAVAILABLE).",
+      "path": "research/results/agent-outcomes/baseline-70e34c8/model-preflight.json"
+    },
+    {
+      "id": "confirmatory-study",
+      "status": "NOT_RUN",
+      "reason": "research/prereg/agent-outcome-confirmatory-v1.json is DRAFT with no confirmatory seeds and sample size 0.",
+      "path": "research/prereg/agent-outcome-confirmatory-v1.json"
+    },
+    {
+      "id": "a6-cdm-matched-arm",
+      "status": "NOT_RUN",
+      "reason": "A6 is not run in the matched development comparison.",
+      "path": "research/results/agent-outcome-a5-matched-development.json"
+    },
+    {
+      "id": "independent-review-and-pilot",
+      "status": "NOT_RUN",
+      "reason": "No independent security review or customer pilot exists; release checklist is NO-GO for external publication.",
+      "path": "docs/MEMORY_FABRIC_RELEASE_CHECKLIST.md"
+    }
+  ],
+  "warnings": [
+    "Scripted, contract and green-CI evidence never qualifies a learned-agent efficacy claim.",
+    "Results from different populations, seeds or commits are reported side by side, never pooled.",
+    "Zero observed unsafe actions is not proof of zero risk.",
+    "Nothing here is a production qualification."
+  ]
+}

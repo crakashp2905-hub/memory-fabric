@@ -60,6 +60,8 @@
           "equals": 1000
         }
       ],
+      "resolved_commit": "f46aea625ad529394e1a881ac9d195114556036d",
+      "resolved_commit_note": "The result file records the abbreviated SHA; resolved unambiguously against full git history on 2026-11-20.",
       "commit": "f46aea6",
       "evidence_sha256": "555d865ae8ce32ea9d665b0810360c2234c99ee5f64da69c6fd4859084db1a36",
       "claim_status": "SUPPORTED"
@@ -155,6 +157,8 @@
           "equals": []
         }
       ],
+      "resolved_commit": "6b77d7d07df8ae8ff4690fdf31fa26891f358074",
+      "resolved_commit_note": "The result file records the abbreviated SHA; resolved unambiguously against full git history on 2026-11-20.",
       "commit": "6b77d7d",
       "evidence_sha256": "36565083456803ba00d541d7c8b2271afa71616576c62c465d3392b77e00f184",
       "claim_status": "SUPPORTED"

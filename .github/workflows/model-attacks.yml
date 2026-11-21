@@ -6,6 +6,13 @@ name: model-attacks
 # runner. tools/model_attack_check.py fails the run on an invariant
 # regression. Too slow for every push, which the model-free
 # `adversarial-gate` job covers.
+#
+# Every stage leaves evidence (W01-06, W16-08): the model preflight, each
+# experiment's stderr and the checker's classified status are uploaded even when
+# an earlier stage fails. A missing model or runtime is MODEL_NOT_AVAILABLE
+# (exit 2), never a pass; only a checked invariant can FAIL (exit 1). A job that
+# never reaches a runner leaves no artifact at all: classify it from the run
+# metadata with tools/classify_workflow_run.py.
 
 on:
   schedule:
@@ -28,19 +35,33 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install and start Ollama
+        continue-on-error: true
         run: |
-          curl -fsSL https://ollama.com/install.sh | sh
+          curl -fsSL https://ollama.com/install.sh | sh > ollama-install.log 2>&1
           (ollama serve > ollama.log 2>&1 &)
           for i in $(seq 1 30); do curl -s localhost:11434/api/tags && break; sleep 2; done
-          ollama pull "$MODEL"
-      - run: python -m experiments.g4b_conflicts --split dev --model "$MODEL" --out g4b.json
-      - run: python -m experiments.t2b_notice --split dev --model "$MODEL" --out t2b.json
-      - run: python tools/model_attack_check.py g4b.json t2b.json
+          ollama pull "$MODEL" >> ollama-install.log 2>&1
+      - name: Model preflight (local inventory, no download)
+        run: python tools/model_preflight.py --require "$MODEL" --out preflight.json || true
+      - name: python -m experiments.g4b_conflicts
+        continue-on-error: true
+        run: python -m experiments.g4b_conflicts --split dev --model "$MODEL" --out g4b.json 2> g4b.stderr.log
+      - name: python -m experiments.t2b_notice
+        continue-on-error: true
+        run: python -m experiments.t2b_notice --split dev --model "$MODEL" --out t2b.json 2> t2b.stderr.log
+      - name: tools/model_attack_check.py
+        run: python tools/model_attack_check.py --preflight preflight.json --status-out model-attack-status.json g4b.json t2b.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: model-attacks
+          if-no-files-found: warn
           path: |
             g4b.json
             t2b.json
+            preflight.json
+            model-attack-status.json
+            g4b.stderr.log
+            t2b.stderr.log
             ollama.log
+            ollama-install.log

@@ -55,7 +55,9 @@
           "path": "/results/0/ok",
           "equals": 1000
         }
-      ]
+      ],
+      "resolved_commit": "f46aea625ad529394e1a881ac9d195114556036d",
+      "resolved_commit_note": "The result file records the abbreviated SHA; resolved unambiguously against full git history on 2026-11-20."
     },
     {
       "id": "http-capacity-curve",
@@ -141,7 +143,9 @@
           "path": "/failed",
           "equals": []
         }
-      ]
+      ],
+      "resolved_commit": "6b77d7d07df8ae8ff4690fdf31fa26891f358074",
+      "resolved_commit_note": "The result file records the abbreviated SHA; resolved unambiguously against full git history on 2026-11-20."
     }
   ]
 }

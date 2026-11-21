@@ -1,0 +1,3967 @@
+{
+ "generated_by": "tools/evidence_inventory.py",
+ "promoted_claims": [
+  {
+   "claim_class": "deterministic-agent-simulation",
+   "claim_id": "teamworld-current-baseline",
+   "commitments": {
+    "dataset_descriptor_sha256": "b88ebd8274235fec0ba6eebdac09733c7c78becb3be0428f695358ac827c872c",
+    "evaluator_digest": "0a709016dacd3624a2b7675234e297319b4bbf34a546d6cd8849d2afc95a41d5",
+    "evidence_sha256": "2f65adfe12c2980c7d0b2ccf5d4f172591c64a8c866058d1213defa472fc5254",
+    "generator_revision": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+    "model_digest": "NOT_APPLICABLE",
+    "prompt_digest": "NOT_APPLICABLE",
+    "source_commit": "d4fd174ac9056865c8b73abd857fa681daa6a0d7"
+   },
+   "evidence": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+   "model": "deterministic-teamworld-agent",
+   "problems": [],
+   "status": "PROMOTED_VERIFIED"
+  },
+  {
+   "claim_class": "single-host-network",
+   "claim_id": "http-50-client",
+   "commitments": {
+    "dataset_descriptor_sha256": "92324bed7b633c47b3921c2149340c9cf136ca16f9ea56e8b1fae9cd394465a4",
+    "evaluator_digest": "680fea7a4cfcc04f14f93d802f73801d22c551778512638d994bcc21ca955ed5",
+    "evidence_sha256": "555d865ae8ce32ea9d665b0810360c2234c99ee5f64da69c6fd4859084db1a36",
+    "generator_revision": "f46aea625ad529394e1a881ac9d195114556036d",
+    "model_digest": "NOT_APPLICABLE",
+    "prompt_digest": "NOT_APPLICABLE",
+    "source_commit": "f46aea625ad529394e1a881ac9d195114556036d",
+    "source_commit_resolution": "abbreviated in result, resolved in registry"
+   },
+   "evidence": "research/results/master-checklist-http-50.json",
+   "model": "none",
+   "problems": [],
+   "status": "PROMOTED_VERIFIED"
+  },
+  {
+   "claim_class": "single-host-network",
+   "claim_id": "http-capacity-curve",
+   "commitments": {
+    "dataset_descriptor_sha256": "3609798b37cbc20d18632294b6dd89357f536d9efedab9ca80a1d931f64ca018",
+    "evaluator_digest": "85cec8dd614bee22aae696707028e141fe59421653c29bfe6d39b35c3f12a3ad",
+    "evidence_sha256": "97926bde2a1f8fb74e18b82d199411af983ec70e5138b3ee2f6e396365d921cc",
+    "generator_revision": "a626fdccd69842bac31d86811bd5783a6e31543c",
+    "model_digest": "NOT_APPLICABLE",
+    "prompt_digest": "NOT_APPLICABLE",
+    "source_commit": "a626fdccd69842bac31d86811bd5783a6e31543c"
+   },
+   "evidence": "research/results/master-checklist-http-capacity-v1.json",
+   "model": "none",
+   "problems": [],
+   "status": "PROMOTED_VERIFIED"
+  },
+  {
+   "claim_class": "retrieval-benchmark",
+   "claim_id": "longmemeval-s100",
+   "commitments": {
+    "dataset_descriptor_sha256": "ed48c5aa98b7e2a78027aa516755701c0226487f40d8fe10fddeeb99c9790115",
+    "evaluator_digest": "660c97efc8337063427d69560f8a344015de84480099c00e98465986743d4779",
+    "evidence_sha256": "e923e948ec9b1da2a4ddfc5a9a8dd3cb7da7e5ab4bd052f07d5d5a5a5b3f16f9",
+    "generator_revision": "beadf2c2126326aecf91beae07fcdd6dfaf69a87",
+    "model_digest": "NOT_APPLICABLE",
+    "prompt_digest": "NOT_APPLICABLE",
+    "source_commit": "beadf2c2126326aecf91beae07fcdd6dfaf69a87"
+   },
+   "evidence": "research/results/longmemeval-s100-reproduction-v2.json",
+   "model": "none",
+   "problems": [],
+   "status": "PROMOTED_VERIFIED"
+  },
+  {
+   "claim_class": "single-host-security-test",
+   "claim_id": "windows-adversarial-gate",
+   "commitments": {
+    "dataset_descriptor_sha256": "32cfe0a4e7a1a059b8f4849af5f9c2d0989332d04e671119f5544095c684bf26",
+    "evaluator_digest": "72c8a2dcd6d4f28d35ff51dc9c1141a612314813a7283ae7e7e35b36fdf95c6f",
+    "evidence_sha256": "36565083456803ba00d541d7c8b2271afa71616576c62c465d3392b77e00f184",
+    "generator_revision": "6b77d7d07df8ae8ff4690fdf31fa26891f358074",
+    "model_digest": "NOT_APPLICABLE",
+    "prompt_digest": "NOT_APPLICABLE",
+    "source_commit": "6b77d7d07df8ae8ff4690fdf31fa26891f358074",
+    "source_commit_resolution": "abbreviated in result, resolved in registry"
+   },
+   "evidence": "research/results/adversarial-gate-windows-v2.json",
+   "model": "none",
+   "problems": [],
+   "status": "PROMOTED_VERIFIED"
+  }
+ ],
+ "promoted_complete": true,
+ "result_status_counts": {
+  "LEGACY_UNVERIFIED": 184,
+  "PROMOTED": 5,
+  "RECORDED_WITH_COMMIT": 135
+ },
+ "results": [
+  {
+   "file": "research/results/CLAIMS_LEDGER.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/REVERIFY.json",
+   "git_sha": "55b79c3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/a1-abstention.json",
+   "git_sha": "2c4e9a1",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/a1h-abstention.json",
+   "git_sha": "aafc559",
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/adversarial-gate-windows-v2.json",
+   "git_sha": "6b77d7d",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "PROMOTED"
+  },
+  {
+   "file": "research/results/adversarial-gate-windows-v3.json",
+   "git_sha": "088dfc852c99d29313d1dd541eebca494f644029",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/agent-outcome-a5-matched-development.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/agent-outcome-contention-2026-11-13.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/agent-outcome-contention-2026-11-13.manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/agent-outcome-v1-ao096-scripted-example.json",
+   "git_sha": "7ce457c2d0e40e5eb686c817c92b81861508b323",
+   "missing": [
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/audit-supported.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/c1-compaction-dev.json",
+   "git_sha": "74b2359",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/c1-compaction-test.json",
+   "git_sha": "77ae651",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/c2-dependence.json",
+   "git_sha": "0bdb2c3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/c2r-dependence.json",
+   "git_sha": "c1cb38b",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/c3-free-text.json",
+   "git_sha": "36d9027",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/d1-downstream.json",
+   "git_sha": "dfc41d9",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/d1-pilot.json",
+   "git_sha": "5533cc5",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/d1r-downstream.json",
+   "git_sha": "14eedab",
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/decay-view-confirm.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/decay-view-model-llama.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/decay-view-model.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/decay-view-posthoc.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/decay-view.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/decision-routing-contract-v1.json",
+   "git_sha": "72ba645acec8703f89669bb13c04f9505be0a7f3",
+   "missing": [
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-03-manifest-environment.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e1-04-result-provenance.json",
+   "git_sha": "4d901cef7bba8867b7a6e6a5ccfdf92335172a59",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-05-input-digests.json",
+   "git_sha": "82488fc2433c79a7e8c46d57f4c0b420e79db3a3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-06-local-check-evidence.json",
+   "git_sha": "8e5af2fe094dfcba918302930be8f549b6e69847",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-06-local-check-report.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e1-07-ledger-verification.json",
+   "git_sha": "f97947f7777d70aa6093226ffe7f9ea9c32fec1b",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-08-negative-control.json",
+   "git_sha": "69e52f8c784e5987e37d3b3549ea8a6878357c0f",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-09-seed-manifest.json",
+   "git_sha": "952693f9b60ef9aac286657cf0cf4254bc16f727",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-10-full-suite-evidence.json",
+   "git_sha": "2fce7791130b246a5b0dd55eca3688039ce235cd",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-10-full-suite-report.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e1-10-generated-status.json",
+   "git_sha": "07815be520500783ca188e58ec99af36d957b439",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-exhaustive-enumeration.json",
+   "git_sha": "9260e482e058",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e1-exposure-cost.json",
+   "git_sha": "a502d4e",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e2e-validation.json",
+   "git_sha": "ba303b1",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-03-local-profile-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-03-local-profile.json",
+   "git_sha": "6bf6132",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-04-100-client.json",
+   "git_sha": "ec58c674c7aa4a70a46d8798c157b55e0551cb6f",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-04-batched-chain-pilot.json",
+   "git_sha": "ec58c67",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-04-contention-before-after.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-04-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-05-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-05-sqlite-30s.json",
+   "git_sha": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-05-sqlite-5s.json",
+   "git_sha": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-05-sqlite-qualification.json",
+   "git_sha": "f59e2aa6c2d31eabbd79034ab9c20674d7f5ba32",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-06-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-06-page-scan.json",
+   "git_sha": "69bf463de2f4e7a6c637e59c555e320a5e1bcb1d",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-07-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-07-three-hosts.json",
+   "git_sha": "061315b9b7126d93e7985a8a22d9e73ff3997f2f",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-08-federation-faults.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-09-freshness-clock-skew.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e4-10-deterministic-soak.json",
+   "git_sha": "e792c1f4b314dd49b99494c986f600a9ddfc164d",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/e4-10-evidence.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-01-api-inventory.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-02-typed-wheel.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-03-error-contracts.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-04-default-flags.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-05-tool-schema.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-06-utcp-malicious.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-07-package-parity.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-08-historical-fixtures.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-09-agent-api-after.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-09-agent-api-before.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/e5-09-agent-api-refactor.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/ecv1-dev.json",
+   "git_sha": "f5a3b8b822cf903245503ca773b7bdb00c841c45",
+   "missing": [
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/ecv1-test.json",
+   "git_sha": "9260e482e05831db72afdada5820220448c15003",
+   "missing": [
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/fed-scale.json",
+   "git_sha": "d1dbc0a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/g4-labnet-gemma.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/g4-labnet-qwen.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/g4-labnet-rerun.json",
+   "git_sha": "7f95263",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/g4b-qwen.json",
+   "git_sha": "4af0a15",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/gme-matrix-confirm.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/gme-matrix-posthoc.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/gme-matrix-v2-b400.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/gme-matrix-v2-b60.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/gme-matrix.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/grand-50-agent-baseline-reproduction-v2.json",
+   "git_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "PROMOTED"
+  },
+  {
+   "file": "research/results/grand-50-agent-suite-v1.json",
+   "git_sha": "d4fd174ac9056865c8b73abd857fa681daa6a0d7",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/h1-09-authority-mutation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h1-10-injection-outcomes.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-03-action-idempotency.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-04-action-reconciliation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-05-code-mode-parser.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-06-code-mode-bounds.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-07-offline-egress.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-08-utcp-transport.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-09-execution-receipt.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h2-10-confused-deputy.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-01-cross-tenant-matrix.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-02-metadata-sidechannels.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-03-physical-tenancy.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-04-credential-rotation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-05-personal-data-redaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-06-retention-boundaries.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-07-erasure-residue.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-08-backup-erasure-limits.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-09-sparse-metrics.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h3-10-key-loss.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-01-stage-fault-injection.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-02-power-loss.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-03-storage-failure.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-04-partition-lease-timing.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-05-reordered-corrections.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-06-retry-deadletter.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-07-checkpoint-trust.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-08-backup-upgrade.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-09-clock-skew.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h4-10-incident-replay.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-01-core-build-repeatability.json",
+   "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/h5-01-dependency-provenance.json",
+   "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/h5-02-adversarial-gate.json",
+   "git_sha": "088dfc852c99d29313d1dd541eebca494f644029",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/h5-02-static-security-gates.json",
+   "git_sha": "088dfc852c99d29313d1dd541eebca494f644029",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/h5-03-security-ast.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-04-package-asset-audit.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-05-mutation-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-06-adversarial-registry.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-07-security-fuzz.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-08-rate-limit-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-09-production-defaults.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/h5-10-internal-security-findings.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/historical-read-qualification.json",
+   "git_sha": "cb36af428fe419b0566fed7ca78229473812f160",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/injection-thirdparty-gemma3-4b.json",
+   "git_sha": "e4ed643",
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/injection-thirdparty-qwen2.5-3b.json",
+   "git_sha": "e4ed643",
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/injection-thirdparty.json",
+   "git_sha": "d1dbc0a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/int01-memoryworld2.json",
+   "git_sha": "9260e482e058",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/int02-federation-world.json",
+   "git_sha": "9260e482e05831db72afdada5820220448c15003",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/int04-compaction-drilldown.json",
+   "git_sha": "9260e482e058",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/k1-topic-navigation.json",
+   "git_sha": "539ba81",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/l1-long-running.json",
+   "git_sha": "9c689b3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/l1p-long-running.json",
+   "git_sha": "9c689b3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/live-claude-http.json",
+   "git_sha": "0ae070a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/live-claude-mcp-opus.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/live-claude-mcp-sonnet.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/local-conformance-audit.json",
+   "git_sha": "d87ec015f9e084b6861f3d77c4fda1273931b7f0",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/local-retrieval-partition-audit.json",
+   "git_sha": "d87ec015f9e084b6861f3d77c4fda1273931b7f0",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/local-three-agent.json",
+   "git_sha": "3be32dd2694a11b59cbe6807d443d930f88becc3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/longmemeval-s100-reproduction-v2.json",
+   "git_sha": "beadf2c2126326aecf91beae07fcdd6dfaf69a87",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "PROMOTED"
+  },
+  {
+   "file": "research/results/lossless-compression-qualification.json",
+   "git_sha": "9490f490a6700de15bd9ff271553f39e8741b944",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m1-gemma.json",
+   "git_sha": "adaf615",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m1-qwen-corrected.json",
+   "git_sha": "e13d63b",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m1-qwen.json",
+   "git_sha": "adaf615",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m1b-dev-pilot.json",
+   "git_sha": "201c425",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m1b-objective-quality.json",
+   "git_sha": "6de09b3",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/m2-qwen.json",
+   "git_sha": "5d79e4f",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/master-checklist-http-50.json",
+   "git_sha": "f46aea6",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "PROMOTED"
+  },
+  {
+   "file": "research/results/master-checklist-http-capacity-v1.json",
+   "git_sha": "a626fdccd69842bac31d86811bd5783a6e31543c",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "PROMOTED"
+  },
+  {
+   "file": "research/results/mcp-efficiency.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/memory-fabric-migration-validation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/mf2-baseline-performance.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/multihost.json",
+   "git_sha": "e4ed643",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/n01-e1-regression.json",
+   "git_sha": "baefd1df9815955cd95050db5ef48ec8214710d8",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/n1-04-dependency-index.json",
+   "git_sha": null,
+   "missing": [
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n1-09-decision-continuity.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n2-09-decision-quality.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-02-exact-oracle.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-03-estimator-comparison.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-04-confounded-memory.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-05-intervention-harness.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-06-copy-invariance.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-08-ood-retention.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-09-off-policy-support.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n3-10-policy-graduation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-01-summary-dependencies.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-02-hierarchical-compaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-03-compaction-size.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-04-contested-compaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-05-temporal-compaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-06-budgeted-compaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-07-compaction-comparison.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-08-lossy-compaction.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n4-09-summary-refresh.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-01-origin-clusters.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-02-hypothesis-preservation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-03-echo-chamber.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-04-aggregation-manifest.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-04-aggregation-policies.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-05-disagreement-budget.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-06-byzantine-agents.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-08-minority-origin.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-09-partition-freshness.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-10-false-consensus-recovery.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n5-10-followup-false-consensus-recovery.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-01-decision-evaluation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-03-router-comparison.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-05-protocol-equivalence.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-06-utcp-policy-check.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-07-code-mode-static-bounds.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-08-code-mode-effect-authorization.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-09-orchestration-cost-benchmark.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/n6-10-generated-program-provenance.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/net-bench.json",
+   "git_sha": "259eb33",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/no-budget-local-model.json",
+   "git_sha": "ecb3f6bde072e1a09ef2b221504e6113cffe0119",
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/no-budget-replication.json",
+   "git_sha": "8e9a52079259b4f48f739af18d27e8b9a5aa214f",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/o1-live-poisonworld-raw.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/o1-report.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/o1-typed-claims.json",
+   "git_sha": "539ba81",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/o1r-fixed-fabric-raw.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/o1r-report.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p1-01-example-tests.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p1-02-example-tests.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p1-03-example-labels.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p1-04-sdk-workflow.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p1-05-setup-doctor.json",
+   "git_sha": "c9c98f765c5527b95a5bd627c3258830dede9514",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1-06-portable-paths.json",
+   "git_sha": "7ff050e3442896ff87c85c950f52e75f049f68db",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1-07-why-blocked.json",
+   "git_sha": "7052d297862186d752b80018352f0479b637c223",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1-08-offline-mode.json",
+   "git_sha": "3e2393fa052bc1fc6a46a074e84a5f73ff74ed24",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1-09-memory-vs-json.json",
+   "git_sha": "8818b2e71a7158e7f723beaa3c3f1d2bce959562",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1-10-migration-guide.json",
+   "git_sha": "7c4041b20010511205f314259b85a08d5467e688",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p10-audit.json",
+   "git_sha": "3163ec3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p12-http.json",
+   "git_sha": "2d5a2fd",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p12-load.json",
+   "git_sha": "2d5a2fd",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p12-openloop.json",
+   "git_sha": "201c425",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p12b-api-load.json",
+   "git_sha": "4359625",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p12c-api-load-200-400.json",
+   "git_sha": "cdf937d",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1b-links.json",
+   "git_sha": "41c8f83",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1c-strength.json",
+   "git_sha": "97c0000",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p1d-strength-mh3.json",
+   "git_sha": "ec32f62",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-01-decision-detail.json",
+   "git_sha": "dfa886eb35cbd6101c24710c0587a94b8de588db",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-02-event-links.json",
+   "git_sha": "6776203b67c551f695e8533b3e5a140da2c52bb2",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-03-block-reasons.json",
+   "git_sha": "b70573cc637519d85dc6bcb20fcf6b52f2e306be",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-04-correction-preview.json",
+   "git_sha": "db7d101e67a4128ced3b6b34b46c33b37bd0919d",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-05-withholding-scorecard.json",
+   "git_sha": "76f4d1bd64ef27e84147b2ba0d5a6c5b17fdb166",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-06-action-timeline.json",
+   "git_sha": "718ad9ac8c9a14478903ed3e21ecc983b11eb5b8",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-07-accessibility.json",
+   "git_sha": "ed9c3d6",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-08-history-boundaries.json",
+   "git_sha": "ff575ce56fa0bd998ddf4de14611081bad694f0c",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-09-read-only-dashboard.json",
+   "git_sha": "0a92cf548b122b1168460812b3e2f30253021850",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2-10-incident-export.json",
+   "git_sha": "0265ea261dc0cc803ceb89251c54b427a42802a6",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p2b-budget.json",
+   "git_sha": "d3d363c",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p3-01-slo-dashboard.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p3-02-health-fault-matrix.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p3-03-refusal-explainer.json",
+   "git_sha": "f57e662eb5bf83924a8e5a79d8bd19f31e472874",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p3-05-backup-restore-runbook.json",
+   "git_sha": "984894ce5c6b25f6d6352af82c59269cdbfd7438",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p3-06-incident-replay.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p3-07-resource-budgets.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p3-10-runbook-drills.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p3b-agent-teams-replay-f22fca4.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p4-01-jobs-to-be-done.json",
+   "git_sha": "0d68f679bd5a6d705a4ff12cf27f20a604e5395e",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p4-02-ordinary-memory-adapter.json",
+   "git_sha": "126cb2a71b9d0fb64d973933af5d185b0d6e74dc",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p4-03-retrieval-governance.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p4-04-correction-strategy-comparison.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p4-05-selective-correction-demo.json",
+   "git_sha": "2fbfb4f94608631eec6ad9d20224d0cc3a3a859e",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p4-06-provenance-dispute-demo.json",
+   "git_sha": "cfd52a1b959e8b37b5571b54df6b265801ef7f08",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p4-07-product-fit.json",
+   "git_sha": "14e2d14b11f77ae79ee2debfdda4156218a005f9",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p4-08-local-footprint.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-01-exact-candidate.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-01-package-assets.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-02-adversarial-gate.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-02-exact-088dfc8.json",
+   "git_sha": "088dfc852c99d29313d1dd541eebca494f644029",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p5-02-local-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-03-full-suite-matrix.json",
+   "git_sha": "6d09ed3ea829272a36dea36584e2421f0a535b6a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p5-03-python-compatibility.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-04-upgrade-rollback-smoke.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/p5-poisonworld.json",
+   "git_sha": "3163ec3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/p9-incidents.json",
+   "git_sha": "3163ec3",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/paraphrase-links.json",
+   "git_sha": "d1dbc0a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/pg-failover.json",
+   "git_sha": "bea61a0",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/pg-throughput.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/phase-a-decisions.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/phase-a-prime-decisions.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/phase-b-decisions.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/phase-c-decisions.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/pilot-multi-agent-v1-validate-only.json",
+   "git_sha": "e27e219",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/pilot-multi-agent-v2-before-verify-fix.json",
+   "git_sha": "121dc60",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/pilot-multi-agent.json",
+   "git_sha": "de5c715",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/pr30-withheld-cases.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/product-bench.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r1-05-full-unit-tests.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r1-05-suite-control-coverage.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r1-offline-synthetic.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r2-false-withholding-ablation.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r2-withholding-promotion-gate.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-01-agent-scale.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-02-matched-agent-arms.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-03-failure-taxonomy.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-04-correction-timing.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-05-minority-source.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-06-safety-tradeoff.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-09-10-heldout-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r3-best-retriever.json",
+   "git_sha": "b279848",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/r4-01-binomial-intervals.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r4-02-paired-agent-bootstrap.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r4-05-adversarial-cases.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r4-06-randomization-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r4-07-evaluator-mutations.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r4-09-worst-seed-reporting.json",
+   "git_sha": "47a233f2107e8d7c54bf03c33884834b2dbc583e",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/r5-03-component-removal.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r5-06-pareto-qualification.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "synthetic_scripted",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r5-07-contamination-audit.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r6-dev-raw.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/r6-test-raw.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/s1-correction-sim.json",
+   "git_sha": "8521eeb",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s1-screen-false-positives.json",
+   "git_sha": "811fc7f",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s1b-model-screen.json",
+   "git_sha": "b279848",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s2-launder-sim-dev.json",
+   "git_sha": "34e9437",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s2-launder-sim.json",
+   "git_sha": "1b97588",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s4-transfer-sim.json",
+   "git_sha": "aae4e57",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s5-receipt-leakage-after-f13.json",
+   "git_sha": "ab3861a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s5-receipt-leakage-replication.json",
+   "git_sha": "4161246",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s5-receipt-leakage.json",
+   "git_sha": "4161246",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/s6-race-sim.json",
+   "git_sha": "c0ef841",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/staging-run-1.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/staging-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/t1-staleness.json",
+   "git_sha": "f4d2e4a",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/t2-hindsight.json",
+   "git_sha": "fa53a46",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/t2b-source-notice.json",
+   "git_sha": "ef928ae",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/teamworld-authority-v2.json",
+   "git_sha": "3a50dbf74852b4b38e8777deda2a20d4f2074f7b",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/teamworld-verified-observations-v3.json",
+   "git_sha": "68b089a",
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/v1-claim-validation-dev.json",
+   "git_sha": "773c042",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/v1-claim-validation-test-shipped.json",
+   "git_sha": "e4ed643",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/v1-claim-validation-test.json",
+   "git_sha": "e4ed643",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/v2-codes-amend1.json",
+   "git_sha": "7ec68aa",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/v2-codes.json",
+   "git_sha": "b373b76",
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "RECORDED_WITH_COMMIT"
+  },
+  {
+   "file": "research/results/x2-pilot-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x2-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x2b-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prereg",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x4-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x5-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x6-cache.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash",
+    "seed"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x6-run.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  },
+  {
+   "file": "research/results/x6-secondary.json",
+   "git_sha": null,
+   "missing": [
+    "dataset_digest",
+    "model_id",
+    "prompt_hash"
+   ],
+   "population": "unclassified",
+   "status": "LEGACY_UNVERIFIED"
+  }
+ ],
+ "schema_id": "memory-fabric.evidence-inventory.v1"
+}
