@@ -61,7 +61,7 @@ This one command checks contracts, the adversarial gate and secret scan, the
 demo, the arms and scorecard, and provenance. It writes `report.json` and
 `REPORT.md` even when a stage fails, and exits 1 on any required failure.
 Committed record:
-[candidate-offline/26a5789](../research/results/agent-outcomes/candidate-offline/26a5789/REPORT.md).
+[candidate-offline/16a5181](../research/results/agent-outcomes/candidate-offline/16a5181/REPORT.md).
 
 ## 5. What is available here, and what is missing
 
@@ -97,7 +97,7 @@ loopback server (`benchmarks/fake_local_model.py`) is labelled
 ## Decisions
 
 ```bash
-python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/26a5789/report.json \
+python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/16a5181/report.json \
     --out-json decision.json --out-md DECISION.md
 ```
 

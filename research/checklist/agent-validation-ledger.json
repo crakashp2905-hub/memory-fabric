@@ -1290,13 +1290,31 @@
    "status": "TODO"
   },
   "W16-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_THREAT_MATRIX.md"
+   ],
+   "tests": [
+    "tests/test_agent_threat_matrix.py::ThreatMatrix"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Twelve injection points with attacker, boundary, goal, mitigation and collected test; two rows marked not covered (W16-06, W16-07)."
   },
   "W16-02": {
    "status": "TODO"
   },
   "W16-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/episode.py",
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "tests": [
+    "tests/test_outcome_episode.py::Tools",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_counterfeit_evidence_ids_and_forged_roots_do_not_authorize_effects"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Typed roles enforced by the tool registry; injected memory text, evaluator fields and forged evidence produce no effect. Scripted and fake actors only."
   },
   "W16-04": {
    "status": "TODO"
@@ -1344,7 +1362,13 @@
    "status": "TODO"
   },
   "W16-10": {
-   "status": "TODO"
+   "status": "IMPLEMENTED",
+   "evidence": [
+    "tools/claim_scanner.py",
+    "tools/claim_scanner_allowlist.json"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Allowlist entries must carry the covered text, a reason and an ISO date; a reviewed negative test per change is not enforced."
   },
   "W17-01": {
    "status": "TODO"
@@ -1362,7 +1386,18 @@
    "status": "TODO"
   },
   "W17-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/eventlog.py",
+    "src/memory_fabric/integrity.py"
+   ],
+   "tests": [
+    "tests/test_write_fault_injection.py::WriteFaultInjection::test_a_failed_append_leaves_the_integrity_chain_whole",
+    "tests/test_write_fault_injection.py::WriteFaultInjection::test_append_and_correction_failures_leave_no_partial_version",
+    "tests/test_multiprocess_crash.py::CrashInsideATransaction"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Aborted writes (injected via trigger; disk-full simulated as a write abort) and killed processes leave no partial commit; the chain still verifies."
   },
   "W17-07": {
    "status": "TODO"
@@ -1422,7 +1457,18 @@
    "status": "TODO"
   },
   "W19-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/integrity.py",
+    "tools/agent_outcome_end_to_end_gate.py",
+    "tools/launch_decision.py"
+   ],
+   "tests": [
+    "tests/test_integrity_chain.py::ItDetectsTampering",
+    "tests/test_launch_decision_and_doctor.py::NoOverclaimedIntegrity"
+   ],
+   "verified_sha": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "note": "Tamper tests detect edits, deletions and reordering; reports are labelled UNSIGNED and no view calls a hash an attestation."
   },
   "W19-07": {
    "status": "TODO"

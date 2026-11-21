@@ -8,9 +8,9 @@ Statuses are ordered and not interchangeable: `TODO < IMPLEMENTED < TESTED < SCR
 
 | status | tasks |
 |---|---:|
-| `TODO` | 115 |
-| `IMPLEMENTED` | 16 |
-| `TESTED` | 99 |
+| `TODO` | 110 |
+| `IMPLEMENTED` | 17 |
+| `TESTED` | 103 |
 | `SCRIPTED_QUALIFIED` | 0 |
 | `LOCAL_MODEL_QUALIFIED` | 0 |
 | `RESEARCH_QUALIFIED` | 0 |
@@ -37,10 +37,10 @@ Total: 240 tasks.
 | W13 | Strict evaluator metrics and operator-relevant benefits | 0 | 4 | 6 | 0 | 0 | 0 | 0 |
 | W14 | Preregister and power the real confirmatory study | 0 | 1 | 9 | 0 | 0 | 0 | 0 |
 | W15 | Run negative-control, ablation and confirmatory experiments | 2 | 1 | 3 | 0 | 0 | 0 | 4 |
-| W16 | Defend learned agents against contaminated memory and unsafe prompts | 7 | 0 | 2 | 0 | 0 | 0 | 1 |
-| W17 | Persistence, recovery, and transactional consistency | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W16 | Defend learned agents against contaminated memory and unsafe prompts | 4 | 1 | 4 | 0 | 0 | 0 | 1 |
+| W17 | Persistence, recovery, and transactional consistency | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W18 | Performance and cost efficiency with honest measurements | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
-| W19 | Governance privacy, consent, erasure, operator trust | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| W19 | Governance privacy, consent, erasure, operator trust | 9 | 0 | 1 | 0 | 0 | 0 | 0 |
 | W20 | Developer-facing APIs, SDK and usability | 7 | 0 | 3 | 0 | 0 | 0 | 0 |
 | W21 | Control Center and operator outcome observability | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | W22 | Research novelty, precise scientific claims and negative results | 8 | 1 | 1 | 0 | 0 | 0 | 0 |
@@ -201,22 +201,22 @@ Total: 240 tasks.
 | W15-08 | P0 | `BLOCKED_EXTERNAL` |  | A6 is not implemented and A5 has no confirmatory result. |
 | W15-09 | P0 | `BLOCKED_EXTERNAL` |  | Independent generator-family replication needs model runs. |
 | W15-10 | P0 | `TODO` |  |  |
-| W16-01 | P0 | `TODO` |  |  |
+| W16-01 | P0 | `TESTED` | `docs/AGENT_THREAT_MATRIX.md` | Twelve injection points with attacker, boundary, goal, mitigation and collected test; two rows marked not covered (W16-06, W16-07). |
 | W16-02 | P0 | `TODO` |  |  |
-| W16-03 | P0 | `TODO` |  |  |
+| W16-03 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/actions_typed.py` | Typed roles enforced by the tool registry; injected memory text, evaluator fields and forged evidence produce no effect. Scripted and fake actors only. |
 | W16-04 | P0 | `TODO` |  |  |
 | W16-05 | P0 | `TESTED` | `src/memory_fabric/outcome_typed/episode.py`<br>`src/memory_fabric/outcome_typed/model_actor.py` | Invented evidence ids/versions (evidence_not_retrieved), tool names (tool_not_declared) and commitments (proposal_commitment_mismatch) are refused; exercised with FAKE answers, not a model. |
 | W16-06 | P0 | `TODO` |  |  |
 | W16-07 | P0 | `BLOCKED_EXTERNAL` | `tools/model_attack_check.py` | Model-attack harness reports NOT_RUN / MODEL_NOT_AVAILABLE without a model. |
 | W16-08 | P0 | `TESTED` | `.github/workflows/model-attacks.yml`<br>`tools/model_attack_check.py`<br>`tools/classify_workflow_run.py` | Artifacts carry preflight, stderr and status; runner-less failures are classified from metadata. |
 | W16-09 | P0 | `TODO` |  |  |
-| W16-10 | P0 | `TODO` |  |  |
+| W16-10 | P0 | `IMPLEMENTED` | `tools/claim_scanner.py`<br>`tools/claim_scanner_allowlist.json` | Allowlist entries must carry the covered text, a reason and an ISO date; a reviewed negative test per change is not enforced. |
 | W17-01 | P1 | `TODO` |  |  |
 | W17-02 | P1 | `TODO` |  |  |
 | W17-03 | P1 | `TODO` |  |  |
 | W17-04 | P1 | `TODO` |  |  |
 | W17-05 | P1 | `TODO` |  |  |
-| W17-06 | P1 | `TODO` |  |  |
+| W17-06 | P1 | `TESTED` | `src/memory_fabric/eventlog.py`<br>`src/memory_fabric/integrity.py` | Aborted writes (injected via trigger; disk-full simulated as a write abort) and killed processes leave no partial commit; the chain still verifies. |
 | W17-07 | P1 | `TODO` |  |  |
 | W17-08 | P1 | `TODO` |  |  |
 | W17-09 | P1 | `TODO` |  |  |
@@ -236,7 +236,7 @@ Total: 240 tasks.
 | W19-03 | P1 | `TODO` |  |  |
 | W19-04 | P1 | `TODO` |  |  |
 | W19-05 | P1 | `TODO` |  |  |
-| W19-06 | P1 | `TODO` |  |  |
+| W19-06 | P1 | `TESTED` | `src/memory_fabric/integrity.py`<br>`tools/agent_outcome_end_to_end_gate.py`<br>`tools/launch_decision.py` | Tamper tests detect edits, deletions and reordering; reports are labelled UNSIGNED and no view calls a hash an attestation. |
 | W19-07 | P1 | `TODO` |  |  |
 | W19-08 | P1 | `TODO` |  |  |
 | W19-09 | P1 | `TODO` |  |  |

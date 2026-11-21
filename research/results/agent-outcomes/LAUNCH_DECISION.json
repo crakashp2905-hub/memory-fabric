@@ -16,7 +16,7 @@
     ]
   },
   "engineering": {
-    "basis": "end-to-end gate PASS at 26a578946ef93862df237a0fbfb8dfe7c27b2b65; synthetic outcome gate SCRIPTED_PASS",
+    "basis": "end-to-end gate PASS at 16a51817db867fc92b87fed58e11da42fc36233d; synthetic outcome gate SCRIPTED_PASS",
     "decision": "GO",
     "scope": "internal local prototype on scripted worlds; not a release"
   },
@@ -25,12 +25,12 @@
     "A5_safe_success": 0.6,
     "ledger": {
       "BLOCKED_EXTERNAL": 10,
-      "IMPLEMENTED": 16,
+      "IMPLEMENTED": 17,
       "LOCAL_MODEL_QUALIFIED": 0,
       "RESEARCH_QUALIFIED": 0,
       "SCRIPTED_QUALIFIED": 0,
-      "TESTED": 99,
-      "TODO": 115
+      "TESTED": 103,
+      "TODO": 110
     },
     "release_matrix": {
       "confirmatory": "NOT_RUN",
@@ -42,19 +42,19 @@
     },
     "tasks_improvable_over_A3": 8
   },
-  "gate_commit": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+  "gate_commit": "16a51817db867fc92b87fed58e11da42fc36233d",
   "inputs": {
     "ablation": {
       "path": "research/results/agent-outcomes/scripted-ablation-dev.json",
       "sha256": "768ebde7076f38b8c0d23df3d2b82b19b1503b58a275981345877f041fa0f01b"
     },
     "gate": {
-      "path": "research/results/agent-outcomes/candidate-offline/26a5789/report.json",
-      "sha256": "80c513e674702415941e7180a8fd2f3eaa5888a684f87b74ee6e43396c5e8924"
+      "path": "research/results/agent-outcomes/candidate-offline/16a5181/report.json",
+      "sha256": "ce5669747b0a1dd9a038909bf3f252487d7853edeefd6227b08b32410a817192"
     },
     "ledger": {
       "path": "research/checklist/agent-validation-ledger.json",
-      "sha256": "1ff877f161a90dd849cce82cbecd90ddfe713b2c1d93ed80db75a078800a7951"
+      "sha256": "0830aed638c23fd742740ae0db5eb13f9f1a8f58e47199472e871be15a5fa3ba"
     },
     "registration": {
       "path": "research/prereg/agent-outcome-confirmatory-v2.json",
@@ -70,5 +70,6 @@
     "independent_pilot": "NOT_RUN: requires an external pilot and security review.",
     "local_model_study": "NOT_RUN: no local model checkpoint or runtime was available."
   },
-  "schema_id": "memory-fabric.launch-decision.v1"
+  "schema_id": "memory-fabric.launch-decision.v1",
+  "signature": "UNSIGNED: a local report. Its integrity rests on the committed file and its sha256, not on a signature, attestation or independent certification."
 }
