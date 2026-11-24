@@ -1347,7 +1347,7 @@
   "W12-09": {
    "status": "BLOCKED_EXTERNAL",
    "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
-   "note": "A3/A4/A5 share one prompt, config fingerprint and tasks in the model team; A6 is not implemented and no model ran.",
+   "note": "A3/A4/A5 share one prompt, config fingerprint and tasks in the model team; A6 runs only in the scripted harness, and no model ran.",
    "evidence": [
     "benchmarks/outcome_model_team.py"
    ],
@@ -1662,7 +1662,7 @@
   "W15-08": {
    "status": "BLOCKED_EXTERNAL",
    "blocked_on": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN)",
-   "note": "A6 is not implemented and A5 has no confirmatory result."
+   "note": "A6 runs in the scripted arms and adds no outcome over A5 (advisory only); A5 has no confirmatory result."
   },
   "W15-09": {
    "status": "BLOCKED_EXTERNAL",
@@ -1670,7 +1670,19 @@
    "note": "Independent generator-family replication needs model runs."
   },
   "W15-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/frozen_results.py",
+    "research/results/agent-outcomes/FROZEN.json",
+    "docs/AGENT_RESEARCH_REPORT.md"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::FrozenRecords::test_a_deleted_failed_run_is_caught",
+    "tests/test_release_guards.py::FrozenRecords::test_the_committed_registry_is_intact",
+    "tests/test_research_and_launch.py::ResearchReport::test_negatives_come_first_and_unrun_tiers_are_said_out_loud"
+   ],
+   "note": "Every committed gate record and the baseline manifest are frozen with producer, commit and digest; deletion or silent replacement fails the check. No registered confirmatory run exists yet.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W16-01": {
    "status": "TESTED",
@@ -1684,7 +1696,17 @@
    "note": "Twelve injection points with attacker, boundary, goal, mitigation and collected test; two rows marked not covered (W16-06, W16-07)."
   },
   "W16-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_poisoning.py",
+    "research/results/agent-outcomes/poisoning-dev.json"
+   ],
+   "tests": [
+    "tests/test_agent_security_fixtures.py::PoisoningFixtures::test_every_attack_family_has_a_control_it_fools",
+    "tests/test_agent_security_fixtures.py::PoisoningFixtures::test_the_governed_path_resists_every_family"
+   ],
+   "note": "Five families (copied source, forged independence, false tool result, delayed retraction, authority-shaped text); each fools its ungoverned control. Scripted fixtures, not model attacks.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W16-03": {
    "status": "TESTED",
@@ -1700,7 +1722,15 @@
    "note": "Typed roles enforced by the tool registry; injected memory text, evaluator fields and forged evidence produce no effect. Scripted and fake actors only."
   },
   "W16-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_poisoning.py"
+   ],
+   "tests": [
+    "tests/test_agent_security_fixtures.py::PoisoningFixtures::test_copies_never_amplify_corroboration_at_any_scale"
+   ],
+   "note": "2, 5, 10 and 50 colluders copying one claim stay one source root; stale imported versions are covered by the delayed_retraction family.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W16-05": {
    "status": "TESTED",
@@ -1717,7 +1747,19 @@
    "note": "Invented evidence ids/versions (evidence_not_retrieved), tool names (tool_not_declared) and commitments (proposal_commitment_mismatch) are refused; exercised with FAKE answers, not a model."
   },
   "W16-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_tenant_probe.py",
+    "research/results/agent-outcomes/tenant-probe-dev.json",
+    "src/memory_fabric/agent_api.py"
+   ],
+   "tests": [
+    "tests/test_agent_security_fixtures.py::TenantExistenceProbe::test_foreign_and_missing_ids_get_the_same_visible_refusal",
+    "tests/test_agent_security_fixtures.py::TenantExistenceProbe::test_timing_is_reported_as_a_residual_not_claimed_equal",
+    "tests/test_agent_api_rate_limit.py::AgentApiRateLimits::test_credential_cycling_cannot_reset_agent_rate_budget_or_write"
+   ],
+   "note": "Payloads are identical for foreign and missing ids. Timing differences are reported as a residual, not claimed equal; the agent API's per-credential rate limit is the throttle on probing.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W16-07": {
    "status": "BLOCKED_EXTERNAL",
@@ -1742,7 +1784,17 @@
    "note": "Artifacts carry preflight, stderr and status; runner-less failures are classified from metadata."
   },
   "W16-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tests/test_effect_transport_parity.py",
+    "src/memory_fabric/outcome_typed/api.py"
+   ],
+   "tests": [
+    "tests/test_effect_transport_parity.py::EffectParity",
+    "tests/test_outcome_api.py::TransportParity::test_direct_mcp_and_utcp_calls_return_the_same_answers"
+   ],
+   "note": "Gate, FabricTools and the MCP/UTCP/Code Mode runtime allow and refuse the same requests (allowed, withdrawn evidence, ungranted tool).",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W16-10": {
    "status": "IMPLEMENTED",
@@ -1754,19 +1806,73 @@
    "note": "Allowlist entries must carry the covered text, a reason and an ISO date; a reviewed negative test per change is not enforced."
   },
   "W17-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py",
+    "src/memory_fabric/outcome_typed/evidence.py"
+   ],
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryBudgets::test_checkpoint_restart_reconciles_action_without_rerunning_effect",
+    "tests/test_outcome_replan_and_recovery_state.py::RecoveryState::test_recovery_fingerprints_are_bound_to_the_task",
+    "tests/test_event_schema_hardening.py::EventSchemaHardening::test_duplicate_event_id_is_rejected_atomically"
+   ],
+   "note": "A restart rebuilds from the versioned checkpoint and the log; a checkpoint claiming COMPLETE without an executed receipt is refused. Event ids and evidence task ids are unique. Episode state is a checkpoint document, not a separate table.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/actions.py",
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_action_crash_typed.py::CrashMidAction::test_the_next_call_refuses_until_someone_says_to_retry",
+    "tests/test_outcome_recovery_typed.py::TestRecoveryBudgets::test_checkpoint_restart_requires_explicit_retry_for_uncertain_effect",
+    "tests/test_action_reconciliation.py::ActionReconciliationLedger::test_distinguishes_completed_unknown_and_definitely_unexecuted"
+   ],
+   "note": "The attempt is committed before the callback; a crash leaves an UNCERTAIN receipt that needs explicit reconciliation, never a blind retry.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/migrate.py",
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_historical_fixtures.py::HistoricalReleaseFixtures::test_authentic_v011_release_store_upgrades_and_preserves_history",
+    "tests/test_event_schema_hardening.py::EventSchemaHardening::test_backup_rollback_restores_readable_pre_upgrade_state",
+    "tests/test_backup_restore_qualification.py::BackupRestoreQualification::test_upgrade_backup_restore_preserves_authorization_and_audit_state"
+   ],
+   "note": "Event-log upgrade, rollback and replay are tested from an authentic v0.11 store. Outcome checkpoints and evaluator attachments have one schema version (v1); another schema id is refused, and no prior version exists to migrate yet.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/spool.py"
+   ],
+   "tests": [
+    "tests/test_outcome_spool_and_storage.py::Spool"
+   ],
+   "note": "SQLite-backed spool with leases, heartbeats, retry budget and dead letters; a lease never authorizes an effect.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/outcomes.py",
+    "src/memory_fabric/outcome_typed/api.py"
+   ],
+   "tests": [
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_actor_identity_cannot_call_or_serialize_evaluator_outputs",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_capability_is_task_bound_opaque_and_not_serializable",
+    "tests/test_cross_tenant_surface_matrix.py::CrossTenantSurfaceMatrix::test_foreign_ids_are_opaque_and_writes_stay_in_the_bound_tenant",
+    "tests/test_cdm_tempfiles.py::TemporaryWorkspaceTests::test_rejects_parent_outside_approved_root",
+    "tests/test_outcome_api.py::Operations::test_run_task_end_to_end_and_the_outcome_hides_the_evaluator"
+   ],
+   "note": "Separation is by task-bound capabilities, tenant-bound API surfaces and approved temporary roots. There is no OS-level per-tenant file permission.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-06": {
    "status": "TESTED",
@@ -1783,61 +1889,241 @@
    "note": "Aborted writes (injected via trigger; disk-full simulated as a write abort) and killed processes leave no partial commit; the chain still verifies."
   },
   "W17-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_storage_bench.py",
+    "research/results/agent-outcomes/storage-bench-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_spool_and_storage.py::StorageBenchmark::test_sqlite_scenario_is_consistent_and_postgres_says_not_run_without_a_dsn"
+   ],
+   "note": "SQLite measured on one host (throughput, lock waits, retries, consistency). PostgreSQL NOT_RUN: no server here; it runs only with MEMORY_FABRIC_TEST_PG.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/causal_replay/checkpoints.py",
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "tests": [
+    "tests/test_cdm_checkpoints.py::TestCheckpoints::test_stale_revoked_or_erased_checkpoint_refuses",
+    "tests/test_cdm_checkpoints.py::TestCheckpoints::test_cache_binds_versions_and_policy_and_revalidates_auth",
+    "tests/test_cdm_checkpoints.py::TestCheckpoints::test_stale_checkpoint_refuses_after_source_version_changes",
+    "tests/test_outcome_recovery_typed.py::TestVersionedOutcomeRequests::test_correction_preserves_action_supported_by_an_independent_alternative"
+   ],
+   "note": "Correction, erasure, revocation and policy version each invalidate a checkpoint; the gate re-verifies evidence at action time regardless.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/protocol.py"
+   ],
+   "tests": [
+    "tests/test_retraction_protocol.py::ReorderedDeliveryAcrossVersions::test_the_v1_copys_retraction_applies_after_the_v2_copys",
+    "tests/test_retraction_protocol.py::ReorderedDeliveryAcrossMemories::test_a_delayed_retraction_of_another_memory_still_applies",
+    "tests/test_retraction_protocol.py::TestOrdering::test_a_refusal_is_auditable",
+    "tests/test_retraction_protocol.py::TestRecipientRestart::test_enforcement_survives_a_restart"
+   ],
+   "note": "Reordered and duplicated deliveries converge; a retraction that cannot apply is refused and audited, never a stale allow.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W17-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/backup.sh",
+    "tests/test_restore_erasure_reconciliation.py"
+   ],
+   "tests": [
+    "tests/test_backup_custody.py::Custody::test_a_tampered_backup_is_refused",
+    "tests/test_backup_custody.py::Custody::test_restore_brings_back_readable_content_keys_and_config",
+    "tests/test_restore_erasure_reconciliation.py::TestRestoreErasureReconciliation::test_restore_without_current_ledger_fails_closed",
+    "tests/test_cipher.py::KeyCustody"
+   ],
+   "note": "Restore checks the log digest and key custody and fails closed without them. Outcome receipts and task state are events in the log, so the digest covers them.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py",
+    "research/results/agent-outcomes/performance-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::LatencyBreakdown::test_stages_never_sum_past_the_total_and_model_time_is_not_invented"
+   ],
+   "note": "Stage timings sum within the episode total; model inference is NOT_MEASURED (scripted decisions).",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py",
+    "research/results/agent-outcomes/performance-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_worker_contention_reports_every_count_with_its_components"
+   ],
+   "note": "1/2/4/8 workers with a discarded warm-up and three trials on one recorded host; the slowdown with more workers is reported, not explained away.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_worker_contention_reports_every_count_with_its_components"
+   ],
+   "note": "Process start, queue wait, CPU and blocked time are separated and the top two are named per worker count. Database lock time is not separable from other blocking here; network/model time is NOT_MEASURED.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/retrieval_cache.py"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::RetrievalReuse"
+   ],
+   "note": "Keyed by tenant, agent, query, k, method, policy and a store fingerprint; revision, retraction and tenant change invalidate.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py",
+    "research/results/agent-outcomes/scripted-arms-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_dependence_first_review_costs_fewer_replays_than_always_on"
+   ],
+   "note": "Always-on vs dependence-first replays and seconds, wasted replays and flips; A6 net terminal utility vs A5 is 0 completion and -0.08 utility in the arm rows.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py",
+    "research/results/agent-outcomes/performance-dev.json"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_replay_profile_states_what_it_measured"
+   ],
+   "note": "Rebuild time and peak Python memory at 10k, 100k and 1M events on the recorded host only. The events change no projection state, so this bounds log scanning, not heavy projections; snapshots are not profiled.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_agent_stress_reports_tails_starvation_and_fairness"
+   ],
+   "note": "1/5/10/25/50 agents with skewed traffic; tails, starvation and fairness per agent on one host.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/spool.py"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Overload::test_a_full_spool_abstains_and_the_gate_stays_correct",
+    "tests/test_outcome_spool_and_storage.py::Spool::test_depth_cap_gives_backpressure"
+   ],
+   "note": "A full spool refuses new work and the task abstains; the gate's decisions are unchanged under overload.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_performance.py"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Measurements::test_batched_verification_never_coalesces_principals"
+   ],
+   "note": "Batches never span principals; batching saved no verification work here.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W18-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_OPERATING_ENVELOPE.md"
+   ],
+   "tests": [
+    "tests/test_outcome_performance.py::Envelope::test_the_envelope_names_its_commands_host_and_never_infers_model_capacity"
+   ],
+   "note": "Measured on one container host; the 16GB laptop and modest server rows are NOT_MEASURED. No model figures.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_PRINCIPALS.md"
+   ],
+   "tests": [
+    "tests/test_agent_principals.py::PermissionMatrix"
+   ],
+   "note": "Five principals, a permission matrix over every exposed endpoint, separate secrets.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/history_query.py",
+    "src/memory_fabric/causal_replay/api.py"
+   ],
+   "tests": [
+    "tests/test_history_query.py::HistoricalReads::test_collection_permission_must_exist_both_then_and_now",
+    "tests/test_cdm_privacy.py::TestPrivacy::test_repeated_capture_after_revocation_never_returns_artifact",
+    "tests/test_cdm_api.py::TestFacade::test_correction_report_is_tenant_scoped_and_rechecks_session"
+   ],
+   "note": "Historical reads, captures and correction reports check permission now as well as then.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/governance/cipher.py",
+    "docs/AGENT_THREAT_MATRIX.md"
+   ],
+   "tests": [
+    "tests/test_erasure_residue.py::ErasureLeavesNoResidue",
+    "tests/test_cdm_privacy.py::TestPrivacy::test_erasure_dominates_old_capture_inputs",
+    "tests/test_cdm_checkpoints.py::TestCheckpoints::test_erasure_invalidates_checkpoint",
+    "tests/test_cipher.py::TheErasureScopeIsHonest",
+    "tests/test_new_module_redaction.py::NoContentInReports"
+   ],
+   "note": "Erasure destroys the content key and purges caches, checkpoints and indexes; reports hold no content to erase. Audit metadata (ids, digests, times) remains.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tests/test_new_module_redaction.py"
+   ],
+   "tests": [
+    "tests/test_new_module_redaction.py::NoContentInReports"
+   ],
+   "note": "Canary secrets and content never appear in reports, views or logs of the new modules.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/retrieval_cache.py"
+   ],
+   "tests": [
+    "tests/test_cdm_checkpoints.py::TestCheckpoints::test_cache_tenant_collision_and_poisoning_are_misses",
+    "tests/test_outcome_performance.py::RetrievalReuse::test_revision_retraction_and_tenant_change_invalidate",
+    "tests/test_outcome_performance.py::Measurements::test_batched_verification_never_coalesces_principals",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_gate_receipt_cannot_be_replayed_for_another_request_or_edited"
+   ],
+   "note": "Caches and receipts are keyed by tenant and principal; cross-tenant collisions are misses and receipts cannot be replayed.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-06": {
    "status": "TESTED",
@@ -1854,19 +2140,71 @@
    "note": "Tamper tests detect edits, deletions and reordering; reports are labelled UNSIGNED and no view calls a hash an attestation."
   },
   "W19-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/review.py",
+    "src/memory_fabric/service.py"
+   ],
+   "tests": [
+    "tests/test_review.py::Decisions::test_a_decision_needs_a_named_reviewer",
+    "tests/test_review.py::Decisions::test_a_screened_memory_needs_an_explicit_override",
+    "tests/test_service.py::Escalation::test_an_agent_cannot_use_operator_operations"
+   ],
+   "note": "Review needs the operator role and a named reviewer, records a new decision event, and never raises a source's trust automatically.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "tests": [
+    "tests/test_agent_principals.py::CausalityLabels"
+   ],
+   "note": "physical_causality is NOT_ESTABLISHED and root_cause_level is simulator in every report.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/CRYPTOGRAPHY.md"
+   ],
+   "tests": [
+    "tests/test_crypto_profile.py::Profiles::test_production_refuses_to_open_without_the_library",
+    "tests/test_fail_safe_environment.py::FailSafeEnvironment::test_production_crypto_profile_fails_closed_when_optional_library_missing",
+    "tests/test_key_rotation_drill.py::KeyRotationDrill::test_the_four_phases"
+   ],
+   "note": "The production profile fails closed without its library. The job spool holds job ids and states, not content.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W19-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/service.py",
+    "src/memory_fabric/outcome_typed/outcomes.py"
+   ],
+   "tests": [
+    "tests/test_service.py::Escalation::test_an_agent_cannot_record_its_own_outcome",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_adversarial_evaluator_cannot_forge_a_gate_outcome_or_mutate_episode_state",
+    "tests/test_outcome_oracle_isolation_typed.py::TestOutcomeOracleIsolation::test_terminal_feedback_is_not_actor_input_and_closes_the_audit",
+    "tests/test_agent_principals.py::PermissionMatrix::test_no_actor_endpoint_reaches_evaluator_operator_or_grant_power"
+   ],
+   "note": "An actor cannot grade itself or reach operator power; evaluator receipts are sealed and closed.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::Operations::test_run_task_end_to_end_and_the_outcome_hides_the_evaluator",
+    "tests/test_outcome_api.py::Schema::test_the_schema_file_and_the_validator_agree"
+   ],
+   "note": "Opt-in OutcomeAPI over the canonical runtime and a fabric; not wired into MemoryService sessions.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-02": {
    "status": "TESTED",
@@ -1881,19 +2219,65 @@
    "note": "One offline command runs observer, planner and executor to a graded receipt; guide lists five commands."
   },
   "W20-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::Schema::test_effects_are_host_registered_never_supplied",
+    "tests/test_outcome_api.py::Schema::test_unknown_and_authority_bearing_fields_are_refused"
+   ],
+   "note": "Effects are registered by the host; a request carrying code or authority fields is refused.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::Diagnostics"
+   ],
+   "note": "retrieval_miss, permission, stale_evidence and tool_failure each have their own reason code and next step.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::Operations::test_no_incomplete_task_is_reported_as_success"
+   ],
+   "note": "NOT_RUN, NON_REPLAYABLE, BLOCKED, UNDECIDABLE and BUDGET_EXCEEDED are typed errors; no incomplete task reports success.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::TransportParity"
+   ],
+   "note": "Direct, MCP and UTCP calls return identical answers and error shapes.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::TenantSetupExample::test_fresh_machine_example_denies_the_unauthorized_action"
+   ],
+   "note": "examples/agent_outcome_tenant_setup.py uses ephemeral credentials and denies the ungranted principal.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-08": {
    "status": "TESTED",
@@ -1907,7 +2291,16 @@
    "note": "Loopback FAKE server drives the real HTTP client, preflight, actor and model team; reports FAKE runtime and digests; runs are FAKE_BACKEND_NOT_EVIDENCE."
   },
   "W20-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/schemas/outcome-api.v1.json"
+   ],
+   "tests": [
+    "tests/test_outcome_api.py::Schema"
+   ],
+   "note": "docs/schemas/outcome-api.v1.json with examples; stdlib validation refuses unknown and authority-bearing fields.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W20-10": {
    "status": "TESTED",
@@ -1921,34 +2314,127 @@
    "note": "Runtime, canonical vs deprecated packages, role tools, recovery default, loopback model availability, ledger and gate-at-HEAD."
   },
   "W21-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_task_summary_has_completion_failures_withholding_unsafe_and_resources",
+    "tests/test_agent_outcome_console.py::ServedReadOnly::test_the_view_and_the_page_are_served"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_timeline_steps_cite_audit_records_and_carry_no_content"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_lineage_never_counts_copies_as_independent"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_diagnosis_panel_separates_abstain_incomplete_and_denial"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_comparison_marks_missing_arms_not_run_and_never_zero"
+   ],
+   "note": "Scripted rows have no variance, so intervals render NOT_ASSESSABLE; missing arms render NOT_RUN.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_replay_is_labelled_hypothetical_never_a_verified_cause"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_no_model_free_result_gets_a_real_agent_badge"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_budgets_and_red_team_hold_no_secrets_and_no_controls"
+   ],
+   "note": "Read-only operator view from committed artifacts.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ViewModel::test_budgets_and_red_team_hold_no_secrets_and_no_controls",
+    "tests/test_agent_outcome_console.py::ServedReadOnly::test_the_page_has_no_control_that_could_write"
+   ],
+   "note": "The walkthrough has no retry control; the page has no writing control at all.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W21-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/observability/outcomes.py",
+    "src/memory_fabric/observability/static/agent-outcomes.html"
+   ],
+   "tests": [
+    "tests/test_agent_outcome_console.py::ServedReadOnly::test_the_page_has_no_control_that_could_write",
+    "tests/test_agent_outcome_console.py::ServedReadOnly::test_writes_are_refused_and_change_nothing"
+   ],
+   "note": "The server refuses every write; the page has no form or writing control.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-01": {
    "status": "IMPLEMENTED",
@@ -1960,10 +2446,27 @@
    "note": "Thesis encoded as the registered primary contrast A5-A3 at equal budget; untested on learned agents."
   },
   "W22-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_RESEARCH_REPORT.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::ResearchReport::test_related_work_records_overlap_and_difference_for_every_mechanism"
+   ],
+   "note": "Six mechanisms, each with its existing baseline category, overlap and actual difference.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "research/prereg/agent-outcome-cdm-a6-v1.json",
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::CdmRegistration"
+   ],
+   "note": "A6-A5 net-utility registration drafted and validated; it stays a blocked draft, and A6 stays advisory (scripted flips earned nothing).",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-04": {
    "status": "TESTED",
@@ -1977,22 +2480,76 @@
    "note": "Per family: governance helps only restricted_source, recovery only public_correction, neither elsewhere; governance never hurts in these scripted families (a designed population, no prevalence)."
   },
   "W22-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_RESEARCH_REPORT.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::ResearchReport::test_negatives_come_first_and_unrun_tiers_are_said_out_loud"
+   ],
+   "note": "Nine negative or null results, including Phase A and R5 v3, precede the findings.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_ablation.py",
+    "research/results/agent-outcomes/scripted-ablation-dev.json"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::OrthogonalAblations::test_each_factor_is_varied_alone_and_model_accuracy_is_not_claimed"
+   ],
+   "note": "Correction timing, evidence quality, source independence, world difficulty and a scripted planner-noise proxy, one at a time, with no prompts. Model accuracy NOT_RUN: no model.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "benchmarks/outcome_retrieval_baselines.py"
+   ],
+   "tests": [
+    "tests/test_outcome_worlds_extra_and_baselines.py::FirstPartyBaselines"
+   ],
+   "note": "Written from public descriptions, labelled conceptual, not reproductions; they tie governed retrieval on accuracy.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "memeval/stats.py",
+    "benchmarks/outcome_prereg.py"
+   ],
+   "tests": [
+    "tests/test_memeval.py::TestMemeval::test_x4_an_underpowered_run_is_not_a_result",
+    "tests/test_memeval.py::TestMemeval::test_x1_a_quoted_baseline_is_invalid",
+    "tests/test_memeval.py::TestMemeval::test_phase_a_an_arm_above_the_ceiling_is_invalid",
+    "tests/test_outcome_prereg.py::Prereg::test_the_sampling_unit_is_the_seed_cluster"
+   ],
+   "note": "INVALID and UNDERPOWERED are unresolved, never a win or a loss; the seed cluster is the unit.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-09": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/repro_capsule.py",
+    "research/results/agent-outcomes/REPRO_CAPSULE.json"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::Reproducibility::test_a_capsule_verifies_and_a_tampered_one_does_not"
+   ],
+   "note": "Source commit, environment and per-case digests; no model digest because no model ran.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W22-10": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_RESEARCH_REPORT.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::ResearchReport::test_every_finding_names_a_tier_and_links_existing_evidence"
+   ],
+   "note": "Every finding is CONTRACT or SCRIPTED with a link; LOCAL_MODEL, CONFIRMATORY and INDEPENDENT are NOT_RUN.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-01": {
    "status": "TESTED",
@@ -2019,22 +2576,73 @@
    "note": "Optional --local-model stage; no checkpoint gives REAL_AGENT_NOT_RUN, never a scripted substitute."
   },
   "W23-03": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    ".github/workflows/ci.yml"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::CiMatrix::test_core_tests_run_on_three_pythons_and_three_platforms"
+   ],
+   "note": "CI runs Python 3.11-3.13 on Linux, macOS and Windows; locally only Linux ran. Green at the PR head is required before merge.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-04": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/source_bound.py",
+    "research/fixtures/agent-outcome-source-bound.json"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::SourceBound"
+   ],
+   "note": "Contracts recorded in a fixture; a code change without a fixture update fails.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-05": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/model_attack_check.py",
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "tests": [
+    "tests/test_agent_validation_w01.py::ModelAttackCheck::test_missing_runtime_is_model_not_available_never_pass",
+    "tests/test_agent_validation_w01.py::WorkflowTriage::test_stored_model_attack_failure_is_no_runner_not_a_vulnerability"
+   ],
+   "note": "The scripted tier runs in the gate; the model tier has never executed and reports not-run, which standard CI success cannot override.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tests/test_release_guards.py"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::ContractMutations"
+   ],
+   "note": "Flipped hidden outcome, removed source root, stale version and changed model digest are each rejected.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/frozen_results.py"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::FrozenRecords"
+   ],
+   "note": "Silent replacement, deletion, stale commit fields and raw prompts are caught; supersession keeps history.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "pyproject.toml"
+   ],
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "note": "No mandatory runtime dependency; the scripted demo runs with site-packages disabled.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W23-09": {
    "status": "TESTED",
@@ -2060,10 +2668,27 @@
    "note": "Exact-SHA offline qualification and separate engineering/deployment decisions exist; model evidence and research promotion cannot be produced here. Deployment stays HOLD."
   },
   "W24-01": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_LAUNCH_READINESS.md",
+    "tools/scenario_benefit.py"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::Benefit::test_benefit_is_in_operator_units_with_denominators"
+   ],
+   "note": "Three scenarios, each mapped to arm families and an operator view.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W24-02": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "tools/scenario_benefit.py"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::Benefit::test_benefit_is_in_operator_units_with_denominators"
+   ],
+   "note": "Safe completions per 100, steps per safe completion, recoveries and escalations with denominators; recovery wall time is NOT_RECORDED.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W24-03": {
    "status": "TESTED",
@@ -2098,16 +2723,48 @@
    "note": "Decision record states the maximum credible inference separately for simulator, local-model study (NOT_RUN) and independent pilot (NOT_RUN)."
   },
   "W24-06": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_LAUNCH_READINESS.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::LaunchDoc::test_every_threat_has_a_control_an_existing_test_and_a_residual"
+   ],
+   "note": "Six threats, each with control, existing test and residual risk.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W24-07": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "docs/AGENT_LAUNCH_READINESS.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::LaunchDoc::test_runbook_names_metrics_stop_switch_rollback_and_reconciliation"
+   ],
+   "note": "Per-scenario stop-switch metrics, rollback and stale-effect reconciliation.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W24-08": {
-   "status": "TODO"
+   "status": "TESTED",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/rollout.py"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::Rollout"
+   ],
+   "note": "CDM shadow by default; rollback restores the last qualified flags and never touches the log.",
+   "verified_sha": "5f304d6c0ba5fd14bb01da44ee4707251a0c55ce"
   },
   "W24-09": {
-   "status": "TODO"
+   "status": "BLOCKED_EXTERNAL",
+   "evidence": [
+    "docs/AGENT_LAUNCH_READINESS.md"
+   ],
+   "tests": [
+    "tests/test_research_and_launch.py::LaunchDoc::test_the_pilot_stays_blocked_external"
+   ],
+   "note": "The review packet is written; no independent pilot or security review has happened.",
+   "blocked_on": "an independent pilot operator and security reviewer outside this project"
   },
   "W24-10": {
    "status": "TESTED",

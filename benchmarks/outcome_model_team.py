@@ -5,7 +5,7 @@
 Every role (observer, planner, executor) is a :class:`ModelActor` over the same
 pinned model and configuration, through the same canonical episode runtime,
 worlds, tools and budgets as the scripted arms. Only the memory affordance and
-recovery vary between arms (A3/A4/A5; A6 is not implemented and is listed as
+recovery vary between arms (A3/A4/A5; A6 runs only in the scripted harness and is listed as
 not run). A fresh actor serves each episode so call budgets never leak.
 
 The model must already be installed on a loopback runtime. If the preflight

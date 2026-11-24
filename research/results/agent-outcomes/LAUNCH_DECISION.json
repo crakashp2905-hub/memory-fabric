@@ -12,11 +12,11 @@
       "model_attacks: NOT_RUN",
       "independent_review: NOT_RUN",
       "confirmatory registration blocked (21 reasons; first: protocol is not frozen; confirmatory analysis is blocked)",
-      "11 checklist tasks BLOCKED_EXTERNAL"
+      "12 checklist tasks BLOCKED_EXTERNAL"
     ]
   },
   "engineering": {
-    "basis": "end-to-end gate PASS at 42af56dc87a1285ed00388146f4b2a5a67f0ce9d; synthetic outcome gate SCRIPTED_PASS",
+    "basis": "end-to-end gate PASS at 5895f8fad7b523a3c21d14eef7e60a3d4204b4c5; synthetic outcome gate SCRIPTED_PASS",
     "decision": "GO",
     "scope": "internal local prototype on scripted worlds; not a release"
   },
@@ -24,13 +24,13 @@
     "A3_safe_success": 0.4,
     "A5_safe_success": 0.6,
     "ledger": {
-      "BLOCKED_EXTERNAL": 11,
+      "BLOCKED_EXTERNAL": 12,
       "IMPLEMENTED": 17,
       "LOCAL_MODEL_QUALIFIED": 0,
       "RESEARCH_QUALIFIED": 0,
       "SCRIPTED_QUALIFIED": 0,
-      "TESTED": 142,
-      "TODO": 70
+      "TESTED": 211,
+      "TODO": 0
     },
     "release_matrix": {
       "confirmatory": "NOT_RUN",
@@ -42,19 +42,19 @@
     },
     "tasks_improvable_over_A3": 8
   },
-  "gate_commit": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+  "gate_commit": "5895f8fad7b523a3c21d14eef7e60a3d4204b4c5",
   "inputs": {
     "ablation": {
       "path": "research/results/agent-outcomes/scripted-ablation-dev.json",
-      "sha256": "9f3f0133899012c71633d51804bd0f49489581ad693858b501f33208bba5f700"
+      "sha256": "c15c29b48fc59f1c7f4468d4585cf616e5adebf7519b35317bb4690a4937b8c9"
     },
     "gate": {
-      "path": "research/results/agent-outcomes/candidate-offline/42af56d/report.json",
-      "sha256": "16ff3e5073c6c629fd9f0e84666a67e4e6be943d4afa99330aa39edeb63112c8"
+      "path": "research/results/agent-outcomes/candidate-offline/5895f8f/report.json",
+      "sha256": "364942e7560fa5e4e85ba62c26dceab3413cd9c10ada0c50ac7ca8dbdce26cad"
     },
     "ledger": {
       "path": "research/checklist/agent-validation-ledger.json",
-      "sha256": "030fdd9ff36b7e8f6dae5d1070148b8b7b6e87cc3a2afbc644053846ea36d519"
+      "sha256": "fbb13d091b783d4d65aa528f3f4a8ee5dade87e7513e0a2f1073dc341165143c"
     },
     "registration": {
       "path": "research/prereg/agent-outcome-confirmatory-v2.json",
@@ -62,7 +62,7 @@
     },
     "scorecard": {
       "path": "research/results/agent-outcomes/scripted-scorecard-dev.json",
-      "sha256": "31127115e40e886ef3c865d2fda7a18f2fce51ac093466734a7072f49298df1a"
+      "sha256": "7c7a298067ee875dcaf6b6c6e7ca4247472be176c6695b2359643a2383a3dd79"
     }
   },
   "maximum_credible_inference": {
