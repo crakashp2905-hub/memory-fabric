@@ -600,6 +600,14 @@ class EpisodeRecord:
                 "trace": dict(self.trace), "steps": list(self.steps)}
 
 
+def _abstention_reason(role: str, step: AgentStep) -> str:
+    """``<role>_abstained``, with the actor's stated reason when it gives a valid one (W07-08)."""
+    reason = dict(step.arguments).get("reason")
+    if isinstance(reason, str) and _ID.fullmatch(reason) and len(reason) <= 64:
+        return f"{role}_abstained:{reason}"
+    return f"{role}_abstained"
+
+
 def default_tools(protected: str = "set_target") -> ToolRegistry:
     return ToolRegistry([
         ToolSpec("record_observations", frozenset({"observer"}), {"claims": "list"},
@@ -649,6 +657,7 @@ class EpisodeRunner:
         self.steps: list[dict[str, Any]] = []
         self.step_ids: set[str] = set()
         self.recovery_fingerprints: set[str] = set()
+        self.last_failure: tuple[str, ...] = ()
         self.effect_outcome: str | None = None
         self.effect_key: str | None = None
 
@@ -773,7 +782,7 @@ class EpisodeRunner:
                 step = self._ask("planner")
                 if step.intent == "abstain":
                     self._move(Phase.TERMINAL)
-                    return HostOutcome.ABSTAINED, "planner_abstained"
+                    return HostOutcome.ABSTAINED, _abstention_reason("planner", step)
                 spec, arguments = self._tool("planner", step)
                 if spec.name != "recall":
                     raise ToolRejected("expected_recall")
@@ -790,7 +799,7 @@ class EpisodeRunner:
                 step = self._ask("planner")
                 if step.intent == "abstain":
                     self._move(Phase.TERMINAL)
-                    return HostOutcome.ABSTAINED, "planner_abstained"
+                    return HostOutcome.ABSTAINED, _abstention_reason("planner", step)
                 spec, arguments = self._tool("planner", step)
                 if spec.name == "recall":
                     self._move(Phase.RETRIEVE)
@@ -829,6 +838,7 @@ class EpisodeRunner:
                                                       "reason_codes": ["new_observations_since_plan"]})
                     self.events["planner"].append({"source": "host", "kind": "replan_requested",
                                                    "reason_codes": ["new_observations_since_plan"]})
+                    self.last_failure = ("new_observations_since_plan",)
                     self._move(Phase.RECOVER)
                     continue
                 self.verified = self.memory.verify(self.proposal)
@@ -839,6 +849,7 @@ class EpisodeRunner:
                 else:
                     self.events["planner"].append({"source": "host", "kind": "verification_failed",
                                                    "reason_codes": list(self.verified.reason_codes)})
+                    self.last_failure = tuple(self.verified.reason_codes)
                     self._move(Phase.RECOVER)
             elif self.phase is Phase.EXECUTE:
                 assert self.proposal is not None and self.verified is not None
@@ -872,6 +883,7 @@ class EpisodeRunner:
                 if outcome.outcome == "REFUSED":
                     self.events["planner"].append({"source": "host", "kind": "effect_refused",
                                                    "reason_codes": list(outcome.reason_codes)})
+                    self.last_failure = tuple(outcome.reason_codes)
                     self._move(Phase.RECOVER)
                 else:
                     self._move(Phase.TERMINAL)
@@ -881,7 +893,12 @@ class EpisodeRunner:
                     self._move(Phase.TERMINAL)
                     return HostOutcome.FAILED, "recovery_disabled"
                 self.budget.charge_recovery()
-                fingerprint = _digest({"seen": sorted(self.seen_events),
+                # Recovery state is bound to this task, what has been observed, the last
+                # failure and the evidence versions it concerned (W07-03): progress made
+                # on one cannot be claimed by another task or a stale state.
+                fingerprint = _digest({"task": self.envelope.task_id,
+                                       "failure": list(self.last_failure),
+                                       "seen": sorted(self.seen_events),
                                        "evidence": self.proposal.to_dict()["evidence"]
                                        if self.proposal else None})
                 if fingerprint in self.recovery_fingerprints:

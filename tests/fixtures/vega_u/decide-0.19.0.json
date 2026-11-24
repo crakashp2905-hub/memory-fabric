@@ -1,0 +1,141 @@
+{
+ "checkpoint": {
+  "files_sha256": {
+   "engine.safetensors": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "port.safetensors": "398ae79d5e3956a3ed809d500fbdf57982d303c719e464bb81ba12a5ee7d23bd",
+   "stats.npz": "f891292bb7cb2a7616bb925a3c2fe182c72b2899f36c16494445229bed1d3a12",
+   "vega_config.json": "000461315c798b6eca62323476360c14cf31b4e1adcba21ab8266fca41d3fcf8"
+  },
+  "repo": "nandakishorm/vega-U",
+  "revision": "6aee375845724d2cca21d5fd5c043a028dbc1b48"
+ },
+ "health": {
+  "model_loaded": true,
+  "status": "ok"
+ },
+ "model": {
+  "audit": {
+   "calibration_version": null,
+   "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "heads_fitted": [],
+   "reader": "Qwen3.5-0.8B",
+   "vegaml": "0.19.0"
+  },
+  "backbone": "Qwen3.5-0.8B",
+  "band": null,
+  "calibration": null,
+  "heads_fitted": 0,
+  "max_len": 73728,
+  "mode": "auto",
+  "model": "default",
+  "policy": null,
+  "quantized": null,
+  "threads": 1
+ },
+ "provenance": "real local inference on a 4-CPU Linux container; not a calibration on Memory Fabric tasks",
+ "recorded": "2026-11-24",
+ "request": {
+  "questions": {
+   "causal_candidate": {
+    "criteria": {
+     "false": "Not supported",
+     "true": "Consistent, not proven causal"
+    },
+    "instructions": "Is a biased temperature sensor consistent with the evidence?",
+    "type": "boolean"
+   },
+   "claim_support": {
+    "criteria": {
+     "contradicted": "This evidence directly conflicts with the claim.",
+     "incomparable": "The evidence is about a different entity, time or quantity.",
+     "supported": "This evidence directly supports the claim at its scoped time.",
+     "unknown": "The link cannot be determined from this evidence."
+    },
+    "instructions": "How does this CURRENT authorized evidence relate to the claim: the battery pack is overheating",
+    "type": "choice"
+   },
+   "urgency": {
+    "criteria": [
+     "none",
+     "low",
+     "medium",
+     "high"
+    ],
+    "instructions": "How urgent is intervention?",
+    "type": "score"
+   }
+  },
+  "state": "[ev-1@1] (observation, recorded 1000): pack temperature 61 C from probe A.\n[ev-2@1] (observation, recorded 1015): probe B on the same pack reads 38 C."
+ },
+ "response": {
+  "answers": {
+   "causal_candidate": {
+    "abstain": false,
+    "boolean": 0.18587016981436813,
+    "confidence": 0.8141298301856319,
+    "energy": -0.7543022036552429,
+    "prediction_set": [
+     false
+    ],
+    "probs": {
+     "False": 0.8141298301856319,
+     "True": 0.18587016981436813
+    },
+    "readout": "engine",
+    "settle_steps": 12,
+    "unbound": false
+   },
+   "claim_support": {
+    "abstain": false,
+    "choice": "unknown",
+    "confidence": 0.8740113166648741,
+    "energy": -2.616236925125122,
+    "prediction_set": [
+     "unknown"
+    ],
+    "probs": {
+     "contradicted": 0.02181303054874848,
+     "incomparable": 0.06958416908908988,
+     "supported": 0.03459148369728746,
+     "unknown": 0.8740113166648741
+    },
+    "readout": "engine",
+    "settle_steps": 12,
+    "unbound": false
+   },
+   "urgency": {
+    "abstain": true,
+    "confidence": 0.4933438364002438,
+    "energy": -0.6489551663398743,
+    "expected_score": 1.4401626910563945,
+    "prediction_set": [
+     1,
+     2
+    ],
+    "probs": {
+     "0": 0.06720423106520919,
+     "1": 0.4933438364002438,
+     "2": 0.3715369429474905,
+     "3": 0.06791498958705652
+    },
+    "readout": "engine",
+    "score": 1,
+    "settle_steps": 12,
+    "unbound": false
+   }
+  },
+  "audit": {
+   "calibration_version": null,
+   "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "heads_fitted": [],
+   "reader": "Qwen3.5-0.8B",
+   "vegaml": "0.19.0"
+  },
+  "latency_ms": 5206.4,
+  "mode": "auto",
+  "n_tokens": 418,
+  "views": 1
+ },
+ "runtime": "vegaml 0.19.0 (vegaml-serve, CPU, threads=1)",
+ "schema_id": "memory-fabric.vega-u-fixture.v1"
+}

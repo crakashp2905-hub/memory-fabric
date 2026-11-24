@@ -1,0 +1,54 @@
+{
+ "entries": [
+  {
+   "commit": "70e34c870d387cb5de8ba0bbdda0320cf3574d6c",
+   "history": [],
+   "path": "research/results/agent-outcomes/baseline-70e34c8/manifest.json",
+   "producer": "python tools/baseline_manifest.py --write",
+   "sha256": "a91bc791372c4dc02662e27b499a7657f804afd65140e5579573a1aabac52741"
+  },
+  {
+   "commit": "05ced0e3c556360111bc5c6cfa7f7a295eb561a4",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/05ced0e/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "1bbb4f0338002f4566f54840a9bde30c683d24d8f6cda56edb6d79d91ea03a20"
+  },
+  {
+   "commit": "16a51817db867fc92b87fed58e11da42fc36233d",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/16a5181/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "ce5669747b0a1dd9a038909bf3f252487d7853edeefd6227b08b32410a817192"
+  },
+  {
+   "commit": "26a578946ef93862df237a0fbfb8dfe7c27b2b65",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/26a5789/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "80c513e674702415941e7180a8fd2f3eaa5888a684f87b74ee6e43396c5e8924"
+  },
+  {
+   "commit": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/42af56d/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "16ff3e5073c6c629fd9f0e84666a67e4e6be943d4afa99330aa39edeb63112c8"
+  },
+  {
+   "commit": "5895f8fad7b523a3c21d14eef7e60a3d4204b4c5",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/5895f8f/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "364942e7560fa5e4e85ba62c26dceab3413cd9c10ada0c50ac7ca8dbdce26cad"
+  },
+  {
+   "commit": "7ccbc6686051ecac477d940576177793b74a7991",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/7ccbc66/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "be07c8fabef3a8399c93e40fe0ef5570336ef37d62bf0b6484629a6ee63a9943"
+  }
+ ],
+ "schema_id": "memory-fabric.frozen-results.v1"
+}

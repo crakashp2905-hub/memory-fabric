@@ -1,0 +1,30 @@
+{
+ "backends": {
+  "postgres": {
+   "reason": "set MEMORY_FABRIC_TEST_PG and install psycopg",
+   "status": "NOT_RUN"
+  },
+  "sqlite": {
+   "chain_verifies": true,
+   "consistent": true,
+   "errors": [],
+   "events": 200,
+   "expected": 200,
+   "retries": 0,
+   "seconds": 0.0977,
+   "sequences_gapless": true,
+   "sequences_unique": true,
+   "status": "RUN",
+   "throughput_per_s": 2047.0
+  }
+ },
+ "host": {
+  "cpus": 4,
+  "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "per_thread": 50,
+ "schema_id": "memory-fabric.storage-transaction-bench.v1",
+ "scope": "this host only; no cross-machine or production-throughput claim",
+ "threads": 4
+}

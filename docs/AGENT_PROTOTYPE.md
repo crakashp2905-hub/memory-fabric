@@ -27,8 +27,8 @@ python -m benchmarks.outcome_arms --seeds 8 --out arms.json
 python -m benchmarks.outcome_scorecard --arms arms.json --out-json score.json --out-md SCORE.md
 ```
 
-The six actor arms are listed below. A6 (CDM) is registered as not run, and
-A7 is the evaluator's ceiling, never an actor. The scorecard reports every
+The seven actor arms are listed below. A7 is the evaluator's ceiling, never an
+actor. The scorecard reports every
 metric with its eligibility rule and denominator. For scripted evidence its
 decision is **HOLD** at best. Committed rows:
 [SCRIPTED_ARMS_DEV.md](../research/results/agent-outcomes/SCRIPTED_ARMS_DEV.md) and
@@ -40,6 +40,8 @@ decision is **HOLD** at best. Committed rows:
 - A3: pooled memory with a retraction recheck and recovery
 - A4: Memory Fabric with the gate, recovery off
 - A5: Memory Fabric with the gate, recovery on
+- A6: A5 plus dependence-first counterfactual dispatch. It is advisory: it flags
+  past decisions that later evidence would change and never acts
 
 ## 3. Where each effect comes from, and how much room there is
 
@@ -61,7 +63,7 @@ This one command checks contracts, the adversarial gate and secret scan, the
 demo, the arms and scorecard, and provenance. It writes `report.json` and
 `REPORT.md` even when a stage fails, and exits 1 on any required failure.
 Committed record:
-[candidate-offline/16a5181](../research/results/agent-outcomes/candidate-offline/16a5181/REPORT.md).
+[candidate-offline/5895f8f](../research/results/agent-outcomes/candidate-offline/5895f8f/REPORT.md).
 
 ## 5. What is available here, and what is missing
 
@@ -78,6 +80,25 @@ The doctor reports:
 - whether a local model is installed (loopback only, nothing downloaded);
 - the task-ledger totals;
 - whether this commit has an end-to-end gate record.
+
+## Tenants and authorization
+
+```bash
+python examples/agent_outcome_tenant_setup.py
+```
+
+This sets up a tenant from nothing:
+
+- agent keys are generated with `os.urandom` and never printed;
+- the action policy grants one tool to one agent;
+- a second agent in the same tenant is registered without that grant.
+
+The script prints `ops: allowed` and `intern: refused (tool_not_granted)`.
+Nothing in it is a default credential. For the high-level API
+(`memory_fabric.outcome_typed.api`), requests are checked against
+[`docs/schemas/outcome-api.v1.json`](schemas/outcome-api.v1.json). Grants,
+certificates, callbacks and code are refused as request fields; effects are
+host-registered.
 
 ## With a local model
 
@@ -97,7 +118,7 @@ loopback server (`benchmarks/fake_local_model.py`) is labelled
 ## Decisions
 
 ```bash
-python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/16a5181/report.json \
+python tools/launch_decision.py --gate research/results/agent-outcomes/candidate-offline/5895f8f/report.json \
     --out-json decision.json --out-md DECISION.md
 ```
 

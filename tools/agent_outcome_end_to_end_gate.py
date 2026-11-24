@@ -60,6 +60,14 @@ CONTRACT_TESTS = [
     "tests/test_outcome_evaluator_mutation.py", "tests/test_agent_outcome_end_to_end_gate.py",
     "tests/test_fake_local_model.py", "tests/test_launch_decision_and_doctor.py",
     "tests/test_agent_threat_matrix.py", "tests/test_action_fence_typed.py",
+    "tests/test_outcome_cdm_dispatch.py", "tests/test_outcome_diagnosis.py",
+    "tests/test_outcome_replan_and_recovery_state.py",
+    "tests/test_outcome_worlds_extra_and_baselines.py", "tests/test_outcome_multiagent.py",
+    "tests/test_effect_transport_parity.py", "tests/test_agent_security_fixtures.py",
+    "tests/test_outcome_spool_and_storage.py", "tests/test_outcome_performance.py",
+    "tests/test_agent_principals.py", "tests/test_new_module_redaction.py",
+    "tests/test_outcome_api.py", "tests/test_agent_outcome_console.py",
+    "tests/test_release_guards.py", "tests/test_research_and_launch.py",
 ]
 
 
@@ -234,7 +242,9 @@ def main(argv: list[str] | None = None) -> int:
             [PY, "tools/evidence_inventory.py", "--check"],
             [PY, "tools/claim_scanner.py"],
             [PY, "tools/checklist_ledger.py", "--check", "--history", "--resolve-tests"],
-            [PY, "tools/status_at_head.py", "--check"]], out),
+            [PY, "tools/status_at_head.py", "--check"],
+            [PY, "tools/source_bound.py", "--check"],
+            [PY, "tools/frozen_results.py", "--check"]], out),
     }
     for name, run in plan.items():
         if name in args.skip:

@@ -193,6 +193,47 @@ def validate(manifest: Any, root: Path = ROOT) -> list[str]:
     return errors
 
 
+CDM_SCHEMA_ID = "memory-fabric.agent-outcome-cdm-a6.v1"
+CDM_FIELDS = ("contrast", "estimand", "cost_per_replay", "unsafe_weight", "flip_credit",
+              "minimum_net_utility", "safety_non_inferiority_margin", "interval", "decision",
+              "depends_on")
+
+
+def cdm_design_digest(manifest: Mapping[str, Any]) -> str:
+    body = json.dumps({k: manifest[k] for k in CDM_FIELDS}, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+
+def validate_cdm(manifest: Any) -> list[str]:
+    """The A6-A5 net-utility test, registered before any evaluation (W22-03)."""
+    if not isinstance(manifest, dict) or manifest.get("schema_id") != CDM_SCHEMA_ID:
+        return ["not an A6-A5 net-utility registration"]
+    errors = []
+    if manifest.get("status") != "FROZEN":
+        errors.append("protocol is not frozen; the A6-A5 test is blocked")
+    if manifest.get("contrast") != ["A6", "A5"]:
+        errors.append("the contrast must be A6-A5")
+    if manifest.get("flip_credit") != 0:
+        errors.append("policy flips must earn no credit")
+    for name in ("cost_per_replay", "minimum_net_utility"):
+        if not _number(manifest.get(name)) or not manifest[name] > 0:
+            errors.append(f"{name} must be a positive number")
+    if not _number(manifest.get("unsafe_weight")) or manifest["unsafe_weight"] < 1:
+        errors.append("unsafe_weight must be at least 1")
+    if (manifest.get("depends_on") or {}).get("requires") != "A5 promoted on its primary contrasts":
+        errors.append("A6 must depend on A5's promotion")
+    if not manifest.get("registered_before_evaluation"):
+        errors.append("the test must be registered before evaluation")
+    if not (isinstance(manifest.get("freeze_commit"), str) and len(manifest["freeze_commit"]) == 40):
+        errors.append("freeze_commit must be a full 40-character Git SHA")
+    try:
+        if manifest.get("design_sha256") != cdm_design_digest(manifest):
+            errors.append("design_sha256 mismatch; registered design changed")
+    except KeyError:
+        errors.append("registration is missing design fields")
+    return errors
+
+
 def zero_event_upper_bound(n: int) -> float:
     """The frozen zero-event rule: exact one-sided 95% binomial upper bound."""
     return absence_bound(n, 0.95)

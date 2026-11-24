@@ -1,0 +1,42 @@
+{
+ "cold_start": {
+  "load_until_healthy_s": 10.19,
+  "status": "MEASURED",
+  "weights": "local cache only (HF_HUB_OFFLINE=1)"
+ },
+ "energy": "NOT_INSTRUMENTED",
+ "evidence_level": "VEGA_MODEL_SMOKE",
+ "gpu_utilisation": "NOT_INSTRUMENTED",
+ "host": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "schema_id": "memory-fabric.vega-cdm-profile.v1",
+ "scope": "this host only; CPU; one server process; no claim about other hardware",
+ "warm": {
+  "batch_amortization_ratio": 0.909,
+  "batched_three_questions_s": {
+   "mean": 4.1936,
+   "p50": 4.1695,
+   "p95": 4.5862,
+   "p99": 4.5862
+  },
+  "calls": 20,
+  "model": {
+   "calibration_version": null,
+   "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "reader": "Qwen3.5-0.8B",
+   "runtime_version": "0.19.0"
+  },
+  "request_payload_bytes": 683,
+  "server_peak_rss_kib": 5515468,
+  "server_pid_found": true,
+  "status": "MEASURED",
+  "three_single_question_calls_s": {
+   "p50": 3.7882,
+   "trials": 4
+  }
+ }
+}

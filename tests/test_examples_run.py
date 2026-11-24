@@ -15,7 +15,8 @@ OFFLINE = ["getting_started", "quickstart", "wrong_memory_demo", "reference_agen
            "poisoning_and_rollback", "action_gate", "multi_agent_team", "sdk_workflow",
            "agent_on_the_fabric", "why_blocked", "memory_vs_json",
            "correction_spares_unrelated_action", "multi_agent_provenance_dispute",
-           "correction_strategy_comparison", "outcome_recovery_demo", "outcome_recovery_demo_typed"]
+           "correction_strategy_comparison", "outcome_recovery_demo", "outcome_recovery_demo_typed",
+           "agent_outcome_tenant_setup", "vega_cdm_demo"]
 
 
 class Examples(unittest.TestCase):

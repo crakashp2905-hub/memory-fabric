@@ -16,6 +16,16 @@ it does not convert synthetic results into deployment evidence.
 | A self-certifying executor accepts fabricated certificate cases. | `research/prereg/cdm-r9-verifier-ablation.md`; `research/results/cdm/verifier-ablation-r9/acceptance.json` | The separate first-party verifier rejects these finite fixtures, but this is not an attack-rate estimate or security certification. |
 | The initial held-out utility scorer was invalid and must not be reused. | `research/results/cdm/heldout/INVALID_UTILITY_SCORE.md` | Superseded by heldout-v2; the invalid result is retained for audit and excluded from conclusions. |
 
+## Vega-U semantic advisor (development)
+
+| Finding | Evidence | Interpretation |
+|---|---|---|
+| With the 0.8B reader, the advisor-assisted arm took 2 unsafe actions where the governed arm took none | [vega-cdm results](../research/results/vega-cdm/README.md), `development/vega-0.8b.json` | Registered no-go (unsafe-execution increase). The advisor stays OFF/SHADOW; the registration validator returns NO_GO. |
+| Advisor headroom over governed memory exists in one of seven families (paraphrase) | same report, oracle headroom 0.143 | Any gain is bounded by that family; A5 already captures the rest. |
+| A6/A6-V add nothing over A5/A5-V on these worlds | same report | Dependence-first dispatch has nothing to replay where re-retrieval already sees the correction. |
+| Batching three questions in one call gave no speed-up on CPU (ratio 0.909) | [model-profile-0.8b.json](../research/results/vega-cdm/model-profile-0.8b.json) | Do not assume batch amortisation. |
+| The write validator treats readings from two sensors on one entity ("pack P-7 probe A/B") as one claim and holds the second | [VEGA_CDM_LIMITATIONS.md](VEGA_CDM_LIMITATIONS.md) | A core false positive found while building the worlds; recorded, not changed. |
+
 ## Operational and epistemic limits
 
 - Evidence is generated or fixture-based. There is no independent organizational

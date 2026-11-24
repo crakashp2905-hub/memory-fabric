@@ -5,7 +5,7 @@
 Every role (observer, planner, executor) is a :class:`ModelActor` over the same
 pinned model and configuration, through the same canonical episode runtime,
 worlds, tools and budgets as the scripted arms. Only the memory affordance and
-recovery vary between arms (A3/A4/A5; A6 is not implemented and is listed as
+recovery vary between arms (A3/A4/A5; A6 runs only in the scripted harness and is listed as
 not run). A fresh actor serves each episode so call budgets never leak.
 
 The model must already be installed on a loopback runtime. If the preflight
@@ -109,7 +109,9 @@ def run_model_team(model: str, *, arms: Sequence[str] = MODEL_ARMS, seeds: int =
         "model": {"name": config.model, "digest": config.digest,
                   "runtime_version": config.runtime_version, "quantization": config.quantization},
         "config_fingerprints": fingerprints,
-        "arms": list(arms), "not_run_arms": dict(NOT_RUN_ARMS), "families": list(families),
+        "arms": list(arms), "not_run_arms": {**dict(NOT_RUN_ARMS), **{
+            arm: "not part of this model-team run" for arm in ("A3", "A4", "A5", "A6")
+            if arm not in arms}}, "families": list(families),
         "seeds": seeds, "preflight": preflight,
         "summary": summarize(rows),
         "contrasts": [paired_difference(rows, left, right)

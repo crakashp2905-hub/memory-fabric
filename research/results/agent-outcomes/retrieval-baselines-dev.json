@@ -1,0 +1,236 @@
+{
+ "budget": {
+  "chars": 400,
+  "items": 4
+ },
+ "fidelity_note": "first-party strategies written for this harness; not reproductions of any published system",
+ "first_party": true,
+ "population": "SCRIPTED_DEVELOPMENT",
+ "rows": [
+  {
+   "answer": 60,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 0,
+   "strategy": "recency"
+  },
+  {
+   "answer": 60,
+   "chars": 89,
+   "correct": true,
+   "items": 2,
+   "seed": 0,
+   "strategy": "lexical"
+  },
+  {
+   "answer": 40,
+   "chars": 154,
+   "correct": false,
+   "items": 4,
+   "seed": 0,
+   "strategy": "fixed_top_k"
+  },
+  {
+   "answer": 60,
+   "chars": 373,
+   "correct": true,
+   "items": 10,
+   "seed": 0,
+   "strategy": "full_context"
+  },
+  {
+   "answer": 60,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 0,
+   "strategy": "summary"
+  },
+  {
+   "answer": 60,
+   "chars": 46,
+   "correct": true,
+   "items": 1,
+   "seed": 0,
+   "strategy": "governed"
+  },
+  {
+   "answer": 61,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 1,
+   "strategy": "recency"
+  },
+  {
+   "answer": 61,
+   "chars": 89,
+   "correct": true,
+   "items": 2,
+   "seed": 1,
+   "strategy": "lexical"
+  },
+  {
+   "answer": 41,
+   "chars": 154,
+   "correct": false,
+   "items": 4,
+   "seed": 1,
+   "strategy": "fixed_top_k"
+  },
+  {
+   "answer": 61,
+   "chars": 373,
+   "correct": true,
+   "items": 10,
+   "seed": 1,
+   "strategy": "full_context"
+  },
+  {
+   "answer": 61,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 1,
+   "strategy": "summary"
+  },
+  {
+   "answer": 61,
+   "chars": 46,
+   "correct": true,
+   "items": 1,
+   "seed": 1,
+   "strategy": "governed"
+  },
+  {
+   "answer": 62,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 2,
+   "strategy": "recency"
+  },
+  {
+   "answer": 62,
+   "chars": 89,
+   "correct": true,
+   "items": 2,
+   "seed": 2,
+   "strategy": "lexical"
+  },
+  {
+   "answer": 42,
+   "chars": 154,
+   "correct": false,
+   "items": 4,
+   "seed": 2,
+   "strategy": "fixed_top_k"
+  },
+  {
+   "answer": 62,
+   "chars": 373,
+   "correct": true,
+   "items": 10,
+   "seed": 2,
+   "strategy": "full_context"
+  },
+  {
+   "answer": 62,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 2,
+   "strategy": "summary"
+  },
+  {
+   "answer": 62,
+   "chars": 46,
+   "correct": true,
+   "items": 1,
+   "seed": 2,
+   "strategy": "governed"
+  },
+  {
+   "answer": 63,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 3,
+   "strategy": "recency"
+  },
+  {
+   "answer": 63,
+   "chars": 89,
+   "correct": true,
+   "items": 2,
+   "seed": 3,
+   "strategy": "lexical"
+  },
+  {
+   "answer": 43,
+   "chars": 154,
+   "correct": false,
+   "items": 4,
+   "seed": 3,
+   "strategy": "fixed_top_k"
+  },
+  {
+   "answer": 63,
+   "chars": 373,
+   "correct": true,
+   "items": 10,
+   "seed": 3,
+   "strategy": "full_context"
+  },
+  {
+   "answer": 63,
+   "chars": 151,
+   "correct": true,
+   "items": 4,
+   "seed": 3,
+   "strategy": "summary"
+  },
+  {
+   "answer": 63,
+   "chars": 46,
+   "correct": true,
+   "items": 1,
+   "seed": 3,
+   "strategy": "governed"
+  }
+ ],
+ "schema_id": "memory-fabric.retrieval-baselines.v1",
+ "summary": {
+  "fixed_top_k": {
+   "accuracy": 0.0,
+   "max_chars": 154,
+   "max_items": 4
+  },
+  "full_context": {
+   "accuracy": 1.0,
+   "max_chars": 373,
+   "max_items": 10
+  },
+  "governed": {
+   "accuracy": 1.0,
+   "max_chars": 46,
+   "max_items": 1
+  },
+  "lexical": {
+   "accuracy": 1.0,
+   "max_chars": 89,
+   "max_items": 2
+  },
+  "recency": {
+   "accuracy": 1.0,
+   "max_chars": 151,
+   "max_items": 4
+  },
+  "summary": {
+   "accuracy": 1.0,
+   "max_chars": 151,
+   "max_items": 4
+  }
+ }
+}

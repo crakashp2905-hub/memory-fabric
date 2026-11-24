@@ -1,0 +1,68 @@
+{
+ "amplification_stress": [
+  {
+   "colluders": 2,
+   "control_fooled": true,
+   "governed_fooled": false,
+   "roots_false": 1,
+   "statements_false": 3
+  },
+  {
+   "colluders": 5,
+   "control_fooled": true,
+   "governed_fooled": false,
+   "roots_false": 1,
+   "statements_false": 6
+  },
+  {
+   "colluders": 10,
+   "control_fooled": true,
+   "governed_fooled": false,
+   "roots_false": 1,
+   "statements_false": 11
+  },
+  {
+   "colluders": 50,
+   "control_fooled": true,
+   "governed_fooled": false,
+   "roots_false": 1,
+   "statements_false": 51
+  }
+ ],
+ "every_control_fooled": true,
+ "families": [
+  {
+   "colluders": 5,
+   "control_fooled": true,
+   "family": "copied_source",
+   "governed_fooled": false,
+   "roots_false": 1,
+   "statements_false": 6
+  },
+  {
+   "claimed_independent": 6,
+   "control_fooled": true,
+   "family": "forged_independence",
+   "governed_fooled": false,
+   "roots_false": 1
+  },
+  {
+   "control_fooled": true,
+   "family": "false_tool_result",
+   "governed_fooled": false
+  },
+  {
+   "control_fooled": true,
+   "family": "delayed_retraction",
+   "governed_fooled": false
+  },
+  {
+   "control_fooled": true,
+   "family": "authority_shaped_text",
+   "governed_fooled": false
+  }
+ ],
+ "governed_fooled": [],
+ "population": "SCRIPTED_DEVELOPMENT",
+ "schema_id": "memory-fabric.agent-poisoning-fixtures.v1"
+}

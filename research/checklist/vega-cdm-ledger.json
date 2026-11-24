@@ -1,0 +1,1781 @@
+{
+ "spec": "docs/checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md",
+ "spec_sha256": "4215af9c605b9203108c40c6f50bad005471c71676a24d3051c6b040c154b6cd",
+ "tasks": {
+  "VEGA-CDM-001": {
+   "evidence": [
+    "research/results/agent-outcomes/baseline-70e34c8/manifest.json",
+    "docs/architecture/ADR-VEGA-CDM-001.md"
+   ],
+   "note": "Baseline manifest at 70e34c8; prior negative CDM findings in docs/CDM_KNOWN_FINDINGS.md.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_agent_validation_w01.py::BaselineManifest"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-002": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/taxonomy.py"
+   ],
+   "note": "Five tiers; a model output is capped at HYPOTHETICAL_EFFECT.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Taxonomy"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-003": {
+   "evidence": [
+    "docs/architecture/ADR-VEGA-CDM-001.md",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol::test_the_request_is_v1_decide_with_boolean_not_the_legacy_shape"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-004": {
+   "evidence": [
+    "docs/architecture/ADR-VEGA-CDM-001.md",
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "note": "Integration map with one acceptance test per interface.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects",
+    "tests/test_semantic_pipeline.py::Interventions"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-005": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "note": "Canonical runtime outcome_typed; no new outcome package.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-006": {
+   "evidence": [
+    "docs/architecture/ADR-VEGA-CDM-001.md",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "note": "Population, mechanism, comparator and endpoint stated; the registration is a draft.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-007": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::GovernanceUnchanged",
+    "tests/test_vega_cdm_security.py::Injection"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-008": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_off_is_the_default_and_byte_identical_and_calls_nothing",
+    "tests/test_vega_recovery.py::Modes::test_shadow_logs_without_changing_output_and_qualified_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-009": {
+   "evidence": [
+    "tools/vega_ledger.py",
+    "research/checklist/vega-cdm-ledger.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Ledger"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-010": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/taxonomy.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Taxonomy::test_reports_that_overstate_their_level_fail_validation",
+    "tests/test_vega_ledger_and_gate.py::EvidenceLevels"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-011": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol",
+    "tests/test_vega_cdm_security.py::Spoofing::test_proposals_cannot_carry_code_files_or_shell"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-012": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "tests/fixtures/vega_u/decide-0.19.0.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "Fixture recorded from real vegaml 0.19.0 inference.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol",
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-013": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol::test_the_recorded_answers_parse_without_filling_anything"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-014": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_malformed_outputs_become_invalid_never_confident"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-015": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "Runtime, reader, engine sha256 and calibration pinned; real receipts recorded.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol::test_receipts_carry_digests_pins_and_what_the_server_reported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-016": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_OPERATIONS.md"
+   ],
+   "note": "0.8B resources measured; 4B registered but never run.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_an_unregistered_reader_or_substituted_checkpoint_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-017": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_missing_metadata_unloaded_model_and_fitted_heads_fail_the_handshake"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-018": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "note": "Loopback TCP only; UDS not implemented.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_only_loopback_http_endpoints_are_accepted"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-019": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-020": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_GUIDE.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_the_core_package_imports_no_model_runtime",
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-021": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_source_kinds_roundtrip_and_sealed_fields_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-022": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_packets_come_from_authorized_retrieval_with_full_provenance"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-023": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_erased_and_foreign_evidence_drop_out_on_recheck"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-024": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_copies_of_one_origin_share_a_correlation_group"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-025": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_source_kinds_roundtrip_and_sealed_fields_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-026": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_canonical_json_is_stable_and_refuses_non_finite_numbers"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-027": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_over_budget_bundles_say_they_are_truncated"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-028": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_source_kinds_roundtrip_and_sealed_fields_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-029": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_secrets_are_scrubbed_before_any_state_text"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-030": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_chronology_is_preserved_and_both_diagnoses_stay_open"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-031": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "note": "relevance_question exists; not used by any arm or test yet.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-032": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_ambiguous_abstained_or_unavailable_answers_force_no_winner"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-033": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "note": "Also found the core claim extractor merges P7-A/P7-B (docs/VEGA_CDM_LIMITATIONS.md).",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_exact_guards_keep_identifiers_and_quantities_apart"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-034": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-035": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_the_structural_backstop_drops_unreadable_evidence"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-036": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_paraphrased_copies_of_one_root_count_once"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-037": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py",
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Prefilter and advisor-only-on-parse-failure tested; a recall/latency frontier against full context was not measured.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-038": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Packets::test_chronology_is_preserved_and_both_diagnoses_stay_open"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-039": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_ambiguous_abstained_or_unavailable_answers_force_no_winner"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-040": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "note": "Identifiers, quantities, negation; aliases and same-name entities only partly.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Support::test_edge_cases_are_labelled_by_the_fixture_oracle"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-041": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-042": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_a_model_cannot_add_dependence_or_a_verified_effect"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-043": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_a_model_cannot_add_dependence_or_a_verified_effect"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-044": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_edges_cite_versions_causal_edges_stay_acyclic_and_post_hoc_evidence_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-045": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_edges_cite_versions_causal_edges_stay_acyclic_and_post_hoc_evidence_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-046": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_edges_cite_versions_causal_edges_stay_acyclic_and_post_hoc_evidence_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-047": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_latent_confounding_makes_the_effect_unidentifiable"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-048": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_a_model_cannot_add_dependence_or_a_verified_effect"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-049": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_revisions_and_erasure_invalidate_and_views_leak_nothing"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-050": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_revisions_and_erasure_invalidate_and_views_leak_nothing"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-051": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_undeclared_likelihoods_and_unregistered_continuations_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-052": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_the_exact_belief_matches_the_registered_enumerator"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-053": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_undeclared_likelihoods_and_unregistered_continuations_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-054": {
+   "note": "No verified local labels exist yet; calibration.metrics is ready (tests/test_semantic_pipeline.py::Calibration).",
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-055": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_paraphrased_copies_from_one_root_add_no_support"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-056": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_time_travel_uses_known_time_and_admits_late_earlier_valid_evidence"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-057": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_undeclared_likelihoods_and_unregistered_continuations_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-058": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_undeclared_likelihoods_and_unregistered_continuations_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-059": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_time_travel_uses_known_time_and_admits_late_earlier_valid_evidence"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-060": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py",
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_sealed_truth_and_future_data_never_reach_a_request"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-061": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_every_kind_compiles_to_an_existing_operation_or_unsupported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-062": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_every_kind_compiles_to_an_existing_operation_or_unsupported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-063": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_every_kind_compiles_to_an_existing_operation_or_unsupported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-064": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_unreadable_unexposed_and_generated_replacements_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-065": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_unreadable_unexposed_and_generated_replacements_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-066": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_controls_exist_for_every_family"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-067": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py",
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "note": "Correlated-copy control is the copied_news family; a delayed-federation counterfactual control was not built.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-068": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_budget_exhaustion_and_contradictory_batches_stop_safely_with_accounting"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-069": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_budget_exhaustion_and_contradictory_batches_stop_safely_with_accounting"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-070": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions::test_budget_exhaustion_and_contradictory_batches_stop_safely_with_accounting"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-071": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_a_verified_flip_is_reported_with_separate_fields"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-072": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_a_verified_flip_is_reported_with_separate_fields"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-073": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_a_verified_flip_is_reported_with_separate_fields"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-074": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_grouped_leave_one_out_ablates_copies_together"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-075": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_a_noop_has_no_effect_and_an_empty_world_is_unknown_not_zero"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-076": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Effects::test_intervals_are_clustered_by_world_seed"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-077": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py",
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "note": "Causal edges are DAG-checked; intervention targets are not yet checked against graph descendants.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-078": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "note": "Factual verification runs first and failure yields NO_EFFECT_CERTIFIED; that path has no dedicated test.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-079": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py",
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms",
+    "tests/test_semantic_pipeline.py::Scheduler::test_selectors_share_candidates_and_budget_and_waste_is_reported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-080": {
+   "evidence": [
+    "research/results/vega-cdm/README.md",
+    "research/results/vega-cdm/development/vega-0.8b.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_the_recorded_real_model_run_is_labelled_and_shows_its_unsafe_actions"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-081": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_routing_skips_independents_settles_exact_cases_and_never_replays_on_doubt"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-082": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_routing_skips_independents_settles_exact_cases_and_never_replays_on_doubt"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-083": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_selectors_share_candidates_and_budget_and_waste_is_reported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-084": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_the_advisor_is_asked_only_where_the_exact_reader_fails_and_within_budget"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-085": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_routing_skips_independents_settles_exact_cases_and_never_replays_on_doubt"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-086": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_routing_skips_independents_settles_exact_cases_and_never_replays_on_doubt"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-087": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/cache.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Cache"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-088": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "note": "Separate Accounts meters exist; no test exercises them.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-089": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Scheduler::test_selectors_share_candidates_and_budget_and_waste_is_reported"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-090": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "note": "Wasted replays are reported; there is no learning selector to learn to skip.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-091": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_off_is_the_default_and_byte_identical_and_calls_nothing"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-092": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_every_runtime_diagnosis_maps_to_one_authoritative_cause",
+    "tests/test_vega_recovery.py::Modes::test_advisory_adds_a_catalog_proposal_but_never_rewrites_the_cause"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-093": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_off_catalog_malformed_or_unavailable_advice_is_discarded"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-094": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "note": "The advisory reads only the API's own result; no multi-agent handoff test with the advisor exists.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-095": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_copies_are_one_root_and_corrections_are_new_versions",
+    "tests/test_action_crash_typed.py::CrashMidAction"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-096": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_the_designed_mechanisms_separate_the_baselines"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-097": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_advisory_adds_a_catalog_proposal_but_never_rewrites_the_cause"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-098": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryBudgets",
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-099": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "note": "Unreadable worlds end in safe abstention.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_the_designed_mechanisms_separate_the_baselines"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-100": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py",
+    "research/results/vega-cdm/development/vega-0.8b.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-101": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_split_leakage_and_transfer_failure_are_caught"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-102": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_metrics_name_their_population_and_a_fitted_artifact_is_pinned"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-103": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_metrics_name_their_population_and_a_fitted_artifact_is_pinned"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-104": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "note": "Fit machinery only; no verified local labels have been fitted.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_metrics_name_their_population_and_a_fitted_artifact_is_pinned"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-105": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "note": "Nothing writes back to the checkpoint; no calibrated-vs-uncalibrated ablation has run.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-106": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_split_leakage_and_transfer_failure_are_caught"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-107": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Calibration::test_online_learning_is_off_and_only_evaluator_feedback_after_the_outcome_counts"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-108": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "note": "Admissibility rule tested; no prequential shadow evaluation loop exists.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-109": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py",
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "note": "Artifacts are versioned and OFF restores baseline; no atomic artifact rollback store.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-110": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py",
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "note": "Online learning disabled and QUALIFIED refused; nothing to activate.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-111": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_both_diagnoses_can_hold_at_once_and_seeds_are_deterministic",
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_the_grader_needs_only_truth_and_action_and_imports_no_advisor"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-112": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_copies_are_one_root_and_corrections_are_new_versions"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-113": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_copies_are_one_root_and_corrections_are_new_versions"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-114": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_procedure_worlds_grade_the_exact_order"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-115": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_procedure_worlds_grade_the_exact_order"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-116": {
+   "note": "No federation, partition or clock-skew world; bitemporal cut-offs are tested in beliefs only.",
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-117": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py",
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "note": "confounded family plus latent-confounder rule.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Graph::test_latent_confounding_makes_the_effect_unidentifiable"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-118": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_negative_controls_do_not_move_the_decision"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-119": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "note": "Paraphrase family only; negation, multilingual and format perturbation families not built.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-120": {
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_actor_packets_never_carry_the_hidden_truth",
+    "tests/test_vega_worlds_and_arms.py::Worlds::test_the_grader_needs_only_truth_and_action_and_imports_no_advisor"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-121": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "New -V arms in a new benchmark; the frozen A0-A7 benchmark is untouched.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_every_arm_ran_every_task_and_no_arm_beats_the_oracle"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-122": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_every_arm_ran_every_task_and_no_arm_beats_the_oracle"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-123": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_every_arm_ran_every_task_and_no_arm_beats_the_oracle"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-124": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Pooled and exact-parser baselines exist; lexical-only and full-context-within-budget controls are not in these arms.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-125": {
+   "blocked_on": "no Kev/System One server installed in this environment",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "VEGA-CDM-126": {
+   "note": "Only the zero-shot policy ran; recalibrated and shadow-trained arms need verified labels.",
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-127": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Allocation is deterministic by seed; call order is not randomised independently of arm.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-128": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Same world, k, budget and decision rule by construction; no separate parity validator.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-129": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-130": {
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Advisor calls and seconds per arm; tokens, CPU time and RSS per arm not recorded.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-131": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scripted.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Arms::test_the_scripted_report_cannot_claim_a_model_effect"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-132": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "tools/vega_cdm_profile.py"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "Real 0.8B decision with digest, latency and host.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-133": {
+   "note": "The 4B reader was not downloaded; 0.8B alone used 5.3 GiB of a 15 GiB host.",
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-134": {
+   "blocked_on": "a local agent model for observer/planner/executor (no Ollama model here)",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "VEGA-CDM-135": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "note": "Vega receipts carry runtime, digest and latency; there are no agent-model traces to record.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-136": {
+   "blocked_on": "a local agent model team with real decisions in every arm",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "VEGA-CDM-137": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens",
+    "tests/test_vega_u_adapter.py::FailClosed::test_missing_metadata_unloaded_model_and_fitted_heads_fail_the_handshake"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-138": {
+   "blocked_on": "a second model size or family; only the 0.8B reader ran, so no cross-model claim",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "VEGA-CDM-139": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_GUIDE.md"
+   ],
+   "note": "Served with HF_HUB_OFFLINE=1; client is loopback only with proxies bypassed. No packet-level egress audit.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_only_loopback_http_endpoints_are_accepted"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-140": {
+   "evidence": [
+    "tools/vega_cdm_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate::test_research_and_release_verdicts_stay_separate_from_ci"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-141": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_instructions_inside_evidence_stay_data"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-142": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_a_model_cannot_name_an_unauthorized_or_erased_target"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-143": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_option_text_and_labels_are_host_defined_and_closed"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-144": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_copies_forwarded_through_summaries_keep_their_origin"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-145": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_cache_keys_never_collide_across_tenants_or_principals"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-146": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_malformed_outputs_become_invalid_never_confident"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-147": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Spoofing::test_a_replayed_or_substituted_server_identity_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-148": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Spoofing::test_proposals_cannot_carry_code_files_or_shell"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-149": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::Injection::test_sealed_truth_and_future_data_never_reach_a_request"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-150": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py::GovernanceUnchanged::test_semantic_modules_import_no_governance_writer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-151": {
+   "evidence": [
+    "tools/vega_cdm_profile.py",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "CPU only, one host; MPS not available here.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-152": {
+   "evidence": [
+    "tools/vega_cdm_profile.py",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "No batching gain (ratio 0.909).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-153": {
+   "evidence": [
+    "tools/vega_cdm_profile.py",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "Peak RSS 5.26 GiB; GPU and energy not instrumented.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-154": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens",
+    "tests/test_semantic_pipeline.py::Packets::test_over_budget_bundles_say_they_are_truncated"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-155": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_OPERATIONS.md"
+   ],
+   "note": "Separate process over loopback; no inference-crash injection test.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-156": {
+   "evidence": [
+    "docs/VEGA_CDM_OPERATIONS.md",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "note": "Client deadline only; absence of an OS sandbox is stated.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-157": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/cache.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Cache",
+    "tests/test_agent_api_rate_limit.py::AgentApiRateLimits"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-158": {
+   "note": "Throughput and cost curves on 1/2/4 workers with and without Vega were not run.",
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-159": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-160": {
+   "evidence": [
+    "docs/VEGA_CDM_OPERATIONS.md",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "note": "One measured profile (4-CPU container); laptop and GPU host not measured.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-161": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_the_denominator_comparator_and_adjustment_are_fixed"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-162": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_the_denominator_comparator_and_adjustment_are_fixed"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-163": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_a_complete_powered_frozen_registration_validates"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-164": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_the_committed_draft_is_no_go_and_says_why"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-165": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_overlapping_splits_and_edited_designs_are_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-166": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json",
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Prompt-framing factorial not run (needs a learned agent).",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_an_effect_above_the_oracle_headroom_is_impossible",
+    "tests/test_vega_worlds_and_arms.py::Arms::test_negative_controls_do_not_move_the_decision"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-167": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_the_committed_draft_is_no_go_and_says_why"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-168": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_the_committed_draft_is_no_go_and_says_why"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-169": {
+   "evidence": [
+    "benchmarks/vega_cdm_confirmatory.py",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_science.py::Registration::test_zero_unsafe_events_give_a_bound_not_zero_risk"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-170": {
+   "evidence": [
+    "research/results/vega-cdm/development/vega-0.8b.json",
+    "research/results/vega-cdm/development/scripted.json"
+   ],
+   "note": "Raw rows with digests archived; no fresh-checkout reproduction check for the model run.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-171": {
+   "evidence": [
+    "examples/vega_cdm_demo.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_examples_run.py::Examples"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-172": {
+   "evidence": [
+    "examples/vega_cdm_demo.py"
+   ],
+   "note": "The demo labels proposal, verified replay and graded outcome; no web UI view yet.",
+   "status": "IMPLEMENTED"
+  },
+  "VEGA-CDM-173": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_advisory_adds_a_catalog_proposal_but_never_rewrites_the_cause"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-174": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_off_is_the_default_and_byte_identical_and_calls_nothing"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-175": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/api.py",
+    "docs/VEGA_CDM_GUIDE.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_api.py::Operations",
+    "tests/test_vega_recovery.py::Modes"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-176": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_GUIDE.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure",
+    "tests/test_vega_u_adapter.py::FailClosed::test_the_core_package_imports_no_model_runtime"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-177": {
+   "evidence": [
+    "tools/vega_cdm_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate::test_research_and_release_verdicts_stay_separate_from_ci"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-178": {
+   "evidence": [
+    "tools/vega_cdm_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate::test_docs_are_consistent_with_the_pins_and_make_no_efficacy_claim",
+    "tests/test_vega_ledger_and_gate.py::Gate::test_a_stale_digest_or_an_overclaim_in_the_docs_is_caught"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  },
+  "VEGA-CDM-179": {
+   "blocked_on": "an outside-user pilot and a third-party security review",
+   "evidence": [
+    "docs/VEGA_CDM_LIMITATIONS.md"
+   ],
+   "status": "BLOCKED"
+  },
+  "VEGA-CDM-180": {
+   "evidence": [
+    "tools/vega_ledger.py",
+    "research/checklist/vega-cdm-ledger.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Ledger::test_docs_only_or_testless_validation_is_refused"
+   ],
+   "verified_sha": "a8263f01da4f58cb42b606fe6b7af9ad703a234f"
+  }
+ }
+}
