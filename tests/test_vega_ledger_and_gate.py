@@ -81,6 +81,12 @@ class EvidenceLevels(unittest.TestCase):
         from memory_fabric.causal_replay.semantic.taxonomy import check_report_level
         for path in (ROOT / "research" / "results" / "vega-cdm").rglob("*.json"):
             data = json.loads(path.read_text())
+            if data.get("schema_id") == "memory-fabric.vega-cdm-gate.v1":
+                # gate records carry one verdict per tier instead of one level
+                self.assertEqual(data["release"]["status"], "RELEASE_NO_GO", path)
+                self.assertEqual(data["agent"]["status"], "AGENT_NOT_RUN", path)
+                self.assertEqual(data["ci_covers"], ["core", "docs"], path)
+                continue
             level = data.get("evidence_level")
             if level in ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR"):
                 continue  # development-only levels: not efficacy, checked by the arms tests
