@@ -36,6 +36,13 @@
    "sha256": "16ff3e5073c6c629fd9f0e84666a67e4e6be943d4afa99330aa39edeb63112c8"
   },
   {
+   "commit": "5895f8fad7b523a3c21d14eef7e60a3d4204b4c5",
+   "history": [],
+   "path": "research/results/agent-outcomes/candidate-offline/5895f8f/report.json",
+   "producer": "python tools/agent_outcome_end_to_end_gate.py --offline --all --out DIR --local-model qwen2.5:1.5b",
+   "sha256": "364942e7560fa5e4e85ba62c26dceab3413cd9c10ada0c50ac7ca8dbdce26cad"
+  },
+  {
    "commit": "7ccbc6686051ecac477d940576177793b74a7991",
    "history": [],
    "path": "research/results/agent-outcomes/candidate-offline/7ccbc66/report.json",

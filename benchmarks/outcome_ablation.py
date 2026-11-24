@@ -173,7 +173,7 @@ def run(seeds: int = 8) -> dict[str, Any]:
             "promotion": "NOT_ASSESSED", "seeds": seeds, "families": list(FAMILIES),
             "factors": {"memory": ["pooled_recheck", "governed"], "recovery": [False, True]},
             "not_separable_in_this_harness": list(NOT_SEPARABLE),
-            "cdm_ablation": "NOT_RUN: A6 is not implemented",
+            "cdm_ablation": "A6 is an arm in benchmarks.outcome_arms; its comparison with A5 is the cdm block of scripted-arms-dev.json",
             "factorial": factorial(seeds), "headroom": headroom(seeds),
             "orthogonal": orthogonal(seeds)}
 

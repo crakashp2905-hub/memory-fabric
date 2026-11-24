@@ -1227,9 +1227,11 @@
   "tasks": 40,
   "unsafe_rate": 0.0
  },
+ "physical_causality": "NOT_ESTABLISHED",
+ "root_cause_level": "simulator",
  "sampling_unit": "world seed cluster (one task per family and seed)",
  "schema_id": "memory-fabric.agent-outcome-scorecard.v1",
- "source_sha": "42af56dc87a1285ed00388146f4b2a5a67f0ce9d",
+ "source_sha": "5895f8fad7b523a3c21d14eef7e60a3d4204b4c5",
  "task_set_digest": "83c862c443e4f4fcd82661ca86968c7b6f41eec5d4db879d6841c8eb37a14d7d",
  "uncertainty": "NOT_ASSESSABLE: deterministic policy; seeds add no variance",
  "worst_family": {

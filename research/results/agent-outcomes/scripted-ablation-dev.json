@@ -1,5 +1,5 @@
 {
- "cdm_ablation": "NOT_RUN: A6 is not implemented",
+ "cdm_ablation": "A6 is an arm in benchmarks.outcome_arms; its comparison with A5 is the cdm block of scripted-arms-dev.json",
  "factorial": {
   "by_scope": {
    "delayed_correction": {
@@ -6203,6 +6203,82 @@
   "source_independence",
   "retrieval_method"
  ],
+ "orthogonal": {
+  "confounds": "no prompts (scripted); opaque task ids; one factor varied at a time",
+  "factors": {
+   "correction_timing_tick": {
+    "12": {
+     "A3": 0.0,
+     "A5": 0.0,
+     "A5_minus_A3": 0.0
+    },
+    "2": {
+     "A3": 0.0,
+     "A5": 1.0,
+     "A5_minus_A3": 1.0
+    },
+    "3": {
+     "A3": 1.0,
+     "A5": 1.0,
+     "A5_minus_A3": 0.0
+    },
+    "6": {
+     "A3": 0.0,
+     "A5": 0.0,
+     "A5_minus_A3": 0.0
+    }
+   },
+   "evidence_quality": {
+    "marked_correction": {
+     "A3": 1.0,
+     "A5": 1.0,
+     "A5_minus_A3": 0.0
+    },
+    "unmarked_correction": {
+     "A3": 0.0,
+     "A5": 1.0,
+     "A5_minus_A3": 1.0
+    }
+   },
+   "planner_error_rate_proxy": {
+    "0.0": {
+     "A3": 1.0,
+     "A5": 1.0,
+     "A5_minus_A3": 0.0
+    },
+    "0.25": {
+     "A3": 0.875,
+     "A5": 0.875,
+     "A5_minus_A3": 0.0
+    },
+    "0.5": {
+     "A3": 0.375,
+     "A5": 0.375,
+     "A5_minus_A3": 0.0
+    }
+   },
+   "source_independence_colluders": {
+    "10": {
+     "governed_fooled": false,
+     "roots": 1
+    },
+    "2": {
+     "governed_fooled": false,
+     "roots": 1
+    },
+    "5": {
+     "governed_fooled": false,
+     "roots": 1
+    },
+    "50": {
+     "governed_fooled": false,
+     "roots": 1
+    }
+   }
+  },
+  "metric": "completion",
+  "model_accuracy": "NOT_RUN: planner_error_rate_proxy is scripted noise, not a model"
+ },
  "population": "SCRIPTED_DEVELOPMENT",
  "promotion": "NOT_ASSESSED",
  "schema_id": "memory-fabric.scripted-factorial-ablation.v1",

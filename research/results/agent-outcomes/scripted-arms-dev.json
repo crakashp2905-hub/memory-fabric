@@ -46,6 +46,7 @@
    "delayed_correction"
   ],
   "flips": 8,
+  "physical_causality": "NOT_ESTABLISHED",
   "promotion": "ADVISORY_ONLY",
   "promotion_rule": "A6 cannot promote unless A5 is promoted and the frozen A6-A5 net-utility test passes (W09-10); A5 promotion is NOT_ASSESSED",
   "reasons": {
@@ -56,6 +57,7 @@
    "skip_independent": 16,
    "skip_no_material_alternative": 0
   },
+  "root_cause_level": "simulator",
   "status": "RUN",
   "utility": {
    "completion_difference": 0.0,

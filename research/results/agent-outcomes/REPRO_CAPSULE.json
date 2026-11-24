@@ -1,0 +1,29 @@
+{
+ "commit": "5895f8fad7b523a3c21d14eef7e60a3d4204b4c5",
+ "environment": {
+  "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "model_digest": "none (scripted outputs only)",
+ "outputs": {
+  "ablation_factorial": "20b31310f88e77ecb1ae84b3bec800bb41a40abfa6671ba31f0e00c29b222253",
+  "arms_rows": "8c4cf9317cf05c69577d58af88452b3b2b4956aa2ac7dd1130568eacba5cc3f3",
+  "multihop_rows": "da158f4c8185c356ee0a1e9b0922c86f92e0c29d09a68793855d5ac811741d56",
+  "poisoning": "5f7f782b6f19302551c20fdc64b9c667c9cc56b00e3e42a13268a8d8007f0568",
+  "retrieval_baseline_rows": "dc04b5a51109268cab1ba8d21e2401ec4d28fe622763a04a41b8c2f5433f2fa5",
+  "temporal_rows": "99d74e825a6c1f6e09a83ffeb8cd8cc27643640dd41d3f346c3099f903f6140a"
+ },
+ "schema_id": "memory-fabric.repro-capsule.v1",
+ "seeds": 2,
+ "sources": {
+  "benchmarks/outcome_ablation.py": "73b79a1a4bb674b0299c5ec274a2c1cabff76ddaf48e577e0ad20e63a2e78501",
+  "benchmarks/outcome_arms.py": "3bca99cbe104765086d6a23b5a172078069638c273123642d3584a2a6a559c28",
+  "benchmarks/outcome_episode.py": "db1b1cdb425878cb916037b97653afdba5e0c4e14db13fd8b641e75aaf86a5f8",
+  "benchmarks/outcome_poisoning.py": "af82802c1e704d4c2cfe33721231fbb97ad58699a465fb071a2c4dcba910e87c",
+  "benchmarks/outcome_retrieval_baselines.py": "672ea80abc3321516e107796f8e6ea48d132d724a13820cbaf5ceccaa826c73c",
+  "benchmarks/outcome_worlds_extra.py": "331d50eacd8ad9726f1fc24fcfca8aeec31533db998b2210c1856f84d9c215d5",
+  "benchmarks/outcome_worlds_typed.py": "d15b842c385f5f09517fa6ac7fbffcadb304135a1aa654a2c8b6ba107cc1fd28",
+  "src/memory_fabric/outcome_typed/cdm_dispatch.py": "49cd264dd0fa1968ec7511adccb67230bc13eb4e0e69ddf54ca5d8181248b268",
+  "src/memory_fabric/outcome_typed/episode.py": "af56e2d4fd2e8a1e4a3412d344bfbd71133bc953cc15dd7ffe0d46726042705a"
+ }
+}
