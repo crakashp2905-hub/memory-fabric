@@ -1,0 +1,546 @@
+{
+ "spec": "docs/checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md",
+ "spec_sha256": "4215af9c605b9203108c40c6f50bad005471c71676a24d3051c6b040c154b6cd",
+ "tasks": {
+  "VEGA-CDM-001": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-002": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-003": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-004": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-005": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-006": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-007": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-008": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-009": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-010": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-011": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-012": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-013": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-014": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-015": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-016": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-017": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-018": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-019": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-020": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-021": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-022": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-023": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-024": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-025": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-026": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-027": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-028": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-029": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-030": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-031": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-032": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-033": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-034": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-035": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-036": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-037": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-038": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-039": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-040": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-041": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-042": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-043": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-044": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-045": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-046": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-047": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-048": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-049": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-050": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-051": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-052": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-053": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-054": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-055": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-056": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-057": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-058": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-059": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-060": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-061": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-062": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-063": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-064": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-065": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-066": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-067": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-068": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-069": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-070": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-071": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-072": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-073": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-074": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-075": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-076": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-077": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-078": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-079": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-080": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-081": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-082": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-083": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-084": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-085": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-086": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-087": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-088": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-089": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-090": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-091": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-092": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-093": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-094": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-095": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-096": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-097": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-098": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-099": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-100": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-101": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-102": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-103": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-104": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-105": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-106": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-107": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-108": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-109": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-110": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-111": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-112": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-113": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-114": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-115": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-116": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-117": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-118": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-119": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-120": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-121": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-122": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-123": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-124": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-125": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-126": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-127": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-128": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-129": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-130": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-131": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-132": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-133": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-134": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-135": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-136": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-137": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-138": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-139": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-140": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-141": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-142": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-143": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-144": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-145": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-146": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-147": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-148": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-149": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-150": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-151": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-152": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-153": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-154": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-155": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-156": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-157": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-158": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-159": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-160": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-161": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-162": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-163": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-164": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-165": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-166": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-167": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-168": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-169": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-170": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-171": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-172": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-173": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-174": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-175": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-176": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-177": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-178": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-179": {
+   "status": "NOT_STARTED"
+  },
+  "VEGA-CDM-180": {
+   "status": "NOT_STARTED"
+  }
+ }
+}

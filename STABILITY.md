@@ -147,9 +147,10 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (92)
+## Experimental (107)
 
 - `memory_fabric.adapters.systemone`
+- `memory_fabric.adapters.vega_u`
 - `memory_fabric.agent_outcomes.__init__`
 - `memory_fabric.agent_outcomes.observations`
 - `memory_fabric.agent_outcomes.recovery`
@@ -167,6 +168,19 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.causal_replay.policy`
 - `memory_fabric.causal_replay.replay`
 - `memory_fabric.causal_replay.scheduler`
+- `memory_fabric.causal_replay.semantic.__init__`
+- `memory_fabric.causal_replay.semantic.advice`
+- `memory_fabric.causal_replay.semantic.beliefs`
+- `memory_fabric.causal_replay.semantic.cache`
+- `memory_fabric.causal_replay.semantic.calibration`
+- `memory_fabric.causal_replay.semantic.effects`
+- `memory_fabric.causal_replay.semantic.graph`
+- `memory_fabric.causal_replay.semantic.interventions`
+- `memory_fabric.causal_replay.semantic.packets`
+- `memory_fabric.causal_replay.semantic.scheduler`
+- `memory_fabric.causal_replay.semantic.scripted`
+- `memory_fabric.causal_replay.semantic.support`
+- `memory_fabric.causal_replay.semantic.taxonomy`
 - `memory_fabric.causal_replay.state`
 - `memory_fabric.causal_replay.tempfiles`
 - `memory_fabric.causal_replay.types`
@@ -229,6 +243,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_typed.retrieval_cache`
 - `memory_fabric.outcome_typed.rollout`
 - `memory_fabric.outcome_typed.runtime`
+- `memory_fabric.outcome_typed.semantic_advisory`
 - `memory_fabric.outcome_typed.spool`
 - `memory_fabric.portable`
 - `memory_fabric.receipts`

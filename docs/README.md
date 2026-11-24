@@ -106,6 +106,10 @@ Every document in the repository, by what you are trying to do.
 | [AGENT_PRINCIPALS.md](AGENT_PRINCIPALS.md) | Agent-outcome principals, secret custody and permission matrix |
 | [AGENT_RESEARCH_REPORT.md](AGENT_RESEARCH_REPORT.md) | Agent-outcome findings by claim tier, negatives first, related work |
 | [AGENT_LAUNCH_READINESS.md](AGENT_LAUNCH_READINESS.md) | Scenarios, deployment threat model, runbook, rollout and pilot packet |
+| [VEGA_CDM_GUIDE.md](VEGA_CDM_GUIDE.md) | Optional vega-U semantic advisor: offline install, pinned assets, modes |
+| [VEGA_CDM_LIMITATIONS.md](VEGA_CDM_LIMITATIONS.md) | What the Vega-CDM evidence does and does not show, including the unsafe misreadings |
+| [VEGA_CDM_THREAT_MODEL.md](VEGA_CDM_THREAT_MODEL.md) | Threats, controls, tests and residual risk for the semantic advisor |
+| [VEGA_CDM_OPERATIONS.md](VEGA_CDM_OPERATIONS.md) | Measured hardware profile, limits, isolation and fallback |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |
@@ -123,6 +127,7 @@ Every document in the repository, by what you are trying to do.
 | [AGENT_OUTCOME_EVALUATION.md](AGENT_OUTCOME_EVALUATION.md) | Agent outcome contracts: what is measured and what is not |
 | [OUTCOME_PROTOCOL_EVALUATION.md](OUTCOME_PROTOCOL_EVALUATION.md) | Evaluator-side terminal outcome protocol (`memory_fabric.outcome_protocol`), kept separate from the agent-outcome contracts until reconciled |
 | [checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md](checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md) | The agent-validation checklist (240 tasks); status of each task is in the [task ledger](../research/checklist/AGENT_VALIDATION_LEDGER.md), and the starting point in the [baseline](../research/results/agent-outcomes/baseline-70e34c8/BASELINE.md) |
+| [checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md](checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md) | The Vega-U semantic causal memory plan (180 tasks); status per task is in the [evidence matrix](../research/checklist/VEGA_CDM_EVIDENCE_MATRIX.md) |
 | [../VERSIONING.md](../VERSIONING.md) | What a version number promises; supported versions |
 
 ## For maintainers

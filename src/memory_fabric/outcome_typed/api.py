@@ -178,9 +178,14 @@ def _diagnose(record: EpisodeRecord) -> str | None:
 class OutcomeAPI:
     def __init__(self, fabric: Any, *, effects: Mapping[str, Callable[[str, Mapping[str, Any]], Any]],
                  team: DecisionFunction | None = None, tenant_id: str = "tn_default",
-                 protected_tool: str = "set_target") -> None:
+                 protected_tool: str = "set_target", semantic_advisor: Any = None,
+                 semantic_mode: str = "OFF") -> None:
+        from .semantic_advisory import check_mode
+
         if protected_tool not in effects:
             raise ValueError("the protected tool's effect must be host-registered")
+        self.semantic_advisor, self.semantic_mode = semantic_advisor, check_mode(semantic_mode)
+        self.semantic_shadow_log: list[dict[str, Any]] = []
         self.fabric, self.effects, self.team = fabric, dict(effects), team
         self.tenant_id, self.protected_tool = tenant_id, protected_tool
         self._records: dict[str, EpisodeRecord] = {}
@@ -219,10 +224,14 @@ class OutcomeAPI:
                 "evaluator_grade": "NOT_AVAILABLE_TO_ACTORS"}
 
     def inspect_failure(self, task_id: str) -> dict[str, Any]:
+        from .semantic_advisory import annotate
+
         result = self._result(self._record(task_id))
         if result.status == "EFFECT_EXECUTED":
             return {**result.to_dict(), "failure": None}
-        return {**result.to_dict(), "failure": result.diagnosis}
+        return annotate({**result.to_dict(), "failure": result.diagnosis},
+                        advisor=self.semantic_advisor, mode=self.semantic_mode,
+                        shadow_log=self.semantic_shadow_log)
 
     def get_evidence(self, task_id: str) -> list[dict[str, Any]]:
         record = self._record(task_id)
