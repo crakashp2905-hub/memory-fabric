@@ -24,6 +24,7 @@ TENANT = "tn_plant_a"
 
 
 def main() -> int:
+    print("DEMO ONLY: in-memory store; ephemeral local keys; no external action is performed.")
     fabric = MemoryFabric(":memory:", auto_activate=True)
     try:
         service = MemoryService(fabric=fabric)
