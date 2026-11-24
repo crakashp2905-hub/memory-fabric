@@ -35,7 +35,7 @@ import threading
 import time
 import tracemalloc
 from concurrent.futures import ProcessPoolExecutor
-from typing import Any, Callable, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 SCHEMA_ID = "memory-fabric.agent-outcome-performance.v1"
 
@@ -129,6 +129,7 @@ def worker_contention(workers: Sequence[int] = (1, 2, 4, 8), episodes: int = 16,
         trial_wall: list[float] = []
         queue: list[float] = []
         service: list[float] = []
+        cpu: list[float] = []
         start_costs: list[float] = []
         for trial in range(trials + 1):  # trial 0 is the warm-up and is discarded
             p0 = time.time()
@@ -144,18 +145,35 @@ def worker_contention(workers: Sequence[int] = (1, 2, 4, 8), episodes: int = 16,
             start_costs.append(start_cost)
             queue.extend(r[0] for r in results)
             service.extend(r[1] for r in results)
+            cpu.extend(r[2] for r in results)
         rows[str(count)] = {"episodes_per_trial": episodes, "trials": trials,
                             "wall_s_median": round(statistics.median(trial_wall), 4),
                             "wall_s_min": round(min(trial_wall), 4),
                             "wall_s_max": round(max(trial_wall), 4),
                             "process_start_s_median": round(statistics.median(start_costs), 4),
                             "queue_wait_s_p50": _pct(queue, 0.5), "queue_wait_s_p95": _pct(queue, 0.95),
-                            "service_s_p50": _pct(service, 0.5), "service_s_p95": _pct(service, 0.95)}
+                            "service_s_p50": _pct(service, 0.5), "service_s_p95": _pct(service, 0.95),
+                            "cpu_s_p50": _pct(cpu, 0.5)}
+        rows[str(count)]["bottleneck_top_two"] = bottleneck(rows[str(count)])
     base = rows[str(workers[0])]["wall_s_median"]
     for count in workers:
         rows[str(count)]["speedup_vs_first"] = round(base / rows[str(count)]["wall_s_median"], 3)
     return {"by_workers": rows,
+            "not_separated": {"database_lock_s": "inside blocked_s", "network_model_s": "NOT_MEASURED: no model or network"},
             "claim": "descriptive; more workers are not claimed to help (see speedup_vs_first)"}
+
+
+def bottleneck(row: Mapping[str, Any]) -> list[str]:
+    """The two largest per-episode components (W18-03). Lock and model time are not separable here.
+
+    ``blocked_s`` is service time not spent on this process's CPU: lock waits, I/O and
+    being descheduled together; it is never relabelled as database lock time.
+    """
+    service, cpu = row["service_s_p50"] or 0.0, row["cpu_s_p50"] or 0.0
+    parts = {"process_start_s": row["process_start_s_median"] / max(1, row["episodes_per_trial"]),
+             "queue_wait_s": row["queue_wait_s_p50"] or 0.0, "cpu_s": cpu,
+             "blocked_s": max(0.0, service - cpu)}
+    return sorted(parts, key=lambda k: (-parts[k], k))[:2]
 
 
 def cdm_cost(seeds: int = 2) -> dict[str, Any]:

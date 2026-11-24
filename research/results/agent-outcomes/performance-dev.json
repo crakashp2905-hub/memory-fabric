@@ -5,77 +5,77 @@
     "completed_all_scheduled": true,
     "jain_fairness_served_share": 1.0,
     "ops": 400,
-    "p50_s": 0.00042,
-    "p95_s": 0.000542,
-    "p99_s": 0.000629,
+    "p50_s": 0.000648,
+    "p95_s": 0.000954,
+    "p99_s": 0.001094,
     "starved_agents": 0,
-    "wall_s": 0.1723,
-    "worst_agent_p95_s": 0.000542
+    "wall_s": 0.2695,
+    "worst_agent_p95_s": 0.000954
    },
    "10": {
     "completed_all_scheduled": true,
     "jain_fairness_served_share": 1.0,
     "ops": 400,
-    "p50_s": 0.000438,
-    "p95_s": 0.000665,
-    "p99_s": 0.129286,
+    "p50_s": 0.000696,
+    "p95_s": 0.00104,
+    "p99_s": 0.204627,
     "starved_agents": 0,
-    "wall_s": 0.1905,
-    "worst_agent_p95_s": 0.110966
+    "wall_s": 0.2891,
+    "worst_agent_p95_s": 0.204627
    },
    "25": {
     "completed_all_scheduled": true,
     "jain_fairness_served_share": 1.0,
     "ops": 400,
-    "p50_s": 0.00049,
-    "p95_s": 0.04502,
-    "p99_s": 0.113745,
+    "p50_s": 0.00076,
+    "p95_s": 0.040927,
+    "p99_s": 0.274118,
     "starved_agents": 0,
-    "wall_s": 0.2241,
-    "worst_agent_p95_s": 0.146482
+    "wall_s": 0.3379,
+    "worst_agent_p95_s": 0.305143
    },
    "5": {
     "completed_all_scheduled": true,
     "jain_fairness_served_share": 1.0,
     "ops": 400,
-    "p50_s": 0.000446,
-    "p95_s": 0.001094,
-    "p99_s": 0.043862,
+    "p50_s": 0.000793,
+    "p95_s": 0.001301,
+    "p99_s": 0.002661,
     "starved_agents": 0,
-    "wall_s": 0.1989,
-    "worst_agent_p95_s": 0.006433
+    "wall_s": 0.3491,
+    "worst_agent_p95_s": 0.001522
    },
    "50": {
     "completed_all_scheduled": true,
     "jain_fairness_served_share": 0.94,
     "ops": 400,
-    "p50_s": 0.000471,
-    "p95_s": 0.116514,
-    "p99_s": 0.197961,
+    "p50_s": 0.000731,
+    "p95_s": 0.137216,
+    "p99_s": 0.203281,
     "starved_agents": 0,
-    "wall_s": 0.2241,
-    "worst_agent_p95_s": 0.209075
+    "wall_s": 0.3353,
+    "worst_agent_p95_s": 0.205033
    }
   },
   "traffic": "Zipf-skewed; one write per five operations"
  },
  "batched_verification": {
-  "batched_s": 0.000984,
+  "batched_s": 0.002746,
   "coalescing_two_principals_refused": true,
   "groups": 4,
   "note": "groups never span principals; batching here saves no verification work",
   "requests": 40,
   "same_results": true,
-  "single_s": 0.001382
+  "single_s": 0.00298
  },
  "cdm_cost": {
   "always_on": {
    "replays": 6,
-   "seconds": 0.000166
+   "seconds": 0.000188
   },
   "dependence_first": {
    "replays": 2,
-   "seconds": 4.2e-05
+   "seconds": 5.9e-05
   },
   "flips_either_way": 2,
   "net_terminal_utility": "0.0 completion and safety difference for A6 vs A5; see scripted-arms-dev.json cdm block",
@@ -84,50 +84,54 @@
  "host": {
   "cpus": 4,
   "machine": "x86_64",
-  "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+  "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
   "python": "3.13.18",
   "scope": "this host only; scripted agents; no model inference measured"
  },
  "latency_breakdown": {
-  "cdm_review_wall_s": 0.002014,
+  "cdm_review_wall_s": 0.003932,
   "host_outcome": "EFFECT_EXECUTED",
   "model_inference_s": "NOT_MEASURED: scripted decisions, no model",
   "stages_cpu_s": {
-   "decision_scripted": 0.000457,
-   "effect_ack": 0.00021,
-   "execute_commit": 0.001498,
-   "observe_record": 0.013445,
-   "retrieve": 0.000828,
-   "verify": 0.000109
+   "decision_scripted": 0.000906,
+   "effect_ack": 0.000317,
+   "execute_commit": 0.002824,
+   "observe_record": 0.025835,
+   "retrieve": 0.001657,
+   "verify": 0.000238
   },
   "stages_wall_s": {
-   "decision_scripted": 0.000456,
-   "effect_ack": 0.000205,
-   "execute_commit": 0.001235,
-   "observe_record": 0.013443,
-   "retrieve": 0.000828,
-   "verify": 0.000108
+   "decision_scripted": 0.000908,
+   "effect_ack": 0.000299,
+   "execute_commit": 0.002457,
+   "observe_record": 0.025976,
+   "retrieve": 0.001653,
+   "verify": 0.000238
   },
-  "total_cpu_s": 0.019275,
-  "total_wall_s": 0.01922,
-  "unattributed_wall_s": 0.002946
+  "total_cpu_s": 0.037617,
+  "total_wall_s": 0.037702,
+  "unattributed_wall_s": 0.006171
  },
- "not_run": [
-  "replay_profile at 1,000,000 events (use --full)"
- ],
+ "not_run": [],
  "replay_profile": {
   "by_size": {
    "10000": {
     "events": 10000,
-    "events_per_s": 88744.0,
+    "events_per_s": 57875.3,
     "peak_python_bytes": 5667,
-    "rebuild_s": 0.1127
+    "rebuild_s": 0.1728
    },
    "100000": {
     "events": 100000,
-    "events_per_s": 87192.7,
+    "events_per_s": 57033.7,
     "peak_python_bytes": 5948,
-    "rebuild_s": 1.1469
+    "rebuild_s": 1.7533
+   },
+   "1000000": {
+    "events": 1000000,
+    "events_per_s": 48804.4,
+    "peak_python_bytes": 5941,
+    "rebuild_s": 20.49
    }
   },
   "event_type": "access_logged (no projection state change)",
@@ -137,58 +141,82 @@
  "worker_contention": {
   "by_workers": {
    "1": {
+    "bottleneck_top_two": [
+     "queue_wait_s",
+     "cpu_s"
+    ],
+    "cpu_s_p50": 0.01057,
     "episodes_per_trial": 16,
-    "process_start_s_median": 0.0441,
-    "queue_wait_s_p50": 0.19972,
-    "queue_wait_s_p95": 0.255419,
-    "service_s_p50": 0.007467,
-    "service_s_p95": 0.13497,
+    "process_start_s_median": 0.0599,
+    "queue_wait_s_p50": 0.271893,
+    "queue_wait_s_p95": 0.44155,
+    "service_s_p50": 0.010731,
+    "service_s_p95": 0.184433,
     "speedup_vs_first": 1.0,
     "trials": 3,
-    "wall_s_max": 0.2757,
-    "wall_s_median": 0.2631,
-    "wall_s_min": 0.2468
+    "wall_s_max": 0.4819,
+    "wall_s_median": 0.3485,
+    "wall_s_min": 0.3449
    },
    "2": {
+    "bottleneck_top_two": [
+     "queue_wait_s",
+     "cpu_s"
+    ],
+    "cpu_s_p50": 0.010397,
     "episodes_per_trial": 16,
-    "process_start_s_median": 0.0464,
-    "queue_wait_s_p50": 0.191593,
-    "queue_wait_s_p95": 0.22589,
-    "service_s_p50": 0.007544,
-    "service_s_p95": 0.147299,
-    "speedup_vs_first": 1.201,
+    "process_start_s_median": 0.0586,
+    "queue_wait_s_p50": 0.260033,
+    "queue_wait_s_p95": 0.299822,
+    "service_s_p50": 0.010385,
+    "service_s_p95": 0.209037,
+    "speedup_vs_first": 1.124,
     "trials": 3,
-    "wall_s_max": 0.2409,
-    "wall_s_median": 0.219,
-    "wall_s_min": 0.2188
+    "wall_s_max": 0.3197,
+    "wall_s_median": 0.3101,
+    "wall_s_min": 0.3031
    },
    "4": {
+    "bottleneck_top_two": [
+     "queue_wait_s",
+     "cpu_s"
+    ],
+    "cpu_s_p50": 0.010408,
     "episodes_per_trial": 16,
-    "process_start_s_median": 0.0441,
-    "queue_wait_s_p50": 0.179739,
-    "queue_wait_s_p95": 0.245627,
-    "service_s_p50": 0.008195,
-    "service_s_p95": 0.170314,
-    "speedup_vs_first": 1.25,
+    "process_start_s_median": 0.0612,
+    "queue_wait_s_p50": 0.244906,
+    "queue_wait_s_p95": 0.301305,
+    "service_s_p50": 0.015863,
+    "service_s_p95": 0.209572,
+    "speedup_vs_first": 0.954,
     "trials": 3,
-    "wall_s_max": 0.2638,
-    "wall_s_median": 0.2104,
-    "wall_s_min": 0.2039
+    "wall_s_max": 0.3659,
+    "wall_s_median": 0.3652,
+    "wall_s_min": 0.2816
    },
    "8": {
+    "bottleneck_top_two": [
+     "queue_wait_s",
+     "cpu_s"
+    ],
+    "cpu_s_p50": 0.183159,
     "episodes_per_trial": 16,
-    "process_start_s_median": 0.045,
-    "queue_wait_s_p50": 0.152307,
-    "queue_wait_s_p95": 0.333904,
-    "service_s_p50": 0.143436,
-    "service_s_p95": 0.288912,
-    "speedup_vs_first": 0.645,
+    "process_start_s_median": 0.0561,
+    "queue_wait_s_p50": 0.357273,
+    "queue_wait_s_p95": 0.538893,
+    "service_s_p50": 0.209468,
+    "service_s_p95": 0.541037,
+    "speedup_vs_first": 0.49,
     "trials": 3,
-    "wall_s_max": 0.4188,
-    "wall_s_median": 0.4079,
-    "wall_s_min": 0.3924
+    "wall_s_max": 0.722,
+    "wall_s_median": 0.7116,
+    "wall_s_min": 0.7054
    }
   },
-  "claim": "descriptive; more workers are not claimed to help (see speedup_vs_first)"
+  "claim": "descriptive; more workers are not claimed to help (see speedup_vs_first)",
+  "not_separated": {
+   "database_lock_s": "inside blocked_s",
+   "network_model_s": "NOT_MEASURED: no model or network"
+  }
  }
 }

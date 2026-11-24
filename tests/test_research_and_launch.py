@@ -162,6 +162,10 @@ class OrthogonalAblations(unittest.TestCase):
             self.assertEqual(factors["planner_error_rate_proxy"][rate]["A5_minus_A3"], 0.0)
         self.assertGreater(factors["correction_timing_tick"]["2"]["A5_minus_A3"], 0)
         self.assertIn("NOT_RUN", report["model_accuracy"])
+        difficulty = factors["world_difficulty_distractor_instruments"]
+        self.assertEqual(difficulty["0"]["A5"], 1.0)
+        for count in ("2", "8"):  # other instruments' readings make both arms abstain alike
+            self.assertEqual(difficulty[count]["A5_minus_A3"], 0.0)
 
 
 class LaunchDoc(unittest.TestCase):

@@ -23,8 +23,11 @@ class Measurements(unittest.TestCase):
         report = perf.worker_contention(workers=(1, 2), episodes=2, trials=1)
         for row in report["by_workers"].values():
             for key in ("process_start_s_median", "queue_wait_s_p50", "service_s_p50",
-                        "speedup_vs_first"):
+                        "speedup_vs_first", "cpu_s_p50"):
                 self.assertIn(key, row)
+            self.assertEqual(len(row["bottleneck_top_two"]), 2)
+            self.assertNotIn("database_lock_s", row["bottleneck_top_two"])
+        self.assertIn("blocked_s", report["not_separated"]["database_lock_s"])
         self.assertIn("not claimed to help", report["claim"])
 
     def test_dependence_first_review_costs_fewer_replays_than_always_on(self) -> None:

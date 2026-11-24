@@ -30,12 +30,18 @@ python tools/measure_local_footprint.py --help                     # installed-w
   `unattributed`. Model inference is `NOT_MEASURED`.
 - **Process contention at 1, 2, 4 and 8 workers.** Each count gets a warm-up,
   repeated trials, and process start, queue wait and service time reported
-  separately. Speedup is reported, not assumed; on the measured host it stays
-  near one (see the JSON).
+  separately, with CPU time and the remaining blocked time (lock waits, I/O and
+  descheduling together, never relabelled as database lock time). The two
+  largest components are named per count. Speedup is reported, not assumed: on
+  the measured 4-CPU host, 2 workers ran at 1.12x and 8 workers at 0.49x, with
+  queue wait and CPU the top two components throughout.
 - **Counterfactual review cost.** Dependence-first and always-on replay
   counts and seconds are compared.
 - **Event replay.** Projection rebuild time and peak Python memory are
   measured at the listed sizes. A size that is not in the JSON was not run.
+  On the measured host, 1M events rebuilt in about 20 seconds. These events
+  change no projection state, so the figure bounds scanning the log, not
+  rebuilding heavy projections; snapshots are not profiled.
 - **Many agents on one store.** Up to 50 agents with skewed traffic: tail
   latency, worst-agent tail, starvation and fairness.
 - **Storage.** SQLite throughput, retries and consistency. PostgreSQL is

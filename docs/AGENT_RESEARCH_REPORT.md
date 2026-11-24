@@ -25,6 +25,7 @@ left out.
 | N6 | Planner errors hurt governed and pooled memory equally; governance does not correct a wrong decision on correct evidence | SCRIPTED | [scripted-ablation-dev.json](../research/results/agent-outcomes/scripted-ablation-dev.json) (`orthogonal`) |
 | N7 | More process workers did not help on the measured host; eight workers were slower than one | SCRIPTED | [performance-dev.json](../research/results/agent-outcomes/performance-dev.json) |
 | N8 | A permitted record worded unlike the query is missed and reported as not available (a false denial) | SCRIPTED | [diagnosis-dev.json](../research/results/agent-outcomes/diagnosis-dev.json) |
+| N9 | Harder worlds (readings from 2 or 8 other instruments) make governed and pooled memory abstain alike; governance does not help disambiguate sources | SCRIPTED | [scripted-ablation-dev.json](../research/results/agent-outcomes/scripted-ablation-dev.json) (`orthogonal.world_difficulty_distractor_instruments`) |
 
 ## Findings
 

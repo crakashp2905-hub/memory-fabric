@@ -6274,6 +6274,23 @@
      "governed_fooled": false,
      "roots": 1
     }
+   },
+   "world_difficulty_distractor_instruments": {
+    "0": {
+     "A3": 1.0,
+     "A5": 1.0,
+     "A5_minus_A3": 0.0
+    },
+    "2": {
+     "A3": 0.0,
+     "A5": 0.0,
+     "A5_minus_A3": 0.0
+    },
+    "8": {
+     "A3": 0.0,
+     "A5": 0.0,
+     "A5_minus_A3": 0.0
+    }
    }
   },
   "metric": "completion",

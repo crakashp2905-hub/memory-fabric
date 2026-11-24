@@ -116,6 +116,24 @@ def _without_marker(seed: int) -> Any:
     return task
 
 
+def _with_distractors(seed: int, count: int) -> Any:
+    """World difficulty: ``count`` readings from other instruments arrive with the real one."""
+    import random as _random
+
+    task = build_task("public_correction", seed)
+    original, rng = task.world.feed, _random.Random(f"distract:{count}:{seed}")
+    extra = [{"data": {"source": f"instrument-{chr(66 + i)}", "status": "initial",
+                       "value": rng.randint(10, 60)},
+              "event_id": f"reading-other-{i}", "kind": "observation", "revision_epoch": 0,
+              "tick": 0} for i in range(count)]
+
+    def feed(tick: int) -> list[dict[str, Any]]:
+        return [*extra, *original(tick)]
+
+    setattr(task.world, "feed", feed)
+    return task
+
+
 def _noisy_planner(rate: float, seed: int) -> Any:
     """A scripted planner that proposes a wrong value with probability ``rate`` (a proxy, not a model)."""
     import random as _random
@@ -157,10 +175,12 @@ def orthogonal(seeds: int = 8) -> dict[str, Any]:
     accuracy = {str(rate): rates(lambda seed: build_task("public_correction", seed),
                                  lambda seed, r=rate: _noisy_planner(r, seed))
                 for rate in (0.0, 0.25, 0.5)}
+    difficulty = {str(n): rates(lambda seed, k=n: _with_distractors(seed, k)) for n in (0, 2, 8)}
     stress = outcome_poisoning.run()["amplification_stress"]
     return {"metric": "completion", "factors": {
         "correction_timing_tick": timing, "evidence_quality": quality,
         "planner_error_rate_proxy": accuracy,
+        "world_difficulty_distractor_instruments": difficulty,
         "source_independence_colluders": {str(r["colluders"]): {"roots": r["roots_false"],
                                                                 "governed_fooled": r["governed_fooled"]}
                                           for r in stress}},
