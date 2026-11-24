@@ -1,0 +1,61 @@
+{
+ "agent": {
+  "reason": "no learned-agent matched study with Vega exists",
+  "status": "AGENT_NOT_RUN"
+ },
+ "ci_covers": [
+  "core",
+  "docs"
+ ],
+ "commit": "a8263f01da4f58cb42b606fe6b7af9ad703a234f",
+ "core": {
+  "status": "CORE_PASS",
+  "summary": "87 passed, 1 skipped, 45 subtests passed in 1.85s"
+ },
+ "docs": {
+  "problems": [],
+  "status": "DOCS_CONSISTENT"
+ },
+ "model": {
+  "note": "a smoke pass is one real decision, never efficacy evidence",
+  "receipt": {
+   "adapter": "vega_u.v1",
+   "endpoint": "http://127.0.0.1:8011",
+   "evidence_level": "VEGA_MODEL_SMOKE",
+   "latency_s": 0.9195,
+   "n_tokens": 73,
+   "pins": {
+    "calibration_version": null,
+    "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+    "reader": "Qwen3.5-0.8B",
+    "runtime_version": "0.19.0"
+   },
+   "receipt_digest": "a32ca215f45231124cbf79cb5c9a899c90433982d819899748b1d5c3a492269d",
+   "reported": {
+    "calibration_version": null,
+    "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+    "reader": "Qwen3.5-0.8B",
+    "runtime_version": "0.19.0"
+   },
+   "request_digest": "27b1d6489c130a2485e0517344b324a51e9b275a191efdab1449dde04e91e447",
+   "response_digest": "7e3c613e1ec6354d4c9e45c9984738260e2fe0a13caf7ee676cd326c6e19ed7a",
+   "server_latency_ms": 910.8,
+   "status": "ANSWERED"
+  },
+  "status": "VEGA_MODEL_SMOKE_PASS"
+ },
+ "release": {
+  "reason": "no independent pilot or security review",
+  "status": "RELEASE_NO_GO"
+ },
+ "research": {
+  "problems": [
+   "underpowered: 56 pairs, 112 needed",
+   "NO_GO: development evidence already fails the registered safety gate (unsafe increase 2)",
+   "status is DRAFT, not FROZEN"
+  ],
+  "status": "RESEARCH_NO_GO"
+ },
+ "schema_id": "memory-fabric.vega-cdm-gate.v1",
+ "statement": "green CI is CORE_PASS and DOCS_CONSISTENT only; it is not model efficacy"
+}
