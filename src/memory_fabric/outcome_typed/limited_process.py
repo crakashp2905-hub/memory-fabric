@@ -5,6 +5,10 @@ set in the child before it executes, plus a wall-clock timeout. Where the platfo
 ``resource`` module (Windows) or refuses a limit, it does **not** run the command: it
 returns ``UNSUPPORTED_PLATFORM`` naming the missing limit, so an unbounded process is never
 the silent fallback.
+
+The superuser ignores ``RLIMIT_NPROC``, so a child started by root drops to the unprivileged
+``nobody`` identity (uid/gid 65534) before exec; if that is refused the command is not run
+(freeze plan F09-02: a fork bomb is contained, not merely discouraged).
 """
 
 from __future__ import annotations
@@ -12,9 +16,12 @@ from __future__ import annotations
 __stability__ = "experimental"
 
 import importlib
+import os
 import subprocess
 from dataclasses import dataclass
 from typing import Any, Sequence
+
+UNPRIVILEGED = 65534
 
 
 @dataclass(frozen=True)
@@ -56,7 +63,11 @@ def run_limited(argv: Sequence[str], *, cpu_seconds: int, memory_bytes: int, max
         if "RLIMIT_NPROC" in have:
             soft, hard = res.getrlimit(res.RLIMIT_NPROC)
             cap = max_processes if hard == res.RLIM_INFINITY else min(max_processes, hard)
-            res.setrlimit(res.RLIMIT_NPROC, (cap, hard))
+            res.setrlimit(res.RLIMIT_NPROC, (cap, cap))
+            if hasattr(os, "geteuid") and os.geteuid() == 0:
+                os.setgroups([]) if hasattr(os, "setgroups") else None
+                os.setgid(UNPRIVILEGED)
+                os.setuid(UNPRIVILEGED)
 
     try:
         done = subprocess.run(list(argv), input=stdin, capture_output=True, text=True, timeout=timeout_seconds,
