@@ -40,7 +40,17 @@
     "verdict": "PASS"
    },
    "S3_confirmatory": {
-    "verdict": "NOT_RUN"
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "model_calls": 166,
+    "model_failures": 0,
+    "n": 300,
+    "observed": 0.15,
+    "stage": "S3_confirmatory",
+    "threshold": 0.02,
+    "verdict": "PASS"
    }
   },
   "planner_completion_gain": {
