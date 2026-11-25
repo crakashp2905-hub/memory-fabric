@@ -117,7 +117,7 @@ def build(vega_url: str | None, ci_audit: str | None) -> dict[str, Any]:
         "INCONCLUSIVE" if cdm["verdict"].startswith("POSITIVE") else "NONPOSITIVE")
     engineering = all(v == "PASS" for v in (core, parity, numeric))
     research = effect == "SUPPORTS_GAIN" and safety == "NONINFERIOR"
-    matrix = {"source_sha": head, "source_dirty": bool(_git("status", "--porcelain")),
+    matrix = {"schema_id": "memory-fabric.vega-next-gate.v1", "source_sha": head, "source_dirty": bool(_git("status", "--porcelain")),
               "ci_at_head": ci_verdict(json.loads(Path(ci_audit).read_text()) if ci_audit else None, head),
               "core_regressions": core, "governance_parity": parity, "numeric_and_identity_safety": numeric,
               "vega_model_smoke": smoke, "local_agent_paired_study": agent_study,

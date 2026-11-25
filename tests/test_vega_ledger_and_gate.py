@@ -89,6 +89,11 @@ class EvidenceLevels(unittest.TestCase):
             data = json.loads(path.read_text())
             if data.get("schema_id") in RECORDS_WITHOUT_A_LEVEL:
                 continue  # baselines, CI audits and failure traces are records, not result reports
+            if data.get("schema_id") == "memory-fabric.vega-next-gate.v1":
+                # the next-study matrix: one verdict per gate, never a release or QUALIFIED claim
+                self.assertIn(data["release"], ("RELEASE_NO_GO", "ENGINEERING_GO_ONLY"), path)
+                self.assertNotIn("QUALIFIED", json.dumps(data), path)
+                continue
             if data.get("schema_id") == "memory-fabric.vega-cdm-gate.v1":
                 # gate records carry one verdict per tier instead of one level
                 self.assertEqual(data["release"]["status"], "RELEASE_NO_GO", path)
