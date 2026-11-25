@@ -1,0 +1,101 @@
+{
+ "files": {
+  "CDM value study": {
+   "path": "benchmarks/vega_next_cdm_value.py",
+   "sha256": "194e59a4e4c6f7a6cedfe8603f51ac6a19b2f1f52a446fb6429b98a2d02ace94"
+  },
+  "arms, deterministic rules and metrics": {
+   "path": "benchmarks/vega_next_arms.py",
+   "sha256": "46b6962abd73d5ffb226f2aff13197716aaceac9d3736edc1c91d0710568447d"
+  },
+  "calibration study": {
+   "path": "benchmarks/vega_calibration_study.py",
+   "sha256": "4898363c6fafa2c51039bcedef3dcd80f6207f3192e1d022a43ba1a63a238655"
+  },
+  "omission guard": {
+   "path": "src/memory_fabric/outcome_typed/omission.py",
+   "sha256": "92687bf5954e99eae331285652e924d4adab4715b64d20c504dfa53c20bee5f0"
+  },
+  "planner harness and system prompt": {
+   "path": "benchmarks/vega_next_model_agents.py",
+   "sha256": "f9edc354369c2a23c2aff72f21a2cf518c99e234665d371ca1a93ed595d2d702"
+  },
+  "registration validator and analysis": {
+   "path": "benchmarks/vega_next_confirmatory.py",
+   "sha256": "1c9aa8d190e9c84bb7a0cdf062d331585aaf88b72f5ad8a9f3ae9dee86d01fe3"
+  },
+  "threshold ladder": {
+   "path": "research/prereg/freeze-threshold-ladder.json",
+   "sha256": "f86146773b08a9905b492b11b2d4e302f6bc0ce00cb83bf20fcb9e7e0d5878d8"
+  },
+  "v2 registration (refused)": {
+   "path": "research/prereg/vega-cdm-v2.json",
+   "sha256": "1d3e1061f52475ded5be2fb100ab43f7e80fc7362c2574950eed1ef74344a61c"
+  },
+  "world generator and grader": {
+   "path": "benchmarks/vega_next_worlds.py",
+   "sha256": "539bd6b5aad61623daa09cb6e819ceea21d2b7b65283d0e1747e16562443c5eb"
+  }
+ },
+ "holdout_policy": "the holdout split is read only by `benchmarks.vega_next_confirmatory run` on a frozen registration; no committed result contains a holdout row (tests/test_freeze_release.py::Holdout)",
+ "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+ "metrics": [
+  "safe_success",
+  "completed",
+  "justified_abstention",
+  "unsafe_omission",
+  "unsafe_execution"
+ ],
+ "models": {
+  "planner": [
+   {
+    "digest": "sha256:dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
+    "name": "qwen2.5:1.5b"
+   }
+  ],
+  "vega": {
+   "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "reader": "Qwen3.5-0.8B"
+  }
+ },
+ "schema_id": "memory-fabric.freeze-inputs.v1",
+ "seed_partitions": {
+  "calibration_transfer_risk": {
+   "S1_development_replication": "pilot rows, seeds 10-19",
+   "S2_fresh_pilot": "pilot rows, seeds 20-39",
+   "S3_confirmatory": "holdout rows under a frozen registration"
+  },
+  "cdm_relative_net_utility_gain": {
+   "S1_development_replication": "scripted CDM worlds, seeds 40-49 (200 decisions)",
+   "S2_fresh_pilot": "learned-agent correction tasks, development (200 decisions)",
+   "S3_confirmatory": "learned-agent correction tasks, held-out (300 decisions)"
+  },
+  "planner_completion_gain": {
+   "S1_development_replication": "pilot split, seeds 10-19 (100 tasks)",
+   "S2_fresh_pilot": "pilot split, seeds 20-39 (200 tasks)",
+   "S3_confirmatory": "holdout split, seeds 300-329 (300 tasks)"
+  },
+  "planner_unsafe_omission_bound": {
+   "S1_development_replication": "same population as planner_completion_gain S1",
+   "S2_fresh_pilot": "same as S2",
+   "S3_confirmatory": "same as S3"
+  },
+  "vega_margin_over_parser": {
+   "S1_development_replication": "pilot split, seeds 10-29 (200 paired tasks; seeds 0-9 are spent)",
+   "S2_fresh_pilot": "pilot split, seeds 30-69 (400 paired tasks)",
+   "S3_confirmatory": "holdout split, seeds 200-263 under a frozen v3 registration (640 paired tasks)"
+  },
+  "vega_margin_over_shuffled_placebo": {
+   "S1_development_replication": "pilot split, seeds 10-29 (200 paired tasks; seeds 0-9 are spent)",
+   "S2_fresh_pilot": "pilot split, seeds 30-69 (400 paired tasks)",
+   "S3_confirmatory": "holdout split, seeds 200-263 under a frozen v3 registration (640 paired tasks)"
+  },
+  "vega_unsafe_omission_bound": {
+   "S1_development_replication": "pilot split, seeds 10-29 (200 paired tasks; seeds 0-9 are spent)",
+   "S2_fresh_pilot": "pilot split, seeds 30-69 (400 paired tasks)",
+   "S3_confirmatory": "holdout split, seeds 200-263 under a frozen v3 registration (640 paired tasks)"
+  }
+ },
+ "source_sha": "9f597f99605f0e75a8ebee97dc9c4dbc90a87109",
+ "system_prompt_sha256": "fc8f724d89026af504a043f5688dd3119d51b529060a9023a44e27addccdb873"
+}

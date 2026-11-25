@@ -1,0 +1,65 @@
+{
+ "all_steps_exited_zero": false,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "core",
+ "limitations": [
+  "staging-host and physical multi-host gates have not run (no staging host available)",
+  "exact-SHA CI is audited after the candidate is pushed; an audit for another SHA does not count"
+ ],
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "9f597f99605f0e75a8ebee97dc9c4dbc90a87109",
+ "steps": [
+  {
+   "command": "python -m pytest -q -p no:cacheprovider tests/test_cross_tenant_surface_matrix.py tests/test_enforcement_tenant.py tests/test_effect_transport_parity.py tests/test_action_fence_typed.py tests/test_action_crash_typed.py tests/test_action_crash.py tests/test_correction.py tests/test_erasure.py tests/test_erasure_residue.py tests/test_erasure_key_destroy.py tests/test_memory_fabric_migration.py tests/test_key_migration.py tests/test_sensor_entity_claims.py tests/test_semantic_quantities.py tests/test_omission_safety.py tests/test_semantic_verification.py tests/test_n6_08_code_mode_effect_authorization.py",
+   "exit_status": 0,
+   "log": "qualification/logs/core-governance.log",
+   "log_sha256": "f4d7740485bac8f9ff365dfb692b3a217af71000d2b2b422242a4a6070c3e148",
+   "name": "core-governance",
+   "seconds": 78.0,
+   "tail": [
+    "........................................................................ [ 81%]",
+    ".......................                                                  [100%]",
+    "127 passed, 40 subtests passed in 77.50s (0:01:17)"
+   ]
+  },
+  {
+   "command": "python -m pytest -q -p no:cacheprovider tests/test_federation.py tests/test_federation_transport.py tests/test_privacy_federation.py",
+   "exit_status": 0,
+   "log": "qualification/logs/core-federation.log",
+   "log_sha256": "3d6f633fcc2fe979e960ba47cb9c4155c0cd23d26311ef827ab69352d94df390",
+   "name": "core-federation",
+   "seconds": 130.4,
+   "tail": [
+    "..............................................................     [100%]",
+    "62 passed, 6 subtests passed in 129.96s (0:02:09)"
+   ]
+  },
+  {
+   "command": "python tools/check.py",
+   "exit_status": 2,
+   "log": "qualification/logs/core-check.log",
+   "log_sha256": "3bb781054025471b35e76f63bd51956ee87844d4c0d46caaab2af99d67b96c5b",
+   "name": "core-check",
+   "seconds": 18.7,
+   "tail": [
+    "FAILED: mypy",
+    "updated docs/VALIDATION.md",
+    "updated README.md"
+   ]
+  }
+ ],
+ "summary": {
+  "exact_sha_ci": "NOT_AT_THIS_SHA",
+  "federation": true,
+  "lint_types_docs": false,
+  "tenant_effect_correction_erasure_migration_identity": true
+ },
+ "timestamp": "2026-11-25T18:25:05Z"
+}

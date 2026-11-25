@@ -1,0 +1,29 @@
+{
+ "components": {
+  "CDM": "HOLD",
+  "CORE": "HOLD",
+  "FEDERATION": "HOLD: partition and physical multi-host measurements have not run",
+  "MODEL_AGENT": "OFF / supervised only: no independent safety assessment; planner completion is low",
+  "VEGA": "SHADOW: advisory serving only; autonomous influence is HOLD (not specific vs placebo)",
+  "WHOLE_PRODUCT": "NO_GO for 1.0: BLOCKED_EXTERNAL: no independent security review, staging host or supervised pilot"
+ },
+ "gates_at_other_sha": [],
+ "gates_passed": {
+  "agents": false,
+  "cdm": false,
+  "core": false,
+  "operations": false,
+  "performance": false,
+  "security": false,
+  "vega": false
+ },
+ "release_label": "bounded beta: core governance with Vega SHADOW and CDM ADVISORY_ONLY",
+ "schema_id": "memory-fabric.freeze-release.v1",
+ "signoff": {
+  "qualification_owner": null,
+  "release_manager": null,
+  "security_reviewer": null
+ },
+ "source_sha": "9f597f99605f0e75a8ebee97dc9c4dbc90a87109",
+ "timestamp": "2026-11-25T18:25:05Z"
+}

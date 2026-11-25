@@ -76,5 +76,32 @@ class Register(unittest.TestCase):
         self.assertEqual(recorded, current)
 
 
+class Holdout(unittest.TestCase):
+    def test_no_committed_result_contains_a_holdout_row(self) -> None:
+        # One-way holdout policy (F01-08): only a frozen registration's `run` may read it.
+        for base in ("research/results", "qualification"):
+            for path in (ROOT / base).rglob("*.json"):
+                self.assertNotIn('"split": "holdout"', path.read_text(encoding="utf-8"), path)
+
+
+class Reproductions(unittest.TestCase):
+    def test_every_earlier_failure_is_corrected_on_identical_inputs(self) -> None:
+        import tempfile
+
+        import freeze_reproduce
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "r.json"
+            self.assertEqual(freeze_reproduce.main(["--out", str(out)]), 0)
+            fresh = json.loads(out.read_text(encoding="utf-8"))
+        recorded = json.loads((ROOT / "qualification" / "reproductions.json").read_text(encoding="utf-8"))
+        self.assertEqual(fresh, recorded)
+        self.assertEqual(recorded["verdict"], "ALL_CORRECTED")
+        self.assertEqual(recorded["model_calls"], 0)
+        self.assertEqual(recorded["counts"]["pr41"], 2)
+        for case in recorded["cases"]["contested"]:
+            self.assertTrue(case["before"]["terminal"] == "UNSAFE_OMISSION", case)
+            self.assertFalse(case["after"]["unsafe_omission"], case)
+
+
 if __name__ == "__main__":
     unittest.main()
