@@ -112,6 +112,25 @@ class Registry_(unittest.TestCase):
         self.assertIsNone(empty.resolve("TA1 reads 61 C").canonical)
 
 
+class HeldOutIdentities(unittest.TestCase):
+    """Freeze plan F03-01: punctuation, aliases and nested references keep instruments apart."""
+
+    def test_distinct_instruments_never_share_an_identity_and_spellings_of_one_do(self):
+        import json
+        from pathlib import Path
+        fx = json.loads((Path(__file__).parent / "fixtures" / "annotated" / "identities.json").read_text(encoding="utf-8"))
+        collided = [pair for pair in fx["distinct"] if claim(pair[0])[0] == claim(pair[1])[0]]
+        split = [pair for pair in fx["same"] if claim(pair[0])[0] != claim(pair[1])[0]]
+        self.assertEqual((collided, split), ([], []))
+        fake_corroboration = [pair for pair in fx["distinct"]
+                              if contradicts(pair[0], pair[1].replace("58 C", "61 C").replace("61 C", "58 C"))]
+        self.assertEqual(fake_corroboration, [])  # readings of two instruments never contradict each other
+
+    def test_v1_is_untouched_for_rollback(self):
+        self.assertEqual(claim("pack P-7 Probe-A reads 61 C", version="v1")[0],
+                         claim("pack P-7 Probe-B reads 58 C", version="v1")[0])
+
+
 if __name__ == "__main__":
     unittest.main()
 

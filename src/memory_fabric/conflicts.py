@@ -81,7 +81,29 @@ _COMPOUND = re.compile(r"(?<![a-z0-9\-_/])([a-z]{1,6}[0-9][a-z0-9]*(?:-[a-z0-9]+
 # A one-letter designator was dropped as a word, so "probe A" and "probe B" on pack
 # P-7 were one claim with two values.
 _QUALIFIER = re.compile(r"\b(probe|sensor|thermistor|thermocouple|module|cell|channel|bank|string|phase|zone)"
-                        r"\s+([a-z]|[0-9]{1,3}|[a-z]{1,3}[0-9]{1,3})\b")
+                        r"\s+([0-9]{1,3}-[0-9]{1,3}|[a-z]|[0-9]{1,3}|[a-z]{1,3}[0-9]{1,3})\b")
+# The same designator written with punctuation or as a spelling-alphabet word: "Probe-A",
+# "probe_A", "probe(A)", "probe #A", "probe 'A'", "sensor TA-1", "cell 3-4", "probe Alpha".
+# Each of these dropped out of the identity, so two instruments read as one claim
+# (freeze plan F03-01, held-out identity fixtures). Normalised to "<noun> <label>" first.
+_SPELLING = {w: w[0] for w in ("alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel",
+                               "india", "juliet", "kilo", "lima", "mike", "november", "oscar", "papa",
+                               "quebec", "romeo", "sierra", "tango", "uniform", "victor", "whiskey",
+                               "xray", "yankee", "zulu")}
+_QUALIFIER_PUNCT = re.compile(
+    r"\b(probe|sensor|thermistor|thermocouple|module|cell|channel|bank|string|phase|zone)"
+    r"(?:\s*[-_#('\"]+\s*|\s+)"  # no ":" or "/": "thermistor: 61" states a value
+    r"(" + "|".join(_SPELLING) + r"|[a-z]{1,3}[-_]?[0-9]{1,3}(?:-[0-9]{1,3})?|[0-9]{1,3}(?:-[0-9]{1,3})?|[a-z])"
+    r"(?![a-z0-9]|-[a-z0-9])[)'\"]?")  # never split a compound such as "P7-A"
+# A unit code and a component joined by a slash: "P7/A" is "P7-A".
+_SLASHED = re.compile(r"(?<![a-z0-9\-_/])([a-z]{1,6}[0-9][a-z0-9]*)/([a-z0-9]{1,3})(?![a-z0-9\-_/])")
+
+
+def _designator(match: "re.Match[str]") -> str:
+    label = match.group(2)
+    label = _SPELLING.get(label, label)
+    label = re.sub(r"(?<=[a-z])[-_](?=[0-9])", "", label)
+    return f" {match.group(1)} {label} "
 
 
 _PLACE = re.compile(r"\b(?:at|in|on|near|from|inside|outside|within)(?:\s+the)?\s+$", re.I)
@@ -165,6 +187,8 @@ def claim(content: str, version: str | None = None) -> tuple[frozenset[str], fro
     # Component identity is kept whole and before the codes are read, so a sensor on a
     # unit is a different subject from the unit's other sensors (W03-02, W03-04).
     if (version or CLAIM_IDENTITY) != "v1":
+        text = _SLASHED.sub(lambda m: f" {m.group(1)}-{m.group(2)} ", text)
+        text = _QUALIFIER_PUNCT.sub(_designator, text)
         for match in _COMPOUND.finditer(text):
             identifiers.add(match.group(1))
         text = _COMPOUND.sub(" ", text)
