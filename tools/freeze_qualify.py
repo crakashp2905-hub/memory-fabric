@@ -62,7 +62,7 @@ def now() -> str:
     return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def run(name: str, argv: list[str], timeout: int = 3600) -> dict[str, Any]:
+def run(name: str, argv: list[str], timeout: int = 3600, expected_exit: int = 0) -> dict[str, Any]:
     LOGS.mkdir(parents=True, exist_ok=True)
     log = LOGS / f"{name}.log"
     started = time.monotonic()
@@ -75,6 +75,7 @@ def run(name: str, argv: list[str], timeout: int = 3600) -> dict[str, Any]:
     log.write_text(text[-200_000:], encoding="utf-8")
     tail = [ln for ln in text.splitlines() if ln.strip()][-3:]
     return {"name": name, "command": " ".join("python" if a == PY else a for a in argv), "exit_status": code,
+            "expected_exit": expected_exit, "as_expected": code == expected_exit,
             "seconds": round(time.monotonic() - started, 1), "log": log.relative_to(ROOT).as_posix(),
             "log_sha256": hashlib.sha256(log.read_bytes()).hexdigest(), "tail": tail}
 
@@ -92,7 +93,7 @@ def record(gate: str, steps: list[dict[str, Any]], summary: dict[str, Any], limi
            extra: dict[str, Any] | None = None) -> dict[str, Any]:
     rec = {"schema_id": "memory-fabric.freeze-gate.v1", "gate": gate, "source_sha": git("rev-parse", "HEAD"),
            "source_dirty": bool(git("status", "--porcelain")), "timestamp": now(), "environment": environment(),
-           "steps": steps, "all_steps_exited_zero": all(s["exit_status"] == 0 for s in steps),
+           "steps": steps, "all_steps_exited_zero": all(s["as_expected"] for s in steps),
            "summary": summary, "limitations": limitations, "reviewer": REVIEWER, **(extra or {})}
     (QUAL / "gates").mkdir(parents=True, exist_ok=True)
     (QUAL / "gates" / f"{gate}.json").write_text(json.dumps(rec, indent=1, sort_keys=True) + "\n", encoding="utf-8")
@@ -121,8 +122,9 @@ def gate_core() -> dict[str, Any]:
 def gate_vega() -> dict[str, Any]:
     steps = [run("vega-next-gate", [PY, "tools/vega_next_gate.py", "--vega-url", "http://127.0.0.1:8011",
                                     "--out", "qualification/vega-next"], timeout=3600),
+             # The refused v2 registration is the expected outcome: validate exits 2.
              run("vega-v2-registration", [PY, "-m", "benchmarks.vega_next_confirmatory", "validate",
-                                          "research/prereg/vega-cdm-v2.json"]),
+                                          "research/prereg/vega-cdm-v2.json"], expected_exit=2),
              run("freeze-ladder", [PY, "-m", "benchmarks.freeze_ladder", "--check"])]
     matrix = _json("qualification/vega-next/matrix.json") or {}
     calib = _json("research/results/vega-cdm/next/calibration/vega-0.8b.json") or {}
@@ -169,9 +171,11 @@ def gate_agents(local_model: str | None) -> dict[str, Any]:
 
 def gate_security() -> dict[str, Any]:
     steps = [pytest("security-tests", SECURITY_TESTS),
-             run("secret-scan", [PY, "tools/secret_scan.py"]) if (ROOT / "tools/secret_scan.py").is_file()
-             else run("model-attack-check", [PY, "tools/model_attack_check.py"])]
+             run("secret-scan", [PY, "tools/scan_secrets.py"]),
+             run("mutation-check", [PY, "tools/mutation_check.py"], timeout=3600)]
     return record("security", steps, {"internal_tests": steps[0]["exit_status"] == 0,
+                                      "secret_scan": steps[1]["exit_status"] == 0,
+                                      "mutation_check": steps[2]["exit_status"] == 0,
                                       "independent_review": "BLOCKED_EXTERNAL"}, [
         "no independent threat assessment exists; internal self-review cannot close F09-08"])
 
@@ -269,7 +273,8 @@ def main(argv: list[str] | None = None) -> int:
         QUAL.mkdir(exist_ok=True)
         (QUAL / "frozen-inputs.json").write_text(json.dumps(freeze_inputs(), indent=1, sort_keys=True) + "\n",
                                                  encoding="utf-8")
-    gates = ["core", "vega", "cdm", "agents", "security", "performance", "operations"] if args.all else args.gate
+    # agents first: its source stage requires a clean commit, and other gates regenerate files
+    gates = ["agents", "core", "vega", "cdm", "security", "performance", "operations"] if args.all else args.gate
     runners = {"core": gate_core, "vega": gate_vega, "cdm": gate_cdm, "agents": lambda: gate_agents(args.local_model),
                "security": gate_security, "performance": gate_performance, "operations": gate_operations}
     for name in gates:
