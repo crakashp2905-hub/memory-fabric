@@ -1,0 +1,18 @@
+{
+ "amends_ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+ "changes": [
+  {
+   "metric": "cdm_relative_net_utility_gain",
+   "min_n": "unchanged",
+   "population": "scripted CDM worlds, seeds 40-79 (240 decisions; seeds 0-39 are spent)",
+   "stage": "S1_development_replication",
+   "threshold": "unchanged"
+  }
+ ],
+ "digest": "381941e1ecd8f8b5b24027a906235d2860721d2089591642cf1913a147fdd1a7",
+ "number": 1,
+ "reason": "cdm_relative_net_utility_gain S1 declared seeds 40-49, which give 60 decisions (6 packs per task), below its own min_n of 200; as written the stage could never be eligible",
+ "rule": "an amendment may move a stage to fresh, unseen rows; it never changes a threshold or a minimum size",
+ "schema_id": "memory-fabric.freeze-threshold-ladder-amendment.v1",
+ "written_before_data": true
+}

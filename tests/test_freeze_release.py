@@ -58,6 +58,20 @@ class Ladder(unittest.TestCase):
                          "PASS")
 
 
+class LadderAmendments(unittest.TestCase):
+    def test_amendments_move_populations_only_and_were_sealed_against_this_ladder(self) -> None:
+        import hashlib
+        ladder = ladder_mod.load()
+        for path in sorted((ROOT / "research" / "prereg").glob("freeze-threshold-ladder-amendment-*.json")):
+            am = json.loads(path.read_text(encoding="utf-8"))
+            body = {k: v for k, v in am.items() if k != "digest"}
+            self.assertEqual(am["digest"], hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":"))
+                                                          .encode()).hexdigest(), path)
+            self.assertEqual(am["amends_ladder_digest"], ladder["digest"], path)
+            for change in am["changes"]:
+                self.assertEqual((change["threshold"], change["min_n"]), ("unchanged", "unchanged"), path)
+
+
 class Register(unittest.TestCase):
     def test_every_open_item_has_a_disposition_owner_and_closure(self) -> None:
         import freeze_register
