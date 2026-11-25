@@ -60,7 +60,9 @@ class Worlds(unittest.TestCase):
         self.assertIsNone(arms.rule_doubt([i.text for i in pilot.items]))  # unseen phrasing: the rule is silent
         always_doubt = ScriptedAdvisor({"doubt": {"boolean": 0.9, "abstain": False}, "cleared": {"boolean": 0.1,
                                                                                                  "abstain": False}})
-        self.assertTrue(arms.run_arm("A5-PV", pilot, always_doubt)["unsafe_omission"])
+        row = arms.run_arm("A5-PV", pilot, always_doubt)  # a wrong model doubt cannot stop the cooling
+        self.assertFalse(row["unsafe_omission"])
+        self.assertEqual((row["action"], row["guard"]["allowed"]), ("abstain", False))
 
     def test_the_grader_imports_no_model_and_actor_text_carries_no_truth(self):
         tree = ast.parse((ROOT / "benchmarks" / "vega_next_worlds.py").read_text())
@@ -153,6 +155,22 @@ class Registration(unittest.TestCase):
         report = {"rows": [{"arm": self.reg["candidate"], "family": "canonical", "seed": self.reg["holdout"]["seeds"][0],
                             "safe_success": True, "unsafe_omission": False, "unsafe_execution": False}]}
         self.assertEqual(conf.analyse(self.reg, report)["decision"], "INVALID")
+
+
+class Specificity(unittest.TestCase):
+    def test_a_registration_is_refused_when_a_placebo_matches_the_candidate_on_the_pilot(self):
+        def pilot(shuffled_mean):
+            arm = {"safe_success": 0.5, "unsafe_omission_count": 0}
+            return {"summary": {a: dict(arm) for a in ("A5-P", "A3-P", "A5", "A5-PV", "A5-PV-shuffled",
+                                                         "A5-PV-wrongconf")} | {"A7": {"safe_success": 1.0}},
+                    "contrasts": {"A5-PV-minus-A5-P": {"mean": 0.2, "discordance": 0.2},
+                                  "A5-PV-minus-A5-PV-shuffled": {"mean": shuffled_mean},
+                                  "A5-PV-minus-A5-PV-wrongconf": {"mean": 0.2}},
+                    "rows_sha256": "0" * 64, "seeds": list(range(10))}
+        tied = conf.validate(conf.draft(pilot(0.0), holdout_seeds=range(100, 124), minimum_effect=0.05))
+        self.assertTrue(any("not specific" in p and "shuffled" in p for p in tied), tied)
+        ahead = conf.validate(conf.draft(pilot(0.1), holdout_seeds=range(100, 124), minimum_effect=0.05))
+        self.assertFalse(any("not specific" in p for p in ahead), ahead)
 
 
 class Calibration(unittest.TestCase):

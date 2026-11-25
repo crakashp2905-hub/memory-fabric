@@ -80,6 +80,19 @@ class RequiredResponse(unittest.TestCase):
         self.assertTrue(guard("cool_pack", hot, POLICY).allowed)  # a policy with no registered response checks none
 
 
+class ModelSettledContest(unittest.TestCase):
+    def test_a_model_doubt_answer_cannot_replace_cooling_on_contested_readings(self):
+        policy = HazardPolicy("p", (TA1, TB2), response=frozenset({"cool_pack", "cool_and_recalibrate"}))
+        contested = assess(findings("10:00 pack P-7 sensor TA1 reads 61 C", "10:15 pack P-7 sensor TB2 reads 41 C"),
+                           policy)
+        self.assertEqual(contested.status, "CONTESTED")
+        blocked = guard("recalibrate_probe", contested, policy, settled_by_model=True)  # pilot wrong-confidence case
+        self.assertFalse(blocked.allowed)
+        self.assertEqual(omission.terminal_action(blocked), "abstain")
+        self.assertTrue(guard("cool_pack", contested, policy, settled_by_model=True).allowed)
+        self.assertTrue(guard("recalibrate_probe", contested, policy).allowed)  # a deterministic doubt still may
+
+
 class ModelCannotLowerHazard(unittest.TestCase):
     def test_a_confident_reassurance_from_the_model_or_the_text_changes_nothing(self):
         from memory_fabric.causal_replay.semantic.advice import Answer

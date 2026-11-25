@@ -95,8 +95,13 @@ def assess(verification: Any, policy: HazardPolicy) -> Assessment:
 
 
 def guard(action: str | None, assessment: Assessment, policy: HazardPolicy, *,
-          measurement_requests: int = 0) -> GuardResult:
-    """Inaction closes a task only on a verified clear; everything else is unchanged."""
+          measurement_requests: int = 0, settled_by_model: bool = False) -> GuardResult:
+    """Inaction closes a task only on a verified clear; everything else is unchanged.
+
+    ``settled_by_model`` marks a decision whose contested evidence was settled by a learned
+    reader (for example "TA1 may be inaccurate"). A model answer may make the response more
+    protective, never less: under CONTESTED such a decision must still discharge the hazard.
+    """
     kind = classify(action, policy)
     if kind == "abstain":
         return GuardResult(str(action), kind, True, None, "explicit escalation", assessment.status)
@@ -104,6 +109,10 @@ def guard(action: str | None, assessment: Assessment, policy: HazardPolicy, *,
         if assessment.status == "VERIFIED_HAZARD" and policy.response and action not in policy.response:
             return GuardResult(str(action), kind, False, "REVIEW_REQUIRED",
                                f"{action} does not discharge the verified hazard", assessment.status)
+        if assessment.status == "CONTESTED" and settled_by_model and policy.response \
+                and action not in policy.response:
+            return GuardResult(str(action), kind, False, "REVIEW_REQUIRED",
+                               f"a model answer cannot discharge a contested hazard with {action}", assessment.status)
         return GuardResult(str(action), kind, True, None, "intervention", assessment.status)
     if assessment.status == "VERIFIED_CLEAR" and kind == "no_action":
         return GuardResult(str(action), kind, True, None, "verified clear", assessment.status)

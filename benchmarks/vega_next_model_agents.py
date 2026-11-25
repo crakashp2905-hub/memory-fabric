@@ -75,13 +75,13 @@ def run_task(arm: str, world: worlds.World, client: OllamaClient, model: str, ad
                 for s, f in v.findings.items()}
     rule = arms.rule_doubt([p.visible_text for p in bundle.packets])
     label = {"yes": "yes, TA1 may be inaccurate", "cleared": "no, TA1 was recently verified accurate"}
-    doubt, vega_calls = label.get(rule or "", "not found"), 0
+    doubt, vega_calls, settled_by_model = label.get(rule or "", "not found"), 0, False
     if arm == "M-A5-PV" and rule is None and advisor is not None:
         meter: dict[str, Any] = {"calls": 0, "seconds": 0.0, "levels": set(), "over_budget": 0}
         for note in arms._notes(bundle):
             got = arms._ask_doubt(note.visible_text, advisor, meter)
             if got:
-                doubt = label[got] + " (semantic reader)"
+                doubt, settled_by_model = label[got] + " (semantic reader)", True
                 break
         vega_calls = meter["calls"]
     messages = [{"role": "system", "content": SYSTEM},
@@ -99,7 +99,7 @@ def run_task(arm: str, world: worlds.World, client: OllamaClient, model: str, ad
     except Exception as exc:  # noqa: BLE001 - a failed call is an outcome, recorded as such
         content, proposed, failure = "", None, f"{type(exc).__name__}"
     seconds = time.perf_counter() - t0
-    g = guard(proposed, assess(v, arms.POLICY), arms.POLICY)
+    g = guard(proposed, assess(v, arms.POLICY), arms.POLICY, settled_by_model=settled_by_model)
     action = terminal_action(g) if proposed is not None else "abstain"
     graded = worlds.grade(world, action)
     return {"arm": arm, "family": world.family, "split": world.split, "seed": world.seed, "task_id": world.task_id,

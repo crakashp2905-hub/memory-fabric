@@ -164,6 +164,7 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
             bundle = packets.recheck(fabric, bundle, agent_id="planner", tenant_id=worlds.TENANT)
             v = verify(bundle.packets, REGISTRY, HOT, required=POLICY.required_sensors)
             doubt = rule_doubt([p.visible_text for p in bundle.packets])
+            settled_by_model = False
             open_question = (v.findings.get(TA1) and v.findings[TA1].value == "TRUE"
                              and v.findings.get(TB2) and v.findings[TB2].value == "FALSE")
             if "PV" in arm and advisor is not None and not doubt and open_question:
@@ -175,7 +176,7 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
                 for text in notes_text:
                     got = _ask_doubt(text, advisor, meter, invert=arm == "A5-PV-wrongconf")
                     if got:
-                        doubt = got
+                        doubt, settled_by_model = got, True
                         break
             action = typed_decision(v, doubt)
             detail["findings"] = {s[-3:]: f"{f.status}:{f.value}" for s, f in v.findings.items()}
@@ -183,7 +184,7 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
                 changed = [p for p in bundle.packets if p.version > 1]
                 detail["cdm"] = {"replays": len(changed), "skipped_independent": int(not changed), "flips": 0}
             if arm != "A5-PnoG":
-                g = guard(action, assess(v, POLICY), POLICY)
+                g = guard(action, assess(v, POLICY), POLICY, settled_by_model=settled_by_model)
                 detail["guard"] = {"allowed": g.allowed, "replacement": g.replacement, "assessment": g.assessment}
                 action = terminal_action(g)
     finally:

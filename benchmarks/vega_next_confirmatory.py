@@ -72,6 +72,13 @@ def validate(reg: Any, *, check_code: bool = True) -> list[str]:
     headroom = dev.get("pilot_oracle_headroom")
     if headroom is None or float(reg["minimum_effect"]) > float(headroom):
         problems.append(f"minimum effect {reg['minimum_effect']} exceeds pilot oracle headroom {headroom}")
+    for placebo in ("A5-PV-shuffled", "A5-PV-wrongconf"):
+        got = (dev.get("pilot_placebo_difference") or {}).get(placebo)
+        if got is None:
+            problems.append(f"no pilot contrast against the {placebo} placebo")
+        elif float(got) <= 0:
+            problems.append(f"not specific: on the pilot the candidate does not beat the {placebo} placebo "
+                            f"(difference {got}), so a gain could not be credited to what vega-U reads")
     if float(dev.get("pilot_discordance") or 0) <= 0:
         problems.append("power cannot be estimated: the pilot has no discordant pairs, so no effect was seen")
     try:
@@ -177,6 +184,12 @@ def draft(pilot: Mapping[str, Any], *, holdout_seeds: Sequence[int], minimum_eff
                                                                    - summary["A5-P"]["safe_success"], 4),
                                     "pilot_discordance": contrast["discordance"],
                                     "pilot_mean_difference": contrast["mean"],
+                                    "pilot_placebo_difference": {
+                                        p: pilot["contrasts"].get(f"A5-PV-minus-{p}", {}).get("mean")
+                                        for p in ("A5-PV-shuffled", "A5-PV-wrongconf")},
+                                    "pilot_placebo_unsafe_omissions": {
+                                        p: summary[p]["unsafe_omission_count"]
+                                        for p in ("A5-PV-shuffled", "A5-PV-wrongconf") if p in summary},
                                     "pilot_safe_success": {a: summary[a]["safe_success"] for a in comparators},
                                     "pilot_unsafe_omissions": {a: summary[a]["unsafe_omission_count"]
                                                                for a in (*comparators, "A5-PV")}},
