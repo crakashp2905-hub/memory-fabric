@@ -128,7 +128,7 @@ def run(split: str, seeds: Sequence[int], client: OllamaClient, model: str, advi
     contrasts = {f"{a}-minus-{b}": arms.paired(rows, a, b) for a, b in (("M-A5-PV", "M-A5-P"), ("M-A5-P", "M-A5"))}
     return {"schema_id": "memory-fabric.vega-next-model-agents.v1", "split": split, "seeds": list(seeds),
             "summary": summary, "contrasts": contrasts, "rows": rows,
-            "rows_sha256": hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()}
+            "rows_sha256": arms.rows_digest(rows)}
 
 
 def main(argv: Sequence[str] | None = None) -> int:

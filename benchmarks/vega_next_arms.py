@@ -237,6 +237,15 @@ def paired(rows: Sequence[Mapping[str, Any]], left: str, right: str) -> dict[str
             "discordance": round(sum(d != 0 for d in diffs) / n, 4) if n else None}
 
 
+TIMING_FIELDS = ("advisor_seconds", "model_seconds")
+
+
+def rows_digest(rows: Sequence[dict[str, Any]]) -> str:
+    """SHA-256 of the rows without wall-clock fields, so a reproduced run has the same digest."""
+    stable = [{k: v for k, v in r.items() if k not in TIMING_FIELDS} for r in rows]
+    return hashlib.sha256(json.dumps(stable, sort_keys=True, default=str).encode()).hexdigest()
+
+
 def run(split: str, seeds: Sequence[int], advisor: Advisor | None, level: str,
         families: Sequence[str] = worlds.FAMILIES) -> dict[str, Any]:
     rows = []
@@ -253,7 +262,7 @@ def run(split: str, seeds: Sequence[int], advisor: Advisor | None, level: str,
             "arms": list(ARMS), "arm_registry_sha256": hashlib.sha256(json.dumps(ARMS).encode()).hexdigest(),
             "summary": summarize(rows), "contrasts": contrasts,
             "verdict": "DEVELOPMENT_ONLY" if split == "dev" else "HOLDOUT_REQUIRES_FROZEN_REGISTRATION",
-            "rows_sha256": hashlib.sha256(json.dumps(rows, sort_keys=True, default=str).encode()).hexdigest(),
+            "rows_sha256": rows_digest(rows),
             "rows": rows}
 
 
