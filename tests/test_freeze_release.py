@@ -76,6 +76,17 @@ class Register(unittest.TestCase):
         self.assertEqual(recorded, current)
 
 
+class ApiFreeze(unittest.TestCase):
+    def test_the_public_surface_matches_the_freeze_base_or_a_justified_change(self) -> None:
+        import hashlib
+        pin = json.loads((ROOT / "qualification" / "api-freeze.json").read_text(encoding="utf-8"))
+        current = hashlib.sha256((ROOT / pin["inventory"]).read_bytes()).hexdigest()
+        allowed = {pin["inventory_sha256"]} | {c["inventory_sha256"] for c in pin["changes"]}
+        self.assertIn(current, allowed, "public API changed during the freeze without a recorded justification")
+        for change in pin["changes"]:
+            self.assertTrue(change.get("justification") and change.get("test_or_threat"), change)
+
+
 class Holdout(unittest.TestCase):
     def test_no_committed_result_contains_a_holdout_row(self) -> None:
         # One-way holdout policy (F01-08): only a frozen registration's `run` may read it.

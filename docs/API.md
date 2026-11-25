@@ -261,7 +261,7 @@ ActionDecision(allowed: 'bool', tool: 'str', agent_id: 'str', reason_codes: 'tup
 ### `actions.Approval` (beta)
 
 ```python
-Approval(approver_id: str, certificate_digest: str, binding: str | None = None)
+Approval(approver_id: str, certificate_digest: str, binding: str | None = None, expires_ms: int | None = None)
 ```
 
 A human's approval, bound to one certificate or named certificate set.
