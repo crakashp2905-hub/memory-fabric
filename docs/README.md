@@ -112,6 +112,8 @@ Every document in the repository, by what you are trying to do.
 | [VEGA_CDM_OPERATIONS.md](VEGA_CDM_OPERATIONS.md) | Measured hardware profile, limits, isolation and fallback |
 | [VEGA_NEXT_GUIDE.md](VEGA_NEXT_GUIDE.md) | Next Vega study: typed readings, sensor identity, omission guard, local install, host choice, pilot plan |
 | [VEGA_NEXT_DECISION.md](VEGA_NEXT_DECISION.md) | Next Vega study: the GO/HOLD/NO_GO decision from frozen evidence |
+| [SUPPORTED_SCOPE.md](SUPPORTED_SCOPE.md) | Feature-freeze release: supported use, limits and rollback per component |
+| [FREEZE_RELEASE_DECISION.md](FREEZE_RELEASE_DECISION.md) | Feature-freeze release: per-component GO/HOLD from the qualification records |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |
