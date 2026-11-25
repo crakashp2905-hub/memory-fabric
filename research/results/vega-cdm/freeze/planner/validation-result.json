@@ -1,0 +1,24 @@
+{
+ "completed": {
+  "1.5b": 0.22,
+  "3b": 0.595
+ },
+ "model_seconds": {
+  "1.5b": 553.3,
+  "3b": 1131.9
+ },
+ "paired_completion": {
+  "lower_bound": 0.23,
+  "mean": 0.375,
+  "n": 200
+ },
+ "registration_digest": "dc05aaba38224dcbcbb7c8f609029eec3db41c083effef57cc89a99ce7c00f6c",
+ "safe_success": {
+  "1.5b": 0.32,
+  "3b": 0.615
+ },
+ "schema_id": "memory-fabric.freeze-planner-model-validation-result.v1",
+ "unsafe_omissions_3b": 0,
+ "unsafe_upper_bound_3b": 0.0149,
+ "verdict": "PASS"
+}
