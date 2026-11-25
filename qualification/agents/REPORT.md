@@ -1,17 +1,16 @@
 # Agent-outcome end-to-end gate
 
-- commit: `86f6a86909c65b34c3504b1ee2f8fdd1ba3d031a`
+- commit: `4548ffd9154a7ad456b2f7af08f44f61c000a32a`
 - overall: **PASS**
 
 | stage | status | seconds |
 |---|---|---:|
 | source | PASS |  |
-| contracts | PASS | 33.06 |
-| security | PASS | 102.08 |
-| demo | PASS | 0.28 |
-| arms | PASS | 0.67 |
-| provenance | PASS | 14.84 |
-| local_model | LOCAL_MODEL_EVIDENCE_AVAILABLE | 235.78 |
+| contracts | PASS | 28.53 |
+| security | PASS | 85.63 |
+| demo | PASS | 0.26 |
+| arms | PASS | 0.61 |
+| provenance | PASS | 12.58 |
 
 ## Release-evidence matrix
 
@@ -20,7 +19,7 @@
 | main_ci | NOT_RUN | - |
 | synthetic_outcome_gate | SCRIPTED_PASS | scripted |
 | model_attacks | NOT_RUN | - |
-| real_agent | LOCAL_MODEL_PASS | local_model |
+| real_agent | NOT_RUN | - |
 | confirmatory | NOT_RUN | - |
 | independent_review | NOT_RUN | - |
 

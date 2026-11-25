@@ -1,0 +1,79 @@
+{
+ "all_steps_exited_zero": true,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "vega",
+ "limitations": [
+  "the v2 confirmatory study is refused as not specific; no holdout was read",
+  "the hot (numeric) question is never used: numbers come from the deterministic extractor",
+  "latency and RSS measured on a 4-CPU Linux container only"
+ ],
+ "model": null,
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "steps": [
+  {
+   "as_expected": true,
+   "command": "python tools/vega_next_gate.py --vega-url http://127.0.0.1:8011 --out qualification/vega-next",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/vega-next-gate.log",
+   "log_sha256": "f917edb41336dcf756c75e3bebb7b129bbe2d68d892d960f729ae7a44df74e02",
+   "name": "vega-next-gate",
+   "seconds": 13.9,
+   "tail": [
+    " \"source_sha\": \"4548ffd9154a7ad456b2f7af08f44f61c000a32a\",",
+    " \"vega_model_smoke\": \"PASS\"",
+    "}"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python -m benchmarks.vega_next_confirmatory validate research/prereg/vega-cdm-v2.json",
+   "exit_status": 2,
+   "expected_exit": 2,
+   "log": "qualification/logs/vega-v2-registration.log",
+   "log_sha256": "453d19db0585f5d992309b4234baff7249faa64ee9c0a6456f6ca6a57eefc749",
+   "name": "vega-v2-registration",
+   "seconds": 0.1,
+   "tail": [
+    "  \"analysis or arms code changed after the registration was written\"",
+    " ]",
+    "}"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python -m benchmarks.freeze_ladder --check",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/freeze-ladder.log",
+   "log_sha256": "98132ab1d024b00a83395835a9c66663c3db5c09dabb0c7366d71ba2b0e469d3",
+   "name": "freeze-ladder",
+   "seconds": 0.0,
+   "tail": [
+    "PASS ladder 0c4bdf2b6857"
+   ]
+  }
+ ],
+ "summary": {
+  "calibration_modes": {
+   "cleared": "REVIEW_ONLY",
+   "doubt": "ADVISORY",
+   "hot": "ADVISORY"
+  },
+  "governance_parity": "PASS",
+  "ladder_intact": true,
+  "model_smoke": "PASS",
+  "numeric_identity_safety": "PASS",
+  "specificity_diagnosis": "DIAGNOSED: acceptance rule discards contradictory answers; content dependence present",
+  "v2_registration_refused": true
+ },
+ "timestamp": "2026-11-25T21:56:00Z"
+}

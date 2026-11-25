@@ -2,7 +2,7 @@
 
 - decision: **HOLD**
   - scripted development evidence cannot promote; PASS needs confirmatory evidence under a frozen registration
-- source: `86f6a86909c65b34c3504b1ee2f8fdd1ba3d031a`; evidence type: `scripted`
+- source: `4548ffd9154a7ad456b2f7af08f44f61c000a32a`; evidence type: `scripted`
 - task set: `a4a263055ea848dae3ef35e8c6455328858abbd84eb5a7e49a07d9513223f506`; unit: world seed cluster (one task per family and seed)
 - uncertainty: NOT_ASSESSABLE: deterministic policy; seeds add no variance
 

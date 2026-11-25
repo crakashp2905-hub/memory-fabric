@@ -1,0 +1,44 @@
+{
+ "all_steps_exited_zero": true,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "performance",
+ "limitations": [
+  "only this Linux container was measured; no 16 GB Apple Silicon or staging host"
+ ],
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "steps": [
+  {
+   "as_expected": true,
+   "command": "python tools/vega_next_perf.py --out qualification/perf.json",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/perf.log",
+   "log_sha256": "1c3e5e247d74cd46f88b0f7f3c9ea0e2c492724f2eb5658f89fcf6094f2103b6",
+   "name": "perf",
+   "seconds": 1.5,
+   "tail": [
+    "  \"includes\": \"process start and queueing\"",
+    " }",
+    "}"
+   ]
+  }
+ ],
+ "summary": {
+  "measured_host": {
+   "cpus": 4,
+   "machine": "x86_64",
+   "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+   "python": "3.13.18"
+  },
+  "record": "qualification/perf.json"
+ },
+ "timestamp": "2026-11-25T21:58:36Z"
+}

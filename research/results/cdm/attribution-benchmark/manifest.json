@@ -1,100 +1,228 @@
 {
   "arms": {
     "car_full_suffix": {
-      "decision_flips": 11,
-      "mean_paired_utility_difference": -0.135,
+      "decision_flips": 8,
+      "max_peak_memory_bytes": 7202,
+      "mean_cpu_nanoseconds": 4278178.3,
+      "mean_paired_utility_difference": -0.355,
+      "mean_wall_nanoseconds": 4285284.9,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.4670374455737754,
-        0.1970374455737754
+        -0.6392,
+        -0.07080000000000003
       ]
     },
     "exact_shapley": {
-      "decision_flips": 11,
-      "mean_paired_utility_difference": -0.28500000000000003,
+      "decision_flips": 7,
+      "max_peak_memory_bytes": 46753,
+      "mean_cpu_nanoseconds": 14522495.65,
+      "mean_paired_utility_difference": -0.32999999999999996,
+      "mean_wall_nanoseconds": 14556953.1,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.5719611783756418,
-        0.0019611783756416368
+        -0.6158404560516048,
+        -0.044159543948395164
       ]
     },
     "exact_subset_oracle": {
-      "decision_flips": 11,
-      "mean_paired_utility_difference": -0.135,
+      "decision_flips": 8,
+      "max_peak_memory_bytes": 7202,
+      "mean_cpu_nanoseconds": 3714994.95,
+      "mean_paired_utility_difference": -0.355,
+      "mean_wall_nanoseconds": 3713009.25,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.4670374455737754,
-        0.1970374455737754
+        -0.6392,
+        -0.07080000000000003
       ]
     },
     "leave_one_out": {
-      "decision_flips": 11,
-      "mean_paired_utility_difference": -0.135,
+      "decision_flips": 8,
+      "max_peak_memory_bytes": 7202,
+      "mean_cpu_nanoseconds": 3684039.55,
+      "mean_paired_utility_difference": -0.355,
+      "mean_wall_nanoseconds": 3673557.05,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.4670374455737754,
-        0.1970374455737754
+        -0.6392,
+        -0.07080000000000003
       ]
     },
     "random": {
-      "decision_flips": 10,
-      "mean_paired_utility_difference": -0.135,
+      "decision_flips": 5,
+      "max_peak_memory_bytes": 3530,
+      "mean_cpu_nanoseconds": 499864.8,
+      "mean_paired_utility_difference": -0.205,
+      "mean_wall_nanoseconds": 491689.7,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.41770204139787587,
-        0.14770204139787585
+        -0.3976050718029266,
+        -0.012394928197073357
       ]
     },
     "recency": {
-      "decision_flips": 6,
-      "mean_paired_utility_difference": -0.08499999999999999,
+      "decision_flips": 4,
+      "max_peak_memory_bytes": 3530,
+      "mean_cpu_nanoseconds": 457159.8,
+      "mean_paired_utility_difference": -0.125,
+      "mean_wall_nanoseconds": 449840.65,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.2131910662787552,
-        0.043191066278755214
+        -0.29732695362991945,
+        0.04732695362991948
       ]
     },
     "sampled_shapley": {
-      "decision_flips": 11,
-      "mean_paired_utility_difference": -0.28500000000000003,
+      "decision_flips": 8,
+      "max_peak_memory_bytes": 281922,
+      "mean_cpu_nanoseconds": 652881068.2,
+      "mean_paired_utility_difference": -0.305,
+      "mean_wall_nanoseconds": 654963869.2,
       "n": 20,
       "normal_approx_95_interval": [
-        -0.5719611783756418,
-        0.0019611783756416368
+        -0.5543355338114739,
+        -0.05566446618852611
       ]
     }
   },
-  "csv_sha256": "94eca4906bd9e4e27b5b2a0a4a601bcb0ff281715db50bfed5176529f0c04a50",
-  "generator_sha256": "4f0b8a57be0748950e08663d2ac1bbf54cf069c855be3ea9f334935a1aafaea4",
+  "comparison_contract": {
+    "authority_changes": 0,
+    "cost_basis": "measured local selector plus arm replay CPU/wall; peak is max phase usage",
+    "estimand": "paired counterfactual-minus-factual simulator utility",
+    "hidden_truth_visible_only_after_proposal": true,
+    "network_calls": 0,
+    "removal_budget": 1,
+    "same_one_removal_budget": true,
+    "same_seeded_worlds": true,
+    "tool_calls": 0
+  },
+  "configuration_sha256": "3914af5618b476f04d7547ec00da3e0acd1aa76c8a683a2b0501864c6fa2d5e2",
+  "cost_quality_points": [
+    {
+      "arm": "car_full_suffix",
+      "cost_cpu_nanoseconds": 4278178.3,
+      "max_peak_memory_bytes": 7202,
+      "mean_wall_nanoseconds": 4285284.9,
+      "quality_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ],
+      "quality_mean_utility_difference": -0.355
+    },
+    {
+      "arm": "exact_shapley",
+      "cost_cpu_nanoseconds": 14522495.65,
+      "max_peak_memory_bytes": 46753,
+      "mean_wall_nanoseconds": 14556953.1,
+      "quality_interval": [
+        -0.6158404560516048,
+        -0.044159543948395164
+      ],
+      "quality_mean_utility_difference": -0.32999999999999996
+    },
+    {
+      "arm": "exact_subset_oracle",
+      "cost_cpu_nanoseconds": 3714994.95,
+      "max_peak_memory_bytes": 7202,
+      "mean_wall_nanoseconds": 3713009.25,
+      "quality_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ],
+      "quality_mean_utility_difference": -0.355
+    },
+    {
+      "arm": "leave_one_out",
+      "cost_cpu_nanoseconds": 3684039.55,
+      "max_peak_memory_bytes": 7202,
+      "mean_wall_nanoseconds": 3673557.05,
+      "quality_interval": [
+        -0.6392,
+        -0.07080000000000003
+      ],
+      "quality_mean_utility_difference": -0.355
+    },
+    {
+      "arm": "random",
+      "cost_cpu_nanoseconds": 499864.8,
+      "max_peak_memory_bytes": 3530,
+      "mean_wall_nanoseconds": 491689.7,
+      "quality_interval": [
+        -0.3976050718029266,
+        -0.012394928197073357
+      ],
+      "quality_mean_utility_difference": -0.205
+    },
+    {
+      "arm": "recency",
+      "cost_cpu_nanoseconds": 457159.8,
+      "max_peak_memory_bytes": 3530,
+      "mean_wall_nanoseconds": 449840.65,
+      "quality_interval": [
+        -0.29732695362991945,
+        0.04732695362991948
+      ],
+      "quality_mean_utility_difference": -0.125
+    },
+    {
+      "arm": "sampled_shapley",
+      "cost_cpu_nanoseconds": 652881068.2,
+      "max_peak_memory_bytes": 281922,
+      "mean_wall_nanoseconds": 654963869.2,
+      "quality_interval": [
+        -0.5543355338114739,
+        -0.05566446618852611
+      ],
+      "quality_mean_utility_difference": -0.305
+    }
+  ],
+  "cost_quality_protocol": "research/prereg/cdm-r8-cost-quality-pareto.md",
+  "csv_sha256": "3489c471ab5d17c033a6dedf561c784beb2f1290c1a213b7dff4a8e3f11bf2ea",
+  "generator_sha256": "0208986d88c29fe2581fbc26117c366ee6f8de9cc1a8d9d8aa919cf842017828",
   "known_limitations": [
     "synthetic worlds only",
     "normal-approximation intervals",
     "exact subset and CAR arms share the exhaustive candidate selector",
     "not evidence of deployment efficacy"
   ],
-  "report_sha256": "0ce18e465274635ab30b0770942eef3d9c3b3dbc8fde503b9593113e366228f9",
+  "pareto_frontier": [
+    {
+      "arm": "recency",
+      "cost_cpu_nanoseconds": 457159.8,
+      "max_peak_memory_bytes": 3530,
+      "mean_wall_nanoseconds": 449840.65,
+      "quality_interval": [
+        -0.29732695362991945,
+        0.04732695362991948
+      ],
+      "quality_mean_utility_difference": -0.125
+    }
+  ],
+  "preregistration": "research/prereg/cdm-r8-cost-quality-pareto.md",
+  "preregistration_sha256": "bb601c75f4f174adfc7c491fbf0522d1cd92301965511659821b5271a2d22839",
+  "report_sha256": "e11eb46fb7ef5d8b894595a7911e2a13473a12f377d54c9b115d6f06c9031518",
   "schema": "cdm-attribution-benchmark-v1",
   "scope": "matched synthetic binary sensor worlds; proposal-score attribution; outcome utility evaluator-only",
   "seeds": [
-    20261301,
-    20261302,
-    20261303,
-    20261304,
-    20261305,
-    20261306,
-    20261307,
-    20261308,
-    20261309,
-    20261310,
-    20261311,
-    20261312,
-    20261313,
-    20261314,
-    20261315,
-    20261316,
-    20261317,
-    20261318,
-    20261319,
-    20261320
+    20261321,
+    20261322,
+    20261323,
+    20261324,
+    20261325,
+    20261326,
+    20261327,
+    20261328,
+    20261329,
+    20261330,
+    20261331,
+    20261332,
+    20261333,
+    20261334,
+    20261335,
+    20261336,
+    20261337,
+    20261338,
+    20261339,
+    20261340
   ]
 }

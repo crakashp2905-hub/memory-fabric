@@ -1,5 +1,5 @@
 {
- "all_steps_exited_zero": false,
+ "all_steps_exited_zero": true,
  "environment": {
   "cpus": 4,
   "machine": "x86_64",
@@ -14,52 +14,58 @@
  "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
  "schema_id": "memory-fabric.freeze-gate.v1",
  "source_dirty": true,
- "source_sha": "9f597f99605f0e75a8ebee97dc9c4dbc90a87109",
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
  "steps": [
   {
+   "as_expected": true,
    "command": "python -m pytest -q -p no:cacheprovider tests/test_cross_tenant_surface_matrix.py tests/test_enforcement_tenant.py tests/test_effect_transport_parity.py tests/test_action_fence_typed.py tests/test_action_crash_typed.py tests/test_action_crash.py tests/test_correction.py tests/test_erasure.py tests/test_erasure_residue.py tests/test_erasure_key_destroy.py tests/test_memory_fabric_migration.py tests/test_key_migration.py tests/test_sensor_entity_claims.py tests/test_semantic_quantities.py tests/test_omission_safety.py tests/test_semantic_verification.py tests/test_n6_08_code_mode_effect_authorization.py",
    "exit_status": 0,
+   "expected_exit": 0,
    "log": "qualification/logs/core-governance.log",
-   "log_sha256": "f4d7740485bac8f9ff365dfb692b3a217af71000d2b2b422242a4a6070c3e148",
+   "log_sha256": "a18e802c885a5180bf95742452c9bae28178be16118b4ffb8e1b82f25c91a682",
    "name": "core-governance",
-   "seconds": 78.0,
+   "seconds": 6.9,
    "tail": [
-    "........................................................................ [ 81%]",
-    ".......................                                                  [100%]",
-    "127 passed, 40 subtests passed in 77.50s (0:01:17)"
+    "........................................................................ [ 78%]",
+    ".............................                                            [100%]",
+    "133 passed, 40 subtests passed in 6.47s"
    ]
   },
   {
+   "as_expected": true,
    "command": "python -m pytest -q -p no:cacheprovider tests/test_federation.py tests/test_federation_transport.py tests/test_privacy_federation.py",
    "exit_status": 0,
+   "expected_exit": 0,
    "log": "qualification/logs/core-federation.log",
-   "log_sha256": "3d6f633fcc2fe979e960ba47cb9c4155c0cd23d26311ef827ab69352d94df390",
+   "log_sha256": "7e737cb3112d8739b612f1974e2e91641c3b17dbf57f235aa52ddc553620fa07",
    "name": "core-federation",
-   "seconds": 130.4,
+   "seconds": 8.2,
    "tail": [
     "..............................................................     [100%]",
-    "62 passed, 6 subtests passed in 129.96s (0:02:09)"
+    "62 passed, 6 subtests passed in 7.84s"
    ]
   },
   {
-   "command": "python tools/check.py",
-   "exit_status": 2,
+   "as_expected": true,
+   "command": "/tmp/claude-0/-home-user-memory-fabric/7636f4b1-eb33-5069-8853-314b2f315671/scratchpad/venv/bin/python tools/check.py",
+   "exit_status": 0,
+   "expected_exit": 0,
    "log": "qualification/logs/core-check.log",
-   "log_sha256": "3bb781054025471b35e76f63bd51956ee87844d4c0d46caaab2af99d67b96c5b",
+   "log_sha256": "4801c43a7fa1eaf9c33e6dc7b398d49fc4fbe5f4632c6cbfc7872d3a993a841d",
    "name": "core-check",
-   "seconds": 18.7,
+   "seconds": 126.8,
    "tail": [
-    "FAILED: mypy",
-    "updated docs/VALIDATION.md",
-    "updated README.md"
+    "----------------------------------------------------------------------",
+    "Ran 1 test in 1.635s",
+    "OK"
    ]
   }
  ],
  "summary": {
   "exact_sha_ci": "NOT_AT_THIS_SHA",
   "federation": true,
-  "lint_types_docs": false,
+  "lint_types_docs": true,
   "tenant_effect_correction_erasure_migration_identity": true
  },
- "timestamp": "2026-11-25T18:25:05Z"
+ "timestamp": "2026-11-25T21:55:46Z"
 }

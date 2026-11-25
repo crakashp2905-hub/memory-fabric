@@ -1,0 +1,68 @@
+{
+ "all_steps_exited_zero": true,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "security",
+ "limitations": [
+  "no independent threat assessment exists; internal self-review cannot close F09-08"
+ ],
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "steps": [
+  {
+   "as_expected": true,
+   "command": "python -m pytest -q -p no:cacheprovider tests/test_vega_next_security.py tests/test_vega_cdm_security.py tests/test_new_module_redaction.py tests/test_personal_data_redaction.py tests/test_agent_security_fixtures.py",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/security-tests.log",
+   "log_sha256": "5c61c21e45d868cedb874e7f21ebf1f32e590d0bf0185dc512a4f0169b4c47a3",
+   "name": "security-tests",
+   "seconds": 5.4,
+   "tail": [
+    "...........................                           [100%]",
+    "27 passed, 19 subtests passed in 4.97s"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python tools/scan_secrets.py",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/secret-scan.log",
+   "log_sha256": "64eefa857ce650226c42378a58f8fda9ae3663b2e9736e0a98481343bd6c999e",
+   "name": "secret-scan",
+   "seconds": 72.6,
+   "tail": [
+    "scanned: 136 high-severity findings, 0 unexpected"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python tools/mutation_check.py",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/mutation-check.log",
+   "log_sha256": "e6910be23154c7d37223f812ba0d42d4a01d8562ee759c62507e4525b50173f0",
+   "name": "mutation-check",
+   "seconds": 18.7,
+   "tail": [
+    "killed   a summary may drop recorded values  (0.3s)",
+    "killed   a hostile source is not withheld  (0.3s)",
+    "27/27 mutants killed"
+   ]
+  }
+ ],
+ "summary": {
+  "independent_review": "BLOCKED_EXTERNAL",
+  "internal_tests": true,
+  "mutation_check": true,
+  "secret_scan": true
+ },
+ "timestamp": "2026-11-25T21:58:35Z"
+}

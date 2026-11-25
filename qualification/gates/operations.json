@@ -1,0 +1,53 @@
+{
+ "all_steps_exited_zero": true,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "operations",
+ "limitations": [
+  "drills ran against disposable local stores, not a production deployment"
+ ],
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "steps": [
+  {
+   "as_expected": true,
+   "command": "python -m pytest -q -p no:cacheprovider tests/test_backup.py tests/test_backup_custody.py tests/test_backup_restore_qualification.py tests/test_restore_erasure_reconciliation.py tests/test_multiprocess_crash.py tests/test_vega_recovery.py",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/operations-tests.log",
+   "log_sha256": "5d36d19582dc766e495feabf42fdc8528e4db3b8f6c43b4e40c0f012e15d1f74",
+   "name": "operations-tests",
+   "seconds": 8.3,
+   "tail": [
+    ".................................                 [100%]",
+    "33 passed, 23 subtests passed in 7.96s"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python tools/vega_killswitch.py --verify",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/vega-killswitch.log",
+   "log_sha256": "6b15f007ad1d6fb8ecc94a312516b12e48e0b7b48066687bba2c39a7af0612dc",
+   "name": "vega-killswitch",
+   "seconds": 0.3,
+   "tail": [
+    "  \"off_makes_no_model_call\": true",
+    " }",
+    "}"
+   ]
+  }
+ ],
+ "summary": {
+  "backup_restore_crash_recovery": true,
+  "kill_switch_drill": true
+ },
+ "timestamp": "2026-11-25T21:58:45Z"
+}

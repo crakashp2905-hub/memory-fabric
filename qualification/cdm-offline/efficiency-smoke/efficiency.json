@@ -13,7 +13,7 @@
       "branch_recall_at_k": null,
       "candidate_count": 10,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 29051,
+      "frontier_wall_ns": 28806,
       "k": 10,
       "oracle_pivotal_ids": [],
       "peak_tracemalloc_bytes": 1152,
@@ -31,14 +31,14 @@
         "e-00002",
         "e-00004"
       ],
-      "selector_cpu_ns": 10829,
-      "selector_wall_ns": 10851
+      "selector_cpu_ns": 10356,
+      "selector_wall_ns": 10370
     },
     {
       "branch_recall_at_k": null,
       "candidate_count": 100,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 167792,
+      "frontier_wall_ns": 162703,
       "k": 10,
       "oracle_pivotal_ids": [],
       "peak_tracemalloc_bytes": 8104,
@@ -56,14 +56,14 @@
         "e-00053",
         "e-00081"
       ],
-      "selector_cpu_ns": 80690,
-      "selector_wall_ns": 80860
+      "selector_cpu_ns": 85924,
+      "selector_wall_ns": 86094
     },
     {
       "branch_recall_at_k": 0.5,
       "candidate_count": 1000,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 8637043,
+      "frontier_wall_ns": 7578610,
       "k": 10,
       "oracle_pivotal_ids": [
         "e-00175",
@@ -84,14 +84,14 @@
         "e-00412",
         "e-00020"
       ],
-      "selector_cpu_ns": 1086346,
-      "selector_wall_ns": 1089592
+      "selector_cpu_ns": 1033843,
+      "selector_wall_ns": 1034184
     },
     {
       "branch_recall_at_k": null,
       "candidate_count": 10,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 22721,
+      "frontier_wall_ns": 14022,
       "k": 10,
       "oracle_pivotal_ids": [],
       "peak_tracemalloc_bytes": 768,
@@ -109,14 +109,14 @@
         "e-00005",
         "e-00008"
       ],
-      "selector_cpu_ns": 8343,
-      "selector_wall_ns": 8376
+      "selector_cpu_ns": 7725,
+      "selector_wall_ns": 7732
     },
     {
       "branch_recall_at_k": null,
       "candidate_count": 100,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 255200,
+      "frontier_wall_ns": 166825,
       "k": 10,
       "oracle_pivotal_ids": [],
       "peak_tracemalloc_bytes": 3792,
@@ -134,14 +134,14 @@
         "e-00080",
         "e-00046"
       ],
-      "selector_cpu_ns": 75119,
-      "selector_wall_ns": 75513
+      "selector_cpu_ns": 79072,
+      "selector_wall_ns": 79149
     },
     {
       "branch_recall_at_k": 0.3333333333333333,
       "candidate_count": 1000,
       "frontier_start_index": 0,
-      "frontier_wall_ns": 8464348,
+      "frontier_wall_ns": 7633953,
       "k": 10,
       "oracle_pivotal_ids": [
         "e-00508",
@@ -166,8 +166,8 @@
         "e-00138",
         "e-00624"
       ],
-      "selector_cpu_ns": 1059639,
-      "selector_wall_ns": 1062352
+      "selector_cpu_ns": 957212,
+      "selector_wall_ns": 957578
     }
   ],
   "schema": "cdm-efficiency-v1",
@@ -178,21 +178,21 @@
   "summary": {
     "10": {
       "max_peak_bytes": 1152,
-      "p50_cpu_ns": 9586.0,
-      "p95_wall_ns": 8376,
-      "p99_wall_ns": 8376
+      "p50_cpu_ns": 9040.5,
+      "p95_wall_ns": 7732,
+      "p99_wall_ns": 7732
     },
     "100": {
       "max_peak_bytes": 8104,
-      "p50_cpu_ns": 77904.5,
-      "p95_wall_ns": 75513,
-      "p99_wall_ns": 75513
+      "p50_cpu_ns": 82498.0,
+      "p95_wall_ns": 79149,
+      "p99_wall_ns": 79149
     },
     "1000": {
       "max_peak_bytes": 98952,
-      "p50_cpu_ns": 1072992.5,
-      "p95_wall_ns": 1062352,
-      "p99_wall_ns": 1062352
+      "p50_cpu_ns": 995527.5,
+      "p95_wall_ns": 957578,
+      "p99_wall_ns": 957578
     }
   },
   "workload_sha256": "6b93ac7bba2e16f288b3113119d7d2c0bc0921682c4d02290ddf71755213f0d5"
