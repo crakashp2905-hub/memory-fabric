@@ -3,23 +3,19 @@
  "ci_at_head": "INCOMPLETE: audit is for another commit",
  "confirmatory_effect": "NOT_RUN",
  "confirmatory_safety": "NOT_RUN",
- "core_regressions": "FAIL",
+ "core_regressions": "PASS",
  "external_security_review": "BLOCKED_EXTERNAL",
  "governance_parity": "PASS",
  "local_agent_paired_study": "RESEARCH_HOLD",
  "notes": {
   "cdm": "positive net utility on a scripted, deterministic world only; no model-in-the-loop or confirmatory CDM study, so INCONCLUSIVE",
-  "failing_tests": {
-   "tests/test_semantic_quantities.py tests/test_sensor_entity_claims.py tests/test_semantic_verification.py tests/test_omission_safety.py tests/test_causal_graph_constraints.py tests/test_vega_next_security.py tests/test_vega_next_study.py tests/test_vega_u_adapter.py tests/test_semantic_pipeline.py": [
-    "FAILED tests/test_vega_next_study.py::Arms::test_rows_are_reproducible_and_bound_to_a_digest"
-   ]
-  },
-  "release": ""
+  "failing_tests": {},
+  "release": "engineering gates pass; research gates do not, so no release claim"
  },
  "numeric_and_identity_safety": "PASS",
- "release": "RELEASE_NO_GO",
+ "release": "ENGINEERING_GO_ONLY",
  "schema_id": "memory-fabric.vega-next-gate.v1",
  "source_dirty": false,
- "source_sha": "783ec210f3aef0d683c31ed027a0636b77591ae3",
+ "source_sha": "48108c3362017290df227029291be70e0e798b7e",
  "vega_model_smoke": "PASS"
 }
