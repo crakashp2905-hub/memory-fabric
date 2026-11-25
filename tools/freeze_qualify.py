@@ -233,13 +233,22 @@ def component_verdicts() -> dict[str, Any]:
     stale = sorted(k for k, v in g.items() if v and v.get("source_sha") != head)
     external = "BLOCKED_EXTERNAL: no independent security review, staging host or supervised pilot"
     core_ci = (g["core"] or {}).get("summary", {}).get("exact_sha_ci") == "PASS"
+    ladder = (_json("qualification/ladder-results.json") or {}).get("results", {})
+    stage = lambda m, st: ladder.get(m, {}).get(st, {}).get("verdict")  # noqa: E731
+    vega_ok = stage("vega_margin_over_shuffled_placebo", "S1_development_replication") == "PASS"
+    cdm_ok = all(stage("cdm_relative_net_utility_gain", st) == "PASS" for st in
+                 ("S1_development_replication", "S2_fresh_pilot", "S3_confirmatory"))
+    planner = _json("research/results/vega-cdm/freeze/planner/validation-result.json") or {}
     verdicts = {
         "CORE": "HOLD" if not (ok["core"] and ok["security"] and ok["operations"] and core_ci) else
         "HOLD: engineering gates pass; staging and independent review are " + external,
-        "VEGA": "SHADOW: advisory serving only; autonomous influence is HOLD (not specific vs placebo)",
-        "CDM": "ADVISORY_ONLY: deterministic replay qualified offline; automatic repair is HOLD (no held-out "
-               "learned-agent utility)" if ok["cdm"] else "HOLD",
-        "MODEL_AGENT": "OFF / supervised only: no independent safety assessment; planner completion is low",
+        "VEGA": "SHADOW: advisory serving only; autonomous influence " + (
+            "eligible for S2" if vega_ok else "HOLD (S1 margin over the shuffled placebo below the strict bar)"),
+        "CDM": ("ADVISORY_ONLY: deterministic replay qualified offline; automatic replay selection is a candidate "
+                "(all ladder stages pass) pending canary and on-call gates" if cdm_ok else
+                "ADVISORY_ONLY: automatic replay selection HOLD") if ok["cdm"] else "HOLD",
+        "MODEL_AGENT": "supervised only: no independent safety assessment; pinned planner " + (
+            "Qwen2.5-3B (validation PASS)" if planner.get("verdict") == "PASS" else "Qwen2.5-1.5B"),
         "FEDERATION": "HOLD: partition and physical multi-host measurements have not run",
         "WHOLE_PRODUCT": "NO_GO for 1.0: " + external}
     return {"schema_id": "memory-fabric.freeze-release.v1", "source_sha": head, "timestamp": now(),
