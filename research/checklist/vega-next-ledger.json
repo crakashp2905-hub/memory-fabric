@@ -3,484 +3,1750 @@
  "spec_sha256": "7c1d3f546102cea5aec8f0be3fcd059a693d2eccd7d9c06a30aeda21b00ebac3",
  "tasks": {
   "W01-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_baseline.py",
+    "research/results/vega-cdm/next/baseline-manifest.json"
+   ],
+   "note": "Merged main 6314a7a and PR #41 head 1015a33 share tree 55aac66.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::EvidenceLevels"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/reproduction/vega-0.8b-rerun.json",
+    "research/results/vega-cdm/next/reproduction/failure-trace.json"
+   ],
+   "model_result": "research/results/vega-cdm/next/reproduction/vega-0.8b-rerun.json",
+   "note": "Re-run matches every row (0 differences); both unsafe omissions identified.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/development/vega-0.8b.json",
+    "research/results/vega-cdm/next/BASELINE.md"
+   ],
+   "note": "Original rows untouched; new results only under next/.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::EvidenceLevels"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/reproduction/failure-trace.json"
+   ],
+   "note": "Visible text, sealed truth, answers, action, grade and classification per case.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/reproduction/failure-trace.json",
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "note": "Meaning lost at parse_semantic: p(hot)=0.234 decisive for 'sixty-four degrees'.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/conflicts.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Collision::test_the_old_rule_withholds_the_second_sensor_and_the_new_rule_does_not"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/BASELINE.md",
+    "src/memory_fabric/conflicts.py",
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "note": "Inventory of conflicts.claim, _ClaimIndex, typedclaims, support.exact_guard, benchmark parse_exact, observations.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Collision::test_existing_identities_are_unchanged"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/BASELINE.md",
+    "research/results/vega-cdm/next/baseline-manifest.json"
+   ],
+   "note": "Population table with tasks, seeds, learning status, source SHA, budget and inference level.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::EvidenceLevels"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/ci-audit-pr41.json",
+    "tools/vega_next_gate.py"
+   ],
+   "note": "35/35 jobs completed-success at 1015a33.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Gate::test_ci_audits_count_only_completed_success_at_the_head"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W01-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/BASELINE.md",
+    "research/results/vega-cdm/next/reproduction/failure-trace.json"
+   ],
+   "note": "R1-R3 blocking with reproduction, owner test and stop rule.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations",
+    "tests/test_sensor_entity_claims.py::Collision"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Schema"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Digits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Words"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Units"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Relations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Relations::test_hedges_double_negation_and_threshold_crossing_ranges_are_never_safe"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Provenance"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Proposals::test_a_confident_wrong_proposal_is_rejected_and_the_finding_is_unchanged"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py",
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py",
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Words::test_unreadable_quantities_are_unknown_never_dropped",
+    "tests/test_omission_safety.py::Guard::test_no_action_needs_a_current_verified_negative_for_every_required_sensor"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W02-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::Metamorphic"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/entities.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_hierarchy_and_typed_claim_keys"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/entities.py",
+    "src/memory_fabric/conflicts.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_aliases_map_to_one_sensor_and_two_sensors_are_ambiguous",
+    "tests/test_sensor_entity_claims.py::Collision::test_distinct_sensors_do_not_collide_and_the_same_sensor_stays_comparable"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/entities.py",
+    "src/memory_fabric/conflicts.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_hierarchy_and_typed_claim_keys",
+    "tests/test_sensor_entity_claims.py::Collision::test_distinct_sensors_do_not_collide_and_the_same_sensor_stays_comparable"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/conflicts.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Collision::test_distinct_sensors_do_not_collide_and_the_same_sensor_stays_comparable"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/validation.py",
+    "src/memory_fabric/conflicts.py"
+   ],
+   "note": "validation._same_claim reads conflicts.claim, so typed identity reaches it without a separate rule.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Collision::test_the_old_rule_withholds_the_second_sensor_and_the_new_rule_does_not",
+    "tests/test_validation.py"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/validation.py"
+   ],
+   "note": "_ClaimIndex is an in-memory cache rebuilt per version; no stored record is rewritten.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_validation.py",
+    "tests/test_sensor_entity_claims.py::Collision"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/entities.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_copies_and_aliases_from_one_origin_stay_one_root"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/conflicts.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_reindexing_keeps_tenant_and_lifecycle_restrictions"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/claim_identity_preview.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Preview",
+    "tests/test_sensor_entity_claims.py::Collision::test_v1_is_the_exact_rollback"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W03-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/entities.py"
+   ],
+   "note": "Unicode (NFKC), case, near-miss and cross-tenant covered; mixed-version stores read through v1/v2.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::Registry_::test_near_miss_and_unregistered_identifiers_are_never_guessed",
+    "tests/test_sensor_entity_claims.py::Registry_::test_aliases_map_to_one_sensor_and_two_sensors_are_ambiguous"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Findings::test_each_sensor_gets_one_finding_with_evidence_refs"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Proposals::test_a_confident_wrong_proposal_is_rejected_and_the_finding_is_unchanged",
+    "tests/test_semantic_quantities.py::Metamorphic"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Proposals::test_relevance_alone_never_satisfies_a_typed_predicate"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Proposals::test_a_proposal_cannot_verify_an_unknown_finding"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Findings::test_present_day_ignores_corrected_versions_and_history_uses_known_time"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Findings::test_each_sensor_gets_one_finding_with_evidence_refs",
+    "tests/test_semantic_verification.py::Findings::test_same_sensor_disagreement_at_one_time_is_disputed"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Findings::test_unknown_findings_name_a_recovery_step_never_no_action"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_malformed_outputs_become_invalid_never_confident"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/cache.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Binding"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W04-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_killswitch.py",
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority",
+    "tests/test_vega_recovery.py::Modes"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py",
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_the_grader_separates_completion_abstention_withholding_and_harm"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_no_action_needs_a_current_verified_negative_for_every_required_sensor"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_no_action_needs_a_current_verified_negative_for_every_required_sensor"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py",
+    "benchmarks/vega_next_arms.py",
+    "benchmarks/vega_next_model_agents.py"
+   ],
+   "note": "A model answer, from vega-U or the planner, cannot settle contested readings without cooling (R4).",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::ModelCannotLowerHazard",
+    "tests/test_omission_safety.py::ModelSettledContest",
+    "tests/test_vega_next_study.py::PlannerContest"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_interventions_are_untouched_and_measurement_retries_are_bounded"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py",
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "note": "Required response under a verified hazard; time-to-response is not modelled (single-step tasks).",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::RequiredResponse",
+    "tests/test_vega_next_study.py::Worlds::test_the_grader_separates_completion_abstention_withholding_and_harm"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py",
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::ModelCannotLowerHazard",
+    "tests/test_vega_next_security.py::Governance::test_injected_authority_in_evidence_changes_no_decision"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Kinds"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py",
+    "research/results/vega-cdm/next/reproduction/failure-trace.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W05-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Bounds"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_the_core_package_imports_no_model_runtime",
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "note": "Reported digest is recorded as reported, not attested.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_an_unregistered_reader_or_substituted_checkpoint_is_refused",
+    "tests/test_vega_next_security.py::Isolation::test_model_errors_carry_no_evidence_text"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/advice.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::Protocol::test_the_recorded_answers_parse_without_filling_anything"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_calibration_study.py",
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/calibration/vega-0.8b.json",
+   "note": "Calibration on dev rows only; Brier, ECE, AUROC per family.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Calibration"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_calibration_study.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/calibration/vega-0.8b.json",
+   "note": "Fitted on dev, applied once to disjoint pilot.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Calibration"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_calibration_study.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/calibration/vega-0.8b.json",
+   "note": "Zero-shot vs calibrated vs deterministic verifier on identical rows.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/cache.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Cache",
+    "tests/test_semantic_verification.py::Binding"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_an_unregistered_reader_or_substituted_checkpoint_is_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W06-10": {
-   "status": "NOT_STARTED"
+   "blocked_on": "a 16 GB laptop (Mac M4) to measure on; only the 4-CPU Linux container was measured, and 4B was not run",
+   "evidence": [],
+   "status": "BLOCKED"
   },
   "W07-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py",
+    "src/memory_fabric/causal_replay/semantic/taxonomy.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Tiers::test_no_method_upcasts_a_tier_and_edges_are_immutable"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Tiers::test_edges_carry_versions_authorization_policy_and_confidence_provenance"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Alternatives::test_sensor_bias_and_real_overheating_coexist_as_hypotheses"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Alternatives::test_future_observations_cannot_explain_earlier_decisions"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "note": "Latent confounders explicit; selection bias is not modelled.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Alternatives::test_latent_confounding_blocks_a_causal_conclusion"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Provenance::test_twenty_paraphrases_from_one_origin_are_one_edge"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Provenance::test_hypotheses_need_authorized_evidence_and_erasure_removes_them"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Provenance::test_only_registered_intervenable_nodes_can_be_targeted"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Provenance::test_rationale_is_content_safe"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W07-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Worlds"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue",
+    "tests/test_outcome_cdm_dispatch.py"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue",
+    "tests/test_vega_next_study.py::Arms::test_the_model_is_called_only_when_the_parser_leaves_the_doubt_question_open"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py",
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions",
+    "tests/test_causal_graph_constraints.py::Provenance::test_only_registered_intervenable_nodes_can_be_targeted"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py",
+    "benchmarks/vega_next_cdm_value.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Beliefs::test_undeclared_likelihoods_and_unregistered_continuations_are_refused",
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "src/memory_fabric/causal_replay/verifier.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue",
+    "tests/test_release_guards.py::ContractMutations"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py"
+   ],
+   "note": "Dependence-first already equals the oracle here, so Vega ranking has nothing to add.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "research/results/vega-cdm/next/cdm/cdm-value.json"
+   ],
+   "note": "Oracle headroom over no-replay: 40 decisions in 40 tasks.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "note": "Independent decisions skip replay; replays bounded by changed evidence.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W08-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "research/results/vega-cdm/next/cdm/cdm-value.json"
+   ],
+   "note": "Positive net utility only on a scripted world; no registered model-in-loop CDM comparison, so CDM stays advisory.",
+   "status": "IMPLEMENTED"
   },
   "W09-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py",
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_canonical_package.py",
+    "tests/test_vega_recovery.py::Modes"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_off_catalog_malformed_or_unavailable_advice_is_discarded"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py",
+    "src/memory_fabric/outcome_typed/api.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py::Modes::test_every_runtime_diagnosis_maps_to_one_authoritative_cause",
+    "tests/test_outcome_api.py::Diagnostics"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_model_agents.py",
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+   "note": "The planner receives verified findings with status and provenance.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_semantic_verification.py::Findings"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/recovery.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_recovery_typed.py::TestRecoveryBudgets"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py",
+    "benchmarks/vega_next_cdm_value.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_cdm_dispatch.py",
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/actions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_action_crash_typed.py::CrashMidAction",
+    "tests/test_effect_transport_parity.py::EffectParity"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py",
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_the_grader_separates_completion_abstention_withholding_and_harm"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_model_agents.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+   "note": "Same system prompt, catalog, retrieval, decoding and budget; only the evidence block differs.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W09-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/local_chat_server.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/agents/model-team-qwen2.5-1.5b-smoke.json",
+   "note": "Real Qwen2.5-1.5B three-role episodes; every task ended in safe abstention.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_outcome_model_actor.py"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py",
+    "research/results/vega-cdm/development/vega-0.8b.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_worlds_and_arms.py::Worlds"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_every_family_has_typed_truth_and_literal_text_in_three_disjoint_splits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_boundaries_and_irrecoverable_cases_grade_as_specified"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_every_family_has_typed_truth_and_literal_text_in_three_disjoint_splits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_every_family_has_typed_truth_and_literal_text_in_three_disjoint_splits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_every_family_has_typed_truth_and_literal_text_in_three_disjoint_splits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_no_typed_arm_takes_an_unsafe_action",
+    "tests/test_agent_security_fixtures.py::PoisoningFixtures"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_injected_authority_in_evidence_changes_no_decision"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_boundaries_and_irrecoverable_cases_grade_as_specified"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W10-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_every_family_has_typed_truth_and_literal_text_in_three_disjoint_splits"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "note": "Old ids run the PR #41 pipelines unchanged; the arm registry is hashed into every report.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_rows_are_reproducible_and_bound_to_a_digest"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/development/vega-0.8b-dev.json",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_every_arm_covers_every_task_once_and_none_beats_the_oracle"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_a_cheap_deterministic_parser_is_the_baseline_any_model_gain_must_beat"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+   "note": "A5-P, A5-PnoG, A5-PV, A5-VG isolate parser, guard and model.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "note": "Retrieval k, call budget and consumption recorded per row; token and wall-time caps are per call, not per arm.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_the_model_is_called_only_when_the_parser_leaves_the_doubt_question_open",
+    "tests/test_vega_next_study.py::Arms::test_budget_exhaustion_returns_no_doubt_not_a_guess"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py",
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds::test_the_grader_separates_completion_abstention_withholding_and_harm"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+   "note": "No-model, shuffled-advice and inverted-confidence controls.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "note": "Paired per task and seed; no seed counted twice.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_rows_are_reproducible_and_bound_to_a_digest"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W11-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_model_agents.py",
+    "tools/local_chat_server.py"
+   ],
+   "note": "Two model families measured (vega-U 0.8B, Qwen2.5-1.5B); prompt-representation variants not run.",
+   "status": "IMPLEMENTED"
   },
   "W11-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py",
+    "research/results/vega-cdm/next/baseline-manifest.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_rows_are_reproducible_and_bound_to_a_digest"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/prereg/vega-cdm-v1.json",
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_the_committed_registration_validates_or_names_its_problems"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_edits_overlaps_weak_endpoints_and_code_changes_are_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py",
+    "research/results/vega-cdm/next/development/vega-0.8b-pilot.json"
+   ],
+   "model_result": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+   "note": "Pilot headroom 0.50, discordance 0.06 and placebo contrasts read from the recorded pilot; the power check passes, the specificity check does not.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration",
+    "tests/test_vega_next_study.py::Specificity"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_edits_overlaps_weak_endpoints_and_code_changes_are_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_edits_overlaps_weak_endpoints_and_code_changes_are_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+    "research/results/vega-cdm/next/agents/model-agents-pilot.json"
+   ],
+   "model_result": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+   "note": "Pilot split with its own templates; failures retained.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+    "benchmarks/vega_next_model_agents.py",
+    "tools/local_chat_server.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+   "note": "Qwen2.5-1.5B produced a recorded proposal, reply and prompt hash for all 300 pilot tasks; 0 missing responses, none dropped. Development pilot, not a confirmatory study: the v2 registration was refused.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::PlannerContest",
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_analysis_refuses_incomplete_rows"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py",
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Bounds"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W12-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py",
+    "docs/VEGA_NEXT_DECISION.md"
+   ],
+   "note": "The refused draft returns HOLD and prescribes a new prospective study (v3), not a rerun.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Specificity",
+    "tests/test_vega_next_study.py::Registration"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_killswitch.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_the_advisor_sees_only_current_authorized_evidence",
+    "tests/test_vega_cdm_security.py::Injection"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_worlds.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_injected_authority_in_evidence_changes_no_decision",
+    "tests/test_vega_cdm_security.py::Injection"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_only_loopback_http_endpoints_are_accepted"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_an_unregistered_reader_or_substituted_checkpoint_is_refused",
+    "tests/test_vega_cdm_security.py::Spoofing"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/limited_process.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Isolation::test_limits_are_hard_or_the_command_is_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cross_tenant_surface_matrix.py",
+    "tests/test_vega_cdm_security.py::Injection",
+    "tests/test_sensor_entity_claims.py::Registry_::test_reindexing_keeps_tenant_and_lifecycle_restrictions"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tests/test_effect_transport_parity.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_effect_transport_parity.py::EffectParity",
+    "tests/test_outcome_api.py::TransportParity"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Isolation::test_model_errors_carry_no_evidence_text",
+    "tests/test_new_module_redaction.py::NoContentInReports"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W13-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_killswitch.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_cdm_profile.py",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "4.17 s p50 and 5.26 GiB RSS on the 4-CPU container, with a second server running.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-02": {
-   "status": "NOT_STARTED"
+   "blocked_on": "a Mac M4 16 GB host; none is available to this project",
+   "evidence": [],
+   "status": "BLOCKED"
   },
   "W14-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_perf.py",
+    "research/results/vega-cdm/next/perf/perf-contended.json",
+    "benchmarks/vega_calibration_study.py"
+   ],
+   "model_result": "research/results/vega-cdm/next/calibration/vega-0.8b.json",
+   "note": "Parser 0.035 ms p50 per text vs seconds per model call on identical inputs.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Calibration"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_cdm_profile.py",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "model_result": "research/results/vega-cdm/model-profile-0.8b.json",
+   "note": "No batching gain: ratio 0.909.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::RealServer"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_the_model_is_called_only_when_the_parser_leaves_the_doubt_question_open"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/cache.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Cache",
+    "tests/test_semantic_verification.py::Binding"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_perf.py",
+    "research/results/vega-cdm/next/perf/perf-contended.json"
+   ],
+   "note": "Execute and verify p50/p95/p99 per decision.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_perf.py",
+    "research/results/vega-cdm/next/perf/perf-contended.json"
+   ],
+   "note": "1/2/4/8 workers: 1.0/1.71/2.24/1.39x on 4 CPUs with model servers running.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_arms.py",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_budget_exhaustion_returns_no_doubt_not_a_guess",
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W14-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py",
+    "research/results/vega-cdm/next/development/vega-0.8b-pilot.json"
+   ],
+   "note": "Safety, completion, calls and seconds per arm reported; a joint Pareto table with memory per arm is not computed.",
+   "status": "IMPLEMENTED"
   },
   "W15-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations",
+    "tests/test_sensor_entity_claims.py::Collision"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Gate::test_ci_audits_count_only_completed_success_at_the_head"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_ledger.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Ledger::test_model_validation_needs_a_recorded_real_inference"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard",
+    "tests/test_vega_next_security.py::Governance"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_edits_overlaps_weak_endpoints_and_code_changes_are_refused"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "benchmarks/vega_next_confirmatory.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Registration::test_analysis_refuses_incomplete_rows",
+    "tests/test_vega_next_study.py::Arms::test_every_arm_covers_every_task_once_and_none_beats_the_oracle"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py",
+    "research/checklist/vega-next-ledger.json"
+   ],
+   "note": "The matrix and the evidence matrix are generated from records.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Ledger"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-09": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "research/results/vega-cdm/next/BASELINE.md",
+    "research/results/vega-cdm/next/baseline-manifest.json"
+   ],
+   "note": "Every producer command is listed with the source and asset hashes it binds.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms::test_rows_are_reproducible_and_bound_to_a_digest"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W15-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_killswitch.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-01": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "tools/vega_next_gate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-02": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "examples/vega_next_demo.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_examples_run.py::Examples"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-03": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py",
+    "examples/vega_next_demo.py"
+   ],
+   "note": "explain() gives reason, sensors, next step and terminal action from statuses only.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-04": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_CDM_LIMITATIONS.md",
+    "research/results/vega-cdm/next/gate/matrix.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_ledger_and_gate.py::Gate::test_docs_are_consistent_with_the_pins_and_make_no_efficacy_claim"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-05": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-06": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "note": "Measured on a 15 GiB container only; swap behaviour and offload on a real 16 GB laptop not measured.",
+   "status": "IMPLEMENTED"
   },
   "W16-07": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md",
+    "src/memory_fabric/outcome_typed/api.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_api.py::Schema",
+    "tests/test_outcome_canonical_package.py"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   },
   "W16-08": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "note": "Pilot protocol written; not run.",
+   "status": "IMPLEMENTED"
   },
   "W16-09": {
-   "status": "NOT_STARTED"
+   "blocked_on": "an independent security and deployment reviewer outside this project",
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "status": "BLOCKED"
   },
   "W16-10": {
-   "status": "NOT_STARTED"
+   "evidence": [
+    "docs/VEGA_NEXT_DECISION.md",
+    "research/prereg/vega-cdm-v2.json",
+    "research/results/vega-cdm/next/gate/matrix.json"
+   ],
+   "note": "HOLD: not specific against the shuffled placebo (+0.01 < 0.05); failed endpoint and next experiment recorded; holdout never read.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Specificity",
+    "tests/test_vega_next_study.py::Registration"
+   ],
+   "verified_sha": "413782d1ada43e7350d03aa12e4fd5d179d164ba"
   }
  }
 }
