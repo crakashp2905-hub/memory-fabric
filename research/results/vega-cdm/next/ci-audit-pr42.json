@@ -1,0 +1,227 @@
+{
+ "counts": {
+  "FAIL": 0,
+  "INCOMPLETE": 0,
+  "PASS": 35
+ },
+ "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+ "jobs": [
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "adversarial-gate",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "agent-outcome-offline-gate",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "claude-contract",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "docker",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "document-formats",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "e2e",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "faults",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "framework-contracts",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "fresh-machine (macos-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "fresh-machine (ubuntu-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "fresh-machine (windows-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "helm",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "langchain-contract",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "lint",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "mcp-contract",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "multihost (macos-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "multihost (ubuntu-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "multihost (windows-latest)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "multihost-compose",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "mutation",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "package",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "pdf-contract",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "postgres",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "release-evidence",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "rollback",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "secrets",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (macos-latest, 3.11)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (macos-latest, 3.12)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (macos-latest, 3.13)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (ubuntu-latest, 3.11)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (ubuntu-latest, 3.12)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (ubuntu-latest, 3.13)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (windows-latest, 3.11)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (windows-latest, 3.12)",
+   "status": "completed"
+  },
+  {
+   "conclusion": "success",
+   "head_sha": "bc8ce6532d043a86375084d4f165150a5722826b",
+   "name": "test (windows-latest, 3.13)",
+   "status": "completed"
+  }
+ ],
+ "merged_as": "4c3ed1ff70806f08ee1bc04ce64bac1157fce306",
+ "pr": "crakashp2905-hub/memory-fabric#42",
+ "rule": "a job counts as PASS only when completed with conclusion success; queued or in-progress is INCOMPLETE",
+ "run_event": "pull_request",
+ "run_id": 45571271563,
+ "schema_id": "memory-fabric.ci-audit.v1",
+ "total_jobs": 35
+}
