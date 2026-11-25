@@ -62,6 +62,27 @@ class Governance(unittest.TestCase):
 
 
 class Isolation(unittest.TestCase):
+    def test_a_limit_the_platform_refuses_means_the_command_is_not_run(self):
+        import tempfile
+        from unittest import mock
+        if not limited_process.supported():
+            self.skipTest("no resource module: covered by the UNSUPPORTED_PLATFORM branch below")
+        real = limited_process._resource()
+
+        class Refusing:
+            RLIMIT_CPU, RLIMIT_AS, RLIM_INFINITY = real.RLIMIT_CPU, real.RLIMIT_AS, real.RLIM_INFINITY
+
+            @staticmethod
+            def setrlimit(which, value):
+                raise ValueError("refused")
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(limited_process, "_resource", lambda: Refusing):
+            marker = Path(d) / "ran"
+            r = limited_process.run_limited([sys.executable, "-c", f"open({str(marker)!r}, 'w')"], cpu_seconds=2,
+                                            memory_bytes=1 << 30)
+            self.assertEqual(r.status, "UNSUPPORTED_PLATFORM")
+            self.assertFalse(marker.exists())
+
     def test_limits_are_hard_or_the_command_is_refused(self):
         if not limited_process.supported():
             r = limited_process.run_limited([sys.executable, "-c", "print(1)"], cpu_seconds=2, memory_bytes=1 << 30)
@@ -69,6 +90,10 @@ class Isolation(unittest.TestCase):
             return
         ok = limited_process.run_limited([sys.executable, "-c", "print('ok')"], cpu_seconds=5,
                                          memory_bytes=1 << 30)
+        if ok.status == "UNSUPPORTED_PLATFORM":  # the platform refused a limit (macOS): refused, never run
+            self.assertIn("refused a limit", ok.stderr)
+            self.assertEqual(ok.stdout, "")
+            return
         self.assertEqual((ok.status, ok.stdout.strip()), ("OK", "ok"))
         hog = limited_process.run_limited([sys.executable, "-c", "x = bytearray(2 << 30)"], cpu_seconds=5,
                                           memory_bytes=512 << 20)

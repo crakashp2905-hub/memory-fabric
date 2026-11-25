@@ -63,6 +63,10 @@ def run_limited(argv: Sequence[str], *, cpu_seconds: int, memory_bytes: int, max
                               preexec_fn=apply)  # noqa: PLW1509 - limits must be set before exec
     except subprocess.TimeoutExpired as exc:
         return LimitedResult("TIMEOUT", None, str(exc.stdout or ""), str(exc.stderr or ""), limits)
+    except subprocess.SubprocessError:
+        # setrlimit raised in the child before exec (macOS refuses some RLIMIT_AS values):
+        # the command never ran, and it is not run without the limit.
+        return LimitedResult("UNSUPPORTED_PLATFORM", None, "", "the platform refused a limit; not run", limits)
     if done.returncode < 0 or "MemoryError" in done.stderr:
         return LimitedResult("LIMIT_EXCEEDED", done.returncode, done.stdout, done.stderr, limits)
     return LimitedResult("OK" if done.returncode == 0 else "NONZERO_EXIT", done.returncode, done.stdout,
