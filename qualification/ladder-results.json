@@ -32,13 +32,21 @@
   },
   "calibration_transfer_risk": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "calibration_transfer_risk",
+    "mode": "ADVISORY",
+    "n": 304,
+    "observed": 0.0,
+    "question": "doubt",
+    "stage": "S1_development_replication",
+    "threshold": 0.05,
+    "verdict": "PASS"
    },
    "S2_fresh_pilot": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    },
    "S3_confirmatory": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    }
   },
   "cdm_relative_net_utility_gain": {
