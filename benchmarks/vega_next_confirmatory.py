@@ -76,9 +76,10 @@ def validate(reg: Any, *, check_code: bool = True) -> list[str]:
         got = (dev.get("pilot_placebo_difference") or {}).get(placebo)
         if got is None:
             problems.append(f"no pilot contrast against the {placebo} placebo")
-        elif float(got) <= 0:
-            problems.append(f"not specific: on the pilot the candidate does not beat the {placebo} placebo "
-                            f"(difference {got}), so a gain could not be credited to what vega-U reads")
+        elif float(got) < float(reg.get("minimum_effect", 0)) or float(got) <= 0:
+            problems.append(f"not specific: on the pilot the candidate beats the {placebo} placebo by {got}, "
+                            f"below the minimum effect {reg.get('minimum_effect')}, so a gain could not be "
+                            "credited to what vega-U reads")
     if float(dev.get("pilot_discordance") or 0) <= 0:
         problems.append("power cannot be estimated: the pilot has no discordant pairs, so no effect was seen")
     try:
