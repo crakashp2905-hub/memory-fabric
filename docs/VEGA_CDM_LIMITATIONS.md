@@ -65,3 +65,16 @@ Evidence: [research/results/vega-cdm/next/](../research/results/vega-cdm/next/BA
   rollback. Identifiers that are not registered are never resolved into a registered sensor.
 - **A cheap deterministic reader saturates the development worlds.** Any model gain has to come from
   phrasing that the deterministic rules were not written for; the pilot split measures that headroom.
+- **The confirmatory study is on HOLD** ([VEGA_NEXT_DECISION.md](VEGA_NEXT_DECISION.md)). On unseen
+  phrasing vega-U adds 0.06 safe success over the typed reader, but a placebo that asks it about a note
+  from another world adds 0.05, so the gain is not specific to what it reads. The holdout split was not
+  read.
+- **A model must never settle contested readings without cooling.** Two pilots found this, once through
+  vega-U's doubt answers and once through the planner's own choice; the guard now refuses both, and the
+  unsafe runs are archived next to the corrected ones.
+- **vega-U misreads numbers on unseen phrasing:** 58% of truly hot pilot readings answered "not hot"
+  without abstaining. It reads doubt notes well (pilot AUROC 1.0) and "verified accurate" notes poorly
+  (pilot AUROC 0.78).
+- **A 1.5B planner cannot do the task.** With the guard, it is safe (0 unsafe omissions in 300 pilot
+  tasks) and mostly escalates (safe success 0.31-0.33).
+

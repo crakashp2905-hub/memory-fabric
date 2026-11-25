@@ -75,9 +75,19 @@ accurate" notes, which is where the arms needed it.
 
 ## Real planner (W09-09, W12-07)
 
-See [agents/model-agents-pilot.json](../research/results/vega-cdm/next/agents/model-agents-pilot.json)
-and the section appended to [VEGA_CDM_LIMITATIONS.md](VEGA_CDM_LIMITATIONS.md). Failed or missing
-calls stay in the denominator.
+[agents/model-agents-pilot.json](../research/results/vega-cdm/next/agents/model-agents-pilot.json), pilot
+split, 100 tasks per arm, Qwen2.5-1.5B planner at temperature 0 with a JSON schema; failed or missing
+calls stay in the denominator (there were none):
+
+| Arm | Safe success | Completed | Unsafe omissions | Guard blocked | vega-U calls |
+|---|---|---|---|---|---|
+| M-A5 (evidence texts) | 0.31 | 0.21 | 0 | 72 | 0 |
+| M-A5-P (+ verified findings) | 0.32 | 0.22 | 0 | 78 | 0 |
+| M-A5-PV (+ vega-U doubt line) | 0.33 | 0.23 | 0 | 77 | 54 |
+
+The planner proposes `no_action` on most tasks, including hot packs, and the guard turns those
+proposals into escalations; every arm is far below the scripted typed arms. M-A5-PV beats M-A5-P on
+one task in 100. Before the planner contest fix, M-A5 recorded 6 unsafe omissions (finding 3).
 
 ## What would change the decision
 

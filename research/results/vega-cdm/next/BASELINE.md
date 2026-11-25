@@ -68,3 +68,21 @@ None of these is a learned-agent or confirmatory population.
 | R1 | Unsafe omission: "sixty-one/sixty-four degrees" read as not hot, `no_action` on a hot pack | P0 blocking | `failure-trace.json`, seeds 0 and 4 of `battery_paraphrase` | `tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations` | any unsafe omission in any arm blocks promotion |
 | R2 | Second unsafe omission (same mechanism, other seed) | P0 blocking | same | same | same |
 | R3 | Sensor-identity collision in claim identity | P0 blocking | `tests/test_sensor_entity_claims.py::Collision` | that test | a distinct-sensor collision in claim identity blocks release |
+| R4 | A model answer (vega-U doubt or the planner's own choice) settled contested readings with `recalibrate_probe` on a real local overheat | P0 blocking, fixed | `development/worlds-v2-pre-contest-fix/`, `agents/pre-planner-contest-fix/` | `tests/test_omission_safety.py::ModelSettledContest`, `tests/test_vega_next_study.py::PlannerContest` | same |
+
+## Next-study results (worlds v2)
+
+Produced by these commands after the contest fixes (vega-U server on 127.0.0.1:8011, planner server on
+127.0.0.1:11434); decisions and tables are in [docs/VEGA_NEXT_DECISION.md](../../../../docs/VEGA_NEXT_DECISION.md).
+
+| Record | Command | Level |
+|---|---|---|
+| `development/vega-0.8b-pilot.json` | `python -m benchmarks.vega_next_arms --split pilot --seeds 10 --advisor vega` | VEGA_MODEL_DEVELOPMENT |
+| `development/vega-0.8b-dev.json` | `python -m benchmarks.vega_next_arms --split dev --seeds 10 --advisor vega` | VEGA_MODEL_DEVELOPMENT |
+| `agents/model-agents-pilot.json` | `python -m benchmarks.vega_next_model_agents --split pilot --seeds 10 --model qwen2.5:1.5b --vega-url ...` | LOCAL_MODEL_DEVELOPMENT |
+| `calibration/vega-0.8b.json` | `python -m benchmarks.vega_calibration_study --seeds 10` | VEGA_MODEL_DEVELOPMENT |
+| `research/prereg/vega-cdm-v2.json` | `python -m benchmarks.vega_next_confirmatory draft ... --holdout-seeds 24` | DRAFT, refused: not specific |
+
+Archived, not used for any decision: `development/worlds-v1/` (dev saturated; pilot confounded because a
+TA1 note existed only with doubt), `development/worlds-v2-pre-contest-fix/` and
+`agents/pre-planner-contest-fix/` (the unsafe runs behind R4). No holdout world was read.

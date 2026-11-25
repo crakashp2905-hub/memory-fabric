@@ -49,10 +49,17 @@ def _git(*a: str) -> str:
     return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
 
 
+FAILURES: dict[str, list[str]] = {}
+
+
 def _pytest(targets: list[str]) -> str:
-    done = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", *targets], cwd=ROOT,
-                          capture_output=True, text=True)
-    return "PASS" if done.returncode == 0 else "FAIL"
+    """PASS or FAIL; the names of failing tests are kept in FAILURES so a FAIL can be diagnosed."""
+    done = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "-rf", *targets],
+                          cwd=ROOT, capture_output=True, text=True)
+    if done.returncode == 0:
+        return "PASS"
+    FAILURES[" ".join(targets)] = [ln for ln in done.stdout.splitlines() if ln.startswith(("FAILED", "ERROR"))][:20]
+    return "FAIL"
 
 
 def _load(rel: str) -> Any:
@@ -122,7 +129,8 @@ def build(vega_url: str | None, ci_audit: str | None) -> dict[str, Any]:
               "notes": {"cdm": "positive net utility on a scripted, deterministic world only; no model-in-the-loop "
                                "or confirmatory CDM study, so INCONCLUSIVE" if cdm_verdict == "INCONCLUSIVE" else "",
                         "release": "engineering gates pass; research gates do not, so no release claim"
-                        if engineering and not research else ""}}
+                        if engineering and not research else "",
+                        "failing_tests": dict(FAILURES)}}
     return matrix
 
 
