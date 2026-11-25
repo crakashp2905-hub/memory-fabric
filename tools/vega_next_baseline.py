@@ -43,7 +43,7 @@ def build() -> dict:
             blob = subprocess.run(["git", "show", f"{sha}:{rel}"], cwd=ROOT, capture_output=True).stdout
             files[rel] = hashlib.sha256(blob).hexdigest() if blob else None
         baselines[name] = {"commit": sha, "tree": _git("rev-parse", f"{sha}^{{tree}}"), "inputs_sha256": files}
-    fixture = json.loads((ROOT / "tests/fixtures/vega_u/decide-0.19.0.json").read_text())
+    fixture = json.loads((ROOT / "tests/fixtures/vega_u/decide-0.19.0.json").read_text(encoding="utf-8"))
     return {"schema_id": "memory-fabric.vega-next-baseline.v1", "baselines": baselines,
             "working_tree_differs_from_baseline_inputs": bool(_git("status", "--porcelain", "--", *INPUTS)),
             "python": platform.python_version(), "platform": platform.platform(),
@@ -63,7 +63,7 @@ def main(argv: list[str] | None = None) -> int:
         OUT.parent.mkdir(parents=True, exist_ok=True)
         OUT.write_text(json.dumps(build(), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     if args.check:
-        stored = json.loads(OUT.read_text())
+        stored = json.loads(OUT.read_text(encoding="utf-8"))
         fresh = build()
         same = stored["baselines"] == fresh["baselines"] and stored["model"] == fresh["model"]
         print("baseline manifest matches" if same else "baseline manifest DIFFERS")

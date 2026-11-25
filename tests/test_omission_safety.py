@@ -47,7 +47,7 @@ class Guard(unittest.TestCase):
 
     def test_the_two_pr41_failures_become_escalations(self):
         trace = json.loads((ROOT / "research" / "results" / "vega-cdm" / "next" / "reproduction" /
-                            "failure-trace.json").read_text())
+                            "failure-trace.json").read_text(encoding="utf-8"))
         self.assertEqual(len(trace["unsafe_cases"]), 2)
         for case in trace["unsafe_cases"]:
             texts = [s["visible_text"] for s in case["steps"]]

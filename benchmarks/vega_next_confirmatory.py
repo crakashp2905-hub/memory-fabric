@@ -213,13 +213,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = p.parse_args(argv)
     path = Path(args.registration)
     if args.command == "draft":
-        pilot = json.loads(Path(args.pilot).read_text())
+        pilot = json.loads(Path(args.pilot).read_text(encoding="utf-8"))
         pilot["source"] = args.pilot
         reg = draft(pilot, holdout_seeds=range(100, 100 + args.holdout_seeds), minimum_effect=args.minimum_effect)
         path.write_text(json.dumps(reg, indent=1, sort_keys=True) + "\n")
         print(json.dumps({"written": str(path), "problems": validate(reg)}, indent=1))
         return 0
-    reg = json.loads(path.read_text())
+    reg = json.loads(path.read_text(encoding="utf-8"))
     if args.command == "validate":
         problems = validate(reg)
         print(json.dumps({"status": reg.get("status"), "problems": problems}, indent=1))

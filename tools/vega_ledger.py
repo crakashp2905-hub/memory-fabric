@@ -136,7 +136,7 @@ def validate(ledger: dict[str, Any], spec: dict[str, Any], history: bool = False
         if status == "MODEL_VALIDATED":
             result = entry.get("model_result", "")
             try:
-                data = json.loads((ROOT / result).read_text())
+                data = json.loads((ROOT / result).read_text(encoding="utf-8"))
             except (OSError, ValueError):
                 problems.append(f"{tid}: model_result {result!r} is unreadable")
                 continue

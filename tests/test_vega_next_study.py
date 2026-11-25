@@ -65,7 +65,7 @@ class Worlds(unittest.TestCase):
         self.assertEqual((row["action"], row["guard"]["allowed"]), ("abstain", False))
 
     def test_the_grader_imports_no_model_and_actor_text_carries_no_truth(self):
-        tree = ast.parse((ROOT / "benchmarks" / "vega_next_worlds.py").read_text())
+        tree = ast.parse((ROOT / "benchmarks" / "vega_next_worlds.py").read_text(encoding="utf-8"))
         names = {n.module or "" for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)}
         self.assertFalse({m for m in names if "vega_u" in m or "semantic" in m})
         for family in worlds.FAMILIES:
@@ -130,12 +130,12 @@ class CdmValue(unittest.TestCase):
 
 class Registration(unittest.TestCase):
     def setUp(self):
-        self.reg = json.loads((ROOT / "research" / "prereg" / "vega-cdm-v2.json").read_text())
+        self.reg = json.loads((ROOT / "research" / "prereg" / "vega-cdm-v2.json").read_text(encoding="utf-8"))
 
     def test_the_committed_registration_validates_or_names_its_problems(self):
         problems = conf.validate(self.reg)
         self.assertIsInstance(problems, list)
-        v1 = json.loads((ROOT / "research" / "prereg" / "vega-cdm-v1.json").read_text())
+        v1 = json.loads((ROOT / "research" / "prereg" / "vega-cdm-v1.json").read_text(encoding="utf-8"))
         self.assertEqual(v1["status"], "DRAFT")
 
     def test_edits_overlaps_weak_endpoints_and_code_changes_are_refused(self):

@@ -58,7 +58,7 @@ class Gate(unittest.TestCase):
         self.assertEqual(gate.research()["status"], "RESEARCH_NO_GO")
         self.assertEqual(gate.model(None)["status"], "MODEL_NOT_RUN")
         self.assertIn("tests/test_vega_ledger_and_gate.py", gate.CONTRACT_TESTS)
-        source = (ROOT / "tools" / "vega_cdm_gate.py").read_text()
+        source = (ROOT / "tools" / "vega_cdm_gate.py").read_text(encoding="utf-8")
         for verdict in ("CORE_PASS", "MODEL_NOT_RUN", "AGENT_NOT_RUN", "RELEASE_NO_GO", "DOCS_CONSISTENT"):
             self.assertIn(verdict, source)
         self.assertIn("not model efficacy", source)
@@ -86,7 +86,7 @@ class EvidenceLevels(unittest.TestCase):
     def test_every_recorded_vega_report_states_a_level_it_can_carry(self):
         from memory_fabric.causal_replay.semantic.taxonomy import check_report_level
         for path in (ROOT / "research" / "results" / "vega-cdm").rglob("*.json"):
-            data = json.loads(path.read_text())
+            data = json.loads(path.read_text(encoding="utf-8"))
             if data.get("schema_id") in RECORDS_WITHOUT_A_LEVEL:
                 continue  # baselines, CI audits and failure traces are records, not result reports
             if data.get("schema_id") == "memory-fabric.vega-next-gate.v1":
