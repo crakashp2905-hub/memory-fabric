@@ -160,7 +160,12 @@ class VegaClient:
                 raise ValueError(f"model identity differs from the pins: {wrong}")
             if model.get("heads_fitted"):
                 raise ValueError("fitted heads are loaded; only the pinned engine readout is registered")
-        except (OSError, ValueError, json.JSONDecodeError) as exc:
+        except OSError as exc:
+            # The message of a transport error can echo request or server text, so only the
+            # type is kept (VEGA next W13-09).
+            self._model, self._handshake_error = None, type(exc).__name__
+            raise ConnectionError(self._handshake_error) from exc
+        except (ValueError, json.JSONDecodeError) as exc:
             self._model, self._handshake_error = None, f"{type(exc).__name__}: {exc}"
             raise ConnectionError(self._handshake_error) from exc
         self._model, self._handshake_error = dict(reported), None

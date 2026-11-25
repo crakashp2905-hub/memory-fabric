@@ -54,6 +54,8 @@ class Node:
     version: int
     known_at: int
     valid_at: int | None = None
+    intervenable: bool = False
+    """Only registered intervenable nodes may be targeted by a compiled intervention (VEGA next W07-08)."""
 
     def __post_init__(self) -> None:
         if self.kind not in NODE_KINDS:
@@ -74,6 +76,10 @@ class Edge:
     origin: str  # provenance_log | advisor | verifier
     tier: str = ""
     certificate: str | None = None
+    auth_epoch: int | None = None
+    policy_digest: str | None = None
+    confidence_source: str | None = None  # e.g. "advisor:<receipt digest>", "verifier", "provenance_log"
+    origin_root: str | None = None
 
     def __post_init__(self) -> None:
         if self.kind not in EDGE_TYPES:
@@ -140,11 +146,38 @@ class CandidateGraph:
         return edge
 
     def propose(self, source: str, target: str, kind: str, evidence_refs: Iterable[str],
-                receipt_digest: str) -> Edge:
-        """An advisor's edge: textual or a hypothesis, never dependence or a verified effect."""
+                receipt_digest: str, *, auth_epoch: int | None = None, policy_digest: str | None = None,
+                origin_root: str | None = None) -> Edge:
+        """An advisor's edge: textual or a hypothesis, never dependence or a verified effect.
+
+        Proposals from one origin about one (source, target, kind) are one edge: twenty
+        paraphrases from one tool stay one root (VEGA next W07-06).
+        """
         refs = tuple(sorted(evidence_refs))
+        for existing in self.edges:
+            if (existing.origin == "advisor" and existing.origin_root is not None and existing.origin_root == origin_root
+                    and (existing.source, existing.target, existing.kind) == (source, target, kind)):
+                return existing
         return self.add_edge(Edge(source, target, kind, refs,
-                                  digest({"refs": refs, "receipt": receipt_digest}), "advisor"))
+                                  digest({"refs": refs, "receipt": receipt_digest}), "advisor",
+                                  auth_epoch=auth_epoch, policy_digest=policy_digest,
+                                  confidence_source=f"advisor:{receipt_digest}", origin_root=origin_root))
+
+    def check_intervention(self, node_id: str) -> str | None:
+        """None if a registered intervention may target the node, else the reason (W07-08)."""
+        node = self.nodes.get(node_id)
+        if node is None:
+            return "INVALID_INTERVENTION: not a node of this graph"
+        if not node.intervenable:
+            return "INVALID_INTERVENTION: the node is not registered as intervenable"
+        return None
+
+    def explain(self, edge: Edge) -> str:
+        """A content-safe rationale: ids, versions, tier and provenance kind only (W07-09)."""
+        return (f"{edge.kind} {edge.source} -> {edge.target} [{edge.tier}] from {edge.origin}; "
+                f"evidence {', '.join(edge.evidence_refs)}"
+                + (f"; certificate {edge.certificate[:12]}" if edge.certificate else "")
+                + ("" if edge.tier in ("VALIDATED_COUNTERFACTUAL",) else "; not a verified effect"))
 
     def add_dependence(self, source: str, target: str, kind: str, evidence_refs: Iterable[str],
                        log_digest: str) -> Edge:

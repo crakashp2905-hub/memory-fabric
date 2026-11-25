@@ -1,0 +1,51 @@
+{
+ "baselines": {
+  "merged_main": {
+   "commit": "6314a7a8cba5b1d57103e73e05366b5426b980c0",
+   "inputs_sha256": {
+    "benchmarks/vega_cdm_matched_arms.py": "63d8db69372bc8453c428c9fd20ce1063fc3246c117dda9d023f1b98ddba7f90",
+    "benchmarks/vega_cdm_worlds.py": "9c9b3a9ff5abe4473a1e1bd167dae2ec798e427a8bfa3e68aac0b080a3658cde",
+    "research/prereg/vega-cdm-v1.json": "0134ac4394ec2bfffc038267693aa7011579d466d20fece6585faf9c82ff8aad",
+    "research/results/vega-cdm/development/scripted.json": "d3f986de29d66434b082365715fa0d88394d1a849493f51a98f5b925291db0fe",
+    "research/results/vega-cdm/development/vega-0.8b.json": "95a5b5d6fa5b75ff67665f0ad58f0b7af13f6c957eff9f0baa4fe253654aa737",
+    "src/memory_fabric/adapters/vega_u.py": "1b5bda93c2bfc29a90700e81a9894a48c6b2428d4cce11136d31bdbdbc9862f0",
+    "src/memory_fabric/conflicts.py": "d8670dc3c8ef05051ec67f525f067a71cc226bce08d5017e5b56a4889492800a",
+    "src/memory_fabric/validation.py": "6d0bb7605ee84dc4b20f342f4ca4a4ab3921283221fb585bb0371e5a59403ae1",
+    "tests/fixtures/vega_u/decide-0.19.0.json": "f15bf75bf178f5ca6eb8a214683ea2b5f445a93490dc30cc0caf9dac8977a9ac"
+   },
+   "tree": "55aac6694483e94bd160a21be73a04ec25be51e7"
+  },
+  "pr41_head": {
+   "commit": "1015a33447a1692457d33067b9e79066a5fbd7b0",
+   "inputs_sha256": {
+    "benchmarks/vega_cdm_matched_arms.py": "63d8db69372bc8453c428c9fd20ce1063fc3246c117dda9d023f1b98ddba7f90",
+    "benchmarks/vega_cdm_worlds.py": "9c9b3a9ff5abe4473a1e1bd167dae2ec798e427a8bfa3e68aac0b080a3658cde",
+    "research/prereg/vega-cdm-v1.json": "0134ac4394ec2bfffc038267693aa7011579d466d20fece6585faf9c82ff8aad",
+    "research/results/vega-cdm/development/scripted.json": "d3f986de29d66434b082365715fa0d88394d1a849493f51a98f5b925291db0fe",
+    "research/results/vega-cdm/development/vega-0.8b.json": "95a5b5d6fa5b75ff67665f0ad58f0b7af13f6c957eff9f0baa4fe253654aa737",
+    "src/memory_fabric/adapters/vega_u.py": "1b5bda93c2bfc29a90700e81a9894a48c6b2428d4cce11136d31bdbdbc9862f0",
+    "src/memory_fabric/conflicts.py": "d8670dc3c8ef05051ec67f525f067a71cc226bce08d5017e5b56a4889492800a",
+    "src/memory_fabric/validation.py": "6d0bb7605ee84dc4b20f342f4ca4a4ab3921283221fb585bb0371e5a59403ae1",
+    "tests/fixtures/vega_u/decide-0.19.0.json": "f15bf75bf178f5ca6eb8a214683ea2b5f445a93490dc30cc0caf9dac8977a9ac"
+   },
+   "tree": "55aac6694483e94bd160a21be73a04ec25be51e7"
+  }
+ },
+ "model": {
+  "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+  "files_sha256": {
+   "engine.safetensors": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "port.safetensors": "398ae79d5e3956a3ed809d500fbdf57982d303c719e464bb81ba12a5ee7d23bd",
+   "stats.npz": "f891292bb7cb2a7616bb925a3c2fe182c72b2899f36c16494445229bed1d3a12",
+   "vega_config.json": "000461315c798b6eca62323476360c14cf31b4e1adcba21ab8266fca41d3fcf8"
+  },
+  "hub_revision": "6aee375845724d2cca21d5fd5c043a028dbc1b48",
+  "reader": "Qwen3.5-0.8B",
+  "runtime": "vegaml 0.19.0"
+ },
+ "note": "Both baselines carry identical inputs: PR #41 merged without further change.",
+ "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+ "python": "3.13.18",
+ "schema_id": "memory-fabric.vega-next-baseline.v1",
+ "working_tree_differs_from_baseline_inputs": true
+}

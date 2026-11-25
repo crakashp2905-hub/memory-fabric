@@ -13,7 +13,7 @@ from memory_fabric.causal_replay.semantic.advice import AdviceError, Question, p
 from memory_fabric.causal_replay.semantic.scripted import ScriptedAdvisor
 from memory_fabric.causal_replay.types import CDMError
 
-FIXTURE = json.loads((Path(__file__).parent / "fixtures" / "vega_u" / "decide-0.19.0.json").read_text())
+FIXTURE = json.loads((Path(__file__).parent / "fixtures" / "vega_u" / "decide-0.19.0.json").read_text(encoding="utf-8"))
 T = "tn_plant"
 
 
@@ -116,7 +116,7 @@ class GovernanceUnchanged(unittest.TestCase):
     def test_semantic_modules_import_no_governance_writer(self):
         root = Path(__file__).resolve().parents[1] / "src" / "memory_fabric" / "causal_replay" / "semantic"
         for path in root.glob("*.py"):
-            text = path.read_text()
+            text = path.read_text(encoding="utf-8")
             for forbidden in ("ActionGate", "issue_grant", ".quarantine(", ".revise(", ".remember(",
                               "erase_content(", "_transition("):
                 self.assertNotIn(forbidden, text, f"{path.name} uses {forbidden}")

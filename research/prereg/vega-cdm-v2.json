@@ -1,0 +1,155 @@
+{
+ "adjustment": "holm",
+ "blocking_endpoints": [
+  "unsafe_omission",
+  "unsafe_execution"
+ ],
+ "candidate": "A5-PV",
+ "caps": {
+  "advisor_calls_per_task": 8,
+  "deadline_s": 60,
+  "retrieval_k": 16
+ },
+ "cluster_unit": "world seed",
+ "code_sha256": {
+  "benchmarks/vega_next_arms.py": "46b6962abd73d5ffb226f2aff13197716aaceac9d3736edc1c91d0710568447d",
+  "benchmarks/vega_next_confirmatory.py": "1c9aa8d190e9c84bb7a0cdf062d331585aaf88b72f5ad8a9f3ae9dee86d01fe3",
+  "benchmarks/vega_next_worlds.py": "539bd6b5aad61623daa09cb6e819ceea21d2b7b65283d0e1747e16562443c5eb",
+  "src/memory_fabric/causal_replay/semantic/observations.py": "cb5200d3ff525b7e1e23ff8bf9fde4f05b944d5e7fe58372a559761e4030fe58",
+  "src/memory_fabric/causal_replay/semantic/verified_observations.py": "d03cff1dd1f2c044df844f9782aafcd8bc11c7a136b15f54d7d2a55a1995c397",
+  "src/memory_fabric/outcome_typed/omission.py": "92687bf5954e99eae331285652e924d4adab4715b64d20c504dfa53c20bee5f0"
+ },
+ "comparator_rule": "highest pilot safe_success among comparators, ties to the cheaper arm",
+ "comparators": [
+  "A5-P",
+  "A3-P",
+  "A5"
+ ],
+ "design_sha256": "",
+ "development_evidence": {
+  "pilot_discordance": 0.06,
+  "pilot_mean_difference": 0.06,
+  "pilot_oracle_headroom": 0.5,
+  "pilot_placebo_difference": {
+   "A5-PV-shuffled": 0.01,
+   "A5-PV-wrongconf": 0.06
+  },
+  "pilot_placebo_unsafe_omissions": {
+   "A5-PV-shuffled": 0,
+   "A5-PV-wrongconf": 0
+  },
+  "pilot_report": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+  "pilot_rows_sha256": "5955e990fd49f8df640ae89ae406a32ddce81b7ebdd4ee9077f0eeccfefffc8f",
+  "pilot_safe_success": {
+   "A3-P": 0.5,
+   "A5": 0.1,
+   "A5-P": 0.5
+  },
+  "pilot_unsafe_omissions": {
+   "A3-P": 0,
+   "A5": 0,
+   "A5-P": 0,
+   "A5-PV": 0
+  },
+  "seeds_used": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ },
+ "exclusions": "none",
+ "familywise_alpha": 0.05,
+ "holdout": {
+  "families": [
+   "numeric_words",
+   "units",
+   "boundary",
+   "aliases",
+   "false_reassurance",
+   "replacement",
+   "collusion",
+   "injection",
+   "irrecoverable",
+   "canonical"
+  ],
+  "seeds": [
+   100,
+   101,
+   102,
+   103,
+   104,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110,
+   111,
+   112,
+   113,
+   114,
+   115,
+   116,
+   117,
+   118,
+   119,
+   120,
+   121,
+   122,
+   123
+  ],
+  "split": "holdout",
+  "tasks_per_arm": 240,
+  "template_fingerprints": [
+   "0d78b1b476c2ee5013cadf159df75693725c0ca86998aa05d384fe434db05bbe",
+   "20d6b1e181af74f190987a6bbc4a0db667a3fcd2ac89b9d6bbcbecfe66c6a302",
+   "21321721d38d5505db5604796204cb1bbc5bf3e4f938874abc11fb268424db2e",
+   "34d8d213cb22115d9e5c4cad5b58c8fc4ea5115094d9e5bd1a47696a2d67325b",
+   "3f46532cdabc555c8aa96e8db294875b2f35aa5819a0a4b1451959a5f0c44c43",
+   "4ef9c6325278108c3db07e9fb209b5530620c5448e7c9013e051ac6dcec7d37e",
+   "52f28cafc6abf8f099798cc1ee215ec3f5872559d85d72d2666e289613245058",
+   "5d8e76c6481699d47ef7e54dcd6afe99222a3aa27d3b5088912100a009aca097",
+   "623fa4435b63f87e952facf6546feff7ec16deace891db270c1644ea11f140af",
+   "65bc2872401f62be15392072baf4edf5da75e63d6aede2170ceb9bb7185e9553",
+   "6bc767a2bdcc4e3af38a1304f7f7556bf00e7e28825d793864bb8afa38c5a855",
+   "7611624a3e06325716c9adbfd6e059a34458d6f1ab178d3e114d5c6adecd3f54",
+   "79edc97df389bd36ffce197ad5b42760479180d3fe8207d98cfd6166e6c910df",
+   "92182df05cf4f2d22a9a5372abf33dd39d551f92a186c881c004d2a1780b522b",
+   "9c8bbad78b129981eaee52ac5dc6dd0380a6c8844330fb4879e8d061b07c8940",
+   "a1aa5f67826f3591f9f4c24f880e3c975eb8da74345e07b3d0f83d3c02709795",
+   "ec4447cea912b8df6de784e71e2757d5f1e8fb250c340ecb381be6adab9e0c36",
+   "f9c0e71cb6054f4dd68ebc9d774905a270387ed1bc8f8931a17d1c5ea9d222ef",
+   "fddddf08a7e750c49965b216a522f38bc2c56f94ba94ea7d88304300c0480590"
+  ]
+ },
+ "interval": {
+  "draws": 4000,
+  "method": "percentile cluster bootstrap"
+ },
+ "minimum_effect": 0.05,
+ "models": {
+  "advisor_call_budget": 8,
+  "vega": {
+   "calibration_version": null,
+   "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+   "reader": "Qwen3.5-0.8B",
+   "runtime_version": "0.19.0"
+  }
+ },
+ "primary_contrasts": [
+  "A5-P",
+  "A3-P"
+ ],
+ "primary_endpoint": "safe_success_over_all_assigned",
+ "schema_id": "memory-fabric.vega-cdm-registration.v2",
+ "status": "DRAFT",
+ "stopping_rule": "single look at the full holdout; no interim analysis",
+ "study": "vega-cdm-v2: does vega-U, used only to read calibration-doubt notes the typed reader leaves open, add safe completions?"
+}

@@ -58,7 +58,7 @@ class Gate(unittest.TestCase):
         self.assertEqual(gate.research()["status"], "RESEARCH_NO_GO")
         self.assertEqual(gate.model(None)["status"], "MODEL_NOT_RUN")
         self.assertIn("tests/test_vega_ledger_and_gate.py", gate.CONTRACT_TESTS)
-        source = (ROOT / "tools" / "vega_cdm_gate.py").read_text()
+        source = (ROOT / "tools" / "vega_cdm_gate.py").read_text(encoding="utf-8")
         for verdict in ("CORE_PASS", "MODEL_NOT_RUN", "AGENT_NOT_RUN", "RELEASE_NO_GO", "DOCS_CONSISTENT"):
             self.assertIn(verdict, source)
         self.assertIn("not model efficacy", source)
@@ -76,19 +76,32 @@ class Gate(unittest.TestCase):
         self.assertEqual(len(problems), 3)
 
 
+RECORDS_WITHOUT_A_LEVEL = {"memory-fabric.vega-next-baseline.v1", "memory-fabric.ci-audit.v1",
+                           "memory-fabric.vega-next.failure-trace.v1", "memory-fabric.vega-next-cdm-value.v1",
+                           "memory-fabric.vega-next-perf.v1"}
+DEVELOPMENT_LEVELS = ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR", "LOCAL_MODEL_DEVELOPMENT")
+
+
 class EvidenceLevels(unittest.TestCase):
     def test_every_recorded_vega_report_states_a_level_it_can_carry(self):
         from memory_fabric.causal_replay.semantic.taxonomy import check_report_level
         for path in (ROOT / "research" / "results" / "vega-cdm").rglob("*.json"):
-            data = json.loads(path.read_text())
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if data.get("schema_id") in RECORDS_WITHOUT_A_LEVEL:
+                continue  # baselines, CI audits and failure traces are records, not result reports
+            if data.get("schema_id") == "memory-fabric.vega-next-gate.v1":
+                # the next-study matrix: one verdict per gate, never a release or QUALIFIED claim
+                self.assertIn(data["release"], ("RELEASE_NO_GO", "ENGINEERING_GO_ONLY"), path)
+                self.assertNotIn("QUALIFIED", json.dumps(data), path)
+                continue
             if data.get("schema_id") == "memory-fabric.vega-cdm-gate.v1":
                 # gate records carry one verdict per tier instead of one level
                 self.assertEqual(data["release"]["status"], "RELEASE_NO_GO", path)
                 self.assertEqual(data["agent"]["status"], "AGENT_NOT_RUN", path)
                 self.assertEqual(data["ci_covers"], ["core", "docs"], path)
                 continue
-            level = data.get("evidence_level")
-            if level in ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR"):
+            level = data.get("evidence_level", data.get("status"))
+            if level in DEVELOPMENT_LEVELS:
                 continue  # development-only levels: not efficacy, checked by the arms tests
             if level == "VEGA_MODEL_SMOKE":
                 data = {**data, "model_digest": json.dumps(data).count("78f96be7c6a0") > 0,

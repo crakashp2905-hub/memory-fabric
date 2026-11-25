@@ -44,3 +44,37 @@ What the evidence does and does not show. Results are in
   reports. Run the server yourself, on loopback, from pinned files.
 - There is no OS sandbox around the inference process; isolation is a separate process
   and a loopback socket.
+
+## Next study (2026-11-25): what the fixes change and what stays true
+
+Evidence: [research/results/vega-cdm/next/](../research/results/vega-cdm/next/BASELINE.md).
+
+- **The two PR #41 unsafe omissions are reproduced exactly** (0 row differences on re-run) and traced: the
+  advisor answered p(hot) = 0.234 for "sixty-four degrees", decisively, and the arm chose `no_action`.
+  With the typed reader and the omission guard both cases become escalations
+  (`tests/test_omission_safety.py`). The model's misreading itself is unchanged: it is a property of the
+  0.8B reader, not something the fix removes.
+- **A second model family makes the same mistake.** Qwen2.5-1.5B-Instruct, asked directly, answered that
+  "sixty-one degrees C" is not above 50 C. As a planner, given verified findings that both sensors read
+  above 50 C, it still proposed `no_action` on hot packs; the omission guard blocked every such proposal.
+  Numeric facts must come from the deterministic reader, whatever model is used.
+- **The three-role team on a real 1.5B model completes nothing.** On the agent-outcome worlds it abstained
+  safely on every task (completion 0.0, no unsafe action): real local-model evidence that this size cannot
+  follow the protocol, not evidence about memory.
+- **The sensor-identity collision is fixed in claim identity v2** and reproduced under v1; `v1` remains for
+  rollback. Identifiers that are not registered are never resolved into a registered sensor.
+- **A cheap deterministic reader saturates the development worlds.** Any model gain has to come from
+  phrasing that the deterministic rules were not written for; the pilot split measures that headroom.
+- **The confirmatory study is on HOLD** ([VEGA_NEXT_DECISION.md](VEGA_NEXT_DECISION.md)). On unseen
+  phrasing vega-U adds 0.06 safe success over the typed reader, but a placebo that asks it about a note
+  from another world adds 0.05, so the gain is not specific to what it reads. The holdout split was not
+  read.
+- **A model must never settle contested readings without cooling.** Two pilots found this, once through
+  vega-U's doubt answers and once through the planner's own choice; the guard now refuses both, and the
+  unsafe runs are archived next to the corrected ones.
+- **vega-U misreads numbers on unseen phrasing:** 58% of truly hot pilot readings answered "not hot"
+  without abstaining. It reads doubt notes well (pilot AUROC 1.0) and "verified accurate" notes poorly
+  (pilot AUROC 0.78).
+- **A 1.5B planner cannot do the task.** With the guard, it is safe (0 unsafe omissions in 300 pilot
+  tasks) and mostly escalates (safe success 0.31-0.33).
+
