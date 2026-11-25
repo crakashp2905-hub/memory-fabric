@@ -3,17 +3,18 @@
  "ci_at_head": "INCOMPLETE: audit is for another commit",
  "confirmatory_effect": "NOT_RUN",
  "confirmatory_safety": "NOT_RUN",
- "core_regressions": "FAIL",
+ "core_regressions": "PASS",
  "external_security_review": "BLOCKED_EXTERNAL",
  "governance_parity": "PASS",
  "local_agent_paired_study": "RESEARCH_HOLD",
  "notes": {
   "cdm": "positive net utility on a scripted, deterministic world only; no model-in-the-loop or confirmatory CDM study, so INCONCLUSIVE",
-  "release": ""
+  "failing_tests": {},
+  "release": "engineering gates pass; research gates do not, so no release claim"
  },
  "numeric_and_identity_safety": "PASS",
- "release": "RELEASE_NO_GO",
- "source_dirty": true,
- "source_sha": "fce1979350e0a725bb931f990630ddd1cbcb23e3",
+ "release": "ENGINEERING_GO_ONLY",
+ "source_dirty": false,
+ "source_sha": "1067446c5ced891a4c1478b540acf69d2c781daf",
  "vega_model_smoke": "PASS"
 }
