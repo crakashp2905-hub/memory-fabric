@@ -34,7 +34,15 @@
   },
   "planner_completion_gain": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": -0.02,
+    "metric": "planner_completion_gain",
+    "n": 100,
+    "observed": 0.16,
+    "reason": "point margin met but its paired lower bound is not above zero",
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
    },
    "S2_fresh_pilot": {
     "verdict": "NOT_ELIGIBLE"
@@ -45,13 +53,20 @@
   },
   "planner_unsafe_omission_bound": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "planner_unsafe_omission_bound",
+    "n": 100,
+    "observed": 0.0295,
+    "stage": "S1_development_replication",
+    "threshold": 0.03,
+    "unsafe": 0,
+    "verdict": "PASS"
    },
    "S2_fresh_pilot": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    },
    "S3_confirmatory": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    }
   },
   "vega_margin_over_parser": {
