@@ -7,9 +7,11 @@
   "VEGA": "SHADOW: advisory serving only; autonomous influence is HOLD (not specific vs placebo)",
   "WHOLE_PRODUCT": "NO_GO for 1.0: BLOCKED_EXTERNAL: no independent security review, staging host or supervised pilot"
  },
- "gates_at_other_sha": [],
+ "gates_at_other_sha": [
+  "core"
+ ],
  "gates_passed": {
-  "agents": false,
+  "agents": true,
   "cdm": false,
   "core": false,
   "operations": false,
@@ -24,6 +26,6 @@
   "release_manager": null,
   "security_reviewer": null
  },
- "source_sha": "9f597f99605f0e75a8ebee97dc9c4dbc90a87109",
- "timestamp": "2026-11-25T18:25:05Z"
+ "source_sha": "86f6a86909c65b34c3504b1ee2f8fdd1ba3d031a",
+ "timestamp": "2026-11-25T20:18:12Z"
 }

@@ -1,0 +1,23 @@
+{
+  "download_attempted": false,
+  "host": "http://127.0.0.1:11434",
+  "missing": [],
+  "models": [
+    {
+      "digest": "sha256:04a84318cdec5543e99a10e0db40df3f7843226f88a8c0e840da95bbfa52487c",
+      "family": "qwen2",
+      "name": "qwen2.5:3b",
+      "parameter_size": "3b",
+      "quantization": "BF16",
+      "size_bytes": 6171926992
+    }
+  ],
+  "reason": "inventory read from local runtime",
+  "required": [
+    "qwen2.5:3b"
+  ],
+  "runtime_version": "transformers-5.24.0/torch-2.15.0+cu132",
+  "schema_id": "memory-fabric.model-preflight.v1",
+  "scripted_substitute_used": false,
+  "status": "MODELS_AVAILABLE"
+}
