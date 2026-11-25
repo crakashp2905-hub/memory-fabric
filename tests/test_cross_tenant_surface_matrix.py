@@ -100,5 +100,32 @@ class CrossTenantSurfaceMatrix(unittest.TestCase):
         self.assertNotIn("tn_a", str(foreign_dashboard))
 
 
+    def test_code_mode_utcp_and_retrieval_cannot_use_another_tenants_evidence(self) -> None:
+        # Freeze plan F02-01: the tool-execution surfaces and retrieval.
+        from memory_fabric.actions import ActionGate, ActionPolicy, ToolRule
+        from memory_fabric.tool_protocol import CodeModePlan, GovernedToolRuntime
+        fabric = MemoryFabric(":memory:", auto_activate=True)
+        service = MemoryService(fabric=fabric)
+        self.addCleanup(service.close)
+        service.register_agent("operator_b", key=b"tenant-b-code-mode-key", tenant_id="tn_b")
+        session_b = service.session(service.issue("operator_b"))
+        foreign = fabric.remember("reviewer", "TENANT-A-CANARY-5521 dispatch evidence is valid.",
+                                  tenant_id="tn_a", scope="team")
+        fabric.validate(foreign, actor="reviewer")
+        cert_a = fabric.certify("dispatch-approved", [foreign], "operator_a", tenant_id="tn_a")
+        gate = ActionGate(fabric, ActionPolicy(tools={"dispatch": ToolRule("dispatch")},
+                                               grants={"operator_b": frozenset({"dispatch"})}))
+        effects: list[dict] = []
+        runtime = GovernedToolRuntime(gate, {"dispatch": lambda **kw: effects.append(kw)})
+        plan = CodeModePlan.parse('dispatch(target="pump-7", setpoint=40)')
+        for claimed in ("tn_b", "tn_a"):
+            result = plan.execute(runtime, agent_id="operator_b", session=session_b, certificate=cert_a,
+                                  tenant_id=claimed)[0]
+            self.assertFalse(result.ran, claimed)
+        self.assertEqual(effects, [])
+        found = fabric.retrieve("operator_b", "TENANT-A-CANARY-5521 dispatch", tenant_id="tn_b", k=8)
+        self.assertNotIn(foreign, {m.id for m in found.exposed})
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
