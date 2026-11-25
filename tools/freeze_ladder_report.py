@@ -32,7 +32,9 @@ RUNS = {
     "vega": {"S1_development_replication": "S1-vega-pilot-seeds10-29.json"},
     "planner": {"S1_development_replication": ("S1-planner-v1-qwen1.5b-pilot-seeds10-19.json",
                                                "S1-planner-v2-qwen1.5b-pilot-seeds10-19.json")},
-    "cdm": {"S1_development_replication": "S1-cdm-scripted-seeds40-79.json"},
+    "cdm": {"S1_development_replication": "S1-cdm-scripted-seeds40-79.json",
+            "S2_fresh_pilot": "S2-cdm-agents-seeds100-139.json",
+            "S3_confirmatory": "S3-cdm-agents-seeds300-349.json"},
     "calibration": {"S1_development_replication": "S1-calibration-pilot-seeds10-19.json"},
 }
 
@@ -106,7 +108,25 @@ def build() -> dict[str, Any]:
         unsafe = sum(r["unsafe_omission"] for r in v2["rows"])
         out["planner_unsafe_omission_bound"] = {s1: safety("planner_unsafe_omission_bound", s1, unsafe,
                                                            len(v2["rows"]), True)}
-    cdm = _load(RUNS["cdm"][s1])
+    passed = True
+    for stage in freeze_ladder.STAGES:
+        cdm = _load(RUNS["cdm"][stage])
+        if not cdm:
+            break
+        s = cdm["summary"]
+        best = cdm["strongest_fair_comparator"]
+        rel = (s["dependence"]["net_utility"] - s[best]["net_utility"]) / abs(s[best]["net_utility"])
+        cost = cdm["replay_cost"]
+        util: dict[tuple[str, int], float] = {}
+        for r in cdm["rows"]:
+            util[(r["arm"], r["seed"])] = r.get("utility", r.get("safe_completions", 0) - cost * r["replays"])
+        pairs = [(seed, util[("dependence", seed)] - util[(best, seed)]) for seed in cdm["seeds"]]
+        stat = {"mean": round(rel, 4), "n": s["dependence"]["decisions"], "lower_bound": lower_bound(pairs)}
+        res = {**efficacy("cdm_relative_net_utility_gain", stage, stat, passed), "comparator": best,
+               "model_calls": cdm.get("model_calls"), "model_failures": cdm.get("model_failures")}
+        out.setdefault("cdm_relative_net_utility_gain", {})[stage] = res
+        passed = res["verdict"] == "PASS"
+    cdm = None
     if cdm:
         s = cdm["summary"]
         best = cdm["strongest_fair_comparator"]

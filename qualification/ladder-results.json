@@ -14,11 +14,12 @@
   },
   "cdm_relative_net_utility_gain": {
    "S1_development_replication": {
-    "amendment": 1,
     "comparator": "no_replay",
     "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
     "lower_bound": 0.75,
     "metric": "cdm_relative_net_utility_gain",
+    "model_calls": null,
+    "model_failures": null,
     "n": 240,
     "observed": 0.15,
     "stage": "S1_development_replication",
@@ -26,7 +27,17 @@
     "verdict": "PASS"
    },
    "S2_fresh_pilot": {
-    "verdict": "NOT_RUN"
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "model_calls": 159,
+    "model_failures": 0,
+    "n": 240,
+    "observed": 0.15,
+    "stage": "S2_fresh_pilot",
+    "threshold": 0.05,
+    "verdict": "PASS"
    },
    "S3_confirmatory": {
     "verdict": "NOT_RUN"
