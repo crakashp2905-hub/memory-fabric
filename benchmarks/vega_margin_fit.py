@@ -58,7 +58,10 @@ def ask(rows: list[dict[str, Any]], advisor: Advisor) -> None:
         advice = advisor.decide(f"Note: {r['text']}", arms.DOUBT_Q)
         for q in ("doubt", "cleared"):
             a = advice.answers[q]
-            r[q] = float(a.value) if a.decisive and a.value is not None else None
+            # The probability counts whenever the model answered, abstaining included: the margin
+            # rule is calibrated on these rows, and the model's abstention flag is recorded too.
+            r[q] = float(a.value) if a.status in ("OK", "ABSTAIN") and a.value is not None else None
+            r[f"{q}_status"] = a.status
 
 
 def fit(rows: list[dict[str, Any]]) -> dict[str, Any]:

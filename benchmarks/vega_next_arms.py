@@ -131,8 +131,8 @@ def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool 
     if acceptance is not None:
         pd = advice.answers["doubt"]
         pc = advice.answers["cleared"]
-        if not (pd.decisive and pc.decisive and pd.value is not None and pc.value is not None):
-            return None
+        if not all(a.status in ("OK", "ABSTAIN") and a.value is not None for a in (pd, pc)):
+            return None  # an unavailable or invalid answer gives no state
         margin = float(pd.value) - float(pc.value)
         if invert:
             margin = -margin
