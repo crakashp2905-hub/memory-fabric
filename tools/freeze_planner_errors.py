@@ -91,7 +91,7 @@ def build() -> dict[str, Any]:
             examples[c].append({"arm": row["arm"], "family": row["family"], "seed": row["seed"],
                                 "findings": seen, "correct": correct, "proposed": row.get("proposed"),
                                 "terminal": row["terminal"]})
-    return {"schema_id": "memory-fabric.planner-error-taxonomy.v1", "source": str(PILOT.relative_to(ROOT)),
+    return {"schema_id": "memory-fabric.planner-error-taxonomy.v1", "source": PILOT.relative_to(ROOT).as_posix(),
             "model_calls": 0, "tasks_per_arm": {a: sum(c.values()) for a, c in proposals.items()},
             "root_causes": {a: dict(sorted(c.items())) for a, c in sorted(table.items())},
             "proposal_to_terminal": {a: dict(sorted(c.items())) for a, c in sorted(proposals.items())},

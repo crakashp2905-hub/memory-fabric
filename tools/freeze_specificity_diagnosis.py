@@ -71,7 +71,7 @@ def build() -> dict[str, Any]:
         f"{sum(i['real_won'] for i in instances)}; every placebo win is a counterexample listed below",
         "the margin p(doubt) - p(cleared) separates doubt notes from cleared notes on both calibration splits, "
         "so the content is read; the loss is in the acceptance rule, which is the repair candidate (F05-03)"]
-    return {"schema_id": "memory-fabric.vega-specificity-diagnosis.v1", "source": str(PILOT.relative_to(ROOT)),
+    return {"schema_id": "memory-fabric.vega-specificity-diagnosis.v1", "source": PILOT.relative_to(ROOT).as_posix(),
             "model_calls": 0, "instances": instances, "derived_states": {f"{k[0]}:{k[1]}": v for k, v in
                                                                           sorted(derived.items())},
             "margin_by_note_type": margins, "findings": findings,
