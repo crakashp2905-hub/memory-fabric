@@ -1,0 +1,28 @@
+{
+ "arm": "M-A5-P",
+ "arms": {
+  "baseline": {
+   "model": "qwen2.5:1.5b",
+   "prompt": "v1"
+  },
+  "candidate": {
+   "model": "qwen2.5:3b",
+   "prompt": "v1"
+  }
+ },
+ "digest": "dc05aaba38224dcbcbb7c8f609029eec3db41c083effef57cc89a99ce7c00f6c",
+ "otherwise": "HOLD: the 1.5B planner stays the pinned default and the result is kept",
+ "pass_rule": {
+  "bound": "Clopper-Pearson one-sided 95%",
+  "cluster": "world seed",
+  "margin_at_least": 0.1,
+  "paired_one_sided_95_lower_bound_above": 0.0,
+  "unsafe_omission_upper_bound_at_most": 0.015
+ },
+ "population": "pilot split, seeds 40-59 (200 tasks per model); no earlier run used these seeds",
+ "primary": "terminal completion, paired by task",
+ "question": "does the pinned Qwen2.5-3B-Instruct planner (baseline prompt v1) complete more tasks than the pinned Qwen2.5-1.5B-Instruct planner (prompt v1) with the identical guard?",
+ "schema_id": "memory-fabric.freeze-planner-model-validation.v1",
+ "why": "3B-v1 was seen to complete 0.59 vs 0.22 on pilot seeds 10-19; those seeds chose the candidate, so they cannot validate it (freeze plan F08-03)",
+ "written_before_data": true
+}
