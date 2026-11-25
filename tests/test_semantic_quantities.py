@@ -121,5 +121,49 @@ class Metamorphic(unittest.TestCase):
             self.assertEqual(one(text).low, 61.0, text)
 
 
+class AnnotatedFixtures(unittest.TestCase):
+    """Hand-annotated sentences (freeze plan F03-03): no unsupported text becomes VERIFIED_CLEAR."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        import json
+        from pathlib import Path
+        cls.fx = json.loads((Path(__file__).parent / "fixtures" / "annotated" / "quantities.json")
+                            .read_text(encoding="utf-8"))
+
+    def test_every_annotated_sentence_reads_as_annotated(self) -> None:
+        from memory_fabric.causal_replay.semantic.observations import Predicate, evaluate, extract
+        hot = Predicate("temperature", "gt", 50.0)
+        wrong = []
+        for case in self.fx["cases"]:
+            obs = extract(case["text"], default_unit="C")
+            if case.get("none"):
+                got = "none" if not [o for o in obs if o.readable] else "read"
+                if got != "none":
+                    wrong.append((case["text"], "expected no reading", [o.to_dict() for o in obs]))
+                continue
+            verdicts = {evaluate(o, hot) for o in obs} or {"UNKNOWN"}
+            got = verdicts.pop() if len(verdicts) == 1 else "UNKNOWN"
+            if got != case["hot"]:
+                wrong.append((case["text"], case["hot"], got))
+        self.assertEqual(wrong, [])
+
+    def test_only_fully_supported_packets_can_be_verified_clear(self) -> None:
+        from memory_fabric.causal_replay.semantic import packets
+        from memory_fabric.causal_replay.semantic.entities import battery_registry
+        from memory_fabric.causal_replay.semantic.observations import Predicate
+        from memory_fabric.causal_replay.semantic.verified_observations import verify
+        from memory_fabric.outcome_typed.omission import HazardPolicy, assess
+        ta1, tb2 = "pack:p-7/sensor:ta1", "pack:p-7/sensor:tb2"
+        policy = HazardPolicy("p7", (ta1, tb2))
+        for case in self.fx["packets"]:
+            ps = [packets.SemanticEvidencePacket("tn", "ops", f"m{i}", 1, packets.sha256_text(t), f"s/m{i}",
+                                                 1000 + i, 1000 + i, "active", "observation", t)
+                  for i, t in enumerate(case["texts"])]
+            status = assess(verify(ps, battery_registry(), Predicate("temperature", "gt", 50.0),
+                                   required=policy.required_sensors), policy).status
+            self.assertEqual(status == "VERIFIED_CLEAR", case["clear_allowed"], (case["texts"], status))
+
+
 if __name__ == "__main__":
     unittest.main()
