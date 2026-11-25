@@ -147,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (111)
+## Experimental (112)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.adapters.vega_u`
@@ -236,6 +236,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_typed.eligibility`
 - `memory_fabric.outcome_typed.episode`
 - `memory_fabric.outcome_typed.evidence`
+- `memory_fabric.outcome_typed.limited_process`
 - `memory_fabric.outcome_typed.model_actor`
 - `memory_fabric.outcome_typed.observations`
 - `memory_fabric.outcome_typed.omission`

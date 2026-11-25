@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 256
+  "unique": 260
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -52,6 +52,7 @@
     "eligibility",
     "episode",
     "evidence",
+    "limited_process",
     "model_actor",
     "observations",
     "omission",
@@ -66,7 +67,7 @@
     "semantic_advisory",
     "spool"
    ],
-   "public_names": 236,
+   "public_names": 240,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -777,6 +778,7 @@
    "LIMIT_FIELDS",
    "LadderResult",
    "Lease",
+   "LimitedResult",
    "MAX_ALTERNATE_SOURCE_BASES",
    "MAX_ALTERNATE_SOURCE_CANDIDATES",
    "MAX_ALTERNATE_SOURCE_QUERY_CHARS",
@@ -893,6 +895,7 @@
    "diagnose_relevance",
    "dispatch",
    "dispatch_counterfactual_replay",
+   "explain",
    "explain_task_failure",
    "failure_cause",
    "find_alternate_sources",
@@ -919,6 +922,7 @@
    "run_agent_loop",
    "run_demo",
    "run_episode",
+   "run_limited",
    "scrub_public_json",
    "search_ladder",
    "state_fingerprint",
@@ -926,6 +930,7 @@
    "step_to_legacy",
    "suggest",
    "summarize_audit_memory_links",
+   "supported",
    "targeted_correction_reevaluation_receipts",
    "terminal_action",
    "tool_schema",

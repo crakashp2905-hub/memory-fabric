@@ -77,7 +77,9 @@ class Gate(unittest.TestCase):
 
 
 RECORDS_WITHOUT_A_LEVEL = {"memory-fabric.vega-next-baseline.v1", "memory-fabric.ci-audit.v1",
-                           "memory-fabric.vega-next.failure-trace.v1"}
+                           "memory-fabric.vega-next.failure-trace.v1", "memory-fabric.vega-next-cdm-value.v1",
+                           "memory-fabric.vega-next-perf.v1"}
+DEVELOPMENT_LEVELS = ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR", "LOCAL_MODEL_DEVELOPMENT")
 
 
 class EvidenceLevels(unittest.TestCase):
@@ -93,8 +95,8 @@ class EvidenceLevels(unittest.TestCase):
                 self.assertEqual(data["agent"]["status"], "AGENT_NOT_RUN", path)
                 self.assertEqual(data["ci_covers"], ["core", "docs"], path)
                 continue
-            level = data.get("evidence_level")
-            if level in ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR"):
+            level = data.get("evidence_level", data.get("status"))
+            if level in DEVELOPMENT_LEVELS:
                 continue  # development-only levels: not efficacy, checked by the arms tests
             if level == "VEGA_MODEL_SMOKE":
                 data = {**data, "model_digest": json.dumps(data).count("78f96be7c6a0") > 0,

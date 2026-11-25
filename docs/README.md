@@ -110,6 +110,8 @@ Every document in the repository, by what you are trying to do.
 | [VEGA_CDM_LIMITATIONS.md](VEGA_CDM_LIMITATIONS.md) | What the Vega-CDM evidence does and does not show, including the unsafe misreadings |
 | [VEGA_CDM_THREAT_MODEL.md](VEGA_CDM_THREAT_MODEL.md) | Threats, controls, tests and residual risk for the semantic advisor |
 | [VEGA_CDM_OPERATIONS.md](VEGA_CDM_OPERATIONS.md) | Measured hardware profile, limits, isolation and fallback |
+| [VEGA_NEXT_GUIDE.md](VEGA_NEXT_GUIDE.md) | Next Vega study: typed readings, sensor identity, omission guard, local install, host choice, pilot plan |
+| [VEGA_NEXT_DECISION.md](VEGA_NEXT_DECISION.md) | Next Vega study: the GO/HOLD/NO_GO decision from frozen evidence |
 | [VALIDATION.md](VALIDATION.md) | What was run and what it showed |
 | [STATUS_AT_HEAD.md](STATUS_AT_HEAD.md) | Versions, tiers, skipped tests and contradictions, generated from the tree |
 | [KNOWN_GAPS.md](KNOWN_GAPS.md) | What the masterplan asks for that is not done |
@@ -128,6 +130,7 @@ Every document in the repository, by what you are trying to do.
 | [OUTCOME_PROTOCOL_EVALUATION.md](OUTCOME_PROTOCOL_EVALUATION.md) | Evaluator-side terminal outcome protocol (`memory_fabric.outcome_protocol`), kept separate from the agent-outcome contracts until reconciled |
 | [checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md](checklists/AGENT_VALIDATION_CHECKLIST_2026-11-20.md) | The agent-validation checklist (240 tasks); status of each task is in the [task ledger](../research/checklist/AGENT_VALIDATION_LEDGER.md), and the starting point in the [baseline](../research/results/agent-outcomes/baseline-70e34c8/BASELINE.md) |
 | [checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md](checklists/VEGA_CAUSAL_MEMORY_CHECKLIST.md) | The Vega-U semantic causal memory plan (180 tasks); status per task is in the [evidence matrix](../research/checklist/VEGA_CDM_EVIDENCE_MATRIX.md) |
+| [checklists/VEGA_NEXT_CORRECTNESS_CHECKLIST_2026-11-25.md](checklists/VEGA_NEXT_CORRECTNESS_CHECKLIST_2026-11-25.md) | The next Vega correctness and agent-validation plan (160 tasks); status per task in the [evidence matrix](../research/checklist/VEGA_NEXT_EVIDENCE_MATRIX.md) |
 | [../VERSIONING.md](../VERSIONING.md) | What a version number promises; supported versions |
 
 ## For maintainers

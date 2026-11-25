@@ -1,0 +1,57 @@
+{
+ "host": {
+  "cpus": 4,
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "parser": {
+  "p50": 0.0349,
+  "p95": 0.0589,
+  "p99": 0.0806,
+  "texts": 244,
+  "total_s": 0.0096,
+  "unit": "ms"
+ },
+ "replay_stages": {
+  "decisions": 400,
+  "execute": {
+   "p50": 0.1265,
+   "p95": 0.1782,
+   "p99": 0.3322
+  },
+  "unit": "ms",
+  "verify": {
+   "p50": 0.1209,
+   "p95": 0.1696,
+   "p99": 0.3288
+  }
+ },
+ "schema_id": "memory-fabric.vega-next-perf.v1",
+ "scope": "this host only; model-free; a model process running alongside is noted in the report",
+ "workers": {
+  "by_workers": {
+   "1": {
+    "speedup_vs_1": 1.0,
+    "tasks": 120,
+    "wall_s": 0.526
+   },
+   "2": {
+    "speedup_vs_1": 1.708,
+    "tasks": 120,
+    "wall_s": 0.308
+   },
+   "4": {
+    "speedup_vs_1": 2.238,
+    "tasks": 120,
+    "wall_s": 0.235
+   },
+   "8": {
+    "speedup_vs_1": 1.392,
+    "tasks": 120,
+    "wall_s": 0.378
+   }
+  },
+  "cpus": 4,
+  "includes": "process start and queueing"
+ }
+}

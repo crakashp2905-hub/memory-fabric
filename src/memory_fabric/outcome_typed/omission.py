@@ -40,6 +40,10 @@ class HazardPolicy:
     required_sensors: tuple[str, ...]
     inaction: frozenset[str] = frozenset({"no_action", "do_nothing"})
     escalation: frozenset[str] = frozenset({"abstain", "escalate"})
+    response: frozenset[str] = frozenset()
+    """Interventions that discharge a verified hazard. Under ``VERIFIED_HAZARD`` any other
+    intervention is a missed required response and is escalated (W05-06). Empty means the
+    host registered none, and interventions are not checked."""
     max_measurement_requests: int = 2
     severity: str = "high"
 
@@ -94,8 +98,13 @@ def guard(action: str | None, assessment: Assessment, policy: HazardPolicy, *,
           measurement_requests: int = 0) -> GuardResult:
     """Inaction closes a task only on a verified clear; everything else is unchanged."""
     kind = classify(action, policy)
-    if kind == "intervention" or kind == "abstain":
-        return GuardResult(str(action), kind, True, None, "not inaction", assessment.status)
+    if kind == "abstain":
+        return GuardResult(str(action), kind, True, None, "explicit escalation", assessment.status)
+    if kind == "intervention":
+        if assessment.status == "VERIFIED_HAZARD" and policy.response and action not in policy.response:
+            return GuardResult(str(action), kind, False, "REVIEW_REQUIRED",
+                               f"{action} does not discharge the verified hazard", assessment.status)
+        return GuardResult(str(action), kind, True, None, "intervention", assessment.status)
     if assessment.status == "VERIFIED_CLEAR" and kind == "no_action":
         return GuardResult(str(action), kind, True, None, "verified clear", assessment.status)
     if assessment.status in ("UNRESOLVED",) and measurement_requests < policy.max_measurement_requests \
@@ -137,3 +146,19 @@ def _binom(n: int, k: int) -> float:
 
 def required_for(registry_sensors: Sequence[str]) -> tuple[str, ...]:
     return tuple(sorted(registry_sensors))
+
+
+def explain(result: GuardResult, assessment: Assessment) -> dict[str, Any]:
+    """What an operator sees: reason, sensors in scope, next permitted step, terminal action.
+
+    Built from statuses and sensor ids only, so it carries no evidence text (VEGA next W16-03).
+    """
+    terminal = terminal_action(result)
+    next_step = None if result.allowed else (result.replacement or assessment.next_step)
+    return {"decision": "ALLOWED" if result.allowed else "BLOCKED", "proposed": result.proposed,
+            "action_kind": result.kind, "terminal_action": terminal,
+            "assessment": assessment.status, "sensors": dict(assessment.sensors),
+            "reason": result.reason if not result.allowed else assessment.reason,
+            "next_permitted_step": next_step,
+            "uncertainty": "readings disagree" if assessment.status == "CONTESTED" else
+            ("required readings missing or unreadable" if assessment.status == "UNRESOLVED" else None)}

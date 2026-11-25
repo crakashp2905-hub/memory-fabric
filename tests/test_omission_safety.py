@@ -66,6 +66,20 @@ class Guard(unittest.TestCase):
         self.assertFalse(guard(None, missing, POLICY).allowed)
 
 
+class RequiredResponse(unittest.TestCase):
+    def test_a_verified_hazard_needs_an_intervention_that_discharges_it(self):
+        policy = HazardPolicy("p", (TA1, TB2), response=frozenset({"cool_pack", "cool_and_recalibrate"}))
+        hot = assess(findings("10:00 pack P-7 sensor TA1 reads 61 C", "10:15 pack P-7 sensor TB2 reads 64 C"), policy)
+        self.assertTrue(guard("cool_pack", hot, policy).allowed)
+        missed = guard("recalibrate_probe", hot, policy)  # the A5-VG boundary case from the dev run
+        self.assertFalse(missed.allowed)
+        self.assertEqual(missed.replacement, "REVIEW_REQUIRED")
+        contested = assess(findings("10:00 pack P-7 sensor TA1 reads 61 C", "10:15 pack P-7 sensor TB2 reads 41 C"),
+                           policy)
+        self.assertTrue(guard("recalibrate_probe", contested, policy).allowed)  # drift: recalibration is lawful
+        self.assertTrue(guard("cool_pack", hot, POLICY).allowed)  # a policy with no registered response checks none
+
+
 class ModelCannotLowerHazard(unittest.TestCase):
     def test_a_confident_reassurance_from_the_model_or_the_text_changes_nothing(self):
         from memory_fabric.causal_replay.semantic.advice import Answer

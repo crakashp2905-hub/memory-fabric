@@ -1,0 +1,486 @@
+{
+ "spec": "docs/checklists/VEGA_NEXT_CORRECTNESS_CHECKLIST_2026-11-25.md",
+ "spec_sha256": "7c1d3f546102cea5aec8f0be3fcd059a693d2eccd7d9c06a30aeda21b00ebac3",
+ "tasks": {
+  "W01-01": {
+   "status": "NOT_STARTED"
+  },
+  "W01-02": {
+   "status": "NOT_STARTED"
+  },
+  "W01-03": {
+   "status": "NOT_STARTED"
+  },
+  "W01-04": {
+   "status": "NOT_STARTED"
+  },
+  "W01-05": {
+   "status": "NOT_STARTED"
+  },
+  "W01-06": {
+   "status": "NOT_STARTED"
+  },
+  "W01-07": {
+   "status": "NOT_STARTED"
+  },
+  "W01-08": {
+   "status": "NOT_STARTED"
+  },
+  "W01-09": {
+   "status": "NOT_STARTED"
+  },
+  "W01-10": {
+   "status": "NOT_STARTED"
+  },
+  "W02-01": {
+   "status": "NOT_STARTED"
+  },
+  "W02-02": {
+   "status": "NOT_STARTED"
+  },
+  "W02-03": {
+   "status": "NOT_STARTED"
+  },
+  "W02-04": {
+   "status": "NOT_STARTED"
+  },
+  "W02-05": {
+   "status": "NOT_STARTED"
+  },
+  "W02-06": {
+   "status": "NOT_STARTED"
+  },
+  "W02-07": {
+   "status": "NOT_STARTED"
+  },
+  "W02-08": {
+   "status": "NOT_STARTED"
+  },
+  "W02-09": {
+   "status": "NOT_STARTED"
+  },
+  "W02-10": {
+   "status": "NOT_STARTED"
+  },
+  "W03-01": {
+   "status": "NOT_STARTED"
+  },
+  "W03-02": {
+   "status": "NOT_STARTED"
+  },
+  "W03-03": {
+   "status": "NOT_STARTED"
+  },
+  "W03-04": {
+   "status": "NOT_STARTED"
+  },
+  "W03-05": {
+   "status": "NOT_STARTED"
+  },
+  "W03-06": {
+   "status": "NOT_STARTED"
+  },
+  "W03-07": {
+   "status": "NOT_STARTED"
+  },
+  "W03-08": {
+   "status": "NOT_STARTED"
+  },
+  "W03-09": {
+   "status": "NOT_STARTED"
+  },
+  "W03-10": {
+   "status": "NOT_STARTED"
+  },
+  "W04-01": {
+   "status": "NOT_STARTED"
+  },
+  "W04-02": {
+   "status": "NOT_STARTED"
+  },
+  "W04-03": {
+   "status": "NOT_STARTED"
+  },
+  "W04-04": {
+   "status": "NOT_STARTED"
+  },
+  "W04-05": {
+   "status": "NOT_STARTED"
+  },
+  "W04-06": {
+   "status": "NOT_STARTED"
+  },
+  "W04-07": {
+   "status": "NOT_STARTED"
+  },
+  "W04-08": {
+   "status": "NOT_STARTED"
+  },
+  "W04-09": {
+   "status": "NOT_STARTED"
+  },
+  "W04-10": {
+   "status": "NOT_STARTED"
+  },
+  "W05-01": {
+   "status": "NOT_STARTED"
+  },
+  "W05-02": {
+   "status": "NOT_STARTED"
+  },
+  "W05-03": {
+   "status": "NOT_STARTED"
+  },
+  "W05-04": {
+   "status": "NOT_STARTED"
+  },
+  "W05-05": {
+   "status": "NOT_STARTED"
+  },
+  "W05-06": {
+   "status": "NOT_STARTED"
+  },
+  "W05-07": {
+   "status": "NOT_STARTED"
+  },
+  "W05-08": {
+   "status": "NOT_STARTED"
+  },
+  "W05-09": {
+   "status": "NOT_STARTED"
+  },
+  "W05-10": {
+   "status": "NOT_STARTED"
+  },
+  "W06-01": {
+   "status": "NOT_STARTED"
+  },
+  "W06-02": {
+   "status": "NOT_STARTED"
+  },
+  "W06-03": {
+   "status": "NOT_STARTED"
+  },
+  "W06-04": {
+   "status": "NOT_STARTED"
+  },
+  "W06-05": {
+   "status": "NOT_STARTED"
+  },
+  "W06-06": {
+   "status": "NOT_STARTED"
+  },
+  "W06-07": {
+   "status": "NOT_STARTED"
+  },
+  "W06-08": {
+   "status": "NOT_STARTED"
+  },
+  "W06-09": {
+   "status": "NOT_STARTED"
+  },
+  "W06-10": {
+   "status": "NOT_STARTED"
+  },
+  "W07-01": {
+   "status": "NOT_STARTED"
+  },
+  "W07-02": {
+   "status": "NOT_STARTED"
+  },
+  "W07-03": {
+   "status": "NOT_STARTED"
+  },
+  "W07-04": {
+   "status": "NOT_STARTED"
+  },
+  "W07-05": {
+   "status": "NOT_STARTED"
+  },
+  "W07-06": {
+   "status": "NOT_STARTED"
+  },
+  "W07-07": {
+   "status": "NOT_STARTED"
+  },
+  "W07-08": {
+   "status": "NOT_STARTED"
+  },
+  "W07-09": {
+   "status": "NOT_STARTED"
+  },
+  "W07-10": {
+   "status": "NOT_STARTED"
+  },
+  "W08-01": {
+   "status": "NOT_STARTED"
+  },
+  "W08-02": {
+   "status": "NOT_STARTED"
+  },
+  "W08-03": {
+   "status": "NOT_STARTED"
+  },
+  "W08-04": {
+   "status": "NOT_STARTED"
+  },
+  "W08-05": {
+   "status": "NOT_STARTED"
+  },
+  "W08-06": {
+   "status": "NOT_STARTED"
+  },
+  "W08-07": {
+   "status": "NOT_STARTED"
+  },
+  "W08-08": {
+   "status": "NOT_STARTED"
+  },
+  "W08-09": {
+   "status": "NOT_STARTED"
+  },
+  "W08-10": {
+   "status": "NOT_STARTED"
+  },
+  "W09-01": {
+   "status": "NOT_STARTED"
+  },
+  "W09-02": {
+   "status": "NOT_STARTED"
+  },
+  "W09-03": {
+   "status": "NOT_STARTED"
+  },
+  "W09-04": {
+   "status": "NOT_STARTED"
+  },
+  "W09-05": {
+   "status": "NOT_STARTED"
+  },
+  "W09-06": {
+   "status": "NOT_STARTED"
+  },
+  "W09-07": {
+   "status": "NOT_STARTED"
+  },
+  "W09-08": {
+   "status": "NOT_STARTED"
+  },
+  "W09-09": {
+   "status": "NOT_STARTED"
+  },
+  "W09-10": {
+   "status": "NOT_STARTED"
+  },
+  "W10-01": {
+   "status": "NOT_STARTED"
+  },
+  "W10-02": {
+   "status": "NOT_STARTED"
+  },
+  "W10-03": {
+   "status": "NOT_STARTED"
+  },
+  "W10-04": {
+   "status": "NOT_STARTED"
+  },
+  "W10-05": {
+   "status": "NOT_STARTED"
+  },
+  "W10-06": {
+   "status": "NOT_STARTED"
+  },
+  "W10-07": {
+   "status": "NOT_STARTED"
+  },
+  "W10-08": {
+   "status": "NOT_STARTED"
+  },
+  "W10-09": {
+   "status": "NOT_STARTED"
+  },
+  "W10-10": {
+   "status": "NOT_STARTED"
+  },
+  "W11-01": {
+   "status": "NOT_STARTED"
+  },
+  "W11-02": {
+   "status": "NOT_STARTED"
+  },
+  "W11-03": {
+   "status": "NOT_STARTED"
+  },
+  "W11-04": {
+   "status": "NOT_STARTED"
+  },
+  "W11-05": {
+   "status": "NOT_STARTED"
+  },
+  "W11-06": {
+   "status": "NOT_STARTED"
+  },
+  "W11-07": {
+   "status": "NOT_STARTED"
+  },
+  "W11-08": {
+   "status": "NOT_STARTED"
+  },
+  "W11-09": {
+   "status": "NOT_STARTED"
+  },
+  "W11-10": {
+   "status": "NOT_STARTED"
+  },
+  "W12-01": {
+   "status": "NOT_STARTED"
+  },
+  "W12-02": {
+   "status": "NOT_STARTED"
+  },
+  "W12-03": {
+   "status": "NOT_STARTED"
+  },
+  "W12-04": {
+   "status": "NOT_STARTED"
+  },
+  "W12-05": {
+   "status": "NOT_STARTED"
+  },
+  "W12-06": {
+   "status": "NOT_STARTED"
+  },
+  "W12-07": {
+   "status": "NOT_STARTED"
+  },
+  "W12-08": {
+   "status": "NOT_STARTED"
+  },
+  "W12-09": {
+   "status": "NOT_STARTED"
+  },
+  "W12-10": {
+   "status": "NOT_STARTED"
+  },
+  "W13-01": {
+   "status": "NOT_STARTED"
+  },
+  "W13-02": {
+   "status": "NOT_STARTED"
+  },
+  "W13-03": {
+   "status": "NOT_STARTED"
+  },
+  "W13-04": {
+   "status": "NOT_STARTED"
+  },
+  "W13-05": {
+   "status": "NOT_STARTED"
+  },
+  "W13-06": {
+   "status": "NOT_STARTED"
+  },
+  "W13-07": {
+   "status": "NOT_STARTED"
+  },
+  "W13-08": {
+   "status": "NOT_STARTED"
+  },
+  "W13-09": {
+   "status": "NOT_STARTED"
+  },
+  "W13-10": {
+   "status": "NOT_STARTED"
+  },
+  "W14-01": {
+   "status": "NOT_STARTED"
+  },
+  "W14-02": {
+   "status": "NOT_STARTED"
+  },
+  "W14-03": {
+   "status": "NOT_STARTED"
+  },
+  "W14-04": {
+   "status": "NOT_STARTED"
+  },
+  "W14-05": {
+   "status": "NOT_STARTED"
+  },
+  "W14-06": {
+   "status": "NOT_STARTED"
+  },
+  "W14-07": {
+   "status": "NOT_STARTED"
+  },
+  "W14-08": {
+   "status": "NOT_STARTED"
+  },
+  "W14-09": {
+   "status": "NOT_STARTED"
+  },
+  "W14-10": {
+   "status": "NOT_STARTED"
+  },
+  "W15-01": {
+   "status": "NOT_STARTED"
+  },
+  "W15-02": {
+   "status": "NOT_STARTED"
+  },
+  "W15-03": {
+   "status": "NOT_STARTED"
+  },
+  "W15-04": {
+   "status": "NOT_STARTED"
+  },
+  "W15-05": {
+   "status": "NOT_STARTED"
+  },
+  "W15-06": {
+   "status": "NOT_STARTED"
+  },
+  "W15-07": {
+   "status": "NOT_STARTED"
+  },
+  "W15-08": {
+   "status": "NOT_STARTED"
+  },
+  "W15-09": {
+   "status": "NOT_STARTED"
+  },
+  "W15-10": {
+   "status": "NOT_STARTED"
+  },
+  "W16-01": {
+   "status": "NOT_STARTED"
+  },
+  "W16-02": {
+   "status": "NOT_STARTED"
+  },
+  "W16-03": {
+   "status": "NOT_STARTED"
+  },
+  "W16-04": {
+   "status": "NOT_STARTED"
+  },
+  "W16-05": {
+   "status": "NOT_STARTED"
+  },
+  "W16-06": {
+   "status": "NOT_STARTED"
+  },
+  "W16-07": {
+   "status": "NOT_STARTED"
+  },
+  "W16-08": {
+   "status": "NOT_STARTED"
+  },
+  "W16-09": {
+   "status": "NOT_STARTED"
+  },
+  "W16-10": {
+   "status": "NOT_STARTED"
+  }
+ }
+}

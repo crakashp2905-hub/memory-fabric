@@ -120,3 +120,13 @@ def admissible_feedback(item: Mapping[str, Any]) -> bool:
     """Only evaluator-confirmed labels, recorded after the outcome they describe."""
     return (item.get("source") == "evaluator" and isinstance(item.get("label_at"), int)
             and isinstance(item.get("outcome_at"), int) and item["label_at"] > item["outcome_at"])
+
+
+def auroc(rows: Sequence[CalibrationRow], positive: str = "true") -> float | None:
+    """Area under the ROC curve of p(positive), by the rank statistic (W06-05)."""
+    pos = [r.probs.get(positive, 0.0) for r in rows if r.correct == positive]
+    neg = [r.probs.get(positive, 0.0) for r in rows if r.correct != positive]
+    if not pos or not neg:
+        return None
+    wins = sum(1.0 if p > n else 0.5 if p == n else 0.0 for p in pos for n in neg)
+    return round(wins / (len(pos) * len(neg)), 4)
