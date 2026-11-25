@@ -1,0 +1,199 @@
+{
+ "examples": {
+  "planning": [
+   {
+    "arm": "M-A5",
+    "correct": "cool_pack",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "no_action",
+    "seed": 0,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5-P",
+    "correct": "cool_pack",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "no_action",
+    "seed": 0,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5-PV",
+    "correct": "cool_pack",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "no_action",
+    "seed": 0,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5",
+    "correct": "recalibrate_probe",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "no_action",
+    "seed": 1,
+    "terminal": "FALSE_WITHHOLDING"
+   }
+  ],
+  "selection": [
+   {
+    "arm": "M-A5",
+    "correct": "cool_and_recalibrate",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 2,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5-P",
+    "correct": "cool_and_recalibrate",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 2,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5-PV",
+    "correct": "cool_and_recalibrate",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:TRUE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 2,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5",
+    "correct": "no_action",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:FALSE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "cool_pack",
+    "seed": 3,
+    "terminal": "WRONG_ACTION"
+   }
+  ],
+  "verification": [
+   {
+    "arm": "M-A5",
+    "correct": "recalibrate_probe",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 6,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5-PV",
+    "correct": "recalibrate_probe",
+    "family": "numeric_words",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 6,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5",
+    "correct": "recalibrate_probe",
+    "family": "units",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 1,
+    "terminal": "FALSE_WITHHOLDING"
+   },
+   {
+    "arm": "M-A5",
+    "correct": "recalibrate_probe",
+    "family": "units",
+    "findings": {
+     "ta1": "VERIFIED:TRUE",
+     "tb2": "VERIFIED:FALSE"
+    },
+    "proposed": "recalibrate_probe",
+    "seed": 6,
+    "terminal": "FALSE_WITHHOLDING"
+   }
+  ]
+ },
+ "model_calls": 0,
+ "proposal_to_terminal": {
+  "M-A5": {
+   "cool_and_recalibrate->cool_and_recalibrate": 6,
+   "cool_pack->cool_pack": 3,
+   "no_action->abstain": 38,
+   "no_action->no_action": 18,
+   "recalibrate_probe->abstain": 34,
+   "recalibrate_probe->recalibrate_probe": 1
+  },
+  "M-A5-P": {
+   "no_action->abstain": 72,
+   "no_action->no_action": 22,
+   "recalibrate_probe->abstain": 6
+  },
+  "M-A5-PV": {
+   "cool_and_recalibrate->cool_and_recalibrate": 1,
+   "no_action->abstain": 61,
+   "no_action->no_action": 22,
+   "recalibrate_probe->abstain": 16
+  }
+ },
+ "root_causes": {
+  "M-A5": {
+   "planning": 29,
+   "selection": 30,
+   "verification": 10
+  },
+  "M-A5-P": {
+   "planning": 62,
+   "selection": 6
+  },
+  "M-A5-PV": {
+   "planning": 51,
+   "selection": 12,
+   "verification": 4
+  }
+ },
+ "schema_id": "memory-fabric.planner-error-taxonomy.v1",
+ "source": "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+ "tasks_per_arm": {
+  "M-A5": 100,
+  "M-A5-P": 100,
+  "M-A5-PV": 100
+ }
+}
