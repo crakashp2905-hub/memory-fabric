@@ -238,8 +238,8 @@ The drill is `tests/test_backup_custody.py`, which runs on every CI build.
    response (for the battery policy, `cool_pack` or `cool_and_recalibrate`).
 2. Reproduce on identical inputs with the current code:
    `python tools/freeze_reproduce.py --out /tmp/repro.json`. Every archived
-   unsafe omission must show `ALL_CORRECTED`; a new case is added to
-   `research/results/` as a first-class record, never deleted.
+   unsafe omission must show `ALL_CORRECTED`; a new case is kept as a first-class
+   record with the release's qualification evidence, never deleted.
 3. If a model answer settled the case, the advisor goes to `OFF` (§9 step 3)
    until the cause is fixed; `tests/test_omission_safety.py::ModelSettledContest`
    is the regression that must hold.
