@@ -1,6 +1,35 @@
 {
  "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
  "results": {
+  "_vega_s1_provenance": {
+   "acceptance": {
+    "cleared_margin_below": -0.402654,
+    "doubt_margin_above": -0.128122
+   },
+   "margin_fit_digest": "e1930c6198b48922a0dcd154916e356fc8aaa19604489318f22c91b3fd74de72",
+   "seeds": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
   "calibration_transfer_risk": {
    "S1_development_replication": {
     "verdict": "NOT_RUN"
@@ -92,7 +121,14 @@
   },
   "vega_margin_over_parser": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.02,
+    "metric": "vega_margin_over_parser",
+    "n": 200,
+    "observed": 0.075,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
    },
    "S2_fresh_pilot": {
     "verdict": "NOT_ELIGIBLE"
@@ -103,7 +139,14 @@
   },
   "vega_margin_over_shuffled_placebo": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.005,
+    "metric": "vega_margin_over_shuffled_placebo",
+    "n": 200,
+    "observed": 0.035,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
    },
    "S2_fresh_pilot": {
     "verdict": "NOT_ELIGIBLE"
@@ -114,13 +157,21 @@
   },
   "vega_unsafe_omission_bound": {
    "S1_development_replication": {
-    "verdict": "NOT_RUN"
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "vega_unsafe_omission_bound",
+    "n": 200,
+    "observed": 0.0149,
+    "stage": "S1_development_replication",
+    "threshold": 0.02,
+    "unsafe": 0,
+    "verdict": "PASS",
+    "worst_arm": "A6-PV"
    },
    "S2_fresh_pilot": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    },
    "S3_confirmatory": {
-    "verdict": "NOT_ELIGIBLE"
+    "verdict": "NOT_RUN"
    }
   }
  },
