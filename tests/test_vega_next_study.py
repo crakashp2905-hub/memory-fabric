@@ -157,6 +157,21 @@ class Registration(unittest.TestCase):
         self.assertEqual(conf.analyse(self.reg, report)["decision"], "INVALID")
 
 
+class PlannerContest(unittest.TestCase):
+    def test_a_planner_model_cannot_settle_contested_readings_without_cooling(self):
+        from benchmarks import vega_next_model_agents as agents
+
+        class Planner:
+            def chat(self, model, messages, **kw):
+                return {"message": {"content": json.dumps({"action": "recalibrate_probe"})}}
+
+        world = worlds.build("canonical", 4, "pilot")  # local_heat, phrasing the rule does not read
+        row = agents.run_task("M-A5", world, Planner(), "fake", None)
+        self.assertEqual((row["proposed"], row["action"], row["unsafe_omission"]), ("recalibrate_probe", "abstain", False))
+        drift = worlds.build("canonical", 1, "dev")  # the deterministic rule reads the doubt: recalibration is lawful
+        self.assertEqual(agents.run_task("M-A5", drift, Planner(), "fake", None)["action"], "recalibrate_probe")
+
+
 class Specificity(unittest.TestCase):
     def test_a_registration_is_refused_when_a_placebo_matches_the_candidate_on_the_pilot(self):
         def pilot(shuffled_mean):

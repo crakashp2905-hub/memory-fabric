@@ -99,6 +99,9 @@ def run_task(arm: str, world: worlds.World, client: OllamaClient, model: str, ad
     except Exception as exc:  # noqa: BLE001 - a failed call is an outcome, recorded as such
         content, proposed, failure = "", None, f"{type(exc).__name__}"
     seconds = time.perf_counter() - t0
+    # The planner is itself a model: unless the deterministic reader found the doubt, any choice
+    # that leaves contested readings without cooling was settled by a model (pilot: M-A5 seeds 4, 9).
+    settled_by_model = settled_by_model or rule != "yes"
     g = guard(proposed, assess(v, arms.POLICY), arms.POLICY, settled_by_model=settled_by_model)
     action = terminal_action(g) if proposed is not None else "abstain"
     graded = worlds.grade(world, action)
