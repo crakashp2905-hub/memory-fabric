@@ -40,6 +40,12 @@ PLANS = {
              "page": ROOT / "research" / "checklist" / "VEGA_NEXT_EVIDENCE_MATRIX.md",
              "task": r"^- \[ \] \*\*(W(\d{2})-\d{2}) — (.+?)\*\*\s*$", "done": r"^\s*\*\*Acceptance:\*\* (.+?)\s*$",
              "section": r"^### (W\d{2}) — (.+?)\s*$", "title": "Vega next evidence matrix"},
+    "freeze": {"spec": ROOT / "docs" / "checklists" / "FEATURE_FREEZE_RELEASE_CLOSURE_2026-11-25.md",
+               "ledger": ROOT / "research" / "checklist" / "freeze-ledger.json",
+               "page": ROOT / "research" / "checklist" / "FREEZE_EVIDENCE_MATRIX.md",
+               "task": r"^- \[ \] \*\*(F(\d{2})-\d{2}) \(P\d\)\*\* (.+?)\s*$",
+               "done": r"^\s*\*\*Pass:\*\* (.+?)\s*$",
+               "section": r"^### (F\d{2}) — (.+?)\s*$", "title": "Feature-freeze release evidence matrix"},
 }
 PLAN = "s00"
 SPEC = PLANS[PLAN]["spec"]

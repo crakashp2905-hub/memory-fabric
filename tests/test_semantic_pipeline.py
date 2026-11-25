@@ -371,6 +371,24 @@ class Effects(unittest.TestCase):
                                 policy=self.policy)
         self.assertEqual(gone.status, "UNKNOWN")
 
+    def test_a_factual_replay_that_does_not_verify_certifies_nothing(self):
+        # VEGA-CDM-078 (freeze register FIX): the first verification runs before any intervention.
+        from types import SimpleNamespace
+        from unittest import mock
+
+        from memory_fabric.causal_replay.intervention import create
+        fixture = ReplacementFixture("fx", Observation("o1", "reading_high", False, "s/a", 1))
+        failed = SimpleNamespace(verified=False, code="FINGERPRINT_MISMATCH", recomputed_final_fingerprint=None)
+        with mock.patch.object(effects, "verify_execution", return_value=failed), \
+                mock.patch.object(effects, "replay") as replayed:
+            result = effects.evaluate(self.obs, create(self._target(), "replace", replacement=fixture),
+                                      simulator=self.sim, policy=self.policy)
+        self.assertEqual(result.status, "NO_EFFECT_CERTIFIED")
+        self.assertIsNone(result.certificate)
+        self.assertIsNone(result.policy_flip)  # never reported as "no effect" or as a flip
+        self.assertIn("FINGERPRINT_MISMATCH", result.reason)
+        replayed.assert_not_called()  # the intervention never ran on an unverified factual trace
+
     def test_grouped_leave_one_out_ablates_copies_together(self):
         obs = (Observation("o1", "reading_high", True, "s/a", 1), Observation("o2", "reading_high", True, "s/a", 2))
         self.assertEqual(set(effects.grouped_leave_one_out(obs, simulator=self.sim, policy=self.policy)), {"s/a"})
@@ -383,6 +401,19 @@ class Effects(unittest.TestCase):
 
 
 class Scheduler(unittest.TestCase):
+    def test_model_and_replay_costs_are_metered_separately(self):
+        # VEGA-CDM-088 (freeze register FIX)
+        from memory_fabric.causal_replay.semantic.scheduler import Accounts
+        a, b = Accounts(), Accounts()
+        a.model_calls += 2
+        a.model_seconds += 0.5
+        a.replays += 1
+        a.replay_cost += 3.0
+        self.assertEqual((a.model_calls, a.replays, a.replay_cost, a.model_seconds), (2, 1, 3.0, 0.5))
+        self.assertEqual((b.model_calls, b.replays, b.receipts), (0, 0, []))  # no shared state between runs
+        a.receipts.append({"kind": "replay"})
+        self.assertEqual(b.receipts, [])
+
     def test_routing_skips_independents_settles_exact_cases_and_never_replays_on_doubt(self):
         ok = Answer("flip", "boolean", "OK", 0.9, {"true": 0.9, "false": 0.1}, ("true",), False, False)
         low = Answer("flip", "boolean", "OK", 0.02, {"true": 0.02, "false": 0.98}, ("false",), False, False)

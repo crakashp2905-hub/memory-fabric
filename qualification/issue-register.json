@@ -1,0 +1,1092 @@
+{
+ "by_disposition": {
+  "DOCUMENT_LIMIT": 40,
+  "FIX": 3,
+  "OUT_OF_SCOPE_BY_CONTRACT": 9,
+  "VERIFY": 26
+ },
+ "items": [
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Contract-level differential only (accept/reject and content across all three packages); it found and fixed a weaker canonical guard. A differential of gate decisions through the legacy runtimes is not built.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "tests/test_outcome_canonical_package.py"
+   ],
+   "id": "agent-validation:W02-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "World transcript kept outside the actor trace with a reproducible digest; a separate content-safe audit verifier is not built.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "id": "agent-validation:W04-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Families now include delayed, missing (silent change), inaccessible (restricted) and retracted evidence; duplicated and contradictory observation variants are still missing.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_episode.py",
+    "benchmarks/outcome_arms.py"
+   ],
+   "id": "agent-validation:W04-09",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "restricted_source family: governed arms justifiedly abstain, pooled arms act on inaccessible evidence; a false-withholding denominator that excludes inaccessible truth is not computed yet (W13-02).",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_arms.py",
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "id": "agent-validation:W05-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Split leakage detection exists and is tested (tests/test_outcome_world_splits_typed.py); emission of a dataset digest per split was not verified.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_worlds_typed.py"
+   ],
+   "id": "agent-validation:W05-10",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "The evaluator checks each applied effect for authorization and truth at application time and grades UNSAFE; the simulated run does not stop at the first violation.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_episode.py"
+   ],
+   "id": "agent-validation:W08-10",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) The framing x memory factorial analysis exists and is tested; scripted agents ignore prompt text, so the measurement needs a model.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_matched_arms_typed.py"
+   ],
+   "id": "agent-validation:W11-06",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Parity covers task IDs, worlds, envelopes, limits and policy; model inference settings do not exist for the scripted policy and are checked only when a model backend runs.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_arms.py"
+   ],
+   "id": "agent-validation:W11-07",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Per-role tools and sessions exist (ToolRegistry roles, GovernedMemoryPort per-role sessions) and run with a FAKE backend; no model run.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "id": "agent-validation:W12-04",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Correction-after-plan worlds and the model team exist; no inference has run.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ],
+   "id": "agent-validation:W12-05",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Per-call tokens (unknown kept unknown), wall time, failures and per-role call budgets recorded; retries are 0 by construction. Cold/warm load is not separated yet.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/model_actor.py",
+    "benchmarks/outcome_model_team.py"
+   ],
+   "id": "agent-validation:W12-07",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Needs two installed model sizes; none installed.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ],
+   "id": "agent-validation:W12-08",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) A3/A4/A5 share one prompt, config fingerprint and tasks in the model team; A6 runs only in the scripted harness, and no model ran.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_model_team.py"
+   ],
+   "id": "agent-validation:W12-09",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Unsafe executed, stale executed and gate-refused attempts reported with denominators; unsafe proposals are NOT_ASSESSABLE until proposals carry an oracle label.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "id": "agent-validation:W13-03",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "False abstention, correct refusal and hallucinated evidence computed with eligibility; unnecessary re-evaluation NOT_RECORDED and operator interventions NOT_ASSESSABLE.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "id": "agent-validation:W13-06",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "cdm-utility",
+   "closure": "a held-out learned-agent comparison with positive incremental utility (F07-05, F07-06); otherwise CDM stays bounded advisory, which the supported-use contract states",
+   "detail": "Steps, tool calls, context bytes and model tokens (when present) per arm; replay CPU, peak memory, storage and worker time NOT_RECORDED.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "id": "agent-validation:W13-07",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Per-family worst case and material per-family regression fail the decision (tested); per-agent fairness needs learned agents.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_scorecard.py"
+   ],
+   "id": "agent-validation:W13-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Seed overlap rejected (tested); template-ID overlap needs model prompt templates.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "benchmarks/outcome_confirmatory.py"
+   ],
+   "id": "agent-validation:W14-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Memory x recovery factorial with main effects and interaction per family (tested); correction propagation, source independence and retrieval method are not separable factors here and are listed as not run. Rows: research/results/agent-outcomes/SCRIPTED_ABLATION_DEV.md.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_ablation.py"
+   ],
+   "id": "agent-validation:W15-03",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Heldout execution needs a frozen model and prompts.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_prereg.py"
+   ],
+   "id": "agent-validation:W15-06",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Paired cluster bootstrap and Holm exist in benchmarks/outcome_confirmatory.py; nothing to compute without heldout model runs.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/outcome_confirmatory.py"
+   ],
+   "id": "agent-validation:W15-07",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) A6 runs in the scripted arms and adds no outcome over A5 (advisory only); A5 has no confirmatory result.",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "agent-validation:W15-08",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Independent generator-family replication needs model runs.",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [],
+   "id": "agent-validation:W15-09",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN) Model-attack harness reports NOT_RUN / MODEL_NOT_AVAILABLE without a model.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "tools/model_attack_check.py"
+   ],
+   "id": "agent-validation:W16-07",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Allowlist entries must carry the covered text, a reason and an ISO date; a reviewed negative test per change is not enforced.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "tools/claim_scanner.py",
+    "tools/claim_scanner_allowlist.json"
+   ],
+   "id": "agent-validation:W16-10",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Thesis encoded as the registered primary contrast A5-A3 at equal budget; untested on learned agents.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/outcome_prereg.py",
+    "research/prereg/agent-outcome-confirmatory-v2.json"
+   ],
+   "id": "agent-validation:W22-01",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "an installed local model checkpoint and loopback runtime (none here; preflight reports REAL_AGENT_NOT_RUN); an independent review and pilot Exact-SHA offline qualification and separate engineering/deployment decisions exist; model evidence and research promotion cannot be produced here. Deployment stays HOLD.",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "tools/launch_decision.py",
+    "tools/agent_outcome_end_to_end_gate.py"
+   ],
+   "id": "agent-validation:W23-10",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "Decision record states the maximum credible inference separately for simulator, local-model study (NOT_RUN) and independent pilot (NOT_RUN).",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "tools/launch_decision.py"
+   ],
+   "id": "agent-validation:W24-05",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "an independent pilot operator and security reviewer outside this project The review packet is written; no independent pilot or security review has happened.",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "docs/AGENT_LAUNCH_READINESS.md"
+   ],
+   "id": "agent-validation:W24-09",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/agent-validation-ledger.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "vega-efficacy",
+   "closure": "a specificity-positive pilot and a frozen v3 registration (F05-02 to F05-05); otherwise Vega stays OFF/SHADOW advisory",
+   "detail": "Population, mechanism, comparator and endpoint stated; the registration is a draft.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "docs/architecture/ADR-VEGA-CDM-001.md",
+    "research/prereg/vega-cdm-v1.json"
+   ],
+   "id": "vega-cdm:VEGA-CDM-006",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "relevance_question exists; not used by any arm or test yet.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-031",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Prefilter and advisor-only-on-parse-failure tested; a recall/latency frontier against full context was not measured.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/support.py",
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-037",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "vega-efficacy",
+   "closure": "a specificity-positive pilot and a frozen v3 registration (F05-02 to F05-05); otherwise Vega stays OFF/SHADOW advisory",
+   "detail": "No verified local labels exist yet; calibration.metrics is ready (tests/test_semantic_pipeline.py::Calibration).",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-054",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "NOT_STARTED"
+  },
+  {
+   "class": "cdm-utility",
+   "closure": "a held-out learned-agent comparison with positive incremental utility (F07-05, F07-06); otherwise CDM stays bounded advisory, which the supported-use contract states",
+   "detail": "Correlated-copy control is the copied_news family; a delayed-federation counterfactual control was not built.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py",
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-067",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "graph.check_intervention refuses unregistered or non-intervenable targets (tests/test_causal_graph_constraints.py::Provenance)",
+   "detail": "Causal edges are DAG-checked; intervention targets are not yet checked against graph descendants.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py",
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-077",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "a dedicated test that a failed factual verification yields NO_EFFECT_CERTIFIED and certifies nothing",
+   "detail": "Factual verification runs first and failure yields NO_EFFECT_CERTIFIED; that path has no dedicated test.",
+   "disposition": "FIX",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/effects.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-078",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "a test that exercises the separate cost meters",
+   "detail": "Separate Accounts meters exist; no test exercises them.",
+   "disposition": "FIX",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-088",
+   "owner": "CDM owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "cdm-utility",
+   "closure": "a held-out learned-agent comparison with positive incremental utility (F07-05, F07-06); otherwise CDM stays bounded advisory, which the supported-use contract states",
+   "detail": "Wasted replays are reported; there is no learning selector to learn to skip.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/scheduler.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-090",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "The advisory reads only the API's own result; no multi-agent handoff test with the advisor exists.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-094",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "Nothing writes back to the checkpoint; no calibrated-vs-uncalibrated ablation has run.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-105",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "vega-efficacy",
+   "closure": "a specificity-positive pilot and a frozen v3 registration (F05-02 to F05-05); otherwise Vega stays OFF/SHADOW advisory",
+   "detail": "Admissibility rule tested; no prequential shadow evaluation loop exists.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-108",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Artifacts are versioned and OFF restores baseline; no atomic artifact rollback store.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py",
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-109",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "vega-efficacy",
+   "closure": "a specificity-positive pilot and a frozen v3 registration (F05-02 to F05-05); otherwise Vega stays OFF/SHADOW advisory",
+   "detail": "Online learning disabled and QUALIFIED refused; nothing to activate.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/calibration.py",
+    "src/memory_fabric/outcome_typed/semantic_advisory.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-110",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "No federation, partition or clock-skew world; bitemporal cut-offs are tested in beliefs only.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-116",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "NOT_STARTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Paraphrase family only; negation, multilingual and format perturbation families not built.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/vega_cdm_worlds.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-119",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Pooled and exact-parser baselines exist; lexical-only and full-context-within-budget controls are not in these arms.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-124",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "no Kev/System One server installed in this environment",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-125",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "vega-efficacy",
+   "closure": "a specificity-positive pilot and a frozen v3 registration (F05-02 to F05-05); otherwise Vega stays OFF/SHADOW advisory",
+   "detail": "Only the zero-shot policy ran; recalibrated and shadow-trained arms need verified labels.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-126",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "NOT_STARTED"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "Allocation is deterministic by seed; call order is not randomised independently of arm.",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-127",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Same world, k, budget and decision rule by construction; no separate parity validator.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-128",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Advisor calls and seconds per arm; tokens, CPU time and RSS per arm not recorded.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/vega_cdm_matched_arms.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-130",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "The 4B reader was not downloaded; 0.8B alone used 5.3 GiB of a 15 GiB host.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-133",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "NOT_STARTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "a local agent model for observer/planner/executor (no Ollama model here)",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-134",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Vega receipts carry runtime, digest and latency; there are no agent-model traces to record.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-135",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "a local agent model team with real decisions in every arm",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-136",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "local-model",
+   "closure": "rerun against the pinned loopback Qwen2.5-1.5B server now available (tools/local_chat_server.py); record MODEL_VALIDATED or the measured failure",
+   "detail": "a second model size or family; only the 0.8B reader ran, so no cross-model claim",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-138",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "limitation",
+   "closure": "an inference-crash injection test: the adapter fails closed",
+   "detail": "Separate process over loopback; no inference-crash injection test.",
+   "disposition": "FIX",
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "docs/VEGA_CDM_OPERATIONS.md"
+   ],
+   "id": "vega-cdm:VEGA-CDM-155",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "outcome_typed.limited_process enforces CPU/AS/NPROC limits or refuses (tests/test_vega_next_security.py::Isolation)",
+   "detail": "Client deadline only; absence of an OS sandbox is stated.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "docs/VEGA_CDM_OPERATIONS.md",
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-156",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Throughput and cost curves on 1/2/4 workers with and without Vega were not run.",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "vega-cdm:VEGA-CDM-158",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "NOT_STARTED"
+  },
+  {
+   "class": "hardware",
+   "closure": "a measurement on the named host class (freeze plan F11-02); until then the operating envelope names only the measured 4-CPU Linux container",
+   "detail": "One measured profile (4-CPU container); laptop and GPU host not measured.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "docs/VEGA_CDM_OPERATIONS.md",
+    "research/results/vega-cdm/model-profile-0.8b.json"
+   ],
+   "id": "vega-cdm:VEGA-CDM-160",
+   "owner": "performance owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "limitation",
+   "closure": "the limitation stays stated in docs/KNOWN_GAPS.md or the decision record; it changes no supported claim",
+   "detail": "Raw rows with digests archived; no fresh-checkout reproduction check for the model run.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "research/results/vega-cdm/development/vega-0.8b.json",
+    "research/results/vega-cdm/development/scripted.json"
+   ],
+   "id": "vega-cdm:VEGA-CDM-170",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "cdm-utility",
+   "closure": "a held-out learned-agent comparison with positive incremental utility (F07-05, F07-06); otherwise CDM stays bounded advisory, which the supported-use contract states",
+   "detail": "The demo labels proposal, verified replay and graded outcome; no web UI view yet.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "examples/vega_cdm_demo.py"
+   ],
+   "id": "vega-cdm:VEGA-CDM-172",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "an outside-user pilot and a third-party security review",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "docs/VEGA_CDM_LIMITATIONS.md"
+   ],
+   "id": "vega-cdm:VEGA-CDM-179",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/vega-cdm-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "hardware",
+   "closure": "a measurement on the named host class (freeze plan F11-02); until then the operating envelope names only the measured 4-CPU Linux container",
+   "detail": "a 16 GB laptop (Mac M4) to measure on; only the 4-CPU Linux container was measured, and 4B was not run",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-next:W06-10",
+   "owner": "performance owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "cdm-utility",
+   "closure": "a held-out learned-agent comparison with positive incremental utility (F07-05, F07-06); otherwise CDM stays bounded advisory, which the supported-use contract states",
+   "detail": "Positive net utility only on a scripted world; no registered model-in-loop CDM comparison, so CDM stays advisory.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "benchmarks/vega_next_cdm_value.py",
+    "research/results/vega-cdm/next/cdm/cdm-value.json"
+   ],
+   "id": "vega-next:W08-10",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Two model families measured (vega-U 0.8B, Qwen2.5-1.5B); prompt-representation variants not run.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "benchmarks/vega_next_model_agents.py",
+    "tools/local_chat_server.py"
+   ],
+   "id": "vega-next:W11-09",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "hardware",
+   "closure": "a measurement on the named host class (freeze plan F11-02); until then the operating envelope names only the measured 4-CPU Linux container",
+   "detail": "a Mac M4 16 GB host; none is available to this project",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "vega-next:W14-02",
+   "owner": "performance owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Safety, completion, calls and seconds per arm reported; a joint Pareto table with memory per arm is not computed.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "tools/vega_next_gate.py",
+    "research/results/vega-cdm/next/development/vega-0.8b-pilot.json"
+   ],
+   "id": "vega-next:W14-10",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "hardware",
+   "closure": "a measurement on the named host class (freeze plan F11-02); until then the operating envelope names only the measured 4-CPU Linux container",
+   "detail": "Measured on a 15 GiB container only; swap behaviour and offload on a real 16 GB laptop not measured.",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "id": "vega-next:W16-06",
+   "owner": "performance owner",
+   "severity": "P1",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "measurement",
+   "closure": "the measurement in the freeze plan's performance and agent workstreams (F11, F08-05), or a stated limit in the operating envelope",
+   "detail": "Pilot protocol written; not run.",
+   "disposition": "VERIFY",
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "id": "vega-next:W16-08",
+   "owner": "qualification owner",
+   "severity": "P2",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "IMPLEMENTED"
+  },
+  {
+   "class": "external-review",
+   "closure": "a signed review or pilot report by someone who did not implement the change (freeze plan F09-08, F14-01, F14-02); the product stays RELEASE_NO_GO until then",
+   "detail": "an independent security and deployment reviewer outside this project",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [
+    "docs/VEGA_NEXT_GUIDE.md"
+   ],
+   "id": "vega-next:W16-09",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/checklist/vega-next-ledger.json",
+   "status": "BLOCKED"
+  },
+  {
+   "class": "gate",
+   "closure": "F07-05/F07-06; CDM remains bounded advisory",
+   "detail": "INCONCLUSIVE",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "gate:cdm_incremental_net_utility",
+   "owner": "CDM owner",
+   "severity": "P1",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "INCONCLUSIVE"
+  },
+  {
+   "class": "gate",
+   "closure": "F01-05: an audit of every required job completed-success at the candidate SHA",
+   "detail": "INCOMPLETE: audit is for another commit",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "gate:ci_at_head",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "INCOMPLETE: audit is for another commit"
+  },
+  {
+   "class": "gate",
+   "closure": "F05-05 on a new v3 registration; v2 stays refused and HOLD",
+   "detail": "NOT_RUN",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "gate:confirmatory_effect",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "NOT_RUN"
+  },
+  {
+   "class": "gate",
+   "closure": "runs with the confirmatory study; corrected-guard pilots record 0 unsafe omissions with Clopper-Pearson bounds",
+   "detail": "NOT_RUN",
+   "disposition": "DOCUMENT_LIMIT",
+   "evidence": [],
+   "id": "gate:confirmatory_safety",
+   "owner": "Vega owner",
+   "severity": "P1",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "NOT_RUN"
+  },
+  {
+   "class": "gate",
+   "closure": "F09-08 / F14-01 signed external review",
+   "detail": "BLOCKED_EXTERNAL",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [],
+   "id": "gate:external_security_review",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "BLOCKED_EXTERNAL"
+  },
+  {
+   "class": "gate",
+   "closure": "F08-05 paired learned-agent study; HOLD until then",
+   "detail": "RESEARCH_HOLD",
+   "disposition": "VERIFY",
+   "evidence": [],
+   "id": "gate:local_agent_paired_study",
+   "owner": "agent owner",
+   "severity": "P1",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "RESEARCH_HOLD"
+  },
+  {
+   "class": "gate",
+   "closure": "F14-06: per-component GO/HOLD; whole-product 1.0 only when G0-G12 pass",
+   "detail": "ENGINEERING_GO_ONLY",
+   "disposition": "OUT_OF_SCOPE_BY_CONTRACT",
+   "evidence": [],
+   "id": "gate:release",
+   "owner": "release manager",
+   "severity": "P0",
+   "source": "research/results/vega-cdm/next/gate/matrix.json",
+   "status": "ENGINEERING_GO_ONLY"
+  }
+ ],
+ "open_items": 78,
+ "schema_id": "memory-fabric.freeze-issue-register.v1",
+ "sources": [
+  "research/checklist/agent-validation-ledger.json",
+  "research/checklist/vega-cdm-ledger.json",
+  "research/checklist/vega-next-ledger.json",
+  "research/results/vega-cdm/next/gate/matrix.json"
+ ],
+ "unresolved_p0_without_closure": []
+}
