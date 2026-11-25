@@ -1,0 +1,39 @@
+{
+  "cpu": "x86_64",
+  "limits": {
+    "k": 10,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "output_sha256": "b85551bfccd1fc1c97172d0dd3a695b432b40cd0a853241cc3ba38fae4ce2f35",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "remote_telemetry": false,
+  "schema": "cdm-efficiency-v1",
+  "seeds": [
+    20261108,
+    20261109
+  ],
+  "source_sha256": "c32ad56bb91d5334a9deb8f19d26d3de7cb5291877b1c33331de021e0fd5b8c6",
+  "summary": {
+    "10": {
+      "max_peak_bytes": 1152,
+      "p50_cpu_ns": 9586.0,
+      "p95_wall_ns": 8376,
+      "p99_wall_ns": 8376
+    },
+    "100": {
+      "max_peak_bytes": 8104,
+      "p50_cpu_ns": 77904.5,
+      "p95_wall_ns": 75513,
+      "p99_wall_ns": 75513
+    },
+    "1000": {
+      "max_peak_bytes": 98952,
+      "p50_cpu_ns": 1072992.5,
+      "p95_wall_ns": 1062352,
+      "p99_wall_ns": 1062352
+    }
+  },
+  "workload_sha256": "6b93ac7bba2e16f288b3113119d7d2c0bc0921682c4d02290ddf71755213f0d5"
+}

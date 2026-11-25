@@ -1,0 +1,40 @@
+{
+ "runs": {
+  "saturated": {
+   "host": {
+    "cpus": 4,
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "python": "3.13.18"
+   },
+   "model_servers_busy": [
+    "32.8 /root/vega-venv/bin/python3 /root/vega-venv/bin/vegaml-serve --host 127.0.0",
+    "22.1 /root/vega-venv/bin/python tools/local_chat_server.py --model Qwen/Qwen2.5-"
+   ],
+   "results": {
+    "authorize": {
+     "mean_ms": 0.593,
+     "n": 2000,
+     "p50_ms": 0.521,
+     "p95_ms": 0.956,
+     "p99_ms": 1.347
+    },
+    "typed_reader": {
+     "mean_ms": 0.051,
+     "n": 2000,
+     "p50_ms": 0.042,
+     "p95_ms": 0.078,
+     "p99_ms": 0.138
+    },
+    "verify_assess_guard": {
+     "mean_ms": 0.212,
+     "n": 2000,
+     "p50_ms": 0.187,
+     "p95_ms": 0.374,
+     "p99_ms": 0.684
+    }
+   },
+   "timestamp": "2026-11-25T18:49:34Z"
+  }
+ },
+ "schema_id": "memory-fabric.freeze-perf-verification.v1"
+}

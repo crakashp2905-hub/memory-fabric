@@ -14,6 +14,7 @@ copied, so the two cannot drift:
 | "The event chain does not verify" | [OPERATIONS.md §3](OPERATIONS.md#the-event-chain-does-not-verify) |
 | "A store will not open: KeyUnavailable" | [OPERATIONS.md §3](OPERATIONS.md#a-store-will-not-open-keyunavailable) |
 | "The database is locked" | [OPERATIONS.md §3](OPERATIONS.md#the-database-is-locked) |
+| Prompt injection, unsafe non-action, cross-tenant leak, model hash mismatch | §9-§12 below |
 
 The rest are below.
 
@@ -203,3 +204,77 @@ is verified afterward. Then:
 
 The drill is `tests/test_backup_custody.py`, which runs on every CI build.
 
+---
+
+## 9. A prompt injection reached an agent
+
+**Goal:** the injected text gains no authority, and anything it caused is found.
+
+1. Evidence text is data, never instructions: the action gate refuses an
+   instruction as evidence (`tests/test_authority.py::TheBoundarySurvivesEveryTransformation`)
+   and injected authority changes no Vega-arm decision
+   (`tests/test_vega_next_security.py::Governance`). Check that the release under
+   investigation still passes both:
+   ```bash
+   python -m pytest -q tests/test_authority.py tests/test_vega_next_security.py
+   ```
+2. Quarantine the carrier memory so no later retrieval exposes it:
+   `memory-fabric --db store.db quarantine <memory-id> --reason "prompt injection"`.
+   Its derivatives are contested automatically; review them (§4).
+3. Set the semantic advisor to `OFF` (it is `OFF` by default; `SHADOW` writes
+   nothing either). Confirm the switch changes no output:
+   `python tools/vega_killswitch.py --verify`.
+4. List what the agent did after the injection with
+   `memory-fabric --db store.db audit <memory-id>` and the action receipts for the
+   episode; an executed effect is reconciled against the target system, never
+   assumed (OPERATIONS.md §3).
+
+## 10. An unsafe non-action (a hazard was closed without a response)
+
+**Goal:** the hazard is answered now, and the cause is reproduced.
+
+1. Answer the hazard first: the omission guard turns inaction on unverified or
+   contested evidence into `REVIEW_REQUIRED`; a reviewer issues the registered
+   response (for the battery policy, `cool_pack` or `cool_and_recalibrate`).
+2. Reproduce on identical inputs with the current code:
+   `python tools/freeze_reproduce.py --out /tmp/repro.json`. Every archived
+   unsafe omission must show `ALL_CORRECTED`; a new case is added to
+   `research/results/` as a first-class record, never deleted.
+3. If a model answer settled the case, the advisor goes to `OFF` (§9 step 3)
+   until the cause is fixed; `tests/test_omission_safety.py::ModelSettledContest`
+   is the regression that must hold.
+4. Report the case with its finite-sample bound: zero observed events is a bound,
+   not zero risk (`omission.coverage_bound`).
+
+## 11. A suspected data leak across tenants
+
+**Goal:** confirm or rule out exposure with the release's own tests, then contain.
+
+1. Revoke the suspected credential (§1) before investigating.
+2. Run the cross-tenant matrix and the redaction checks on the deployed release:
+   ```bash
+   python -m pytest -q tests/test_cross_tenant_surface_matrix.py tests/test_enforcement_tenant.py \
+       tests/test_new_module_redaction.py tests/test_personal_data_redaction.py
+   ```
+3. A failing test is a release blocker: roll back to the previous release
+   (OPERATIONS.md §5) and keep the store; nothing is deleted.
+4. For a confirmed exposure, the subject-access and erasure procedure applies
+   (OPERATIONS.md §3); erasure destroys the content key, so backups cannot
+   resurrect it (`tests/test_erasure_key_destroy.py`).
+
+## 12. The served model's hash does not match its pin
+
+**Goal:** no answer from an unverified model reaches a decision.
+
+1. The vega-U adapter refuses an unregistered reader or a substituted checkpoint
+   (`tests/test_vega_u_adapter.py::FailClosed`); its receipts record the reported
+   engine digest. Compare the receipt's `engine_sha256` with the pin in
+   `qualification/frozen-inputs.json`.
+2. Stop the model server, set the advisor to `OFF`, and verify:
+   `python tools/vega_killswitch.py --verify`. Core memory, governance and the
+   action gate keep working without any model (`tests/test_release_guards.py::DependencyClosure`).
+3. Restore the pinned weights from a trusted copy, check the digest, and only
+   then return to `SHADOW`. `QUALIFIED` is refused by the code whatever the
+   configuration says.
+4. Any answers recorded while the hash was wrong are marked as unverified in
+   the incident record; they are not deleted.

@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "case": "currently_authorized",
+      "expected_accept": true,
+      "governed_accepts": true,
+      "governed_metadata_exposed": 0,
+      "weak_metadata_exposed": 0,
+      "weak_stale_snapshot_accepts": true
+    },
+    {
+      "case": "revoked",
+      "expected_accept": false,
+      "governed_accepts": false,
+      "governed_metadata_exposed": 0,
+      "weak_metadata_exposed": 1,
+      "weak_stale_snapshot_accepts": true
+    },
+    {
+      "case": "erased",
+      "expected_accept": false,
+      "governed_accepts": false,
+      "governed_metadata_exposed": 0,
+      "weak_metadata_exposed": 1,
+      "weak_stale_snapshot_accepts": true
+    },
+    {
+      "case": "cross_tenant",
+      "expected_accept": false,
+      "governed_accepts": false,
+      "governed_metadata_exposed": 0,
+      "weak_metadata_exposed": 1,
+      "weak_stale_snapshot_accepts": true
+    }
+  ],
+  "metrics": {
+    "governed_unauthorized_accepts": 0,
+    "governed_unauthorized_metadata_exposures": 0,
+    "valid_case_false_blocks": 0,
+    "weak_stale_evidence_accepts": 2,
+    "weak_unauthorized_accepts": 3,
+    "weak_unauthorized_metadata_exposures": 3
+  },
+  "safety": {
+    "authority_changes": 0,
+    "network_calls": 0,
+    "plaintext_reported": false,
+    "tool_calls": 0
+  },
+  "schema": "cdm-governance-ablation-v1",
+  "scope": "four deterministic in-memory fixtures; not a population rate or privacy certification"
+}

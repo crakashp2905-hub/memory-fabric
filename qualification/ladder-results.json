@@ -1,0 +1,92 @@
+{
+ "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+ "results": {
+  "calibration_transfer_risk": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "cdm_relative_net_utility_gain": {
+   "S1_development_replication": {
+    "amendment": 1,
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "n": 240,
+    "observed": 0.15,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "PASS"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_RUN"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_RUN"
+   }
+  },
+  "planner_completion_gain": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "planner_unsafe_omission_bound": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "vega_margin_over_parser": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "vega_margin_over_shuffled_placebo": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "vega_unsafe_omission_bound": {
+   "S1_development_replication": {
+    "verdict": "NOT_RUN"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  }
+ },
+ "schema_id": "memory-fabric.freeze-ladder-results.v1"
+}

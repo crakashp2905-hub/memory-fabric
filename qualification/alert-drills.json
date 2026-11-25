@@ -1,0 +1,53 @@
+{
+ "alerts": {
+  "cross_tenant_access_denied": {
+   "fired_on_trigger": true,
+   "pass": true,
+   "rollback": "revoke credential (\u00a71)",
+   "runbook": "docs/RUNBOOKS.md \u00a711",
+   "silent_on_control": true
+  },
+  "model_unavailable": {
+   "fired_on_trigger": true,
+   "pass": true,
+   "rollback": "semantic advisor OFF; core continues",
+   "runbook": "docs/RUNBOOKS.md \u00a712",
+   "silent_on_control": true
+  },
+  "replay_divergence": {
+   "fired_on_trigger": true,
+   "pass": true,
+   "rollback": "stop calling CDM dispatch",
+   "runbook": "docs/CAUSAL_REPLAY_LIMITATIONS.md",
+   "silent_on_control": true
+  },
+  "stale_evidence_refused": {
+   "fired_on_trigger": true,
+   "pass": true,
+   "rollback": "quarantine the withdrawn source",
+   "runbook": "docs/RUNBOOKS.md \u00a74",
+   "silent_on_control": true
+  },
+  "unsafe_omission_blocked": {
+   "fired_on_trigger": true,
+   "pass": true,
+   "rollback": "semantic advisor OFF",
+   "runbook": "docs/RUNBOOKS.md \u00a710",
+   "silent_on_control": true
+  }
+ },
+ "kill_switch_in_flight": {
+  "advisor_writes": 0,
+  "finished_work_unchanged": true,
+  "killswitch_verify_exit": 0,
+  "later_work_equals_all_off": true,
+  "pass": true,
+  "switched_after": 10,
+  "tasks": 20
+ },
+ "limits": [
+  "drills run in-process on disposable stores; paging and on-call routing are deployment configuration this repository does not ship"
+ ],
+ "schema_id": "memory-fabric.freeze-alert-drills.v1",
+ "verdict": "PASS"
+}
