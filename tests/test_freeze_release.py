@@ -128,5 +128,43 @@ class Reproductions(unittest.TestCase):
             self.assertFalse(case["after"]["unsafe_omission"], case)
 
 
+class RecordedAnalyses(unittest.TestCase):
+    """The diagnosis, the planner taxonomy and the drills reproduce their committed records."""
+
+    def test_specificity_diagnosis_and_planner_taxonomy_reproduce(self) -> None:
+        import freeze_planner_errors
+        import freeze_specificity_diagnosis
+        for module, rel in ((freeze_specificity_diagnosis, "research/results/vega-cdm/freeze/specificity/diagnosis.json"),
+                            (freeze_planner_errors, "research/results/vega-cdm/freeze/planner/error-taxonomy.json")):
+            recorded = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+            self.assertEqual(json.loads(json.dumps(module.build(), sort_keys=True)), recorded, rel)
+            self.assertEqual(recorded["model_calls"], 0)
+
+    def test_alert_drills_fire_on_their_trigger_and_stay_silent_on_control(self) -> None:
+        import freeze_alert_drill
+        for name, fn in (("unsafe_omission_blocked", freeze_alert_drill.drill_omission),
+                         ("cross_tenant_access_denied", freeze_alert_drill.drill_cross_tenant),
+                         ("stale_evidence_refused", freeze_alert_drill.drill_stale),
+                         ("replay_divergence", freeze_alert_drill.drill_replay),
+                         ("model_unavailable", freeze_alert_drill.drill_model)):
+            self.assertEqual(fn(), (True, False), name)
+
+    def test_ladder_results_match_a_fresh_judgement_of_the_recorded_runs(self) -> None:
+        import freeze_ladder_report
+        recorded = json.loads((ROOT / "qualification" / "ladder-results.json").read_text(encoding="utf-8"))
+        self.assertEqual(json.loads(json.dumps(freeze_ladder_report.build(), sort_keys=True)), recorded)
+
+    def test_the_planner_validation_was_judged_by_its_registered_rule(self) -> None:
+        reg = json.loads((ROOT / "research/prereg/freeze-planner-model-validation.json").read_text(encoding="utf-8"))
+        res = json.loads((ROOT / "research/results/vega-cdm/freeze/planner/validation-result.json")
+                         .read_text(encoding="utf-8"))
+        self.assertEqual(res["registration_digest"], reg["digest"])
+        rule = reg["pass_rule"]
+        passed = (res["paired_completion"]["mean"] >= rule["margin_at_least"]
+                  and res["paired_completion"]["lower_bound"] > rule["paired_one_sided_95_lower_bound_above"]
+                  and res["unsafe_upper_bound_3b"] <= rule["unsafe_omission_upper_bound_at_most"])
+        self.assertEqual(res["verdict"], "PASS" if passed else "HOLD")
+
+
 if __name__ == "__main__":
     unittest.main()
