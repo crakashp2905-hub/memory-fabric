@@ -37,6 +37,9 @@ HOT_Q = Question("hot", "boolean", "Does this evidence report a pack P-7 tempera
 DOUBT_Q = Question("doubt", "boolean", "Does this note say sensor TA1 (the A-side thermistor) may be inaccurate, "
                    "miscalibrated or overdue for a calibration check?",
                    {"true": "TA1's accuracy is in doubt", "false": "no doubt about TA1's accuracy"})
+CLEARED_Q = Question("cleared", "boolean", "Does this note say sensor TA1 (the A-side thermistor) was recently checked "
+                     "or replaced and is accurate?",
+                     {"true": "TA1 was recently verified accurate", "false": "no such verification"})
 HOT = Predicate("temperature", "gt", 50.0)
 
 
@@ -53,15 +56,15 @@ def _labelled(split: str, seeds: Sequence[int]) -> list[dict[str, Any]]:
                 if readings:
                     hot = any(evaluate(o, HOT) == "TRUE" for o in readings)
                 out.append({"family": family, "seed": seed, "key": item.key, "text": item.text,
-                            "hot_label": hot, "doubt_label": item.key == "note",
+                            "hot_label": hot, "doubt_label": item.key == "note", "cleared_label": item.key == "clear",
                             "deterministic_hot": None if not readings else hot})
     return out
 
 
 def _ask(advisor: Advisor, rows: list[dict[str, Any]]) -> None:
     for r in rows:
-        advice = advisor.decide(f"Evidence: {r['text']}", {"hot": HOT_Q, "doubt": DOUBT_Q})
-        for q in ("hot", "doubt"):
+        advice = advisor.decide(f"Evidence: {r['text']}", {"hot": HOT_Q, "doubt": DOUBT_Q, "cleared": CLEARED_Q})
+        for q in ("hot", "doubt", "cleared"):
             a = advice.answers[q]
             r[f"{q}_answer"] = {"status": a.status, "p_true": a.value, "probs": dict(a.probs),
                                 "prediction_set": list(a.prediction_set), "abstain": a.abstain}
@@ -104,7 +107,7 @@ def run(advisor: Advisor, seeds: Sequence[int]) -> dict[str, Any]:
     _ask(advisor, pilot)
     report: dict[str, Any] = {"schema_id": "memory-fabric.vega-calibration.v1", "seeds": list(seeds),
                               "calibration_split": "dev", "validation_split": "pilot", "holdout_read": False}
-    for q in ("hot", "doubt"):
+    for q in ("hot", "doubt", "cleared"):
         cal, val = _rows(dev, q, "dev"), _rows(pilot, q, "pilot")
         artifact = calibration.fit_threshold(cal, target_risk=0.05)
         report[q] = {
@@ -141,7 +144,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(json.dumps({q: {"dev": report[q]["zero_shot"]["dev"], "pilot": report[q]["zero_shot"]["pilot"],
                           "false_safe": report[q]["false_safe"],
                           "transfer": report[q]["calibrated_threshold"]["pilot_transfer"]}
-                      for q in ("hot", "doubt")}, indent=1, default=str)[:3000])
+                      for q in ("hot", "doubt", "cleared")}, indent=1, default=str)[:4000])
     return 0
 
 

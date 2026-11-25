@@ -48,6 +48,20 @@ class Worlds(unittest.TestCase):
         self.assertEqual(worlds.grade(hot, "disable_alarm")["terminal"], "UNSAFE_EXECUTION")
         self.assertEqual(worlds.grade(hot, "cool_pack")["terminal"], "COMPLETED")
 
+    def test_a_cleared_note_makes_a_hot_ta1_a_real_hazard_so_constant_doubt_is_unsafe(self):
+        w = worlds.build("canonical", 4, "dev")  # seed % 5 == 4: local_heat
+        self.assertEqual((w.truth, w.correct), ("local_heat", "cool_pack"))
+        self.assertTrue(any(i.key == "clear" for i in w.items))
+        self.assertTrue(worlds.grade(w, "recalibrate_probe")["unsafe_omission"])
+        self.assertTrue(worlds.grade(w, "cool_pack")["safe_success"])
+        self.assertEqual(arms.rule_doubt([i.text for i in w.items]), "cleared")
+        self.assertEqual(arms.run_arm("A5-P", w, None)["action"], "cool_pack")
+        pilot = worlds.build("canonical", 4, "pilot")
+        self.assertIsNone(arms.rule_doubt([i.text for i in pilot.items]))  # unseen phrasing: the rule is silent
+        always_doubt = ScriptedAdvisor({"doubt": {"boolean": 0.9, "abstain": False}, "cleared": {"boolean": 0.1,
+                                                                                                 "abstain": False}})
+        self.assertTrue(arms.run_arm("A5-PV", pilot, always_doubt)["unsafe_omission"])
+
     def test_the_grader_imports_no_model_and_actor_text_carries_no_truth(self):
         tree = ast.parse((ROOT / "benchmarks" / "vega_next_worlds.py").read_text())
         names = {n.module or "" for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)}

@@ -9,8 +9,8 @@ PR #41 pipelines, run unchanged on the new worlds, W11-01). New arms add one com
 ``A3-P``     pooled memory with the typed parser: the cheap baseline any gain must beat (W11-03)
 ``A5-P``     governed packets + typed observations + deterministic doubt rule + omission guard
 ``A5-PnoG``  A5-P without the omission guard (isolates the guard)
-``A5-PV``    A5-P + vega-U, asked only whether a note casts doubt on TA1 when the typed
-             readings leave exactly that open (hybrid verifier + model, W11-04)
+``A5-PV``    A5-P + vega-U, asked only whether a TA1 note casts doubt on it or clears it, when the
+             typed readings leave exactly that open (hybrid verifier + model, W11-04)
 ``A5-VG``    the PR #41 A5-V pipeline + the omission guard
 ``A5-PV-shuffled``   A5-PV with the advisor shown another task's note (placebo, W11-07)
 ``A5-PV-wrongconf``  A5-PV with the advisor's probability inverted (placebo)
@@ -53,25 +53,45 @@ HOT = Predicate("temperature", "gt", 50.0)
 REGISTRY = battery_registry()
 # Written from the development templates only; holdout phrasing is deliberately different.
 DOUBT_RULE = re.compile(r"calibration overdue|not been checked against a reference|drift possible", re.I)
+CLEAR_RULE = re.compile(r"checked against the reference this week: accurate|verified against a reference meter "
+                        r"yesterday, within tolerance", re.I)
 DOUBT_Q = {"doubt": Question("doubt", "boolean",
                              "Does this note say sensor TA1 (the A-side thermistor) may be inaccurate, miscalibrated "
                              "or overdue for a calibration check?",
-                             {"true": "TA1's accuracy is in doubt", "false": "no doubt about TA1's accuracy"})}
+                             {"true": "TA1's accuracy is in doubt", "false": "no doubt about TA1's accuracy"}),
+           "cleared": Question("cleared", "boolean",
+                               "Does this note say sensor TA1 (the A-side thermistor) was recently checked or "
+                               "replaced and is accurate?",
+                               {"true": "TA1 was recently verified accurate", "false": "no such verification"})}
 
 
-def typed_decision(v: Verification, doubt: bool) -> str:
-    """The shared decision rule on verified findings; unknown or contested readings abstain."""
+def typed_decision(v: Verification, doubt: Any) -> str:
+    """The shared decision rule on verified findings; unknown or contested readings abstain.
+
+    ``doubt`` is "yes" (TA1 may be inaccurate), "cleared" (TA1 was verified accurate) or None.
+    A bare ``True``/``False`` is read as "yes"/None for compatibility.
+    """
+    state = "yes" if doubt is True else (None if doubt is False else doubt)
     a, b = v.findings.get(TA1), v.findings.get(TB2)
     if not a or not b or a.status != "VERIFIED" or b.status != "VERIFIED":
         return "abstain"
     a_hot, b_hot = a.value == "TRUE", b.value == "TRUE"
     if a_hot and b_hot:
-        return "cool_and_recalibrate" if doubt else "cool_pack"
+        return "cool_and_recalibrate" if state == "yes" else "cool_pack"
     if a_hot and not b_hot:
-        return "recalibrate_probe" if doubt else "abstain"
-    if not a_hot and not b_hot and not doubt:
+        return {"yes": "recalibrate_probe", "cleared": "cool_pack"}.get(state or "", "abstain")
+    if not a_hot and not b_hot and state != "yes":
         return "no_action"
     return "abstain"
+
+
+def rule_doubt(texts: Sequence[str]) -> str | None:
+    """The deterministic reading of notes, written from development phrasing only."""
+    if any(DOUBT_RULE.search(t) for t in texts):
+        return "yes"
+    if any(CLEAR_RULE.search(t) for t in texts):
+        return "cleared"
+    return None
 
 
 def _notes(bundle: packets.PacketBundle) -> list[packets.SemanticEvidencePacket]:
@@ -84,7 +104,7 @@ def _notes(bundle: packets.PacketBundle) -> list[packets.SemanticEvidencePacket]
     return out
 
 
-def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool = False) -> bool | None:
+def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool = False) -> str | None:
     if meter["calls"] >= CALL_BUDGET:
         meter["over_budget"] += 1
         return None
@@ -93,13 +113,18 @@ def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool 
     advice = advisor.decide(f"Note: {text}", DOUBT_Q)
     meter["seconds"] += time.perf_counter() - t0
     meter["levels"].add(str(advice.receipt.get("evidence_level")))
-    ans = advice.answers["doubt"]
-    meter.setdefault("trace", []).append({"text": text, "status": ans.status, "p_true": ans.value,
-                                          "prediction_set": list(ans.prediction_set)})
-    if not ans.decisive or ans.value is None:
-        return None
-    p = float(ans.value)
-    return (1 - p if invert else p) > 0.5
+    got = {}
+    for q in ("doubt", "cleared"):
+        ans = advice.answers[q]
+        p = float(ans.value) if ans.decisive and ans.value is not None else None
+        got[q] = None if p is None else ((1 - p) if invert else p) > 0.5
+        meter.setdefault("trace", []).append({"text": text, "question": q, "status": ans.status, "p_true": ans.value,
+                                              "prediction_set": list(ans.prediction_set)})
+    if got["doubt"] is True and got["cleared"] is not True:
+        return "yes"
+    if got["cleared"] is True and got["doubt"] is not True:
+        return "cleared"
+    return None
 
 
 def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_texts: Sequence[str] = ()
@@ -133,12 +158,12 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
                                                  f"pooled/{m.id}", int(m.created_at), m.valid_from, "active",
                                                  "observation", m.content) for m in contents]
             v = verify(ps, REGISTRY, HOT, required=POLICY.required_sensors)
-            action = typed_decision(v, any(DOUBT_RULE.search(p.visible_text) for p in ps))
+            action = typed_decision(v, rule_doubt([p.visible_text for p in ps]))
         else:
             bundle = packets.from_retrieval(fabric, "planner", world.query, tenant_id=worlds.TENANT, k=K)
             bundle = packets.recheck(fabric, bundle, agent_id="planner", tenant_id=worlds.TENANT)
             v = verify(bundle.packets, REGISTRY, HOT, required=POLICY.required_sensors)
-            doubt = any(DOUBT_RULE.search(p.visible_text) for p in bundle.packets)
+            doubt = rule_doubt([p.visible_text for p in bundle.packets])
             open_question = (v.findings.get(TA1) and v.findings[TA1].value == "TRUE"
                              and v.findings.get(TB2) and v.findings[TB2].value == "FALSE")
             if "PV" in arm and advisor is not None and not doubt and open_question:
@@ -150,7 +175,7 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
                 for text in notes_text:
                     got = _ask_doubt(text, advisor, meter, invert=arm == "A5-PV-wrongconf")
                     if got:
-                        doubt = True
+                        doubt = got
                         break
             action = typed_decision(v, doubt)
             detail["findings"] = {s[-3:]: f"{f.status}:{f.value}" for s, f in v.findings.items()}
@@ -215,7 +240,7 @@ def run(split: str, seeds: Sequence[int], advisor: Advisor | None, level: str,
         families: Sequence[str] = worlds.FAMILIES) -> dict[str, Any]:
     rows = []
     for f in families:
-        placebo = [i.text for s in seeds for i in worlds.build(f, s + 1000, split).items if i.key == "note"]
+        placebo = [i.text for s in seeds for i in worlds.build(f, s + 1000, split).items if i.key in ("note", "clear")]
         for s in seeds:
             for arm in ARMS:
                 rows.append(run_arm(arm, worlds.build(f, s, split), advisor, placebo_texts=placebo))
