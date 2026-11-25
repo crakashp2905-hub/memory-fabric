@@ -1,0 +1,2177 @@
+{
+ "backup_round_trip": {
+  "backup_exit": 0,
+  "memories": 481,
+  "preview_from_backup": {
+   "changed": 270,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 9287
+  },
+  "store_bytes_identical_across_v1_v2_v1": true
+ },
+ "collisions_created": [],
+ "collisions_created_count": 0,
+ "collisions_resolved": 9355,
+ "combined": {
+  "changed": 270,
+  "collisions_created_count": 0,
+  "collisions_resolved_count": 9287,
+  "memories": 481
+ },
+ "memories": 1222,
+ "per_store": {
+  "examples/handbook": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "examples/literals": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 31
+  },
+  "next/dev/aliases/0": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/aliases/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/aliases/2": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/aliases/3": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/aliases/4": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "next/dev/aliases/5": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/aliases/6": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/aliases/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/aliases/8": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/aliases/9": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/boundary/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/boundary/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/boundary/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/boundary/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/boundary/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/boundary/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/boundary/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/boundary/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/boundary/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/boundary/9": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 3
+  },
+  "next/dev/canonical/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/canonical/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/canonical/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/canonical/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/canonical/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/canonical/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/canonical/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/canonical/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/canonical/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/canonical/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/collusion/0": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/dev/collusion/1": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/dev/collusion/2": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/dev/collusion/3": {
+   "changed": 8,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 12,
+   "memories": 8
+  },
+  "next/dev/collusion/4": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 4,
+   "memories": 6
+  },
+  "next/dev/collusion/5": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/dev/collusion/6": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/dev/collusion/7": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/dev/collusion/8": {
+   "changed": 8,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 8
+  },
+  "next/dev/collusion/9": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/dev/false_reassurance/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/false_reassurance/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/false_reassurance/2": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/false_reassurance/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/false_reassurance/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/false_reassurance/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/false_reassurance/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/false_reassurance/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/false_reassurance/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/false_reassurance/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/injection/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/injection/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/injection/2": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/injection/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/injection/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/injection/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/injection/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/injection/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/injection/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/injection/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/irrecoverable/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/irrecoverable/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/numeric_words/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/numeric_words/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/numeric_words/2": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/numeric_words/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/numeric_words/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/numeric_words/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/numeric_words/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/numeric_words/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/numeric_words/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/numeric_words/9": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/replacement/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/replacement/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/replacement/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/replacement/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/replacement/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/replacement/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/replacement/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/replacement/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/replacement/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/replacement/9": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/dev/units/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/units/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/units/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/units/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/units/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/units/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/units/6": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/dev/units/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 3
+  },
+  "next/dev/units/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/dev/units/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/aliases/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/aliases/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/aliases/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/aliases/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/aliases/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/aliases/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/aliases/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/aliases/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/aliases/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/aliases/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/boundary/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/boundary/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/boundary/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/boundary/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/boundary/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/boundary/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/boundary/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/boundary/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/boundary/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/boundary/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/canonical/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/canonical/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/canonical/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/canonical/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/canonical/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/collusion/0": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/holdout/collusion/1": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/collusion/2": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/collusion/3": {
+   "changed": 7,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 12,
+   "memories": 8
+  },
+  "next/holdout/collusion/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/collusion/5": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/holdout/collusion/6": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/collusion/7": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/collusion/8": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 8
+  },
+  "next/holdout/collusion/9": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/holdout/false_reassurance/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/false_reassurance/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/false_reassurance/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/false_reassurance/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/false_reassurance/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/false_reassurance/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/false_reassurance/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/false_reassurance/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/false_reassurance/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/false_reassurance/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/injection/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/injection/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/injection/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/injection/3": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/injection/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/injection/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/injection/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/injection/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/injection/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/injection/9": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/irrecoverable/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/3": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/irrecoverable/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/numeric_words/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/numeric_words/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/numeric_words/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/numeric_words/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/numeric_words/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/numeric_words/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/numeric_words/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/numeric_words/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/numeric_words/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/numeric_words/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/replacement/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/replacement/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/replacement/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/replacement/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/replacement/4": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/replacement/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/replacement/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/holdout/replacement/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/replacement/8": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/replacement/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "next/holdout/units/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/units/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/units/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/units/3": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/units/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/units/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/units/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/units/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/holdout/units/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/holdout/units/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/aliases/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/aliases/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/aliases/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/aliases/3": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/aliases/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/aliases/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/aliases/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/aliases/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/aliases/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/aliases/9": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/boundary/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/boundary/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/boundary/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/boundary/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/boundary/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/boundary/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/boundary/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/boundary/7": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/boundary/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/boundary/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/canonical/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/canonical/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/canonical/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/canonical/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/canonical/9": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/collusion/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/pilot/collusion/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/collusion/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/collusion/3": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 8
+  },
+  "next/pilot/collusion/4": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/collusion/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "next/pilot/collusion/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/collusion/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/collusion/8": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 8
+  },
+  "next/pilot/collusion/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "next/pilot/false_reassurance/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/false_reassurance/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/false_reassurance/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/false_reassurance/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/false_reassurance/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/false_reassurance/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/false_reassurance/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/false_reassurance/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/false_reassurance/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/false_reassurance/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/injection/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/injection/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/injection/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/injection/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/injection/4": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/injection/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/injection/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/injection/7": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/injection/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/injection/9": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/irrecoverable/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/1": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/3": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/5": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/8": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/irrecoverable/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/numeric_words/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/numeric_words/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/numeric_words/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/numeric_words/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/numeric_words/4": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/numeric_words/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/numeric_words/6": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/numeric_words/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/numeric_words/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/numeric_words/9": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/replacement/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/replacement/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/replacement/2": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/replacement/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/replacement/4": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/replacement/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/replacement/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/replacement/7": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/replacement/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/replacement/9": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "next/pilot/units/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/units/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/units/2": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/units/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/units/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/units/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/units/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/units/7": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "next/pilot/units/8": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "next/pilot/units/9": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/battery_canonical/0": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "pr41/battery_canonical/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 3
+  },
+  "pr41/battery_canonical/2": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 5
+  },
+  "pr41/battery_canonical/3": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "pr41/battery_canonical/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "pr41/battery_canonical/5": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 3
+  },
+  "pr41/battery_canonical/6": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 5
+  },
+  "pr41/battery_canonical/7": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "pr41/battery_paraphrase/0": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "pr41/battery_paraphrase/1": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "pr41/battery_paraphrase/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/battery_paraphrase/3": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "pr41/battery_paraphrase/4": {
+   "changed": 1,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 2
+  },
+  "pr41/battery_paraphrase/5": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 5
+  },
+  "pr41/battery_paraphrase/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/battery_paraphrase/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 4
+  },
+  "pr41/confounded/0": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/1": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/2": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/3": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/4": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/5": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/6": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/confounded/7": {
+   "changed": 2,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/controls/0": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/controls/1": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 5
+  },
+  "pr41/controls/2": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 5
+  },
+  "pr41/controls/3": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/controls/4": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/controls/5": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 7
+  },
+  "pr41/controls/6": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 7
+  },
+  "pr41/controls/7": {
+   "changed": 5,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/0": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/1": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/2": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/3": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/4": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/5": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/6": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/copied_news/7": {
+   "changed": 0,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 6
+  },
+  "pr41/delayed_correction/0": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/delayed_correction/1": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/delayed_correction/2": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/delayed_correction/3": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/delayed_correction/4": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/delayed_correction/5": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/delayed_correction/6": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/delayed_correction/7": {
+   "changed": 3,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 0,
+   "memories": 3
+  },
+  "pr41/restricted_source/0": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 6
+  },
+  "pr41/restricted_source/1": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 6
+  },
+  "pr41/restricted_source/2": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 6
+  },
+  "pr41/restricted_source/3": {
+   "changed": 6,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 3,
+   "memories": 6
+  },
+  "pr41/restricted_source/4": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/restricted_source/5": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/restricted_source/6": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  },
+  "pr41/restricted_source/7": {
+   "changed": 4,
+   "collisions_created_count": 0,
+   "collisions_resolved_count": 1,
+   "memories": 4
+  }
+ },
+ "rollback": "MEMORY_FABRIC_CLAIM_IDENTITY=v1; the claim index is rebuilt in memory, no stored byte changes",
+ "schema_id": "memory-fabric.freeze-identity-survey.v1",
+ "stores": 358,
+ "unique_texts": 481,
+ "verdict": "PASS"
+}
