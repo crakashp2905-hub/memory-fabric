@@ -74,13 +74,21 @@ def parse_semantic(text: str, advisor: Advisor, meter: dict[str, Any]) -> dict[s
     meter["seconds"] += time.perf_counter() - t0
     meter["levels"].add(str(advice.receipt.get("evidence_level")))
     a = advice.answers
+    result: dict[str, Any] | None = None
     if a["doubt"].decisive and a["doubt"].value is not None and float(a["doubt"].value) > 0.5:
-        return {"doubt": True}
-    sensor, hot = a["sensor"], a["hot"]
-    if sensor.decisive and hot.decisive and sensor.value in ("probe_a", "probe_b"):
-        return {"probe": sensor.value[-1], "hot": float(hot.value) > 0.5}
-    meter["undecided"] += 1
-    return None
+        result = {"doubt": True}
+    elif (a["sensor"].decisive and a["hot"].decisive and a["sensor"].value in ("probe_a", "probe_b")):
+        result = {"probe": str(a["sensor"].value)[-1], "hot": float(a["hot"].value) > 0.5}
+    else:
+        meter["undecided"] += 1
+    # Recorded only; it changes no decision (VEGA next W01-05).
+    meter.setdefault("trace", []).append({
+        "text": text, "receipt_digest": advice.receipt.get("receipt_digest"),
+        "answers": {k: {"status": v.status, "value": v.value, "probs": dict(v.probs),
+                        "prediction_set": list(v.prediction_set), "abstain": v.abstain, "unbound": v.unbound}
+                    for k, v in a.items()},
+        "signal": result})
+    return result
 
 
 def decide(signals: Sequence[tuple[str, Mapping[str, Any]]]) -> str:
@@ -165,7 +173,8 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None) -> dict[str,
     return {"arm": arm, "family": world.family, "seed": world.seed, "task_id": world.task_id,
             "action": action, **graded, "advisor_calls": meter["calls"],
             "advisor_seconds": round(meter["seconds"], 3), "advisor_undecided": meter["undecided"],
-            "advisor_levels": sorted(meter["levels"]), "cdm": cdm}
+            "advisor_levels": sorted(meter["levels"]), "cdm": cdm,
+            **({"advisor_trace": meter["trace"]} if meter.get("trace") else {})}
 
 
 def summarize(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:

@@ -76,11 +76,17 @@ class Gate(unittest.TestCase):
         self.assertEqual(len(problems), 3)
 
 
+RECORDS_WITHOUT_A_LEVEL = {"memory-fabric.vega-next-baseline.v1", "memory-fabric.ci-audit.v1",
+                           "memory-fabric.vega-next.failure-trace.v1"}
+
+
 class EvidenceLevels(unittest.TestCase):
     def test_every_recorded_vega_report_states_a_level_it_can_carry(self):
         from memory_fabric.causal_replay.semantic.taxonomy import check_report_level
         for path in (ROOT / "research" / "results" / "vega-cdm").rglob("*.json"):
             data = json.loads(path.read_text())
+            if data.get("schema_id") in RECORDS_WITHOUT_A_LEVEL:
+                continue  # baselines, CI audits and failure traces are records, not result reports
             if data.get("schema_id") == "memory-fabric.vega-cdm-gate.v1":
                 # gate records carry one verdict per tier instead of one level
                 self.assertEqual(data["release"]["status"], "RELEASE_NO_GO", path)

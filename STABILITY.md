@@ -147,7 +147,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.user_catalog`
 - `memory_fabric.validation`
 
-## Experimental (107)
+## Experimental (111)
 
 - `memory_fabric.adapters.systemone`
 - `memory_fabric.adapters.vega_u`
@@ -174,13 +174,16 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.causal_replay.semantic.cache`
 - `memory_fabric.causal_replay.semantic.calibration`
 - `memory_fabric.causal_replay.semantic.effects`
+- `memory_fabric.causal_replay.semantic.entities`
 - `memory_fabric.causal_replay.semantic.graph`
 - `memory_fabric.causal_replay.semantic.interventions`
+- `memory_fabric.causal_replay.semantic.observations`
 - `memory_fabric.causal_replay.semantic.packets`
 - `memory_fabric.causal_replay.semantic.scheduler`
 - `memory_fabric.causal_replay.semantic.scripted`
 - `memory_fabric.causal_replay.semantic.support`
 - `memory_fabric.causal_replay.semantic.taxonomy`
+- `memory_fabric.causal_replay.semantic.verified_observations`
 - `memory_fabric.causal_replay.state`
 - `memory_fabric.causal_replay.tempfiles`
 - `memory_fabric.causal_replay.types`
@@ -235,6 +238,7 @@ and the owner's decision (AGENTS.md principle 9).
 - `memory_fabric.outcome_typed.evidence`
 - `memory_fabric.outcome_typed.model_actor`
 - `memory_fabric.outcome_typed.observations`
+- `memory_fabric.outcome_typed.omission`
 - `memory_fabric.outcome_typed.outcomes`
 - `memory_fabric.outcome_typed.privacy`
 - `memory_fabric.outcome_typed.recovery`

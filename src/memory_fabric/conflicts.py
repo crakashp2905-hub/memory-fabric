@@ -51,6 +51,7 @@ from __future__ import annotations
 
 __stability__ = "beta"
 
+import os
 import re
 from typing import TYPE_CHECKING, Any, Sequence
 
@@ -60,12 +61,27 @@ if TYPE_CHECKING:  # pragma: no cover
     from .model import Memory
 
 MIN_CONTAINMENT = 0.8
+CLAIM_IDENTITY_VERSIONS = ("v1", "v2")
+CLAIM_IDENTITY = os.environ.get("MEMORY_FABRIC_CLAIM_IDENTITY", "v2")
+"""Which claim-identity rule `claim` uses. ``v2`` keeps component identity (a sensor on a
+unit, "P7-A", "probe A"); ``v1`` is the earlier rule, kept so the change can be previewed
+and rolled back exactly (`tools/claim_identity_preview.py`, W03-09)."""
 _TOKEN = re.compile(r"[a-z0-9]+(?:\.[0-9]+)?")
 # A code written with a separator: "H-14", "FP-1458", "PMP_0012", "K/31".
 _VERB = re.compile(r":|;|=|\b(?:is|are|to|be)\b")
 _CODE = re.compile(r"(?<![a-z0-9])([a-z]{1,6})[-_/]([0-9][a-z0-9]*)(?![a-z0-9])")
 # A name written with a separator and no digits: "billing-api", "auth_gateway".
 _NAME = re.compile(r"(?<![a-z0-9\-_])([a-z][a-z0-9]*(?:[-_][a-z][a-z0-9]*)+)(?![a-z0-9\-_])")
+# A component code that already carries a digit and a suffix: "P7-A", "TB2-x". Split
+# by _TOKEN it became "p7", so two sensors on one unit read as one claim
+# (VEGA next W03: "P7-A" and "P7-B" collapsed to p7 and the write validator held
+# the second reading as contradicting the first).
+_COMPOUND = re.compile(r"(?<![a-z0-9\-_/])([a-z]{1,6}[0-9][a-z0-9]*(?:-[a-z0-9]+)+)(?![a-z0-9\-_/])")
+# A component named by a noun and a short designator: "probe A", "cell 3", "module b2".
+# A one-letter designator was dropped as a word, so "probe A" and "probe B" on pack
+# P-7 were one claim with two values.
+_QUALIFIER = re.compile(r"\b(probe|sensor|thermistor|thermocouple|module|cell|channel|bank|string|phase|zone)"
+                        r"\s+([a-z]|[0-9]{1,3}|[a-z]{1,3}[0-9]{1,3})\b")
 
 
 _PLACE = re.compile(r"\b(?:at|in|on|near|from|inside|outside|within)(?:\s+the)?\s+$", re.I)
@@ -105,7 +121,7 @@ class Claim(tuple):
         return made
 
 
-def claim(content: str) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
+def claim(content: str, version: str | None = None) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
     """(identifiers, content words, numeric values) of a memory's text.
 
     A code written with a separator ("hoist H-14") used to be split into a
@@ -146,6 +162,15 @@ def claim(content: str) -> tuple[frozenset[str], frozenset[str], frozenset[str]]
         values.add(joined)
         return " "
 
+    # Component identity is kept whole and before the codes are read, so a sensor on a
+    # unit is a different subject from the unit's other sensors (W03-02, W03-04).
+    if (version or CLAIM_IDENTITY) != "v1":
+        for match in _COMPOUND.finditer(text):
+            identifiers.add(match.group(1))
+        text = _COMPOUND.sub(" ", text)
+        for match in _QUALIFIER.finditer(text):
+            identifiers.add(f"{match.group(1)}-{match.group(2)}")
+        text = _QUALIFIER.sub(" ", text)
     text = _CODE.sub(code, text)
     # A separated name in the subject is an identifier too. Found by the
     # staging run: "billing-api listens on port 8443" had no identifier, so
