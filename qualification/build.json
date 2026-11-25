@@ -1,0 +1,190 @@
+{
+ "clean_install": {
+  "import_ok": true,
+  "third_party_packages": [],
+  "venv": "fresh python3.13 venv, wheel only"
+ },
+ "optional_assets": "vega-U (vegaml 0.19.0, Qwen3.5-0.8B engine sha256 78f96be7c6a0...) and the planner weights are pinned separately and never downloaded at production start (tools/local_chat_server.py reads local files only)",
+ "sbom": {
+  "bomFormat": "CycloneDX",
+  "components": [
+   {
+    "name": "anthropic",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "claude"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=0.40"
+   },
+   {
+    "name": "cryptography",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "crypto"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=42"
+   },
+   {
+    "name": "pypdf",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "documents"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=6.0,<7"
+   },
+   {
+    "name": "langchain-core",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "langchain"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=0.3"
+   },
+   {
+    "name": "PyJWT[crypto]",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "oauth"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=2.10,<3"
+   },
+   {
+    "name": "pypdf",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "pdf"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=4"
+   },
+   {
+    "name": "psycopg",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "postgres"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=3.1"
+   },
+   {
+    "name": "fastembed",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "retrieval"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=0.5"
+   },
+   {
+    "name": "sentence-transformers",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "retrieval-torch"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=3"
+   },
+   {
+    "name": "pytest",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "test"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": "==9.0.3"
+   },
+   {
+    "name": "psutil",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "test"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=5.9"
+   },
+   {
+    "name": "setuptools",
+    "properties": [
+     {
+      "name": "extra",
+      "value": "test"
+     }
+    ],
+    "scope": "optional",
+    "type": "library",
+    "version": ">=77"
+   }
+  ],
+  "metadata": {
+   "component": {
+    "name": "memory-fabric",
+    "type": "library",
+    "version": "0.19.0"
+   },
+   "timestamp": "2026-11-25T18:52:55Z"
+  },
+  "specVersion": "1.5",
+  "version": 1
+ },
+ "schema_id": "memory-fabric.freeze-build.v1",
+ "sdist": {
+  "archive_bytes_identical": false,
+  "files": 275,
+  "member_contents_identical": true,
+  "note": "archive metadata (gzip header) differs; every member file's content is identical",
+  "sha256_build1": "ffbd5942cfc71a0371ae83784d5195f70938cbbd4b49ae776465120cb5439cca",
+  "sha256_build2": "5833087a9a7e45880dbea6ee0742194171a5adc37e7342d4755005f34b2f2957"
+ },
+ "source_date_epoch": null,
+ "vulnerability_scan": {
+  "audited": "the clean-install environment; the core has no third-party dependencies",
+  "result": "No known vulnerabilities found",
+  "tool": "pip-audit 2.10.1"
+ },
+ "wheel": {
+  "files": 252,
+  "identical": true,
+  "name": "memory_fabric-0.19.0-py3-none-any.whl",
+  "sha256_build1": "79d0d0c92f029a4730b4aa620d6cd53c3b177cc25f362f1877cd1df57071c984",
+  "sha256_build2": "79d0d0c92f029a4730b4aa620d6cd53c3b177cc25f362f1877cd1df57071c984",
+  "tests_keys_or_weights": []
+ }
+}
