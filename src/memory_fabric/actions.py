@@ -477,7 +477,10 @@ class Approval:
     certificate_digest: str
     binding: str | None = None
     """When set, the approval covers only the action with this
-    `binding_digest`: a changed target or parameter voids it."""
+    `binding_digest`: a changed target or parameter voids it. An action that
+    carries a request needs a bound approval (freeze plan F02-05)."""
+    expires_ms: int | None = None
+    """When set, the approval is void at or after this store time (ms)."""
 
 
 @dataclass(frozen=True)
@@ -634,7 +637,9 @@ class ActionGate:
                                         claim_certificates=selected)
                 if (approval.approver_id not in self.policy.approvers or approval.approver_id == agent_id
                         or approval.certificate_digest != approval_digest
-                        or (approval.binding is not None and approval.binding != binding)):
+                        or (approval.binding is not None and approval.binding != binding)
+                    or (request is not None and approval.binding is None)
+                    or (approval.expires_ms is not None and self.fabric.now() >= approval.expires_ms)):
                     return self._decide(tool, agent_id, (APPROVAL_INVALID,), verification, rule,
                                         certificate=primary, tenant_id=tenant_id,
                                         claim_certificates=selected)
@@ -686,7 +691,9 @@ class ActionGate:
             if (approval.approver_id not in self.policy.approvers
                     or approval.approver_id == agent_id
                     or approval.certificate_digest != certificate.digest()
-                    or (approval.binding is not None and approval.binding != binding)):
+                    or (approval.binding is not None and approval.binding != binding)
+                    or (request is not None and approval.binding is None)
+                    or (approval.expires_ms is not None and self.fabric.now() >= approval.expires_ms)):
                 return self._decide(tool, agent_id, (APPROVAL_INVALID,),
                                     verification, rule, certificate=certificate, tenant_id=tenant_id)
 

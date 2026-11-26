@@ -1,0 +1,1186 @@
+{
+ "spec": "docs/checklists/FEATURE_FREEZE_RELEASE_CLOSURE_2026-11-25.md",
+ "spec_sha256": "95e19b90bdff3f3f9d89be6046d9c7c50028b963389231241364f1df2f6499e7",
+ "tasks": {
+  "F01-01": {
+   "evidence": [
+    "qualification/candidate.json",
+    "qualification/api-freeze.json"
+   ],
+   "note": "Candidate SHA and tree recorded; only fixes, tests and docs since the freeze base (API pin). A signed change log needs a release manager.",
+   "status": "IMPLEMENTED"
+  },
+  "F01-02": {
+   "evidence": [
+    "tools/status_at_head.py",
+    "research/results/MANIFEST.json",
+    "docs/STATUS_AT_HEAD.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_status_at_head.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F01-03": {
+   "evidence": [
+    "qualification/issue-register.json",
+    "tools/freeze_register.py"
+   ],
+   "note": "78 open items across three ledgers and the gate matrix; none silently dropped.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Register"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F01-04": {
+   "evidence": [
+    "qualification/issue-register.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Register::test_every_open_item_has_a_disposition_owner_and_closure"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F01-05": {
+   "evidence": [
+    "research/results/vega-cdm/next/ci-audit-pr42.json"
+   ],
+   "note": "35/35 jobs completed-success at the PR #42 head; the candidate's own CI is audited after it is pushed.",
+   "status": "IMPLEMENTED"
+  },
+  "F01-06": {
+   "evidence": [
+    "qualification/reproductions.json",
+    "tools/freeze_reproduce.py"
+   ],
+   "note": "2 PR #41 omissions and 22 contested cases corrected on identical inputs; identity collision fixed; CI decode and limit failures have regressions.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Reproductions"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F01-07": {
+   "evidence": [
+    "qualification/api-freeze.json",
+    "docs/API_INVENTORY.json"
+   ],
+   "note": "One justified break-fix change (Approval.expires_ms).",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::ApiFreeze",
+    "tests/test_reference_docs.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F01-08": {
+   "evidence": [
+    "qualification/frozen-inputs.json",
+    "research/prereg/freeze-threshold-ladder.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Ladder",
+    "tests/test_freeze_release.py::Holdout",
+    "tests/test_freeze_release.py::LadderAmendments"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-01": {
+   "evidence": [
+    "tests/test_cross_tenant_surface_matrix.py"
+   ],
+   "note": "SDK, HTTP, MCP, typed query, dashboard, Code Mode/UTCP execution, retrieval and historical reads.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cross_tenant_surface_matrix.py",
+    "tests/test_history_query.py",
+    "tests/test_enforcement_tenant.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-02": {
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_authority.py::ExactActionGrants",
+    "tests/test_effect_transport_parity.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-03": {
+   "evidence": [
+    "src/memory_fabric/actions_typed.py",
+    "docs/KNOWN_GAPS.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_action_fence_typed.py::IdempotencyBinding::test_a_first_call_without_a_request_still_binds_its_key"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-04": {
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_action_crash_typed.py",
+    "tests/test_action_reconciliation.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-05": {
+   "evidence": [
+    "src/memory_fabric/actions_typed.py",
+    "src/memory_fabric/actions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_action_fence_typed.py::ApprovalBinding",
+    "tests/test_authority.py::ExactActionGrants::test_a_stale_or_unbound_approval_is_void_at_execution"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-06": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_cdm_security.py",
+    "tests/test_vega_next_security.py::Governance",
+    "tests/test_cdm_verifier.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-07": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/omission.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F02-08": {
+   "evidence": [
+    "tools/vega_killswitch.py",
+    "qualification/alert-drills.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority",
+    "tests/test_freeze_release.py::RecordedAnalyses::test_alert_drills_fire_on_their_trigger_and_stay_silent_on_control"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-01": {
+   "evidence": [
+    "src/memory_fabric/conflicts.py",
+    "tests/fixtures/annotated/identities.json"
+   ],
+   "note": "Found and fixed nine punctuated or spelled designators that collapsed two instruments into one claim.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::HeldOutIdentities"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-02": {
+   "evidence": [
+    "qualification/identity-survey.json",
+    "tools/freeze_identity_survey.py"
+   ],
+   "note": "358 stores from the repository's worlds and examples plus a backed-up store: 0 created collisions; rollback byte-identical. No deployed databases exist to preview.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_sensor_entity_claims.py::HeldOutIdentities"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-03": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/observations.py",
+    "tests/fixtures/annotated/quantities.json"
+   ],
+   "note": "Fixed 'no more/less than' inversion and whole-statement negation.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_quantities.py::AnnotatedFixtures"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-04": {
+   "evidence": [
+    "src/memory_fabric/validation.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_correction.py",
+    "tests/test_erasure.py",
+    "tests/test_federation.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-05": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/graph.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Provenance::test_twenty_paraphrases_from_one_origin_are_one_edge",
+    "tests/test_authority.py::TheBoundarySurvivesEveryTransformation"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-06": {
+   "evidence": [
+    "src/memory_fabric/history_query.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_history_query.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-07": {
+   "evidence": [
+    "docs/RUNBOOKS.md",
+    "src/memory_fabric/cli.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_backup_restore_qualification.py",
+    "tests/test_key_migration.py",
+    "tests/test_erasure_key_destroy.py",
+    "tests/test_erasure_residue.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F03-08": {
+   "evidence": [
+    "docs/LIMITATIONS.md",
+    "src/memory_fabric/document_formats.py"
+   ],
+   "note": "Lossy content is reported; textless PDFs are refused; no OCR claim.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_format_adapters.py",
+    "tests/test_document_formats.py",
+    "tests/test_ingest_hardening.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-01": {
+   "evidence": [
+    "qualification/reproductions.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::Guard::test_the_two_pr41_failures_become_escalations",
+    "tests/test_freeze_release.py::Reproductions"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-02": {
+   "evidence": [
+    "benchmarks/vega_next_arms.py",
+    "src/memory_fabric/causal_replay/semantic/verified_observations.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_omission_safety.py::ModelCannotLowerHazard",
+    "tests/test_semantic_verification.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-03": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-calibration-pilot-seeds10-19.json",
+    "benchmarks/vega_calibration_study.py"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-calibration-pilot-seeds10-19.json",
+   "note": "Fitted on dev seeds 0-9, applied once to fresh pilot seeds 10-19: Brier, ECE, AUROC, coverage, abstention and false-safe per question and family.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Calibration"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-04": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-calibration-pilot-seeds10-19.json",
+    "qualification/ladder-results.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-calibration-pilot-seeds10-19.json",
+   "note": "Only the doubt question meets the frozen risk budget (0.0 <= 0.05) and is ADVISORY; cleared stays REVIEW_ONLY (risk 0.128); hot is never used (61% false-safe).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Ladder"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-05": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed",
+    "tests/test_vega_next_security.py::Isolation::test_an_inference_server_that_crashes_mid_answer_fails_closed"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-06": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/packets.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_the_advisor_sees_only_current_authorized_evidence",
+    "tests/test_vega_cdm_security.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F04-07": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json",
+    "research/results/vega-cdm/freeze/specificity/diagnosis.json"
+   ],
+   "note": "Unseen pilot wordings, injected and garbled notes measured in the S1 arms; negation and conflicting-source families are not separately scored for the advisor.",
+   "status": "IMPLEMENTED"
+  },
+  "F04-08": {
+   "evidence": [
+    "qualification/vega-profile-0.8b.json"
+   ],
+   "model_result": "qualification/vega-profile-0.8b.json",
+   "note": "Cold start 10.2 s; warm 3-question p50 4.37 / p95 4.56 / p99 4.62 s; RSS 4.9 GiB on the 4-CPU container only.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-01": {
+   "evidence": [
+    "research/prereg/vega-cdm-v2.json",
+    "research/results/vega-cdm/next/development/worlds-v2-pre-contest-fix/vega-0.8b-pilot.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Specificity",
+    "tests/test_vega_next_study.py::Registration"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-02": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/specificity/diagnosis.json",
+    "tools/freeze_specificity_diagnosis.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_specificity_diagnosis_and_planner_taxonomy_reproduce"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-03": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/margin-fit.json",
+    "benchmarks/vega_margin_fit.py",
+    "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json",
+   "note": "Dev-fitted margin rule frozen before S1: placebo margin +0.01 -> +0.035 (lower bound +0.005); unsafe omissions counted separately (0).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::MarginAcceptance"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-04": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json",
+   "note": "A5-P, A3-P, A5 (OFF), shuffled and wrong-confidence placebos at equal tasks, k and budgets.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-05": {
+   "evidence": [
+    "research/prereg/freeze-threshold-ladder.json",
+    "qualification/ladder-results.json",
+    "docs/FREEZE_RELEASE_DECISION.md"
+   ],
+   "note": "S1 fails the strict bar: Vega stays HOLD.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_ladder_results_match_a_fresh_judgement_of_the_recorded_runs"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-06": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-planner-v1-qwen1.5b-pilot-seeds10-19.json",
+    "research/results/vega-cdm/freeze/planner/validation-qwen3b-v1-seeds40-59.json",
+    "research/results/vega-cdm/freeze/planner/qwen3b-v1-pilot-seeds10-19.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/planner/validation-qwen3b-v1-seeds40-59.json",
+   "note": "Pinned Qwen2.5-1.5B and Qwen2.5-3B on paired tasks.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::PlannerContest"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-07": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-vega-pilot-seeds10-29.json",
+   "note": "Paraphrase, injection and garbled families across 200 fresh tasks: 0 unsafe omissions, bound 0.0149.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_injected_authority_in_evidence_changes_no_decision"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F05-08": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/semantic_advisory.py",
+    "docs/FREEZE_RELEASE_DECISION.md"
+   ],
+   "note": "Vega stays OFF/SHADOW; QUALIFIED refused by code.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_recovery.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-01": {
+   "evidence": [
+    "tools/cdm_offline_gate.py",
+    "research/results/cdm/task-evidence-inventory.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cdm_task_inventory.py",
+    "tests/test_cdm_verifier.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-02": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/replay.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cdm_replay.py",
+    "tests/test_cdm_capture.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-03": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/beliefs.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_history_query.py",
+    "tests/test_cdm_privacy.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-04": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/verifier.py",
+    "tools/verify_cdm_certificate.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cdm_verifier.py",
+    "tests/test_certificates.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-05": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/limited_process.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Isolation",
+    "tests/test_cdm_timeout_teardown.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-06": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/interventions.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_semantic_pipeline.py::Interventions",
+    "tests/test_cdm_interventions.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-07": {
+   "evidence": [
+    "research/results/cdm/task-evidence-inventory.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cdm_checkpoint_granularity.py",
+    "tests/test_cdm_replay_overhead.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F06-08": {
+   "evidence": [
+    "src/memory_fabric/causal_replay/semantic/taxonomy.py",
+    "docs/SUPPORTED_SCOPE.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_causal_graph_constraints.py::Tiers"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-01": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-cdm-scripted-seeds40-79.json",
+    "research/results/vega-cdm/next/cdm/cdm-value.json"
+   ],
+   "note": "240 fresh decisions; earlier negative CDM research kept in research/results/cdm.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-02": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-cdm-scripted-seeds40-79.json"
+   ],
+   "note": "full_replan, random_k, recency_k, no_replay and oracle at equal budgets; a recovery-only arm is not separate here.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::CdmValue"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-03": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json"
+   ],
+   "note": "Every task's unchanged decisions are in the denominator; no world where replay harms was built.",
+   "status": "IMPLEMENTED"
+  },
+  "F07-04": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_cdm_dispatch.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-05": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S2-cdm-agents-seeds100-139.json",
+    "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json",
+    "benchmarks/vega_next_cdm_agents.py"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json",
+   "note": "Learned planner on held-out correction worlds: +37.5 net utility over no replay (300 decisions).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_ladder_results_match_a_fresh_judgement_of_the_recorded_runs"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-06": {
+   "evidence": [
+    "qualification/ladder-results.json",
+    "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json",
+   "note": "All three ladder stages pass; stop-loss is the dispatch budget (skip_budget).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_ladder_results_match_a_fresh_judgement_of_the_recorded_runs"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F07-07": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/cdm_dispatch.py"
+   ],
+   "note": "Utility ledger keeps flips, completion, safety and cost apart; no canary deployment exists.",
+   "status": "IMPLEMENTED"
+  },
+  "F07-08": {
+   "evidence": [
+    "docs/SUPPORTED_SCOPE.md",
+    "src/memory_fabric/causal_replay/semantic/taxonomy.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cdm_replay.py",
+    "tests/test_outcome_cdm_dispatch.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-01": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/planner/error-taxonomy.json",
+    "tools/freeze_planner_errors.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_specificity_diagnosis_and_planner_taxonomy_reproduce"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-02": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S1-planner-v1-qwen1.5b-pilot-seeds10-19.json",
+    "research/results/vega-cdm/freeze/ladder/S1-planner-v2-qwen1.5b-pilot-seeds10-19.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S1-planner-v2-qwen1.5b-pilot-seeds10-19.json",
+   "note": "Revised prompt: completion 0.22 -> 0.38 with the identical guard, but the ladder lower bound fails (near-constant action).",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::PlannerContest"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-03": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/planner/validation-qwen3b-v1-seeds40-59.json",
+    "research/results/vega-cdm/freeze/planner/validation-result.json",
+    "research/prereg/freeze-planner-model-validation.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/planner/validation-qwen3b-v1-seeds40-59.json",
+   "note": "Pre-registered on fresh seeds: 3B completion 0.595 vs 0.22, lower bound +0.23, 0 unsafe.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_the_planner_validation_was_judged_by_its_registered_rule"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-04": {
+   "evidence": [
+    "qualification/agents/model_team.json"
+   ],
+   "model_result": "qualification/agents/model_team.json",
+   "note": "Real Qwen2.5-3B calls in all three roles; 0/5 completed (observer omitted arguments.tool); no scripted substitute.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_outcome_model_actor.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-05": {
+   "evidence": [
+    "research/results/vega-cdm/next/agents/model-agents-pilot.json",
+    "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json"
+   ],
+   "note": "M-A5 / M-A5-P / M-A5-PV and CDM arms measured separately; a single factorial with A5+Vega+CDM together was not run.",
+   "status": "IMPLEMENTED"
+  },
+  "F08-06": {
+   "evidence": [
+    "benchmarks/vega_next_worlds.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Worlds",
+    "tests/test_vega_next_security.py::Governance"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-07": {
+   "evidence": [
+    "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json",
+    "research/results/vega-cdm/freeze/planner/validation-result.json"
+   ],
+   "model_result": "research/results/vega-cdm/freeze/ladder/S3-cdm-agents-seeds300-349.json",
+   "note": "Confirmatory stages ran where pilot gates passed (CDM S3, planner validation); the Vega confirmatory did not run because its pilot gate failed.",
+   "status": "MODEL_VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F08-08": {
+   "blocked_on": "operator pilot requirements (completion, false denial and escalation load) that only a supervised pilot can supply",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F09-01": {
+   "evidence": [
+    "docs/VEGA_CDM_THREAT_MODEL.md",
+    "docs/AGENT_THREAT_MATRIX.md",
+    "src/memory_fabric/outcome_typed/limited_process.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_doc_links.py",
+    "tests/test_vega_next_security.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-02": {
+   "evidence": [
+    "src/memory_fabric/outcome_typed/limited_process.py"
+   ],
+   "note": "No seccomp filter or network namespace.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Isolation::test_a_fork_bomb_is_contained_even_when_the_host_runs_as_root"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-03": {
+   "evidence": [
+    "qualification/build.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-04": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_only_loopback_http_endpoints_are_accepted",
+    "tests/test_vega_next_security.py::Isolation::test_model_errors_carry_no_evidence_text",
+    "tests/test_new_module_redaction.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-05": {
+   "evidence": [
+    "tools/mutation_check.py",
+    "qualification/logs/mutation.log"
+   ],
+   "note": "27/27 mutants killed, six for freeze-plan guards.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_properties.py",
+    "tests/test_code_mode_fuzz.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-06": {
+   "evidence": [
+    "src/memory_fabric/tool_protocol.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_n6_08_code_mode_effect_authorization.py",
+    "tests/test_confused_deputy.py",
+    "tests/test_cross_tenant_surface_matrix.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-07": {
+   "evidence": [
+    "docs/RUNBOOKS.md",
+    "src/memory_fabric/cli.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_key_rotation_drill.py",
+    "tests/test_backup_custody.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F09-08": {
+   "blocked_on": "an independent security reviewer who did not implement the change",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F10-01": {
+   "evidence": [
+    "research/results/vega-cdm/next/ci-audit-pr42.json"
+   ],
+   "note": "SQLite and PostgreSQL suites in CI; p99 under contention not published for PostgreSQL.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_postgres.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F10-02": {
+   "evidence": [
+    "tests/crashworker.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_multiprocess_crash.py",
+    "tests/test_action_crash.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F10-03": {
+   "evidence": [
+    "benchmarks/federation_world.py"
+   ],
+   "note": "Partitions and delayed retractions in the federation world; clock skew and duplicate delivery are not separately measured.",
+   "status": "IMPLEMENTED"
+  },
+  "F10-04": {
+   "evidence": [
+    "docs/RUNBOOKS.md",
+    "src/memory_fabric/cli.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_backup_restore_qualification.py",
+    "tests/test_memory_fabric_migration.py",
+    "tests/test_restore_erasure_reconciliation.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F10-05": {
+   "evidence": [
+    "docs/OPERATIONS.md",
+    "src/memory_fabric/cli.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_version_skew.py",
+    "tests/test_upgrade_preview.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F10-06": {
+   "evidence": [
+    "src/memory_fabric/actions_typed.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_action_reconciliation.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F10-07": {
+   "blocked_on": "physical hosts on a real network; only multi-process and container tests ran",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F10-08": {
+   "evidence": [
+    "src/memory_fabric/agent_api.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_limits.py",
+    "tests/test_operational_budgets.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F11-01": {
+   "evidence": [
+    "qualification/perf-verification.json",
+    "research/results/vega-cdm/next/perf/perf-contended.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F11-02": {
+   "blocked_on": "a 16 GB Apple Silicon host and a Linux staging host",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F11-03": {
+   "evidence": [
+    "research/results/vega-cdm/next/perf/perf-contended.json"
+   ],
+   "note": "1/2/4/8 workers with model servers running.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F11-04": {
+   "evidence": [
+    "src/memory_fabric/adapters/vega_u.py",
+    "benchmarks/vega_next_arms.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_u_adapter.py::FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens",
+    "tests/test_vega_next_study.py::Arms::test_budget_exhaustion_returns_no_doubt_not_a_guess"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F11-05": {
+   "evidence": [
+    "qualification/perf-verification.json"
+   ],
+   "note": "Authorize p99 1.35 ms with both model servers saturated.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_study.py::Arms"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F11-06": {
+   "evidence": [
+    "qualification/cost.json"
+   ],
+   "note": "Model seconds per safe success and per completion; CDM re-asks per corrected decision.",
+   "status": "IMPLEMENTED"
+  },
+  "F11-07": {
+   "evidence": [
+    "docs/FREEZE_RELEASE_DECISION.md",
+    "qualification/perf-verification.json"
+   ],
+   "note": "Envelope names only the measured 4-CPU Linux container.",
+   "status": "IMPLEMENTED"
+  },
+  "F11-08": {
+   "evidence": [
+    "tools/freeze_perf.py"
+   ],
+   "note": "Measured, not gated in CI: a wall-clock gate on shared runners would be flaky.",
+   "status": "IMPLEMENTED"
+  },
+  "F12-01": {
+   "evidence": [
+    "qualification/gates/release.json",
+    "docs/FREEZE_RELEASE_DECISION.md"
+   ],
+   "note": "Per-component state and exact SHA in one record; no live dashboard.",
+   "status": "IMPLEMENTED"
+  },
+  "F12-02": {
+   "evidence": [
+    "benchmarks/vega_next_model_agents.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_outcome_audit_typed.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F12-03": {
+   "evidence": [
+    "qualification/alert-drills.json",
+    "tools/freeze_alert_drill.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::RecordedAnalyses::test_alert_drills_fire_on_their_trigger_and_stay_silent_on_control"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F12-04": {
+   "evidence": [
+    "qualification/alert-drills.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_vega_next_security.py::Governance::test_off_and_shadow_change_no_output_write_or_authority"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F12-05": {
+   "evidence": [
+    "docs/RUNBOOKS.md",
+    "docs/OPERATIONS.md",
+    "src/memory_fabric/cli.py"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_backup_runbook.py",
+    "tests/test_upgrade_preview.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F12-06": {
+   "evidence": [
+    "docs/RUNBOOKS.md"
+   ],
+   "note": "Approval binding and review-required paths tested; operator UX not tested with people.",
+   "status": "IMPLEMENTED"
+  },
+  "F12-07": {
+   "evidence": [
+    "docs/RUNBOOKS.md"
+   ],
+   "note": "Runbooks 9-12 written against tested commands; a tabletop drill with assigned contacts needs people.",
+   "status": "IMPLEMENTED"
+  },
+  "F12-08": {
+   "blocked_on": "a deployment scenario and its measured population to derive SLOs from",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F13-01": {
+   "evidence": [
+    "qualification/build.json"
+   ],
+   "note": "Wheel byte-identical across two builds; sdist members identical.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-02": {
+   "evidence": [
+    "pyproject.toml",
+    "docs/STATUS_AT_HEAD.md"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_status_at_head.py",
+    "tests/test_mcp.py::TestVersion"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-03": {
+   "evidence": [
+    "research/results/vega-cdm/next/ci-audit-pr42.json"
+   ],
+   "note": "Audited at the PR head after push.",
+   "status": "IMPLEMENTED"
+  },
+  "F13-04": {
+   "evidence": [
+    "qualification/build.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_release_guards.py::DependencyClosure"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-05": {
+   "evidence": [
+    "qualification/installed-wheel.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_cross_tenant_surface_matrix.py",
+    "tests/test_action_fence_typed.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-06": {
+   "evidence": [
+    "docs/SUPPORTED_SCOPE.md",
+    "docs/FREEZE_RELEASE_DECISION.md",
+    "qualification/gates/release.json"
+   ],
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_doc_links.py",
+    "tests/test_user_docs_no_research.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-07": {
+   "evidence": [
+    "qualification/installed-wheel.json"
+   ],
+   "note": "Correction, typed-refusal and governed-action journeys from the installed wheel; the Vega shadow and CDM demos need the repository's benchmarks.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_examples_run.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F13-08": {
+   "blocked_on": "release manager, security reviewer and qualification owner signatures",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-01": {
+   "blocked_on": "an independent security reviewer",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-02": {
+   "blocked_on": "a permissioned supervised pilot with an operator",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-03": {
+   "blocked_on": "independent hardware and a newly authored environment by someone else",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-04": {
+   "blocked_on": "operators using the system in a pilot",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-05": {
+   "evidence": [
+    "qualification/issue-register.json",
+    "docs/SUPPORTED_SCOPE.md"
+   ],
+   "note": "Every P0/P1 has a fix, a test or a documented disabled/degraded mode.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_freeze_release.py::Register"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  },
+  "F14-06": {
+   "evidence": [
+    "docs/FREEZE_RELEASE_DECISION.md",
+    "qualification/gates/release.json"
+   ],
+   "note": "Per-component GO/HOLD written from records; signatures need people.",
+   "status": "IMPLEMENTED"
+  },
+  "F14-07": {
+   "blocked_on": "a deployment with shadow, canary and production stages",
+   "evidence": [],
+   "status": "BLOCKED"
+  },
+  "F14-08": {
+   "evidence": [
+    "docs/FREEZE_RELEASE_DECISION.md",
+    "docs/SUPPORTED_SCOPE.md",
+    "docs/KNOWN_GAPS.md",
+    "qualification/gates/release.json"
+   ],
+   "note": "Labelled bounded beta; 1.0 NO_GO.",
+   "status": "VALIDATED",
+   "tests": [
+    "tests/test_doc_links.py"
+   ],
+   "verified_sha": "cb4e23006160559bbac7aea9e1b11984d54340f0"
+  }
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "all_steps_exited_zero": true,
+ "environment": {
+  "cpus": 4,
+  "machine": "x86_64",
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18"
+ },
+ "gate": "cdm",
+ "limitations": [
+  "net utility is measured on scripted deterministic worlds only; no learned-agent CDM study",
+  "CDM replays recorded deterministic decisions; it does not establish real-world causality"
+ ],
+ "reviewer": "self-review by the implementing agent; not independent (freeze plan F09-08, F14-01)",
+ "schema_id": "memory-fabric.freeze-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "steps": [
+  {
+   "as_expected": true,
+   "command": "python tools/cdm_offline_gate.py --all --out qualification/cdm-offline",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/cdm-offline-gate.log",
+   "log_sha256": "fd1f7b19f77052a64cc8e3341cfe979653c39f293c4534555b7374fa9a886862",
+   "name": "cdm-offline-gate",
+   "seconds": 56.0,
+   "tail": [
+    "PASS frozen correction-aware utility contract",
+    "PASS 240-task evidence inventory",
+    "PASS inert package import"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python -m benchmarks.vega_next_cdm_value --seeds 40 --out qualification/cdm-scripted.json",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/cdm-scripted-value.log",
+   "log_sha256": "bbdb348d5e68a4cfcc6d3dd4a363d6d0f24a00758d9c440f08ee32d601b76a22",
+   "name": "cdm-scripted-value",
+   "seconds": 0.7,
+   "tail": [
+    " \"gain\": 30.0,",
+    " \"verdict\": \"POSITIVE_NET_UTILITY_SCRIPTED\"",
+    "}"
+   ]
+  },
+  {
+   "as_expected": true,
+   "command": "python -m pytest -q -p no:cacheprovider tests/test_causal_graph_constraints.py tests/test_semantic_pipeline.py tests/test_cdm_correction_utility.py tests/test_cdm_correction_comparison.py",
+   "exit_status": 0,
+   "expected_exit": 0,
+   "log": "qualification/logs/cdm-contracts.log",
+   "log_sha256": "68aaa1c07106da527fc1d0d59d1d695b6eabfb3f0198d0ea6f5abb8efa6d3ef9",
+   "name": "cdm-contracts",
+   "seconds": 0.8,
+   "tail": [
+    "......................................................         [100%]",
+    "54 passed, 10 subtests passed in 0.46s"
+   ]
+  }
+ ],
+ "summary": {
+  "offline_gate": true,
+  "scripted_verdict": "POSITIVE_NET_UTILITY_SCRIPTED",
+  "strongest_fair_comparator": "no_replay"
+ },
+ "timestamp": "2026-11-25T21:56:58Z"
+}

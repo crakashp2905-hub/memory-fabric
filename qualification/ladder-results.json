@@ -1,0 +1,187 @@
+{
+ "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+ "results": {
+  "_vega_s1_provenance": {
+   "acceptance": {
+    "cleared_margin_below": -0.402654,
+    "doubt_margin_above": -0.128122
+   },
+   "margin_fit_digest": "e1930c6198b48922a0dcd154916e356fc8aaa19604489318f22c91b3fd74de72",
+   "seeds": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  "calibration_transfer_risk": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "calibration_transfer_risk",
+    "mode": "ADVISORY",
+    "n": 304,
+    "observed": 0.0,
+    "question": "doubt",
+    "stage": "S1_development_replication",
+    "threshold": 0.05,
+    "verdict": "PASS"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_RUN"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_RUN"
+   }
+  },
+  "cdm_relative_net_utility_gain": {
+   "S1_development_replication": {
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "model_calls": null,
+    "model_failures": null,
+    "n": 240,
+    "observed": 0.15,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "PASS"
+   },
+   "S2_fresh_pilot": {
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "model_calls": 159,
+    "model_failures": 0,
+    "n": 240,
+    "observed": 0.15,
+    "stage": "S2_fresh_pilot",
+    "threshold": 0.05,
+    "verdict": "PASS"
+   },
+   "S3_confirmatory": {
+    "comparator": "no_replay",
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.75,
+    "metric": "cdm_relative_net_utility_gain",
+    "model_calls": 166,
+    "model_failures": 0,
+    "n": 300,
+    "observed": 0.15,
+    "stage": "S3_confirmatory",
+    "threshold": 0.02,
+    "verdict": "PASS"
+   }
+  },
+  "planner_completion_gain": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": -0.02,
+    "metric": "planner_completion_gain",
+    "n": 100,
+    "observed": 0.16,
+    "reason": "point margin met but its paired lower bound is not above zero",
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "planner_unsafe_omission_bound": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "planner_unsafe_omission_bound",
+    "n": 100,
+    "observed": 0.0295,
+    "stage": "S1_development_replication",
+    "threshold": 0.03,
+    "unsafe": 0,
+    "verdict": "PASS"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_RUN"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_RUN"
+   }
+  },
+  "vega_margin_over_parser": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.02,
+    "metric": "vega_margin_over_parser",
+    "n": 200,
+    "observed": 0.075,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "vega_margin_over_shuffled_placebo": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "lower_bound": 0.005,
+    "metric": "vega_margin_over_shuffled_placebo",
+    "n": 200,
+    "observed": 0.035,
+    "stage": "S1_development_replication",
+    "threshold": 0.1,
+    "verdict": "FAIL"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_ELIGIBLE"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_ELIGIBLE"
+   }
+  },
+  "vega_unsafe_omission_bound": {
+   "S1_development_replication": {
+    "ladder_digest": "0c4bdf2b6857c3c00045f3fba875a68e5091825558f8e7a352640addbf6aebb6",
+    "metric": "vega_unsafe_omission_bound",
+    "n": 200,
+    "observed": 0.0149,
+    "stage": "S1_development_replication",
+    "threshold": 0.02,
+    "unsafe": 0,
+    "verdict": "PASS",
+    "worst_arm": "A6-PV"
+   },
+   "S2_fresh_pilot": {
+    "verdict": "NOT_RUN"
+   },
+   "S3_confirmatory": {
+    "verdict": "NOT_RUN"
+   }
+  }
+ },
+ "schema_id": "memory-fabric.freeze-ladder-results.v1"
+}

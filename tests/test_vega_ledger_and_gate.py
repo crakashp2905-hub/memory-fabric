@@ -78,7 +78,10 @@ class Gate(unittest.TestCase):
 
 RECORDS_WITHOUT_A_LEVEL = {"memory-fabric.vega-next-baseline.v1", "memory-fabric.ci-audit.v1",
                            "memory-fabric.vega-next.failure-trace.v1", "memory-fabric.vega-next-cdm-value.v1",
-                           "memory-fabric.vega-next-perf.v1"}
+                           "memory-fabric.vega-next-perf.v1",
+                           # analyses of recorded rows with no model call of their own (freeze plan)
+                           "memory-fabric.planner-error-taxonomy.v1", "memory-fabric.vega-specificity-diagnosis.v1",
+                           "memory-fabric.freeze-planner-model-validation-result.v1"}
 DEVELOPMENT_LEVELS = ("VEGA_MODEL_DEVELOPMENT", "NO_ADVISOR", "LOCAL_MODEL_DEVELOPMENT")
 
 

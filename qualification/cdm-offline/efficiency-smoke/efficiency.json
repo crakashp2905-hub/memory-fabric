@@ -1,0 +1,199 @@
+{
+  "cpu": "x86_64",
+  "limits": {
+    "k": 10,
+    "network_calls": 0,
+    "tool_calls": 0
+  },
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "remote_telemetry": false,
+  "rows": [
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 10,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 28806,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 1152,
+      "replay_transitions": 10,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00000",
+        "e-00006",
+        "e-00003",
+        "e-00009",
+        "e-00007",
+        "e-00008",
+        "e-00005",
+        "e-00001",
+        "e-00002",
+        "e-00004"
+      ],
+      "selector_cpu_ns": 10356,
+      "selector_wall_ns": 10370
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 100,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 162703,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 8104,
+      "replay_transitions": 100,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00060",
+        "e-00069",
+        "e-00031",
+        "e-00025",
+        "e-00085",
+        "e-00009",
+        "e-00093",
+        "e-00061",
+        "e-00053",
+        "e-00081"
+      ],
+      "selector_cpu_ns": 85924,
+      "selector_wall_ns": 86094
+    },
+    {
+      "branch_recall_at_k": 0.5,
+      "candidate_count": 1000,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 7578610,
+      "k": 10,
+      "oracle_pivotal_ids": [
+        "e-00175",
+        "e-00953"
+      ],
+      "peak_tracemalloc_bytes": 98952,
+      "replay_transitions": 1000,
+      "seed": 20261108,
+      "selected_ids": [
+        "e-00855",
+        "e-00175",
+        "e-00101",
+        "e-00556",
+        "e-00177",
+        "e-00921",
+        "e-00297",
+        "e-00103",
+        "e-00412",
+        "e-00020"
+      ],
+      "selector_cpu_ns": 1033843,
+      "selector_wall_ns": 1034184
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 10,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 14022,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 768,
+      "replay_transitions": 10,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00009",
+        "e-00000",
+        "e-00006",
+        "e-00004",
+        "e-00001",
+        "e-00002",
+        "e-00007",
+        "e-00003",
+        "e-00005",
+        "e-00008"
+      ],
+      "selector_cpu_ns": 7725,
+      "selector_wall_ns": 7732
+    },
+    {
+      "branch_recall_at_k": null,
+      "candidate_count": 100,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 166825,
+      "k": 10,
+      "oracle_pivotal_ids": [],
+      "peak_tracemalloc_bytes": 3792,
+      "replay_transitions": 100,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00002",
+        "e-00099",
+        "e-00005",
+        "e-00059",
+        "e-00085",
+        "e-00083",
+        "e-00010",
+        "e-00052",
+        "e-00080",
+        "e-00046"
+      ],
+      "selector_cpu_ns": 79072,
+      "selector_wall_ns": 79149
+    },
+    {
+      "branch_recall_at_k": 0.3333333333333333,
+      "candidate_count": 1000,
+      "frontier_start_index": 0,
+      "frontier_wall_ns": 7633953,
+      "k": 10,
+      "oracle_pivotal_ids": [
+        "e-00508",
+        "e-00534",
+        "e-00592",
+        "e-00633",
+        "e-00899",
+        "e-00972"
+      ],
+      "peak_tracemalloc_bytes": 48616,
+      "replay_transitions": 1000,
+      "seed": 20261109,
+      "selected_ids": [
+        "e-00534",
+        "e-00293",
+        "e-00289",
+        "e-00592",
+        "e-00873",
+        "e-00221",
+        "e-00735",
+        "e-00510",
+        "e-00138",
+        "e-00624"
+      ],
+      "selector_cpu_ns": 957212,
+      "selector_wall_ns": 957578
+    }
+  ],
+  "schema": "cdm-efficiency-v1",
+  "seeds": [
+    20261108,
+    20261109
+  ],
+  "summary": {
+    "10": {
+      "max_peak_bytes": 1152,
+      "p50_cpu_ns": 9040.5,
+      "p95_wall_ns": 7732,
+      "p99_wall_ns": 7732
+    },
+    "100": {
+      "max_peak_bytes": 8104,
+      "p50_cpu_ns": 82498.0,
+      "p95_wall_ns": 79149,
+      "p99_wall_ns": 79149
+    },
+    "1000": {
+      "max_peak_bytes": 98952,
+      "p50_cpu_ns": 995527.5,
+      "p95_wall_ns": 957578,
+      "p99_wall_ns": 957578
+    }
+  },
+  "workload_sha256": "6b93ac7bba2e16f288b3113119d7d2c0bc0921682c4d02290ddf71755213f0d5"
+}

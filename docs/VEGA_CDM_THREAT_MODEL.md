@@ -16,3 +16,14 @@ Each threat has a control, a test, and a residual risk. Tests are in
 | Code, files or shell smuggled through proposals | Closed intervention vocabulary; extra response keys are ignored, never executed | `Spoofing::test_proposals_cannot_carry_code_files_or_shell` | None known |
 | Governance regresses | Semantic modules do not import governance writers; the existing governance suites run unchanged in CI | `GovernanceUnchanged`, plus the full suite | A future change could add an import; the test would catch it |
 | Inference outage or slowness hangs an actor | Deadline, bounded retries, circuit breaker, deterministic fallback | adapter `FailClosed::test_timeouts_errors_and_budgets_fall_back_and_the_breaker_opens` | The deterministic fallback may abstain more |
+
+## Boundaries added by the feature-freeze plan
+
+| Threat | Control | Test | Residual |
+|---|---|---|---|
+| A model answer (the advisor's or the planner's own choice) settles contested readings without cooling | Under `CONTESTED`, a decision the deterministic reader did not support must still be a registered response | `tests/test_omission_safety.py::ModelSettledContest`, `tests/test_vega_next_study.py::PlannerContest` | A wrong deterministic doubt reading would still permit recalibration |
+| A stale or unbound human approval authorizes a modified action | Approvals may expire; an action with a request needs an approval bound to it | `tests/test_action_fence_typed.py::ApprovalBinding`, `tests/test_authority.py::ExactActionGrants` | Approvals recorded without a binding by older releases still cover requestless calls |
+| A reused idempotency key reports a different action as done | Every first call binds its key, with or without a request | `tests/test_action_fence_typed.py::IdempotencyBinding` | Keys first used by older releases carry no binding |
+| A model or replay worker forks, allocates or spins without bound | `outcome_typed.limited_process`: CPU, address-space and process-count limits; a root parent drops the child to `nobody`; a refused limit means not run | `tests/test_vega_next_security.py::Isolation` | No syscall filter (seccomp) and no network namespace |
+| Punctuated or spelled sensor names make two instruments one claim (fake corroboration or contradiction) | Claim identity v2 normalises designators | `tests/test_sensor_entity_claims.py::HeldOutIdentities` | Designators outside the registered noun list are not recognised |
+| A statement negated as a whole is read as asserted | Whole-statement negation makes the reading UNKNOWN | `tests/test_semantic_quantities.py::AnnotatedFixtures` | Negation phrasings outside the list stay unrecognised and read literally |

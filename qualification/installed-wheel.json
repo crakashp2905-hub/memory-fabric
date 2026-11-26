@@ -1,0 +1,44 @@
+{
+ "environment": "fresh venv; only the wheel and pytest installed; tests run from a copy outside the source tree so imports resolve to the installed package",
+ "journey_scope": "quickstart (write, recall), wrong_memory_demo and correction_spares_unrelated_action (correction), why_blocked and action_gate (typed refusals, governed effects)",
+ "journeys": {
+  "action_gate": {
+   "exit": 0,
+   "last_line": [
+    "   audit trail (ActionGated): [True, False, False]"
+   ]
+  },
+  "correction_spares_unrelated_action": {
+   "exit": 0,
+   "last_line": [
+    "external effects simulated: ['restart', 'tyre-check', 'tyre-check']"
+   ]
+  },
+  "quickstart": {
+   "exit": 0,
+   "last_line": [
+    "quickstart complete; the store is at /tmp/tmpan2zdwgj/quickstart.db"
+   ]
+  },
+  "why_blocked": {
+   "exit": 0,
+   "last_line": [
+    "Repair: re-certify with current evidence 01M8A5418D2X1AY80CHT53TQCH; allowed=True; reasons=('allowed',)"
+   ]
+  },
+  "wrong_memory_demo": {
+   "exit": 0,
+   "last_line": [
+    "  merge would: preserve_conflict (evidence_conflict: gives a different value from a main memory; disagrees with main; both claims kept for review)"
+   ]
+  }
+ },
+ "repository_files_copied_for_version_tests": [
+  "pyproject.toml",
+  "README.md",
+  "deploy/helm/memory-fabric/Chart.yaml"
+ ],
+ "schema_id": "memory-fabric.freeze-installed-wheel.v1",
+ "surface_tests": "145 passed, 1 skipped, 99 subtests passed in 14.17s",
+ "wheel_sha256": "b31e41fcc7159f7f54f4db2062155c45dddbd1bde8280920ba4df60536025229"
+}

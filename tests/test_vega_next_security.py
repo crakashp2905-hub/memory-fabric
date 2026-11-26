@@ -105,6 +105,65 @@ class Isolation(unittest.TestCase):
                                            memory_bytes=1 << 30, timeout_seconds=0.5)
         self.assertEqual(slow.status, "TIMEOUT")
 
+    def test_a_fork_bomb_is_contained_even_when_the_host_runs_as_root(self):
+        # Freeze plan F09-02: RLIMIT_NPROC binds because a root parent drops the child's identity.
+        if "RLIMIT_NPROC" not in limited_process.supported():
+            self.skipTest("no RLIMIT_NPROC on this platform: run_limited refuses instead")
+        bomb = ("import os, sys\nn = 0\ntry:\n    for i in range(400):\n        if os.fork() == 0:\n"
+                "            import time; time.sleep(2); os._exit(0)\n        n += 1\nexcept OSError:\n"
+                "    print('refused', n); sys.exit(3)\nprint('forked', n)")
+        r = limited_process.run_limited([sys.executable, "-c", bomb], cpu_seconds=5, memory_bytes=1 << 30,
+                                        max_processes=16, timeout_seconds=30)
+        if r.status == "UNSUPPORTED_PLATFORM":
+            return  # the platform refused a limit: not run, which is the other lawful outcome
+        self.assertIn("refused", r.stdout, (r.status, r.stdout, r.stderr[-200:]))
+        self.assertLessEqual(int(r.stdout.split()[-1]), 16)
+
+    def test_an_inference_server_that_crashes_mid_answer_fails_closed(self):
+        # VEGA-CDM-155 (freeze register FIX): the real HTTP transport against a loopback server
+        # that dies after sending a partial body, then against a server that is gone.
+        import http.server
+        import threading
+        fixture = json.loads((Path(__file__).parent / "fixtures" / "vega_u" / "decide-0.19.0.json")
+                             .read_text(encoding="utf-8"))
+
+        class Crashing(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *args: Any) -> None:
+                pass
+
+            def do_GET(self) -> None:
+                body = json.dumps(fixture["health"] if self.path.endswith("/health") else fixture["model"]).encode()
+                self.send_response(200)
+                self.send_header("content-length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_POST(self) -> None:
+                self.rfile.read(int(self.headers["content-length"]))
+                self.send_response(200)
+                self.send_header("content-length", "5000")
+                self.end_headers()
+                self.wfile.write(b'{"answers": {"x": {"status": "OK", "val')
+                self.wfile.flush()
+                self.connection.close()
+
+        server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Crashing)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        endpoint = f"http://127.0.0.1:{server.server_address[1]}"
+        q = {"x": Question("x", "boolean", "?", {"true": "y", "false": "n"})}
+        try:
+            client = VegaClient(endpoint, limits=VegaLimits(retries=0))
+            advice = client.decide("s", q)
+            self.assertEqual(advice.receipt["status"], "UNAVAILABLE")
+            self.assertEqual(advice.answers["x"].status, "UNAVAILABLE")
+            self.assertIsNone(advice.answers["x"].value)
+        finally:
+            server.shutdown()
+            server.server_close()
+        gone = VegaClient(endpoint, limits=VegaLimits(retries=0)).decide("s", q)
+        self.assertEqual(gone.answers["x"].status, "UNAVAILABLE")
+        self.assertTrue(gone.answers["x"].reason.startswith("INFERENCE_UNAVAILABLE"))
+
     def test_model_errors_carry_no_evidence_text(self):
         def broken(method: str, url: str, body: Any, timeout: float):
             raise OSError("connection reset while sending SECRET-CANARY-7")

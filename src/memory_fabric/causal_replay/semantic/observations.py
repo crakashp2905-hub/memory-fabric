@@ -51,6 +51,12 @@ _SCALES = {"hundred": 100, "thousand": 1000}
 _NUMWORD = set(_ONES) | set(_TENS) | set(_SCALES) | {"and", "point", "minus", "negative"}
 _HEDGES = re.compile(r"\b(maybe|perhaps|possibly|probably|might|may|could|estimated|approximately?\s+estimated|"
                      r"unclear|unverified|apparently|reportedly|roughly guessed|not sure)\b")
+# A statement negated as a whole ("it is false that TA1 reads below 50 C") cannot be
+# turned into an interval by flipping one relation: the scope of the negation is not
+# local to the quantity, so the reading is UNKNOWN (freeze plan F03-03).
+_META_NEGATION = re.compile(r"\b(it\s+is\s+(?:false|untrue|incorrect|wrong)\s+that|"
+                            r"it\s+is\s+not\s+(?:true|the\s+case|correct)\s+that|not\s+the\s+case\s+that|"
+                            r"(?:false|untrue|incorrect|wrong)\s+to\s+say\s+that|nor\b)")
 _DIGIT_NUMBER = r"[-+−]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?"
 _UNIT_ALT = (r"(?:°\s?[cf]|degrees?\s+(?:celsius|fahrenheit|c|f)\b|degrees?\b|deg\s?[cf]\b|celsius\b|"
              r"centigrade\b|fahrenheit\b|kelvins?\b|ma\b|[cfk]\b|v\b|bar\b|a\b)")
@@ -179,8 +185,8 @@ def _relation(context: str) -> tuple[str, bool]:
                           (r"(exactly|precisely|=)\s*$", "eq")):
         if re.search(pattern, c):
             rel = name
-            if name in ("ge", "le") and re.search(r"\bnot\s+(below|above)\s*$", c):
-                negations -= 1  # "not below" is itself the relation
+            if name in ("ge", "le") and re.search(r"\b(not\s+(below|above)|no\s+(less|more)\s+than)\s*$", c):
+                negations -= 1  # "not below" and "no more than" are themselves the relation
             break
     return rel, negations > 0
 
@@ -205,6 +211,7 @@ def extract(text: str, *, property: str = "temperature", default_unit: str | Non
     clock = _TIME.search(text)
     when = f"{int(clock.group(1)):02d}:{clock.group(2)}" if clock else None
     hedged = bool(_HEDGES.search(text.lower()))
+    meta_negated = bool(_META_NEGATION.search(text.lower()))
 
     def overlaps(a: int, b: int) -> bool:
         return any(a < y and b > x for x, y in taken)
@@ -229,6 +236,8 @@ def extract(text: str, *, property: str = "temperature", default_unit: str | Non
             return unknown("number words not understood")
         if unit is None:
             return unknown("unit not recognised and no registered default")
+        if meta_negated:
+            return unknown("the statement is negated as a whole")
         if hedged:
             return unknown("hedged or uncertain statement")
         if property == "temperature" and unit not in _TEMPERATURE:

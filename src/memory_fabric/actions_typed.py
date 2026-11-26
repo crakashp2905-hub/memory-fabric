@@ -92,9 +92,10 @@ _ACTION_RECEIPT_KEY = secrets.token_bytes(32)
 
 def _action_execution_binding(tool: str, agent_id: str,
                               request: ActionRequest | None,
-                              receipt_context: str | None) -> str | None:
-    if request is None and receipt_context is None:
-        return None
+                              receipt_context: str | None) -> str:
+    # A call with neither a request nor a receipt context still binds its key to the
+    # tool and the agent, so a later different action under that key is refused
+    # instead of being reported as already executed (freeze plan F02-03).
     body = {"tool": tool, "agent": agent_id,
             "target": request.target if request is not None else None,
             "parameters": dict(request.parameters) if request is not None else None,
@@ -108,7 +109,7 @@ def _idempotency_binding(request_binding: str | None, tenant_id: str | None,
                          certificate: Any) -> str | None:
     """What an idempotency key commits to: the request, the tenant and the source versions.
 
-    ``None`` when the call described no request, so there is nothing to compare.
+    ``None`` only for a missing request binding, which current callers never pass.
     """
     if request_binding is None:
         return None
@@ -266,7 +267,10 @@ class Approval:
     certificate_digest: str
     binding: str | None = None
     """When set, the approval covers only the action with this
-    `binding_digest`: a changed target or parameter voids it."""
+    `binding_digest`: a changed target or parameter voids it. An action that
+    carries a request needs a bound approval (freeze plan F02-05)."""
+    expires_ms: int | None = None
+    """When set, the approval is void at or after this store time (ms)."""
 
 
 @dataclass(frozen=True)
@@ -413,7 +417,9 @@ class ActionGate:
             if (approval.approver_id not in self.policy.approvers
                     or approval.approver_id == agent_id
                     or approval.certificate_digest != certificate.digest()
-                    or (approval.binding is not None and approval.binding != binding)):
+                    or (approval.binding is not None and approval.binding != binding)
+                    or (request is not None and approval.binding is None)
+                    or (approval.expires_ms is not None and self.fabric.now() >= approval.expires_ms)):
                 return self._decide(tool, agent_id, (APPROVAL_INVALID,),
                                     verification, rule, certificate=certificate, tenant_id=tenant_id)
 

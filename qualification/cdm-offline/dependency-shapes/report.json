@@ -1,0 +1,338 @@
+{
+  "generator_sha256": "b55e827c8a3acbc63537b9fe15fffb4159c3616a24ec7e3b1bcce7a062e8fc77",
+  "limitations": [
+    "synthetic declared dependency graphs",
+    "not evidence of real-world semantic completeness"
+  ],
+  "mode": "synthetic_dependency_topology_with_competing_evidence",
+  "model_calls": 0,
+  "network_calls": 0,
+  "rows": [
+    {
+      "competing_evidence": true,
+      "competing_values": [
+        false,
+        true
+      ],
+      "dependencies": {
+        "chain-0": [],
+        "chain-1": [
+          "chain-0"
+        ],
+        "chain-2": [
+          "chain-1"
+        ],
+        "chain-3": [
+          "chain-2"
+        ],
+        "chain-4": [
+          "chain-3"
+        ],
+        "chain-5": [
+          "chain-4"
+        ],
+        "chain-6": [
+          "chain-5"
+        ],
+        "chain-7": [
+          "chain-6"
+        ]
+      },
+      "edge_count": 7,
+      "event_count": 8,
+      "frontier_ids": [
+        "chain-1",
+        "chain-2",
+        "chain-3",
+        "chain-4",
+        "chain-5",
+        "chain-6",
+        "chain-7"
+      ],
+      "frontier_size": 7,
+      "independent_event_count": 1,
+      "observations": [
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-0",
+          "origin": "source-0",
+          "sequence": 0,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-1",
+          "origin": "source-1",
+          "sequence": 1,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-2",
+          "origin": "source-2",
+          "sequence": 2,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-3",
+          "origin": "source-0",
+          "sequence": 3,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-4",
+          "origin": "source-1",
+          "sequence": 4,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-5",
+          "origin": "source-2",
+          "sequence": 5,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-6",
+          "origin": "source-0",
+          "sequence": 6,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "chain-7",
+          "origin": "source-1",
+          "sequence": 7,
+          "value": true,
+          "variable": "fault"
+        }
+      ],
+      "shape": "chain",
+      "target_id": "chain-1"
+    },
+    {
+      "competing_evidence": true,
+      "competing_values": [
+        false,
+        true
+      ],
+      "dependencies": {
+        "star-0": [],
+        "star-1": [
+          "star-0"
+        ],
+        "star-2": [
+          "star-0"
+        ],
+        "star-3": [
+          "star-0"
+        ],
+        "star-4": [
+          "star-0"
+        ],
+        "star-5": [
+          "star-0"
+        ],
+        "star-6": [
+          "star-0"
+        ],
+        "star-7": [
+          "star-0"
+        ]
+      },
+      "edge_count": 7,
+      "event_count": 8,
+      "frontier_ids": [
+        "star-1"
+      ],
+      "frontier_size": 1,
+      "independent_event_count": 7,
+      "observations": [
+        {
+          "kind": "exogenous",
+          "observation_id": "star-0",
+          "origin": "source-0",
+          "sequence": 0,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-1",
+          "origin": "source-1",
+          "sequence": 1,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-2",
+          "origin": "source-2",
+          "sequence": 2,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-3",
+          "origin": "source-0",
+          "sequence": 3,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-4",
+          "origin": "source-1",
+          "sequence": 4,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-5",
+          "origin": "source-2",
+          "sequence": 5,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-6",
+          "origin": "source-0",
+          "sequence": 6,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "star-7",
+          "origin": "source-1",
+          "sequence": 7,
+          "value": true,
+          "variable": "fault"
+        }
+      ],
+      "shape": "star",
+      "target_id": "star-1"
+    },
+    {
+      "competing_evidence": true,
+      "competing_values": [
+        false,
+        true
+      ],
+      "dependencies": {
+        "fork-0": [],
+        "fork-1": [
+          "fork-0"
+        ],
+        "fork-2": [
+          "fork-1"
+        ],
+        "fork-3": [
+          "fork-1"
+        ],
+        "fork-4": [
+          "fork-0"
+        ],
+        "fork-5": [
+          "fork-4"
+        ],
+        "fork-6": [
+          "fork-4"
+        ],
+        "fork-7": []
+      },
+      "edge_count": 6,
+      "event_count": 8,
+      "frontier_ids": [
+        "fork-1",
+        "fork-2",
+        "fork-3"
+      ],
+      "frontier_size": 3,
+      "independent_event_count": 5,
+      "observations": [
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-0",
+          "origin": "source-0",
+          "sequence": 0,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-1",
+          "origin": "source-1",
+          "sequence": 1,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-2",
+          "origin": "source-2",
+          "sequence": 2,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-3",
+          "origin": "source-0",
+          "sequence": 3,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-4",
+          "origin": "source-1",
+          "sequence": 4,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-5",
+          "origin": "source-2",
+          "sequence": 5,
+          "value": true,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-6",
+          "origin": "source-0",
+          "sequence": 6,
+          "value": false,
+          "variable": "fault"
+        },
+        {
+          "kind": "exogenous",
+          "observation_id": "fork-7",
+          "origin": "source-1",
+          "sequence": 7,
+          "value": true,
+          "variable": "fault"
+        }
+      ],
+      "shape": "fork",
+      "target_id": "fork-1"
+    }
+  ],
+  "schema": "cdm-dependency-shapes-v1",
+  "size": 8
+}

@@ -1,0 +1,35 @@
+{
+ "schema_id": "memory-fabric.annotated-identities.v1",
+ "annotator": "written by hand; held out from the rules' development (freeze plan F03-01)",
+ "distinct": [
+  ["pack P-7 probe A reads 61 C", "pack P-7 probe B reads 61 C"],
+  ["pack P-7 Probe-A reads 61 C", "pack P-7 Probe-B reads 58 C"],
+  ["pack P-7 probe_A reads 61 C", "pack P-7 probe_B reads 58 C"],
+  ["pack P-7 probe(A) reads 61 C", "pack P-7 probe(B) reads 58 C"],
+  ["pack P-7 probe #A reads 61 C", "pack P-7 probe #B reads 58 C"],
+  ["pack P-7 probe 'A' reads 61 C", "pack P-7 probe 'B' reads 58 C"],
+  ["pack P-7, probe A: 61 C", "pack P-7, probe B: 58 C"],
+  ["pack P-7 sensor P7-A reads 61 C", "pack P-7 sensor P7-B reads 61 C"],
+  ["pack P-7 sensor TA-1 reads 61 C", "pack P-7 sensor TB-2 reads 58 C"],
+  ["pack P-7 sensor TA1 reads 61 C", "pack P-9 sensor TB9 reads 61 C"],
+  ["P7/A reads 61 C", "P7/B reads 58 C"],
+  ["module 3 cell 4 reads 61 C", "module 3 cell 5 reads 61 C"],
+  ["module 3 cell 4 reads 61 C", "module 4 cell 4 reads 61 C"],
+  ["module 3's cell 4 reads 61 C", "module 3's cell 5 reads 58 C"],
+  ["cell 3-4 reads 61 C", "cell 3-5 reads 58 C"],
+  ["channel 2 reads 61 C", "channel 12 reads 61 C"],
+  ["bank A string 1 reads 61 C", "bank B string 1 reads 61 C"],
+  ["thermocouple TC-1 reads 61 C", "thermocouple TC-2 reads 61 C"],
+  ["zone 1 reads 61 C", "zone 2 reads 61 C"],
+  ["probe Alpha reads 61 C", "probe Bravo reads 58 C"],
+  ["Sensor A reads 61 C", "Sensor B reads 58 C"]
+ ],
+ "same": [
+  ["pack P-7 probe A reads 61 C", "pack P-7 probe A reads 58 C"],
+  ["pack P-7 Probe-A reads 61 C", "pack P-7 probe A reads 58 C"],
+  ["probe Alpha reads 61 C", "probe A reads 58 C"],
+  ["sensor TA-1 reads 61 C", "sensor TA1 reads 58 C"],
+  ["P7/A reads 61 C", "P7-A reads 58 C"],
+  ["P7-A reads 61 C", "p7-a reads 58 C"]
+ ]
+}

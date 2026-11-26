@@ -101,11 +101,13 @@ def deterministic(rows: list[dict[str, Any]]) -> dict[str, Any]:
                     "not independent accuracy"}
 
 
-def run(advisor: Advisor, seeds: Sequence[int]) -> dict[str, Any]:
-    dev, pilot = _labelled("dev", seeds), _labelled("pilot", seeds)
+def run(advisor: Advisor, seeds: Sequence[int], pilot_seeds: Sequence[int] | None = None) -> dict[str, Any]:
+    pilot_seeds = seeds if pilot_seeds is None else pilot_seeds
+    dev, pilot = _labelled("dev", seeds), _labelled("pilot", pilot_seeds)
     _ask(advisor, dev)
     _ask(advisor, pilot)
     report: dict[str, Any] = {"schema_id": "memory-fabric.vega-calibration.v1", "seeds": list(seeds),
+                              "pilot_seeds": list(pilot_seeds),
                               "calibration_split": "dev", "validation_split": "pilot", "holdout_read": False}
     for q in ("hot", "doubt", "cleared"):
         cal, val = _rows(dev, q, "dev"), _rows(pilot, q, "pilot")
@@ -130,10 +132,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--seeds", type=int, default=8)
     parser.add_argument("--vega-url", default="http://127.0.0.1:8011")
     parser.add_argument("--out")
+    parser.add_argument("--pilot-seeds", type=int, help="pilot seeds (default: same as --seeds)")
+    parser.add_argument("--pilot-seed-offset", type=int, default=0)
     args = parser.parse_args(argv)
     from memory_fabric.adapters.vega_u import VegaClient
     client = VegaClient(args.vega_url)
-    report = run(client, range(args.seeds))
+    pilot = None if args.pilot_seeds is None else range(args.pilot_seed_offset,
+                                                         args.pilot_seed_offset + args.pilot_seeds)
+    report = run(client, range(args.seeds), pilot)
     report["model"] = client.handshake()
     report["evidence_level"] = "VEGA_MODEL_DEVELOPMENT"
     if args.out:

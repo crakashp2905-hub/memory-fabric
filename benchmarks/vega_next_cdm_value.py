@@ -120,10 +120,11 @@ def run(seeds: Sequence[int], *, cost: float = 0.25, k: int = 1) -> dict[str, An
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--seeds", type=int, default=40)
+    parser.add_argument("--seed-offset", type=int, default=0)
     parser.add_argument("--cost", type=float, default=0.25)
     parser.add_argument("--out")
     args = parser.parse_args(argv)
-    report = run(range(args.seeds), cost=args.cost)
+    report = run(range(args.seed_offset, args.seed_offset + args.seeds), cost=args.cost)
     if args.out:
         import os
         os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)

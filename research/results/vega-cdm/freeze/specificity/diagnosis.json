@@ -1,0 +1,823 @@
+{
+ "derived_states": {
+  "real:both_yes": 16,
+  "real:cleared": 16,
+  "shuffled:both_yes": 20,
+  "shuffled:cleared": 12
+ },
+ "findings": [
+  "vega-U answered yes to both questions on 16 of 32 real notes; the arm's rule then discards the answer, so most of what the model reads never reaches the decision",
+  "the placebo won 3 tasks and the real note 4; every placebo win is a counterexample listed below",
+  "the margin p(doubt) - p(cleared) separates doubt notes from cleared notes on both calibration splits, so the content is read; the loss is in the acceptance rule, which is the repair candidate (F05-03)"
+ ],
+ "instances": [
+  {
+   "family": "boundary",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "task_id": "0e74a0c21a67972a",
+   "truth": "local_heat"
+  },
+  {
+   "family": "injection",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "162a165bbe1a01e9",
+   "truth": "drift"
+  },
+  {
+   "family": "aliases",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "1a3591a80c620ddb",
+   "truth": "drift"
+  },
+  {
+   "family": "units",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "task_id": "26dfedadaa9b1de8",
+   "truth": "drift"
+  },
+  {
+   "family": "aliases",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "4172c94ef5e3e4a8",
+   "truth": "local_heat"
+  },
+  {
+   "family": "injection",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "WRONG_ACTION",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "63bc41bd4fae3999",
+   "truth": "drift"
+  },
+  {
+   "family": "units",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "task_id": "661d42921e1bc2a0",
+   "truth": "local_heat"
+  },
+  {
+   "family": "injection",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "6ba2692e88897389",
+   "truth": "local_heat"
+  },
+  {
+   "family": "aliases",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "77b30ddf40f48b54",
+   "truth": "local_heat"
+  },
+  {
+   "family": "false_reassurance",
+   "placebo_won": true,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "77cb9f8fe2d77772",
+   "truth": "local_heat"
+  },
+  {
+   "family": "collusion",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": true,
+   "seed": 4,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "7a34bfb540bf96f1",
+   "truth": "local_heat"
+  },
+  {
+   "family": "collusion",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "932fcc2b5ce4f1b6",
+   "truth": "drift"
+  },
+  {
+   "family": "collusion",
+   "placebo_won": true,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "980b99011bf0cb3b",
+   "truth": "local_heat"
+  },
+  {
+   "family": "boundary",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "a45123dab3e509b4",
+   "truth": "drift"
+  },
+  {
+   "family": "canonical",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "a89ebfa981f2a7cc",
+   "truth": "local_heat"
+  },
+  {
+   "family": "units",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "task_id": "acd477673ea29615",
+   "truth": "drift"
+  },
+  {
+   "family": "units",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "ad252cfe55ff4d1f",
+   "truth": "local_heat"
+  },
+  {
+   "family": "numeric_words",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": true,
+   "seed": 4,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "b2981df12334fe50",
+   "truth": "local_heat"
+  },
+  {
+   "family": "numeric_words",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "b72a06966f0ad509",
+   "truth": "drift"
+  },
+  {
+   "family": "boundary",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "bb5fb212f408497d",
+   "truth": "drift"
+  },
+  {
+   "family": "canonical",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "c9aaebad6adff129",
+   "truth": "drift"
+  },
+  {
+   "family": "numeric_words",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "cd926553da258d40",
+   "truth": "drift"
+  },
+  {
+   "family": "boundary",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 4,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "cf2e644eadbbc6b9",
+   "truth": "local_heat"
+  },
+  {
+   "family": "collusion",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "d10cc925e86380d7",
+   "truth": "drift"
+  },
+  {
+   "family": "canonical",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "d1b17774b8ff9130",
+   "truth": "drift"
+  },
+  {
+   "family": "numeric_words",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": true,
+   "seed": 9,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "task_id": "d813e214685a7e35",
+   "truth": "local_heat"
+  },
+  {
+   "family": "false_reassurance",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 6,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "f0fa1de8c8dd2389",
+   "truth": "drift"
+  },
+  {
+   "family": "injection",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": true,
+   "seed": 9,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "task_id": "f63b542793f957fe",
+   "truth": "local_heat"
+  },
+  {
+   "family": "canonical",
+   "placebo_won": false,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "f6b59113cfa641ca",
+   "truth": "local_heat"
+  },
+  {
+   "family": "false_reassurance",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": 0.0942,
+    "p_cleared": 0.5292672229455857,
+    "p_doubt": 0.6234549806898391,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 may be reading high; its certificate lapsed"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "task_id": "fcb71b4e4d03c06a",
+   "truth": "drift"
+  },
+  {
+   "family": "aliases",
+   "placebo_won": false,
+   "real": {
+    "derived": "both_yes",
+    "margin": -0.0213,
+    "p_cleared": 0.8871285436699013,
+    "p_doubt": 0.8657870563486226,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "TA1 is overdue for its yearly accuracy test"
+   },
+   "real_won": false,
+   "seed": 1,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "WRONG_ACTION",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "ff9aa3bcabdc75ed",
+   "truth": "drift"
+  },
+  {
+   "family": "false_reassurance",
+   "placebo_won": true,
+   "real": {
+    "derived": "cleared",
+    "margin": -0.3931,
+    "p_cleared": 0.5513775451435337,
+    "p_doubt": 0.15832291144524807,
+    "terminal": "FALSE_WITHHOLDING",
+    "text": "the A-side probe TA1 was swapped for a freshly certified unit last week"
+   },
+   "real_won": false,
+   "seed": 9,
+   "shuffled": {
+    "derived": "cleared",
+    "margin": -0.4345,
+    "p_cleared": 0.9038234610205408,
+    "p_doubt": 0.46934605018278136,
+    "terminal": "COMPLETED",
+    "text": "TA1 passed its accuracy test this morning"
+   },
+   "task_id": "ffa88cab58228d86",
+   "truth": "local_heat"
+  }
+ ],
+ "margin_by_note_type": {
+  "dev": {
+   "cleared_note": {
+    "max": -0.4631,
+    "min": -0.5852,
+    "n": 16
+   },
+   "doubt_note": {
+    "max": 0.2104,
+    "min": 0.1126,
+    "n": 34
+   },
+   "other": {
+    "max": 0.0498,
+    "min": -0.5231,
+    "n": 254
+   }
+  },
+  "pilot": {
+   "cleared_note": {
+    "max": -0.2755,
+    "min": -0.4103,
+    "n": 16
+   },
+   "doubt_note": {
+    "max": 0.1209,
+    "min": 0.024,
+    "n": 34
+   },
+   "other": {
+    "max": 0.0396,
+    "min": -0.5231,
+    "n": 254
+   }
+  }
+ },
+ "model_calls": 0,
+ "schema_id": "memory-fabric.vega-specificity-diagnosis.v1",
+ "source": "research/results/vega-cdm/next/development/vega-0.8b-pilot.json",
+ "verdict": "DIAGNOSED: acceptance rule discards contradictory answers; content dependence present"
+}

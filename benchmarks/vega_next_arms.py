@@ -104,7 +104,15 @@ def _notes(bundle: packets.PacketBundle) -> list[packets.SemanticEvidencePacket]
     return out
 
 
-def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool = False) -> str | None:
+def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool = False,
+               acceptance: Mapping[str, float] | None = None) -> str | None:
+    """"yes", "cleared" or None from vega-U's two answers about one note.
+
+    Default rule: accept one answer only when the other is not also yes. With ``acceptance``
+    (a dev-fitted margin, benchmarks.vega_margin_fit) the decision is on p(doubt) - p(cleared):
+    above ``doubt_margin_above`` is "yes", below ``cleared_margin_below`` is "cleared"
+    (freeze plan F05-03). The same rule applies to the real arm and to both placebos.
+    """
     if meter["calls"] >= CALL_BUDGET:
         meter["over_budget"] += 1
         return None
@@ -120,6 +128,19 @@ def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool 
         got[q] = None if p is None else ((1 - p) if invert else p) > 0.5
         meter.setdefault("trace", []).append({"text": text, "question": q, "status": ans.status, "p_true": ans.value,
                                               "prediction_set": list(ans.prediction_set)})
+    if acceptance is not None:
+        pd = advice.answers["doubt"]
+        pc = advice.answers["cleared"]
+        if not all(a.status in ("OK", "ABSTAIN") and a.value is not None for a in (pd, pc)):
+            return None  # an unavailable or invalid answer gives no state
+        margin = float(pd.value) - float(pc.value)
+        if invert:
+            margin = -margin
+        if margin > acceptance["doubt_margin_above"]:
+            return "yes"
+        if margin < acceptance["cleared_margin_below"]:
+            return "cleared"
+        return None
     if got["doubt"] is True and got["cleared"] is not True:
         return "yes"
     if got["cleared"] is True and got["doubt"] is not True:
@@ -127,8 +148,8 @@ def _ask_doubt(text: str, advisor: Advisor, meter: dict[str, Any], invert: bool 
     return None
 
 
-def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_texts: Sequence[str] = ()
-            ) -> dict[str, Any]:
+def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_texts: Sequence[str] = (),
+            acceptance: Mapping[str, float] | None = None) -> dict[str, Any]:
     fabric = worlds.materialize(world)
     meter: dict[str, Any] = {"calls": 0, "seconds": 0.0, "levels": set(), "over_budget": 0}
     detail: dict[str, Any] = {}
@@ -174,7 +195,8 @@ def run_arm(arm: str, world: worlds.World, advisor: Advisor | None, *, placebo_t
                 else:
                     notes_text = [n.visible_text for n in notes]
                 for text in notes_text:
-                    got = _ask_doubt(text, advisor, meter, invert=arm == "A5-PV-wrongconf")
+                    got = _ask_doubt(text, advisor, meter, invert=arm == "A5-PV-wrongconf",
+                                     acceptance=acceptance)
                     if got:
                         doubt, settled_by_model = got, True
                         break
@@ -247,19 +269,22 @@ def rows_digest(rows: Sequence[dict[str, Any]]) -> str:
 
 
 def run(split: str, seeds: Sequence[int], advisor: Advisor | None, level: str,
-        families: Sequence[str] = worlds.FAMILIES) -> dict[str, Any]:
+        families: Sequence[str] = worlds.FAMILIES, acceptance: Mapping[str, float] | None = None
+        ) -> dict[str, Any]:
     rows = []
     for f in families:
         placebo = [i.text for s in seeds for i in worlds.build(f, s + 1000, split).items if i.key in ("note", "clear")]
         for s in seeds:
             for arm in ARMS:
-                rows.append(run_arm(arm, worlds.build(f, s, split), advisor, placebo_texts=placebo))
+                rows.append(run_arm(arm, worlds.build(f, s, split), advisor, placebo_texts=placebo,
+                                    acceptance=acceptance))
     contrasts = {f"{a}-minus-{b}": paired(rows, a, b) for a, b in (
         ("A5-PV", "A5-P"), ("A5-PV", "A3-P"), ("A5-P", "A5"), ("A5-P", "A3-P"), ("A5-PV", "A5-PV-shuffled"),
         ("A5-PV", "A5-PV-wrongconf"), ("A6-PV", "A5-PV"), ("A6-P", "A5-P"), ("A5-VG", "A5-V"), ("A5-P", "A5-PnoG"))}
     return {"schema_id": "memory-fabric.vega-next-arms.v1", "split": split, "seeds": list(seeds),
             "families": list(families), "evidence_level": level, "k": K, "advisor_call_budget": CALL_BUDGET,
             "arms": list(ARMS), "arm_registry_sha256": hashlib.sha256(json.dumps(ARMS).encode()).hexdigest(),
+            "acceptance": dict(acceptance) if acceptance else "both-answers rule",
             "summary": summarize(rows), "contrasts": contrasts,
             "verdict": "DEVELOPMENT_ONLY" if split == "dev" else "HOLDOUT_REQUIRES_FROZEN_REGISTRATION",
             "rows_sha256": rows_digest(rows),
@@ -274,7 +299,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--advisor", choices=("scripted", "vega", "none"), default="scripted")
     parser.add_argument("--vega-url", default="http://127.0.0.1:8011")
     parser.add_argument("--out")
+    parser.add_argument("--margin-fit", help="a dev-fitted margin rule (benchmarks.vega_margin_fit)")
     args = parser.parse_args(argv)
+    acceptance = None
+    fit_digest = None
+    if args.margin_fit:
+        from .vega_margin_fit import load
+        body = load(args.margin_fit)
+        if body["fit"].get("status") != "FITTED" or body.get("split") != "dev":
+            raise SystemExit("the margin fit must be FITTED on the dev split")
+        acceptance = {k: body["fit"][k] for k in ("doubt_margin_above", "cleared_margin_below")}
+        fit_digest = body["digest"]
     advisor: Advisor | None
     if args.advisor == "vega":
         from memory_fabric.adapters.vega_u import VegaClient
@@ -284,7 +319,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         advisor, level = ScriptedAdvisor(), "SCRIPTED"
     else:
         advisor, level = None, "NO_ADVISOR"
-    report = run(args.split, range(args.seed_offset, args.seed_offset + args.seeds), advisor, level)
+    report = run(args.split, range(args.seed_offset, args.seed_offset + args.seeds), advisor, level,
+                 acceptance=acceptance)
+    report["margin_fit_digest"] = fit_digest
     handshake = getattr(advisor, "handshake", None)
     if args.advisor == "vega" and handshake is not None:
         report["model"] = handshake()

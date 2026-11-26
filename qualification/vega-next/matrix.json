@@ -1,0 +1,21 @@
+{
+ "cdm_incremental_net_utility": "INCONCLUSIVE",
+ "ci_at_head": "NOT_RUN",
+ "confirmatory_effect": "NOT_RUN",
+ "confirmatory_safety": "NOT_RUN",
+ "core_regressions": "PASS",
+ "external_security_review": "BLOCKED_EXTERNAL",
+ "governance_parity": "PASS",
+ "local_agent_paired_study": "RESEARCH_HOLD",
+ "notes": {
+  "cdm": "positive net utility on a scripted, deterministic world only; no model-in-the-loop or confirmatory CDM study, so INCONCLUSIVE",
+  "failing_tests": {},
+  "release": "engineering gates pass; research gates do not, so no release claim"
+ },
+ "numeric_and_identity_safety": "PASS",
+ "release": "ENGINEERING_GO_ONLY",
+ "schema_id": "memory-fabric.vega-next-gate.v1",
+ "source_dirty": true,
+ "source_sha": "4548ffd9154a7ad456b2f7af08f44f61c000a32a",
+ "vega_model_smoke": "PASS"
+}

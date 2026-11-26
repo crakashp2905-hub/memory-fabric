@@ -4,7 +4,7 @@
   "identical": 3,
   "incompatible": 0,
   "missing": 7,
-  "unique": 260
+  "unique": 261
  },
  "generated_by": "tools/outcome_package_inventory.py",
  "packages": {
@@ -67,7 +67,7 @@
     "semantic_advisory",
     "spool"
    ],
-   "public_names": 240,
+   "public_names": 241,
    "schema_ids": [
     "memory-fabric.agent-episode-trace.v1",
     "memory-fabric.agent-episode.v1",
@@ -872,6 +872,7 @@
    "ToolRegistry",
    "ToolRejected",
    "ToolSpec",
+   "UNPRIVILEGED",
    "UnpairedComparisonError",
    "VerifyResult",
    "affected_steps",

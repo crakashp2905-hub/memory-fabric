@@ -467,7 +467,7 @@
     },
     {
       "module": "memory_fabric.actions",
-      "signature": "(approver_id: str, certificate_digest: str, binding: str | None = None)",
+      "signature": "(approver_id: str, certificate_digest: str, binding: str | None = None, expires_ms: int | None = None)",
       "symbol": "memory_fabric.actions.Approval",
       "tier": "beta"
     },

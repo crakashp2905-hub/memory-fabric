@@ -1,0 +1,15 @@
+{
+ "changes": [
+  {
+   "change": "Approval.expires_ms (actions and actions_typed); an action with a request needs a bound approval",
+   "inventory_sha256": "b92af45c1750cfd1d11d0ba2aa66d5dd17bccfc6304e64b10c926203cfa6fff1",
+   "justification": "break-fix: a stale or unbound human approval could authorize a modified action at execution time",
+   "test_or_threat": "freeze plan F02-05; tests/test_authority.py::ExactActionGrants::test_a_stale_or_unbound_approval_is_void_at_execution, tests/test_action_fence_typed.py::ApprovalBinding"
+  }
+ ],
+ "freeze_base_sha": "4c3ed1ff70806f08ee1bc04ce64bac1157fce306",
+ "inventory": "docs/API_INVENTORY.json",
+ "inventory_sha256": "5ca96ffbaa43013001113dc5a41d02eac623e2fa41feeab761b9fca7f10b06e5",
+ "rule": "the public runtime surface is frozen; a change needs a break-fix justification recorded in 'changes' with the test or threat that requires it",
+ "schema_id": "memory-fabric.api-freeze.v1"
+}

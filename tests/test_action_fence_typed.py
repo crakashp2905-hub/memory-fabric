@@ -26,6 +26,31 @@ def gate_for(fabric: MemoryFabric) -> ActionGate:
                                            grants={"ops": frozenset({"open_valve"})}))
 
 
+class ApprovalBinding(unittest.TestCase):
+    """Freeze plan F02-05 on the typed gate: a stale or unbound approval never runs an effect."""
+
+    def test_expired_or_unbound_approvals_are_refused_at_execution(self) -> None:
+        from memory_fabric.actions_typed import Approval, binding_digest
+        f = MemoryFabric(":memory:", auto_activate=True)
+        self.addCleanup(f.close)
+        cert = f.certify("open-7", [f.remember("ana", "valve 7 is safe below 4 bar", scope="team")], "ops")
+        gate = ActionGate(f, ActionPolicy(tools={"open_valve": ToolRule("open_valve", requires_human_approval=True)},
+                                          grants={"ops": frozenset({"open_valve"})}, approvers=frozenset({"lead"})))
+        req = ActionRequest("valve-7", {"bar": 3})
+        bound = binding_digest("open_valve", "ops", None, req, cert)
+        ran: list[str] = []
+        stale = Approval("lead", cert.digest(), binding=bound, expires_ms=f.now() - 1)
+        unbound = Approval("lead", cert.digest())
+        for approval in (stale, unbound):
+            out = gate.execute("open_valve", "ops", ran.append, cert, key=f"k-{id(approval)}", request=req,
+                               approval=approval)
+            self.assertEqual(out.outcome, REFUSED, approval)
+        good = Approval("lead", cert.digest(), binding=bound, expires_ms=f.now() + 60_000)
+        self.assertEqual(gate.execute("open_valve", "ops", ran.append, cert, key="ok", request=req,
+                                      approval=good).outcome, EXECUTED)
+        self.assertEqual(ran, ["ok"])
+
+
 class IdempotencyBinding(unittest.TestCase):
     """A reused key names one action; a different action under it is a conflict (W08-02)."""
 
@@ -68,6 +93,19 @@ class IdempotencyBinding(unittest.TestCase):
                                            request=ActionRequest("valve-7", {"bar": 3}))
         self.assertEqual(other_evidence.error, IDEMPOTENCY_CONFLICT)
         self.assertEqual(self.effects, ["k"])
+
+    def test_a_first_call_without_a_request_still_binds_its_key(self) -> None:
+        # Freeze plan F02-03: the first call describes no request and no receipt context.
+        first = self.gate.execute("open_valve", "ops", self.run_tool, self.cert, key="bare")
+        self.assertEqual(first.outcome, EXECUTED)
+        later = self.gate.execute("open_valve", "ops", self.run_tool, self.cert, key="bare",
+                                  request=ActionRequest("valve-7", {"bar": 9}))
+        self.assertEqual((later.outcome, later.error), (REFUSED, IDEMPOTENCY_CONFLICT))
+        other_tool = self.gate.execute("vent_line", "ops", self.run_tool, self.cert, key="bare")
+        self.assertEqual(other_tool.error, IDEMPOTENCY_CONFLICT)
+        same = self.gate.execute("open_valve", "ops", self.run_tool, self.cert, key="bare")
+        self.assertEqual(same.outcome, ALREADY_EXECUTED)
+        self.assertEqual(self.effects, ["bare"])
 
     def test_both_events_record_the_request_binding(self) -> None:
         self.call(3)

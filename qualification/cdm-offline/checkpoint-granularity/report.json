@@ -1,0 +1,1066 @@
+{
+  "current_restore_behavior": "execute_from_checkpoint replays each checkpoint prefix; no restore speedup is implemented",
+  "dependencies": "Python standard library only",
+  "event_count": 100,
+  "mode": "synthetic_exact_prefix_checkpoint_storage_and_integrity_work",
+  "model_calls": 0,
+  "network_calls": 0,
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "restore_speedup_claimed": false,
+  "rows": [
+    {
+      "checkpoint_count": 100,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "b7eb664b15e84e900731fbaed81b01b5ff890792bbd8e5813802fe455bc7263d",
+          "construction_ns": 449299,
+          "event_index": 1,
+          "payload_bytes": 1315,
+          "prefix_events": 1
+        },
+        {
+          "checkpoint_sha256": "d124b779c2577342c14ea9f659cf4b5b92b757fe673d4a18c7bbb5bb5ae08c4c",
+          "construction_ns": 264743,
+          "event_index": 2,
+          "payload_bytes": 1829,
+          "prefix_events": 2
+        },
+        {
+          "checkpoint_sha256": "63cd492a6241b53f3ca1512336c377871fbae50b5130e78674a190ab3c4d1c1d",
+          "construction_ns": 238148,
+          "event_index": 3,
+          "payload_bytes": 2338,
+          "prefix_events": 3
+        },
+        {
+          "checkpoint_sha256": "6de868fea889e01462d58dd5fca7558c341e2000fd431ea70cd126a647b70f8d",
+          "construction_ns": 260025,
+          "event_index": 4,
+          "payload_bytes": 2845,
+          "prefix_events": 4
+        },
+        {
+          "checkpoint_sha256": "d1d88e09dd4ce4a8a67685dcca04c4d749a5dd178b3c680153df88d468aa2f48",
+          "construction_ns": 266035,
+          "event_index": 5,
+          "payload_bytes": 3225,
+          "prefix_events": 5
+        },
+        {
+          "checkpoint_sha256": "42c1762623ef945dadfc87fde5e4c7e5083c303c7eced5dfc2faa02368ad3a04",
+          "construction_ns": 265036,
+          "event_index": 6,
+          "payload_bytes": 3604,
+          "prefix_events": 6
+        },
+        {
+          "checkpoint_sha256": "2ad09536808d055f9c777eafbf618f5c5f1964901ec924a14f33373ef87ad13d",
+          "construction_ns": 282160,
+          "event_index": 7,
+          "payload_bytes": 3984,
+          "prefix_events": 7
+        },
+        {
+          "checkpoint_sha256": "390d97e2e0849c18d3356ff5f6eb5ab007a815406093110a180f07d0661c7cf8",
+          "construction_ns": 311824,
+          "event_index": 8,
+          "payload_bytes": 4363,
+          "prefix_events": 8
+        },
+        {
+          "checkpoint_sha256": "9ff19dbfec95e65ecaaee24265f57bbe44bcf255c7ebde86dcf33b1d584a9ccb",
+          "construction_ns": 308799,
+          "event_index": 9,
+          "payload_bytes": 4743,
+          "prefix_events": 9
+        },
+        {
+          "checkpoint_sha256": "b94f38ca1876257b0ed3a85ee14845cafe524136531fe5e41a5ba884746585b2",
+          "construction_ns": 315493,
+          "event_index": 10,
+          "payload_bytes": 5122,
+          "prefix_events": 10
+        },
+        {
+          "checkpoint_sha256": "d5cc0615732bbaa8140d190115e0c7f6888262bc139bcd8f4e2d765b3e1d60e2",
+          "construction_ns": 348167,
+          "event_index": 11,
+          "payload_bytes": 5506,
+          "prefix_events": 11
+        },
+        {
+          "checkpoint_sha256": "d36914ae91a961442fffcc0d14acf3fe1c88b0d17e8ac69424eb9db5d8a80176",
+          "construction_ns": 345096,
+          "event_index": 12,
+          "payload_bytes": 5889,
+          "prefix_events": 12
+        },
+        {
+          "checkpoint_sha256": "8550e187d1b50da10dfad340d25a7a192d872195e01656a7f744e29ca994eb76",
+          "construction_ns": 376330,
+          "event_index": 13,
+          "payload_bytes": 6273,
+          "prefix_events": 13
+        },
+        {
+          "checkpoint_sha256": "d5a5394ebdea1b78449d205d60b068a323d2e56e16892332c8492051f37f3045",
+          "construction_ns": 396636,
+          "event_index": 14,
+          "payload_bytes": 6656,
+          "prefix_events": 14
+        },
+        {
+          "checkpoint_sha256": "ad51e0664e2592bd6275c5350cd2ab8c21669db2f1350b228de270eb31519f81",
+          "construction_ns": 440672,
+          "event_index": 15,
+          "payload_bytes": 7040,
+          "prefix_events": 15
+        },
+        {
+          "checkpoint_sha256": "d888e812546f33de9cf42fa423f885f3cda42b52eed9f5564de7495778d75dd3",
+          "construction_ns": 429348,
+          "event_index": 16,
+          "payload_bytes": 7423,
+          "prefix_events": 16
+        },
+        {
+          "checkpoint_sha256": "0d3885dad8dc88fddb2e6b4f05775c9ba73e296ef9403f9cad0620895d004a3c",
+          "construction_ns": 407298,
+          "event_index": 17,
+          "payload_bytes": 7807,
+          "prefix_events": 17
+        },
+        {
+          "checkpoint_sha256": "e57a1863eca3c59ce4dab43b4b8aa1c2c1c75afd4359ed1d0b455012160318e8",
+          "construction_ns": 431334,
+          "event_index": 18,
+          "payload_bytes": 8190,
+          "prefix_events": 18
+        },
+        {
+          "checkpoint_sha256": "660f70e7b344123bdd60b0d8dad6f0b7384bffc596a4f59c08e39bdc2ea1ff86",
+          "construction_ns": 460967,
+          "event_index": 19,
+          "payload_bytes": 8574,
+          "prefix_events": 19
+        },
+        {
+          "checkpoint_sha256": "5815f51ab992cdd0caad575d41816f6d0affff957122a7e1bfd5b2d71ac64765",
+          "construction_ns": 470816,
+          "event_index": 20,
+          "payload_bytes": 8957,
+          "prefix_events": 20
+        },
+        {
+          "checkpoint_sha256": "2fa13e538ee7470114b25f535d12416e642bbbab957db3af17d55c85b0edb1ab",
+          "construction_ns": 496694,
+          "event_index": 21,
+          "payload_bytes": 9341,
+          "prefix_events": 21
+        },
+        {
+          "checkpoint_sha256": "957e8975bbea5a6b0656124634c1658ad367e433b7e0acd3268ebdc886520674",
+          "construction_ns": 492741,
+          "event_index": 22,
+          "payload_bytes": 9724,
+          "prefix_events": 22
+        },
+        {
+          "checkpoint_sha256": "9521e45aceeacb4e7782acc671dbdb36f087261ac0ea63ef74b00ae5e0229258",
+          "construction_ns": 524910,
+          "event_index": 23,
+          "payload_bytes": 10108,
+          "prefix_events": 23
+        },
+        {
+          "checkpoint_sha256": "fadd7bacddae20741ccacafbce05c7c9d5a7b37b2136b39ae89a827c6a7f93aa",
+          "construction_ns": 559710,
+          "event_index": 24,
+          "payload_bytes": 10491,
+          "prefix_events": 24
+        },
+        {
+          "checkpoint_sha256": "90bb8e2eaa6025392a73cebdccb139447fd3626c632aac6b76909c1775716280",
+          "construction_ns": 547195,
+          "event_index": 25,
+          "payload_bytes": 10875,
+          "prefix_events": 25
+        },
+        {
+          "checkpoint_sha256": "0d54c688c5760d0199990d126db01cc47c5f785d5dec702a3ba338d3546c37c0",
+          "construction_ns": 570954,
+          "event_index": 26,
+          "payload_bytes": 11258,
+          "prefix_events": 26
+        },
+        {
+          "checkpoint_sha256": "449f8cd63ca951d05d13e418b3137074a7c341c0918ddd58dd913940f35b5161",
+          "construction_ns": 567963,
+          "event_index": 27,
+          "payload_bytes": 11642,
+          "prefix_events": 27
+        },
+        {
+          "checkpoint_sha256": "532ee9708c18f2e98c3aa8c777beb707ab17b5227e973e4affce780910771261",
+          "construction_ns": 596180,
+          "event_index": 28,
+          "payload_bytes": 12025,
+          "prefix_events": 28
+        },
+        {
+          "checkpoint_sha256": "2aa4411d8fd053da370315c83b2e0af6f14903f57f3a185514b205ab738219f3",
+          "construction_ns": 589911,
+          "event_index": 29,
+          "payload_bytes": 12409,
+          "prefix_events": 29
+        },
+        {
+          "checkpoint_sha256": "967d4a4b740cb828d5eb80af5ebdbb726e5e25f9dd1d14767690e6ef260ac2ea",
+          "construction_ns": 684660,
+          "event_index": 30,
+          "payload_bytes": 12792,
+          "prefix_events": 30
+        },
+        {
+          "checkpoint_sha256": "9e4f783cf0fab2923ee65fc0e4e26744ffe1d4f17943122169d137a80a953d27",
+          "construction_ns": 661010,
+          "event_index": 31,
+          "payload_bytes": 13176,
+          "prefix_events": 31
+        },
+        {
+          "checkpoint_sha256": "31c9e219556af50e13779083fc17f264eb71f48c7454056ab3cf1535ca73d62a",
+          "construction_ns": 633275,
+          "event_index": 32,
+          "payload_bytes": 13559,
+          "prefix_events": 32
+        },
+        {
+          "checkpoint_sha256": "ae9fa324286d487eb3a04dceb7f7bb0afc23fa165d544c8fa6eb54907f673bc8",
+          "construction_ns": 665348,
+          "event_index": 33,
+          "payload_bytes": 13943,
+          "prefix_events": 33
+        },
+        {
+          "checkpoint_sha256": "914b23d5557484fa1eaf15bdec3269bbfea9329040244f1682c93181f6fcf96b",
+          "construction_ns": 918746,
+          "event_index": 34,
+          "payload_bytes": 14326,
+          "prefix_events": 34
+        },
+        {
+          "checkpoint_sha256": "2aa1145b653d6e8476b30fbb1cac30b2b134ad764b2b04280c8f334c8e9785cb",
+          "construction_ns": 707051,
+          "event_index": 35,
+          "payload_bytes": 14710,
+          "prefix_events": 35
+        },
+        {
+          "checkpoint_sha256": "01314245275c792d22d2f1f588ecb3ed5f4e57def907e2ecca4eca4ebe330e9d",
+          "construction_ns": 747049,
+          "event_index": 36,
+          "payload_bytes": 15093,
+          "prefix_events": 36
+        },
+        {
+          "checkpoint_sha256": "03f1a1e0a096b8a33a54aaba4951651f322a6746c003b89c7c7262ec5857d67f",
+          "construction_ns": 817084,
+          "event_index": 37,
+          "payload_bytes": 15477,
+          "prefix_events": 37
+        },
+        {
+          "checkpoint_sha256": "9d579d2cd4f81824ba008f9eab99307dfb58457c141a398c0f7dc4443f68ab1e",
+          "construction_ns": 854096,
+          "event_index": 38,
+          "payload_bytes": 15860,
+          "prefix_events": 38
+        },
+        {
+          "checkpoint_sha256": "81ff21dcf05daf64421cf6891906bc8be01fd3fec7cda262f3692e3dace801c3",
+          "construction_ns": 845354,
+          "event_index": 39,
+          "payload_bytes": 16244,
+          "prefix_events": 39
+        },
+        {
+          "checkpoint_sha256": "8bacbac376306a0d43a36ec372880172d6f05b65e492840d2ac9aa4963960165",
+          "construction_ns": 788089,
+          "event_index": 40,
+          "payload_bytes": 16627,
+          "prefix_events": 40
+        },
+        {
+          "checkpoint_sha256": "e9dd3ea6146aa049f3b360249efeec2b280842ea8d00a8de01ff55afe6150a68",
+          "construction_ns": 791283,
+          "event_index": 41,
+          "payload_bytes": 17011,
+          "prefix_events": 41
+        },
+        {
+          "checkpoint_sha256": "b02a000945a6f51f48001cfad9ea9b7f8efd424c0a8f3417494e34f68942874e",
+          "construction_ns": 787215,
+          "event_index": 42,
+          "payload_bytes": 17394,
+          "prefix_events": 42
+        },
+        {
+          "checkpoint_sha256": "5e47a4df1579f18b2af3a8b3deb94d8d4a259d61570c370d74e8b412ccef160e",
+          "construction_ns": 819462,
+          "event_index": 43,
+          "payload_bytes": 17778,
+          "prefix_events": 43
+        },
+        {
+          "checkpoint_sha256": "f4acd561bf88eb3569d51800729a8e869e322c60cb2ca5d92792ffe8e02c2292",
+          "construction_ns": 827575,
+          "event_index": 44,
+          "payload_bytes": 18161,
+          "prefix_events": 44
+        },
+        {
+          "checkpoint_sha256": "9713bd68e156fde236648dc902283d498aca9ace522d15cdf70cb0218f8f3a42",
+          "construction_ns": 848811,
+          "event_index": 45,
+          "payload_bytes": 18545,
+          "prefix_events": 45
+        },
+        {
+          "checkpoint_sha256": "a59e74aa638d807cced70992d9b93446855536d83ee1fca11c9c6c30d5d6057e",
+          "construction_ns": 984930,
+          "event_index": 46,
+          "payload_bytes": 18928,
+          "prefix_events": 46
+        },
+        {
+          "checkpoint_sha256": "443e0d57b3981ed3b3ad0aabaf2acef807ff9e9e58e3e252de4204ff7cb7f6f3",
+          "construction_ns": 880649,
+          "event_index": 47,
+          "payload_bytes": 19312,
+          "prefix_events": 47
+        },
+        {
+          "checkpoint_sha256": "5f9d341c1a8028f713c14e90b57279f50b05c00159eb2d10ecfd1b4d74a3bee3",
+          "construction_ns": 858216,
+          "event_index": 48,
+          "payload_bytes": 19695,
+          "prefix_events": 48
+        },
+        {
+          "checkpoint_sha256": "de8b0ce494d2e7fb1da63e229a54cf05f1df8f5f1c1c7ac56841d231d359172e",
+          "construction_ns": 879602,
+          "event_index": 49,
+          "payload_bytes": 20079,
+          "prefix_events": 49
+        },
+        {
+          "checkpoint_sha256": "0179ec6f0fbcc620fcaecf10ef8120c2b22ab29f9cbbe67e4c13d15ee332d5b2",
+          "construction_ns": 957685,
+          "event_index": 50,
+          "payload_bytes": 20462,
+          "prefix_events": 50
+        },
+        {
+          "checkpoint_sha256": "344b47427157fbd1738035379699d6855837601b325d2fddc00657c8c6c12a75",
+          "construction_ns": 929298,
+          "event_index": 51,
+          "payload_bytes": 20846,
+          "prefix_events": 51
+        },
+        {
+          "checkpoint_sha256": "edf5eab2e8e672365bafb841b11a053f0624e41a981303135029880de060f280",
+          "construction_ns": 937498,
+          "event_index": 52,
+          "payload_bytes": 21229,
+          "prefix_events": 52
+        },
+        {
+          "checkpoint_sha256": "8ae65e7dc39089d2d33f622cba5cac25b3af6dfab5fd8c099a2f8d5cc2cf1776",
+          "construction_ns": 967445,
+          "event_index": 53,
+          "payload_bytes": 21613,
+          "prefix_events": 53
+        },
+        {
+          "checkpoint_sha256": "91164a1ec4b6f86fc23a86dc31fbfc9f7702d9e22973d77a42a09f4a759d9c8b",
+          "construction_ns": 992900,
+          "event_index": 54,
+          "payload_bytes": 21996,
+          "prefix_events": 54
+        },
+        {
+          "checkpoint_sha256": "66849f574366bfce51f96e5643223a5e1039cfcaa957dcdacff91f00cc0f9158",
+          "construction_ns": 1051765,
+          "event_index": 55,
+          "payload_bytes": 22380,
+          "prefix_events": 55
+        },
+        {
+          "checkpoint_sha256": "30ae9a7868f547b051d15402d5c5a015a955bef8c06f7d499b6d96037f0cd234",
+          "construction_ns": 995000,
+          "event_index": 56,
+          "payload_bytes": 22763,
+          "prefix_events": 56
+        },
+        {
+          "checkpoint_sha256": "81801c16cb1e4e6d5f70be3a6b2206487d1c1c5665b7de70ebff186965919f6e",
+          "construction_ns": 1019769,
+          "event_index": 57,
+          "payload_bytes": 23147,
+          "prefix_events": 57
+        },
+        {
+          "checkpoint_sha256": "18f474ffeeaa1e46cf3f8dc94b41ef30627eb8ae17949ea7df76f4cb37edc623",
+          "construction_ns": 1066282,
+          "event_index": 58,
+          "payload_bytes": 23530,
+          "prefix_events": 58
+        },
+        {
+          "checkpoint_sha256": "6df6c149ef24a12a872251fe08e0eeeb13f27d5c55210a3d84bd44495cc7b529",
+          "construction_ns": 1019107,
+          "event_index": 59,
+          "payload_bytes": 23914,
+          "prefix_events": 59
+        },
+        {
+          "checkpoint_sha256": "9884b2a85c839ffa105a7eb5e03bcca93955ca3425e22d6afe7bd56468175dd1",
+          "construction_ns": 1033029,
+          "event_index": 60,
+          "payload_bytes": 24297,
+          "prefix_events": 60
+        },
+        {
+          "checkpoint_sha256": "44c94c4e6fa7731080636753d80adc54c62e9b3c2a17c88149eba5831c17d54c",
+          "construction_ns": 1052190,
+          "event_index": 61,
+          "payload_bytes": 24681,
+          "prefix_events": 61
+        },
+        {
+          "checkpoint_sha256": "c14ca80d61d2d228e02399475a7d796e2ef51f685f330e19236dce3f0ac37aa3",
+          "construction_ns": 1126238,
+          "event_index": 62,
+          "payload_bytes": 25064,
+          "prefix_events": 62
+        },
+        {
+          "checkpoint_sha256": "c8f534b2ed5affa4a42b521394fc2d574b6c1c20f039a376a843434345e4631e",
+          "construction_ns": 1201252,
+          "event_index": 63,
+          "payload_bytes": 25448,
+          "prefix_events": 63
+        },
+        {
+          "checkpoint_sha256": "00ce701b6882410580b867500b531fa55fcb590ebeb919103e170b0f42637317",
+          "construction_ns": 1270428,
+          "event_index": 64,
+          "payload_bytes": 25831,
+          "prefix_events": 64
+        },
+        {
+          "checkpoint_sha256": "77b65237177531ae7dc20352ba92e0b098b5593d7e0e45ca12f69a0d276503be",
+          "construction_ns": 1193351,
+          "event_index": 65,
+          "payload_bytes": 26215,
+          "prefix_events": 65
+        },
+        {
+          "checkpoint_sha256": "aa749a79a66e1504d95f90b98df498c864a0e81503fc8cd377ef1db35abb6049",
+          "construction_ns": 1146542,
+          "event_index": 66,
+          "payload_bytes": 26598,
+          "prefix_events": 66
+        },
+        {
+          "checkpoint_sha256": "52b094918b8ae9d2dbd5d6fed9f98597f8911811c2d220e6777d9ea58a910d15",
+          "construction_ns": 1190710,
+          "event_index": 67,
+          "payload_bytes": 26982,
+          "prefix_events": 67
+        },
+        {
+          "checkpoint_sha256": "f73fb3d9746f7d85f1e948e078091662ec96ff4c148f5020ac381ae2d65f9bfb",
+          "construction_ns": 1149606,
+          "event_index": 68,
+          "payload_bytes": 27365,
+          "prefix_events": 68
+        },
+        {
+          "checkpoint_sha256": "2afe2858e96d05280484a7168269b89574036cf10972be8271518cc23e0b5f7a",
+          "construction_ns": 1223236,
+          "event_index": 69,
+          "payload_bytes": 27749,
+          "prefix_events": 69
+        },
+        {
+          "checkpoint_sha256": "c1b15259c1f4c0e25e872418565964ae21f1a560a32d64dd89b04453289ccb5c",
+          "construction_ns": 1215850,
+          "event_index": 70,
+          "payload_bytes": 28132,
+          "prefix_events": 70
+        },
+        {
+          "checkpoint_sha256": "cb21f4ed36033cd816685efcd14a390fc49023b54b393f7205a6a0cdd50f298e",
+          "construction_ns": 1202981,
+          "event_index": 71,
+          "payload_bytes": 28516,
+          "prefix_events": 71
+        },
+        {
+          "checkpoint_sha256": "efcb10ea38611b39329137edaa6a3a3e07b2abf891b9d5257fd9f38fa52f6072",
+          "construction_ns": 1274181,
+          "event_index": 72,
+          "payload_bytes": 28899,
+          "prefix_events": 72
+        },
+        {
+          "checkpoint_sha256": "a8d06f477331f43cb7fd92f95217a4e3cc5dc68b0d22a8a78970765561a658af",
+          "construction_ns": 1223605,
+          "event_index": 73,
+          "payload_bytes": 29283,
+          "prefix_events": 73
+        },
+        {
+          "checkpoint_sha256": "76ae445d22753467b77dd7a17b0ba928579bd214c22d43387934adfc128ac93f",
+          "construction_ns": 1247576,
+          "event_index": 74,
+          "payload_bytes": 29666,
+          "prefix_events": 74
+        },
+        {
+          "checkpoint_sha256": "7d5622be1928ad83bb4c1f5f96fc894b18bf274f520cc87c056f76d19f5589f2",
+          "construction_ns": 1313134,
+          "event_index": 75,
+          "payload_bytes": 30050,
+          "prefix_events": 75
+        },
+        {
+          "checkpoint_sha256": "5ad31fa29a036f163cf1417ac2ab7818140f520cc162e6a65bcce21bfd81f1ef",
+          "construction_ns": 1297244,
+          "event_index": 76,
+          "payload_bytes": 30433,
+          "prefix_events": 76
+        },
+        {
+          "checkpoint_sha256": "afbbe7607abe4d49e1cffe4e165083136106219d982bc8fb0ba85a0bb991317b",
+          "construction_ns": 1343712,
+          "event_index": 77,
+          "payload_bytes": 30817,
+          "prefix_events": 77
+        },
+        {
+          "checkpoint_sha256": "d934c0a568a143698ec74ea6e70e6a8e751b1e87e107196b43d68d7c3b973587",
+          "construction_ns": 1338767,
+          "event_index": 78,
+          "payload_bytes": 31200,
+          "prefix_events": 78
+        },
+        {
+          "checkpoint_sha256": "7f17977b4179886d672f84a8a58c04606d626caee5b534e1f756367983fbbef0",
+          "construction_ns": 1332938,
+          "event_index": 79,
+          "payload_bytes": 31584,
+          "prefix_events": 79
+        },
+        {
+          "checkpoint_sha256": "cf5faf4114d399c80077b81a58bc8bc3d384ebc9249d58112589d1f173cd5fa3",
+          "construction_ns": 1318042,
+          "event_index": 80,
+          "payload_bytes": 31967,
+          "prefix_events": 80
+        },
+        {
+          "checkpoint_sha256": "b4791ce04f375953fadfbac60656e15afa817c939979078d0aa18167e276cdec",
+          "construction_ns": 1370883,
+          "event_index": 81,
+          "payload_bytes": 32351,
+          "prefix_events": 81
+        },
+        {
+          "checkpoint_sha256": "dff05fb014ac000886335bdf64c4dede287836add503e7216c3c0bc8b5138eb1",
+          "construction_ns": 1369198,
+          "event_index": 82,
+          "payload_bytes": 32734,
+          "prefix_events": 82
+        },
+        {
+          "checkpoint_sha256": "ff44619a1a26ab4504059b32c362d5927de68f616eb28fdbe21ae7d33230f244",
+          "construction_ns": 1345269,
+          "event_index": 83,
+          "payload_bytes": 33118,
+          "prefix_events": 83
+        },
+        {
+          "checkpoint_sha256": "3dfbd9de18899e3d4cd3eade591ed5a78d4b80774f726ff26625ecb9ebc2113f",
+          "construction_ns": 1424374,
+          "event_index": 84,
+          "payload_bytes": 33501,
+          "prefix_events": 84
+        },
+        {
+          "checkpoint_sha256": "f752fb7ad9a1d603b1496bd760413854b0969fe5529269c59a75cda72ea814fb",
+          "construction_ns": 1395616,
+          "event_index": 85,
+          "payload_bytes": 33885,
+          "prefix_events": 85
+        },
+        {
+          "checkpoint_sha256": "c146103d51b2635708621f7dd7156e2c41d4ba3e55b26d261e16803b2a9be542",
+          "construction_ns": 1374148,
+          "event_index": 86,
+          "payload_bytes": 34268,
+          "prefix_events": 86
+        },
+        {
+          "checkpoint_sha256": "1b66d9a7e65e8018fe80d96423b84d4b3d7080cf68f53258d4fdf5989450e0b9",
+          "construction_ns": 1434378,
+          "event_index": 87,
+          "payload_bytes": 34652,
+          "prefix_events": 87
+        },
+        {
+          "checkpoint_sha256": "54e1ecd12e7419a659e9e88bc0235e359e21f5332b96995bb4eee0084bfec174",
+          "construction_ns": 1449522,
+          "event_index": 88,
+          "payload_bytes": 35035,
+          "prefix_events": 88
+        },
+        {
+          "checkpoint_sha256": "c1f2de09739eea6db7cb8ca5802b79333946aa56628d9eb3e5133a86cd1f0af5",
+          "construction_ns": 1429767,
+          "event_index": 89,
+          "payload_bytes": 35419,
+          "prefix_events": 89
+        },
+        {
+          "checkpoint_sha256": "7180fe46c31d8bbd61f20c029737ad19b0e29040d20638917e445d9d47662796",
+          "construction_ns": 1538257,
+          "event_index": 90,
+          "payload_bytes": 35802,
+          "prefix_events": 90
+        },
+        {
+          "checkpoint_sha256": "8f3d0eb45e487de4bc5404f64e4b4c0709368f3c57c56d6ea2b18d980c40c4ac",
+          "construction_ns": 1464197,
+          "event_index": 91,
+          "payload_bytes": 36186,
+          "prefix_events": 91
+        },
+        {
+          "checkpoint_sha256": "26351c08caa7bb2289445f8cc03927f99f54193b50d4b121f289d2b66f36b3e5",
+          "construction_ns": 1533883,
+          "event_index": 92,
+          "payload_bytes": 36569,
+          "prefix_events": 92
+        },
+        {
+          "checkpoint_sha256": "0f760feaaf264d46e698e8ccf3c0cd4dfab7ceec75456575a66c01522295c528",
+          "construction_ns": 1537793,
+          "event_index": 93,
+          "payload_bytes": 36953,
+          "prefix_events": 93
+        },
+        {
+          "checkpoint_sha256": "97cb05a76ddd8d895095953dd27bc503c43bd11f993aec6b18bdd40dbe0e5de7",
+          "construction_ns": 1485869,
+          "event_index": 94,
+          "payload_bytes": 37336,
+          "prefix_events": 94
+        },
+        {
+          "checkpoint_sha256": "d30025359895809e78a0ec2b68482a7dee65c957d9434cd6899f3f780def53c6",
+          "construction_ns": 1585896,
+          "event_index": 95,
+          "payload_bytes": 37720,
+          "prefix_events": 95
+        },
+        {
+          "checkpoint_sha256": "97471220e711046d1f3c51ab7856af4a9042164d26063ebc19888fd200ef4059",
+          "construction_ns": 1535342,
+          "event_index": 96,
+          "payload_bytes": 38103,
+          "prefix_events": 96
+        },
+        {
+          "checkpoint_sha256": "eb5fa170d2e62b2093c362f232d87355ad12c8a16f6c046ba880b8ffabcfc968",
+          "construction_ns": 1574008,
+          "event_index": 97,
+          "payload_bytes": 38487,
+          "prefix_events": 97
+        },
+        {
+          "checkpoint_sha256": "5bcd55df76776bd4fb60cefb674d8e1e312b9cc9df01734ed939c9f2a43cda30",
+          "construction_ns": 1657139,
+          "event_index": 98,
+          "payload_bytes": 38870,
+          "prefix_events": 98
+        },
+        {
+          "checkpoint_sha256": "f9a6f81e63a73adbd25876a21f5832d22de9d4bce79616bf04cf4ec52ec6eb0c",
+          "construction_ns": 1594168,
+          "event_index": 99,
+          "payload_bytes": 39254,
+          "prefix_events": 99
+        },
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1652369,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 93397426,
+      "current_restore_prefix_replay_events": 5050,
+      "max_interval_events": 1,
+      "mean_interval_events": 1.0,
+      "mean_payload_bytes": 20648.03,
+      "schedule": "every_1",
+      "total_payload_bytes": 2064803
+    },
+    {
+      "checkpoint_count": 20,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "d1d88e09dd4ce4a8a67685dcca04c4d749a5dd178b3c680153df88d468aa2f48",
+          "construction_ns": 275148,
+          "event_index": 5,
+          "payload_bytes": 3225,
+          "prefix_events": 5
+        },
+        {
+          "checkpoint_sha256": "b94f38ca1876257b0ed3a85ee14845cafe524136531fe5e41a5ba884746585b2",
+          "construction_ns": 325178,
+          "event_index": 10,
+          "payload_bytes": 5122,
+          "prefix_events": 10
+        },
+        {
+          "checkpoint_sha256": "ad51e0664e2592bd6275c5350cd2ab8c21669db2f1350b228de270eb31519f81",
+          "construction_ns": 412871,
+          "event_index": 15,
+          "payload_bytes": 7040,
+          "prefix_events": 15
+        },
+        {
+          "checkpoint_sha256": "5815f51ab992cdd0caad575d41816f6d0affff957122a7e1bfd5b2d71ac64765",
+          "construction_ns": 460701,
+          "event_index": 20,
+          "payload_bytes": 8957,
+          "prefix_events": 20
+        },
+        {
+          "checkpoint_sha256": "90bb8e2eaa6025392a73cebdccb139447fd3626c632aac6b76909c1775716280",
+          "construction_ns": 551638,
+          "event_index": 25,
+          "payload_bytes": 10875,
+          "prefix_events": 25
+        },
+        {
+          "checkpoint_sha256": "967d4a4b740cb828d5eb80af5ebdbb726e5e25f9dd1d14767690e6ef260ac2ea",
+          "construction_ns": 596944,
+          "event_index": 30,
+          "payload_bytes": 12792,
+          "prefix_events": 30
+        },
+        {
+          "checkpoint_sha256": "2aa1145b653d6e8476b30fbb1cac30b2b134ad764b2b04280c8f334c8e9785cb",
+          "construction_ns": 720334,
+          "event_index": 35,
+          "payload_bytes": 14710,
+          "prefix_events": 35
+        },
+        {
+          "checkpoint_sha256": "8bacbac376306a0d43a36ec372880172d6f05b65e492840d2ac9aa4963960165",
+          "construction_ns": 746364,
+          "event_index": 40,
+          "payload_bytes": 16627,
+          "prefix_events": 40
+        },
+        {
+          "checkpoint_sha256": "9713bd68e156fde236648dc902283d498aca9ace522d15cdf70cb0218f8f3a42",
+          "construction_ns": 838278,
+          "event_index": 45,
+          "payload_bytes": 18545,
+          "prefix_events": 45
+        },
+        {
+          "checkpoint_sha256": "0179ec6f0fbcc620fcaecf10ef8120c2b22ab29f9cbbe67e4c13d15ee332d5b2",
+          "construction_ns": 904089,
+          "event_index": 50,
+          "payload_bytes": 20462,
+          "prefix_events": 50
+        },
+        {
+          "checkpoint_sha256": "66849f574366bfce51f96e5643223a5e1039cfcaa957dcdacff91f00cc0f9158",
+          "construction_ns": 955140,
+          "event_index": 55,
+          "payload_bytes": 22380,
+          "prefix_events": 55
+        },
+        {
+          "checkpoint_sha256": "9884b2a85c839ffa105a7eb5e03bcca93955ca3425e22d6afe7bd56468175dd1",
+          "construction_ns": 1057543,
+          "event_index": 60,
+          "payload_bytes": 24297,
+          "prefix_events": 60
+        },
+        {
+          "checkpoint_sha256": "77b65237177531ae7dc20352ba92e0b098b5593d7e0e45ca12f69a0d276503be",
+          "construction_ns": 1102768,
+          "event_index": 65,
+          "payload_bytes": 26215,
+          "prefix_events": 65
+        },
+        {
+          "checkpoint_sha256": "c1b15259c1f4c0e25e872418565964ae21f1a560a32d64dd89b04453289ccb5c",
+          "construction_ns": 1199525,
+          "event_index": 70,
+          "payload_bytes": 28132,
+          "prefix_events": 70
+        },
+        {
+          "checkpoint_sha256": "7d5622be1928ad83bb4c1f5f96fc894b18bf274f520cc87c056f76d19f5589f2",
+          "construction_ns": 1258917,
+          "event_index": 75,
+          "payload_bytes": 30050,
+          "prefix_events": 75
+        },
+        {
+          "checkpoint_sha256": "cf5faf4114d399c80077b81a58bc8bc3d384ebc9249d58112589d1f173cd5fa3",
+          "construction_ns": 1315611,
+          "event_index": 80,
+          "payload_bytes": 31967,
+          "prefix_events": 80
+        },
+        {
+          "checkpoint_sha256": "f752fb7ad9a1d603b1496bd760413854b0969fe5529269c59a75cda72ea814fb",
+          "construction_ns": 1395517,
+          "event_index": 85,
+          "payload_bytes": 33885,
+          "prefix_events": 85
+        },
+        {
+          "checkpoint_sha256": "7180fe46c31d8bbd61f20c029737ad19b0e29040d20638917e445d9d47662796",
+          "construction_ns": 1585052,
+          "event_index": 90,
+          "payload_bytes": 35802,
+          "prefix_events": 90
+        },
+        {
+          "checkpoint_sha256": "d30025359895809e78a0ec2b68482a7dee65c957d9434cd6899f3f780def53c6",
+          "construction_ns": 1508874,
+          "event_index": 95,
+          "payload_bytes": 37720,
+          "prefix_events": 95
+        },
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1607436,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 18817928,
+      "current_restore_prefix_replay_events": 1050,
+      "max_interval_events": 5,
+      "mean_interval_events": 5.0,
+      "mean_payload_bytes": 21422.0,
+      "schedule": "every_5",
+      "total_payload_bytes": 428440
+    },
+    {
+      "checkpoint_count": 10,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "b94f38ca1876257b0ed3a85ee14845cafe524136531fe5e41a5ba884746585b2",
+          "construction_ns": 367071,
+          "event_index": 10,
+          "payload_bytes": 5122,
+          "prefix_events": 10
+        },
+        {
+          "checkpoint_sha256": "5815f51ab992cdd0caad575d41816f6d0affff957122a7e1bfd5b2d71ac64765",
+          "construction_ns": 486246,
+          "event_index": 20,
+          "payload_bytes": 8957,
+          "prefix_events": 20
+        },
+        {
+          "checkpoint_sha256": "967d4a4b740cb828d5eb80af5ebdbb726e5e25f9dd1d14767690e6ef260ac2ea",
+          "construction_ns": 597840,
+          "event_index": 30,
+          "payload_bytes": 12792,
+          "prefix_events": 30
+        },
+        {
+          "checkpoint_sha256": "8bacbac376306a0d43a36ec372880172d6f05b65e492840d2ac9aa4963960165",
+          "construction_ns": 752575,
+          "event_index": 40,
+          "payload_bytes": 16627,
+          "prefix_events": 40
+        },
+        {
+          "checkpoint_sha256": "0179ec6f0fbcc620fcaecf10ef8120c2b22ab29f9cbbe67e4c13d15ee332d5b2",
+          "construction_ns": 898963,
+          "event_index": 50,
+          "payload_bytes": 20462,
+          "prefix_events": 50
+        },
+        {
+          "checkpoint_sha256": "9884b2a85c839ffa105a7eb5e03bcca93955ca3425e22d6afe7bd56468175dd1",
+          "construction_ns": 1055476,
+          "event_index": 60,
+          "payload_bytes": 24297,
+          "prefix_events": 60
+        },
+        {
+          "checkpoint_sha256": "c1b15259c1f4c0e25e872418565964ae21f1a560a32d64dd89b04453289ccb5c",
+          "construction_ns": 1276608,
+          "event_index": 70,
+          "payload_bytes": 28132,
+          "prefix_events": 70
+        },
+        {
+          "checkpoint_sha256": "cf5faf4114d399c80077b81a58bc8bc3d384ebc9249d58112589d1f173cd5fa3",
+          "construction_ns": 1507381,
+          "event_index": 80,
+          "payload_bytes": 31967,
+          "prefix_events": 80
+        },
+        {
+          "checkpoint_sha256": "7180fe46c31d8bbd61f20c029737ad19b0e29040d20638917e445d9d47662796",
+          "construction_ns": 1508862,
+          "event_index": 90,
+          "payload_bytes": 35802,
+          "prefix_events": 90
+        },
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1627657,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 10078679,
+      "current_restore_prefix_replay_events": 550,
+      "max_interval_events": 10,
+      "mean_interval_events": 10.0,
+      "mean_payload_bytes": 22379.5,
+      "schedule": "every_10",
+      "total_payload_bytes": 223795
+    },
+    {
+      "checkpoint_count": 4,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "90bb8e2eaa6025392a73cebdccb139447fd3626c632aac6b76909c1775716280",
+          "construction_ns": 555741,
+          "event_index": 25,
+          "payload_bytes": 10875,
+          "prefix_events": 25
+        },
+        {
+          "checkpoint_sha256": "0179ec6f0fbcc620fcaecf10ef8120c2b22ab29f9cbbe67e4c13d15ee332d5b2",
+          "construction_ns": 905862,
+          "event_index": 50,
+          "payload_bytes": 20462,
+          "prefix_events": 50
+        },
+        {
+          "checkpoint_sha256": "7d5622be1928ad83bb4c1f5f96fc894b18bf274f520cc87c056f76d19f5589f2",
+          "construction_ns": 1308570,
+          "event_index": 75,
+          "payload_bytes": 30050,
+          "prefix_events": 75
+        },
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1608197,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 4378370,
+      "current_restore_prefix_replay_events": 250,
+      "max_interval_events": 25,
+      "mean_interval_events": 25.0,
+      "mean_payload_bytes": 25256.0,
+      "schedule": "every_25",
+      "total_payload_bytes": 101024
+    },
+    {
+      "checkpoint_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "0179ec6f0fbcc620fcaecf10ef8120c2b22ab29f9cbbe67e4c13d15ee332d5b2",
+          "construction_ns": 916972,
+          "event_index": 50,
+          "payload_bytes": 20462,
+          "prefix_events": 50
+        },
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1629330,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 2546302,
+      "current_restore_prefix_replay_events": 150,
+      "max_interval_events": 50,
+      "mean_interval_events": 50.0,
+      "mean_payload_bytes": 30049.5,
+      "schedule": "every_50",
+      "total_payload_bytes": 60099
+    },
+    {
+      "checkpoint_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1582593,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 1582593,
+      "current_restore_prefix_replay_events": 100,
+      "max_interval_events": 100,
+      "mean_interval_events": 100.0,
+      "mean_payload_bytes": 39637.0,
+      "schedule": "every_100",
+      "total_payload_bytes": 39637
+    },
+    {
+      "checkpoint_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint_sha256": "489f61d6509044d62249014341228347100171d18e6b1345c8f865bb23d6f7b9",
+          "construction_ns": 1596104,
+          "event_index": 100,
+          "payload_bytes": 39637,
+          "prefix_events": 100
+        }
+      ],
+      "construction_ns": 1596104,
+      "current_restore_prefix_replay_events": 100,
+      "max_interval_events": 100,
+      "mean_interval_events": 100.0,
+      "mean_payload_bytes": 39637.0,
+      "schedule": "terminal_only",
+      "total_payload_bytes": 39637
+    }
+  ],
+  "schema": "cdm-checkpoint-granularity-v1",
+  "seed": 20261109,
+  "source_sha256": "18f6dc5c40b7cb5514a6000068c042273e05512348aa5126c6f80daf2331e314"
+}

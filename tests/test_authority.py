@@ -326,6 +326,23 @@ class ExactActionGrants(unittest.TestCase):
         self.assertFalse(g.authorize("spin", "ops", self.cert, approval=approval,
                                      request=ActionRequest("centrifuge/C3", {"rpm": 4000})).allowed)
 
+    def test_a_stale_or_unbound_approval_is_void_at_execution(self) -> None:
+        # Freeze plan F02-05: an approval names one exact action and may expire.
+        g = gate(self.f, requires_human_approval=True)
+        binding = binding_digest("spin", "ops", None, self.req, self.cert)
+        expiring = Approval("lead", self.cert.digest(), binding=binding, expires_ms=self.f.now() + 5_000)
+        self.assertTrue(g.authorize("spin", "ops", self.cert, approval=expiring, request=self.req).allowed)
+        self.clock.t += 5_000
+        self.assertEqual(g.authorize("spin", "ops", self.cert, approval=expiring, request=self.req).reason_code,
+                         "approval_invalid")
+        unbound = Approval("lead", self.cert.digest())  # names no action, so it cannot cover this one
+        self.assertEqual(g.authorize("spin", "ops", self.cert, approval=unbound, request=self.req).reason_code,
+                         "approval_invalid")
+        for actor, tenant in (("other-agent", None), ("ops", "tenant-2")):
+            moved = g.authorize("spin", actor, self.cert, approval=Approval(
+                "lead", self.cert.digest(), binding=binding), request=self.req, tenant_id=tenant)
+            self.assertFalse(moved.allowed, (actor, tenant))
+
     def test_execute_consumes_the_grant(self) -> None:
         grant = self.grant()
         ran: list[str] = []

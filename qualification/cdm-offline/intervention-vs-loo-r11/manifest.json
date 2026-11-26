@@ -1,0 +1,33 @@
+{
+  "configuration_sha256": "d032785828438200382d8552567e4f78bb580ed4db1c7140cfc4393e78c7f33e",
+  "generator_sha256": "5979aa22f573710867967ddbbb6265d449d0de0f36d1ef4c2e0088579d873891",
+  "limitations": [
+    "Finite synthetic mechanism check; not a population efficacy estimate.",
+    "No physical causal claim; simulator is a data-only transition table.",
+    "Utility is stipulated by evaluator truth and not learned from data."
+  ],
+  "protocol": "cdm-r11-intervention-vs-loo-v2",
+  "protocol_sha256": "44dcf1db53ffc879b5ebaf2a6b97d4b3a72863f28e8b20dffc9696e15f48ba05",
+  "report_sha256": "6ec70a2f5ac963603c8b1991df83df0d5b9597f9c9536dd0a3a2310143aa24ba",
+  "safety": {
+    "authority_changes": 0,
+    "filesystem_reads_by_world": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "tool_calls": 0,
+    "truth_visible_to_proposer": false
+  },
+  "schema": "cdm-intervention-vs-loo-manifest-v2",
+  "scope": "five registered seeded deterministic synthetic worlds",
+  "status": "PASS",
+  "summary": {
+    "loo_proposal_changes": 0,
+    "mean_replay_minus_loo_utility": 0.5,
+    "n": 5,
+    "normal_approx_95_interval": [
+      0.5,
+      0.5
+    ],
+    "replay_proposal_changes_vs_loo": 5
+  }
+}

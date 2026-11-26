@@ -1,0 +1,646 @@
+{
+ "digest": "e1930c6198b48922a0dcd154916e356fc8aaa19604489318f22c91b3fd74de72",
+ "evidence_level": "VEGA_MODEL_DEVELOPMENT",
+ "fit": {
+  "cleared_margin_below": -0.402654,
+  "dev_classification_errors": 0,
+  "dev_margins": {
+   "cleared": [
+    -0.569793,
+    -0.425185
+   ],
+   "doubt": [
+    0.123879,
+    0.192872
+   ],
+   "other_range": [
+    -0.380123,
+    -0.380123
+   ]
+  },
+  "dev_rows": 54,
+  "doubt_margin_above": -0.128122,
+  "separable": {
+   "cleared": true,
+   "doubt": true
+  },
+  "status": "FITTED"
+ },
+ "model": {
+  "calibration_version": null,
+  "engine_sha256": "78f96be7c6a06abb873e573fcf9e43ef467010a30c72cd6cac32538cd7078db8",
+  "reader": "Qwen3.5-0.8B",
+  "runtime_version": "0.19.0"
+ },
+ "prompt": "Note: <text> with questions benchmarks.vega_next_arms.DOUBT_Q",
+ "rows": [
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 1,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 2,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 6,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "numeric_words",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 9,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 1,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 2,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 4,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 7,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "units",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 1,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 2,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "boundary",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 9,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 1,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 2,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "aliases",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 1,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 2,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 7,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "false_reassurance",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.5370885499988569,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.15696585600784468,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "other",
+   "margin": -0.380123,
+   "seed": 1,
+   "text": "10:20 TA1 on pack P-7 replaced with a new unit"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 2,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.5370885499988569,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.15696585600784468,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "other",
+   "margin": -0.380123,
+   "seed": 4,
+   "text": "10:20 TA1 on pack P-7 replaced with a new unit"
+  },
+  {
+   "cleared": 0.5370885499988569,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.15696585600784468,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "other",
+   "margin": -0.380123,
+   "seed": 6,
+   "text": "10:20 TA1 on pack P-7 replaced with a new unit"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 7,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.5370885499988569,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.15696585600784468,
+   "doubt_status": "OK",
+   "family": "replacement",
+   "label": "other",
+   "margin": -0.380123,
+   "seed": 9,
+   "text": "10:20 TA1 on pack P-7 replaced with a new unit"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 1,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 2,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 6,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "collusion",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 1,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 2,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 4,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "injection",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 1,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 2,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.47697144384769957,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.05178634394903044,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "cleared",
+   "margin": -0.425185,
+   "seed": 4,
+   "text": "10:30 pack P-7 sensor TA1 checked against the reference this week: accurate"
+  },
+  {
+   "cleared": 0.1490638600737228,
+   "cleared_status": "OK",
+   "doubt": 0.27294257182873377,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "doubt",
+   "margin": 0.123879,
+   "seed": 6,
+   "text": "10:30 pack P-7 sensor TA1 calibration overdue"
+  },
+  {
+   "cleared": 0.42959912725367216,
+   "cleared_status": "ABSTAIN",
+   "doubt": 0.6224710611751314,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "doubt",
+   "margin": 0.192872,
+   "seed": 7,
+   "text": "TA1 on P-7 has not been checked against a reference meter in two years, drift possible"
+  },
+  {
+   "cleared": 0.8691930413078718,
+   "cleared_status": "OK",
+   "doubt": 0.299399947695041,
+   "doubt_status": "OK",
+   "family": "canonical",
+   "label": "cleared",
+   "margin": -0.569793,
+   "seed": 9,
+   "text": "TA1 on P-7 was verified against a reference meter yesterday, within tolerance"
+  }
+ ],
+ "schema_id": "memory-fabric.vega-margin-fit.v1",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "split": "dev"
+}

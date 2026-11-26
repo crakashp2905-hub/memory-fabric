@@ -116,6 +116,35 @@ class Arms(unittest.TestCase):
         self.assertEqual(again["arm_registry_sha256"], self.dev["arm_registry_sha256"])
 
 
+class MarginAcceptance(unittest.TestCase):
+    """Freeze plan F05-03: the margin rule reads both answers; placebos get the identical rule."""
+
+    def ask(self, doubt: float, cleared: float, invert: bool = False):
+        adv = ScriptedAdvisor({"doubt": {"boolean": doubt, "abstain": False},
+                               "cleared": {"boolean": cleared, "abstain": False}})
+        meter = {"calls": 0, "seconds": 0.0, "levels": set(), "over_budget": 0}
+        return arms._ask_doubt("TA1 is overdue for a check", adv, meter, invert=invert,
+                               acceptance={"doubt_margin_above": 0.08, "cleared_margin_below": -0.2})
+
+    def test_both_yes_answers_are_decided_by_their_difference(self):
+        self.assertEqual(self.ask(0.87, 0.70), "yes")     # both above 0.5: the old rule discarded this
+        self.assertEqual(self.ask(0.60, 0.89), "cleared")
+        self.assertIsNone(self.ask(0.60, 0.58))           # too close to call: no state, never a guess
+        self.assertEqual(self.ask(0.87, 0.60, invert=True), "cleared")  # wrong-confidence placebo
+
+    def test_a_tampered_fit_is_refused(self):
+        import tempfile
+        from benchmarks import vega_margin_fit as fit
+        body = {"schema_id": "x", "split": "dev", "fit": {"status": "FITTED", "doubt_margin_above": 0.1,
+                                                          "cleared_margin_below": -0.2}}
+        body["digest"] = fit.digest(body)
+        body["fit"]["doubt_margin_above"] = 0.0
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
+            json.dump(body, fh)
+        with self.assertRaises(ValueError):
+            fit.load(fh.name)
+
+
 class CdmValue(unittest.TestCase):
     def test_dependence_first_replay_beats_fair_selectors_net_of_cost_and_flips_alone_earn_nothing(self):
         r = cdm.run(range(20))

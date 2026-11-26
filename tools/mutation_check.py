@@ -39,6 +39,32 @@ class Mutant:
 
 
 MUTANTS = [
+    # Guards added by the feature-freeze plan; each must be noticed by its regression test.
+    Mutant("an expired approval is accepted (F02-05)", "src/memory_fabric/actions_typed.py",
+           "                    or (approval.expires_ms is not None and self.fabric.now() >= approval.expires_ms)):",
+           "                    or False):",
+           ("tests.test_action_fence_typed",)),
+    Mutant("an unbound approval covers any request (F02-05)", "src/memory_fabric/actions_typed.py",
+           "                    or (request is not None and approval.binding is None)\n",
+           "                    or False\n",
+           ("tests.test_action_fence_typed",)),
+    Mutant("a first call without a request leaves its key unbound (F02-03)", "src/memory_fabric/actions_typed.py",
+           "    # instead of being reported as already executed (freeze plan F02-03).\n    body =",
+           "    # instead of being reported as already executed (freeze plan F02-03).\n"
+           "    if request is None and receipt_context is None:\n        return None  # type: ignore[return-value]\n"
+           "    body =",
+           ("tests.test_action_fence_typed",)),
+    Mutant("a model answer may settle contested readings without cooling (W05)",
+           "src/memory_fabric/outcome_typed/omission.py",
+           '        if assessment.status == "CONTESTED" and settled_by_model and policy.response \\\n',
+           '        if False and settled_by_model and policy.response \\\n',
+           ("tests.test_omission_safety",)),
+    Mutant("a statement negated as a whole is read as asserted (F03-03)",
+           "src/memory_fabric/causal_replay/semantic/observations.py",
+           "        if meta_negated:\n", "        if False:\n", ("tests.test_semantic_quantities",)),
+    Mutant("punctuated sensor designators collapse into one identity (F03-01)", "src/memory_fabric/conflicts.py",
+           "        text = _QUALIFIER_PUNCT.sub(_designator, text)\n", "        pass\n",
+           ("tests.test_sensor_entity_claims",)),
     Mutant("action-time check ignores visibility (F15)", "src/memory_fabric/enforcement.py",
            "        decision = self.check(token.memory_id, risk=risk, tenant_id=token.tenant_id,\n"
            "                              agent_id=agent_id)",
